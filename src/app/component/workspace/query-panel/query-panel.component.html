@@ -1,0 +1,105 @@
+<div class="card" style="width:410px;height:auto; background:#FFFFFF;" [ng2-draggable]=true [ng2DraggableHandle]="titlebar">
+    <div class="card-title-bar" #titlebar style="text-align:center;background: #f3f3f3; color:#000; font-weight:normal; font-size:12px; padding:5px 10px;">
+        Action Panel
+    </div>
+    <div style="padding:20px;font-size:12px;">
+        <!-- I want to -->
+        <div>
+            <span class="field">
+                <select class="browser-default" materialize="material_select" style="width:110px;" [(ngModel)]="action">
+                    <option *ngFor="let option of actions" [ngValue]="option">{{option}}</option>
+                </select>
+            </span>
+            <span class="field">
+                <select class="browser-default" materialize="material_select" style="width:110px;" [(ngModel)]="entity">
+                    <option *ngFor="let option of entities" [ngValue]="option">{{option}}</option>
+                </select>
+            </span>
+            &nbsp;ON&nbsp;
+            <span class="field">
+                <select class="browser-default" materialize="material_select" style="width:110px;" [(ngModel)]="graph">
+                    <option *ngFor="let option of graphs" [ngValue]="option">{{option}}</option>
+                </select>
+            </span>
+        </div>
+
+        <!-- Samples -->
+        <div [hidden]="entity!=='Samples'" style="padding-top:5px;padding-bottom:5px;">
+            <span style="min-width:37px;display:inline-block;">Where</span>
+            <span class="field">
+                <select class="browser-default" materialize="material_select" style="width:100px">
+                    <option *ngFor="let option of this.fields" [ngValue]="option">{{option.label}}</option>
+                </select>
+            </span>
+            <span class="field">
+                <select class="browser-default" materialize="material_select" style="width:50px">
+                    <option *ngFor="let option of this.conditions" [ngValue]="option">{{option}}</option>
+                </select>
+            </span>
+            <span class="field">
+                <input type="text" style="width:100px">
+            </span>
+        </div>
+
+        <!-- Genes -->
+        <div [hidden]="entity!=='Genes'" style="padding-top:5px;padding-bottom:5px;">
+            <span style="min-width:37px;display:inline-block;">Using</span>
+            <span class="field">
+                <select class="browser-default" materialize="material_select" style="width:325px" [(ngModel)]="geneSource">
+                    <option *ngFor="let option of geneSources" [ngValue]="option">{{option}}</option>
+                </select>
+            </span>
+            
+            <!-- Symbols -->
+            <span 
+            [hidden]="geneSource!=='A List of Hugo Symbols'" >
+                <textarea id="geneListInput" class="browser-default" 
+                placeholder="Comma Seperated List of Hugo Genes" style="margin-top:5px;width:365px;height:120px;border-radius:5px;border:1px solid #f2f2f2;"></textarea>
+            </span>
+
+            <!-- Threshold -->
+            <span
+            [hidden]="geneSource!=='A Threshold'">
+                <div style="margin-top:5px">
+                    <span style="min-width:37px;display:inline-block">Where</span>
+                    <span class="field">
+                        <select class="browser-default" materialize="material_select" style="width:325px" 
+                            [materializeSelectOptions]="dataOptions">
+                            <option *ngFor="let option of dataOptions">{{option.label}}</option>
+                        </select>
+                    </span>
+                </div>
+                <div style="margin-top:5px">
+                    <span style="min-width:37px;display:inline-block">Is Between</span>
+                    <input type="range" min="0" max="100" style="width:301px"/>
+                </div>
+            </span>
+
+            <!-- MSig DB -->
+            <div style="margin-top:5px"
+                [hidden]="geneSource!=='A MSigDB Geneset'">
+                <span style="min-width:37px;display:inline-block">From</span>
+                <span class="field">
+                    <select class="browser-default" materialize="material_select" style="width:325px" 
+                        [materializeSelectOptions]="genesetCategories"
+                        [(ngModel)]="genesetCategory"
+                        (change)="genesetCategoryChange()">
+                        <option *ngFor="let option of genesetCategories" [ngValue]="option">{{option.name}}</option>
+                    </select>
+                </span>
+                <div style="margin-top:5px">
+                    <span style="min-width:37px;display:inline-block">Name</span>
+                    <input id="geneMsigInput" type="text" min="0" max="100" style="width:301px;font-size:12px;"/>
+                </div>
+            </div>
+        </div>
+
+        <div style="padding-top:10px;">
+            <button class="waves-effect waves-light btn-flat blue white-text" style="font-size:12px;" 
+                (click)='execute()'>Execute</button>
+            <button class="waves-effect waves-light btn-flat blue white-text" style="font-size:12px;" 
+                (click)='queryPanelToggle.emit()'>Cancel</button>
+        </div>
+    </div>
+    
+</div>

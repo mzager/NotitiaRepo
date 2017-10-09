@@ -1,0 +1,14 @@
+.card-title-bar{
+    font-size: 20px;
+    font-weight: 300;
+    padding:10px;
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+.card-title-bar:active { 
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+}

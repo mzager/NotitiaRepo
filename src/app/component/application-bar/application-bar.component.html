@@ -1,0 +1,86 @@
+<!-- File Menu -->
+<ul id='application-bar-menu-file' class='dropdown-content'>
+    <!-- <li><a class="app-bar-menu-item" href="#!">Load</a></li>
+    <li><a class="app-bar-menu-item" href="#!">Save</a></li>
+    <li class="divider"></li> -->
+    <li>
+        <input type="file" ng2FileSelect (change)="changeFile($event)" 
+        [uploader]="uploader" name="file" id="file" class="inputfile"/>
+       <a class="app-bar-menu-item"><label class="app-bar-menu-item" for="file">Excel</label></a> 
+   </li>
+   <li><a class="app-bar-menu-item" href="https://dev.oncoscape.sttrcancer.io/upload/">Oncoscape</a></li>
+   <li><a class="app-bar-menu-item" (click)="tcgaPanelToggle.emit()">TCGA </a></li>
+   <li><a class="app-bar-menu-item" href="https://basespace.illumina.com">Basespace</a></li>
+   <li class="divider"></li>
+    <li><a class="app-bar-menu-item" href="#!">Share</a></li>
+    <li><a class="app-bar-menu-item" (click)="exportImage()">Export Image</a></li>
+    <li><a class="app-bar-menu-item" (click)="print();">Print</a></li>
+</ul>
+
+<!-- Configure --> 
+<!-- <ul id='application-bar-menu-config' class='dropdown-content'>
+</ul> -->
+
+<!-- View -->
+<ul id='application-bar-menu-view' class='dropdown-content'>
+    <li><a class="app-bar-menu-item" (click)="queryPanelToggle.emit()">Actions (a)</a></li>
+    <li class="divider"></li>
+    <li><a class="app-bar-menu-item" (click)="workspacePanelToggle.emit()">Workspace (w)</a></li>
+    <li><a class="app-bar-menu-item" (click)="graphPanelToggle.emit()">Graph (g)</a></li>
+    <li><a class="app-bar-menu-item" (click)="edgePanelToggle.emit()">Edge (e)</a></li>
+    <li class="divider"></li>
+    
+    <!-- <li><a class="app-bar-menu-item" (click)="cohortPanelToggle.emit()">Cohorts (c)</a></li> -->
+    <li><a class="app-bar-menu-item" (click)="statPanelToggle.emit()">Stats</a></li>
+    <!-- <li><a class="app-bar-menu-item" (click)="statPanelToggle.emit()">Sample(s)</a></li> -->
+    <li><a class="app-bar-menu-item" (click)="legendPanelToggle.emit()">Legends (l)</a></li>
+    <li><a class="app-bar-menu-item" (click)="toolPanelToggle.emit()">Tool Panel</a></li>
+    <li><a class="app-bar-menu-item" (click)="historyPanelToggle.emit()">History (h)</a></li>
+    <li><a class="app-bar-menu-item" (click)="dataPanelToggle.emit()">Data (d)</a></li>
+    <!-- <li class="divider"></li>
+    <li><a class="app-bar-menu-item" href="#!">Axis</a></li>
+    <li><a class="app-bar-menu-item" href="#!">Grid</a></li> -->
+</ul>
+
+
+<!-- Help -->
+<ul id='application-bar-menu-help' class='dropdown-content'>
+    <li><a class="app-bar-menu-item" href="#!">Documentation</a></li>
+    <li><a class="app-bar-menu-item" href="#!">Report A Bug</a></li>
+    <li><a class="app-bar-menu-item" href="#!">FAQs</a></li>
+    <li><a class="app-bar-menu-item" href="#!">Contact Info</a></li>
+</ul>
+
+
+
+<ul id='application-bar-menu-account' class='dropdown-content'>
+    <li><a class="app-bar-menu-item" href="#!">Profile</a></li>
+    <li><a class="app-bar-menu-item" href="#!">Log Out</a></li>
+</ul>
+
+<!-- Bar -->
+<div class="application-bar-menu">
+    <span class="application-bar-logo">Oncoscape</span>
+    <span>
+        <a class='dropdown-button nav-button' 
+            data-activates="application-bar-menu-file"
+            data-beloworigin="true"
+            href="#">File</a>
+        <!-- <a class='dropdown-button nav-button' 
+            data-activates="application-bar-menu-config"
+            data-beloworigin="true"
+            href="#">Configure</a> -->
+        <a class='dropdown-button nav-button' 
+            data-activates="application-bar-menu-view" 
+            data-beloworigin="true"
+            href="#">View</a>
+        <a class='dropdown-button nav-button' 
+            data-activates="application-bar-menu-account"
+            data-beloworigin="true"
+            href="#">Account</a>
+        <a class='dropdown-button nav-button' 
+            data-activates="application-bar-menu-help"
+            data-beloworigin="true"
+            href="#">Help</a>
+    </span>
+</div>

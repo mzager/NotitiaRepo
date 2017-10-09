@@ -1,0 +1,77 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "project": {
+    "name": "notitia"
+  },
+  "apps": [
+    {
+      "root": "src",
+      "outDir": "dist",
+      "assets": [
+        "assets",
+        "favicon.ico",
+        "sw.js",
+        "appcache.mf"
+      ],
+      "index": "index.html",
+      "main": "main.ts",
+      "polyfills": "polyfills.ts",
+      "test": "test.ts",
+      "tsconfig": "tsconfig.app.json",
+      "testTsconfig": "tsconfig.spec.json",
+      "prefix": "app",
+      "styles": [
+        "../src/style/materialize.scss",
+        "styles.css"
+      ],
+      "scripts": [
+            "../node_modules/jquery/dist/jquery.js",
+            "../node_modules/hammerjs/hammer.js",
+            "../node_modules/materialize-css/dist/js/materialize.js",
+            "../node_modules/numbro/dist/numbro.min.js",
+            "../node_modules/moment/min/moment.min.js",
+            "../node_modules/pikaday/pikaday.js",
+            "../node_modules/zeroclipboard/dist/ZeroClipboard.min.js",
+            "../node_modules/three/build/three.min.js",
+            "../node_modules/dat.gui/build/dat.gui.min.js",
+            "../node_modules/vega/build/vega.min.js",
+            "../node_modules/threads/dist/threads.browser.min.js",
+            "assets/pouch.min.js",
+            "assets/ml220.js"
+      ],
+      "environmentSource": "environments/environment.ts",
+      "environments": {
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
+      }
+    }
+  ],
+  "e2e": {
+    "protractor": {
+      "config": "./protractor.conf.js"
+    }
+  },
+  "lint": [
+    {
+      "project": "src/tsconfig.app.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "src/tsconfig.spec.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "e2e/tsconfig.e2e.json",
+      "exclude": "**/node_modules/**"
+    }
+  ],
+  "test": {
+    "karma": {
+      "config": "./karma.conf.js"
+    }
+  },
+  "defaults": {
+    "styleExt": "css",
+    "component": {}
+  }
+}

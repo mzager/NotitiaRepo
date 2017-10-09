@@ -1,0 +1,20 @@
+<div class="card" style="padding:10px;position:Absolute;width:620px;height:auto;top:100px;left:100px;padding-bottom:70px;background:#FFFFFF;"
+    [ng2-draggable]=true [ng2DraggableHandle]="titlebar">
+    <div class="card-title-bar" #titlebar>
+        Basespace
+        <a class="btn-small waves-effect waves-light" style="float:right;" (click)="filePanelToggle.emit()"><i style="padding-top:4px;" class="material-icons">clear</i></a>
+    </div>
+    <div style="padding-top:20px;">
+        <span class="field">
+            Projects
+            <select class="browser-default" materialize="material_select" 
+                [(ngModel)]="session">
+                <option *ngFor="let session of sessions" [ngValue]="session">{{session.Name}}</option>
+            </select>
+        </span>
+        <div style="padding-left:20px;margin-top:20px;float:right;padding-right:10px;">
+        <button class="waves-effect waves-light btn" (click)="open(session);">Open</button>
+        <button class="waves-effect waves-light btn" (click)="filePanelToggle.emit();">Cancel</button>
+        </div>
+    </div>
+</div>

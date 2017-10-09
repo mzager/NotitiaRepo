@@ -1,0 +1,94 @@
+<app-workspace-chart
+    (onSelect)="select($event)"
+    ></app-workspace-chart>
+
+    
+<div class="panel-container" style="position:absolute;right:10px;top:35px;bottom:0px;z-index:999;">
+
+    <app-workspace-edge-panel
+        *ngIf="edgePanelTab | async"
+        [graphAConfig]="graphAConfig | async"
+        [graphBConfig]="graphBConfig | async"
+        (configChange)="graphPanelSetConfig($event)"
+        ></app-workspace-edge-panel>
+
+    <app-workspace-workspace-panel
+        *ngIf="workspacePanelTab | async"
+        [config]="workspaceConfig | async"
+        (configChange)="workspacePanelSetConfig($event)"
+        ></app-workspace-workspace-panel>
+
+    <app-workspace-graph-panel 
+        *ngIf="graphPanelTab | async"
+        [tables]="tables | async"
+        [fields]="fields | async"
+        [clinicalFields]="clinicalFields | async"
+        [molecularData]="molecularData | async"
+        [configA]="graphAConfig | async"
+        [configB]="graphBConfig | async"
+        (configChange)="graphPanelSetConfig($event)"
+        ></app-workspace-graph-panel>
+
+    <app-workspace-cohort-panel
+        *ngIf="cohortPanelTab | async">
+       </app-workspace-cohort-panel>
+
+    <!-- <app-workspace-stat-panel 
+        *ngIf="statPanelTab | async"
+        [clinicalFields]="clinicalFields | async"
+        [graphAData]="graphAData | async"
+        [graphBData]="graphAData | async"></app-workspace-stat-panel> -->
+
+    <app-workspace-legend-panel 
+        *ngIf="legendPanelTab | async" 
+        [legendPanelTab]="legendPanelTab | async"
+        [graphAData]="graphAData | async" 
+        [graphBData]="graphBData | async" 
+        [edgeLegend]="edgeLegend | async"
+        (tabChange)="legendPanelSetTab($event)"></app-workspace-legend-panel>
+</div>
+
+<app-workspace-file-panel
+    *ngIf="filePanelTab | async" 
+    (filesLoad)="filesLoad($event)"
+    (filePanelToggle)="filePanelToggle()"
+    ></app-workspace-file-panel>
+
+<app-workspace-query-panel 
+    *ngIf="queryPanelTab | async" 
+    [clinicalFields]="clinicalFields | async"
+    [molecularData]="molecularData | async"
+    (queryPanelToggle)="queryPanelToggle()"
+    [configA]="graphAConfig | async"
+    [configB]="graphBConfig | async"
+    (configChange)="graphPanelSetConfig($event)"
+    style="position:absolute;left:100px;top:100px;"></app-workspace-query-panel>
+
+
+<app-workspace-tcga-panel 
+    *ngIf="tcgaPanelTab | async" 
+    style="position:absolute;left:100px;top:100px;"
+    (loadTcga)="loadTcga($event)"
+    ></app-workspace-tcga-panel>
+
+<app-application-bar 
+    (filePanelToggle)="filePanelToggle()"
+    (edgePanelToggle)="edgePanelToggle()"
+    (statPanelToggle)="statPanelToggle()" 
+    (workspacePanelToggle)="workspacePanelToggle()"
+    (graphPanelToggle)="graphPanelToggle()" 
+    (historyPanelToggle)="historyPanelToggle()"
+    (cohortPanelToggle)="cohortPanelToggle()"
+    (legendPanelToggle)="legendPanelToggle()"
+    (queryPanelToggle)="queryPanelToggle()" 
+    (dataPanelToggle)="dataPanelToggle($event)"
+    (toolPanelToggle)="toolPanelToggle()"
+    (tcgaPanelToggle)="tcgaPanelToggle()"
+    (fileOpen)="fileOpen($event)"></app-application-bar>
+
+<app-workspace-data-panel  style="position:absolute;top:30px;bottom:0px;width:100%;background:#ffffff;"
+    [fields]="clinicalFields | async"
+    *ngIf="dataPanelTab | async"></app-workspace-data-panel>
+     
+<app-workspace-tool-bar *ngIf="toolPanelTab | async">
+    </app-workspace-tool-bar>       
