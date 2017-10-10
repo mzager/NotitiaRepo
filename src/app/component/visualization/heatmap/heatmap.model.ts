@@ -1,5 +1,5 @@
 import { GraphData } from 'app/model/graph-config.model';
-import { Legend, LegendItem } from './../../../model/legend.model';
+import { Legend } from './../../../model/legend.model';
 import { DataFieldFactory } from './../../../model/data-field.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { VisualizationEnum, ShapeEnum, GraphEnum } from 'app/model/enum.model';

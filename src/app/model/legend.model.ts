@@ -1,15 +1,19 @@
 /**
  * Represents a visual legend
  */
-import { ColorEnum, ShapeEnum, SizeEnum } from '../model/enum.model';
-export interface Legend {
+export class Legend {
   name: String;
   type: 'COLOR' | 'SHAPE' | 'SIZE';
-  legendItems: Array<LegendItem>;
+  display: 'CONTINUOUS' | 'DISCRETE';
+  labels: Array<string>;
+  values: Array<any>;
 }
-export interface LegendItem {
-  name: string;
-  description?: string;
-  value: any; //ColorEnum | ShapeEnum | SizeEnum;
-  type?: 'COLOR' | 'SHAPE' | 'SIZE';
-}
+
+// export interface LegendItem {
+//   name: string;
+//   description?: string;
+// }
+// export interface DiscreteLegendItem extends LegendItem{
+//   labels: Array<string>;
+//   values: 
+// }

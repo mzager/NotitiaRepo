@@ -1,3 +1,4 @@
+import { EdgeConfigModel, EdgeDataModel } from './../component/visualization/edges/edges.model';
 import { edgesCompute } from './../component/visualization/edges/edges.compute';
 import { State } from './../reducer/index.reducer';
 import * as compute from 'app/action/compute.action';
@@ -50,7 +51,15 @@ export class ComputeEffect {
   @Effect() loadEdges: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_EDGES)
     .map(toPayload)
-    .switchMap(payload => {
+    .switchMap( (payload: any) => {
+
+      const config: EdgeConfigModel = payload.config;
+
+      // No data is nessisary if entity A + B are the same
+      if (config.entityA === config.entityB) {
+        return Observable.of( new EdgesCompleteAction( {config: config, data: new EdgeDataModel() } ) );
+      }
+
       return this.computeService.edges(payload.config)
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :

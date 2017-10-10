@@ -43,7 +43,7 @@ export class ChartUtil {
         const blue = parseInt(digits[4], 10);
         const rgb = blue | (green << 8) | (red << 16);
         return rgb;
-    };
+    }
 
     public static projectToScreen(chart: GraphEnum, object: THREE.Object3D,
         camera: THREE.Camera, width: number, height: number): THREE.Vector3 {

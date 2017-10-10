@@ -29,58 +29,59 @@ export class EdgesGraph implements ChartObjectInterface {
     public lines: Array<THREE.Line> = [];
     private drawEdgesDebounce: Function;
     private toastsManager: ToastsManager;
+    private updateEdges: Boolean = false;
+    private edges: Array<any>;
+    private commonKeys: any;
+    private v1Map: Object;
+    private v2Map: Object;
 
 
     enable(truthy: Boolean) {
         throw new Error('Method not implemented.');
     }
 
+
     update(config: GraphConfig, data: any) {
-        debugger;
+        console.log("UPDATE EDGES");
         this.config = config as EdgeConfigModel;
-        this.data = data;
+        if (this.config.isVisible) {
+            this.data = data;
+            this.updateEdges = true;
+        } else {
+            this.view.scene.children = this.view.scene.children.splice(0, 2);
+        }
     }
 
     drawEdges(views, layout, renderer) {
-
+        if (!this.config.isVisible) { return; }
         if (views[0].chart === null || views[1].chart === null) { return; }
 
-        const markers = this.data.markers;
-        const samples = this.data.samples;
+        if (this.updateEdges) {
 
-            const chart1Meshes = views[0].chart.meshes
-                .filter(v => samples.hasOwnProperty(v.userData.id))
-                .reduce((p, c) => {
-                    p[c.userData.id] = ChartUtil.objectToScreen(c as THREE.Object3D, views[0], layout);
-                    return p;
-                }, {});
+            this.v1Map = views[0].chart.meshes.reduce((p, c) => { p[c.userData.sid] = c; return p; }, {});
+            this.v2Map = views[1].chart.meshes.reduce((p, c) => { p[c.userData.sid] = c; return p; }, {});
+            const v2Keys = new Set(Object.keys(this.v2Map));
+            this.commonKeys = new Set(Object.keys(this.v1Map).filter(key => v2Keys.has(key)));
+            this.updateEdges = false;
+        }
 
-            const chart2Meshes = views[1].chart.meshes
-                .filter(v => markers.hasOwnProperty(v.userData.id))
-                .reduce((p, c) => {
-                    p[c.userData.id] = ChartUtil.objectToScreen(c as THREE.Object3D, views[1], layout);
-                    return p;
-                }, {});
-
-            const edges = this.data.edges.map(v => Object.assign({}, v,
-                { sPos: chart1Meshes[v.sample.toString()], mPos: chart2Meshes[v.marker.toString()] }))
-                .filter( v => {
-                    return (v.sPos !== null) && (v.mPos !== null);
-                });
-
-
-            this.view.scene.children = this.view.scene.children.splice(0, 2);
-            edges.forEach(v => {
-                const line: THREE.Line = ChartFactory.lineAllocate(v.color, v.mPos, v.sPos);
-                line.userData = v;
-                this.view.scene.add(line);
-            });
-            // Look At this again..
-            renderer.clear();
-            views.forEach( (view, i) => {
-                renderer.setViewport( view.viewport.x, view.viewport.y, view.viewport.width, view.viewport.height );
-                renderer.render( view.scene, view.camera );
-            });
+        this.view.scene.children = this.view.scene.children.splice(0, 2);
+        this.edges = [];
+        let i = 0;
+        this.commonKeys.forEach((v) => {
+            const pt1 = ChartUtil.objectToScreen(this.v1Map[v], views[0], layout);
+            if (pt1 === null) { return; }
+            const pt2 = ChartUtil.objectToScreen(this.v2Map[v], views[1], layout);
+            if (pt2 === null) { return; }
+            const line: THREE.Line = ChartFactory.lineAllocate(0x039BE5, pt1, pt2);
+            this.view.scene.add(line);
+            i += 1;
+        });
+        renderer.clear();
+        views.forEach((view) => {
+            renderer.setViewport(view.viewport.x, view.viewport.y, view.viewport.width, view.viewport.height);
+            renderer.render(view.scene, view.camera);
+        });
     }
 
     preRender(views: Array<VisualizationView>, layout: WorkspaceLayoutEnum, renderer: THREE.WebGLRenderer) {
