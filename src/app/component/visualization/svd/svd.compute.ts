@@ -1,7 +1,6 @@
 import { SvdConfigModel } from './svd.model';
 import { DimensionEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
-import { LegendItem } from './../../../model/legend.model';
 import * as util from 'app/service/compute.worker.util';
 import * as _ from 'lodash';
 declare var ML: any;

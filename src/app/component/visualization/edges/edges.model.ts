@@ -1,28 +1,40 @@
-import { GraphData } from 'app/model/graph-config.model';
-import { Legend, LegendItem } from './../../../model/legend.model';
+import { GraphData, GraphConfig } from 'app/model/graph-config.model';
+import { Legend } from './../../../model/legend.model';
 import { DataFieldFactory } from './../../../model/data-field.model';
-import { GraphConfig } from './../../../model/graph-config.model';
 import { VisualizationEnum, ShapeEnum, GraphEnum, EntityTypeEnum } from 'app/model/enum.model';
 import { DataField } from 'app/model/data-field.model';
 import { DimensionEnum } from './../../../model/enum.model';
 
 export class EdgeConfigModel extends GraphConfig {
-    
-    edgeData = '';
-    edgeColor: DataField = DataFieldFactory.getUndefined();
-    edgeSize: DataField = DataFieldFactory.getUndefined();
-    visible = false;
+
+    constructor() {
+
+        super();
+
+        this.entity = EntityTypeEnum.MIXED;
+        this.visualization = VisualizationEnum.EDGES;
+    }
+
+    isVisible = false;
+    entityA: EntityTypeEnum = EntityTypeEnum.SAMPLE;
+    entityB: EntityTypeEnum = EntityTypeEnum.SAMPLE;
 }
 
-export interface EdgeDataModel extends GraphData {
-    legends: Array<Legend>;
-    markers: Array<string>;
-    samples: Array<string>;
-    visible: Boolean;
-    edges: [{
-        value: any;
-        marker: Array<string>;
-        sample: Array<string>;
-        color: number;
-   }];
+export class EdgeDataModel implements GraphData {
+    legends: Legend[];
+    result: any;
+    resultScaled: number[][];
+    pointColor: number[];
+    pointSize: number[];
+    pointShape: ShapeEnum[];
+    sampleIds: string[];
+    markerIds: string[];
+    patientIds: string[];
+    visible: Boolean = true;
+//     edges: [{
+//         value: any;
+//         marker: Array<string>;
+//         sample: Array<string>;
+//         color: number;
+//    }];
 }

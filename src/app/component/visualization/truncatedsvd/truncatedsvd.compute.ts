@@ -1,6 +1,5 @@
 import { EntityTypeEnum } from './../../../model/enum.model';
 import { Legend } from 'app/model/legend.model';
-import { LegendItem } from './../../../model/legend.model';
 import { TruncatedSvdConfigModel, TruncatedSvdDataModel } from './truncatedsvd.model';
 import { DedicatedWorkerGlobalScope } from 'compute';
 import * as _ from 'lodash';
