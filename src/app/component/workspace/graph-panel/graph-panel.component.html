@@ -56,8 +56,8 @@
                 <app-fa-form *ngIf="configA && configA.visualization === 65536"
                     (configChange)="graphPanelSetConfig($event)"
                     [config]="configA"
-                    [molecularData]="molecularData"
-                    [clinicalFields]="clinicalFields"
+                    [tables]="tables"
+                    [fields]="fields"
                     ></app-fa-form>
                 <app-fastica-form *ngIf="configA && configA.visualization === 8388608"
                     (configChange)="graphPanelSetConfig($event)"
@@ -161,7 +161,7 @@
                 [config]="configB" 
                 [molecularData]="molecularData"
                 ></app-heatmap-form>            
-            <app-som-form *ngIf="configA && configA.visualization === 4096"
+            <app-som-form *ngIf="configB && configA.visualization === 4096"
                 (configChange)="graphPanelSetConfig($event)"
                 [config]="configB"
                 [molecularData]="molecularData"
@@ -176,8 +176,8 @@
             <app-fa-form *ngIf="configB && configB.visualization === 65536"
                 (configChange)="graphPanelSetConfig($event)"
                 [config]="configB"
-                [molecularData]="molecularData"
-                [clinicalFields]="clinicalFields"
+                [tables]="tables"
+                [fields]="fields"
                 ></app-fa-form>
             <app-fastica-form *ngIf="configB && configB.visualization === 8388608"
                 (configChange)="graphPanelSetConfig($event)"

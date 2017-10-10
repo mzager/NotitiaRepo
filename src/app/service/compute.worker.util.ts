@@ -80,7 +80,7 @@ export class ComputeWorkerUtil {
         return new Promise((resolve, reject) => {
             this.openDatabase().then(v => {
                 this.db.table(map).toArray().then(_samples => {
-                    this.db.table(tbl).limit(300).toArray().then(_markers => {
+                    this.db.table(tbl).limit(100).toArray().then(_markers => {
                         resolve({
                             markers: _markers.map(m => m.m),
                             samples: _samples.map(s => s.s),
