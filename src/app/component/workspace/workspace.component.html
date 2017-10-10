@@ -39,13 +39,20 @@
         [graphAData]="graphAData | async"
         [graphBData]="graphAData | async"></app-workspace-stat-panel> -->
 
-    <app-workspace-legend-panel 
+    <!-- <app-workspace-legend-panel 
         *ngIf="legendPanelTab | async" 
         [legendPanelTab]="legendPanelTab | async"
         [graphAData]="graphAData | async" 
         [graphBData]="graphBData | async" 
         [edgeLegend]="edgeLegend | async"
+        (tabChange)="legendPanelSetTab($event)"></app-workspace-legend-panel> -->
+
+    <app-workspace-legend-panel 
+        *ngIf="legendPanelTab | async" 
+        [legendPanelTab]="legendPanelTab | async"
+        [graphAData]="graphAData | async" 
         (tabChange)="legendPanelSetTab($event)"></app-workspace-legend-panel>
+
 </div>
 
 <app-workspace-file-panel

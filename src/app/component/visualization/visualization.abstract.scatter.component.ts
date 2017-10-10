@@ -44,22 +44,25 @@ export class AbstractScatterVisualization extends AbstractVisualization {
           }
           if (this.config.dirtyFlag & DirtyEnum.COLOR) {
               const idProperty = ( this.config.pointColor.ctype & CollectionTypeEnum.MOLECULAR ) ? 'sid' : 'pid';
+              const objMap = data.pointColor.map;
               this.meshes.forEach(mesh => {
-                  const color = data.pointColor[mesh.userData[idProperty]];
+                  const color = objMap[mesh.userData[idProperty]];
                   (mesh as THREE.Mesh).material = ChartFactory.getColorPhong(color);
                   mesh.userData.color = color;
               });
           }
           if (this.config.dirtyFlag & DirtyEnum.SIZE) {
+              const objMap = data.pointSize.map;
               this.meshes.forEach(mesh => {
-                  const size = data.pointSize[mesh.userData.pid] as number;
+                  const size = objMap[mesh.userData.pid] as number;
                   mesh.scale.set(size, size, size);
               });
           }
 
           if (this.config.dirtyFlag & DirtyEnum.SHAPE) {
               this.meshes.forEach(mesh => {
-                  const shape = data.pointShape[mesh.userData.pid] as number;
+                  const objMap = data.pointShape.map;
+                  const shape = objMap[mesh.userData.pid] as number;
                   (mesh as THREE.Mesh).geometry = ChartFactory.getShape(shape);
               });
           }
