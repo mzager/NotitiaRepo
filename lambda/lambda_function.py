@@ -249,7 +249,8 @@ def cluster_sk_factor_analysis(event, context):
     """ SK FA | components: N, data:[[]], classes:[] """
     _config = FactorAnalysis(
         n_components=event['body']['components'],
-        svd_method=event['body']['fun'])
+        svd_method=event['body']['fun'],
+        tol=event['body']['tol'])
     _result = _config.fit(event['body']['data']).transform(event['body']['data'])
     return httpWrapper(json.dumps({
         'result': _result.tolist(),
