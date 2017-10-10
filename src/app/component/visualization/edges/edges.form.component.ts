@@ -15,8 +15,9 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 <form [formGroup]="form" novalidate>
-  <div>Graph A: {{ graphAConfig.entity }}</div>
-  <div>Graph B: {{ graphBConfig.entity }}</div>
+  <div class="form-group">
+    <label>{{ graphAConfig.entity }} to {{ graphBConfig.entity }}</label>
+  </div>
   <div class="form-group">
     <div class="switch">
       <label>

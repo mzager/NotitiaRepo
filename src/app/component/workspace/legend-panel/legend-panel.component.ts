@@ -1,3 +1,4 @@
+import { GraphData } from 'app/model/graph-config.model';
 import { Component, Input, Output, ChangeDetectionStrategy, EventEmitter, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { LegendPanelEnum, ShapeEnum, SizeEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
@@ -18,21 +19,29 @@ export class LegendPanelComponent implements AfterViewInit {
   // @ViewChild('legendGraphA') private elLegendA: ElementRef;
   // @ViewChild('legendGraphB') private elLegendB: ElementRef;
 
-  // @Input()
-  // private set graphAData(data: any) {
-  //   if (data === undefined) { return; }
-  //   if (data === null) { return; }
-  //   LegendPanelComponent.updateLegend(this.elLegendA, data.legendItems);
-  // }
+  @Input()
+  private set graphAData(data: GraphData) {
+
+    // '/assets/legend-spectral.png';
+
+    if (data === undefined) { return; }
+    if (data === null) { return; }
+    const legends: Array<Legend> = data.legends;
+
+    debugger;
+
+    // LegendPanelComponent.updateLegend(this.elLegendA, data.legendItems);
+  }
   // @Input()
   // private set graphBData(data: any) {
   //   if (data === undefined) { return; }
   //   if (data === null) { return; }
   //   LegendPanelComponent.updateLegend(this.elLegendB, data.legendItems);
   // }
+
   // @Input() edgeLegend: Array<Legend>;
-  // @Input() legendPanelTab;
-  // @Output() tabChange = new EventEmitter();
+  @Input() legendPanelTab;
+  @Output() tabChange = new EventEmitter();
 
   // private static toIcon = (type: string, li: LegendItem): string => {
   //   switch (type) {
