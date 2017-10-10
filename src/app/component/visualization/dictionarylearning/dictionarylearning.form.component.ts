@@ -72,7 +72,6 @@ import * as _ from 'lodash';
       </select>
     </label>
   </div>
-
   <div class="form-group">
   <label class="center-block"><span class="form-label">Fit Algorithem</span>
     <select class="browser-default" materialize="material_select"
@@ -82,16 +81,15 @@ import * as _ from 'lodash';
     </select>
   </label>
 </div>
-
 <div class="form-group">
-<label class="center-block"><span class="form-label">Transform Algorithem</span>
-  <select class="browser-default" materialize="material_select"
-    [materializeSelectOptions]="dimensionOptions"
-    formControlName="transform_algorithm">
+  <label class="center-block"><span class="form-label">Transform Algorithem</span>
+    <select class="browser-default" materialize="material_select"
+      [materializeSelectOptions]="dimensionOptions"
+      formControlName="transform_algorithm">
       <option *ngFor="let options of transformAlgorithemOptions">{{options}}</option>
-  </select>
-</label>
-</div>
+    </select>
+    </label>
+  </div>
 </form>
   `
 })

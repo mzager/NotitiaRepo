@@ -1,4 +1,4 @@
-import { EntityTypeEnum } from './../../../model/enum.model';
+import { EntityTypeEnum, DirtyEnum } from './../../../model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import { FaConfigModel, FaDataModel } from './fa.model';
 import { DedicatedWorkerGlobalScope } from 'compute';
@@ -6,49 +6,46 @@ import * as _ from 'lodash';
 declare var ML: any;
 
 export const faCompute = (config: FaConfigModel, worker: DedicatedWorkerGlobalScope): void => {
-}
-//         worker.util.loadData(config.dataKey).then((data) => {
-
-//             const legendItems: Array<Legend> = [];
-//             const molecularData = worker.util.processMolecularData(data.molecularData[0], config);
-
-//             fetch('https://0x8okrpyl3.execute-api.us-west-2.amazonaws.com/dev', {
-//                 method: 'POST',
-//                 headers: {
-//                     'Accept': 'application/json',
-//                     'Content-Type': 'application/json'
-//                 },
-//                 body: JSON.stringify({
-//                     method: 'cluster_sk_factor_analysis',
-//                     components: 3,
-//                     data: molecularData,
-//                     fun: config.fun
-//                 })
-//             })
-//             .then( v => v.json() )
-//             .then( v => {
-//                 const response = JSON.parse(v.body);
-//                 const resultScaled = worker.util.scale3d( response.result );
-
-//                 // Colors + Legend
-//                 const pointColor: {legend: Legend, value: number[]} = worker.util.createPatientColorMap(data, config.pointColor);
-//                 const pointSize:  {legend: Legend, value: number[]} = worker.util.createPatientSizeMap(data, config.pointSize);
-//                 const pointShape: {legend: Legend, value: number[]} = worker.util.createPatientShapeMap(data, config.pointShape);
-//                 legendItems.push(pointColor.legend, pointSize.legend, pointShape.legend);
-
-//                 worker.postMessage({
-//                     config: config,
-//                     data: {
-//                         legendItems: legendItems,
-//                         result: response.result,
-//                         resultScaled: resultScaled,
-//                         pointColor: pointColor.value,
-//                         pointShape: pointShape.value,
-//                         pointSize: pointSize.value,
-//                         sampleIds: worker.util.createSampleMap(data),
-//                         markerIds: worker.util.createMarkerMap(data.molecularData[0])
-//                     }
-//                 });
-//                 worker.postMessage('TERMINATE');
-//             });
-//     });
+    
+            worker.util.processShapeColorSize(config, worker);
+    
+            if (config.dirtyFlag & DirtyEnum.LAYOUT) {
+                worker.util
+                    .getMatrix([], [], config.table.map, config.table.tbl, config.entity)
+                    .then(mtx => {
+                        Promise.all([
+                            worker.util.getSamplePatientMap(),
+                            worker.util
+                                .fetchResult({
+                                    //added more than server is calling
+                                    method: 'cluster_sk_factor_analysis',
+                                    data: mtx.data,
+                                    components: config.components,
+                                    dimension: config.dimension,
+                                    max_iter: config.max_iter,
+                                    tol: config.tol,
+                                    iterated_power: config.iterated_power,
+                                    random_state: config.random_state,
+                                    fun: config.svd_method
+                                })
+                        ]).then(result => {
+                                const psMap = result[0].reduce( (p, c) => { p[c.s] = c.p; return p; }, {});
+                                const data = JSON.parse(result[1].body);
+                                const resultScaled = worker.util.scale3d(data.result);
+                                worker.postMessage({
+                                    config: config,
+                                    data: {
+                                        legendItems: [],
+                                        result: data,
+                                        resultScaled: resultScaled,
+                                        patientIds: mtx.samples.map ( v => psMap[v] ),
+                                        sampleIds: mtx.samples,
+                                        markerIds: mtx.markers
+                                    }
+                                });
+                                worker.postMessage('TERMINATE');
+                            });
+                    });
+                }
+        };
+    
