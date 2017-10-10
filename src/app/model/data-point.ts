@@ -5,4 +5,4 @@ import { EntityTypeEnum } from './enum.model';
 export interface DataPoint {
   type: EntityTypeEnum;
   key: string;
-};
+}
