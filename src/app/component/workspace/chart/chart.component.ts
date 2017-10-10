@@ -75,7 +75,9 @@ export class ChartComponent implements AfterViewInit {
           .select(fromRoot.getEdgesData)
           .withLatestFrom(selectedEdgesConfig)
           .filter(v =>  (v[0] !== null) && (v[0] !== null) );
-        updateEdges.subscribe( v => chartScene.update(GraphEnum.EDGES, v[1], v[0]));
+        updateEdges.subscribe( v => {
+          chartScene.update(GraphEnum.EDGES, v[1], v[0]);
+        });
     });
   }
 

@@ -119,6 +119,7 @@ export class EntityTypeEnum {
     static readonly GENE = 'Genes';
     static readonly SAMPLE = 'Samples';
     static readonly EDGE = 'Edge';
+    static readonly MIXED = 'Mixed';
 }
 export const enum VisualizationEnum {
     NONE = 0,

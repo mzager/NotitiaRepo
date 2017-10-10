@@ -1,3 +1,4 @@
+import { EdgeConfigModel } from './../../visualization/edges/edges.model';
 import { PcaIncrementalGraph } from './../../visualization/pcaincremental/pcaincremental.graph';
 import { PcaSparseGraph } from './../../visualization/pcasparse/pcasparse.graph';
 import { PcaKernalGraph } from './../../visualization/pcakernal/pcakernal.graph';
@@ -228,9 +229,12 @@ export class ChartScene {
     }
 
     public update(graph: GraphEnum, config: GraphConfig, data: any) {
+        const ecm: EdgeConfigModel = config as EdgeConfigModel;
+
         const view = ( graph === GraphEnum.GRAPH_A ) ? this.views[0] :
                      ( graph === GraphEnum.GRAPH_B ) ? this.views[1] :
                      this.views[2];
+
         if (view.config.visualization !== config.visualization) {
             view.config.visualization = config.visualization;
             if (view.chart !== null) { view.chart.destroy(); }

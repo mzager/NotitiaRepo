@@ -3,7 +3,7 @@ import { DataFieldFactory } from './../../../model/data-field.model';
 import { DimensionEnum, EntityTypeEnum } from './../../../model/enum.model';
 import { GraphConfig, GraphData } from './../../../model/graph-config.model';
 import { GraphEnum, VisualizationEnum } from 'app/model/enum.model';
-import { Legend, LegendItem } from './../../../model/legend.model';
+import { Legend } from './../../../model/legend.model';
 
 export class DeConfigModel extends GraphConfig {
     dimension: DimensionEnum = DimensionEnum.THREE_D;

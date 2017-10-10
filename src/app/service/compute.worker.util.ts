@@ -1,5 +1,6 @@
 import { DedicatedWorkerGlobalScope } from 'compute';
-import { scaleLinear } from 'd3-scale';
+import { scaleLinear, InterpolatorFactory } from 'd3-scale';
+import { interpolateRgb } from 'd3-interpolate';
 import { GraphConfig } from './../model/graph-config.model';
 import { Legend } from './../model/legend.model';
 import { DataTypeEnum, ShapeEnum, EntityTypeEnum, CollectionTypeEnum, DirtyEnum } from './../model/enum.model';
@@ -12,6 +13,12 @@ import * as cbor from 'cbor-js';
 export class ComputeWorkerUtil {
 
     private db: Dexie;
+    private sizes = [1, 2, 3, 4];
+    private shapes = [ShapeEnum.CIRCLE, ShapeEnum.SQUARE, ShapeEnum.TRIANGLE, ShapeEnum.CONE];
+    private colors = [0x4A148C, 0x880E4F, 0x0D47A1, 0x00B8D4,
+        0xAA00FF, 0x6200EA, 0x304FFE, 0x2196F3, 0x0091EA,
+        0x00B8D4, 0x00BFA5, 0x64DD17, 0xAEEA00, 0xFFD600, 0xFFAB00, 0xFF6D00, 0xDD2C00,
+        0x5D4037, 0x455A64];
 
     constructor() {
         this.db = new Dexie('notitia-dataset');
@@ -76,7 +83,7 @@ export class ComputeWorkerUtil {
     }
 
     // Call IDB
-    getMatrix(markers: Array<string>, samples: Array<string>, map: string, tbl: string): Promise<any> {
+    getMatrix(markers: Array<string>, samples: Array<string>, map: string, tbl: string, entity: EntityTypeEnum): Promise<any> {
         return new Promise((resolve, reject) => {
             this.openDatabase().then(v => {
                 this.db.table(map).toArray().then(_samples => {
@@ -84,7 +91,9 @@ export class ComputeWorkerUtil {
                         resolve({
                             markers: _markers.map(m => m.m),
                             samples: _samples.map(s => s.s),
-                            data: _markers.map(marker => _samples.map(sample => marker.d[sample.i]))
+                            data: (entity === EntityTypeEnum.GENE) ?
+                                _markers.map(marker => _samples.map(sample => marker.d[sample.i])) :
+                                _samples.map(sample => _markers.map( marker => marker.d[sample.i]))
                         });
                     });
                 });
@@ -125,15 +134,29 @@ export class ComputeWorkerUtil {
                                     p.max = Math.max(p.max, c);
                                     return p;
                                 }, { min: Infinity, max: -Infinity });
-                                const scale = scaleLinear()
+
+
+                                const scale = scaleLinear<string, string>()
                                     .domain([minMax.min, minMax.max])
-                                    .range([0xFF0000, 0x00FF00]);
+                                    .interpolate( interpolateRgb )
+                                    .range(['0xFF0000', '0x00FF00']);
+
                                 // Build Map
                                 const colorMap = values.reduce((p, c, i) => {
-                                    p[_samples[i].s] = Math.round(scale(c));
+                                    p[_samples[i].s] = scale(c);
                                     return p;
                                 }, {});
-                                resolve(colorMap);
+
+                                // Build Legend
+                                const legend: Legend = new Legend();
+                                legend.name = 'Color : ' + field.label ;
+                                legend.type = 'COLOR';
+                                legend.display = 'CONTINUOUS';
+                                legend.labels = [minMax.min, minMax.max].map(val => val.toString());
+                                legend.values = [0xFF0000, 0xFF0000];
+
+                                // Resolve
+                                resolve({map: colorMap, legend: legend});
                             });
                         });
                     });
@@ -153,20 +176,39 @@ export class ComputeWorkerUtil {
                                 p[c.p] = cm[c[fieldKey]];
                                 return p;
                             }, {});
-                            resolve(colorMap);
+
+                            const legend: Legend = new Legend();
+                            legend.name = 'Color : ' + field.label ;
+                            legend.type = 'COLOR';
+                            legend.display = 'DISCRETE';
+                            legend.labels = Object.keys(cm);
+                            legend.values = Object.keys(cm).map( key => cm[key] );
+                            resolve({map: colorMap, legend: legend});
                         });
 
                     } else if (field.type === 'NUMBER') {
-                        const scale = scaleLinear()
+
+                        const scale = scaleLinear<string, string>()
                             .domain([field.values.min, field.values.max])
-                            .range([0xFF0000, 0x00FF00]);
+                            .interpolate( interpolateRgb )
+                            .range(['0xFF0000', '0x00FF00']);
 
                         this.db.table(field.tbl).toArray().then(row => {
                             const colorMap = row.reduce(function (p, c) {
-                                p[c.p] = Math.round(scale(c[fieldKey]));
+                                p[c.p] = scale(c[fieldKey]);
                                 return p;
                             }, {});
-                            resolve(colorMap);
+
+                             // Build Legend
+                             const legend: Legend = new Legend();
+                             legend.name = 'Color : ' + field.label ;
+                             legend.type = 'COLOR';
+                             legend.display = 'CONTINUOUS';
+                             legend.labels = [field.values.min, field.values.max].map(val => val.toString());
+                             legend.values = [0xFF0000, 0xFF0000];
+
+                             // Resolve
+                             resolve({map: colorMap, legend: legend});
                         });
                     }
                 }
@@ -186,11 +228,20 @@ export class ComputeWorkerUtil {
                         return p;
                     }, {});
                     this.db.table(field.tbl).toArray().then(row => {
+
                         const sizeMap = row.reduce((p, c) => {
                             p[c.p] = cm[c[fieldKey]];
                             return p;
                         }, {});
-                        resolve(sizeMap);
+
+                        const legend: Legend = new Legend();
+                        legend.name = 'Size : ' + field.label ;
+                        legend.type = 'SIZE';
+                        legend.display = 'DISCRETE';
+                        legend.labels = Object.keys(cm);
+                        legend.values = Object.keys(cm).map( key => cm[key] );
+
+                        resolve({map: sizeMap, legend: legend});
                     }
                     );
                 } else if (field.type === 'NUMBER') {
@@ -203,7 +254,16 @@ export class ComputeWorkerUtil {
                             p[c.p] = Math.round(scale(c[fieldKey]));
                             return p;
                         }, {});
-                        resolve(sizeMap);
+
+                        // Build Legend
+                        const legend: Legend = new Legend();
+                        legend.name = 'Size : ' + field.label ;
+                        legend.type = 'SIZE';
+                        legend.display = 'CONTINUOUS';
+                        legend.labels = [field.values.min, field.values.max].map(val => val.toString());
+                        legend.values = [1, 3];
+
+                        resolve({map: sizeMap, legend: legend});
                     });
                 }
             });
@@ -224,7 +284,15 @@ export class ComputeWorkerUtil {
                             p[c.p] = cm[c[fieldKey]];
                             return p;
                         }, {});
-                        resolve(shapeMap);
+
+                        const legend: Legend = new Legend();
+                        legend.name = 'Shape : ' + field.label ;
+                        legend.type = 'SHAPE';
+                        legend.display = 'DISCRETE';
+                        legend.labels = Object.keys(cm);
+                        legend.values = Object.keys(cm).map( key => cm[key] );
+
+                        resolve({map: shapeMap, legend: legend});
                     }
                     );
                 }
@@ -234,7 +302,7 @@ export class ComputeWorkerUtil {
 
 
     // Call Lambda
-    //cbor.encode(config)
+    // cbor.encode(config)
     fetchResult(config: any): Promise<any> {
         return fetch('https://0x8okrpyl3.execute-api.us-west-2.amazonaws.com/dev', {
             method: 'POST',
@@ -249,38 +317,28 @@ export class ComputeWorkerUtil {
             });
     }
 
-
-
     // OLD //
 
-
-    sizes = [1, 2, 3, 4];
-    shapes = [ShapeEnum.CIRCLE, ShapeEnum.SQUARE, ShapeEnum.TRIANGLE, ShapeEnum.CONE];
-    colors = [0x4A148C, 0x880E4F, 0x0D47A1, 0x00B8D4,
-        0xAA00FF, 0x6200EA, 0x304FFE, 0x2196F3, 0x0091EA,
-        0x00B8D4, 0x00BFA5, 0x64DD17, 0xAEEA00, 0xFFD600, 0xFFAB00, 0xFF6D00, 0xDD2C00,
-        0x5D4037, 0x455A64];
-
-    pouchDB: any = null;
-    dataKey = '';
-    data: any = {};
+    // pouchDB: any = null;
+    // dataKey = '';
+    // data: any = {};
 
     loadData = (dataKey): any => {
         return new Promise((resolve, reject) => {
-            // Only connect once
-            if (this.pouchDB === null) {
-                this.pouchDB = new PouchDB['default']('Notitia', { adapter: 'idb' });
-            }
-            // If data key already in memory, return it...
-            if (this.dataKey === dataKey) {
-                resolve(this.data);
-                return;
-            }
-            this.pouchDB.get(dataKey).then(v => {
-                this.dataKey = dataKey;
-                this.data = v;
-                resolve(v);
-            });
+            // // Only connect once
+            // if (this.pouchDB === null) {
+            //     this.pouchDB = new PouchDB['default']('Notitia', { adapter: 'idb' });
+            // }
+            // // If data key already in memory, return it...
+            // if (this.dataKey === dataKey) {
+            //     resolve(this.data);
+            //     return;
+            // }
+            // this.pouchDB.get(dataKey).then(v => {
+            //     this.dataKey = dataKey;
+            //     this.data = v;
+            //     resolve(v);
+            // });
         });
     }
     processMolecularData(molecularData: any, config: GraphConfig): any {
@@ -325,87 +383,87 @@ export class ComputeWorkerUtil {
         return data.map(v => [scale(v[0]), scale(v[1]), scale(v[2])]);
     }
 
-    createMap = (data: any, field: DataField, values: Array<any>,
-        nullValue: any, type: any): { legend: Legend, value: Array<number> } => {
-        if (field.key === 'None') {
-            return {
-                legend: { name: '', type: type, legendItems: [] },
-                value: Object.keys(data.patientData).map((v) => values[0])
-            };
-        }
-        let legends: any;
-        let returnValues: Array<number>;
-        switch (field.type) {
-            case DataTypeEnum.NUMBER:
-                const bins = _.range(field['min'], field['max'], Math.min((field['max'] - field['min']) / values.length));
-                legends = bins
-                    .map((v) => Math.floor(v))
-                    .map((v, i) => ([bins[i], (i <= bins.length - 2) ? bins[i + 1] : Math.ceil(field['max']), values[i]]));
-                returnValues = data.patientData.map((v) => {
-                    const value = v[field.key];
-                    return legends.reduce((p, c) => {
-                        return _.inRange(value, c[0], c[1]) ? c[2] : p;
-                    }, nullValue);
-                });
-                return {
-                    legend: {
-                        name: field.label, type: type, legendItems:
-                        Object.keys(legends).map(v => ({ name: v, value: legends[v] }))
-                    },
-                    value: returnValues
-                };
+    // createMap = (data: any, field: DataField, values: Array<any>,
+    //     nullValue: any, type: any): { legend: Legend, value: Array<number> } => {
+        // if (field.key === 'None') {
+        //     return {
+        //         legend: { name: '', type: type, legendItems: [] },
+        //         value: Object.keys(data.patientData).map((v) => values[0])
+        //     };
+        // }
+        // let legends: any;
+        // let returnValues: Array<number>;
+        // switch (field.type) {
+        //     case DataTypeEnum.NUMBER:
+        //         const bins = _.range(field['min'], field['max'], Math.min((field['max'] - field['min']) / values.length));
+        //         legends = bins
+        //             .map((v) => Math.floor(v))
+        //             .map((v, i) => ([bins[i], (i <= bins.length - 2) ? bins[i + 1] : Math.ceil(field['max']), values[i]]));
+        //         returnValues = data.patientData.map((v) => {
+        //             const value = v[field.key];
+        //             return legends.reduce((p, c) => {
+        //                 return _.inRange(value, c[0], c[1]) ? c[2] : p;
+        //             }, nullValue);
+        //         });
+        //         return {
+        //             legend: {
+        //                 name: field.label, type: type, legendItems:
+        //                 Object.keys(legends).map(v => ({ name: v, value: legends[v] }))
+        //             },
+        //             value: returnValues
+        //         };
 
-            case DataTypeEnum.STRING:
-                legends = field.values.reduce((p, c, i) => { p[c] = values[i]; return p; }, {});
-                returnValues = data.patientData.map((v) => {
-                    const value = v[field.key];
-                    return legends[value];
-                });
-                return {
-                    legend: {
-                        name: field.label, type: type, legendItems:
-                        Object.keys(legends).map(v => ({ name: v, value: legends[v] }))
-                    },
-                    value: returnValues
-                };
-        }
-    }
+        //     case DataTypeEnum.STRING:
+        //         legends = field.values.reduce((p, c, i) => { p[c] = values[i]; return p; }, {});
+        //         returnValues = data.patientData.map((v) => {
+        //             const value = v[field.key];
+        //             return legends[value];
+        //         });
+        //         return {
+        //             legend: {
+        //                 name: field.label, type: type, legendItems:
+        //                 Object.keys(legends).map(v => ({ name: v, value: legends[v] }))
+        //             },
+        //             value: returnValues
+        //         };
+    //     }
+    // }
 
-    createPatientColorMap = (data, field: DataField): { legend: Legend, value: Array<number> } => {
-        const rv = this.createMap(data, field, this.colors, 0x000000, 'COLOR');
-        return rv;
-    }
+    // createPatientColorMap = (data, field: DataField): { legend: Legend, value: Array<number> } => {
+    //     const rv = this.createMap(data, field, this.colors, 0x000000, 'COLOR');
+    //     return rv;
+    // }
 
-    createPatientShapeMap = (data, field: DataField): { legend: Legend, value: Array<number> } => {
-        const rv = this.createMap(data, field, this.shapes, ShapeEnum.CIRCLE, 'SHAPE');
-        rv.legend.type = 'SHAPE';
-        return rv;
-    }
+    // createPatientShapeMap = (data, field: DataField): { legend: Legend, value: Array<number> } => {
+    //     const rv = this.createMap(data, field, this.shapes, ShapeEnum.CIRCLE, 'SHAPE');
+    //     rv.legend.type = 'SHAPE';
+    //     return rv;
+    // }
 
-    createPatientSizeMap = (data, field: DataField): { legend: Legend, value: Array<number> } => {
-        const rv = this.createMap(data, field, this.sizes, 2, 'SIZE');
-        return rv;
-    }
+    // createPatientSizeMap = (data, field: DataField): { legend: Legend, value: Array<number> } => {
+    //     const rv = this.createMap(data, field, this.sizes, 2, 'SIZE');
+    //     return rv;
+    // }
 
-    createGeneSizeMap = (data, field: DataField): Array<number> => {
-        return [];
-    }
+    // createGeneSizeMap = (data, field: DataField): Array<number> => {
+    //     return [];
+    // }
 
-    createGeneColorMap = (data, field: DataField): Array<number> => {
-        return [];
-    }
+    // createGeneColorMap = (data, field: DataField): Array<number> => {
+    //     return [];
+    // }
 
-    createSampleMap = (data): Array<string> => {
-        return Object.keys(data.patientSampleMap.samples);
-    }
+    // createSampleMap = (data): Array<string> => {
+    //     return Object.keys(data.patientSampleMap.samples);
+    // }
 
-    createPatientMap = (data): Array<string> => {
-        return Object.keys(data.patientSampleMap.patients);
-    }
+    // createPatientMap = (data): Array<string> => {
+    //     return Object.keys(data.patientSampleMap.patients);
+    // }
 
-    createMarkerMap = (data): Array<string> => {
-        return data.markers;
-    }
+    // createMarkerMap = (data): Array<string> => {
+    //     return data.markers;
+    // }
 }
 
 
