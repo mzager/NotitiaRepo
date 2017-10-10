@@ -1,5 +1,4 @@
 import { Legend } from 'app/model/legend.model';
-import { LegendItem } from './../../../model/legend.model';
 import { SomConfigModel } from './som.model';
 import { DedicatedWorkerGlobalScope } from 'compute';
 import * as _ from 'lodash';

@@ -1,6 +1,6 @@
 import { VisualizationEnum, GraphEnum, EntityTypeEnum, DimensionEnum, ShapeEnum } from 'app/model/enum.model';
 import { GraphData } from 'app/model/graph-config.model';
-import { Legend, LegendItem } from './../../../model/legend.model';
+import { Legend } from './../../../model/legend.model';
 import { DataFieldFactory, DataTable } from './../../../model/data-field.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DataField } from 'app/model/data-field.model';

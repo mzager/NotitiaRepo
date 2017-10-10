@@ -1,6 +1,5 @@
 import { EntityTypeEnum } from './../../../model/enum.model';
 import { Legend } from 'app/model/legend.model';
-import { LegendItem } from './../../../model/legend.model';
 import { PcaConfigModel } from './pca.model';
 import { DedicatedWorkerGlobalScope } from 'compute';
 import * as _ from 'lodash';

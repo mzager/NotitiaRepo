@@ -4,7 +4,6 @@ import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Rx';
 import { TsneConfigModel } from './tsne.model';
 import { Legend } from 'app/model/legend.model';
-import { LegendItem } from './../../../model/legend.model';
 import * as TSNE from 'tsne-js';
 import * as util from 'app/service/compute.worker.util';
 import * as _ from 'lodash';

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Rx';
 import { EdgeConfigModel } from './edges.model';
 import { DimensionEnum } from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { DataTypeEnum, GraphActionEnum } from 'app/model/enum.model';
+import { DataTypeEnum, GraphActionEnum, VisualizationEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory } from './../../../model/data-field.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -20,7 +20,7 @@ import * as _ from 'lodash';
   <div class="form-group">
     <div class="switch">
       <label>
-        <input type="checkbox" formControlName="visible">
+        <input type="checkbox" formControlName="isVisible">
         <span class="lever"></span>
         Visible
       </label>
@@ -37,10 +37,10 @@ export class EdgesFormComponent {
 
 
   @Input() set config(v: EdgeConfigModel) {
-    // if (v === null) { return; }
-    // if (this.form.value.visualization === null) {
-    //   this.form.patchValue(v, {emitEvent : false});
-    // }
+    if (v === null) { return; }
+    if (this.form.value.visualization === null) {
+      this.form.patchValue(v, {emitEvent : false});
+    }
   }
 
   @Output() configChange = new EventEmitter<GraphConfig>();
@@ -58,7 +58,7 @@ export class EdgesFormComponent {
   constructor(private fb: FormBuilder) {
 
     this.form = this.fb.group({
-      visible: [],
+      isVisible: [],
       entityA: [],
       entityB: []
     });
@@ -68,10 +68,11 @@ export class EdgesFormComponent {
       .debounceTime(200)
       .distinctUntilChanged()
       .subscribe(data => {
-        data.entityA = this.graphAConfig.entity;
-        data.entityB = this.graphBConfig.entity;
-        debugger;
-        this.configChange.emit(data);
+        const ecm = new EdgeConfigModel();
+        ecm.entityA = this.graphAConfig.entity;
+        ecm.entityB = this.graphBConfig.entity;
+        ecm.isVisible = data.isVisible;
+        this.configChange.emit(ecm);
       });
   }
 }

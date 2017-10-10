@@ -1,4 +1,4 @@
-import { Legend, LegendItem } from 'app/model/legend.model';
+import { Legend } from 'app/model/legend.model';
 import { ColorEnum } from 'app/model/enum.model';
 import { ChromosomeConfigModel } from './chromosome.model';
 import * as util from 'app/service/compute.worker.util';

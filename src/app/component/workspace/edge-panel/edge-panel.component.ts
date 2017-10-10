@@ -27,7 +27,6 @@ export class EdgePanelComponent implements AfterViewInit {
   @Output() configChange: EventEmitter<GraphConfig> = new EventEmitter();
 
   edgePanelSetConfig(value: GraphConfig): void {
-    debugger;
     this.configChange.emit(value);
   }
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
