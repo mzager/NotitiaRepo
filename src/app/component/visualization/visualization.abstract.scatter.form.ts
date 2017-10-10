@@ -34,7 +34,5 @@ export class AbstractScatterForm {
         return p1.key === p2.key;
     }
 
-    constructor(){
-        
-    }
+    constructor() {}
 }

@@ -1,3 +1,4 @@
+import { Legend } from './../model/legend.model';
 import { UnsafeAction } from './../action/unsafe.action';
 import { toPayload } from '@ngrx/effects';
 import { GraphConfig } from './../model/graph-config.model';
@@ -6,6 +7,7 @@ import * as data from 'app/action/data.action';
 import * as e from 'app/model/enum.model';
 import * as graph from 'app/action/graph.action';
 import * as compute from 'app/action/compute.action';
+import { DirtyEnum } from 'app/model/enum.model';
 import { COMPUTE_CHROMOSOME, COMPUTE_CHROMOSOME_COMPLETE, COMPUTE_PCA_COMPLETE,
     COMPUTE_GRAPH_COLOR, COMPUTE_GRAPH_SHAPE, COMPUTE_GRAPH_SIZE,
     COMPUTE_GRAPH_SHAPE_COMPLETE, COMPUTE_GRAPH_SIZE_COMPLETE,
@@ -67,7 +69,18 @@ function processAction(action: UnsafeAction, state: State): State {
         case COMPUTE_PCA_SPARSE_COMPLETE:
         case COMPUTE_PCA_INCREMENTAL_COMPLETE:
         case COMPUTE_PCA_KERNAL_COMPLETE:
-            return Object.assign({}, state, { data: action.payload.data, config: action.payload.config });
+            // switch (action.payload.config.DirtyEnum) {
+            //     case DirtyEnum.COLOR:
+            //         break;
+            //     case DirtyEnum.SHAPE:
+            //         break;
+            //     case DirtyEnum.SIZE:
+            //         break;
+            //     case DirtyEnum.LAYOUT:
+            // }
+            // break;
+            return Object.assign({}, state, {data: action.payload.data, config: action.payload.config});
+
         case graph.VISIBILITY_TOGGLE:
             return Object.assign({}, state, { visibility: action.payload.data});
         case graph.DEPTH_TOGGLE:

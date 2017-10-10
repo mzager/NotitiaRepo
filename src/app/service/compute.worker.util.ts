@@ -1,6 +1,8 @@
+import { interpolateRdBu, interpolateSpectral } from 'd3-scale-chromatic';
 import { DedicatedWorkerGlobalScope } from 'compute';
 import { scaleLinear, InterpolatorFactory } from 'd3-scale';
-import { interpolateRgb } from 'd3-interpolate';
+import { interpolateRgb, interpolateHcl } from 'd3-interpolate';
+import { rgb } from 'd3-color';
 import { GraphConfig } from './../model/graph-config.model';
 import { Legend } from './../model/legend.model';
 import { DataTypeEnum, ShapeEnum, EntityTypeEnum, CollectionTypeEnum, DirtyEnum } from './../model/enum.model';
@@ -136,14 +138,13 @@ export class ComputeWorkerUtil {
                                 }, { min: Infinity, max: -Infinity });
 
 
-                                const scale = scaleLinear<string, string>()
+                                const scale = scaleLinear<number, number>()
                                     .domain([minMax.min, minMax.max])
-                                    .interpolate( interpolateRgb )
-                                    .range(['0xFF0000', '0x00FF00']);
+                                    .range([0, 1]);
 
                                 // Build Map
                                 const colorMap = values.reduce((p, c, i) => {
-                                    p[_samples[i].s] = scale(c);
+                                    p[_samples[i].s] = interpolateSpectral(scale(c));
                                     return p;
                                 }, {});
 
@@ -163,9 +164,9 @@ export class ComputeWorkerUtil {
 
                 } else {
 
-
                     const fieldKey = field.key;
                     if (field.type === 'STRING') {
+
                         const cm = field.values.reduce((p, c, i) => {
                             p[c] = this.colors[i];
                             return p;
@@ -183,19 +184,19 @@ export class ComputeWorkerUtil {
                             legend.display = 'DISCRETE';
                             legend.labels = Object.keys(cm);
                             legend.values = Object.keys(cm).map( key => cm[key] );
+
                             resolve({map: colorMap, legend: legend});
                         });
 
                     } else if (field.type === 'NUMBER') {
 
-                        const scale = scaleLinear<string, string>()
+                        const scale = scaleLinear<number, number>()
                             .domain([field.values.min, field.values.max])
-                            .interpolate( interpolateRgb )
-                            .range(['0xFF0000', '0x00FF00']);
+                            .range([0, 1]);
 
                         this.db.table(field.tbl).toArray().then(row => {
                             const colorMap = row.reduce(function (p, c) {
-                                p[c.p] = scale(c[fieldKey]);
+                                p[c.p] = interpolateSpectral(scale(c[fieldKey]));
                                 return p;
                             }, {});
 
