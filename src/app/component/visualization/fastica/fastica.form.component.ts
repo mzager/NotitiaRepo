@@ -1,11 +1,12 @@
 import { DimensionEnum, EntityTypeEnum } from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { FastIcaConfigModel, FastIcaAlgorithm, FastIcaFunction } from './fastica.model';
-import { DataTypeEnum } from 'app/model/enum.model';
+import { DataTypeEnum, DirtyEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory } from './../../../model/data-field.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import * as _ from 'lodash';
+import { AbstractScatterForm } from '../visualization.abstract.scatter.form';
 
 @Component({
   selector: 'app-fastica-form',
@@ -91,22 +92,9 @@ import * as _ from 'lodash';
 </form>
   `
 })
-export class FastIcaFormComponent {
+export class FastIcaFormComponent extends AbstractScatterForm {
 
-  @Input() set molecularData(tables: Array<string>) {
-    this.dataOptions = tables.map(v => {
-      const rv = { key: v, label: _.startCase(_.toLower(v)) };
-      return rv;
-    });
-  }
 
-  @Input() set clinicalFields(fields: Array<DataField>) {
-    if (fields.length === 0) { return; }
-    const defaultDataField: DataField = DataFieldFactory.getUndefined();
-    this.colorOptions = DataFieldFactory.getColorFields(fields);
-    this.shapeOptions = DataFieldFactory.getShapeFields(fields);
-    this.sizeOptions = DataFieldFactory.getSizeFields(fields);
-  }
 
   @Input() set config(v: FastIcaConfigModel) {
     if (v === null) { return; }
@@ -115,25 +103,20 @@ export class FastIcaFormComponent {
     }
   }
 
-  @Output() configChange = new EventEmitter<GraphConfig>();
+  algorithmOptions = [
+    FastIcaAlgorithm.PARALLEL,
+    FastIcaAlgorithm.DEFLATION
+  ];
 
-  form: FormGroup;
-  colorOptions: Array<DataField>;
-  shapeOptions: Array<DataField>;
-  sizeOptions: Array<DataField>;
-  displayOptions = [EntityTypeEnum.SAMPLE, EntityTypeEnum.GENE];
-  dataOptions: Array<{ key: string, label: string }>;
-  dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D, DimensionEnum.ONE_D];
-  algorithmOptions = [FastIcaAlgorithm.PARALLEL, FastIcaAlgorithm.DEFLATION];
-  functionOptions = [FastIcaFunction.LOGCOSH, FastIcaFunction.EXP, FastIcaFunction.CUBE];
-
-
-  byKey(p1: DataField, p2: DataField) {
-    if (p2 === null) { return false; }
-    return p1.key === p2.key;
-  }
+  functionOptions = [
+    FastIcaFunction.CUBE,
+    FastIcaFunction.EXP,
+    FastIcaFunction.LOGCOSH
+  ];
 
   constructor(private fb: FormBuilder) {
+
+    super();
 
     this.form = this.fb.group({
       visualization: [],
@@ -148,6 +131,7 @@ export class FastIcaFormComponent {
       pointColor: [],
       pointShape: [],
       pointSize: [],
+
       dimension: [],
       algorithm: [],
       fun: [],
@@ -160,6 +144,14 @@ export class FastIcaFormComponent {
       .debounceTime(200)
       .distinctUntilChanged()
       .subscribe(data => {
+        let dirty = 0;
+        const form = this.form;
+        if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
+        if (form.get('pointShape').dirty) { dirty |= DirtyEnum.SHAPE; }
+        if (form.get('pointSize').dirty) { dirty |= DirtyEnum.SIZE; }
+        if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
+        form.markAsPristine();
+        data.dirtyFlag = dirty;
         this.configChange.emit(data);
       });
   }

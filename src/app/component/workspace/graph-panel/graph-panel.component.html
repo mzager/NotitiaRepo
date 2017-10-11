@@ -62,8 +62,8 @@
                 <app-fastica-form *ngIf="configA && configA.visualization === 8388608"
                     (configChange)="graphPanelSetConfig($event)"
                     [config]="configA"
-                    [molecularData]="molecularData"
-                    [clinicalFields]="clinicalFields"
+                    [tables]="tables"
+                    [fields]="fields"
                     ></app-fastica-form>
                 <app-truncatedsvd-form *ngIf="configA && configA.visualization === 131072"
                     (configChange)="graphPanelSetConfig($event)"
@@ -182,8 +182,8 @@
             <app-fastica-form *ngIf="configB && configB.visualization === 8388608"
                 (configChange)="graphPanelSetConfig($event)"
                 [config]="configB"
-                [molecularData]="molecularData"
-                [clinicalFields]="clinicalFields"
+                [tables]="tables"
+                [fields]="fields"
                 ></app-fastica-form>
             <app-truncatedsvd-form *ngIf="configB && configB.visualization === 131072"
                 (configChange)="graphPanelSetConfig($event)"
