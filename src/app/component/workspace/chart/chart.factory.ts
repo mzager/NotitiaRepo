@@ -29,6 +29,7 @@ export class ChartFactory {
 
     // Line Pool
     public static lineRelease(line: THREE.Line): void {
+        
     }
     public static lineAllocate(color: number, pt1: THREE.Vector3, pt2: THREE.Vector3): THREE.Line {
         const line = new THREE.Line();
