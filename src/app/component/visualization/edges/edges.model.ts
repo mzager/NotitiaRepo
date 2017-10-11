@@ -21,7 +21,7 @@ export class EdgeConfigModel extends GraphConfig {
 }
 
 export class EdgeDataModel implements GraphData {
-    legends: Legend[];
+    legendItems: Array<Legend>;
     result: any;
     resultScaled: number[][];
     pointColor: number[];

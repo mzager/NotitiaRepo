@@ -3398,48 +3398,46 @@ exports.edgesCompute = function (config, worker) {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.faCompute = function (config, worker) {
+    worker.util.processShapeColorSize(config, worker);
+    if (config.dirtyFlag & 1 /* LAYOUT */) {
+        worker.util
+            .getMatrix([], [], config.table.map, config.table.tbl, config.entity)
+            .then(function (mtx) {
+            Promise.all([
+                worker.util.getSamplePatientMap(),
+                worker.util
+                    .fetchResult({
+                    //added more than server is calling
+                    method: 'cluster_sk_factor_analysis',
+                    data: mtx.data,
+                    components: config.components,
+                    dimension: config.dimension,
+                    max_iter: config.max_iter,
+                    tol: config.tol,
+                    iterated_power: config.iterated_power,
+                    random_state: config.random_state,
+                    fun: config.svd_method
+                })
+            ]).then(function (result) {
+                var psMap = result[0].reduce(function (p, c) { p[c.s] = c.p; return p; }, {});
+                var data = JSON.parse(result[1].body);
+                var resultScaled = worker.util.scale3d(data.result);
+                worker.postMessage({
+                    config: config,
+                    data: {
+                        legendItems: [],
+                        result: data,
+                        resultScaled: resultScaled,
+                        patientIds: mtx.samples.map(function (v) { return psMap[v]; }),
+                        sampleIds: mtx.samples,
+                        markerIds: mtx.markers
+                    }
+                });
+                worker.postMessage('TERMINATE');
+            });
+        });
+    }
 };
-//         worker.util.loadData(config.dataKey).then((data) => {
-//             const legendItems: Array<Legend> = [];
-//             const molecularData = worker.util.processMolecularData(data.molecularData[0], config);
-//             fetch('https://0x8okrpyl3.execute-api.us-west-2.amazonaws.com/dev', {
-//                 method: 'POST',
-//                 headers: {
-//                     'Accept': 'application/json',
-//                     'Content-Type': 'application/json'
-//                 },
-//                 body: JSON.stringify({
-//                     method: 'cluster_sk_factor_analysis',
-//                     components: 3,
-//                     data: molecularData,
-//                     fun: config.fun
-//                 })
-//             })
-//             .then( v => v.json() )
-//             .then( v => {
-//                 const response = JSON.parse(v.body);
-//                 const resultScaled = worker.util.scale3d( response.result );
-//                 // Colors + Legend
-//                 const pointColor: {legend: Legend, value: number[]} = worker.util.createPatientColorMap(data, config.pointColor);
-//                 const pointSize:  {legend: Legend, value: number[]} = worker.util.createPatientSizeMap(data, config.pointSize);
-//                 const pointShape: {legend: Legend, value: number[]} = worker.util.createPatientShapeMap(data, config.pointShape);
-//                 legendItems.push(pointColor.legend, pointSize.legend, pointShape.legend);
-//                 worker.postMessage({
-//                     config: config,
-//                     data: {
-//                         legendItems: legendItems,
-//                         result: response.result,
-//                         resultScaled: resultScaled,
-//                         pointColor: pointColor.value,
-//                         pointShape: pointShape.value,
-//                         pointSize: pointSize.value,
-//                         sampleIds: worker.util.createSampleMap(data),
-//                         markerIds: worker.util.createMarkerMap(data.molecularData[0])
-//                     }
-//                 });
-//                 worker.postMessage('TERMINATE');
-//             });
-//     });
 
 
 /***/ }),
@@ -4277,7 +4275,7 @@ var ComputeWorkerUtil = (function () {
         var _this = this;
         this.sizes = [1, 2, 3, 4];
         this.shapes = [1 /* CIRCLE */, 2 /* SQUARE */, 4 /* TRIANGLE */, 8 /* CONE */];
-        this.colors = [0x4A148C, 0x880E4F, 0x0D47A1, 0x00B8D4,
+        this.colors = [0x039BE5, 0x4A148C, 0x880E4F, 0x0D47A1, 0x00B8D4,
             0xAA00FF, 0x6200EA, 0x304FFE, 0x2196F3, 0x0091EA,
             0x00B8D4, 0x00BFA5, 0x64DD17, 0xAEEA00, 0xFFD600, 0xFFAB00, 0xFF6D00, 0xDD2C00,
             0x5D4037, 0x455A64];
@@ -4329,36 +4327,36 @@ var ComputeWorkerUtil = (function () {
     }
     ComputeWorkerUtil.prototype.processShapeColorSize = function (config, worker) {
         if ((config.dirtyFlag & 2 /* COLOR */) > 0) {
-            worker.util.getColorMap([], [], config.pointColor).then(function (pointColor) {
+            worker.util.getColorMap([], [], config.pointColor).then(function (result) {
                 worker.postMessage({
                     config: config,
                     data: {
-                        legendItems: [],
-                        pointColor: pointColor
+                        legendColor: result.legend,
+                        pointColor: result.map
                     }
                 });
                 worker.postMessage('TERMINATE');
             });
         }
         if ((config.dirtyFlag & 4 /* SIZE */) > 0) {
-            worker.util.getSizeMap([], [], config.pointSize).then(function (pointSize) {
+            worker.util.getSizeMap([], [], config.pointSize).then(function (result) {
                 worker.postMessage({
                     config: config,
                     data: {
-                        legendItems: [],
-                        pointSize: pointSize
+                        legendSize: result.legend,
+                        pointSize: result.map
                     }
                 });
                 worker.postMessage('TERMINATE');
             });
         }
         if ((config.dirtyFlag & 8 /* SHAPE */) > 0) {
-            worker.util.getShapeMap([], [], config.pointShape).then(function (pointShape) {
+            worker.util.getShapeMap([], [], config.pointShape).then(function (result) {
                 worker.postMessage({
                     config: config,
                     data: {
-                        legendItems: [],
-                        pointShape: pointShape
+                        legendShape: result.legend,
+                        pointShape: result.map
                     }
                 });
                 worker.postMessage('TERMINATE');

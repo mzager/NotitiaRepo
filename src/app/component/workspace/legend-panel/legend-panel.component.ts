@@ -1,4 +1,3 @@
-import { GraphData } from 'app/model/graph-config.model';
 import { Component, Input, Output, ChangeDetectionStrategy, EventEmitter, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { LegendPanelEnum, ShapeEnum, SizeEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
@@ -13,33 +12,27 @@ declare var $: any;
   styleUrls: ['./legend-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LegendPanelComponent implements AfterViewInit {
+export class LegendPanelComponent {
 
-  // // Components
-  // @ViewChild('legendGraphA') private elLegendA: ElementRef;
-  // @ViewChild('legendGraphB') private elLegendB: ElementRef;
+  // Components
+  @ViewChild('legendGraphA') private elLegendA: ElementRef;
+  @ViewChild('legendGraphB') private elLegendB: ElementRef;
 
   @Input()
-  private set graphAData(data: GraphData) {
-
+  private set graphAData(data: any) {
     // '/assets/legend-spectral.png';
-
     if (data === undefined) { return; }
     if (data === null) { return; }
-    const legends: Array<Legend> = data.legends;
-
-    debugger;
-
     // LegendPanelComponent.updateLegend(this.elLegendA, data.legendItems);
   }
-  // @Input()
-  // private set graphBData(data: any) {
-  //   if (data === undefined) { return; }
-  //   if (data === null) { return; }
-  //   LegendPanelComponent.updateLegend(this.elLegendB, data.legendItems);
-  // }
+  @Input()
+  private set graphBData(data: any) {
+    if (data === undefined) { return; }
+    if (data === null) { return; }
+    //  LegendPanelComponent.updateLegend(this.elLegendB, data.legendItems);
+  }
 
-  // @Input() edgeLegend: Array<Legend>;
+  @Input() edgeLegend: Array<Legend>;
   @Input() legendPanelTab;
   @Output() tabChange = new EventEmitter();
 
@@ -117,13 +110,5 @@ export class LegendPanelComponent implements AfterViewInit {
 
   // }
 
-  ngAfterViewInit() {
-  }
-
-
   constructor() { }
 }
-
-
-
-

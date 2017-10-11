@@ -17,7 +17,7 @@ export class ComputeWorkerUtil {
     private db: Dexie;
     private sizes = [1, 2, 3, 4];
     private shapes = [ShapeEnum.CIRCLE, ShapeEnum.SQUARE, ShapeEnum.TRIANGLE, ShapeEnum.CONE];
-    private colors = [0x4A148C, 0x880E4F, 0x0D47A1, 0x00B8D4,
+    private colors = [0x039BE5, 0x4A148C, 0x880E4F, 0x0D47A1, 0x00B8D4,
         0xAA00FF, 0x6200EA, 0x304FFE, 0x2196F3, 0x0091EA,
         0x00B8D4, 0x00BFA5, 0x64DD17, 0xAEEA00, 0xFFD600, 0xFFAB00, 0xFF6D00, 0xDD2C00,
         0x5D4037, 0x455A64];
@@ -30,12 +30,12 @@ export class ComputeWorkerUtil {
 
         if ((config.dirtyFlag & DirtyEnum.COLOR) > 0) {
             worker.util.getColorMap([], [], config.pointColor).then(
-                pointColor => {
+                result => {
                     worker.postMessage({
                         config: config,
                         data: {
-                            legendItems: [],
-                            pointColor: pointColor
+                            legendColor: result.legend,
+                            pointColor: result.map
                         }
                     });
                     worker.postMessage('TERMINATE');
@@ -45,12 +45,12 @@ export class ComputeWorkerUtil {
 
         if ((config.dirtyFlag & DirtyEnum.SIZE) > 0) {
             worker.util.getSizeMap([], [], config.pointSize).then(
-                pointSize => {
+                result => {
                     worker.postMessage({
                         config: config,
                         data: {
-                            legendItems: [],
-                            pointSize: pointSize
+                            legendSize: result.legend,
+                            pointSize: result.map
                         }
                     });
                     worker.postMessage('TERMINATE');
@@ -60,12 +60,12 @@ export class ComputeWorkerUtil {
 
         if ((config.dirtyFlag & DirtyEnum.SHAPE) > 0) {
             worker.util.getShapeMap([], [], config.pointShape).then(
-                pointShape => {
+                result => {
                     worker.postMessage({
                         config: config,
                         data: {
-                            legendItems: [],
-                            pointShape: pointShape
+                            legendShape: result.legend,
+                            pointShape: result.map
                         }
                     });
                     worker.postMessage('TERMINATE');

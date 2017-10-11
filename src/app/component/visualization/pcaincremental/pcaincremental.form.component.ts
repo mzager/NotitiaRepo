@@ -109,6 +109,7 @@ export class PcaIncrementalFormComponent extends AbstractScatterForm {
       pointColor: [],
       pointShape: [],
       pointSize: [],
+      legend: [],
 
       components: [],
       dimension: [],
