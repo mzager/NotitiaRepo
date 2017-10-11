@@ -116,7 +116,7 @@ export class FaFormComponent extends  AbstractScatterForm {
       pointColor: [],
       pointShape: [],
       pointSize: [],
-      
+
       components: [],
       dimension: [],
       tol: [],

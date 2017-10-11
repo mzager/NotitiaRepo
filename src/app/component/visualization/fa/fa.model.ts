@@ -8,15 +8,16 @@ import { DataField } from 'app/model/data-field.model';
 export class FaSvdMethod {
     public static RANDOMIZED = 'randomized';
     public static LAPACK = 'lapack';
-}     
+}
+
 export class FaConfigModel extends GraphConfig {
-    
+
     constructor() {
         super();
         this.entity = EntityTypeEnum.SAMPLE;
         this.visualization = VisualizationEnum.FA;
     }
-    
+
     components = 3;
     dimension = DimensionEnum.THREE_D;
     svd_method = FaSvdMethod.RANDOMIZED;
