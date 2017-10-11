@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 declare var ML: any;
 
 export const ldaCompute = (config: LdaConfigModel, worker: DedicatedWorkerGlobalScope): void => {
+
     worker.util.processShapeColorSize(config, worker);
 
     if (config.dirtyFlag & DirtyEnum.LAYOUT) {
@@ -18,7 +19,7 @@ export const ldaCompute = (config: LdaConfigModel, worker: DedicatedWorkerGlobal
                         .fetchResult({
                             // added more than server is calling
                             method: 'cluster_sk_latent_dirichlet_allocation',
-                            components: 3,
+                            components: config.components,
                             data: mtx.data,
                             fun: config.learning_method,
                             decay: config.learning_decay,

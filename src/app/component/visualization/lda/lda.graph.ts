@@ -1,3 +1,3 @@
 import { AbstractScatterVisualization } from './../visualization.abstract.scatter.component';
-export class IdaGraph  extends AbstractScatterVisualization {
+export class LdaGraph  extends AbstractScatterVisualization {
 }

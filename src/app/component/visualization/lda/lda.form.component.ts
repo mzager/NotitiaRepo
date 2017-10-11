@@ -75,7 +75,7 @@ import * as _ from 'lodash';
     <label class="center-block"><span class="form-label">Learning Method</span>
       <select class="browser-default" materialize="material_select"
       [materializeSelectOptions]="LdaLearningMethodOpitions"
-      formControlName="LdaLearningMethod">
+      formControlName="learning_method">
           <option *ngFor="let options of LdaLearningMethodOpitions">{{options}}</option>
       </select>
     </label>
@@ -111,11 +111,10 @@ export class LdaFormComponent extends AbstractScatterForm {
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
-      dataOption: [],
+      table: [],
       pointColor: [],
       pointShape: [],
       pointSize: [],
-      table: [],
 
       components: [],
       dimension: [],

@@ -3460,12 +3460,13 @@ exports.fasticaCompute = function (config, worker) {
                     .fetchResult({
                     // added more than server is calling
                     method: 'cluster_sk_fast_ica',
-                    components: 3,
                     data: mtx.data,
-                    whiten: true,
-                    algorithm: 'parallel',
-                    fun: 'logcosh',
-                    tol: 1e-4
+                    components: config.components,
+                    dimension: config.dimension,
+                    whiten: config.whiten,
+                    algorithm: config.algorithm,
+                    fun: config.fun,
+                    tol: config.tol
                 })
             ]).then(function (result) {
                 var psMap = result[0].reduce(function (p, c) { p[c.s] = c.p; return p; }, {});
@@ -3627,7 +3628,7 @@ exports.ldaCompute = function (config, worker) {
                     .fetchResult({
                     // added more than server is calling
                     method: 'cluster_sk_latent_dirichlet_allocation',
-                    components: 3,
+                    components: config.components,
                     data: mtx.data,
                     fun: config.learning_method,
                     decay: config.learning_decay,
