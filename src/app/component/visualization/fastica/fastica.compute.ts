@@ -3,7 +3,6 @@ import { Legend } from 'app/model/legend.model';
 import { FastIcaConfigModel, FastIcaDataModel } from './fastica.model';
 import { DedicatedWorkerGlobalScope } from 'compute';
 import * as _ from 'lodash';
-import * as data from 'app/action/data.action';
 declare var ML: any;
 
 export const fasticaCompute = (config: FastIcaConfigModel, worker: DedicatedWorkerGlobalScope): void => {
@@ -20,12 +19,13 @@ export const fasticaCompute = (config: FastIcaConfigModel, worker: DedicatedWork
                         .fetchResult({
                             // added more than server is calling
                             method: 'cluster_sk_fast_ica',
-                            components: 3,
                             data: mtx.data,
-                            whiten: true,
-                            algorithm: 'parallel',
-                            fun: 'logcosh',
-                            tol: 1e-4
+                            components: config.components,
+                            dimension: config.dimension,
+                            whiten: config.whiten,
+                            algorithm: config.algorithm,
+                            fun: config.fun,
+                            tol: config.tol
                         })
                 ]).then(result => {
                     const psMap = result[0].reduce((p, c) => { p[c.s] = c.p; return p; }, {});

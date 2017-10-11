@@ -18,8 +18,8 @@ export class FaConfigModel extends GraphConfig {
         this.visualization = VisualizationEnum.FA;
     }
 
-    components = 3;
     dimension = DimensionEnum.THREE_D;
+    components = 3;
     svd_method = FaSvdMethod.RANDOMIZED;
     tol = 0.01;
     copy = true;
