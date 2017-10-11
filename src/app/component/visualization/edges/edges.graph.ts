@@ -67,7 +67,7 @@ export class EdgesGraph implements ChartObjectInterface {
 
         this.view.scene.children = this.view.scene.children.splice(0, 2);
         this.edges = [];
-        let i = 0;
+        // let i = 0;
         this.commonKeys.forEach((v) => {
             const pt1 = ChartUtil.objectToScreen(this.v1Map[v], views[0], layout);
             if (pt1 === null) { return; }
@@ -75,7 +75,7 @@ export class EdgesGraph implements ChartObjectInterface {
             if (pt2 === null) { return; }
             const line: THREE.Line = ChartFactory.lineAllocate(0x039BE5, pt1, pt2);
             this.view.scene.add(line);
-            i += 1;
+            // i += 1;
         });
         renderer.clear();
         views.forEach((view) => {
