@@ -106,8 +106,7 @@ import * as _ from 'lodash';
       </label>
     </div>
   </div>
-</form>
-  `
+</form>`
 })
 export class PcaKernalFormComponent extends AbstractScatterForm {
 
@@ -139,6 +138,7 @@ export class PcaKernalFormComponent extends AbstractScatterForm {
       pointColor: [],
       pointShape: [],
       pointSize: [],
+      legend: [],
 
       components: [],
       dimension: [],

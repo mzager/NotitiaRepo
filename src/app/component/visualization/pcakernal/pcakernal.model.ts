@@ -48,4 +48,5 @@ export interface PcaKernalDataModel extends GraphData {
     pointShape: Array<ShapeEnum>;
     sampleIds: Array<string>;
     markerIds: Array<string>;
+    patientIds: Array<string>;
 }

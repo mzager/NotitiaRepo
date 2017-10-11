@@ -137,6 +137,7 @@ export class PlsFormComponent {
       pointColor: [],
       pointShape: [],
       pointSize: [],
+      legend: [],
       dimension: [],
       domain: [],
       showVectors: [],
