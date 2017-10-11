@@ -11,6 +11,12 @@ export class LdaLearningMethod {
 }
 
 export class LdaConfigModel extends GraphConfig {
+    constructor() {
+        super();
+        this.entity = EntityTypeEnum.SAMPLE;
+        this.visualization = VisualizationEnum.LDA;
+    }
+    // coulld review this, there are a lot
     components = 3;
     dimension = DimensionEnum.THREE_D;
     learning_method = LdaLearningMethod.BATCH;
@@ -20,11 +26,12 @@ export class LdaConfigModel extends GraphConfig {
 }
 
 export interface LdaDataModel extends GraphData {
-    result: Array<Array<number>>;
+    result: any;
     resultScaled: Array<Array<number>>;
     pointColor: Array<number>;
     pointSize: Array<number>;
     pointShape: Array<ShapeEnum>;
     sampleIds: Array<string>;
     markerIds: Array<string>;
+    patientIds: Array<string>;
 }
