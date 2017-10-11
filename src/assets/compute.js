@@ -1653,14 +1653,15 @@ var e10 = Math.sqrt(50),
     e2 = Math.sqrt(2);
 
 /* harmony default export */ __webpack_exports__["a"] = (function(start, stop, count) {
-  var reverse = stop < start,
+  var reverse,
       i = -1,
       n,
       ticks,
       step;
 
-  if (reverse) n = start, start = stop, stop = n;
-
+  stop = +stop, start = +start, count = +count;
+  if (start === stop && count > 0) return [start];
+  if (reverse = stop < start) n = start, start = stop, stop = n;
   if ((step = tickIncrement(start, stop, count)) === 0 || !isFinite(step)) return [];
 
   if (step > 0) {
@@ -3398,48 +3399,46 @@ exports.edgesCompute = function (config, worker) {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.faCompute = function (config, worker) {
+    worker.util.processShapeColorSize(config, worker);
+    if (config.dirtyFlag & 1 /* LAYOUT */) {
+        worker.util
+            .getMatrix([], [], config.table.map, config.table.tbl, config.entity)
+            .then(function (mtx) {
+            Promise.all([
+                worker.util.getSamplePatientMap(),
+                worker.util
+                    .fetchResult({
+                    // added more than server is calling
+                    method: 'cluster_sk_factor_analysis',
+                    data: mtx.data,
+                    components: config.components,
+                    dimension: config.dimension,
+                    max_iter: config.max_iter,
+                    tol: config.tol,
+                    iterated_power: config.iterated_power,
+                    random_state: config.random_state,
+                    fun: config.svd_method
+                })
+            ]).then(function (result) {
+                var psMap = result[0].reduce(function (p, c) { p[c.s] = c.p; return p; }, {});
+                var data = JSON.parse(result[1].body);
+                var resultScaled = worker.util.scale3d(data.result);
+                worker.postMessage({
+                    config: config,
+                    data: {
+                        legendItems: [],
+                        result: data,
+                        resultScaled: resultScaled,
+                        patientIds: mtx.samples.map(function (v) { return psMap[v]; }),
+                        sampleIds: mtx.samples,
+                        markerIds: mtx.markers
+                    }
+                });
+                worker.postMessage('TERMINATE');
+            });
+        });
+    }
 };
-//         worker.util.loadData(config.dataKey).then((data) => {
-//             const legendItems: Array<Legend> = [];
-//             const molecularData = worker.util.processMolecularData(data.molecularData[0], config);
-//             fetch('https://0x8okrpyl3.execute-api.us-west-2.amazonaws.com/dev', {
-//                 method: 'POST',
-//                 headers: {
-//                     'Accept': 'application/json',
-//                     'Content-Type': 'application/json'
-//                 },
-//                 body: JSON.stringify({
-//                     method: 'cluster_sk_factor_analysis',
-//                     components: 3,
-//                     data: molecularData,
-//                     fun: config.fun
-//                 })
-//             })
-//             .then( v => v.json() )
-//             .then( v => {
-//                 const response = JSON.parse(v.body);
-//                 const resultScaled = worker.util.scale3d( response.result );
-//                 // Colors + Legend
-//                 const pointColor: {legend: Legend, value: number[]} = worker.util.createPatientColorMap(data, config.pointColor);
-//                 const pointSize:  {legend: Legend, value: number[]} = worker.util.createPatientSizeMap(data, config.pointSize);
-//                 const pointShape: {legend: Legend, value: number[]} = worker.util.createPatientShapeMap(data, config.pointShape);
-//                 legendItems.push(pointColor.legend, pointSize.legend, pointShape.legend);
-//                 worker.postMessage({
-//                     config: config,
-//                     data: {
-//                         legendItems: legendItems,
-//                         result: response.result,
-//                         resultScaled: resultScaled,
-//                         pointColor: pointColor.value,
-//                         pointShape: pointShape.value,
-//                         pointSize: pointSize.value,
-//                         sampleIds: worker.util.createSampleMap(data),
-//                         markerIds: worker.util.createMarkerMap(data.molecularData[0])
-//                     }
-//                 });
-//                 worker.postMessage('TERMINATE');
-//             });
-//     });
 
 
 /***/ }),
@@ -3450,50 +3449,43 @@ exports.faCompute = function (config, worker) {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.fasticaCompute = function (config, worker) {
-    //     worker.util.loadData(config.dataKey).then((data) => {
-    //         const legendItems: Array<Legend> = [];
-    //         const molecularData = worker.util.processMolecularData(data.molecularData[0], config);
-    //         fetch('https://0x8okrpyl3.execute-api.us-west-2.amazonaws.com/dev', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Accept': 'application/json',
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify({
-    //                 method: 'cluster_sk_fast_ica',
-    //                 components: 3,
-    //                 data: molecularData,
-    //                 whiten: true,
-    //                 algorithm: 'parallel',
-    //                 fun: 'logcosh',
-    //                 tol: 1e-4
-    //             })
-    //         })
-    //         .then( v => v.json() )
-    //         .then( v => {
-    //             const response = JSON.parse(v.body);
-    //             const resultScaled = worker.util.scale3d( response.result );
-    //             // Colors + Legend
-    //             const pointColor: {legend: Legend, value: number[]} = worker.util.createPatientColorMap(data, config.pointColor);
-    //             const pointSize:  {legend: Legend, value: number[]} = worker.util.createPatientSizeMap(data, config.pointSize);
-    //             const pointShape: {legend: Legend, value: number[]} = worker.util.createPatientShapeMap(data, config.pointShape);
-    //             legendItems.push(pointColor.legend, pointSize.legend, pointShape.legend);
-    //             worker.postMessage({
-    //                 config: config,
-    //                 data: {
-    //                     legendItems: legendItems,
-    //                     result: response.result,
-    //                     resultScaled: resultScaled,
-    //                     pointColor: pointColor.value,
-    //                     pointShape: pointShape.value,
-    //                     pointSize: pointSize.value,
-    //                     sampleIds: worker.util.createSampleMap(data),
-    //                     markerIds: worker.util.createMarkerMap(data.molecularData[0])
-    //                 }
-    //             });
-    //             worker.postMessage('TERMINATE');
-    //         });
-    // });
+    worker.util.processShapeColorSize(config, worker);
+    if (config.dirtyFlag & 1 /* LAYOUT */) {
+        worker.util
+            .getMatrix([], [], config.table.map, config.table.tbl, config.entity)
+            .then(function (mtx) {
+            Promise.all([
+                worker.util.getSamplePatientMap(),
+                worker.util
+                    .fetchResult({
+                    // added more than server is calling
+                    method: 'cluster_sk_fast_ica',
+                    components: 3,
+                    data: mtx.data,
+                    whiten: true,
+                    algorithm: 'parallel',
+                    fun: 'logcosh',
+                    tol: 1e-4
+                })
+            ]).then(function (result) {
+                var psMap = result[0].reduce(function (p, c) { p[c.s] = c.p; return p; }, {});
+                var data = JSON.parse(result[1].body);
+                var resultScaled = worker.util.scale3d(data.result);
+                worker.postMessage({
+                    config: config,
+                    data: {
+                        legendItems: [],
+                        result: data,
+                        resultScaled: resultScaled,
+                        patientIds: mtx.samples.map(function (v) { return psMap[v]; }),
+                        sampleIds: mtx.samples,
+                        markerIds: mtx.markers
+                    }
+                });
+                worker.postMessage('TERMINATE');
+            });
+        });
+    }
 };
 
 
@@ -4382,7 +4374,7 @@ var ComputeWorkerUtil = (function () {
         return new Promise(function (resolve, reject) {
             _this.openDatabase().then(function (v) {
                 _this.db.table(map).toArray().then(function (_samples) {
-                    _this.db.table(tbl).limit(100).toArray().then(function (_markers) {
+                    _this.db.table(tbl).limit(10).toArray().then(function (_markers) {
                         resolve({
                             markers: _markers.map(function (m) { return m.m; }),
                             samples: _samples.map(function (s) { return s.s; }),
