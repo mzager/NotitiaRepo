@@ -117,6 +117,7 @@ export class PcaSparseFormComponent  extends AbstractScatterForm {
       pointColor: [],
       pointShape: [],
       pointSize: [],
+      legend: [],
 
       components: [],
       dimension: [],
