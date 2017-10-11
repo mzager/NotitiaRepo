@@ -31,7 +31,7 @@ export class GraphConfig {
 }
 
 export interface GraphData {
-    legends: Array<Legend>;
+    legendItems: Array<Legend>;
     result: any;
     resultScaled: Array<Array<number>>;
     pointColor: Array<number>;
@@ -40,5 +40,4 @@ export interface GraphData {
     sampleIds: Array<string>;
     markerIds: Array<string>;
     patientIds: Array<string>;
-    // stats: Array<Stat>;
 }

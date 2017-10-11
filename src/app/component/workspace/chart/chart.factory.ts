@@ -45,7 +45,7 @@ export class ChartFactory {
 
     @Memoize()
     public static getLineColor(color: number): THREE.LineBasicMaterial {
-        return new THREE.LineBasicMaterial({ color: color });
+        return new THREE.LineBasicMaterial({ color: color});
     }
 
     // @Memoize()
@@ -76,6 +76,8 @@ export class ChartFactory {
                 return new THREE.TetrahedronGeometry(3);
             case ShapeEnum.CONE:
                 return new THREE.ConeGeometry(3, 3, 10, 10);
+            default:
+                return new THREE.TorusGeometry(2);
         }
     }
 }

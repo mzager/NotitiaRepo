@@ -1,7 +1,7 @@
 import { Legend } from './../model/legend.model';
 import { UnsafeAction } from './../action/unsafe.action';
 import { toPayload } from '@ngrx/effects';
-import { GraphConfig } from './../model/graph-config.model';
+import { GraphConfig, GraphData } from './../model/graph-config.model';
 import { DATA_LOADED } from './../action/data.action';
 import * as data from 'app/action/data.action';
 import * as e from 'app/model/enum.model';
@@ -69,17 +69,34 @@ function processAction(action: UnsafeAction, state: State): State {
         case COMPUTE_PCA_SPARSE_COMPLETE:
         case COMPUTE_PCA_INCREMENTAL_COMPLETE:
         case COMPUTE_PCA_KERNAL_COMPLETE:
-            // switch (action.payload.config.DirtyEnum) {
-            //     case DirtyEnum.COLOR:
-            //         break;
-            //     case DirtyEnum.SHAPE:
-            //         break;
-            //     case DirtyEnum.SIZE:
-            //         break;
-            //     case DirtyEnum.LAYOUT:
-            // }
-            // break;
-            return Object.assign({}, state, {data: action.payload.data, config: action.payload.config});
+            const data = action.payload.data as GraphData;
+            switch (action.payload.config.dirtyFlag) {
+                case DirtyEnum.LAYOUT:
+                    return Object.assign({}, state, {data: action.payload.data, config: action.payload.config});
+                case DirtyEnum.COLOR:
+                    return Object.assign({}, state, {config: action.payload.config,
+                        data: Object.assign({}, state.data, {
+                            legendItems: [...state.data.legendItems.filter( v => v.type !== 'COLOR' ), action.payload.data.legendColor],
+                            pointColor: action.payload.data.pointColor
+                        })
+                    });
+                case DirtyEnum.SHAPE:
+                    return Object.assign({}, state, {config: action.payload.config,
+                        data: Object.assign({}, state.data, {
+                            legendItems: [...state.data.legendItems.filter( v => v.type !== 'SHAPE' ), action.payload.data.legendShape],
+                            pointShape: action.payload.data.pointShape
+                        })
+                    });
+                case DirtyEnum.SIZE:
+                    return Object.assign({}, state, {config: action.payload.config,
+                        data: Object.assign({}, state.data, {
+                            legendItems: [...state.data.legendItems.filter( v => v.type !== 'SIZE' ), action.payload.data.legendSize],
+                            pointSize: action.payload.data.pointSize
+                        })
+                    });
+            }
+            // return Object.assign({}, state, {data: action.payload.data, config: action.payload.config});
+            return state;
 
         case graph.VISIBILITY_TOGGLE:
             return Object.assign({}, state, { visibility: action.payload.data});

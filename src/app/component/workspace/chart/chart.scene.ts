@@ -61,14 +61,31 @@ export class ChartScene {
     }
     render = () => {
         this.renderer.clear();
-        this.views.forEach( (view, i) => {
-            if (i === 2) {
-                if (view.chart !== null) { view.chart.preRender(this.views, this.workspace.layout, this.renderer); }
-            } else {
-                this.renderer.setViewport( view.viewport.x, view.viewport.y, view.viewport.width, view.viewport.height );
-                this.renderer.render( view.scene, view.camera );
-            }
-        });
+        let view;
+
+        // Graph A
+        view = this.views[0];
+        this.renderer.setViewport( view.viewport.x, view.viewport.y, view.viewport.width, view.viewport.height );
+        this.renderer.render( view.scene, view.camera );
+
+        // Graph B
+        view = this.views[1];
+        this.renderer.setViewport( view.viewport.x, view.viewport.y, view.viewport.width, view.viewport.height );
+        this.renderer.render( view.scene, view.camera );
+
+        // Graph Edges
+        view = this.views[2];
+        if (view.chart !== null) {
+            view.chart.preRender(this.views, this.workspace.layout, this.renderer);
+        }
+        // this.views.forEach( (view, i) => {
+        //     if (i === 2) {
+        //         if (view.chart !== null) { view.chart.preRender(this.views, this.workspace.layout, this.renderer); }
+        //     } else {
+        //         this.renderer.setViewport( view.viewport.x, view.viewport.y, view.viewport.width, view.viewport.height );
+        //         this.renderer.render( view.scene, view.camera );
+        //     }
+        // });
     }
     select = (e: {type: EntityTypeEnum, ids: Array<string>}) => {
         this.onSelect.next(e);

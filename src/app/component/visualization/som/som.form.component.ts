@@ -152,6 +152,7 @@ export class SomFormComponent {
       pointColor: [],
       pointShape: [],
       pointSize: [],
+      legend: [],
       dimension: [],
       tau: 0.02,
       iterations: 1,
