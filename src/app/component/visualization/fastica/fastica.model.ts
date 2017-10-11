@@ -18,22 +18,27 @@ export class FastIcaFunction {
 
 export class FastIcaConfigModel extends GraphConfig {
 
+    constructor() {
+        super();
+        this.entity = EntityTypeEnum.SAMPLE;
+        this.visualization = VisualizationEnum.FAST_ICA;
+    }
+
     dimension = DimensionEnum.THREE_D;
-    algorithm: FastIcaAlgorithm = FastIcaAlgorithm.DEFLATION;
-    fun: FastIcaFunction = FastIcaFunction.LOGCOSH;
+    algorithm = FastIcaAlgorithm.DEFLATION;
+    fun = FastIcaFunction.LOGCOSH;
     whiten = true;
     tol = 1e-4;
 }
 
 
-
-
 export interface FastIcaDataModel extends GraphData {
-    result: Array<Array<number>>;
+    result: any;
     resultScaled: Array<Array<number>>;
     pointColor: Array<number>;
     pointSize: Array<number>;
     pointShape: Array<ShapeEnum>;
     sampleIds: Array<string>;
     markerIds: Array<string>;
+    patientIds: Array<string>;
 }

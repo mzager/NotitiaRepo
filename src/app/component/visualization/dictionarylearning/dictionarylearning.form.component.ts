@@ -114,7 +114,7 @@ export class DictionaryLearningFormComponent extends AbstractScatterForm {
     DictionaryLearningTransformAlgorithm.THRESHOLD
   ];
 
-  
+
   constructor(private fb: FormBuilder) {
 
     super();
