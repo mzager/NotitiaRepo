@@ -1,27 +1,28 @@
-import { DimensionEnum, EntityTypeEnum } from './../../../model/enum.model';
-import { GraphConfig } from './../../../model/graph-config.model';
 import { FastIcaConfigModel, FastIcaAlgorithm, FastIcaFunction } from './fastica.model';
+import { AbstractScatterForm } from '../visualization.abstract.scatter.form';
+import { DimensionEnum, EntityTypeEnum, CollectionTypeEnum  } from './../../../model/enum.model';
+import { GraphConfig } from './../../../model/graph-config.model';
 import { DataTypeEnum, DirtyEnum } from 'app/model/enum.model';
-import { DataField, DataFieldFactory } from './../../../model/data-field.model';
+import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import * as _ from 'lodash';
-import { AbstractScatterForm } from '../visualization.abstract.scatter.form';
+
 
 @Component({
   selector: 'app-fastica-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 <form [formGroup]="form" novalidate>
-  <div class="form-group">
-    <label class="center-block">Data
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          formControlName="dataOption">
-          <option *ngFor="let option of dataOptions">{{option.label}}</option>
-      </select>
-    </label>
-  </div>
+<div class="form-group">
+<label class="center-block">Data
+  <select class="browser-default" materialize="material_select"
+      [compareWith]="byKey"
+      formControlName="table">
+      <option *ngFor="let option of dataOptions">{{option.label}}</option>
+  </select>
+</label>
+</div>
   <div class="form-group">
     <label class="center-block">Display
       <select class="browser-default" materialize="material_select"
@@ -72,29 +73,36 @@ import { AbstractScatterForm } from '../visualization.abstract.scatter.form';
     </label>
   </div>
   <div class="form-group">
-    <label class="center-block"><span class="form-label">Algorithem</span>
+    <label class="center-block"><span class="form-label">Algorithm</span>
       <select class="browser-default" materialize="material_select"
-        [materializeSelectOptions]="dimensionOptions"
+        [materializeSelectOptions]="algorithmOptions"
         formControlName="algorithm">
           <option *ngFor="let options of algorithmOptions">{{options}}</option>
       </select>
     </label>
   </div>
   <div class="form-group">
-  <label class="center-block"><span class="form-label">Function</span>
-    <select class="browser-default" materialize="material_select"
-      [materializeSelectOptions]="dimensionOptions"
+    <label class="center-block"><span class="form-label">Function</span>
+      <select class="browser-default" materialize="material_select"
+      [materializeSelectOptions]="functionOptions"
       formControlName="fun">
         <option *ngFor="let options of functionOptions">{{options}}</option>
-    </select>
-  </label>
+      </select>
+    </label>
+  </div>
+  <div class="form-group">
+    <div class="switch">
+      <label>
+        <input type="checkbox" formControlName="whiten">
+        <span class="lever"></span>
+      Whiten
+      </label>
+    </div>
 </div>
 </form>
   `
 })
 export class FastIcaFormComponent extends AbstractScatterForm {
-
-
 
   @Input() set config(v: FastIcaConfigModel) {
     if (v === null) { return; }
@@ -109,9 +117,9 @@ export class FastIcaFormComponent extends AbstractScatterForm {
   ];
 
   functionOptions = [
+    FastIcaFunction.LOGCOSH,
     FastIcaFunction.CUBE,
-    FastIcaFunction.EXP,
-    FastIcaFunction.LOGCOSH
+    FastIcaFunction.EXP
   ];
 
   constructor(private fb: FormBuilder) {
@@ -122,6 +130,7 @@ export class FastIcaFormComponent extends AbstractScatterForm {
       visualization: [],
       graph: [],
       entity: [],
+      table: [],
       markerFilter: [],
       markerSelect: [],
       sampleFilter: [],
@@ -132,6 +141,7 @@ export class FastIcaFormComponent extends AbstractScatterForm {
       pointShape: [],
       pointSize: [],
 
+      components: [],
       dimension: [],
       algorithm: [],
       fun: [],

@@ -25,9 +25,10 @@ export class FastIcaConfigModel extends GraphConfig {
     }
 
     dimension = DimensionEnum.THREE_D;
-    algorithm = FastIcaAlgorithm.DEFLATION;
+    components = 3;
+    algorithm = FastIcaAlgorithm.PARALLEL;
     fun = FastIcaFunction.LOGCOSH;
-    whiten = true;
+    whiten: Boolean = false;
     tol = 1e-4;
 }
 
