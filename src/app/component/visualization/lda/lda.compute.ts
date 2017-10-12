@@ -19,8 +19,9 @@ export const ldaCompute = (config: LdaConfigModel, worker: DedicatedWorkerGlobal
                         .fetchResult({
                             // added more than server is calling
                             method: 'cluster_sk_latent_dirichlet_allocation',
-                            components: config.components,
                             data: mtx.data,
+                            components: config.components,
+                            dimension: config.dimension,
                             fun: config.learning_method,
                             decay: config.learning_decay,
                             offset: config.learning_offset,
