@@ -17,8 +17,8 @@ export class LdaConfigModel extends GraphConfig {
         this.visualization = VisualizationEnum.LDA;
     }
     // coulld review this, there are a lot
-    components = 3;
     dimension = DimensionEnum.THREE_D;
+    components = 3;
     learning_method = LdaLearningMethod.BATCH;
     learning_decay = 0.7;
     learning_offset = 10;
