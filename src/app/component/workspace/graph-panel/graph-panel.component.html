@@ -80,8 +80,8 @@
                 <app-nmf-form *ngIf="configA && configA.visualization === 67108864"
                     (configChange)="graphPanelSetConfig($event)"
                     [config]="configA"
-                    [molecularData]="molecularData"
-                    [clinicalFields]="clinicalFields"
+                    [tables]="tables"
+                    [fields]="fields"
                     ></app-nmf-form>
                 <app-dictionarylearning-form *ngIf="configA && configA.visualization === 16777216"
                     (configChange)="graphPanelSetConfig($event)"
@@ -200,8 +200,8 @@
             <app-nmf-form *ngIf="configB && configB.visualization === 67108864"
                 (configChange)="graphPanelSetConfig($event)"
                 [config]="configB"
-                [molecularData]="molecularData"
-                [clinicalFields]="clinicalFields"
+                [tables]="tables"
+                [fields]="fields"
                 ></app-nmf-form>
             <app-dictionarylearning-form *ngIf="configB && configB.visualization === 16777216"
                 (configChange)="graphPanelSetConfig($event)"

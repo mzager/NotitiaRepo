@@ -1,4 +1,4 @@
-import { EntityTypeEnum } from './../../../model/enum.model';
+import { EntityTypeEnum, DirtyEnum } from './../../../model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import { NmfConfigModel, NmfDataModel } from './nmf.model';
 import { DedicatedWorkerGlobalScope } from 'compute';
@@ -7,52 +7,43 @@ declare var ML: any;
 
 export const nmfCompute = (config: NmfConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
-    //     worker.util.loadData(config.dataKey).then((data) => {
+    worker.util.processShapeColorSize(config, worker);
 
-    //         const legendItems: Array<Legend> = [];
-    //         const molecularData = worker.util.processMolecularData(data.molecularData[0], config);
+        if (config.dirtyFlag & DirtyEnum.LAYOUT) {
+            worker.util
+                .getMatrix([], [], config.table.map, config.table.tbl, config.entity)
+                .then(mtx => {
+                    Promise.all([
+                        worker.util.getSamplePatientMap(),
+                        worker.util
+                            .fetchResult({
+                                // added more than server is calling
+                                method: 'cluster_sk_nmf',
+                                components: config.components,
+                                data: mtx.data,
+                                fun: config.init,
+                                solver: config.solver,
+                                betaLoss: config.betaloss,
+                                tol: config.tol
+                            })
+                    ]).then(result => {
+                        const psMap = result[0].reduce((p, c) => { p[c.s] = c.p; return p; }, {});
+                        const data = JSON.parse(result[1].body);
+                        const resultScaled = worker.util.scale3d(data.result);
+                        worker.postMessage({
+                            config: config,
+                            data: {
+                                legendItems: [],
+                                result: data,
+                                resultScaled: resultScaled,
+                                patientIds: mtx.samples.map(v => psMap[v]),
+                                sampleIds: mtx.samples,
+                                markerIds: mtx.markers
+                            }
+                        });
+                        worker.postMessage('TERMINATE');
+                    });
+                });
+        }
+    };
 
-    //         fetch('https://0x8okrpyl3.execute-api.us-west-2.amazonaws.com/dev', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Accept': 'application/json',
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify({
-    //                 method: 'cluster_sk_nmf',
-    //                 components: 3,
-    //                 data: molecularData,
-    //                 fun: config.init,
-    //                 solver: config.solver,
-    //                 betaLoss: config.betaloss,
-    //                 tol: config.tol
-    //             })
-    //         })
-    //         .then( v => v.json() )
-    //         .then( v => {
-    //             const response = JSON.parse(v.body);
-    //             const resultScaled = worker.util.scale3d( response.result );
-
-    //             // Colors + Legend
-    //             const pointColor: {legend: Legend, value: number[]} = worker.util.createPatientColorMap(data, config.pointColor);
-    //             const pointSize:  {legend: Legend, value: number[]} = worker.util.createPatientSizeMap(data, config.pointSize);
-    //             const pointShape: {legend: Legend, value: number[]} = worker.util.createPatientShapeMap(data, config.pointShape);
-    //             legendItems.push(pointColor.legend, pointSize.legend, pointShape.legend);
-
-    //             worker.postMessage({
-    //                 config: config,
-    //                 data: {
-    //                     legendItems: legendItems,
-    //                     result: response.result,
-    //                     resultScaled: resultScaled,
-    //                     pointColor: pointColor.value,
-    //                     pointShape: pointShape.value,
-    //                     pointSize: pointSize.value,
-    //                     sampleIds: worker.util.createSampleMap(data),
-    //                     markerIds: worker.util.createMarkerMap(data.molecularData[0])
-    //                 }
-    //             });
-    //             worker.postMessage('TERMINATE');
-    //         });
-    // });
-};
