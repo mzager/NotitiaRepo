@@ -51,6 +51,7 @@
         *ngIf="legendPanelTab | async" 
         [legendPanelTab]="legendPanelTab | async"
         [graphAData]="graphAData | async" 
+        [graphBData]="graphBData | async" 
         (tabChange)="legendPanelSetTab($event)"></app-workspace-legend-panel>
 
 </div>

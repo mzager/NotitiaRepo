@@ -205,6 +205,15 @@ export class GraphPanelComponent implements AfterViewInit  {
           gc = new PcaSparseConfigModel();
           break;
       }
+      const prevConfig = this.configB;
+      gc.table = prevConfig.table;
+      gc.sampleFilter = prevConfig.sampleFilter;
+      gc.markerFilter = prevConfig.markerFilter;
+      gc.sampleSelect = prevConfig.sampleSelect;
+      gc.markerSelect = prevConfig.markerSelect;
+      gc.pointColor = prevConfig.pointColor;
+      gc.pointShape = prevConfig.pointShape;
+      gc.pointSize = prevConfig.pointSize;
       gc.graph = GraphEnum.GRAPH_B;
       this.configChange.emit( gc );
     }
@@ -230,20 +239,18 @@ export class GraphPanelComponent implements AfterViewInit  {
       { value: VisualizationEnum.LDA, label: 'Latent Dirichlet Allocation'},
       { value: VisualizationEnum.NMF, label: 'Non-Negative Matrix Factorization'},
 
-      // { value: VisualizationEnum.PCA, label: 'Principle Component Analysis' },
-
+      { value: VisualizationEnum.PCA, label: 'PCA' },
       { value: VisualizationEnum.INCREMENTAL_PCA, label: 'PCA - Incremental'},
       { value: VisualizationEnum.KERNAL_PCA, label: 'PCA - Kernel'},
       { value: VisualizationEnum.SPARSE_PCA, label: 'PCA - Sparse'},
-
-      //{ value: VisualizationEnum.TRUNCATED_SVD, label: 'Truncated SVD'},
+      { value: VisualizationEnum.TRUNCATED_SVD, label: 'Truncated SVD'},
 
 // Manifold learning
-      // { value: VisualizationEnum.ISOMAP, label: 'Isomap '},
-      // { value: VisualizationEnum.LOCALLY_LINEAR_EMBEDDING, label: 'Locally Linear Embedding '},
-      // { value: VisualizationEnum.MDS, label: 'Multi-Dimensional Scaling'},
-      // { value: VisualizationEnum.SPECTRAL_EMBEDDING, label: 'Spectral Embedding '},
-      // { value: VisualizationEnum.TSNE, label: 'T-SNE '},
+      { value: VisualizationEnum.ISOMAP, label: 'Isomap '},
+      { value: VisualizationEnum.LOCALLY_LINEAR_EMBEDDING, label: 'Locally Linear Embedding '},
+      { value: VisualizationEnum.MDS, label: 'Multi-Dimensional Scaling'},
+      { value: VisualizationEnum.SPECTRAL_EMBEDDING, label: 'Spectral Embedding '},
+      { value: VisualizationEnum.TSNE, label: 'T-SNE '},
 
 
 
