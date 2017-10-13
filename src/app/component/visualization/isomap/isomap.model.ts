@@ -5,20 +5,51 @@ import { DataFieldFactory } from './../../../model/data-field.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DataField } from 'app/model/data-field.model';
 
+export class IsoMapEigenSolver {
+    public static AUTO = 'auto';
+    public static DENSE = 'dense';
+    public static ARPACK = 'arpack';
+}
+
+export class IsoMapPathMethod {
+    public static AUTO = 'auto';
+    public static FW = 'fw';
+    public static D = 'd';
+}
+
+export class IsoMapNeighborsAlgorithm {
+    public static AUTO = 'auto';
+    public static BRUTE = 'brute';
+    public static KD_TREE = 'kd_tree';
+    public static BALL_TREE = 'ball_tree';
+}
+
 export class IsoMapConfigModel extends GraphConfig {
+
+    constructor() {
+        super();
+        this.entity = EntityTypeEnum.SAMPLE;
+        this.visualization = VisualizationEnum.ISOMAP;
+    }
+
     components = 3;
     dimension = DimensionEnum.THREE_D;
+    tol = 0.01;
+    max_iter = 1000;
+    n_neighbors = 5;
+    eigen_solver = IsoMapEigenSolver.AUTO;
+    path_method = IsoMapPathMethod.AUTO;
+    neighbors_algorithm = IsoMapNeighborsAlgorithm.AUTO;
 }
 
 
-
-
 export interface IsoMapDataModel extends GraphData {
-    result: Array<Array<number>>;
+    result: any;
     resultScaled: Array<Array<number>>;
     pointColor: Array<number>;
     pointSize: Array<number>;
     pointShape: Array<ShapeEnum>;
     sampleIds: Array<string>;
     markerIds: Array<string>;
+    patientIds: Array<string>;
 }
