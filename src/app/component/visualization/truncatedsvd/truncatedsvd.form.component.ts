@@ -76,7 +76,7 @@ import { TruncatedSvdAction } from '../../../action/compute.action';
   <label class="center-block"><span class="form-label">Dimension</span>
     <select class="browser-default" materialize="material_select"
       [materializeSelectOptions]="TruncatedSvdAlgorithemOptions"
-      formControlName="algorithem">
+      formControlName="algorithm">
         <option *ngFor="let options of TruncatedSvdAlgorithemOptions">{{options}}</option>
     </select>
   </label>
@@ -121,7 +121,7 @@ export class TruncatedSvdFormComponent extends AbstractScatterForm {
       dimension: [],
       algorithm: [],
       tol: [],
-      max_iter: []
+      n_iter: []
     });
 
     // Update When Form Changes

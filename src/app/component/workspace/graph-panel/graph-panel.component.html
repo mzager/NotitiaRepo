@@ -110,8 +110,8 @@
                 <app-isomap-form *ngIf="configA && configA.visualization === 134217728"
                     (configChange)="graphPanelSetConfig($event)"
                     [config]="configA"
-                    [molecularData]="molecularData"
-                    [clinicalFields]="clinicalFields"
+                    [tables]="tables"
+                    [fields]="fields"
                     ></app-isomap-form>
                 <app-locallinearembedding-form *ngIf="configA && configA.visualization === 268435456"
                     (configChange)="graphPanelSetConfig($event)"
@@ -230,8 +230,8 @@
             <app-isomap-form *ngIf="configB && configB.visualization === 134217728"
                 (configChange)="graphPanelSetConfig($event)"
                 [config]="configB"
-                [molecularData]="molecularData"
-                [clinicalFields]="clinicalFields"
+                [tables]="tables"
+                [fields]="fields"
                 ></app-isomap-form>
             <app-locallinearembedding-form *ngIf="configB && configB.visualization === 268435456"
                 (configChange)="graphPanelSetConfig($event)"
