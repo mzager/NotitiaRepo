@@ -110,6 +110,7 @@ export class LegendPanelComponent {
       .attr('class', 'legendLinear');
 
     let yOffset = 0;
+    const symbol = d3Shape.symbol().size(100);
 
     for (let i = 0, l = legendItems.length; i < l; i++) {
 
@@ -121,6 +122,7 @@ export class LegendPanelComponent {
           .attr('x', 0)
           .attr('y', yOffset + 15)
           .attr('stroke', '0x333333')
+          .style('font-size', '12px')
           .text(legend.name.toString());
         yOffset += 20;
 
@@ -136,32 +138,34 @@ export class LegendPanelComponent {
           .text(legend.labels[0])
           .attr('x', 0)
           .attr('y', yOffset + 15)
+          .attr('stroke', '0x333333')
           .style('font-size', '12px');
 
         group.append('text')
           .text(legend.labels[1])
           .attr('x', '180px')
           .attr('y', yOffset + 15)
+          .attr('stroke', '0x333333')
           .style('text-anchor', 'end')
           .style('font-size', '12px');
       }
       if (legend.display === 'DISCRETE') {
         switch (legend.type) {
           case 'COLOR':
-            const symbol = d3Shape.symbol().size(100);
 
             for (let si = 0, sl = legend.labels.length; si < sl; si++) {
 
               const label = legend.labels[si];
-              const color = legend.values[si];
+              let color = legend.values[si].toString(16);
+              if (color.length < 6) { color = '0' + color; }
 
-              group.append( 'path' )
-                .attr('d', symbol.type(d3Shape.symbolSquare) )
-                .style('fill', '#' + color )
+              group.append('path')
+                .attr('d', symbol.type(d3Shape.symbolSquare))
+                .style('fill', '#' + color)
                 .attr('transform', () => 'translate( 10, ' + (yOffset + 10) + ')');
 
-              group.append( 'text' )
-                .text( label )
+              group.append('text')
+                .text(label)
                 .attr('x', '25px')
                 .attr('y', yOffset + 15)
                 .attr('stroke', '0x333333')
@@ -171,8 +175,32 @@ export class LegendPanelComponent {
             }
             break;
           case 'SHAPE':
+            for (let si = 0, sl = legend.labels.length; si < sl; si++) {
+
+              const label = legend.labels[si];
+              let shape = legend.values[si];
+              shape = (shape === ShapeEnum.CIRCLE) ? d3.symbolCircle :
+                  (shape === ShapeEnum.SQUARE) ? d3.symbolSquare :
+                  (shape === ShapeEnum.TRIANGLE) ? d3.symbolTriangle :
+                  d3.symbolWye;
+
+              group.append('path')
+                .attr('d', symbol.type(shape))
+                .style('fill', '#333333')
+                .attr('transform', () => 'translate( 10, ' + (yOffset + 10) + ')');
+
+              group.append('text')
+                .text(label)
+                .attr('x', '25px')
+                .attr('y', yOffset + 15)
+                .attr('stroke', '0x333333')
+                .attr('font-size', '12px');
+              yOffset += 20;
+            }
+
             break;
           case 'SIZE':
+
             break;
         }
       }
