@@ -1,12 +1,12 @@
 import { VisualizationEnum, GraphEnum, EntityTypeEnum, DimensionEnum, ShapeEnum } from 'app/model/enum.model';
-import { GraphData } from 'app/model/graph-config.model';
+import { GraphData } from './../../../model/graph-data.model';
 import { Legend } from './../../../model/legend.model';
 import { DataFieldFactory } from './../../../model/data-field.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DataField } from 'app/model/data-field.model';
 
 export class MdsConfigModel extends GraphConfig {
-   
+
     components = 3;
     metric = true;
     nInit = 4;

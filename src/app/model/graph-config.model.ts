@@ -1,3 +1,4 @@
+import { GraphData } from './graph-data.model';
 import { DataField } from 'app/model/data-field.model';
 import { DataTable, DataFieldFactory } from './data-field.model';
 import { EntityTypeEnum } from './enum.model';
@@ -27,16 +28,4 @@ export class GraphConfig {
     pointColor: DataField = DataFieldFactory.getUndefined();
     pointShape: DataField = DataFieldFactory.getUndefined();
     pointSize: DataField = DataFieldFactory.getUndefined();
-}
-
-export interface GraphData {
-    legendItems: Array<Legend>;
-    result: any;
-    resultScaled: Array<Array<number>>;
-    pointColor: Array<number>;
-    pointSize: Array<number>;
-    pointShape: Array<ShapeEnum>;
-    sampleIds: Array<string>;
-    markerIds: Array<string>;
-    patientIds: Array<string>;
 }
