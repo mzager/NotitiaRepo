@@ -24,7 +24,7 @@ export const truncatedSvdCompute = (config: TruncatedSvdConfigModel, worker: Ded
                                 algorithm: config.algorithm,
                                 tol: config.tol,
                                 data: mtx.data,
-                                max_iter: config.max_iter
+                                n_iter: config.n_iter
                             })
                     ]).then(result => {
                         const psMap = result[0].reduce((p, c) => { p[c.s] = c.p; return p; }, {});
