@@ -68,8 +68,8 @@
                 <app-truncatedsvd-form *ngIf="configA && configA.visualization === 131072"
                     (configChange)="graphPanelSetConfig($event)"
                     [config]="configA"
-                    [molecularData]="molecularData"
-                    [clinicalFields]="clinicalFields"
+                    [tables]="tables"
+                    [fields]="fields"
                     ></app-truncatedsvd-form>
                 <app-lda-form *ngIf="configA && configA.visualization === 33554432"
                     (configChange)="graphPanelSetConfig($event)"
@@ -188,8 +188,8 @@
             <app-truncatedsvd-form *ngIf="configB && configB.visualization === 131072"
                 (configChange)="graphPanelSetConfig($event)"
                 [config]="configB"
-                [molecularData]="molecularData"
-                [clinicalFields]="clinicalFields"
+                [tables]="tables"
+                [fields]="fields"
                 ></app-truncatedsvd-form>
             <app-lda-form *ngIf="configB && configB.visualization === 33554432"
                 (configChange)="graphPanelSetConfig($event)"

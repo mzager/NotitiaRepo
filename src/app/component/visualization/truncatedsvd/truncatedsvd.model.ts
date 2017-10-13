@@ -11,23 +11,26 @@ export class TruncatedSvdAlgorithem {
 }
 
 export class TruncatedSvdConfigModel extends GraphConfig {
-  
-    components = 3;
+    constructor() {
+        super();
+        this.entity = EntityTypeEnum.SAMPLE;
+        this.visualization = VisualizationEnum.TRUNCATED_SVD;
+    }
     dimension = DimensionEnum.THREE_D;
     algorithm = TruncatedSvdAlgorithem.RANDOMIZED;
+    components = 3;
     tol = 0;
+    random_state = 0;
+    max_iter = 1000;
 }
 
 export interface TruncatedSvdDataModel extends GraphData {
-    result: Array<Array<number>>;
+    result: any;
     resultScaled: Array<Array<number>>;
     pointColor: Array<number>;
     pointSize: Array<number>;
     pointShape: Array<ShapeEnum>;
     sampleIds: Array<string>;
     markerIds: Array<string>;
-    components: any;
-    explainedVariance: any;
-    explainedVarianceRatio: any;
-    singularValues: any;
+    patientIds: Array<string>;
 }
