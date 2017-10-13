@@ -116,8 +116,8 @@
                 <app-locallinearembedding-form *ngIf="configA && configA.visualization === 268435456"
                     (configChange)="graphPanelSetConfig($event)"
                     [config]="configA"
-                    [molecularData]="molecularData"
-                    [clinicalFields]="clinicalFields"
+                    [tables]="tables"
+                    [fields]="fields"
                     ></app-locallinearembedding-form>
                 <app-spectralembedding-form *ngIf="configA && configA.visualization === 536870912"
                     (configChange)="graphPanelSetConfig($event)"
@@ -236,8 +236,8 @@
             <app-locallinearembedding-form *ngIf="configB && configB.visualization === 268435456"
                 (configChange)="graphPanelSetConfig($event)"
                 [config]="configB"
-                [molecularData]="molecularData"
-                [clinicalFields]="clinicalFields"
+                [tables]="tables"
+                [fields]="fields"
                 ></app-locallinearembedding-form>
             <app-spectralembedding-form *ngIf="configB && configB.visualization === 536870912"
                 (configChange)="graphPanelSetConfig($event)"
