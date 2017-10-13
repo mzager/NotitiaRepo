@@ -1,10 +1,11 @@
-import { IsoMapConfigModel } from './isomap.model';
-import { DimensionEnum, EntityTypeEnum } from './../../../model/enum.model';
+import { IsoMapConfigModel, IsoMapPathMethod, IsoMapEigenSolver, IsoMapNeighborsAlgorithm } from './isomap.model';
+import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
+import { DimensionEnum, EntityTypeEnum, CollectionTypeEnum } from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { DataTypeEnum } from 'app/model/enum.model';
-import { DataField, DataFieldFactory } from './../../../model/data-field.model';
+import { DataTypeEnum, DirtyEnum } from 'app/model/enum.model';
+import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import * as _ from 'lodash';
 
 @Component({
@@ -15,9 +16,9 @@ import * as _ from 'lodash';
   <div class="form-group">
     <label class="center-block">Data
       <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          formControlName="dataOption">
-          <option *ngFor="let option of dataOptions">{{option.label}}</option>
+        [compareWith]="byKey"
+        formControlName="table">
+        <option *ngFor="let option of dataOptions">{{option.label}}</option>
       </select>
     </label>
   </div>
@@ -70,25 +71,37 @@ import * as _ from 'lodash';
       </select>
     </label>
   </div>
+  <div class="form-group">
+    <label class="center-block"><span class="form-label">Dimension</span>
+    <select class="browser-default" materialize="material_select"
+      [materializeSelectOptions]="IsoMapEigenSolverOpitions"
+      formControlName="eigen_solver">
+        <option *ngFor="let options of IsoMapEigenSolverOpitions">{{options}}</option>
+    </select>
+  </label>
+</div>
+<div class="form-group">
+  <label class="center-block"><span class="form-label">Dimension</span>
+      <select class="browser-default" materialize="material_select"
+        [materializeSelectOptions]="IsoMapPathMethodOpitions"
+        formControlName="path_method">
+        <option *ngFor="let options of IsoMapPathMethodOpitions">{{options}}</option>
+      </select>
+    </label>
+  </div>
+<div class="form-group">
+  <label class="center-block"><span class="form-label">Dimension</span>
+      <select class="browser-default" materialize="material_select"
+        [materializeSelectOptions]="IsoMapNeighborsAlgorithmOpitions"
+        formControlName="neighbors_algorithm">
+          <option *ngFor="let options of IsoMapNeighborsAlgorithmOpitions">{{options}}</option>
+      </select>
+    </label>
+  </div>
 </form>
   `
 })
-export class IsoMapFormComponent {
-
-  @Input() set molecularData(tables: Array<string>) {
-    this.dataOptions = tables.map(v => {
-      const rv = { key: v, label: _.startCase(_.toLower(v)) };
-      return rv;
-    });
-  }
-
-  @Input() set clinicalFields(fields: Array<DataField>) {
-    if (fields.length === 0) { return; }
-    const defaultDataField: DataField = DataFieldFactory.getUndefined();
-    this.colorOptions = DataFieldFactory.getColorFields(fields);
-    this.shapeOptions = DataFieldFactory.getShapeFields(fields);
-    this.sizeOptions = DataFieldFactory.getSizeFields(fields);
-  }
+export class IsoMapFormComponent extends AbstractScatterForm {
 
   @Input() set config(v: IsoMapConfigModel) {
     if (v === null) { return; }
@@ -97,24 +110,31 @@ export class IsoMapFormComponent {
     }
   }
 
-  @Output() configChange = new EventEmitter<GraphConfig>();
+  IsoMapEigenSolverOpitions = [
+    IsoMapEigenSolver.AUTO,
+    IsoMapEigenSolver.DENSE,
+    IsoMapEigenSolver.ARPACK,
+  ];
 
-  form: FormGroup;
-  colorOptions: Array<DataField>;
-  shapeOptions: Array<DataField>;
-  sizeOptions: Array<DataField>;
-  displayOptions = [EntityTypeEnum.SAMPLE, EntityTypeEnum.GENE];
-  dataOptions: Array<{ key: string, label: string }>;
-  dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D, DimensionEnum.ONE_D];
+  IsoMapPathMethodOpitions = [
+    IsoMapPathMethod.AUTO,
+    IsoMapPathMethod.D,
+    IsoMapPathMethod.FW
+  ];
 
-  byKey(p1: DataField, p2: DataField) {
-    if (p2 === null) { return false; }
-    return p1.key === p2.key;
-  }
+  IsoMapNeighborsAlgorithmOpitions = [
+    IsoMapNeighborsAlgorithm.AUTO,
+    IsoMapNeighborsAlgorithm.BALL_TREE,
+    IsoMapNeighborsAlgorithm.KD_TREE,
+    IsoMapNeighborsAlgorithm.BRUTE
+  ];
 
   constructor(private fb: FormBuilder) {
 
+    super();
+
     this.form = this.fb.group({
+      dirtyFlag: [0],
       visualization: [],
       graph: [],
       entity: [],
@@ -122,13 +142,20 @@ export class IsoMapFormComponent {
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
-      dataKey: [],
-      dataOption: [],
+      table: [],
       pointColor: [],
       pointShape: [],
       pointSize: [],
+
       components: [],
-      dimension: []
+      dimension: [],
+      tol: [],
+      max_iter: [],
+      n_neighbors: [],
+      eigen_solver: [],
+      path_method: [],
+      neighbors_algorithm: []
+
     });
 
     // Update When Form Changes
@@ -136,6 +163,14 @@ export class IsoMapFormComponent {
       .debounceTime(200)
       .distinctUntilChanged()
       .subscribe(data => {
+        let dirty = 0;
+        const form = this.form;
+        if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
+        if (form.get('pointShape').dirty) { dirty |= DirtyEnum.SHAPE; }
+        if (form.get('pointSize').dirty) { dirty |= DirtyEnum.SIZE; }
+        if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
+        form.markAsPristine();
+        data.dirtyFlag = dirty;
         this.configChange.emit(data);
       });
   }

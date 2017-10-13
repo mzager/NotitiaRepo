@@ -21,7 +21,7 @@ export class TruncatedSvdConfigModel extends GraphConfig {
     components = 3;
     tol = 0;
     random_state = 0;
-    max_iter = 1000;
+    n_iter = 5;
 }
 
 export interface TruncatedSvdDataModel extends GraphData {
