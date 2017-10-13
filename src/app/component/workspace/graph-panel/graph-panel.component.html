@@ -50,8 +50,8 @@
                 <app-mds-form *ngIf="configA && configA.visualization === 8192"
                     (configChange)="graphPanelSetConfig($event)"
                     [config]="configA"
-                    [molecularData]="molecularData"
-                    [clinicalFields]="clinicalFields"
+                    [tables]="tables"
+                    [fields]="fields"
                     ></app-mds-form>
                 <app-fa-form *ngIf="configA && configA.visualization === 65536"
                     (configChange)="graphPanelSetConfig($event)"
@@ -170,8 +170,8 @@
             <app-mds-form *ngIf="configB && configB.visualization === 8192"
                 (configChange)="graphPanelSetConfig($event)"
                 [config]="configB"
-                [molecularData]="molecularData"
-                [clinicalFields]="clinicalFields"
+                [tables]="tables"
+                [fields]="fields"
                 ></app-mds-form>  
             <app-fa-form *ngIf="configB && configB.visualization === 65536"
                 (configChange)="graphPanelSetConfig($event)"
