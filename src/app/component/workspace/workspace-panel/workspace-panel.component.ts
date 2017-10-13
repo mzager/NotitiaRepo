@@ -6,7 +6,6 @@ import { DataField } from 'app/model/data-field.model';
 import { Component, Input, Output, ChangeDetectionStrategy,
   EventEmitter, AfterViewInit, OnInit, ViewChild, ElementRef } from '@angular/core';
 
-
 @Component({
   selector: 'app-workspace-workspace-panel',
   templateUrl: './workspace-panel.component.html',
@@ -42,9 +41,8 @@ export class WorkspacePanelComponent implements AfterViewInit  {
   form: FormGroup;
 
   ngAfterViewInit(): void {
-  }
 
- 
+  }
 
   constructor(private fb: FormBuilder) { }
 

@@ -123,15 +123,12 @@ export class WorkspaceComponent {
   queryPanelSetTab(value: enums.QueryPanelEnum) {
     this.store.dispatch(new layout.QueryPanelShowTabAction(value));
   }
-
   fileOpen(value: DataTransfer) {
     this.store.dispatch(new data.DataLoadFromFileAction(value));
   }
-
   loadTcga(value: string) {
       this.store.dispatch(new data.DataLoadFromTcga(value));
   }
-
   graphPanelToggle() {
     this.store.dispatch(new layout.GraphPanelToggleAction());
   }
