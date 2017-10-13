@@ -22,6 +22,13 @@ export class NmfBetaLoss {
 }
 
 export class NmfConfigModel extends GraphConfig {
+
+    constructor() {
+        super();
+        this.entity = EntityTypeEnum.SAMPLE;
+        this.visualization = VisualizationEnum.NMF;
+    }
+
     components = 3;
     dimension = DimensionEnum.THREE_D;
     init = NmfInit.RANDOM;
@@ -30,12 +37,14 @@ export class NmfConfigModel extends GraphConfig {
     tol = 1e-4;
 }
 
+
 export interface NmfDataModel extends GraphData {
-    result: Array<Array<number>>;
+    result: any;
     resultScaled: Array<Array<number>>;
     pointColor: Array<number>;
     pointSize: Array<number>;
     pointShape: Array<ShapeEnum>;
     sampleIds: Array<string>;
     markerIds: Array<string>;
+    patientIds: Array<string>;
 }
