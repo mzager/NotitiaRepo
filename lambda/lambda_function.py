@@ -280,8 +280,9 @@ def cluster_sk_truncated_svd(event, context):
     """ """
     _config = TruncatedSVD(
         n_components=event['body']['components'],
-        algorithm=event['body']['fun'],
-        tol=event['body']['tol']
+        algorithm=event['body']['algorithm'],
+        tol=event['body']['tol'],
+        max_iter=event['body']['max_iter']
         )
     _result = _config.fit_transform(event['body']['data'])
     return httpWrapper(json.dumps({
