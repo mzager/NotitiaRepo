@@ -1,6 +1,7 @@
+import { GraphData } from './../../model/graph-data.model';
 import { ChartFactory } from './../workspace/chart/chart.factory';
 import { DragSelectionControl } from './drag.selection.control';
-import { GraphData, GraphConfig } from 'app/model/graph-config.model';
+import { GraphConfig } from 'app/model/graph-config.model';
 import { AbstractVisualization } from './visualization.abstract.component';
 import { Subscription } from 'rxjs/Subscription';
 import { WorkspaceLayoutEnum, DimensionEnum, CollectionTypeEnum } from './../../model/enum.model';

@@ -150,7 +150,7 @@ export class ComputeWorkerUtil {
 
                                 // Build Legend
                                 const legend: Legend = new Legend();
-                                legend.name = 'Color : ' + field.label ;
+                                legend.name = field.label ;
                                 legend.type = 'COLOR';
                                 legend.display = 'CONTINUOUS';
                                 legend.labels = [minMax.min, minMax.max].map(val => val.toString());
@@ -179,7 +179,7 @@ export class ComputeWorkerUtil {
                             }, {});
 
                             const legend: Legend = new Legend();
-                            legend.name = 'Color : ' + field.label ;
+                            legend.name = field.label ;
                             legend.type = 'COLOR';
                             legend.display = 'DISCRETE';
                             legend.labels = Object.keys(cm);
@@ -202,7 +202,7 @@ export class ComputeWorkerUtil {
 
                              // Build Legend
                              const legend: Legend = new Legend();
-                             legend.name = 'Color : ' + field.label ;
+                             legend.name = field.label ;
                              legend.type = 'COLOR';
                              legend.display = 'CONTINUOUS';
                              legend.labels = [field.values.min, field.values.max].map(val => val.toString());
@@ -236,7 +236,7 @@ export class ComputeWorkerUtil {
                         }, {});
 
                         const legend: Legend = new Legend();
-                        legend.name = 'Size : ' + field.label ;
+                        legend.name = field.label ;
                         legend.type = 'SIZE';
                         legend.display = 'DISCRETE';
                         legend.labels = Object.keys(cm);
@@ -258,7 +258,7 @@ export class ComputeWorkerUtil {
 
                         // Build Legend
                         const legend: Legend = new Legend();
-                        legend.name = 'Size : ' + field.label ;
+                        legend.name = field.label ;
                         legend.type = 'SIZE';
                         legend.display = 'CONTINUOUS';
                         legend.labels = [field.values.min, field.values.max].map(val => val.toString());
@@ -287,7 +287,7 @@ export class ComputeWorkerUtil {
                         }, {});
 
                         const legend: Legend = new Legend();
-                        legend.name = 'Shape : ' + field.label ;
+                        legend.name = field.label ;
                         legend.type = 'SHAPE';
                         legend.display = 'DISCRETE';
                         legend.labels = Object.keys(cm);
