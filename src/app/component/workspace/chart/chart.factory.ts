@@ -19,7 +19,7 @@ export class ChartFactory {
         mesh.geometry = this.getShape(shape);
         mesh.scale.set(size, size, size);
         mesh.position.set(position.x, position.y, position.z);
-        mesh.material = this.getColorPhong( color );
+        mesh.material = this.getColorPhong(color);
         mesh.userData = data;
         return mesh;
     }
@@ -29,15 +29,23 @@ export class ChartFactory {
 
     // Line Pool
     public static lineRelease(line: THREE.Line): void {
-        
+
     }
-    public static lineAllocate(color: number, pt1: THREE.Vector3, pt2: THREE.Vector3): THREE.Line {
+    public static lineAllocate(color: number, pt1: THREE.Vector2, pt2: THREE.Vector2): THREE.Line {
+
+        const whi = (Math.random() > .5) ? true : false;//new THREE.Vector2(0, -200) : new THREE.Vector2(0, 200)
+        const curve = new THREE.SplineCurve([
+            pt1,
+            (whi) ? new THREE.Vector2(0, -200) : new THREE.Vector2(0, 200),
+            pt2
+        ]);
+        const path = new THREE.Path( curve.getPoints( 50 ) );
         const line = new THREE.Line();
-        const geometry = new THREE.Geometry();
-        geometry.vertices.push(pt1);
-        geometry.vertices.push(pt2);
-        line.geometry = geometry;
-        line.material = this.getLineColor(color);
+        // const geometry = new THREE.Geometry();
+        // geometry.vertices.push(pt1);
+        // geometry.vertices.push(pt2);
+        line.geometry = path.createPointsGeometry( 50 );
+        line.material = this.getLineColor(whi ? color : 0x673AB7);
         return line;
     }
     public static lineDrain(): void {
@@ -46,14 +54,16 @@ export class ChartFactory {
 
     @Memoize()
     public static getLineColor(color: number): THREE.LineBasicMaterial {
-        return new THREE.LineBasicMaterial({ color: color});
+        return new THREE.LineBasicMaterial({ color: color });
     }
 
     // @Memoize()
     public static getColorMetal(color: number): THREE.Material {
         return new THREE.MeshStandardMaterial(
-            {color: color, emissive: new THREE.Color(0x000000),
-             metalness: 0.2, roughness: .5, shading: THREE.SmoothShading});
+            {
+                color: color, emissive: new THREE.Color(0x000000),
+                metalness: 0.2, roughness: .5, shading: THREE.SmoothShading
+            });
         // return new THREE.MeshStandardMaterial(
         //     {color: color, emissive: new THREE.Color(0x000000),
         //     metalness: 0.5, roughness: .5, shading: THREE.SmoothShading});
@@ -61,8 +71,10 @@ export class ChartFactory {
 
     @Memoize()
     public static getColorPhong(color: number): THREE.Material {
-        const rv = new THREE.MeshPhongMaterial({ color: color,
-            specular: 0x000000, shininess: 1 });
+        const rv = new THREE.MeshPhongMaterial({
+            color: color,
+            specular: 0x000000, shininess: 1
+        });
         return rv;
     }
 

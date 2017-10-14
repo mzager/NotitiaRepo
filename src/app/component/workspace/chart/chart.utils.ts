@@ -7,7 +7,7 @@ export class ChartUtil {
 
     private static raycaster: THREE.Raycaster = new THREE.Raycaster();
 
-    public static objectToScreen(obj: THREE.Object3D, view: VisualizationView, layout: WorkspaceLayoutEnum): THREE.Vector3 {
+    public static objectToScreen(obj: THREE.Object3D, view: VisualizationView, layout: WorkspaceLayoutEnum): THREE.Vector2 {
 
         const vector = new THREE.Vector3();
         obj.updateMatrixWorld(true);
@@ -20,16 +20,14 @@ export class ChartUtil {
         const halfWidth = view.viewport.width * 0.5;
         const halfHeight = view.viewport.height * 0.5;
         if (layout === WorkspaceLayoutEnum.VERTICAL) {
-            return new THREE.Vector3(
+            return new THREE.Vector2(
                 ( vector.x * halfWidth ),
-                ( vector.y * halfHeight ) + ((view.viewport.y > 0) ? -halfHeight : halfHeight),
-                0
+                ( vector.y * halfHeight ) + ((view.viewport.y > 0) ? -halfHeight : halfHeight)
             );
         } else if (layout === WorkspaceLayoutEnum.HORIZONTAL) {
-            return new THREE.Vector3(
+            return new THREE.Vector2(
                 ( vector.x * halfWidth ) + (( view.viewport.x > 0) ? halfWidth : -halfWidth),
-                ( vector.y * halfHeight ),
-                0
+                ( vector.y * halfHeight )
             );
         }
     }

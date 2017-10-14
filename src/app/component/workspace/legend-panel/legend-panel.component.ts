@@ -42,48 +42,13 @@ export class LegendPanelComponent {
   @Input() legendPanelTab;
   @Output() tabChange = new EventEmitter();
 
-  // private static toIcon = (type: string, li: LegendItem): string => {
-  //   switch (type) {
-  //     case 'SHAPE':
-  //       switch (li.value) {
-  //         case ShapeEnum.CIRCLE:
-  //           return '<div class='legend-shape legend-shape-circle'></div>';
-  //         case ShapeEnum.CONE:
-  //           return '<div class='legend-shape legend-shape-cone'></div>';
-  //         case ShapeEnum.SQUARE:
-  //           return '<div class='legend-shape legend-shape-square'></div>';
-  //         case ShapeEnum.TRIANGLE:
-  //           return '<div class='legend-shape legend-shape-triange'></div>';
-  //       }
-  //       break;
-  //     case 'SIZE':
-  //       switch (li.value) {
-  //         case SizeEnum.S:
-  //           return '<i class='material-icons legend-size' style='font-size:4px;position:relative;left:0px;top:4px;'>lens</i>';
-  //         case SizeEnum.M:
-  //           return '<i class='material-icons legend-size' style='font-size:8px;position:relative;left:0px;top:4px;'>lens</i>';
-  //         case SizeEnum.L:
-  //           return '<i class='material-icons legend-size' style='font-size:12px;position:relative;left:0px;top:5px'>lens</i>';
-  //         case SizeEnum.XL:
-  //           return '<i class='material-icons legend-size' style='font-size:16px;position:relative;left:0px;top:4px'>lens</i>';
-  //       }
-  //       break;
-  //     case 'COLOR':
-  //       return `<div class='legend-shape legend-shape-square' style='background-color:${LegendPanelComponent.toHex(li.value)}'></div>`;
-  //   }
-  //   return '';
-  // }
-
-  // private static toHex = (dec) => {
-  //   let hex = dec.toString(16);
-  //   while (hex.length < 6) { hex = '0' + hex; }
-  //   return '#' + hex;
-  // }
-
   private render(container: ElementRef, legendItems: Array<Legend>) {
 
     const el = d3.select(container.nativeElement);
     el.selectAll('*').remove();
+    if (legendItems.length === 0) {
+      return;
+    }
 
     // Setup SVG With Linear Gradient
     const svg = el.append('svg')
@@ -112,57 +77,106 @@ export class LegendPanelComponent {
     let yOffset = 0;
     const symbol = d3Shape.symbol().size(100);
 
+    group.append('text')
+      .attr('x', 0)
+      .attr('y', yOffset + 15)
+      .attr('stroke', '0x039BE5')
+      .style('font-size', '12px')
+      .text((container === this.elLegendA) ? 'GRAPH A' : 'GRAPH B');
+    yOffset += 30;
+
     for (let i = 0, l = legendItems.length; i < l; i++) {
 
       const legend: Legend = legendItems[i];
 
       if (legend.display === 'CONTINUOUS') {
+        switch (legend.type) {
+          case 'COLOR':
+            group.append('text')
+              .attr('x', 0)
+              .attr('y', yOffset + 15)
+              .attr('stroke', '0x333333')
+              .style('font-size', '12px')
+              .text(legend.name.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()));
+            yOffset += 20;
 
-        group.append('text')
-          .attr('x', 0)
-          .attr('y', yOffset + 15)
-          .attr('stroke', '0x333333')
-          .style('font-size', '12px')
-          .text(legend.name.toString());
-        yOffset += 20;
+            group.append('rect')
+              .attr('x', 0)
+              .attr('y', yOffset)
+              .attr('width', '180px')
+              .attr('height', '20px')
+              .style('fill', 'url(#linear-gradient)');
+            yOffset += 20;
 
-        group.append('rect')
-          .attr('x', 0)
-          .attr('y', yOffset)
-          .attr('width', '180px')
-          .attr('height', '20px')
-          .style('fill', 'url(#linear-gradient)');
-        yOffset += 20;
+            group.append('text')
+              .text(legend.labels[0])
+              .attr('x', 0)
+              .attr('y', yOffset + 15)
+              .attr('stroke', '0x333333')
+              .style('font-size', '12px');
 
-        group.append('text')
-          .text(legend.labels[0])
-          .attr('x', 0)
-          .attr('y', yOffset + 15)
-          .attr('stroke', '0x333333')
-          .style('font-size', '12px');
+            group.append('text')
+              .text(legend.labels[1])
+              .attr('x', '180px')
+              .attr('y', yOffset + 15)
+              .attr('stroke', '0x333333')
+              .style('text-anchor', 'end')
+              .style('font-size', '12px');
 
-        group.append('text')
-          .text(legend.labels[1])
-          .attr('x', '180px')
-          .attr('y', yOffset + 15)
-          .attr('stroke', '0x333333')
-          .style('text-anchor', 'end')
-          .style('font-size', '12px');
+            yOffset += 20;
+            break;
+          case 'SIZE':
+            group.append('text')
+              .attr('x', 0)
+              .attr('y', yOffset + 15)
+              .attr('stroke', '0x333333')
+              .style('font-size', '12px')
+              .text(legend.name.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()));
+            yOffset += 20;
+
+            group.append('polyline')
+              .attr('points', '0 ' + yOffset + ', 0 ' + (yOffset + 20) + ', 180 ' + (yOffset + 20) + ', 0 ' + yOffset)
+              .style('fill', '#039BE5');
+            yOffset += 20;
+
+            group.append('text')
+              .text(legend.labels[0])
+              .attr('x', 0)
+              .attr('y', yOffset + 15)
+              .attr('stroke', '0x333333')
+              .style('font-size', '12px');
+
+            group.append('text')
+              .text(legend.labels[1])
+              .attr('x', '180px')
+              .attr('y', yOffset + 15)
+              .attr('stroke', '0x333333')
+              .style('text-anchor', 'end')
+              .style('font-size', '12px');
+            yOffset += 20;
+            break;
+        }
       }
       if (legend.display === 'DISCRETE') {
         switch (legend.type) {
           case 'COLOR':
-
+            group.append('text')
+              .text('Color')
+              .attr('x', '0px')
+              .attr('y', yOffset + 15)
+              .attr('stroke', '0x333333')
+              .attr('font-size', '12px');
+            yOffset += 20;
             for (let si = 0, sl = legend.labels.length; si < sl; si++) {
 
-              const label = legend.labels[si];
+              const label = legend.labels[si].replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
               let color = legend.values[si].toString(16);
               if (color.length < 6) { color = '0' + color; }
 
               group.append('path')
                 .attr('d', symbol.type(d3Shape.symbolSquare))
                 .style('fill', '#' + color)
-                .attr('transform', () => 'translate( 10, ' + (yOffset + 10) + ')');
+                .attr('transform', () => 'translate( 6, ' + (yOffset + 10) + ')');
 
               group.append('text')
                 .text(label)
@@ -175,19 +189,26 @@ export class LegendPanelComponent {
             }
             break;
           case 'SHAPE':
+            group.append('text')
+              .text('Shape')
+              .attr('x', '0px')
+              .attr('y', yOffset + 15)
+              .attr('stroke', '0x333333')
+              .attr('font-size', '12px');
+            yOffset += 20;
             for (let si = 0, sl = legend.labels.length; si < sl; si++) {
 
-              const label = legend.labels[si];
+              const label = legend.labels[si].replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
               let shape = legend.values[si];
               shape = (shape === ShapeEnum.CIRCLE) ? d3.symbolCircle :
-                  (shape === ShapeEnum.SQUARE) ? d3.symbolSquare :
+                (shape === ShapeEnum.SQUARE) ? d3.symbolSquare :
                   (shape === ShapeEnum.TRIANGLE) ? d3.symbolTriangle :
-                  d3.symbolWye;
+                    d3.symbolWye;
 
               group.append('path')
                 .attr('d', symbol.type(shape))
-                .style('fill', '#333333')
-                .attr('transform', () => 'translate( 10, ' + (yOffset + 10) + ')');
+                .style('fill', '#039BE5')
+                .attr('transform', () => 'translate( 6, ' + (yOffset + 10) + ')');
 
               group.append('text')
                 .text(label)
@@ -200,11 +221,41 @@ export class LegendPanelComponent {
 
             break;
           case 'SIZE':
+            group.append('text')
+              .text('Size')
+              .attr('x', '0px')
+              .attr('y', yOffset + 15)
+              .attr('stroke', '0x333333')
+              .attr('font-size', '12px');
+            yOffset += 20;
+            for (let si = 0, sl = legend.labels.length; si < sl; si++) {
 
+              const label = legend.labels[si].replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+              let size = legend.values[si];
+              size = (size === SizeEnum.XL) ? 1 :
+                (size === SizeEnum.L) ? 0.8 :
+                  (size === SizeEnum.M) ? 0.6 :
+                    0.4;
+
+              group.append('path')
+                .attr('d', symbol.type(d3.symbolCircle))
+                .style('fill', '#039BE5')
+                .attr('transform', () => 'translate( 6, ' + (yOffset + 10) + ') scale(' + size + ')');
+
+              group.append('text')
+                .text(label)
+                .attr('x', '25px')
+                .attr('y', yOffset + 15)
+                .attr('stroke', '0x333333')
+                .attr('font-size', '12px');
+              yOffset += 20;
+            }
             break;
         }
       }
+      yOffset += 5;
     }
+    svg.attr('height', yOffset);
   }
 
   constructor() { }
