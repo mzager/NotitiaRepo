@@ -1,7 +1,8 @@
 import { DataField } from 'app/model/data-field.model';
 import { DataFieldFactory } from './../../../model/data-field.model';
 import { DimensionEnum } from './../../../model/enum.model';
-import { GraphConfig, GraphData } from './../../../model/graph-config.model';
+import { GraphConfig } from './../../../model/graph-config.model';
+import { GraphData } from './../../../model/graph-data.model';
 import { GraphEnum, VisualizationEnum, EntityTypeEnum } from 'app/model/enum.model';
 import { Legend } from './../../../model/legend.model';
 
