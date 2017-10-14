@@ -122,8 +122,8 @@
                 <app-spectralembedding-form *ngIf="configA && configA.visualization === 536870912"
                     (configChange)="graphPanelSetConfig($event)"
                     [config]="configA"
-                    [molecularData]="molecularData"
-                    [clinicalFields]="clinicalFields"
+                    [tables]="tables"
+                    [fields]="fields"
                     ></app-spectralembedding-form>
         </div>
         <div id="graph-panel-b" *ngIf="configB">
@@ -242,8 +242,8 @@
             <app-spectralembedding-form *ngIf="configB && configB.visualization === 536870912"
                 (configChange)="graphPanelSetConfig($event)"
                 [config]="configB"
-                [molecularData]="molecularData"
-                [clinicalFields]="clinicalFields"
+                [tables]="tables"
+                [fields]="fields"
                 ></app-spectralembedding-form>
         </div>
     </div>
