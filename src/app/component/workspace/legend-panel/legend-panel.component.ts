@@ -1,11 +1,13 @@
+import { GraphData } from './../../../model/graph-data.model';
 import { scaleSequential } from 'd3-scale';
 import { interpolateSpectral } from 'd3-scale-chromatic';
-import { GraphData } from 'app/model/graph-config.model';
+
 import { Component, Input, Output, ChangeDetectionStrategy, EventEmitter, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { LegendPanelEnum, ShapeEnum, SizeEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import * as d3Interpolate from 'd3-interpolate';
 import * as d3Color from 'd3-color';
+import * as d3Shape from 'd3-shape';
 import * as d3 from 'd3';
 declare var $: any;
 
@@ -77,24 +79,11 @@ export class LegendPanelComponent {
   //   while (hex.length < 6) { hex = '0' + hex; }
   //   return '#' + hex;
   // }
-  private legendToHtml(legend: Legend): string {
-    let html = '';
-    if (legend.display === 'CONTINUOUS') {
-      html += 'Continuous: ' + legend.values.join('-');
-    } else if (legend.display === 'DISCRETE') {
-      debugger;
-      html += '<ul>';
-      html += legend.labels.reduce((p, c) => {
-        p += '<li>' + c + '</li>';
-        return p;
-      }, '');
-      html += '</ul>';
-    }
-    return html;
-  }
+
   private render(container: ElementRef, legendItems: Array<Legend>) {
 
     const el = d3.select(container.nativeElement);
+    el.selectAll('*').remove();
 
     // Setup SVG With Linear Gradient
     const svg = el.append('svg')
@@ -113,22 +102,29 @@ export class LegendPanelComponent {
     for (let i = 0; i < noOfSamples; i++) {
       legendGradient.append('stop')
         .attr('offset', (i / (noOfSamples - 1)))
-        .attr('stop-color', colors(colors.domain()[0] + (i * stepSize)) as string );
+        .attr('stop-color', colors(colors.domain()[0] + (i * stepSize)) as string);
     }
 
     // Container
     const group = svg.append('g')
       .attr('class', 'legendLinear');
 
-    const yOffset = 0;
+    let yOffset = 0;
+    const symbol = d3Shape.symbol().size(100);
 
-    legendItems.forEach( legend => {
+    for (let i = 0, l = legendItems.length; i < l; i++) {
+
+      const legend: Legend = legendItems[i];
+
       if (legend.display === 'CONTINUOUS') {
 
         group.append('text')
           .attr('x', 0)
-          .attr('y', yOffset)
-          .text( legend.name.toString() );
+          .attr('y', yOffset + 15)
+          .attr('stroke', '0x333333')
+          .style('font-size', '12px')
+          .text(legend.name.toString());
+        yOffset += 20;
 
         group.append('rect')
           .attr('x', 0)
@@ -136,87 +132,80 @@ export class LegendPanelComponent {
           .attr('width', '180px')
           .attr('height', '20px')
           .style('fill', 'url(#linear-gradient)');
+        yOffset += 20;
+
+        group.append('text')
+          .text(legend.labels[0])
+          .attr('x', 0)
+          .attr('y', yOffset + 15)
+          .attr('stroke', '0x333333')
+          .style('font-size', '12px');
+
+        group.append('text')
+          .text(legend.labels[1])
+          .attr('x', '180px')
+          .attr('y', yOffset + 15)
+          .attr('stroke', '0x333333')
+          .style('text-anchor', 'end')
+          .style('font-size', '12px');
       }
-    });
+      if (legend.display === 'DISCRETE') {
+        switch (legend.type) {
+          case 'COLOR':
 
-    // const legends = group.data(legendItems);
+            for (let si = 0, sl = legend.labels.length; si < sl; si++) {
 
-    // legends.exit().remove();
+              const label = legend.labels[si];
+              let color = legend.values[si].toString(16);
+              if (color.length < 6) { color = '0' + color; }
 
-    // legends.enter()
-    //   .append('text')
-    //   .text( v => v.name.toString() );
+              group.append('path')
+                .attr('d', symbol.type(d3Shape.symbolSquare))
+                .style('fill', '#' + color)
+                .attr('transform', () => 'translate( 10, ' + (yOffset + 10) + ')');
 
+              group.append('text')
+                .text(label)
+                .attr('x', '25px')
+                .attr('y', yOffset + 15)
+                .attr('stroke', '0x333333')
+                .attr('font-size', '12px');
+              yOffset += 20;
 
+            }
+            break;
+          case 'SHAPE':
+            for (let si = 0, sl = legend.labels.length; si < sl; si++) {
 
+              const label = legend.labels[si];
+              let shape = legend.values[si];
+              shape = (shape === ShapeEnum.CIRCLE) ? d3.symbolCircle :
+                  (shape === ShapeEnum.SQUARE) ? d3.symbolSquare :
+                  (shape === ShapeEnum.TRIANGLE) ? d3.symbolTriangle :
+                  d3.symbolWye;
 
-   
+              group.append('path')
+                .attr('d', symbol.type(shape))
+                .style('fill', '#333333')
+                .attr('transform', () => 'translate( 10, ' + (yOffset + 10) + ')');
 
-    // legendG.append('text')
-    //     .text('200')
-    //     .attr('x', 0)
-    //     .attr('y', 35)
-    //     .style('font-size', '12px');
+              group.append('text')
+                .text(label)
+                .attr('x', '25px')
+                .attr('y', yOffset + 15)
+                .attr('stroke', '0x333333')
+                .attr('font-size', '12px');
+              yOffset += 20;
+            }
 
-    // legendG.append('text')
-    //     .text('300')
-    //     .attr('x', '180px')
-    //     .attr('y', 35)
-    //     .style('text-anchor', 'end')
-    //     .style('font-size', '12px');
-    // const elLegendItems = el.selectAll('.legendItem')
-    //   .data( legendItems );
-    
-    // elLegendItems.exit().remove();
+            break;
+          case 'SIZE':
 
-    // elLegendItems.enter()
-    //     .append('svg')
-    //     .attr('class', 'legendItem')
-    //   .merge(elLegendItems)
-    //     .append('rect')
-    //     .attr('width', '180')
-    //     .attr('height', '20')
-    //        .attr('fill', 'url(assets/legend-spectral.png)');
-    // .append('svg')
-    // .html( d => this.legendToHtml( d ) );
-
+            break;
+        }
+      }
+    }
   }
-
-  // private static updateLegend(container: ElementRef, data: Array<any>): void {
-  //   if (data === undefined) { return; }
-  //   const el = d3.select(container.nativeElement);
-
-  //   // Append Type To All Legend Items
-  //   data = data.map(datum => Object.assign({}, datum, {
-  //     legendItems: datum.legendItems.map(li => Object.assign({}, li, { type: datum.type }))
-  //   }));
-
-  //   let sections = el.selectAll('.legend-section') // Update
-  //     .data(data.filter(v => v.legendItems.length > 1));
-
-  //   sections.exit().remove(); // Exit
-
-  //   sections = sections.enter()  // Enter
-  //       .append('div')
-  //       .attr('class', 'legend-section')
-  //     .merge(sections) // Update + Enter
-  //       .text(d => d.type + ' // ' + d.name );
-
-  //   const items = sections.selectAll('.legend-item')
-  //     .data(d => d.legendItems as Array<LegendItem> );
-
-  //     items.enter()
-  //       .append('div')
-  //       .attr('class', d => 'legend-item')
-  //       .html(d => LegendPanelComponent.toIcon(d.type, d) + `<span class='legend-text'>${d.name}</span>` );
-
-  //     items.exit().remove();
-
-  //     items
-  //       .attr('class', d => 'legend-item')
-  //       .html(d => LegendPanelComponent.toIcon(d.type, d) + '<span class='legend-text'>' + d.name + '</span>' );
-
-  // }
 
   constructor() { }
 }

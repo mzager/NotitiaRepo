@@ -1,7 +1,9 @@
+import { GraphData } from './../model/graph-data.model';
 import { Legend } from './../model/legend.model';
 import { UnsafeAction } from './../action/unsafe.action';
 import { toPayload } from '@ngrx/effects';
-import { GraphConfig, GraphData } from './../model/graph-config.model';
+import { GraphConfig } from './../model/graph-config.model';
+
 import { DATA_LOADED } from './../action/data.action';
 import * as data from 'app/action/data.action';
 import * as e from 'app/model/enum.model';

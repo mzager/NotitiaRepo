@@ -26,7 +26,7 @@ export class DatasetService {
         if (exists) {
           DatasetService.db = new Dexie('notitia-dataset');
           DatasetService.db.open().then(v => {
-            DatasetService.db.table('dataset').where({ name: dataset }).first().then(v => {
+            DatasetService.db.table('dataset').where({ name: dataset }).first().then( v => {
               resolve(v);
             });
           });
