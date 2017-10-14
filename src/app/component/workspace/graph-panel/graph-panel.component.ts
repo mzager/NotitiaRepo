@@ -1,3 +1,4 @@
+import { PlsAction } from './../../../action/compute.action';
 import { DataTable } from './../../../model/data-field.model';
 import { PcaSparseConfigModel } from './../../visualization/pcasparse/pcasparse.model';
 import { PcaKernalConfigModel } from './../../visualization/pcakernal/pcakernal.model';
@@ -229,10 +230,10 @@ export class GraphPanelComponent implements AfterViewInit  {
 
   constructor() {
     this.visualizationOptions = [
-      //{ value: VisualizationEnum.CHROMOSOME, label: 'Chromosome ' },
-      //{ value: VisualizationEnum.HEATMAP, label: 'Heatmap'},
+      { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome ' },
+      { value: VisualizationEnum.HEATMAP, label: 'Heatmap'},
 
-// Decomposition
+      // Decomposition
       { value: VisualizationEnum.DICTIONARY_LEARNING, label: 'Dictionary Learning'},
       { value: VisualizationEnum.FA, label: 'Factor Analysis'},
       { value: VisualizationEnum.FAST_ICA, label: 'Fast ICA'},
@@ -245,15 +246,14 @@ export class GraphPanelComponent implements AfterViewInit  {
       { value: VisualizationEnum.SPARSE_PCA, label: 'PCA - Sparse'},
       { value: VisualizationEnum.TRUNCATED_SVD, label: 'Truncated SVD'},
 
-// Manifold learning
+      // Manifold learning
       { value: VisualizationEnum.ISOMAP, label: 'Isomap '},
       { value: VisualizationEnum.LOCALLY_LINEAR_EMBEDDING, label: 'Locally Linear Embedding '},
       { value: VisualizationEnum.MDS, label: 'Multi-Dimensional Scaling'},
       { value: VisualizationEnum.SPECTRAL_EMBEDDING, label: 'Spectral Embedding '},
       { value: VisualizationEnum.TSNE, label: 'T-SNE '},
 
-
-
+      
 // Discriminant Analysis
   // Linear Discriminat Analysis
   // Quadratic Discriminant Analysis
