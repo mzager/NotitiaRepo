@@ -26,7 +26,7 @@ export class ComputeWorkerUtil {
         this.db = new Dexie('notitia-dataset');
     }
 
-    processShapeColorSize(config: GraphConfig, worker: DedicatedWorkerGlobalScope) {
+    processShapeColorSizeIntersect(config: GraphConfig, worker: DedicatedWorkerGlobalScope) {
 
         if ((config.dirtyFlag & DirtyEnum.COLOR) > 0) {
             worker.util.getColorMap([], [], config.pointColor).then(
@@ -69,6 +69,20 @@ export class ComputeWorkerUtil {
                         }
                     });
                     worker.postMessage('TERMINATE');
+                }
+            );
+        }
+
+        if ((config.dirtyFlag & DirtyEnum.INTERSECT) > 0) {
+            worker.util.getIntersectMap([], [], config.pointIntersect).then(
+                result => {
+                    worker.postMessage({
+                        config: config,
+                        data: {
+                            legendIntersect: result.legend,
+                            pointIntersect: result.map
+                        }
+                    });
                 }
             );
         }
@@ -266,6 +280,34 @@ export class ComputeWorkerUtil {
 
                         resolve({map: sizeMap, legend: legend});
                     });
+                }
+            });
+        });
+    }
+
+    getIntersectMap(markers: Array<string>, samples: Array<string>, field: DataField): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.openDatabase().then(v => {
+                const fieldKey = field.key;
+                if (field.type === 'STRING') {
+
+                    this.db.table(field.tbl).toArray().then(row => {
+
+                        const intersectMap = row.reduce( (p, c) => { p[c.p] = c[fieldKey]; return p; }, {});
+
+                        const legend: Legend = new Legend();
+                        legend.name = field.label ;
+                        legend.type = 'INTERSECT';
+                        legend.display = 'DISCRETE';
+                        legend.labels = legend.values = Object
+                            .keys(Object.keys(intersectMap)
+                            .reduce( (p, c) => {
+                                p[ intersectMap[ c ] ] = 1; return p;
+                            }, {}));
+
+                        resolve({map: intersectMap, legend: legend});
+                    }
+                    );
                 }
             });
         });

@@ -7,7 +7,7 @@ declare var ML: any;
 
 export const isoMapCompute = (config: IsoMapConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
-    worker.util.processShapeColorSize(config, worker);
+    worker.util.processShapeColorSizeIntersect(config, worker);
         if (config.dirtyFlag & DirtyEnum.LAYOUT) {
             worker.util
                 .getMatrix([], [], config.table.map, config.table.tbl, config.entity)

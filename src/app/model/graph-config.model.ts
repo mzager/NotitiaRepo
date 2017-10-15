@@ -28,4 +28,5 @@ export class GraphConfig {
     pointColor: DataField = DataFieldFactory.getUndefined();
     pointShape: DataField = DataFieldFactory.getUndefined();
     pointSize: DataField = DataFieldFactory.getUndefined();
+    pointIntersect: DataField = DataFieldFactory.getUndefined();
 }
