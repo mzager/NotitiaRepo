@@ -52,14 +52,7 @@ export class ComputeEffect {
     .ofType(compute.COMPUTE_EDGES)
     .map(toPayload)
     .switchMap( (payload: any) => {
-
       const config: EdgeConfigModel = payload.config;
-
-      // No data is nessisary if entity A + B are the same
-      if (config.entityA === config.entityB) {
-        return Observable.of( new EdgesCompleteAction( {config: config, data: new EdgeDataModel() } ) );
-      }
-
       return this.computeService.edges(payload.config)
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :

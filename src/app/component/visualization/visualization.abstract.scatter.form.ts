@@ -18,7 +18,6 @@ export class AbstractScatterForm {
         this.sizeOptions = DataFieldFactory.getSizeFields(fields);
     }
 
-
     @Output() configChange = new EventEmitter<GraphConfig>();
 
     protected form: FormGroup;

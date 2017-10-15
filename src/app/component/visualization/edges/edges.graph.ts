@@ -5,7 +5,7 @@ import { VisualizationView } from './../../../model/chart-view.model';
 import { ChartEvents } from './../../workspace/chart/chart.events';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
-import { GraphEnum } from 'app/model/enum.model';
+import { GraphEnum, DirtyEnum } from 'app/model/enum.model';
 import { EventEmitter, Output, Injectable, ReflectiveInjector } from '@angular/core';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
@@ -34,6 +34,7 @@ export class EdgesGraph implements ChartObjectInterface {
     private commonKeys: any;
     private v1Map: Object;
     private v2Map: Object;
+    private patientSampleMap: {s: string, p: string};
 
 
     enable(truthy: Boolean) {
@@ -42,10 +43,20 @@ export class EdgesGraph implements ChartObjectInterface {
 
 
     update(config: GraphConfig, data: any) {
-        console.log("UPDATE EDGES");
         this.config = config as EdgeConfigModel;
+        if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {
+            this.patientSampleMap = data.result.reduce( (p, c) => { p[c.s] = c.p; return p; }, {} );
+        }
+        if (this.config.dirtyFlag & DirtyEnum.COLOR) {
+            this.data.pointColor = data.pointColor;
+        }
+        if (this.config.dirtyFlag & DirtyEnum.SHAPE) {
+            this.data.pointShape = data.pointShape;
+        }
+        if (this.config.dirtyFlag & DirtyEnum.INTERSECT) {
+            this.data.pointIntersect = data.pointIntersect;
+        }
         if (this.config.isVisible) {
-            this.data = data;
             this.updateEdges = true;
         } else {
             this.view.scene.children = this.view.scene.children.splice(0, 2);
@@ -67,15 +78,52 @@ export class EdgesGraph implements ChartObjectInterface {
 
         this.view.scene.children = this.view.scene.children.splice(0, 2);
         this.edges = [];
-        // let i = 0;
+        const hasColor = this.data.hasOwnProperty('pointColor');
+        const hasIntersect = this.data.hasOwnProperty('pointIntersect');
+        let intersects = [];
+        if (hasIntersect) {
+            const size = (layout === WorkspaceLayoutEnum.HORIZONTAL) ?
+                views[2].viewport.height : views[2].viewport.width;
+            const pxDelta = size / (this.config.pointIntersect.values.length + 1);
+
+            intersects = this.config.pointIntersect.values.map( (v, i) => {
+                return {
+                    label: v,
+                    point: (layout === WorkspaceLayoutEnum.HORIZONTAL) ?
+                        new THREE.Vector2( 0, (pxDelta * i) - (pxDelta * 0.5)) :
+                        new THREE.Vector2( (pxDelta * i) - (pxDelta * 0.5), 0)
+                };
+            });
+            intersects = intersects.reduce( (p, c) => {
+                p[c.label] = c.point;
+                return p;
+            }, {});
+        }
+
         this.commonKeys.forEach((v) => {
             const pt1 = ChartUtil.objectToScreen(this.v1Map[v], views[0], layout);
             if (pt1 === null) { return; }
             const pt2 = ChartUtil.objectToScreen(this.v2Map[v], views[1], layout);
             if (pt2 === null) { return; }
-            const line: THREE.Line = ChartFactory.lineAllocate(0x039BE5, pt1, pt2);
+            let color = (hasColor) ? this.data.pointColor[this.patientSampleMap[v]] : 0x039BE5;
+            if (color === undefined) { color = 0xDDDDDD; }
+            let centerPoint = new THREE.Vector2(0, 0);
+            // Is Enum Not Number
+            try {
+                if (hasIntersect) {
+                    const pi = this.data.pointIntersect[this.patientSampleMap[v]];
+                    centerPoint = intersects[ pi ];
+                    console.log(centerPoint);
+                }
+            }catch( e ) {
+                console.log(e);
+            }
+
+            if (centerPoint === undefined) {
+                centerPoint = new THREE.Vector2(0, 0);
+            }
+            const line: THREE.Line = ChartFactory.lineAllocate(color, pt1, pt2, centerPoint);
             this.view.scene.add(line);
-            // i += 1;
         });
         renderer.clear();
         views.forEach((view) => {
@@ -102,6 +150,7 @@ export class EdgesGraph implements ChartObjectInterface {
     }
 
     constructor() {
+        this.data = new EdgeDataModel();
     }
 
 }

@@ -7,9 +7,6 @@ import { DataTypeEnum } from 'app/model/enum.model';
 */
 export class DataFieldFactory {
 
-
-
-
   public static defaultDataField: DataField = DataFieldFactory.getUndefined();
   public static getColorFields(clinicalFields: Array<DataField>): Array<DataField> {
     return [DataFieldFactory.defaultDataField, ...clinicalFields.filter(v => {
@@ -42,6 +39,10 @@ export class DataFieldFactory {
           return false;
       }
     })];
+  }
+
+  public static getIntersectFields(clinicalFields: Array<DataField>): Array<DataField> {
+    return DataFieldFactory.getShapeFields(clinicalFields);
   }
 
 
