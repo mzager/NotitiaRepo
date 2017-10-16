@@ -1,3 +1,4 @@
+import { DirtyEnum } from 'app/model/enum.model';
 import { ChartUtil } from './../../workspace/chart/chart.utils';
 import { scaleSequential, interpolateRdBu, interpolateSpectral } from 'd3-scale-chromatic';
 import { scaleLinear } from 'd3-scale';
@@ -10,6 +11,22 @@ import * as _ from 'lodash';
 
 
 export const edgesCompute = (config: EdgeConfigModel, worker: DedicatedWorkerGlobalScope): void => {
+
+    worker.util.processShapeColorSizeIntersect(config, worker);
+
+    if (config.dirtyFlag & DirtyEnum.LAYOUT) {
+        worker.util.getSamplePatientMap()
+        .then( result => {
+            // const psMap = result[0].reduce((p, c) => { p[c.s] = c.p; return p; }, {});
+            worker.postMessage({
+                config: config,
+                data: {
+                    result: result
+                }
+            });
+            worker.postMessage('TERMINATE');
+        });
+    }
 
     // worker.util.loadData(config.dataKey).then((data) => {
 

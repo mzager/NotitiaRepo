@@ -1,3 +1,5 @@
+import { DataTable } from './../../../model/data-field.model';
+import { DataField } from 'app/model/data-field.model';
 import { INSERT_ANNOTATION } from './../../../action/graph.action';
 import { StatsInterface } from './../../../model/stats.interface';
 import { FormBuilder } from '@angular/forms';
@@ -22,6 +24,8 @@ export class EdgePanelComponent implements AfterViewInit {
   @ViewChild('chartContainer', { read: ViewContainerRef }) chartContainer: ViewContainerRef;
   @ViewChild('tabs') private tabs: ElementRef;
 
+  @Input() tables: Array<DataTable>;
+  @Input() fields: Array<DataField>;
   @Input() graphAConfig: GraphConfig;
   @Input() graphBConfig: GraphConfig;
   @Input() config: GraphConfig;

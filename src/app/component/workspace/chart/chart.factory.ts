@@ -31,12 +31,12 @@ export class ChartFactory {
     public static lineRelease(line: THREE.Line): void {
 
     }
-    public static lineAllocate(color: number, pt1: THREE.Vector2, pt2: THREE.Vector2): THREE.Line {
+    public static lineAllocate(color: number, pt1: THREE.Vector2, pt2: THREE.Vector2, pt3: THREE.Vector2): THREE.Line {
 
-        const whi = (Math.random() > .5) ? true : false;//new THREE.Vector2(0, -200) : new THREE.Vector2(0, 200)
+        // const whi = (Math.random() > .5) ? true : false;//new THREE.Vector2(0, -200) : new THREE.Vector2(0, 200)
         const curve = new THREE.SplineCurve([
             pt1,
-            (whi) ? new THREE.Vector2(0, -200) : new THREE.Vector2(0, 200),
+            pt3,
             pt2
         ]);
         const path = new THREE.Path( curve.getPoints( 50 ) );
@@ -45,7 +45,7 @@ export class ChartFactory {
         // geometry.vertices.push(pt1);
         // geometry.vertices.push(pt2);
         line.geometry = path.createPointsGeometry( 50 );
-        line.material = this.getLineColor(whi ? color : 0x673AB7);
+        line.material = this.getLineColor(color);
         return line;
     }
     public static lineDrain(): void {

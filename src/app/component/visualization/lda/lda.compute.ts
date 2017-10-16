@@ -7,7 +7,7 @@ declare var ML: any;
 
 export const ldaCompute = (config: LdaConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
-    worker.util.processShapeColorSize(config, worker);
+    worker.util.processShapeColorSizeIntersect(config, worker);
 
     if (config.dirtyFlag & DirtyEnum.LAYOUT) {
         worker.util

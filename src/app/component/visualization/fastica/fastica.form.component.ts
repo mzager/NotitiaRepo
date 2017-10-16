@@ -135,7 +135,6 @@ export class FastIcaFormComponent extends AbstractScatterForm {
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
-      dataKey: [],
       dataOption: [],
       pointColor: [],
       pointShape: [],

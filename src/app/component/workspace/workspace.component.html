@@ -7,6 +7,9 @@
 
     <app-workspace-edge-panel
         *ngIf="edgePanelTab | async"
+        [tables]="tables | async"
+        [fields]="fields | async"
+        [config]="edgeConfig | async"
         [graphAConfig]="graphAConfig | async"
         [graphBConfig]="graphBConfig | async"
         (configChange)="graphPanelSetConfig($event)"

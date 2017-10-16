@@ -82,7 +82,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
           const layoutLength = this.data['resultScaled'].length;
           for (let i = 0; i < layoutLength; i++) {
               const position = this.data['resultScaled'][i];
-              const color =  0x4A148C;
+              const color = 0x039be5;
               const shape = ShapeEnum.CIRCLE;
               const size = 1;
               const mesh = ChartFactory.meshAllocate(
