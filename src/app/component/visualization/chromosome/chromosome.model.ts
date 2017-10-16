@@ -5,6 +5,12 @@ import { VisualizationEnum, DimensionEnum, GraphEnum, EntityTypeEnum } from 'app
 import { DataField, DataFieldFactory } from 'app/model/data-field.model';
 
 export class ChromosomeConfigModel extends GraphConfig {
+    constructor() {
+        super();
+        this.entity = EntityTypeEnum.GENE;
+        this.visualization = VisualizationEnum.CHROMOSOME;
+    }
+
     displayType: DimensionEnum = DimensionEnum.THREE_D;
     domain: Array<number> = [-500, 500];
     chromosomeOption = 'Cytobands';

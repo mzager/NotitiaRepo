@@ -14,7 +14,9 @@ import * as cbor from 'cbor-js';
 
 export class ComputeWorkerUtil {
 
-    private db: Dexie;
+    private dbData: Dexie;
+    private dbLookup: Dexie;
+
     private sizes = [1, 2, 3, 4];
     private shapes = [ShapeEnum.CIRCLE, ShapeEnum.SQUARE, ShapeEnum.TRIANGLE, ShapeEnum.CONE];
     private colors = [0x039BE5, 0x4A148C, 0x880E4F, 0x0D47A1, 0x00B8D4,
@@ -23,7 +25,9 @@ export class ComputeWorkerUtil {
         0x5D4037, 0x455A64];
 
     constructor() {
-        this.db = new Dexie('notitia-dataset');
+        console.log("OPTIMIZE - LATE OPEN");
+        this.dbData = new Dexie('notitia-dataset');
+        this.dbLookup = new Dexie('notitia');
     }
 
     processShapeColorSizeIntersect(config: GraphConfig, worker: DedicatedWorkerGlobalScope) {
@@ -88,12 +92,33 @@ export class ComputeWorkerUtil {
         }
     }
 
-    openDatabase(): Promise<any> {
+    getChromosomeInfo(genes: Array<string>): Promise<any> {
+        return new Promise( (resolve, reject) => {
+            this.openDatabaseLookup().then(v => {
+                Promise.all([
+                this.dbLookup.table('bandcoords').toArray(),
+                this.dbLookup.table('genecoords').where('gene').anyOf(genes).toArray()
+                ]).then( result => {
+                   resolve(result);
+                });
+            });
+        });
+    }
+    openDatabaseLookup(): Promise<any> {
         return new Promise((resolve, reject) => {
-            if (this.db.isOpen()) {
+            if (this.dbLookup.isOpen()) {
                 resolve();
             } else {
-                this.db.open().then(resolve);
+                this.dbLookup.open().then(resolve);
+            }
+        });
+    }
+    openDatabaseData(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            if (this.dbData.isOpen()) {
+                resolve();
+            } else {
+                this.dbData.open().then(resolve);
             }
         });
     }
@@ -101,9 +126,9 @@ export class ComputeWorkerUtil {
     // Call IDB
     getMatrix(markers: Array<string>, samples: Array<string>, map: string, tbl: string, entity: EntityTypeEnum): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.openDatabase().then(v => {
-                this.db.table(map).toArray().then(_samples => {
-                    this.db.table(tbl).limit(10).toArray().then(_markers => {
+            this.openDatabaseData().then(v => {
+                this.dbData.table(map).toArray().then(_samples => {
+                    this.dbData.table(tbl).limit(100).toArray().then(_markers => {
                         resolve({
                             markers: _markers.map(m => m.m),
                             samples: _samples.map(s => s.s),
@@ -119,8 +144,8 @@ export class ComputeWorkerUtil {
 
     getSamplePatientMap(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.openDatabase().then(v => {
-                this.db.table('patientSampleMap').toArray().then(result => {
+            this.openDatabaseData().then(v => {
+                this.dbData.table('patientSampleMap').toArray().then(result => {
                     resolve(result);
                 });
             });
@@ -129,16 +154,16 @@ export class ComputeWorkerUtil {
 
     getColorMap(markers: Array<string>, samples: Array<string>, field: DataField): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.openDatabase().then(v => {
+            this.openDatabaseData().then(v => {
 
                 if (field.ctype & CollectionTypeEnum.MOLECULAR) {
-                    this.db.table('dataset').where('name').equals('gbm').first().then(dataset => {
+                    this.dbData.table('dataset').where('name').equals('gbm').first().then(dataset => {
                         // Extract Name Of Map
                         const map = dataset.tables.filter(tbl => tbl.tbl === field.tbl)[0].map;
                         // Get Samples
-                        this.db.table(map).toArray().then(_samples => {
+                        this.dbData.table(map).toArray().then(_samples => {
                             // Get Molecular Data
-                            this.db.table(field.tbl).toArray().then(_markers => {
+                            this.dbData.table(field.tbl).toArray().then(_markers => {
                                 // Calc Average By Sample
                                 const numMarkers = _markers.length;
                                 const values = _samples
@@ -186,7 +211,7 @@ export class ComputeWorkerUtil {
                             return p;
                         }, {});
 
-                        this.db.table(field.tbl).toArray().then(row => {
+                        this.dbData.table(field.tbl).toArray().then(row => {
                             const colorMap = row.reduce((p, c) => {
                                 p[c.p] = cm[c[fieldKey]];
                                 return p;
@@ -208,7 +233,7 @@ export class ComputeWorkerUtil {
                             .domain([field.values.min, field.values.max])
                             .range([0, 1]);
 
-                        this.db.table(field.tbl).toArray().then(row => {
+                        this.dbData.table(field.tbl).toArray().then(row => {
                             const colorMap = row.reduce(function (p, c) {
                                 p[c.p] = interpolateSpectral(scale(c[fieldKey]));
                                 return p;
@@ -233,7 +258,7 @@ export class ComputeWorkerUtil {
 
     getSizeMap(markers: Array<string>, samples: Array<string>, field: DataField): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.openDatabase().then(v => {
+            this.openDatabaseData().then(v => {
 
                 const fieldKey = field.key;
 
@@ -242,7 +267,7 @@ export class ComputeWorkerUtil {
                         p[c] = this.sizes[i];
                         return p;
                     }, {});
-                    this.db.table(field.tbl).toArray().then(row => {
+                    this.dbData.table(field.tbl).toArray().then(row => {
 
                         const sizeMap = row.reduce((p, c) => {
                             p[c.p] = cm[c[fieldKey]];
@@ -264,7 +289,7 @@ export class ComputeWorkerUtil {
                         .domain([field.values.min, field.values.max])
                         .range([1, 3]);
 
-                    this.db.table(field.tbl).toArray().then(row => {
+                    this.dbData.table(field.tbl).toArray().then(row => {
                         const sizeMap = row.reduce(function (p, c) {
                             p[c.p] = Math.round(scale(c[fieldKey]));
                             return p;
@@ -287,11 +312,11 @@ export class ComputeWorkerUtil {
 
     getIntersectMap(markers: Array<string>, samples: Array<string>, field: DataField): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.openDatabase().then(v => {
+            this.openDatabaseData().then(v => {
                 const fieldKey = field.key;
                 if (field.type === 'STRING') {
 
-                    this.db.table(field.tbl).toArray().then(row => {
+                    this.dbData.table(field.tbl).toArray().then(row => {
 
                         const intersectMap = row.reduce( (p, c) => { p[c.p] = c[fieldKey]; return p; }, {});
 
@@ -315,14 +340,14 @@ export class ComputeWorkerUtil {
 
     getShapeMap(markers: Array<string>, samples: Array<string>, field: DataField): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.openDatabase().then(v => {
+            this.openDatabaseData().then(v => {
                 const fieldKey = field.key;
                 if (field.type === 'STRING') {
                     const cm = field.values.reduce((p, c, i) => {
                         p[c] = this.shapes[i];
                         return p;
                     }, {});
-                    this.db.table(field.tbl).toArray().then(row => {
+                    this.dbData.table(field.tbl).toArray().then(row => {
                         const shapeMap = row.reduce((p, c) => {
                             p[c.p] = cm[c[fieldKey]];
                             return p;
@@ -352,6 +377,7 @@ export class ComputeWorkerUtil {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
+                //'Cache-Control': 'max-age=31536000'
             },
             body: JSON.stringify(config)
         })
