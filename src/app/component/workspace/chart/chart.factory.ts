@@ -31,21 +31,21 @@ export class ChartFactory {
     public static lineRelease(line: THREE.Line): void {
 
     }
-    public static lineAllocate(color: number, pt1: THREE.Vector2, pt2: THREE.Vector2, pt3: THREE.Vector2): THREE.Line {
-
-        // const whi = (Math.random() > .5) ? true : false;//new THREE.Vector2(0, -200) : new THREE.Vector2(0, 200)
-        const curve = new THREE.SplineCurve([
-            pt1,
-            pt3,
-            pt2
-        ]);
-        const path = new THREE.Path( curve.getPoints( 50 ) );
+    public static lineAllocateCurve(color: number, pt1: THREE.Vector2, pt2: THREE.Vector2, pt3: THREE.Vector2): THREE.Line {
         const line = new THREE.Line();
-        // const geometry = new THREE.Geometry();
-        // geometry.vertices.push(pt1);
-        // geometry.vertices.push(pt2);
-        line.geometry = path.createPointsGeometry( 50 );
         line.material = this.getLineColor(color);
+        const curve = new THREE.SplineCurve([pt1, pt3, pt2]);
+        const path = new THREE.Path(curve.getPoints(50));
+        line.geometry = path.createPointsGeometry(50);
+        return line;
+    }
+    public static lineAllocate(color: number, pt1: THREE.Vector2, pt2: THREE.Vector2): THREE.Line {
+        const line = new THREE.Line();
+        line.material = this.getLineColor(color);
+        const geometry = new THREE.Geometry();
+        geometry.vertices.push( new THREE.Vector3(pt1.x, pt1.y, 0) );
+        geometry.vertices.push( new THREE.Vector3(pt2.x, pt2.y, 0) );
+        line.geometry = geometry;
         return line;
     }
     public static lineDrain(): void {
