@@ -3,7 +3,7 @@
  */
 export class Legend {
   name: String;
-  type: 'COLOR' | 'SHAPE' | 'SIZE';
+  type: 'COLOR' | 'SHAPE' | 'SIZE' | 'INTERSECT';
   display: 'CONTINUOUS' | 'DISCRETE';
   labels: Array<string>;
   values: Array<any>;

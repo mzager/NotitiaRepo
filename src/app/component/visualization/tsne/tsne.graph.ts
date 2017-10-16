@@ -175,14 +175,11 @@ export class TsneGraph implements ChartObjectInterface {
                 const material: THREE.MeshStandardMaterial = mesh.material as THREE.MeshStandardMaterial;
                 material.color.set(mesh.userData.color);
             });
-            
             const selected = samples
                 .filter(v => v.position.distanceTo(position) < radius );
 
             const ids = selected
                 .map( v => v.userData.id);
-
-                debugger;
             this.onSelect.next({type: EntityTypeEnum.SAMPLE, ids: ids});
             this.view.scene.remove(this.selector);
             this.view.controls.enabled = true;

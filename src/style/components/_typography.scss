@@ -7,15 +7,15 @@ html{
   line-height: 1.5;
 
   @media only screen and (min-width: 0) {
-    font-size: 14px;
+    font-size: 12px;
   }
 
   @media only screen and (min-width: $medium-screen) {
-    font-size: 14.5px;
+    font-size: 12.5px;
   }
 
   @media only screen and (min-width: $large-screen) {
-    font-size: 15px;
+    font-size: 13px;
   }
 
   font-family: "Lato", sans-serif;

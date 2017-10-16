@@ -29,7 +29,8 @@ export const enum DirtyEnum {
     LAYOUT = 1,
     COLOR = 2,
     SIZE = 4,
-    SHAPE = 8
+    SHAPE = 8,
+    INTERSECT = 16
 }
 
 export class LogicalOperatorEnum {
