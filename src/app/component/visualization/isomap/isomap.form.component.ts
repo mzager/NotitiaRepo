@@ -72,7 +72,7 @@ import * as _ from 'lodash';
     </label>
   </div>
   <div class="form-group">
-    <label class="center-block"><span class="form-label">Dimension</span>
+    <label class="center-block"><span class="form-label">Eigen Solver</span>
     <select class="browser-default" materialize="material_select"
       [materializeSelectOptions]="IsoMapEigenSolverOpitions"
       formControlName="eigen_solver">
@@ -81,7 +81,7 @@ import * as _ from 'lodash';
   </label>
 </div>
 <div class="form-group">
-  <label class="center-block"><span class="form-label">Dimension</span>
+  <label class="center-block"><span class="form-label">Path Method</span>
       <select class="browser-default" materialize="material_select"
         [materializeSelectOptions]="IsoMapPathMethodOpitions"
         formControlName="path_method">
@@ -90,7 +90,7 @@ import * as _ from 'lodash';
     </label>
   </div>
 <div class="form-group">
-  <label class="center-block"><span class="form-label">Dimension</span>
+  <label class="center-block"><span class="form-label">Neighbors Algorithm</span>
       <select class="browser-default" materialize="material_select"
         [materializeSelectOptions]="IsoMapNeighborsAlgorithmOpitions"
         formControlName="neighbors_algorithm">

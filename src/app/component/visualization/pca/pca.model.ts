@@ -5,34 +5,39 @@ import { DataFieldFactory, DataTable } from './../../../model/data-field.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DataField } from 'app/model/data-field.model';
 
-export enum PcaDisplayEnum {
-    WEIGHT = 1,
-    SCORE = 2,
-    LOADING = 4,
-    NONE = 0
+export class PcaSvdSolver {
+    public static AUTO = 'auto';
+    public static FULL = 'full';
+    public static ARPACK = 'arpack';
+    public static RANDOMIZED = 'randomized';
 }
 
 export class PcaConfigModel extends GraphConfig {
-    dimension: DimensionEnum = DimensionEnum.THREE_D;
-    domain: Array<number> = [-300, 300];
-    showVectors: Boolean = false;
-    isCentered: Boolean = true;
-    isScaled: Boolean = false;
+
+    constructor() {
+        super();
+        this.entity = EntityTypeEnum.SAMPLE;
+        this.visualization = VisualizationEnum.PCA;
+    }
+
+    components = 3;
+    dimension = DimensionEnum.THREE_D;
+    copy: Boolean = true;
+    whiten: Boolean = false;
+    svd_solver = 'auto';
+    tol = 0.0;
+    iterated_power = 'auto';
+    random_state = 'None';
 }
 
+
 export interface PcaDataModel extends GraphData {
-    legends: Array<Legend>;
-    eigenvectors: any;
-    eigenvectorsScaled: any;
-    eigenvalues: any;
-    loadings: any;
-    scoresScaled: any;
-    explainedVariance: any;
-    cumulativeVariance: any;
-    standardDeviations: any;
+    result: any;
+    resultScaled: Array<Array<number>>;
     pointColor: Array<number>;
     pointSize: Array<number>;
     pointShape: Array<ShapeEnum>;
     sampleIds: Array<string>;
     markerIds: Array<string>;
+    patientIds: Array<string>;
 }

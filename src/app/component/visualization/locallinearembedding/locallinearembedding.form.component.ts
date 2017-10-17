@@ -1,11 +1,14 @@
-import { LocalLinearEmbeddingConfigModel } from './locallinearembedding.model';
-import { DimensionEnum, EntityTypeEnum } from './../../../model/enum.model';
+import { LocalLinearEmbeddingConfigModel, LocalLinearEmbeddingMethod, LocalLinearEmbeddingEigenSolver, 
+  LocalLinearEmbeddingNeighborsAlgorithm, LocalLinearEmbeddingDataModel } from './locallinearembedding.model';
+import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
+import { DimensionEnum, EntityTypeEnum, CollectionTypeEnum } from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { DataTypeEnum } from 'app/model/enum.model';
-import { DataField, DataFieldFactory } from './../../../model/data-field.model';
+import { DataTypeEnum, DirtyEnum } from 'app/model/enum.model';
+import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import * as _ from 'lodash';
+
 
 @Component({
   selector: 'app-locallinearembedding-form',
@@ -14,13 +17,13 @@ import * as _ from 'lodash';
 <form [formGroup]="form" novalidate>
   <div class="form-group">
     <label class="center-block">Data
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          formControlName="dataOption">
-          <option *ngFor="let option of dataOptions">{{option.label}}</option>
+        <select class="browser-default" materialize="material_select"
+        [compareWith]="byKey"
+        formControlName="table">
+        <option *ngFor="let option of dataOptions">{{option.label}}</option>
       </select>
     </label>
-  </div>
+</div>
   <div class="form-group">
     <label class="center-block">Display
       <select class="browser-default" materialize="material_select"
@@ -70,25 +73,37 @@ import * as _ from 'lodash';
       </select>
     </label>
   </div>
+  <div class="form-group">
+  <label class="center-block"><span class="form-label">Eigen Solver</span>
+    <select class="browser-default" materialize="material_select"
+      [materializeSelectOptions]="LocalLinearEmbeddingEigenSolverOpitions"
+      formControlName="eigen_solver">
+        <option *ngFor="let options of LocalLinearEmbeddingEigenSolverOpitions">{{options}}</option>
+    </select>
+  </label>
+</div>
+<div class="form-group">
+<label class="center-block"><span class="form-label">Method</span>
+  <select class="browser-default" materialize="material_select"
+    [materializeSelectOptions]="LocalLinearEmbeddingMethodOptions"
+    formControlName="lle_method">
+      <option *ngFor="let options of LocalLinearEmbeddingMethodOptions">{{options}}</option>
+  </select>
+</label>
+</div>
+<div class="form-group">
+<label class="center-block"><span class="form-label">Neighbors Algorithm</span>
+  <select class="browser-default" materialize="material_select"
+    [materializeSelectOptions]="LocalLinearEmbeddingNeighborsAlgorithmOptions"
+    formControlName="neighbors_algorithm">
+      <option *ngFor="let options of LocalLinearEmbeddingNeighborsAlgorithmOptions">{{options}}</option>
+  </select>
+</label>
+</div>
 </form>
   `
 })
-export class LocalLinearEmbeddingFormComponent {
-
-  @Input() set molecularData(tables: Array<string>) {
-    this.dataOptions = tables.map(v => {
-      const rv = { key: v, label: _.startCase(_.toLower(v)) };
-      return rv;
-    });
-  }
-
-  @Input() set clinicalFields(fields: Array<DataField>) {
-    if (fields.length === 0) { return; }
-    const defaultDataField: DataField = DataFieldFactory.getUndefined();
-    this.colorOptions = DataFieldFactory.getColorFields(fields);
-    this.shapeOptions = DataFieldFactory.getShapeFields(fields);
-    this.sizeOptions = DataFieldFactory.getSizeFields(fields);
-  }
+export class LocalLinearEmbeddingFormComponent extends AbstractScatterForm {
 
   @Input() set config(v: LocalLinearEmbeddingConfigModel) {
     if (v === null) { return; }
@@ -97,24 +112,33 @@ export class LocalLinearEmbeddingFormComponent {
     }
   }
 
-  @Output() configChange = new EventEmitter<GraphConfig>();
+  LocalLinearEmbeddingEigenSolverOpitions = [
+    LocalLinearEmbeddingEigenSolver.AUTO,
+    LocalLinearEmbeddingEigenSolver.ARPACK,
+    LocalLinearEmbeddingEigenSolver.DENSE
+  ];
 
-  form: FormGroup;
-  colorOptions: Array<DataField>;
-  shapeOptions: Array<DataField>;
-  sizeOptions: Array<DataField>;
-  displayOptions = [EntityTypeEnum.SAMPLE, EntityTypeEnum.GENE];
-  dataOptions: Array<{ key: string, label: string }>;
-  dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D, DimensionEnum.ONE_D];
+  LocalLinearEmbeddingMethodOptions = [
+    LocalLinearEmbeddingMethod.STANDARD,
+    LocalLinearEmbeddingMethod.LTSA,
+    LocalLinearEmbeddingMethod.HESSIAN,
+    LocalLinearEmbeddingMethod.MODIFIED
+  ];
 
-  byKey(p1: DataField, p2: DataField) {
-    if (p2 === null) { return false; }
-    return p1.key === p2.key;
-  }
+  LocalLinearEmbeddingNeighborsAlgorithmOptions = [
+    LocalLinearEmbeddingNeighborsAlgorithm.AUTO,
+    LocalLinearEmbeddingNeighborsAlgorithm.BALL_TREE,
+    LocalLinearEmbeddingNeighborsAlgorithm.BRUTE,
+    LocalLinearEmbeddingNeighborsAlgorithm.KD_TREE
+  ];
+
 
   constructor(private fb: FormBuilder) {
 
+    super();
+
     this.form = this.fb.group({
+      dirtyFlag: [0],
       visualization: [],
       graph: [],
       entity: [],
@@ -122,13 +146,22 @@ export class LocalLinearEmbeddingFormComponent {
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
-      dataKey: [],
-      dataOption: [],
+      table: [],
       pointColor: [],
       pointShape: [],
       pointSize: [],
+
       components: [],
-      dimension: []
+      dimension: [],
+      n_neighbors: [],
+      eigen_solver: [],
+      reg: [],
+      random_state: [],
+      neighbors_algorithm: [],
+      lle_method: [],
+      tol: [],
+      hessian_tol: [],
+      modified_tol: []
     });
 
     // Update When Form Changes
@@ -136,6 +169,14 @@ export class LocalLinearEmbeddingFormComponent {
       .debounceTime(200)
       .distinctUntilChanged()
       .subscribe(data => {
+        let dirty = 0;
+        const form = this.form;
+        if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
+        if (form.get('pointShape').dirty) { dirty |= DirtyEnum.SHAPE; }
+        if (form.get('pointSize').dirty) { dirty |= DirtyEnum.SIZE; }
+        if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
+        form.markAsPristine();
+        data.dirtyFlag = dirty;
         this.configChange.emit(data);
       });
   }
