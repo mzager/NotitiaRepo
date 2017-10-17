@@ -41,7 +41,7 @@ export class LocalLinearEmbeddingConfigModel extends GraphConfig {
     random_state = 'None';
     neighbors_algorithm = LocalLinearEmbeddingNeighborsAlgorithm.AUTO;
     lle_method = LocalLinearEmbeddingMethod.STANDARD;
-    tol = 0.0001;
+    tol = 1e-06;
     max_iter = 100;
     hessian_tol = 0.0001;
     modified_tol = 1e-12;
