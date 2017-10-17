@@ -33,14 +33,16 @@ export class LocalLinearEmbeddingConfigModel extends GraphConfig {
         this.visualization = VisualizationEnum.LOCALLY_LINEAR_EMBEDDING;
     }
 
-    components = 2;
+    components = 3;
     dimension = DimensionEnum.THREE_D;
     n_neighbors = 5;
     eigen_solver = LocalLinearEmbeddingEigenSolver.AUTO;
     reg = 0.001;
     random_state = 'None';
     neighbors_algorithm = LocalLinearEmbeddingNeighborsAlgorithm.AUTO;
-    LocalLinearEmbeddingMethod = LocalLinearEmbeddingMethod.STANDARD;
+    lle_method = LocalLinearEmbeddingMethod.STANDARD;
+    tol = 0.0001;
+    max_iter = 100;
 }
 
 

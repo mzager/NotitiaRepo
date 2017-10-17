@@ -18,9 +18,9 @@ export class MdsConfigModel extends GraphConfig {
         this.visualization = VisualizationEnum.MDS;
     }
 
-    components = 2;
+    components = 3;
     dimension = DimensionEnum.THREE_D;
-    metric = true;
+    metric: Boolean = true;
     n_init = 4;
     eps = 1e-3;
     max_iter = 300;
