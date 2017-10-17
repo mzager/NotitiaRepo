@@ -1,7 +1,7 @@
 import { ChromosomeConfigModel } from './chromosome.model';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { DimensionEnum, DataTypeEnum, VisualizationEnum } from 'app/model/enum.model';
-import { DataField, DataFieldFactory } from './../../../model/data-field.model';
+import { DimensionEnum, DataTypeEnum, VisualizationEnum, DirtyEnum, CollectionTypeEnum } from 'app/model/enum.model';
+import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as _ from 'lodash';
@@ -12,16 +12,7 @@ import * as _ from 'lodash';
   template: `
 <form [formGroup]="form" novalidate>
   <div class="form-group">
-    <label class="center-block">Data
-      <select class="browser-default" materialize="material_select"
-          [materializeSelectOptions]="dataOptions"
-          formControlName="molecularTable">
-          <option *ngFor="let option of dataOptions" [value]="option">{{option}}</option>
-      </select>
-    </label>
-  </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Point Color</span>
+    <label class="center-block"><span class="form-label">Gene Color</span>
       <select class="browser-default" materialize="material_select"
           [compareWith]="byKey"
           [materializeSelectOptions]="colorOptions"
@@ -31,12 +22,22 @@ import * as _ from 'lodash';
     </label>
   </div>
   <div class="form-group">
-    <label class="center-block"><span class="form-label">Point Size</span>
+    <label class="center-block"><span class="form-label">Gene Size</span>
        <select class="browser-default" materialize="material_select"
           [compareWith]="byKey"
           [materializeSelectOptions]="sizeOptions"
           formControlName="pointSize">
           <option *ngFor="let option of sizeOptions" [ngValue]="option">{{option.label}}</option>
+      </select>
+    </label>
+  </div>
+  <div class="form-group">
+    <label class="center-block"><span class="form-label">Gene Shape</span>
+      <select class="browser-default" materialize="material_select"
+          [compareWith]="byKey"
+          [materializeSelectOptions]="sizeOptions"
+          formControlName="pointShape">
+          <option *ngFor="let option of shapeOptions" [ngValue]="option">{{option.label}}</option>
       </select>
     </label>
   </div>
@@ -55,29 +56,52 @@ import * as _ from 'lodash';
 })
 export class ChromosomeFormComponent {
 
-  @Input() set molecularData(tables: Array<string>){
-    this.dataOptions = tables;
-    this.colorOptions = [
-      DataFieldFactory.getUndefined(),
-      // DataFieldFactory.create('fn', 'Sample Mean', DataTypeEnum.FUNCTION_MEAN),
-      // DataFieldFactory.create('fn', 'Sample Median', DataTypeEnum.FUNCTION_MEDIAN)
-    ];
+  @Input() set fields(fields: Array<DataField>) {
+    if (fields === null) { return; }
+    if (fields.length === 0) { return; }
+    const defaultDataField: DataField = DataFieldFactory.getUndefined();
+    this.colorOptions = DataFieldFactory.getColorFields(fields);
+    this.shapeOptions = DataFieldFactory.getShapeFields(fields);
+    this.sizeOptions = DataFieldFactory.getSizeFields(fields);
+  }
 
-    this.sizeOptions = this.colorOptions;
-    this.chromosomeOptions = ['Cytobands', 'Centromeres & Telemeres', 'None'];
+  @Input() set config(v: ChromosomeConfigModel) {
+    if (v === null) { return; }
+    this.form.patchValue(v, { emitEvent: false });
+  }
 
-     // Init Form
-     this.form = this.fb.group({
+  @Output() configChange = new EventEmitter<GraphConfig>();
+
+  protected form: FormGroup;
+  protected colorOptions: Array<DataField>;
+  protected shapeOptions: Array<DataField>;
+  protected sizeOptions: Array<DataField>;
+  protected dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D];
+  protected chromosomeOptions = ['Cytobands', 'Centromeres & Telemeres', 'None'];
+
+  protected byKey(p1: DataField, p2: DataField) {
+    if (p2 === null) { return false; }
+    return p1.key === p2.key;
+  }
+
+  constructor(private fb: FormBuilder) {
+
+
+    // Init Form
+    this.form = this.fb.group({
+      dirtyFlag: [0],
       visualization: [],
       graph: [],
-      dataKey: [],
+      entity: [],
       markerFilter: [],
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
-      molecularTable: this.dataOptions[0],
-      pointColor: this.colorOptions[0],
-      pointSize: this.sizeOptions[0],
+      table: [],
+      pointColor: [],
+      pointShape: [],
+      pointSize: [],
+
       dimension: [],
       chromosomeOption: [],
       allowRotation: []
@@ -88,31 +112,17 @@ export class ChromosomeFormComponent {
       .debounceTime(200)
       .distinctUntilChanged()
       .subscribe(data => {
+        let dirty = 0;
+        const form = this.form;
+        if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
+        // if (form.get('pointShape').dirty) { dirty |= DirtyEnum.SHAPE; }
+        if (form.get('pointSize').dirty) { dirty |= DirtyEnum.SIZE; }
+        if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
+        form.markAsPristine();
+        data.dirtyFlag = dirty;
+        debugger;
         this.configChange.emit(data);
       });
   }
 
-  @Input() set config(v: ChromosomeConfigModel) {
-    if (v === null) { return; }
-    this.form.patchValue(v, {emitEvent : false});
-  }
-
-  @Output() configChange = new EventEmitter<GraphConfig>();
-
-  form: FormGroup;
-  colorOptions: Array<DataField>;
-  shapeOptions: Array<DataField>;
-  sizeOptions: Array<DataField>;
-  dataOptions: Array<string>;
-  chromosomeOptions: Array<string>;
-  dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D];
-
-  byKey(p1: DataField, p2: DataField) {
-    if (p2 === null) { return false; }
-    return p1.key === p2.key;
-  }
-
-  constructor(private fb: FormBuilder) {
-
-  }
 }

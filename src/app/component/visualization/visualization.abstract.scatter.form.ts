@@ -6,6 +6,7 @@ import { CollectionTypeEnum, EntityTypeEnum } from 'app/model/enum.model';
 import { DataField, DataTable } from './../../model/data-field.model';
 import { DataFieldFactory } from 'app/model/data-field.model';
 export class AbstractScatterForm {
+    
     @Input() set tables(tables: Array<DataTable>) {
         this.dataOptions = tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0));
     }

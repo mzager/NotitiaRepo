@@ -1,3 +1,5 @@
+import { ChartFactory } from './chart.factory';
+import { element } from 'protractor';
 import { EdgeConfigModel } from './../../visualization/edges/edges.model';
 import { PcaIncrementalGraph } from './../../visualization/pcaincremental/pcaincremental.graph';
 import { PcaSparseGraph } from './../../visualization/pcasparse/pcasparse.graph';
@@ -60,6 +62,7 @@ export class ChartScene {
         this.render();
     }
     render = () => {
+
         this.renderer.clear();
         let view;
 
@@ -70,6 +73,7 @@ export class ChartScene {
 
         // Graph B
         view = this.views[1];
+
         this.renderer.setViewport( view.viewport.x, view.viewport.y, view.viewport.width, view.viewport.height );
         this.renderer.render( view.scene, view.camera );
 
@@ -78,14 +82,12 @@ export class ChartScene {
         if (view.chart !== null) {
             view.chart.preRender(this.views, this.workspace.layout, this.renderer);
         }
-        // this.views.forEach( (view, i) => {
-        //     if (i === 2) {
-        //         if (view.chart !== null) { view.chart.preRender(this.views, this.workspace.layout, this.renderer); }
-        //     } else {
-        //         this.renderer.setViewport( view.viewport.x, view.viewport.y, view.viewport.width, view.viewport.height );
-        //         this.renderer.render( view.scene, view.camera );
-        //     }
-        // });
+
+        // Center Line
+        view.scene.add(ChartFactory.lineAllocate(0x039BE5, new THREE.Vector2(0, -1000), new THREE.Vector2(0, 1000) ));
+        this.renderer.setViewport( view.viewport.x, view.viewport.y, view.viewport.width, view.viewport.height );
+        this.renderer.render( view.scene, view.camera );
+
     }
     select = (e: {type: EntityTypeEnum, ids: Array<string>}) => {
         this.onSelect.next(e);
@@ -168,11 +170,12 @@ export class ChartScene {
             camera: null, // new THREE.OrthographicCamera(-300, 300, 300, -300) as THREE.Camera,
             scene: new THREE.Scene(),
             controls: null
-
         }
-    ].map<any>(view => {
+    ].map<any>( (view, i) => {
 
-            // // Edge View Settings
+            console.log(i);
+
+            // Edge View Settings
             if (view.camera === null) {
 
                 const aspect = view.viewport.width / view.viewport.height;
@@ -188,7 +191,6 @@ export class ChartScene {
                 view.scene.add(new THREE.AmbientLight(0xaaaaaa, .3));
                 return view;
             }
-
 
             // View
             view.camera.position.fromArray([0, 0, 1000]);
@@ -252,6 +254,12 @@ export class ChartScene {
                      ( graph === GraphEnum.GRAPH_B ) ? this.views[1] :
                      this.views[2];
 
+        if (view.config.entity !== config.entity) {
+            if (this.views[2].chart != null) {
+                (this.views[2].chart as EdgesGraph).updateEdges = true;
+            }
+        }
+
         if (view.config.visualization !== config.visualization) {
             view.config.visualization = config.visualization;
             if (view.chart !== null) { view.chart.destroy(); }
@@ -259,6 +267,7 @@ export class ChartScene {
             view.chart.onRequestRender.subscribe(this.render);
             view.chart.onSelect.subscribe( this.select );
         }
+
         view.chart.update(config, data);
         this.render();
     }

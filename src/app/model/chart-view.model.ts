@@ -1,3 +1,4 @@
+import { GraphConfig } from 'app/model/graph-config.model';
 import { ChartObjectInterface } from './../model/chart.object.interface';
 import { VisualizationView } from './chart-view.model';
 import { VisualizationEnum } from 'app/model/enum.model';
@@ -8,7 +9,7 @@ import { OrbitControls } from 'three-orbitcontrols-ts';
  */
 export interface VisualizationView {
   controls: OrbitControls;
-  config: {visualization: VisualizationEnum};
+  config: GraphConfig; //{visualization: VisualizationEnum};
   viewport: {x: number, y: number, width: number, height: number};
   camera: THREE.Camera;
   scene: THREE.Scene;

@@ -81,7 +81,7 @@ export class LegendPanelComponent {
       .attr('x', 0)
       .attr('y', yOffset + 15)
       .attr('stroke', '0x039BE5')
-      .style('font-size', '12px')
+      .style('font-size', '10px')
       .text((container === this.elLegendA) ? 'GRAPH A' : 'GRAPH B');
     yOffset += 30;
 
@@ -95,8 +95,8 @@ export class LegendPanelComponent {
             group.append('text')
               .attr('x', 0)
               .attr('y', yOffset + 15)
-              .attr('stroke', '0x333333')
-              .style('font-size', '12px')
+              .attr('fill', '#9e9e9e')
+              .style('font-size', '10px')
               .text(legend.name.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()));
             yOffset += 20;
 
@@ -112,16 +112,16 @@ export class LegendPanelComponent {
               .text(legend.labels[0])
               .attr('x', 0)
               .attr('y', yOffset + 15)
-              .attr('stroke', '0x333333')
-              .style('font-size', '12px');
+              .attr('fill', '#9e9e9e')
+              .style('font-size', '10px');
 
             group.append('text')
               .text(legend.labels[1])
               .attr('x', '180px')
               .attr('y', yOffset + 15)
-              .attr('stroke', '0x333333')
+              .attr('fill', '#9e9e9e')
               .style('text-anchor', 'end')
-              .style('font-size', '12px');
+              .style('font-size', '10px');
 
             yOffset += 20;
             break;
@@ -129,8 +129,8 @@ export class LegendPanelComponent {
             group.append('text')
               .attr('x', 0)
               .attr('y', yOffset + 15)
-              .attr('stroke', '0x333333')
-              .style('font-size', '12px')
+              .attr('fill', '#9e9e9e')
+              .style('font-size', '10px')
               .text(legend.name.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()));
             yOffset += 20;
 
@@ -143,16 +143,16 @@ export class LegendPanelComponent {
               .text(legend.labels[0])
               .attr('x', 0)
               .attr('y', yOffset + 15)
-              .attr('stroke', '0x333333')
-              .style('font-size', '12px');
+              .attr('fill', '#9e9e9e')
+              .style('font-size', '10px');
 
             group.append('text')
               .text(legend.labels[1])
               .attr('x', '180px')
               .attr('y', yOffset + 15)
-              .attr('stroke', '0x333333')
+              .attr('fill', '#9e9e9e')
               .style('text-anchor', 'end')
-              .style('font-size', '12px');
+              .style('font-size', '10px');
             yOffset += 20;
             break;
         }
@@ -164,8 +164,8 @@ export class LegendPanelComponent {
               .text('Color')
               .attr('x', '0px')
               .attr('y', yOffset + 15)
-              .attr('stroke', '0x333333')
-              .attr('font-size', '12px');
+              .attr('fill', '#9e9e9e')
+              .attr('font-size', '10px');
             yOffset += 20;
             for (let si = 0, sl = legend.labels.length; si < sl; si++) {
 
@@ -182,8 +182,8 @@ export class LegendPanelComponent {
                 .text(label)
                 .attr('x', '25px')
                 .attr('y', yOffset + 15)
-                .attr('stroke', '0x333333')
-                .attr('font-size', '12px');
+                .attr('fill', '#9e9e9e')
+                .attr('font-size', '10px');
               yOffset += 20;
 
             }
@@ -193,8 +193,8 @@ export class LegendPanelComponent {
               .text('Shape')
               .attr('x', '0px')
               .attr('y', yOffset + 15)
-              .attr('stroke', '0x333333')
-              .attr('font-size', '12px');
+              .attr('fill', '#9e9e9e')
+              .attr('font-size', '10px');
             yOffset += 20;
             for (let si = 0, sl = legend.labels.length; si < sl; si++) {
 
@@ -214,8 +214,8 @@ export class LegendPanelComponent {
                 .text(label)
                 .attr('x', '25px')
                 .attr('y', yOffset + 15)
-                .attr('stroke', '0x333333')
-                .attr('font-size', '12px');
+                .attr('fill', '#9e9e9e')
+                .attr('font-size', '10px');
               yOffset += 20;
             }
 
@@ -225,8 +225,8 @@ export class LegendPanelComponent {
               .text('Size')
               .attr('x', '0px')
               .attr('y', yOffset + 15)
-              .attr('stroke', '0x333333')
-              .attr('font-size', '12px');
+              .attr('fill', '#9e9e9e')
+              .attr('font-size', '10px');
             yOffset += 20;
             for (let si = 0, sl = legend.labels.length; si < sl; si++) {
 
@@ -246,8 +246,8 @@ export class LegendPanelComponent {
                 .text(label)
                 .attr('x', '25px')
                 .attr('y', yOffset + 15)
-                .attr('stroke', '0x333333')
-                .attr('font-size', '12px');
+                .attr('fill', '#9e9e9e')
+                .attr('font-size', '10px');
               yOffset += 20;
             }
             break;
