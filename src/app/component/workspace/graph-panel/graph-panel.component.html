@@ -24,9 +24,9 @@
                     ></app-chromosome-form>
                 <app-pca-form *ngIf="configA && configA.visualization === 1"
                     (configChange)="graphPanelSetConfig($event)"
-                    [molecularData]="molecularData"
-                    [config]="configA" 
-                    [clinicalFields]="clinicalFields"></app-pca-form>
+                    [config]="configA"
+                    [tables]="tables"
+                    [fields]="fields"></app-pca-form>
                  <app-tsne-form *ngIf="configA && configA.visualization === 4"
                     (configChange)="graphPanelSetConfig($event)"
                     [molecularData]="molecularData"
@@ -50,8 +50,8 @@
                 <app-mds-form *ngIf="configA && configA.visualization === 8192"
                     (configChange)="graphPanelSetConfig($event)"
                     [config]="configA"
-                    [molecularData]="molecularData"
-                    [clinicalFields]="clinicalFields"
+                    [tables]="tables"
+                    [fields]="fields"
                     ></app-mds-form>
                 <app-fa-form *ngIf="configA && configA.visualization === 65536"
                     (configChange)="graphPanelSetConfig($event)"
@@ -116,14 +116,14 @@
                 <app-locallinearembedding-form *ngIf="configA && configA.visualization === 268435456"
                     (configChange)="graphPanelSetConfig($event)"
                     [config]="configA"
-                    [molecularData]="molecularData"
-                    [clinicalFields]="clinicalFields"
+                    [tables]="tables"
+                    [fields]="fields"
                     ></app-locallinearembedding-form>
                 <app-spectralembedding-form *ngIf="configA && configA.visualization === 536870912"
                     (configChange)="graphPanelSetConfig($event)"
                     [config]="configA"
-                    [molecularData]="molecularData"
-                    [clinicalFields]="clinicalFields"
+                    [tables]="tables"
+                    [fields]="fields"
                     ></app-spectralembedding-form>
         </div>
         <div id="graph-panel-b" *ngIf="configB">
@@ -144,9 +144,9 @@
                 ></app-chromosome-form>
             <app-pca-form *ngIf="configB && configB.visualization === 1"
                 (configChange)="graphPanelSetConfig($event)"
-                [molecularData]="molecularData"
-                [config]="configB" 
-                [clinicalFields]="clinicalFields"></app-pca-form>
+                [config]="configB"
+                [tables]="tables"
+                [fields]="fields"></app-pca-form>
              <app-tsne-form *ngIf="configB && configB.visualization === 4"
                 (configChange)="graphPanelSetConfig($event)"
                 [molecularData]="molecularData"
@@ -170,8 +170,8 @@
             <app-mds-form *ngIf="configB && configB.visualization === 8192"
                 (configChange)="graphPanelSetConfig($event)"
                 [config]="configB"
-                [molecularData]="molecularData"
-                [clinicalFields]="clinicalFields"
+                [tables]="tables"
+                [fields]="fields"
                 ></app-mds-form>  
             <app-fa-form *ngIf="configB && configB.visualization === 65536"
                 (configChange)="graphPanelSetConfig($event)"
@@ -236,14 +236,14 @@
             <app-locallinearembedding-form *ngIf="configB && configB.visualization === 268435456"
                 (configChange)="graphPanelSetConfig($event)"
                 [config]="configB"
-                [molecularData]="molecularData"
-                [clinicalFields]="clinicalFields"
+                [tables]="tables"
+                [fields]="fields"
                 ></app-locallinearembedding-form>
             <app-spectralembedding-form *ngIf="configB && configB.visualization === 536870912"
                 (configChange)="graphPanelSetConfig($event)"
                 [config]="configB"
-                [molecularData]="molecularData"
-                [clinicalFields]="clinicalFields"
+                [tables]="tables"
+                [fields]="fields"
                 ></app-spectralembedding-form>
         </div>
     </div>

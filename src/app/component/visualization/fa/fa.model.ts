@@ -22,7 +22,7 @@ export class FaConfigModel extends GraphConfig {
     components = 3;
     svd_method = FaSvdMethod.RANDOMIZED;
     tol = 0.01;
-    copy = true;
+    copy: Boolean = true;
     max_iter = 1000;
     iterated_power = 3;
     random_state = 0;

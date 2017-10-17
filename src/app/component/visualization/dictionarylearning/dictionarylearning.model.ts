@@ -33,7 +33,7 @@ export class DictionaryLearningConfigModel extends GraphConfig {
     tol = 1e-08;
     fit_algorithm = DictionaryLearningFitAlgorithm.CD;
     transform_algorithm = DictionaryLearningTransformAlgorithm.OMP;
-    split = false;
+    split: Boolean = false;
 }
 
 export interface DictionaryLearningDataModel extends GraphData {

@@ -1,10 +1,11 @@
-import { DimensionEnum, EntityTypeEnum } from './../../../model/enum.model';
+import { DimensionEnum, EntityTypeEnum, CollectionTypeEnum } from './../../../model/enum.model';
+import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { MdsConfigModel } from './mds.model';
-import { DataTypeEnum } from 'app/model/enum.model';
-import { DataField, DataFieldFactory } from './../../../model/data-field.model';
+import { MdsConfigModel, MdsDissimilarity } from './mds.model';
+import { DataTypeEnum, DirtyEnum } from 'app/model/enum.model';
+import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import * as _ from 'lodash';
 
 @Component({
@@ -15,9 +16,9 @@ import * as _ from 'lodash';
   <div class="form-group">
     <label class="center-block">Data
       <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          formControlName="dataOption">
-          <option *ngFor="let option of dataOptions">{{option.label}}</option>
+      [compareWith]="byKey"
+      formControlName="table">
+      <option *ngFor="let option of dataOptions">{{option.label}}</option>
       </select>
     </label>
   </div>
@@ -70,7 +71,15 @@ import * as _ from 'lodash';
       </select>
     </label>
   </div>
-
+  <div class="form-group">
+    <label class="center-block"><span class="form-label">Dissimilarity</span>
+     <select class="browser-default" materialize="material_select"
+      [materializeSelectOptions]="MdsDissimilarityOpitions"
+      formControlName="dissimilarity">
+        <option *ngFor="let options of MdsDissimilarityOpitions">{{options}}</option>
+      </select>
+    </label>
+  </div>
   <div class="form-group">
     <div class="switch">
       <label>
@@ -83,22 +92,7 @@ import * as _ from 'lodash';
 </form>
   `
 })
-export class MdsFormComponent {
-
-  @Input() set molecularData(tables: Array<string>) {
-    this.dataOptions = tables.map(v => {
-      const rv = { key: v, label: _.startCase(_.toLower(v)) };
-      return rv;
-    });
-  }
-
-  @Input() set clinicalFields(fields: Array<DataField>) {
-    if (fields.length === 0) { return; }
-    const defaultDataField: DataField = DataFieldFactory.getUndefined();
-    this.colorOptions = DataFieldFactory.getColorFields(fields);
-    this.shapeOptions = DataFieldFactory.getShapeFields(fields);
-    this.sizeOptions = DataFieldFactory.getSizeFields(fields);
-  }
+export class MdsFormComponent extends AbstractScatterForm {
 
   @Input() set config(v: MdsConfigModel) {
     if (v === null) { return; }
@@ -107,24 +101,17 @@ export class MdsFormComponent {
     }
   }
 
-  @Output() configChange = new EventEmitter<GraphConfig>();
-
-  form: FormGroup;
-  colorOptions: Array<DataField>;
-  shapeOptions: Array<DataField>;
-  sizeOptions: Array<DataField>;
-  displayOptions = [EntityTypeEnum.SAMPLE, EntityTypeEnum.GENE];
-  dataOptions: Array<{ key: string, label: string }>;
-  dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D, DimensionEnum.ONE_D];
-
-  byKey(p1: DataField, p2: DataField) {
-    if (p2 === null) { return false; }
-    return p1.key === p2.key;
-  }
+  MdsDissimilarityOpitions = [
+    MdsDissimilarity.ECULIDEAN,
+    MdsDissimilarity.PRECOMPUTED
+  ];
 
   constructor(private fb: FormBuilder) {
 
+    super();
+
     this.form = this.fb.group({
+      dirtyFlag: [0],
       visualization: [],
       graph: [],
       entity: [],
@@ -132,16 +119,21 @@ export class MdsFormComponent {
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
-      dataKey: [],
-      dataOption: [],
+      table: [],
       pointColor: [],
       pointShape: [],
       pointSize: [],
+
       components: [],
-      nInit: [],
+      n_init: [],
       metric: [],
       eps: [],
-      dimension: []
+      dimension: [],
+      max_tier: [],
+      verbose: [],
+      n_jobs: [],
+      random_state: [],
+      dissimilarity: []
     });
 
     // Update When Form Changes
@@ -149,6 +141,14 @@ export class MdsFormComponent {
       .debounceTime(200)
       .distinctUntilChanged()
       .subscribe(data => {
+        let dirty = 0;
+        const form = this.form;
+        if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
+        if (form.get('pointShape').dirty) { dirty |= DirtyEnum.SHAPE; }
+        if (form.get('pointSize').dirty) { dirty |= DirtyEnum.SIZE; }
+        if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
+        form.markAsPristine();
+        data.dirtyFlag = dirty;
         this.configChange.emit(data);
       });
   }

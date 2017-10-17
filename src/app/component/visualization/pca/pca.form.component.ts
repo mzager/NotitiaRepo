@@ -1,10 +1,11 @@
 import { DimensionEnum, EntityTypeEnum } from './../../../model/enum.model';
+import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { PcaConfigModel } from './pca.model';
-import { DataTypeEnum } from 'app/model/enum.model';
-import { DataField, DataFieldFactory } from './../../../model/data-field.model';
+import { PcaConfigModel, PcaSvdSolver } from './pca.model';
+import { DataTypeEnum, DirtyEnum } from 'app/model/enum.model';
+import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import * as _ from 'lodash';
 
 @Component({
@@ -15,9 +16,9 @@ import * as _ from 'lodash';
   <div class="form-group">
     <label class="center-block">Data
       <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          formControlName="dataOption">
-          <option *ngFor="let option of dataOptions">{{option.label}}</option>
+        [compareWith]="byKey"
+        formControlName="table">
+        <option *ngFor="let option of dataOptions">{{option.label}}</option>
       </select>
     </label>
   </div>
@@ -70,7 +71,24 @@ import * as _ from 'lodash';
       </select>
     </label>
   </div>
-
+  <div class="form-group">
+    <label class="center-block"><span class="form-label">Svd Solver</span>
+      <select class="browser-default" materialize="material_select"
+        [materializeSelectOptions]="PcaSvdSolverOptions"
+        formControlName="svd_solver">
+        <option *ngFor="let options of PcaSvdSolverOptions">{{options}}</option>
+      </select>
+    </label>
+  </div>
+  <div class="form-group">
+    <div class="switch">
+      <label>
+        <input type="checkbox" formControlName="whiten">
+          <span class="lever"></span>
+            Whiten
+      </label>
+    </div>
+  </div>
   <div class="form-group">
     <div class="switch">
       <label>
@@ -97,22 +115,7 @@ import * as _ from 'lodash';
 </form>
   `
 })
-export class PcaFormComponent {
-
-  @Input() set molecularData(tables: Array<string>) {
-    this.dataOptions = tables.map(v => {
-      const rv = { key: v, label: _.startCase(_.toLower(v)) };
-      return rv;
-    });
-  }
-
-  @Input() set clinicalFields(fields: Array<DataField>) {
-    if (fields.length === 0) { return; }
-    const defaultDataField: DataField = DataFieldFactory.getUndefined();
-    this.colorOptions = DataFieldFactory.getColorFields(fields);
-    this.shapeOptions = DataFieldFactory.getShapeFields(fields);
-    this.sizeOptions = DataFieldFactory.getSizeFields(fields);
-  }
+export class PcaFormComponent extends AbstractScatterForm {
 
   @Input() set config(v: PcaConfigModel) {
     if (v === null) { return; }
@@ -121,43 +124,40 @@ export class PcaFormComponent {
     }
   }
 
-  @Output() configChange = new EventEmitter<GraphConfig>();
+  PcaSvdSolverOptions = [
+    PcaSvdSolver.AUTO,
+    PcaSvdSolver.ARPACK,
+    PcaSvdSolver.RANDOMIZED,
+    PcaSvdSolver.FULL
+  ];
 
-  form: FormGroup;
-  colorOptions: Array<DataField>;
-  shapeOptions: Array<DataField>;
-  sizeOptions: Array<DataField>;
-  displayOptions = [EntityTypeEnum.SAMPLE, EntityTypeEnum.GENE];
-  dataOptions: Array<{ key: string, label: string }>;
-  dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D, DimensionEnum.ONE_D];
-
-  byKey(p1: DataField, p2: DataField) {
-    if (p2 === null) { return false; }
-    return p1.key === p2.key;
-  }
 
   constructor(private fb: FormBuilder) {
 
-    this.form = this.fb.group({
-      visualization: [],
-      graph: [],
-      entity: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
+    super();
 
-      dataKey: [],
-      dataOption: [],
-      pointColor: [],
-      pointShape: [],
-      pointSize: [],
-      dimension: [],
-      domain: [],
-      showVectors: [],
-      isCovarianceMatrix: [],
-      isCentered: [],
-      isScaled: [],
+        this.form = this.fb.group({
+          dirtyFlag: [0],
+          visualization: [],
+          graph: [],
+          entity: [],
+          markerFilter: [],
+          markerSelect: [],
+          sampleFilter: [],
+          sampleSelect: [],
+          table: [],
+          pointColor: [],
+          pointShape: [],
+          pointSize: [],
+
+          components: [],
+          dimension: [],
+          svd_solver: [],
+          tol: [],
+          whiten: [],
+          copy: [],
+          iterated_power: [],
+          random_state: []
     });
 
     // Update When Form Changes
@@ -165,6 +165,14 @@ export class PcaFormComponent {
       .debounceTime(200)
       .distinctUntilChanged()
       .subscribe(data => {
+        let dirty = 0;
+        const form = this.form;
+        if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
+        if (form.get('pointShape').dirty) { dirty |= DirtyEnum.SHAPE; }
+        if (form.get('pointSize').dirty)  { dirty |= DirtyEnum.SIZE; }
+        if (dirty === 0 ) { dirty |= DirtyEnum.LAYOUT; }
+        form.markAsPristine();
+        data.dirtyFlag = dirty;
         this.configChange.emit(data);
       });
   }

@@ -1,6 +1,6 @@
-import { EntityTypeEnum } from './../../../model/enum.model';
+import { EntityTypeEnum, DirtyEnum } from './../../../model/enum.model';
 import { Legend } from 'app/model/legend.model';
-import { PcaConfigModel } from './pca.model';
+import { PcaConfigModel, PcaDataModel } from './pca.model';
 import { DedicatedWorkerGlobalScope } from 'compute';
 import * as _ from 'lodash';
 declare var ML: any;
@@ -8,51 +8,45 @@ declare var ML: any;
 
 export const pcaCompute = (config: PcaConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
-    //     worker.util.loadData(config.dataKey).then((data) => {
+    worker.util.processShapeColorSizeIntersect(config, worker);
 
-    //         const legendItems: Array<Legend> = [];
-    //         const molecularData = data.molecularData[0];
-    //         const matrix = worker.util.processMolecularData(molecularData, config);
-
-    //         // Configure PCA
-    //         const pca = new ML.Stat.PCA(matrix, {
-    //             isCovarianceMatrix: false,
-    //             center: config.isCentered,
-    //             scale: config.isScaled
-    //         });
-    //         // Calculate Scores
-    //         const scores = pca.predict(matrix);
-
-    //         // Scale Data
-    //         const vectorsScaled = worker.util.scale3d( pca.getEigenvectors() );
-    //         const scoresScaled = worker.util.scale3d( scores );
-
-    //         // Colors + Legend
-    //         const pointColor: {legend: Legend, value: number[]} = worker.util.createPatientColorMap(data, config.pointColor);
-    //         const pointSize:  {legend: Legend, value: number[]} = worker.util.createPatientSizeMap(data, config.pointSize);
-    //         const pointShape: {legend: Legend, value: number[]} = worker.util.createPatientShapeMap(data, config.pointShape);
-    //         legendItems.push(pointColor.legend, pointSize.legend, pointShape.legend);
-
-    //         worker.postMessage({
-    //             config: config,
-    //             data: {
-    //                 legendItems: legendItems,
-    //                 eigenvectors: pca.getEigenvectors(),
-    //                 eigenvectorsScaled: vectorsScaled,
-    //                 eigenvalues: pca.getEigenvalues(),
-    //                 loadings: pca.getLoadings(),
-    //                 scores: scores,
-    //                 scoresScaled: scoresScaled,
-    //                 explainedVariance: pca.getExplainedVariance(),
-    //                 cumulativeVariance: pca.getCumulativeVariance(),
-    //                 standardDeviations: pca.getStandardDeviations(),
-    //                 pointColor: pointColor.value,
-    //                 pointShape: pointShape.value,
-    //                 pointSize: pointSize.value,
-    //                 sampleIds: worker.util.createSampleMap(data),
-    //                 markerIds: worker.util.createMarkerMap(data.molecularData[0])
-    //             }
-    //         });
-    //         worker.postMessage('TERMINATE');
-    // });
+    if (config.dirtyFlag & DirtyEnum.LAYOUT) {
+        worker.util
+            .getMatrix([], [], config.table.map, config.table.tbl, config.entity)
+            .then(mtx => {
+                Promise.all([
+                    worker.util.getSamplePatientMap(),
+                    worker.util
+                        .fetchResult({
+                            // added more than server is calling
+                            method: 'cluster_sk_pca',
+                            data: mtx.data,
+                            components: config.components,
+                            dimension: config.dimension,
+                            random_state: config.random_state,
+                            tol: config.tol,
+                            svd_solver: config.svd_solver,
+                            whiten: config.whiten,
+                            copy: config.copy,
+                            iterated_power: config.iterated_power
+                        })
+                ]).then(result => {
+                    const psMap = result[0].reduce((p, c) => { p[c.s] = c.p; return p; }, {});
+                    const data = JSON.parse(result[1].body);
+                    const resultScaled = worker.util.scale3d(data.result);
+                    worker.postMessage({
+                        config: config,
+                        data: {
+                            legendItems: [],
+                            result: data,
+                            resultScaled: resultScaled,
+                            patientIds: mtx.samples.map(v => psMap[v]),
+                            sampleIds: mtx.samples,
+                            markerIds: mtx.markers
+                        }
+                    });
+                    worker.postMessage('TERMINATE');
+                });
+            });
+    }
 };
