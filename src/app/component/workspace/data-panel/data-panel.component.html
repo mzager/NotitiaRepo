@@ -1,7 +1,6 @@
 <div>
-  
- <hotTable 
-  #dataTable> 
-</hotTable>
-
+    <ul class="tabs tabs-fixed-width" #tabs>
+        <li class="tab" *ngFor="let table of tables"><a class="active" (click)="tableChange(table)">{{table.label}}</a></li>
+    </ul>
+ <hotTable #dataTable></hotTable>
 </div>

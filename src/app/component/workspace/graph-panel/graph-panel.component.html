@@ -19,7 +19,7 @@
                 </div> 
                 <app-chromosome-form *ngIf="configA && configA.visualization === 3"
                     (configChange)="graphPanelSetConfig($event)"
-                    [molecularData]="molecularData"
+                    [fields]="fields"
                     [config]="configA"
                     ></app-chromosome-form>
                 <app-pca-form *ngIf="configA && configA.visualization === 1"
@@ -139,7 +139,7 @@
             </div> 
              <app-chromosome-form *ngIf="configB && configB.visualization === 3"
                 (configChange)="graphPanelSetConfig($event)"
-                [molecularData]="molecularData"
+                [fields]="fields"
                 [config]="configB"
                 ></app-chromosome-form>
             <app-pca-form *ngIf="configB && configB.visualization === 1"

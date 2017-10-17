@@ -98,7 +98,7 @@
     (fileOpen)="fileOpen($event)"></app-application-bar>
 
 <app-workspace-data-panel  style="position:absolute;top:30px;bottom:0px;width:100%;background:#ffffff;"
-    [fields]="clinicalFields | async"
+    [tables]="tables | async"
     *ngIf="dataPanelTab | async"></app-workspace-data-panel>
      
 <app-workspace-tool-bar *ngIf="toolPanelTab | async">
