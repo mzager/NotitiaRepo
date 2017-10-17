@@ -9,6 +9,7 @@ export const isoMapCompute = (config: IsoMapConfigModel, worker: DedicatedWorker
 
     worker.util.processShapeColorSizeIntersect(config, worker);
         if (config.dirtyFlag & DirtyEnum.LAYOUT) {
+
             worker.util
                 .getMatrix([], [], config.table.map, config.table.tbl, config.entity)
                 .then(mtx => {
