@@ -27,7 +27,9 @@ export const localLinearEmbeddingCompute = (config: LocalLinearEmbeddingConfigMo
                             reg: config.reg,
                             random_state: config.random_state,
                             neighbors_algorithm: config.neighbors_algorithm,
-                            lle_method: config.lle_method
+                            lle_method: config.lle_method,
+                            hessian_tol: config.hessian_tol,
+                            modified_tol: config.modified_tol
                         })
                 ]).then(result => {
                     const psMap = result[0].reduce((p, c) => { p[c.s] = c.p; return p; }, {});
