@@ -27,7 +27,7 @@ export class SpectralEmbeddingConfigModel extends GraphConfig {
         this.visualization = VisualizationEnum.SPECTRAL_EMBEDDING;
     }
 
-    components = 2;
+    components = 3;
     dimension = DimensionEnum.THREE_D;
     eigen_solver = SpectralEmbeddingEigenSolver.NONE;
     random_state = 'None';

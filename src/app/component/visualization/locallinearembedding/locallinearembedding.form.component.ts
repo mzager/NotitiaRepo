@@ -9,6 +9,7 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from 
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import * as _ from 'lodash';
 
+
 @Component({
   selector: 'app-locallinearembedding-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -84,18 +85,18 @@ import * as _ from 'lodash';
 <div class="form-group">
 <label class="center-block"><span class="form-label">Method</span>
   <select class="browser-default" materialize="material_select"
-    [materializeSelectOptions]="LocalLinearEmbeddingMethod"
-    formControlName="LocalLinearEmbeddingMethod">
-      <option *ngFor="let options of LocalLinearEmbeddingMethod">{{options}}</option>
+    [materializeSelectOptions]="LocalLinearEmbeddingMethodOptions"
+    formControlName="lle_method">
+      <option *ngFor="let options of LocalLinearEmbeddingMethodOptions">{{options}}</option>
   </select>
 </label>
 </div>
 <div class="form-group">
 <label class="center-block"><span class="form-label">Neighbors Algorithm</span>
   <select class="browser-default" materialize="material_select"
-    [materializeSelectOptions]="LocalLinearEmbeddingNeighborsAlgorithm"
+    [materializeSelectOptions]="LocalLinearEmbeddingNeighborsAlgorithmOptions"
     formControlName="neighbors_algorithm">
-      <option *ngFor="let options of LocalLinearEmbeddingNeighborsAlgorithm">{{options}}</option>
+      <option *ngFor="let options of LocalLinearEmbeddingNeighborsAlgorithmOptions">{{options}}</option>
   </select>
 </label>
 </div>
@@ -117,14 +118,14 @@ export class LocalLinearEmbeddingFormComponent extends AbstractScatterForm {
     LocalLinearEmbeddingEigenSolver.DENSE
   ];
 
-  LocalLinearEmbeddingMethod = [
+  LocalLinearEmbeddingMethodOptions = [
     LocalLinearEmbeddingMethod.STANDARD,
-    LocalLinearEmbeddingMethod.HESSIAN,
     LocalLinearEmbeddingMethod.LTSA,
+    LocalLinearEmbeddingMethod.HESSIAN,
     LocalLinearEmbeddingMethod.MODIFIED
   ];
 
-  LocalLinearEmbeddingNeighborsAlgorithm = [
+  LocalLinearEmbeddingNeighborsAlgorithmOptions = [
     LocalLinearEmbeddingNeighborsAlgorithm.AUTO,
     LocalLinearEmbeddingNeighborsAlgorithm.BALL_TREE,
     LocalLinearEmbeddingNeighborsAlgorithm.BRUTE,
@@ -157,7 +158,7 @@ export class LocalLinearEmbeddingFormComponent extends AbstractScatterForm {
       reg: [],
       random_state: [],
       neighbors_algorithm: [],
-      LocalLinearEmbeddingMethod: []
+      lle_method: []
     });
 
     // Update When Form Changes
