@@ -30,6 +30,15 @@ from sklearn.decomposition import DictionaryLearning
 from sklearn.decomposition import TruncatedSVD
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
+from sklearn.cluster import AffinityPropagation
+from sklearn.cluster import Birch
+from sklearn.cluster import DBSCAN
+from sklearn.cluster import FeatureAgglomeration
+from sklearn.cluster import KMeans
+from sklearn.cluster import MiniBatchKMeans
+from sklearn.cluster import MeanShift
+from sklearn.cluster import SpectralClustering
+
 #with sklearn.config_context(assume_finite=True):
 #import numpy as np
 #from Bio.Cluster import clusterdistance
@@ -100,10 +109,19 @@ def cluster_bio_kcluster(event, context):
 
 def cluster_sk_pca(event, context):
     """ SK PCA | components: N, data:[[]] """
-    _config = PCA(n_components=event['body']['components'])
+    _config = PCA(
+        n_components=event['body']['components'],
+        copy=event['body']['copy'],
+        whiten=event['body']['whiten'],
+        svd_solver=event['svd_solver'],
+        tol = event['body']['tol'],
+        iterated_power= event['body']['iterated_power'],
+        random_state= event['body']['random_state']
+        )
+
     _result = _config.fit(event['body']['data']).transform(event['body']['data'])
     return httpWrapper(json.dumps({
-        'result':  json.dumps(_result.tolist()),
+        'result':  _result.tolist(),
         'components': _config.components_.tolist(),
         'varianceExplained': _config.explained_variance_.tolist(),
         'varianceRatio': _config.explained_variance_ratio_.tolist(),
@@ -236,8 +254,9 @@ def cluster_sk_fast_ica(event, context):
         whiten=event['body']['whiten'],
         algorithm=event['body']['algorithm'],
         fun=event['body']['fun'], 
-        tol=event['body']['tol'])
-    _result = _config.fit_transform(event['body']['data']);
+        tol=event['body']['tol']
+    )
+    _result = _config.fit_transform(event['body']['data'])
     return httpWrapper(json.dumps({
         'result':  _result.tolist(),
         'components': _config.components_.tolist(),
@@ -297,18 +316,18 @@ def manifold_sk_tsne(event, context):
     """ SK TSNE """
     _config = TSNE(
         n_components=event['body']['components'],
-        perplexity=30.0,
-        early_exaggeration=12.0,
-        learning_rate=200.0,
-        n_iter=1000,
-        n_iter_without_progress=300,
-        min_grad_norm=1e-7,
-        metric="euclidean",
-        init="random",
-        verbose=0,
-        random_state=None,
-        method='barnes_hut',
-        angle=0.5
+        perplexity=event['body']['perplexity'],
+        early_exaggeration=event['body']['early_exaggeration'],
+        learning_rate=event['body']['learning_rate'],
+        n_iter=event['body']['n_iter'],
+        n_iter_without_progress=event['body']['n_iter_without_progress'],
+        min_grad_norm=event['body']['min_grad_norm'],
+        metric=event['body']['metric'],
+        init=event['body']['init'],
+        verbose=event['body']['verbose'],
+        random_state=event['body']['random_state'],
+        method=event['body']['method'],
+        angle=event['body']['angle']
         )
     _result = _config.fit_transform(event['body']['data'])
     return httpWrapper(json.dumps({
@@ -333,13 +352,13 @@ def manifold_sk_mds(event, context):
 def manifold_sk_iso_map(event, context):
     """ ISO MAP """
     _config = Isomap(
-        n_neighbors=5,
-        n_components=3,
-        eigen_solver='auto',
-        tol = 0,
-        max_iter=None,
-        path_method='auto',
-        neighbors_algorithm='auto',
+        n_neighbors=event['body']['n_neighbors'],
+        n_components=event['body']['components'],
+        eigen_solver=event['body']['eigen_solver'],
+        tol = event['body']['tol'],
+        max_iter=event['body']['max_iter'],
+        path_method=event['body']['path_method'],
+        neighbors_algorithm=event['body']['neighbors_algorithm'],
         n_jobs=-1,
     )
     _result = _config.fit_transform(event['body']['data'])
@@ -354,17 +373,17 @@ def manifold_sk_iso_map(event, context):
 def manifold_sk_local_linear_embedding(event, context):
     """ http://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html#sklearn.manifold.Isomap """
     _config = LocallyLinearEmbedding(
-        n_neighbors=5,
-        n_components=3,
-        reg=1E-3,
-        eigen_solver='auto',
-        tol=1E-6,
-        max_iter=100,
-        method='standard',
-        hessian_tol=1E-4,
-        modified_tol=1E-12,
-        neighbors_algorithm='auto',
-        random_state=None,
+        n_neighbors=event['body']['n_neighbors'],
+        n_components=event['body']['components'],
+        reg=event['body']['reg'],
+        eigen_solver=event['body']['eigen_solver'],
+        tol=event['body']['tol'],
+        max_iter=event['body']['max_iter'],
+        method=event['body']['lle_method'],
+        hessian_tol=event['body']['hessian_tol'],
+        modified_tol=event['body']['modified_tol'],
+        neighbors_algorithm=event['body']['neighbors_algorithm'],
+        random_state=event['body']['neighbors_algorithm'],
         n_jobs=-1
     )
     _result = _config.fit_transform(event['body']['data'])
@@ -376,8 +395,8 @@ def manifold_sk_local_linear_embedding(event, context):
 def manifold_sk_spectral_embedding(event, context):
     """ http://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html#sklearn.manifold.Isomap """
     _config = SpectralEmbedding(
-        n_components=3,
-        affinity="nearest_neighbors",
+        n_components=event['body']['components'],
+        affinity=event['body']['affinity'],
         gamma=None,
         random_state=None,
         eigen_solver=None,
@@ -390,7 +409,214 @@ def manifold_sk_spectral_embedding(event, context):
         'embedding': _config.embedding_.tolist()
     }))
     #'affinityMatrix': _config.affinity_matrix_.tolist()
+def cluster_sk_affinity_propagation(event, context):
+    """ AffinityPropagation """
+    _config = AffinityPropagation(
+        damping = event['body']['damping'],
+        max_iter = event['body']['max_iter'],
+        convergence_iter = event['body']['convergence_iter'],
+        copy = event['body']['copy'],
+        preference = event['body']['preference'],
+        affinity = event['body']['affinity'],
+        verbose = event['body']['verbose']
+    )
+    _result = _config.fit_predict(event['body']['data'])
+    return httpWrapper( json.dumps({
+        'result': _result.tolist(),
+        'cluster_centers_indices': _config.cluster_centers_indices_,
+        'cluster_centers': _config.cluster_centers_,
+        'labels': _config.labels_,
+        # 'affinity_matrix': affinity_matrix_,
+        'affinity_matrix': _configaffinity_matrix_,
+        'n_iter':  _config.n_iter_
+    }))
 
+def cluster_sk_birch(event, context):
+    """ Birch """
+    _config = Birch(
+        eps = event['body']['eps'],
+        min_samples = event['body']['min_samples'],
+        metric = event['body']['metric'],
+        metric_params = event['body']['metric_params'],
+        algorithm = event['body']['algorithm'],
+        leaf_size = event['body']['leaf_size'],
+        p = event['body']['p'],
+        n_jobs = event['body']['n_jobs']
+    )
+    _result = _config.fit_predict(event['body']['data'])
+    return httpWrapper( json.dumps({
+        'result': _result.tolist(),
+        'root': _config.root,
+        'dummy_leaf': _config.dummy_leaf_,
+        'subcluster_centers': _config.subcluster_centers_,
+        'subcluster_labels': _config.subcluster_labels_,
+        'labels': _config.affinity_matrix_
+    }))
+def cluster_sk_dbscan(event, context):
+    """ DBSCAN """
+    _config = DBSCAN(
+        threshold = event['body']['threshold'],
+        branching_factor = event['body']['branching_factor'],
+        n_clusters = event['body']['n_clusters'],
+        compute_labels = event['body']['compute_labels'],
+        copy = event['body']['copy']
+    )
+    _result = _config.fit_predict(event['body']['data'])
+    return httpWrapper( json.dumps({
+        'result': _result.tolist(),
+        'core_sample_indices': _config.core_sample_indices_,
+        'components': _config.components_,
+        'labels': _config.labels_
+    }))
+def cluster_sk_feature_agglomeration(event, context):
+    """ FeatureAgglomeration """
+    _config = FeatureAgglomeration(
+        n_clusters = event['body']['n_clusters'],
+        affinity = event['body']['affinity'],
+        memory = event['body']['memory'],
+        connectivity = event['body']['connectivity'],
+        compute_full_tree = event['body']['compute_full_tree'],
+        linkage = event['body']['linkage'],
+        pooling_func = event['body']['pooling_func']
+    )
+    _result = _config.fit_predict(event['body']['data'])
+    return httpWrapper( json.dumps({
+        'result': _result.tolist(),
+        'core_sample_indices': _config.labels_,
+        'n_leaves': _config.n_leaves_,
+        'n_components': _config.n_components_,
+        'children': _config.children_
+    }))
+
+def cluster_sk_kmeans(event, context):
+    """ KMeans """
+    _config = KMeans(
+        n_clusters = event['body']['n_clusters'],
+        init = event['body']['init'],
+        n_init = event['body']['n_init'],
+        max_iter = event['body']['max_iter'],
+        tol = event['body']['tol'],
+        precompute_distances = event['body']['precompute_distances'],
+        verbose = event['body']['verbose'],
+        random_state = event['body']['random_state'],
+        copy_x = event['body']['copy_x'],
+        n_jobs = event['body']['n_jobs'],
+        algorithm = event['body']['algorithm']
+    )
+    _result = _config.fit_predict(event['body']['data'])
+    return httpWrapper( json.dumps({
+        'result': _result.tolist(),
+        'cluster_centers': _config.cluster_centers_,
+        'labels': _config.labels_,
+        'inertia': _config.inertia_
+    }))
+
+def cluster_sk_mini_batch_kmeans(event, context):
+    """ MiniBatchKMeans """
+    _config = MiniBatchKMeans(
+        n_clusters = event['body']['n_clusters'],
+        init = event['body']['init'],
+        max_iter = event['body']['max_iter'],
+        batch_size = event['body']['batch_size'],
+        verbose = event['body']['verbose'],
+        compute_labels = event['body']['compute_labels'],
+        random_state = event['body']['random_state'],
+        tol = event['body']['tol'],
+        max_no_improvement = event['body']['max_no_improvement'],
+        init_size = event['body']['init_size'],
+        n_init = event['body']['n_init'],
+        reassignment_ratio = event['body']['reassignment_ratio']
+    )
+    _result = _config.fit_predict(event['body']['data'])
+    return httpWrapper( json.dumps({
+        'result': _result.tolist(),
+        'cluster_centers': _config.cluster_centers_,
+        'labels': _config.labels_,
+        'inertia': _config.inertia_
+    }))
+
+def cluster_sk_mean_shift(event, context):
+    """ MeanShift """
+    _config = MeanShift(
+        bandwidth = event['body']['bandwidth'],
+        seeds = event['body']['seeds'],
+        bin_seeding = event['body']['bin_seeding'],
+        min_bin_freq = event['body']['min_bin_freq'],
+        cluster_all = event['body']['cluster_all'],
+        n_jobs = event['body']['n_jobs']
+    )
+    _result = _config.fit_predict(event['body']['data'])
+    return httpWrapper( json.dumps({
+        'result': _result.tolist(),
+        'cluster_centers': _config.cluster_centers_,
+        'labels': _config.labels_
+    }))
+
+def cluster_sk_spectral_clustering(event, context):
+    """ SpectralClustering """
+    _config = SpectralClustering(
+        n_clusters = event['body']['n_clusters'],
+        eigen_solver = event['body']['eigen_solver'],
+        random_state = event['body']['random_state'],
+        n_init = event['body']['n_init'],
+        gamma = event['body']['gamma'],
+        affinity = event['body']['affinity'],
+        n_neighbors = event['body']['n_neighbors'],
+        eigen_tol = event['body']['eigen_tol'],
+        assign_labels = event['body']['assign_labels'],
+        degree = event['body']['degree'],
+        coef0 = event['body']['coef0'],
+        kernel_params = event['body']['kernel_params'],
+        n_jobs = event['body']['n_jobs']
+    )
+    _result = _config.fit_predict(event['body']['data'])
+    return httpWrapper( json.dumps({
+        'result': _result.tolist(),
+        'affinity_matrix': _config.affinity_matrix_,
+        'labels': _config.labels_
+    }))
+
+def discriminant_analysis_sk_linear(event, context):
+    """ discriminant_analysis_LinearDiscriminantAnalysis """
+    _config = LinearDiscriminantAnalysis(
+        solver = event['body']['solver'],
+        shrinkage = event['body']['shrinkage'],
+        priors = event['body']['priors'],
+        n_components = event['body']['n_components'],
+        store_covariance = event['body']['store_covariance'],
+        tol = event['body']['tol']
+    )
+    _result = _config.fit_predict(event['body']['data'])
+    return httpWrapper( json.dumps({
+        'result': _result.tolist(),
+        'coef': _config.coef_,
+        'intercept': _config.intercept_,
+        'covariance': _config.covariance_,
+        'explained_variance_ratio': _config.explained_variance_ratio_,
+        'means': _config.means_,
+        'priors': _config.priors_,
+        'scalings': _config.scalings_,
+        'xbar': _config.xbar_,
+        'classes': _config.classes_
+    }))
+
+def discriminant_analysis_sk_quadratic(event, context):
+    """ discriminant_analysis_sk_QuadraticDiscriminantAnalysis """
+    _config = QuadraticDiscriminantAnalysis(
+        priors = event['body']['priors'],
+        reg_param = event['body']['reg_param'],
+        store_covariance = event['body']['store_covariance'],
+        tol = event['body']['tol']
+    )
+    _result = _config.fit_predict(event['body']['data'])
+    return httpWrapper( json.dumps({
+        'result': _result.tolist(),
+        'covariance': _config.covariance_,
+        'means': _config.means_, 
+        'priors': _config.priors_,
+        'rotations': _config.rotations_, 
+        'scalings': _config.scalings_
+    }))
 
 def main(event, context):
     """ Gateway """
@@ -416,6 +642,18 @@ def main(event, context):
         'manifold_sk_tsne': manifold_sk_tsne,
         'manifold_sk_iso_map': manifold_sk_iso_map,
         'manifold_sk_spectral_embedding': manifold_sk_spectral_embedding,
-        'manifold_sk_local_linear_embedding': manifold_sk_local_linear_embedding
+        'manifold_sk_local_linear_embedding': manifold_sk_local_linear_embedding,
+        'cluster_sk_affinity_propagation': cluster_sk_affinity_propagation,
+        'cluster_sk_birch': cluster_sk_birch,
+        'cluster_sk_dbscan': cluster_sk_dbscan,
+        'cluster_sk_feature_agglomeration': cluster_sk_feature_agglomeration,
+        'cluster_sk_kmeans': cluster_sk_kmeans,
+        'cluster_sk_mini_batch_kmeans': cluster_sk_mini_batch_kmeans,
+        'cluster_sk_mean_shift': cluster_sk_mean_shift,
+        'cluster_sk_spectral_clustering': cluster_sk_spectral_clustering,
+        'discriminant_analysis_sk_linear': discriminant_analysis_sk_linear,
+        'discriminant_analysis_sk_quadratic': discriminant_analysis_sk_quadratic
+
+
     }.get(event['body']['method'], echo)
     return function_to_invoke(event, context)
