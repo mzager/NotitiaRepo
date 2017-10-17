@@ -43,6 +43,8 @@ export class LocalLinearEmbeddingConfigModel extends GraphConfig {
     lle_method = LocalLinearEmbeddingMethod.STANDARD;
     tol = 0.0001;
     max_iter = 100;
+    hessian_tol = 0.0001;
+    modified_tol = 1e-12;
 }
 
 
