@@ -52,6 +52,7 @@ onmessage = function (e) {
             edgesCompute(e.data, me);
             break;
         case VisualizationEnum.HEATMAP:
+            debugger;
             heatmapCompute(e.data, me);
             break;
         case VisualizationEnum.MDS:

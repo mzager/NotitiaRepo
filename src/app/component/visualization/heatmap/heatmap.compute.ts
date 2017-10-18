@@ -4,17 +4,74 @@ import { DimensionEnum, HClustMethodEnum, HClustDistanceEnum } from './../../../
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Rx';
 import { Legend } from 'app/model/legend.model';
-import { scaleSequential, schemeRdBu, interpolateRdBu } from 'd3-scale-chromatic';
+import { scaleSequential, schemeRdBu, interpolateRdBu, interpolateSpectral } from 'd3-scale-chromatic';
 import * as d3Interpolate from 'd3-interpolate';
 import * as d3Scale from 'd3-scale';
 import * as d3Color from 'd3-color';
-import * as TSNE from 'tsne-js';
 import * as util from 'app/service/compute.worker.util';
 import * as _ from 'lodash';
 declare var ML: any;
 
 export const heatmapCompute = (config: HeatmapConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
+    worker.util
+        .getMatrix([], [], config.table.map, config.table.tbl, config.entity)
+        .then(result => {
+
+            const matrix = result.data;
+            const minMax = matrix.reduce((p, c) => {
+                p[0] = Math.min(p[0], ...c);
+                p[1] = Math.max(p[1], ...c);
+                return p;
+            }, [Infinity, -Infinity]); // Min Max
+
+            const scaleColor = d3Scale.scaleSequential(interpolateSpectral).domain(minMax);
+            const scaleRegex = /rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)/;
+            const scale = (val) => scaleRegex.exec(scaleColor(val).toString())
+                .reduce((p, c, rgbi) => {
+                    if (rgbi > 0 && rgbi < 4) {
+                        p[rgbi - 1] = parseInt(c, 10) / 255;
+                    }
+                    return p;
+                }, new Array(3));
+
+            const markerCount = result.markers.length;
+            const sampleCount = result.samples.length;
+            const points = markerCount * sampleCount;
+            const positions = new Float32Array(points * 3);
+            const colors = new Float32Array(points * 3);
+
+            const pointSize = 1;
+            matrix.map((row, r) => row.map((col, c) => {
+
+                const index = (r * sampleCount + c) * 3;
+                positions[index] = r * pointSize;
+                positions[index + 1] = c * pointSize;
+                positions[index + 2] = 0;
+
+                const rgbArray = scale(col);
+                colors[index] = rgbArray[0];
+                colors[index + 1] = rgbArray[1];
+                colors[index + 2] = rgbArray[2];
+            }));
+
+            worker.postMessage({
+                config: config,
+                data: {
+                    // legendItems: legendItems,
+                    positions: positions,
+                    colors: colors,
+                    //cluster: cluster
+                }
+            });
+
+            debugger;
+
+            worker.postMessage('TERMINATE');
+
+
+            debugger;
+        });
 
     // // const postMessageThrottled = _.throttle(postMessage, 1000);
     // worker.util.loadData(config.dataKey).then((data) => {
@@ -41,13 +98,13 @@ export const heatmapCompute = (config: HeatmapConfigModel, worker: DedicatedWork
     //     const positions = new Float32Array(points * 3);
     //     const colors = new Float32Array(points * 3);
 
-    //     const minMax = matrix.reduce( (p, c) => {
-    //         p[0] = Math.min( p[0], ...c);
-    //         p[1] = Math.max( p[1], ...c);
-    //         return p;
-    //     }, [Infinity, -Infinity]); // Min Max
-    //     const scaleColor = d3Scale.scaleSequential(interpolateRdBu).domain(minMax);
-    //     const scaleRegex = /rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)/;
+    // const minMax = matrix.reduce( (p, c) => {
+    //     p[0] = Math.min( p[0], ...c);
+    //     p[1] = Math.max( p[1], ...c);
+    //     return p;
+    // }, [Infinity, -Infinity]); // Min Max
+    // const scaleColor = d3Scale.scaleSequential(interpolateRdBu).domain(minMax);
+    // const scaleRegex = /rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)/;
 
     //     for (let i = 0; i < markerCount; ++i) {
     //         const mtx2d = matrix[cluster.index[i].index];

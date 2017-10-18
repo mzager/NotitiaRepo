@@ -8,6 +8,12 @@ import { DimensionEnum, DistanceEnum, DenseSparseEnum,
     HClustMethodEnum, HClustDistanceEnum, EntityTypeEnum } from './../../../model/enum.model';
 
 export class HeatmapConfigModel extends GraphConfig {
+
+    constructor() {
+        super();
+        this.entity = EntityTypeEnum.SAMPLE;
+        this.visualization = VisualizationEnum.HEATMAP;
+    }
     method: HClustMethodEnum = HClustMethodEnum.AGNES;
     distance: HClustDistanceEnum = HClustDistanceEnum.SINGLE;
 }
