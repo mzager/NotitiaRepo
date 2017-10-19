@@ -29,31 +29,31 @@ export class DragSelectionControl {
     private _dragging: boolean;
     private _enabled: boolean;
     public set enabled(value: boolean) {
-        if (this._enabled === value) { return; }
-        this._enabled = value;
-        if (this._enabled) {
-            this.sMouseUp = this.events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
-            this.sMouseDown = this.events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
-            this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
-        } else {
-            if (this.sMouseUp !== null) { return; }
-            this.sMouseUp.unsubscribe();
-            this.sMouseDown.unsubscribe();
-            this.sMouseMove.unsubscribe();
-        }
+        // if (this._enabled === value) { return; }
+        // this._enabled = value;
+        // if (this._enabled) {
+        //     this.sMouseUp = this.events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
+        //     this.sMouseDown = this.events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
+        //     this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
+        // } else {
+        //     if (this.sMouseUp !== null) { return; }
+        //     this.sMouseUp.unsubscribe();
+        //     this.sMouseDown.unsubscribe();
+        //     this.sMouseMove.unsubscribe();
+        // }
     }
 
     public create(events: ChartEvents, view: VisualizationView, meshes: Array<THREE.Object3D>,
         onRequestRender: EventEmitter<GraphEnum>, onSelect: EventEmitter<{ type: EntityTypeEnum; ids: string[]; }> ): void {
-        this._enabled = false;
-        this.view = view;
-        this.meshes = meshes;
-        this.events = events;
-        this.onRequestRender = onRequestRender;
-        this.onSelect = onSelect;
-        this.selector = new THREE.Mesh(
-            new THREE.SphereGeometry(3, 30, 30),
-            new THREE.MeshStandardMaterial({ opacity: .2, transparent: true }));
+        // this._enabled = false;
+        // this.view = view;
+        // this.meshes = meshes;
+        // this.events = events;
+        // this.onRequestRender = onRequestRender;
+        // this.onSelect = onSelect;
+        // this.selector = new THREE.Mesh(
+        //     new THREE.SphereGeometry(3, 30, 30),
+        //     new THREE.MeshStandardMaterial({ opacity: .2, transparent: true }));
     }
     public destroy() {
         this.view = null;

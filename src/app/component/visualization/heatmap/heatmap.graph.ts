@@ -87,7 +87,7 @@ export class HeatmapGraph implements ChartObjectInterface {
 
     }
     addObjects() {
-        this.material.size = 15;
+        this.material.size = 30;
         this.geometry.addAttribute('position', new THREE.BufferAttribute(this.data.positions, 3));
         this.geometry.addAttribute('color', new THREE.BufferAttribute(this.data.colors, 3));
         this.geometry.computeBoundingSphere();

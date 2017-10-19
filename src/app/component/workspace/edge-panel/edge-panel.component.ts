@@ -38,6 +38,5 @@ export class EdgePanelComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     $(this.tabs.nativeElement).tabs();
-    // debugger;
   }
 }

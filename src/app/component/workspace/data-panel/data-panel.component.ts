@@ -99,7 +99,7 @@ export class DataPanelComponent implements AfterViewInit {
   loadTable(table: DataTable): void {
     this.openDatabase().then(() => {
       Promise.all([
-        this.db.table(table.tbl).limit(1000).toArray(),
+        this.db.table(table.tbl).limit(100).toArray(),
         this.db.table(table.map).toArray()
       ]).then(result => {
         const colHeaders = result[1].map(v => v.s);

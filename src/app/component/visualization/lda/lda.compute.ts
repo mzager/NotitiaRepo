@@ -47,13 +47,3 @@ export const ldaCompute = (config: LdaConfigModel, worker: DedicatedWorkerGlobal
             });
     }
 };
-
-
-
-
-
-
-
-
-
-

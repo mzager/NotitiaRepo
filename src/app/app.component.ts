@@ -10,10 +10,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  constructor(private store: Store<any>, private illuminaService: IlluminaService) {
-    illuminaService.onData.subscribe( data => {
-      store.dispatch(new DataLoadIlluminaVcfAction(data));
-    });
+  //constructor(private store: Store<any>, private illuminaService: IlluminaService) {
+  constructor(private store: Store<any>) {
+    // illuminaService.onData.subscribe( data => {
+    //   store.dispatch(new DataLoadIlluminaVcfAction(data));
+    // });
   }
 
 }

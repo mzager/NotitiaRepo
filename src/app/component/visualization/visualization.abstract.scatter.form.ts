@@ -6,7 +6,7 @@ import { CollectionTypeEnum, EntityTypeEnum } from 'app/model/enum.model';
 import { DataField, DataTable } from './../../model/data-field.model';
 import { DataFieldFactory } from 'app/model/data-field.model';
 export class AbstractScatterForm {
-    
+
     @Input() set tables(tables: Array<DataTable>) {
         this.dataOptions = tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0));
     }
@@ -21,15 +21,15 @@ export class AbstractScatterForm {
 
     @Output() configChange = new EventEmitter<GraphConfig>();
 
-    protected form: FormGroup;
-    protected colorOptions: Array<DataField>;
-    protected shapeOptions: Array<DataField>;
-    protected sizeOptions: Array<DataField>;
-    protected displayOptions = [EntityTypeEnum.SAMPLE, EntityTypeEnum.GENE];
-    protected dataOptions: Array<DataTable>;
-    protected dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D, DimensionEnum.ONE_D];
+    form: FormGroup;
+    colorOptions: Array<DataField>;
+    shapeOptions: Array<DataField>;
+    sizeOptions: Array<DataField>;
+    displayOptions = [EntityTypeEnum.SAMPLE, EntityTypeEnum.GENE];
+    dataOptions: Array<DataTable>;
+    dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D, DimensionEnum.ONE_D];
 
-    protected byKey(p1: DataField, p2: DataField) {
+    byKey(p1: DataField, p2: DataField) {
         if (p2 === null) { return false; }
         return p1.key === p2.key;
     }

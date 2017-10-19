@@ -1,3 +1,4 @@
+import { VisualizationEnum } from 'app/model/enum.model';
 import { pcaSparseCompute } from './app/component/visualization/pcasparse/pcasparse.compute';
 import { pcaKernalCompute } from './app/component/visualization/pcakernal/pcakernal.compute';
 import { pcaIncrementalCompute } from './app/component/visualization/pcaincremental/pcaincremental.compute';
@@ -9,7 +10,7 @@ import { fasticaCompute } from './app/component/visualization/fastica/fastica.co
 import { truncatedSvdCompute } from './app/component/visualization/truncatedsvd/truncatedsvd.compute';
 import { ldaCompute } from './app/component/visualization/lda/lda.compute';
 import { nmfCompute } from './app/component/visualization/nmf/nmf.compute';
-// Recompile:  npm run worker
+
 import { faCompute } from './app/component/visualization/fa/fa.compute';
 import { mdsCompute } from './app/component/visualization/mds/mds.compute';
 import { somCompute } from './app/component/visualization/som/som.compute';
@@ -17,12 +18,11 @@ import { heatmapCompute } from './app/component/visualization/heatmap/heatmap.co
 import { edgesCompute } from './app/component/visualization/edges/edges.compute';
 import { DedicatedWorkerGlobalScope } from './compute';
 import { tsneCompute } from './app/component/visualization/tsne/tsne.compute';
-import { VisualizationEnum } from 'app/model/enum.model';
 import { pcaCompute } from './app/component/visualization/pca/pca.compute';
 import { chromosomeCompute } from './app/component/visualization/chromosome/chromosome.compute';
 import { ComputeWorkerUtil } from './app/service/compute.worker.util';
 // import * as util from './app/service/compute.worker.util';
-
+// Recompile:  npm run worker
 export interface DedicatedWorkerGlobalScope extends Window {
     util: ComputeWorkerUtil;
     postMessage(data: any, transferList?: any): void;
@@ -52,7 +52,6 @@ onmessage = function (e) {
             edgesCompute(e.data, me);
             break;
         case VisualizationEnum.HEATMAP:
-            debugger;
             heatmapCompute(e.data, me);
             break;
         case VisualizationEnum.MDS:
