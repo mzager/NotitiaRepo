@@ -73,7 +73,6 @@ export class GraphPanelComponent implements AfterViewInit  {
           gc = new TsneConfigModel();
           break;
         case VisualizationEnum.HEATMAP:
-        debugger;
           gc = new HeatmapConfigModel();
           break;
         case VisualizationEnum.SOM:

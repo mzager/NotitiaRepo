@@ -25,7 +25,7 @@ export const heatmapCompute = (config: HeatmapConfigModel, worker: DedicatedWork
                 return p;
             }, [Infinity, -Infinity]); // Min Max
 
-            const scaleColor = d3Scale.scaleSequential(interpolateSpectral).domain(minMax);
+            const scaleColor = d3Scale.scaleSequential(interpolateRdBu).domain(minMax);
             const scaleRegex = /rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)/;
             const scale = (val) => scaleRegex.exec(scaleColor(val).toString())
                 .reduce((p, c, rgbi) => {
@@ -44,7 +44,7 @@ export const heatmapCompute = (config: HeatmapConfigModel, worker: DedicatedWork
             const pointSize = 1;
             matrix.map((row, r) => row.map((col, c) => {
 
-                const index = (r * sampleCount + c) * 3;
+                const index = (r * (sampleCount) + c) * 3;
                 positions[index] = r * pointSize;
                 positions[index + 1] = c * pointSize;
                 positions[index + 2] = 0;
@@ -65,12 +65,7 @@ export const heatmapCompute = (config: HeatmapConfigModel, worker: DedicatedWork
                 }
             });
 
-            debugger;
-
             worker.postMessage('TERMINATE');
-
-
-            debugger;
         });
 
     // // const postMessageThrottled = _.throttle(postMessage, 1000);

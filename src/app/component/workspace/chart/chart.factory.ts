@@ -12,6 +12,7 @@ export class ChartFactory {
 
     // Mesh Pool
     public static meshRelease(mesh: THREE.Mesh): void {
+        mesh.userData = null;
         this.meshPool.push(mesh);
     }
     public static meshAllocate(color: number, shape: ShapeEnum, size: number, position: THREE.Vector3, data: any): THREE.Mesh {

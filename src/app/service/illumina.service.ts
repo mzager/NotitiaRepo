@@ -1,5 +1,4 @@
 
-import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Rx';
@@ -32,8 +31,8 @@ export class IlluminaService {
 
   public onData: EventEmitter<any>;
   
-
-  constructor(private http: Http, private cookieService: CookieService) {
+//constructor(private http: Http, private cookieService: CookieService) {
+  constructor(private http: Http) {
 
     this.onData = new EventEmitter();
     this.projects = new BehaviorSubject<any>(null);

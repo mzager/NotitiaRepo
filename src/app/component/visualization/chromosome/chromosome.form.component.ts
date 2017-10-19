@@ -72,14 +72,14 @@ export class ChromosomeFormComponent {
 
   @Output() configChange = new EventEmitter<GraphConfig>();
 
-  protected form: FormGroup;
-  protected colorOptions: Array<DataField>;
-  protected shapeOptions: Array<DataField>;
-  protected sizeOptions: Array<DataField>;
-  protected dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D];
-  protected chromosomeOptions = ['Cytobands', 'Centromeres & Telemeres', 'None'];
+  form: FormGroup;
+  colorOptions: Array<DataField>;
+  shapeOptions: Array<DataField>;
+  sizeOptions: Array<DataField>;
+  dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D];
+  chromosomeOptions = ['Cytobands', 'Centromeres & Telemeres', 'None'];
 
-  protected byKey(p1: DataField, p2: DataField) {
+  byKey(p1: DataField, p2: DataField) {
     if (p2 === null) { return false; }
     return p1.key === p2.key;
   }
@@ -120,7 +120,6 @@ export class ChromosomeFormComponent {
         if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
         form.markAsPristine();
         data.dirtyFlag = dirty;
-        debugger;
         this.configChange.emit(data);
       });
   }

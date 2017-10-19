@@ -265,7 +265,7 @@ export class ChartScene {
             if (view.chart !== null) { view.chart.destroy(); }
             view.chart = this.getChartObject(config.visualization).create(this.labels, this.events, view);
             view.chart.onRequestRender.subscribe(this.render);
-            view.chart.onSelect.subscribe( this.select );
+            //view.chart.onSelect.subscribe( this.select );
         }
 
         view.chart.update(config, data);
