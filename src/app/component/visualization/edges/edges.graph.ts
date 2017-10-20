@@ -58,7 +58,6 @@ export class EdgesGraph implements ChartObjectInterface {
         const aId = (this.config.entityA === EntityTypeEnum.GENE) ? 'mid' : 'sid';
         const bId = (this.config.entityB === EntityTypeEnum.GENE) ? 'mid' : 'sid';
 
-        debugger;
         const aMap = views[0].chart.meshes.reduce((p, c) => {
             const screenPosition = ChartUtil.objectToScreen(c, views[0], layout);
             if (screenPosition !== null) {
@@ -99,85 +98,6 @@ export class EdgesGraph implements ChartObjectInterface {
             renderer.setViewport(view.viewport.x, view.viewport.y, view.viewport.width, view.viewport.height);
             renderer.render(view.scene, view.camera);
         });
-
-/*
-        if (this.updateEdges) {
-            this.v1Map = views[0].chart.meshes.reduce((p, c) => { p[c.userData.sid] = c; return p; }, {});
-            this.v2Map = views[1].chart.meshes.reduce((p, c) => { p[c.userData.sid] = c; return p; }, {});
-            const v2Keys = new Set(Object.keys(this.v2Map));
-            this.commonKeys = new Set(Object.keys(this.v1Map).filter(key => v2Keys.has(key)));
-            this.updateEdges = false;
-        }
-
-        this.view.scene.children = this.view.scene.children.splice(0, 3);
-        this.edges = [];
-        const hasColor = this.data.hasOwnProperty('pointColor');
-        const hasIntersect = this.data.hasOwnProperty('pointIntersect');
-        let intersects = [];
-        if (hasIntersect) {
-            const size = (layout === WorkspaceLayoutEnum.HORIZONTAL) ?
-                views[2].viewport.height : views[2].viewport.width;
-            const pxDelta = size / (this.config.pointIntersect.values.length + 1);
-
-            intersects = this.config.pointIntersect.values.map( (v, i) => {
-                return {
-                    label: v,
-                    point: (layout === WorkspaceLayoutEnum.HORIZONTAL) ?
-                        new THREE.Vector2( 0, (pxDelta * i) - (pxDelta * 0.5)) :
-                        new THREE.Vector2( (pxDelta * i) - (pxDelta * 0.5), 0)
-                };
-            });
-
-            intersects = intersects.reduce( (p, c) => {
-                p[c.label] = c.point;
-                return p;
-            }, {});
-        }
-
-        this.commonKeys.forEach((v) => {
-            const pt1 = ChartUtil.objectToScreen(this.v1Map[v], views[0], layout);
-            if (pt1 === null) { return; }
-            const pt2 = ChartUtil.objectToScreen(this.v2Map[v], views[1], layout);
-            if (pt2 === null) { return; }
-            let color = (hasColor) ? this.data.pointColor[this.patientSampleMap[v]] : 0x039BE5;
-            if (color === undefined) { color = 0xCCCCCC; }
-            let centerPoint = null;
-
-            if (hasIntersect) {
-                try {
-                    const pi = this.data.pointIntersect[this.patientSampleMap[v]];
-                    centerPoint = intersects[ pi ];
-
-
-                    this.view.scene.add(
-                        ChartFactory.lineAllocateCurve(color, pt1, pt2, centerPoint)
-                    );
-                    // this.view.scene.add(
-                    //     ChartFactory.meshAllocate( color, ShapeEnum.CIRCLE, 3,
-                    //     new THREE.Vector3(centerPoint.x, centerPoint.y, 0), 'intersect')
-                    // );
-
-                } catch ( e ) {
-                    this.view.scene.add(
-                        ChartFactory.lineAllocateCurve(0xDDDDDD, pt1, pt2, new THREE.Vector2(0, 0))
-                    );
-                    // this.view.scene.add(
-                    //     ChartFactory.meshAllocate( 0xDDDDDD, ShapeEnum.CIRCLE, 3,
-                    //     new THREE.Vector3(centerPoint.x, centerPoint.y, 0), 'intersect')
-                    // );
-                }
-            }else {
-                this.view.scene.add(
-                    ChartFactory.lineAllocate(color, pt1, pt2)
-                );
-            }
-        });
-        renderer.clear();
-        views.forEach((view) => {
-            renderer.setViewport(view.viewport.x, view.viewport.y, view.viewport.width, view.viewport.height);
-            renderer.render(view.scene, view.camera);
-        });
-*/
     }
 
     preRender(views: Array<VisualizationView>, layout: WorkspaceLayoutEnum, renderer: THREE.WebGLRenderer) {

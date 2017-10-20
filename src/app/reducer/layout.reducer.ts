@@ -33,7 +33,7 @@ const initialState: State = {
     edgePanel: e.EdgePanelEnum.NONE,
     toolPanel: e.ToolPanelEnum.NONE,
     historyPanel: e.HistoryPanelEnum.NONE,
-    cohortPanel: e.GraphPanelEnum.NONE,
+    cohortPanel: e.GraphPanelEnum.GRAPH_A,
     dataPanel: e.DataPanelEnum.NONE,
     tcgaPanel: e.TcgaPanelEnum.NONE,
     workspacePanel: e.WorkspacePanelEnum.NONE,

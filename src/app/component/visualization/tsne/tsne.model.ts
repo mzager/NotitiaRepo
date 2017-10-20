@@ -40,7 +40,7 @@ export class TsneConfigModel extends GraphConfig {
     n_iter_without_progress = 300;
     min_grad_norm = 1e-7;
     metric = TsneMetric.euclidean;
-    init =
+    init = 0;
     verbose = 0;
     random_state = 'None';
     method = 'barnes_hut';
