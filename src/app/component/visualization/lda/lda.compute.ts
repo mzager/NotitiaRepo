@@ -20,12 +20,12 @@ export const ldaCompute = (config: LdaConfigModel, worker: DedicatedWorkerGlobal
                             // added more than server is calling
                             method: 'cluster_sk_latent_dirichlet_allocation',
                             data: mtx.data,
-                            components: config.components,
+                            n_components: config.n_components,
                             dimension: config.dimension,
                             fun: config.learning_method,
                             decay: config.learning_decay,
                             offset: config.learning_offset,
-                            tol: config.mean_change_tol
+                            mean_change_tol: config.mean_change_tol
                         })
                 ]).then(result => {
                     const psMap = result[0].reduce((p, c) => { p[c.s] = c.p; return p; }, {});

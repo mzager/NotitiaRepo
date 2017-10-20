@@ -145,6 +145,7 @@ export class TsneFormComponent extends AbstractScatterForm  {
       pointShape: [],
       pointSize: [],
 
+      n_components: [],
       dimension: [],
       earlyExaggeration: [],
       domain: [],

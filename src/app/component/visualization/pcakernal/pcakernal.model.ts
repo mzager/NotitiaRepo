@@ -25,7 +25,7 @@ export class PcaKernalConfigModel extends GraphConfig {
         this.entity = EntityTypeEnum.SAMPLE;
         this.visualization = VisualizationEnum.KERNAL_PCA;
     }
-    components = 3;
+    n_components = 3;
     dimension = DimensionEnum.THREE_D;
     kernel = 'linear';
     degree = 3;
@@ -38,8 +38,6 @@ export class PcaKernalConfigModel extends GraphConfig {
 }
 
 
-
-
 export interface PcaKernalDataModel extends GraphData {
     result: Array<Array<number>>;
     resultScaled: Array<Array<number>>;
@@ -49,4 +47,9 @@ export interface PcaKernalDataModel extends GraphData {
     sampleIds: Array<string>;
     markerIds: Array<string>;
     patientIds: Array<string>;
+    lambdas: any;
+    alphas: any;
+    dualCoef: any;
+    X_transformed_fit_: any;
+    X_fit_: any;
 }

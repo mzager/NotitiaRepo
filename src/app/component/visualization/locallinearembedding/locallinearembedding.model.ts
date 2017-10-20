@@ -33,16 +33,14 @@ export class LocalLinearEmbeddingConfigModel extends GraphConfig {
         this.visualization = VisualizationEnum.LOCALLY_LINEAR_EMBEDDING;
     }
 
-    components = 3;
+    n_components = 3;
     dimension = DimensionEnum.THREE_D;
     n_neighbors = 5;
     eigen_solver = LocalLinearEmbeddingEigenSolver.AUTO;
     reg = 0.001;
-    random_state = 'None';
     neighbors_algorithm = LocalLinearEmbeddingNeighborsAlgorithm.AUTO;
     lle_method = LocalLinearEmbeddingMethod.STANDARD;
     tol = 1e-06;
-    max_iter = 100;
     hessian_tol = 0.0001;
     modified_tol = 1e-12;
 }
@@ -57,4 +55,5 @@ export interface LocalLinearEmbeddingDataModel extends GraphData {
     sampleIds: Array<string>;
     markerIds: Array<string>;
     patientIds: Array<string>;
+    reconstructionError: any;
 }
