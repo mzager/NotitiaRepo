@@ -383,7 +383,7 @@ def manifold_sk_local_linear_embedding(event, context):
         hessian_tol=event['body']['hessian_tol'],
         modified_tol=event['body']['modified_tol'],
         neighbors_algorithm=event['body']['neighbors_algorithm'],
-        random_state=event['body']['neighbors_algorithm'],
+        random_state=event['body']['random_state'],
         n_jobs=-1
     )
     _result = _config.fit_transform(event['body']['data'])

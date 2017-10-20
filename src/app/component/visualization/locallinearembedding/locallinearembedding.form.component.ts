@@ -161,7 +161,8 @@ export class LocalLinearEmbeddingFormComponent extends AbstractScatterForm {
       lle_method: [],
       tol: [],
       hessian_tol: [],
-      modified_tol: []
+      modified_tol: [],
+      max_iter: []
     });
 
     // Update When Form Changes
