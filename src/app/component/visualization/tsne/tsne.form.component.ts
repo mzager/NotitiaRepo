@@ -1,10 +1,11 @@
-import { TsneConfigModel, TsneDistanceMeasure } from './tsne.model';
+import { TsneConfigModel, TsneDistanceMeasure, TsneDisplayEnum } from './tsne.model';
 import { DimensionEnum, DistanceEnum, DenseSparseEnum } from './../../../model/enum.model';
+import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { DataTypeEnum } from 'app/model/enum.model';
-import { DataField, DataFieldFactory } from './../../../model/data-field.model';
+import { DataTypeEnum, DirtyEnum } from 'app/model/enum.model';
+import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import * as _ from 'lodash';
 
 @Component({
@@ -13,13 +14,12 @@ import * as _ from 'lodash';
   template: `
 <form [formGroup]="form" novalidate>
   <div class="form-group">
-    <label class="center-block">Point Data
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="dataOptions"
-          formControlName="molecularTable">
-          <option *ngFor="let option of dataOptions">{{option.label}}</option>
-      </select>
+    <label class="center-block">Data
+        <select class="browser-default" materialize="material_select"
+        [compareWith]="byKey"
+        formControlName="table">
+        <option *ngFor="let option of dataOptions">{{option.label}}</option>
+        </select>
     </label>
   </div>
   <div class="form-group">
@@ -117,47 +117,19 @@ import * as _ from 'lodash';
 </form>
   `
 })
-export class TsneFormComponent {
+export class TsneFormComponent extends AbstractScatterForm  {
 
-  @Input() set molecularData(tables: Array<string>) {
-    this.dataOptions = tables.map(v => {
-      const rv = { key: v, label: _.startCase(_.toLower(v)) };
-      return rv;
-    });
-  }
-
-  @Input() set clinicalFields(fields: Array<DataField>) {
-    if (fields.length === 0) { return; }
-    const defaultDataField: DataField = DataFieldFactory.getUndefined();
-    this.colorOptions = DataFieldFactory.getColorFields(fields);
-    this.shapeOptions = DataFieldFactory.getShapeFields(fields);
-    this.sizeOptions = DataFieldFactory.getShapeFields(fields);
-  }
 
   @Input() set config(v: TsneConfigModel) {
     if (v === null) { return; }
     this.form.patchValue(v, { emitEvent: false });
   }
 
-  @Output() configChange = new EventEmitter<GraphConfig>();
 
-  form: FormGroup;
-  colorOptions: Array<DataField>;
-  shapeOptions: Array<DataField>;
-  sizeOptions: Array<DataField>;
-  dataOptions: Array<{ key: string, label: string }>;
-  dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D, DimensionEnum.ONE_D];
-  distanceOptions = [ DistanceEnum.EUCLIDEAN, DistanceEnum.MANHATTAN, DistanceEnum.JACCARD, DistanceEnum.DICE];
-  densityOptions = [ DenseSparseEnum.DENSE, DenseSparseEnum.SPARSE ];
-
-  byKey(p1: DataField, p2: DataField) {
-    if (p2 === null) { return false; }
-    return p1.key === p2.key;
-  }
 
   constructor(private fb: FormBuilder) {
 
-
+    super();
 
     this.form = this.fb.group({
       visualization: [],
@@ -172,14 +144,15 @@ export class TsneFormComponent {
       pointColor: [],
       pointShape: [],
       pointSize: [],
+
       dimension: [],
-      earlyExaggeration: 5,
-      domain: 5,
-      perpexity: 10, // *>1
-      learningRate: 500, // 100-1000
-      nIter: 200, // Maximum Number of itterations >200
-      distance: TsneDistanceMeasure.euclidean,
-      density: DenseSparseEnum.DENSE
+      earlyExaggeration: [],
+      domain: [],
+      perpexity: [], // *>1
+      learningRate: [], // 100-1000
+      nIter: [], // Maximum Number of itterations >200
+      distance: [],
+      density: []
     });
 
     // Update When Form Changes
@@ -187,6 +160,14 @@ export class TsneFormComponent {
       .debounceTime(500)
       .distinctUntilChanged()
       .subscribe(data => {
+        let dirty = 0;
+        const form = this.form;
+        if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
+        if (form.get('pointShape').dirty) { dirty |= DirtyEnum.SHAPE; }
+        if (form.get('pointSize').dirty) { dirty |= DirtyEnum.SIZE; }
+        if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
+        form.markAsPristine();
+        data.dirtyFlag = dirty;
         this.configChange.emit(data);
       });
   }
