@@ -41,7 +41,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
           this.data = data;
           if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {
               this.removeObjects();
-              this.addObjects();
+              this.addObjects(this.config.entity);
           }
           if (this.config.dirtyFlag & DirtyEnum.COLOR) {
               const idProperty = ( this.config.pointColor.ctype & CollectionTypeEnum.MOLECULAR ) ? 'sid' : 'pid';
@@ -77,7 +77,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
           this.controls.enabled = this.isEnabled;
       }
 
-      addObjects() {
+      addObjects(type: EntityTypeEnum) {
           const weightLength = this.data['resultScaled'].length;
           const layoutLength = this.data['resultScaled'].length;
           for (let i = 0; i < layoutLength; i++) {
@@ -85,6 +85,15 @@ export class AbstractScatterVisualization extends AbstractVisualization {
               const color = 0x039be5;
               const shape = ShapeEnum.CIRCLE;
               const size = 1;
+              const userData = (type === EntityTypeEnum.GENE) ?
+                {
+                    color: color,
+                    mid: this.data['markerIds'][i]
+                } : {
+                    color: color,
+                    pid: this.data['patientIds'][i],
+                    sid: this.data['sampleIds'][i]
+                };
               const mesh = ChartFactory.meshAllocate(
                   color,
                   shape,
@@ -93,11 +102,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
                       position[0],
                       (this.config['dimension'] === DimensionEnum.ONE_D) ? 0 : position[1],
                       (this.config['dimension'] !== DimensionEnum.THREE_D) ? 0 : position[2]
-                  ), {
-                      color: color,
-                      pid: this.data['patientIds'][i],
-                      sid: this.data['sampleIds'][i]
-                  });
+                  ), userData);
               this.meshes.push(mesh);
               this.view.scene.add(mesh);
           }

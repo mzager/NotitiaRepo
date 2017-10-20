@@ -44,7 +44,7 @@ export class GraphPanelComponent implements AfterViewInit  {
 
   @Input() tables: Array<DataTable>;
   @Input() fields: Array<DataField>;
-  
+
   @Input() molecularData: Array<string>;
   @Input() clinicalFields: Array<DataField>;
   @Input() entityType: EntityTypeEnum;
@@ -253,7 +253,6 @@ export class GraphPanelComponent implements AfterViewInit  {
       { value: VisualizationEnum.SPECTRAL_EMBEDDING, label: 'Spectral Embedding '},
       { value: VisualizationEnum.TSNE, label: 'T-SNE '},
 
-      
 // Discriminant Analysis
   // Linear Discriminat Analysis
   // Quadratic Discriminant Analysis

@@ -117,6 +117,7 @@ export class DataTypeEnum {
 }
 
 export class EntityTypeEnum {
+    static readonly UNKNOWN = 'Unknown';
     static readonly PATIENT = 'Patients';
     static readonly GENE = 'Genes';
     static readonly SAMPLE = 'Samples';

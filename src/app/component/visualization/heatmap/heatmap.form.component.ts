@@ -21,26 +21,6 @@ import * as _ from 'lodash';
         </select>
       </label>
     </div>
-    <div class="form-group">
-      <label class="center-block"><span class="form-label">Clustering Method</span>
-        <select class="browser-default" materialize="material_select"
-            [compareWith]="byKey"
-            [materializeSelectOptions]="colorOptions"
-            formControlName="method">
-            <option *ngFor="let option of methodOptions" [ngValue]="option">{{option}}</option>
-        </select>
-      </label>
-    </div>
-    <div class="form-group">
-      <label class="center-block"><span class="form-label">Clustering Method</span>
-        <select class="browser-default" materialize="material_select"
-            [compareWith]="byKey"
-            [materializeSelectOptions]="colorOptions"
-            formControlName="distance">
-            <option *ngFor="let option of distanceOptions" [ngValue]="option">{{option}}</option>
-        </select>
-      </label>
-    </div>
   </form>
   `
 })

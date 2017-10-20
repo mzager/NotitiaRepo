@@ -6,9 +6,8 @@
     </button>
     <button [ngClass]="{active:selectedGraph==2}" (click)="selectGraph.emit(2)" class="waves-effect waves-light btn">
         <span style="font-weight:500;position:relative;top:-5px;left:4px;">B</span>
-    </button>
+    </button> -->
     
-    <div class="toolbar-label">Tools</div>
     <button [ngClass]="{'active':selectedTool==1}" (click)="selectTool.emit(1)" class="waves-effect waves-light btn">
         <div class="icon material-icons ">near_me</div>
     </button>
@@ -34,5 +33,5 @@
     <button (click)="graphAction.emit(4)" class="waves-effect waves-light btn">
         <div class="icon material-icons ">account_balance_wallet</div>
     </button>
-    -->
+   
 </div>

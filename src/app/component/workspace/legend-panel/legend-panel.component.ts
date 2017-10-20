@@ -17,11 +17,13 @@ declare var $: any;
   styleUrls: ['./legend-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LegendPanelComponent {
+export class LegendPanelComponent implements AfterViewInit {
 
   // Components
+  @ViewChild('tabs') private tabs: ElementRef;
   @ViewChild('legendGraphA') private elLegendA: ElementRef;
   @ViewChild('legendGraphB') private elLegendB: ElementRef;
+  @ViewChild('edges') private elEdges: ElementRef;
 
   @Input()
   private set graphAData(data: GraphData) {
@@ -77,13 +79,13 @@ export class LegendPanelComponent {
     let yOffset = 0;
     const symbol = d3Shape.symbol().size(100);
 
-    group.append('text')
-      .attr('x', 0)
-      .attr('y', yOffset + 15)
-      .attr('stroke', '0x039BE5')
-      .style('font-size', '10px')
-      .text((container === this.elLegendA) ? 'GRAPH A' : 'GRAPH B');
-    yOffset += 30;
+    // group.append('text')
+    //   .attr('x', 0)
+    //   .attr('y', yOffset + 15)
+    //   .attr('stroke', '0x039BE5')
+    //   .style('font-size', '10px')
+    //   .text((container === this.elLegendA) ? 'GRAPH A' : 'GRAPH B');
+    // yOffset += 30;
 
     for (let i = 0, l = legendItems.length; i < l; i++) {
 
@@ -256,6 +258,10 @@ export class LegendPanelComponent {
       yOffset += 5;
     }
     svg.attr('height', yOffset);
+  }
+
+  ngAfterViewInit() {
+    $(this.tabs.nativeElement).tabs();
   }
 
   constructor() { }

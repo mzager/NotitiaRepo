@@ -5,6 +5,7 @@ import { WorkspaceLayoutEnum } from './../../../model/enum.model';
 import { DataField } from 'app/model/data-field.model';
 import { Component, Input, Output, ChangeDetectionStrategy,
   EventEmitter, AfterViewInit, OnInit, ViewChild, ElementRef } from '@angular/core';
+declare var $: any;
 
 @Component({
   selector: 'app-workspace-workspace-panel',
@@ -13,6 +14,8 @@ import { Component, Input, Output, ChangeDetectionStrategy,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkspacePanelComponent implements AfterViewInit  {
+
+  @ViewChild('tabs') private tabs: ElementRef;
 
   @Input() set config(value: WorkspaceConfigModel) {
     this.controlOptions = [
@@ -40,8 +43,8 @@ export class WorkspacePanelComponent implements AfterViewInit  {
   controlOptions: Array<string>;
   form: FormGroup;
 
-  ngAfterViewInit(): void {
-
+  ngAfterViewInit() {
+    $(this.tabs.nativeElement).tabs();
   }
 
   constructor(private fb: FormBuilder) { }

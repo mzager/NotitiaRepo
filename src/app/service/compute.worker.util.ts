@@ -1,6 +1,7 @@
+import { EdgeConfigModel } from './../component/visualization/edges/edges.model';
 import { interpolateRdBu, interpolateSpectral } from 'd3-scale-chromatic';
 import { DedicatedWorkerGlobalScope } from 'compute';
-import { scaleLinear, InterpolatorFactory } from 'd3-scale';
+import { scaleLinear, InterpolatorFactory, scaleSequential, scaleQuantize, scaleQuantile } from 'd3-scale';
 import { interpolateRgb, interpolateHcl } from 'd3-interpolate';
 import { rgb } from 'd3-color';
 import { GraphConfig } from './../model/graph-config.model';
@@ -93,13 +94,13 @@ export class ComputeWorkerUtil {
     }
 
     getChromosomeInfo(genes: Array<string>): Promise<any> {
-        return new Promise( (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             this.openDatabaseLookup().then(v => {
                 Promise.all([
-                this.dbLookup.table('bandcoords').toArray(),
-                this.dbLookup.table('genecoords').where('gene').anyOf(genes).toArray()
-                ]).then( result => {
-                   resolve(result);
+                    this.dbLookup.table('bandcoords').toArray(),
+                    this.dbLookup.table('genecoords').where('gene').anyOf(genes).toArray()
+                ]).then(result => {
+                    resolve(result);
                 });
             });
         });
@@ -134,11 +135,151 @@ export class ComputeWorkerUtil {
                             samples: _samples.map(s => s.s),
                             data: (entity === EntityTypeEnum.GENE) ?
                                 _markers.map(marker => _samples.map(sample => marker.d[sample.i])) :
-                                _samples.map(sample => _markers.map( marker => marker.d[sample.i]))
+                                _samples.map(sample => _markers.map(marker => marker.d[sample.i]))
                         });
                     });
                 });
             });
+        });
+    }
+
+    getEdgesSampleSample(config: EdgeConfigModel): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.openDatabaseData().then(v => {
+                Promise.all([
+                    this.dbData.table('patient').toArray(),
+                    this.dbData.table('patientSampleMap').toArray()
+                ]).then(result => {
+                    const patientMap = result[0].reduce((p, c) => { p[c.p] = c; return p; }, {});
+                    const colorField = config.pointColor.key;
+                    const intersectField = config.pointIntersect.key;
+                    const edges = result[1].map(ps => {
+                        const rv = { a: ps.s, b: ps.s, c: null, i: null };
+                        if (patientMap.hasOwnProperty(ps.p)) {
+                            const patient = patientMap[ps.p];
+                            if (patient.hasOwnProperty(colorField) && colorField !== 'None') {
+                                rv.c = patient[colorField];
+                            }
+                            if (patient.hasOwnProperty(intersectField) && intersectField !== 'None') {
+                                rv.i = patient[intersectField];
+                            }
+                        }
+                        return rv;
+                    });
+                    if (colorField !== 'None') {
+                        const colorValues = edges.map<number>((value) => value.c);
+                        const colorScale = scaleSequential<number>(interpolateSpectral)
+                            .domain([Math.min(...colorValues), Math.max(...colorValues)]);
+                        edges.forEach(edge => edge.c = colorScale(edge.c));
+                    }
+                    if (intersectField !== 'None') {
+                        let bins = 0;
+                        let intersectScale: any;
+                        const colorValues = edges.map<number>((value) => value.i);
+                        switch (config.pointIntersect.type) {
+                            case DataTypeEnum.STRING:
+                                bins = config.pointIntersect.values.length;
+                                intersectScale = (value) => config.pointIntersect.values.indexOf(value) + 1;
+                                break;
+                            case DataTypeEnum.NUMBER:
+                                bins = 6;
+                                intersectScale = scaleQuantile<number>()
+                                    .domain([Math.min(...colorValues), Math.max(...colorValues)])
+                                    .range([1, 2, 3, 4, 5, 6]);
+                                break;
+                        }
+                        edges.forEach(edge => edge.i = intersectScale(edge.i));
+                    }
+                    resolve(edges);
+                });
+            });
+        });
+    }
+
+    getEdgesGeneGene(config: EdgeConfigModel): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.openDatabaseData().then(v => {
+                Promise.all([
+                    this.dbData.table('patient').toArray(),
+                    this.dbData.table('patientSampleMap').toArray()
+                ]).then(result => {
+                    const patientMap = result[0].reduce((p, c) => { p[c.p] = c; return p; }, {});
+                    const colorField = config.pointColor.key;
+                    const intersectField = config.pointIntersect.key;
+                    const edges = result[1].map(ps => {
+                        const rv = { a: ps.s, b: ps.s, c: null, i: null };
+                        if (patientMap.hasOwnProperty(ps.p)) {
+                            const patient = patientMap[ps.p];
+                            if (patient.hasOwnProperty(colorField) && colorField !== 'None') {
+                                rv.c = patient[colorField];
+                            }
+                            if (patient.hasOwnProperty(intersectField) && intersectField !== 'None') {
+                                rv.i = patient[intersectField];
+                            }
+                        }
+                        return rv;
+                    });
+
+                    if (colorField !== 'None') {
+                        const colorValues = edges.map<number>((value) => value.c);
+                        const colorScale = scaleSequential<number>(interpolateSpectral)
+                            .domain([Math.min(...colorValues), Math.max(...colorValues)]);
+                        edges.forEach(edge => edge.c = colorScale(edge.c));
+                    }
+                    if (intersectField !== 'None') {
+                        let bins = 0;
+                        let intersectScale: any;
+                        const colorValues = edges.map<number>((value) => value.i);
+                        switch (config.pointIntersect.type) {
+                            case DataTypeEnum.STRING:
+                                bins = config.pointIntersect.values.length;
+                                intersectScale = (value) => config.pointIntersect.values.indexOf(value) + 1;
+                                break;
+                            case DataTypeEnum.NUMBER:
+                                bins = 6;
+                                intersectScale = scaleQuantile<number>()
+                                    .domain([Math.min(...colorValues), Math.max(...colorValues)])
+                                    .range([1, 2, 3, 4, 5, 6]);
+                                break;
+                        }
+                        edges.forEach(edge => edge.i = intersectScale(edge.i));
+                    }
+                    resolve(edges);
+                });
+            });
+        });
+    }
+
+    getEdgesGeneSample(config: EdgeConfigModel): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.getMatrix([], [], 'gismutMap', 'gisticT', EntityTypeEnum.GENE)
+                .then((result: any) => {
+                    const edges: Array<any> = [];
+                    const aIsGene = (config.entityA === EntityTypeEnum.GENE);
+                    const colorField = (config.pointColor.key !== 'None');
+                    const intersectField = (config.pointIntersect.key !== 'None');
+                    result.data.forEach((gene, geneIndex) => gene.forEach((sample, sampleIndex) => {
+                        if (sample !== 0) {
+                            const rv = { a: null, b: null, c: 0x333333, i: null };
+                            rv.a = aIsGene ? result['markers'][geneIndex] : result['samples'][sampleIndex];
+                            rv.b = !aIsGene ? result['markers'][geneIndex] : result['samples'][sampleIndex];
+                            if (intersectField) {
+                                rv.i = (sample === -2) ? 1 :
+                                    (sample === -1) ? 2 :
+                                        (sample === 1) ? 3 :
+                                            4;
+                            }
+                            if (colorField) {
+                                rv.c = (sample === -2) ? this.colors[0] :
+                                    (sample === -1) ? this.colors[1] :
+                                        (sample === 1) ? this.colors[2] :
+                                            this.colors[3];
+                            }
+                            edges.push(rv);
+                        }
+                    }));
+                    resolve(edges);
+                });
         });
     }
 
@@ -189,14 +330,14 @@ export class ComputeWorkerUtil {
 
                                 // Build Legend
                                 const legend: Legend = new Legend();
-                                legend.name = field.label ;
+                                legend.name = field.label;
                                 legend.type = 'COLOR';
                                 legend.display = 'CONTINUOUS';
                                 legend.labels = [minMax.min, minMax.max].map(val => val.toString());
                                 legend.values = [0xFF0000, 0xFF0000];
 
                                 // Resolve
-                                resolve({map: colorMap, legend: legend});
+                                resolve({ map: colorMap, legend: legend });
                             });
                         });
                     });
@@ -218,13 +359,13 @@ export class ComputeWorkerUtil {
                             }, {});
 
                             const legend: Legend = new Legend();
-                            legend.name = field.label ;
+                            legend.name = field.label;
                             legend.type = 'COLOR';
                             legend.display = 'DISCRETE';
                             legend.labels = Object.keys(cm);
-                            legend.values = Object.keys(cm).map( key => cm[key] );
+                            legend.values = Object.keys(cm).map(key => cm[key]);
 
-                            resolve({map: colorMap, legend: legend});
+                            resolve({ map: colorMap, legend: legend });
                         });
 
                     } else if (field.type === 'NUMBER') {
@@ -239,16 +380,16 @@ export class ComputeWorkerUtil {
                                 return p;
                             }, {});
 
-                             // Build Legend
-                             const legend: Legend = new Legend();
-                             legend.name = field.label ;
-                             legend.type = 'COLOR';
-                             legend.display = 'CONTINUOUS';
-                             legend.labels = [field.values.min, field.values.max].map(val => val.toString());
-                             legend.values = [0xFF0000, 0xFF0000];
+                            // Build Legend
+                            const legend: Legend = new Legend();
+                            legend.name = field.label;
+                            legend.type = 'COLOR';
+                            legend.display = 'CONTINUOUS';
+                            legend.labels = [field.values.min, field.values.max].map(val => val.toString());
+                            legend.values = [0xFF0000, 0xFF0000];
 
-                             // Resolve
-                             resolve({map: colorMap, legend: legend});
+                            // Resolve
+                            resolve({ map: colorMap, legend: legend });
                         });
                     }
                 }
@@ -275,13 +416,13 @@ export class ComputeWorkerUtil {
                         }, {});
 
                         const legend: Legend = new Legend();
-                        legend.name = field.label ;
+                        legend.name = field.label;
                         legend.type = 'SIZE';
                         legend.display = 'DISCRETE';
                         legend.labels = Object.keys(cm);
-                        legend.values = Object.keys(cm).map( key => cm[key] );
+                        legend.values = Object.keys(cm).map(key => cm[key]);
 
-                        resolve({map: sizeMap, legend: legend});
+                        resolve({ map: sizeMap, legend: legend });
                     }
                     );
                 } else if (field.type === 'NUMBER') {
@@ -297,13 +438,13 @@ export class ComputeWorkerUtil {
 
                         // Build Legend
                         const legend: Legend = new Legend();
-                        legend.name = field.label ;
+                        legend.name = field.label;
                         legend.type = 'SIZE';
                         legend.display = 'CONTINUOUS';
                         legend.labels = [field.values.min, field.values.max].map(val => val.toString());
                         legend.values = [1, 3];
 
-                        resolve({map: sizeMap, legend: legend});
+                        resolve({ map: sizeMap, legend: legend });
                     });
                 }
             });
@@ -318,19 +459,19 @@ export class ComputeWorkerUtil {
 
                     this.dbData.table(field.tbl).toArray().then(row => {
 
-                        const intersectMap = row.reduce( (p, c) => { p[c.p] = c[fieldKey]; return p; }, {});
+                        const intersectMap = row.reduce((p, c) => { p[c.p] = c[fieldKey]; return p; }, {});
 
                         const legend: Legend = new Legend();
-                        legend.name = field.label ;
+                        legend.name = field.label;
                         legend.type = 'INTERSECT';
                         legend.display = 'DISCRETE';
                         legend.labels = legend.values = Object
                             .keys(Object.keys(intersectMap)
-                            .reduce( (p, c) => {
-                                p[ intersectMap[ c ] ] = 1; return p;
-                            }, {}));
+                                .reduce((p, c) => {
+                                    p[intersectMap[c]] = 1; return p;
+                                }, {}));
 
-                        resolve({map: intersectMap, legend: legend});
+                        resolve({ map: intersectMap, legend: legend });
                     }
                     );
                 }
@@ -354,13 +495,13 @@ export class ComputeWorkerUtil {
                         }, {});
 
                         const legend: Legend = new Legend();
-                        legend.name = field.label ;
+                        legend.name = field.label;
                         legend.type = 'SHAPE';
                         legend.display = 'DISCRETE';
                         legend.labels = Object.keys(cm);
-                        legend.values = Object.keys(cm).map( key => cm[key] );
+                        legend.values = Object.keys(cm).map(key => cm[key]);
 
-                        resolve({map: shapeMap, legend: legend});
+                        resolve({ map: shapeMap, legend: legend });
                     }
                     );
                 }
@@ -452,87 +593,6 @@ export class ComputeWorkerUtil {
         return data.map(v => [scale(v[0]), scale(v[1]), scale(v[2])]);
     }
 
-    // createMap = (data: any, field: DataField, values: Array<any>,
-    //     nullValue: any, type: any): { legend: Legend, value: Array<number> } => {
-        // if (field.key === 'None') {
-        //     return {
-        //         legend: { name: '', type: type, legendItems: [] },
-        //         value: Object.keys(data.patientData).map((v) => values[0])
-        //     };
-        // }
-        // let legends: any;
-        // let returnValues: Array<number>;
-        // switch (field.type) {
-        //     case DataTypeEnum.NUMBER:
-        //         const bins = _.range(field['min'], field['max'], Math.min((field['max'] - field['min']) / values.length));
-        //         legends = bins
-        //             .map((v) => Math.floor(v))
-        //             .map((v, i) => ([bins[i], (i <= bins.length - 2) ? bins[i + 1] : Math.ceil(field['max']), values[i]]));
-        //         returnValues = data.patientData.map((v) => {
-        //             const value = v[field.key];
-        //             return legends.reduce((p, c) => {
-        //                 return _.inRange(value, c[0], c[1]) ? c[2] : p;
-        //             }, nullValue);
-        //         });
-        //         return {
-        //             legend: {
-        //                 name: field.label, type: type, legendItems:
-        //                 Object.keys(legends).map(v => ({ name: v, value: legends[v] }))
-        //             },
-        //             value: returnValues
-        //         };
-
-        //     case DataTypeEnum.STRING:
-        //         legends = field.values.reduce((p, c, i) => { p[c] = values[i]; return p; }, {});
-        //         returnValues = data.patientData.map((v) => {
-        //             const value = v[field.key];
-        //             return legends[value];
-        //         });
-        //         return {
-        //             legend: {
-        //                 name: field.label, type: type, legendItems:
-        //                 Object.keys(legends).map(v => ({ name: v, value: legends[v] }))
-        //             },
-        //             value: returnValues
-        //         };
-    //     }
-    // }
-
-    // createPatientColorMap = (data, field: DataField): { legend: Legend, value: Array<number> } => {
-    //     const rv = this.createMap(data, field, this.colors, 0x000000, 'COLOR');
-    //     return rv;
-    // }
-
-    // createPatientShapeMap = (data, field: DataField): { legend: Legend, value: Array<number> } => {
-    //     const rv = this.createMap(data, field, this.shapes, ShapeEnum.CIRCLE, 'SHAPE');
-    //     rv.legend.type = 'SHAPE';
-    //     return rv;
-    // }
-
-    // createPatientSizeMap = (data, field: DataField): { legend: Legend, value: Array<number> } => {
-    //     const rv = this.createMap(data, field, this.sizes, 2, 'SIZE');
-    //     return rv;
-    // }
-
-    // createGeneSizeMap = (data, field: DataField): Array<number> => {
-    //     return [];
-    // }
-
-    // createGeneColorMap = (data, field: DataField): Array<number> => {
-    //     return [];
-    // }
-
-    // createSampleMap = (data): Array<string> => {
-    //     return Object.keys(data.patientSampleMap.samples);
-    // }
-
-    // createPatientMap = (data): Array<string> => {
-    //     return Object.keys(data.patientSampleMap.patients);
-    // }
-
-    // createMarkerMap = (data): Array<string> => {
-    //     return data.markers;
-    // }
 }
 
 

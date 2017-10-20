@@ -116,7 +116,7 @@ def cluster_sk_pca(event, context):
         svd_solver=event['svd_solver'],
         tol = event['body']['tol'],
         iterated_power= event['body']['iterated_power'],
-        random_state= event['body']['random_state']
+        random_state= None if (event['body']['random_state']=='None') else event['body']['random_state']
         )
 
     _result = _config.fit(event['body']['data']).transform(event['body']['data'])
@@ -383,7 +383,7 @@ def manifold_sk_local_linear_embedding(event, context):
         hessian_tol=event['body']['hessian_tol'],
         modified_tol=event['body']['modified_tol'],
         neighbors_algorithm=event['body']['neighbors_algorithm'],
-        random_state=event['body']['random_state'],
+        random_state = None if (event['body']['random_state']=='None') else event['body']['random_state'],
         n_jobs=-1
     )
     _result = _config.fit_transform(event['body']['data'])
@@ -397,10 +397,10 @@ def manifold_sk_spectral_embedding(event, context):
     _config = SpectralEmbedding(
         n_components=event['body']['components'],
         affinity=event['body']['affinity'],
-        gamma=None,
-        random_state=None,
-        eigen_solver=None,
-        n_neighbors=None,
+        gamma = None if (event['body']['gamma']=='None') else event['body']['gamma'],
+        random_state = None if (event['body']['random_state']=='None') else event['body']['random_state'],
+        eigen_solver = None if (event['body']['eigen_solver']=='None') else event['body']['random_state'],
+        n_neighbors = None if (event['body']['n_neighbors']=='None') else event['body']['n_neighbors'],
         n_jobs=-1
     )
     _result = _config.fit_transform(event['body']['data'])
