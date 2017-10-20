@@ -138,7 +138,7 @@ export class PcaKernalFormComponent extends AbstractScatterForm {
       pointSize: [],
       legend: [],
 
-      components: [],
+      n_components: [],
       dimension: [],
       kernel: [],
       degree: [],

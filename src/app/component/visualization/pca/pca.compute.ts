@@ -21,7 +21,7 @@ export const pcaCompute = (config: PcaConfigModel, worker: DedicatedWorkerGlobal
                             // added more than server is calling
                             method: 'cluster_sk_pca',
                             data: mtx.data,
-                            components: config.components,
+                            n_components: config.n_components,
                             dimension: config.dimension,
                             random_state: config.random_state,
                             tol: config.tol,

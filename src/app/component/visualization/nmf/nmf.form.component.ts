@@ -148,11 +148,11 @@ export class NmfFormComponent extends AbstractScatterForm {
       pointShape: [],
       pointSize: [],
 
-      components: [],
+      n_components: [],
       dimension: [],
       init: [],
       solver: [],
-      betaloss: [],
+      beta_loss: [],
       tol: []
     });
 

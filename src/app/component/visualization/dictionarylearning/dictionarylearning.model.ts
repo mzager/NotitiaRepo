@@ -26,14 +26,14 @@ export class DictionaryLearningConfigModel extends GraphConfig {
         this.visualization = VisualizationEnum.DICTIONARY_LEARNING;
     }
 
-    components = 3;
+    n_components = 3;
     dimension = DimensionEnum.THREE_D;
     alpha = 1;
     max_iter = 1000;
     tol = 1e-08;
     fit_algorithm = DictionaryLearningFitAlgorithm.CD;
     transform_algorithm = DictionaryLearningTransformAlgorithm.OMP;
-    split: Boolean = false;
+    split_sign: Boolean = false;
 }
 
 export interface DictionaryLearningDataModel extends GraphData {
@@ -45,4 +45,7 @@ export interface DictionaryLearningDataModel extends GraphData {
     sampleIds: Array<string>;
     markerIds: Array<string>;
     patientIds: Array<string>;
+    components: any;
+    error: any;
+    nIter: any;
 }

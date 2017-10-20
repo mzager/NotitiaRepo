@@ -18,7 +18,7 @@ export const pcaKernalCompute = (config: PcaKernalConfigModel, worker: Dedicated
                     worker.util
                         .fetchResult({
                             method: 'cluster_sk_pca_kernal',
-                            components: 3,
+                            n_components: config.n_components,
                             data: mtx.data,
                             kernal: config.kernel,
                             degree: config.degree,

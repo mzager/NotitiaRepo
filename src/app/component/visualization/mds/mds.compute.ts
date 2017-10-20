@@ -20,15 +20,10 @@ export const mdsCompute = (config: MdsConfigModel, worker: DedicatedWorkerGlobal
                             // added more than server is calling
                             method: 'manifold_sk_mds',
                             data: mtx.data,
-                            components: config.components,
+                            n_components: config.n_components,
                             dimension: config.dimension,
                             metric: config.metric,
-                            n_init: config.n_init,
                             eps: config.eps,
-                            max_iter: config.max_iter,
-                            verbose: config.verbose,
-                            n_jobs: config.n_jobs,
-                            random_state: config.random_state,
                             dissimilarity: config.dissimilarity
                         })
                 ]).then(result => {

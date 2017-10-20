@@ -117,7 +117,7 @@ export class TruncatedSvdFormComponent extends AbstractScatterForm {
       pointShape: [],
       pointSize: [],
 
-      components: [],
+      n_components: [],
       dimension: [],
       algorithm: [],
       tol: [],

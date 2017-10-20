@@ -20,9 +20,10 @@ export const pcaIncrementalCompute = (config: PcaIncrementalConfigModel, worker:
                     worker.util
                         .fetchResult({
                             method: 'cluster_sk_pca_incremental',
-                            components: 3,
+                            n_components: config.n_components,
                             data: mtx.data,
-                            whiten: false
+                            whiten: config.whiten,
+                            batch_size: config.batch_size
                         })
                 ]).then(result => {
                         const psMap = result[0].reduce( (p, c) => { p[c.s] = c.p; return p; }, {});
