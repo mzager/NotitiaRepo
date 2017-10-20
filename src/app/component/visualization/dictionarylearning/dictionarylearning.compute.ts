@@ -20,14 +20,14 @@ export const dictionaryLearningCompute = (config: DictionaryLearningConfigModel,
                             .fetchResult({
                                 method: 'cluster_sk_dictionary_learning',
                                 data: mtx.data,
-                                components: config.components,
+                                n_components: config.n_components,
                                 dimension: config.dimension,
                                 alpha: config.alpha,
                                 max_iter: config.max_iter,
                                 tol: config.tol,
                                 fit: config.fit_algorithm,
                                 transform: config.transform_algorithm,
-                                split: config.split
+                                split_sign: config.split_sign
                             })
                     ]).then(result => {
                             const psMap = result[0].reduce( (p, c) => { p[c.s] = c.p; return p; }, {});

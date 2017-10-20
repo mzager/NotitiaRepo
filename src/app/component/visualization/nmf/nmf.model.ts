@@ -29,11 +29,11 @@ export class NmfConfigModel extends GraphConfig {
         this.visualization = VisualizationEnum.NMF;
     }
 
-    components = 3;
+    n_components = 3;
     dimension = DimensionEnum.THREE_D;
     init = NmfInit.RANDOM;
     solver = NmfSolver.CD;
-    betaloss = NmfBetaLoss.FROBENIUS;
+    beta_loss = NmfBetaLoss.FROBENIUS;
     tol = 1e-4;
 }
 
@@ -47,4 +47,7 @@ export interface NmfDataModel extends GraphData {
     sampleIds: Array<string>;
     markerIds: Array<string>;
     patientIds: Array<string>;
+    components: any;
+    reconstruction_err: any;
+    nIter: any;
 }

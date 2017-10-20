@@ -133,14 +133,14 @@ export class DictionaryLearningFormComponent extends AbstractScatterForm {
       pointShape: [],
       pointSize: [],
 
-      components: [],
+      n_components: [],
       dimension: [],
       alpha: [],
       max_iter: [],
       tol: [],
       fit_algorithm: [],
       transform_algorithm: [],
-      split: []
+      split_sign: []
     });
 
      // Update When Form Changes

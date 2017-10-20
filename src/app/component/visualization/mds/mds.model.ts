@@ -18,15 +18,10 @@ export class MdsConfigModel extends GraphConfig {
         this.visualization = VisualizationEnum.MDS;
     }
 
-    components = 3;
+    n_components = 3;
     dimension = DimensionEnum.THREE_D;
     metric: Boolean = true;
-    n_init = 4;
     eps = 1e-3;
-    max_iter = 300;
-    verbose = 0;
-    n_jobs = 1;
-    random_state = 'None';
     dissimilarity = MdsDissimilarity.ECULIDEAN;
 }
 
@@ -40,4 +35,6 @@ export interface MdsDataModel extends GraphData {
     sampleIds: Array<string>;
     markerIds: Array<string>;
     patientIds: Array<string>;
+    embedding: any;
+    stress: any;
 }

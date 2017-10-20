@@ -13,19 +13,18 @@ export const pcaSparseCompute = (config: PcaSparseConfigModel, worker: Dedicated
         worker.util
             .getMatrix([], [], config.table.map, config.table.tbl, config.entity)
             .then(mtx => {
-                console.log("!!!!!"+ config.method);
                 Promise.all([
                     worker.util.getSamplePatientMap(),
                     worker.util
                         .fetchResult({
                             method: 'cluster_sk_pca_sparse',
-                            components: 3,
+                            n_components: config.n_components,
                             data: mtx.data,
                             alpha: config.alpha,
                             ridge_alpha: config.ridge_alpha,
                             max_iter: config.max_iter,
                             tol: config.tol,
-                            fun: config.method
+                            sk_method: config.sk_method
                         })
                 ]).then(result => {
                         const psMap = result[0].reduce( (p, c) => { p[c.s] = c.p; return p; }, {});

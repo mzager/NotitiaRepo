@@ -20,10 +20,13 @@ export const isoMapCompute = (config: IsoMapConfigModel, worker: DedicatedWorker
                                 // added more than server is calling
                                 method: 'manifold_sk_iso_map',
                                 data: mtx.data,
-                                components: config.components,
+                                n_components: config.n_components,
                                 dimension: config.dimension,
-                                max_iter: config.max_iter,
-                                tol: config.tol
+                                tol: config.tol,
+                                n_neighbors: config.n_neighbors,
+                                eigen_solver: config.eigen_solver,
+                                path_method: config.path_method,
+                                neighbors_algorithm: config.neighbors_algorithm
                             })
                     ]).then(result => {
                         const psMap = result[0].reduce((p, c) => { p[c.s] = c.p; return p; }, {});

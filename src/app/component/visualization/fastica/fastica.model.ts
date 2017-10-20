@@ -25,7 +25,7 @@ export class FastIcaConfigModel extends GraphConfig {
     }
 
     dimension = DimensionEnum.THREE_D;
-    components = 3;
+    n_components = 3;
     algorithm = FastIcaAlgorithm.PARALLEL;
     fun = FastIcaFunction.LOGCOSH;
     whiten: Boolean = false;
@@ -42,4 +42,7 @@ export interface FastIcaDataModel extends GraphData {
     sampleIds: Array<string>;
     markerIds: Array<string>;
     patientIds: Array<string>;
+    components: any;
+    mixing: any;
+    nIter: any;
 }

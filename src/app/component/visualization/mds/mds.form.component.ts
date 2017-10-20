@@ -124,15 +124,10 @@ export class MdsFormComponent extends AbstractScatterForm {
       pointShape: [],
       pointSize: [],
 
-      components: [],
-      n_init: [],
+      n_components: [],
       metric: [],
       eps: [],
       dimension: [],
-      max_tier: [],
-      verbose: [],
-      n_jobs: [],
-      random_state: [],
       dissimilarity: []
     });
 

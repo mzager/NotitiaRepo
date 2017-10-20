@@ -20,18 +20,16 @@ export const localLinearEmbeddingCompute = (config: LocalLinearEmbeddingConfigMo
                             // added more than server is calling
                             method: 'manifold_sk_local_linear_embedding',
                             data: mtx.data,
-                            components: config.components,
+                            n_components: config.n_components,
                             dimension: config.dimension,
                             n_neighbors: config.n_neighbors,
                             eigen_solver: config.eigen_solver,
                             reg: config.reg,
-                            random_state: config.random_state,
                             neighbors_algorithm: config.neighbors_algorithm,
                             lle_method: config.lle_method,
                             hessian_tol: config.hessian_tol,
                             modified_tol: config.modified_tol,
                             tol: config.tol,
-                            max_iter: config.max_iter
                         })
                 ]).then(result => {
                     const psMap = result[0].reduce((p, c) => { p[c.s] = c.p; return p; }, {});
