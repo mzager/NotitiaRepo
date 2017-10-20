@@ -11,7 +11,6 @@ import { Component, ComponentFactoryResolver, Input, Output, ViewContainerRef,
 import { LegendPanelEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 declare var $: any;
-declare var vega: any;
 
 @Component({
   selector: 'app-workspace-edge-panel',
