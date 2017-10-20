@@ -27,12 +27,10 @@ export class SpectralEmbeddingConfigModel extends GraphConfig {
         this.visualization = VisualizationEnum.SPECTRAL_EMBEDDING;
     }
 
-    components = 3;
+    n_components = 3;
     dimension = DimensionEnum.THREE_D;
     eigen_solver = SpectralEmbeddingEigenSolver.NONE;
-    random_state = 'None';
     n_neighbors = 'None';
-    n_jobs = 1;
     gamma = 'None';
     affinity = SpectralEmbeddingAffinity.NEAREST_NEIGHBORS;
 }
@@ -46,4 +44,6 @@ export interface SpectralEmbeddingDataModel extends GraphData {
     sampleIds: Array<string>;
     markerIds: Array<string>;
     patientIds: Array<string>;
+    embedding: any;
+    affinityMatrix: any;
 }

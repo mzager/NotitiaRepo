@@ -18,7 +18,7 @@ export class LdaConfigModel extends GraphConfig {
     }
     // coulld review this, there are a lot
     dimension = DimensionEnum.THREE_D;
-    components = 3;
+    n_components = 3;
     learning_method = LdaLearningMethod.BATCH;
     learning_decay = 0.7;
     learning_offset = 10;
@@ -34,4 +34,9 @@ export interface LdaDataModel extends GraphData {
     sampleIds: Array<string>;
     markerIds: Array<string>;
     patientIds: Array<string>;
+    components: any;
+    batchIter: any;
+    nIter: any;
+    perplexity: any;
+    score: any;
 }

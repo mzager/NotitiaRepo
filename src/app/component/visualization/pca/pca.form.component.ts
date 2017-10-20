@@ -89,32 +89,10 @@ import * as _ from 'lodash';
       </label>
     </div>
   </div>
-  <div class="form-group">
-    <div class="switch">
-      <label>
-        <input type="checkbox" formControlName="showVectors">
-        <span class="lever"></span>
-        Weights
-      </label>
-    </div>
-    <div class="switch">
-      <label>
-        <input type="checkbox" formControlName="isCentered">
-        <span class="lever"></span>
-        Centered
-      </label>
-    </div>
-    <div class="switch">
-      <label>
-        <input type="checkbox" formControlName="isScaled">
-        <span class="lever"></span>
-        Scaled
-      </label>
-    </div>
-  </div>
 </form>
   `
 })
+// if svd_solver = arpack then tol
 export class PcaFormComponent extends AbstractScatterForm {
 
   @Input() set config(v: PcaConfigModel) {
@@ -150,7 +128,7 @@ export class PcaFormComponent extends AbstractScatterForm {
           pointShape: [],
           pointSize: [],
 
-          components: [],
+          n_components: [],
           dimension: [],
           svd_solver: [],
           tol: [],

@@ -13,9 +13,11 @@ export class PcaIncrementalConfigModel extends GraphConfig {
         this.visualization = VisualizationEnum.INCREMENTAL_PCA;
     }
 
-    components = 3;
+    n_components = 3;
     dimension = DimensionEnum.THREE_D;
     whiten: Boolean = false;
+    copy: Boolean = true;
+    batch_size: 'None';
 }
 
 export interface PcaIncrementalDataModel extends GraphData {
@@ -27,4 +29,13 @@ export interface PcaIncrementalDataModel extends GraphData {
     sampleIds: Array<string>;
     markerIds: Array<string>;
     patientIds: Array<string>;
+    components: any;
+    explainedVariance: any;
+    explainedVarianceRatio: any;
+    singularValues: any;
+    skVar: any;
+    mean: any;
+    nComponents: any;
+    noiseVariance: any;
+    nSamplesSeen: any;
 }

@@ -116,7 +116,7 @@ export class LdaFormComponent extends AbstractScatterForm {
       pointShape: [],
       pointSize: [],
 
-      components: [],
+      n_components: [],
       dimension: [],
       learning_method: [],
       learning_decay: [],

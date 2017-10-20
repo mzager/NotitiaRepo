@@ -32,10 +32,9 @@ export class IsoMapConfigModel extends GraphConfig {
         this.visualization = VisualizationEnum.ISOMAP;
     }
 
-    components = 3;
+    n_components = 3;
     dimension = DimensionEnum.THREE_D;
-    tol = 0.01;
-    max_iter = 1000;
+    tol = 0;
     n_neighbors = 5;
     eigen_solver = IsoMapEigenSolver.AUTO;
     path_method = IsoMapPathMethod.AUTO;
@@ -52,4 +51,5 @@ export interface IsoMapDataModel extends GraphData {
     sampleIds: Array<string>;
     markerIds: Array<string>;
     patientIds: Array<string>;
+    embedding: any;
 }
