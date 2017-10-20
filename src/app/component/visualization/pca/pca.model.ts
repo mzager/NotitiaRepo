@@ -4,6 +4,7 @@ import { Legend } from './../../../model/legend.model';
 import { DataFieldFactory, DataTable } from './../../../model/data-field.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DataField } from 'app/model/data-field.model';
+import { Component } from '@angular/core';
 
 export class PcaSvdSolver {
     public static AUTO = 'auto';
@@ -20,7 +21,7 @@ export class PcaConfigModel extends GraphConfig {
         this.visualization = VisualizationEnum.PCA;
     }
 
-    components = 3;
+    n_components = 3;
     dimension = DimensionEnum.THREE_D;
     copy: Boolean = true;
     whiten: Boolean = false;
@@ -40,4 +41,11 @@ export interface PcaDataModel extends GraphData {
     sampleIds: Array<string>;
     markerIds: Array<string>;
     patientIds: Array<string>;
+    components: any;
+    explainedVariance: any;
+    explainedVarianceRatio: any;
+    singularValues: any;
+    mean: any;
+    nComponents: any;
+    noiseVariance: any;
 }

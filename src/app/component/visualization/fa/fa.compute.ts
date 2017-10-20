@@ -20,13 +20,10 @@ export const faCompute = (config: FaConfigModel, worker: DedicatedWorkerGlobalSc
                             // added more than server is calling
                             method: 'cluster_sk_factor_analysis',
                             data: mtx.data,
-                            components: config.components,
+                            n_components: config.n_components,
                             dimension: config.dimension,
-                            max_iter: config.max_iter,
                             tol: config.tol,
-                            iterated_power: config.iterated_power,
-                            random_state: config.random_state,
-                            fun: config.svd_method
+                            svd_method: config.svd_method
                         })
                 ]).then(result => {
                     const psMap = result[0].reduce((p, c) => { p[c.s] = c.p; return p; }, {});

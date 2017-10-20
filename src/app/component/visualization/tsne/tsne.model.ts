@@ -7,17 +7,37 @@ import { DataField } from 'app/model/data-field.model';
 import { DistanceEnum, DenseSparseEnum } from './../../../model/enum.model';
 import { Component } from '@angular/core';
 
-export enum TsneMetric {
-    euclidean = 0,
-    manhattan = 1,
-    jaccard = 2,
-    dice = 4
+export class TsneMetric {
+    public static EUCLIDEAN = 'euclidean';
+    public static MANHATTAN = 'manhattan';
+    public static JACCARD = 'jaccard';
+    public static DICE = 'dice';
+    public static CITYBLOCK = 'cityblock';
+    public static COSINE = 'cosine';
+    public static L1 = 'l1';
+    public static L2 = 'l2';
+    public static BRAYCURTIS = 'braycurtis';
+    public static CANBERRA = 'canberra';
+    public static CHEBYSHEV = 'chebyshev';
+    public static CORRELATION = 'correlation';
+    public static HAMMING = 'hamming';
+    public static KULSINSKI = 'kulsinski';
+    public static MAHALANOBIS = 'mahalanobis';
+    public static CMATCHING = 'matching';
+    public static MINKOWSKI = 'minkowski';
+    public static ROGERSTANIMOTO = 'rogerstanimoto';
+    public static RUSSELLRAO = 'russellrao';
+    public static SEUCLIDEAN = 'seuclidean';
+    public static SOKALMICHENER = 'sokalmichener';
+    public static SOKALSNEATH = 'sokalsneath';
+    public static SQEUCLIDEAN = 'sqeuclidean';
+    public static YULE = 'yule';
 }
-export enum TsneDisplayEnum {
-    WEIGHT = 1,
-    SCORE = 2,
-    LOADING = 4,
-    NONE = 0
+
+export class TsneMethod {
+    public static BARNES_HUT = 'barnes_hut';
+    public static EXACT = 'exact';
+
 }
 
 export class TsneConfigModel extends GraphConfig {
@@ -29,22 +49,15 @@ export class TsneConfigModel extends GraphConfig {
     }
 
     dimension = DimensionEnum.THREE_D;
-    components = 3;
-    domain: [-300, 300];
-    perpexity = 5;  // 5-50
-    early_exaggeration = 5; // *>1
-    learning_rate = 500; // 100-1000
-    n_iter = 200; // Maximum Number of itterations >200
-    // distance = DistanceEnum.EUCLIDEAN;
-    density = DenseSparseEnum.DENSE;
+    n_components = 3;
+    perpexity = 5;
+    early_exaggeration = 5;
+    learning_rate = 500;
+    n_iter = 200;
     n_iter_without_progress = 300;
     min_grad_norm = 1e-7;
-    metric = TsneMetric.euclidean;
-    init =
-    verbose = 0;
-    random_state = 'None';
-    method = 'barnes_hut';
-    angle =  0.5;
+    metric = TsneMetric.EUCLIDEAN;
+    sk_method = TsneMethod.BARNES_HUT;
 }
 
 export interface TsneDataModel extends GraphData {
@@ -56,4 +69,7 @@ export interface TsneDataModel extends GraphData {
     sampleIds: Array<string>;
     markerIds: Array<string>;
     patientIds: Array<string>;
+    embedding: any;
+    klDivergence: any;
+    nIter: any;
 }

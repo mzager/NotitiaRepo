@@ -5,7 +5,7 @@ import { DataFieldFactory } from './../../../model/data-field.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DataField } from 'app/model/data-field.model';
 
-export class PcaSparseMethod {
+export class PcaSparseSkMethod {
     public static LARS = 'lars';
     public static CD = 'cd';
 }
@@ -18,17 +18,14 @@ export class PcaSparseConfigModel extends GraphConfig {
         this.visualization = VisualizationEnum.SPARSE_PCA;
     }
 
-    components = 3;
+    n_components = 3;
     dimension = DimensionEnum.THREE_D;
-
     alpha = 1;
     ridge_alpha = 0.01;
     max_iter = 1000;
     tol = 1e-8;
-    method = 'cd';
+    sk_method = 'cd';
 }
-
-
 
 
 export interface PcaSparseDataModel extends GraphData {
@@ -39,4 +36,7 @@ export interface PcaSparseDataModel extends GraphData {
     pointShape: Array<ShapeEnum>;
     sampleIds: Array<string>;
     markerIds: Array<string>;
+    components: any;
+    error: any;
+    iter: any;
 }

@@ -20,7 +20,7 @@ export const truncatedSvdCompute = (config: TruncatedSvdConfigModel, worker: Ded
                             .fetchResult({
                                 // added more than server is calling
                                 method: 'cluster_sk_truncated_svd',
-                                components: config.components,
+                                n_components: config.n_components,
                                 algorithm: config.algorithm,
                                 tol: config.tol,
                                 data: mtx.data,

@@ -140,7 +140,7 @@ export class FastIcaFormComponent extends AbstractScatterForm {
       pointShape: [],
       pointSize: [],
 
-      components: [],
+      n_components: [],
       dimension: [],
       algorithm: [],
       fun: [],

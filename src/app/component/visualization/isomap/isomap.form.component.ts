@@ -147,15 +147,13 @@ export class IsoMapFormComponent extends AbstractScatterForm {
       pointShape: [],
       pointSize: [],
 
-      components: [],
+      n_components: [],
       dimension: [],
       tol: [],
-      max_iter: [],
       n_neighbors: [],
       eigen_solver: [],
       path_method: [],
       neighbors_algorithm: []
-
     });
 
     // Update When Form Changes

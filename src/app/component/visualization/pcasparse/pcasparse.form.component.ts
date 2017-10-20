@@ -1,5 +1,5 @@
 import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
-import { PcaSparseConfigModel, PcaSparseMethod } from './pcasparse.model';
+import { PcaSparseConfigModel, PcaSparseSkMethod } from './pcasparse.model';
 import { DimensionEnum, EntityTypeEnum, DirtyEnum } from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DataTypeEnum, CollectionTypeEnum } from 'app/model/enum.model';
@@ -65,10 +65,10 @@ import * as _ from 'lodash';
   <div class="form-group">
     <label class="center-block"><span class="form-label">Method</span>
       <select class="browser-default" materialize="material_select"
-        [materializeSelectOptions]="methodOptions"
+        [materializeSelectOptions]="PcaSparseSkMethodOptions"
         [compareWith]="byKey"
-        formControlName="method">
-          <option *ngFor="let options of methodOptions">{{options}}</option>
+        formControlName="sk_method">
+          <option *ngFor="let options of PcaSparseSkMethodOptions">{{options}}</option>
       </select>
     </label>
   </div>
@@ -93,7 +93,9 @@ export class PcaSparseFormComponent  extends AbstractScatterForm {
     }
   }
 
-  methodOptions = [PcaSparseMethod.CD, PcaSparseMethod.LARS];
+  PcaSparseSkMethodOptions = [
+    PcaSparseSkMethod.CD,
+    PcaSparseSkMethod.LARS];
 
   byKey(p1: DataField, p2: DataField) {
     if (p2 === null) { return false; }
@@ -119,7 +121,7 @@ export class PcaSparseFormComponent  extends AbstractScatterForm {
       pointSize: [],
       legend: [],
 
-      components: [],
+      n_components: [],
       dimension: [],
       alpha: [],
       ridge_alpha: [],
