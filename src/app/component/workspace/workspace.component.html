@@ -82,6 +82,7 @@
     (loadTcga)="loadTcga($event)"
     ></app-workspace-tcga-panel>
 
+<app-workspace-tool-bar *ngIf="toolPanelTab | async"></app-workspace-tool-bar>       
 <app-application-bar 
     (filePanelToggle)="filePanelToggle()"
     (edgePanelToggle)="edgePanelToggle()"
@@ -101,5 +102,3 @@
     [tables]="tables | async"
     *ngIf="dataPanelTab | async"></app-workspace-data-panel>
      
-<app-workspace-tool-bar *ngIf="toolPanelTab | async">
-    </app-workspace-tool-bar>       

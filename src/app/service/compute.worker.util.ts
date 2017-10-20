@@ -195,6 +195,7 @@ export class ComputeWorkerUtil {
             });
         });
     }
+
     getEdgesGeneGene(config: EdgeConfigModel): Promise<any> {
         return new Promise((resolve, reject) => {
             this.openDatabaseData().then(v => {
@@ -248,23 +249,38 @@ export class ComputeWorkerUtil {
             });
         });
     }
-    getEdgesGeneSample(config: EdgeConfigModel): Promise<any> {
-        return this.getMatrix([], [], 'gismutMap', 'gisticT', EntityTypeEnum.GENE)
-            .then((result: any) => {
-                const edges: Array<any> = [];
-                const aIsGene = (config.entityA === EntityTypeEnum.GENE);
-                debugger;
-                result.data.forEach((gene, geneIndex) => gene.forEach((sample, sampleIndex) => {
-                    if (sample !== 0) {
-                        const rv = { a: null, b: null, c: null, i: null };
-                        rv.a = aIsGene ? result['markers'][geneIndex] : result['samples'][sampleIndex];
-                        rv.b = !aIsGene ? result['markers'][geneIndex] : result['samples'][sampleIndex];
-                        edges.push(rv);
-                    }
-                }));
 
-                debugger;
-            });
+    getEdgesGeneSample(config: EdgeConfigModel): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.getMatrix([], [], 'gismutMap', 'gisticT', EntityTypeEnum.GENE)
+                .then((result: any) => {
+                    const edges: Array<any> = [];
+                    const aIsGene = (config.entityA === EntityTypeEnum.GENE);
+                    const colorField = (config.pointColor.key !== 'None');
+                    const intersectField = (config.pointIntersect.key !== 'None');
+                    result.data.forEach((gene, geneIndex) => gene.forEach((sample, sampleIndex) => {
+                        if (sample !== 0) {
+                            const rv = { a: null, b: null, c: 0x333333, i: null };
+                            rv.a = aIsGene ? result['markers'][geneIndex] : result['samples'][sampleIndex];
+                            rv.b = !aIsGene ? result['markers'][geneIndex] : result['samples'][sampleIndex];
+                            if (intersectField) {
+                                rv.i = (sample === -2) ? 1 :
+                                    (sample === -1) ? 2 :
+                                        (sample === 1) ? 3 :
+                                            4;
+                            }
+                            if (colorField) {
+                                rv.c = (sample === -2) ? this.colors[0] :
+                                    (sample === -1) ? this.colors[1] :
+                                        (sample === 1) ? this.colors[2] :
+                                            this.colors[3];
+                            }
+                            edges.push(rv);
+                        }
+                    }));
+                    resolve(edges);
+                });
+        });
     }
 
     getSamplePatientMap(): Promise<any> {
@@ -577,87 +593,6 @@ export class ComputeWorkerUtil {
         return data.map(v => [scale(v[0]), scale(v[1]), scale(v[2])]);
     }
 
-    // createMap = (data: any, field: DataField, values: Array<any>,
-    //     nullValue: any, type: any): { legend: Legend, value: Array<number> } => {
-    // if (field.key === 'None') {
-    //     return {
-    //         legend: { name: '', type: type, legendItems: [] },
-    //         value: Object.keys(data.patientData).map((v) => values[0])
-    //     };
-    // }
-    // let legends: any;
-    // let returnValues: Array<number>;
-    // switch (field.type) {
-    //     case DataTypeEnum.NUMBER:
-    //         const bins = _.range(field['min'], field['max'], Math.min((field['max'] - field['min']) / values.length));
-    //         legends = bins
-    //             .map((v) => Math.floor(v))
-    //             .map((v, i) => ([bins[i], (i <= bins.length - 2) ? bins[i + 1] : Math.ceil(field['max']), values[i]]));
-    //         returnValues = data.patientData.map((v) => {
-    //             const value = v[field.key];
-    //             return legends.reduce((p, c) => {
-    //                 return _.inRange(value, c[0], c[1]) ? c[2] : p;
-    //             }, nullValue);
-    //         });
-    //         return {
-    //             legend: {
-    //                 name: field.label, type: type, legendItems:
-    //                 Object.keys(legends).map(v => ({ name: v, value: legends[v] }))
-    //             },
-    //             value: returnValues
-    //         };
-
-    //     case DataTypeEnum.STRING:
-    //         legends = field.values.reduce((p, c, i) => { p[c] = values[i]; return p; }, {});
-    //         returnValues = data.patientData.map((v) => {
-    //             const value = v[field.key];
-    //             return legends[value];
-    //         });
-    //         return {
-    //             legend: {
-    //                 name: field.label, type: type, legendItems:
-    //                 Object.keys(legends).map(v => ({ name: v, value: legends[v] }))
-    //             },
-    //             value: returnValues
-    //         };
-    //     }
-    // }
-
-    // createPatientColorMap = (data, field: DataField): { legend: Legend, value: Array<number> } => {
-    //     const rv = this.createMap(data, field, this.colors, 0x000000, 'COLOR');
-    //     return rv;
-    // }
-
-    // createPatientShapeMap = (data, field: DataField): { legend: Legend, value: Array<number> } => {
-    //     const rv = this.createMap(data, field, this.shapes, ShapeEnum.CIRCLE, 'SHAPE');
-    //     rv.legend.type = 'SHAPE';
-    //     return rv;
-    // }
-
-    // createPatientSizeMap = (data, field: DataField): { legend: Legend, value: Array<number> } => {
-    //     const rv = this.createMap(data, field, this.sizes, 2, 'SIZE');
-    //     return rv;
-    // }
-
-    // createGeneSizeMap = (data, field: DataField): Array<number> => {
-    //     return [];
-    // }
-
-    // createGeneColorMap = (data, field: DataField): Array<number> => {
-    //     return [];
-    // }
-
-    // createSampleMap = (data): Array<string> => {
-    //     return Object.keys(data.patientSampleMap.samples);
-    // }
-
-    // createPatientMap = (data): Array<string> => {
-    //     return Object.keys(data.patientSampleMap.patients);
-    // }
-
-    // createMarkerMap = (data): Array<string> => {
-    //     return data.markers;
-    // }
 }
 
 

@@ -37,7 +37,6 @@ import * as _ from 'lodash';
       </select>
     </label>
   </div>
-  <br />
 </form>
   `
 })
@@ -51,8 +50,7 @@ export class EdgesFormComponent {
   $latest: Observable<any>;
   
 
-  @Input() set tables(v: Array<DataTable>) { 
-    debugger;
+  @Input() set tables(v: Array<DataTable>) {
     this.$tables.next(v); }
   @Input() set fields(v: Array<DataField>) { this.$fields.next(v); }
   @Input() set config(v: EdgeConfigModel) { this.$config.next(v); }

@@ -23,7 +23,6 @@ import { SelectEffect } from './effect/select.effect';
 import { ComputeService } from './service/compute.service';
 import { HttpClient } from './service/http.client';
 import { DataService } from 'app/service/data.service';
-import { DatabaseService } from './service/database.service';
 import { WorkbookService } from './service/workbook.service';
 import { OAuthService } from 'angular2-oauth2/oauth-service';
 import { IlluminaService } from './service/illumina.service';
@@ -164,7 +163,6 @@ import { reducers } from 'app/reducer/index.reducer';
     Title,
     DataService,
     DatasetService,
-    DatabaseService,
     ComputeService,
     WorkbookService,
     ChartFactory,

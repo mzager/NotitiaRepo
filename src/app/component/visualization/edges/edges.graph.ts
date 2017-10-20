@@ -55,8 +55,8 @@ export class EdgesGraph implements ChartObjectInterface {
         if (!this.config.isVisible) { return; }
         if (views[0].chart === null || views[1].chart === null) { return; }
 
-        const aId = (this.config.entityA === EntityTypeEnum.GENE) ? 'gid' : 'sid';
-        const bId = (this.config.entityB === EntityTypeEnum.GENE) ? 'gid' : 'sid';
+        const aId = (this.config.entityA === EntityTypeEnum.GENE) ? 'mid' : 'sid';
+        const bId = (this.config.entityB === EntityTypeEnum.GENE) ? 'mid' : 'sid';
 
         debugger;
         const aMap = views[0].chart.meshes.reduce((p, c) => {

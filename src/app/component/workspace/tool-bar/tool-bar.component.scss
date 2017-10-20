@@ -1,8 +1,22 @@
 .app-workspace-tool-bar {
-    width: 100%;
-    height: 30px;
+    position: absolute;
+    right: 8px;
+    top: -2px;
+    z-index: 1000;
+    button{
+        font-size:20px;
+        width: 30px;
+        display: inline-block;
+        margin:0px;
+        padding:0px;
+    }
+    .material-icons{
+        font-size: 14px;
+    }
+    // width: 30px;
+    // height: 100%;
     
-    position:absolute;
-    background: #EFEFEF;
-    top:30px;
+    // position:absolute;
+    // background: #EFEFEF;
+    // top:30px;
 }

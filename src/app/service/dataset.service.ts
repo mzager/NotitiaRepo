@@ -1,4 +1,3 @@
-import { DatabaseService } from './database.service';
 import { CollectionTypeEnum } from './../model/enum.model';
 import { Observable } from 'rxjs/Observable';
 import { DataFieldFactory } from 'app/model/data-field.model';
@@ -15,7 +14,7 @@ import Dexie from 'dexie';
 export class DatasetService {
 
   // Can I make these private?
-  public static API_PATH = 'http://localhost:4200/assets/tcga/';
+  public static API_PATH = '/assets/tcga/';
   public static db: Dexie;
   public static dataTables: Array<{ tbl: string, map: string, label: string, type: CollectionTypeEnum }>;
 
@@ -26,8 +25,8 @@ export class DatasetService {
         if (exists) {
           DatasetService.db = new Dexie('notitia-dataset');
           DatasetService.db.open().then(v => {
-            DatasetService.db.table('dataset').where({ name: dataset }).first().then( v => {
-              resolve(v);
+            DatasetService.db.table('dataset').where({ name: dataset }).first().then( result => {
+              resolve(result);
             });
           });
         } else {
@@ -51,12 +50,8 @@ export class DatasetService {
       .flatMap((res: any) => {
 
         const db = DatasetService.db = new Dexie('notitia-dataset');
-        DatasetService.db.on('versionchange', function (event) {
-          debugger;
-        });
-        DatasetService.db.on('blocked', () => {
-          debugger;
-        });
+        DatasetService.db.on('versionchange', function (event) { });
+        DatasetService.db.on('blocked', () => { });
 
         db.version(1).stores({
           dataset: 'name',
