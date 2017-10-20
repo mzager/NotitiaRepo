@@ -29,9 +29,10 @@
                     [fields]="fields"></app-pca-form>
                  <app-tsne-form *ngIf="configA && configA.visualization === 4"
                     (configChange)="graphPanelSetConfig($event)"
-                    [molecularData]="molecularData"
-                    [config]="configA" 
-                    [clinicalFields]="clinicalFields"></app-tsne-form> 
+                    [config]="configA"
+                    [tables]="tables"
+                    [fields]="fields"
+                    ></app-tsne-form> 
                 <app-pls-form *ngIf="configA && configA.visualization === 2"
                     [config]="configA" 
                     [clinicalFields]="clinicalFields"
@@ -149,9 +150,10 @@
                 [fields]="fields"></app-pca-form>
              <app-tsne-form *ngIf="configB && configB.visualization === 4"
                 (configChange)="graphPanelSetConfig($event)"
-                [molecularData]="molecularData"
-                [config]="configB" 
-                [clinicalFields]="clinicalFields"></app-tsne-form>
+                [config]="configB"
+                [tables]="tables"
+                [fields]="fields">
+                </app-tsne-form>
             <app-pls-form *ngIf="configB && configB.visualization === 2"
                 [config]="configB" 
                 [clinicalFields]="clinicalFields"
