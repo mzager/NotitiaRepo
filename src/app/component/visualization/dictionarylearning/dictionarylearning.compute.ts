@@ -25,8 +25,8 @@ export const dictionaryLearningCompute = (config: DictionaryLearningConfigModel,
                                 alpha: config.alpha,
                                 max_iter: config.max_iter,
                                 tol: config.tol,
-                                fit: config.fit_algorithm,
-                                transform: config.transform_algorithm,
+                                fit_algorithm: config.fit_algorithm,
+                                transform_algorithm: config.transform_algorithm,
                                 split_sign: config.split_sign
                             })
                     ]).then(result => {

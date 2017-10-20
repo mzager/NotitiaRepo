@@ -20,7 +20,7 @@ export const pcaKernalCompute = (config: PcaKernalConfigModel, worker: Dedicated
                             method: 'cluster_sk_pca_kernal',
                             n_components: config.n_components,
                             data: mtx.data,
-                            kernal: config.kernel,
+                            kernel: config.kernel,
                             degree: config.degree,
                             coef0: config.coef0,
                             alpha: config.alpha,

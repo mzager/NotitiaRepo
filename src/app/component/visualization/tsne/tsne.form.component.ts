@@ -1,4 +1,4 @@
-import { TsneConfigModel, TsneDistanceMeasure, TsneDisplayEnum } from './tsne.model';
+import { TsneConfigModel, TsneMetric, TsneMethod } from './tsne.model';
 import { DimensionEnum, DistanceEnum, DenseSparseEnum } from './../../../model/enum.model';
 import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
 import { GraphConfig } from './../../../model/graph-config.model';
@@ -14,7 +14,7 @@ import * as _ from 'lodash';
   template: `
 <form [formGroup]="form" novalidate>
   <div class="form-group">
-    <label class="center-block">Data
+    <label class="center-block"><span class="form-label">Data</span>
         <select class="browser-default" materialize="material_select"
         [compareWith]="byKey"
         formControlName="table">
@@ -85,7 +85,7 @@ import * as _ from 'lodash';
     <label class="center-block">
     <span class="form-label">Perplexity</span>
     <p class="range-field">
-      <input type="range" min="5" max="50" formControlName="perpexity" />
+      <input type="range" min="5" max="50" formControlName="perplexity" />
     </p>
     </label>
   </div>
@@ -125,7 +125,16 @@ export class TsneFormComponent extends AbstractScatterForm  {
     this.form.patchValue(v, { emitEvent: false });
   }
 
+  distanceOptions = [
+    TsneMetric.CANBERRA, TsneMetric.CHEBYSHEV, TsneMetric.CITYBLOCK, TsneMetric.CMATCHING,
+    TsneMetric.CORRELATION, TsneMetric.COSINE, TsneMetric.DICE, TsneMetric.EUCLIDEAN,
+    TsneMetric.HAMMING, TsneMetric.JACCARD, TsneMetric.KULSINSKI, TsneMetric.KULSINSKI, TsneMetric.L1, 
+    TsneMetric.L2, TsneMetric.MAHALANOBIS, TsneMetric.MANHATTAN, TsneMetric.MINKOWSKI,
+    TsneMetric.ROGERSTANIMOTO, TsneMetric.RUSSELLRAO, TsneMetric.SEUCLIDEAN, TsneMetric.SOKALMICHENER,
+    TsneMetric.SOKALSNEATH, TsneMetric.SQEUCLIDEAN, TsneMetric.YULE];
 
+  densityOptions = [
+    TsneMethod.BARNES_HUT, TsneMethod.EXACT];
 
   constructor(private fb: FormBuilder) {
 
@@ -134,12 +143,11 @@ export class TsneFormComponent extends AbstractScatterForm  {
     this.form = this.fb.group({
       visualization: [],
       graph: [],
-      dataKey: [],
+      table: [],
       markerFilter: [],
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
-      molecularTable: [],
       pointData: [],
       pointColor: [],
       pointShape: [],
@@ -149,7 +157,7 @@ export class TsneFormComponent extends AbstractScatterForm  {
       dimension: [],
       earlyExaggeration: [],
       domain: [],
-      perpexity: [], // *>1
+      perplexity: [], // *>1
       learningRate: [], // 100-1000
       nIter: [], // Maximum Number of itterations >200
       distance: [],

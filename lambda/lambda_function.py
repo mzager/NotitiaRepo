@@ -113,7 +113,7 @@ def cluster_sk_pca(event, context):
         n_components=event['body']['n_components'],
         copy=event['body']['copy'],
         whiten=event['body']['whiten'],
-        svd_solver=event['svd_solver'],
+        svd_solver=event['body']['svd_solver'],
         tol = event['body']['tol'],
         iterated_power= event['body']['iterated_power'],
         random_state= None if (event['body']['random_state']=='None') else event['body']['random_state']
@@ -134,10 +134,8 @@ def cluster_sk_pca(event, context):
 def cluster_sk_pca_incremental(event, context):
     """ SK PCA """
     _config = IncrementalPCA(
-        n_components=event['body']['n_components'],
-        whiten=event['body']['whiten'],
-        copy=event['body']['copy'],
-        batch_size= None if (event['body']['batch_size']=='None') else event['body']['batch_size']
+        n_components = event['body']['n_components'],
+        whiten = event['body']['whiten']
         )
     _result = _config.fit_transform(event['body']['data'])
     return httpWrapper(json.dumps({
@@ -175,11 +173,11 @@ def cluster_sk_pca_kernal(event, context):
     _result = _config.fit_transform(event['body']['data'])
     return httpWrapper(json.dumps({
         'result':  _result.tolist(),
-        'lambdas':  lambdas_.tolist(),
+        'lambdas':  _config.lambdas_.tolist(),
         'alphas':  _config.alphas_.tolist(),
-        'dualCoef':  _config.dual_coef_.tolist(),
-        'X_transformed_fit_': _config.X_transformed_fit_.tolist(),
-        'X_fit_': _config.X_fit_
+        #'dualCoef':  _config.dual_coef_.tolist(),
+        #'X_transformed_fit_': _config.X_transformed_fit_.tolist(),
+        #'X_fit_': _config.X_fit_
         }))
 
 def cluster_sk_pca_sparse(event, context):
@@ -400,7 +398,7 @@ def manifold_sk_spectral_embedding(event, context):
         n_components=event['body']['n_components'],
         affinity=event['body']['affinity'],
         gamma = None if (event['body']['gamma']=='None') else event['body']['gamma'],
-        eigen_solver = None if (event['body']['eigen_solver']=='None') else event['body']['random_state'],
+        eigen_solver = None if (event['body']['eigen_solver']=='None') else event['body']['eigen_solver'],
         n_neighbors = None if (event['body']['n_neighbors']=='None') else event['body']['n_neighbors'],
         n_jobs=-1
     )
