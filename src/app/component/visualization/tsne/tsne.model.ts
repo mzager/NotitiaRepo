@@ -50,10 +50,10 @@ export class TsneConfigModel extends GraphConfig {
 
     dimension = DimensionEnum.THREE_D;
     n_components = 3;
-    perpexity = 5;
+    perplexity = 5;
     early_exaggeration = 5;
     learning_rate = 500;
-    n_iter = 200;
+    n_iter = 250;
     n_iter_without_progress = 300;
     min_grad_norm = 1e-7;
     metric = TsneMetric.EUCLIDEAN;

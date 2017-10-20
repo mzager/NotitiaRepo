@@ -22,9 +22,9 @@ export const ldaCompute = (config: LdaConfigModel, worker: DedicatedWorkerGlobal
                             data: mtx.data,
                             n_components: config.n_components,
                             dimension: config.dimension,
-                            fun: config.learning_method,
-                            decay: config.learning_decay,
-                            offset: config.learning_offset,
+                            learning_method: config.learning_method,
+                            learning_decay: config.learning_decay,
+                            learning_offset: config.learning_offset,
                             mean_change_tol: config.mean_change_tol
                         })
                 ]).then(result => {

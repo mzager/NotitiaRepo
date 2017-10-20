@@ -122,6 +122,7 @@ export class PcaSparseFormComponent  extends AbstractScatterForm {
       legend: [],
 
       n_components: [],
+      sk_method: [],
       dimension: [],
       alpha: [],
       ridge_alpha: [],

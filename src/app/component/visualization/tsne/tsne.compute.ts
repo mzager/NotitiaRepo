@@ -22,7 +22,7 @@ export const tsneCompute = (config: TsneConfigModel, worker: DedicatedWorkerGlob
                             data: mtx.data,
                             n_components: config.n_components,
                             dimension: config.dimension,
-                            perpexity: config.perpexity,
+                            perplexity: config.perplexity,
                             early_exaggeration: config.early_exaggeration,
                             learning_rate: config.learning_rate,
                             n_iter: config.n_iter,
