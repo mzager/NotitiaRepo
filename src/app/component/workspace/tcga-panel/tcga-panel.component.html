@@ -9,7 +9,7 @@
             text-overflow: ellipsis;
             max-height: 30px;"
                 *ngFor="let dataset of datasets; let i = index" (click)="loadDataset(dataset)">
-                <img style="padding-left:20px;height:30px;float:left" src='http://localhost:4200/assets/disease/img{{dataset.img}}'><div style="line-height:30px;overflow: hidden;
+                <img style="padding-left:20px;height:30px;float:left" src='http://zager.co/assets/disease/img{{dataset.img}}'><div style="line-height:30px;overflow: hidden;
                 text-overflow: ellipsis;">{{dataset.name}}</div>
             </div>
         </div>

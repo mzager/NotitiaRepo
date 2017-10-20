@@ -44,5 +44,17 @@
 
 
 .form-group{
-    margin-top:8px;
+    margin-top:3px;
+}
+select.browser-default {
+    display: inline-block;
+}
+.browser-default {
+    display: inline-block;
+    width: 114px;
+}
+.form-label {
+    display: inline-block !important;
+    width: 60px;
+    
 }

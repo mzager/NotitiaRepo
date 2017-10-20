@@ -14,7 +14,7 @@ import * as _ from 'lodash';
   template: `
 <form [formGroup]="form" novalidate>
   <div class="form-group">
-    <label class="center-block">Data
+    <label class="center-block"><span class="form-label">Data</span>
       <select class="browser-default" materialize="material_select"
           [compareWith]="byKey"
           formControlName="table">
@@ -23,7 +23,7 @@ import * as _ from 'lodash';
     </label>
   </div>
   <div class="form-group">
-    <label class="center-block">Display
+    <label class="center-block"><span class="form-label">Display</span>
       <select class="browser-default" materialize="material_select"
           formControlName="entity">
           <option *ngFor="let option of displayOptions">{{option}}</option>
@@ -92,17 +92,15 @@ import * as _ from 'lodash';
   </div>
   <div class="form-group">
     <div class="switch">
-      <label>
+      <label class="center-block"><span class="form-label">Fit Inverse</span>
         <input type="checkbox" formControlName="fit_inverse_transform">
         <span class="lever"></span>
-        Fit Inverse
       </label>
     </div>
     <div class="switch">
-      <label>
+      <label class="center-block"><span class="form-label">- 0 Eig</span>
         <input type="checkbox" formControlName="remove_zero_eig">
         <span class="lever"></span>
-        Remove Zero Eigen
       </label>
     </div>
   </div>
