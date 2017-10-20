@@ -22,12 +22,10 @@ export const spectralEmbeddingCompute = (config: SpectralEmbeddingConfigModel, w
                             // added more than server is calling
                             method: 'manifold_sk_spectral_embedding',
                             data: mtx.data,
-                            components: config.components,
+                            n_components: config.n_components,
                             dimension: config.dimension,
                             eigen_solver: config.eigen_solver,
-                            random_state: config.random_state,
                             n_neighbors: config.n_neighbors,
-                            n_jobs: config.n_jobs,
                             gamma: config.gamma,
                             affinity: config.affinity
                         })

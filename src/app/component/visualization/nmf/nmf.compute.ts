@@ -19,11 +19,11 @@ export const nmfCompute = (config: NmfConfigModel, worker: DedicatedWorkerGlobal
                             .fetchResult({
                                 // added more than server is calling
                                 method: 'cluster_sk_nmf',
-                                components: config.components,
+                                n_components: config.n_components,
                                 data: mtx.data,
-                                fun: config.init,
+                                init: config.init,
                                 solver: config.solver,
-                                betaLoss: config.betaloss,
+                                beta_loss: config.beta_loss,
                                 tol: config.tol
                             })
                     ]).then(result => {

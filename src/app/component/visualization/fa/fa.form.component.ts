@@ -117,14 +117,10 @@ export class FaFormComponent extends  AbstractScatterForm {
       pointShape: [],
       pointSize: [],
 
-      components: [],
+      n_components: [],
       dimension: [],
       tol: [],
-      max_iter: [],
-      svd_method: [],
-      copy: [],
-      iterated_power: [],
-      random_state: []
+      svd_method: []
     });
 
     // Update When Form Changes

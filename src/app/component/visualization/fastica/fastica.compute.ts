@@ -20,7 +20,7 @@ export const fasticaCompute = (config: FastIcaConfigModel, worker: DedicatedWork
                             // added more than server is calling
                             method: 'cluster_sk_fast_ica',
                             data: mtx.data,
-                            components: config.components,
+                            n_components: config.n_components,
                             dimension: config.dimension,
                             whiten: config.whiten,
                             algorithm: config.algorithm,

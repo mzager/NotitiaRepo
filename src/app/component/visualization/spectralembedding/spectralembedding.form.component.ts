@@ -135,12 +135,10 @@ export class SpectralEmbeddingFormComponent extends AbstractScatterForm  {
       pointShape: [],
       pointSize: [],
 
-      components: [],
+      n_components: [],
       dimension: [],
       eigen_solver: [],
-      random_state: [],
       n_neighbors: [],
-      n_jobs: [],
       gamma: [],
       affinity: []
     });

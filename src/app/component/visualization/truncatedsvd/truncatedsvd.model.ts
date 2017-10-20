@@ -18,9 +18,8 @@ export class TruncatedSvdConfigModel extends GraphConfig {
     }
     dimension = DimensionEnum.THREE_D;
     algorithm = TruncatedSvdAlgorithem.RANDOMIZED;
-    components = 3;
+    n_components = 3;
     tol = 0;
-    random_state = 0;
     n_iter = 5;
 }
 
@@ -33,4 +32,8 @@ export interface TruncatedSvdDataModel extends GraphData {
     sampleIds: Array<string>;
     markerIds: Array<string>;
     patientIds: Array<string>;
+    components: any;
+    explainedVariance: any;
+    explainedVarianceRatio: any;
+    singularValues: any;
 }

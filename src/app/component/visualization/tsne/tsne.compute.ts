@@ -6,7 +6,6 @@ import * as _ from 'lodash';
 declare var ML: any;
 
 
-
 export const tsneCompute = (config: TsneConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
     worker.util.processShapeColorSizeIntersect(config, worker);
@@ -19,17 +18,18 @@ export const tsneCompute = (config: TsneConfigModel, worker: DedicatedWorkerGlob
                     worker.util.getSamplePatientMap(),
                     worker.util
                         .fetchResult({
-                            // added more than server is calling
                             method: 'manifold_sk_tsne',
                             data: mtx.data,
-                            components: config.components,
+                            n_components: config.n_components,
                             dimension: config.dimension,
-                            eigen_solver: config.eigen_solver,
-                            random_state: config.random_state,
-                            n_neighbors: config.n_neighbors,
-                            n_jobs: config.n_jobs,
-                            gamma: config.gamma,
-                            affinity: config.affinity
+                            perpexity: config.perpexity,
+                            early_exaggeration: config.early_exaggeration,
+                            learning_rate: config.learning_rate,
+                            n_iter: config.n_iter,
+                            n_iter_without_progress: config.n_iter,
+                            min_grad_norm: config.min_grad_norm,
+                            metric: config.metric,
+                            sk_method: config.sk_method
                         })
                 ]).then(result => {
                     const psMap = result[0].reduce((p, c) => { p[c.s] = c.p; return p; }, {});
