@@ -107,7 +107,6 @@ export const chromosomeCompute = (config: ChromosomeConfigModel, worker: Dedicat
                         data: d
                     });
                     worker.postMessage('TERMINATE');
-                    debugger
                 });
             });
     }

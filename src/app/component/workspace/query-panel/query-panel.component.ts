@@ -33,47 +33,43 @@ export class QueryPanelComponent implements AfterViewInit {
   }
   @Output() configChange: EventEmitter<GraphConfig> = new EventEmitter();
 
-  private dataOption: {key: string, label: string};
-  private dataOptions: Array<{key: string, label: string}>;
-  private dimensions: ClientRect;
-  private fields: Array<DataField>;
-  private model: Array<ConditionModel>;
-  private options = {
+  dataOption: {key: string, label: string};
+  dataOptions: Array<{key: string, label: string}>;
+  dimensions: ClientRect;
+  fields: Array<DataField>;
+  model: Array<ConditionModel>;
+  options = {
     allowDrag: true,
     allowDrop: true,
     levelPadding: 0,
     isExpandedField: 'expanded'
     };
 
-  private action = 'Select';
-  private actions: Array<string> = ['Select', 'Deselect', 'Filter', 'Include', 'Exclude'];
+  action = 'Select';
+  actions: Array<string> = ['Select', 'Deselect', 'Filter', 'Include', 'Exclude'];
 
-  private entity = 'Genes';
-  private entities: Array<string> = ['Samples', 'Genes'];
+  entity = 'Genes';
+  entities: Array<string> = ['Samples', 'Genes'];
 
-  private graph = 'Graph A';
-  private graphs: Array<string> = ['Graph A', 'Graph B', 'Both Graphs'];
+  graph = 'Graph A';
+  graphs: Array<string> = ['Graph A', 'Graph B', 'Both Graphs'];
 
-  private geneSource = 'A List of Hugo Symbols';
-  private geneSources: Array<string> = ['A List of Hugo Symbols', 'A MSigDB Geneset', 'A Threshold'];
+  geneSource = 'A List of Hugo Symbols';
+  geneSources: Array<string> = ['A List of Hugo Symbols', 'A MSigDB Geneset', 'A Threshold'];
 
-  private genesetCategory;
-  private genesetCategories;
+  genesetCategory;
+  genesetCategories;
 
-  private operators: Array<string> = ['And', 'Or'];
-  private conditions: Array<string> = ['=', '≠', '<', '<=', '>', '>='];
+  operators: Array<string> = ['And', 'Or'];
+  conditions: Array<string> = ['=', '≠', '<', '<=', '>', '>='];
 
   @Input()
-  private set clinicalFields(data: Array<DataField>) {
+  set clinicalFields(data: Array<DataField>) {
     if (data.length === 0 ) { return; }
     this.fields = data;
   }
 
   @Output() queryPanelToggle = new EventEmitter();
-
-  constructor(private dataService: DataService) {
-  }
-
 
   onGenesetCategoryLoaded(v): void {
     QueryPanelComponent.genesetsInCategory = v;
@@ -149,8 +145,11 @@ export class QueryPanelComponent implements AfterViewInit {
         this.configChange.emit(config);
       });
       this.queryPanelToggle.emit();
-      
+
     }
+  }
+
+  constructor(private dataService: DataService) {
   }
 
 

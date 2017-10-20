@@ -87,25 +87,25 @@ export class ChartControls {
             .filter( (v: any, i: number) => (v[1] === ToolEnum.ROTATE)).map(v => v[0]);
 
         this.toolDrag.subscribe( (e: MouseEvent) => {
-            this.mouse.x = ( (e.clientX - this.rect.left) / this.rect.width ) * 2 - 1;
-            this.mouse.y = - ( (e.clientY - this.rect.top) / this.rect.height ) * 2 + 1;
-            this.raycaster.setFromCamera( this.mouse, this.camera );
-            if (this.raycaster.ray.intersectPlane( this.plane, this.intersection )) {
-                this.selected.position.copy( this.intersection);
-                this.plane.setFromNormalAndCoplanarPoint( this.camera.getWorldDirection( this.plane.normal ), this.selected.position );
-            }
-            this.render.next();
+            // this.mouse.x = ( (e.clientX - this.rect.left) / this.rect.width ) * 2 - 1;
+            // this.mouse.y = - ( (e.clientY - this.rect.top) / this.rect.height ) * 2 + 1;
+            // this.raycaster.setFromCamera( this.mouse, this.camera );
+            // if (this.raycaster.ray.intersectPlane( this.plane, this.intersection )) {
+            //     this.selected.position.copy( this.intersection);
+            //     this.plane.setFromNormalAndCoplanarPoint( this.camera.getWorldDirection( this.plane.normal ), this.selected.position );
+            // }
+            // this.render.next();
         });
 
         this.toolRotate.subscribe( (e: MouseEvent) => {
-            this.target.rotateY( e.movementX * -0.01 );
-            this.target.rotateX( e.movementY * -0.01 );
+            //this.target.rotateY( e.movementX * -0.01 );
+            //this.target.rotateX( e.movementY * -0.01 );
             // let rotWorldMatrix = new THREE.Matrix4();
             // rotWorldMatrix.makeRotationAxis(new THREE.Vector3(1, 0, 0).normalize(), e.movementX * 0.01);
             // rotWorldMatrix = rotWorldMatrix.multiply(this.selected.matrix);
             // this.selected.matrix = rotWorldMatrix;
             // this.selected.parent.rotation.setFromRotationMatrix(this.selected.matrix, this.selected.rotation.order);
-            this.render.next();
+            //this.render.next();
         });
         this.toolZoom.subscribe( (e: MouseEvent) => {
         });

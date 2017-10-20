@@ -1,7 +1,6 @@
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Rx';
 import { NcbiService } from './ncbi.service';
-import { DatabaseService } from './database.service';
 import { DataService } from './data.service';
 import * as _ from 'lodash';
 import * as moment from 'moment';
@@ -180,14 +179,18 @@ export class WorkbookService {
                                 p[c['PatientID']].push({
                                     'start': toDate(c['StartDate']),
                                     'end': toDate(c['EndDate']),
-                                    'string': Object.keys(c).filter(key => { return key.toLowerCase().indexOf('-string') > 0; })
-                                        .map(key => { return { key: key.toLowerCase().replace('-string', ''), value: c[key].toLowerCase() }; }),
-                                    'date': Object.keys(c).filter(key => { return key.toLowerCase().indexOf('date') > 0; })
-                                        .map(key => { return { key: key.toLowerCase().replace('-date', ''), value: toDate(c[key]) }; }),
-                                    'number': Object.keys(c).filter(key => { return key.toLowerCase().indexOf('-number') > 0; })
-                                        .map(key => { return { key: key.toLowerCase().replace('-number', ''), value: Number(c[key]) }; }),
-                                    'boolean': Object.keys(c).filter(key => { return key.toLowerCase().indexOf('-boolean') > 0; })
-                                        .map(key => { return { key: key.toLowerCase().replace('-boolean', ''), value: toBool(c[key]) }; }),
+                                    'string': Object.keys(c).filter(key => (key.toLowerCase().indexOf('-string') > 0) )
+                                        .map(key => { return {
+                                            key: key.toLowerCase().replace('-string', ''), value: c[key].toLowerCase() }; }),
+                                    'date': Object.keys(c).filter(key => (key.toLowerCase().indexOf('date') > 0) )
+                                        .map(key => { return {
+                                            key: key.toLowerCase().replace('-date', ''), value: toDate(c[key]) }; }),
+                                    'number': Object.keys(c).filter(key => (key.toLowerCase().indexOf('-number') > 0) )
+                                        .map(key => { return { key:
+                                            key.toLowerCase().replace('-number', ''), value: Number(c[key]) }; }),
+                                    'boolean': Object.keys(c).filter(key => (key.toLowerCase().indexOf('-boolean') > 0) )
+                                        .map(key => { return { key:
+                                            key.toLowerCase().replace('-boolean', ''), value: toBool(c[key]) }; }),
                                 });
                                 return p;
                             }, {});

@@ -15,7 +15,7 @@ import { TruncatedSvdAction } from '../../../action/compute.action';
   template: `
 <form [formGroup]="form" novalidate>
   <div class="form-group">
-    <label class="center-block">Data
+  <label class="center-block"><span class="form-label">Data</span>
       <select class="browser-default" materialize="material_select"
         [compareWith]="byKey"
         formControlName="table">
@@ -24,7 +24,7 @@ import { TruncatedSvdAction } from '../../../action/compute.action';
     </label>
 </div>
   <div class="form-group">
-    <label class="center-block">Display
+  <label class="center-block"><span class="form-label">Display</span>
       <select class="browser-default" materialize="material_select"
           formControlName="entity">
           <option *ngFor="let option of displayOptions">{{option}}</option>

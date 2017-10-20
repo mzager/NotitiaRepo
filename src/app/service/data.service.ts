@@ -55,12 +55,8 @@ export class DataService {
 
         if (exists) {
           DataService.db.open();
-          DataService.db.on('versionchange', function (event) {
-            debugger;
-          });
-          DataService.db.on('blocked',  () => {
-            debugger;
-          });
+          DataService.db.on('versionchange', function (event) { });
+          DataService.db.on('blocked',  () => { });
           return;
         }
         DataService.db.version(1).stores({
@@ -69,12 +65,9 @@ export class DataService {
           genemap: 'hugo'
         });
         DataService.db.open();
-        DataService.db.on('versionchange', function (event) {
-          debugger;
-        });
-        DataService.db.on('blocked',  () => {
-          debugger;
-        });
+        DataService.db.on('versionchange', function (event) { });
+        DataService.db.on('blocked',  () => { });
+
         requestAnimationFrame( v => {
           DataService.db.table('genemap').count().then( count => {
             if (count > 0) { return; }

@@ -1,32 +1,21 @@
+import { getGraphBConfig } from './../../../reducer/index.reducer';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Rx';
 import { EdgeConfigModel } from './edges.model';
 import { DimensionEnum } from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { DataTypeEnum, GraphActionEnum, VisualizationEnum, CollectionTypeEnum, DirtyEnum } from 'app/model/enum.model';
+import { DataTypeEnum, GraphActionEnum, VisualizationEnum, CollectionTypeEnum, DirtyEnum, EntityTypeEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as _ from 'lodash';
-/*
-// <div class="form-group">
-  //   <label>{{ graphAConfig.entity }} to {{ graphBConfig.entity }}</label>
-  // </div>
-*/
+
 @Component({
   selector: 'app-edges-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 <form [formGroup]="form" novalidate>
-  <div class="form-group" style="position:absolute;right:0px;top: 0px;">
-    <div class="switch">
-      <label>
-        <input type="checkbox" formControlName="isVisible">
-        <span class="lever"></span>
-      </label>
-    </div>
-  </div>
   <div class="form-group">
     <label class="center-block"><span class="form-label">Color</span>
       <select class="browser-default" materialize="material_select"
@@ -48,36 +37,31 @@ import * as _ from 'lodash';
       </select>
     </label>
   </div>
-  
-
-  <br />
 </form>
   `
 })
 export class EdgesFormComponent {
 
-  @Input() graphAConfig: GraphConfig;
-  @Input() graphBConfig: GraphConfig;
+  $tables: Subject<Array<DataTable>>;
+  $fields: Subject<Array<DataField>>;
+  $config: Subject<EdgeConfigModel>;
+  $graphAConfig: Subject<GraphConfig>;
+  $graphBConfig: Subject<GraphConfig>;
+  $latest: Observable<any>;
+  
 
-  @Input() set tables(tables: Array<DataTable>) {
-    this.dataOptions = tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0));
-  }
+  @Input() set tables(v: Array<DataTable>) {
+    this.$tables.next(v); }
+  @Input() set fields(v: Array<DataField>) { this.$fields.next(v); }
+  @Input() set config(v: EdgeConfigModel) { this.$config.next(v); }
+  @Input() set graphAConfig(v: GraphConfig) { this.$graphAConfig.next(v); }
+  @Input() set graphBConfig(v: GraphConfig) { this.$graphBConfig.next(v); }
 
-  @Input() set fields(fields: Array<DataField>) {
-    if (fields.length === 0) { return; }
-    const defaultDataField: DataField = DataFieldFactory.getUndefined();
-    this.intersectOptions = DataFieldFactory.getIntersectFields(fields);
-    this.colorOptions = DataFieldFactory.getColorFields(fields);
-  }
+  //   if (this.form.value.visualization === null) {
+  //     this.form.patchValue(v, { emitEvent: false });
+  //   }
+  // }
 
-
-  @Input() set config(v: EdgeConfigModel) {
-    if (v === null) { return; }
-
-    if (this.form.value.visualization === null) {
-      this.form.patchValue(v, { emitEvent: false });
-    }
-  }
 
   @Output() configChange = new EventEmitter<GraphConfig>();
 
@@ -93,6 +77,16 @@ export class EdgesFormComponent {
 
   constructor(private fb: FormBuilder) {
 
+    this.$tables = new Subject();
+    this.$fields = new Subject();
+    this.$config = new Subject();
+    this.$graphAConfig = new Subject();
+    this.$graphBConfig = new Subject();
+
+    this.$tables.subscribe( v => {
+      console.dir(v);
+    });
+
     this.form = this.fb.group({
 
       visualization: [],
@@ -100,6 +94,7 @@ export class EdgesFormComponent {
       isVisible: [],
       entityA: [],
       entityB: [],
+      table: [],
       markerFilter: [],
       markerSelect: [],
       sampleFilter: [],
@@ -111,7 +106,7 @@ export class EdgesFormComponent {
 
     });
 
-    // // Update When Form Changes
+    // Update When Form Changes
     this.form.valueChanges
       .debounceTime(200)
       .distinctUntilChanged()
@@ -123,19 +118,64 @@ export class EdgesFormComponent {
         if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
         form.markAsPristine();
         data.dirtyFlag = dirty;
+        data.isVisible = (data.pointIntersect.key !== 'None' || data.pointColor.key !== 'None');
+        console.dir(data);
         this.configChange.emit(data);
+      });
 
-        // const value = form.getRawValue();
-        // const visibilityChanged = false;
-        // if (value.pointColor.key === 'None' && value.pointIntersect.key === 'None' && value.isVisible) {
-        //   value.isVisible = false;
-        //   value.dirtyFlag = DirtyEnum.LAYOUT;
-        //   this.configChange.emit(data);
-        // } else if ((value.pointColor.key !== 'None' || value.pointIntersect.key !== 'None') && !value.isVisible) {
-        //   value.isVisible = true;
-        //   value.dirtyFlag = DirtyEnum.LAYOUT;
-        //   this.configChange.emit(data);
-        // }
+      this.$latest = Observable.combineLatest(
+        [
+          this.$tables,
+          this.$fields,
+          this.$config,
+          this.$graphAConfig,
+          this.$graphBConfig
+        ]
+      );
+
+      this.$latest.subscribe( v => {
+        const tables: Array<DataTable> = v[0];
+        const fields: Array<DataField> = v[1];
+        const config: EdgeConfigModel = v[2];
+        const graphAConfig: GraphConfig = v[3];
+        const graphBConfig: GraphConfig = v[4];
+
+        // If The Entity Type Changed.. All Bets Are Off Clear The Edges And Reset Options
+        if ( (graphAConfig.entity !== config.entityA) || (graphBConfig.entity !== config.entityB) ) {
+
+          const geneOptions: Array<DataField> = fields.filter( field => (field.tbl !== 'patient'  && field.type === 'STRING' ) );
+          geneOptions.unshift(DataFieldFactory.defaultDataField);
+
+          // Gene + Sample
+          if ( (graphAConfig.entity === EntityTypeEnum.GENE && graphBConfig.entity === EntityTypeEnum.SAMPLE) ||
+              (graphAConfig.entity === EntityTypeEnum.SAMPLE && graphBConfig.entity === EntityTypeEnum.GENE) ) {
+                console.log('GENE + SAMPLE');
+                this.intersectOptions = geneOptions;
+                this.colorOptions = geneOptions;
+          }
+
+          // Gene + Gene
+          if ( (graphAConfig.entity === EntityTypeEnum.GENE) && (graphBConfig.entity === EntityTypeEnum.GENE) ) {
+            console.log('GENE');
+            this.intersectOptions = geneOptions;
+            this.colorOptions = geneOptions;
+          }
+
+          // Sample + Sample
+          if ( (graphAConfig.entity === EntityTypeEnum.SAMPLE) && (graphBConfig.entity === EntityTypeEnum.SAMPLE) ) {
+            this.intersectOptions = DataFieldFactory.getColorFields(fields);
+            this.colorOptions = DataFieldFactory.getColorFields(fields);
+          }
+
+          // Reset Options
+          config.entityA = graphAConfig.entity;
+          config.entityB = graphBConfig.entity;
+          config.pointColor = DataFieldFactory.getUndefined();
+          config.pointIntersect = DataFieldFactory.getUndefined();
+          config.isVisible = false;
+          this.form.patchValue(config); //, { emitEvent: false }
+
+        }
       });
   }
 }
