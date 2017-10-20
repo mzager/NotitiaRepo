@@ -33,6 +33,8 @@
         ></app-workspace-graph-panel>
 
     <app-workspace-cohort-panel
+        [configA]="graphAConfig | async"
+        [configB]="graphBConfig | async"
         *ngIf="cohortPanelTab | async">
        </app-workspace-cohort-panel>
 
@@ -41,14 +43,6 @@
         [clinicalFields]="clinicalFields | async"
         [graphAData]="graphAData | async"
         [graphBData]="graphAData | async"></app-workspace-stat-panel> -->
-
-    <!-- <app-workspace-legend-panel 
-        *ngIf="legendPanelTab | async" 
-        [legendPanelTab]="legendPanelTab | async"
-        [graphAData]="graphAData | async" 
-        [graphBData]="graphBData | async" 
-        [edgeLegend]="edgeLegend | async"
-        (tabChange)="legendPanelSetTab($event)"></app-workspace-legend-panel> -->
 
     <app-workspace-legend-panel 
         *ngIf="legendPanelTab | async" 

@@ -84,7 +84,7 @@ export class QueryPanelComponent implements AfterViewInit {
 
   genesetCategoryChange(): void {
     $('#geneMsigInput')[0].value = '';
-    this.dataService.getGeneSetByCategory(this.genesetCategory.code).subscribe( this.onGenesetCategoryLoaded );
+    //this.dataService.getGeneSetByCategory(this.genesetCategory.code).subscribe( this.onGenesetCategoryLoaded );
   }
 
   ngAfterViewInit(): void {

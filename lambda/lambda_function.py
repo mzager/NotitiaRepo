@@ -110,7 +110,7 @@ def cluster_bio_kcluster(event, context):
 def cluster_sk_pca(event, context):
     """ SK PCA | components: N, data:[[]] """
     _config = PCA(
-        n_components=event['body']['components'],
+        n_components=event['body']['n_components'],
         copy=event['body']['copy'],
         whiten=event['body']['whiten'],
         svd_solver=event['svd_solver'],
@@ -123,39 +123,41 @@ def cluster_sk_pca(event, context):
     return httpWrapper(json.dumps({
         'result':  _result.tolist(),
         'components': _config.components_.tolist(),
-        'varianceExplained': _config.explained_variance_.tolist(),
-        'varianceRatio': _config.explained_variance_ratio_.tolist(),
+        'explainedVariance': _config.explained_variance_.tolist(),
+        'explainedVarianceRatio': _config.explained_variance_ratio_.tolist(),
         'singularValues': _config.singular_values_.tolist(),
         'mean': _config.mean_.tolist(),
-        'noise': _config.noise_variance_
+        'nComponents': _config.n_components_,
+        'noiseVariance': _config.noise_variance_
     }))
 
 def cluster_sk_pca_incremental(event, context):
     """ SK PCA """
     _config = IncrementalPCA(
-        n_components=event['body']['components'],
+        n_components=event['body']['n_components'],
         whiten=event['body']['whiten'],
-        copy=True,
-        batch_size=None
+        copy=event['body']['copy'],
+        batch_size= None if (event['body']['batch_size']=='None') else event['body']['batch_size']
         )
     _result = _config.fit_transform(event['body']['data'])
     return httpWrapper(json.dumps({
         'result':  _result.tolist(),
         'components': _config.components_.tolist(),
-        'varianceExplained': _config.explained_variance_.tolist(),
-        'varianceRatio': _config.explained_variance_ratio_.tolist(),
+        'explainedVariance': _config.explained_variance_.tolist(),
+        'explainedVarianceRatio': _config.explained_variance_ratio_.tolist(),
         'singularValues': _config.singular_values_.tolist(),
+        'skVar': _config.var_.tolist(),
         'mean': _config.mean_.tolist(),
-        'noise': _config.noise_variance_
+        'nComponents': _config.n_components_,
+        'noiseVariance': _config.noise_variance_,
+        'nSamplesSeen': _config.n_samples_seen_
     }))
-    #'cov': _config.get_covariance(),
-    #'precision': _config.get_precision()
 
 def cluster_sk_pca_kernal(event, context):
     """ PCA KERNAL """
     _config = KernelPCA(
-        n_components=event['body']['components'],
-        kernel=event['body']['kernal'],
+        n_components=event['body']['n_components'],
+        kernel=event['body']['kernel'],
         gamma=None,
         degree=event['body']['degree'],
         coef0=event['body']['coef0'],
@@ -173,22 +175,22 @@ def cluster_sk_pca_kernal(event, context):
     _result = _config.fit_transform(event['body']['data'])
     return httpWrapper(json.dumps({
         'result':  _result.tolist(),
-        'components': _config.lambdas_.tolist(),
-        'varianceExplained': _config.alphas_.tolist()
-        # 'dual_coef_': _config.dual_coef_,
-        # 'xtfit': _config.X_transformed_fit_.tolist(),
-        # 'mean': _config.X_fit_.tolist()
-    }))
+        'lambdas':  lambdas_.tolist(),
+        'alphas':  _config.alphas_.tolist(),
+        'dualCoef':  _config.dual_coef_.tolist(),
+        'X_transformed_fit_': _config.X_transformed_fit_.tolist(),
+        'X_fit_': _config.X_fit_
+        }))
 
 def cluster_sk_pca_sparse(event, context):
     """ x """
     _config = SparsePCA(
-        n_components=event['body']['components'],
+        n_components=event['body']['n_components'],
         alpha=event['body']['alpha'],
         ridge_alpha=event['body']['ridge_alpha'],
         max_iter=event['body']['max_iter'],
         tol=event['body']['tol'],
-        method=event['body']['fun'],
+        method=event['body']['sk_method'],
         n_jobs=-1
     )
     _result = _config.fit_transform(event['body']['data'])
@@ -198,8 +200,6 @@ def cluster_sk_pca_sparse(event, context):
         'error': _config.error_,
         'iter': _config.n_iter_
     }))
-
-
 
 def cluster_sk_linear_discriminant_analysis(event, context):
     """ SK LDA | components: N, data:[[]], classes:[] """
@@ -213,46 +213,52 @@ def cluster_sk_linear_discriminant_analysis(event, context):
 def cluster_sk_latent_dirichlet_allocation(event, context):
     """ SK LDA """
     _config = LatentDirichletAllocation(
-        n_components=event['body']['components'],
-        learning_method=event['body']['fun'],
-        learning_decay=event['body']['decay'],
-        learning_offset=event['body']['offset'],
-        mean_change_tol=event['body']['tol'],
+        n_components=event['body']['n_components'],
+        doc_topic_prior=None,
+        topic_word_prior=None,
+        learning_method=event['body']['learning_method'],
+        learning_decay=event['body']['learning_decay'],
+        learning_offset=event['body']['learning_offset'],
+        max_iter=10,
+        batch_size=128,
+        mean_change_tol=event['body']['mean_change_tol'],
         n_jobs=-1)
     _result = _config.fit(event['body']['data']).transform(event['body']['data'])
     return httpWrapper(json.dumps({
         'result': _result.tolist(),
         'components': _config.components_.tolist(),
         'batchIter': _config.n_batch_iter_,
-        'iter': _config.n_iter_,
+        'nIter': _config.n_iter_,
         'perplexity': _config.perplexity(event['body']['data']),
         'score': _config.score(event['body']['data'])
     }))
 
+
 def cluster_sk_dictionary_learning(event, context):
     """ SK DL | | components: N, data:[[]], alpha: N, tol: N, fit: String, transform: String, split: bool """
     _config = DictionaryLearning(
-        n_components=event['body']['components'], 
-        fit_algorithm=event['body']['fit'], 
-        transform_algorithm=event['body']['transform'], 
-        tol=event['body']['tol'],
+        n_components=event['body']['n_components'], 
         alpha=event['body']['alpha'],
-        split_sign=event['body']['split'],
+        max_iter=event['body']['max_iter'],
+        tol=event['body']['tol'],
+        fit_algorithm=event['body']['fit_algorithm'], 
+        transform_algorithm=event['body']['transform_algorithm'], 
+        split_sign=event['body']['split_sign'],
         n_jobs=-1)
     _result = _config.fit_transform(event['body']['data'])
     return httpWrapper(json.dumps({
         'result':  _result.tolist(),
         'components': _config.components_.tolist(),
         'error': _config.error_,
-        'iter': _config.n_iter_
+        'nIter': _config.n_iter_
     }))
 
 def cluster_sk_fast_ica(event, context):
     """ sk fast ica | """
     _config = FastICA(
-        n_components=event['body']['components'], 
-        whiten=event['body']['whiten'],
+        n_components=event['body']['n_components'], 
         algorithm=event['body']['algorithm'],
+        whiten=event['body']['whiten'],
         fun=event['body']['fun'], 
         tol=event['body']['tol']
     )
@@ -261,44 +267,44 @@ def cluster_sk_fast_ica(event, context):
         'result':  _result.tolist(),
         'components': _config.components_.tolist(),
         'mixing': _config.mixing_.tolist(),
-        'iter': _config.n_iter_
+        'nIter': _config.n_iter_
     }))
 
 def cluster_sk_factor_analysis(event, context):
     """ SK FA | components: N, data:[[]], classes:[] """
     _config = FactorAnalysis(
-        n_components=event['body']['components'],
-        svd_method=event['body']['fun'],
+        n_components=event['body']['n_components'],
+        svd_method=event['body']['svd_method'],
         tol=event['body']['tol'])
     _result = _config.fit(event['body']['data']).transform(event['body']['data'])
     return httpWrapper(json.dumps({
         'result': _result.tolist(),
         'loglike': _config.loglike_,
         'noiseVariance':_config.noise_variance_.tolist(),
-        'iter': _config.n_iter_
+        'nIter': _config.n_iter_
     }))
 
 def cluster_sk_nmf(event, context):
     """ """
     _config = NMF(
-        n_components=event['body']['components'],
-        #init=event['body']['init'],
+        n_components=event['body']['n_components'],
+        init=event['body']['init'],
         solver=event['body']['solver'],
-        #beta_loss=event['body']['betaLoss'],
+        beta_loss=event['body']['beta_loss'],
         tol=event['body']['tol']
         )
     _result = _config.fit_transform(event['body']['data'])
     return httpWrapper(json.dumps({
         'result': _result.tolist(),
         'components': _config.components_.tolist(),
-        'err':_config.reconstruction_err_,
-        'iter': _config.n_iter_
+        'reconstruction_err':_config.reconstruction_err_,
+        'nIter': _config.n_iter_
     }))
 
 def cluster_sk_truncated_svd(event, context):
     """ """
     _config = TruncatedSVD(
-        n_components=event['body']['components'],
+        n_components=event['body']['n_components'],
         algorithm=event['body']['algorithm'],
         tol=event['body']['tol'],
         n_iter=event['body']['n_iter']
@@ -315,7 +321,7 @@ def cluster_sk_truncated_svd(event, context):
 def manifold_sk_tsne(event, context):
     """ SK TSNE """
     _config = TSNE(
-        n_components=event['body']['components'],
+        n_components=event['body']['n_components'],
         perplexity=event['body']['perplexity'],
         early_exaggeration=event['body']['early_exaggeration'],
         learning_rate=event['body']['learning_rate'],
@@ -323,24 +329,23 @@ def manifold_sk_tsne(event, context):
         n_iter_without_progress=event['body']['n_iter_without_progress'],
         min_grad_norm=event['body']['min_grad_norm'],
         metric=event['body']['metric'],
-        init=event['body']['init'],
-        verbose=event['body']['verbose'],
-        random_state=event['body']['random_state'],
-        method=event['body']['method'],
-        angle=event['body']['angle']
+        method=event['body']['sk_method']
         )
     _result = _config.fit_transform(event['body']['data'])
     return httpWrapper(json.dumps({
         'result':  _result.tolist(),
         'embedding': _config.embedding_.tolist(),
-        'klDivergence_': _config.kl_divergence_,
-        'iter': _config.n_iter_
+        'klDivergence': _config.kl_divergence_,
+        'nIter': _config.n_iter_
     }))
 
 def manifold_sk_mds(event, context):
     """ SK MDS """
     _config = MDS(
-        n_components=event['body']['components'],
+        n_components=event['body']['n_components'],
+        metric=event['body']['metric'],
+        eps=event['body']['eps'],
+        dissimilarity=event['body']['dissimilarity'],
         n_jobs=-1)
     _result = _config.fit_transform(event['body']['data'])
     return httpWrapper(json.dumps({
@@ -353,10 +358,9 @@ def manifold_sk_iso_map(event, context):
     """ ISO MAP """
     _config = Isomap(
         n_neighbors=event['body']['n_neighbors'],
-        n_components=event['body']['components'],
+        n_components=event['body']['n_components'],
         eigen_solver=event['body']['eigen_solver'],
         tol = event['body']['tol'],
-        max_iter=event['body']['max_iter'],
         path_method=event['body']['path_method'],
         neighbors_algorithm=event['body']['neighbors_algorithm'],
         n_jobs=-1,
@@ -364,7 +368,7 @@ def manifold_sk_iso_map(event, context):
     _result = _config.fit_transform(event['body']['data'])
     return httpWrapper(json.dumps({
         'result':  _result.tolist(),
-        'embedding': _config.embedding_.tolist(),
+        'embedding': _config.embedding_.tolist()
         #'kernalPca': _config.kernel_pca_,
         #'distMatrix': _config.dist_matrix_.tolist()
         #'reconstructionError': _config.reconstruction_error()
@@ -374,16 +378,14 @@ def manifold_sk_local_linear_embedding(event, context):
     """ http://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html#sklearn.manifold.Isomap """
     _config = LocallyLinearEmbedding(
         n_neighbors=event['body']['n_neighbors'],
-        n_components=event['body']['components'],
+        n_components=event['body']['n_components'],
         reg=event['body']['reg'],
         eigen_solver=event['body']['eigen_solver'],
         tol=event['body']['tol'],
-        max_iter=event['body']['max_iter'],
         method=event['body']['lle_method'],
         hessian_tol=event['body']['hessian_tol'],
         modified_tol=event['body']['modified_tol'],
         neighbors_algorithm=event['body']['neighbors_algorithm'],
-        random_state = None if (event['body']['random_state']=='None') else event['body']['random_state'],
         n_jobs=-1
     )
     _result = _config.fit_transform(event['body']['data'])
@@ -395,10 +397,9 @@ def manifold_sk_local_linear_embedding(event, context):
 def manifold_sk_spectral_embedding(event, context):
     """ http://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html#sklearn.manifold.Isomap """
     _config = SpectralEmbedding(
-        n_components=event['body']['components'],
+        n_components=event['body']['n_components'],
         affinity=event['body']['affinity'],
         gamma = None if (event['body']['gamma']=='None') else event['body']['gamma'],
-        random_state = None if (event['body']['random_state']=='None') else event['body']['random_state'],
         eigen_solver = None if (event['body']['eigen_solver']=='None') else event['body']['random_state'],
         n_neighbors = None if (event['body']['n_neighbors']=='None') else event['body']['n_neighbors'],
         n_jobs=-1
@@ -406,9 +407,10 @@ def manifold_sk_spectral_embedding(event, context):
     _result = _config.fit_transform(event['body']['data'])
     return httpWrapper(json.dumps({
         'result':  _result.tolist(),
-        'embedding': _config.embedding_.tolist()
+        'embedding': _config.embedding_.tolist(),
+        'affinityMatrix': _config.affinity_matrix_.tolist()
     }))
-    #'affinityMatrix': _config.affinity_matrix_.tolist()
+
 def cluster_sk_affinity_propagation(event, context):
     """ AffinityPropagation """
     _config = AffinityPropagation(
