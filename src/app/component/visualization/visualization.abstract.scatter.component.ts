@@ -119,4 +119,5 @@ export class AbstractScatterVisualization extends AbstractVisualization {
           this.lines.length = 0;
       }
 
+     
 }

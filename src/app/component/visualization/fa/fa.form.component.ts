@@ -123,20 +123,6 @@ export class FaFormComponent extends  AbstractScatterForm {
       svd_method: []
     });
 
-    // Update When Form Changes
-    this.form.valueChanges
-      .debounceTime(200)
-      .distinctUntilChanged()
-      .subscribe(data => {
-        let dirty = 0;
-        const form = this.form;
-        if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
-        if (form.get('pointShape').dirty) { dirty |= DirtyEnum.SHAPE; }
-        if (form.get('pointSize').dirty)  { dirty |= DirtyEnum.SIZE; }
-        if (dirty === 0 ) { dirty |= DirtyEnum.LAYOUT; }
-        form.markAsPristine();
-        data.dirtyFlag = dirty;
-        this.configChange.emit(data);
-      });
+    this.registerFormChange();
   }
 }

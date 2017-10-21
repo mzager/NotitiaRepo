@@ -32,9 +32,18 @@
         (configChange)="graphPanelSetConfig($event)"
         ></app-workspace-graph-panel>
 
+    
+    <app-workspace-geneset-panel
+        [configA]="graphAConfig | async"
+        [configB]="graphBConfig | async"
+        (configChange)="graphPanelSetConfig($event)"
+        *ngIf="genesetPanelTab | async">
+       </app-workspace-geneset-panel>
+
     <app-workspace-cohort-panel
         [configA]="graphAConfig | async"
         [configB]="graphBConfig | async"
+        (configChange)="graphPanelSetConfig($event)"
         *ngIf="cohortPanelTab | async">
        </app-workspace-cohort-panel>
 
@@ -83,6 +92,7 @@
     (statPanelToggle)="statPanelToggle()" 
     (workspacePanelToggle)="workspacePanelToggle()"
     (graphPanelToggle)="graphPanelToggle()" 
+    (genesetPanelToggle)="genesetPanelToggle()"
     (historyPanelToggle)="historyPanelToggle()"
     (cohortPanelToggle)="cohortPanelToggle()"
     (legendPanelToggle)="legendPanelToggle()"

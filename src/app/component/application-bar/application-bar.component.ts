@@ -20,6 +20,7 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   @Output() statPanelToggle = new EventEmitter();
   @Output() edgePanelToggle = new EventEmitter();
   @Output() graphPanelToggle = new EventEmitter();
+  @Output() genesetPanelToggle = new EventEmitter();
   @Output() legendPanelToggle = new EventEmitter();
   @Output() tcgaPanelToggle = new EventEmitter();
   @Output() toolPanelToggle = new EventEmitter();
@@ -40,6 +41,7 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
     switch (event.key.toLowerCase()) {
       case 'g': this.graphPanelToggle.emit(); break;
       case 'c': this.cohortPanelToggle.emit(); break;
+      case 'x': this.genesetPanelToggle.emit(); break;
       case 'a': this.queryPanelToggle.emit(); break;
       case 's': this.statPanelToggle.emit(); break;
       case 'l': this.legendPanelToggle.emit(); break;

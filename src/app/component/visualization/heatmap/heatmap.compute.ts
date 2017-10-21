@@ -15,7 +15,7 @@ declare var ML: any;
 export const heatmapCompute = (config: HeatmapConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
     worker.util
-        .getMatrix([], [], config.table.map, config.table.tbl, config.entity)
+        .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
         .then(result => {
 
             const matrix = result.data;

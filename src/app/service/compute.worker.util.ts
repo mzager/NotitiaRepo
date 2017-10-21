@@ -11,6 +11,7 @@ import { DataField } from './../model/data-field.model';
 import * as _ from 'lodash';
 import * as PouchDB from 'pouchdb-browser';
 import Dexie from 'dexie';
+import * as uuids from 'uuid-by-string';
 import * as cbor from 'cbor-js';
 
 export class ComputeWorkerUtil {
@@ -29,6 +30,30 @@ export class ComputeWorkerUtil {
         console.log("OPTIMIZE - LATE OPEN");
         this.dbData = new Dexie('notitia-dataset');
         this.dbLookup = new Dexie('notitia');
+    }
+    generateCacheKey(config: Object): string {
+        
+        const keys = Object.keys(config).filter( v => {
+            switch (v) {
+                case 'dirtyFlag':
+                case 'visualization':
+                case 'graph':
+                case 'sampleSelect':
+                case 'markerSelect':
+                case 'pointColor':
+                case 'pointShape':
+                case 'pointSize':
+                case 'pointIntersect':
+                    return false;
+            }
+            return true;
+        });
+        const str = keys.reduce( (p, c) => {
+            p += JSON.stringify(config[c]);
+            return p;
+        }, '');
+        const uuid = uuids(str);
+        return uuid;
     }
 
     processShapeColorSizeIntersect(config: GraphConfig, worker: DedicatedWorkerGlobalScope) {
@@ -129,7 +154,10 @@ export class ComputeWorkerUtil {
         return new Promise((resolve, reject) => {
             this.openDatabaseData().then(v => {
                 this.dbData.table(map).toArray().then(_samples => {
-                    this.dbData.table(tbl).limit(100).toArray().then(_markers => {
+                    const query = (markers.length === 0) ?
+                        this.dbData.table(tbl).limit(100) :
+                        this.dbData.table(tbl).where('m').anyOfIgnoreCase(markers);
+                        query.toArray().then(_markers => {
                         resolve({
                             markers: _markers.map(m => m.m),
                             samples: _samples.map(s => s.s),
@@ -513,11 +541,13 @@ export class ComputeWorkerUtil {
     // Call Lambda
     // cbor.encode(config)
     fetchResult(config: any): Promise<any> {
+        const cacheKey = this.generateCacheKey(config);
         return fetch('https://0x8okrpyl3.execute-api.us-west-2.amazonaws.com/dev', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
+                //'ckey': cacheKey
                 //'Cache-Control': 'max-age=31536000'
             },
             body: JSON.stringify(config)

@@ -112,6 +112,7 @@ export class DataTypeEnum {
     // static readonly DATE = 'DATE';
     // static readonly BOOL = 'BOOL';
     static readonly NUMBER = 'NUMBER';
+    static readonly FUNCTION = 'FUNCTION';
     // static readonly FUNCTION_MEAN = 'FUNCTION_MEAN';
     // static readonly FUNCTION_MEDIAN = 'FUNCTION_MEDIAN';
 }
@@ -208,6 +209,10 @@ export class HClustDistanceEnum {
 
 
 // Panels
+export const enum SinglePanelEnum {
+    SHOW = 1,
+    HIDE = 0
+}
 export const enum FilePanelEnum {
     NONE = 0,
     OPEN = 1,

@@ -13,7 +13,7 @@ export const spectralEmbeddingCompute = (config: SpectralEmbeddingConfigModel, w
 
     if (config.dirtyFlag & DirtyEnum.LAYOUT) {
         worker.util
-            .getMatrix([], [], config.table.map, config.table.tbl, config.entity)
+            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
             .then(mtx => {
                 Promise.all([
                     worker.util.getSamplePatientMap(),

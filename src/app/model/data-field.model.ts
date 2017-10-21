@@ -1,6 +1,5 @@
-import { CollectionTypeEnum } from './enum.model';
+import { CollectionTypeEnum, DataTypeEnum } from './enum.model';
 import { DataField } from './data-field.model';
-import { DataTypeEnum } from 'app/model/enum.model';
 
 /**
 * Represents A Field In A DataSet

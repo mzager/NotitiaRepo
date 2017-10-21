@@ -2,7 +2,7 @@ import { DimensionEnum } from './../../model/enum.model';
 import { FormGroup } from '@angular/forms';
 import { GraphConfig } from './../../model/graph-config.model';
 import { Input, Output, EventEmitter } from '@angular/core';
-import { CollectionTypeEnum, EntityTypeEnum } from 'app/model/enum.model';
+import { CollectionTypeEnum, EntityTypeEnum, DataTypeEnum, DirtyEnum } from 'app/model/enum.model';
 import { DataField, DataTable } from './../../model/data-field.model';
 import { DataFieldFactory } from 'app/model/data-field.model';
 export class AbstractScatterForm {
@@ -14,7 +14,23 @@ export class AbstractScatterForm {
     @Input() set fields(fields: Array<DataField>) {
         if (fields.length === 0) { return; }
         const defaultDataField: DataField = DataFieldFactory.getUndefined();
-        this.colorOptions = DataFieldFactory.getColorFields(fields);
+
+        // Gene Signature Color
+        const signatureField = DataFieldFactory.getUndefined();
+        signatureField.ctype = CollectionTypeEnum.UNDEFINED;
+        signatureField.type = DataTypeEnum.FUNCTION;
+        signatureField.label = 'Gene Signature';
+
+        // Clustering Algorithm Color
+        const clusterField = DataFieldFactory.getUndefined();
+        clusterField.ctype = CollectionTypeEnum.UNDEFINED;
+        clusterField.type = DataTypeEnum.FUNCTION;
+        clusterField.label = 'Clustering Algorithm';
+
+        const colorOptions = DataFieldFactory.getColorFields(fields);
+        colorOptions.push(...[signatureField, clusterField]);
+
+        this.colorOptions = colorOptions;
         this.shapeOptions = DataFieldFactory.getShapeFields(fields);
         this.sizeOptions = DataFieldFactory.getSizeFields(fields);
     }
@@ -34,5 +50,27 @@ export class AbstractScatterForm {
         return p1.key === p2.key;
     }
 
-    constructor() {}
+    registerFormChange(): void {
+        // Update When Form Changes
+        this.form.valueChanges
+            .debounceTime(500)
+            .distinctUntilChanged()
+            .subscribe(data => {
+                let dirty = 0;
+                const form = this.form;
+                if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
+                if (form.get('pointShape').dirty) { dirty |= DirtyEnum.SHAPE; }
+                if (form.get('pointSize').dirty) { dirty |= DirtyEnum.SIZE; }
+                if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
+                form.markAsPristine();
+                data.dirtyFlag = dirty;
+                this.configChange.emit(data);
+            });
+    }
+
+
+    constructor() {
+
+
+    }
 }

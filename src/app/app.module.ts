@@ -1,3 +1,4 @@
+import { GenesetPanelComponent } from './component/workspace/geneset-panel/geneset-panel.component';
 import { DatasetService } from './service/dataset.service';
 import { TcgaPanelComponent } from './component/workspace/tcga-panel/tcga-panel.component';
 import { SpectralEmbeddingFormComponent } from './component/visualization/spectralembedding/spectralembedding.form.component';
@@ -103,6 +104,7 @@ import { reducers } from 'app/reducer/index.reducer';
     WorkspacePanelComponent,
     LegendPanelComponent,
     GraphPanelComponent,
+    GenesetPanelComponent,
     StatPanelComponent,
     DataPanelComponent,
     CohortPanelComponent,
