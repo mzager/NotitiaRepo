@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { QueryPanelEnum, StatPanelEnum, ToolPanelEnum, TcgaPanelEnum,
-    HistoryPanelEnum, GraphPanelEnum, LegendPanelEnum,
+    HistoryPanelEnum, GraphPanelEnum, LegendPanelEnum, SinglePanelEnum,
     DataPanelEnum, EdgePanelEnum, FilePanelEnum } from 'app/model/enum.model';
 
 // Actions Consts
@@ -12,6 +12,8 @@ export const QUERY_PANEL_SHOW_TAB = '[LAYOUT] Query Panel Show Tab';
 export const QUERY_PANEL_TOGGLE = '[LAYOUT] Query Panel Toggle';
 export const GRAPH_PANEL_SHOW_TAB = '[LAYOUT] Graph Panel Show Tab';
 export const GRAPH_PANEL_TOGGLE = '[LAYOUT] Graph Panel Toggle';
+export const GENESET_PANEL_SHOW_TAB = '[LAYOUT] Geneset Panel Show Tab';
+export const GENESET_PANEL_TOGGLE = '[LAYOUT] Geneset Panel Toggle';
 export const SAMPLE_PANEL_SHOW_TAB = '[LAYOUT] Sample Panel Show Tab';
 export const SAMPLE_PANEL_TOGGLE = '[LAYOUT] Sample Panel Toggle';
 export const TCGA_PANEL_SHOW_TAB = '[LAYOUT] Tcga Panel Show Tab';
@@ -72,6 +74,14 @@ export class GraphPanelShowTabAction implements Action {
 }
 export class GraphPanelToggleAction implements Action {
     readonly type: string = GRAPH_PANEL_TOGGLE;
+    constructor() { }
+}
+export class GenesetPanelShowTabAction implements Action {
+    readonly type: string = GENESET_PANEL_SHOW_TAB;
+    constructor(public payload: SinglePanelEnum) { }
+}
+export class GenesetPanelToggleAction implements Action {
+    readonly type: string = GENESET_PANEL_TOGGLE;
     constructor() { }
 }
 export class SamplePanelShowTabAction implements Action {
@@ -145,6 +155,7 @@ export type Actions =
    EdgePanelShowTabAction | EdgePanelToggleAction |
    QueryPanelShowTabAction | QueryPanelToggleAction |
    GraphPanelShowTabAction | GraphPanelToggleAction |
+   GenesetPanelShowTabAction | GenesetPanelToggleAction |
    SamplePanelShowTabAction | SamplePanelToggleAction |
    PopulationPanelShowTabAction | PopulationPanelToggleAction |
    LegendPanelShowTabAction | LegendPanelToggleAction |

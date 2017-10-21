@@ -81,6 +81,7 @@
     "tsne-js": "^1.0.3",
     "tween.js": "^16.6.0",
     "typescript-memoize": "0.0.4",
+    "uuid-by-string": "^0.3.0",
     "vcf.js": "^0.3.0",
     "vega": "^3.0.0-rc4",
     "xlsx": "^0.10.9",

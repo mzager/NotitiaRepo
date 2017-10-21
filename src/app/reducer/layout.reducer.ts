@@ -10,6 +10,7 @@ export interface State {
     filePanel: e.FilePanelEnum;
     queryPanel: e.QueryPanelEnum;
     graphPanel: e.GraphPanelEnum;
+    genesetPanel: e.SinglePanelEnum;
     samplePanel: e.StatPanelEnum;
     populationPanel: e.StatPanelEnum;
     legendPanel: e.LegendPanelEnum;
@@ -27,13 +28,14 @@ const initialState: State = {
     filePanel: e.FilePanelEnum.NONE,
     queryPanel: e.QueryPanelEnum.NONE,
     graphPanel: e.GraphPanelEnum.NONE,
+    genesetPanel: e.SinglePanelEnum.HIDE,
     samplePanel: e.StatPanelEnum.NONE,
     populationPanel: e.StatPanelEnum.NONE,
     legendPanel: e.LegendPanelEnum.NONE,
     edgePanel: e.EdgePanelEnum.NONE,
     toolPanel: e.ToolPanelEnum.NONE,
     historyPanel: e.HistoryPanelEnum.NONE,
-    cohortPanel: e.GraphPanelEnum.GRAPH_A,
+    cohortPanel: e.GraphPanelEnum.NONE,
     dataPanel: e.DataPanelEnum.NONE,
     tcgaPanel: e.TcgaPanelEnum.NONE,
     workspacePanel: e.WorkspacePanelEnum.NONE,
@@ -48,6 +50,8 @@ export function reducer(state = initialState, action: UnsafeAction): State {
             return Object.assign({}, state, { queryPanel: action.payload });
         case layout.GRAPH_PANEL_SHOW_TAB:
             return Object.assign({}, state, { graphPanel: action.payload });
+        case layout.GENESET_PANEL_SHOW_TAB:
+            return Object.assign({}, state, { genesetPanel: action.payload });
         case layout.SAMPLE_PANEL_SHOW_TAB:
             return Object.assign({}, state, { samplePanel: action.payload });
         case layout.POPULATION_PANEL_SHOW_TAB:
@@ -75,6 +79,9 @@ export function reducer(state = initialState, action: UnsafeAction): State {
         case layout.GRAPH_PANEL_TOGGLE:
             return Object.assign({}, state,
                 { graphPanel: (state.graphPanel === e.GraphPanelEnum.NONE) ? e.GraphPanelEnum.GRAPH_A : e.GraphPanelEnum.NONE });
+        case layout.GENESET_PANEL_TOGGLE:
+            return Object.assign({}, state,
+                { genesetPanel: (state.genesetPanel === e.SinglePanelEnum.HIDE) ? e.SinglePanelEnum.SHOW : e.SinglePanelEnum.HIDE });
         case layout.SAMPLE_PANEL_TOGGLE:
             return Object.assign({}, state,
                 { samplePanel: (state.samplePanel === e.StatPanelEnum.NONE) ? e.StatPanelEnum.HISTOGRAM : e.StatPanelEnum.NONE });
@@ -117,6 +124,7 @@ export const getFilePanelState = (state: State) => state.filePanel;
 export const getEdgePanelState = (state: State) => state.edgePanel;
 export const getQueryPanelState = (state: State) => state.queryPanel;
 export const getGraphPanelState = (state: State) => state.graphPanel;
+export const getGenesetPanelState = (state: State) => state.genesetPanel;
 export const getSamplePanelState = (state: State) => state.samplePanel;
 export const getPopulationPanelState = (state: State) => state.populationPanel;
 export const getLegendPanelState = (state: State) => state.legendPanel;

@@ -66,6 +66,7 @@ export class WorkspaceComponent {
   filePanelTab: Observable<enums.FilePanelEnum>;
   legendPanelTab: Observable<enums.LegendPanelEnum>;
   graphPanelTab: Observable<enums.GraphPanelEnum>;
+  genesetPanelTab: Observable<enums.SinglePanelEnum>;
   statPanelTab: Observable<enums.StatPanelEnum>;
   queryPanelTab: Observable<enums.QueryPanelEnum>;
   edgePanelTab: Observable<enums.EdgePanelEnum>;
@@ -87,6 +88,7 @@ export class WorkspaceComponent {
     this.filePanelTab = store.select(fromRoot.getLayoutFilePanelState);
     this.legendPanelTab = store.select(fromRoot.getLayoutLegendPanelState);
     this.graphPanelTab = store.select(fromRoot.getLayoutGraphPanelState);
+    this.genesetPanelTab = store.select(fromRoot.getLayoutGenesetPanelState)
     this.statPanelTab = store.select(fromRoot.getLayoutPopulationPanelState);
     this.queryPanelTab = store.select(fromRoot.getLayoutQueryPanelState);
     this.toolPanelTab = store.select(fromRoot.getLayoutToolPanelState);
@@ -134,6 +136,12 @@ export class WorkspaceComponent {
   }
   graphPanelSetTab(value: enums.GraphPanelEnum) {
     this.store.dispatch(new layout.GraphPanelShowTabAction(value));
+  }
+  genesetPanelToggle() {
+    this.store.dispatch(new layout.GenesetPanelToggleAction());
+  }
+  genesetPanelSetTab(value: enums.SinglePanelEnum) {
+    this.store.dispatch(new layout.GenesetPanelShowTabAction(value));
   }
   graphPanelSetConfig(value: GraphConfig) {
     switch (value.visualization) {
