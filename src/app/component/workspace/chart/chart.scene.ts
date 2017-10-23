@@ -84,10 +84,15 @@ export class ChartScene {
         }
 
         // Center Line
-        view.scene.add(ChartFactory.lineAllocate(0x039BE5, new THREE.Vector2(0, -1000), new THREE.Vector2(0, 1000) ));
-        this.renderer.setViewport( view.viewport.x, view.viewport.y, view.viewport.width, view.viewport.height );
-        this.renderer.render( view.scene, view.camera );
-
+        try {
+            if (this.workspace.layout !== WorkspaceLayoutEnum.SINGLE) {
+                view.scene.add(ChartFactory.lineAllocate(0x039BE5, new THREE.Vector2(0, -1000), new THREE.Vector2(0, 1000) ));
+                this.renderer.setViewport( view.viewport.x, view.viewport.y, view.viewport.width, view.viewport.height );
+                this.renderer.render( view.scene, view.camera );
+            }
+        } catch (e) {
+            console.log("RESOLVE THIS INIT ");
+        }
     }
     select = (e: {type: EntityTypeEnum, ids: Array<string>}) => {
         this.onSelect.next(e);
@@ -98,6 +103,7 @@ export class ChartScene {
         this.renderer.setSize(dimension.width, dimension.height);
         this.views.forEach( (view, i) => {
 
+            // This is the edges
             if (i === 2) {
                 view.viewport.x = 0;
                 view.viewport.y = 0;
@@ -106,6 +112,19 @@ export class ChartScene {
                 return;
             } else {
                 switch (this.workspace.layout) {
+                    case WorkspaceLayoutEnum.SINGLE:
+                        if (i === 0) {
+                            view.viewport.x = 0;
+                            view.viewport.y = 0;
+                            view.viewport.width = dimension.width;
+                            view.viewport.height = dimension.height;
+                        } else {
+                            view.viewport.x = 0;
+                            view.viewport.y = 0;
+                            view.viewport.width = 0;
+                            view.viewport.height = 0;
+                        }
+                        break;
                     case WorkspaceLayoutEnum.HORIZONTAL:
                         view.viewport.x = (i === 0) ? 0 : Math.floor(dimension.width * .5);
                         view.viewport.y = 0;
@@ -222,21 +241,21 @@ export class ChartScene {
     }
 
     private setSize() {
-        const dimensions = this.container.getBoundingClientRect();
-        this.renderer.setSize(dimensions.width, dimensions.height);
-        this.views.forEach((view, i) => {
-            if (i === 2) {
-                return;
-            }
-            view.viewport.width = Math.floor(dimensions.width / 2);
-            view.viewport.height = Math.floor(dimensions.height);
-            view.viewport.y = 0;
-            view.viewport.x = Math.ceil( view.viewport.width * i);
+        // const dimensions = this.container.getBoundingClientRect();
+        // this.renderer.setSize(dimensions.width, dimensions.height);
+        // this.views.forEach((view, i) => {
+        //     if (i === 2) {
+        //         return;
+        //     }
+        //     view.viewport.width = Math.floor(dimensions.width / 2);
+        //     view.viewport.height = Math.floor(dimensions.height);
+        //     view.viewport.y = 0;
+        //     view.viewport.x = Math.ceil( view.viewport.width * i);
 
-            const camera = view.camera as THREE.PerspectiveCamera;
-            camera.aspect = view.viewport.width / view.viewport.height;
-            camera.updateProjectionMatrix();
-        });
+        //     const camera = view.camera as THREE.PerspectiveCamera;
+        //     camera.aspect = view.viewport.width / view.viewport.height;
+        //     camera.updateProjectionMatrix();
+        // });
     }
 
     private onChartFocus(e: ChartEvent) {
@@ -254,6 +273,16 @@ export class ChartScene {
                      ( graph === GraphEnum.GRAPH_B ) ? this.views[1] :
                      this.views[2];
 
+        // If None
+        if (config.visualization === VisualizationEnum.NONE) {
+            if (view.chart !== null) { view.chart.destroy(); }
+            view.chart = null;
+            view.config = config;
+            this.onResize(); // Calls render once complete
+            return;
+        }
+
+        // Edges
         if (view.config.entity !== config.entity) {
             if (this.views[2].chart != null) {
                 (this.views[2].chart as EdgesGraph).updateEdges = true;

@@ -18,42 +18,26 @@ declare var vega: any;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StatPanelComponent implements AfterViewInit {
-    // // this._clinicalFields = v;
-    // const view = new vega.View(vega.parse(this.vegaFactory.createPieChart()), {
-    //   renderer: 'canvas'
-    // }).initialize('#chart').hover().run();
-  // @ViewChild('chart') private chartContainer: ElementRef;
+
+  @Input() configA: GraphConfig;
+  @Input() configB: GraphConfig;
+  @Input() set graphAData(value: GraphData){
+    this.data = value;
+
+  }
+  @Input() graphBData: GraphData;
 
   @ViewChild('chartContainer', { read: ViewContainerRef }) chartContainer: ViewContainerRef;
   @ViewChild('tabs') private tabs: ElementRef;
 
-  @Input() private set clinicalFields(v: Array<any>){
-    this._clinicalFields = v;
-  }
+  statOptions = ['Graph A', 'Graph B'];
 
-  // @Input() private set graphAData(v: GraphData){
-  //   this._graphAData = v;
-  // }
-
-  // @Input() private set graphBData(v: GraphData){
-  //   this._graphBData = v;
-  // }
-
-  // private vegaFactory: VegaFactory;
-  private _graphAData: GraphData;
-  private _graphBData: GraphData;
-  private _clinicalFields: Array<any>;
-  private view: any;
-  private statComponent: any;
+  data = {};
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
   ngAfterViewInit() {
     $(this.tabs.nativeElement).tabs();
-    // const componentFactory = this.componentFactoryResolver.resolveComponentFactory(PcaStatsComponent);
-    // this.chartContainer.clear();
-    // this.statComponent = this.chartContainer.createComponent(componentFactory);
-    // this.statComponent.instance.setConfig(this._graphAData);
   }
 
 }

@@ -404,9 +404,9 @@ def manifold_sk_spectral_embedding(event, context):
     )
     _result = _config.fit_transform(event['body']['data'])
     return httpWrapper(json.dumps({
-        'result':  _result.tolist(),
-        'embedding': _config.embedding_.tolist(),
-        'affinityMatrix': _config.affinity_matrix_.tolist()
+        'result':  _result.tolist()
+        # 'embedding': _config.embedding_.tolist(),
+        # 'affinityMatrix': _config.affinity_matrix_.tolist()
     }))
 
 def cluster_sk_affinity_propagation(event, context):

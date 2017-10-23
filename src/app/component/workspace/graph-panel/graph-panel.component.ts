@@ -27,7 +27,7 @@ import { EntityTypeEnum } from './../../../model/enum.model';
 import { DataField } from 'app/model/data-field.model';
 import { Component, Input, Output, ChangeDetectionStrategy,
   EventEmitter, AfterViewInit, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { LegendPanelEnum, VisualizationEnum, GraphEnum } from 'app/model/enum.model';
+import { LegendPanelEnum, VisualizationEnum, GraphEnum, DirtyEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 declare var $: any;
 
@@ -51,6 +51,9 @@ export class GraphPanelComponent implements AfterViewInit  {
   @Input() configA: GraphConfig;
   @Input() configB: GraphConfig;
   @Output() configChange: EventEmitter<GraphConfig> = new EventEmitter();
+  @Output() selectClusteringAlgorithm: EventEmitter<GraphConfig> = new EventEmitter();
+  @Output() selectGeneSignature: EventEmitter<GraphConfig> = new EventEmitter();
+
 
   visualizationOptions: Array<{value: VisualizationEnum, label: string}>;
 
@@ -60,6 +63,11 @@ export class GraphPanelComponent implements AfterViewInit  {
       const el = $event.target as HTMLSelectElement;
       let gc: GraphConfig;
       switch (parseInt(el.value, 10)) {
+        // case VisualizationEnum.NONE:
+        //   gc = new GraphConfig();
+        //   gc.visualization = VisualizationEnum.NONE;
+        //   gc.dirtyFlag = DirtyEnum.LAYOUT;
+        //   break;
         case VisualizationEnum.CHROMOSOME:
           gc = new ChromosomeConfigModel();
           break;
@@ -142,6 +150,12 @@ export class GraphPanelComponent implements AfterViewInit  {
       const el = $event.target as HTMLSelectElement;
       let gc: GraphConfig;
       switch (parseInt(el.value, 10)) {
+        // case VisualizationEnum.NONE:
+        //   gc = new GraphConfig();
+        //   gc.visualization = VisualizationEnum.NONE;
+        //   gc.entity = EntityTypeEnum.NONE;
+        //   gc.dirtyFlag = DirtyEnum.LAYOUT;
+        //   break;
         case VisualizationEnum.CHROMOSOME:
           gc = new ChromosomeConfigModel();
           break;
@@ -219,7 +233,12 @@ export class GraphPanelComponent implements AfterViewInit  {
       this.configChange.emit( gc );
     }
   }
-
+  graphPanelSelectClusteringAlgorithm(value: GraphConfig) {
+    this.selectClusteringAlgorithm.emit(value);
+  }
+  graphPanelSelecteGeneSignature(value: GraphConfig) {
+    this.selectGeneSignature.emit(value);
+  }
   graphPanelSetConfig(value: GraphConfig) {
     this.configChange.emit(value);
   }
@@ -230,7 +249,8 @@ export class GraphPanelComponent implements AfterViewInit  {
 
   constructor() {
     this.visualizationOptions = [
-      { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome ' },
+      //{ value: VisualizationEnum.NONE, label: 'None' },
+      { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
       { value: VisualizationEnum.HEATMAP, label: 'Heatmap'},
 
       // Decomposition
@@ -247,11 +267,11 @@ export class GraphPanelComponent implements AfterViewInit  {
       { value: VisualizationEnum.TRUNCATED_SVD, label: 'Truncated SVD'},
 
       // Manifold learning
-      { value: VisualizationEnum.ISOMAP, label: 'Isomap '},
-      { value: VisualizationEnum.LOCALLY_LINEAR_EMBEDDING, label: 'Locally Linear Embedding '},
+      { value: VisualizationEnum.ISOMAP, label: 'Isomap'},
+      { value: VisualizationEnum.LOCALLY_LINEAR_EMBEDDING, label: 'Locally Linear Embedding'},
       { value: VisualizationEnum.MDS, label: 'Multi-Dimensional Scaling'},
-      { value: VisualizationEnum.SPECTRAL_EMBEDDING, label: 'Spectral Embedding '},
-      { value: VisualizationEnum.TSNE, label: 'T-SNE '},
+      { value: VisualizationEnum.SPECTRAL_EMBEDDING, label: 'Spectral Embedding'},
+      { value: VisualizationEnum.TSNE, label: 'T-SNE'},
 
 // Discriminant Analysis
   // Linear Discriminat Analysis

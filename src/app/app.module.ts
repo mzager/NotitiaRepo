@@ -1,3 +1,5 @@
+import { ClusteringAlgorithmPanelComponent } from './component/workspace/clustering-algorithm-panel/clustering-algorithm-panel.component';
+import { GeneSignaturePanelComponent } from './component/workspace/gene-signature-panel/gene-signature-panel.component';
 import { GenesetPanelComponent } from './component/workspace/geneset-panel/geneset-panel.component';
 import { DatasetService } from './service/dataset.service';
 import { TcgaPanelComponent } from './component/workspace/tcga-panel/tcga-panel.component';
@@ -139,7 +141,9 @@ import { reducers } from 'app/reducer/index.reducer';
     SpectralEmbeddingFormComponent,
     PcaIncrementalFormComponent,
     PcaKernalFormComponent,
-    PcaSparseFormComponent
+    PcaSparseFormComponent,
+    GeneSignaturePanelComponent,
+    ClusteringAlgorithmPanelComponent
   ],
   entryComponents: [
   ],
