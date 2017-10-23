@@ -115,9 +115,19 @@ export class PcaKernalFormComponent extends AbstractScatterForm {
     }
   }
 
-  eigenSolverOptions = [PcaKernalEigenSolver.AUTO, PcaKernalEigenSolver.ARPACK, PcaKernalEigenSolver.DENSE];
-  kernalOptions = [PcaKernalMethods.LINEAR, PcaKernalMethods.POLY, PcaKernalMethods.RBF,
-    PcaKernalMethods.SIGMOID, PcaKernalMethods.COSINE];
+  eigenSolverOptions = [
+    PcaKernalEigenSolver.AUTO,
+    PcaKernalEigenSolver.ARPACK,
+    PcaKernalEigenSolver.DENSE
+  ];
+
+  kernalOptions = [
+    PcaKernalMethods.LINEAR,
+    PcaKernalMethods.POLY,
+    PcaKernalMethods.RBF,
+    PcaKernalMethods.SIGMOID,
+    PcaKernalMethods.COSINE
+  ];
 
   constructor(private fb: FormBuilder) {
 

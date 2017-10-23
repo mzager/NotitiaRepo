@@ -74,32 +74,40 @@ import * as _ from 'lodash';
     </label>
   </div>
   <div class="form-group">
-  <label class="center-block"><span class="form-label">Eigen Solver</span>
-    <select class="browser-default" materialize="material_select"
-      [materializeSelectOptions]="LocalLinearEmbeddingEigenSolverOpitions"
-      formControlName="eigen_solver">
-        <option *ngFor="let options of LocalLinearEmbeddingEigenSolverOpitions">{{options}}</option>
-    </select>
-  </label>
-</div>
-<div class="form-group">
-<label class="center-block"><span class="form-label">Method</span>
-  <select class="browser-default" materialize="material_select"
-    [materializeSelectOptions]="LocalLinearEmbeddingMethodOptions"
-    formControlName="lle_method">
-      <option *ngFor="let options of LocalLinearEmbeddingMethodOptions">{{options}}</option>
-  </select>
-</label>
-</div>
-<div class="form-group">
-<label class="center-block"><span class="form-label">Neighbors Algorithm</span>
-  <select class="browser-default" materialize="material_select"
-    [materializeSelectOptions]="LocalLinearEmbeddingNeighborsAlgorithmOptions"
-    formControlName="neighbors_algorithm">
-      <option *ngFor="let options of LocalLinearEmbeddingNeighborsAlgorithmOptions">{{options}}</option>
-  </select>
-</label>
-</div>
+    <label class="center-block"><span class="form-label">Eigen Solver</span>
+      <select class="browser-default" materialize="material_select"
+        [materializeSelectOptions]="LocalLinearEmbeddingEigenSolverOpitions"
+        formControlName="eigen_solver">
+          <option *ngFor="let options of LocalLinearEmbeddingEigenSolverOpitions">{{options}}</option>
+      </select>
+    </label>
+  </div>
+  <div class="form-group">
+  <label class="center-block"><span class="form-label">Method</span>
+      <select class="browser-default" materialize="material_select"
+        [materializeSelectOptions]="LocalLinearEmbeddingMethodOptions"
+        formControlName="lle_method">
+        <option *ngFor="let options of LocalLinearEmbeddingMethodOptions">{{options}}</option>
+      </select>
+    </label>
+  </div>
+  <div class="form-group">
+    <label class="center-block"><span class="form-label">Neighbors Algorithm</span>
+      <select class="browser-default" materialize="material_select"
+        [materializeSelectOptions]="LocalLinearEmbeddingNeighborsAlgorithmOptions"
+        formControlName="neighbors_algorithm">
+        <option *ngFor="let options of LocalLinearEmbeddingNeighborsAlgorithmOptions">{{options}}</option>
+      </select>
+    </label>
+  </div>
+  <div class="form-group">
+    <label class="center-block">
+      <span class="form-label">Neighbors</span>
+        <p class="range-field">
+         <input type="range" min="1" max="20" formControlName="n_neighbors" />
+        </p>
+    </label>
+  </div>
 </form>
   `
 })

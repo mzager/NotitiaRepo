@@ -78,10 +78,10 @@ import * as _ from 'lodash';
       formControlName="eigen_solver">
         <option *ngFor="let options of IsoMapEigenSolverOpitions">{{options}}</option>
     </select>
-  </label>
-</div>
-<div class="form-group">
-  <label class="center-block"><span class="form-label">Path Method</span>
+    </label>
+  </div>
+  <div class="form-group">
+    <label class="center-block"><span class="form-label">Path Method</span>
       <select class="browser-default" materialize="material_select"
         [materializeSelectOptions]="IsoMapPathMethodOpitions"
         formControlName="path_method">
@@ -89,13 +89,21 @@ import * as _ from 'lodash';
       </select>
     </label>
   </div>
-<div class="form-group">
-  <label class="center-block"><span class="form-label">Neighbors Algorithm</span>
-      <select class="browser-default" materialize="material_select"
+  <div class="form-group">
+    <label class="center-block"><span class="form-label">Neighbors Algorithm</span>
+        <select class="browser-default" materialize="material_select"
         [materializeSelectOptions]="IsoMapNeighborsAlgorithmOpitions"
         formControlName="neighbors_algorithm">
           <option *ngFor="let options of IsoMapNeighborsAlgorithmOpitions">{{options}}</option>
       </select>
+    </label>
+  </div>
+  <div class="form-group">
+    <label class="center-block">
+     <span class="form-label">Neighbors</span>
+        <p class="range-field">
+          <input type="range" min="1" max="20" formControlName="n_neighbors" />
+       </p>
     </label>
   </div>
 </form>

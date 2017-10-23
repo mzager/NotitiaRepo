@@ -93,7 +93,7 @@ import * as _ from 'lodash';
     <label class="center-block">
     <span class="form-label">Early Exaggeration</span>
     <p class="range-field">
-      <input type="range" min="1" max="10" step=".1" formControlName="earlyExaggeration" />
+      <input type="range" min="3" max="24" step=".1" formControlName="earlyExaggeration" />
     </p>
     </label>
   </div>
@@ -109,7 +109,7 @@ import * as _ from 'lodash';
     <label class="center-block">
     <span class="form-label">Max Iterations</span>
     <p class="range-field">
-      <input type="range" min="50" max="500" formControlName="nIter" />
+      <input type="range" min="250" max="2000" formControlName="nIter" />
     </p>
     </label>
   </div>
