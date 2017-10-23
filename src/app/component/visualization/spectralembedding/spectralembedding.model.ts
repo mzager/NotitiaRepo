@@ -6,7 +6,7 @@ import { GraphConfig } from './../../../model/graph-config.model';
 import { DataField } from 'app/model/data-field.model';
 
 export class SpectralEmbeddingEigenSolver {
-    public static NONE = 'none';
+    public static NONE = 'None';
     public static LOBPCG = 'lobpcg';
     public static ARPACK = 'arpack';
     public static AMG = 'amg';
@@ -30,7 +30,7 @@ export class SpectralEmbeddingConfigModel extends GraphConfig {
     n_components = 3;
     dimension = DimensionEnum.THREE_D;
     eigen_solver = SpectralEmbeddingEigenSolver.NONE;
-    n_neighbors = 'None';
+    n_neighbors = 3;
     gamma = 'None';
     affinity = SpectralEmbeddingAffinity.NEAREST_NEIGHBORS;
 }
