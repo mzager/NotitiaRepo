@@ -1,3 +1,4 @@
+import { GraphData } from './../model/graph-data.model';
 import { EdgeConfigModel, EdgeDataModel } from './../component/visualization/edges/edges.model';
 import { edgesCompute } from './../component/visualization/edges/edges.compute';
 import { State } from './../reducer/index.reducer';
@@ -30,6 +31,7 @@ import {
   PcaIncrementalCompleteAction,
   PcaKernalCompleteAction,
   PcaSparseCompleteAction,
+  NoneCompleteAction,
   NullDataAction
 } from './../action/compute.action';
 import { ComputeService } from './../service/compute.service';
@@ -81,6 +83,24 @@ export class ComputeEffect {
   //       this.visualizationToComputeAction(Object.assign({}, value[1].graphB.config, { sampleFilter: samples }))
   //     ];
   //   });
+
+  @Effect() loadNone: Observable<any> = this.actions$
+    .ofType(compute.COMPUTE_NONE)
+    .map(toPayload)
+    .switchMap(payload => {
+      const data:  GraphData = {
+        legendItems: null,
+        result: null,
+        resultScaled: null,
+        pointColor: null,
+        pointSize: [],
+        pointShape: [],
+        sampleIds: [],
+        markerIds: [],
+        patientIds: []
+      };
+      return Observable.of( new NoneCompleteAction({ config: payload.config, data: data }) );
+    });
 
   @Effect() loadFa: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_FA)

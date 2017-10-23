@@ -60,6 +60,8 @@ export const getQueryData = createSelector(getQueryState, fromQuery.getQueryData
  */
 export const getLayoutState = (state: State) => state.layout;
 export const getLayoutFilePanelState = createSelector(getLayoutState, fromLayout.getFilePanelState);
+export const getLayoutGeneSignaturePanelState = createSelector( getLayoutState, fromLayout.getGeneSignaturePanelState);
+export const getLayoutClusteringAlgorithmPanelState = createSelector( getLayoutState, fromLayout.getClusteringAlgorithmPanelState );
 export const getLayoutEdgePanelState = createSelector(getLayoutState, fromLayout.getEdgePanelState);
 export const getLayoutQueryPanelState = createSelector(getLayoutState, fromLayout.getQueryPanelState);
 export const getLayoutGraphPanelState = createSelector(getLayoutState, fromLayout.getGraphPanelState);

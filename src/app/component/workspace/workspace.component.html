@@ -30,6 +30,8 @@
         [configA]="graphAConfig | async"
         [configB]="graphBConfig | async"
         (configChange)="graphPanelSetConfig($event)"
+        (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
+        (selectGeneSignature)="graphPanelSelectGeneSignature($event)"
         ></app-workspace-graph-panel>
 
     
@@ -47,11 +49,13 @@
         *ngIf="cohortPanelTab | async">
        </app-workspace-cohort-panel>
 
-    <!-- <app-workspace-stat-panel 
+    <app-workspace-stat-panel 
         *ngIf="statPanelTab | async"
-        [clinicalFields]="clinicalFields | async"
-        [graphAData]="graphAData | async"
-        [graphBData]="graphAData | async"></app-workspace-stat-panel> -->
+        [configA]="graphAConfig | async"
+        [configB]="graphBConfig | async"
+        [graphAData]="graphAData | async" 
+        [graphBData]="graphBData | async" 
+        ></app-workspace-stat-panel>
 
     <app-workspace-legend-panel 
         *ngIf="legendPanelTab | async" 
@@ -61,6 +65,20 @@
         (tabChange)="legendPanelSetTab($event)"></app-workspace-legend-panel>
 
 </div>
+
+<app-workspace-gene-signature-panel
+    *ngIf="geneSignaturePanelTab | async"
+    >
+    </app-workspace-gene-signature-panel>
+
+<app-workspace-clustering-algorithm-panel
+    *ngIf="clusteringAlgorithmPanelTab | async"
+    [configA]="graphAConfig | async"
+    [configB]="graphBConfig | async"
+    [graphAData]="graphAData | async" 
+    [graphBData]="graphBData | async" 
+    >
+    </app-workspace-clustering-algorithm-panel>
 
 <app-workspace-file-panel
     *ngIf="filePanelTab | async" 
@@ -85,7 +103,9 @@
     (loadTcga)="loadTcga($event)"
     ></app-workspace-tcga-panel>
 
-<app-workspace-tool-bar *ngIf="toolPanelTab | async"></app-workspace-tool-bar>       
+<app-workspace-tool-bar *ngIf="toolPanelTab | async">
+    </app-workspace-tool-bar>
+
 <app-application-bar 
     (filePanelToggle)="filePanelToggle()"
     (edgePanelToggle)="edgePanelToggle()"
