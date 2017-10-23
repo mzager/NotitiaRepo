@@ -118,6 +118,7 @@ export class DataTypeEnum {
 }
 
 export class EntityTypeEnum {
+    static readonly NONE = 'None';
     static readonly UNKNOWN = 'Unknown';
     static readonly PATIENT = 'Patients';
     static readonly GENE = 'Genes';
@@ -188,6 +189,7 @@ export const enum GraphActionEnum {
     SET_SIZE = 32
 }
 export class WorkspaceLayoutEnum {
+    static readonly SINGLE = 'Single';
     static readonly HORIZONTAL = 'Horizontal';
     static readonly VERTICAL = 'Vertical';
     static readonly OVERLAY = 'Overlay';

@@ -540,21 +540,22 @@ export class ComputeWorkerUtil {
 
     // Call Lambda
     // cbor.encode(config)
-    fetchResult(config: any): Promise<any> {
-        const cacheKey = this.generateCacheKey(config);
+    fetchResult(config: any, cache: boolean = false): Promise<any> {
+        let headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        };
+       // if (cache) {
+            headers = Object.assign(headers, {ckey: this.generateCacheKey(config)});
+        //}
         return fetch('https://0x8okrpyl3.execute-api.us-west-2.amazonaws.com/dev', {
             method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-                //'ckey': cacheKey
-                //'Cache-Control': 'max-age=31536000'
-            },
+            headers: headers,
             body: JSON.stringify(config)
         })
-            .then(res => {
-                return res.json();
-            });
+        .then(res => {
+            return res.json();
+        });
     }
 
     // OLD //

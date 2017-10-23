@@ -1,3 +1,4 @@
+import { GraphConfig } from './../model/graph-config.model';
 import { Action } from '@ngrx/store';
 import { QueryPanelEnum, StatPanelEnum, ToolPanelEnum, TcgaPanelEnum,
     HistoryPanelEnum, GraphPanelEnum, LegendPanelEnum, SinglePanelEnum,
@@ -32,6 +33,10 @@ export const DATA_PANEL_SHOW_TAB = '[LAYOUT] Data Panel Show Tab';
 export const DATA_PANEL_TOGGLE = '[LAYOUT] Data Panel Toggle';
 export const WORKSPACE_PANEL_SHOW_TAB = '[LAYOUT] Workspace Panel Show Tab';
 export const WORKSPACE_PANEL_TOGGLE = '[LAYOUT] Workspace Panel Toggle';
+export const GENE_SIGNATURE_PANEL_SHOW = '[LAYOUT] Gene Signature Panel Show';
+export const GENE_SIGNATURE_PANEL_HIDE = '[LAYOUT] Gene Signature Panel Hide';
+export const CLUSTERING_ALGORITHM_PANEL_SHOW = '[LAYOUT] Clustering Algorithm Panel Show';
+export const CLUSTERING_ALGORITHM_PANEL_HIDE = '[LAYOUT] Clustering Algorithm Panel Hide';
 
 // Action Classes
 export class FilePanelShowTabAction implements Action {
@@ -74,6 +79,23 @@ export class GraphPanelShowTabAction implements Action {
 }
 export class GraphPanelToggleAction implements Action {
     readonly type: string = GRAPH_PANEL_TOGGLE;
+    constructor() { }
+}
+
+export class ClusteringAlgorithmPanelShowAction implements Action {
+    readonly type: string = CLUSTERING_ALGORITHM_PANEL_SHOW;
+    constructor(public payload: GraphConfig) { }
+}
+export class ClusteringAlgorithmPanelHideAction implements Action {
+    readonly type: string = CLUSTERING_ALGORITHM_PANEL_HIDE;
+    constructor() { }
+}
+export class GeneSignaturePanelShowAction implements Action {
+    readonly type: string = GENE_SIGNATURE_PANEL_SHOW;
+    constructor(public payload: GraphConfig) { }
+}
+export class GeneSignaturePanelHideAction implements Action {
+    readonly type: string = GENE_SIGNATURE_PANEL_HIDE;
     constructor() { }
 }
 export class GenesetPanelShowTabAction implements Action {
@@ -156,6 +178,8 @@ export type Actions =
    QueryPanelShowTabAction | QueryPanelToggleAction |
    GraphPanelShowTabAction | GraphPanelToggleAction |
    GenesetPanelShowTabAction | GenesetPanelToggleAction |
+   ClusteringAlgorithmPanelShowAction | ClusteringAlgorithmPanelHideAction |
+   GeneSignaturePanelShowAction | GeneSignaturePanelHideAction |
    SamplePanelShowTabAction | SamplePanelToggleAction |
    PopulationPanelShowTabAction | PopulationPanelToggleAction |
    LegendPanelShowTabAction | LegendPanelToggleAction |

@@ -1,49 +1,69 @@
-import { DataTable } from './../../model/data-field.model';
-import { PcaSparseConfigModel } from './../visualization/pcasparse/pcasparse.model';
-import { PcaKernalConfigModel } from './../visualization/pcakernal/pcakernal.model';
-import { PcaIncrementalConfigModel } from './../visualization/pcaincremental/pcaincremental.model';
-import { SpectralEmbeddingConfigModel } from './../visualization/spectralembedding/spectralembedding.model';
-import { LocalLinearEmbeddingConfigModel } from './../visualization/locallinearembedding/locallinearembedding.model';
-import { IsoMapConfigModel } from './../visualization/isomap/isomap.model';
-import { TruncatedSvdConfigModel } from './../visualization/truncatedsvd/truncatedsvd.model';
-import { NmfConfigModel } from './../visualization/nmf/nmf.model';
-import { DictionaryLearningConfigModel } from './../visualization/dictionarylearning/dictionarylearning.model';
-import { FastIcaConfigModel } from './../visualization/fastica/fastica.model';
-import { LdaConfigModel } from './../visualization/lda/lda.model';
-import { FaConfigModel } from './../visualization/fa/fa.model';
-import { MdsConfigModel } from './../visualization/mds/mds.model';
-import { EdgeConfigModel } from './../visualization/edges/edges.model';
-import { SomConfigModel } from './../visualization/som/som.model';
-import { HeatmapConfigModel } from './../visualization/heatmap/heatmap.model';
-import { TsneConfigModel } from './../visualization/tsne/tsne.model';
-import { WorkspaceConfigModel } from './../../model/workspace.model';
-import { EntityTypeEnum } from './../../model/enum.model';
-import { ChromosomeConfigModel } from './../visualization/chromosome/chromosome.model';
-import { GraphConfig } from './../../model/graph-config.model';
-import { PcaConfigModel } from './../visualization/pca/pca.model';
-import { DataLoadFromDexieAction, DataLoadFromFileAction, DataLoadIlluminaVcfAction, DataLoadedAction } from './../../action/data.action';
 import * as compute from 'app/action/compute.action';
 import * as data from 'app/action/data.action';
+import * as enums from 'app/model/enum.model';
 import * as fromRoot from 'app/reducer/index.reducer';
 import * as graph from 'app/action/graph.action';
 import * as layout from 'app/action/layout.action';
 import * as select from 'app/action/select.action';
-import { Action, Store } from '@ngrx/store';
-import * as enums from 'app/model/enum.model';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { DataField } from 'app/model/data-field.model';
-import { DataPanelShowTabAction, CohortPanelShowTabAction, WorkspacePanelToggleAction,
-  WorkspacePanelShowTabAction } from './../../action/layout.action';
-import { getFields, getGraphAConfig, getLayoutCohortPanelState, getQueryData,
-  getLayoutFilePanelState } from './../../reducer/index.reducer';
-import { getHistoryPanelState, getToolPanelState, getWorkspacePanelState } from './../../reducer/layout.reducer';
-import { GraphColorAction, GraphSizeAction, PcaAction, ChromosomeAction,
-  SelectMarkersAction, TsneAction } from './../../action/compute.action';
-import { GraphTool } from 'app/model/graph-tool.model';
-import { Legend } from 'app/model/legend.model';
-import { Observable } from 'rxjs/Observable';
-import { VisibilityToggleAction, VisualizationSetAction, WorkspaceConfigAction } from './../../action/graph.action';
 import * as XLSX from 'xlsx';
+import { Action, Store } from '@ngrx/store';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChromosomeAction,
+  GraphColorAction,
+  GraphSizeAction,
+  PcaAction,
+  SelectMarkersAction,
+  TsneAction
+  } from './../../action/compute.action';
+import { ChromosomeConfigModel } from './../visualization/chromosome/chromosome.model';
+import {
+  CohortPanelShowTabAction,
+  DataPanelShowTabAction,
+  WorkspacePanelShowTabAction,
+  WorkspacePanelToggleAction
+  } from './../../action/layout.action';
+import { DataField } from 'app/model/data-field.model';
+import {
+  DataLoadedAction,
+  DataLoadFromDexieAction,
+  DataLoadFromFileAction,
+  DataLoadIlluminaVcfAction
+  } from './../../action/data.action';
+import { DataTable } from './../../model/data-field.model';
+import { DictionaryLearningConfigModel } from './../visualization/dictionarylearning/dictionarylearning.model';
+import { EdgeConfigModel } from './../visualization/edges/edges.model';
+import { EntityTypeEnum } from './../../model/enum.model';
+import { FaConfigModel } from './../visualization/fa/fa.model';
+import { FastIcaConfigModel } from './../visualization/fastica/fastica.model';
+import {
+  getFields,
+  getGraphAConfig,
+  getLayoutCohortPanelState,
+  getLayoutFilePanelState,
+  getQueryData
+  } from './../../reducer/index.reducer';
+import { getHistoryPanelState, getToolPanelState, getWorkspacePanelState } from './../../reducer/layout.reducer';
+import { GraphConfig } from './../../model/graph-config.model';
+import { GraphTool } from 'app/model/graph-tool.model';
+import { HeatmapConfigModel } from './../visualization/heatmap/heatmap.model';
+import { IsoMapConfigModel } from './../visualization/isomap/isomap.model';
+import { LdaConfigModel } from './../visualization/lda/lda.model';
+import { Legend } from 'app/model/legend.model';
+import { LocalLinearEmbeddingConfigModel } from './../visualization/locallinearembedding/locallinearembedding.model';
+import { MdsConfigModel } from './../visualization/mds/mds.model';
+import { NmfConfigModel } from './../visualization/nmf/nmf.model';
+import { Observable } from 'rxjs/Observable';
+import { PcaConfigModel } from './../visualization/pca/pca.model';
+import { PcaIncrementalConfigModel } from './../visualization/pcaincremental/pcaincremental.model';
+import { PcaKernalConfigModel } from './../visualization/pcakernal/pcakernal.model';
+import { PcaSparseConfigModel } from './../visualization/pcasparse/pcasparse.model';
+import { SomConfigModel } from './../visualization/som/som.model';
+import { SpectralEmbeddingConfigModel } from './../visualization/spectralembedding/spectralembedding.model';
+import { TruncatedSvdConfigModel } from './../visualization/truncatedsvd/truncatedsvd.model';
+import { TsneConfigModel } from './../visualization/tsne/tsne.model';
+import { VisibilityToggleAction, VisualizationSetAction, WorkspaceConfigAction } from './../../action/graph.action';
+import { WorkspaceConfigModel } from './../../model/workspace.model';
 
 @Component({
   selector: 'app-workspace',
@@ -76,6 +96,8 @@ export class WorkspaceComponent {
   historyPanelTab: Observable<enums.HistoryPanelEnum>;
   cohortPanelTab: Observable<enums.GraphPanelEnum>;
   dataPanelTab: Observable<enums.DataPanelEnum>;
+  geneSignaturePanelTab: Observable<enums.SinglePanelEnum>;
+  clusteringAlgorithmPanelTab: Observable<enums.SinglePanelEnum>;
   selectedTool: Observable<enums.ToolEnum>;
   selectedGraph: Observable<enums.GraphEnum>;
   fields: Observable<Array<DataField>>;
@@ -84,11 +106,13 @@ export class WorkspaceComponent {
   _selectedGraph: enums.GraphEnum; // This is super wrong
 
   constructor(private store: Store<fromRoot.State>) {
+    this.clusteringAlgorithmPanelTab = store.select(fromRoot.getLayoutClusteringAlgorithmPanelState);
+    this.geneSignaturePanelTab = store.select(fromRoot.getLayoutGeneSignaturePanelState);
     this.edgePanelTab = store.select(fromRoot.getLayoutEdgePanelState);
     this.filePanelTab = store.select(fromRoot.getLayoutFilePanelState);
     this.legendPanelTab = store.select(fromRoot.getLayoutLegendPanelState);
     this.graphPanelTab = store.select(fromRoot.getLayoutGraphPanelState);
-    this.genesetPanelTab = store.select(fromRoot.getLayoutGenesetPanelState)
+    this.genesetPanelTab = store.select(fromRoot.getLayoutGenesetPanelState);
     this.statPanelTab = store.select(fromRoot.getLayoutPopulationPanelState);
     this.queryPanelTab = store.select(fromRoot.getLayoutQueryPanelState);
     this.toolPanelTab = store.select(fromRoot.getLayoutToolPanelState);
@@ -131,20 +155,31 @@ export class WorkspaceComponent {
   loadTcga(value: string) {
       this.store.dispatch(new data.DataLoadFromTcga(value));
   }
-  graphPanelToggle() {
-    this.store.dispatch(new layout.GraphPanelToggleAction());
-  }
-  graphPanelSetTab(value: enums.GraphPanelEnum) {
-    this.store.dispatch(new layout.GraphPanelShowTabAction(value));
-  }
+
   genesetPanelToggle() {
     this.store.dispatch(new layout.GenesetPanelToggleAction());
   }
   genesetPanelSetTab(value: enums.SinglePanelEnum) {
     this.store.dispatch(new layout.GenesetPanelShowTabAction(value));
   }
+
+  graphPanelToggle() {
+    this.store.dispatch(new layout.GraphPanelToggleAction());
+  }
+  graphPanelSetTab(value: enums.GraphPanelEnum) {
+    this.store.dispatch(new layout.GraphPanelShowTabAction(value));
+  }
+  graphPanelSelectClusteringAlgorithm(value: GraphConfig) {
+    this.store.dispatch(new layout.ClusteringAlgorithmPanelShowAction(value));
+  }
+  graphPanelSelectGeneSignature(value: GraphConfig) {
+    this.store.dispatch(new layout.GeneSignaturePanelShowAction(value));
+  }
   graphPanelSetConfig(value: GraphConfig) {
     switch (value.visualization) {
+      case enums.VisualizationEnum.NONE:
+        this.store.dispatch( new compute.NoneAction( { config: value as GraphConfig } ));
+        break;
       case enums.VisualizationEnum.EDGES:
         this.store.dispatch( new compute.EdgesAction( { config: value as EdgeConfigModel} ));
         break;

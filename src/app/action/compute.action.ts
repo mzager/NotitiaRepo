@@ -1,3 +1,5 @@
+import { GraphData } from './../model/graph-data.model';
+import { GraphConfig } from 'app/model/graph-config.model';
 import { PcaSparseConfigModel, PcaSparseDataModel } from './../component/visualization/pcasparse/pcasparse.model';
 import { SpectralEmbeddingDataModel, SpectralEmbeddingConfigModel
     } from './../component/visualization/spectralembedding/spectralembedding.model';
@@ -39,6 +41,8 @@ export const COMPUTE_CHROMOSOME_RING = '[Compute] Chromosome Ring';
 export const COMPUTE_CHROMOSOME_RING_COMPLETE = '[Compute] Chromosome Ring Complete';
 export const COMPUTE_EDGES = '[Compute] Edges';
 export const COMPUTE_EDGES_COMPLETE = '[Compute] Edges Complete';
+export const COMPUTE_NONE = '[Compute] None';
+export const COMPUTE_NONE_COMPLETE = '[Compute] None Complete';
 export const COMPUTE_PCA = '[Compute] Pca';
 export const COMPUTE_PCA_COMPLETE = '[Compute] Pca Complete';
 export const COMPUTE_PCA_SPARSE = '[Compute] Pca Sparse';
@@ -125,6 +129,15 @@ export class EdgesAction implements Action {
 export class EdgesCompleteAction implements Action {
     readonly type: string = COMPUTE_EDGES_COMPLETE;
     constructor(public payload: {config: EdgeConfigModel, data: EdgeDataModel} ) { }
+}
+
+export class NoneAction implements Action {
+    readonly type: string = COMPUTE_NONE;
+    constructor(public payload: {config: GraphConfig} ) { }
+}
+export class NoneCompleteAction implements Action {
+    readonly type: string = COMPUTE_NONE_COMPLETE;
+    constructor(public payload: {config: GraphConfig, data: GraphData } ) { }
 }
 
 export class DictionaryLearningAction implements Action {

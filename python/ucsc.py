@@ -6,4 +6,7 @@ dataset = "TCGA.BLCA.sampleMap/HiSeqV2"
 # Samples
 samples = xena.xenaAPI.dataset_samples (hub, dataset)
 # Fields Are Genes
-fields = xena.xenaAPI.dataset_fields (hub, dataset)
+genes = xena.xenaAPI.dataset_fields (hub, dataset)
+
+# Values
+xena.xenaAPI.Genes_values (hub, dataset, samples, genes)

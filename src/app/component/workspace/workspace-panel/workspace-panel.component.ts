@@ -22,7 +22,7 @@ export class WorkspacePanelComponent implements AfterViewInit  {
       'Workspace', 'Graph A', 'Graph B', 'Edges'
     ];
     this.layoutOptions = [
-      WorkspaceLayoutEnum.HORIZONTAL, WorkspaceLayoutEnum.VERTICAL, WorkspaceLayoutEnum.OVERLAY
+      WorkspaceLayoutEnum.SINGLE, WorkspaceLayoutEnum.HORIZONTAL, WorkspaceLayoutEnum.VERTICAL, WorkspaceLayoutEnum.OVERLAY
     ];
     this.form = this.fb.group({
       layout: value.layout,
