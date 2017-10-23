@@ -27,12 +27,12 @@ export class PcaKernalConfigModel extends GraphConfig {
     }
     n_components = 3;
     dimension = DimensionEnum.THREE_D;
-    kernel = 'linear';
+    kernel = PcaKernalMethods.LINEAR;
     degree = 3;
     coef0 = 1;
     alpha = 1.0;
     fit_inverse_transform = false;
-    eigen_solver = 'auto';
+    eigen_solver = PcaKernalEigenSolver.AUTO;
     tol = 0;
     remove_zero_eig = false;
 }

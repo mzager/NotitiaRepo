@@ -7,7 +7,7 @@ import { DataField } from 'app/model/data-field.model';
 import { DimensionEnum, DistanceEnum, DenseSparseEnum, EntityTypeEnum } from './../../../model/enum.model';
 
 export class SvdConfigModel extends GraphConfig {
-    
+
     dimension: DimensionEnum = DimensionEnum.THREE_D;
     domain: Array<number> = [-300, 300];
     perpexity = 5;  // 5-50
