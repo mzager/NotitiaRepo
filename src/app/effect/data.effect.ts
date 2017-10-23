@@ -76,7 +76,7 @@ export class DataEffect {
 
             const graphAConfig = new PcaIncrementalConfigModel();
             graphAConfig.graph = GraphEnum.GRAPH_A;
-            graphAConfig.table = args.tables.find( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) );
+            graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];//args.tables.find( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             const graphBConfig = new PcaIncrementalConfigModel();
             graphBConfig.graph = GraphEnum.GRAPH_B;

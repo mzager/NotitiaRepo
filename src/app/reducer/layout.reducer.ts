@@ -1,6 +1,7 @@
 import { WORKSPACE_CONFIG } from './../action/graph.action';
 import { WorkspaceConfigModel } from './../model/workspace.model';
-import { WORKSPACE_PANEL_SHOW_TAB, EDGE_PANEL_SHOW_TAB, FILE_PANEL_SHOW_TAB, TCGA_PANEL_TOGGLE } from './../action/layout.action';
+import { WORKSPACE_PANEL_SHOW_TAB, EDGE_PANEL_SHOW_TAB, FILE_PANEL_SHOW_TAB, 
+    TCGA_PANEL_TOGGLE, GENE_SIGNATURE_PANEL_HIDE } from './../action/layout.action';
 import { UnsafeAction } from './../action/unsafe.action';
 import * as e from 'app/model/enum.model';
 import * as layout from 'app/action/layout.action';
@@ -20,6 +21,8 @@ export interface State {
     historyPanel: e.HistoryPanelEnum;
     cohortPanel: e.GraphPanelEnum;
     dataPanel: e.DataPanelEnum;
+    geneSignaturePanel: e.SinglePanelEnum;
+    clusterAlgorithmPanel: e.SinglePanelEnum;
     workspacePanel: e.WorkspacePanelEnum;
     workspaceConfig: WorkspaceConfigModel;   // Would fit better in a more generalized state reducer
 }
@@ -37,6 +40,8 @@ const initialState: State = {
     historyPanel: e.HistoryPanelEnum.NONE,
     cohortPanel: e.GraphPanelEnum.NONE,
     dataPanel: e.DataPanelEnum.NONE,
+    geneSignaturePanel: e.SinglePanelEnum.HIDE,
+    clusterAlgorithmPanel: e.SinglePanelEnum.HIDE,
     tcgaPanel: e.TcgaPanelEnum.NONE,
     workspacePanel: e.WorkspacePanelEnum.NONE,
     workspaceConfig: new WorkspaceConfigModel()
@@ -44,6 +49,14 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: UnsafeAction): State {
     switch (action.type) {
+        case layout.CLUSTERING_ALGORITHM_PANEL_SHOW:
+            return Object.assign({}, state, { clusterAlgorithmPanel: e.SinglePanelEnum.SHOW });
+        case layout.CLUSTERING_ALGORITHM_PANEL_HIDE:
+            return Object.assign({}, state, { clusterAlgorithmPanel: e.SinglePanelEnum.HIDE });
+        case layout.GENE_SIGNATURE_PANEL_SHOW:
+            return Object.assign({}, state, { geneSignaturePanel: e.SinglePanelEnum.SHOW });
+        case layout.GENE_SIGNATURE_PANEL_HIDE:
+            return Object.assign({}, state, { geneSignaturePanel: e.SinglePanelEnum.HIDE });
         case layout.FILE_PANEL_SHOW_TAB:
             return Object.assign({}, state, { filePanel: action.payload });
         case layout.QUERY_PANEL_SHOW_TAB:
@@ -134,3 +147,5 @@ export const getHistoryPanelState = (state: State) => state.historyPanel;
 export const getCohortPanelState = (state: State) => state.cohortPanel;
 export const getDataPanelState = (state: State) => state.dataPanel;
 export const getWorkspacePanelState = (state: State) => state.workspacePanel;
+export const getGeneSignaturePanelState = (state: State) => state.geneSignaturePanel;
+export const getClusteringAlgorithmPanelState = (state: State) => state.clusterAlgorithmPanel;

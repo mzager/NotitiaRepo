@@ -5,7 +5,7 @@ export interface GraphData {
     legendItems: Array<Legend>;
     result: any;
     resultScaled: Array<Array<number>>;
-    pointColor: Array<number>;
+    pointColor: any; //Array<number>;
     pointSize: Array<number>;
     pointShape: Array<ShapeEnum>;
     sampleIds: Array<string>;
