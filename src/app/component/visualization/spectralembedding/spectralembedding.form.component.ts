@@ -77,7 +77,7 @@ import * as _ from 'lodash';
         <select class="browser-default" materialize="material_select"
         [materializeSelectOptions]="SpectralEmbeddingEigenSolverOpitions"
         formControlName="eigen_solver">
-        <option *ngFor="let options of SpectralEmbeddingEigenSolverOpitions">{{options}}</option>
+        <option *ngFor="let options of SpectralEmbeddingEigenSolverOpitions" [ngValue]="options">{{options}}</option>
       </select>
     </label>
   </div>
@@ -86,7 +86,7 @@ import * as _ from 'lodash';
       <select class="browser-default" materialize="material_select"
         [materializeSelectOptions]="SpectralEmbeddingAffinityOpitions"
         formControlName="affinity">
-        <option *ngFor="let options of SpectralEmbeddingAffinityOpitions">{{options}}</option>
+        <option *ngFor="let options of SpectralEmbeddingAffinityOpitions" [ngValue]="options">{{options}}</option>
       </select>
     </label>
   </div>

@@ -68,7 +68,7 @@ import * as _ from 'lodash';
         [materializeSelectOptions]="PcaSparseSkMethodOptions"
         [compareWith]="byKey"
         formControlName="sk_method">
-          <option *ngFor="let options of PcaSparseSkMethodOptions">{{options}}</option>
+          <option *ngFor="let options of PcaSparseSkMethodOptions" [ngValue]="options">{{options}}</option>
       </select>
     </label>
   </div>

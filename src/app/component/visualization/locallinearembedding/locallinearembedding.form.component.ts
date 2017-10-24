@@ -78,7 +78,7 @@ import * as _ from 'lodash';
       <select class="browser-default" materialize="material_select"
         [materializeSelectOptions]="LocalLinearEmbeddingEigenSolverOpitions"
         formControlName="eigen_solver">
-          <option *ngFor="let options of LocalLinearEmbeddingEigenSolverOpitions">{{options}}</option>
+          <option *ngFor="let options of LocalLinearEmbeddingEigenSolverOpitions" [ngValue]="options">{{options}}</option>
       </select>
     </label>
   </div>
@@ -87,7 +87,7 @@ import * as _ from 'lodash';
       <select class="browser-default" materialize="material_select"
         [materializeSelectOptions]="LocalLinearEmbeddingMethodOptions"
         formControlName="lle_method">
-        <option *ngFor="let options of LocalLinearEmbeddingMethodOptions">{{options}}</option>
+        <option *ngFor="let options of LocalLinearEmbeddingMethodOptions" [ngValue]="options">{{options}}</option>
       </select>
     </label>
   </div>
@@ -96,7 +96,7 @@ import * as _ from 'lodash';
       <select class="browser-default" materialize="material_select"
         [materializeSelectOptions]="LocalLinearEmbeddingNeighborsAlgorithmOptions"
         formControlName="neighbors_algorithm">
-        <option *ngFor="let options of LocalLinearEmbeddingNeighborsAlgorithmOptions">{{options}}</option>
+        <option *ngFor="let options of LocalLinearEmbeddingNeighborsAlgorithmOptions" [ngValue]="options">{{options}}</option>
       </select>
     </label>
   </div>
