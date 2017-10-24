@@ -76,7 +76,7 @@ import * as _ from 'lodash';
       <select class="browser-default" materialize="material_select"
         [materializeSelectOptions]="PcaSvdSolverOptions"
         formControlName="svd_solver">
-        <option *ngFor="let options of PcaSvdSolverOptions">{{options}}</option>
+        <option *ngFor="let options of PcaSvdSolverOptions" [ngValue]="options">{{options}}</option>
       </select>
     </label>
   </div>

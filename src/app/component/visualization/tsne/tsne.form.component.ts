@@ -68,7 +68,7 @@ import * as _ from 'lodash';
       <select class="browser-default" materialize="material_select"
         [materializeSelectOptions]="TsneMetricOptions"
         formControlName="metric">
-          <option *ngFor="let options of TsneMetricOptions">{{options}}</option>
+          <option *ngFor="let options of TsneMetricOptions" [ngValue]="options" >{{options}}</option>
       </select>
     </label>
   </div>

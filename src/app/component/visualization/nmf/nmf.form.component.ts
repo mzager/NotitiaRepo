@@ -74,27 +74,27 @@ import * as _ from 'lodash';
   <div class="form-group">
     <label class="center-block"><span class="form-label">Initialization</span>
       <select class="browser-default" materialize="material_select"
-        [materializeSelectOptions]="initOptions"
+        [materializeSelectOptions]="NmfInitOptions"
         formControlName="init">
-        <option *ngFor="let options of initOptions">{{options}}</option>
+        <option *ngFor="let options of NmfInitOptions" [ngValue]="options">{{options}}</option>
       </select>
     </label>
   </div>
   <div class="form-group">
   <label class="center-block"><span class="form-label">Solver</span>
     <select class="browser-default" materialize="material_select"
-      [materializeSelectOptions]="solverOptions"
+      [materializeSelectOptions]="NmFSolverOptions"
       formControlName="solver">
-      <option *ngFor="let options of solverOptions">{{options}}</option>
+      <option *ngFor="let options of NmFSolverOptions" [ngValue]="options">{{options}}</option>
     </select>
   </label>
 </div>
   <div class="form-group">
     <label class="center-block"><span class="form-label">Betaloss</span>
       <select class="browser-default" materialize="material_select"
-      [materializeSelectOptions]="betalossOptions"
-      formControlName="betaloss">
-        <option *ngFor="let options of betalossOptions">{{options}}</option>
+      [materializeSelectOptions]="NmfBetalossOptions"
+      formControlName="beta_loss">
+        <option *ngFor="let options of NmfBetalossOptions" [ngValue]="options">{{options}}</option>
       </select>
     </label>
   </div>
@@ -110,19 +110,19 @@ export class NmfFormComponent extends AbstractScatterForm {
     }
   }
 
-  initOptions = [
+  NmfInitOptions = [
     NmfInit.NNDSVD,
     NmfInit.RANDOM,
     NmfInit.NNDSVDA,
     NmfInit.NNDSVDAR
   ];
 
-  solverOptions = [
+  NmFSolverOptions = [
     NmfSolver.CD,
     NmfSolver.MU
   ];
 
-  betalossOptions = [
+  NmfBetalossOptions = [
     NmfBetaLoss.FROBENIUS,
     NmfBetaLoss.ITAKURA_SAITO,
     NmfBetaLoss.KULLBACK_LEIBLER
