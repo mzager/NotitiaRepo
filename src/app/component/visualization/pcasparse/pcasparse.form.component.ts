@@ -63,24 +63,25 @@ import * as _ from 'lodash';
     </label>
   </div>
   <div class="form-group">
+    <label class="center-block"><span class="form-label">Dimension</span>
+      <select class="browser-default" materialize="material_select"
+      [materializeSelectOptions]="dimensionOptions"
+      formControlName="dimension">
+        <option *ngFor="let options of dimensionOptions">{{options}}</option>
+    </select>
+  </label>
+</div>
+  <div class="form-group">
     <label class="center-block"><span class="form-label">Method</span>
       <select class="browser-default" materialize="material_select"
         [materializeSelectOptions]="PcaSparseSkMethodOptions"
         [compareWith]="byKey"
         formControlName="sk_method">
-          <option *ngFor="let options of PcaSparseSkMethodOptions">{{options}}</option>
+          <option *ngFor="let options of PcaSparseSkMethodOptions" [ngValue]="options">{{options}}</option>
       </select>
     </label>
   </div>
-   <div class="form-group">
-    <label class="center-block"><span class="form-label">Dimension</span>
-      <select class="browser-default" materialize="material_select"
-        [materializeSelectOptions]="dimensionOptions"
-        formControlName="dimension">
-          <option *ngFor="let options of dimensionOptions">{{options}}</option>
-      </select>
-    </label>
-  </div>
+
 </form>
   `
 })

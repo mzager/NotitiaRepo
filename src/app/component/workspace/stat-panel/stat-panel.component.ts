@@ -23,7 +23,7 @@ export class StatPanelComponent implements AfterViewInit {
   @Input() configB: GraphConfig;
   @Input() set graphAData(value: GraphData){
     this.data = value;
-    debugger;
+    // debugger;
 
   }
   @Input() graphBData: GraphData;

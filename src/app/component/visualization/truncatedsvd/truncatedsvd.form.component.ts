@@ -77,7 +77,7 @@ import { TruncatedSvdAction } from '../../../action/compute.action';
     <select class="browser-default" materialize="material_select"
       [materializeSelectOptions]="TruncatedSvdAlgorithemOptions"
       formControlName="algorithm">
-        <option *ngFor="let options of TruncatedSvdAlgorithemOptions">{{options}}</option>
+        <option *ngFor="let options of TruncatedSvdAlgorithemOptions" [ngValue]="options">{{options}}</option>
     </select>
   </label>
 </div>

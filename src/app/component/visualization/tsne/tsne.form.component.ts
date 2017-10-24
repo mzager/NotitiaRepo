@@ -64,56 +64,55 @@ import * as _ from 'lodash';
     </label>
   </div>
   <div class="form-group">
-    <label class="center-block"><span class="form-label">Distance Measure</span>
+    <label class="center-block"><span class="form-label">Metric</span>
       <select class="browser-default" materialize="material_select"
-        [materializeSelectOptions]="distanceOptions"
-        formControlName="distance">
-          <option *ngFor="let options of distanceOptions">{{options}}</option>
+        [materializeSelectOptions]="TsneMetricOptions"
+        formControlName="metric">
+          <option *ngFor="let options of TsneMetricOptions" [ngValue]="options" >{{options}}</option>
       </select>
     </label>
   </div>
   <div class="form-group">
-    <label class="center-block"><span class="form-label">Data Density</span>
+    <label class="center-block"><span class="form-label">Method</span>
       <select class="browser-default" materialize="material_select"
-        [materializeSelectOptions]="densityOptions"
-        formControlName="density">
-          <option *ngFor="let options of densityOptions">{{options}}</option>
+        [materializeSelectOptions]="TsneMethodOptions"
+        formControlName="sk_method">
+          <option *ngFor="let options of TsneMethodOptions">{{options}}</option>
       </select>
     </label>
   </div>
   <div class="form-group">
     <label class="center-block">
-    <span class="form-label">Perplexity</span>
-    <p class="range-field">
-      <input type="range" min="5" max="50" formControlName="perplexity" />
-    </p>
+      <span class="form-label">Perplexity</span>
+        <p class="range-field">
+          <input type="range" min="5" max="50" formControlName="perplexity" />
+        </p>
     </label>
   </div>
   <div class="form-group">
     <label class="center-block">
-    <span class="form-label">Early Exaggeration</span>
-    <p class="range-field">
-      <input type="range" min="3" max="24" step=".1" formControlName="earlyExaggeration" />
-    </p>
+      <span class="form-label">Early Exaggeration</span>
+        <p class="range-field">
+          <input type="range" min="3" max="24" step=".1" formControlName="early_exaggeration" />
+        </p>
     </label>
   </div>
   <div class="form-group">
     <label class="center-block">
-    <span class="form-label">Learning Rate</span>
-    <p class="range-field">
-      <input type="range" min="1" max="1000" formControlName="learningRate" />
-    </p>
+      <span class="form-label">Learning Rate</span>
+        <p class="range-field">
+          <input type="range" min="1" max="1000" formControlName="learning_rate" />
+      </p>
     </label>
   </div>
   <div class="form-group">
-    <label class="center-block">
-    <span class="form-label">Max Iterations</span>
-    <p class="range-field">
-      <input type="range" min="250" max="2000" formControlName="nIter" />
-    </p>
+      <label class="center-block">
+        <span class="form-label">Max Iterations</span>
+          <p class="range-field">
+          <input type="range" min="250" max="2000" formControlName="n_iter" />
+        </p>
     </label>
   </div>
-
 </form>
   `
 })
@@ -125,7 +124,7 @@ export class TsneFormComponent extends AbstractScatterForm  {
     this.form.patchValue(v, { emitEvent: false });
   }
 
-  distanceOptions = [
+    TsneMetricOptions = [
     TsneMetric.CANBERRA, TsneMetric.CHEBYSHEV, TsneMetric.CITYBLOCK, TsneMetric.CMATCHING,
     TsneMetric.CORRELATION, TsneMetric.COSINE, TsneMetric.DICE, TsneMetric.EUCLIDEAN,
     TsneMetric.HAMMING, TsneMetric.JACCARD, TsneMetric.KULSINSKI, TsneMetric.KULSINSKI, TsneMetric.L1, 
@@ -133,7 +132,7 @@ export class TsneFormComponent extends AbstractScatterForm  {
     TsneMetric.ROGERSTANIMOTO, TsneMetric.RUSSELLRAO, TsneMetric.SEUCLIDEAN, TsneMetric.SOKALMICHENER,
     TsneMetric.SOKALSNEATH, TsneMetric.SQEUCLIDEAN, TsneMetric.YULE];
 
-  densityOptions = [
+    TsneMethodOptions = [
     TsneMethod.BARNES_HUT, TsneMethod.EXACT];
 
   constructor(private fb: FormBuilder) {
@@ -155,13 +154,14 @@ export class TsneFormComponent extends AbstractScatterForm  {
 
       n_components: [],
       dimension: [],
-      earlyExaggeration: [],
+      early_exaggeration: [],
       domain: [],
-      perplexity: [], // *>1
-      learningRate: [], // 100-1000
-      nIter: [], // Maximum Number of itterations >200
-      distance: [],
-      density: []
+      perplexity: [],
+      learning_rate: [],
+      n_iter: [],
+      metric: [],
+      sk_method: [],
+      min_grad_norm: []
     });
 
     this.registerFormChange();
