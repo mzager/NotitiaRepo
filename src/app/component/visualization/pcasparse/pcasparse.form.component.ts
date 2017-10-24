@@ -63,6 +63,15 @@ import * as _ from 'lodash';
     </label>
   </div>
   <div class="form-group">
+    <label class="center-block"><span class="form-label">Dimension</span>
+      <select class="browser-default" materialize="material_select"
+      [materializeSelectOptions]="dimensionOptions"
+      formControlName="dimension">
+        <option *ngFor="let options of dimensionOptions">{{options}}</option>
+    </select>
+  </label>
+</div>
+  <div class="form-group">
     <label class="center-block"><span class="form-label">Method</span>
       <select class="browser-default" materialize="material_select"
         [materializeSelectOptions]="PcaSparseSkMethodOptions"
@@ -72,15 +81,7 @@ import * as _ from 'lodash';
       </select>
     </label>
   </div>
-   <div class="form-group">
-    <label class="center-block"><span class="form-label">Dimension</span>
-      <select class="browser-default" materialize="material_select"
-        [materializeSelectOptions]="dimensionOptions"
-        formControlName="dimension">
-          <option *ngFor="let options of dimensionOptions">{{options}}</option>
-      </select>
-    </label>
-  </div>
+
 </form>
   `
 })
