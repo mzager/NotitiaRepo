@@ -77,7 +77,7 @@ import * as _ from 'lodash';
     <select class="browser-default" materialize="material_select"
       [materializeSelectOptions]="FaSvdMethodOptions"
       formControlName="svd_method">
-        <option *ngFor="let options of FaSvdMethodOptions">{{options}}</option>
+        <option *ngFor="let options of FaSvdMethodOptions" [ngValue]="options">{{options}}</option>
     </select>
   </label>
 </div>

@@ -77,7 +77,7 @@ import * as _ from 'lodash';
       <select class="browser-default" materialize="material_select"
         [materializeSelectOptions]="algorithmOptions"
         formControlName="algorithm">
-          <option *ngFor="let options of algorithmOptions">{{options}}</option>
+          <option *ngFor="let options of algorithmOptions" [ngValue]="options">{{options}}</option>
       </select>
     </label>
   </div>
@@ -86,7 +86,7 @@ import * as _ from 'lodash';
       <select class="browser-default" materialize="material_select"
       [materializeSelectOptions]="functionOptions"
       formControlName="fun">
-        <option *ngFor="let options of functionOptions">{{options}}</option>
+        <option *ngFor="let options of functionOptions" [ngValue]="options">{{options}}</option>
       </select>
     </label>
   </div>

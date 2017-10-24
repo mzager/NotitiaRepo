@@ -76,7 +76,7 @@ import * as _ from 'lodash';
      <select class="browser-default" materialize="material_select"
       [materializeSelectOptions]="MdsDissimilarityOpitions"
       formControlName="dissimilarity">
-        <option *ngFor="let options of MdsDissimilarityOpitions">{{options}}</option>
+        <option *ngFor="let options of MdsDissimilarityOpitions" [ngValue]="options">{{options}}</option>
       </select>
     </label>
   </div>
