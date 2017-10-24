@@ -93,7 +93,7 @@ import * as _ from 'lodash';
     <label class="center-block">
       <span class="form-label">Early Exaggeration</span>
         <p class="range-field">
-          <input type="range" min="3" max="24" step=".1" formControlName="earlyExaggeration" />
+          <input type="range" min="3" max="24" step=".1" formControlName="early_exaggeration" />
         </p>
     </label>
   </div>
@@ -101,7 +101,7 @@ import * as _ from 'lodash';
     <label class="center-block">
       <span class="form-label">Learning Rate</span>
         <p class="range-field">
-          <input type="range" min="1" max="1000" formControlName="learningRate" />
+          <input type="range" min="1" max="1000" formControlName="learning_rate" />
       </p>
     </label>
   </div>
@@ -109,7 +109,7 @@ import * as _ from 'lodash';
       <label class="center-block">
         <span class="form-label">Max Iterations</span>
           <p class="range-field">
-          <input type="range" min="250" max="2000" formControlName="nIter" />
+          <input type="range" min="250" max="2000" formControlName="n_iter" />
         </p>
     </label>
   </div>
@@ -154,13 +154,14 @@ export class TsneFormComponent extends AbstractScatterForm  {
 
       n_components: [],
       dimension: [],
-      earlyExaggeration: [],
+      early_exaggeration: [],
       domain: [],
-      perplexity: [], // *>1
-      learningRate: [], // 100-1000
-      nIter: [], // Maximum Number of itterations >200
+      perplexity: [],
+      learning_rate: [],
+      n_iter: [],
       metric: [],
-      sk_method: []
+      sk_method: [],
+      min_grad_norm: []
     });
 
     this.registerFormChange();
