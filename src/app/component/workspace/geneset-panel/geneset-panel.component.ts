@@ -105,8 +105,6 @@ export class GenesetPanelComponent implements AfterViewInit {
 
   constructor(private cd: ChangeDetectorRef, private fb: FormBuilder, private dataService: DataService) {
 
-    console.log(cd);
-
     this.dataService.getGeneSetCategories().toPromise().then(v => {
       this.genesetCategories = v;
       this.form.get('genesetCategory').setValue(this.genesetCategories[0]);

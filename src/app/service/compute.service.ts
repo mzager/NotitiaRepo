@@ -1,3 +1,4 @@
+import { LinkedGeneConfigModel } from './../component/visualization/linkedgenes/linkedgenes.model';
 import { PcaSparseConfigModel } from './../component/visualization/pcasparse/pcasparse.model';
 import { PcaKernalConfigModel } from './../component/visualization/pcakernal/pcakernal.model';
 import { PcaIncrementalConfigModel } from './../component/visualization/pcaincremental/pcaincremental.model';
@@ -57,6 +58,7 @@ export class ComputeService {
     private tsne$ = new Subject<any>();
     private edges$ = new Subject<any>();
     private heatmap$ = new Subject<any>();
+    private linkedGene$ = new Subject<any>();
     private dataload$ = new Subject<any>();
 
     constructor(private illumina: IlluminaService) {
@@ -91,6 +93,10 @@ export class ComputeService {
 
     heatmap(config: HeatmapConfigModel): Observable<any> {
         return this.execute(config, this.heatmap$);
+    }
+
+    linkedGene(config: LinkedGeneConfigModel): Observable<any> {
+        return this.execute(config, this.linkedGene$);
     }
 
     tsne(config: TsneConfigModel): Observable<any> {

@@ -1,6 +1,7 @@
+import { ComputeWorkerUtil } from './../../../service/compute.worker.util';
+import { LinkedGeneConfigModel } from './linkedgenes.model';
 import { Legend } from 'app/model/legend.model';
 import { ColorEnum, DirtyEnum } from 'app/model/enum.model';
-import { ChromosomeConfigModel } from './chromosome.model';
 import * as util from 'app/service/compute.worker.util';
 import { scaleLinear, scaleQuantize, scaleQuantile, scaleOrdinal, scaleThreshold } from 'd3-scale';
 import { scaleSequential, schemeRdBu, interpolateRdBu } from 'd3-scale-chromatic';
@@ -12,7 +13,29 @@ import * as d3Array from 'd3-array';
 import * as JStat from 'jstat';
 import { DedicatedWorkerGlobalScope } from 'compute';
 
-export const chromosomeCompute = (config: ChromosomeConfigModel, worker: DedicatedWorkerGlobalScope): void => {
+export const linkedGeneComputeFn = (config: LinkedGeneConfigModel): Promise<any> => {
+    return new Promise( (resolve, reject) => {
+        const util: ComputeWorkerUtil = new ComputeWorkerUtil();
+        util.getGeneLinkInfo().then( data => {
+            const nodes1 = data[0].map(v => v[0]);  // 8869
+            const nodes2 = data[0].map(v => v[1]);  // 8940
+            const setU = new Set(nodes1.concat(nodes2));
+            const genes = Array.from(setU);
+            const geneMap = data[1].reduce( (p, c) => { p[c.gene] = c; return p; }, {});
+            const geneData = genes.map( g => geneMap[ g.toString() ] );
+
+            resolve({
+                nodes: genes,
+                nodeData: geneData,
+                edges: data[0]
+            });
+
+        });
+    });
+};
+
+
+export const linkedgeneCompute = (config: LinkedGeneConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
     const bandColors = {
         'gneg': 0xeceff1,
@@ -94,6 +117,8 @@ export const chromosomeCompute = (config: ChromosomeConfigModel, worker: Dedicat
                             })
                         );
 
+                    console.dir(genes);
+                    console.dir(bands);
                     const d = {
                         legendItems: [],
                         genes: genes,

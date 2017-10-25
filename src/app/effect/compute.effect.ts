@@ -18,6 +18,7 @@ import {
   TsneCompleteAction,
   EdgesCompleteAction,
   HeatmapCompleteAction,
+  LinkedGeneCompleteAction,
   MdsCompleteAction,
   FaCompleteAction,
   DictionaryLearningCompleteAction,
@@ -176,6 +177,17 @@ export class ComputeEffect {
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new HeatmapCompleteAction({ config: result.config, data: result.data }));
+        });
+    });
+
+  @Effect() loadLinkedGene: Observable<any> = this.actions$
+    .ofType(compute.COMPUTE_LINKED_GENE)
+    .map(toPayload)
+    .switchMap(payload => {
+      return this.computeService.linkedGene(payload.config)
+        .switchMap(result => {
+          return Observable.of((result === null) ? new NullDataAction() :
+            new LinkedGeneCompleteAction({ config: result.config, data: result.data }));
         });
     });
 

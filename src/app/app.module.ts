@@ -1,3 +1,4 @@
+import { LinkedGeneFormComponent } from './component/visualization/linkedgenes/linkedgenes.form.component';
 import { ClusteringAlgorithmPanelComponent } from './component/workspace/clustering-algorithm-panel/clustering-algorithm-panel.component';
 import { GeneSignaturePanelComponent } from './component/workspace/gene-signature-panel/gene-signature-panel.component';
 import { GenesetPanelComponent } from './component/workspace/geneset-panel/geneset-panel.component';
@@ -130,6 +131,7 @@ import { reducers } from 'app/reducer/index.reducer';
     MdsFormComponent,
     SomFormComponent,
     ChromosomeFormComponent,
+    LinkedGeneFormComponent,
     TimelinesFormComponent,
     SurvivalFormComponent,
     HeatmapFormComponent,

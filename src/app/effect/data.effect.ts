@@ -1,3 +1,5 @@
+import { graph } from 'ngraph.graph';
+import { LinkedGeneConfigModel } from './../component/visualization/linkedgenes/linkedgenes.model';
 import { FaConfigModel } from './../component/visualization/fa/fa.model';
 import { PcaKernalConfigModel } from './../component/visualization/pcakernal/pcakernal.model';
 import { PcaIncrementalConfigModel } from './../component/visualization/pcaincremental/pcaincremental.model';
@@ -74,18 +76,34 @@ export class DataEffect {
             const workspaceConfig = new WorkspaceConfigModel();
             workspaceConfig.layout = WorkspaceLayoutEnum.HORIZONTAL;
 
-            const graphAConfig = new PcaIncrementalConfigModel();
-            graphAConfig.graph = GraphEnum.GRAPH_A;
-            graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];//args.tables.find( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            // const graphAConfig = new ChromosomeConfigModel();
+            // graphAConfig.graph = GraphEnum.GRAPH_A;
+            // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
-            const graphBConfig = new PcaIncrementalConfigModel();
+            const graphBConfig = new ChromosomeConfigModel();
             graphBConfig.graph = GraphEnum.GRAPH_B;
             graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
+
+            // const graphAConfig = new PcaIncrementalConfigModel();
+            // graphAConfig.graph = GraphEnum.GRAPH_A;
+            // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            
+            const graphAConfig = new LinkedGeneConfigModel();
+            graphAConfig.graph = GraphEnum.GRAPH_A;
+            graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+
+            // const graphBConfig = new PcaIncrementalConfigModel();
+            // graphBConfig.graph = GraphEnum.GRAPH_B;
+            // graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+
             return [
                 new WorkspaceConfigAction( workspaceConfig ),
-                new compute.PcaIncrementalAction( { config: graphAConfig } )
-                , new compute.PcaIncrementalAction( { config: graphBConfig } )
+                new compute.LinkedGeneAction( { config: graphAConfig } ),
+                //new compute.PcaIncrementalAction( { config: graphAConfig } )
+                //new compute.ChromosomeAction( { config: graphAConfig }),
+                new compute.ChromosomeAction( { config: graphBConfig })
+                //, new compute.PcaIncrementalAction( { config: graphBConfig } )
             ];
         });
 
