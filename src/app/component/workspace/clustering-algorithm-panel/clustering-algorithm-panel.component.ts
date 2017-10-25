@@ -111,7 +111,7 @@ export class ClusteringAlgorithmPanelComponent implements AfterViewInit {
 
     this.store.dispatch( action );
   }
-  
+
   ngAfterViewInit(): void {
     $(this.tabs.nativeElement).tabs();
   }

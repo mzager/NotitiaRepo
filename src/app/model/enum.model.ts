@@ -25,6 +25,19 @@ export const enum ColorEnum {
     BLUE_GRAY = 0x455A64
 }
 
+
+export const enum GenomicEnum {
+    CHROMOSOME = 0,
+    GENE = 1,
+    CENTROMERE = 2,
+    TELOMERE = 4,
+    CYTOBAND = 8,
+    P_ARM = 16,
+    Q_ARM = 32,
+    P_TELOMERE = 64,
+    Q_TELOMERE = 128
+}
+
 export const enum DirtyEnum {
     LAYOUT = 1,
     COLOR = 2,
@@ -158,7 +171,8 @@ export const enum VisualizationEnum {
     NMF = 67108864,
     ISOMAP = 134217728,
     LOCALLY_LINEAR_EMBEDDING = 268435456,
-    SPECTRAL_EMBEDDING = 536870912
+    SPECTRAL_EMBEDDING = 536870912,
+    LINKED_GENE = 1073741824
 }
 
 // Visibility

@@ -1,3 +1,4 @@
+import { LinkedGeneConfigModel, LinkedGeneDataModel } from './../component/visualization/linkedgenes/linkedgenes.model';
 import { GraphData } from './../model/graph-data.model';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { PcaSparseConfigModel, PcaSparseDataModel } from './../component/visualization/pcasparse/pcasparse.model';
@@ -39,6 +40,8 @@ export const COMPUTE_CHROMOSOME = '[Compute] Chromosome';
 export const COMPUTE_CHROMOSOME_COMPLETE = '[Compute] Chromosome Complete';
 export const COMPUTE_CHROMOSOME_RING = '[Compute] Chromosome Ring';
 export const COMPUTE_CHROMOSOME_RING_COMPLETE = '[Compute] Chromosome Ring Complete';
+export const COMPUTE_LINKED_GENE = '[Compute] Linked Gene';
+export const COMPUTE_LINKED_GENE_COMPLETE = '[Compute] Linked Gene Complete';
 export const COMPUTE_EDGES = '[Compute] Edges';
 export const COMPUTE_EDGES_COMPLETE = '[Compute] Edges Complete';
 export const COMPUTE_NONE = '[Compute] None';
@@ -301,6 +304,14 @@ export class ChromosomeCompleteAction implements Action {
     readonly type: string = COMPUTE_CHROMOSOME_COMPLETE;
     constructor(public payload: {config: ChromosomeConfigModel, data: ChromosomeDataModel} ) { }
 }
+export class LinkedGeneAction implements Action {
+    readonly type: string = COMPUTE_LINKED_GENE;
+    constructor(public payload: {config: ChromosomeConfigModel} ) { }
+}
+export class LinkedGeneCompleteAction implements Action {
+    readonly type: string = COMPUTE_LINKED_GENE_COMPLETE;
+    constructor(public payload: {config: ChromosomeConfigModel, data: ChromosomeDataModel} ) { }
+}
 export class SurvivalAction implements Action {
     readonly type: string = COMPUTE_SURVIVAL;
     constructor(public payload: {config: SurvivalConfigModel} ) { }
@@ -441,6 +452,7 @@ export class SelectMarkersAction implements Action {
 export type Actions =
    LoadDataAction | LoadDataActionComplete |
    ChromosomeAction | ChromosomeCompleteAction |
+   LinkedGeneAction | LinkedGeneCompleteAction |
    DaAction | DaCompleteAction |
    DeAction | DeCompleteAction |
    PcaAction | PcaCompleteAction |

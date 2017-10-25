@@ -1,3 +1,4 @@
+import { LinkedGeneConfigModel } from './../../visualization/linkedgenes/linkedgenes.model';
 import { PlsAction } from './../../../action/compute.action';
 import { DataTable } from './../../../model/data-field.model';
 import { PcaSparseConfigModel } from './../../visualization/pcasparse/pcasparse.model';
@@ -82,6 +83,9 @@ export class GraphPanelComponent implements AfterViewInit  {
           break;
         case VisualizationEnum.HEATMAP:
           gc = new HeatmapConfigModel();
+          break;
+        case VisualizationEnum.LINKED_GENE:
+          gc = new LinkedGeneConfigModel();
           break;
         case VisualizationEnum.SOM:
           gc = new SomConfigModel();
@@ -171,6 +175,9 @@ export class GraphPanelComponent implements AfterViewInit  {
         case VisualizationEnum.HEATMAP:
           gc = new HeatmapConfigModel();
           break;
+        case VisualizationEnum.LINKED_GENE:
+          gc = new LinkedGeneConfigModel();
+          break;
         case VisualizationEnum.SOM:
           gc = new SomConfigModel();
           break;
@@ -251,6 +258,7 @@ export class GraphPanelComponent implements AfterViewInit  {
     this.visualizationOptions = [
       //{ value: VisualizationEnum.NONE, label: 'None' },
       { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
+      { value: VisualizationEnum.LINKED_GENE, label: 'Linked Gene' },
       { value: VisualizationEnum.HEATMAP, label: 'Heatmap'},
 
       // Decomposition

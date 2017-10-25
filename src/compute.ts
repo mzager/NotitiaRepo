@@ -1,3 +1,4 @@
+import { linkedgeneCompute } from './app/component/visualization/linkedgenes/linkedgenes.compute';
 import { VisualizationEnum } from 'app/model/enum.model';
 import { pcaSparseCompute } from './app/component/visualization/pcasparse/pcasparse.compute';
 import { pcaKernalCompute } from './app/component/visualization/pcakernal/pcakernal.compute';
@@ -53,6 +54,9 @@ onmessage = function (e) {
             break;
         case VisualizationEnum.HEATMAP:
             heatmapCompute(e.data, me);
+            break;
+        case VisualizationEnum.LINKED_GENE:
+            linkedgeneCompute(e.data, me);
             break;
         case VisualizationEnum.MDS:
             mdsCompute(e.data, me);

@@ -117,7 +117,18 @@ export class ComputeWorkerUtil {
             );
         }
     }
-
+    getGeneLinkInfo(): Promise<any> {
+        return new Promise( (resolve, reject) => {
+            this.openDatabaseLookup().then(v => {
+                Promise.all([
+                    this.dbLookup.table('genelinks').toArray()
+                    , this.dbLookup.table('genecoords').toArray()
+                ]).then(result => {
+                    resolve(result);
+                });
+            });
+        });
+    }
     getChromosomeInfo(genes: Array<string>): Promise<any> {
         return new Promise((resolve, reject) => {
             this.openDatabaseLookup().then(v => {

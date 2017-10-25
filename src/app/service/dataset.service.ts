@@ -39,7 +39,6 @@ export class DatasetService {
 
   public loadTcga(disease: any): Observable<any> {
 
-    console.log(disease.name);
     disease.name = 'gbm';
     return Observable.fromPromise(Dexie.exists('notitia-dataset'))
       .flatMap(exists => {

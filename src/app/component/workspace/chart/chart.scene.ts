@@ -1,3 +1,5 @@
+import * as TWEEN from 'tween.js';
+import { LinkedGeneGraph } from './../../visualization/linkedgenes/linkedgenes.graph';
 import { ChartFactory } from './chart.factory';
 import { element } from 'protractor';
 import { EdgeConfigModel } from './../../visualization/edges/edges.model';
@@ -41,7 +43,6 @@ import { OrbitControls } from 'three-orbitcontrols-ts';
 import WebGLRenderer = THREE.WebGLRenderer;
 import CanvasRenderer = THREE.CanvasRenderer;
 import Scene = THREE.Scene;
-import TWEEN from 'tween.js';
 
 export class ChartScene {
 
@@ -91,7 +92,7 @@ export class ChartScene {
                 this.renderer.render( view.scene, view.camera );
             }
         } catch (e) {
-            console.log("RESOLVE THIS INIT ");
+            console.log('resolve init');
         }
     }
     select = (e: {type: EntityTypeEnum, ids: Array<string>}) => {
@@ -311,6 +312,7 @@ export class ChartScene {
             case VisualizationEnum.PLS: return new PlsGraph();
             case VisualizationEnum.MDS: return new MdsGraph();
             case VisualizationEnum.FA: return new FaGraph();
+            case VisualizationEnum.LINKED_GENE: return new LinkedGeneGraph();
             // case VisualizationEnum.KMEANS: return new KmeansGraph();
             // case VisualizationEnum.KMEDIAN: return new KmedianGraph();
             // case VisualizationEnum.KMEDOIDS: return new KmedoidsGraph();
@@ -330,6 +332,13 @@ export class ChartScene {
         }
     }
 
-    constructor() { }
+    animate = (time) => {
+        requestAnimationFrame(this.animate);
+        TWEEN.update(time);
+    }
+
+    constructor() {
+        requestAnimationFrame(this.animate);
+     }
 }
 

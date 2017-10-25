@@ -46,6 +46,10 @@
                     [config]="configA" 
                     [molecularData]="molecularData"
                     ></app-heatmap-form>
+                <app-linked-gene-form *ngIf="configA && configA.visualization === 1073741824"
+                    (configChange)="graphPanelSetConfig($event)"
+                    [config]="configA"
+                    ></app-linked-gene-form>
                 <app-som-form *ngIf="configA && configA.visualization === 4096"
                     (configChange)="graphPanelSetConfig($event)"
                     [config]="configA"
@@ -196,7 +200,11 @@
                 (configChange)="graphPanelSetConfig($event)"
                 [config]="configB" 
                 [molecularData]="molecularData"
-                ></app-heatmap-form>            
+                ></app-heatmap-form>
+            <app-linked-gene-form *ngIf="configB && configB.visualization === 1073741824"
+                (configChange)="graphPanelSetConfig($event)"
+                [config]="configB"
+                ></app-linked-gene-form>
             <app-som-form *ngIf="configB && configA.visualization === 4096"
                 (configChange)="graphPanelSetConfig($event)"
                 [config]="configB"

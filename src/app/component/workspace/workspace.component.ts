@@ -1,3 +1,4 @@
+import { LinkedGeneConfigModel } from './../visualization/linkedgenes/linkedgenes.model';
 import * as compute from 'app/action/compute.action';
 import * as data from 'app/action/data.action';
 import * as enums from 'app/model/enum.model';
@@ -194,6 +195,9 @@ export class WorkspaceComponent {
         break;
       case enums.VisualizationEnum.HEATMAP:
         this.store.dispatch( new compute.HeatmapAction( { config: value as HeatmapConfigModel} ));
+        break;
+      case enums.VisualizationEnum.LINKED_GENE:
+        this.store.dispatch( new compute.LinkedGeneAction( { config: value as LinkedGeneConfigModel} ));
         break;
       case enums.VisualizationEnum.SOM:
         this.store.dispatch( new compute.SomAction( { config: value as SomConfigModel} ));

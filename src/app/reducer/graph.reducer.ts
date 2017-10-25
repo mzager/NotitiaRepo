@@ -21,7 +21,7 @@ import { COMPUTE_CHROMOSOME, COMPUTE_CHROMOSOME_COMPLETE, COMPUTE_PCA_COMPLETE,
     COMPUTE_FAST_ICA_COMPLETE, COMPUTE_TRUNCATED_SVD_COMPLETE,
     COMPUTE_LOCAL_LINEAR_EMBEDDING_COMPLETE, COMPUTE_ISO_MAP_COMPLETE,
     COMPUTE_SPECTRAL_EMBEDDING_COMPLETE, COMPUTE_PCA_INCREMENTAL_COMPLETE,
-    COMPUTE_PCA_KERNAL_COMPLETE, COMPUTE_PCA_SPARSE_COMPLETE,
+    COMPUTE_PCA_KERNAL_COMPLETE, COMPUTE_PCA_SPARSE_COMPLETE, COMPUTE_LINKED_GENE_COMPLETE,
     COMPUTE_NONE_COMPLETE} from './../action/compute.action';
 import { DataCollection } from './../model/data-collection.model';
 import { DataField } from 'app/model/data-field.model';
@@ -49,10 +49,10 @@ const initialState: State = {
 };
 
 function processAction(action: UnsafeAction, state: State): State {
-    console.log(action.type);
     switch (action.type) {
         case COMPUTE_NONE_COMPLETE:
         case COMPUTE_HEATMAP_COMPLETE:
+        case COMPUTE_LINKED_GENE_COMPLETE:
         case COMPUTE_PCA_COMPLETE:
         case COMPUTE_CHROMOSOME_COMPLETE:
         case COMPUTE_PLSR_COMPLETE:
