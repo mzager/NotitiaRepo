@@ -76,7 +76,7 @@ import * as _ from 'lodash';
     <select class="browser-default" materialize="material_select"
       [materializeSelectOptions]="IsoMapEigenSolverOpitions"
       formControlName="eigen_solver">
-        <option *ngFor="let options of IsoMapEigenSolverOpitions">{{options}}</option>
+        <option *ngFor="let options of IsoMapEigenSolverOpitions" [ngValue]="options">{{options}}</option>
     </select>
     </label>
   </div>
@@ -85,7 +85,7 @@ import * as _ from 'lodash';
       <select class="browser-default" materialize="material_select"
         [materializeSelectOptions]="IsoMapPathMethodOpitions"
         formControlName="path_method">
-        <option *ngFor="let options of IsoMapPathMethodOpitions">{{options}}</option>
+        <option *ngFor="let options of IsoMapPathMethodOpitions" [ngValue]="options">{{options}}</option>
       </select>
     </label>
   </div>
@@ -94,7 +94,7 @@ import * as _ from 'lodash';
         <select class="browser-default" materialize="material_select"
         [materializeSelectOptions]="IsoMapNeighborsAlgorithmOpitions"
         formControlName="neighbors_algorithm">
-          <option *ngFor="let options of IsoMapNeighborsAlgorithmOpitions">{{options}}</option>
+          <option *ngFor="let options of IsoMapNeighborsAlgorithmOpitions" [ngValue]="options">{{options}}</option>
       </select>
     </label>
   </div>

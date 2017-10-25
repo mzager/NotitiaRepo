@@ -76,7 +76,7 @@ import * as _ from 'lodash';
       <select class="browser-default" materialize="material_select"
       [materializeSelectOptions]="LdaLearningMethodOpitions"
       formControlName="learning_method">
-          <option *ngFor="let options of LdaLearningMethodOpitions">{{options}}</option>
+          <option *ngFor="let options of LdaLearningMethodOpitions" [ngValue]="options">{{options}}</option>
       </select>
     </label>
   </div>
