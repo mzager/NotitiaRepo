@@ -1,3 +1,4 @@
+import { GenomeConfigModel } from './../visualization/genome/genome.model';
 import { LinkedGeneConfigModel } from './../visualization/linkedgenes/linkedgenes.model';
 import * as compute from 'app/action/compute.action';
 import * as data from 'app/action/data.action';
@@ -11,6 +12,7 @@ import { Action, Store } from '@ngrx/store';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   ChromosomeAction,
+  GenomeAction,
   GraphColorAction,
   GraphSizeAction,
   PcaAction,
@@ -189,6 +191,9 @@ export class WorkspaceComponent {
         break;
       case enums.VisualizationEnum.CHROMOSOME:
         this.store.dispatch( new compute.ChromosomeAction( { config: value as ChromosomeConfigModel} ));
+        break;
+      case enums.VisualizationEnum.GENOME:
+        this.store.dispatch( new compute.GenomeAction( { config: value as GenomeConfigModel} ));
         break;
       case enums.VisualizationEnum.TSNE:
         this.store.dispatch( new compute.TsneAction( { config: value as TsneConfigModel} ));

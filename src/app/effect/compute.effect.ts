@@ -15,6 +15,7 @@ import {
   PcaCompleteAction,
   SomCompleteAction,
   ChromosomeCompleteAction,
+  GenomeCompleteAction,
   TsneCompleteAction,
   EdgesCompleteAction,
   HeatmapCompleteAction,
@@ -166,6 +167,17 @@ export class ComputeEffect {
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new ChromosomeCompleteAction({ config: result.config, data: result.data }));
+        });
+    });
+
+  @Effect() loadGenome: Observable<any> = this.actions$
+    .ofType(compute.COMPUTE_GENOME)
+    .map(toPayload)
+    .switchMap(payload => {
+      return this.computeService.genome(payload.config)
+        .switchMap(result => {
+          return Observable.of((result === null) ? new NullDataAction() :
+            new GenomeCompleteAction({ config: result.config, data: result.data }));
         });
     });
 

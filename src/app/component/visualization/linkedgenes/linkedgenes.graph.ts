@@ -116,7 +116,7 @@ export class LinkedGeneGraph implements ChartObjectInterface {
         const _graph = graph();
 
         this.graphData.nodes.forEach( (v, i ) => { _graph.addNode(v, this.graphData.nodeData[i]); } );
-        this.graphData.edges.forEach( v => _graph.addLink( v[0], v[1] ));
+        this.graphData.edges.forEach( v => _graph.addLink( v.source, v.target ));
 
         const _layout = forcelayout3d(_graph);
         for (let i = 0; i < 200; i++) {

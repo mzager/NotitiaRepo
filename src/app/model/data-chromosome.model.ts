@@ -5,4 +5,4 @@ export interface DataChromosome {
   chromosome: any;
   gene: any;
   type: string;
-};
+}

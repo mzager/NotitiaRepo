@@ -1,3 +1,4 @@
+import { genomeCompute } from './app/component/visualization/genome/genome.compute';
 import { linkedgeneCompute } from './app/component/visualization/linkedgenes/linkedgenes.compute';
 import { VisualizationEnum } from 'app/model/enum.model';
 import { pcaSparseCompute } from './app/component/visualization/pcasparse/pcasparse.compute';
@@ -45,6 +46,9 @@ onmessage = function (e) {
             break;
         case VisualizationEnum.CHROMOSOME:
             chromosomeCompute(e.data, me);
+            break;
+        case VisualizationEnum.GENOME:
+            genomeCompute(e.data, me);
             break;
         case VisualizationEnum.TSNE:
             tsneCompute(e.data, me);

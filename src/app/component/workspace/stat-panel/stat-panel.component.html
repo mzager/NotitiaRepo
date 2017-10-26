@@ -7,9 +7,18 @@
         </ul>
     </div>
     <div class="card-content">
-            
-        <span style="font-size:8px;">{{data | json}}</span>
-        <ng-template #chartContainer></ng-template>
+        <!-- <div class="form-group">
+            <label class="center-block"><span class="form-label">Metric</span>
+            <select class="browser-default" materialize="material_select"
+                [materializeSelectOptions]="visualizationOptions">
+                <option *ngFor="let option of metrics" [value]="option">{{option.label}}</option>
+            </select>
+            </label>
+        </div>  -->
+
+        <!-- <span style="font-size:8px;">{{data | json}}</span> -->
+        <div id="stat-panel-chart"></div>
+        <!-- <ng-template #chartContainer></ng-template> -->
             
     </div>
 </div>
