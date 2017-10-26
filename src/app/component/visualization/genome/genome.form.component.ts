@@ -1,4 +1,4 @@
-import { ChromosomeConfigModel } from './chromosome.model';
+import { GenomeConfigModel } from './genome.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DimensionEnum, DataTypeEnum, VisualizationEnum, DirtyEnum, CollectionTypeEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
@@ -7,7 +7,7 @@ import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'app-chromosome-form',
+  selector: 'app-genome-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 <form [formGroup]="form" novalidate>
@@ -42,7 +42,7 @@ import * as _ from 'lodash';
     </label>
   </div>
   <div class="form-group">
-    <label class="center-block"><span class="form-label">Chromosomes</span>
+    <label class="center-block"><span class="form-label">Chromosome</span>
        <select class="browser-default" materialize="material_select"
           [compareWith]="byKey"
           [materializeSelectOptions]="chromosomeOptions"
@@ -54,7 +54,7 @@ import * as _ from 'lodash';
 </form>
   `
 })
-export class ChromosomeFormComponent {
+export class GenomeFormComponent {
 
   @Input() set fields(fields: Array<DataField>) {
     if (fields === null) { return; }
@@ -65,7 +65,7 @@ export class ChromosomeFormComponent {
     this.sizeOptions = DataFieldFactory.getSizeFields(fields);
   }
 
-  @Input() set config(v: ChromosomeConfigModel) {
+  @Input() set config(v: GenomeConfigModel) {
     if (v === null) { return; }
     this.form.patchValue(v, { emitEvent: false });
   }
@@ -77,8 +77,7 @@ export class ChromosomeFormComponent {
   shapeOptions: Array<DataField>;
   sizeOptions: Array<DataField>;
   dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D];
-  chromosomeOptions = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
-  '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', 'X', 'Y'];
+  chromosomeOptions = ['Cytobands', 'Centromeres & Telemeres', 'None'];
 
   byKey(p1: DataField, p2: DataField) {
     if (p2 === null) { return false; }

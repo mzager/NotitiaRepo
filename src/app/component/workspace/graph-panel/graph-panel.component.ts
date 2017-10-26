@@ -1,3 +1,4 @@
+import { GenomeConfigModel } from './../../visualization/genome/genome.model';
 import { LinkedGeneConfigModel } from './../../visualization/linkedgenes/linkedgenes.model';
 import { PlsAction } from './../../../action/compute.action';
 import { DataTable } from './../../../model/data-field.model';
@@ -71,6 +72,9 @@ export class GraphPanelComponent implements AfterViewInit  {
         //   break;
         case VisualizationEnum.CHROMOSOME:
           gc = new ChromosomeConfigModel();
+          break;
+        case VisualizationEnum.GENOME:
+          gc = new GenomeConfigModel();
           break;
         case VisualizationEnum.PCA:
           gc = new PcaConfigModel();
@@ -162,6 +166,9 @@ export class GraphPanelComponent implements AfterViewInit  {
         //   break;
         case VisualizationEnum.CHROMOSOME:
           gc = new ChromosomeConfigModel();
+          break;
+        case VisualizationEnum.GENOME:
+          gc = new GenomeConfigModel();
           break;
         case VisualizationEnum.PCA:
           gc = new PcaConfigModel();
@@ -257,6 +264,7 @@ export class GraphPanelComponent implements AfterViewInit  {
   constructor() {
     this.visualizationOptions = [
       //{ value: VisualizationEnum.NONE, label: 'None' },
+      { value: VisualizationEnum.GENOME, label: 'Genome' },
       { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
       { value: VisualizationEnum.LINKED_GENE, label: 'Linked Gene' },
       { value: VisualizationEnum.HEATMAP, label: 'Heatmap'},

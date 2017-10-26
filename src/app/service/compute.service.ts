@@ -1,3 +1,5 @@
+import { Subject } from 'rxjs/Subject';
+import { GenomeConfigModel } from './../component/visualization/genome/genome.model';
 import { LinkedGeneConfigModel } from './../component/visualization/linkedgenes/linkedgenes.model';
 import { PcaSparseConfigModel } from './../component/visualization/pcasparse/pcasparse.model';
 import { PcaKernalConfigModel } from './../component/visualization/pcakernal/pcakernal.model';
@@ -5,7 +7,6 @@ import { PcaIncrementalConfigModel } from './../component/visualization/pcaincre
 import { SpectralEmbeddingConfigModel } from './../component/visualization/spectralembedding/spectralembedding.model';
 import { LocalLinearEmbeddingConfigModel } from './../component/visualization/locallinearembedding/locallinearembedding.model';
 import { IsoMapConfigModel } from './../component/visualization/isomap/isomap.model';
-import { Subject } from 'rxjs/Subject';
 import { FastIcaConfigModel } from './../component/visualization/fastica/fastica.model';
 import { TruncatedSvdDataModel, TruncatedSvdConfigModel } from './../component/visualization/truncatedsvd/truncatedsvd.model';
 import { NmfConfigModel } from './../component/visualization/nmf/nmf.model';
@@ -55,6 +56,7 @@ export class ComputeService {
     private pca$ = new Subject<any>();
     private som$ = new Subject<any>();
     private chromosome$ = new Subject<any>();
+    private genome$ = new Subject<any>();
     private tsne$ = new Subject<any>();
     private edges$ = new Subject<any>();
     private heatmap$ = new Subject<any>();
@@ -109,6 +111,10 @@ export class ComputeService {
 
     chromosome(config: ChromosomeConfigModel): Observable<any> {
         return this.execute(config, this.chromosome$);
+    }
+
+    genome(config: GenomeConfigModel): Observable<any> {
+        return this.execute(config, this.genome$);
     }
 
     edges(config: EdgeConfigModel): Observable<any> {

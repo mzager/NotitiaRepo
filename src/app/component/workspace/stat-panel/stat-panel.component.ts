@@ -1,3 +1,5 @@
+import { explainedVariance, explainedVarianceRatio } from './stats-compute';
+import { StatsFactory } from './stats-factory';
 import { GraphData } from './../../../model/graph-data.model';
 import { INSERT_ANNOTATION } from './../../../action/graph.action';
 import { StatsInterface } from './../../../model/stats.interface';
@@ -23,7 +25,13 @@ export class StatPanelComponent implements AfterViewInit {
   @Input() configB: GraphConfig;
   @Input() set graphAData(value: GraphData){
     this.data = value;
-    // debugger;
+
+    this.metrics = [
+      { label: 'Explained Variance', value: explainedVariance(value.result.explainedVariance )},
+      { label: 'Explained Variance Ratio', value: explainedVarianceRatio(value.result.explainedVarianceRatio )},
+    ];
+
+   this.setMetric(this.metrics[0]);
 
   }
   @Input() graphBData: GraphData;
@@ -32,10 +40,21 @@ export class StatPanelComponent implements AfterViewInit {
   @ViewChild('tabs') private tabs: ElementRef;
 
   statOptions = ['Graph A', 'Graph B'];
-
+  metrics = [];
+  statsFactory: StatsFactory;
   data = {};
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
+  setMetric( value: any): void {
+    new vega.View(vega.parse(value.value), {
+      renderer: 'canvas'
+      }).initialize('#stat-panel-chart').run();
+
+  }
+
+
+  constructor(private componentFactoryResolver: ComponentFactoryResolver) {
+    this.statsFactory = StatsFactory.getInstance();
+  }
 
   ngAfterViewInit() {
     $(this.tabs.nativeElement).tabs();

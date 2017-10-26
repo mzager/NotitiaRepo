@@ -32,7 +32,7 @@ export class ComputeWorkerUtil {
         this.dbLookup = new Dexie('notitia');
     }
     generateCacheKey(config: Object): string {
-        
+
         const keys = Object.keys(config).filter( v => {
             switch (v) {
                 case 'dirtyFlag':
@@ -129,8 +129,28 @@ export class ComputeWorkerUtil {
             });
         });
     }
-    getChromosomeInfo(genes: Array<string>): Promise<any> {
-        return new Promise((resolve, reject) => {
+    getGeneLinkInfoByGenes( genes: Array<string> ): Promise<any> {
+        return new Promise( (resolve, reject) => {
+            this.openDatabaseLookup().then( v => {
+                this.dbLookup.table('genelinks').where('source').anyOfIgnoreCase(genes).toArray()
+                .then( result => {
+                    resolve(result);
+                });
+            });
+        });
+    }
+    getChromosomeInfo(chromosome: string): Promise<any> {
+        return new Promise( (resolve, reject) => {
+            this.openDatabaseLookup().then(v => {
+                this.dbLookup.table('genecoords').where('chr').equals(chromosome).toArray()
+                .then( result => {
+                    resolve(result);
+                });
+            });
+        });
+    }
+    getGenomeInfo(genes: Array<string>): Promise<any> {
+        return new Promise( (resolve, reject) => {
             this.openDatabaseLookup().then(v => {
                 Promise.all([
                     this.dbLookup.table('bandcoords').toArray(),
@@ -558,7 +578,7 @@ export class ComputeWorkerUtil {
         };
        // if (cache) {
             headers = Object.assign(headers, {ckey: this.generateCacheKey(config)});
-        //}
+        // }
         return fetch('https://0x8okrpyl3.execute-api.us-west-2.amazonaws.com/dev', {
             method: 'POST',
             headers: headers,

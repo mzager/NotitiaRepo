@@ -17,6 +17,11 @@
                     </select>
                     </label>
                 </div> 
+                <app-genome-form *ngIf="configA && configA.visualization === 2147483648"
+                    (configChange)="graphPanelSetConfig($event)"
+                    [fields]="fields"
+                    [config]="configA"
+                    ></app-genome-form>
                 <app-chromosome-form *ngIf="configA && configA.visualization === 3"
                     (configChange)="graphPanelSetConfig($event)"
                     [fields]="fields"
@@ -172,6 +177,11 @@
                 </select>
                 </label>
             </div> 
+            <app-genome-form *ngIf="configB && configB.visualization === 2147483648"
+                (configChange)="graphPanelSetConfig($event)"
+                [fields]="fields"
+                [config]="configB"
+                ></app-genome-form>
              <app-chromosome-form *ngIf="configB && configB.visualization === 3"
                 (configChange)="graphPanelSetConfig($event)"
                 [fields]="fields"

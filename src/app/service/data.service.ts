@@ -60,10 +60,10 @@ export class DataService {
           return;
         }
         DataService.db.version(1).stores({
-          genecoords: 'gene',
+          genecoords: 'gene, chr, arm, type',
           bandcoords: '++id',
           genemap: 'hugo',
-          genelinks: '++id'
+          genelinks: '++id, source, target'
         });
         DataService.db.open();
         DataService.db.on('versionchange', function (event) { });
@@ -76,13 +76,15 @@ export class DataService {
             const bandcoords = this.http.get('assets/data/bandcoords.json').map(res => res.json());
             const genemap    = this.http.get('assets/data/genemap.json').map(res => res.json());
             const genelinks  = this.http.get('assets/data/genelinks.json').map(res => res.json());
+            
 
 
             Observable.zip( genecoords, bandcoords, genemap, genelinks ).subscribe( result => {
+              const geneLinksData = result[3].map( d => ({ source: d[0], target: d[1], tension: d[2]}));
               DataService.db.table('genecoords').bulkAdd(result[0]);
               DataService.db.table('bandcoords').bulkAdd(result[1]);
               DataService.db.table('genemap').bulkAdd(result[2]);
-              DataService.db.table('genelinks').bulkAdd(result[3]);
+              DataService.db.table('genelinks').bulkAdd(geneLinksData);
             });
           });
       });

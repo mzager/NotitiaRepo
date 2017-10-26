@@ -4,19 +4,19 @@ import { GraphConfig } from 'app/model/graph-config.model';
 import { VisualizationEnum, DimensionEnum, GraphEnum, EntityTypeEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory } from 'app/model/data-field.model';
 
-export class ChromosomeConfigModel extends GraphConfig {
+export class GenomeConfigModel extends GraphConfig {
     constructor() {
         super();
         this.entity = EntityTypeEnum.GENE;
-        this.visualization = VisualizationEnum.CHROMOSOME;
+        this.visualization = VisualizationEnum.GENOME;
     }
 
     displayType: DimensionEnum = DimensionEnum.THREE_D;
     domain: Array<number> = [-500, 500];
-    chromosome = '1';
+    chromosomeOption = 'Cytobands';
 }
 
-export interface ChromosomeDataModel extends GraphData {
+export interface GenomeDataModel extends GraphData {
     legends: Array<Legend>;
     genes: any;
     bands: any;

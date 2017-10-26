@@ -1,3 +1,4 @@
+import { GenomeGraph } from './../../visualization/genome/genome.graph';
 import * as TWEEN from 'tween.js';
 import { LinkedGeneGraph } from './../../visualization/linkedgenes/linkedgenes.graph';
 import { ChartFactory } from './chart.factory';
@@ -308,6 +309,7 @@ export class ChartScene {
             case VisualizationEnum.EDGES: return new EdgesGraph();
             case VisualizationEnum.PCA: return new PcaGraph();
             case VisualizationEnum.CHROMOSOME: return new ChromosomeGraph();
+            case VisualizationEnum.GENOME: return new GenomeGraph();
             case VisualizationEnum.TSNE: return new TsneGraph();
             case VisualizationEnum.PLS: return new PlsGraph();
             case VisualizationEnum.MDS: return new MdsGraph();
