@@ -46,7 +46,7 @@ import * as _ from 'lodash';
        <select class="browser-default" materialize="material_select"
           [compareWith]="byKey"
           [materializeSelectOptions]="chromosomeOptions"
-          formControlName="chromosomeOption">
+          formControlName="chromosome">
           <option *ngFor="let option of chromosomeOptions" [value]="option">{{option}}</option>
       </select>
     </label>
@@ -102,9 +102,8 @@ export class ChromosomeFormComponent {
       pointColor: [],
       pointShape: [],
       pointSize: [],
-
       dimension: [],
-      chromosomeOption: [],
+      chromosome: [],
       allowRotation: []
     });
 
