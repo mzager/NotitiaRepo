@@ -149,14 +149,33 @@ export class ChromosomeGraph implements ChartObjectInterface {
 
        links.forEach( (link, i) => {
 
-            const curve = new THREE.CatmullRomCurve3( [
-                new THREE.Vector3( link.sPos.x, link.sPos.y, 0 ),
-                new THREE.Vector3( 0, 30, 100 ),
-                new THREE.Vector3( link.tPos.x, link.tPos.y, 0 ),
-            ] );
+            // Adjust Height According To Size - So the tall ones project out both from the ring and also from the center
+            // const curve = new THREE.CatmullRomCurve3( [
+            //     new THREE.Vector3( link.sPos.x, link.sPos.y, 0 ),
+            //     new THREE.Vector3( 0, 30, 100 ),
+            //     new THREE.Vector3( link.tPos.x, link.tPos.y, 0 ),
+            // ] );
+            // curve.type = 'catmullrom';
+            //curve.tension = 0.9; //link.tension; // * 0.1; //0.9;
 
-            curve.type = 'catmullrom';
-            curve.tension = 0.9; //link.tension; // * 0.1; //0.9;
+            // const curve = new THREE.CubicBezierCurve3(
+            //     new THREE.Vector3( link.sPos.x, link.sPos.y, 0 ),
+            //     new THREE.Vector3( 0, 0, 0 ),
+            //     new THREE.Vector3( 0, 0, 0 ),
+            //     new THREE.Vector3( link.tPos.x, link.tPos.y, 0 )
+            // );
+
+            // const curve = new THREE.LineCurve3(
+            //     new THREE.Vector3( link.sPos.x, link.sPos.y, 0 ),
+            //     new THREE.Vector3( link.tPos.x, link.tPos.y, 0 )
+            // );
+
+            const curve = new THREE.QuadraticBezierCurve3(
+                new THREE.Vector3( link.sPos.x, link.sPos.y, 0 ),
+                new THREE.Vector3( 0, 0, 0 ),
+                new THREE.Vector3( link.tPos.x, link.tPos.y, 0 ),
+            );
+
             const geometry = new THREE.Geometry();
             geometry.vertices = curve.getPoints( 50 );
 

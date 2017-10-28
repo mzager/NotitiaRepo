@@ -40,7 +40,7 @@ export const chromosomeCompute = (config: ChromosomeConfigModel, worker: Dedicat
 
             worker.util.getGeneLinkInfoByGenes( genes ).then( links => {
                 const genemap = result.reduce( (p, c) => { p[c.gene] = c; return p; }, {});
-
+debugger;
                 const processedLinks = links
                     .filter( v =>
                         ( genemap.hasOwnProperty(v.source) && genemap.hasOwnProperty(v.target) ) )
