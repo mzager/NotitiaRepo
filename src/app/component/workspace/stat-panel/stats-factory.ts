@@ -18,44 +18,18 @@ export class StatsFactory {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'width': config.width,
             'height': config.height,
-            'autosize': 'none',
-            'signals': [
-                {
-                  'name': 'startAngle', 'value': 0,
-                  'bind': {'input': 'range', 'min': 0, 'max': 6.29, 'step': 0.01}
-                },
-                {
-                  'name': 'endAngle', 'value': 6.29,
-                  'bind': {'input': 'range', 'min': 0, 'max': 6.29, 'step': 0.01}
-                },
-                {
-                  'name': 'padAngle', 'value': 0,
-                  'bind': {'input': 'range', 'min': 0, 'max': 0.1}
-                },
-                {
-                  'name': 'innerRadius', 'value': 60,
-                  'bind': {'input': 'range', 'min': 0, 'max': 90, 'step': 1}
-                },
-                {
-                  'name': 'cornerRadius', 'value': 0,
-                  'bind': {'input': 'range', 'min': 0, 'max': 10, 'step': 0.5}
-                },
-                {
-                  'name': 'sort', 'value': false,
-                  'bind': {'input': 'checkbox'}
-                }
-              ],
             'data': [
               {
                 'name': 'table',
                 'values': values,
+
                 'transform': [
                   {
                     'type': 'pie',
                     'field': 'field',
                     'startAngle': 0,
                     'endAngle': Math.PI * 2,
-                    'sort': false
+                    'sort': false,
                   }
                 ]
               }
@@ -75,25 +49,27 @@ export class StatsFactory {
                     'enter': {
                       'fill': {'scale': 'color', 'field': 'id'},
                       'x': {'signal': 'width / 2'},
-                      'y': {'signal': 'height / 2'}
-                    },
-                    'update': {
+                      'y': {'signal': 'height / 2'},
                       'startAngle': {'field': 'startAngle'},
                       'endAngle': {'field': 'endAngle'},
-                      'padAngle': {'signal': 'padAngle'},
-                      'innerRadius': {'signal': 'innerRadius'},
+                      'padAngle': {'value': 0.035},
+                      'innerRadius': {'value': 60},
                       'outerRadius': {'signal': 'width / 2'},
-                      'cornerRadius': {'signal': 'cornerRadius'}
-                    }
+                      'cornerRadius': {'value': 0}
+                    },
                   }
-                }
+                },
+
               ]
+
           };
+
+
           return vega;
     }
 
 
-    private constructor() { }
+    constructor() {}
 
 }
 
@@ -112,8 +88,8 @@ export class AbstractStatChartConfig {
     constructor() {
         this.data = [];
         this.labelFn = null;
-        this.width = 300;
-        this.height = 300;
+        this.width = 200;
+        this.height = 200;
     }
 }
 
