@@ -1,3 +1,4 @@
+import { DirtyEnum } from 'app/model/enum.model';
 // import { Tween, Easing } from 'es6-tween';
 import { Colors, EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
 import { OrbitControls } from 'three-orbitcontrols-ts';
@@ -42,6 +43,8 @@ export class ChromosomeGraph implements ChartObjectInterface {
     private selectorScale: any;
     private group: THREE.Group;
     private lineMaterial;
+    private geneLines: Array<THREE.Line>;
+    private chords: Array<THREE.Line>;
 
     // Private Subscriptions
     private sMouseMove: Subscription;
@@ -54,12 +57,12 @@ export class ChromosomeGraph implements ChartObjectInterface {
         this.view = view;
         this.isEnabled = false;
         this.meshes = [];
+        this.geneLines = [];
+        this.chords = [];
         this.view.controls.enableRotate = true;
         this.group = new THREE.Group();
         this.view.scene.add(this.group);
         this.lineMaterial = new THREE.LineBasicMaterial( { color: 0x039BE5 });
-        this.lineMaterial.transparency = true;
-        this.lineMaterial.opacity = 0.2;
         return this;
     }
 
@@ -69,12 +72,33 @@ export class ChromosomeGraph implements ChartObjectInterface {
     }
 
     update(config: GraphConfig, data: any) {
-
-        debugger;
         this.config = config as ChromosomeConfigModel;
         this.data = data;
-        this.removeObjects();
-        this.addObjects();
+        if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {
+            this.removeObjects();
+            this.addObjects();
+        }
+        if (this.config.dirtyFlag & DirtyEnum.COLOR) {
+
+            const lines = this.geneLines;
+            this.meshes.forEach( v => {
+                if (data.pointColor.hasOwnProperty(v.userData.gene)) {
+                    const color = data.pointColor[v.userData.gene];
+                    (v as THREE.Mesh).material = new THREE.MeshBasicMaterial( {color: color } );
+                } else {
+                    (v as THREE.Mesh).material = new THREE.MeshBasicMaterial( {color: 0xDDDDDD } );
+                }
+            });
+            lines.forEach( v => {
+                if (data.pointColor.hasOwnProperty(v.userData.gene)) {
+                    const color = data.pointColor[v.userData.gene];
+                    (v as THREE.Line).material = new THREE.LineBasicMaterial( { color: color });
+                } else {
+                    (v as THREE.Line).material = new THREE.LineBasicMaterial( { color: 0xDDDDDD });
+                }
+            });
+            this.onRequestRender.next();
+        }
     }
 
     enable(truthy: boolean) {
@@ -107,17 +131,27 @@ export class ChromosomeGraph implements ChartObjectInterface {
             const geometry = new THREE.Geometry();
             geometry.vertices.push( new THREE.Vector3(gene.sPos.x, gene.sPos.y, 0) );
             geometry.vertices.push( new THREE.Vector3(gene.ePos.x, gene.ePos.y, 0) );
-            const geneLine = new THREE.Line( geometry, this.lineMaterial );
 
-            // this.meshes.push(mesh);
+            const geo = new THREE.BoxGeometry( 1, 1, 1);
+            const mat = new THREE.MeshBasicMaterial( {color: 0x039BE5 } );
+            const mesh = new THREE.Mesh(geo, mat);
+            mesh.userData = gene;
+            mesh.position.x = gene.sPos.x;
+            mesh.position.y = gene.sPos.y;
+
+            const geneLine = new THREE.Line( geometry, this.lineMaterial );
+            geneLine.userData = gene;
+            this.meshes.push(mesh);
+            this.geneLines.push(geneLine);
             this.group.add( geneLine );
+            this.group.add( mesh );
         });
 
        links.forEach( (link, i) => {
 
             const curve = new THREE.CatmullRomCurve3( [
                 new THREE.Vector3( link.sPos.x, link.sPos.y, 0 ),
-                new THREE.Vector3( 0, 0, 100 ),
+                new THREE.Vector3( 0, 30, 100 ),
                 new THREE.Vector3( link.tPos.x, link.tPos.y, 0 ),
             ] );
 
@@ -126,8 +160,9 @@ export class ChromosomeGraph implements ChartObjectInterface {
             const geometry = new THREE.Geometry();
             geometry.vertices = curve.getPoints( 50 );
 
-            const line = new THREE.Line( geometry, this.lineMaterial );
+            const line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: 0xDDDDDD }) );
             line.userData = link;
+            this.chords.push(line);
             this.group.add( line );
        });
 
@@ -140,10 +175,24 @@ export class ChromosomeGraph implements ChartObjectInterface {
         this.meshes = [];
     }
 
+
+
     private onMouseMove(e: ChartEvent): void {
         const intersects = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
+        const overMaterial = new THREE.LineBasicMaterial( { color: 0x039BE5 }) ;
+        const outMaterial = new THREE.LineBasicMaterial( { color: 0xDDDDDD }) ;
+
         if (intersects.length > 0) {
-            console.log(intersects[0].object.userData.gene);
+
+            const gene = intersects[0].object.userData.gene;
+            this.chords.forEach( v => {
+
+                if ( (gene === v.userData.source) || (gene === v.userData.target)) {
+                    v.material = overMaterial;
+                }
+                // v.material = (gene === v.userData.source) || (gene === v.userData.target) ?
+                // overMaterial : outMaterial;
+            });
         }
     }
 

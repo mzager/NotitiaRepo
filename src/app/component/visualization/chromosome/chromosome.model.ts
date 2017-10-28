@@ -17,7 +17,7 @@ export class ChromosomeConfigModel extends GraphConfig {
 }
 
 export interface ChromosomeDataModel extends GraphData {
-    legends: Array<Legend>;
+    // legends: Array<Legend>;
     genes: any;
     links: any;
     // bands: any;

@@ -21,14 +21,16 @@ export const chromosomeCompute = (config: ChromosomeConfigModel, worker: Dedicat
 
         worker.util.getChromosomeInfo(config.chromosome).then(result => {
             const genes = result.map( gene => gene.gene );
+            config.markerFilter = genes;
+            console.log('This is an odd place to updating the marker filter, this needs to be moved to the form');
             const geneCount = result.length;
             const geneSize = 1;
-            const vizCircumference = (geneCount * geneSize) + 20;   // 20 is 5 * 4 = (telomere, centromere);
+            const vizCircumference = (geneCount * geneSize);
             const vizRadius = vizCircumference / (Math.PI * 2);
             const vizSlice = 2 * Math.PI / vizCircumference;
             const processedGenes = result.map( (v, i) => {
                 const angle = i * vizSlice;
-                const r = Math.random() * 100;
+                const r = Math.random() * 10;
                 return Object.assign(v, {
                     sPos: { x: vizRadius * Math.cos(angle), y: vizRadius * Math.sin(angle) },
                     ePos: { x: (vizRadius + r) * Math.cos(angle), y: (vizRadius + r) * Math.sin(angle) }
@@ -50,7 +52,11 @@ export const chromosomeCompute = (config: ChromosomeConfigModel, worker: Dedicat
                     config: config,
                     data: {
                         genes: processedGenes,
-                        links: processedLinks
+                        links: processedLinks,
+                        legendItems: [],
+                        patientIds: [],
+                        sampleIds: [],
+                        markerIds: genes
                     }
                 });
 

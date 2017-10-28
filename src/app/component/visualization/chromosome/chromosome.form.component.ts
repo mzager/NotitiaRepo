@@ -32,16 +32,6 @@ import * as _ from 'lodash';
     </label>
   </div>
   <div class="form-group">
-    <label class="center-block"><span class="form-label">Gene Shape</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="sizeOptions"
-          formControlName="pointShape">
-          <option *ngFor="let option of shapeOptions" [ngValue]="option">{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class="form-group">
     <label class="center-block"><span class="form-label">Chromosomes</span>
        <select class="browser-default" materialize="material_select"
           [compareWith]="byKey"
@@ -86,7 +76,6 @@ export class ChromosomeFormComponent {
   }
 
   constructor(private fb: FormBuilder) {
-
 
     // Init Form
     this.form = this.fb.group({
