@@ -72,9 +72,11 @@ export class DatasetService {
 
         // Gistic
         const gistic = res.gistic.markers.map((marker, m) => {
+          const data = res.gistic.samples.map((sample, s) => res.gistic.data[s][m]);
           return {
             m: marker,
-            d: res.gistic.samples.map((sample, s) => res.gistic.data[s][m])
+            d: data,
+            mean: Math.round(data.reduce( (p, c) => { p += c; return p; }, 0) / data.length)
           };
         });
 
@@ -83,9 +85,11 @@ export class DatasetService {
 
         // Rna
         const rna = res.rna.markers.map((marker, m) => {
+          const data = res.rna.samples.map((sample, s) => res.rna.data[s][m]);
           return {
             m: marker,
-            d: res.rna.samples.map((sample, s) => res.rna.data[s][m])
+            d: data,
+            mean: Math.round(data.reduce( (p, c) => { p += c; return p; }, 0) / data.length)
           };
         });
 
@@ -111,8 +115,9 @@ export class DatasetService {
 
         // Gistic Thresholded
         const gisticT = res.gismut.markers.map((marker, m) => {
-          return {
+          const rv = {
             m: marker,
+            mean: 0,
             d: res.gismut.samples.map((sample, s) => {
               const score = res.gismut.data[s][m];
               // tslint:disable-next-line:no-bitwise
@@ -128,12 +133,15 @@ export class DatasetService {
                         0;
             })
           };
+          rv.mean = Math.round(rv.d.reduce( (p, c) => { p += c; return p; }, 0) / rv.d.length);
+          return rv;
         });
 
         // Mutation (TODO: Remove Nested Lookup In Loop res.gismut.data[s][m])
         const mut = res.gismut.markers.map((marker, m) => {
-          return {
+          const rv = {
             m: marker,
+            mean: 0,
             d: res.gismut.samples.map((sample, s) => {
               let score = res.gismut.data[s][m];
               // tslint:disable-next-line:no-bitwise
@@ -149,6 +157,8 @@ export class DatasetService {
               return score;
             })
           };
+          rv.mean = Math.round(rv.d.reduce( (p, c) => { p += c; return p; }, 0) / rv.d.length);
+          return rv;
         });
 
         const gismutMap = res.gismut.samples.map((s, i) => ({ s: s, i: i }));

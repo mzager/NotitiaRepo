@@ -77,13 +77,13 @@ export class DataEffect {
             const workspaceConfig = new WorkspaceConfigModel();
             workspaceConfig.layout = WorkspaceLayoutEnum.HORIZONTAL;
 
-            const graphAConfig = new GenomeConfigModel();
-            graphAConfig.graph = GraphEnum.GRAPH_A;
-            graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
-
-            const graphBConfig = new ChromosomeConfigModel();
+            const graphBConfig = new GenomeConfigModel();
             graphBConfig.graph = GraphEnum.GRAPH_B;
             graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+
+            const graphAConfig = new ChromosomeConfigModel();
+            graphAConfig.graph = GraphEnum.GRAPH_A;
+            graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
 
             // const graphAConfig = new PcaIncrementalConfigModel();
@@ -102,9 +102,9 @@ export class DataEffect {
                 new WorkspaceConfigAction( workspaceConfig ),
                 // new compute.LinkedGeneAction( { config: graphAConfig } ),
                 // new compute.PcaIncrementalAction( { config: graphAConfig } ),
-                new compute.GenomeAction( { config: graphAConfig }),
+                new compute.GenomeAction( { config: graphBConfig }),
                 // new compute.ChromosomeAction( { config: graphAConfig } ),
-                new compute.ChromosomeAction( { config: graphBConfig } )
+                new compute.ChromosomeAction( { config: graphAConfig } )
                 //new compute.GenomeAction( { config: graphBConfig })
                 // , new compute.PcaIncrementalAction( { config: graphBConfig } )
             ];

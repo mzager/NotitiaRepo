@@ -76,10 +76,10 @@ export class DataService {
             const bandcoords = this.http.get('assets/data/bandcoords.json').map(res => res.json());
             const genemap    = this.http.get('assets/data/genemap.json').map(res => res.json());
             const genelinks  = this.http.get('assets/data/genelinks.json').map(res => res.json());
-            
-
 
             Observable.zip( genecoords, bandcoords, genemap, genelinks ).subscribe( result => {
+
+              debugger;
               const geneLinksData = result[3].map( d => ({ source: d[0], target: d[1], tension: d[2]}));
               DataService.db.table('genecoords').bulkAdd(result[0]);
               DataService.db.table('bandcoords').bulkAdd(result[1]);
