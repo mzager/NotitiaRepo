@@ -1,3 +1,5 @@
+import { ParallelCoordsConfigModel } from './../component/visualization/parallelcoords/parallelcoords.model';
+import { BoxWhiskersConfigModel } from './../component/visualization/boxwhiskers/boxwhiskers.model';
 import { Subject } from 'rxjs/Subject';
 import { GenomeConfigModel } from './../component/visualization/genome/genome.model';
 import { LinkedGeneConfigModel } from './../component/visualization/linkedgenes/linkedgenes.model';
@@ -60,6 +62,8 @@ export class ComputeService {
     private tsne$ = new Subject<any>();
     private edges$ = new Subject<any>();
     private heatmap$ = new Subject<any>();
+    private boxWhiskers$ = new Subject<any>();
+    private parallelCoords$ = new Subject<any>();
     private linkedGene$ = new Subject<any>();
     private dataload$ = new Subject<any>();
 
@@ -95,6 +99,14 @@ export class ComputeService {
 
     heatmap(config: HeatmapConfigModel): Observable<any> {
         return this.execute(config, this.heatmap$);
+    }
+
+    boxWhiskers(config: BoxWhiskersConfigModel): Observable<any> {
+        return this.execute(config, this.boxWhiskers$);
+    }
+
+    parallelCoords(config: ParallelCoordsConfigModel): Observable<any> {
+        return this.execute(config, this.parallelCoords$);
     }
 
     linkedGene(config: LinkedGeneConfigModel): Observable<any> {

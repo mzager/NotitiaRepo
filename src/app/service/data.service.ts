@@ -78,8 +78,9 @@ export class DataService {
             const genelinks  = this.http.get('assets/data/genelinks.json').map(res => res.json());
 
             Observable.zip( genecoords, bandcoords, genemap, genelinks ).subscribe( result => {
+              const hugoLookup = result[2];
+              const validHugoGenes = new Set(hugoLookup.map( gene => gene.hugo.toLowerCase() ));
 
-              debugger;
               const geneLinksData = result[3].map( d => ({ source: d[0], target: d[1], tension: d[2]}));
               DataService.db.table('genecoords').bulkAdd(result[0]);
               DataService.db.table('bandcoords').bulkAdd(result[1]);

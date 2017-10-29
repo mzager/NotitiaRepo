@@ -1,3 +1,4 @@
+import { boxwhiskersCompute } from './../component/visualization/boxwhiskers/boxwhiskers.compute';
 import { GraphData } from './../model/graph-data.model';
 import { EdgeConfigModel, EdgeDataModel } from './../component/visualization/edges/edges.model';
 import { edgesCompute } from './../component/visualization/edges/edges.compute';
@@ -19,6 +20,8 @@ import {
   TsneCompleteAction,
   EdgesCompleteAction,
   HeatmapCompleteAction,
+  ParallelCoordsCompleteAction,
+  BoxWhiskersCompleteAction,
   LinkedGeneCompleteAction,
   MdsCompleteAction,
   FaCompleteAction,
@@ -189,6 +192,28 @@ export class ComputeEffect {
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new HeatmapCompleteAction({ config: result.config, data: result.data }));
+        });
+    });
+
+  @Effect() loadBoxWhiskers: Observable<any> = this.actions$
+    .ofType(compute.COMPUTE_BOX_WHISKERS)
+    .map(toPayload)
+    .switchMap(payload => {
+      return this.computeService.boxWhiskers(payload.config)
+        .switchMap(result => {
+          return Observable.of((result === null) ? new NullDataAction() :
+            new BoxWhiskersCompleteAction({ config: result.config, data: result.data }));
+        });
+    });
+
+  @Effect() loadParallelCoords: Observable<any> = this.actions$
+    .ofType(compute.COMPUTE_PARALLEL_COORDS)
+    .map(toPayload)
+    .switchMap(payload => {
+      return this.computeService.boxWhiskers(payload.config)
+        .switchMap(result => {
+          return Observable.of((result === null) ? new NullDataAction() :
+            new ParallelCoordsCompleteAction({ config: result.config, data: result.data }));
         });
     });
 

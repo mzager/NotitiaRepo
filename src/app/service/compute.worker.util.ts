@@ -581,6 +581,7 @@ debugger;
                                     legend.values = [0xFF0000, 0xFF0000];
 
                                     // Resolve
+                                    debugger;
                                     resolve({ map: colorMap, legend: legend });
 
                                 });
@@ -643,60 +644,6 @@ debugger;
                 }
             });
         });
-
-
-        /*************************************** */
-        // return new Promise((resolve, reject) => {
-        //     this.openDatabaseData().then(v => {
-
-        //         const fieldKey = field.key;
-
-        //         if (field.type === 'STRING') {
-        //             const cm = field.values.reduce((p, c, i) => {
-        //                 p[c] = this.sizes[i];
-        //                 return p;
-        //             }, {});
-        //             this.dbData.table(field.tbl).toArray().then(row => {
-
-        //                 const sizeMap = row.reduce((p, c) => {
-        //                     p[c.p] = cm[c[fieldKey]];
-        //                     return p;
-        //                 }, {});
-
-        //                 const legend: Legend = new Legend();
-        //                 legend.name = field.label;
-        //                 legend.type = 'SIZE';
-        //                 legend.display = 'DISCRETE';
-        //                 legend.labels = Object.keys(cm);
-        //                 legend.values = Object.keys(cm).map(key => cm[key]);
-
-        //                 resolve({ map: sizeMap, legend: legend });
-        //             }
-        //             );
-        //         } else if (field.type === 'NUMBER') {
-        //             const scale = scaleLinear()
-        //                 .domain([field.values.min, field.values.max])
-        //                 .range([1, 3]);
-
-        //             this.dbData.table(field.tbl).toArray().then(row => {
-        //                 const sizeMap = row.reduce(function (p, c) {
-        //                     p[c.p] = Math.round(scale(c[fieldKey]));
-        //                     return p;
-        //                 }, {});
-
-        //                 // Build Legend
-        //                 const legend: Legend = new Legend();
-        //                 legend.name = field.label;
-        //                 legend.type = 'SIZE';
-        //                 legend.display = 'CONTINUOUS';
-        //                 legend.labels = [field.values.min, field.values.max].map(val => val.toString());
-        //                 legend.values = [1, 3];
-
-        //                 resolve({ map: sizeMap, legend: legend });
-        //             });
-        //         }
-        //     });
-        // });
     }
 
     getIntersectMap(markers: Array<string>, samples: Array<string>, field: DataField): Promise<any> {
