@@ -7,8 +7,8 @@ import { DataField, DataFieldFactory } from 'app/model/data-field.model';
 export class ParallelCoordsConfigModel extends GraphConfig {
     constructor() {
         super();
-        this.entity = EntityTypeEnum.GENE;
-        this.visualization = VisualizationEnum.CHROMOSOME;
+        this.entity = EntityTypeEnum.MIXED;
+        this.visualization = VisualizationEnum.PARALLEL_COORDS;
     }
 
     displayType: DimensionEnum = DimensionEnum.THREE_D;
