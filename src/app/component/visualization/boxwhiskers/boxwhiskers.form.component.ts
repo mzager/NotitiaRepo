@@ -76,7 +76,7 @@ export class BoxWhiskersFormComponent {
   }
 
   constructor(private fb: FormBuilder) {
-
+alert("HI");
     // Init Form
     this.form = this.fb.group({
       dirtyFlag: [0],

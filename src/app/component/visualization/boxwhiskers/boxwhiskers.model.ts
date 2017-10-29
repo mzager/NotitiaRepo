@@ -8,21 +8,13 @@ export class BoxWhiskersConfigModel extends GraphConfig {
     constructor() {
         super();
         this.entity = EntityTypeEnum.GENE;
-        this.visualization = VisualizationEnum.CHROMOSOME;
+        this.visualization = VisualizationEnum.BOX_WHISKERS;
     }
 
     displayType: DimensionEnum = DimensionEnum.THREE_D;
-    domain: Array<number> = [-500, 500];
-    chromosome = '4';
 }
 
 export interface BoxWhiskersDataModel extends GraphData {
-    // legends: Array<Legend>;
-    genes: any;
-    links: any;
-    // bands: any;
-    // chromo: Array<{'chr': string, 'P': number, 'C': number, 'Q': number}>;
-    // showAllGenes: Boolean;
-    // showBands: Boolean;
-    // allowRotation: Boolean;
+    min: number;
+    max: number;
 }

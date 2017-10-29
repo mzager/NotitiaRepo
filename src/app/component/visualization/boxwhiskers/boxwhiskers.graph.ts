@@ -64,7 +64,7 @@ export class BoxWhisterksGraph implements ChartObjectInterface {
         this.meshes = [];
         this.geneLines = [];
         this.chords = [];
-        this.view.controls.enableRotate = true;
+        this.view.controls.enableRotate = false;
         this.group = new THREE.Group();
         this.view.scene.add(this.group);
         this.lineMaterial = new THREE.LineBasicMaterial( { color: 0x039BE5 });
@@ -79,6 +79,7 @@ export class BoxWhisterksGraph implements ChartObjectInterface {
     update(config: GraphConfig, data: any) {
         this.config = config as BoxWhiskersConfigModel;
         this.data = data;
+
         if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {
             this.removeObjects();
             this.addObjects();
@@ -126,79 +127,66 @@ export class BoxWhisterksGraph implements ChartObjectInterface {
 
 
     addObjects() {
-        const genes = this.data.genes;
-        const links = this.data.links;
+        const w = (this.view.viewport.width * 0.5) - 100;
+        
+        const scale = scaleLinear();
+        scale.domain([this.data.min, this.data.max]);
+        scale.range([0, w]);
 
-        genes.forEach(gene => {
-            // const mesh = ChartFactory.meshAllocate(0xC0DDC0, ShapeEnum.SQUARE, .5, new THREE.Vector3(gene.x, gene.y, 0), gene);
-            // (mesh.geometry as Rect)
+        this.data.result.forEach( (datum, i) => {
+            const y = i * 7;
+            const q1 = scale(datum.quartiles[0]);
+            const q2 = scale(datum.quartiles[2]);
+            const m  = scale(datum.quartiles[1]);
+            const boxGeometry = new THREE.PlaneGeometry( q2 - q1, 5);
+            const boxMaterial = new THREE.MeshBasicMaterial({ color: 0x039BE5 });
+            const box = new THREE.Mesh(boxGeometry, boxMaterial);
+            box.position.setX( m  );
+            box.position.setY( y );
+            this.group.add(box);
 
-            const geometry = new THREE.Geometry();
-            geometry.vertices.push( new THREE.Vector3(gene.sPos.x, gene.sPos.y, 0) );
-            geometry.vertices.push( new THREE.Vector3(gene.ePos.x, gene.ePos.y, 0) );
+            const lineMaterialBlue = new THREE.LineBasicMaterial({ color: 0x039BE5 });
+            const lineMaterialWhite = new THREE.LineBasicMaterial({ color: 0xFFFFFF });
+            let lineGeometry;
+            let line;
 
-            const geo = new THREE.BoxGeometry( 1, 1, 1);
-            const mat = new THREE.MeshBasicMaterial( {color: 0x039BE5 } );
-            const mesh = new THREE.Mesh(geo, mat);
-            mesh.userData = gene;
-            mesh.position.x = gene.sPos.x;
-            mesh.position.y = gene.sPos.y;
+            // median
+            lineGeometry = new THREE.Geometry();
+            lineGeometry.vertices.push(
+                new THREE.Vector3( scale(datum.median), y - 3, 0 ),
+                new THREE.Vector3( scale(datum.median), y + 3, 0 )
+            );
+            line = new THREE.Line( lineGeometry, lineMaterialWhite );
+            this.group.add(line);
 
-            const geneLine = new THREE.Line( geometry, this.lineMaterial );
-            geneLine.userData = gene;
-            this.meshes.push(mesh);
-            this.geneLines.push(geneLine);
-            this.group.add( geneLine );
-            this.group.add( mesh );
+            // min
+            lineGeometry = new THREE.Geometry();
+            lineGeometry.vertices.push(
+                new THREE.Vector3( scale(datum.min), y - 2, 0 ),
+                new THREE.Vector3( scale(datum.min), y + 2, 0 )
+            );
+            line = new THREE.Line( lineGeometry, lineMaterialBlue );
+            this.group.add(line);
+
+            // max
+            lineGeometry = new THREE.Geometry();
+            lineGeometry.vertices.push(
+                new THREE.Vector3( scale(datum.max), y - 2, 0 ),
+                new THREE.Vector3( scale(datum.max), y + 2, 0 )
+            );
+            line = new THREE.Line( lineGeometry, lineMaterialBlue );
+            this.group.add(line);
+
+
+            lineGeometry = new THREE.Geometry();
+            lineGeometry.vertices.push(
+                new THREE.Vector3( scale(datum.min), y, 0 ),
+                new THREE.Vector3( scale(datum.max), y, 0 )
+            );
+            line = new THREE.Line( lineGeometry, lineMaterialBlue );
+            this.group.add(line);
+
         });
-
-       links.forEach( (link, i) => {
-
-            // Adjust Height According To Size - So the tall ones project out both from the ring and also from the center
-            // const curve = new THREE.CatmullRomCurve3( [
-            //     new THREE.Vector3( link.sPos.x, link.sPos.y, 0 ),
-            //     new THREE.Vector3( 0, 30, 100 ),
-            //     new THREE.Vector3( link.tPos.x, link.tPos.y, 0 ),
-            // ] );
-            // curve.type = 'catmullrom';
-            //curve.tension = 0.9; //link.tension; // * 0.1; //0.9;
-
-            // const curve = new THREE.CubicBezierCurve3(
-            //     new THREE.Vector3( link.sPos.x, link.sPos.y, 0 ),
-            //     new THREE.Vector3( 0, 0, 0 ),
-            //     new THREE.Vector3( 0, 0, 0 ),
-            //     new THREE.Vector3( link.tPos.x, link.tPos.y, 0 )
-            // );
-
-            // const curve = new THREE.LineCurve3(
-            //     new THREE.Vector3( link.sPos.x, link.sPos.y, 0 ),
-            //     new THREE.Vector3( link.tPos.x, link.tPos.y, 0 )
-            // );
-
-            let curve = new THREE.QuadraticBezierCurve3(
-                new THREE.Vector3( link.sPos.x, link.sPos.y, 0 ),
-                new THREE.Vector3( 0, 0, 100 ),
-                new THREE.Vector3( link.tPos.x, link.tPos.y, 0 ),
-            );
-
-            const geometry = new THREE.Geometry();
-            link.overGeometry = geometry.vertices = curve.getPoints( 50 );
-
-            curve = new THREE.QuadraticBezierCurve3(
-                new THREE.Vector3( link.sPos.x, link.sPos.y, 0 ),
-                new THREE.Vector3( 0, 0, 0 ),
-                new THREE.Vector3( link.tPos.x, link.tPos.y, 0 ),
-            );
-            link.outGeometry = geometry.vertices = curve.getPoints( 50 );
-
-
-            const line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: 0xDDDDDD }) );
-            line.userData = link;
-            
-            this.chords.push(line);
-            this.group.add( line );
-       });
-
     }
 
     removeObjects() {
@@ -211,25 +199,7 @@ export class BoxWhisterksGraph implements ChartObjectInterface {
 
 
     private onMouseMove(e: ChartEvent): void {
-        const intersects = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
-        if (intersects.length > 0) {
-
-            const gene = intersects[0].object.userData.gene;
-            this.chords.forEach( v => {
-                if ( (gene === v.userData.source) || (gene === v.userData.target) ) {
-                    v.material = this.overMaterial;
-                    (v.geometry as THREE.Geometry).vertices = v.userData.overGeometry;
-                    (v.geometry as THREE.Geometry).verticesNeedUpdate = true;
-                }else {
-                    v.material = this.outMaterial;
-                    (v.geometry as THREE.Geometry).vertices = v.userData.outGeometry;
-                    (v.geometry as THREE.Geometry).verticesNeedUpdate = true;
-                    
-                }
-            });
-            this.onRequestRender.emit();
-            console.log(gene);
-        }
+     
     }
 
     private onMouseUp(e: ChartEvent): void {
@@ -238,58 +208,6 @@ export class BoxWhisterksGraph implements ChartObjectInterface {
 
     private onMouseDown(e: ChartEvent): void {
 
-    }
-
-    showLabels() {
-        // const meshes = ChartUtil.getVisibleMeshes(this.view).map<{ label: string, x: number, y: number }>(mesh => {
-        //     const coord = ChartUtil.projectToScreen(this.config.graph, mesh, this.view.camera,
-        //         this.view.viewport.width, this.view.viewport.height);
-        //     return { label: mesh.userData.tip, x: coord.x + 40, y: coord.y - 10 };
-        // });
-        // const html = meshes.map(data => {
-        //     return '<div class="chart-label" style="font-size:12px;left:' + data.x + 'px;top:' + data.y +
-        //         'px;position:absolute;">' + data.label + '</div>';
-        // }).reduce((p, c) => p += c, '');
-        // this.labels.innerHTML = html;
-    }
-
-    hideLabels() {
-        // this.labels.innerHTML = '';
-    }
-
-    // // Events
-    private molabels(e: ChartEvent): void {
-
-        // let hits;
-        // const geneHit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
-        // if (geneHit.length > 0) {
-        //     const xPos = e.mouse.xs + 10;
-        //     const yPos = e.mouse.ys;
-        //     this.labels.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#FFF;padding:3px;border-radius:' +
-        //         '3px;z-index:9999;position:absolute;left:' +
-        //         xPos + 'px;top:' +
-        //         yPos + 'px;">' +
-        //         geneHit[0].object.userData.tip + '</div>';
-        //     return;
-        // }
-
-        // const keys: Array<string> = Object.keys(this.arms);
-        // for (let i = 0; i < keys.length; i++) {
-        //     const kids = this.arms[keys[i]].children;
-        //     hits = ChartUtil.getIntersects(this.view, e.mouse, kids);
-        //     if (hits.length > 0) {
-        //         const xPos = e.mouse.xs + 10;
-        //         const yPos = e.mouse.ys;
-        //         this.labels.innerHTML = '<div style="background:rgba(255,255,255,.8);padding:3px;border-radius:3px;' +
-        //             'z-index:9999;position:absolute;left:' +
-        //             xPos + 'px;top:' +
-        //             yPos + 'px;">' +
-        //             hits[0].object.userData.tip + '</div>';
-        //         break;
-        //     } else {
-        //         this.labels.innerHTML = '';
-        //     }
-        // }
     }
 
     constructor() { }
