@@ -1,3 +1,4 @@
+import { BoxWhiskersConfigModel, BoxWhiskersDataModel } from './boxwhiskers.model';
 import { DirtyEnum } from 'app/model/enum.model';
 // import { Tween, Easing } from 'es6-tween';
 import { Colors, EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
@@ -12,14 +13,13 @@ import { FontFactory } from './../../../service/font.factory';
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { ShapeEnum, ColorEnum, GraphEnum, GenomicEnum } from 'app/model/enum.model';
 import { ChartFactory } from './../../workspace/chart/chart.factory';
-import { ChromosomeConfigModel, ChromosomeDataModel } from './chromosome.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import * as scale from 'd3-scale';
 import * as _ from 'lodash';
 import * as THREE from 'three';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
 
-export class ChromosomeGraph implements ChartObjectInterface {
+export class BoxWhisterksGraph implements ChartObjectInterface {
 
 
     private overMaterial = new THREE.LineBasicMaterial( { color: 0x039BE5 }) ;
@@ -35,8 +35,8 @@ export class ChromosomeGraph implements ChartObjectInterface {
     private labels: HTMLElement;
     private events: ChartEvents;
     private view: VisualizationView;
-    private data: ChromosomeDataModel;
-    private config: ChromosomeConfigModel;
+    private data: BoxWhiskersDataModel;
+    private config: BoxWhiskersConfigModel;
     private isEnabled: boolean;
 
     // Objects
@@ -77,7 +77,7 @@ export class ChromosomeGraph implements ChartObjectInterface {
     }
 
     update(config: GraphConfig, data: any) {
-        this.config = config as ChromosomeConfigModel;
+        this.config = config as BoxWhiskersConfigModel;
         this.data = data;
         if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {
             this.removeObjects();

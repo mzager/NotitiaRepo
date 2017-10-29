@@ -1,3 +1,5 @@
+import { BoxWhiskersConfigModel } from './../visualization/boxwhiskers/boxwhiskers.model';
+import { ParallelCoordsConfigModel } from './../visualization/parallelcoords/parallelcoords.model';
 import { GenomeConfigModel } from './../visualization/genome/genome.model';
 import { LinkedGeneConfigModel } from './../visualization/linkedgenes/linkedgenes.model';
 import * as compute from 'app/action/compute.action';
@@ -200,6 +202,12 @@ export class WorkspaceComponent {
         break;
       case enums.VisualizationEnum.HEATMAP:
         this.store.dispatch( new compute.HeatmapAction( { config: value as HeatmapConfigModel} ));
+        break;
+      case enums.VisualizationEnum.PARALLEL_COORDS:
+        this.store.dispatch( new compute.ParallelCoordsAction( { config: value as ParallelCoordsConfigModel} ));
+        break;
+      case enums.VisualizationEnum.BOX_WHISKERS:
+        this.store.dispatch( new compute.BoxWhiskersAction( { config: value as BoxWhiskersConfigModel} ));
         break;
       case enums.VisualizationEnum.LINKED_GENE:
         this.store.dispatch( new compute.LinkedGeneAction( { config: value as LinkedGeneConfigModel} ));

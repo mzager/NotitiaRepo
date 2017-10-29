@@ -1,3 +1,5 @@
+import { BoxWhisterksGraph } from './../../visualization/boxwhiskers/boxwhiskers.graph';
+import { ParallelCoordsGraph } from './../../visualization/parallelcoords/parallelcoords.graph';
 import { GenomeGraph } from './../../visualization/genome/genome.graph';
 import * as TWEEN from 'tween.js';
 import { LinkedGeneGraph } from './../../visualization/linkedgenes/linkedgenes.graph';
@@ -315,6 +317,8 @@ export class ChartScene {
             case VisualizationEnum.MDS: return new MdsGraph();
             case VisualizationEnum.FA: return new FaGraph();
             case VisualizationEnum.LINKED_GENE: return new LinkedGeneGraph();
+            case VisualizationEnum.PARALLEL_COORDS: return new ParallelCoordsGraph();
+            case VisualizationEnum.BOX_WHISKERS: return new BoxWhisterksGraph();
             // case VisualizationEnum.KMEANS: return new KmeansGraph();
             // case VisualizationEnum.KMEDIAN: return new KmedianGraph();
             // case VisualizationEnum.KMEDOIDS: return new KmedoidsGraph();

@@ -6,7 +6,7 @@ import { DataCollection } from './../model/data-collection.model';
 import 'rxjs/add/operator/map';
 import { Injectable } from '@angular/core';
 import { HttpClient } from './http.client';
-
+import * as jstat from 'jstat';
 import Dexie from 'dexie';
 
 
@@ -76,7 +76,12 @@ export class DatasetService {
           return {
             m: marker,
             d: data,
-            mean: Math.round(data.reduce( (p, c) => { p += c; return p; }, 0) / data.length)
+            mean: jstat.mean(data),
+            median: jstat.median(data),
+            mode: jstat.mode(data),
+            min: jstat.min(data),
+            max: jstat.max(data),
+            quartiles: jstat.quartiles(data),
           };
         });
 
@@ -89,7 +94,12 @@ export class DatasetService {
           return {
             m: marker,
             d: data,
-            mean: Math.round(data.reduce( (p, c) => { p += c; return p; }, 0) / data.length)
+            mean: jstat.mean(data),
+            median: jstat.median(data),
+            mode: jstat.mode(data),
+            min: jstat.min(data),
+            max: jstat.max(data),
+            quartiles: jstat.quartiles(data),
           };
         });
 
@@ -118,6 +128,11 @@ export class DatasetService {
           const rv = {
             m: marker,
             mean: 0,
+            median: 0,
+            mode: 0,
+            min: 0,
+            max: 0,
+            quartiles: [],
             d: res.gismut.samples.map((sample, s) => {
               const score = res.gismut.data[s][m];
               // tslint:disable-next-line:no-bitwise
@@ -133,7 +148,12 @@ export class DatasetService {
                         0;
             })
           };
-          rv.mean = Math.round(rv.d.reduce( (p, c) => { p += c; return p; }, 0) / rv.d.length);
+          rv.mean = jstat.mean(rv.d);
+          rv.median = jstat.median(rv.d);
+          rv.mode = jstat.mode(rv.d);
+          rv.min = jstat.min(rv.d);
+          rv.max = jstat.max(rv.d);
+          rv.quartiles = jstat.quartiles(rv.d);
           return rv;
         });
 
@@ -142,6 +162,11 @@ export class DatasetService {
           const rv = {
             m: marker,
             mean: 0,
+            median: 0,
+            mode: 0,
+            min: 0,
+            max: 0,
+            quartiles: [],
             d: res.gismut.samples.map((sample, s) => {
               let score = res.gismut.data[s][m];
               // tslint:disable-next-line:no-bitwise
@@ -157,7 +182,12 @@ export class DatasetService {
               return score;
             })
           };
-          rv.mean = Math.round(rv.d.reduce( (p, c) => { p += c; return p; }, 0) / rv.d.length);
+          rv.mean = jstat.mean(rv.d);
+          rv.median = jstat.median(rv.d);
+          rv.mode = jstat.mode(rv.d);
+          rv.min = jstat.min(rv.d);
+          rv.max = jstat.max(rv.d);
+          rv.quartiles = jstat.quartiles(rv.d);
           return rv;
         });
 
@@ -228,6 +258,5 @@ export class DatasetService {
       });
   }
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) { }
 }

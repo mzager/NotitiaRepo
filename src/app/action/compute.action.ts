@@ -1,3 +1,5 @@
+import { BoxWhiskersDataModel, BoxWhiskersConfigModel } from './../component/visualization/boxwhiskers/boxwhiskers.model';
+import { ParallelCoordsConfigModel, ParallelCoordsDataModel } from './../component/visualization/parallelcoords/parallelcoords.model';
 import { GenomeConfigModel, GenomeDataModel } from './../component/visualization/genome/genome.model';
 import { LinkedGeneConfigModel, LinkedGeneDataModel } from './../component/visualization/linkedgenes/linkedgenes.model';
 import { GraphData } from './../model/graph-data.model';
@@ -77,6 +79,10 @@ export const COMPUTE_HEATMAP = '[Compute] Heatmap';
 export const COMPUTE_HEATMAP_COMPLETE = '[Compute] Heatmap Complete';
 export const COMPUTE_HISTOGRAM = '[Compute] Histogram';
 export const COMPUTE_HISTOGRAM_COMPLETE = '[Compute] Histogram Complete';
+export const COMPUTE_PARALLEL_COORDS = '[Compute] Parallel Coords';
+export const COMPUTE_PARALLEL_COORDS_COMPLETE = '[Compute] Parallel Coords Complete';
+export const COMPUTE_BOX_WHISKERS = '[Compute] Box Whiskers';
+export const COMPUTE_BOX_WHISKERS_COMPLETE = '[Compute] Box Whiskers Complete';
 export const COMPUTE_TIMELINES = '[Compute] Timelines';
 export const COMPUTE_TIMELINES_COMPLETE = '[Compute] Timelines Complete';
 export const COMPUTE_NMF = '[Compute] NMF';
@@ -337,6 +343,22 @@ export class HeatmapCompleteAction implements Action {
     readonly type: string = COMPUTE_HEATMAP_COMPLETE;
     constructor(public payload: {config: HeatmapConfigModel, data: HeatmapDataModel} ) { }
 }
+export class ParallelCoordsAction implements Action {
+    readonly type: string = COMPUTE_PARALLEL_COORDS;
+    constructor(public payload: {config: ParallelCoordsConfigModel} ) { }
+}
+export class ParallelCoordsCompleteAction implements Action {
+    readonly type: string = COMPUTE_PARALLEL_COORDS_COMPLETE;
+    constructor(public payload: {config: ParallelCoordsConfigModel, data: ParallelCoordsDataModel} ) { }
+}
+export class BoxWhiskersAction implements Action {
+    readonly type: string = COMPUTE_BOX_WHISKERS;
+    constructor(public payload: {config: BoxWhiskersConfigModel} ) { }
+}
+export class BoxWhiskersCompleteAction implements Action {
+    readonly type: string = COMPUTE_BOX_WHISKERS_COMPLETE;
+    constructor(public payload: {config: BoxWhiskersConfigModel, data: BoxWhiskersDataModel} ) { }
+}
 export class HistogramAction implements Action {
     readonly type: string = COMPUTE_HISTOGRAM;
     constructor(public payload: {config: HistogramConfigModel} ) { }
@@ -467,6 +489,8 @@ export type Actions =
    TsneAction | TsneCompleteAction |
    SurvivalAction | SurvivalCompleteAction |
    HeatmapAction | HeatmapCompleteAction |
+   BoxWhiskersAction | BoxWhiskersCompleteAction |
+   ParallelCoordsAction | ParallelCoordsCompleteAction |
    HistogramAction | HistogramCompleteAction |
    TimelinesAction | TimelinesCompleteAction |
    PathwaysAction | PathwaysCompleteAction |
