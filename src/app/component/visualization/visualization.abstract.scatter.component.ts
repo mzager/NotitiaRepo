@@ -28,6 +28,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.lines = [];
         this.controls = new DragSelectionControl();
         this.controls.create(events, view, this.meshes, this.onRequestRender, this.onSelect);
+        this.view.controls.enableRotate = false;
         return this;
     }
 
