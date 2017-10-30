@@ -90,7 +90,10 @@ export class ChartScene {
         // Center Line
         try {
             if (this.workspace.layout !== WorkspaceLayoutEnum.SINGLE) {
-                view.scene.add(ChartFactory.lineAllocate(0x039BE5, new THREE.Vector2(0, -1000), new THREE.Vector2(0, 1000) ));
+                const centerLine = (this.workspace.layout === WorkspaceLayoutEnum.HORIZONTAL) ?
+                    ChartFactory.lineAllocate(0x039BE5, new THREE.Vector2(0, -1000), new THREE.Vector2(0, 1000) ) :
+                    ChartFactory.lineAllocate(0x039BE5, new THREE.Vector2(-1000, 0), new THREE.Vector2(1000, 0) );
+                view.scene.add(centerLine);
                 this.renderer.setViewport( view.viewport.x, view.viewport.y, view.viewport.width, view.viewport.height );
                 this.renderer.render( view.scene, view.camera );
             }

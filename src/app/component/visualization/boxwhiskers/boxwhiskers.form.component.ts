@@ -11,18 +11,37 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 <form [formGroup]="form" novalidate>
+<div class="form-group">
+<label class="center-block"><span class="form-label">Color</span>
+  <select class="browser-default" materialize="material_select"
+      [compareWith]="byKey"
+      [materializeSelectOptions]="colorOptions"
+      formControlName="pointColor">
+      <option *ngFor="let option of colorOptions"
+        [ngValue]="option">{{option.label}}</option>
+  </select>
+</label>
+</div>
+<div class="form-group">
+<label class="center-block"><span class="form-label">Shape</span>
+  <select class="browser-default" materialize="material_select"
+      [compareWith]="byKey"
+      [materializeSelectOptions]="colorOptions" formControlName="pointShape">
+      <option *ngFor="let option of shapeOptions"
+        [ngValue]="option">{{option.label}}</option>
+  </select>
+</label>
+</div>
   <div class="form-group">
-    <label class="center-block"><span class="form-label">Gene Color</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="colorOptions"
-          formControlName="pointColor">
-          <option *ngFor="let option of colorOptions" [ngValue]="option">{{option.label}}</option>
-      </select>
-    </label>
-  </div>
+  <label class="center-block"><span class="form-label">Display</span>
+    <select class="browser-default" materialize="material_select"
+        formControlName="entity">
+        <option *ngFor="let option of displayOptions">{{option}}</option>
+    </select>
+  </label>
+</div>
   <div class="form-group">
-    <label class="center-block"><span class="form-label">Gene Size</span>
+    <label class="center-block"><span class="form-label">Sort</span>
        <select class="browser-default" materialize="material_select"
           [compareWith]="byKey"
           [materializeSelectOptions]="sizeOptions"
@@ -46,13 +65,16 @@ import * as _ from 'lodash';
 })
 export class BoxWhiskersFormComponent {
 
+  @Input() set tables(tables: Array<DataTable>) {
+    this.dataOptions = tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0));
+  }
+
   @Input() set fields(fields: Array<DataField>) {
-    if (fields === null) { return; }
     if (fields.length === 0) { return; }
     const defaultDataField: DataField = DataFieldFactory.getUndefined();
+
     this.colorOptions = DataFieldFactory.getColorFields(fields);
     this.shapeOptions = DataFieldFactory.getShapeFields(fields);
-    this.sizeOptions = DataFieldFactory.getSizeFields(fields);
   }
 
   @Input() set config(v: BoxWhiskersConfigModel) {
@@ -65,10 +87,8 @@ export class BoxWhiskersFormComponent {
   form: FormGroup;
   colorOptions: Array<DataField>;
   shapeOptions: Array<DataField>;
-  sizeOptions: Array<DataField>;
+  dataOptions: Array<DataTable>;
   dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D];
-  chromosomeOptions = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
-  '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', 'X', 'Y'];
 
   byKey(p1: DataField, p2: DataField) {
     if (p2 === null) { return false; }
@@ -76,7 +96,7 @@ export class BoxWhiskersFormComponent {
   }
 
   constructor(private fb: FormBuilder) {
-alert("HI");
+
     // Init Form
     this.form = this.fb.group({
       dirtyFlag: [0],

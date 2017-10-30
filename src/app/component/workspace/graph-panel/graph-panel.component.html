@@ -53,11 +53,15 @@
                     ></app-heatmap-form>
                 <app-boxwhiskers-form *ngIf="configA && configA.visualization === 4294967296"
                     (configChange)="graphPanelSetConfig($event)"
-                    ></app-boxwhiskers-form>
+                    [config]="configA" 
+                    [tables]="tables"
+                    [fields]="fields"></app-boxwhiskers-form>
                 <app-parallelcoords-form
                     *ngIf="configA && configA.visualization === 8589934592"
                     (configChange)="graphPanelSetConfig($event)"
-                    ></app-parallelcoords-form>
+                    [config]="configA" 
+                    [tables]="tables"
+                    [fields]="fields"></app-parallelcoords-form>
                 <app-linked-gene-form *ngIf="configA && configA.visualization === 1073741824"
                     (configChange)="graphPanelSetConfig($event)"
                     [config]="configA"
@@ -220,11 +224,15 @@
                 ></app-heatmap-form>
             <app-boxwhiskers-form *ngIf="configB && configB.visualization === 4294967296"
                 (configChange)="graphPanelSetConfig($event)"
-                ></app-boxwhiskers-form>
+                [config]="configB" 
+                [tables]="tables"
+                [fields]="fields"></app-boxwhiskers-form>
             <app-parallelcoords-form
                 *ngIf="configB && configB.visualization === 8589934592"
                 (configChange)="graphPanelSetConfig($event)"
-                ></app-parallelcoords-form>
+                [config]="configB" 
+                [tables]="tables"
+                [fields]="fields"></app-parallelcoords-form>
             <app-linked-gene-form *ngIf="configB && configB.visualization === 1073741824"
                 (configChange)="graphPanelSetConfig($event)"
                 [config]="configB"

@@ -46,14 +46,17 @@ import * as _ from 'lodash';
   `
 })
 export class ParallelCoordsFormComponent {
+ 
+  @Input() set tables(tables: Array<DataTable>) {
+    this.dataOptions = tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0));
+  }
 
   @Input() set fields(fields: Array<DataField>) {
-    if (fields === null) { return; }
     if (fields.length === 0) { return; }
     const defaultDataField: DataField = DataFieldFactory.getUndefined();
+
     this.colorOptions = DataFieldFactory.getColorFields(fields);
     this.shapeOptions = DataFieldFactory.getShapeFields(fields);
-    this.sizeOptions = DataFieldFactory.getSizeFields(fields);
   }
 
   @Input() set config(v: ParallelCoordsConfigModel) {
@@ -66,15 +69,14 @@ export class ParallelCoordsFormComponent {
   form: FormGroup;
   colorOptions: Array<DataField>;
   shapeOptions: Array<DataField>;
-  sizeOptions: Array<DataField>;
+  dataOptions: Array<DataTable>;
   dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D];
-  chromosomeOptions = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
-  '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', 'X', 'Y'];
 
   byKey(p1: DataField, p2: DataField) {
     if (p2 === null) { return false; }
     return p1.key === p2.key;
   }
+
 
   constructor(private fb: FormBuilder) {
 
