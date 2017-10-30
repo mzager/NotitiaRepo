@@ -13,15 +13,16 @@ export class ChromosomeConfigModel extends GraphConfig {
 
     displayType: DimensionEnum = DimensionEnum.THREE_D;
     domain: Array<number> = [-500, 500];
-    chromosome = '1';
+    chromosome = '4';
 }
 
 export interface ChromosomeDataModel extends GraphData {
-    legends: Array<Legend>;
+    // legends: Array<Legend>;
     genes: any;
-    bands: any;
-    chromo: Array<{'chr': string, 'P': number, 'C': number, 'Q': number}>;
-    showAllGenes: Boolean;
-    showBands: Boolean;
-    allowRotation: Boolean;
+    links: any;
+    // bands: any;
+    // chromo: Array<{'chr': string, 'P': number, 'C': number, 'Q': number}>;
+    // showAllGenes: Boolean;
+    // showBands: Boolean;
+    // allowRotation: Boolean;
 }

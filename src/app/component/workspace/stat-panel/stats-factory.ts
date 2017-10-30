@@ -7,13 +7,160 @@ export class StatsFactory {
         return StatsFactory._instance;
     }
 
-    public createDonutConfig(): DonutConfig  {
+    public createHistogramConfig(): HistogramConfig {
+        return new HistogramConfig();
+    }
+
+    public createHistogramVega(config: HistogramConfig): any {
+        return {
+            '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
+            'width': 400,
+            'height': 200,
+            'padding': 5,
+            'autosize': { 'type': 'fit', 'resize': true },
+
+            'signals': [
+                {
+                    'name': 'maxbins', 'value': 10,
+                    'bind': { 'input': 'select', 'options': [5, 10, 20] }
+                },
+                {
+                    'name': 'binDomain',
+                    'update': 'sequence(bins.start, bins.stop + bins.step, bins.step)'
+                },
+                {
+                    'name': 'nullGap', 'value': 10
+                },
+                {
+                    'name': 'barStep',
+                    'update': '(width - nullGap) / binDomain.length'
+                }
+            ],
+
+            'data': [
+                {
+                    'name': 'table',
+                    'url': 'data/movies.json',
+                    'transform': [
+                        {
+                            'type': 'extent', 'field': 'IMDB_Rating',
+                            'signal': 'extent'
+                        },
+                        {
+                            'type': 'bin', 'signal': 'bins',
+                            'field': 'IMDB_Rating', 'extent': { 'signal': 'extent' },
+                            'maxbins': { 'signal': 'maxbins' }
+                        }
+                    ]
+                },
+                {
+                    'name': 'counts',
+                    'source': 'table',
+                    'transform': [
+                        {
+                            'type': 'filter',
+                            'expr': 'datum[\'IMDB_Rating\'] != null'
+                        },
+                        {
+                            'type': 'aggregate',
+                            'groupby': ['bin0', 'bin1']
+                        }
+                    ]
+                },
+                {
+                    'name': 'nulls',
+                    'source': 'table',
+                    'transform': [
+                        {
+                            'type': 'filter',
+                            'expr': 'datum[\'IMDB_Rating\'] == null'
+                        },
+                        {
+                            'type': 'aggregate'
+                        }
+                    ]
+                }
+            ],
+
+            'scales': [
+                {
+                    'name': 'yscale',
+                    'type': 'linear',
+                    'range': 'height',
+                    'round': true, 'nice': true,
+                    'domain': {
+                        'fields': [
+                            { 'data': 'counts', 'field': 'count' },
+                            { 'data': 'nulls', 'field': 'count' }
+                        ]
+                    }
+                },
+                {
+                    'name': 'xscale',
+                    'type': 'bin-linear',
+                    'range': [{ 'signal': 'barStep + nullGap' }, { 'signal': 'width' }],
+                    'round': true,
+                    'domain': { 'signal': 'binDomain' }
+                },
+                {
+                    'name': 'xscale-null',
+                    'type': 'band',
+                    'range': [0, { 'signal': 'barStep' }],
+                    'round': true,
+                    'domain': [null]
+                }
+            ],
+
+            'axes': [
+                { 'orient': 'bottom', 'scale': 'xscale', 'tickCount': 10 },
+                { 'orient': 'bottom', 'scale': 'xscale-null' },
+                { 'orient': 'left', 'scale': 'yscale', 'tickCount': 5, 'offset': 5 }
+            ],
+
+            'marks': [
+                {
+                    'type': 'rect',
+                    'from': { 'data': 'counts' },
+                    'encode': {
+                        'update': {
+                            'x': { 'scale': 'xscale', 'field': 'bin0', 'offset': 1 },
+                            'x2': { 'scale': 'xscale', 'field': 'bin1' },
+                            'y': { 'scale': 'yscale', 'field': 'count' },
+                            'y2': { 'scale': 'yscale', 'value': 0 },
+                            'fill': { 'value': 'steelblue' }
+                        },
+                        'hover': {
+                            'fill': { 'value': 'firebrick' }
+                        }
+                    }
+                },
+                {
+                    'type': 'rect',
+                    'from': { 'data': 'nulls' },
+                    'encode': {
+                        'update': {
+                            'x': { 'scale': 'xscale-null', 'value': null, 'offset': 1 },
+                            'x2': { 'scale': 'xscale-null', 'band': 1 },
+                            'y': { 'scale': 'yscale', 'field': 'count' },
+                            'y2': { 'scale': 'yscale', 'value': 0 },
+                            'fill': { 'value': '#aaa' }
+                        },
+                        'hover': {
+                            'fill': { 'value': 'firebrick' }
+                        }
+                    }
+                }
+            ]
+        };
+    }
+
+    public createDonutConfig(): DonutConfig {
         return new DonutConfig();
     }
 
-    public createDonutVega( config: DonutConfig ): any {
+    public createDonutVega(config: DonutConfig): any {
 
-        const values = config.data.map( (v, i) => ( {id: (i + 1), label: v.label, field: v.value}) );
+        const values = config.data.map((v, i) => ({ id: (i + 1), label: v.label, field: v.value }));
         const vega = {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'width': config.width,
@@ -63,18 +210,17 @@ export class StatsFactory {
               ]
 
           };
-
-
-          return vega;
+        return vega;
     }
 
 
-    constructor() {}
+    private constructor() { }
 
 }
 
 export enum StatChartEnum {
-    DONUT = 1
+    DONUT = 1,
+    HISTOGRAM = 2
 }
 
 export class AbstractStatChartConfig {
@@ -88,14 +234,24 @@ export class AbstractStatChartConfig {
     constructor() {
         this.data = [];
         this.labelFn = null;
-        this.width = 200;
-        this.height = 200;
+        this.width = 300;
+        this.height = 300;
+    }
+}
+
+export class HistogramConfig extends AbstractStatChartConfig {
+
+    data: Array<{ label: string, value: number, color?: number }>;
+
+    constructor() {
+        super();
+        this.type = StatChartEnum.HISTOGRAM;
     }
 }
 
 export class DonutConfig extends AbstractStatChartConfig {
 
-    data: Array<{label: string, value: number, color?: number}>;
+    data: Array<{ label: string, value: number, color?: number }>;
 
     constructor() {
         super();

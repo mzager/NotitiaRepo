@@ -1,3 +1,4 @@
+import { DirtyEnum } from 'app/model/enum.model';
 // import { Tween, Easing } from 'es6-tween';
 import { Colors, EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
 import { OrbitControls } from 'three-orbitcontrols-ts';
@@ -17,7 +18,6 @@ import * as scale from 'd3-scale';
 import * as _ from 'lodash';
 import * as THREE from 'three';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
-import * as TWEEN from 'tween.js';
 
 export class ChromosomeGraph implements ChartObjectInterface {
 
@@ -42,6 +42,9 @@ export class ChromosomeGraph implements ChartObjectInterface {
     private selectorOrigin: { x: number, y: number, yInit: number };
     private selectorScale: any;
     private group: THREE.Group;
+    private lineMaterial;
+    private geneLines: Array<THREE.Line>;
+    private chords: Array<THREE.Line>;
 
     // Private Subscriptions
     private sMouseMove: Subscription;
@@ -54,8 +57,12 @@ export class ChromosomeGraph implements ChartObjectInterface {
         this.view = view;
         this.isEnabled = false;
         this.meshes = [];
-        this.view.controls.enableRotate = false;
+        this.geneLines = [];
+        this.chords = [];
+        this.view.controls.enableRotate = true;
         this.group = new THREE.Group();
+        this.view.scene.add(this.group);
+        this.lineMaterial = new THREE.LineBasicMaterial( { color: 0x039BE5 });
         return this;
     }
 
@@ -67,8 +74,31 @@ export class ChromosomeGraph implements ChartObjectInterface {
     update(config: GraphConfig, data: any) {
         this.config = config as ChromosomeConfigModel;
         this.data = data;
-        this.removeObjects();
-        this.addObjects();
+        if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {
+            this.removeObjects();
+            this.addObjects();
+        }
+        if (this.config.dirtyFlag & DirtyEnum.COLOR) {
+
+            const lines = this.geneLines;
+            this.meshes.forEach( v => {
+                if (data.pointColor.hasOwnProperty(v.userData.gene)) {
+                    const color = data.pointColor[v.userData.gene];
+                    (v as THREE.Mesh).material = new THREE.MeshBasicMaterial( {color: color } );
+                } else {
+                    (v as THREE.Mesh).material = new THREE.MeshBasicMaterial( {color: 0xDDDDDD } );
+                }
+            });
+            lines.forEach( v => {
+                if (data.pointColor.hasOwnProperty(v.userData.gene)) {
+                    const color = data.pointColor[v.userData.gene];
+                    (v as THREE.Line).material = new THREE.LineBasicMaterial( { color: color });
+                } else {
+                    (v as THREE.Line).material = new THREE.LineBasicMaterial( { color: 0xDDDDDD });
+                }
+            });
+            this.onRequestRender.next();
+        }
     }
 
     enable(truthy: boolean) {
@@ -88,211 +118,109 @@ export class ChromosomeGraph implements ChartObjectInterface {
     preRender(views: Array<VisualizationView>, layout: WorkspaceLayoutEnum, renderer: THREE.WebGLRenderer) {
 
     }
+
+
     addObjects() {
-        // const chromoMultiplier = 12;
-        // const chromoOffset = 12 * chromoMultiplier;
+        const genes = this.data.genes;
+        const links = this.data.links;
 
-        // this.arms = {};
-        // this.chromosomes  = {};
-        // for (let i = 0; i < this.data.chromo.length; i++) {
-        //     this.chromosomes[i] = new THREE.Group();
-        //     (this.chromosomes[i] as THREE.Group).userData.chromosome = i;
-        //     this.arms[i + 'P'] = new THREE.Group();
-        //     this.arms[i + 'Q'] = new THREE.Group();
-        //     this.arms[i + 'P'].position.setX(i * chromoMultiplier - chromoOffset);
-        //     this.arms[i + 'Q'].position.setX(i * chromoMultiplier - chromoOffset);
-        //     this.chromosomes[i].add(this.arms[i + 'P']);
-        //     this.chromosomes[i].add(this.arms[i + 'Q']);
-        //     this.group.add(this.chromosomes[i]);
-        // }
+        genes.forEach(gene => {
+            // const mesh = ChartFactory.meshAllocate(0xC0DDC0, ShapeEnum.SQUARE, .5, new THREE.Vector3(gene.x, gene.y, 0), gene);
+            // (mesh.geometry as Rect)
 
-        // this.data.chromo.forEach((v, i) => {
+            const geometry = new THREE.Geometry();
+            geometry.vertices.push( new THREE.Vector3(gene.sPos.x, gene.sPos.y, 0) );
+            geometry.vertices.push( new THREE.Vector3(gene.ePos.x, gene.ePos.y, 0) );
 
-        //     const centro: THREE.Mesh = ChartFactory.meshAllocate(0x0091EA, ShapeEnum.CIRCLE, .5,
-        //         new THREE.Vector3(0, 0, 0), {});
-        //     centro.userData.type = GenomicEnum.CENTROMERE;
-        //     centro.userData.chromosome = i;
-        //     centro.userData.tip = 'Zoom - Chromosome';
-        //     this.arms[i + 'Q'].add(centro);
-        //     this.meshes.push(centro);
+            const geo = new THREE.BoxGeometry( 1, 1, 1);
+            const mat = new THREE.MeshBasicMaterial( {color: 0x039BE5 } );
+            const mesh = new THREE.Mesh(geo, mat);
+            mesh.userData = gene;
+            mesh.position.x = gene.sPos.x;
+            mesh.position.y = gene.sPos.y;
 
-        //     const teleQ: THREE.Mesh = ChartFactory.meshAllocate(0x0091EA, ShapeEnum.CIRCLE, .5,
-        //         new THREE.Vector3(0, v.Q - v.C, 0), {});
-        //     teleQ.userData.type = GenomicEnum.Q_TELOMERE;
-        //     centro.userData.chromosome = i;
-        //     teleQ.userData.tip = 'Zoom - Q Arm';
-        //     this.arms[i + 'Q'].add(teleQ);
-        //     this.meshes.push(teleQ);
+            const geneLine = new THREE.Line( geometry, this.lineMaterial );
+            geneLine.userData = gene;
+            this.meshes.push(mesh);
+            this.geneLines.push(geneLine);
+            this.group.add( geneLine );
+            this.group.add( mesh );
+        });
 
-        //     const teleP: THREE.Mesh = ChartFactory.meshAllocate(0x0091EA, ShapeEnum.CIRCLE, .5,
-        //         new THREE.Vector3(0, v.P - v.C, 0), {});
-        //     teleP.userData.type = GenomicEnum.P_TELOMERE;
-        //     centro.userData.chromosome = i;
-        //     teleP.userData.tip = 'Zoom - P Arm';
-        //     this.arms[i + 'P'].add(teleP);
-        //     this.meshes.push(teleP);
+       links.forEach( (link, i) => {
 
-        // });
+            // Adjust Height According To Size - So the tall ones project out both from the ring and also from the center
+            // const curve = new THREE.CatmullRomCurve3( [
+            //     new THREE.Vector3( link.sPos.x, link.sPos.y, 0 ),
+            //     new THREE.Vector3( 0, 30, 100 ),
+            //     new THREE.Vector3( link.tPos.x, link.tPos.y, 0 ),
+            // ] );
+            // curve.type = 'catmullrom';
+            //curve.tension = 0.9; //link.tension; // * 0.1; //0.9;
 
-        // this.data.bands.forEach((chromo, i) => {
-        //     const centro = this.data.chromo[i].C;
-        //     let yPos = 0;
-        //     chromo.forEach((band, j) => {
-        //         const geometry: THREE.CylinderGeometry =
-        //             new THREE.CylinderGeometry(
-        //                 (band.tag === 'acen' && band.arm === 'P') ? 0 : .5,
-        //                 (band.tag === 'acen' && band.arm === 'Q') ? 0 : .5,
-        //                  band.l);
-        //         const material: THREE.Material = ChartFactory.getColorMetal(band.c);
-        //         const mesh: THREE.Mesh = new THREE.Mesh(geometry, material);
-        //         mesh.userData.type = GenomicEnum.CYTOBAND;
-        //         mesh.position.set(0, (yPos + (band.l / 2)) - centro, 0);
-        //         mesh.userData.tip = band.chr + band.arm.toLowerCase() + band.band +
-        //             ((band.subband) ? '.' + band.subband : '') + ' | ' + band.tag.replace('neg', '-').replace('pos', '+');
-        //         this.arms[i + band.arm].add(mesh);
-        //         yPos += band.l;
-        //         this.meshes.push(mesh);
-        //     });
-        // });
+            // const curve = new THREE.CubicBezierCurve3(
+            //     new THREE.Vector3( link.sPos.x, link.sPos.y, 0 ),
+            //     new THREE.Vector3( 0, 0, 0 ),
+            //     new THREE.Vector3( 0, 0, 0 ),
+            //     new THREE.Vector3( link.tPos.x, link.tPos.y, 0 )
+            // );
 
-        // // Genes
-        // Object.keys(this.data.genes).forEach(chromo => {
-        //     const chromoIndex: number = (chromo === 'X') ? 23 : (chromo === 'Y') ? 24 : parseInt(chromo, 10);
-        //     const genes = this.data.genes[chromo];
-        //     const centro = this.data.chromo[chromoIndex - 1].C;
-        //     genes.filter((v) => v.color !== 0xFFFFFF)
-        //         .forEach(gene => {
-        //             const shape = new THREE.BoxGeometry(5, 1, 5); //THREE.CylinderGeometry(3, 3, 1, 6);
-        //             const color = ChartFactory.getColorPhong(gene.color);
-        //             const mesh = new THREE.Mesh(shape, color);
-        //             // mesh.position.x = ((chromoIndex - 1) * chromoMultiplier - chromoOffset);
-        //             mesh.position.x = 0;
-        //             mesh.position.y = (gene.tss - centro);
-        //             mesh.position.z = 0;
-        //             mesh.userData.id = gene.gene;
-        //             mesh.userData.tip = gene.gene +
-        //                 ' | x̅ ' + (Math.round(100 * gene.mean) / 100) +
-        //                 ' σx̅ ' + (Math.round(100 * gene.meandev) / 100);
-        //             this.meshes.push(mesh);
-        //             this.arms[ (chromoIndex - 1) + gene.arm].add(mesh);
-        //         });
-        // });
+            // const curve = new THREE.LineCurve3(
+            //     new THREE.Vector3( link.sPos.x, link.sPos.y, 0 ),
+            //     new THREE.Vector3( link.tPos.x, link.tPos.y, 0 )
+            // );
 
-        // this.group.rotateX(Math.PI); // Flip View
-        // this.view.scene.add(this.group);
+            const curve = new THREE.QuadraticBezierCurve3(
+                new THREE.Vector3( link.sPos.x, link.sPos.y, 0 ),
+                new THREE.Vector3( 0, 0, 0 ),
+                new THREE.Vector3( link.tPos.x, link.tPos.y, 0 ),
+            );
+
+            const geometry = new THREE.Geometry();
+            geometry.vertices = curve.getPoints( 50 );
+
+            const line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: 0xDDDDDD }) );
+            line.userData = link;
+            this.chords.push(line);
+            this.group.add( line );
+       });
+
     }
 
     removeObjects() {
         while (this.group.children.length) {
             this.group.remove(this.group.children[0]);
         }
-        this.view.scene.remove(this.group);
+        this.meshes = [];
     }
 
+
+
     private onMouseMove(e: ChartEvent): void {
-        // if (!this.view.controls.enabled) {
-        //     const mouseEvent: MouseEvent = e.event as MouseEvent;
-        //     const vector = new THREE.Vector3();
-        //     vector.set((mouseEvent.clientX / window.innerWidth) * 2 - 1,
-        //         - (mouseEvent.clientY / window.innerHeight) * 2 + 1,
-        //         0.5);
-        //     vector.unproject(this.view.camera);
-        //     const dir = vector.sub(this.view.camera.position).normalize();
-        //     const distance = - this.view.camera.position.z / dir.z;
-        //     const pos = this.view.camera.position.clone().add(dir.multiplyScalar(distance));
-        //     const height = - (this.selectorOrigin.yInit - pos.y);
-        //     const center = this.selectorOrigin.yInit + height * 0.5;
-        //     this.selector.scale.set(3, height, 3);
-        //     this.selector.position.setY(center);
-        //     this.onRequestRender.next();
-        // } else {
-        //     this.molabels(e);
-        // }
+        const intersects = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
+        const overMaterial = new THREE.LineBasicMaterial( { color: 0x039BE5 }) ;
+        const outMaterial = new THREE.LineBasicMaterial( { color: 0xDDDDDD }) ;
+
+        if (intersects.length > 0) {
+
+            const gene = intersects[0].object.userData.gene;
+            this.chords.forEach( v => {
+
+                if ( (gene === v.userData.source) || (gene === v.userData.target)) {
+                    v.material = overMaterial;
+                }
+                // v.material = (gene === v.userData.source) || (gene === v.userData.target) ?
+                // overMaterial : outMaterial;
+            });
+        }
     }
 
     private onMouseUp(e: ChartEvent): void {
-        // if (!this.view.controls.enabled) {
-        //     const box = new THREE.Box3();
-        //     box.setFromObject(this.selector);
-        //     const ids = this.meshes
-        //         .filter(v => {
-        //             const x = v.position.clone();
-        //             x.setY(-x.y);
-        //             return box.containsPoint(x);
-        //         })
-        //         .map(v => v.userData.id);
-        //     this.onSelect.next({ type: EntityTypeEnum.GENE, ids: ids });
-        //     this.view.scene.remove(this.selector);
-        //     this.view.controls.enabled = true;
-        //     this.onRequestRender.next();
-        // }
+
     }
 
     private onMouseDown(e: ChartEvent): void {
 
-        // const intersects = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
-        // if (intersects.length > 0) {
-        //     const obj: THREE.Object3D = intersects[0].object;
-        //     const userData = intersects[0].object.userData;
-
-        //     switch (userData.type) {
-        //         case GenomicEnum.CENTROMERE:
-
-
-        //             console.dir(obj.userData.chromosome);
-
-        //             const chromosomeIndex = obj.userData.chromosome;
-        //             const chromosomes = Object.keys(this.chromosomes).map( v => this.chromosomes[v] );
-
-        //             /* Rotate
-        //             chromosomes
-        //                 //.filter( v => (v as THREE.Group).userData.chromosome !== chromosomeIndex)
-        //                 .forEach( (v, i) => {
-        //                     const t = new TWEEN.Tween(v.rotation)
-        //                         .to({x: 300}, 50000)
-        //                         .easing(TWEEN.Easing.Quadratic.In)
-        //                         .delay(i * 50);
-
-        //                         if (i === 0) {
-        //                             t.onUpdate( () => { this.onRequestRender.emit(); });                             
-        //                         }
-        //                         // .onComplete( o => {
-        //                         //     v.visible = false;
-        //                         // })
-        //                         t.start();
-        //                 });
-        //             */
-
-        //             // new TWEEN.Tween(
-        //             //     chromosomes
-        //             //         .find( v => (v as THREE.Group).userData.chromosome === chromosomeIndex )
-        //             //         .position)
-        //             //     .to({x: 0, z: 0}, 1000)
-        //             //     .easing(TWEEN.Easing.Quadratic.Out)
-        //             //     .onUpdate( () => {
-        //             //         this.onRequestRender.emit();
-        //             //     })
-        //             //     .start();
-        //                 // .onComplete( bar => {
-        //                 //     bar.visible = false;
-        //                 //     bar.position.z = 0;
-        //                 // })
-                        
-
-        //             break;
-            //}
-
-            // this.view.controls.enabled = false;
-            // const mouseEvent: MouseEvent = e.event as MouseEvent;
-            // this.selectorOrigin = { x: mouseEvent.clientX, y: mouseEvent.clientY, yInit: - intersects[0].object.position.y };
-            // this.selectorScale = scale.scaleLinear();
-            // this.selectorScale.range([1, 100]);
-            // this.selectorScale.domain([0, this.view.viewport.height]);
-            // const targetPosition: THREE.Vector3 = intersects[0].object.position.clone();
-            // this.selector.scale.set(5, 5, 5);
-            // this.selector.position.set(targetPosition.x, -targetPosition.y, targetPosition.z);
-            // this.view.scene.add(this.selector);
-        //}
     }
 
     showLabels() {
