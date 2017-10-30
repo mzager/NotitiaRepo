@@ -59,7 +59,7 @@ export class ComputeWorkerUtil {
     processShapeColorSizeIntersect(config: GraphConfig, worker: DedicatedWorkerGlobalScope) {
 
         if ((config.dirtyFlag & DirtyEnum.COLOR) > 0) {
-            worker.util.getColorMap([], [], config.pointColor).then(
+            worker.util.getColorMap( config.entity, config.markerFilter, config.sampleFilter, config.pointColor).then(
                 result => {
                     worker.postMessage({
                         config: config,
@@ -74,7 +74,7 @@ export class ComputeWorkerUtil {
         }
 
         if ((config.dirtyFlag & DirtyEnum.SIZE) > 0) {
-            worker.util.getSizeMap([], [], config.pointSize).then(
+            worker.util.getSizeMap( config.entity, config.markerFilter, config.sampleFilter, config.pointSize).then(
                 result => {
                     worker.postMessage({
                         config: config,
@@ -89,7 +89,7 @@ export class ComputeWorkerUtil {
         }
 
         if ((config.dirtyFlag & DirtyEnum.SHAPE) > 0) {
-            worker.util.getShapeMap([], [], config.pointShape).then(
+            worker.util.getShapeMap( config.entity, config.markerFilter, config.sampleFilter, config.pointShape).then(
                 result => {
                     worker.postMessage({
                         config: config,
@@ -104,7 +104,7 @@ export class ComputeWorkerUtil {
         }
 
         if ((config.dirtyFlag & DirtyEnum.INTERSECT) > 0) {
-            worker.util.getIntersectMap([], [], config.pointIntersect).then(
+            worker.util.getIntersectMap( config.markerFilter, config.sampleFilter, config.pointIntersect).then(
                 result => {
                     worker.postMessage({
                         config: config,
@@ -144,7 +144,7 @@ export class ComputeWorkerUtil {
             this.openDatabaseLookup().then(v => {
                 this.dbLookup.table('genecoords').where('chr').equals(chromosome).toArray()
                 .then( result => {
-                    resolve(result);
+                    resolve( result.filter( gene => ( gene.type === 'protein_coding' ) ));
                 });
             });
         });
@@ -352,90 +352,37 @@ export class ComputeWorkerUtil {
         });
     }
 
-    getColorMap(markers: Array<string>, samples: Array<string>, field: DataField): Promise<any> {
+
+    getMolecularGeneValues( markers: Array<string>, field: DataField ): Dexie.Promise<any> {
+        return (markers.length === 0) ?
+            this.dbData.table(field.tbl).toArray() :
+            this.dbData.table(field.tbl).where('m').anyOfIgnoreCase(markers).toArray();
+    }
+
+
+    getColorMap(entity: EntityTypeEnum, markers: Array<string>, samples: Array<string>, field: DataField): Promise<any> {
         return new Promise((resolve, reject) => {
             this.openDatabaseData().then(v => {
 
-                if (field.ctype & CollectionTypeEnum.MOLECULAR) {
-                    this.dbData.table('dataset').where('name').equals('gbm').first().then(dataset => {
-                        // Extract Name Of Map
-                        const map = dataset.tables.filter(tbl => tbl.tbl === field.tbl)[0].map;
-                        // Get Samples
-                        this.dbData.table(map).toArray().then(_samples => {
-                            // Get Molecular Data
-                            this.dbData.table(field.tbl).toArray().then(_markers => {
-                                // Calc Average By Sample
-                                const numMarkers = _markers.length;
-                                const values = _samples
-                                    .map(sample => _markers.reduce((p, c) => { p += c.d[sample.i]; return p; }, 0))
-                                    .map(total => (total / numMarkers));
-                                // Color Scale
-                                const minMax = values.reduce((p, c) => {
-                                    p.min = Math.min(p.min, c);
-                                    p.max = Math.max(p.max, c);
-                                    return p;
-                                }, { min: Infinity, max: -Infinity });
+                // Gene Color Maps
+                if (entity === EntityTypeEnum.GENE) {
+                    if (field.ctype & CollectionTypeEnum.MOLECULAR) {
+                        this.getMolecularGeneValues(markers, field).then( result => {
+                            
+                            console.log("Would be good to subset color by Filtered Samples / Patients...  Revisit");
 
-
-                                const scale = scaleLinear<number, number>()
-                                    .domain([minMax.min, minMax.max])
-                                    .range([0, 1]);
-
-                                // Build Map
-                                const colorMap = values.reduce((p, c, i) => {
-                                    p[_samples[i].s] = interpolateSpectral(scale(c));
-                                    return p;
-                                }, {});
-
-                                // Build Legend
-                                const legend: Legend = new Legend();
-                                legend.name = field.label;
-                                legend.type = 'COLOR';
-                                legend.display = 'CONTINUOUS';
-                                legend.labels = [minMax.min, minMax.max].map(val => val.toString());
-                                legend.values = [0xFF0000, 0xFF0000];
-
-                                // Resolve
-                                resolve({ map: colorMap, legend: legend });
-                            });
-                        });
-                    });
-
-                } else {
-
-                    const fieldKey = field.key;
-                    if (field.type === 'STRING') {
-
-                        const cm = field.values.reduce((p, c, i) => {
-                            p[c] = this.colors[i];
-                            return p;
-                        }, {});
-
-                        this.dbData.table(field.tbl).toArray().then(row => {
-                            const colorMap = row.reduce((p, c) => {
-                                p[c.p] = cm[c[fieldKey]];
+                            const geneDomain = result.reduce( (p, c) => {
+                                p.min = Math.min( p.min, c.mean );
+                                p.max = Math.max( p.max, c.mean );
                                 return p;
-                            }, {});
+                            }, { min: Infinity, max: -Infinity });
 
-                            const legend: Legend = new Legend();
-                            legend.name = field.label;
-                            legend.type = 'COLOR';
-                            legend.display = 'DISCRETE';
-                            legend.labels = Object.keys(cm);
-                            legend.values = Object.keys(cm).map(key => cm[key]);
+                            const scale = scaleLinear<number, number>()
+                                .domain([geneDomain.min, geneDomain.max])
+                                .range([1, 0]);
 
-                            resolve({ map: colorMap, legend: legend });
-                        });
-
-                    } else if (field.type === 'NUMBER') {
-
-                        const scale = scaleLinear<number, number>()
-                            .domain([field.values.min, field.values.max])
-                            .range([0, 1]);
-
-                        this.dbData.table(field.tbl).toArray().then(row => {
-                            const colorMap = row.reduce(function (p, c) {
-                                p[c.p] = interpolateSpectral(scale(c[fieldKey]));
+                            const colorMap = result.reduce( (p, c) => {
+                                p[c.m] = interpolateSpectral(scale(c.mean));
                                 return p;
                             }, {});
 
@@ -444,70 +391,312 @@ export class ComputeWorkerUtil {
                             legend.name = field.label;
                             legend.type = 'COLOR';
                             legend.display = 'CONTINUOUS';
-                            legend.labels = [field.values.min, field.values.max].map(val => val.toString());
+                            legend.labels = [geneDomain.min, geneDomain.max].map(val => Math.round(val).toString());
                             legend.values = [0xFF0000, 0xFF0000];
 
-                            // Resolve
                             resolve({ map: colorMap, legend: legend });
                         });
+                    } else {
+                        throw(new Error('Unable to determine coloring logic'));
+                    }
+                }
+
+                if (entity === EntityTypeEnum.SAMPLE) {
+                    if (field.ctype & CollectionTypeEnum.MOLECULAR) {
+                        // Extract Name of The Map Table For Molecular Table
+                        this.dbData.table('dataset').where('name').equals('gbm').first().then(dataset => {
+                            // Extract Name Of Map
+                            const map = dataset.tables.filter(tbl => tbl.tbl === field.tbl)[0].map;
+                            this.dbData.table(map).toArray().then(sampleMap => {
+                                this.getMolecularGeneValues( markers, field ).then( result => {
+                                    const sampleCount = sampleMap.length;
+                                    const sampleAvgs = sampleMap.map( (sample, index) => ({
+                                        id: sample.s,
+                                        value: (result.reduce( (p, c) => { p += c.d[index]; return p; }, 0 ) / sampleCount)
+                                    }));
+                                    const sampleDomain = sampleAvgs.reduce( (p, c) => {
+                                        p.min = Math.min( p.min, c.value );
+                                        p.max = Math.max( p.max, c.value );
+                                        return p;
+                                    }, { min: Infinity, max: -Infinity });
+
+                                    const scale = scaleLinear<number, number>()
+                                        .domain([sampleDomain.min, sampleDomain.max])
+                                        .range([1, 0]);
+
+                                    const colorMap = sampleAvgs.reduce(function (p, c) {
+                                        p[c.id] = interpolateSpectral(scale(c.value));
+                                        return p;
+                                    }, {});
+
+                                    // Build Legend
+                                    const legend: Legend = new Legend();
+                                    legend.name = field.label;
+                                    legend.type = 'COLOR';
+                                    legend.display = 'CONTINUOUS';
+                                    legend.labels = [sampleDomain.min, sampleDomain.max].map(val => Math.round(val).toString());
+                                    legend.values = [0xFF0000, 0xFF0000];
+
+                                    // Resolve
+                                    resolve({ map: colorMap, legend: legend });
+
+                                });
+                            });
+                        });
+
+                    } else {
+                        const fieldKey = field.key;
+                        // Color Samples With Discrete Value
+                        if (field.type === 'STRING') {
+
+                            const cm = field.values.reduce((p, c, i) => {
+                                p[c] = this.colors[i];
+                                return p;
+                            }, {});
+
+                            this.dbData.table(field.tbl).toArray().then(row => {
+                                const colorMap = row.reduce((p, c) => {
+                                    p[c.p] = cm[c[fieldKey]];
+                                    return p;
+                                }, {});
+
+                                const legend: Legend = new Legend();
+                                legend.name = field.label;
+                                legend.type = 'COLOR';
+                                legend.display = 'DISCRETE';
+                                legend.labels = Object.keys(cm);
+                                legend.values = Object.keys(cm).map(key => cm[key]);
+
+                                resolve({ map: colorMap, legend: legend });
+                            });
+
+                        // Color Samples With Continuous Value
+                        } else if (field.type === 'NUMBER') {
+
+                            const scale = scaleLinear<number, number>()
+                                .domain([field.values.min, field.values.max])
+                                .range([0, 1]);
+
+                            this.dbData.table(field.tbl).toArray().then(row => {
+                                const colorMap = row.reduce(function (p, c) {
+                                    p[c.p] = interpolateSpectral(scale(c[fieldKey]));
+                                    return p;
+                                }, {});
+
+                                // Build Legend
+                                const legend: Legend = new Legend();
+                                legend.name = field.label;
+                                legend.type = 'COLOR';
+                                legend.display = 'CONTINUOUS';
+                                legend.labels = [field.values.min, field.values.max].map(val => val.toString());
+                                legend.values = [0xFF0000, 0xFF0000];
+
+                                // Resolve
+                                resolve({ map: colorMap, legend: legend });
+                            });
+                        }
+
                     }
                 }
             });
         });
     }
 
-    getSizeMap(markers: Array<string>, samples: Array<string>, field: DataField): Promise<any> {
+    getSizeMap(entity: EntityTypeEnum, markers: Array<string>, samples: Array<string>, field: DataField): Promise<any> {
+
         return new Promise((resolve, reject) => {
             this.openDatabaseData().then(v => {
 
-                const fieldKey = field.key;
+               // Gene Color Maps
+               if (entity === EntityTypeEnum.GENE) {
+                if (field.ctype & CollectionTypeEnum.MOLECULAR) {
+                    this.getMolecularGeneValues(markers, field).then( result => {
+                        
+                        console.log("Would be good to subset color by Filtered Samples / Patients...  Revisit");
 
-                if (field.type === 'STRING') {
-                    const cm = field.values.reduce((p, c, i) => {
-                        p[c] = this.sizes[i];
-                        return p;
-                    }, {});
-                    this.dbData.table(field.tbl).toArray().then(row => {
-
-                        const sizeMap = row.reduce((p, c) => {
-                            p[c.p] = cm[c[fieldKey]];
+                        const geneDomain = result.reduce( (p, c) => {
+                            p.min = Math.min( p.min, c.mean );
+                            p.max = Math.max( p.max, c.mean );
                             return p;
-                        }, {});
+                        }, { min: Infinity, max: -Infinity });
 
-                        const legend: Legend = new Legend();
-                        legend.name = field.label;
-                        legend.type = 'SIZE';
-                        legend.display = 'DISCRETE';
-                        legend.labels = Object.keys(cm);
-                        legend.values = Object.keys(cm).map(key => cm[key]);
+                        const scale = scaleLinear<number, number>()
+                            .domain([geneDomain.min, geneDomain.max])
+                            .range([1, 3]);
 
-                        resolve({ map: sizeMap, legend: legend });
-                    }
-                    );
-                } else if (field.type === 'NUMBER') {
-                    const scale = scaleLinear()
-                        .domain([field.values.min, field.values.max])
-                        .range([1, 3]);
-
-                    this.dbData.table(field.tbl).toArray().then(row => {
-                        const sizeMap = row.reduce(function (p, c) {
-                            p[c.p] = Math.round(scale(c[fieldKey]));
+                        const colorMap = result.reduce( (p, c) => {
+                            p[c.m] = Math.round(scale(c.mean));
                             return p;
                         }, {});
 
                         // Build Legend
                         const legend: Legend = new Legend();
                         legend.name = field.label;
-                        legend.type = 'SIZE';
+                        legend.type = 'COLOR';
                         legend.display = 'CONTINUOUS';
-                        legend.labels = [field.values.min, field.values.max].map(val => val.toString());
-                        legend.values = [1, 3];
-
-                        resolve({ map: sizeMap, legend: legend });
+                        legend.labels = [geneDomain.min, geneDomain.max].map(val => Math.round(val).toString());
+                        legend.values = [0xFF0000, 0xFF0000];
+debugger;
+                        resolve({ map: colorMap, legend: legend });
                     });
+                } else {
+                    throw(new Error('Unable to determine coloring logic'));
+                }
+            }
+
+                if (entity === EntityTypeEnum.SAMPLE) {
+                    if (field.ctype & CollectionTypeEnum.MOLECULAR) {
+                        // Extract Name of The Map Table For Molecular Table
+                        this.dbData.table('dataset').where('name').equals('gbm').first().then(dataset => {
+                            // Extract Name Of Map
+                            const map = dataset.tables.filter(tbl => tbl.tbl === field.tbl)[0].map;
+                            this.dbData.table(map).toArray().then(sampleMap => {
+                                this.getMolecularGeneValues( markers, field ).then( result => {
+                                    const sampleCount = sampleMap.length;
+                                    const sampleAvgs = sampleMap.map( (sample, index) => ({
+                                        id: sample.s,
+                                        value: (result.reduce( (p, c) => { p += c.d[index]; return p; }, 0 ) / sampleCount)
+                                    }));
+                                    const sampleDomain = sampleAvgs.reduce( (p, c) => {
+                                        p.min = Math.min( p.min, c.value );
+                                        p.max = Math.max( p.max, c.value );
+                                        return p;
+                                    }, { min: Infinity, max: -Infinity });
+
+                                    const scale = scaleLinear<number, number>()
+                                        .domain([sampleDomain.min, sampleDomain.max])
+                                        .range([1, 3]);
+
+                                    const colorMap = sampleAvgs.reduce(function (p, c) {
+                                        p[c.id] = Math.round(scale(c.value));
+                                        return p;
+                                    }, {});
+
+                                    // Build Legend
+                                    const legend: Legend = new Legend();
+                                    legend.name = field.label;
+                                    legend.type = 'SIZE';
+                                    legend.display = 'CONTINUOUS';
+                                    legend.labels = [sampleDomain.min, sampleDomain.max].map(val => Math.round(val).toString());
+                                    legend.values = [0xFF0000, 0xFF0000];
+
+                                    // Resolve
+                                    resolve({ map: colorMap, legend: legend });
+
+                                });
+                            });
+                        });
+
+                    } else {
+                        const fieldKey = field.key;
+                        // Color Samples With Discrete Value
+                        if (field.type === 'STRING') {
+
+                            const cm = field.values.reduce((p, c, i) => {
+                                p[c] = this.sizes[i];
+                                return p;
+                            }, {});
+
+                            this.dbData.table(field.tbl).toArray().then(row => {
+                                const colorMap = row.reduce((p, c) => {
+                                    p[c.p] = cm[c[fieldKey]];
+                                    return p;
+                                }, {});
+
+                                const legend: Legend = new Legend();
+                                legend.name = field.label;
+                                legend.type = 'SIZE';
+                                legend.display = 'DISCRETE';
+                                legend.labels = Object.keys(cm);
+                                legend.values = Object.keys(cm).map(key => cm[key]);
+
+                                resolve({ map: colorMap, legend: legend });
+                            });
+
+                        // Color Samples With Continuous Value
+                        } else if (field.type === 'NUMBER') {
+
+                            const scale = scaleLinear()
+                                .domain([field.values.min, field.values.max])
+                                .range([1, 3]);
+
+                            this.dbData.table(field.tbl).toArray().then(row => {
+                                const sizeMap = row.reduce(function (p, c) {
+                                    p[c.p] =  Math.round(scale(c[fieldKey])); //interpolateSpectral(scale(c[fieldKey]));
+                                    return p;
+                                }, {});
+
+                                // Build Legend
+                                const legend: Legend = new Legend();
+                                legend.name = field.label;
+                                legend.type = 'SIZE';
+                                legend.display = 'CONTINUOUS';
+                                legend.labels = [field.values.min, field.values.max].map(val => val.toString());
+                                legend.values = [0xFF0000, 0xFF0000];
+
+                                // Resolve
+                                resolve({ map: sizeMap, legend: legend });
+                            });
+                        }
+
+                    }
                 }
             });
         });
+
+
+        /*************************************** */
+        // return new Promise((resolve, reject) => {
+        //     this.openDatabaseData().then(v => {
+
+        //         const fieldKey = field.key;
+
+        //         if (field.type === 'STRING') {
+        //             const cm = field.values.reduce((p, c, i) => {
+        //                 p[c] = this.sizes[i];
+        //                 return p;
+        //             }, {});
+        //             this.dbData.table(field.tbl).toArray().then(row => {
+
+        //                 const sizeMap = row.reduce((p, c) => {
+        //                     p[c.p] = cm[c[fieldKey]];
+        //                     return p;
+        //                 }, {});
+
+        //                 const legend: Legend = new Legend();
+        //                 legend.name = field.label;
+        //                 legend.type = 'SIZE';
+        //                 legend.display = 'DISCRETE';
+        //                 legend.labels = Object.keys(cm);
+        //                 legend.values = Object.keys(cm).map(key => cm[key]);
+
+        //                 resolve({ map: sizeMap, legend: legend });
+        //             }
+        //             );
+        //         } else if (field.type === 'NUMBER') {
+        //             const scale = scaleLinear()
+        //                 .domain([field.values.min, field.values.max])
+        //                 .range([1, 3]);
+
+        //             this.dbData.table(field.tbl).toArray().then(row => {
+        //                 const sizeMap = row.reduce(function (p, c) {
+        //                     p[c.p] = Math.round(scale(c[fieldKey]));
+        //                     return p;
+        //                 }, {});
+
+        //                 // Build Legend
+        //                 const legend: Legend = new Legend();
+        //                 legend.name = field.label;
+        //                 legend.type = 'SIZE';
+        //                 legend.display = 'CONTINUOUS';
+        //                 legend.labels = [field.values.min, field.values.max].map(val => val.toString());
+        //                 legend.values = [1, 3];
+
+        //                 resolve({ map: sizeMap, legend: legend });
+        //             });
+        //         }
+        //     });
+        // });
     }
 
     getIntersectMap(markers: Array<string>, samples: Array<string>, field: DataField): Promise<any> {
@@ -538,7 +727,7 @@ export class ComputeWorkerUtil {
         });
     }
 
-    getShapeMap(markers: Array<string>, samples: Array<string>, field: DataField): Promise<any> {
+    getShapeMap(entity: EntityTypeEnum, markers: Array<string>, samples: Array<string>, field: DataField): Promise<any> {
         return new Promise((resolve, reject) => {
             this.openDatabaseData().then(v => {
                 const fieldKey = field.key;
