@@ -22,7 +22,10 @@ export const boxwhiskersCompute = (config: BoxWhiskersConfigModel, worker: Dedic
             .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
             .then(mtx => {
                 worker.util.getSamplePatientMap().then(result => {
-                    //_.zip;
+
+
+                    // Transpose To Show Patients
+                    mtx.data = _.zip.apply(_, mtx.data);
 
                     const psMap = result.reduce((p, c) => { p[c.s] = c.p; return p; }, {});
 
