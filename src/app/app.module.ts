@@ -1,3 +1,5 @@
+import { ParallelCoordsFormComponent } from './component/visualization/parallelcoords/parallelcoords.form.component';
+import { BoxWhiskersFormComponent } from './component/visualization/boxwhiskers/boxwhiskers.form.component';
 import { AppComponent } from './app.component';
 import { ApplicationBarComponent } from 'app/component/application-bar/application-bar.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -125,6 +127,8 @@ import { WorkspacePanelComponent } from './component/workspace/workspace-panel/w
     TimelinesFormComponent,
     SurvivalFormComponent,
     HeatmapFormComponent,
+    BoxWhiskersFormComponent,
+    ParallelCoordsFormComponent,
     HistogramFormComponent,
     PathwaysFormComponent,
     SvdFormComponent,

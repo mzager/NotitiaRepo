@@ -23,9 +23,9 @@ export class ChartEvents {
     public chartMouseUp: Observable<ChartEvent>;
     public isMouseDown: Boolean;
 
-    private mouseUp: Observable<MouseEvent>;
-    private mouseMove: Observable<MouseEvent>;
-    private mouseDown: Observable<MouseEvent>;
+    public mouseUp: Observable<MouseEvent>;
+    public mouseMove: Observable<MouseEvent>;
+    public mouseDown: Observable<MouseEvent>;
     private mouse: { x: number, y: number, xs: number, ys: number };
     public chart: GraphEnum;
 

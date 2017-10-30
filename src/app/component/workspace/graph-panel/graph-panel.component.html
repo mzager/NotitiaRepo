@@ -51,6 +51,17 @@
                     [config]="configA" 
                     [molecularData]="molecularData"
                     ></app-heatmap-form>
+                <app-boxwhiskers-form *ngIf="configA && configA.visualization === 4294967296"
+                    (configChange)="graphPanelSetConfig($event)"
+                    [config]="configA" 
+                    [tables]="tables"
+                    [fields]="fields"></app-boxwhiskers-form>
+                <app-parallelcoords-form
+                    *ngIf="configA && configA.visualization === 8589934592"
+                    (configChange)="graphPanelSetConfig($event)"
+                    [config]="configA" 
+                    [tables]="tables"
+                    [fields]="fields"></app-parallelcoords-form>
                 <app-linked-gene-form *ngIf="configA && configA.visualization === 1073741824"
                     (configChange)="graphPanelSetConfig($event)"
                     [config]="configA"
@@ -206,11 +217,22 @@
                 [config]="configB" 
                 [clinicalFields]="clinicalFields"
                 ></app-pls-form>  
-            <app-heatmap-form *ngIf="configB && configA.visualization === 32"
+            <app-heatmap-form *ngIf="configB && configB.visualization === 32"
                 (configChange)="graphPanelSetConfig($event)"
                 [config]="configB" 
                 [molecularData]="molecularData"
                 ></app-heatmap-form>
+            <app-boxwhiskers-form *ngIf="configB && configB.visualization === 4294967296"
+                (configChange)="graphPanelSetConfig($event)"
+                [config]="configB" 
+                [tables]="tables"
+                [fields]="fields"></app-boxwhiskers-form>
+            <app-parallelcoords-form
+                *ngIf="configB && configB.visualization === 8589934592"
+                (configChange)="graphPanelSetConfig($event)"
+                [config]="configB" 
+                [tables]="tables"
+                [fields]="fields"></app-parallelcoords-form>
             <app-linked-gene-form *ngIf="configB && configB.visualization === 1073741824"
                 (configChange)="graphPanelSetConfig($event)"
                 [config]="configB"

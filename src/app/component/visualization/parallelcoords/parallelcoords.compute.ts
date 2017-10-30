@@ -1,6 +1,6 @@
+import { ParallelCoordsConfigModel } from './parallelcoords.model';
 import { Legend } from 'app/model/legend.model';
 import { ColorEnum, DirtyEnum } from 'app/model/enum.model';
-import { ChromosomeConfigModel } from './chromosome.model';
 import * as util from 'app/service/compute.worker.util';
 import { scaleLinear, scaleQuantize, scaleQuantile, scaleOrdinal, scaleThreshold } from 'd3-scale';
 import { scaleSequential, schemeRdBu, interpolateRdBu } from 'd3-scale-chromatic';
@@ -12,7 +12,7 @@ import * as d3Array from 'd3-array';
 import * as JStat from 'jstat';
 import { DedicatedWorkerGlobalScope } from 'compute';
 
-export const chromosomeCompute = (config: ChromosomeConfigModel, worker: DedicatedWorkerGlobalScope): void => {
+export const parallelcoordsCompute = (config: ParallelCoordsConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
 
     worker.util.processShapeColorSizeIntersect(config, worker);
