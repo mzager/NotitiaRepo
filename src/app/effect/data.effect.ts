@@ -86,12 +86,12 @@ export class DataEffect {
             graphBConfig.graph = GraphEnum.GRAPH_B;
             graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
-            const graphAConfig = new BoxWhiskersConfigModel();
-            graphAConfig.graph = GraphEnum.GRAPH_A;
-            graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
-            // const graphAConfig = new PcaIncrementalConfigModel();
+            // const graphAConfig = new BoxWhiskersConfigModel();
             // graphAConfig.graph = GraphEnum.GRAPH_A;
-            // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
+            const graphAConfig = new PcaIncrementalConfigModel();
+            graphAConfig.graph = GraphEnum.GRAPH_A;
+            graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
             
             // const graphAConfig = new LinkedGeneConfigModel();
             // graphAConfig.graph = GraphEnum.GRAPH_A;
@@ -104,8 +104,8 @@ export class DataEffect {
             return [
                 new WorkspaceConfigAction( workspaceConfig ),
                 // new compute.LinkedGeneAction( { config: graphAConfig } ),
-                // new compute.PcaIncrementalAction( { config: graphAConfig } ),
-                new compute.BoxWhiskersAction( { config: graphAConfig } ),
+                new compute.PcaIncrementalAction( { config: graphAConfig } ),
+                // new compute.BoxWhiskersAction( { config: graphAConfig } ),
                 // new compute.GenomeAction( { config: graphBConfig }),
                 // new compute.ChromosomeAction( { config: graphAConfig } ),
                 new compute.ChromosomeAction( { config: graphBConfig } )
