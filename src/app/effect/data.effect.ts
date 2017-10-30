@@ -1,3 +1,4 @@
+import { BoxWhiskersConfigModel } from './../component/visualization/boxwhiskers/boxwhiskers.model';
 import { GenomeConfigModel } from './../component/visualization/genome/genome.model';
 import { graph } from 'ngraph.graph';
 import { LinkedGeneConfigModel } from './../component/visualization/linkedgenes/linkedgenes.model';
@@ -77,18 +78,20 @@ export class DataEffect {
             const workspaceConfig = new WorkspaceConfigModel();
             workspaceConfig.layout = WorkspaceLayoutEnum.HORIZONTAL;
 
-            const graphBConfig = new GenomeConfigModel();
+            // const graphBConfig = new GenomeConfigModel();
+            // graphBConfig.graph = GraphEnum.GRAPH_B;
+            // graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+
+            const graphBConfig = new ChromosomeConfigModel();
             graphBConfig.graph = GraphEnum.GRAPH_B;
             graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
-            const graphAConfig = new ChromosomeConfigModel();
+            // const graphAConfig = new BoxWhiskersConfigModel();
+            // graphAConfig.graph = GraphEnum.GRAPH_A;
+            // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
+            const graphAConfig = new PcaIncrementalConfigModel();
             graphAConfig.graph = GraphEnum.GRAPH_A;
             graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
-
-
-            // const graphAConfig = new PcaIncrementalConfigModel();
-            // graphAConfig.graph = GraphEnum.GRAPH_A;
-            // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
             
             // const graphAConfig = new LinkedGeneConfigModel();
             // graphAConfig.graph = GraphEnum.GRAPH_A;
@@ -101,10 +104,11 @@ export class DataEffect {
             return [
                 new WorkspaceConfigAction( workspaceConfig ),
                 // new compute.LinkedGeneAction( { config: graphAConfig } ),
-                // new compute.PcaIncrementalAction( { config: graphAConfig } ),
-                new compute.GenomeAction( { config: graphBConfig }),
+                new compute.PcaIncrementalAction( { config: graphAConfig } ),
+                // new compute.BoxWhiskersAction( { config: graphAConfig } ),
+                // new compute.GenomeAction( { config: graphBConfig }),
                 // new compute.ChromosomeAction( { config: graphAConfig } ),
-                new compute.ChromosomeAction( { config: graphAConfig } )
+                new compute.ChromosomeAction( { config: graphBConfig } )
                 //new compute.GenomeAction( { config: graphBConfig })
                 // , new compute.PcaIncrementalAction( { config: graphBConfig } )
             ];

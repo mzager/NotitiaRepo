@@ -1,3 +1,5 @@
+import { ParallelCoordsConfigModel } from './../../visualization/parallelcoords/parallelcoords.model';
+import { BoxWhiskersConfigModel } from './../../visualization/boxwhiskers/boxwhiskers.model';
 import { GenomeConfigModel } from './../../visualization/genome/genome.model';
 import { LinkedGeneConfigModel } from './../../visualization/linkedgenes/linkedgenes.model';
 import { PlsAction } from './../../../action/compute.action';
@@ -87,6 +89,12 @@ export class GraphPanelComponent implements AfterViewInit  {
           break;
         case VisualizationEnum.HEATMAP:
           gc = new HeatmapConfigModel();
+          break;
+        case VisualizationEnum.BOX_WHISKERS:
+          gc = new BoxWhiskersConfigModel();
+          break;
+        case VisualizationEnum.PARALLEL_COORDS:
+          gc = new ParallelCoordsConfigModel();
           break;
         case VisualizationEnum.LINKED_GENE:
           gc = new LinkedGeneConfigModel();
@@ -182,6 +190,12 @@ export class GraphPanelComponent implements AfterViewInit  {
         case VisualizationEnum.HEATMAP:
           gc = new HeatmapConfigModel();
           break;
+        case VisualizationEnum.BOX_WHISKERS:
+          gc = new BoxWhiskersConfigModel();
+          break;
+        case VisualizationEnum.PARALLEL_COORDS:
+          gc = new ParallelCoordsConfigModel();
+          break;
         case VisualizationEnum.LINKED_GENE:
           gc = new LinkedGeneConfigModel();
           break;
@@ -268,6 +282,8 @@ export class GraphPanelComponent implements AfterViewInit  {
       { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
       { value: VisualizationEnum.LINKED_GENE, label: 'Linked Gene' },
       { value: VisualizationEnum.HEATMAP, label: 'Heatmap'},
+      { value: VisualizationEnum.BOX_WHISKERS, label: 'Box Whiskers'},
+      { value: VisualizationEnum.PARALLEL_COORDS, label: 'Parallel Coordinates'},
 
       // Decomposition
       { value: VisualizationEnum.DICTIONARY_LEARNING, label: 'Dictionary Learning'},

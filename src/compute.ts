@@ -1,3 +1,5 @@
+import { parallelcoordsCompute } from './app/component/visualization/parallelcoords/parallelcoords.compute';
+import { boxwhiskersCompute } from './app/component/visualization/boxwhiskers/boxwhiskers.compute';
 import { genomeCompute } from './app/component/visualization/genome/genome.compute';
 import { linkedgeneCompute } from './app/component/visualization/linkedgenes/linkedgenes.compute';
 import { VisualizationEnum } from 'app/model/enum.model';
@@ -58,6 +60,12 @@ onmessage = function (e) {
             break;
         case VisualizationEnum.HEATMAP:
             heatmapCompute(e.data, me);
+            break;
+        case VisualizationEnum.BOX_WHISKERS:
+            boxwhiskersCompute(e.data, me);
+            break;
+        case VisualizationEnum.PARALLEL_COORDS:
+            parallelcoordsCompute(e.data, me);
             break;
         case VisualizationEnum.LINKED_GENE:
             linkedgeneCompute(e.data, me);

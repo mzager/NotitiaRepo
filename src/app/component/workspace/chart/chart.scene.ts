@@ -1,3 +1,5 @@
+import { BoxWhisterksGraph } from './../../visualization/boxwhiskers/boxwhiskers.graph';
+import { ParallelCoordsGraph } from './../../visualization/parallelcoords/parallelcoords.graph';
 import { GenomeGraph } from './../../visualization/genome/genome.graph';
 import * as TWEEN from 'tween.js';
 import { LinkedGeneGraph } from './../../visualization/linkedgenes/linkedgenes.graph';
@@ -88,7 +90,10 @@ export class ChartScene {
         // Center Line
         try {
             if (this.workspace.layout !== WorkspaceLayoutEnum.SINGLE) {
-                view.scene.add(ChartFactory.lineAllocate(0x039BE5, new THREE.Vector2(0, -1000), new THREE.Vector2(0, 1000) ));
+                const centerLine = (this.workspace.layout === WorkspaceLayoutEnum.HORIZONTAL) ?
+                    ChartFactory.lineAllocate(0x039BE5, new THREE.Vector2(0, -1000), new THREE.Vector2(0, 1000) ) :
+                    ChartFactory.lineAllocate(0x039BE5, new THREE.Vector2(-1000, 0), new THREE.Vector2(1000, 0) );
+                view.scene.add(centerLine);
                 this.renderer.setViewport( view.viewport.x, view.viewport.y, view.viewport.width, view.viewport.height );
                 this.renderer.render( view.scene, view.camera );
             }
@@ -315,6 +320,8 @@ export class ChartScene {
             case VisualizationEnum.MDS: return new MdsGraph();
             case VisualizationEnum.FA: return new FaGraph();
             case VisualizationEnum.LINKED_GENE: return new LinkedGeneGraph();
+            case VisualizationEnum.PARALLEL_COORDS: return new ParallelCoordsGraph();
+            case VisualizationEnum.BOX_WHISKERS: return new BoxWhisterksGraph();
             // case VisualizationEnum.KMEANS: return new KmeansGraph();
             // case VisualizationEnum.KMEDIAN: return new KmedianGraph();
             // case VisualizationEnum.KMEDOIDS: return new KmedoidsGraph();

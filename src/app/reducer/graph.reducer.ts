@@ -22,7 +22,7 @@ import { COMPUTE_CHROMOSOME, COMPUTE_CHROMOSOME_COMPLETE, COMPUTE_PCA_COMPLETE,
     COMPUTE_LOCAL_LINEAR_EMBEDDING_COMPLETE, COMPUTE_ISO_MAP_COMPLETE,
     COMPUTE_SPECTRAL_EMBEDDING_COMPLETE, COMPUTE_PCA_INCREMENTAL_COMPLETE,
     COMPUTE_PCA_KERNAL_COMPLETE, COMPUTE_PCA_SPARSE_COMPLETE, COMPUTE_LINKED_GENE_COMPLETE,
-    COMPUTE_NONE_COMPLETE} from './../action/compute.action';
+    COMPUTE_NONE_COMPLETE, COMPUTE_BOX_WHISKERS_COMPLETE, COMPUTE_PARALLEL_COORDS_COMPLETE} from './../action/compute.action';
 import { DataCollection } from './../model/data-collection.model';
 import { DataField } from 'app/model/data-field.model';
 import { DataSet } from './../model/data-set.model';
@@ -52,6 +52,8 @@ function processAction(action: UnsafeAction, state: State): State {
     switch (action.type) {
         case COMPUTE_NONE_COMPLETE:
         case COMPUTE_HEATMAP_COMPLETE:
+        case COMPUTE_BOX_WHISKERS_COMPLETE:
+        case COMPUTE_PARALLEL_COORDS_COMPLETE:
         case COMPUTE_LINKED_GENE_COMPLETE:
         case COMPUTE_PCA_COMPLETE:
         case COMPUTE_CHROMOSOME_COMPLETE:
