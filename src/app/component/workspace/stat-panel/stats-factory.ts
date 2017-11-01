@@ -18,7 +18,6 @@ export class StatsFactory {
             'height': 200,
             'padding': 5,
             'autosize': { 'type': 'fit', 'resize': true },
-
             'signals': [
                 {
                     'name': 'maxbins', 'value': 10,
@@ -165,51 +164,93 @@ export class StatsFactory {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'width': config.width,
             'height': config.height,
+            'padding': 25,
+            'autosize': { 'type': 'fit', 'resize': true },
             'data': [
-              {
-                'name': 'table',
-                'values': values,
-
-                'transform': [
-                  {
-                    'type': 'pie',
-                    'field': 'field',
-                    'startAngle': 0,
-                    'endAngle': Math.PI * 2,
-                    'sort': false,
-                  }
-                ]
-              }
+                {
+                    'name': 'table',
+                    'values': values,
+                    'transform': [
+                        {
+                            'type': 'pie',
+                            'field': 'field',
+                        }
+                    ]
+                }
             ],
             'scales': [
-              {
-                'name': 'color',
-                'type': 'ordinal',
-                'range': {'scheme': 'category20'}
-              }
+                // {
+                //     'name': 'tooltip',
+                //     'value': '{}',
+                //     'on': [
+                //       {'events': 'arc:mouseover', 'update': 'datum'},
+                //       {'events': 'arc:mouseout',  'update': '{}'}
+                //     ]
+                //   },
+                {
+                    'name': 'r',
+                    'type': 'sqrt',
+                    'domain': {'data': 'table', 'field': 'field'}
+                  },
+                  {
+                    'name': 'color',
+                    'type': 'ordinal',
+                    'domain': {'data': 'table', 'field': 'label'},
+                    'range': { 'scheme': 'category10' },
+                  }
             ],
             'marks': [
                 {
-                  'type': 'arc',
-                  'from': {'data': 'table'},
-                  'encode': {
-                    'enter': {
-                      'fill': {'scale': 'color', 'field': 'id'},
-                      'x': {'signal': 'width / 2'},
-                      'y': {'signal': 'height / 2'},
-                      'startAngle': {'field': 'startAngle'},
-                      'endAngle': {'field': 'endAngle'},
-                      'padAngle': {'value': 0.035},
-                      'innerRadius': {'value': 60},
-                      'outerRadius': {'signal': 'width / 2'},
-                      'cornerRadius': {'value': 0}
-                    },
-                  }
+                    'type': 'arc',
+                    'from': { 'data': 'table' },
+                    'encode': {
+                        'update': {
+                            'x': {'field': {'group': 'width'}, 'mult': 0.5},
+                            'y': {'field': {'group': 'height'}, 'mult': 0.5},
+                            'startAngle': { 'field': 'startAngle' },
+                            'endAngle': { 'field': 'endAngle' },
+                            'padAngle': { 'value': 0.035 },
+                            'innerRadius': { 'value': 60 },
+                            'outerRadius': { 'signal': 'width / 2' },
+                            'cornerRadius': { 'value': 0 },
+                            'fill': {'scale': 'color', 'field': 'label'},
+                            'fillOpacity': {'value': 1}
+                        },
+                        'hover': {
+                            'fill': {'value': 'red'}
+                          }
+                    }
                 },
-
-              ]
-
-          };
+                {
+                    'type': 'text',
+                    'from': { 'data': 'table' },
+                    'encode': {
+                        'enter': {
+                            'x': {'field': {'group': 'width'}, 'mult': 0.5},
+                            'y': {'field': {'group': 'height'}, 'mult': 0.5},
+                            'radius': {'scale': 'r', 'field': 'field', 'offset': 110},
+                            'theta': {'signal': '(datum.startAngle + datum.endAngle)/2'},
+                            'fill': {'value': '#000'},
+                            'align': {'value': 'center'},
+                            'baseline': {'value': 'middle'},
+                            'text': {'field': 'label'},
+                            'font': {'value': 'Arial'},
+                            'fontSize': {'value': 14},
+                            'fontWeight': {'value': 'normal'}
+                        }
+                        // 'update': {
+                        //     'x': {'field': {'group': 'width'}, 'signal': 'tooltip.field'},
+                        //     'y': {'field': {'group': 'width'}, 'signal': 'tooltip.field', 'offset': -2},
+                        //     'text': {'signal': 'tooltip.field'},
+                        //     'fillOpacity': [
+                        //       {'test': 'datum === tooltip', 'value': 0},
+                        //       {'value': 1}
+                        //     ]
+                        //   }
+                    }
+                }
+            ]
+        };
         return vega;
     }
 
@@ -234,8 +275,8 @@ export class AbstractStatChartConfig {
     constructor() {
         this.data = [];
         this.labelFn = null;
-        this.width = 300;
-        this.height = 300;
+        this.width = 200;
+        this.height = 200;
     }
 }
 

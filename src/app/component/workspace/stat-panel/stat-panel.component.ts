@@ -37,13 +37,14 @@ export class StatPanelComponent implements AfterViewInit {
     // Save Data Passed In In Local Variable
     this.data = value;
 
+
     // Create Array of Possible Stat Types
     this.metrics = [
       { label: 'Histogram', value: genericHistogram( [] )},
       // { label: 'Explained Variance', value: explainedVariance( value.result.explainedVariance )},
       { label: 'Explained Variance Ratio', value: explainedVarianceRatio( value.result.explainedVarianceRatio )},
     ];
-
+    // debugger;
     // Set Metric Creates The Vega Visualization and +'s it to The Page 
    this.setMetric(this.metrics[1]);
 
