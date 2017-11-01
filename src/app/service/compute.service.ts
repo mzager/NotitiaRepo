@@ -1,3 +1,4 @@
+import { HicConfigModel } from './../component/visualization/hic/hic.model';
 import { ParallelCoordsConfigModel } from './../component/visualization/parallelcoords/parallelcoords.model';
 import { BoxWhiskersConfigModel } from './../component/visualization/boxwhiskers/boxwhiskers.model';
 import { Subject } from 'rxjs/Subject';
@@ -65,6 +66,7 @@ export class ComputeService {
     private boxWhiskers$ = new Subject<any>();
     private parallelCoords$ = new Subject<any>();
     private linkedGene$ = new Subject<any>();
+    private hic$ = new Subject<any>();
     private dataload$ = new Subject<any>();
 
     constructor(private illumina: IlluminaService) {
@@ -111,6 +113,10 @@ export class ComputeService {
 
     linkedGene(config: LinkedGeneConfigModel): Observable<any> {
         return this.execute(config, this.linkedGene$);
+    }
+
+    hic(config: HicConfigModel): Observable<any> {
+        return this.execute(config, this.hic$);
     }
 
     tsne(config: TsneConfigModel): Observable<any> {

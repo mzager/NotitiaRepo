@@ -1,3 +1,4 @@
+import { HicConfigModel } from './../../visualization/hic/hic.model';
 import { ParallelCoordsConfigModel } from './../../visualization/parallelcoords/parallelcoords.model';
 import { BoxWhiskersConfigModel } from './../../visualization/boxwhiskers/boxwhiskers.model';
 import { GenomeConfigModel } from './../../visualization/genome/genome.model';
@@ -99,6 +100,9 @@ export class GraphPanelComponent implements AfterViewInit  {
         case VisualizationEnum.LINKED_GENE:
           gc = new LinkedGeneConfigModel();
           break;
+        case VisualizationEnum.HIC:
+          gc = new HicConfigModel();
+          break;
         case VisualizationEnum.SOM:
           gc = new SomConfigModel();
           break;
@@ -199,6 +203,9 @@ export class GraphPanelComponent implements AfterViewInit  {
         case VisualizationEnum.LINKED_GENE:
           gc = new LinkedGeneConfigModel();
           break;
+        case VisualizationEnum.HIC:
+          gc = new HicConfigModel();
+          break;
         case VisualizationEnum.SOM:
           gc = new SomConfigModel();
           break;
@@ -280,7 +287,8 @@ export class GraphPanelComponent implements AfterViewInit  {
       //{ value: VisualizationEnum.NONE, label: 'None' },
       { value: VisualizationEnum.GENOME, label: 'Genome' },
       { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
-      { value: VisualizationEnum.LINKED_GENE, label: 'Linked Gene' },
+      { value: VisualizationEnum.LINKED_GENE, label: 'HiC - Genome' },
+      { value: VisualizationEnum.HIC, label: 'HiC - Gene Network' },
       { value: VisualizationEnum.HEATMAP, label: 'Heatmap'},
       { value: VisualizationEnum.BOX_WHISKERS, label: 'Box Whiskers'},
       { value: VisualizationEnum.PARALLEL_COORDS, label: 'Parallel Coordinates'},

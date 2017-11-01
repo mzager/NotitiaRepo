@@ -11,6 +11,7 @@ export const pcaCompute = (config: PcaConfigModel, worker: DedicatedWorkerGlobal
     worker.util.processShapeColorSizeIntersect(config, worker);
 
     if (config.dirtyFlag & DirtyEnum.LAYOUT) {
+        debugger
         worker.util
             .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
             .then(mtx => {
