@@ -139,6 +139,21 @@ export class ComputeWorkerUtil {
             });
         });
     }
+    getGeneLinkGraphByGenes( gene: string): Promise<any> {
+        return new Promise( (resolve, reject) => {
+            this.openDatabaseLookup().then( v => {
+                this.dbLookup.table('genelinks').where('target').equalsIgnoreCase(gene).toArray()
+                .then( result => {
+                    const sourceGenesInNetwork = result.map( link => link.source);
+                    sourceGenesInNetwork.push(gene);
+                    this.dbLookup.table('genelinks').where('source').anyOfIgnoreCase(sourceGenesInNetwork).toArray()
+                    .then( results => {
+                        resolve(results);
+                    });
+                });
+            });
+        });
+    }
     getChromosomeInfo(chromosome: string): Promise<any> {
         return new Promise( (resolve, reject) => {
             this.openDatabaseLookup().then(v => {
@@ -708,16 +723,18 @@ debugger;
     // Call Lambda
     // cbor.encode(config)
     fetchResult(config: any, cache: boolean = false): Promise<any> {
-        let headers = {
+        const headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         };
        // if (cache) {
-            headers = Object.assign(headers, {ckey: this.generateCacheKey(config)});
+            //headers = Object.assign(headers, {ckey: this.generateCacheKey(config)});
         // }
+        //headers: headers,
         return fetch('https://0x8okrpyl3.execute-api.us-west-2.amazonaws.com/dev', {
-            method: 'POST',
+        // return fetch('https://oncoscape-test.fhcrc.org/dev', {
             headers: headers,
+            method: 'POST',
             body: JSON.stringify(config)
         })
         .then(res => {

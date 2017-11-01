@@ -1,3 +1,4 @@
+import { HicFormComponent } from './component/visualization/hic/hic.form.component';
 import { ParallelCoordsFormComponent } from './component/visualization/parallelcoords/parallelcoords.form.component';
 import { BoxWhiskersFormComponent } from './component/visualization/boxwhiskers/boxwhiskers.form.component';
 import { AppComponent } from './app.component';
@@ -124,6 +125,7 @@ import { WorkspacePanelComponent } from './component/workspace/workspace-panel/w
     ChromosomeFormComponent,
     GenomeFormComponent,
     LinkedGeneFormComponent,
+    HicFormComponent,
     TimelinesFormComponent,
     SurvivalFormComponent,
     HeatmapFormComponent,
