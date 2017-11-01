@@ -6,8 +6,10 @@ import { StatsInterface } from './../../../model/stats.interface';
 import { FormBuilder } from '@angular/forms';
 import { VegaFactory } from './../../../service/vega.factory';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { Component, ComponentFactoryResolver, Input, Output, ViewContainerRef,
-  ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component, ComponentFactoryResolver, Input, Output, ViewContainerRef,
+  ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild
+} from '@angular/core';
 import { LegendPanelEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 declare var $: any;
@@ -25,7 +27,7 @@ export class StatPanelComponent implements AfterViewInit {
   @Input() configA: GraphConfig;
   @Input() configB: GraphConfig;
   @Input() graphBData: GraphData;
-  @Input() set graphAData(value: GraphData){
+  @Input() set graphAData(value: GraphData) {
 
     // Exit if this is trigger before there is data... Could likely be done better with Rxjs
     if (value === null) {
@@ -35,13 +37,14 @@ export class StatPanelComponent implements AfterViewInit {
     // Save Data Passed In In Local Variable
     this.data = value;
 
+
     // Create Array of Possible Stat Types
     this.metrics = [
       { label: 'Histogram', value: genericHistogram( [] )},
-      //{ label: 'Explained Variance', value: explainedVariance( value.result.explainedVariance )},
+      // { label: 'Explained Variance', value: explainedVariance( value.result.explainedVariance )},
       { label: 'Explained Variance Ratio', value: explainedVarianceRatio( value.result.explainedVarianceRatio )},
     ];
-
+    // debugger;
     // Set Metric Creates The Vega Visualization and +'s it to The Page 
    this.setMetric(this.metrics[1]);
 
@@ -59,10 +62,10 @@ export class StatPanelComponent implements AfterViewInit {
   data = {};
 
   // Create The Vega + Render It
-  setMetric( value: any): void {
+  setMetric(value: any): void {
     new vega.View(vega.parse(value.value), {
       renderer: 'canvas'
-      }).initialize('#stat-panel-chart').run();
+    }).initialize('#stat-panel-chart').run();
   }
 
 
