@@ -728,16 +728,10 @@ debugger;
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         };
-        
-       // if (cache) {
-            //headers = Object.assign(headers, {ckey: this.generateCacheKey(config)});
-        // }
-        //headers: headers,
         const md5 = new Md5();
         md5.appendStr( JSON.stringify(config) );
         const hash = md5.end();
         // return fetch('https://0x8okrpyl3.execute-api.us-west-2.amazonaws.com/dev?' + hash, {
-        // return fetch('http://localhost:7888/dev?' + hash, {
         return fetch('https://oncoscape.sttrcancer.org/dev?' + hash, {
             headers: headers,
             method: 'POST',

@@ -75,9 +75,11 @@ export class ComputeService {
             max     : 6,
             min     : 2,
             create  : () => {
+                console.log('WORKER :: ALLOCATE');
                 return new Worker('assets/compute.js');
             },
             destroy : (worker: Worker) => {
+                console.log('WORKER :: DESTROY');
                 worker.terminate();
             }
         });
@@ -89,6 +91,7 @@ export class ComputeService {
                 const onMessage = (v) => {
                     if (v.data === 'TERMINATE') {
                         worker.removeEventListener( 'message', onMessage );
+                        console.log("RESOLVE");
                         resolve();
                     } else { subject.next(v.data); }
                 };
@@ -100,6 +103,7 @@ export class ComputeService {
     }
 
     heatmap(config: HeatmapConfigModel): Observable<any> {
+        debugger;
         return this.execute(config, this.heatmap$);
     }
 
