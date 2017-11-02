@@ -164,7 +164,7 @@ export class StatsFactory {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'width': config.width,
             'height': config.height,
-            'padding': 25,
+            'padding': 10,
             'autosize': { 'type': 'fit', 'resize': true },
             'data': [
                 {
@@ -178,15 +178,17 @@ export class StatsFactory {
                     ]
                 }
             ],
+            'signals': [
+                {
+                  'name': 'tooltip',
+                  'value': {},
+                  'on': [
+                    {'events': 'arc:mouseover', 'update': 'datum.field'},
+                    {'events': 'arc:mouseout',  'update': '{}'}
+                  ]
+                }
+              ],
             'scales': [
-                // {
-                //     'name': 'tooltip',
-                //     'value': '{}',
-                //     'on': [
-                //       {'events': 'arc:mouseover', 'update': 'datum'},
-                //       {'events': 'arc:mouseout',  'update': '{}'}
-                //     ]
-                //   },
                 {
                     'name': 'r',
                     'type': 'sqrt',
@@ -204,7 +206,7 @@ export class StatsFactory {
                     'type': 'arc',
                     'from': { 'data': 'table' },
                     'encode': {
-                        'update': {
+                        'enter': {
                             'x': {'field': {'group': 'width'}, 'mult': 0.5},
                             'y': {'field': {'group': 'height'}, 'mult': 0.5},
                             'startAngle': { 'field': 'startAngle' },
@@ -213,14 +215,14 @@ export class StatsFactory {
                             'innerRadius': { 'value': 60 },
                             'outerRadius': { 'signal': 'width / 2' },
                             'cornerRadius': { 'value': 0 },
+                        },
+                        'update': {
                             'fill': {'scale': 'color', 'field': 'label'},
                             'fillOpacity': {'value': 1}
-                        },
-                        'hover': {
-                            'fill': {'value': 'red'}
                           }
                     }
                 },
+
                 {
                     'type': 'text',
                     'from': { 'data': 'table' },
@@ -235,12 +237,12 @@ export class StatsFactory {
                             'baseline': {'value': 'middle'},
                             'text': {'field': 'label'},
                             'font': {'value': 'Arial'},
-                            'fontSize': {'value': 14},
+                            'fontSize': {'value': 12},
                             'fontWeight': {'value': 'normal'}
                         }
                         // 'update': {
-                        //     'x': {'field': {'group': 'width'}, 'signal': 'tooltip.field'},
-                        //     'y': {'field': {'group': 'width'}, 'signal': 'tooltip.field', 'offset': -2},
+                        //     'x': {'scale': 'color', 'signal': 'tooltip.label'},
+                        //     'y': {'scale': 'r', 'signal': 'tooltip.field'},
                         //     'text': {'signal': 'tooltip.field'},
                         //     'fillOpacity': [
                         //       {'test': 'datum === tooltip', 'value': 0},
