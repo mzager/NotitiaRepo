@@ -108,7 +108,7 @@ export class HicFormComponent {
 
     // Update When Form Changes
     this.form.valueChanges
-      .debounceTime(1000)
+      .debounceTime(3000)
       .distinctUntilChanged()
       .subscribe(data => {
         console.log("submit");
