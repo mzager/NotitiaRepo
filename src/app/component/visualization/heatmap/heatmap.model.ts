@@ -42,6 +42,7 @@ export class HeatmapConfigModel extends GraphConfig {
 
 export interface HeatmapDataModel extends GraphData {
     legends: Array<Legend>;
+    result: any;
     positions: Float32Array;
     colors: Float32Array;
     cluster: any;
