@@ -128,8 +128,9 @@ export class HicGraph implements ChartObjectInterface {
 
         
         this.data.nodes.forEach( node => {
+            const data = {tip: node.id, type: EntityTypeEnum.GENE};
             const mesh = ChartFactory.meshAllocate( 0x039BE5, ShapeEnum.CIRCLE, 3,
-                new THREE.Vector3(node.data.x, node.data.y, node.data.z), node);
+                new THREE.Vector3(node.data.x, node.data.y, node.data.z), data);
             this.meshes.push(mesh);
             this.view.scene.add(mesh);
         });
@@ -164,13 +165,16 @@ export class HicGraph implements ChartObjectInterface {
     private onMouseDown(e: ChartEvent): void {
     }
     private onMouseMove(e: ChartEvent): void {
-        const meshes = ChartUtil.getVisibleMeshes(this.view).map<{ label: string, x: number, y: number }>(mesh => {
+        const meshes = ChartUtil.getVisibleMeshes(this.view).map<{ label: string, x: number, y: number, z:number }>(mesh => {
             const coord = ChartUtil.projectToScreen(this.config.graph, mesh, this.view.camera,
                 this.view.viewport.width, this.view.viewport.height);
-            return { label: mesh.userData.tip, x: coord.x + 20, y: coord.y - 10 };
-        });
+            return { label: mesh.userData.tip, x: coord.x + 25, y: coord.y - 10, z: coord.z };
+        })
+        //.sort( (a, b) => (a.z < b.z) ? 1 : -1 ).filter( (v, i) => i < 10);
+
+
         const html = meshes.map(data => {
-            return '<div class="chart-label" style="font-size:12px;left:' + data.x + 'px;top:' + data.y +
+            return '<div class="chart-label" style="background: rgba(255, 255, 255, .5);font-size:8px;left:' + data.x + 'px;top:' + data.y +
                 'px;position:absolute;">' + data.label + '</div>';
         }).reduce((p, c) => p += c, '');
         this.labels.innerHTML = html;

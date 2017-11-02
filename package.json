@@ -91,6 +91,7 @@
     "three-orbitcontrols-ts": "^0.1.2",
     "three-transformcontrols": "^0.78.1",
     "ts-loader": "^2.3.2",
+    "ts-md5": "^1.2.2",
     "tsne-js": "^1.0.3",
     "tween.js": "^16.6.0",
     "typescript-memoize": "0.0.4",
