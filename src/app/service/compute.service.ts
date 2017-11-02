@@ -1,3 +1,4 @@
+import { HicConfigModel } from './../component/visualization/hic/hic.model';
 import { ParallelCoordsConfigModel } from './../component/visualization/parallelcoords/parallelcoords.model';
 import { BoxWhiskersConfigModel } from './../component/visualization/boxwhiskers/boxwhiskers.model';
 import { Subject } from 'rxjs/Subject';
@@ -65,6 +66,7 @@ export class ComputeService {
     private boxWhiskers$ = new Subject<any>();
     private parallelCoords$ = new Subject<any>();
     private linkedGene$ = new Subject<any>();
+    private hic$ = new Subject<any>();
     private dataload$ = new Subject<any>();
 
     constructor(private illumina: IlluminaService) {
@@ -73,9 +75,11 @@ export class ComputeService {
             max     : 6,
             min     : 2,
             create  : () => {
+                console.log('WORKER :: ALLOCATE');
                 return new Worker('assets/compute.js');
             },
             destroy : (worker: Worker) => {
+                console.log('WORKER :: DESTROY');
                 worker.terminate();
             }
         });
@@ -87,6 +91,7 @@ export class ComputeService {
                 const onMessage = (v) => {
                     if (v.data === 'TERMINATE') {
                         worker.removeEventListener( 'message', onMessage );
+                        console.log("RESOLVE");
                         resolve();
                     } else { subject.next(v.data); }
                 };
@@ -98,6 +103,7 @@ export class ComputeService {
     }
 
     heatmap(config: HeatmapConfigModel): Observable<any> {
+        debugger;
         return this.execute(config, this.heatmap$);
     }
 
@@ -111,6 +117,10 @@ export class ComputeService {
 
     linkedGene(config: LinkedGeneConfigModel): Observable<any> {
         return this.execute(config, this.linkedGene$);
+    }
+
+    hic(config: HicConfigModel): Observable<any> {
+        return this.execute(config, this.hic$);
     }
 
     tsne(config: TsneConfigModel): Observable<any> {

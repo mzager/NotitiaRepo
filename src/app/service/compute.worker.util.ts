@@ -13,6 +13,7 @@ import * as PouchDB from 'pouchdb-browser';
 import Dexie from 'dexie';
 import * as uuids from 'uuid-by-string';
 import * as cbor from 'cbor-js';
+import {Md5} from 'ts-md5/dist/md5';
 
 export class ComputeWorkerUtil {
 
@@ -135,6 +136,21 @@ export class ComputeWorkerUtil {
                 this.dbLookup.table('genelinks').where('source').anyOfIgnoreCase(genes).toArray()
                 .then( result => {
                     resolve(result);
+                });
+            });
+        });
+    }
+    getGeneLinkGraphByGenes( gene: string): Promise<any> {
+        return new Promise( (resolve, reject) => {
+            this.openDatabaseLookup().then( v => {
+                this.dbLookup.table('genelinks').where('target').equalsIgnoreCase(gene).toArray()
+                .then( result => {
+                    const sourceGenesInNetwork = result.map( link => link.source);
+                    sourceGenesInNetwork.push(gene);
+                    this.dbLookup.table('genelinks').where('source').anyOfIgnoreCase(sourceGenesInNetwork).toArray()
+                    .then( results => {
+                        resolve(results);
+                    });
                 });
             });
         });
@@ -708,16 +724,17 @@ debugger;
     // Call Lambda
     // cbor.encode(config)
     fetchResult(config: any, cache: boolean = false): Promise<any> {
-        let headers = {
+        const headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         };
-       // if (cache) {
-            headers = Object.assign(headers, {ckey: this.generateCacheKey(config)});
-        // }
-        return fetch('https://0x8okrpyl3.execute-api.us-west-2.amazonaws.com/dev', {
-            method: 'POST',
+        const md5 = new Md5();
+        md5.appendStr( JSON.stringify(config) );
+        const hash = md5.end();
+        // return fetch('https://0x8okrpyl3.execute-api.us-west-2.amazonaws.com/dev?' + hash, {
+        return fetch('https://oncoscape.sttrcancer.org/dev?' + hash, {
             headers: headers,
+            method: 'POST',
             body: JSON.stringify(config)
         })
         .then(res => {

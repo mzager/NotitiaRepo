@@ -13,8 +13,8 @@ export class IsoMapEigenSolver {
 
 export class IsoMapPathMethod {
     public static AUTO = 'auto';
-    public static FW = 'fw';
-    public static D = 'd';
+    public static FW = 'FW';
+    public static D = 'D';
 }
 
 export class IsoMapNeighborsAlgorithm {

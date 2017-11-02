@@ -1,3 +1,4 @@
+import { HicGraph } from './../../visualization/hic/hic.graph';
 import { BoxWhisterksGraph } from './../../visualization/boxwhiskers/boxwhiskers.graph';
 import { ParallelCoordsGraph } from './../../visualization/parallelcoords/parallelcoords.graph';
 import { GenomeGraph } from './../../visualization/genome/genome.graph';
@@ -320,6 +321,7 @@ export class ChartScene {
             case VisualizationEnum.MDS: return new MdsGraph();
             case VisualizationEnum.FA: return new FaGraph();
             case VisualizationEnum.LINKED_GENE: return new LinkedGeneGraph();
+            case VisualizationEnum.HIC: return new HicGraph();
             case VisualizationEnum.PARALLEL_COORDS: return new ParallelCoordsGraph();
             case VisualizationEnum.BOX_WHISKERS: return new BoxWhisterksGraph();
             // case VisualizationEnum.KMEANS: return new KmeansGraph();
