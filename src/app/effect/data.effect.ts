@@ -1,3 +1,4 @@
+import { HicConfigModel } from './../component/visualization/hic/hic.model';
 import { BoxWhiskersConfigModel } from './../component/visualization/boxwhiskers/boxwhiskers.model';
 import { GenomeConfigModel } from './../component/visualization/genome/genome.model';
 import { graph } from 'ngraph.graph';
@@ -92,7 +93,11 @@ export class DataEffect {
             const graphAConfig = new PcaIncrementalConfigModel();
             graphAConfig.graph = GraphEnum.GRAPH_A;
             graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
-            
+
+            // const graphAConfig = new HicConfigModel();
+            // graphAConfig.graph = GraphEnum.GRAPH_A;
+            // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+
             // const graphAConfig = new LinkedGeneConfigModel();
             // graphAConfig.graph = GraphEnum.GRAPH_A;
             // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
@@ -105,6 +110,7 @@ export class DataEffect {
                 new WorkspaceConfigAction( workspaceConfig ),
                 // new compute.LinkedGeneAction( { config: graphAConfig } ),
                 new compute.PcaIncrementalAction( { config: graphAConfig } ),
+                // new compute.HicAction( { config: graphAConfig }),
                 // new compute.BoxWhiskersAction( { config: graphAConfig } ),
                 // new compute.GenomeAction( { config: graphBConfig }),
                 // new compute.ChromosomeAction( { config: graphAConfig } ),

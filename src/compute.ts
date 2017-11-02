@@ -1,3 +1,4 @@
+import { hicCompute } from './app/component/visualization/hic/hic.compute';
 import { parallelcoordsCompute } from './app/component/visualization/parallelcoords/parallelcoords.compute';
 import { boxwhiskersCompute } from './app/component/visualization/boxwhiskers/boxwhiskers.compute';
 import { genomeCompute } from './app/component/visualization/genome/genome.compute';
@@ -69,6 +70,9 @@ onmessage = function (e) {
             break;
         case VisualizationEnum.LINKED_GENE:
             linkedgeneCompute(e.data, me);
+            break;
+        case VisualizationEnum.HIC:
+            hicCompute(e.data, me);
             break;
         case VisualizationEnum.MDS:
             mdsCompute(e.data, me);

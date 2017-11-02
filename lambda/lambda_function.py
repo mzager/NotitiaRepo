@@ -2,6 +2,7 @@
 """AWS PYTHON LIB"""
 
 import json
+import base64
 
 from Bio.Cluster import pca
 from Bio.Cluster import kcluster
@@ -30,6 +31,7 @@ from sklearn.decomposition import DictionaryLearning
 from sklearn.decomposition import TruncatedSVD
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
+from sklearn.cluster import AgglomerativeClustering
 from sklearn.cluster import AffinityPropagation
 from sklearn.cluster import Birch
 from sklearn.cluster import DBSCAN
@@ -43,6 +45,7 @@ from sklearn.cluster import SpectralClustering
 #import numpy as np
 #from Bio.Cluster import clusterdistance
 #from Bio import LogisticRegression
+
 
 def httpWrapper(body):
     """ Wrap Response Body In HTTP """
@@ -69,7 +72,11 @@ def cluster_bio_pca(event, context):
 
 def cluster_bio_tree(event, context):
     """ Bio Tree | data:[[]] """
-    tree = treecluster(data=event['body']['data'])
+    tree = treecluster(
+        data=event['body']['data'], 
+        method=event['body']['c_method'], 
+        dist=event['body']['dist'], 
+        transpose=event['body']['transpose'])
     nodes = list(map(lambda node: {'l':node.left,'r':node.right,'d':node.distance}, tree))
     return httpWrapper(json.dumps(nodes))
 
@@ -468,6 +475,23 @@ def cluster_sk_dbscan(event, context):
         'components': _config.components_,
         'labels': _config.labels_
     }))
+def cluster_sk_agglomerative(event, context):
+    """ Agglomerative Clustering """
+    _config = AgglomerativeClustering(
+        n_clusters = event['body']['n_clusters'],
+        affinity = event['body']['affinity'],
+        linkage = event['body']['linkage'],
+    )
+    _result = _config.fit_predict(event['body']['data'])
+    return httpWrapper( json.dumps({
+        'result': _result.tolist(),
+        'n_leaves': _config.n_leaves_,
+        'n_components': _config.n_components_,
+        'labels': _config.labels_.tolist(),
+        'children': base64.b64encode(_config.children_)
+        #'children': _config.children_.tolist(),
+        #'labels': _config.labels_.toList()
+    }))
 def cluster_sk_feature_agglomeration(event, context):
     """ FeatureAgglomeration """
     _config = FeatureAgglomeration(
@@ -485,7 +509,7 @@ def cluster_sk_feature_agglomeration(event, context):
         'core_sample_indices': _config.labels_,
         'n_leaves': _config.n_leaves_,
         'n_components': _config.n_components_,
-        'children': _config.children_
+        'children': base64.b64encode(_config.children_)
     }))
 
 def cluster_sk_kmeans(event, context):
@@ -552,7 +576,7 @@ def cluster_sk_mean_shift(event, context):
         'labels': _config.labels_
     }))
 
-def cluster_sk_spectral_clustering(event, context):
+def cluster_sk_spectral(event, context):
     """ SpectralClustering """
     _config = SpectralClustering(
         n_clusters = event['body']['n_clusters'],
@@ -650,7 +674,8 @@ def main(event, context):
         'cluster_sk_kmeans': cluster_sk_kmeans,
         'cluster_sk_mini_batch_kmeans': cluster_sk_mini_batch_kmeans,
         'cluster_sk_mean_shift': cluster_sk_mean_shift,
-        'cluster_sk_spectral_clustering': cluster_sk_spectral_clustering,
+        'cluster_sk_agglomerative': cluster_sk_agglomerative,
+        'cluster_sk_spectral': cluster_sk_spectral,
         'discriminant_analysis_sk_linear': discriminant_analysis_sk_linear,
         'discriminant_analysis_sk_quadratic': discriminant_analysis_sk_quadratic
 
