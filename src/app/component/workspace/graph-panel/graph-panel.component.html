@@ -49,7 +49,7 @@
                 <app-heatmap-form *ngIf="configA && configA.visualization === 32"
                     (configChange)="graphPanelSetConfig($event)"
                     [config]="configA" 
-                    [molecularData]="molecularData"
+                    [tables]="tables"
                     ></app-heatmap-form>
                 <app-boxwhiskers-form *ngIf="configA && configA.visualization === 4294967296"
                     (configChange)="graphPanelSetConfig($event)"
@@ -226,7 +226,7 @@
             <app-heatmap-form *ngIf="configB && configB.visualization === 32"
                 (configChange)="graphPanelSetConfig($event)"
                 [config]="configB" 
-                [molecularData]="molecularData"
+                [tables]="tables"
                 ></app-heatmap-form>
             <app-boxwhiskers-form *ngIf="configB && configB.visualization === 4294967296"
                 (configChange)="graphPanelSetConfig($event)"
