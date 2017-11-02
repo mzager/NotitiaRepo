@@ -23,6 +23,7 @@ import {
   ParallelCoordsCompleteAction,
   BoxWhiskersCompleteAction,
   LinkedGeneCompleteAction,
+  HicCompleteAction,
   MdsCompleteAction,
   FaCompleteAction,
   DictionaryLearningCompleteAction,
@@ -225,6 +226,17 @@ export class ComputeEffect {
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new LinkedGeneCompleteAction({ config: result.config, data: result.data }));
+        });
+    });
+
+  @Effect() loadHic: Observable<any> = this.actions$
+    .ofType(compute.COMPUTE_HIC)
+    .map(toPayload)
+    .switchMap(payload => {
+      return this.computeService.hic(payload.config)
+        .switchMap(result => {
+          return Observable.of((result === null) ? new NullDataAction() :
+            new HicCompleteAction({ config: result.config, data: result.data }));
         });
     });
 

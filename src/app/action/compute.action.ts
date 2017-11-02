@@ -1,3 +1,4 @@
+import { HicConfigModel, HicDataModel } from './../component/visualization/hic/hic.model';
 import { BoxWhiskersDataModel, BoxWhiskersConfigModel } from './../component/visualization/boxwhiskers/boxwhiskers.model';
 import { ParallelCoordsConfigModel, ParallelCoordsDataModel } from './../component/visualization/parallelcoords/parallelcoords.model';
 import { GenomeConfigModel, GenomeDataModel } from './../component/visualization/genome/genome.model';
@@ -45,6 +46,8 @@ export const COMPUTE_GENOME = '[Compute] Genome';
 export const COMPUTE_GENOME_COMPLETE = '[Compute] Chromosome Genome Complete';
 export const COMPUTE_LINKED_GENE = '[Compute] Linked Gene';
 export const COMPUTE_LINKED_GENE_COMPLETE = '[Compute] Linked Gene Complete';
+export const COMPUTE_HIC = '[Compute] HiC';
+export const COMPUTE_HIC_COMPLETE = '[Compute] HiC Complete';
 export const COMPUTE_EDGES = '[Compute] Edges';
 export const COMPUTE_EDGES_COMPLETE = '[Compute] Edges Complete';
 export const COMPUTE_NONE = '[Compute] None';
@@ -327,6 +330,14 @@ export class LinkedGeneCompleteAction implements Action {
     readonly type: string = COMPUTE_LINKED_GENE_COMPLETE;
     constructor(public payload: {config: GenomeConfigModel, data: GenomeDataModel} ) { }
 }
+export class HicAction implements Action {
+    readonly type: string = COMPUTE_HIC;
+    constructor(public payload: {config: HicConfigModel} ) { }
+}
+export class HicCompleteAction implements Action {
+    readonly type: string = COMPUTE_HIC_COMPLETE;
+    constructor(public payload: {config: HicConfigModel, data: HicDataModel} ) { }
+}
 export class SurvivalAction implements Action {
     readonly type: string = COMPUTE_SURVIVAL;
     constructor(public payload: {config: SurvivalConfigModel} ) { }
@@ -476,6 +487,7 @@ export type Actions =
    ChromosomeAction | ChromosomeCompleteAction |
    GenomeAction | GenomeCompleteAction |
    LinkedGeneAction | LinkedGeneCompleteAction |
+   HicAction | HicCompleteAction |
    DaAction | DaCompleteAction |
    DeAction | DeCompleteAction |
    PcaAction | PcaCompleteAction |

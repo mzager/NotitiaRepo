@@ -1,3 +1,4 @@
+import { HicConfigModel } from './../visualization/hic/hic.model';
 import { BoxWhiskersConfigModel } from './../visualization/boxwhiskers/boxwhiskers.model';
 import { ParallelCoordsConfigModel } from './../visualization/parallelcoords/parallelcoords.model';
 import { GenomeConfigModel } from './../visualization/genome/genome.model';
@@ -211,6 +212,9 @@ export class WorkspaceComponent {
         break;
       case enums.VisualizationEnum.LINKED_GENE:
         this.store.dispatch( new compute.LinkedGeneAction( { config: value as LinkedGeneConfigModel} ));
+        break;
+      case enums.VisualizationEnum.HIC:
+        this.store.dispatch( new compute.HicAction( { config: value as HicConfigModel} ));
         break;
       case enums.VisualizationEnum.SOM:
         this.store.dispatch( new compute.SomAction( { config: value as SomConfigModel} ));
