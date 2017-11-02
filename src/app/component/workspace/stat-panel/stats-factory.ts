@@ -159,12 +159,12 @@ export class StatsFactory {
 
     public createDonutVega(config: DonutConfig): any {
 
-        const values = config.data.map((v, i) => ({ id: (i + 1), label: v.label, field: v.value }));
+        const values = config.data.map((v, i) => ({ id: (i + 1), label: v.label, field: v.value.toFixed(2) }));
         const vega = {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'width': config.width,
             'height': config.height,
-            'padding': 10,
+            'padding': 25,
             'autosize': { 'type': 'fit', 'resize': true },
             'data': [
                 {
@@ -178,77 +178,129 @@ export class StatsFactory {
                     ]
                 }
             ],
-            'signals': [
-                {
-                  'name': 'tooltip',
-                  'value': {},
-                  'on': [
-                    {'events': 'arc:mouseover', 'update': 'datum.field'},
-                    {'events': 'arc:mouseout',  'update': '{}'}
-                  ]
-                }
-              ],
             'scales': [
                 {
                     'name': 'r',
                     'type': 'sqrt',
-                    'domain': {'data': 'table', 'field': 'field'}
-                  },
-                  {
+                    'domain': {
+                        'data': 'table',
+                        'field': 'field'
+                    }
+                },
+                {
                     'name': 'color',
                     'type': 'ordinal',
-                    'domain': {'data': 'table', 'field': 'label'},
-                    'range': { 'scheme': 'category10' },
-                  }
+                    'domain': {
+                        'data': 'table',
+                        'field': 'label'
+                    },
+                    'range': {
+                        'scheme': 'yellowgreenblue-3'
+                    }
+                }
             ],
             'marks': [
                 {
                     'type': 'arc',
-                    'from': { 'data': 'table' },
+                    'from': {
+                        'data': 'table'
+                    },
                     'encode': {
                         'enter': {
-                            'x': {'field': {'group': 'width'}, 'mult': 0.5},
-                            'y': {'field': {'group': 'height'}, 'mult': 0.5},
-                            'startAngle': { 'field': 'startAngle' },
-                            'endAngle': { 'field': 'endAngle' },
-                            'padAngle': { 'value': 0.035 },
-                            'innerRadius': { 'value': 60 },
-                            'outerRadius': { 'signal': 'width / 2' },
-                            'cornerRadius': { 'value': 0 },
+                            'x': {
+                                'field': {
+                                    'group': 'width'
+                                },
+                                'mult': 0.5
+                            },
+                            'y': {
+                                'field': {
+                                    'group': 'height'
+                                },
+                                'mult': 0.5
+                            },
+                            'startAngle': {
+                                'field': 'startAngle'
+                            },
+                            'endAngle': {
+                                'field': 'endAngle'
+                            },
+                            'padAngle': {
+                                'value': 0.035
+                            },
+                            'innerRadius': {
+                                'value': 60
+                            },
+                            'outerRadius': {
+                                'signal': 'width / 2'
+                            },
+                            'cornerRadius': {
+                                'value': 0
+                            },
+                            // How its done in Vega land, uncommented part works but color hovers do not
+                            // "tooltip": {"signal": "datum['field']+ '%'"}
+                            'tooltip': { 'signal': 'datum.field' }
                         },
+                        // opacity change on hover
                         'update': {
-                            'fill': {'scale': 'color', 'field': 'label'},
-                            'fillOpacity': {'value': 1}
-                          }
+                            'fill': {
+                                'scale': 'color',
+                                'field': 'field'
+                            },
+                            'fillOpacity': {
+                                'value': 1
+                            }
+                        },
+                        'hover': {
+                            'fillOpacity': {
+                                'value': 0.5
+                            },
+                            'text': {
+                                'field': 'field'
+                            }
+                        }
                     }
                 },
-
                 {
                     'type': 'text',
-                    'from': { 'data': 'table' },
+                    'from': {
+                        'data': 'table'
+                    },
                     'encode': {
                         'enter': {
-                            'x': {'field': {'group': 'width'}, 'mult': 0.5},
-                            'y': {'field': {'group': 'height'}, 'mult': 0.5},
-                            'radius': {'scale': 'r', 'field': 'field', 'offset': 110},
-                            'theta': {'signal': '(datum.startAngle + datum.endAngle)/2'},
-                            'fill': {'value': '#000'},
-                            'align': {'value': 'center'},
-                            'baseline': {'value': 'middle'},
-                            'text': {'field': 'label'},
-                            'font': {'value': 'Arial'},
-                            'fontSize': {'value': 12},
-                            'fontWeight': {'value': 'normal'}
+                            'x': {
+                                'field': {
+                                    'group': 'width'
+                                },
+                                'mult': 0.5
+                            },
+                            'y': {
+                                'field': {
+                                    'group': 'height'
+                                },
+                                'mult': 0.5
+                            },
+                            'radius': {
+                                'scale': 'r',
+                                'field': 'field',
+                                'offset': 90
+                            },
+                            'theta': {
+                                'signal': '(datum.startAngle + datum.endAngle)/2'
+                            },
+                            'align': {
+                                'value': 'center'
+                            },
+                            'text': {
+                                'field': 'label'
+                            },
+                            'font': {
+                                'value': 'Lato'
+                            },
+                            'fontSize': {
+                                'value': 14
+                            }
                         }
-                        // 'update': {
-                        //     'x': {'scale': 'color', 'signal': 'tooltip.label'},
-                        //     'y': {'scale': 'r', 'signal': 'tooltip.field'},
-                        //     'text': {'signal': 'tooltip.field'},
-                        //     'fillOpacity': [
-                        //       {'test': 'datum === tooltip', 'value': 0},
-                        //       {'value': 1}
-                        //     ]
-                        //   }
                     }
                 }
             ]
@@ -277,8 +329,8 @@ export class AbstractStatChartConfig {
     constructor() {
         this.data = [];
         this.labelFn = null;
-        this.width = 200;
-        this.height = 200;
+        this.width = 250;
+        this.height = 250;
     }
 }
 
