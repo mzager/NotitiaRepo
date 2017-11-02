@@ -13,12 +13,11 @@ import * as _ from 'lodash';
 declare var ML: any;
 
 export const heatmapCompute = (config: HeatmapConfigModel, worker: DedicatedWorkerGlobalScope): void => {
-    debugger;
+    
     worker.util
         .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
         .then(mtx => {
-            debugger;
-
+    
             Promise.all([
                 worker.util.getSamplePatientMap(),
                 worker.util
@@ -31,29 +30,29 @@ export const heatmapCompute = (config: HeatmapConfigModel, worker: DedicatedWork
                         transpose: config.transpose
                     })
             ]).then(result => {
-                // const matrix = mtx.data;
-                // const minMax = matrix.reduce((p, c) => {
-                //     p[0] = Math.min(p[0], ...c);
-                //     p[1] = Math.max(p[1], ...c);
-                //     return p;
-                // }, [Infinity, -Infinity]); // Min Max
+                // // const matrix = mtx.data;
+                // // const minMax = matrix.reduce((p, c) => {
+                // //     p[0] = Math.min(p[0], ...c);
+                // //     p[1] = Math.max(p[1], ...c);
+                // //     return p;
+                // // }, [Infinity, -Infinity]); // Min Max
 
-                worker.postMessage({
-                    config: config,
-                    data: {
-                        result: result
-                    }
-                });
+                // worker.postMessage({
+                //     config: config,
+                //     data: {
+                //         result: result
+                //     }
+                // });
                 worker.postMessage('TERMINATE');
             });
 
 
-            const matrix = result.data;
-            const minMax = matrix.reduce((p, c) => {
-                p[0] = Math.min(p[0], ...c);
-                p[1] = Math.max(p[1], ...c);
-                return p;
-            }, [Infinity, -Infinity]); // Min Max
+            // const matrix = result.data;
+            // const minMax = matrix.reduce((p, c) => {
+            //     p[0] = Math.min(p[0], ...c);
+            //     p[1] = Math.max(p[1], ...c);
+            //     return p;
+            // }, [Infinity, -Infinity]); // Min Max
 
             // const scaleColor = d3Scale.scaleSequential(interpolateRdBu).domain(minMax);
             // const scaleRegex = /rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)/;
