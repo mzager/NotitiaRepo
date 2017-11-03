@@ -64,7 +64,7 @@ export class StatPanelComponent implements AfterViewInit {
   // Create The Vega + Render It
   setMetric(value: any): void {
     new vega.View(vega.parse(value.value), {
-      renderer: 'canvas'
+      renderer: 'svg'
     }).initialize('#stat-panel-chart').run();
   }
 
