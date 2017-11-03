@@ -14,6 +14,8 @@ import { LegendPanelEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 declare var $: any;
 declare var vega: any;
+declare var vegaTooltip: any;
+
 
 @Component({
   selector: 'app-workspace-stat-panel',
@@ -61,12 +63,29 @@ export class StatPanelComponent implements AfterViewInit {
   statsFactory: StatsFactory;
   data = {};
 
+  // https://www.npmjs.com/package/vega-tooltip
+  options =
+  {
+    showAllFields: false,
+    fields: [
+      {
+        field: 'field',
+        title: 'PC',
+        formatType: 'number'
+      }
+    ]};
+
   // Create The Vega + Render It
-  setMetric(value: any): void {
-    new vega.View(vega.parse(value.value), {
-      renderer: 'canvas'
-    }).initialize('#stat-panel-chart').run();
-  }
+    setMetric(value: any): void {
+      new vega.View(vega.parse(value.value), {
+          renderer: 'svg'
+        }).initialize('#stat-panel-chart')
+          .hover()
+          .run();
+          // To further customize, overwrite the .vg-tooltip class in your CSS
+          // below needs work, https://www.npmjs.com/package/vega-tooltip
+          // vegaTooltip.vega(vega[, this.options]); // pass in options
+      }
 
 
   // Constructor Called Automatically 
