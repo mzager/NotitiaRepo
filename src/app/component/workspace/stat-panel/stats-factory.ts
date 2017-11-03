@@ -299,7 +299,8 @@ export class StatsFactory {
                             },
                             'fontSize': {
                                 'value': 14
-                            }
+                            },
+                            'tooltip': { 'signal': 'datum.field' }
                         }
                     }
                 }
