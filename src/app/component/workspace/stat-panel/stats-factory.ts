@@ -20,7 +20,7 @@ export class StatsFactory {
             'autosize': { 'type': 'fit', 'resize': true },
             'signals': [
                 {
-                    'name': 'maxbins', 'value': 10,
+                    'name': 'maxbins', value: 10,
                     'bind': { 'input': 'select', 'options': [5, 10, 20] }
                 },
                 {
@@ -28,7 +28,7 @@ export class StatsFactory {
                     'update': 'sequence(bins.start, bins.stop + bins.step, bins.step)'
                 },
                 {
-                    'name': 'nullGap', 'value': 10
+                    'name': 'nullGap', value: 10
                 },
                 {
                     'name': 'barStep',
@@ -42,12 +42,12 @@ export class StatsFactory {
                     'url': 'data/movies.json',
                     'transform': [
                         {
-                            'type': 'extent', 'field': 'IMDB_Rating',
+                            'type': 'extent', field: 'IMDB_Rating',
                             'signal': 'extent'
                         },
                         {
                             'type': 'bin', 'signal': 'bins',
-                            'field': 'IMDB_Rating', 'extent': { 'signal': 'extent' },
+                            field: 'IMDB_Rating', 'extent': { 'signal': 'extent' },
                             'maxbins': { 'signal': 'maxbins' }
                         }
                     ]
@@ -89,8 +89,8 @@ export class StatsFactory {
                     'round': true, 'nice': true,
                     'domain': {
                         'fields': [
-                            { 'data': 'counts', 'field': 'count' },
-                            { 'data': 'nulls', 'field': 'count' }
+                            { 'data': 'counts', field: 'count' },
+                            { 'data': 'nulls', field: 'count' }
                         ]
                     }
                 },
@@ -122,14 +122,14 @@ export class StatsFactory {
                     'from': { 'data': 'counts' },
                     'encode': {
                         'update': {
-                            'x': { 'scale': 'xscale', 'field': 'bin0', 'offset': 1 },
-                            'x2': { 'scale': 'xscale', 'field': 'bin1' },
-                            'y': { 'scale': 'yscale', 'field': 'count' },
-                            'y2': { 'scale': 'yscale', 'value': 0 },
-                            'fill': { 'value': 'steelblue' }
+                            'x': { 'scale': 'xscale', field: 'bin0', 'offset': 1 },
+                            'x2': { 'scale': 'xscale', field: 'bin1' },
+                            'y': { 'scale': 'yscale', field: 'count' },
+                            'y2': { 'scale': 'yscale', value: 0 },
+                            'fill': { value: 'steelblue' }
                         },
                         'hover': {
-                            'fill': { 'value': 'firebrick' }
+                            'fill': { value: '#000' }
                         }
                     }
                 },
@@ -138,14 +138,14 @@ export class StatsFactory {
                     'from': { 'data': 'nulls' },
                     'encode': {
                         'update': {
-                            'x': { 'scale': 'xscale-null', 'value': null, 'offset': 1 },
+                            'x': { 'scale': 'xscale-null', value: null, 'offset': 1 },
                             'x2': { 'scale': 'xscale-null', 'band': 1 },
-                            'y': { 'scale': 'yscale', 'field': 'count' },
-                            'y2': { 'scale': 'yscale', 'value': 0 },
-                            'fill': { 'value': '#aaa' }
+                            'y': { 'scale': 'yscale', field: 'count' },
+                            'y2': { 'scale': 'yscale', value: 0 },
+                            'fill': { value: '#aaa' }
                         },
                         'hover': {
-                            'fill': { 'value': 'firebrick' }
+                            'fill': { value: '#000' }
                         }
                     }
                 }
@@ -162,147 +162,160 @@ export class StatsFactory {
         const values = config.data.map((v, i) => ({ id: (i + 1), label: v.label, field: v.value.toFixed(2) }));
         const vega = {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
-            'width': config.width,
-            'height': config.height,
-            'padding': 25,
-            'autosize': { 'type': 'fit', 'resize': true },
-            'data': [
+            width: config.width,
+            height: config.height,
+            padding: 25,
+            autosize: { type: 'fit', resize: true },
+            data: [
                 {
-                    'name': 'table',
-                    'values': values,
-                    'transform': [
+                    name: 'table',
+                    values: values,
+                    transform: [
                         {
-                            'type': 'pie',
-                            'field': 'field',
+                            type: 'pie',
+                            field: 'field',
                         }
                     ]
                 }
             ],
-            'scales': [
+            signals: [
+              {
+                name: 'hover',
+                init: null,
+                streams: [
+                  {type: 'symbol:mouseover', expr: 'datum'},
+                  {type: 'symbol:mouseout', expr: null}
+                ]
+              },
+            ],
+            scales: [
                 {
-                    'name': 'r',
-                    'type': 'sqrt',
-                    'domain': {
-                        'data': 'table',
-                        'field': 'field'
+                    name: 'r',
+                    type: 'sqrt',
+                    domain: {
+                        data: 'table',
+                        field: 'field'
                     }
                 },
                 {
-                    'name': 'color',
-                    'type': 'ordinal',
-                    'domain': {
-                        'data': 'table',
-                        'field': 'label'
+                    name: 'color',
+                    type: 'ordinal',
+                    domain: {
+                        data: 'table',
+                        field: 'label'
                     },
-                    'range': {
-                        'scheme': 'yellowgreenblue-3'
+                    range: {
+                        scheme: 'yellowgreenblue-3'
                     }
                 }
             ],
-            'marks': [
+            marks: [
                 {
-                    'type': 'arc',
-                    'from': {
-                        'data': 'table'
+                    type: 'arc',
+                    from: {
+                        data: 'table'
                     },
-                    'encode': {
-                        'enter': {
-                            'x': {
-                                'field': {
-                                    'group': 'width'
+                    encode: {
+                        enter: {
+                            x: {
+                                field: {
+                                    group: 'width'
                                 },
-                                'mult': 0.5
+                                mult: 0.5
                             },
-                            'y': {
-                                'field': {
-                                    'group': 'height'
+                            y: {
+                                field: {
+                                    group: 'height'
                                 },
-                                'mult': 0.5
+                                mult: 0.5
                             },
-                            'startAngle': {
-                                'field': 'startAngle'
+                            startAngle: {
+                                field: 'startAngle'
                             },
-                            'endAngle': {
-                                'field': 'endAngle'
+                            endAngle: {
+                                field: 'endAngle'
                             },
-                            'padAngle': {
-                                'value': 0.035
+                            padAngle: {
+                                value: 0.035
                             },
-                            'innerRadius': {
-                                'value': 60
+                            innerRadius: {
+                                value: 60
                             },
-                            'outerRadius': {
-                                'signal': 'width / 2'
+                            outerRadius: {
+                                signal: 'width / 2'
                             },
-                            'cornerRadius': {
-                                'value': 0
+                            cornerRadius: {
+                                value: 0
                             },
-                            // How its done in Vega land, uncommented part works but color hovers do not
-                            // "tooltip": {"signal": "datum['field']+ '%'"}
-                            'tooltip': { 'signal': 'datum.field' }
+                            // fill: {
+                            //   scale: 'color',
+                            //   field: 'field'
+                            // }
                         },
-                        // opacity change on hover
-                        'update': {
-                            'fill': {
-                                'scale': 'color',
-                                'field': 'field'
-                            },
-                            'fillOpacity': {
-                                'value': 1
-                            }
+                        update: {
+                          // fill: {
+                          //   scale: 'color',
+                          //   field: 'field'
+                          // }
                         },
-                        'hover': {
-                            'fillOpacity': {
-                                'value': 0.5
-                            },
-                            'text': {
-                                'field': 'field'
-                            }
+                        hover: {
+                          fill: { value: 'pink' }
                         }
-                    }
-                },
-                {
-                    'type': 'text',
-                    'from': {
-                        'data': 'table'
-                    },
-                    'encode': {
-                        'enter': {
-                            'x': {
-                                'field': {
-                                    'group': 'width'
-                                },
-                                'mult': 0.5
-                            },
-                            'y': {
-                                'field': {
-                                    'group': 'height'
-                                },
-                                'mult': 0.5
-                            },
-                            'radius': {
-                                'scale': 'r',
-                                'field': 'field',
-                                'offset': 90
-                            },
-                            'theta': {
-                                'signal': '(datum.startAngle + datum.endAngle)/2'
-                            },
-                            'align': {
-                                'value': 'center'
-                            },
-                            'text': {
-                                'field': 'label'
-                            },
-                            'font': {
-                                'value': 'Lato'
-                            },
-                            'fontSize': {
-                                'value': 14
-                            }
-                        }
+                        // ,
+                        // // opacity change on hover
+                        // 'update': {
+                        //     'fill': {
+                        //         'scale': 'color',
+                        //         field: field
+                        //     },
+                        //     'fillOpacity': {
+                        //         value: 1
+                        //     }
+                        // }
                     }
                 }
+                // {
+                //     'type': 'text',
+                //     'from': {
+                //         'data': 'table'
+                //     },
+                //     'encode': {
+                //         'enter': {
+                //             'x': {
+                //                 field: {
+                //                     'group': 'width'
+                //                 },
+                //                 'mult': 0.5
+                //             },
+                //             'y': {
+                //                 field: {
+                //                     'group': 'height'
+                //                 },
+                //                 'mult': 0.5
+                //             },
+                //             'radius': {
+                //                 'scale': 'r',
+                //                 field: field,
+                //                 'offset': 90
+                //             },
+                //             'theta': {
+                //                 'signal': '(datum.startAngle + datum.endAngle)/2'
+                //             },
+                //             'align': {
+                //                 value: 'center'
+                //             },
+                //             'text': {
+                //                 field: 'label'
+                //             },
+                //             'font': {
+                //                 value: 'Lato'
+                //             },
+                //             'fontSize': {
+                //                 value: 14
+                //             }
+                //         }
+                //     }
+                // }
             ]
         };
         return vega;
