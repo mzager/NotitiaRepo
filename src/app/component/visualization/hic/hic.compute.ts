@@ -25,7 +25,7 @@ export const hicComputeFn = (config: HicConfigModel): Promise<any> => {
                 _graph.addLink( link.source, link.target );
             });
             const _layout = forcelayout3d(_graph);
-            for (let i = 0; i < 200; i++) {
+            for (let i = 0; i < 1000; i++) {
                 _layout.step();
             }
             const nodes = [];
