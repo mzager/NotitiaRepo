@@ -103,8 +103,10 @@ export class ChromosomeGraph implements ChartObjectInterface {
                 }
             });
             this.onRequestRender.next();
+            
         }
     }
+
 
     enable(truthy: boolean) {
         if (this.isEnabled === truthy) { return; }
@@ -137,7 +139,7 @@ export class ChromosomeGraph implements ChartObjectInterface {
             geometry.vertices.push( new THREE.Vector3(gene.sPos.x, gene.sPos.y, 0) );
             geometry.vertices.push( new THREE.Vector3(gene.ePos.x, gene.ePos.y, 0) );
 
-            const geo = new THREE.BoxGeometry( 1, 1, 1);
+            const geo = new THREE.BoxGeometry( 2, 2, 2);
             const mat = new THREE.MeshBasicMaterial( {color: 0x039BE5 } );
             const mesh = new THREE.Mesh(geo, mat);
             mesh.userData = gene;
@@ -192,7 +194,7 @@ export class ChromosomeGraph implements ChartObjectInterface {
             link.outGeometry = geometry.vertices = curve.getPoints( 50 );
 
 
-            const line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: 0xDDDDDD }) );
+            const line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: 0xbbdefb }) );
             line.userData = link;
             
             this.chords.push(line);
