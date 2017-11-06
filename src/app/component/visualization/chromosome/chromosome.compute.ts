@@ -27,10 +27,10 @@ export const chromosomeCompute = (config: ChromosomeConfigModel, worker: Dedicat
             const geneSize = 1;
             const vizCircumference = (geneCount * geneSize);
             const vizRadius = vizCircumference / (Math.PI * 2);
-            const vizSlice = 2 * Math.PI / vizCircumference;
+            const vizSlice = (2 * Math.PI / vizCircumference) + 100;
             const processedGenes = result.map( (v, i) => {
                 const angle = i * vizSlice;
-                const r = Math.random() * 10;
+                const r = Math.random() * 100;
                 return Object.assign(v, {
                     sPos: { x: vizRadius * Math.cos(angle), y: vizRadius * Math.sin(angle) },
                     ePos: { x: (vizRadius + r) * Math.cos(angle), y: (vizRadius + r) * Math.sin(angle) }

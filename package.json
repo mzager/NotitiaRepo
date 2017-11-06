@@ -90,6 +90,7 @@
     "three-bmfont-text": "^2.2.1",
     "three-orbitcontrols-ts": "^0.1.2",
     "three-transformcontrols": "^0.78.1",
+    "three.meshline": "^1.0.3",
     "ts-loader": "^2.3.2",
     "ts-md5": "^1.2.2",
     "tsne-js": "^1.0.3",
@@ -97,7 +98,7 @@
     "typescript-memoize": "0.0.4",
     "uuid-by-string": "^0.3.0",
     "vcf.js": "^0.3.0",
-    "vega": "^3.0.0-rc4",
+    "vega": "^3.0.7",
     "xlsx": "^0.10.9",
     "zeroclipboard": "^2.3.0",
     "zone.js": "^0.8.16"

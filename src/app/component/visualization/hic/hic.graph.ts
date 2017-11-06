@@ -19,7 +19,8 @@ import * as _ from 'lodash';
 import * as THREE from 'three';
 import graph from 'ngraph.graph';
 import forcelayout3d from 'ngraph.forcelayout3d';
-
+import MeshLine from 'three.meshline';
+import * as TWEEN from 'tween.js';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
 
 export class HicGraph implements ChartObjectInterface {
@@ -38,6 +39,12 @@ export class HicGraph implements ChartObjectInterface {
     private data: HicDataModel;
     private config: HicConfigModel;
     private isEnabled: boolean;
+    chromosomeLine: any;
+    chromosomeGeometry: THREE.Geometry;
+    chromosomeCurve: THREE.CatmullRomCurve3;
+    chromosomePath: THREE.CurvePath<THREE.Vector>;
+    normal = new THREE.Vector3(0, 0, 0);
+    binormals = new THREE.Vector3(0, 0, 0);
 
     // Objects
     public meshes: Array<THREE.Mesh>;
@@ -63,7 +70,8 @@ export class HicGraph implements ChartObjectInterface {
         const linkGeometry = new THREE.Geometry();
         linkGeometry.vertices.push(new THREE.Vector3(0, 0, 0));
         linkGeometry.vertices.push(new THREE.Vector3(0, 0, 0));
-        const linkMaterial = new THREE.LineBasicMaterial({ color: 0x039BE5 });
+        // const linkMaterial = new THREE.LineBasicMaterial({ color: 0x039BE5 });
+        const linkMaterial = new THREE.LineBasicMaterial({ color: 0xbbdefb });
         return new THREE.Line(linkGeometry, linkMaterial);
     }
 
@@ -126,10 +134,31 @@ export class HicGraph implements ChartObjectInterface {
     }
     addObjects() {
 
-        
+
+        const geneLocations = this.data.nodes.map( node => new THREE.Vector3(node.data.x, node.data.y, node.data.z) );
+        this.chromosomeCurve = new THREE.CatmullRomCurve3( geneLocations );
+        this.chromosomeCurve.type = 'chordal';
+        this.chromosomePath = new THREE.CurvePath();
+        this.chromosomePath .add(this.chromosomeCurve);
+
+         this.chromosomeGeometry =  this.chromosomePath.createPointsGeometry(1000);
+         this.chromosomeLine = new MeshLine.MeshLine();
+         this.chromosomeLine.setGeometry( this.chromosomeGeometry );
+         const mat = new MeshLine.MeshLineMaterial({
+            color: new THREE.Color( 0x90caf9),
+            lineWidth: 2,
+         });
+
+
+        const trail_mesh = new THREE.Mesh( this.chromosomeLine.geometry, mat ); // this syntax could definitely be improved!
+        trail_mesh.frustumCulled = false;
+        this.view.scene.add(trail_mesh);
+
+        this.meshes.push(trail_mesh);
+
         this.data.nodes.forEach( node => {
             const data = {tip: node.id, type: EntityTypeEnum.GENE};
-            const mesh = ChartFactory.meshAllocate( 0x039BE5, ShapeEnum.CIRCLE, 3,
+            const mesh = ChartFactory.meshAllocate( 0x039BE5, ShapeEnum.CIRCLE, 1,
                 new THREE.Vector3(node.data.x, node.data.y, node.data.z), data);
             this.meshes.push(mesh);
             this.view.scene.add(mesh);
@@ -148,8 +177,42 @@ export class HicGraph implements ChartObjectInterface {
         });
 
         this.onRequestRender.emit();
-
+        //this.animateCamera();
     }
+
+    
+
+    animateCamera(): void {
+        const animation = {step: 0, view: this.view,
+            line: this.chromosomeLine,
+            path: this.chromosomePath,
+            geo: this.chromosomeGeometry,
+            chromosomeCurve: this.chromosomeCurve,
+            onRequestRender: this.onRequestRender};
+        const steps = this.chromosomePath.getPoints().length;
+        new TWEEN.Tween(animation)
+            .to({step: 1, target: 1.5}, 90000)
+            .delay(500)
+            .onUpdate( (step) => {
+
+                const cameraPos = this.chromosomeCurve.getPointAt(step);
+                const tan = this.chromosomeCurve.getTangentAt(step);
+                this.view.camera.position.copy(cameraPos);
+                this.view.camera.rotation.setFromVector3(tan);
+                (this.view.camera as THREE.PerspectiveCamera).fov = 80;
+
+                this.view.camera.lookAt( this.chromosomeCurve.getPointAt(step + 0.01) );
+
+                // const g = this.chromosomeGeometry;
+                // const l = this.chromosomeLine;
+                // const p = this.chromosomePath;
+                // // this.view.camera.lookAt();
+                // // console.dir(this.chromosomeCurve.getTangentAt(step) );
+
+                this.onRequestRender.emit();
+            } )
+            .start();
+   }
 
     removeObjects() {
         for (let i = 0; i < this.lines.length; i++) {
@@ -168,12 +231,12 @@ export class HicGraph implements ChartObjectInterface {
         const meshes = ChartUtil.getVisibleMeshes(this.view).map<{ label: string, x: number, y: number, z:number }>(mesh => {
             const coord = ChartUtil.projectToScreen(this.config.graph, mesh, this.view.camera,
                 this.view.viewport.width, this.view.viewport.height);
-            return { label: mesh.userData.tip, x: coord.x + 25, y: coord.y - 10, z: coord.z };
+            return { label: mesh.userData.tip, x: coord.x + 10, y: coord.y - 5 , z: coord.z };
         })
         //.sort( (a, b) => (a.z < b.z) ? 1 : -1 ).filter( (v, i) => i < 10);
 
 
-        const html = meshes.map(data => {
+        const html = meshes.filter(v => v.label !== 'undefined').map(data => {
             return '<div class="chart-label" style="background: rgba(255, 255, 255, .5);font-size:8px;left:' + data.x + 'px;top:' + data.y +
                 'px;position:absolute;">' + data.label + '</div>';
         }).reduce((p, c) => p += c, '');
