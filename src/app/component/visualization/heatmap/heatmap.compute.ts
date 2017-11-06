@@ -30,6 +30,7 @@ export const heatmapCompute = (config: HeatmapConfigModel, worker: DedicatedWork
                         transpose: config.transpose
                     })
             ]).then(result => {
+                debugger;
                 // // const matrix = mtx.data;
                 // // const minMax = matrix.reduce((p, c) => {
                 // //     p[0] = Math.min(p[0], ...c);

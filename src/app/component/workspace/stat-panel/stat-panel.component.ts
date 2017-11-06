@@ -76,16 +76,16 @@ export class StatPanelComponent implements AfterViewInit {
     ]};
 
   // Create The Vega + Render It
-    setMetric(value: any): void {
+    setMetric(value: any): void {
       new vega.View(vega.parse(value.value), {
-          renderer: 'svg'
-        }).initialize('#stat-panel-chart')
+          renderer: 'svg'
+        }).initialize('#stat-panel-chart')
           .hover()
           .run();
           // To further customize, overwrite the .vg-tooltip class in your CSS
           // below needs work, https://www.npmjs.com/package/vega-tooltip
           // vegaTooltip.vega(vega[, this.options]); // pass in options
-      }
+      }
 
 
   // Constructor Called Automatically 
