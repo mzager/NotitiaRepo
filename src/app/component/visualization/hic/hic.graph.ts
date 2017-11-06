@@ -137,7 +137,7 @@ export class HicGraph implements ChartObjectInterface {
 
         const geneLocations = this.data.nodes.map( node => new THREE.Vector3(node.data.x, node.data.y, node.data.z) );
         this.chromosomeCurve = new THREE.CatmullRomCurve3( geneLocations );
-        this.chromosomeCurve.type = 'chordal';
+        this.chromosomeCurve['type'] = 'chordal';
         this.chromosomePath = new THREE.CurvePath();
         this.chromosomePath .add(this.chromosomeCurve);
 
