@@ -103,7 +103,6 @@ export class ComputeService {
     }
 
     heatmap(config: HeatmapConfigModel): Observable<any> {
-        debugger;
         return this.execute(config, this.heatmap$);
     }
 
