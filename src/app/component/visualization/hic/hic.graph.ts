@@ -127,6 +127,7 @@ export class HicGraph implements ChartObjectInterface {
             this.meshes.push(chromosomeMesh);
         }
 
+
         if (this.config.showLinks) {
             this.data.edges.forEach(edge => {
                 const linkGeometry = new THREE.Geometry();
@@ -138,6 +139,21 @@ export class HicGraph implements ChartObjectInterface {
                 this.view.scene.add(line);
             });
         }
+
+        // const geneLocations = this.data.nodes.map( node => new THREE.Vector3(node.data.x, node.data.y, node.data.z) );
+        // this.chromosomeCurve = new THREE.CatmullRomCurve3( geneLocations );
+        // this.chromosomeCurve['type'] = 'chordal';
+        // this.chromosomePath = new THREE.CurvePath();
+        // this.chromosomePath .add(this.chromosomeCurve);
+
+        //  this.chromosomeGeometry =  this.chromosomePath.createPointsGeometry(1000);
+        //  this.chromosomeLine = new MeshLine.MeshLine();
+        //  this.chromosomeLine.setGeometry( this.chromosomeGeometry );
+        //  const mat = new MeshLine.MeshLineMaterial({
+        //     color: new THREE.Color( 0x90caf9),
+        //     lineWidth: 2,
+        //  });
+
 
 
         const sl = scaleLinear().range([.2, 2]).domain([1, 20]);
