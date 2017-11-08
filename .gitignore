@@ -7,7 +7,7 @@
 
 # dependencies
 /node_modules
-/src/assets
+/src/assets/tcga
 
 # IDEs and editors
 /.idea
