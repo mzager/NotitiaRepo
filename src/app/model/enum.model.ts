@@ -43,7 +43,8 @@ export const enum DirtyEnum {
     COLOR = 2,
     SIZE = 4,
     SHAPE = 8,
-    INTERSECT = 16
+    INTERSECT = 16,
+    OPTIONS = 32
 }
 
 export class LogicalOperatorEnum {

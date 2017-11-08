@@ -12,6 +12,15 @@ import * as _ from 'lodash';
   template: `
 <form [formGroup]="form" novalidate>
   <div class="form-group">
+    <label class="center-block"><span class="form-label">Display Dimension</span>
+      <select class="browser-default" materialize="material_select"
+        [materializeSelectOptions]="dimensionOptions"
+        formControlName="dimensions">
+          <option *ngFor="let options of dimensionOptions">{{options}}</option>
+      </select>
+    </label>
+  </div>
+  <div class="form-group">
     <label class="center-block"><span class="form-label">Gene Color</span>
       <select class="browser-default" materialize="material_select"
           [compareWith]="byKey"
@@ -42,9 +51,36 @@ import * as _ from 'lodash';
     </label>
   </div>
   <div class="form-group">
-    <label class="center-block"><span class="form-label">Gene(s)s</span>
+    <label class="center-block"><span class="form-label">Gene(s)</span>
       <input class="browser-default" formControlName="gene">
     </label>
+  </div>
+  <div class="form-group">
+    <div class="switch">
+      <label>
+        <input type="checkbox" formControlName="showLabels">
+        <span class="lever"></span>
+        Show Labels
+      </label>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="switch">
+      <label>
+        <input type="checkbox" formControlName="showLinks">
+        <span class="lever"></span>
+        Show Links
+      </label>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="switch">
+      <label>
+        <input type="checkbox" formControlName="showChromosome">
+        <span class="lever"></span>
+        Show Chromosome
+      </label>
+    </div>
   </div>
 </form>
   `
@@ -75,8 +111,7 @@ export class HicFormComponent {
   colorOptions: Array<DataField>;
   shapeOptions: Array<DataField>;
   sizeOptions: Array<DataField>;
-  dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D];
-  chromosomeOptions = ['Cytobands', 'Centromeres & Telemeres', 'None'];
+  dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D, DimensionEnum.ONE_D];
 
   byKey(p1: DataField, p2: DataField) {
     if (p2 === null) { return false; }
@@ -102,21 +137,27 @@ export class HicFormComponent {
       pointSize: [],
 
       gene: [],
-      dimension: [],
-      allowRotation: []
+      dimensions: [],
+      allowRotation: [],
+      showLabels: [],
+      showLinks: [],
+      showChromosome: []
     });
 
     // Update When Form Changes
     this.form.valueChanges
-      .debounceTime(3000)
+      .debounceTime(500)
       .distinctUntilChanged()
       .subscribe(data => {
-        console.log("submit");
+
         let dirty = 0;
         const form = this.form;
         if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
-        // if (form.get('pointShape').dirty) { dirty |= DirtyEnum.SHAPE; }
         if (form.get('pointSize').dirty) { dirty |= DirtyEnum.SIZE; }
+        if (form.get('pointShape').dirty) { dirty |= DirtyEnum.SHAPE; }
+        if (form.get('showChromosome').dirty) { dirty |= DirtyEnum.OPTIONS; }
+        if (form.get('showLabels').dirty) { dirty |= DirtyEnum.OPTIONS; }
+        if (form.get('showLinks').dirty) { dirty |= DirtyEnum.OPTIONS; }
         if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
         form.markAsPristine();
         data.dirtyFlag = dirty;
