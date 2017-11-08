@@ -528,7 +528,7 @@ export class ComputeWorkerUtil {
                 if (field.ctype & CollectionTypeEnum.MOLECULAR) {
                     this.getMolecularGeneValues(markers, field).then( result => {
                         
-                        console.log("Would be good to subset color by Filtered Samples / Patients...  Revisit");
+                        console.log('Would be good to subset color by Filtered Samples / Patients...  Revisit');
 
                         const geneDomain = result.reduce( (p, c) => {
                             p.min = Math.min( p.min, c.mean );

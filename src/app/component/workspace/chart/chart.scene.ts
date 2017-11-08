@@ -172,6 +172,7 @@ export class ChartScene {
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, preserveDrawingBuffer: true});
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setClearColor(0xfdfdfd, 1);
+        // this.renderer.setClearColor(0x000000, 1);
         this.renderer.autoClear = false;
 
         this.container.appendChild(this.renderer.domElement);
