@@ -10,148 +10,100 @@ export class StatsFactory {
     public createHistogramConfig(): HistogramConfig {
         return new HistogramConfig();
     }
+ public createHistogramVega(config: HistogramConfig): any {
 
-    public createHistogramVega(config: HistogramConfig): any {
-        return {
+    const graphValues = config.data.map((v, i) => ({id: (i + 1), label: v.label, field: v.value.toFixed(2) }));
+    const vega = {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
-            'width': 400,
-            'height': 200,
-            'padding': 5,
+            'width': config.width,
+            'height': config.height,
+            'padding': 25,
             'autosize': { 'type': 'fit', 'resize': true },
-            'signals': [
-                {
-                    'name': 'maxbins', 'value': 10,
-                    'bind': { 'input': 'select', 'options': [5, 10, 20] }
-                },
-                {
-                    'name': 'binDomain',
-                    'update': 'sequence(bins.start, bins.stop + bins.step, bins.step)'
-                },
-                {
-                    'name': 'nullGap', 'value': 10
-                },
-                {
-                    'name': 'barStep',
-                    'update': '(width - nullGap) / binDomain.length'
-                }
-            ],
-
             'data': [
                 {
-                    'name': 'table',
-                    'url': 'data/movies.json',
-                    'transform': [
-                        {
-                            'type': 'extent', 'field': 'IMDB_Rating',
-                            'signal': 'extent'
-                        },
-                        {
-                            'type': 'bin', 'signal': 'bins',
-                            'field': 'IMDB_Rating', 'extent': { 'signal': 'extent' },
-                            'maxbins': { 'signal': 'maxbins' }
-                        }
-                    ]
-                },
+                  'name': 'table',
+                  'values': graphValues,
+            }
+              ],
+              'signals': [
                 {
-                    'name': 'counts',
-                    'source': 'table',
-                    'transform': [
-                        {
-                            'type': 'filter',
-                            'expr': 'datum[\'IMDB_Rating\'] != null'
-                        },
-                        {
-                            'type': 'aggregate',
-                            'groupby': ['bin0', 'bin1']
-                        }
-                    ]
+                  'name': 'tooltip',
+                  'value': {},
+                  'on': [
+                    {'events': 'rect:mouseover', 'update': 'datum'},
+                    {'events': 'rect:mouseout',  'update': '{}'}
+                  ],
+                  'range': {
+                    'scheme': 'spectral'
                 },
-                {
-                    'name': 'nulls',
-                    'source': 'table',
-                    'transform': [
-                        {
-                            'type': 'filter',
-                            'expr': 'datum[\'IMDB_Rating\'] == null'
-                        },
-                        {
-                            'type': 'aggregate'
-                        }
-                    ]
                 }
-            ],
+              ],
 
-            'scales': [
+              'scales': [
                 {
-                    'name': 'yscale',
-                    'type': 'linear',
-                    'range': 'height',
-                    'round': true, 'nice': true,
-                    'domain': {
-                        'fields': [
-                            { 'data': 'counts', 'field': 'count' },
-                            { 'data': 'nulls', 'field': 'count' }
-                        ]
-                    }
+                  'name': 'xscale',
+                  'type': 'band',
+                  'domain': {'data': 'table', 'field': 'label'},
+                  'range': 'width',
+                  'padding': 0.05,
+                  'round': true
                 },
                 {
-                    'name': 'xscale',
-                    'type': 'bin-linear',
-                    'range': [{ 'signal': 'barStep + nullGap' }, { 'signal': 'width' }],
-                    'round': true,
-                    'domain': { 'signal': 'binDomain' }
-                },
-                {
-                    'name': 'xscale-null',
-                    'type': 'band',
-                    'range': [0, { 'signal': 'barStep' }],
-                    'round': true,
-                    'domain': [null]
+                  'name': 'yscale',
+                  'domain': {'data': 'table', 'field': 'field'},
+                  'nice': true,
+                  'range': 'height'
                 }
-            ],
+              ],
 
-            'axes': [
-                { 'orient': 'bottom', 'scale': 'xscale', 'tickCount': 10 },
-                { 'orient': 'bottom', 'scale': 'xscale-null' },
-                { 'orient': 'left', 'scale': 'yscale', 'tickCount': 5, 'offset': 5 }
-            ],
+              'axes': [
+                { 'orient': 'bottom', 'scale': 'xscale' },
+                { 'orient': 'left', 'scale': 'yscale' }
+              ],
 
-            'marks': [
+              'marks': [
                 {
-                    'type': 'rect',
-                    'from': { 'data': 'counts' },
-                    'encode': {
-                        'update': {
-                            'x': { 'scale': 'xscale', 'field': 'bin0', 'offset': 1 },
-                            'x2': { 'scale': 'xscale', 'field': 'bin1' },
-                            'y': { 'scale': 'yscale', 'field': 'count' },
-                            'y2': { 'scale': 'yscale', 'value': 0 },
-                            'fill': { 'value': 'steelblue' }
-                        },
-                        'hover': {
-                            'fill': { 'value': 'firebrick' }
-                        }
+                  'type': 'rect',
+                  'from': {'data': 'table'},
+                  'encode': {
+                    'enter': {
+                      'x': {'scale': 'xscale', 'field': 'label'},
+                      'width': {'scale': 'xscale', 'band': 1},
+                      'y': {'scale': 'yscale', 'field': 'field'},
+                      'y2': {'scale': 'yscale', 'value': 0}
+                    },
+                    'update': {
+                      'fill': {'value': 'steelblue'}
+                    },
+                    'hover': {
+                      'fill': {'value': 'red'}
                     }
+                  }
                 },
                 {
-                    'type': 'rect',
-                    'from': { 'data': 'nulls' },
-                    'encode': {
-                        'update': {
-                            'x': { 'scale': 'xscale-null', 'value': null, 'offset': 1 },
-                            'x2': { 'scale': 'xscale-null', 'band': 1 },
-                            'y': { 'scale': 'yscale', 'field': 'count' },
-                            'y2': { 'scale': 'yscale', 'value': 0 },
-                            'fill': { 'value': '#aaa' }
-                        },
-                        'hover': {
-                            'fill': { 'value': 'firebrick' }
-                        }
+                  'type': 'text',
+                  'encode': {
+                    'enter': {
+                      'align': {'value': 'center'},
+                      'baseline': {'value': 'bottom'},
+                      'fill': {'value': '#333'}
+                    },
+                    'update': {
+                      'x': {'scale': 'xscale', 'signal': 'tooltip.label', 'band': 0.5},
+                      'y': {'scale': 'yscale', 'signal': 'tooltip.feild', 'offset': -2},
+                      'text': {'signal': 'tooltip.field'},
+                      'fillOpacity': [
+                        {'test': 'datum === tooltip', 'value': 0},
+                        {'value': 1}
+                      ]
                     }
+                  }
                 }
-            ]
+              ]
         };
+        return vega;
     }
+
 
     public createDonutConfig(): DonutConfig {
         return new DonutConfig();
@@ -238,7 +190,7 @@ export class StatsFactory {
                                 'value': 0
                             },
                             // How its done in Vega land, uncommented part works but color hovers do not
-                            // "tooltip": {"signal": "datum['field']+ '%'"}
+                            // ,tooltip': {'signal': 'datum['field']+ '%''}
                             'tooltip': { 'signal': 'datum.field' }
                         },
                         // opacity change on hover
@@ -308,7 +260,6 @@ export class StatsFactory {
         };
         return vega;
     }
-
 
     private constructor() { }
 
