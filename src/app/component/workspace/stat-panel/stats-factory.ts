@@ -195,7 +195,7 @@ export class StatsFactory {
                         'field': 'label'
                     },
                     'range': {
-                        'scheme': 'yellowgreenblue-3'
+                        'scheme': 'spectral'
                     }
                 }
             ],
