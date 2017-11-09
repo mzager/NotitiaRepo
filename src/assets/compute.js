@@ -19849,15 +19849,14 @@ var e10 = Math.sqrt(50),
     e2 = Math.sqrt(2);
 
 /* harmony default export */ __webpack_exports__["a"] = (function(start, stop, count) {
-  var reverse,
+  var reverse = stop < start,
       i = -1,
       n,
       ticks,
       step;
 
-  stop = +stop, start = +start, count = +count;
-  if (start === stop && count > 0) return [start];
-  if (reverse = stop < start) n = start, start = stop, stop = n;
+  if (reverse) n = start, start = stop, stop = n;
+
   if ((step = tickIncrement(start, stop, count)) === 0 || !isFinite(step)) return [];
 
   if (step > 0) {
