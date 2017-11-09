@@ -114,6 +114,7 @@ export class DataEffect {
             return [
                 new WorkspaceConfigAction( workspaceConfig ),
                 // new compute.LinkedGeneAction( { config: graphAConfig } ),
+
                  new compute.PcaIncrementalAction( { config: graphAConfig } ),
                 //new compute.HicAction( { config: graphAConfig }),
                 // new compute.BoxWhiskersAction( { config: graphAConfig } ),

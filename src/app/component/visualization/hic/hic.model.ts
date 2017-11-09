@@ -9,10 +9,15 @@ export class HicConfigModel extends GraphConfig {
         super();
         this.entity = EntityTypeEnum.GENE;
         this.visualization = VisualizationEnum.HIC;
-        this.markerFilter = ['AAAS'];
+        this.markerFilter = ['ABCA2'];
+        this.showLinks = false;
+        this.showChromosome = true;
     }
-    gene = 'AAAS';
-    displayType: DimensionEnum = DimensionEnum.THREE_D;
+    dimensions = DimensionEnum.THREE_D;
+    gene = 'ABCA2';
+    showLabels = false;
+    showLinks = false;
+    showChromosome = true;
 }
 
 export interface HicDataModel extends GraphData {
