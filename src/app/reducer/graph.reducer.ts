@@ -82,6 +82,8 @@ function processAction(action: UnsafeAction, state: State): State {
             switch (action.payload.config.dirtyFlag) {
                 case DirtyEnum.LAYOUT:
                     return Object.assign({}, state, {data: action.payload.data, config: action.payload.config});
+                case DirtyEnum.OPTIONS:
+                    return Object.assign({}, state, {data: Object.assign({}, state.data), config: action.payload.config});
                 case DirtyEnum.COLOR:
                     return Object.assign({}, state, {config: action.payload.config,
                         data: Object.assign({}, state.data, {

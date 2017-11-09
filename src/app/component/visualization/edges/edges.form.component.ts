@@ -119,7 +119,6 @@ export class EdgesFormComponent {
         form.markAsPristine();
         data.dirtyFlag = dirty;
         data.isVisible = (data.pointIntersect.key !== 'None' || data.pointColor.key !== 'None');
-        console.dir(data);
         this.configChange.emit(data);
       });
 
