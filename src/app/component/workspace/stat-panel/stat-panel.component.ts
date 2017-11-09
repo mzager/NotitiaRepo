@@ -17,6 +17,7 @@ declare var vega: any;
 declare var vegaTooltip: any;
 
 
+
 @Component({
   selector: 'app-workspace-stat-panel',
   templateUrl: './stat-panel.component.html',
@@ -42,13 +43,13 @@ export class StatPanelComponent implements AfterViewInit {
 
     // Create Array of Possible Stat Types
     this.metrics = [
-      { label: 'Histogram', value: genericHistogram( [] )},
+      { label: 'Histogram', value: genericHistogram( value.result.explainedVariance  )}
       // { label: 'Explained Variance', value: explainedVariance( value.result.explainedVariance )},
-      { label: 'Explained Variance Ratio', value: explainedVarianceRatio( value.result.explainedVarianceRatio )},
+      // { label: 'Explained Variance Ratio', value: explainedVarianceRatio( value.result.explainedVarianceRatio )},
     ];
     // debugger;
-    // Set Metric Creates The Vega Visualization and +'s it to The Page 
-   this.setMetric(this.metrics[1]);
+    // Set Metric Creates The Vega Visualization and +'s it to The Page
+   this.setMetric(this.metrics[0]);
 
   }
 
@@ -64,16 +65,30 @@ export class StatPanelComponent implements AfterViewInit {
   data = {};
 
   // https://www.npmjs.com/package/vega-tooltip
-  options =
-  {
-    showAllFields: false,
-    fields: [
-      {
-        field: 'field',
-        title: 'PC',
-        formatType: 'number'
-      }
-    ]};
+  // options =
+  // {
+  //   showAllFields: false,
+  //   fields: [
+  //     {
+  //       field: 'field',
+  //       title: 'PC',
+  //       formatType: 'number'
+  //     }
+  //   ]};
+
+     options =
+    {
+      showAllFields: false,
+      fields: [
+        {
+          field: 'field1',
+          title: 'Field One',
+          formatType: 'number',
+          delay: 250,
+          colorTheme: 'dark'
+        },
+      ]
+    };
 
   // Create The Vega + Render It
     setMetric(value: any): void {
@@ -82,13 +97,14 @@ export class StatPanelComponent implements AfterViewInit {
         }).initialize('#stat-panel-chart')
           .hover()
           .run();
+
           // To further customize, overwrite the .vg-tooltip class in your CSS
           // below needs work, https://www.npmjs.com/package/vega-tooltip
           // vegaTooltip.vega(vega[, this.options]); // pass in options
       }
 
 
-  // Constructor Called Automatically 
+  // Constructor Called Automatically
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {
     this.statsFactory = StatsFactory.getInstance();
   }
@@ -97,5 +113,4 @@ export class StatPanelComponent implements AfterViewInit {
   ngAfterViewInit() {
     $(this.tabs.nativeElement).tabs();
   }
-
 }

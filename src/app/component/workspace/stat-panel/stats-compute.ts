@@ -1,8 +1,8 @@
 import { AbstractStatChartConfig, StatChartEnum, StatsFactory, DonutConfig, HistogramConfig } from './stats-factory';
 
-export const genericHistogram = ( data: Array<{label: string, value: number}>): any => {
+export const genericHistogram = ( values: Array<number> ): any => {
     const config: HistogramConfig = StatsFactory.getInstance().createHistogramConfig();
-    config.data = data;
+    config.data = values.map( (v, i) => ({ label: 'PC ' + (i + 1), value: v }));
     return createGraph(config);
 };
 
