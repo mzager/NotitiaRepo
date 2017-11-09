@@ -109,7 +109,7 @@ export class HicGraph implements ChartObjectInterface {
                 .sort((a, b) => ((a.data.tss <= b.data.tss) ? -1 : 1)) // Sort Genes By Location On Chromosome
                 .map(node => new THREE.Vector3(node.x, node.y, node.z));
             this.chromosomeCurve = new THREE.CatmullRomCurve3(geneLocations);
-            this.chromosomeCurve.type = 'chordal';
+            this.chromosomeCurve['type'] = 'chordal';
             this.chromosomePath = new THREE.CurvePath();
             this.chromosomePath.add(this.chromosomeCurve);
 
