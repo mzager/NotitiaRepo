@@ -226,11 +226,9 @@ export class ChromosomeGraph implements ChartObjectInterface {
                     v.material = this.outMaterial;
                     (v.geometry as THREE.Geometry).vertices = v.userData.outGeometry;
                     (v.geometry as THREE.Geometry).verticesNeedUpdate = true;
-                    
                 }
             });
             this.onRequestRender.emit();
-            console.log(gene);
         }
     }
 
