@@ -1,6 +1,8 @@
 # Notitia
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.5.
+This repo contains Oncoscape V3 - Notitia.  For questions contact michael@zager.co.
+
+It was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.5.  
 
 ## Development server
 
