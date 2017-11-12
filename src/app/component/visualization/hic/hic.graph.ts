@@ -139,6 +139,7 @@ export class HicGraph implements ChartObjectInterface {
                 this.view.scene.add(line);
             });
         }
+        
 
         // const geneLocations = this.data.nodes.map( node => new THREE.Vector3(node.data.x, node.data.y, node.data.z) );
         // this.chromosomeCurve = new THREE.CatmullRomCurve3( geneLocations );
@@ -189,7 +190,7 @@ export class HicGraph implements ChartObjectInterface {
         });
 
         this.onRequestRender.emit();
-        //this.animateCamera();
+    //    this.animateCamera();
     }
 
     animateCamera(): void {

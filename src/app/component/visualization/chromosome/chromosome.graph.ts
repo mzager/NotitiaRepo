@@ -77,11 +77,14 @@ export class ChromosomeGraph implements ChartObjectInterface {
     }
 
     update(config: GraphConfig, data: any) {
+
         this.config = config as ChromosomeConfigModel;
         this.data = data;
         if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {
             this.removeObjects();
             this.addObjects();
+        }
+        if (this.config.dirtyFlag & DirtyEnum.SIZE) {
         }
         if (this.config.dirtyFlag & DirtyEnum.COLOR) {
 
@@ -103,7 +106,6 @@ export class ChromosomeGraph implements ChartObjectInterface {
                 }
             });
             this.onRequestRender.next();
-            
         }
     }
 
@@ -146,11 +148,11 @@ export class ChromosomeGraph implements ChartObjectInterface {
             mesh.position.x = gene.sPos.x;
             mesh.position.y = gene.sPos.y;
 
-            const geneLine = new THREE.Line( geometry, this.lineMaterial );
-            geneLine.userData = gene;
+            // const geneLine = new THREE.Line( geometry, this.lineMaterial );
+            // geneLine.userData = gene;
             this.meshes.push(mesh);
-            this.geneLines.push(geneLine);
-            this.group.add( geneLine );
+            // this.geneLines.push(geneLine);
+            // this.group.add( geneLine );
             this.group.add( mesh );
         });
 
