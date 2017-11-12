@@ -160,7 +160,7 @@ export class ComputeWorkerUtil {
             this.openDatabaseLookup().then(v => {
                 this.dbLookup.table('genecoords').where('chr').equals(chromosome).toArray()
                 .then( result => {
-                    resolve( result.filter( gene => ( gene.type === 'protein_coding' ) ));
+                    resolve( result );
                 });
             });
         });

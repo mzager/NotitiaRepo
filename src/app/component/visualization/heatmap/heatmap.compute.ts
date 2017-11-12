@@ -1,3 +1,4 @@
+import { DirtyEnum } from 'app/model/enum.model';
 import { HeatmapConfigModel } from './heatmap.model';
 import { DedicatedWorkerGlobalScope } from './../../../../compute';
 import { DimensionEnum, HClustMethodEnum, HClustDistanceEnum } from './../../../model/enum.model';
@@ -13,88 +14,92 @@ import * as _ from 'lodash';
 declare var ML: any;
 
 export const heatmapCompute = (config: HeatmapConfigModel, worker: DedicatedWorkerGlobalScope): void => {
-    
-    worker.util
-        .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
-        .then(mtx => {
-    
-            Promise.all([
-                worker.util.getSamplePatientMap(),
-                worker.util
-                    .fetchResult({
-                        // added more than server is calling
-                        method: 'cluster_bio_tree',
-                        data: mtx.data,
-                        c_method: config.method,
-                        dist: config.dist,
-                        transpose: config.transpose
-                    })
-            ]).then(result => {
-                debugger;
-                // // const matrix = mtx.data;
-                // // const minMax = matrix.reduce((p, c) => {
-                // //     p[0] = Math.min(p[0], ...c);
-                // //     p[1] = Math.max(p[1], ...c);
-                // //     return p;
-                // // }, [Infinity, -Infinity]); // Min Max
+
+    if (config.dirtyFlag & DirtyEnum.LAYOUT) {
+        worker.util
+            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+            .then(mtx => {
+
+                Promise.all([
+                    worker.util.getSamplePatientMap(),
+                    worker.util
+                        .fetchResult({
+                            // added more than server is calling
+                            method: 'cluster_bio_tree',
+                            data: mtx.data,
+                            c_method: config.method,
+                            dist: config.dist,
+                            transpose: config.transpose
+                        })
+                ]).then(result => {
+                    debugger;
+                    // // const matrix = mtx.data;
+                    // // const minMax = matrix.reduce((p, c) => {
+                    // //     p[0] = Math.min(p[0], ...c);
+                    // //     p[1] = Math.max(p[1], ...c);
+                    // //     return p;
+                    // // }, [Infinity, -Infinity]); // Min Max
+
+                    worker.postMessage({
+                        config: config,
+                        data: {
+                            data: mtx.data,
+                            map: result[0],
+                            tree: JSON.parse(result[1].body)
+                        }
+                    });
+                    worker.postMessage('TERMINATE');
+                });
+
+
+                // const matrix = result.data;
+                // const minMax = matrix.reduce((p, c) => {
+                //     p[0] = Math.min(p[0], ...c);
+                //     p[1] = Math.max(p[1], ...c);
+                //     return p;
+                // }, [Infinity, -Infinity]); // Min Max
+
+                // const scaleColor = d3Scale.scaleSequential(interpolateRdBu).domain(minMax);
+                // const scaleRegex = /rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)/;
+                // const scale = (val) => scaleRegex.exec(scaleColor(val).toString())
+                //     .reduce((p, c, rgbi) => {
+                //         if (rgbi > 0 && rgbi < 4) {
+                //             p[rgbi - 1] = parseInt(c, 10) / 255;
+                //         }
+                //         return p;
+                //     }, new Array(3));
+
+                // const markerCount = result.markers.length;
+                // const sampleCount = result.samples.length;
+                // const points = markerCount * sampleCount;
+                // const positions = new Float32Array(points * 3);
+                // const colors = new Float32Array(points * 3);
+
+                // const pointSize = 1;
+                // matrix.map((row, r) => row.map((col, c) => {
+
+                //     const index = (r * (sampleCount) + c) * 3;
+                //     positions[index] = r * pointSize;
+                //     positions[index + 1] = c * pointSize;
+                //     positions[index + 2] = 0;
+
+                //     const rgbArray = scale(col);
+                //     colors[index] = rgbArray[0];
+                //     colors[index + 1] = rgbArray[1];
+                //     colors[index + 2] = rgbArray[2];
+                // }));
 
                 // worker.postMessage({
                 //     config: config,
                 //     data: {
-                //         result: result
+                //         // legendItems: legendItems,
+                //         positions: positions,
+                //         colors: colors,
+                //         //cluster: cluster
                 //     }
                 // });
-                worker.postMessage('TERMINATE');
             });
-
-
-            // const matrix = result.data;
-            // const minMax = matrix.reduce((p, c) => {
-            //     p[0] = Math.min(p[0], ...c);
-            //     p[1] = Math.max(p[1], ...c);
-            //     return p;
-            // }, [Infinity, -Infinity]); // Min Max
-
-            // const scaleColor = d3Scale.scaleSequential(interpolateRdBu).domain(minMax);
-            // const scaleRegex = /rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)/;
-            // const scale = (val) => scaleRegex.exec(scaleColor(val).toString())
-            //     .reduce((p, c, rgbi) => {
-            //         if (rgbi > 0 && rgbi < 4) {
-            //             p[rgbi - 1] = parseInt(c, 10) / 255;
-            //         }
-            //         return p;
-            //     }, new Array(3));
-
-            // const markerCount = result.markers.length;
-            // const sampleCount = result.samples.length;
-            // const points = markerCount * sampleCount;
-            // const positions = new Float32Array(points * 3);
-            // const colors = new Float32Array(points * 3);
-
-            // const pointSize = 1;
-            // matrix.map((row, r) => row.map((col, c) => {
-
-            //     const index = (r * (sampleCount) + c) * 3;
-            //     positions[index] = r * pointSize;
-            //     positions[index + 1] = c * pointSize;
-            //     positions[index + 2] = 0;
-
-            //     const rgbArray = scale(col);
-            //     colors[index] = rgbArray[0];
-            //     colors[index + 1] = rgbArray[1];
-            //     colors[index + 2] = rgbArray[2];
-            // }));
-
-            // worker.postMessage({
-            //     config: config,
-            //     data: {
-            //         // legendItems: legendItems,
-            //         positions: positions,
-            //         colors: colors,
-            //         //cluster: cluster
-            //     }
-            // });
-        });
+        }
 
     // // const postMessageThrottled = _.throttle(postMessage, 1000);
     // worker.util.loadData(config.dataKey).then((data) => {
