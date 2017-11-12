@@ -20,12 +20,15 @@ export const chromosomeCompute = (config: ChromosomeConfigModel, worker: Dedicat
     if (config.dirtyFlag & DirtyEnum.LAYOUT) {
 
         worker.util.getChromosomeInfo(config.chromosome).then(result => {
+
             const genes = result.map( gene => gene.gene );
             config.markerFilter = genes;
+
             console.log('This is an odd place to updating the marker filter, this needs to be moved to the form');
+
             const geneCount = result.length;
             const geneSize = 1;
-            const vizCircumference = (geneCount * geneSize);
+            const vizCircumference = ((geneCount + 3) * geneSize);
             const vizRadius = vizCircumference / (Math.PI * 2);
             const vizSlice = (2 * Math.PI / vizCircumference) + 100;
             const processedGenes = result.map( (v, i) => {
