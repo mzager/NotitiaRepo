@@ -106,14 +106,17 @@ export const enum CollectionTypeEnum {
     UNDEFINED = 0,
     SAMPLE = 1,
     PATIENT = 2,
-    CNV = 4,
+    CNV = 4,    // CNV_THD - CNV === Gistic + CNV_THD === GISTIC_THRESHOLD
     GISTIC = 8,
     GISTIC_THRESHOLD = 16,
     MUTATION = 32,
     MIRNA = 64,
     MRNA = 128,
-    EXP = 256,
+    PROTEIN = 256,  // EXP - PROTEIN, MIRNA, RNA
     METH = 512,
+    GENE_FAMILY = 1024,
+    // tslint:disable-next-line:no-bitwise
+    EXP = CollectionTypeEnum.PROTEIN | CollectionTypeEnum.MIRNA | CollectionTypeEnum.MRNA,
     // tslint:disable-next-line:no-bitwise
     MOLECULAR = CollectionTypeEnum.CNV | CollectionTypeEnum.GISTIC |
         CollectionTypeEnum.GISTIC_THRESHOLD | CollectionTypeEnum.MUTATION | CollectionTypeEnum.MIRNA |

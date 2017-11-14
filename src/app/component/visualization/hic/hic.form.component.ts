@@ -12,11 +12,12 @@ import * as _ from 'lodash';
   template: `
 <form [formGroup]="form" novalidate>
   <div class="form-group">
-    <label class="center-block"><span class="form-label">Display Dimension</span>
+    <label class="center-block"><span class="form-label">Gene Set</span>
       <select class="browser-default" materialize="material_select"
-        [materializeSelectOptions]="dimensionOptions"
-        formControlName="dimensions">
-          <option *ngFor="let options of dimensionOptions">{{options}}</option>
+          [compareWith]="byKey"
+          [materializeSelectOptions]="sizeOptions"
+          formControlName="pointShape">
+          <option *ngFor="let option of shapeOptions" [ngValue]="option">{{option.label}}</option>
       </select>
     </label>
   </div>
@@ -31,28 +32,12 @@ import * as _ from 'lodash';
     </label>
   </div>
   <div class="form-group">
-    <label class="center-block"><span class="form-label">Gene Size</span>
-       <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="sizeOptions"
-          formControlName="pointSize">
-          <option *ngFor="let option of sizeOptions" [ngValue]="option">{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Gene Shape</span>
+    <label class="center-block"><span class="form-label">Dimensions</span>
       <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="sizeOptions"
-          formControlName="pointShape">
-          <option *ngFor="let option of shapeOptions" [ngValue]="option">{{option.label}}</option>
+        [materializeSelectOptions]="dimensionOptions"
+        formControlName="dimensions">
+          <option *ngFor="let options of dimensionOptions">{{options}}</option>
       </select>
-    </label>
-  </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Gene(s)</span>
-      <input class="browser-default" formControlName="gene">
     </label>
   </div>
   <div class="form-group">
@@ -87,13 +72,41 @@ import * as _ from 'lodash';
 })
 export class HicFormComponent {
 
+  /*
+  <div class="form-group">
+    <label class="center-block"><span class="form-label">Gene(s)</span>
+      <input class="browser-default" formControlName="gene">
+    </label>
+  </div>
+  <div class="form-group">
+    <label class="center-block"><span class="form-label">Gene Size</span>
+       <select class="browser-default" materialize="material_select"
+          [compareWith]="byKey"
+          [materializeSelectOptions]="sizeOptions"
+          formControlName="pointSize">
+          <option *ngFor="let option of sizeOptions" [ngValue]="option">{{option.label}}</option>
+      </select>
+    </label>
+  </div>
+  <div class="form-group">
+    <label class="center-block"><span class="form-label">Gene Shape</span>
+      <select class="browser-default" materialize="material_select"
+          [compareWith]="byKey"
+          [materializeSelectOptions]="sizeOptions"
+          formControlName="pointShape">
+          <option *ngFor="let option of shapeOptions" [ngValue]="option">{{option.label}}</option>
+      </select>
+    </label>
+  </div>
+  */
+
   @Input() set fields(fields: Array<DataField>) {
     if (fields === null) { return; }
     if (fields.length === 0) { return; }
     const defaultDataField: DataField = DataFieldFactory.getUndefined();
-    this.colorOptions = DataFieldFactory.getColorFields(fields);
-    this.shapeOptions = DataFieldFactory.getShapeFields(fields);
-    this.sizeOptions = DataFieldFactory.getSizeFields(fields);
+    this.colorOptions = DataFieldFactory.getColorFields(fields).filter( v => v.ctype !== undefined );
+    this.shapeOptions = DataFieldFactory.getShapeFields(fields).filter( v => v.ctype !== undefined );
+    this.sizeOptions = DataFieldFactory.getSizeFields(fields).filter( v => v.ctype !== undefined );
   }
 
   @Input() set tables(tables: Array<DataTable>) {

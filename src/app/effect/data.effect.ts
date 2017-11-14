@@ -81,24 +81,24 @@ export class DataEffect {
             workspaceConfig.layout = WorkspaceLayoutEnum.HORIZONTAL;
 
             // const graphBConfig = new GenomeConfigModel();
-            // graphBConfig.graph = GraphEnum.GRAPH_B;
+            // graphBConfig.graph = GraphEnum.GRAPH_A;
             // graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
-            const graphBConfig = new ChromosomeConfigModel();
-            graphBConfig.graph = GraphEnum.GRAPH_B;
-            graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            const chromosomeConfig = new ChromosomeConfigModel();
+            chromosomeConfig.graph = GraphEnum.GRAPH_B;
+            chromosomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
-            // const graphAConfig = new BoxWhiskersConfigModel();
-            // graphAConfig.graph = GraphEnum.GRAPH_A;
-            // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
+            // const boxWhiskersConfig = new BoxWhiskersConfigModel();
+            // boxWhiskersConfig.graph = GraphEnum.GRAPH_A;
+            // boxWhiskersConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
 
             // const graphAConfig = new PcaIncrementalConfigModel();
             // graphAConfig.graph = GraphEnum.GRAPH_B;
             // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
-            const graphAConfig = new HicConfigModel();
-            graphAConfig.graph = GraphEnum.GRAPH_A;
-            graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            const hicConfig = new HicConfigModel();
+            hicConfig.graph = GraphEnum.GRAPH_A;
+            hicConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             // const graphAConfig = new LinkedGeneConfigModel();
             // graphAConfig.graph = GraphEnum.GRAPH_A;
@@ -117,10 +117,10 @@ export class DataEffect {
                 // new compute.LinkedGeneAction( { config: graphAConfig } ),
 
                 //  new compute.PcaIncrementalAction( { config: graphAConfig } ),
-                new compute.HicAction( { config: graphAConfig }),
-                // new compute.BoxWhiskersAction( { config: graphAConfig } ),
+                new compute.HicAction( { config: hicConfig }),
+                //new compute.BoxWhiskersAction( { config: boxWhiskersConfig } ),
                 // new compute.GenomeAction( { config: graphBConfig }),
-                new compute.ChromosomeAction( { config: graphBConfig } )
+                new compute.ChromosomeAction( { config: chromosomeConfig } )
                 // new compute.HeatmapAction( { config: heatmapConfig })
                 // new compute.ChromosomeAction( { config: graphBConfig } )
                 //new compute.GenomeAction( { config: graphBConfig })

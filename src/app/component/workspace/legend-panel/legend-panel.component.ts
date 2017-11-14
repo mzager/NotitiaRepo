@@ -174,6 +174,7 @@ export class LegendPanelComponent implements AfterViewInit {
               const label = legend.labels[si].replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
               let color = legend.values[si].toString(16);
               if (color.length < 6) { color = '0' + color; }
+              if (color.length < 6) { color = '0' + color; }
 
               group.append('path')
                 .attr('d', symbol.type(d3Shape.symbolSquare))

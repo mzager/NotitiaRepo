@@ -69,7 +69,6 @@ export class HeatmapGraph implements ChartObjectInterface {
     }
 
     update( config: GraphConfig, data: any) {
-        debugger;
         this.config = config as HeatmapConfigModel;
         this.data = data;
         this.removeObjects();
