@@ -1,7 +1,7 @@
 import { hicComputeFn } from './hic.compute';
 import { ComputeWorkerUtil } from './../../../service/compute.worker.util';
 import { HicConfigModel, HicDataModel } from './hic.model';
-import { Colors, EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
+import { Colors, EntityTypeEnum, WorkspaceLayoutEnum, DirtyEnum, CollectionTypeEnum } from './../../../model/enum.model';
 import { OrbitControls } from 'three-orbitcontrols-ts';
 import { ChartUtil } from './../../workspace/chart/chart.utils';
 import { Subscription } from 'rxjs/Subscription';
@@ -50,11 +50,8 @@ export class HicGraph implements ChartObjectInterface {
     // Objects
     public meshes: Array<THREE.Mesh>;
     public lines: Array<THREE.Line>;
+    public chromosomeMesh: THREE.Mesh;
     private graphData: any;
-    private colors = [0xb71c1c, 0x880e4f, 0x4a148c, 0x311b92, 0x1a237e, 0x0d47a1, 0x01579b, 0x006064,
-        0x004d40, 0x1b5e20, 0x33691e, 0x827717, 0xf57f17, 0xff6f00, 0xe65100, 0xbf360c, 0x3e2723,
-        0xf44336, 0xe91e63, 0x9c27b0, 0x673ab7, 0x3f51b5, 0x2196f3, 0x03a9f4, 0x00bcd4, 0x009688,
-        0x4caf50, 0x8bc34a, 0xcddc39, 0xffeb3b, 0xffc107, 0xff9800, 0xff5722, 0x795548];
 
     // Private Subscriptions
     private sMouseMove: Subscription;
@@ -80,8 +77,70 @@ export class HicGraph implements ChartObjectInterface {
     update(config: GraphConfig, data: any) {
         this.config = config as HicConfigModel;
         this.data = data;
-        this.removeObjects();
-        this.addObjects();
+        if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {
+            this.removeObjects();
+            this.addObjects();
+        }
+        if (this.config.dirtyFlag & DirtyEnum.COLOR) {
+            const idProperty = (config.entity === EntityTypeEnum.GENE) ? 'mid' :
+            (this.config.pointColor.ctype & CollectionTypeEnum.MOLECULAR) ? 'sid' : 'pid';
+            const objMap = data.pointColor;
+            this.meshes.forEach(mesh => {
+                const color = objMap[mesh.userData[idProperty]];
+                (mesh as THREE.Mesh).material = ChartFactory.getColorPhong(color);
+                mesh.userData.color = color;
+            });
+        }
+        if (this.config.dirtyFlag & DirtyEnum.OPTIONS | DirtyEnum.LAYOUT) {
+
+            // Remove Objects
+            this.labels.innerHTML = '';
+            if (this.chromosomeMesh !== null) {
+                this.view.scene.remove(this.chromosomeMesh);
+                this.chromosomeMesh = null;
+            }
+            for (let i = 0; i < this.lines.length; i++) {
+                this.view.scene.remove(this.lines[i]);
+            }
+
+            // Add Objects
+            if (this.config.showLinks) {
+                this.data.edges.forEach(edge => {
+                    const linkGeometry = new THREE.Geometry();
+                    linkGeometry.vertices.push(new THREE.Vector3(edge.source.x, edge.source.y, edge.source.z));
+                    linkGeometry.vertices.push(new THREE.Vector3(edge.target.x, edge.target.y, edge.target.z));
+                    const linkMaterial = new THREE.LineBasicMaterial({ color: edge.color });
+                    const line = new THREE.Line(linkGeometry, linkMaterial);
+                    this.lines.push(line);
+                    this.view.scene.add(line);
+                });
+            }
+            if (this.chromosomeMesh !== null) {
+                this.view.scene.remove(this.chromosomeMesh);
+                this.chromosomeMesh = null;
+            }
+            if (this.config.showChromosome) {
+                const geneLocations = this.data.nodes.filter(v => v.data)    // Filter Out genes That Don't Have Chromosome Info
+                    .sort((a, b) => ((a.data.tss <= b.data.tss) ? -1 : 1)) // Sort Genes By Location On Chromosome
+                    .map(node => new THREE.Vector3(node.x, node.y, node.z));
+                this.chromosomeCurve = new THREE.CatmullRomCurve3(geneLocations);
+                this.chromosomeCurve.type = 'chordal';
+                this.chromosomePath = new THREE.CurvePath();
+                this.chromosomePath.add(this.chromosomeCurve);
+
+                this.chromosomeGeometry = this.chromosomePath.createPointsGeometry(1000);
+                this.chromosomeLine = new MeshLine.MeshLine();
+                this.chromosomeLine.setGeometry(this.chromosomeGeometry);
+                const mat = new MeshLine.MeshLineMaterial({
+                    color: new THREE.Color(0x90caf9),
+                    lineWidth: 2,
+                });
+
+                this.chromosomeMesh = new THREE.Mesh(this.chromosomeLine.geometry, mat); // this syntax could definitely be improved!
+                this.chromosomeMesh.frustumCulled = false;
+                this.view.scene.add(this.chromosomeMesh);
+            }
+        }
     }
 
     enable(truthy: boolean) {
@@ -104,63 +163,10 @@ export class HicGraph implements ChartObjectInterface {
     }
     addObjects() {
 
-        if (this.config.showChromosome) {
-            const geneLocations = this.data.nodes.filter(v => v.data)    // Filter Out genes That Don't Have Chromosome Info
-                .sort((a, b) => ((a.data.tss <= b.data.tss) ? -1 : 1)) // Sort Genes By Location On Chromosome
-                .map(node => new THREE.Vector3(node.x, node.y, node.z));
-            this.chromosomeCurve = new THREE.CatmullRomCurve3(geneLocations);
-            this.chromosomeCurve.type = 'chordal';
-            this.chromosomePath = new THREE.CurvePath();
-            this.chromosomePath.add(this.chromosomeCurve);
-
-            this.chromosomeGeometry = this.chromosomePath.createPointsGeometry(1000);
-            this.chromosomeLine = new MeshLine.MeshLine();
-            this.chromosomeLine.setGeometry(this.chromosomeGeometry);
-            const mat = new MeshLine.MeshLineMaterial({
-                color: new THREE.Color(0x90caf9),
-                lineWidth: 2,
-            });
-
-            const chromosomeMesh = new THREE.Mesh(this.chromosomeLine.geometry, mat); // this syntax could definitely be improved!
-            chromosomeMesh.frustumCulled = false;
-            this.view.scene.add(chromosomeMesh);
-            this.meshes.push(chromosomeMesh);
-        }
-
-
-        if (this.config.showLinks) {
-            this.data.edges.forEach(edge => {
-                const linkGeometry = new THREE.Geometry();
-                linkGeometry.vertices.push(new THREE.Vector3(edge.source.x, edge.source.y, edge.source.z));
-                linkGeometry.vertices.push(new THREE.Vector3(edge.target.x, edge.target.y, edge.target.z));
-                const linkMaterial = new THREE.LineBasicMaterial({ color: edge.color });
-                const line = new THREE.Line(linkGeometry, linkMaterial);
-                this.lines.push(line);
-                this.view.scene.add(line);
-            });
-        }
-        
-
-        // const geneLocations = this.data.nodes.map( node => new THREE.Vector3(node.data.x, node.data.y, node.data.z) );
-        // this.chromosomeCurve = new THREE.CatmullRomCurve3( geneLocations );
-        // this.chromosomeCurve['type'] = 'chordal';
-        // this.chromosomePath = new THREE.CurvePath();
-        // this.chromosomePath .add(this.chromosomeCurve);
-
-        //  this.chromosomeGeometry =  this.chromosomePath.createPointsGeometry(1000);
-        //  this.chromosomeLine = new MeshLine.MeshLine();
-        //  this.chromosomeLine.setGeometry( this.chromosomeGeometry );
-        //  const mat = new MeshLine.MeshLineMaterial({
-        //     color: new THREE.Color( 0x90caf9),
-        //     lineWidth: 2,
-        //  });
-
-
-
         const sl = scaleLinear().range([.2, 2]).domain([1, 20]);
         const cs = scaleSequential(interpolateYlGnBu).domain([0, 7]);
         this.data.nodes.forEach(node => {
-            const data = { tip: node.gene, type: EntityTypeEnum.GENE };
+            const data = { tip: node.gene, type: EntityTypeEnum.GENE, mid: node.gene };
             const edges = this.data.edges;
             const metrics = edges.reduce((p, c) => {
                 if (c.source.gene === node.gene || c.target.gene === node.gene) {
@@ -170,16 +176,9 @@ export class HicGraph implements ChartObjectInterface {
                 return p;
             }, { c: 0, t: 0 });
             const scale = sl(metrics.c);
-            const color = parseInt('0x' +
-                cs(Math.round(metrics.t / metrics.c)).toString()
-                    .split('(')[1]
-                    .split(')')[0]
-                    .split(',')
-                    .map(v => {
-                        v = parseInt(v, 10).toString(16);
-                        return (v.length === 1) ? '0' + v : v;
-                    })
-                    .join(''), 16);
+
+            const color = 0x039BE5;
+
             const mesh = ChartFactory.meshAllocate(color, ShapeEnum.CIRCLE, scale,
                 new THREE.Vector3(node.x, node.y, node.z), data);
 
@@ -190,7 +189,7 @@ export class HicGraph implements ChartObjectInterface {
         });
 
         this.onRequestRender.emit();
-    //    this.animateCamera();
+        // this.animateCamera();
     }
 
     animateCamera(): void {
@@ -222,11 +221,15 @@ export class HicGraph implements ChartObjectInterface {
 
     removeObjects() {
         this.labels.innerHTML = '';
-        for (let i = 0; i < this.lines.length; i++) {
-            this.view.scene.remove(this.lines[i]);
-        }
         for (let i = 0; i < this.meshes.length; i++) {
             this.view.scene.remove(this.meshes[i]);
+        }
+        if (this.chromosomeMesh !== null) {
+            this.view.scene.remove(this.chromosomeMesh);
+            this.chromosomeMesh = null;
+        }
+        for (let i = 0; i < this.lines.length; i++) {
+            this.view.scene.remove(this.lines[i]);
         }
     }
 
