@@ -1,5 +1,5 @@
 // import { Tween, Easing } from 'es6-tween';
-import { Colors, EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
+import { Colors, EntityTypeEnum, WorkspaceLayoutEnum, DirtyEnum, CollectionTypeEnum } from './../../../model/enum.model';
 import { OrbitControls } from 'three-orbitcontrols-ts';
 import { ChartUtil } from './../../workspace/chart/chart.utils';
 import { Subscription } from 'rxjs/Subscription';
@@ -36,6 +36,7 @@ export class GenomeGraph implements ChartObjectInterface {
 
     // Objects
     public meshes: Array<THREE.Mesh>;
+    public chromosomeMeshes: Array<THREE.Mesh>;
     private arms: any;
     private chromosomes: any;
     private selector: THREE.Mesh;
@@ -55,6 +56,7 @@ export class GenomeGraph implements ChartObjectInterface {
         this.isEnabled = false;
         this.arms = {};
         this.meshes = [];
+        this.chromosomeMeshes = [];
         this.selector = new THREE.Mesh(
             new THREE.CylinderGeometry(1, 1, 1, 10),
             new THREE.MeshStandardMaterial({ color: 0xEEEEEE, opacity: 0.7, transparent: true }));
@@ -71,8 +73,18 @@ export class GenomeGraph implements ChartObjectInterface {
     update(config: GraphConfig, data: any) {
         this.config = config as GenomeConfigModel;
         this.data = data;
-        this.removeObjects();
-        this.addObjects();
+        if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {
+            this.removeObjects();
+            this.addObjects();
+        }
+        if (this.config.dirtyFlag & DirtyEnum.COLOR) {
+            const objMap = data.pointColor;
+            this.meshes.forEach(mesh => {
+                const color = objMap[mesh.userData.id];
+                (mesh as THREE.Mesh).material = ChartFactory.getColorPhong(color);
+                mesh.userData.color = color;
+            });
+        }
     }
 
     enable(truthy: boolean) {
@@ -118,7 +130,7 @@ export class GenomeGraph implements ChartObjectInterface {
             centro.userData.chromosome = i;
             centro.userData.tip = 'Zoom - Chromosome';
             this.arms[i + 'Q'].add(centro);
-            this.meshes.push(centro);
+            this.chromosomeMeshes.push(centro);
 
             const teleQ: THREE.Mesh = ChartFactory.meshAllocate(0x0091EA, ShapeEnum.CIRCLE, .5,
                 new THREE.Vector3(0, v.Q - v.C, 0), {});
@@ -126,7 +138,7 @@ export class GenomeGraph implements ChartObjectInterface {
             centro.userData.chromosome = i;
             teleQ.userData.tip = 'Zoom - Q Arm';
             this.arms[i + 'Q'].add(teleQ);
-            this.meshes.push(teleQ);
+            this.chromosomeMeshes.push(teleQ);
 
             const teleP: THREE.Mesh = ChartFactory.meshAllocate(0x0091EA, ShapeEnum.CIRCLE, .5,
                 new THREE.Vector3(0, v.P - v.C, 0), {});
@@ -134,7 +146,7 @@ export class GenomeGraph implements ChartObjectInterface {
             centro.userData.chromosome = i;
             teleP.userData.tip = 'Zoom - P Arm';
             this.arms[i + 'P'].add(teleP);
-            this.meshes.push(teleP);
+            this.chromosomeMeshes.push(teleP);
 
         });
 
@@ -155,7 +167,7 @@ export class GenomeGraph implements ChartObjectInterface {
                     ((band.subband) ? '.' + band.subband : '') + ' | ' + band.tag.replace('neg', '-').replace('pos', '+');
                 this.arms[i + band.arm].add(mesh);
                 yPos += band.l;
-                this.meshes.push(mesh);
+                this.chromosomeMeshes.push(mesh);
             });
         });
 
@@ -174,9 +186,11 @@ export class GenomeGraph implements ChartObjectInterface {
                     mesh.position.y = (gene.tss - centro);
                     mesh.position.z = 0;
                     mesh.userData.id = gene.gene;
-                    mesh.userData.tip = gene.gene +
-                        ' | x̅ ' + (Math.round(100 * gene.mean) / 100) +
-                        ' σx̅ ' + (Math.round(100 * gene.meandev) / 100);
+                    mesh.userData.tip = gene.gene;
+                    
+                    //  +
+                    //     ' | x̅ ' + (Math.round(100 * gene.mean) / 100) +
+                    //     ' σx̅ ' + (Math.round(100 * gene.meandev) / 100);
                     this.meshes.push(mesh);
                     this.arms[ (chromoIndex - 1) + gene.arm].add(mesh);
                 });
@@ -256,7 +270,7 @@ export class GenomeGraph implements ChartObjectInterface {
                                 .easing(TWEEN.Easing.Quadratic.In)
                                 .delay(i * 5)
                                 .onComplete( o => {
-                                    v.visible = false;  
+                                    v.visible = false;
                                 })
                                 .start();
                         });

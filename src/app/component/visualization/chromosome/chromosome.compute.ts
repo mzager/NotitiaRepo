@@ -12,37 +12,61 @@ import * as d3Array from 'd3-array';
 import * as JStat from 'jstat';
 import { DedicatedWorkerGlobalScope } from 'compute';
 
-export const chromosomeCompute = (config: ChromosomeConfigModel, worker: DedicatedWorkerGlobalScope): void => {
+const ct = [
+    { 'chr': '1', 'P': 0, 'C': 124300000, 'Q': 247249719 },
+    { 'chr': '2', 'P': 0, 'C': 93300000, 'Q': 242951149 },
+    { 'chr': '3', 'P': 0, 'C': 91700000, 'Q': 199501827 },
+    { 'chr': '4', 'P': 0, 'C': 50700000, 'Q': 191273063 },
+    { 'chr': '5', 'P': 0, 'C': 47700000, 'Q': 180857866 },
+    { 'chr': '6', 'P': 0, 'C': 60500000, 'Q': 170899992 },
+    { 'chr': '7', 'P': 0, 'C': 59100000, 'Q': 158821424 },
+    { 'chr': '8', 'P': 0, 'C': 45200000, 'Q': 146274826 },
+    { 'chr': '9', 'P': 0, 'C': 51800000, 'Q': 140273252 },
+    { 'chr': '10', 'P': 0, 'C': 40300000, 'Q': 135374737 },
+    { 'chr': '11', 'P': 0, 'C': 52900000, 'Q': 134452384 },
+    { 'chr': '12', 'P': 0, 'C': 35400000, 'Q': 132349534 },
+    { 'chr': '13', 'P': 0, 'C': 16000000, 'Q': 114142980 },
+    { 'chr': '14', 'P': 0, 'C': 15600000, 'Q': 106368585 },
+    { 'chr': '15', 'P': 0, 'C': 17000000, 'Q': 100338915 },
+    { 'chr': '16', 'P': 0, 'C': 38200000, 'Q': 88827254 },
+    { 'chr': '17', 'P': 0, 'C': 22200000, 'Q': 78774742 },
+    { 'chr': '18', 'P': 0, 'C': 16100000, 'Q': 76117153 },
+    { 'chr': '19', 'P': 0, 'C': 28500000, 'Q': 63811651 },
+    { 'chr': '20', 'P': 0, 'C': 27100000, 'Q': 62435964 },
+    { 'chr': '21', 'P': 0, 'C': 12300000, 'Q': 46944323 },
+    { 'chr': '22', 'P': 0, 'C': 11800000, 'Q': 49691432 },
+    { 'chr': 'X', 'P': 0, 'C': 59500000, 'Q': 154913754 },
+    { 'chr': 'Y', 'P': 0, 'C': 11300000, 'Q': 57772954 }];
 
+export const chromosomeCompute = (config: ChromosomeConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
     worker.util.processShapeColorSizeIntersect(config, worker);
 
     if (config.dirtyFlag & DirtyEnum.LAYOUT) {
 
-        worker.util.getChromosomeInfo(config.chromosome).then(result => {
+        worker.util.getGenomeInfo(config.markerFilter).then(result => {
 
-            const genes = result.map( gene => gene.gene );
-            config.markerFilter = genes;
+            const genes = result[1].filter( v => v.chr === config.chromosome);
+            const chromo = ct.find( v => v.chr === config.chromosome );
 
-            console.log('This is an odd place to updating the marker filter, this needs to be moved to the form');
+             // Gene Scale (Y)
+            const scaleGene = scaleLinear();
+            scaleGene.domain([0, chromo.Q]);
+            scaleGene.range([0, 365]);
 
-            const geneCount = result.length;
-            const geneSize = 1;
-            const vizCircumference = ((geneCount + 3) * geneSize);
-            const vizRadius = vizCircumference / (Math.PI * 2);
-            const vizSlice = (2 * Math.PI / vizCircumference) + 100;
-            const processedGenes = result.map( (v, i) => {
-                const angle = i * vizSlice;
-                const r = Math.random() * 100;
+            const radius = 1000;
+            const r = 50;
+            const processedGenes = genes.map( (v, i) => {
+                const angle = scaleGene(v.tss) * Math.PI / 180;
                 return Object.assign(v, {
-                    sPos: { x: vizRadius * Math.cos(angle), y: vizRadius * Math.sin(angle) },
-                    ePos: { x: (vizRadius + r) * Math.cos(angle), y: (vizRadius + r) * Math.sin(angle) }
+                    sPos: { x: radius * Math.cos(angle), y: radius * Math.sin(angle) },
+                    ePos: { x: (radius + r) * Math.cos(angle), y: (radius + r) * Math.sin(angle) }
                 });
             });
 
 
-            worker.util.getGeneLinkInfoByGenes( genes ).then( links => {
-                const genemap = result.reduce( (p, c) => { p[c.gene] = c; return p; }, {});
+            worker.util.getGeneLinkInfoByGenes( genes.map(v => v.gene) ).then( links => {
+                const genemap = genes.reduce( (p, c) => { p[c.gene] = c; return p; }, {});
                 const processedLinks = links
                     .filter( v =>
                         ( genemap.hasOwnProperty(v.source) && genemap.hasOwnProperty(v.target) ) )
