@@ -18136,6 +18136,11 @@ var ComputeWorkerUtil = (function () {
     ComputeWorkerUtil.prototype.getEdgesSampleSample = function (config) {
         var _this = this;
         return new Promise(function (resolve, reject) {
+            // Bounce Early
+            if (config.pointColor.key === 'None') {
+                resolve([]);
+                return;
+            }
             _this.openDatabaseData().then(function (v) {
                 Promise.all([
                     _this.dbData.table('patient').toArray(),
@@ -18189,51 +18194,23 @@ var ComputeWorkerUtil = (function () {
     ComputeWorkerUtil.prototype.getEdgesGeneGene = function (config) {
         var _this = this;
         return new Promise(function (resolve, reject) {
+            // Bounce Early
+            if (config.pointColor.key === 'None') {
+                resolve([]);
+                return;
+            }
             _this.openDatabaseData().then(function (v) {
-                Promise.all([
-                    _this.dbData.table('patient').toArray(),
-                    _this.dbData.table('patientSampleMap').toArray()
-                ]).then(function (result) {
-                    var patientMap = result[0].reduce(function (p, c) { p[c.p] = c; return p; }, {});
-                    var colorField = config.pointColor.key;
-                    var intersectField = config.pointIntersect.key;
-                    var edges = result[1].map(function (ps) {
-                        var rv = { a: ps.s, b: ps.s, c: null, i: null };
-                        if (patientMap.hasOwnProperty(ps.p)) {
-                            var patient = patientMap[ps.p];
-                            if (patient.hasOwnProperty(colorField) && colorField !== 'None') {
-                                rv.c = patient[colorField];
-                            }
-                            if (patient.hasOwnProperty(intersectField) && intersectField !== 'None') {
-                                rv.i = patient[intersectField];
-                            }
-                        }
-                        return rv;
-                    });
-                    if (colorField !== 'None') {
-                        var colorValues = edges.map(function (value) { return value.c; });
-                        var colorScale_2 = d3_scale_1.scaleSequential(d3_scale_chromatic_1.interpolateSpectral)
-                            .domain([Math.min.apply(Math, colorValues), Math.max.apply(Math, colorValues)]);
-                        edges.forEach(function (edge) { return edge.c = colorScale_2(edge.c); });
-                    }
-                    if (intersectField !== 'None') {
-                        var bins = 0;
-                        var intersectScale_2;
-                        var colorValues = edges.map(function (value) { return value.i; });
-                        switch (config.pointIntersect.type) {
-                            case enum_model_1.DataTypeEnum.STRING:
-                                bins = config.pointIntersect.values.length;
-                                intersectScale_2 = function (value) { return config.pointIntersect.values.indexOf(value) + 1; };
-                                break;
-                            case enum_model_1.DataTypeEnum.NUMBER:
-                                bins = 6;
-                                intersectScale_2 = d3_scale_1.scaleQuantile()
-                                    .domain([Math.min.apply(Math, colorValues), Math.max.apply(Math, colorValues)])
-                                    .range([1, 2, 3, 4, 5, 6]);
-                                break;
-                        }
-                        edges.forEach(function (edge) { return edge.i = intersectScale_2(edge.i); });
-                    }
+                _this.getMolecularGeneValues(config.markerFilter, config.pointColor).then(function (result) {
+                    var edges = result.map(function (gene) { return ({
+                        a: gene.m,
+                        b: gene.m,
+                        c: gene.mean,
+                        i: null
+                    }); });
+                    var colorValues = edges.map(function (value) { return value.c; });
+                    var colorScale = d3_scale_1.scaleSequential(d3_scale_chromatic_1.interpolateSpectral)
+                        .domain([Math.min.apply(Math, colorValues), Math.max.apply(Math, colorValues)]);
+                    edges.forEach(function (edge) { return edge.c = colorScale(edge.c); });
                     resolve(edges);
                 });
             });
@@ -18242,32 +18219,57 @@ var ComputeWorkerUtil = (function () {
     ComputeWorkerUtil.prototype.getEdgesGeneSample = function (config) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.getMatrix([], [], 'gismutMap', 'gisticT', enum_model_1.EntityTypeEnum.GENE)
+            // Bounce Early
+            if (config.pointColor.key === 'None') {
+                resolve([]);
+                return;
+            }
+            _this.getMatrix(config.markerFilter, config.sampleFilter, 'gismutMap', 'gisticT', enum_model_1.EntityTypeEnum.GENE)
                 .then(function (result) {
                 var edges = [];
+                var nMarkers = result.markers.length;
+                var nSamples = result.samples.length;
                 var aIsGene = (config.entityA === enum_model_1.EntityTypeEnum.GENE);
-                var colorField = (config.pointColor.key !== 'None');
-                var intersectField = (config.pointIntersect.key !== 'None');
-                result.data.forEach(function (gene, geneIndex) { return gene.forEach(function (sample, sampleIndex) {
-                    if (sample !== 0) {
-                        var rv = { a: null, b: null, c: 0x333333, i: null };
-                        rv.a = aIsGene ? result['markers'][geneIndex] : result['samples'][sampleIndex];
-                        rv.b = !aIsGene ? result['markers'][geneIndex] : result['samples'][sampleIndex];
-                        if (intersectField) {
-                            rv.i = (sample === -2) ? 1 :
-                                (sample === -1) ? 2 :
-                                    (sample === 1) ? 3 :
-                                        4;
-                        }
-                        if (colorField) {
-                            rv.c = (sample === -2) ? _this.colors[0] :
-                                (sample === -1) ? _this.colors[1] :
-                                    (sample === 1) ? _this.colors[2] :
-                                        _this.colors[3];
-                        }
-                        edges.push(rv);
+                for (var iMarker = 0; iMarker < nMarkers; iMarker++) {
+                    for (var iSample = 0; iSample < nSamples; iSample++) {
+                        var value = result.data[iMarker][iSample];
+                        var color = (value === -2) ? _this.colors[0] :
+                            (value === -1) ? _this.colors[1] :
+                                (value === 1) ? _this.colors[2] :
+                                    _this.colors[3];
+                        edges.push({
+                            a: (aIsGene) ? result['markers'][iMarker] : result['samples'][iSample],
+                            b: (aIsGene) ? result['samples'][iSample] : result['markers'][iMarker],
+                            c: color,
+                            i: null
+                        });
                     }
-                }); });
+                }
+                edges = edges.slice(0, 10000);
+                // const edges: Array<any> = [];
+                // const aIsGene = (config.entityA === EntityTypeEnum.GENE);
+                // const colorField = (config.pointColor.key !== 'None');
+                // const intersectField = (config.pointIntersect.key !== 'None');
+                // result.data.forEach((gene, geneIndex) => gene.forEach((sample, sampleIndex) => {
+                //     if (sample !== 0) {
+                //         const rv = { a: null, b: null, c: 0x333333, i: null };
+                //         rv.a = aIsGene ? result['markers'][geneIndex] : result['samples'][sampleIndex];
+                //         rv.b = !aIsGene ? result['markers'][geneIndex] : result['samples'][sampleIndex];
+                //         if (intersectField) {
+                //             rv.i = (sample === -2) ? 1 :
+                //                 (sample === -1) ? 2 :
+                //                     (sample === 1) ? 3 :
+                //                         4;
+                //         }
+                //         if (colorField) {
+                //             rv.c = (sample === -2) ? this.colors[0] :
+                //                 (sample === -1) ? this.colors[1] :
+                //                     (sample === 1) ? this.colors[2] :
+                //                         this.colors[3];
+                //         }
+                //         edges.push(rv);
+                //     }
+                // }));
                 resolve(edges);
             });
         });
@@ -21888,19 +21890,6 @@ exports.chromosomeCompute = function (config, worker) {
             var scaleGene = d3_scale_1.scaleLinear();
             scaleGene.domain([0, chromo.Q]);
             scaleGene.range([0, 365]);
-            // const geneCount = result.length;
-            // const geneSize = 1;
-            // const vizCircumference = ((geneCount + 3) * geneSize);
-            // const vizRadius = vizCircumference / (Math.PI * 2);
-            //const vizSlice = (2 * Math.PI / vizCircumference) + 100;
-            // const processedGenes = result.map( (v, i) => {
-            //     // const angle = i * vizSlice;
-            //     const r = Math.random() * 100;
-            //     return Object.assign(v, {
-            //         sPos: { x: vizRadius * Math.cos(angle), y: vizRadius * Math.sin(angle) },
-            //         ePos: { x: (vizRadius + r) * Math.cos(angle), y: (vizRadius + r) * Math.sin(angle) }
-            //     });
-            // });
             var radius = 1000;
             var r = 50;
             var processedGenes = genes.map(function (v, i) {

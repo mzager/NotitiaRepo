@@ -130,9 +130,14 @@ export class GenesetPanelComponent implements AfterViewInit {
           form.markAsPristine();
           const genes = form.get('geneset').value.hugo.split(',');
           const dirty = DirtyEnum.LAYOUT; // & DirtyEnum.COLOR & DirtyEnum.SHAPE & DirtyEnum.SIZE & DirtyEnum.INTERSECT;
+
           this.configA.markerFilter = this.configB.markerFilter = genes;
           this.configA.dirtyFlag = this.configB.dirtyFlag = dirty;
           this.configChange.emit(this.configA);
+
+          this.configB.markerFilter = this.configB.markerFilter = genes;
+          this.configB.dirtyFlag = this.configB.dirtyFlag = dirty;
+          this.configChange.emit(this.configB);
           // this.configChange.emit(this.configB);
         }
       });

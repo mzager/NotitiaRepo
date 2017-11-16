@@ -287,11 +287,10 @@ export class GraphPanelComponent implements AfterViewInit  {
       //{ value: VisualizationEnum.NONE, label: 'None' },
       { value: VisualizationEnum.GENOME, label: 'Genome' },
       { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
-      { value: VisualizationEnum.LINKED_GENE, label: 'HiC - Genome' },
-      { value: VisualizationEnum.HIC, label: 'HiC - Gene Network' },
-      { value: VisualizationEnum.HEATMAP, label: 'Heatmap'},
-      { value: VisualizationEnum.BOX_WHISKERS, label: 'Box Whiskers'},
-      { value: VisualizationEnum.PARALLEL_COORDS, label: 'Parallel Coordinates'},
+      { value: VisualizationEnum.HIC, label: 'HiC Graph' },
+      // { value: VisualizationEnum.HEATMAP, label: 'Heatmap'},
+      // { value: VisualizationEnum.BOX_WHISKERS, label: 'Box Whiskers'},
+      // { value: VisualizationEnum.PARALLEL_COORDS, label: 'Parallel Coordinates'},
 
       // Decomposition
       { value: VisualizationEnum.DICTIONARY_LEARNING, label: 'Dictionary Learning'},
