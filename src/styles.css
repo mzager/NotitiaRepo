@@ -2,6 +2,7 @@
 body{
     height: 100%;
     overflow: hidden;
+    background: linear-gradient(135deg,#1396de 2%,#042a68);
 }
 
 .dg.ac {

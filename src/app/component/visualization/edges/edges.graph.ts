@@ -49,7 +49,7 @@ export class EdgesGraph implements ChartObjectInterface {
     }
 
     drawEdges(views, layout, renderer) {
-
+debugger;
         this.view.scene.children = this.view.scene.children.splice(0, 2);
 
         if (!this.config.isVisible) { return; }
@@ -71,6 +71,7 @@ export class EdgesGraph implements ChartObjectInterface {
                 p[c.userData[bId]] = { mesh: c, screenPosition: screenPosition };
             }
             return p; }, {});
+
 
         const edges = this.data.result.map( edge => {
             if (aMap.hasOwnProperty(edge.a) && bMap.hasOwnProperty(edge.b)) {

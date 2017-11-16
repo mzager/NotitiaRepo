@@ -46,6 +46,7 @@ export const chromosomeCompute = (config: ChromosomeConfigModel, worker: Dedicat
 
         worker.util.getGenomeInfo(config.markerFilter).then(result => {
 
+
             const genes = result[1].filter( v => v.chr === config.chromosome);
             const chromo = ct.find( v => v.chr === config.chromosome );
 

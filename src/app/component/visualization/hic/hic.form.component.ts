@@ -12,16 +12,6 @@ import * as _ from 'lodash';
   template: `
 <form [formGroup]="form" novalidate>
   <div class="form-group">
-    <label class="center-block"><span class="form-label">Gene Set</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="sizeOptions"
-          formControlName="pointShape">
-          <option *ngFor="let option of shapeOptions" [ngValue]="option">{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class="form-group">
     <label class="center-block"><span class="form-label">Gene Color</span>
       <select class="browser-default" materialize="material_select"
           [compareWith]="byKey"
@@ -39,15 +29,6 @@ import * as _ from 'lodash';
           <option *ngFor="let options of dimensionOptions">{{options}}</option>
       </select>
     </label>
-  </div>
-  <div class="form-group">
-    <div class="switch">
-      <label>
-        <input type="checkbox" formControlName="showLabels">
-        <span class="lever"></span>
-        Show Labels
-      </label>
-    </div>
   </div>
   <div class="form-group">
     <div class="switch">
