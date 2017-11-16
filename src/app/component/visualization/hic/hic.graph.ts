@@ -55,8 +55,7 @@ export class HicGraph implements ChartObjectInterface {
 
     // Private Subscriptions
     private sMouseMove: Subscription;
-    private sMouseDown: Subscription;
-    private sMouseUp: Subscription;
+    
 
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         this.labels = labels;
@@ -148,12 +147,8 @@ export class HicGraph implements ChartObjectInterface {
         this.isEnabled = truthy;
         this.view.controls.enabled = this.isEnabled;
         if (truthy) {
-            this.sMouseUp = this.events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
-            this.sMouseDown = this.events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
             this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
         } else {
-            this.sMouseUp.unsubscribe();
-            this.sMouseDown.unsubscribe();
             this.sMouseMove.unsubscribe();
         }
     }
@@ -233,25 +228,33 @@ export class HicGraph implements ChartObjectInterface {
         }
     }
 
-    private onMouseUp(e: ChartEvent): void {
-    }
-    private onMouseDown(e: ChartEvent): void {
-    }
     private onMouseMove(e: ChartEvent): void {
-        if (!this.config.showLabels) {
+
+        const geneHit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
+        if (geneHit.length > 0) {
+            const xPos = e.mouse.xs + 10;
+            const yPos = e.mouse.ys;
+            this.labels.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#FFF;padding:3px;border-radius:' +
+                '3px;z-index:9999;position:absolute;left:' +
+                xPos + 'px;top:' +
+                yPos + 'px;">' +
+                geneHit[0].object.userData.tip + '</div>';
             return;
         }
-        const meshes = ChartUtil.getVisibleMeshes(this.view).map<{ label: string, x: number, y: number, z: number }>(mesh => {
-            const coord = ChartUtil.projectToScreen(this.config.graph, mesh, this.view.camera,
-                this.view.viewport.width, this.view.viewport.height);
-            return { label: mesh.userData.tip, x: coord.x + 10, y: coord.y - 5, z: coord.z };
-        });
+        this.labels.innerHTML = '';
 
-        const html = meshes.filter(v => v.label !== undefined).map(data => {
-            return '<div class="chart-label" style="background: rgba(255, 255, 255, .5);font-size:8px;left:' + data.x + 'px;top:' + data.y +
-                'px;position:absolute;">' + data.label + '</div>';
-        }).reduce((p, c) => p += c, '');
-        this.labels.innerHTML = html;
+
+        // const meshes = ChartUtil.getVisibleMeshes(this.view).map<{ label: string, x: number, y: number, z: number }>(mesh => {
+        //     const coord = ChartUtil.projectToScreen(this.config.graph, mesh, this.view.camera,
+        //         this.view.viewport.width, this.view.viewport.height);
+        //     return { label: mesh.userData.tip, x: coord.x + 10, y: coord.y - 5, z: coord.z };
+        // });
+
+        // const html = meshes.filter(v => v.label !== undefined).map(data => {
+        //     return '<div class="chart-label" style="background: rgba(255, 255, 255, .5);font-size:8px;left:' + data.x + 'px;top:' + data.y +
+        //         'px;position:absolute;">' + data.label + '</div>';
+        // }).reduce((p, c) => p += c, '');
+        // this.labels.innerHTML = html;
     }
 
     constructor() { }
