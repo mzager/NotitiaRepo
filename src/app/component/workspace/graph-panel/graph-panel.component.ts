@@ -288,9 +288,6 @@ export class GraphPanelComponent implements AfterViewInit  {
       { value: VisualizationEnum.GENOME, label: 'Genome' },
       { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
       { value: VisualizationEnum.HIC, label: 'HiC Graph' },
-      // { value: VisualizationEnum.HEATMAP, label: 'Heatmap'},
-      // { value: VisualizationEnum.BOX_WHISKERS, label: 'Box Whiskers'},
-      // { value: VisualizationEnum.PARALLEL_COORDS, label: 'Parallel Coordinates'},
 
       // Decomposition
       { value: VisualizationEnum.DICTIONARY_LEARNING, label: 'Dictionary Learning'},
@@ -330,10 +327,13 @@ export class GraphPanelComponent implements AfterViewInit  {
       // { value: VisualizationEnum.SOM, label: 'SOM '},
       // { value: VisualizationEnum.DA, label: 'Discriminat Analysis '},
       // { value: VisualizationEnum.DA, label: 'Differential Expression '},
-      // { value: VisualizationEnum.HISTOGRAM, label: 'Histogram'},
-      // { value: VisualizationEnum.SURVIVAL, label: 'Kaplan Meier Curve'},
-      // { value: VisualizationEnum.PATHWAYS, label: 'Pathways'},
-      // { value: VisualizationEnum.TIMELINES, label: 'Timelines'}
+      { value: VisualizationEnum.HEATMAP, label: 'Heatmap'},
+      { value: VisualizationEnum.BOX_WHISKERS, label: 'Box Whiskers'},
+      { value: VisualizationEnum.PARALLEL_COORDS, label: 'Parallel Coordinates'},
+      { value: VisualizationEnum.HISTOGRAM, label: 'Histogram Beta'},
+      { value: VisualizationEnum.SURVIVAL, label: 'Kaplan Meier Curve Beta'},
+      { value: VisualizationEnum.PATHWAYS, label: 'Pathways Beta'},
+      { value: VisualizationEnum.TIMELINES, label: 'Timelines Beta'}
     ];
   }
 

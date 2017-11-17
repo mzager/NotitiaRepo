@@ -4,6 +4,11 @@ body{
     overflow: hidden;
     background: linear-gradient(135deg,#1396de 2%,#042a68);
 }
+.btn-small {
+    height: 24px;
+    line-height: 24px;
+    padding: 0 0.5rem;
+}
 
 .dg.ac {
     top: 30px !important;
