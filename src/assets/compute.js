@@ -18245,7 +18245,6 @@ var ComputeWorkerUtil = (function () {
                         });
                     }
                 }
-                edges = edges.slice(0, 10000);
                 // const edges: Array<any> = [];
                 // const aIsGene = (config.entityA === EntityTypeEnum.GENE);
                 // const colorField = (config.pointColor.key !== 'None');

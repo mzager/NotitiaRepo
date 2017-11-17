@@ -49,7 +49,6 @@ export class EdgesGraph implements ChartObjectInterface {
     }
 
     drawEdges(views, layout, renderer) {
-debugger;
         this.view.scene.children = this.view.scene.children.splice(0, 2);
 
         if (!this.config.isVisible) { return; }
@@ -73,8 +72,10 @@ debugger;
             return p; }, {});
 
 
-        const edges = this.data.result.map( edge => {
-            if (aMap.hasOwnProperty(edge.a) && bMap.hasOwnProperty(edge.b)) {
+        let edges = [];
+        const visibleEdges = this.data.result.filter( edge => (aMap.hasOwnProperty(edge.a) && bMap.hasOwnProperty(edge.b)) );
+        if (visibleEdges.length < 10000) {
+            edges = visibleEdges.map( edge => {
                 const aPoint = aMap[edge.a];
                 const bPoint = bMap[edge.b];
                 if (edge.i === null) {
@@ -86,10 +87,28 @@ debugger;
                     return ChartFactory.lineAllocateCurve(edge.c, aPoint.screenPosition, bPoint.screenPosition, 
                         new THREE.Vector2( 0, (edge.i * yDelta) - yOffset ) );
                 }
-            }
-        })
-        .filter( edge => edge !== undefined)
-        .forEach( edge => this.view.scene.add(edge) );
+            }).forEach( edge => this.view.scene.add(edge) );
+            console.log('good number');
+        } else {
+            console.log('too many edges');
+        }
+        // const edges = this.data.result.map( edge => {
+        //     if (aMap.hasOwnProperty(edge.a) && bMap.hasOwnProperty(edge.b)) {
+        //         const aPoint = aMap[edge.a];
+        //         const bPoint = bMap[edge.b];
+        //         if (edge.i === null) {
+        //             return ChartFactory.lineAllocate(edge.c, aPoint.screenPosition, bPoint.screenPosition);
+        //         } else {
+        //              const yDelta = this.view.viewport.height / 7;
+        //              const yOffset = this.view.viewport.height * 0.5;
+
+        //             return ChartFactory.lineAllocateCurve(edge.c, aPoint.screenPosition, bPoint.screenPosition, 
+        //                 new THREE.Vector2( 0, (edge.i * yDelta) - yOffset ) );
+        //         }
+        //     }
+        // })
+        // .filter( edge => edge !== undefined)
+        // .forEach( edge => this.view.scene.add(edge) );
 
         // Center Line
         this.view.scene.add(ChartFactory.lineAllocate(0x039BE5, new THREE.Vector2(0, -1000), new THREE.Vector2(0, 1000) ));

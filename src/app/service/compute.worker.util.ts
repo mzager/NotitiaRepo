@@ -321,6 +321,7 @@ export class ComputeWorkerUtil {
             }
             this.getMatrix(config.markerFilter, config.sampleFilter, 'gismutMap', 'gisticT', EntityTypeEnum.GENE)
                 .then((result: any) => {
+                    debugger;
                     let edges: Array<any> = [];
                     const nMarkers = result.markers.length;
                     const nSamples = result.samples.length;
@@ -340,8 +341,6 @@ export class ComputeWorkerUtil {
                                 });
                         }
                     }
-
-                    edges = edges.slice(0, 10000);
 
                     // const edges: Array<any> = [];
                     // const aIsGene = (config.entityA === EntityTypeEnum.GENE);

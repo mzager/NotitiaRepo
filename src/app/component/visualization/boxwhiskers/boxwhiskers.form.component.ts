@@ -21,27 +21,47 @@ import * as _ from 'lodash';
 </label>
 </div>
 <div class="form-group">
-<label class="center-block"><span class="form-label">Color</span>
-  <select class="browser-default" materialize="material_select"
-      [compareWith]="byKey"
-      [materializeSelectOptions]="colorOptions"
-      formControlName="pointColor">
-      <option *ngFor="let option of colorOptions"
-        [ngValue]="option">{{option.label}}</option>
-  </select>
-</label>
+  <label class="center-block"><span class="form-label">Color</span>
+    <select class="browser-default" materialize="material_select"
+        [compareWith]="byKey"
+        [materializeSelectOptions]="colorOptions"
+        formControlName="pointColor">
+        <option *ngFor="let option of colorOptions"
+          [ngValue]="option">{{option.label}}</option>
+    </select>
+  </label>
 </div>
 <div class="form-group">
-<label class="center-block"><span class="form-label">Shape</span>
-  <select class="browser-default" materialize="material_select"
-      [compareWith]="byKey"
-      [materializeSelectOptions]="colorOptions" formControlName="pointShape">
-      <option *ngFor="let option of shapeOptions"
-        [ngValue]="option">{{option.label}}</option>
-  </select>
-</label>
+  <label class="center-block"><span class="form-label">Continuous Variable</span>
+    <select class="browser-default" materialize="material_select"
+        [compareWith]="byKey"
+        [materializeSelectOptions]="colorOptions" formControlName="pointShape">
+        <option *ngFor="let option of shapeOptions"
+          [ngValue]="option">{{option.label}}</option>
+    </select>
+  </label>
 </div>
-  <div class="form-group">
+<div class="form-group">
+  <label class="center-block"><span class="form-label">Categoricial Variable 1</span>
+    <select class="browser-default" materialize="material_select"
+        [compareWith]="byKey"
+        [materializeSelectOptions]="colorOptions" formControlName="pointShape">
+        <option *ngFor="let option of shapeOptions"
+          [ngValue]="option">{{option.label}}</option>
+    </select>
+  </label>
+</div>
+<div class="form-group">
+  <label class="center-block"><span class="form-label">Categoricial Variable 2</span>
+    <select class="browser-default" materialize="material_select"
+        [compareWith]="byKey"
+        [materializeSelectOptions]="colorOptions" formControlName="pointShape">
+        <option *ngFor="let option of shapeOptions"
+          [ngValue]="option">{{option.label}}</option>
+    </select>
+  </label>
+</div>
+<div class="form-group">
   <label class="center-block"><span class="form-label">Display</span>
     <select class="browser-default" materialize="material_select"
         formControlName="entity">
@@ -49,26 +69,34 @@ import * as _ from 'lodash';
     </select>
   </label>
 </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Sort</span>
-       <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="sizeOptions"
-          formControlName="pointSize">
-          <option *ngFor="let option of sizeOptions" [ngValue]="option">{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Chromosomes</span>
-       <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="chromosomeOptions"
-          formControlName="chromosome">
-          <option *ngFor="let option of chromosomeOptions" [value]="option">{{option}}</option>
-      </select>
-    </label>
-  </div>
+<div class="form-group">
+  <label class="center-block"><span class="form-label">Sort</span>
+      <select class="browser-default" materialize="material_select"
+        [compareWith]="byKey"
+        [materializeSelectOptions]="sizeOptions"
+        formControlName="pointSize">
+        <option *ngFor="let option of sizeOptions" [ngValue]="option">{{option.label}}</option>
+    </select>
+  </label>
+</div>
+<div class="form-group">
+<div class="switch">
+  <label>
+    <input type="checkbox" formControlName="scatter">
+      <span class="lever"></span>
+        Scatter
+  </label>
+</div>
+</div>
+<div class="form-group">
+<div class="switch">
+  <label>
+    <input type="checkbox" formControlName="notch">
+      <span class="lever"></span>
+        Notch
+  </label>
+</div>
+</div>
 </form>
   `
 })
@@ -122,7 +150,9 @@ export class BoxWhiskersFormComponent {
       pointSize: [],
       dimension: [],
       chromosome: [],
-      allowRotation: []
+      allowRotation: [],
+      scatter: [],
+      notch: []
     });
 
     // Update When Form Changes
