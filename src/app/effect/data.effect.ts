@@ -1,3 +1,4 @@
+import { HeatmapConfigModel } from './../component/visualization/heatmap/heatmap.model';
 import { HicConfigModel } from './../component/visualization/hic/hic.model';
 import { BoxWhiskersConfigModel } from './../component/visualization/boxwhiskers/boxwhiskers.model';
 import { GenomeConfigModel } from './../component/visualization/genome/genome.model';
@@ -80,21 +81,40 @@ export class DataEffect {
             workspaceConfig.layout = WorkspaceLayoutEnum.HORIZONTAL;
 
             // const graphBConfig = new GenomeConfigModel();
-            // graphBConfig.graph = GraphEnum.GRAPH_B;
+            // graphBConfig.graph = GraphEnum.GRAPH_A;
             // graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
+<<<<<<< HEAD
             // const graphBConfig = new ChromosomeConfigModel();
             // graphBConfig.graph = GraphEnum.GRAPH_B;
             // graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+=======
+            // const chromosomeConfig = new ChromosomeConfigModel();
+            // chromosomeConfig.graph = GraphEnum.GRAPH_B;
+            // chromosomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
-            // const graphAConfig = new BoxWhiskersConfigModel();
+            // const boxWhiskersConfig = new BoxWhiskersConfigModel();
+            // boxWhiskersConfig.graph = GraphEnum.GRAPH_A;
+            // boxWhiskersConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
+
+            // const graphAConfig = new PcaIncrementalConfigModel();
+            // graphAConfig.graph = GraphEnum.GRAPH_B;
+            // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+
+            // const hicConfig = new HicConfigModel();
+            // hicConfig.graph = GraphEnum.GRAPH_A;
+            // hicConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+>>>>>>> 849b45b2fbe6c83380b59ab4128cecde996236b7
+
+            // const graphAConfig = new LinkedGeneConfigModel();
             // graphAConfig.graph = GraphEnum.GRAPH_A;
-            // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
+            // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             const graphAConfig = new PcaIncrementalConfigModel();
             graphAConfig.graph = GraphEnum.GRAPH_A;
             graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
+<<<<<<< HEAD
             // const graphBConfig = new PcaIncrementalConfigModel();
             // graphBConfig.graph = GraphEnum.GRAPH_B;
             // graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
@@ -102,24 +122,32 @@ export class DataEffect {
             // const graphAConfig = new HicConfigModel();
             // graphAConfig.graph = GraphEnum.GRAPH_A;
             // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+=======
+>>>>>>> 849b45b2fbe6c83380b59ab4128cecde996236b7
 
-            // const graphAConfig = new LinkedGeneConfigModel();
-            // graphAConfig.graph = GraphEnum.GRAPH_A;
-            // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            const graphBConfig = new PcaIncrementalConfigModel();
+            graphBConfig.graph = GraphEnum.GRAPH_B;
+            graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
-            // const graphBConfig = new PcaIncrementalConfigModel();
-            // graphBConfig.graph = GraphEnum.GRAPH_B;
-            // graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            // const heatmapConfig = new HeatmapConfigModel();
+            // heatmapConfig.graph = GraphEnum.GRAPH_A;
+            // heatmapConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             return [
                 new WorkspaceConfigAction( workspaceConfig ),
                 // new compute.LinkedGeneAction( { config: graphAConfig } ),
 
                  new compute.PcaIncrementalAction( { config: graphAConfig } ),
-                //new compute.HicAction( { config: graphAConfig }),
-                // new compute.BoxWhiskersAction( { config: graphAConfig } ),
+                 new compute.PcaIncrementalAction( { config: graphBConfig } ),
+                //new compute.HicAction( { config: hicConfig }),
+                //new compute.BoxWhiskersAction( { config: boxWhiskersConfig } ),
                 // new compute.GenomeAction( { config: graphBConfig }),
+<<<<<<< HEAD
                 // new compute.ChromosomeAction( { config: graphAConfig } ),
+=======
+                // new compute.ChromosomeAction( { config: chromosomeConfig } )
+                // new compute.HeatmapAction( { config: heatmapConfig })
+>>>>>>> 849b45b2fbe6c83380b59ab4128cecde996236b7
                 // new compute.ChromosomeAction( { config: graphBConfig } )
                 //new compute.GenomeAction( { config: graphBConfig })
                 // , new compute.PcaIncrementalAction( { config: graphBConfig } )

@@ -34,7 +34,6 @@
         (selectGeneSignature)="graphPanelSelectGeneSignature($event)"
         ></app-workspace-graph-panel>
 
-    
     <app-workspace-geneset-panel
         [configA]="graphAConfig | async"
         [configB]="graphBConfig | async"
@@ -124,5 +123,7 @@
 
 <app-workspace-data-panel  style="position:absolute;top:30px;bottom:0px;width:100%;background:#ffffff;"
     [tables]="tables | async"
+    [configA]="graphAConfig | async"
+    [configB]="graphBConfig | async"
     *ngIf="dataPanelTab | async"></app-workspace-data-panel>
      

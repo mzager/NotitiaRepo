@@ -70,7 +70,7 @@ export const genomeCompute = (config: GenomeConfigModel, worker: DedicatedWorker
                 worker.util.getGenomeInfo(mtx.markers).then(result => {
 
                     const genes = _.groupBy(result[1].map(v => {
-                        v.color = 0xFF0000;
+                        v.color = 0x039BE5;
                         v.tss = scaleGene(v.tss);
                         return v;
                     }), 'chr');

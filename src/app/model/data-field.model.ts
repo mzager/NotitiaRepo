@@ -15,7 +15,7 @@ export class DataFieldFactory {
         case DataTypeEnum.NUMBER:
           return true;
       }
-    })];
+    }), DataFieldFactory.getGeneFamily()];
   }
 
   public static getSizeFields(clinicalFields: Array<DataField>): Array<DataField> {
@@ -44,6 +44,16 @@ export class DataFieldFactory {
     return DataFieldFactory.getShapeFields(clinicalFields);
   }
 
+  public static getGeneFamily(): DataField {
+    return {
+      key: 'GeneFamily',
+      label: 'Gene Family',
+      type: DataTypeEnum.FUNCTION,
+      tbl: null,
+      values: null,
+      ctype: CollectionTypeEnum.GENE_FAMILY
+    };
+  }
 
   public static getUndefined(): DataField {
     return {

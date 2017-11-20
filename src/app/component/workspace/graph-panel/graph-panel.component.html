@@ -8,7 +8,7 @@
     <div class="card-content">
         <div id="graph-panel-a" *ngIf="configA">
                 <div class="form-group">
-                    <label class="center-block"><span class="form-label">Analysis</span>
+                    <label class="center-block"><span class="form-label">Visualization</span>
                     <select class="browser-default" materialize="material_select"
                         [ngModel]="configA.visualization"
                         (change)="onGraphAChange($event)"
@@ -243,13 +243,13 @@
                 (configChange)="graphPanelSetConfig($event)"
                 [config]="configB"
                 ></app-linked-gene-form>
-            <app-hic-form *ngIf="configA && configA.visualization === 17179869184"
+            <app-hic-form *ngIf="configB && configB.visualization === 17179869184"
                 (configChange)="graphPanelSetConfig($event)"
                 [config]="configB"
                 [tables]="tables"
                 [fields]="fields"
                 ></app-hic-form>
-            <app-som-form *ngIf="configB && configA.visualization === 4096"
+            <app-som-form *ngIf="configB && configB.visualization === 4096"
                 (configChange)="graphPanelSetConfig($event)"
                 [config]="configB"
                 [molecularData]="molecularData"

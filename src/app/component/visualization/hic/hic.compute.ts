@@ -21,7 +21,7 @@ export const hicComputeFn = (config: HicConfigModel): Promise<any> => {
     return new Promise( (resolve, reject) => {
         const util: ComputeWorkerUtil = new ComputeWorkerUtil();
 
-        util.getGeneLinkGraphByGenes(config.gene).then( result => {
+        util.getGeneLinkInfoByGenes(config.markerFilter).then( result => {
 
             let nodes = Array.from( new Set( result.map( v => v.target ).concat( result.map( v => v.source) )));
 

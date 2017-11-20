@@ -11,6 +11,16 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 <form [formGroup]="form" novalidate>
+<div class="form-group">
+<label class="center-block"><span class="form-label">Chromosomes</span>
+   <select class="browser-default" materialize="material_select"
+      [compareWith]="byKey"
+      [materializeSelectOptions]="chromosomeOptions"
+      formControlName="chromosome">
+      <option *ngFor="let option of chromosomeOptions" [value]="option">{{option}}</option>
+  </select>
+</label>
+</div>
   <div class="form-group">
     <label class="center-block"><span class="form-label">Gene Color</span>
       <select class="browser-default" materialize="material_select"
@@ -22,7 +32,7 @@ import * as _ from 'lodash';
     </label>
   </div>
   <div class="form-group">
-    <label class="center-block"><span class="form-label">Gene Size</span>
+    <label class="center-block"><span class="form-label">Flare Size</span>
        <select class="browser-default" materialize="material_select"
           [compareWith]="byKey"
           [materializeSelectOptions]="sizeOptions"
@@ -31,16 +41,7 @@ import * as _ from 'lodash';
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Chromosomes</span>
-       <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="chromosomeOptions"
-          formControlName="chromosome">
-          <option *ngFor="let option of chromosomeOptions" [value]="option">{{option}}</option>
-      </select>
-    </label>
-  </div>
+  
 </form>
   `
 })
