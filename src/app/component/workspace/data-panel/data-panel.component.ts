@@ -6,11 +6,12 @@ import {
   ChangeDetectorRef, ViewChild, Component, Input, Output, ElementRef,
   ChangeDetectionStrategy, EventEmitter, AfterViewInit, NgZone
 } from '@angular/core';
-import { LegendPanelEnum } from 'app/model/enum.model';
+import { LegendPanelEnum, CollectionTypeEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import * as util from 'app/service/compute.worker.util';
 import Dexie from 'dexie';
+import { GraphConfig } from 'app/model/graph-config.model';
 declare var $: any;
 // declare var Handsontable: any;
 
@@ -25,63 +26,20 @@ export class DataPanelComponent implements AfterViewInit {
   @ViewChild('dataTable') dataTable;
   @ViewChild('tabs') tabs: ElementRef;
 
-  @Input() tables: Array<DataTable>;
+
+  @Input() configA: GraphConfig;
+  @Input() configB: GraphConfig;
+
+  _tables: Array<DataTable> = [];
+
+  @Input() set tables(v: Array<DataTable>) {
+    this._tables = v.concat([
+      { tbl: 'configA', label: 'Chart A', map: '', ctype: CollectionTypeEnum.UNDEFINED },
+      { tbl: 'configB', label: 'Chart B', map: '', ctype: CollectionTypeEnum.UNDEFINED }
+    ]);
+  }
 
   private db: Dexie;
-
-  // private computeWorkerUtil: ComputeWorkerUtil;
-
-  // private data: any[] = [];
-  // private colHeaders: string[] = ['id', 'name'];
-  // private columns: any[] = [
-  //   {data: 'id'},
-  //   {data: 'name'},
-
-  // ];
-  // private options: any = {
-  //   stretchH: 'all',
-  //   columnSorting: true,
-  //   contextMenu: [
-  //     'row_above', 'row_below', 'remove_row'
-  //   ]
-  // };
-
-  // private _fields: Array<DataField>;
-
-  // private convertType(dfType): string {
-  //   switch (dfType) {
-  //     case 'STRING':
-  //       return 'text';
-  //     case 'NUMBER':
-  //       return 'numeric';
-  //     default:
-  //       return 'text';
-  //   }
-  // }
-
-  // @Input()
-  // private set fields(dataFields: Array<DataField>) {
-  //   this._fields = dataFields;
-  //   new ComputeWorkerUtil().loadData('Uploaded2').then(this.onDataLoad.bind(this));
-  // }
-
-  // onDataLoad(result): void {
-  //   const colHeaders = this._fields.map( v => v.label );
-  //   const columns = this._fields.map(v => ({ data: v.key, type: this.convertType(v.type)}) );
-  //   const data = result.patientData;
-  //   this.dataTable.inst.updateSettings({
-  //     manualColumnResize: true,
-  //     rowHeaders: true,
-  //     columnSorting: true,
-  //     sortIndicator: true,
-  //     columns: columns,
-  //     colHeaders: colHeaders,
-  //     stretchH: 'all',
-  //     contextMenu: true,
-  //     className: 'htCenter htMiddle'
-  //   });
-  //   this.dataTable.inst.loadData(data);
-  // }
 
   tableChange(table: DataTable): void {
     this.loadTable(table);
@@ -97,6 +55,36 @@ export class DataPanelComponent implements AfterViewInit {
   }
 
   loadTable(table: DataTable): void {
+    if (table.ctype === CollectionTypeEnum.UNDEFINED){
+      const config: GraphConfig = (table.tbl === 'configA') ? this.configA : this.configB;
+      const markers: Array<any> = config.markerFilter.map(v =>
+        ( [v, 'Gene', (config.markerSelect.indexOf(v) !== -1) ] ));
+      const samples: Array<any> = config.sampleFilter.map(v =>
+        ( [v, 'Sample', (config.sampleSelect.indexOf(v) !== -1) ] ));
+
+
+      const data = markers.concat(samples);
+      const colHeaders = ['Name', 'Type', 'Selected'];
+
+      this.dataTable.inst.updateSettings({
+        manualColumnResize: true,
+        columnSorting: true,
+        sortIndicator: true,
+        width: window.innerWidth,
+        height: window.innerHeight - 60,
+        colWidths: 200,
+        rowHeights: 23,
+        rowHeaderWidth: 150,
+        colHeaders: colHeaders,
+        rowHeaders: null,
+        autoRowSize: false,
+        autoColSize: false,
+        contextMenu: true
+      });
+      this.dataTable.inst.loadData(data);
+
+      return;
+    }
     this.openDatabase().then(() => {
       Promise.all([
         this.db.table(table.tbl).limit(100).toArray(),
@@ -127,7 +115,7 @@ export class DataPanelComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     $(this.tabs.nativeElement).tabs();
-    this.loadTable(this.tables[0]);
+    this.loadTable(this._tables[0]);
   }
 
   constructor() {

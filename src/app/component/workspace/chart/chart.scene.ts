@@ -201,8 +201,6 @@ export class ChartScene {
         }
     ].map<any>( (view, i) => {
 
-            console.log(i);
-
             // Edge View Settings
             if (view.camera === null) {
 

@@ -217,8 +217,9 @@ export class DatasetService {
         };
 
         // Build Fields Collection
-
-        const fields = res.clinical.fields.map(v => Object.assign(v, { tbl: 'patient', type: v.type.toUpperCase(),
+        const fields = res.clinical.fields.map(v => Object.assign(v, { 
+          ctype: CollectionTypeEnum.PATIENT,
+          tbl: 'patient', type: v.type.toUpperCase(),
         label: v.key.replace(/_/gi, ' ')
           .replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); })}));
         fields.push({ key: 'gistic', label: 'Gistic', type: 'NUMBER', tbl: 'gistic',

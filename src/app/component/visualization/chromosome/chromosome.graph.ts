@@ -22,8 +22,8 @@ import { scaleLinear, scaleOrdinal } from 'd3-scale';
 export class ChromosomeGraph implements ChartObjectInterface {
 
 
-    private overMaterial = new THREE.LineBasicMaterial( { color: 0x039BE5 }) ;
-    private outMaterial = new THREE.LineBasicMaterial( { color: 0xDDDDDD }) ;
+    private overMaterial = new THREE.LineBasicMaterial( { color: 0x000000 }) ;
+    private outMaterial = new THREE.LineBasicMaterial( { color: 0xFFFFFF }) ;
 
 
     public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
@@ -77,14 +77,18 @@ export class ChromosomeGraph implements ChartObjectInterface {
     }
 
     update(config: GraphConfig, data: any) {
+
         this.config = config as ChromosomeConfigModel;
         this.data = data;
+        
         if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {
             this.removeObjects();
             this.addObjects();
         }
-        if (this.config.dirtyFlag & DirtyEnum.COLOR) {
+        if (this.config.dirtyFlag & DirtyEnum.SIZE) {
 
+        }
+        if (this.config.dirtyFlag & DirtyEnum.COLOR) {
             const lines = this.geneLines;
             this.meshes.forEach( v => {
                 if (data.pointColor.hasOwnProperty(v.userData.gene)) {
@@ -103,7 +107,6 @@ export class ChromosomeGraph implements ChartObjectInterface {
                 }
             });
             this.onRequestRender.next();
-            
         }
     }
 
@@ -131,6 +134,13 @@ export class ChromosomeGraph implements ChartObjectInterface {
         const genes = this.data.genes;
         const links = this.data.links;
 
+        const zgeometry = new THREE.CircleGeometry( 1000, 3000 );
+        const zmaterial = new THREE.LineBasicMaterial( { color: 0xEEEEEE } ); //new THREE.MeshBasicMaterial( { color: 0x039BE5 } );
+        const zcircle = new THREE.Mesh( zgeometry, zmaterial );
+        zcircle.position.setZ(-5);
+        this.group.add( zcircle );
+
+        // const genesOfInterest = ['PCDHGB7','PCDHGB6','PCDHGB5','PCDHGB4','PCDHA3','PCDHA2','PCDH1','PCDHA7','PCDHAC2','PCDHA6','PCDHGA8','PCDHGA7','PCDHGA3','PCDHGA2','PCDHGA1','PCDHB15','PCDHB14','PCDHB13','PCDHB12','ARHGAP26','PCDHB11','PCDHB10','PCDHGA9','PCDHGA10','PCDHGA11','PCDHGA12','PCDHB2','PCDHB16','PCDHB6','PCDHB5','PCDHB3','PCDHB9','PCDHB8'];
         genes.forEach(gene => {
             // const mesh = ChartFactory.meshAllocate(0xC0DDC0, ShapeEnum.SQUARE, .5, new THREE.Vector3(gene.x, gene.y, 0), gene);
             // (mesh.geometry as Rect)
@@ -138,15 +148,18 @@ export class ChromosomeGraph implements ChartObjectInterface {
             const geometry = new THREE.Geometry();
             geometry.vertices.push( new THREE.Vector3(gene.sPos.x, gene.sPos.y, 0) );
             geometry.vertices.push( new THREE.Vector3(gene.ePos.x, gene.ePos.y, 0) );
-
+            
+            const color = 0x039be5;
+            // const color = (genesOfInterest.indexOf(gene.gene) !== -1) ? 0xFF0000 : 0x00FF00;
             const geo = new THREE.BoxGeometry( 2, 2, 2);
-            const mat = new THREE.MeshBasicMaterial( {color: 0x039BE5 } );
+            const mat = new THREE.MeshBasicMaterial( {color: color } );
             const mesh = new THREE.Mesh(geo, mat);
             mesh.userData = gene;
             mesh.position.x = gene.sPos.x;
             mesh.position.y = gene.sPos.y;
 
-            const geneLine = new THREE.Line( geometry, this.lineMaterial );
+            const lm = new THREE.LineBasicMaterial( { color: color });
+            const geneLine = new THREE.Line( geometry, lm );
             geneLine.userData = gene;
             this.meshes.push(mesh);
             this.geneLines.push(geneLine);
@@ -217,6 +230,7 @@ export class ChromosomeGraph implements ChartObjectInterface {
         if (intersects.length > 0) {
 
             const gene = intersects[0].object.userData.gene;
+
             this.chords.forEach( v => {
                 if ( (gene === v.userData.source) || (gene === v.userData.target) ) {
                     v.material = this.overMaterial;

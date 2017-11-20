@@ -9,4 +9,4 @@ export interface DataCollection {
   type: DataTypeEnum;
   src: string;
   fields: Array<DataField>;
-};
+}

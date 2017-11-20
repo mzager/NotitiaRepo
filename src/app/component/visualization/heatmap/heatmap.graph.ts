@@ -87,15 +87,32 @@ export class HeatmapGraph implements ChartObjectInterface {
 
     }
     addObjects() {
-        this.material.size = 30;
-        this.geometry.addAttribute('position', new THREE.BufferAttribute(this.data.positions, 3));
-        this.geometry.addAttribute('color', new THREE.BufferAttribute(this.data.colors, 3));
-        this.geometry.computeBoundingSphere();
-        this.particles = new THREE.Points(this.geometry, this.material);
-        this.view.scene.add( this.particles );
+        const addNode = (tree, index, parent) => {
+            const node = {i: index, children: [], data: tree[index]};
+            parent.children.push(node);
+            if (node.data === undefined) {
+
+            }else {
+                if (node.data.l >= 0) { addNode(tree, node.data.l, node); }
+                if (node.data.r >= 0) { addNode(tree, node.data.r, node); }
+            }
+        };
+
+        const root = {children: []};
+        addNode(this.data.tree, 0, root);
+        debugger;
+        // this.material.size = 30;
+        // this.geometry.addAttribute('position', new THREE.BufferAttribute(this.data.positions, 3));
+        // this.geometry.addAttribute('color', new THREE.BufferAttribute(this.data.colors, 3));
+        // this.geometry.computeBoundingSphere();
+        // this.particles = new THREE.Points(this.geometry, this.material);
+        // this.view.scene.add( this.particles );
         this.onRequestRender.next();
     }
 
+    createLine(node) {
+
+    }
 
     constructor() { }
 }
