@@ -118,7 +118,7 @@ export class GenesetPanelComponent implements AfterViewInit {
   }
 
   submit(graph) {
-    this.form;
+
     // ok mz - get rid of the 1st dropdown and add custom list as an option to source... 
       const genes = (this.form.get('genesetSource').value === 'Public Gene Set') ?
         this.form.get('geneset').value.hugo.split(',') :
