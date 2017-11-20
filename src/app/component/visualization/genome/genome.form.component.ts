@@ -21,6 +21,12 @@ import * as _ from 'lodash';
       </select>
     </label>
   </div>
+</form>
+  `
+})
+export class GenomeFormComponent {
+
+  /*
   <div class="form-group">
     <label class="center-block"><span class="form-label">Gene Size</span>
        <select class="browser-default" materialize="material_select"
@@ -51,18 +57,15 @@ import * as _ from 'lodash';
       </select>
     </label>
   </div>
-</form>
-  `
-})
-export class GenomeFormComponent {
-
+  */
+  
   @Input() set fields(fields: Array<DataField>) {
     if (fields === null) { return; }
     if (fields.length === 0) { return; }
     const defaultDataField: DataField = DataFieldFactory.getUndefined();
-    this.colorOptions = DataFieldFactory.getColorFields(fields);
-    this.shapeOptions = DataFieldFactory.getShapeFields(fields);
-    this.sizeOptions = DataFieldFactory.getSizeFields(fields);
+    this.colorOptions = DataFieldFactory.getColorFields(fields).filter( v => v.ctype !== undefined );
+    this.shapeOptions = DataFieldFactory.getShapeFields(fields).filter( v => v.ctype !== undefined );
+    this.sizeOptions = DataFieldFactory.getSizeFields(fields).filter( v => v.ctype !== undefined );
   }
 
   @Input() set config(v: GenomeConfigModel) {
