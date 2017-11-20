@@ -76,7 +76,7 @@ export class GenomeGraph implements ChartObjectInterface {
         if (this.config.dirtyFlag & DirtyEnum.COLOR) {
             const objMap = data.pointColor;
             this.meshes.forEach(mesh => {
-                const color = objMap[mesh.userData.id];
+                const color = objMap[mesh.userData.mid];
                 (mesh as THREE.Mesh).material = ChartFactory.getColorPhong(color);
                 mesh.userData.color = color;
             });
@@ -177,7 +177,7 @@ export class GenomeGraph implements ChartObjectInterface {
                     mesh.position.x = 0;
                     mesh.position.y = (gene.tss - centro);
                     mesh.position.z = 0;
-                    mesh.userData.id = gene.gene;
+                    mesh.userData.mid = gene.gene;
                     mesh.userData.tip = gene.gene;
                     //  +
                     //     ' | x̅ ' + (Math.round(100 * gene.mean) / 100) +

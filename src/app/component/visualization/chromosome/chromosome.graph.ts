@@ -135,7 +135,7 @@ export class ChromosomeGraph implements ChartObjectInterface {
         const links = this.data.links;
 
         const zgeometry = new THREE.CircleGeometry( 1000, 3000 );
-        const zmaterial = new THREE.LineBasicMaterial( { color: 0x039BE5 } ); //new THREE.MeshBasicMaterial( { color: 0x039BE5 } );
+        const zmaterial = new THREE.LineBasicMaterial( { color: 0xEEEEEE } ); //new THREE.MeshBasicMaterial( { color: 0x039BE5 } );
         const zcircle = new THREE.Mesh( zgeometry, zmaterial );
         zcircle.position.setZ(-5);
         this.group.add( zcircle );
