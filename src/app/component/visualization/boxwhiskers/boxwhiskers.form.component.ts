@@ -12,22 +12,11 @@ import * as _ from 'lodash';
   template: `
 <form [formGroup]="form" novalidate>
 <div class="form-group">
-<label class="center-block"><span class="form-label">Data</span>
-  <select class="browser-default" materialize="material_select"
-    [compareWith]="byKey"
-    formControlName="table">
-    <option *ngFor="let option of dataOptions">{{option.label}}</option>
-  </select>
-</label>
-</div>
-<div class="form-group">
-  <label class="center-block"><span class="form-label">Color</span>
+  <label class="center-block"><span class="form-label">Data</span>
     <select class="browser-default" materialize="material_select"
-        [compareWith]="byKey"
-        [materializeSelectOptions]="colorOptions"
-        formControlName="pointColor">
-        <option *ngFor="let option of colorOptions"
-          [ngValue]="option">{{option.label}}</option>
+      [compareWith]="byKey"
+      formControlName="table">
+      <option *ngFor="let option of dataOptions">{{option.label}}</option>
     </select>
   </label>
 </div>
@@ -62,6 +51,28 @@ import * as _ from 'lodash';
   </label>
 </div>
 <div class="form-group">
+  <label class="center-block"><span class="form-label">Color</span>
+    <select class="browser-default" materialize="material_select"
+        [compareWith]="byKey"
+        [materializeSelectOptions]="colorOptions"
+        formControlName="pointColor">
+        <option *ngFor="let option of colorOptions"
+          [ngValue]="option">{{option.label}}</option>
+    </select>
+  </label>
+</div>
+<div class="form-group">
+<label class="center-block"><span class="form-label">Sort</span>
+  <select class="browser-default" materialize="material_select"
+      [compareWith]="byKey"
+      [materializeSelectOptions]="colorOptions"
+      formControlName="pointColor">
+      <option *ngFor="let option of colorOptions"
+        [ngValue]="option">{{option.label}}</option>
+  </select>
+</label>
+</div>
+<div class="form-group">
   <label class="center-block"><span class="form-label">Display</span>
     <select class="browser-default" materialize="material_select"
         formControlName="entity">
@@ -70,32 +81,40 @@ import * as _ from 'lodash';
   </label>
 </div>
 <div class="form-group">
-  <label class="center-block"><span class="form-label">Sort</span>
-      <select class="browser-default" materialize="material_select"
-        [compareWith]="byKey"
-        [materializeSelectOptions]="sizeOptions"
-        formControlName="pointSize">
-        <option *ngFor="let option of sizeOptions" [ngValue]="option">{{option.label}}</option>
-    </select>
-  </label>
+  <div class="switch">
+    <label>
+      <input type="checkbox" formControlName="scatter">
+        <span class="lever"></span>
+          Scatter
+    </label>
+  </div>
 </div>
 <div class="form-group">
-<div class="switch">
-  <label>
-    <input type="checkbox" formControlName="scatter">
-      <span class="lever"></span>
-        Scatter
-  </label>
-</div>
+  <div class="switch">
+    <label>
+      <input type="checkbox" formControlName="outliers">
+        <span class="lever"></span>
+          Outliers
+    </label>
+  </div>
 </div>
 <div class="form-group">
-<div class="switch">
-  <label>
-    <input type="checkbox" formControlName="notch">
-      <span class="lever"></span>
-        Notch
-  </label>
+  <div class="switch">
+    <label>
+      <input type="checkbox" formControlName="outliers">
+        <span class="lever"></span>
+          Average
+    </label>
+  </div>
 </div>
+<div class="form-group">
+  <div class="switch">
+    <label>
+      <input type="checkbox" formControlName="outliers">
+        <span class="lever"></span>
+          Standard Deviation
+    </label>
+  </div>
 </div>
 </form>
   `
@@ -152,7 +171,7 @@ export class BoxWhiskersFormComponent {
       chromosome: [],
       allowRotation: [],
       scatter: [],
-      notch: []
+      outliers: []
     });
 
     // Update When Form Changes
