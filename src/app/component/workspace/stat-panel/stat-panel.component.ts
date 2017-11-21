@@ -1,4 +1,4 @@
-import { explainedVariance, explainedVarianceRatio, genericHistogram } from './stats-compute';
+import { genericDonut, explainedVarianceRatio, genericHistogram, genericViolin } from './stats-compute';
 import { StatsFactory } from './stats-factory';
 import { GraphData } from './../../../model/graph-data.model';
 import { INSERT_ANNOTATION } from './../../../action/graph.action';
@@ -43,10 +43,12 @@ export class StatPanelComponent implements AfterViewInit {
 
     // Create Array of Possible Stat Types
     this.metrics = [
-      { label: 'Histogram', value: genericHistogram( value.result.explainedVariance  )}
-      // { label: 'Explained Variance', value: explainedVariance( value.result.explainedVariance )},
-      // { label: 'Explained Variance Ratio', value: explainedVarianceRatio( value.result.explainedVarianceRatio )},
+      { label: 'Histogram', value: genericHistogram( value.result.explainedVarianceRatio  )},
+      { label: 'Violin', value: genericViolin( value.result.explainedVarianceRatio  )},
+      { label: 'Donut', value: genericDonut( value.result.explainedVariance )}
+      // { label: 'Explained Variance Ratio', value: explainedVarianceRatio( value.result.explainedVarianceRatio )}
     ];
+
     // debugger;
     // Set Metric Creates The Vega Visualization and +'s it to The Page
    this.setMetric(this.metrics[0]);

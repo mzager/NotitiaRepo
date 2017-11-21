@@ -18226,6 +18226,7 @@ var ComputeWorkerUtil = (function () {
             }
             _this.getMatrix(config.markerFilter, config.sampleFilter, 'gismutMap', 'gisticT', enum_model_1.EntityTypeEnum.GENE)
                 .then(function (result) {
+                debugger;
                 var edges = [];
                 var nMarkers = result.markers.length;
                 var nSamples = result.samples.length;
