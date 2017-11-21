@@ -1,27 +1,38 @@
-import { AbstractStatChartConfig, StatChartEnum, StatsFactory, DonutConfig, HistogramConfig } from './stats-factory';
+import { AbstractStatChartConfig, StatChartEnum, StatsFactory, DonutConfig, HistogramConfig, ViolinConfig } from './stats-factory';
 
-export const genericHistogram = ( values: Array<number> ): any => {
+// HISTOGRAM
+export const genericHistogram = (values: Array<number>): any => {
     const config: HistogramConfig = StatsFactory.getInstance().createHistogramConfig();
-    config.data = values.map( (v, i) => ({ label: 'PC ' + (i + 1), value: v }));
+    config.data = values.map((v, i) => ({ label: 'PC ' + (i + 1), value: v }));
     return createGraph(config);
 };
 
-export const explainedVariance = ( values: Array<number> ): any => {
-    const config: DonutConfig = StatsFactory.getInstance().createDonutConfig();
-    config.data = values.map( (v, i) => ({ label: 'PC ' + (i + 1), value: v }));
-    return createGraph( config );
+// VIOLIN
+export const genericViolin = (values: Array<number>): any => {
+    const config: ViolinConfig = StatsFactory.getInstance().createViolinConfig();
+    config.data = values.map((v, i) => ({ label: 'PC ' + (i + 1), value: v }));
+    return createGraph(config);
 };
 
-export const explainedVarianceRatio = ( values: Array<number> ): any => {
-    return explainedVariance(values);
+// DONUT
+export const genericDonut = (values: Array<number>): any => {
+    const config: DonutConfig = StatsFactory.getInstance().createDonutConfig();
+    config.data = values.map((v, i) => ({ label: 'PC ' + (i + 1), value: v }));
+    return createGraph(config);
+};
+
+export const explainedVarianceRatio = (values: Array<number>): any => {
+    return genericDonut(values);
 };
 
 
 export const createGraph = (config: AbstractStatChartConfig): any => {
     switch (config.type) {
         case StatChartEnum.DONUT:
-            return StatsFactory.getInstance().createDonutVega( config as DonutConfig);
+            return StatsFactory.getInstance().createDonutVega(config as DonutConfig);
         case StatChartEnum.HISTOGRAM:
-            return StatsFactory.getInstance().createHistogramVega( config as HistogramConfig);
+            return StatsFactory.getInstance().createHistogramVega(config as HistogramConfig);
+        case StatChartEnum.VIOLIN:
+            return StatsFactory.getInstance().createViolinVega(config as ViolinConfig);
     }
 };

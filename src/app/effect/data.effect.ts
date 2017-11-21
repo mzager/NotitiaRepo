@@ -84,11 +84,6 @@ export class DataEffect {
             // graphBConfig.graph = GraphEnum.GRAPH_A;
             // graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
-<<<<<<< HEAD
-            // const graphBConfig = new ChromosomeConfigModel();
-            // graphBConfig.graph = GraphEnum.GRAPH_B;
-            // graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
-=======
             // const chromosomeConfig = new ChromosomeConfigModel();
             // chromosomeConfig.graph = GraphEnum.GRAPH_B;
             // chromosomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
@@ -104,7 +99,6 @@ export class DataEffect {
             // const hicConfig = new HicConfigModel();
             // hicConfig.graph = GraphEnum.GRAPH_A;
             // hicConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
->>>>>>> 849b45b2fbe6c83380b59ab4128cecde996236b7
 
             // const graphAConfig = new LinkedGeneConfigModel();
             // graphAConfig.graph = GraphEnum.GRAPH_A;
@@ -114,16 +108,6 @@ export class DataEffect {
             graphAConfig.graph = GraphEnum.GRAPH_A;
             graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
-<<<<<<< HEAD
-            // const graphBConfig = new PcaIncrementalConfigModel();
-            // graphBConfig.graph = GraphEnum.GRAPH_B;
-            // graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
-
-            // const graphAConfig = new HicConfigModel();
-            // graphAConfig.graph = GraphEnum.GRAPH_A;
-            // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
-=======
->>>>>>> 849b45b2fbe6c83380b59ab4128cecde996236b7
 
             const graphBConfig = new PcaIncrementalConfigModel();
             graphBConfig.graph = GraphEnum.GRAPH_B;
@@ -142,12 +126,8 @@ export class DataEffect {
                 //new compute.HicAction( { config: hicConfig }),
                 //new compute.BoxWhiskersAction( { config: boxWhiskersConfig } ),
                 // new compute.GenomeAction( { config: graphBConfig }),
-<<<<<<< HEAD
-                // new compute.ChromosomeAction( { config: graphAConfig } ),
-=======
                 // new compute.ChromosomeAction( { config: chromosomeConfig } )
                 // new compute.HeatmapAction( { config: heatmapConfig })
->>>>>>> 849b45b2fbe6c83380b59ab4128cecde996236b7
                 // new compute.ChromosomeAction( { config: graphBConfig } )
                 //new compute.GenomeAction( { config: graphBConfig })
                 // , new compute.PcaIncrementalAction( { config: graphBConfig } )
