@@ -123,7 +123,7 @@ export class HicGraph implements ChartObjectInterface {
                     .sort((a, b) => ((a.data.tss <= b.data.tss) ? -1 : 1)) // Sort Genes By Location On Chromosome
                     .map(node => new THREE.Vector3(node.x, node.y, node.z));
                 this.chromosomeCurve = new THREE.CatmullRomCurve3(geneLocations);
-                this.chromosomeCurve.type = 'chordal';
+                this.chromosomeCurve['type'] = 'chordal';
                 this.chromosomePath = new THREE.CurvePath();
                 this.chromosomePath.add(this.chromosomeCurve);
 
@@ -158,61 +158,6 @@ export class HicGraph implements ChartObjectInterface {
     }
     addObjects() {
 
-<<<<<<< HEAD
-        if (this.config.showChromosome) {
-            const geneLocations = this.data.nodes.filter(v => v.data)    // Filter Out genes That Don't Have Chromosome Info
-                .sort((a, b) => ((a.data.tss <= b.data.tss) ? -1 : 1)) // Sort Genes By Location On Chromosome
-                .map(node => new THREE.Vector3(node.x, node.y, node.z));
-            this.chromosomeCurve = new THREE.CatmullRomCurve3(geneLocations);
-            this.chromosomeCurve['type'] = 'chordal';
-            this.chromosomePath = new THREE.CurvePath();
-            this.chromosomePath.add(this.chromosomeCurve);
-
-            this.chromosomeGeometry = this.chromosomePath.createPointsGeometry(1000);
-            this.chromosomeLine = new MeshLine.MeshLine();
-            this.chromosomeLine.setGeometry(this.chromosomeGeometry);
-            const mat = new MeshLine.MeshLineMaterial({
-                color: new THREE.Color(0x90caf9),
-                lineWidth: 2,
-            });
-
-            const chromosomeMesh = new THREE.Mesh(this.chromosomeLine.geometry, mat); // this syntax could definitely be improved!
-            chromosomeMesh.frustumCulled = false;
-            this.view.scene.add(chromosomeMesh);
-            this.meshes.push(chromosomeMesh);
-        }
-
-
-        if (this.config.showLinks) {
-            this.data.edges.forEach(edge => {
-                const linkGeometry = new THREE.Geometry();
-                linkGeometry.vertices.push(new THREE.Vector3(edge.source.x, edge.source.y, edge.source.z));
-                linkGeometry.vertices.push(new THREE.Vector3(edge.target.x, edge.target.y, edge.target.z));
-                const linkMaterial = new THREE.LineBasicMaterial({ color: edge.color });
-                const line = new THREE.Line(linkGeometry, linkMaterial);
-                this.lines.push(line);
-                this.view.scene.add(line);
-            });
-        }
-
-        // const geneLocations = this.data.nodes.map( node => new THREE.Vector3(node.data.x, node.data.y, node.data.z) );
-        // this.chromosomeCurve = new THREE.CatmullRomCurve3( geneLocations );
-        // this.chromosomeCurve['type'] = 'chordal';
-        // this.chromosomePath = new THREE.CurvePath();
-        // this.chromosomePath .add(this.chromosomeCurve);
-
-        //  this.chromosomeGeometry =  this.chromosomePath.createPointsGeometry(1000);
-        //  this.chromosomeLine = new MeshLine.MeshLine();
-        //  this.chromosomeLine.setGeometry( this.chromosomeGeometry );
-        //  const mat = new MeshLine.MeshLineMaterial({
-        //     color: new THREE.Color( 0x90caf9),
-        //     lineWidth: 2,
-        //  });
-
-
-
-=======
->>>>>>> 849b45b2fbe6c83380b59ab4128cecde996236b7
         const sl = scaleLinear().range([.2, 2]).domain([1, 20]);
         const cs = scaleSequential(interpolateYlGnBu).domain([0, 7]);
         this.data.nodes.forEach(node => {
