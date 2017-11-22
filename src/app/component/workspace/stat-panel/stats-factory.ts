@@ -7,12 +7,12 @@ export class StatsFactory {
         return StatsFactory._instance;
     }
 
+    // Histogram
     public createHistogramConfig(): HistogramConfig {
         return new HistogramConfig();
     }
     public createHistogramVega(config: HistogramConfig): any {
-
-        const graphValues = config.data.map((v, i) => ({ id: (i + 1), label: v.label, field: v.value.toFixed(2) }));
+        const graphValues = config.data;
         const vega = {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'title': {
@@ -49,21 +49,56 @@ export class StatsFactory {
                     'type': 'band',
                     'domain': { 'data': 'table', 'field': 'label' },
                     'range': 'width',
-                    'padding': 0.05,
+                    'padding': 0.1,
                     'round': true
                 },
                 {
                     'name': 'yscale',
-                    'domain': { 'data': 'table', 'field': 'field' },
+                    'domain': { 'data': 'table', 'field': 'value' },
                     'nice': true,
                     'range': 'height'
                 }
             ],
 
             'axes': [
-                { 'orient': 'bottom', 'scale': 'xscale' },
-                { 'orient': 'left', 'scale': 'yscale' }
-            ],
+                {
+                  'orient': 'bottom',
+                  'scale': 'xscale',
+                  'title': 'Genes',
+                  'encode': {
+                    'ticks': {
+                      'update': {
+                        'stroke': {'value': 'steelblue'}
+                      }
+                    },
+                    'labels': {
+                      'interactive': true,
+                      'update': {
+                        'fill': {'value': 'steelblue'},
+                        'angle': {'value': 50},
+                        'fontSize': {'value': 10},
+                        'align': {'value': '90'},
+                        'baseline': {'value': 'middle'},
+                        'dx': {'value': 3}
+                      },
+                      'hover': {
+                        'fill': {'value': '#333'}
+                      }
+                    },
+                    'title': {
+                      'update': {
+                        'fontSize': {'value': 10}
+                      }
+                    },
+                    'domain': {
+                      'update': {
+                        'stroke': {'value': '#333'},
+                        'strokeWidth': {'value': 1.5}
+                      }
+                    }
+                  }
+                }
+              ],
 
             'marks': [
                 {
@@ -73,7 +108,7 @@ export class StatsFactory {
                         'enter': {
                             'x': { 'scale': 'xscale', 'field': 'label' },
                             'width': { 'scale': 'xscale', 'band': 1 },
-                            'y': { 'scale': 'yscale', 'field': 'field' },
+                            'y': { 'scale': 'yscale', 'field': 'value' },
                             'y2': { 'scale': 'yscale', 'value': 0 }
                         },
                         'update': {
@@ -90,12 +125,13 @@ export class StatsFactory {
                         'enter': {
                             'align': { 'value': 'center' },
                             'baseline': { 'value': 'bottom' },
-                            'fill': { 'value': '#333' }
+                            'fill': { 'value': '#000' }
+
                         },
                         'update': {
                             'x': { 'scale': 'xscale', 'signal': 'tooltip.label', 'band': 0.5 },
-                            'y': { 'scale': 'yscale', 'signal': 'tooltip.feild', 'offset': -1 },
-                            'text': { 'signal': 'tooltip.field' },
+                            'y': { 'scale': 'yscale', 'signal': 'tooltip.value', 'offset': 2 },
+                            'text': { 'signal': 'tooltip.value' },
                             'fillOpacity': [
                                 { 'test': 'datum === tooltip', 'value': 0 },
                                 { 'value': 1 }
@@ -108,7 +144,7 @@ export class StatsFactory {
         return vega;
     }
 
-
+    // Donut
     public createDonutConfig(): DonutConfig {
         return new DonutConfig();
     }
@@ -264,12 +300,13 @@ export class StatsFactory {
         return vega;
     }
 
+    // Violin
     public createViolinConfig(): ViolinConfig {
         return new ViolinConfig();
     }
 
     public createViolinVega(config: ViolinConfig): any {
-        // const Violingvalues = config.data.map((v, i) => ({ id: (i + 1), label: v.label, field: v.value.toFixed(2) }));
+        const Violinvalues = config.data.map((v, i) => ({ id: (i + 1), label: v.label, field: v.value.toFixed(2) }));
         const vega = {
                 '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
                 'width': config.width,
@@ -461,6 +498,7 @@ export class AbstractStatChartConfig {
     height: number;
     labelFn?: Function;
     title: string;
+
 
     constructor() {
         this.data = [];
