@@ -1,4 +1,4 @@
-import { genericDonut, explainedVarianceRatio, genericHistogram, genericViolin } from './stats-compute';
+import {explainedVarianceRatio, genericDonut,  genericHistogram,  genericViolin} from './stats-compute';
 import { StatsFactory } from './stats-factory';
 import { GraphData } from './../../../model/graph-data.model';
 import { INSERT_ANNOTATION } from './../../../action/graph.action';
@@ -42,16 +42,42 @@ export class StatPanelComponent implements AfterViewInit {
 
 
     // Create Array of Possible Stat Types
+    const componentMap = value.markerIds.reduce((p, c, i) => {
+        p[c] = value.result.components.map(v => v[i]);
+        return p;
+    }, {});
+    const componentArray = Object.keys(componentMap).map(key => {
+        const item = componentMap[key];
+        return {
+            marker: key,
+            pc1: item[0],
+            pc2: item[1],
+            pc3: item[2]
+        };
+    }, {}).sort((a, b) =>
+        (a.pc1 > b.pc1) ? -1 :
+            (a.pc1 < b.pc1) ? 1 :
+                (a.pc2 > b.pc2) ? -1 :
+                    (a.pc2 < b.pc2) ? 1 :
+                        (a.pc3 > b.pc3) ? -1 :
+                            (a.pc3 < b.pc3) ? 1 : 0
+    ).filter( (v, i) => i < 20)
+    .map( v => ({ label: v.marker, value: v.pc1.toFixed(2) }));
+
+
+
     this.metrics = [
-      { label: 'Histogram', value: genericHistogram( value.result.explainedVarianceRatio  )},
-      { label: 'Violin', value: genericViolin( value.result.explainedVarianceRatio  )},
-      { label: 'Donut', value: genericDonut( value.result.explainedVariance )}
+      { label: 'Histogram', value: genericHistogram( componentArray )},
+      // { label: 'Histogram', value: genericHistogram( value.result.explainedVarianceRatio  )},
+      // { label: 'Violin', value: genericViolin( value.result.explainedVarianceRatio  )},
+      // { label: 'Donut', value: genericDonut( value.result.explainedVariance )}
       // { label: 'Explained Variance Ratio', value: explainedVarianceRatio( value.result.explainedVarianceRatio )}
     ];
 
-    // debugger;
+    debugger;
     // Set Metric Creates The Vega Visualization and +'s it to The Page
    this.setMetric(this.metrics[0]);
+// debugger;
 
   }
 

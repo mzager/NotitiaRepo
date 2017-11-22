@@ -1,16 +1,17 @@
 import { AbstractStatChartConfig, StatChartEnum, StatsFactory, DonutConfig, HistogramConfig, ViolinConfig } from './stats-factory';
 
 // HISTOGRAM
-export const genericHistogram = (values: Array<number>): any => {
+export const genericHistogram = (values: Array<any>): any => {
     const config: HistogramConfig = StatsFactory.getInstance().createHistogramConfig();
-    config.data = values.map((v, i) => ({ label: 'PC ' + (i + 1), value: v }));
+    config.data = values;
+
     return createGraph(config);
 };
 
 // VIOLIN
 export const genericViolin = (values: Array<number>): any => {
     const config: ViolinConfig = StatsFactory.getInstance().createViolinConfig();
-    config.data = values.map((v, i) => ({ label: 'PC ' + (i + 1), value: v }));
+    config.data = values.map((v, i) => ({ label: 'Gene ' + (i + 1), value: v }));
     return createGraph(config);
 };
 
