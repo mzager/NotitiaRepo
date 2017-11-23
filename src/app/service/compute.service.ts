@@ -33,6 +33,7 @@ import { tsneCompute } from './../component/visualization/tsne/tsne.compute';
 import { TsneConfigModel } from './../component/visualization/tsne/tsne.model';
 import { UUID } from 'angular2-uuid';
 import * as Pool from 'generic-promise-pool';
+import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
 declare var thread;
 
 /*
@@ -50,6 +51,7 @@ export class ComputeService {
     private pcaKernal$ = new Subject<any>();
     private pcaSparse$ = new Subject<any>();
     private fastIca$ = new Subject<any>();
+    private timelines$ = new Subject<any>();
     private truncatedSvd$ = new Subject<any>();
     private dictionaryLearning$ = new Subject<any>();
     private lda$ = new Subject<any>();
@@ -128,6 +130,10 @@ export class ComputeService {
 
     pca(config: PcaConfigModel): Observable<any> {
         return this.execute(config, this.pca$);
+    }
+
+    timelines(config: TimelinesConfigModel): Observable<any> {
+        return this.execute(config, this.timelines$);
     }
 
     chromosome(config: ChromosomeConfigModel): Observable<any> {
