@@ -1,3 +1,4 @@
+import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
 import { HicConfigModel } from './../visualization/hic/hic.model';
 import { BoxWhiskersConfigModel } from './../visualization/boxwhiskers/boxwhiskers.model';
 import { ParallelCoordsConfigModel } from './../visualization/parallelcoords/parallelcoords.model';
@@ -200,6 +201,9 @@ export class WorkspaceComponent {
         break;
       case enums.VisualizationEnum.TSNE:
         this.store.dispatch( new compute.TsneAction( { config: value as TsneConfigModel} ));
+        break;
+      case enums.VisualizationEnum.TIMELINES:
+        this.store.dispatch( new compute.TimelinesAction( { config: value as TimelinesConfigModel }));
         break;
       case enums.VisualizationEnum.HEATMAP:
         this.store.dispatch( new compute.HeatmapAction( { config: value as HeatmapConfigModel} ));
