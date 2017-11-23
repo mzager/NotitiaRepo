@@ -40,6 +40,14 @@ export class DataFieldFactory {
     })];
   }
 
+  public static getCategoricalFields(clinicalFields: Array<DataField>): Array<DataField> {
+    return clinicalFields.filter(v => v.type === DataTypeEnum.STRING);
+  }
+
+  public static getContinuousFields(clinicalFields: Array<DataField>): Array<DataField> {
+    return clinicalFields.filter(v => v.type === DataTypeEnum.NUMBER);
+  }
+
   public static getIntersectFields(clinicalFields: Array<DataField>): Array<DataField> {
     return DataFieldFactory.getShapeFields(clinicalFields);
   }

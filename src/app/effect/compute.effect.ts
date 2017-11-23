@@ -23,6 +23,7 @@ import {
   ParallelCoordsCompleteAction,
   BoxWhiskersCompleteAction,
   LinkedGeneCompleteAction,
+  TimelinesCompleteAction,
   HicCompleteAction,
   MdsCompleteAction,
   FaCompleteAction,
@@ -182,6 +183,17 @@ export class ComputeEffect {
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new GenomeCompleteAction({ config: result.config, data: result.data }));
+        });
+    });
+
+  @Effect() loadTimelines: Observable<any> = this.actions$
+    .ofType(compute.COMPUTE_TIMELINES)
+    .map(toPayload)
+    .switchMap(payload => {
+      return this.computeService.timelines(payload.config)
+        .switchMap(result => {
+          return Observable.of((result === null) ? new NullDataAction() :
+            new TimelinesCompleteAction({ config: result.config, data: result.data }));
         });
     });
 
