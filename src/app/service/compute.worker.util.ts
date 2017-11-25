@@ -210,7 +210,7 @@ export class ComputeWorkerUtil {
     getEventData(): Promise<any> {
         return new Promise( (resolve, reject) => {
             this.openDatabaseData().then(v => {
-                this.dbData.table('events').toArray().then(_events => {
+                this.dbData.table('event').toArray().then(_events => {
                     resolve(_events);
                 });
             });

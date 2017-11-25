@@ -101,7 +101,7 @@ export const getEdgesData = createSelector( getEdgesState, (state: fromEdges.Sta
 export const getDataState = (state: State) => state.data;
 export const getFields = createSelector(getDataState, fromData.getFields);
 export const getTables = createSelector(getDataState, fromData.getTables);
-// export const getEventData = createSelector(getDataState, fromData.getEventData);
+export const getEvents = createSelector(getDataState, fromData.getEvents);
 
 /**
  * Spreadsheet Reducer

@@ -50,6 +50,7 @@ export class GraphPanelComponent implements AfterViewInit  {
 
   @Input() tables: Array<DataTable>;
   @Input() fields: Array<DataField>;
+  @Input() events: Array<{type: string, subtype: string}>;
 
   @Input() molecularData: Array<string>;
   @Input() clinicalFields: Array<DataField>;
@@ -329,11 +330,11 @@ export class GraphPanelComponent implements AfterViewInit  {
 // SVM
   // LinearSVC, LinearSVR, NuSVC, NuSVR, OneClassSvm, SVC, SVR
 
-      // { value: VisualizationEnum.PLS, label: 'Partial Least Squares'},
-
-      // { value: VisualizationEnum.SOM, label: 'SOM '},
-      // { value: VisualizationEnum.DA, label: 'Discriminat Analysis '},
-      // { value: VisualizationEnum.DA, label: 'Differential Expression '},
+      { value: VisualizationEnum.PLS, label: 'Partial Least Squares'},
+      { value: VisualizationEnum.SOM, label: 'SOM '},
+      { value: VisualizationEnum.DA, label: 'Discriminat Analysis '},
+      { value: VisualizationEnum.DE, label: 'Gene Set Enrichmant '},
+      { value: VisualizationEnum.DE, label: 'Differential Expression '},
       { value: VisualizationEnum.HEATMAP, label: 'Heatmap'},
       { value: VisualizationEnum.BOX_WHISKERS, label: 'Box Whiskers'},
       { value: VisualizationEnum.PARALLEL_COORDS, label: 'Parallel Coordinates'},

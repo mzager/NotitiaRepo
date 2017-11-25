@@ -70,7 +70,7 @@ export class DataEffect {
             return Observable.fromPromise(this.datasetService.getDataset(args.dataset));
         })
         .switchMap( (args) => {
-            return Observable.of(new DataLoadedAction(args.name, args.tables, args.fields));
+            return Observable.of(new DataLoadedAction(args.name, args.tables, args.fields, args.events));
         });
 
     // Sweet we got the data... now we configure our views.  T

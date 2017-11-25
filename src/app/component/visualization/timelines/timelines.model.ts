@@ -8,6 +8,7 @@ export class TimelinesConfigModel extends GraphConfig {
     constructor() {
         super();
         this.visualization = VisualizationEnum.TIMELINES;
+        this.entity = EntityTypeEnum.PATIENT;
     }
     displayType: DimensionEnum = DimensionEnum.THREE_D;
     domain: Array<number> = [-500, 500];

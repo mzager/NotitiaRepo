@@ -53,6 +53,7 @@ export class DatasetService {
 
         const cm = res[0].json();
         let events = res[1].json();
+        const eventMap = events.types;
 
         const db = DatasetService.db = new Dexie('notitia-dataset');
         DatasetService.db.on('versionchange', function (event) { });
@@ -60,7 +61,7 @@ export class DatasetService {
 
         db.version(1).stores({
           dataset: 'name',
-          events: '++, p',
+          event: '++, p',
           gistic: 'm',
           gisticT: 'm',
           gisticMap: 's',
@@ -74,6 +75,7 @@ export class DatasetService {
           patientSampleMap: 's, p'
         });
 
+        
 
         // Events
         events = events.events.map(v => {
@@ -81,8 +83,8 @@ export class DatasetService {
               p: v[0],
               type: events.typeMap[v[1]],
               subtype: events.subtypeMap[v[2]],
-              start: new Date( v[3] * 1000),
-              end: new Date( v[4] * 1000),
+              start:  v[3] * 1000,
+              end: v[4] * 1000,
               data: v[5]
               };
           });
@@ -251,6 +253,7 @@ export class DatasetService {
 
         const dataset = {
           name: disease.name,
+          events: Object.keys(eventMap).map(v => ({ type: eventMap[v], subtype: v })),
           tables: [
             { tbl: 'gistic', map: 'gisticMap', label: 'Gistic', ctype: CollectionTypeEnum.GISTIC },
             { tbl: 'gisticT', map: 'gismutMap', label: 'Gistic Thresholded', ctype: CollectionTypeEnum.GISTIC_THRESHOLD },
@@ -265,7 +268,7 @@ export class DatasetService {
           Promise.all([
             DatasetService.db.table('dataset').add(dataset),
             DatasetService.db.table('patientSampleMap').bulkAdd(patientSampleMap),
-            DatasetService.db.table('events').bulkAdd(events),
+            DatasetService.db.table('event').bulkAdd(events),
             DatasetService.db.table('mut').bulkAdd(mut),
             DatasetService.db.table('gismutMap').bulkAdd(gismutMap),
             DatasetService.db.table('gisticT').bulkAdd(gisticT),
