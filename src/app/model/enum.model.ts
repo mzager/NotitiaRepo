@@ -65,7 +65,8 @@ export const enum ShapeEnum {
     SQUARE = 2,
     TRIANGLE = 4,
     CONE = 8,
-    NULL = 16
+    BOX = 16,
+    NULL = 32
 }
 
 export const enum SizeEnum {

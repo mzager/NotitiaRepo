@@ -18116,7 +18116,7 @@ var ComputeWorkerUtil = (function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             _this.openDatabaseData().then(function (v) {
-                _this.dbData.table('events').toArray().then(function (_events) {
+                _this.dbData.table('event').toArray().then(function (_events) {
                     resolve(_events);
                 });
             });
@@ -23288,28 +23288,45 @@ exports.timelinesCompute = function (config, worker) {
             legend.name = 'xxx';
             legend.type = 'COLOR';
             legend.display = 'DISCRETE';
+            events = events.filter(function (p) { return p.subtype !== 'Birth'; });
+            // Create Map Of Alignments
+            var align = events.filter(function (v) { return v.subtype === 'Diagnosis'; })
+                .reduce(function (p, c) { p[c.p] = c.start; return p; }, {});
+            // Remove Rows That Don't Have Alignment Property
+            events = events.filter(function (v) { return align.hasOwnProperty(v.p); });
+            // Preform Alignment
+            events.forEach(function (v) {
+                v.start -= align[v.p];
+                v.end -= align[v.p];
+            });
             var subtypes = Array.from(events.reduce(function (p, c) { p.add(c.subtype); return p; }, new Set()));
             legend.labels = subtypes;
             legend.values = colors.slice(0, legend.labels.length);
             var colorMap = legend.labels.reduce(function (p, c, i) {
-                p[c] = legend.values[i];
+                p[c] = legend.values[i].toString(16);
+                while (p[c].length < 6) {
+                    p[c] = '0' + p[c];
+                }
+                p[c] = '#' + p[c];
                 return p;
             }, {});
             events.forEach(function (v) {
                 v.color = colorMap[v.subtype];
             });
             var minMaxDates = events.reduce(function (p, c) {
-                p.min = Math.min(p.min, c.start.getTime());
-                p.max = Math.max(p.max, c.start.getTime());
-                p.min = Math.min(p.min, c.end.getTime());
-                p.max = Math.max(p.max, c.end.getTime());
+                p.min = Math.min(p.min, c.start);
+                p.max = Math.max(p.max, c.start);
+                p.min = Math.min(p.min, c.end);
+                p.max = Math.max(p.max, c.end);
                 return p;
             }, { min: Infinity, max: -Infinity });
             var patientEvents = _.groupBy(events, 'p');
             patientEvents = Object.keys(patientEvents).map(function (v) {
                 var evts = _.groupBy(patientEvents[v], 'type');
-                evts.Status = evts.Status.sort(function (a, b) { return a - b; });
-                evts.Treatment = evts.Treatment.sort(function (a, b) { return a - b; });
+                evts.Status = evts.Status.sort(function (a, b) { return a.start - b.start; });
+                if (evts.hasOwnProperty('Treatment')) {
+                    evts.Treatment = evts.Treatment.sort(function (a, b) { return a.start - b.start; });
+                }
                 evts.id = v;
                 return evts;
             });

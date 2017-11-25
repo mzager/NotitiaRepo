@@ -31,7 +31,8 @@ export class DataLoadFromTcga implements Action {
 
 export class DataLoadedAction implements UnsafeAction {
     readonly type: string = DATA_LOADED;
-    constructor(public dataset: string, public tables: Array<DataTable>, public fields: Array<DataField>) {}
+    constructor(public dataset: string, public tables: Array<DataTable>, public fields: Array<DataField>,
+        public events: Array<{type: string, subtype: string}>) {}
 }
 
 export class DataLoadIlluminaVcfAction implements UnsafeAction {

@@ -74,8 +74,8 @@ export class ComputeService {
     constructor(private illumina: IlluminaService) {
         this.pool = Pool.create({
             name    : 'worker',
-            max     : 6,
-            min     : 2,
+            max     : 20,
+            // min     : 0,
             create  : () => {
                 console.log('WORKER :: ALLOCATE');
                 return new Worker('assets/compute.js');

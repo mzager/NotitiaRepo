@@ -109,6 +109,7 @@ export class WorkspaceComponent {
   selectedGraph: Observable<enums.GraphEnum>;
   fields: Observable<Array<DataField>>;
   tables: Observable<Array<DataTable>>;
+  events: Observable<Array<{type: string, subtype: string}>>;
   queryData: Observable<any>;
   _selectedGraph: enums.GraphEnum; // This is super wrong
 
@@ -136,6 +137,7 @@ export class WorkspaceComponent {
     this.graphBData = store.select(fromRoot.getGraphBData);
     this.tables = store.select(fromRoot.getTables);
     this.fields = store.select(fromRoot.getFields);
+    this.events = store.select(fromRoot.getEvents);
     this.queryData = store.select(fromRoot.getQueryData);
     this.store.dispatch( new DataLoadFromDexieAction('gbm') );
   }
