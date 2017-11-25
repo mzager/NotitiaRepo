@@ -10,7 +10,7 @@ export interface State {
     dataset: string;
     fields: Array<DataField>;
     tables: Array<DataTable>;
-    eventData: Array<string>;
+    events: Array<{type: string, subtype: string}>;
 }
 
 const initialState: State = {
@@ -18,14 +18,14 @@ const initialState: State = {
     dataset: null,
     fields: [],
     tables: [],
-    eventData: []
+    events: []
 };
 
 export function reducer(state = initialState, action: Action): State {
     switch (action.type) {
         case data.DATA_LOADED:
             const dla: DataLoadedAction = action as DataLoadedAction;
-            return Object.assign({}, state, { dataset: dla.dataset, fields: dla.fields, tables: dla.tables });
+            return Object.assign({}, state, { dataset: dla.dataset, fields: dla.fields, tables: dla.tables, events: dla.events });
         default:
             return state;
     }
@@ -33,3 +33,4 @@ export function reducer(state = initialState, action: Action): State {
 export const getDataset = (state: State) => state.dataset;
 export const getFields = (state: State) => state.fields;
 export const getTables = (state: State) => state.tables;
+export const getEvents = (state: State) => state.events;

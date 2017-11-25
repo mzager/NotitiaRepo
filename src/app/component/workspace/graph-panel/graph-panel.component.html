@@ -16,10 +16,11 @@
                         <option *ngFor="let option of visualizationOptions" [value]="option.value" [selected]="configA.visualization">{{option.label}}</option>
                     </select>
                     </label>
-                </div> 
+                </div>
                 <app-timelines-form *ngIf="configA && configA.visualization === 128"
                     (configChange)="graphPanelSetConfig($event)"
                     [fields]="fields"
+                    [events]="events"
                     [config]="configA"
                     ></app-timelines-form>
                 <app-genome-form *ngIf="configA && configA.visualization === 2147483648"
@@ -202,6 +203,7 @@
             <app-timelines-form *ngIf="configB && configA.visualization === 128"
                 (configChange)="graphPanelSetConfig($event)"
                 [fields]="fields"
+                [events]="events"
                 [config]="configB"
                 ></app-timelines-form>
             <app-genome-form *ngIf="configB && configB.visualization === 2147483648"

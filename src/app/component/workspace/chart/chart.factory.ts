@@ -82,6 +82,8 @@ export class ChartFactory {
     @Memoize()
     public static getShape(shape: ShapeEnum): THREE.Geometry {
         switch (shape) {
+            case ShapeEnum.BOX:
+                return new THREE.BoxGeometry(3, 3, 3);
             case ShapeEnum.CIRCLE:
                 return new THREE.SphereGeometry(2, 10, 10);
             case ShapeEnum.SQUARE:

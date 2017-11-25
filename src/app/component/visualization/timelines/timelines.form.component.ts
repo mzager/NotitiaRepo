@@ -77,6 +77,17 @@ export class TimelinesFormComponent {
     // this.sizeOptions = DataFieldFactory.getSizeFields(fields);
   }
 
+  @Input() set events(events: Array<{type: string, subtype: string}>) {
+    debugger;
+    if (events === null) { return; }
+    if (events.length === 0) { return ; }
+    
+
+
+    debugger;
+    // this.form.patchValue(v, { emitEvent: false });
+  }
+
   @Input() set config(v: TimelinesConfigModel) {
     if (v === null) { return; }
     this.form.patchValue(v, { emitEvent: false });
