@@ -14,7 +14,6 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
             .then(events => {
 
                 const colors = worker.util.colors;
-
                 const legend: Legend = new Legend();
                 legend.name = 'xxx';
                 legend.type = 'COLOR';
@@ -22,15 +21,17 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 events = events.filter( p => p.subtype !== 'Birth');
 
                 // Create Map Of Alignments
-                const align = events.filter( v => v.subtype === 'Diagnosis')
-                    .reduce( (p, c) => { p[c.p] = c.start; return p; }, {});
-                // Remove Rows That Don't Have Alignment Property
-                events = events.filter( v => align.hasOwnProperty(v.p));
-                // Preform Alignment
-                events.forEach( v => {
-                    v.start -= align[v.p];
-                    v.end -= align[v.p];
-                });
+                if (config.align !== 'None') {
+                    const align = events.filter( v => v.subtype === config.align)
+                        .reduce( (p, c) => { p[c.p] = c.start; return p; }, {});
+                    // Remove Rows That Don't Have Alignment Property
+                    events = events.filter( v => align.hasOwnProperty(v.p));
+                    // Preform Alignment
+                    events.forEach( v => {
+                        v.start -= align[v.p];
+                        v.end -= align[v.p];
+                    });
+                }
 
                 const subtypes = Array.from(events.reduce( (p, c) => { p.add(c.subtype); return p; }, new Set()));
                 legend.labels = subtypes as Array<string>;
@@ -48,6 +49,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                     v.color = colorMap[v.subtype];
                 });
 
+                // Should Move This Down
                 const minMaxDates = events.reduce( (p, c) => {
                     p.min = Math.min(p.min, c.start);
                     p.max = Math.max(p.max, c.start);
@@ -57,15 +59,25 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 }, {min: Infinity, max: -Infinity});
 
                 let patientEvents = _.groupBy(events, 'p');
-                patientEvents = Object.keys(patientEvents).map( v => {
-                    const evts = _.groupBy(patientEvents[v], 'type');
+                patientEvents = Object.keys(patientEvents).map( v => [v, patientEvents[v].sort( (a, b) => a.start - b.start )] );
+
+                if (config.sort !== 'None') {
+                    patientEvents.forEach( v => v.sortField = v[1].find(w => w.subtype === config.sort) );
+                    patientEvents = patientEvents
+                        .filter(v => v.sortField !== undefined)
+                        .sort( (a, b) => a.sortField.start - b.sortField.start );
+                }
+
+                patientEvents = patientEvents.map( v => {
+                    const evts = _.groupBy(v[1], 'type');
                     evts.Status = evts.Status.sort( (a, b) => a.start - b.start );
                     if (evts.hasOwnProperty('Treatment')) {
                         evts.Treatment = evts.Treatment.sort( (a, b) => a.start - b.start );
                     }
-                    evts.id = v;
+                    evts.id = v[0];
                     return evts;
                 });
+
 
                 worker.postMessage({
                     config: config,
