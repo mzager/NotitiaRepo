@@ -200,7 +200,7 @@
                 </select>
                 </label>
             </div> 
-            <app-timelines-form *ngIf="configB && configA.visualization === 128"
+            <app-timelines-form *ngIf="configB && configB.visualization === 128"
                 (configChange)="graphPanelSetConfig($event)"
                 [fields]="fields"
                 [events]="events"

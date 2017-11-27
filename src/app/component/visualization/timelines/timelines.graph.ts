@@ -75,7 +75,7 @@ export class TimelinesGraph implements ChartObjectInterface {
         this.meshes = [];
         this.patientGroups = [];
 
-        this.view.controls.enableRotate = false;
+        this.view.controls.enableRotate = true;
         this.group = new THREE.Group();
         this.view.scene.add(this.group);
         // this.lineMaterial = new THREE.LineBasicMaterial({ color: 0x039BE5 });
@@ -140,7 +140,15 @@ export class TimelinesGraph implements ChartObjectInterface {
 
     }
     removeObjects(): void {
+        this.meshes.forEach(v => {
+            ChartFactory.meshRelease(v as THREE.Mesh);
+            this.view.scene.remove(v);
 
+        });
+        this.meshes.length = 0;
+        this.patientGroups.forEach(v => {
+            this.view.scene.remove(v);
+        });
     }
 
     private onMouseMove(e: ChartEvent): void {
