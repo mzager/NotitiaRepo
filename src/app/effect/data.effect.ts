@@ -44,6 +44,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/debounceTime';
+import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
 
 @Injectable()
 export class DataEffect {
@@ -69,7 +70,7 @@ export class DataEffect {
             return Observable.fromPromise(this.datasetService.getDataset(args.dataset));
         })
         .switchMap( (args) => {
-            return Observable.of(new DataLoadedAction(args.name, args.tables, args.fields));
+            return Observable.of(new DataLoadedAction(args.name, args.tables, args.fields, args.events));
         });
 
     // Sweet we got the data... now we configure our views.  T
@@ -77,6 +78,7 @@ export class DataEffect {
     @Effect() dataLoaded$: Observable<Action> = this.actions$
         .ofType(data.DATA_LOADED)
         .mergeMap( (args: DataLoadedAction) => {
+
             const workspaceConfig = new WorkspaceConfigModel();
             workspaceConfig.layout = WorkspaceLayoutEnum.HORIZONTAL;
 
@@ -88,9 +90,13 @@ export class DataEffect {
             // chromosomeConfig.graph = GraphEnum.GRAPH_B;
             // chromosomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
-            // const boxWhiskersConfig = new BoxWhiskersConfigModel();
-            // boxWhiskersConfig.graph = GraphEnum.GRAPH_A;
-            // boxWhiskersConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
+            const boxWhiskersConfig = new BoxWhiskersConfigModel();
+            boxWhiskersConfig.graph = GraphEnum.GRAPH_B;
+            boxWhiskersConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
+
+            const timelinesConfig = new TimelinesConfigModel();
+            timelinesConfig.graph = GraphEnum.GRAPH_A;
+            //timelinesConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
 
             // const graphAConfig = new PcaIncrementalConfigModel();
             // graphAConfig.graph = GraphEnum.GRAPH_B;
@@ -105,13 +111,13 @@ export class DataEffect {
             // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             const graphAConfig = new PcaIncrementalConfigModel();
-            graphAConfig.graph = GraphEnum.GRAPH_A;
+            graphAConfig.graph = GraphEnum.GRAPH_B;
             graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
 
-            const graphBConfig = new PcaIncrementalConfigModel();
-            graphBConfig.graph = GraphEnum.GRAPH_B;
-            graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            // const graphBConfig = new PcaIncrementalConfigModel();
+            // graphBConfig.graph = GraphEnum.GRAPH_B;
+            // graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             // const heatmapConfig = new HeatmapConfigModel();
             // heatmapConfig.graph = GraphEnum.GRAPH_A;
@@ -120,16 +126,16 @@ export class DataEffect {
             return [
                 new WorkspaceConfigAction( workspaceConfig ),
                 // new compute.LinkedGeneAction( { config: graphAConfig } ),
-
-                 new compute.PcaIncrementalAction( { config: graphAConfig } ),
-                 new compute.PcaIncrementalAction( { config: graphBConfig } ),
-                //new compute.HicAction( { config: hicConfig }),
-                //new compute.BoxWhiskersAction( { config: boxWhiskersConfig } ),
+                new compute.PcaIncrementalAction( { config: graphAConfig } ),
+                // new compute.PcaIncrementalAction( { config: graphBConfig } ),
+                // new compute.HicAction( { config: hicConfig }),
+                // new compute.BoxWhiskersAction( { config: boxWhiskersConfig } ),
+                new compute.TimelinesAction( { config: timelinesConfig})
                 // new compute.GenomeAction( { config: graphBConfig }),
                 // new compute.ChromosomeAction( { config: chromosomeConfig } )
                 // new compute.HeatmapAction( { config: heatmapConfig })
                 // new compute.ChromosomeAction( { config: graphBConfig } )
-                //new compute.GenomeAction( { config: graphBConfig })
+                // new compute.GenomeAction( { config: graphBConfig })
                 // , new compute.PcaIncrementalAction( { config: graphBConfig } )
             ];
         });

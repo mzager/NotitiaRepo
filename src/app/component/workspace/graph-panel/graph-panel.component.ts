@@ -34,6 +34,7 @@ import { Component, Input, Output, ChangeDetectionStrategy,
   EventEmitter, AfterViewInit, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { LegendPanelEnum, VisualizationEnum, GraphEnum, DirtyEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
+import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
 declare var $: any;
 
 @Component({
@@ -49,6 +50,7 @@ export class GraphPanelComponent implements AfterViewInit  {
 
   @Input() tables: Array<DataTable>;
   @Input() fields: Array<DataField>;
+  @Input() events: Array<{type: string, subtype: string}>;
 
   @Input() molecularData: Array<string>;
   @Input() clinicalFields: Array<DataField>;
@@ -73,6 +75,9 @@ export class GraphPanelComponent implements AfterViewInit  {
         //   gc.visualization = VisualizationEnum.NONE;
         //   gc.dirtyFlag = DirtyEnum.LAYOUT;
         //   break;
+        case VisualizationEnum.TIMELINES:
+          gc = new TimelinesConfigModel();
+          break;
         case VisualizationEnum.CHROMOSOME:
           gc = new ChromosomeConfigModel();
           break;
@@ -176,6 +181,9 @@ export class GraphPanelComponent implements AfterViewInit  {
         //   gc.entity = EntityTypeEnum.NONE;
         //   gc.dirtyFlag = DirtyEnum.LAYOUT;
         //   break;
+        case VisualizationEnum.TIMELINES:
+          gc = new TimelinesConfigModel();
+          break;
         case VisualizationEnum.CHROMOSOME:
           gc = new ChromosomeConfigModel();
           break;
@@ -322,18 +330,18 @@ export class GraphPanelComponent implements AfterViewInit  {
 // SVM
   // LinearSVC, LinearSVR, NuSVC, NuSVR, OneClassSvm, SVC, SVR
 
-      // { value: VisualizationEnum.PLS, label: 'Partial Least Squares'},
-
-      // { value: VisualizationEnum.SOM, label: 'SOM '},
-      // { value: VisualizationEnum.DA, label: 'Discriminat Analysis '},
-      // { value: VisualizationEnum.DA, label: 'Differential Expression '},
+      { value: VisualizationEnum.PLS, label: 'Partial Least Squares'},
+      { value: VisualizationEnum.SOM, label: 'SOM '},
+      { value: VisualizationEnum.DA, label: 'Discriminat Analysis '},
+      { value: VisualizationEnum.DE, label: 'Gene Set Enrichmant '},
+      { value: VisualizationEnum.DE, label: 'Differential Expression '},
       { value: VisualizationEnum.HEATMAP, label: 'Heatmap'},
       { value: VisualizationEnum.BOX_WHISKERS, label: 'Box Whiskers'},
       { value: VisualizationEnum.PARALLEL_COORDS, label: 'Parallel Coordinates'},
       { value: VisualizationEnum.HISTOGRAM, label: 'Histogram Beta'},
       { value: VisualizationEnum.SURVIVAL, label: 'Kaplan Meier Curve Beta'},
       { value: VisualizationEnum.PATHWAYS, label: 'Pathways Beta'},
-      { value: VisualizationEnum.TIMELINES, label: 'Timelines Beta'}
+      { value: VisualizationEnum.TIMELINES, label: 'Timelines'}
     ];
   }
 

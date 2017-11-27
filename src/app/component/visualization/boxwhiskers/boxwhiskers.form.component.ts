@@ -12,20 +12,11 @@ import * as _ from 'lodash';
   template: `
 <form [formGroup]="form" novalidate>
 <div class="form-group">
-  <label class="center-block"><span class="form-label">Data</span>
-    <select class="browser-default" materialize="material_select"
-      [compareWith]="byKey"
-      formControlName="table">
-      <option *ngFor="let option of dataOptions">{{option.label}}</option>
-    </select>
-  </label>
-</div>
-<div class="form-group">
   <label class="center-block"><span class="form-label">Continuous Variable</span>
     <select class="browser-default" materialize="material_select"
         [compareWith]="byKey"
-        [materializeSelectOptions]="colorOptions" formControlName="pointShape">
-        <option *ngFor="let option of shapeOptions"
+        [materializeSelectOptions]="continuousOptions" formControlName="continuousVariable">
+        <option *ngFor="let option of continuousOptions"
           [ngValue]="option">{{option.label}}</option>
     </select>
   </label>
@@ -34,8 +25,8 @@ import * as _ from 'lodash';
   <label class="center-block"><span class="form-label">Categoricial Variable 1</span>
     <select class="browser-default" materialize="material_select"
         [compareWith]="byKey"
-        [materializeSelectOptions]="colorOptions" formControlName="pointShape">
-        <option *ngFor="let option of shapeOptions"
+        [materializeSelectOptions]="categoricalOptions" formControlName="categoricalVariable1">
+        <option *ngFor="let option of categoricalOptions"
           [ngValue]="option">{{option.label}}</option>
     </select>
   </label>
@@ -44,8 +35,8 @@ import * as _ from 'lodash';
   <label class="center-block"><span class="form-label">Categoricial Variable 2</span>
     <select class="browser-default" materialize="material_select"
         [compareWith]="byKey"
-        [materializeSelectOptions]="colorOptions" formControlName="pointShape">
-        <option *ngFor="let option of shapeOptions"
+        [materializeSelectOptions]="categoricalOptions" formControlName="categoricalVariable2">
+        <option *ngFor="let option of categoricalOptions"
           [ngValue]="option">{{option.label}}</option>
     </select>
   </label>
@@ -73,14 +64,6 @@ import * as _ from 'lodash';
 </label>
 </div>
 <div class="form-group">
-  <label class="center-block"><span class="form-label">Display</span>
-    <select class="browser-default" materialize="material_select"
-        formControlName="entity">
-        <option *ngFor="let option of displayOptions">{{option}}</option>
-    </select>
-  </label>
-</div>
-<div class="form-group">
   <div class="switch">
     <label>
       <input type="checkbox" formControlName="scatter">
@@ -101,7 +84,7 @@ import * as _ from 'lodash';
 <div class="form-group">
   <div class="switch">
     <label>
-      <input type="checkbox" formControlName="outliers">
+      <input type="checkbox" formControlName="average">
         <span class="lever"></span>
           Average
     </label>
@@ -110,7 +93,7 @@ import * as _ from 'lodash';
 <div class="form-group">
   <div class="switch">
     <label>
-      <input type="checkbox" formControlName="outliers">
+      <input type="checkbox" formControlName="standardDeviation">
         <span class="lever"></span>
           Standard Deviation
     </label>
@@ -128,9 +111,11 @@ export class BoxWhiskersFormComponent {
   @Input() set fields(fields: Array<DataField>) {
     if (fields.length === 0) { return; }
     const defaultDataField: DataField = DataFieldFactory.getUndefined();
-
+    this.continuousOptions = DataFieldFactory.getContinuousFields(fields);
+    this.categoricalOptions = DataFieldFactory.getCategoricalFields(fields);
+    this.continuousOptions.unshift(defaultDataField);
+    this.categoricalOptions.unshift(defaultDataField);
     this.colorOptions = DataFieldFactory.getColorFields(fields);
-    this.shapeOptions = DataFieldFactory.getShapeFields(fields);
   }
 
   @Input() set config(v: BoxWhiskersConfigModel) {
@@ -141,8 +126,9 @@ export class BoxWhiskersFormComponent {
   @Output() configChange = new EventEmitter<GraphConfig>();
 
   form: FormGroup;
+  continuousOptions: Array<DataField>;
+  categoricalOptions: Array<DataField>;
   colorOptions: Array<DataField>;
-  shapeOptions: Array<DataField>;
   dataOptions: Array<DataTable>;
   dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D];
 
@@ -158,20 +144,20 @@ export class BoxWhiskersFormComponent {
       dirtyFlag: [0],
       visualization: [],
       graph: [],
-      entity: [],
+      entity: [],     // *
       markerFilter: [],
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
-      table: [],
+      continuousVariable: [],
+      categoricalVariable1: [],
+      categoricalVariable2: [],
       pointColor: [],
-      pointShape: [],
-      pointSize: [],
-      dimension: [],
-      chromosome: [],
-      allowRotation: [],
+      sort: [],
       scatter: [],
-      outliers: []
+      outliers: [],
+      average: [],
+      standardDeviation: []
     });
 
     // Update When Form Changes
@@ -183,7 +169,7 @@ export class BoxWhiskersFormComponent {
         const form = this.form;
         if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
         // if (form.get('pointShape').dirty) { dirty |= DirtyEnum.SHAPE; }
-        if (form.get('pointSize').dirty) { dirty |= DirtyEnum.SIZE; }
+        //if (form.get('pointSize').dirty) { dirty |= DirtyEnum.SIZE; }
         if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
         form.markAsPristine();
         data.dirtyFlag = dirty;

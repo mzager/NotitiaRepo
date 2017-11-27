@@ -5,6 +5,7 @@ import { VisualizationEnum, DimensionEnum, GraphEnum, EntityTypeEnum } from 'app
 import { DataField, DataFieldFactory } from 'app/model/data-field.model';
 
 export class BoxWhiskersConfigModel extends GraphConfig {
+
     constructor() {
         super();
         this.entity = EntityTypeEnum.GENE;
@@ -12,6 +13,14 @@ export class BoxWhiskersConfigModel extends GraphConfig {
     }
 
     displayType: DimensionEnum = DimensionEnum.THREE_D;
+    continuousVariable = DataFieldFactory.getUndefined();
+    categoricalVariable1 = DataFieldFactory.getUndefined();
+    categoricalVariable2 = DataFieldFactory.getUndefined();
+    sort = DataFieldFactory.getUndefined();
+    scatter = false;
+    outliers = false;
+    average = false;
+    standardDeviation = false;
 }
 
 export interface BoxWhiskersDataModel extends GraphData {

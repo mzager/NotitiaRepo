@@ -23,6 +23,7 @@
 
     <app-workspace-graph-panel 
         *ngIf="graphPanelTab | async"
+        [events]="events | async"
         [tables]="tables | async"
         [fields]="fields | async"
         [clinicalFields]="clinicalFields | async"

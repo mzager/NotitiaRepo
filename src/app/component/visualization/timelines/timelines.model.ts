@@ -5,7 +5,11 @@ import { VisualizationEnum, DimensionEnum, GraphEnum, EntityTypeEnum } from 'app
 import { DataField, DataFieldFactory } from 'app/model/data-field.model';
 
 export class TimelinesConfigModel extends GraphConfig {
-    
+    constructor() {
+        super();
+        this.visualization = VisualizationEnum.TIMELINES;
+        this.entity = EntityTypeEnum.PATIENT;
+    }
     displayType: DimensionEnum = DimensionEnum.THREE_D;
     domain: Array<number> = [-500, 500];
     showAllGenes: Boolean = false;
@@ -14,10 +18,5 @@ export class TimelinesConfigModel extends GraphConfig {
 
 export interface TimelinesDataModel {
     legends: Array<Legend>;
-    genes: any;
-    bands: any;
-    chromo: Array<{'chr': string, 'P': number, 'C': number, 'Q': number}>;
-    showAllGenes: Boolean;
-    showBands: Boolean;
-    allowRotation: Boolean;
+    result: any;
 }

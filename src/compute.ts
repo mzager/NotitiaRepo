@@ -1,3 +1,4 @@
+import { timelinesCompute } from './app/component/visualization/timelines/timelines.compute';
 import { hicCompute } from './app/component/visualization/hic/hic.compute';
 import { parallelcoordsCompute } from './app/component/visualization/parallelcoords/parallelcoords.compute';
 import { boxwhiskersCompute } from './app/component/visualization/boxwhiskers/boxwhiskers.compute';
@@ -64,6 +65,9 @@ onmessage = function (e) {
             break;
         case VisualizationEnum.BOX_WHISKERS:
             boxwhiskersCompute(e.data, me);
+            break;
+        case VisualizationEnum.TIMELINES:
+            timelinesCompute(e.data, me);
             break;
         case VisualizationEnum.PARALLEL_COORDS:
             parallelcoordsCompute(e.data, me);
