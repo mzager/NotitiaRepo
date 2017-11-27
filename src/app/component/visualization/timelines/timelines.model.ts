@@ -10,10 +10,9 @@ export class TimelinesConfigModel extends GraphConfig {
         this.visualization = VisualizationEnum.TIMELINES;
         this.entity = EntityTypeEnum.PATIENT;
     }
-    displayType: DimensionEnum = DimensionEnum.THREE_D;
-    domain: Array<number> = [-500, 500];
-    showAllGenes: Boolean = false;
-    showCytobands: Boolean = true;
+    align = 'None';
+    sort = 'None';
+    timescale = 'Linear';
 }
 
 export interface TimelinesDataModel {

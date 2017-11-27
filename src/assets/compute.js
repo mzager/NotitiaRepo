@@ -23290,15 +23290,17 @@ exports.timelinesCompute = function (config, worker) {
             legend.display = 'DISCRETE';
             events = events.filter(function (p) { return p.subtype !== 'Birth'; });
             // Create Map Of Alignments
-            var align = events.filter(function (v) { return v.subtype === 'Diagnosis'; })
-                .reduce(function (p, c) { p[c.p] = c.start; return p; }, {});
-            // Remove Rows That Don't Have Alignment Property
-            events = events.filter(function (v) { return align.hasOwnProperty(v.p); });
-            // Preform Alignment
-            events.forEach(function (v) {
-                v.start -= align[v.p];
-                v.end -= align[v.p];
-            });
+            if (config.align !== 'None') {
+                var align_1 = events.filter(function (v) { return v.subtype === config.align; })
+                    .reduce(function (p, c) { p[c.p] = c.start; return p; }, {});
+                // Remove Rows That Don't Have Alignment Property
+                events = events.filter(function (v) { return align_1.hasOwnProperty(v.p); });
+                // Preform Alignment
+                events.forEach(function (v) {
+                    v.start -= align_1[v.p];
+                    v.end -= align_1[v.p];
+                });
+            }
             var subtypes = Array.from(events.reduce(function (p, c) { p.add(c.subtype); return p; }, new Set()));
             legend.labels = subtypes;
             legend.values = colors.slice(0, legend.labels.length);
@@ -23313,6 +23315,7 @@ exports.timelinesCompute = function (config, worker) {
             events.forEach(function (v) {
                 v.color = colorMap[v.subtype];
             });
+            // Should Move This Down
             var minMaxDates = events.reduce(function (p, c) {
                 p.min = Math.min(p.min, c.start);
                 p.max = Math.max(p.max, c.start);
@@ -23321,13 +23324,20 @@ exports.timelinesCompute = function (config, worker) {
                 return p;
             }, { min: Infinity, max: -Infinity });
             var patientEvents = _.groupBy(events, 'p');
-            patientEvents = Object.keys(patientEvents).map(function (v) {
-                var evts = _.groupBy(patientEvents[v], 'type');
+            patientEvents = Object.keys(patientEvents).map(function (v) { return [v, patientEvents[v].sort(function (a, b) { return a.start - b.start; })]; });
+            if (config.sort !== 'None') {
+                patientEvents.forEach(function (v) { return v.sortField = v[1].find(function (w) { return w.subtype === config.sort; }); });
+                patientEvents = patientEvents
+                    .filter(function (v) { return v.sortField !== undefined; })
+                    .sort(function (a, b) { return a.sortField.start - b.sortField.start; });
+            }
+            patientEvents = patientEvents.map(function (v) {
+                var evts = _.groupBy(v[1], 'type');
                 evts.Status = evts.Status.sort(function (a, b) { return a.start - b.start; });
                 if (evts.hasOwnProperty('Treatment')) {
                     evts.Treatment = evts.Treatment.sort(function (a, b) { return a.start - b.start; });
                 }
-                evts.id = v;
+                evts.id = v[0];
                 return evts;
             });
             worker.postMessage({
