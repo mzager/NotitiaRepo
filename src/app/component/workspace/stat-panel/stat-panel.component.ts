@@ -1,4 +1,4 @@
-import { explainedVariance, explainedVarianceRatio, genericHistogram } from './stats-compute';
+import {explainedVarianceRatio, genericDonut,  genericHistogram,  genericViolin} from './stats-compute';
 import { StatsFactory } from './stats-factory';
 import { GraphData } from './../../../model/graph-data.model';
 import { INSERT_ANNOTATION } from './../../../action/graph.action';
@@ -15,6 +15,7 @@ import { Legend } from 'app/model/legend.model';
 declare var $: any;
 declare var vega: any;
 declare var vegaTooltip: any;
+
 
 
 @Component({
@@ -41,14 +42,42 @@ export class StatPanelComponent implements AfterViewInit {
 
 
     // Create Array of Possible Stat Types
+    const componentMap = value.markerIds.reduce((p, c, i) => {
+        p[c] = value.result.components.map(v => v[i]);
+        return p;
+    }, {});
+    const componentArray = Object.keys(componentMap).map(key => {
+        const item = componentMap[key];
+        return {
+            marker: key,
+            pc1: item[0],
+            pc2: item[1],
+            pc3: item[2]
+        };
+    }, {}).sort((a, b) =>
+        (a.pc1 > b.pc1) ? -1 :
+            (a.pc1 < b.pc1) ? 1 :
+                (a.pc2 > b.pc2) ? -1 :
+                    (a.pc2 < b.pc2) ? 1 :
+                        (a.pc3 > b.pc3) ? -1 :
+                            (a.pc3 < b.pc3) ? 1 : 0
+    ).filter( (v, i) => i < 20)
+    .map( v => ({ label: v.marker, value: v.pc1.toFixed(2) }));
+
+
+
     this.metrics = [
-      { label: 'Histogram', value: genericHistogram( [] )},
-      // { label: 'Explained Variance', value: explainedVariance( value.result.explainedVariance )},
-      { label: 'Explained Variance Ratio', value: explainedVarianceRatio( value.result.explainedVarianceRatio )},
+      { label: 'Histogram', value: genericHistogram( componentArray )},
+      // { label: 'Histogram', value: genericHistogram( value.result.explainedVarianceRatio  )},
+      // { label: 'Violin', value: genericViolin( value.result.explainedVarianceRatio  )},
+      // { label: 'Donut', value: genericDonut( value.result.explainedVariance )}
+      // { label: 'Explained Variance Ratio', value: explainedVarianceRatio( value.result.explainedVarianceRatio )}
     ];
+
     // debugger;
-    // Set Metric Creates The Vega Visualization and +'s it to The Page 
-   this.setMetric(this.metrics[1]);
+    // Set Metric Creates The Vega Visualization and +'s it to The Page
+   this.setMetric(this.metrics[0]);
+// debugger;
 
   }
 
@@ -64,16 +93,30 @@ export class StatPanelComponent implements AfterViewInit {
   data = {};
 
   // https://www.npmjs.com/package/vega-tooltip
-  options =
-  {
-    showAllFields: false,
-    fields: [
-      {
-        field: 'field',
-        title: 'PC',
-        formatType: 'number'
-      }
-    ]};
+  // options =
+  // {
+  //   showAllFields: false,
+  //   fields: [
+  //     {
+  //       field: 'field',
+  //       title: 'PC',
+  //       formatType: 'number'
+  //     }
+  //   ]};
+
+     options =
+    {
+      showAllFields: false,
+      fields: [
+        {
+          field: 'field1',
+          title: 'Field One',
+          formatType: 'number',
+          delay: 250,
+          colorTheme: 'dark'
+        },
+      ]
+    };
 
   // Create The Vega + Render It
     setMetric(value: any): void {
@@ -82,13 +125,14 @@ export class StatPanelComponent implements AfterViewInit {
         }).initialize('#stat-panel-chart')
           .hover()
           .run();
+
           // To further customize, overwrite the .vg-tooltip class in your CSS
           // below needs work, https://www.npmjs.com/package/vega-tooltip
           // vegaTooltip.vega(vega[, this.options]); // pass in options
       }
 
 
-  // Constructor Called Automatically 
+  // Constructor Called Automatically
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {
     this.statsFactory = StatsFactory.getInstance();
   }
@@ -97,5 +141,4 @@ export class StatPanelComponent implements AfterViewInit {
   ngAfterViewInit() {
     $(this.tabs.nativeElement).tabs();
   }
-
 }

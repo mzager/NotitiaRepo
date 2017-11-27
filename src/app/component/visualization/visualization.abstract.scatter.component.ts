@@ -11,8 +11,6 @@ import { EventEmitter } from '@angular/core';
 import { GraphEnum, EntityTypeEnum, DirtyEnum, ShapeEnum } from 'app/model/enum.model';
 import { ChartObjectInterface } from './../../model/chart.object.interface';
 import * as THREE from 'three';
-import { Vector3 } from 'three';
-import { ChartUtil } from 'app/component/workspace/chart/chart.utils';
 export class AbstractScatterVisualization extends AbstractVisualization {
 
     // Chart Elements
@@ -22,9 +20,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     // Objects
     private lines: Array<THREE.Line>;
     private controls: DragSelectionControl;
-
-    // Private Subscriptions
-    private sMouseMove: Subscription;
 
     // Private Subscriptions
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
@@ -43,6 +38,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     }
 
     update(config: GraphConfig, data: any) {
+        // debugger;
         this.config = config as GraphConfig;
         this.data = data;
         if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {
@@ -85,16 +81,10 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         if (this.isEnabled === truthy) { return; }
         this.isEnabled = truthy;
         this.view.controls.enabled = this.isEnabled;
-        if (truthy) {
-            this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
-        } else {
-            this.sMouseMove.unsubscribe();
-        }
+        this.controls.enabled = this.isEnabled;
     }
 
     addObjects(type: EntityTypeEnum) {
-        this.view.camera.position.set(0, 0, 1000);
-        this.view.camera.rotation.setFromVector3( new Vector3(0, 0, 0) );
         const weightLength = this.data['resultScaled'].length;
         const layoutLength = this.data['resultScaled'].length;
         for (let i = 0; i < layoutLength; i++) {
@@ -105,13 +95,11 @@ export class AbstractScatterVisualization extends AbstractVisualization {
             const userData = (type === EntityTypeEnum.GENE) ?
                 {
                     color: color,
-                    mid: this.data['markerIds'][i],
-                    tip: this.data['markerIds'][i]
+                    mid: this.data['markerIds'][i]
                 } : {
                     color: color,
                     pid: this.data['patientIds'][i],
-                    sid: this.data['sampleIds'][i],
-                    tip: 'Patient: ' + this.data['patientIds'][i] + ' - Sample: ' + this.data['sampleIds'][i]
+                    sid: this.data['sampleIds'][i]
                 };
             const mesh = ChartFactory.meshAllocate(
                 color,
@@ -136,22 +124,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.meshes.length = 0;
         this.lines.forEach(v => this.view.scene.remove(v));
         this.lines.length = 0;
-    }
-
-
-    onMouseMove(e) {
-        const geneHit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
-        if (geneHit.length > 0) {
-            const xPos = e.mouse.xs + 10;
-            const yPos = e.mouse.ys;
-            this.labels.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#FFF;padding:3px;border-radius:' +
-                '3px;z-index:9999;position:absolute;left:' +
-                xPos + 'px;top:' +
-                yPos + 'px;">' +
-                geneHit[0].object.userData.tip + '</div>';
-            return;
-        }
-        this.labels.innerHTML = '';
     }
 
 }
