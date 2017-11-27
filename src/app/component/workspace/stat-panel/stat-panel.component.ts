@@ -74,7 +74,7 @@ export class StatPanelComponent implements AfterViewInit {
       // { label: 'Explained Variance Ratio', value: explainedVarianceRatio( value.result.explainedVarianceRatio )}
     ];
 
-    debugger;
+    // debugger;
     // Set Metric Creates The Vega Visualization and +'s it to The Page
    this.setMetric(this.metrics[0]);
 // debugger;
