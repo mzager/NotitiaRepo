@@ -11,6 +11,7 @@ import * as graph from 'app/action/graph.action';
 import * as compute from 'app/action/compute.action';
 import { DirtyEnum } from 'app/model/enum.model';
 import { COMPUTE_CHROMOSOME, COMPUTE_CHROMOSOME_COMPLETE, COMPUTE_PCA_COMPLETE,
+    COMPUTE_TIMELINES,
     COMPUTE_GRAPH_COLOR, COMPUTE_GRAPH_SHAPE, COMPUTE_GRAPH_SIZE,
     COMPUTE_GRAPH_SHAPE_COMPLETE, COMPUTE_GRAPH_SIZE_COMPLETE,
     COMPUTE_GRAPH_COLOR_COMPLETE, COMPUTE_GENOME_COMPLETE,
@@ -23,7 +24,8 @@ import { COMPUTE_CHROMOSOME, COMPUTE_CHROMOSOME_COMPLETE, COMPUTE_PCA_COMPLETE,
     COMPUTE_SPECTRAL_EMBEDDING_COMPLETE, COMPUTE_PCA_INCREMENTAL_COMPLETE,
     COMPUTE_PCA_KERNAL_COMPLETE, COMPUTE_PCA_SPARSE_COMPLETE, COMPUTE_LINKED_GENE_COMPLETE,
     COMPUTE_NONE_COMPLETE, COMPUTE_BOX_WHISKERS_COMPLETE, COMPUTE_PARALLEL_COORDS_COMPLETE,
-    COMPUTE_HIC_COMPLETE } from './../action/compute.action';
+    COMPUTE_HIC_COMPLETE, 
+    COMPUTE_TIMELINES_COMPLETE} from './../action/compute.action';
 import { DataCollection } from './../model/data-collection.model';
 import { DataField } from 'app/model/data-field.model';
 import { DataSet } from './../model/data-set.model';
@@ -52,6 +54,7 @@ const initialState: State = {
 function processAction(action: UnsafeAction, state: State): State {
     switch (action.type) {
         case COMPUTE_NONE_COMPLETE:
+        case COMPUTE_TIMELINES_COMPLETE:
         case COMPUTE_HEATMAP_COMPLETE:
         case COMPUTE_BOX_WHISKERS_COMPLETE:
         case COMPUTE_PARALLEL_COORDS_COMPLETE:

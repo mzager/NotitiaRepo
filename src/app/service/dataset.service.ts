@@ -10,6 +10,7 @@ import * as jstat from 'jstat';
 import Dexie from 'dexie';
 
 
+
 @Injectable()
 export class DatasetService {
 
@@ -41,12 +42,18 @@ export class DatasetService {
 
     disease.name = 'gbm';
     return Observable.fromPromise(Dexie.exists('notitia-dataset'))
-      .flatMap(exists => {
+      .switchMap(exists => {
         if (exists) { Dexie.delete('notitia-dataset'); }
-        return this.http.get(DatasetService.API_PATH + disease.name + '.json');
+        return Observable.forkJoin([
+          this.http.get(DatasetService.API_PATH + disease.name + '.json'),
+          this.http.get(DatasetService.API_PATH + disease.name + '-events.json')
+          ]);
       })
-      .map(res => res.json())
       .flatMap((res: any) => {
+
+        const cm = res[0].json();
+        let events = res[1].json();
+        const eventMap = events.types;
 
         const db = DatasetService.db = new Dexie('notitia-dataset');
         DatasetService.db.on('versionchange', function (event) { });
@@ -54,6 +61,7 @@ export class DatasetService {
 
         db.version(1).stores({
           dataset: 'name',
+          event: '++, p',
           gistic: 'm',
           gisticT: 'm',
           gisticMap: 's',
@@ -61,18 +69,32 @@ export class DatasetService {
           gismutMap: 's',
           rna: 'm',
           rnaMap: 's',
-          patient: 'p,' + res.clinical.fields.map(field => field.key).join(','),
+          patient: 'p,' + cm.clinical.fields.map(field => field.key).join(','),
           patientMap: 'p',
           patientMeta: 'key',
           patientSampleMap: 's, p'
         });
 
+        
 
-        const patientSampleMap = res.gistic.samples.map( v => ({s: v, p: v.substr(0, 7) }));
+        // Events
+        events = events.events.map(v => {
+            return {
+              p: v[0],
+              type: events.typeMap[v[1]],
+              subtype: events.subtypeMap[v[2]],
+              start:  v[3] * 1000,
+              end: v[4] * 1000,
+              data: v[5]
+              };
+          });
+
+
+        const patientSampleMap = cm.gistic.samples.map( v => ({s: v, p: v.substr(0, 7) }));
 
         // Gistic
-        const gistic = res.gistic.markers.map((marker, m) => {
-          const data = res.gistic.samples.map((sample, s) => res.gistic.data[s][m]);
+        const gistic = cm.gistic.markers.map((marker, m) => {
+          const data = cm.gistic.samples.map((sample, s) => cm.gistic.data[s][m]);
           return {
             m: marker,
             d: data,
@@ -86,11 +108,11 @@ export class DatasetService {
         });
 
         // Gistic Map
-        const gisticMap = res.gistic.samples.map((s, i) => ({ s: s, i: i }));
+        const gisticMap = cm.gistic.samples.map((s, i) => ({ s: s, i: i }));
 
         // Rna
-        const rna = res.rna.markers.map((marker, m) => {
-          const data = res.rna.samples.map((sample, s) => res.rna.data[s][m]);
+        const rna = cm.rna.markers.map((marker, m) => {
+          const data = cm.rna.samples.map((sample, s) => cm.rna.data[s][m]);
           return {
             m: marker,
             d: data,
@@ -104,7 +126,7 @@ export class DatasetService {
         });
 
         // Rna Map
-        const rnaMap = res.rna.samples.map((s, i) => ({ s: s, i: i }));
+        const rnaMap = cm.rna.samples.map((s, i) => ({ s: s, i: i }));
 
         const mutations = {
           'Missense_Mutation': 1,
@@ -124,7 +146,7 @@ export class DatasetService {
         };
 
         // Gistic Thresholded
-        const gisticT = res.gismut.markers.map((marker, m) => {
+        const gisticT = cm.gismut.markers.map((marker, m) => {
           const rv = {
             m: marker,
             mean: 0,
@@ -133,8 +155,8 @@ export class DatasetService {
             min: 0,
             max: 0,
             quartiles: [],
-            d: res.gismut.samples.map((sample, s) => {
-              const score = res.gismut.data[s][m];
+            d: cm.gismut.samples.map((sample, s) => {
+              const score = cm.gismut.data[s][m];
               // tslint:disable-next-line:no-bitwise
               return (score & mutations.g0) ? 0 :
                 // tslint:disable-next-line:no-bitwise
@@ -158,7 +180,7 @@ export class DatasetService {
         });
 
         // Mutation (TODO: Remove Nested Lookup In Loop res.gismut.data[s][m])
-        const mut = res.gismut.markers.map((marker, m) => {
+        const mut = cm.gismut.markers.map((marker, m) => {
           const rv = {
             m: marker,
             mean: 0,
@@ -167,8 +189,8 @@ export class DatasetService {
             min: 0,
             max: 0,
             quartiles: [],
-            d: res.gismut.samples.map((sample, s) => {
-              let score = res.gismut.data[s][m];
+            d: cm.gismut.samples.map((sample, s) => {
+              let score = cm.gismut.data[s][m];
               // tslint:disable-next-line:no-bitwise
               score &= ~mutations.g0;
               // tslint:disable-next-line:no-bitwise
@@ -191,13 +213,13 @@ export class DatasetService {
           return rv;
         });
 
-        const gismutMap = res.gismut.samples.map((s, i) => ({ s: s, i: i }));
-        const patientMap = res.clinical.patients.map((p, i) => ({ p: p, i: i }));
-        const patient = res.clinical.patients.map((patientDatum, pi) => {
-          return res.clinical.fields.reduce((obj, field, fi) => {
+        const gismutMap = cm.gismut.samples.map((s, i) => ({ s: s, i: i }));
+        const patientMap = cm.clinical.patients.map((p, i) => ({ p: p, i: i }));
+        const patient = cm.clinical.patients.map((patientDatum, pi) => {
+          return cm.clinical.fields.reduce((obj, field, fi) => {
             obj[field.key] = (field.type === 'number') ?
-              res.clinical.data[fi][pi] :
-              field.values[res.clinical.data[fi][pi]];
+            cm.clinical.data[fi][pi] :
+              field.values[cm.clinical.data[fi][pi]];
             return obj;
           }, { p: patientDatum });
         });
@@ -217,7 +239,7 @@ export class DatasetService {
         };
 
         // Build Fields Collection
-        const fields = res.clinical.fields.map(v => Object.assign(v, { 
+        const fields = cm.clinical.fields.map(v => Object.assign(v, { 
           ctype: CollectionTypeEnum.PATIENT,
           tbl: 'patient', type: v.type.toUpperCase(),
         label: v.key.replace(/_/gi, ' ')
@@ -231,6 +253,7 @@ export class DatasetService {
 
         const dataset = {
           name: disease.name,
+          events: Object.keys(eventMap).map(v => ({ type: eventMap[v], subtype: v })),
           tables: [
             { tbl: 'gistic', map: 'gisticMap', label: 'Gistic', ctype: CollectionTypeEnum.GISTIC },
             { tbl: 'gisticT', map: 'gismutMap', label: 'Gistic Thresholded', ctype: CollectionTypeEnum.GISTIC_THRESHOLD },
@@ -245,10 +268,11 @@ export class DatasetService {
           Promise.all([
             DatasetService.db.table('dataset').add(dataset),
             DatasetService.db.table('patientSampleMap').bulkAdd(patientSampleMap),
+            DatasetService.db.table('event').bulkAdd(events),
             DatasetService.db.table('mut').bulkAdd(mut),
             DatasetService.db.table('gismutMap').bulkAdd(gismutMap),
             DatasetService.db.table('gisticT').bulkAdd(gisticT),
-            DatasetService.db.table('patientMeta').bulkAdd(res.clinical.fields),
+            DatasetService.db.table('patientMeta').bulkAdd(cm.clinical.fields),
             DatasetService.db.table('patientMap').bulkAdd(patientMap),
             DatasetService.db.table('patient').bulkAdd(patient),
             DatasetService.db.table('rnaMap').bulkAdd(rnaMap),
