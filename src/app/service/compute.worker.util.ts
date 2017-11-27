@@ -22,7 +22,7 @@ export class ComputeWorkerUtil {
 
     private sizes = [1, 2, 3, 4];
     private shapes = [ShapeEnum.CIRCLE, ShapeEnum.SQUARE, ShapeEnum.TRIANGLE, ShapeEnum.CONE];
-    private colors = [0xd50000, 0xaa00ff, 0x304ffe, 0x0091ea, 0x00bfa5, 0x64dd17, 0xffd600, 0xff6d00,
+    public colors = [0xd50000, 0xaa00ff, 0x304ffe, 0x0091ea, 0x00bfa5, 0x64dd17, 0xffd600, 0xff6d00,
     0xff8a80, 0xea80fc, 0x8c9eff, 0x80d8ff, 0xa7ffeb, 0xccff90, 0xffff8d, 0xffd180];
     // [0xb71c1c, 0x880e4f, 0x4a148c, 0x311b92, 0x1a237e, 0x0d47a1, 0x01579b, 0x006064,
     //     0x004d40, 0x1b5e20, 0x33691e, 0x827717, 0xf57f17, 0xff6f00, 0xe65100, 0xbf360c, 0x3e2723,
@@ -207,12 +207,34 @@ export class ComputeWorkerUtil {
     }
 
     // Call IDB
+    getEventData(): Promise<any> {
+        return new Promise( (resolve, reject) => {
+            this.openDatabaseData().then(v => {
+                this.dbData.table('event').toArray().then(_events => {
+                    resolve(_events);
+                });
+            });
+        });
+    }
+    getPatientData(samples: Array<string>, tbl: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.openDatabaseData().then(v => {
+                console.log('Filter by Seleted Patients / Samples');
+                // const query = (samples.length === 0) ?
+                //     this.dbData.table(tbl) :
+                //     this.dbData.table(tbl).where('p').anyOfIgnoreCase(markers);
+                this.dbData.table(tbl).toArray().then(_patients => {
+                    resolve(_patients);
+                });
+            });
+        });
+    }
     getMatrix(markers: Array<string>, samples: Array<string>, map: string, tbl: string, entity: EntityTypeEnum): Promise<any> {
         return new Promise((resolve, reject) => {
             this.openDatabaseData().then(v => {
                 this.dbData.table(map).toArray().then(_samples => {
                     const query = (markers.length === 0) ?
-                        this.dbData.table(tbl).limit(100) :
+                        this.dbData.table(tbl) :
                         this.dbData.table(tbl).where('m').anyOfIgnoreCase(markers);
                     query.toArray().then(_markers => {
                         resolve({

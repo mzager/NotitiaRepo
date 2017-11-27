@@ -1,6 +1,6 @@
 import { BoxWhiskersConfigModel } from './boxwhiskers.model';
 import { Legend } from 'app/model/legend.model';
-import { ColorEnum, DirtyEnum } from 'app/model/enum.model';
+import { ColorEnum, DirtyEnum, CollectionTypeEnum } from 'app/model/enum.model';
 import * as util from 'app/service/compute.worker.util';
 import { scaleLinear, scaleQuantize, scaleQuantile, scaleOrdinal, scaleThreshold } from 'd3-scale';
 import { scaleSequential, schemeRdBu, interpolateRdBu } from 'd3-scale-chromatic';
@@ -18,7 +18,26 @@ export const boxwhiskersCompute = (config: BoxWhiskersConfigModel, worker: Dedic
     worker.util.processShapeColorSizeIntersect(config, worker);
 
     if (config.dirtyFlag & DirtyEnum.LAYOUT) {
-        worker.util
+
+        if (config.continuousVariable.tbl !== null && config.categoricalVariable1.tbl !== null) {
+
+            // Continuous Molecular
+            if (config.continuousVariable.ctype & CollectionTypeEnum.MOLECULAR) {
+                worker.util
+                    .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+                    .then(mtx => {
+                        debugger;
+                        worker.postMessage('TERMINATE');
+                    });
+            }
+            if (config.continuousVariable.ctype & CollectionTypeEnum.PATIENT) {
+                worker.util.getPatientData(config.sampleFilter, config.continuousVariable.tbl)
+                    .then(data => {
+                        debugger;
+                    });
+            }
+        } else {
+            worker.util
             .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
             .then(mtx => {
                 worker.util.getSamplePatientMap().then(result => {
@@ -53,5 +72,11 @@ export const boxwhiskersCompute = (config: BoxWhiskersConfigModel, worker: Dedic
 
                 });
             });
+        }
+        
+        // // worker.util
+        // //     .getPatientData
+
+       
     }
 };

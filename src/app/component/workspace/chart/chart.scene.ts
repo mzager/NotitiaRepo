@@ -1,3 +1,4 @@
+import { TimelinesGraph } from './../../visualization/timelines/timelines.graph';
 import { HicGraph } from './../../visualization/hic/hic.graph';
 import { BoxWhisterksGraph } from './../../visualization/boxwhiskers/boxwhiskers.graph';
 import { ParallelCoordsGraph } from './../../visualization/parallelcoords/parallelcoords.graph';
@@ -310,6 +311,7 @@ export class ChartScene {
 
     private getChartObject(visualization: VisualizationEnum): ChartObjectInterface {
         switch (visualization) {
+            case VisualizationEnum.TIMELINES: return new TimelinesGraph();
             case VisualizationEnum.HEATMAP: return new HeatmapGraph();
             case VisualizationEnum.EDGES: return new EdgesGraph();
             case VisualizationEnum.PCA: return new PcaGraph();

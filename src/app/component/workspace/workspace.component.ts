@@ -1,3 +1,4 @@
+import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
 import { HicConfigModel } from './../visualization/hic/hic.model';
 import { BoxWhiskersConfigModel } from './../visualization/boxwhiskers/boxwhiskers.model';
 import { ParallelCoordsConfigModel } from './../visualization/parallelcoords/parallelcoords.model';
@@ -108,6 +109,7 @@ export class WorkspaceComponent {
   selectedGraph: Observable<enums.GraphEnum>;
   fields: Observable<Array<DataField>>;
   tables: Observable<Array<DataTable>>;
+  events: Observable<Array<{type: string, subtype: string}>>;
   queryData: Observable<any>;
   _selectedGraph: enums.GraphEnum; // This is super wrong
 
@@ -135,6 +137,7 @@ export class WorkspaceComponent {
     this.graphBData = store.select(fromRoot.getGraphBData);
     this.tables = store.select(fromRoot.getTables);
     this.fields = store.select(fromRoot.getFields);
+    this.events = store.select(fromRoot.getEvents);
     this.queryData = store.select(fromRoot.getQueryData);
     this.store.dispatch( new DataLoadFromDexieAction('gbm') );
   }
@@ -200,6 +203,9 @@ export class WorkspaceComponent {
         break;
       case enums.VisualizationEnum.TSNE:
         this.store.dispatch( new compute.TsneAction( { config: value as TsneConfigModel} ));
+        break;
+      case enums.VisualizationEnum.TIMELINES:
+        this.store.dispatch( new compute.TimelinesAction( { config: value as TimelinesConfigModel }));
         break;
       case enums.VisualizationEnum.HEATMAP:
         this.store.dispatch( new compute.HeatmapAction( { config: value as HeatmapConfigModel} ));
