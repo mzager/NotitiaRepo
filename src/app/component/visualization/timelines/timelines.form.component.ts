@@ -14,59 +14,38 @@ import * as _ from 'lodash';
   <div class="form-group">
     <label class="center-block"><span class="form-label">Align</span>
       <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="colorOptions" formControlName="align">
-          <option *ngFor="let option of shapeOptions"
-            [ngValue]="option">{{option.label}}</option>
+          [materializeSelectOptions]="subtypeOptions" formControlName="align">
+          <option *ngFor="let option of subtypeOptions"
+            [ngValue]="option">{{option}}</option>
       </select>
     </label>
   </div>
   <div class="form-group">
     <label class="center-block"><span class="form-label">Sort</span>
       <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="colorOptions" formControlName="align">
-          <option *ngFor="let option of shapeOptions"
-            [ngValue]="option">{{option.label}}</option>
+          [materializeSelectOptions]="subtypeOptions" formControlName="sort">
+          <option *ngFor="let option of subtypeOptions"
+            [ngValue]="option">{{option}}</option>
       </select>
     </label>
   </div>
   <div class="form-group">
-    <label class="center-block"><span class="form-label">Filter</span>
+    <label class="center-block"><span class="form-label">Time Scale</span>
       <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="colorOptions" formControlName="align">
-          <option *ngFor="let option of shapeOptions"
-            [ngValue]="option">{{option.label}}</option>
+          [materializeSelectOptions]="timescaleOptions" formControlName="timescale">
+          <option *ngFor="let option of timescaleOptions"
+            [ngValue]="option">{{option}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Scale</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="colorOptions" formControlName="align">
-          <option *ngFor="let option of shapeOptions"
-            [ngValue]="option">{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Show / Hide</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="colorOptions" formControlName="align">
-          <option *ngFor="let option of shapeOptions"
-            [ngValue]="option">{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-</form>
-  `
+</form>`
 })
 export class TimelinesFormComponent {
 
   public alignOptions = [];
+  public typeOptions: Array<string>;
+  public subtypeOptions: Array<string>;
+  public timescaleOptions = ['Linear', 'Log'];
 
   @Input() set fields(fields: Array<DataField>) {
     if (fields === null) { return; }
@@ -78,14 +57,10 @@ export class TimelinesFormComponent {
   }
 
   @Input() set events(events: Array<{type: string, subtype: string}>) {
-    debugger;
     if (events === null) { return; }
     if (events.length === 0) { return ; }
-    
-
-
-    debugger;
-    // this.form.patchValue(v, { emitEvent: false });
+    this.typeOptions = ['None'].concat(Array.from(new Set( events.map(v => v.type ))));
+    this.subtypeOptions = ['None'].concat(Array.from(new Set( events.map(v => v.subtype ))));
   }
 
   @Input() set config(v: TimelinesConfigModel) {
@@ -115,8 +90,9 @@ export class TimelinesFormComponent {
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
-
-      align: []
+      sort: [],
+      align: [],
+      timescale: []
     });
 
     // Update When Form Changes
@@ -126,9 +102,8 @@ export class TimelinesFormComponent {
       .subscribe(data => {
         let dirty = 0;
         const form = this.form;
-        if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
-        // if (form.get('pointShape').dirty) { dirty |= DirtyEnum.SHAPE; }
-        if (form.get('pointSize').dirty) { dirty |= DirtyEnum.SIZE; }
+        if (form.get('sort').dirty) { dirty |= DirtyEnum.LAYOUT; }
+        if (form.get('align').dirty) { dirty |= DirtyEnum.LAYOUT; }
         if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
         form.markAsPristine();
         data.dirtyFlag = dirty;
