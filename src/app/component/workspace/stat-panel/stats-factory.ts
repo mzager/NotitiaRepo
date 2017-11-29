@@ -1,3 +1,4 @@
+import { values } from 'd3';
 export class StatsFactory {
 
     private static _instance: StatsFactory = null;
@@ -130,12 +131,7 @@ export class StatsFactory {
                         },
                         'update': {
                             'x': { 'scale': 'xscale', 'signal': 'tooltip.label', 'band': 0.5 },
-                            'y': { 'scale': 'yscale', 'signal': 'tooltip.value', 'offset': 2 },
-                            'text': { 'signal': 'tooltip.value' },
-                            'fillOpacity': [
-                                { 'test': 'datum === tooltip', 'value': 0 },
-                                { 'value': 1 }
-                            ]
+                            'y': { 'scale': 'yscale', 'signal': 'tooltip.value', 'offset': -6 }
                         }
                     }
                 }
@@ -505,7 +501,7 @@ export class AbstractStatChartConfig {
         this.labelFn = null;
         this.width = 250;
         this.height = 250;
-        this.title = 'test';
+        this.title = 'Test-Title';
     }
 }
 
