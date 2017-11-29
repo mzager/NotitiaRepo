@@ -8,7 +8,7 @@ export const genericHistogram = (values: Array<any>): any => {
     return createGraph(config);
 };
 
-// VIOLIN
+// VIOLIN not currently being used
 export const genericViolin = (values: Array<number>): any => {
     const config: ViolinConfig = StatsFactory.getInstance().createViolinConfig();
     config.data = values.map((v, i) => ({ label: 'Gene ' + (i + 1), value: v }));
