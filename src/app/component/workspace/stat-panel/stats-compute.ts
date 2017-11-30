@@ -16,15 +16,16 @@ export const genericViolin = (values: Array<number>): any => {
 };
 
 // DONUT
-export const genericDonut = (values: Array<number>): any => {
+export const genericDonut = (values: Array<any>): any => {
     const config: DonutConfig = StatsFactory.getInstance().createDonutConfig();
-    config.data = values.map((v, i) => ({ label: 'PC ' + (i + 1), value: v }));
+    config.data = values;
+
     return createGraph(config);
 };
 
-export const explainedVarianceRatio = (values: Array<number>): any => {
-    return genericDonut(values);
-};
+// export const explainedVarianceRatio = (values: Array<any>): any => {
+//     return genericDonut(values);
+// };
 
 
 export const createGraph = (config: AbstractStatChartConfig): any => {
