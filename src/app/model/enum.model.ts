@@ -144,6 +144,19 @@ export class EntityTypeEnum {
     static readonly EDGE = 'Edge';
     static readonly MIXED = 'Mixed';
 }
+export const enum ChartTypeEnum {
+    PIE = 1,
+    DONUT = 2,
+    HISTOGRAM = 4,
+    LINE = 8,
+    LABEL = 16,
+    SCATTER = 32
+}
+export const enum StatTypeEnum {
+    ONE_D = 1,
+    TWO_D = 2,
+    SINGLE = 4
+}
 export const enum VisualizationEnum {
     NONE = 0,
     PCA = 1,
