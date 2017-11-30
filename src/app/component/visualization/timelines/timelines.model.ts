@@ -13,6 +13,7 @@ export class TimelinesConfigModel extends GraphConfig {
     align = 'None';
     sort = 'None';
     timescale = 'Linear';
+    visibleElements: any;
 }
 
 export interface TimelinesDataModel {

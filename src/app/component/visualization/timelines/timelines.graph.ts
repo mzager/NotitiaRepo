@@ -10,7 +10,7 @@ import { Injectable, EventEmitter, Output } from '@angular/core';
 import { TimelinesDataModel, TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
 import * as _ from 'lodash';
 import * as THREE from 'three';
-import { scaleLinear, scaleOrdinal } from 'd3-scale';
+import { scaleLinear, scaleLog } from 'd3-scale';
 import { Subscription } from 'rxjs/Subscription';
 import { geoAlbers } from 'd3';
 import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
@@ -20,7 +20,6 @@ export class TimelinesGraph implements ChartObjectInterface {
 
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
     public onSelect: EventEmitter<{ type: EntityTypeEnum; ids: string[]; }>;
-
 
     // Chart Elements
     private labels: HTMLElement;
@@ -34,7 +33,6 @@ export class TimelinesGraph implements ChartObjectInterface {
     public meshes: Array<THREE.Mesh>;
     public patientGroups: Array<THREE.Group>;
     public group: THREE.Group;
-
 
     // Private Subscriptions
     private sMouseMove: Subscription;
@@ -57,8 +55,12 @@ export class TimelinesGraph implements ChartObjectInterface {
     }
     update(config: GraphConfig, data: any) {
         this.config = config as TimelinesConfigModel;
-        this.data = data;
+        if (this.config.dirtyFlag & DirtyEnum.OPTIONS) {
+            this.removeObjects();
+            this.addObjects();
+        }
         if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {
+            this.data = data;
             this.removeObjects();
             this.addObjects();
         }
@@ -75,7 +77,7 @@ export class TimelinesGraph implements ChartObjectInterface {
         this.meshes = [];
         this.patientGroups = [];
 
-        this.view.controls.enableRotate = true;
+        this.view.controls.enableRotate = false;
         this.group = new THREE.Group();
         this.view.scene.add(this.group);
         // this.lineMaterial = new THREE.LineBasicMaterial({ color: 0x039BE5 });
@@ -83,13 +85,14 @@ export class TimelinesGraph implements ChartObjectInterface {
     }
 
     destroy() {
-
+        this.enable(false);
+        this.removeObjects();
     }
 
     addObjects(): void {
-
         const w = (this.view.viewport.width * 0.5);
-        const scale = scaleLinear();
+
+        const scale = (this.config.timescale === 'Log') ? scaleLog() : scaleLinear();
         scale.domain([this.data.result.minMax.min,  this.data.result.minMax.max]);
         scale.range([0, w]);
 
@@ -109,7 +112,7 @@ export class TimelinesGraph implements ChartObjectInterface {
                         new THREE.PlaneGeometry(width, 2),
                         new THREE.MeshBasicMaterial( {color: event.color, side: THREE.DoubleSide} ) );
                     mesh.position.setX( xStart + (width * 0.5));
-                    if (width === 1) { mesh.position.setZ(.1); }
+                    if (width === 1) { mesh.position.setZ(0.1); }
                     mesh.userData = event.data;
                     this.meshes.push(mesh);
                     group.add(mesh);
@@ -117,18 +120,20 @@ export class TimelinesGraph implements ChartObjectInterface {
             }
             if (v.hasOwnProperty('Treatment')) {
                 v.Treatment.forEach( event => {
-                    let pos  = new Vector3(
-                        Math.floor( scale( event.start ) ),
-                        0, 2);
-                    let mesh = ChartFactory.meshAllocate(event.color, ShapeEnum.SQUARE, .3, pos, event.data );
-                    this.meshes.push(mesh);
+                    let pos;
+                    let mesh;
                     if (event.start !== event.end) {
                         pos  = new Vector3(
                             Math.floor( scale( event.end ) ),
                             0, 2);
                         mesh = ChartFactory.meshAllocate(event.color, ShapeEnum.CIRCLE, .3, pos, event.data );
+                    } else {
+                        pos = new Vector3(
+                            Math.floor( scale( event.start ) ),
+                            0, 2);
+                        mesh = ChartFactory.meshAllocate(event.color, ShapeEnum.SQUARE, .3, pos, event.data );
                     }
-
+                    this.meshes.push(mesh);
                     group.add(mesh);
                 });
             }
@@ -137,6 +142,7 @@ export class TimelinesGraph implements ChartObjectInterface {
             this.view.scene.add(group);
         });
         this.onRequestRender.emit( this.config.graph);
+        this.enable(true);
 
     }
     removeObjects(): void {
@@ -156,11 +162,24 @@ export class TimelinesGraph implements ChartObjectInterface {
         if (geneHit.length > 0) {
             const xPos = e.mouse.xs + 10;
             const yPos = e.mouse.ys;
-            this.labels.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#FFF;padding:3px;border-radius:' +
+            const data = geneHit[0].object.userData;
+            const tip = Object.keys(data).reduce( (p, c) => {
+                p += c + ': ' + data[c] + '<br />';
+                return p;
+            }, '');
+            if (geneHit[0].point.z >= 2) {
+                this.labels.innerHTML = '<div style="background:rgba(255,255,255,.8);color:#000;padding:5px;border-radius:' +
                 '3px;z-index:9999;position:absolute;left:' +
                 xPos + 'px;top:' +
                 yPos + 'px;">' +
-                Object.keys(geneHit[0].object.userData) + '</div>';
+                tip + '</div>';
+            } else {
+                this.labels.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#DDD;padding:5px;border-radius:' +
+                '3px;z-index:9999;position:absolute;left:' +
+                xPos + 'px;top:' +
+                yPos + 'px;">' +
+                tip + '</div>';
+            }
             return;
         }
         this.labels.innerHTML = '';

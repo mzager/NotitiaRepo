@@ -167,11 +167,18 @@ export class ComputeWorkerUtil {
     getChromosomeInfo(chromosome: string, genes: Array<string>): Promise<any> {
         return new Promise((resolve, reject) => {
             this.openDatabaseLookup().then(v => {
-                this.dbLookup.table('genecoords').where('gene').anyOfIgnoreCase(genes).and(
-                    gene => gene.chr === chromosome).toArray()
-                    .then(result => {
-                        resolve(result);
-                    });
+                if (genes.length === 0) {
+                    this.dbLookup.table('genecoords').where('chr').equalsIgnoreCase(chromosome).toArray()
+                        .then(result => {
+                            resolve(result);
+                        });
+                } else {
+                    this.dbLookup.table('genecoords').where('gene').anyOfIgnoreCase(genes).and(
+                        gene => gene.chr === chromosome).toArray()
+                        .then(result => {
+                            resolve(result);
+                        });
+                }
             });
         });
     }
@@ -205,7 +212,7 @@ export class ComputeWorkerUtil {
             }
         });
     }
-
+   
     // Call IDB
     getEventData(): Promise<any> {
         return new Promise( (resolve, reject) => {
