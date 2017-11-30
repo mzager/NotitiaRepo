@@ -1,4 +1,4 @@
-import { explainedVariance, explainedVarianceRatio, genericHistogram } from './stats-compute';
+import { explainedVarianceRatio, genericDonut, genericHistogram, genericViolin } from './stats-compute';
 import { StatsFactory } from './stats-factory';
 import { GraphData } from './../../../model/graph-data.model';
 import { INSERT_ANNOTATION } from './../../../action/graph.action';
@@ -12,9 +12,16 @@ import {
 } from '@angular/core';
 import { LegendPanelEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
+import { values } from 'd3';
+
+
+
 declare var $: any;
 declare var vega: any;
 declare var vegaTooltip: any;
+
+
+
 
 
 @Component({
@@ -39,16 +46,44 @@ export class StatPanelComponent implements AfterViewInit {
     // Save Data Passed In In Local Variable
     this.data = value;
 
+    // Create Array of PCA (1-3) loadings and map to markerIDs
+    const componentMap = value.markerIds.reduce((p, c, i) => {
+      p[c] = value.result.components.map(v => v[i]);
+      return p;
+    }, {});
+    const componentArray = Object.keys(componentMap).map(key => {
+      const item = componentMap[key];
+      return {
+        marker: key,
+        pc1: item[0],
+        pc2: item[1],
+        pc3: item[2]
+      };
+    }, {}).sort((a, b) =>
+      (a.pc1 > b.pc1) ? -1 :
+        (a.pc1 < b.pc1) ? 1 :
+          (a.pc2 > b.pc2) ? -1 :
+            (a.pc2 < b.pc2) ? 1 :
+              (a.pc3 > b.pc3) ? -1 :
+                (a.pc3 < b.pc3) ? 1 : 0
+      // filter to top 20
+      ).filter((v, i) => i < 20)
+      .map(v => ({ label: v.marker, value: v.pc1, value2: v.pc2, value3: v.pc3 }));
 
-    // Create Array of Possible Stat Types
+
+
     this.metrics = [
-      { label: 'Histogram', value: genericHistogram( [] )},
-      // { label: 'Explained Variance', value: explainedVariance( value.result.explainedVariance )},
-      { label: 'Explained Variance Ratio', value: explainedVarianceRatio( value.result.explainedVarianceRatio )},
+      { label: 'Histogram', value: genericHistogram(componentArray) },
+      // { label: 'Histogram', value: genericHistogram( value.result.explainedVarianceRatio  )},
+      // { label: 'Violin', value: genericViolin( value.result.explainedVarianceRatio  )},
+      // { label: 'Donut', value: genericDonut( value.result.explainedVariance )}
+      // { label: 'Explained Variance Ratio', value: explainedVarianceRatio( value.result.explainedVarianceRatio )}
     ];
+
     // debugger;
-    // Set Metric Creates The Vega Visualization and +'s it to The Page 
-   this.setMetric(this.metrics[1]);
+    // Set Metric Creates The Vega Visualization and +'s it to The Page
+    this.setMetric(this.metrics[0]);
+    // debugger;
 
   }
 
@@ -63,32 +98,50 @@ export class StatPanelComponent implements AfterViewInit {
   statsFactory: StatsFactory;
   data = {};
 
-  // https://www.npmjs.com/package/vega-tooltip
-  options =
-  {
+   opt = {
+    mode: 'vega'
+  };
+  // tooltip opitions
+  tooltipHistogramOptions = {
     showAllFields: false,
-    fields: [
-      {
-        field: 'field',
-        title: 'PC',
-        formatType: 'number'
-      }
-    ]};
+    fields: [{
+        field: 'label',
+        title: 'Gene',
+        formatType: 'string'
+      }, {
+      field: 'value',
+      title: 'PC1',
+      formatType: 'number'
+    }, {
+      field: 'value2',
+      title: 'PC2',
+      formatType: 'number'
+    }, {
+      field: 'value3',
+      title: 'PC3',
+      formatType: 'number'
+    }, ],
+    delay: 250,
+    colorTheme: 'dark'
+  };
 
-  // Create The Vega + Render It
-    setMetric(value: any): void {
-      new vega.View(vega.parse(value.value), {
-          renderer: 'svg'
-        }).initialize('#stat-panel-chart')
-          .hover()
-          .run();
-          // To further customize, overwrite the .vg-tooltip class in your CSS
-          // below needs work, https://www.npmjs.com/package/vega-tooltip
-          // vegaTooltip.vega(vega[, this.options]); // pass in options
-      }
 
+  // // Create The Vega + Render It
+  // // below needs work, https://www.npmjs.com/package/vega-tooltip
+  setMetric(value: any): void {
+  //   // debugger;
+     const view = new vega.View(vega.parse(value.value), {
+      renderer: ('svg'),
+      // vegaTooltip: vega(value, this.tooltipHistogramOptions)
+    }).initialize('#stat-panel-chart')
+      // .hover()
+      .run();
 
-  // Constructor Called Automatically 
+      vegaTooltip.vega(view, this.tooltipHistogramOptions);
+  //     // debugger;
+  }
+
+  // Constructor Called Automatically
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {
     this.statsFactory = StatsFactory.getInstance();
   }
@@ -97,5 +150,4 @@ export class StatPanelComponent implements AfterViewInit {
   ngAfterViewInit() {
     $(this.tabs.nativeElement).tabs();
   }
-
 }

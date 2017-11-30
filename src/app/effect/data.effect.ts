@@ -95,12 +95,12 @@ export class DataEffect {
             // boxWhiskersConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
 
             // const timelinesConfig = new TimelinesConfigModel();
-            // timelinesConfig.graph = GraphEnum.GRAPH_A;
-            // timelinesConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
+            // timelinesConfig.graph = GraphEnum.GRAPH_B;
+            //timelinesConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
 
-            const graphAConfig = new PcaIncrementalConfigModel();
-            graphAConfig.graph = GraphEnum.GRAPH_B;
-            graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            // const graphAConfig = new PcaIncrementalConfigModel();
+            // graphAConfig.graph = GraphEnum.GRAPH_B;
+            // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             // const hicConfig = new HicConfigModel();
             // hicConfig.graph = GraphEnum.GRAPH_A;
@@ -110,9 +110,15 @@ export class DataEffect {
             // graphAConfig.graph = GraphEnum.GRAPH_A;
             // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
+
             // const graphAConfig = new PcaIncrementalConfigModel();
             // graphAConfig.graph = GraphEnum.GRAPH_A;
             // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+
+            const graphAConfig = new PcaIncrementalConfigModel();
+            // graphAConfig.graph = GraphEnum.GRAPH_B;
+            graphAConfig.graph = GraphEnum.GRAPH_B;
+            graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
 
             // const graphBConfig = new PcaIncrementalConfigModel();
@@ -129,7 +135,11 @@ export class DataEffect {
                 new compute.PcaIncrementalAction( { config: graphAConfig } ),
                 // new compute.HicAction( { config: hicConfig }),
                 // new compute.BoxWhiskersAction( { config: boxWhiskersConfig } ),
+
                 // new compute.TimelinesAction( { config: timelinesConfig}),
+
+                // new compute.TimelinesAction( { config: timelinesConfig})
+
                 // new compute.GenomeAction( { config: graphBConfig }),
                  new compute.ChromosomeAction( { config: chromosomeConfig } )
                 // new compute.HeatmapAction( { config: heatmapConfig })

@@ -1,3 +1,4 @@
+import { values } from 'd3';
 export class StatsFactory {
 
     private static _instance: StatsFactory = null;
@@ -7,158 +8,144 @@ export class StatsFactory {
         return StatsFactory._instance;
     }
 
+    // Histogram
     public createHistogramConfig(): HistogramConfig {
         return new HistogramConfig();
     }
-
     public createHistogramVega(config: HistogramConfig): any {
-        return {
+        const graphValues = config.data;
+        const vega = {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
-            'width': 400,
-            'height': 200,
-            'padding': 5,
+            'title': {
+                'text': config.title,
+                'fontSize': 6,
+            },
+            'width': config.width,
+            'height': config.height,
+            'padding': 25,
             'autosize': { 'type': 'fit', 'resize': true },
-            'signals': [
-                {
-                    'name': 'maxbins', 'value': 10,
-                    'bind': { 'input': 'select', 'options': [5, 10, 20] }
-                },
-                {
-                    'name': 'binDomain',
-                    'update': 'sequence(bins.start, bins.stop + bins.step, bins.step)'
-                },
-                {
-                    'name': 'nullGap', 'value': 10
-                },
-                {
-                    'name': 'barStep',
-                    'update': '(width - nullGap) / binDomain.length'
-                }
-            ],
-
             'data': [
                 {
                     'name': 'table',
-                    'url': 'data/movies.json',
-                    'transform': [
-                        {
-                            'type': 'extent', 'field': 'IMDB_Rating',
-                            'signal': 'extent'
-                        },
-                        {
-                            'type': 'bin', 'signal': 'bins',
-                            'field': 'IMDB_Rating', 'extent': { 'signal': 'extent' },
-                            'maxbins': { 'signal': 'maxbins' }
-                        }
-                    ]
-                },
+                    'values': graphValues,
+                }
+            ],
+            'signals': [
                 {
-                    'name': 'counts',
-                    'source': 'table',
-                    'transform': [
-                        {
-                            'type': 'filter',
-                            'expr': 'datum[\'IMDB_Rating\'] != null'
-                        },
-                        {
-                            'type': 'aggregate',
-                            'groupby': ['bin0', 'bin1']
-                        }
-                    ]
-                },
-                {
-                    'name': 'nulls',
-                    'source': 'table',
-                    'transform': [
-                        {
-                            'type': 'filter',
-                            'expr': 'datum[\'IMDB_Rating\'] == null'
-                        },
-                        {
-                            'type': 'aggregate'
-                        }
-                    ]
+                    'name': 'tooltip',
+                    'value': {},
+                    'on': [
+                        { 'events': 'rect:mouseover', 'update': 'datum' },
+                        { 'events': 'rect:mouseout', 'update': '{}' }
+                    ],
+                    'range': {
+                        'scheme': 'spectral'
+                    },
                 }
             ],
 
             'scales': [
                 {
-                    'name': 'yscale',
-                    'type': 'linear',
-                    'range': 'height',
-                    'round': true, 'nice': true,
-                    'domain': {
-                        'fields': [
-                            { 'data': 'counts', 'field': 'count' },
-                            { 'data': 'nulls', 'field': 'count' }
-                        ]
-                    }
-                },
-                {
                     'name': 'xscale',
-                    'type': 'bin-linear',
-                    'range': [{ 'signal': 'barStep + nullGap' }, { 'signal': 'width' }],
-                    'round': true,
-                    'domain': { 'signal': 'binDomain' }
+                    'type': 'band',
+                    'domain': { 'data': 'table', 'field': 'label' },
+                    'range': 'width',
+                    'padding': 0.1,
+                    'round': true
                 },
                 {
-                    'name': 'xscale-null',
-                    'type': 'band',
-                    'range': [0, { 'signal': 'barStep' }],
-                    'round': true,
-                    'domain': [null]
+                    'name': 'yscale',
+                    'domain': { 'data': 'table', 'field': 'value' },
+                    'nice': true,
+                    'range': 'height'
                 }
             ],
 
             'axes': [
-                { 'orient': 'bottom', 'scale': 'xscale', 'tickCount': 10 },
-                { 'orient': 'bottom', 'scale': 'xscale-null' },
-                { 'orient': 'left', 'scale': 'yscale', 'tickCount': 5, 'offset': 5 }
-            ],
+                {
+                  'orient': 'bottom',
+                  'scale': 'xscale',
+                  'title': 'Genes',
+                  'encode': {
+                    'ticks': {
+                      'update': {
+                        'stroke': {'value': 'steelblue'}
+                      }
+                    },
+                    'labels': {
+                      'interactive': true,
+                      'update': {
+                        'fill': {'value': 'steelblue'},
+                        'angle': {'value': 50},
+                        'fontSize': {'value': 10},
+                        'align': {'value': '90'},
+                        'baseline': {'value': 'middle'},
+                        'dx': {'value': 3}
+                      },
+                      'hover': {
+                        'fill': {'value': '#333'}
+                      }
+                    },
+                    'title': {
+                      'update': {
+                        'fontSize': {'value': 10}
+                      }
+                    },
+                    'domain': {
+                      'update': {
+                        'stroke': {'value': '#333'},
+                        'strokeWidth': {'value': 1.5}
+                      }
+                    }
+                  }
+                }
+              ],
 
             'marks': [
                 {
                     'type': 'rect',
-                    'from': { 'data': 'counts' },
+                    'from': { 'data': 'table' },
                     'encode': {
+                        'enter': {
+                            'x': { 'scale': 'xscale', 'field': 'label' },
+                            'width': { 'scale': 'xscale', 'band': 1 },
+                            'y': { 'scale': 'yscale', 'field': 'value' },
+                            'y2': { 'scale': 'yscale', 'value': 0 }
+                        },
                         'update': {
-                            'x': { 'scale': 'xscale', 'field': 'bin0', 'offset': 1 },
-                            'x2': { 'scale': 'xscale', 'field': 'bin1' },
-                            'y': { 'scale': 'yscale', 'field': 'count' },
-                            'y2': { 'scale': 'yscale', 'value': 0 },
-                            'fill': { 'value': 'steelblue' }
+                            'fill': { 'value': '#039BE5' }
                         },
                         'hover': {
-                            'fill': { 'value': 'firebrick' }
+                            'fill': { 'value': '#03FFC9' }
                         }
                     }
                 },
                 {
-                    'type': 'rect',
-                    'from': { 'data': 'nulls' },
+                    'type': 'text',
                     'encode': {
-                        'update': {
-                            'x': { 'scale': 'xscale-null', 'value': null, 'offset': 1 },
-                            'x2': { 'scale': 'xscale-null', 'band': 1 },
-                            'y': { 'scale': 'yscale', 'field': 'count' },
-                            'y2': { 'scale': 'yscale', 'value': 0 },
-                            'fill': { 'value': '#aaa' }
+                        'enter': {
+                            'align': { 'value': 'center' },
+                            'baseline': { 'value': 'bottom' },
+                            'fill': { 'value': '#000' }
+
                         },
-                        'hover': {
-                            'fill': { 'value': 'firebrick' }
+                        'update': {
+                            'x': { 'scale': 'xscale', 'signal': 'tooltip.label', 'band': 0.5 },
+                            'y': { 'scale': 'yscale', 'signal': 'tooltip.value', 'offset': -6 }
                         }
                     }
                 }
             ]
         };
+        return vega;
     }
 
+    // Donut
     public createDonutConfig(): DonutConfig {
         return new DonutConfig();
     }
 
     public createDonutVega(config: DonutConfig): any {
-
         const values = config.data.map((v, i) => ({ id: (i + 1), label: v.label, field: v.value.toFixed(2) }));
         const vega = {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
@@ -195,7 +182,7 @@ export class StatsFactory {
                         'field': 'label'
                     },
                     'range': {
-                        'scheme': 'yellowgreenblue-3'
+                        'scheme': 'spectral'
                     }
                 }
             ],
@@ -238,7 +225,7 @@ export class StatsFactory {
                                 'value': 0
                             },
                             // How its done in Vega land, uncommented part works but color hovers do not
-                            // "tooltip": {"signal": "datum['field']+ '%'"}
+                            // ,tooltip': {'signal': 'datum['field']+ '%''}
                             'tooltip': { 'signal': 'datum.field' }
                         },
                         // opacity change on hover
@@ -309,14 +296,194 @@ export class StatsFactory {
         return vega;
     }
 
+    // Violin
+    public createViolinConfig(): ViolinConfig {
+        return new ViolinConfig();
+    }
 
+    public createViolinVega(config: ViolinConfig): any {
+        const Violinvalues = config.data.map((v, i) => ({ id: (i + 1), label: v.label, field: v.value.toFixed(2) }));
+        const vega = {
+                '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
+                'width': config.width,
+                'height': config.height,
+                'padding': 25,
+                'autosize': { 'type': 'fit', 'resize': true },
+            'config': {
+              'axisBand': {
+                'bandPosition': 1,
+                'tickExtra': true,
+                'tickOffset': 0
+              }
+            },
+            'signals': [
+              { 'name': 'fields',
+                'value': ['petalWidth', 'petalLength', 'sepalWidth', 'sepalLength'] },
+              { 'name': 'plotWidth', 'value': 60 },
+              { 'name': 'height', 'update': '(plotWidth + 10) * length(fields)'},
+              { 'name': 'bandwidth', 'value': 0,
+                'bind': {'input': 'range', 'min': 0, 'max': 0.5, 'step': 0.005} },
+              { 'name': 'steps', 'value': 100,
+                'bind': {'input': 'range', 'min': 10, 'max': 500, 'step': 1} }
+            ],
+            'data': [
+              {
+                'name': 'iris',
+                'url': 'data/iris.json',
+                'transform': [
+                  {
+                    'type': 'fold',
+                    'fields': {'signal': 'fields'},
+                    'as': ['organ', 'value']
+                  }
+                ]
+              }
+            ],
+            'scales': [
+              {
+                'name': 'layout',
+                'type': 'band',
+                'range': 'height',
+                'domain': {'data': 'iris', 'field': 'organ'}
+              },
+              {
+                'name': 'xscale',
+                'type': 'linear',
+                'range': 'width', 'round': true,
+                'domain': {'data': 'iris', 'field': 'value'},
+                'zero': true, 'nice': true
+              },
+              {
+                'name': 'color',
+                'type': 'ordinal',
+                'range': 'category'
+              }
+            ],
+            'axes': [
+              {'orient': 'bottom', 'scale': 'xscale', 'zindex': 1},
+              {'orient': 'left', 'scale': 'layout', 'tickCount': 5, 'zindex': 1}
+            ],
+
+            'marks': [
+              {
+                'type': 'group',
+                'from': {
+                  'facet': {
+                    'data': 'iris',
+                    'name': 'organs',
+                    'groupby': 'organ'
+                  }
+                },
+                'encode': {
+                  'enter': {
+                    'yc': {'scale': 'layout', 'field': 'organ', 'band': 0.5},
+                    'height': {'signal': 'plotWidth'},
+                    'width': {'signal': 'width'}
+                  }
+                },
+                'data': [
+                  {
+                    'name': 'density',
+                    'transform': [
+                      {
+                        'type': 'density',
+                        'steps': {'signal': 'steps'},
+                        'distribution': {
+                          'function': 'kde',
+                          'from': 'organs',
+                          'field': 'value',
+                          'bandwidth': {'signal': 'bandwidth'}
+                        }
+                      },
+                      {
+                        'type': 'stack',
+                        'groupby': ['value'],
+                        'field': 'density',
+                        'offset': 'center',
+                        'as': ['y0', 'y1']
+                      }
+                    ]
+                  },
+                  {
+                    'name': 'summary',
+                    'source': 'organs',
+                    'transform': [
+                      {
+                        'type': 'aggregate',
+                        'fields': ['value', 'value', 'value'],
+                        'ops': ['q1', 'median', 'q3'],
+                        'as': ['q1', 'median', 'q3']
+                      }
+                    ]
+                  }
+                ],
+                'scales': [
+                  {
+                    'name': 'yscale',
+                    'type': 'linear',
+                    'range': [0, {'signal': 'plotWidth'}],
+                    'domain': {'data': 'density', 'field': 'density'}
+                  }
+                ],
+                'marks': [
+                  {
+                    'type': 'area',
+                    'from': {'data': 'density'},
+                    'encode': {
+                      'enter': {
+                        'fill': {'scale': 'color', 'field': {'parent': 'organ'}}
+                      },
+                      'update': {
+                        'x': {'scale': 'xscale', 'field': 'value'},
+                        'y': {'scale': 'yscale', 'field': 'y0'},
+                        'y2': {'scale': 'yscale', 'field': 'y1'}
+                      }
+                    }
+                  },
+                  {
+                    'type': 'rect',
+                    'from': {'data': 'summary'},
+                    'encode': {
+                      'enter': {
+                        'fill': {'value': 'black'},
+                        'height': {'value': 2}
+                      },
+                      'update': {
+                        'yc': {'signal': 'plotWidth / 2'},
+                        'x': {'scale': 'xscale', 'field': 'q1'},
+                        'x2': {'scale': 'xscale', 'field': 'q3'}
+                      }
+                    }
+                  },
+                  {
+                    'type': 'rect',
+                    'from': {'data': 'summary'},
+                    'encode': {
+                      'enter': {
+                        'fill': {'value': 'black'},
+                        'width': {'value': 2},
+                        'height': {'value': 8}
+                      },
+                      'update': {
+                        'yc': {'signal': 'plotWidth / 2'},
+                        'x': {'scale': 'xscale', 'field': 'median'}
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          };
+          return vega;
+    }
     private constructor() { }
 
 }
 
 export enum StatChartEnum {
     DONUT = 1,
-    HISTOGRAM = 2
+    HISTOGRAM = 2,
+    VIOLIN = 3
 }
 
 export class AbstractStatChartConfig {
@@ -326,12 +493,15 @@ export class AbstractStatChartConfig {
     width: number;
     height: number;
     labelFn?: Function;
+    title: string;
+
 
     constructor() {
         this.data = [];
         this.labelFn = null;
         this.width = 250;
         this.height = 250;
+        this.title = 'Test-Title';
     }
 }
 
@@ -344,6 +514,16 @@ export class HistogramConfig extends AbstractStatChartConfig {
         this.type = StatChartEnum.HISTOGRAM;
     }
 }
+
+export class ViolinConfig extends AbstractStatChartConfig {
+
+        data: Array<{ label: string, value: number, color?: number }>;
+
+        constructor() {
+            super();
+            this.type = StatChartEnum.VIOLIN;
+        }
+    }
 
 export class DonutConfig extends AbstractStatChartConfig {
 
