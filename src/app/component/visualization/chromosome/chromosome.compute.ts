@@ -44,51 +44,43 @@ export const chromosomeCompute = (config: ChromosomeConfigModel, worker: Dedicat
 
     if (config.dirtyFlag & DirtyEnum.LAYOUT) {
 
-        worker.util.getGenomeInfo(config.markerFilter).then(result => {
+        worker.util.getChromosomeInfo(config.chromosome, []).then( result => {
 
 
-            const genes = result[1].filter( v => v.chr === config.chromosome);
+            // const mf = new Set(config.markerFilter);
             const chromo = ct.find( v => v.chr === config.chromosome );
+            // const scaleGene = scaleLinear();
+            // scaleGene.domain([0, chromo.Q]);
+            // scaleGene.range([0, 365]);
+            // const radius = 60;
+            // const r = 50;
+            // const processedGenes = result.map( (v, i) => {
+            //     const angle = scaleGene(v.tss) * Math.PI / 180;
+            //     return Object.assign(v, {
+            //         highlight: mf.has( v.gene ),
+            //         sPos: { x: radius * Math.cos(angle), y: radius * Math.sin(angle) },
+            //         ePos: { x: (radius + r) * Math.cos(angle), y: (radius + r) * Math.sin(angle) }
+            //     });
+            // });
 
-             // Gene Scale (Y)
-            const scaleGene = scaleLinear();
-            scaleGene.domain([0, chromo.Q]);
-            scaleGene.range([0, 365]);
-
-            const radius = 1000;
-            const r = 50;
-            const processedGenes = genes.map( (v, i) => {
-                const angle = scaleGene(v.tss) * Math.PI / 180;
-                return Object.assign(v, {
-                    sPos: { x: radius * Math.cos(angle), y: radius * Math.sin(angle) },
-                    ePos: { x: (radius + r) * Math.cos(angle), y: (radius + r) * Math.sin(angle) }
-                });
+            worker.postMessage({
+                config: config,
+                data: {
+                    result: {
+                        genes: result,
+                        chromosome: chromo
+                    },
+                    genes: [],
+                    links: [],
+                    legendItems: [],
+                    patientIds: [],
+                    sampleIds: [],
+                    markerIds: []
+                }
             });
 
+             worker.postMessage('TERMINATE');
 
-            worker.util.getGeneLinkInfoByGenes( genes.map(v => v.gene) ).then( links => {
-                const genemap = genes.reduce( (p, c) => { p[c.gene] = c; return p; }, {});
-                const processedLinks = links
-                    .filter( v =>
-                        ( genemap.hasOwnProperty(v.source) && genemap.hasOwnProperty(v.target) ) )
-                    .map( v => {
-                        return Object.assign(v, {sPos: genemap[v.source].sPos, tPos: genemap[v.target].sPos });
-                    });
-
-                worker.postMessage({
-                    config: config,
-                    data: {
-                        genes: processedGenes,
-                        links: processedLinks,
-                        legendItems: [],
-                        patientIds: [],
-                        sampleIds: [],
-                        markerIds: genes
-                    }
-                });
-
-                worker.postMessage('TERMINATE');
-            });
         });
     }
 };

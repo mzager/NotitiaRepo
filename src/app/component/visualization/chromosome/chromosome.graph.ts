@@ -85,29 +85,29 @@ export class ChromosomeGraph implements ChartObjectInterface {
             this.removeObjects();
             this.addObjects();
         }
-        if (this.config.dirtyFlag & DirtyEnum.SIZE) {
+        // if (this.config.dirtyFlag & DirtyEnum.SIZE) {
 
-        }
-        if (this.config.dirtyFlag & DirtyEnum.COLOR) {
-            const lines = this.geneLines;
-            this.meshes.forEach( v => {
-                if (data.pointColor.hasOwnProperty(v.userData.gene)) {
-                    const color = data.pointColor[v.userData.gene];
-                    (v as THREE.Mesh).material = new THREE.MeshBasicMaterial( {color: color } );
-                } else {
-                    (v as THREE.Mesh).material = new THREE.MeshBasicMaterial( {color: 0xDDDDDD } );
-                }
-            });
-            lines.forEach( v => {
-                if (data.pointColor.hasOwnProperty(v.userData.gene)) {
-                    const color = data.pointColor[v.userData.gene];
-                    (v as THREE.Line).material = new THREE.LineBasicMaterial( { color: color });
-                } else {
-                    (v as THREE.Line).material = new THREE.LineBasicMaterial( { color: 0xDDDDDD });
-                }
-            });
-            this.onRequestRender.next();
-        }
+        // }
+        // if (this.config.dirtyFlag & DirtyEnum.COLOR) {
+        //     const lines = this.geneLines;
+        //     this.meshes.forEach( v => {
+        //         if (data.pointColor.hasOwnProperty(v.userData.gene)) {
+        //             const color = data.pointColor[v.userData.gene];
+        //             (v as THREE.Mesh).material = new THREE.MeshBasicMaterial( {color: color } );
+        //         } else {
+        //             (v as THREE.Mesh).material = new THREE.MeshBasicMaterial( {color: 0xDDDDDD } );
+        //         }
+        //     });
+        //     lines.forEach( v => {
+        //         if (data.pointColor.hasOwnProperty(v.userData.gene)) {
+        //             const color = data.pointColor[v.userData.gene];
+        //             (v as THREE.Line).material = new THREE.LineBasicMaterial( { color: color });
+        //         } else {
+        //             (v as THREE.Line).material = new THREE.LineBasicMaterial( { color: 0xDDDDDD });
+        //         }
+        //     });
+        this.onRequestRender.next();
+        
     }
 
 
@@ -131,96 +131,12 @@ export class ChromosomeGraph implements ChartObjectInterface {
 
 
     addObjects() {
-        const genes = this.data.genes;
-        const links = this.data.links;
-
-        const zgeometry = new THREE.CircleGeometry( 1000, 3000 );
-        const zmaterial = new THREE.LineBasicMaterial( { color: 0xEEEEEE } ); //new THREE.MeshBasicMaterial( { color: 0x039BE5 } );
-        const zcircle = new THREE.Mesh( zgeometry, zmaterial );
-        zcircle.position.setZ(-5);
-        this.group.add( zcircle );
-
-        // const genesOfInterest = ['PCDHGB7','PCDHGB6','PCDHGB5','PCDHGB4','PCDHA3','PCDHA2','PCDH1','PCDHA7','PCDHAC2','PCDHA6','PCDHGA8','PCDHGA7','PCDHGA3','PCDHGA2','PCDHGA1','PCDHB15','PCDHB14','PCDHB13','PCDHB12','ARHGAP26','PCDHB11','PCDHB10','PCDHGA9','PCDHGA10','PCDHGA11','PCDHGA12','PCDHB2','PCDHB16','PCDHB6','PCDHB5','PCDHB3','PCDHB9','PCDHB8'];
-        genes.forEach(gene => {
-            // const mesh = ChartFactory.meshAllocate(0xC0DDC0, ShapeEnum.SQUARE, .5, new THREE.Vector3(gene.x, gene.y, 0), gene);
-            // (mesh.geometry as Rect)
-
-            const geometry = new THREE.Geometry();
-            geometry.vertices.push( new THREE.Vector3(gene.sPos.x, gene.sPos.y, 0) );
-            geometry.vertices.push( new THREE.Vector3(gene.ePos.x, gene.ePos.y, 0) );
-            
-            const color = 0x039be5;
-            // const color = (genesOfInterest.indexOf(gene.gene) !== -1) ? 0xFF0000 : 0x00FF00;
-            const geo = new THREE.BoxGeometry( 2, 2, 2);
-            const mat = new THREE.MeshBasicMaterial( {color: color } );
-            const mesh = new THREE.Mesh(geo, mat);
-            mesh.userData = gene;
-            mesh.position.x = gene.sPos.x;
-            mesh.position.y = gene.sPos.y;
-
-            const lm = new THREE.LineBasicMaterial( { color: color });
-            const geneLine = new THREE.Line( geometry, lm );
-            geneLine.userData = gene;
-            this.meshes.push(mesh);
-            this.geneLines.push(geneLine);
-            this.group.add( geneLine );
-            this.group.add( mesh );
-        });
-
-       links.forEach( (link, i) => {
-
-            // Adjust Height According To Size - So the tall ones project out both from the ring and also from the center
-            // const curve = new THREE.CatmullRomCurve3( [
-            //     new THREE.Vector3( link.sPos.x, link.sPos.y, 0 ),
-            //     new THREE.Vector3( 0, 30, 100 ),
-            //     new THREE.Vector3( link.tPos.x, link.tPos.y, 0 ),
-            // ] );
-            // curve.type = 'catmullrom';
-            //curve.tension = 0.9; //link.tension; // * 0.1; //0.9;
-
-            // const curve = new THREE.CubicBezierCurve3(
-            //     new THREE.Vector3( link.sPos.x, link.sPos.y, 0 ),
-            //     new THREE.Vector3( 0, 0, 0 ),
-            //     new THREE.Vector3( 0, 0, 0 ),
-            //     new THREE.Vector3( link.tPos.x, link.tPos.y, 0 )
-            // );
-
-            // const curve = new THREE.LineCurve3(
-            //     new THREE.Vector3( link.sPos.x, link.sPos.y, 0 ),
-            //     new THREE.Vector3( link.tPos.x, link.tPos.y, 0 )
-            // );
-
-            let curve = new THREE.QuadraticBezierCurve3(
-                new THREE.Vector3( link.sPos.x, link.sPos.y, 0 ),
-                new THREE.Vector3( 0, 0, 100 ),
-                new THREE.Vector3( link.tPos.x, link.tPos.y, 0 ),
-            );
-
-            const geometry = new THREE.Geometry();
-            link.overGeometry = geometry.vertices = curve.getPoints( 50 );
-
-            curve = new THREE.QuadraticBezierCurve3(
-                new THREE.Vector3( link.sPos.x, link.sPos.y, 0 ),
-                new THREE.Vector3( 0, 0, 0 ),
-                new THREE.Vector3( link.tPos.x, link.tPos.y, 0 ),
-            );
-            link.outGeometry = geometry.vertices = curve.getPoints( 50 );
-
-
-            const line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: 0xbbdefb }) );
-            line.userData = link;
-            
-            this.chords.push(line);
-            this.group.add( line );
-       });
-
+        this.data;
+        debugger;
     }
 
     removeObjects() {
-        while (this.group.children.length) {
-            this.group.remove(this.group.children[0]);
-        }
-        this.meshes = [];
+        this.enable(false);
     }
 
 
@@ -252,58 +168,6 @@ export class ChromosomeGraph implements ChartObjectInterface {
 
     private onMouseDown(e: ChartEvent): void {
 
-    }
-
-    showLabels() {
-        // const meshes = ChartUtil.getVisibleMeshes(this.view).map<{ label: string, x: number, y: number }>(mesh => {
-        //     const coord = ChartUtil.projectToScreen(this.config.graph, mesh, this.view.camera,
-        //         this.view.viewport.width, this.view.viewport.height);
-        //     return { label: mesh.userData.tip, x: coord.x + 40, y: coord.y - 10 };
-        // });
-        // const html = meshes.map(data => {
-        //     return '<div class="chart-label" style="font-size:12px;left:' + data.x + 'px;top:' + data.y +
-        //         'px;position:absolute;">' + data.label + '</div>';
-        // }).reduce((p, c) => p += c, '');
-        // this.labels.innerHTML = html;
-    }
-
-    hideLabels() {
-        // this.labels.innerHTML = '';
-    }
-
-    // // Events
-    private molabels(e: ChartEvent): void {
-
-        // let hits;
-        // const geneHit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
-        // if (geneHit.length > 0) {
-        //     const xPos = e.mouse.xs + 10;
-        //     const yPos = e.mouse.ys;
-        //     this.labels.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#FFF;padding:3px;border-radius:' +
-        //         '3px;z-index:9999;position:absolute;left:' +
-        //         xPos + 'px;top:' +
-        //         yPos + 'px;">' +
-        //         geneHit[0].object.userData.tip + '</div>';
-        //     return;
-        // }
-
-        // const keys: Array<string> = Object.keys(this.arms);
-        // for (let i = 0; i < keys.length; i++) {
-        //     const kids = this.arms[keys[i]].children;
-        //     hits = ChartUtil.getIntersects(this.view, e.mouse, kids);
-        //     if (hits.length > 0) {
-        //         const xPos = e.mouse.xs + 10;
-        //         const yPos = e.mouse.ys;
-        //         this.labels.innerHTML = '<div style="background:rgba(255,255,255,.8);padding:3px;border-radius:3px;' +
-        //             'z-index:9999;position:absolute;left:' +
-        //             xPos + 'px;top:' +
-        //             yPos + 'px;">' +
-        //             hits[0].object.userData.tip + '</div>';
-        //         break;
-        //     } else {
-        //         this.labels.innerHTML = '';
-        //     }
-        // }
     }
 
     constructor() { }

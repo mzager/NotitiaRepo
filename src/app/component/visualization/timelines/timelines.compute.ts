@@ -8,6 +8,12 @@ declare var ML: any;
 
 
 export const timelinesCompute = (config: TimelinesConfigModel, worker: DedicatedWorkerGlobalScope): void => {
+    if (config.dirtyFlag & DirtyEnum.OPTIONS) {
+        worker.postMessage({
+            config: config,
+            data: {}
+        });
+    }
     if (config.dirtyFlag & DirtyEnum.LAYOUT) {
         worker.util
             .getEventData()
@@ -18,7 +24,6 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 legend.name = 'xxx';
                 legend.type = 'COLOR';
                 legend.display = 'DISCRETE';
-                events = events.filter( p => p.subtype !== 'Birth');
 
                 // Create Map Of Alignments
                 if (config.align !== 'None') {
@@ -31,6 +36,12 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                         v.start -= align[v.p];
                         v.end -= align[v.p];
                     });
+                }
+
+                // Filter Toggles
+                if (config.hasOwnProperty('visibleElements')) {
+                    const show = config.visibleElements;
+                    events = events.filter(v => show[v.subtype] );
                 }
 
                 const subtypes = Array.from(events.reduce( (p, c) => { p.add(c.subtype); return p; }, new Set()));
@@ -62,10 +73,10 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 patientEvents = Object.keys(patientEvents).map( v => [v, patientEvents[v].sort( (a, b) => a.start - b.start )] );
 
                 if (config.sort !== 'None') {
-                    patientEvents.forEach( v => v.sortField = v[1].find(w => w.subtype === config.sort) );
-                    patientEvents = patientEvents
-                        .filter(v => v.sortField !== undefined)
-                        .sort( (a, b) => a.sortField.start - b.sortField.start );
+                    // patientEvents.forEach( v => v.sortField = v[1].find(w => w.subtype === config.sort) );
+                    // patientEvents = patientEvents
+                    //     .filter(v => v.sortField !== undefined)
+                    //     .sort( (a, b) => b.sortField.start - a.sortField.start );
                 }
 
                 patientEvents = patientEvents.map( v => {
