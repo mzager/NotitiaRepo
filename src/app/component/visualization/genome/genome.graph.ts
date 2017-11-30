@@ -187,7 +187,7 @@ export class GenomeGraph implements ChartObjectInterface {
                 });
         });
 
-        this.group.rotateX(Math.PI); // Flip View
+        //this.group.rotateX(Math.PI); // Flip View
         this.view.scene.add(this.group);
     }
 

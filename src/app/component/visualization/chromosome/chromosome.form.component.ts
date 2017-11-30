@@ -41,7 +41,15 @@ import * as _ from 'lodash';
       </select>
     </label>
   </div>
-  
+  <div class="form-group"  *ngFor="let item of geneOptions; let i = index">
+    <div class="switch">
+      <label>
+        <input type="checkbox" checked (change)="visibilityToggle(item.value)">
+          <span class="lever"></span>
+            {{item.label}}
+      </label>
+    </div>
+  </div>
 </form>
   `
 })
@@ -70,6 +78,23 @@ export class ChromosomeFormComponent {
   dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D];
   chromosomeOptions = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
   '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', 'X', 'Y'];
+  geneOptions = [
+    {label: 'Protein Coding', value: 'protein_coding'},
+    {label: 'LincRNA', value: 'lincRNA'},
+    {label: 'Antisense', value: 'antisense'},
+    {label: 'TEC', value: 'TEC'},
+    {label: 'Unprocessed Pseudo', value: 'unprocessed_pseudogene'},
+    {label: 'Unprocessed Pseudo T', value: 'transcribed_unprocessed_pseudogene'},
+    {label: 'Processed Pseudo', value: 'processed_pseudogene'},
+    {label: 'Processed Pseudo T', value: 'transcribed_processed_pseudogene'},
+    {label: 'Processed Transcript', value: 'processed_transcript'},
+    {label: 'Sense Intronic', value: 'sense_intronic'},
+    {label: 'Sense Overlapping', value: 'sense_overlapping'}
+];
+
+  visibilityToggle(item) {
+
+  }
 
   byKey(p1: DataField, p2: DataField) {
     if (p2 === null) { return false; }
