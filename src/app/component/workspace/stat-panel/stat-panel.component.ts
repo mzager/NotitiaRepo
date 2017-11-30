@@ -73,16 +73,16 @@ export class StatPanelComponent implements AfterViewInit {
 
 
     this.metrics = [
-      { label: 'Histogram', value: genericHistogram(componentArray) },
+      // { label: 'Histogram', value: genericHistogram(componentArray) },
       // { label: 'Histogram', value: genericHistogram( value.result.explainedVarianceRatio  )},
       // { label: 'Violin', value: genericViolin( value.result.explainedVarianceRatio  )},
-      // { label: 'Donut', value: genericDonut( value.result.explainedVariance )}
+      { label: 'Donut', value: genericDonut( value.result.explainedVariance )}
       // { label: 'Explained Variance Ratio', value: explainedVarianceRatio( value.result.explainedVarianceRatio )}
     ];
 
     // debugger;
     // Set Metric Creates The Vega Visualization and +'s it to The Page
-    this.setMetric(this.metrics[0]);
+    this.setMetric(this.metrics[3]);
     // debugger;
 
   }
@@ -129,7 +129,7 @@ export class StatPanelComponent implements AfterViewInit {
   // // Create The Vega + Render It
   // // below needs work, https://www.npmjs.com/package/vega-tooltip
   setMetric(value: any): void {
-  //   // debugger;
+    debugger;
      const view = new vega.View(vega.parse(value.value), {
       renderer: ('svg'),
       // vegaTooltip: vega(value, this.tooltipHistogramOptions)
