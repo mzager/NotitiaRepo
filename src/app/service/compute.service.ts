@@ -1,3 +1,4 @@
+import { graph } from 'ngraph.graph';
 import { HicConfigModel } from './../component/visualization/hic/hic.model';
 import { ParallelCoordsConfigModel } from './../component/visualization/parallelcoords/parallelcoords.model';
 import { BoxWhiskersConfigModel } from './../component/visualization/boxwhiskers/boxwhiskers.model';
@@ -23,7 +24,7 @@ import { EdgeConfigModel } from './../component/visualization/edges/edges.model'
 import { GraphConfig } from 'app/model/graph-config.model';
 import { chromosomeCompute } from './../component/visualization/chromosome/chromosome.compute';
 import { ChromosomeConfigModel } from './../component/visualization/chromosome/chromosome.model';
-import { GraphEnum } from 'app/model/enum.model';
+import { GraphEnum, VisualizationEnum } from 'app/model/enum.model';
 import { IlluminaService } from './illumina.service';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -72,35 +73,120 @@ export class ComputeService {
     private dataload$ = new Subject<any>();
 
     constructor(private illumina: IlluminaService) {
-        this.pool = Pool.create({
-            name    : 'worker',
-            max     : 20,
-            // min     : 0,
-            create  : () => {
-                console.log('WORKER :: ALLOCATE');
-                return new Worker('assets/compute.js');
-            },
-            destroy : (worker: Worker) => {
-                console.log('WORKER :: DESTROY');
-                worker.terminate();
-            }
-        });
+        // this.pool = Pool.create({
+        //     name    : 'worker',
+        //     max     : 20,
+        //     // min     : 0,
+        //     create  : () => {
+        //         console.log('WORKER :: ALLOCATE');
+        //         return new Worker('assets/compute.js');
+        //     },
+        //     destroy : (worker: Worker) => {
+        //         console.log('WORKER :: DESTROY');
+        //         worker.terminate();
+        //     }
+        // });
     }
 
+    private workerA: Worker = null;    // Graph A
+    private workerB: Worker = null;    // Graph B
+    private workerE: Worker = null;    // Edges
+
+
+
+    getSubjectByVisualization(v: VisualizationEnum): Subject<any> {
+        return (v === VisualizationEnum.BOX_WHISKERS) ? this.boxWhiskers$ :
+            (v === VisualizationEnum.ISOMAP) ? this.isoMap$ :
+            (v === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? this.localLinearEmbedding$ :
+            (v === VisualizationEnum.INCREMENTAL_PCA) ? this.pcaIncremental$ :
+            (v === VisualizationEnum.KERNAL_PCA) ? this.pcaKernal$ :
+            (v === VisualizationEnum.SPARSE_PCA) ? this.pcaSparse$ :
+            (v === VisualizationEnum.FAST_ICA) ? this.fastIca$ :
+            (v === VisualizationEnum.TIMELINES) ? this.timelines$ :
+            (v === VisualizationEnum.SPECTRAL_EMBEDDING) ? this.spectralEmbedding$ :
+            (v === VisualizationEnum.TRUNCATED_SVD) ? this.truncatedSvd$ :
+            (v === VisualizationEnum.DICTIONARY_LEARNING) ? this.dictionaryLearning$ :
+            (v === VisualizationEnum.LDA) ? this.lda$ :
+            (v === VisualizationEnum.NMF) ? this.nmf$ :
+            (v === VisualizationEnum.FA) ? this.fa$ :
+            (v === VisualizationEnum.MDS) ? this.mds$ :
+            (v === VisualizationEnum.PCA) ? this.pca$ :
+            (v === VisualizationEnum.SOM) ? this.som$ :
+            (v === VisualizationEnum.CHROMOSOME) ? this.chromosome$ :
+            (v === VisualizationEnum.GENOME) ? this.genome$ :
+            (v === VisualizationEnum.TSNE) ? this.tsne$ :
+            (v === VisualizationEnum.HEATMAP) ? this.heatmap$ :
+            (v === VisualizationEnum.PARALLEL_COORDS) ? this.parallelCoords$ :
+            (v === VisualizationEnum.LINKED_GENE) ? this.linkedGene$ :
+            (v === VisualizationEnum.HIC) ? this.hic$ :
+            null;
+    }
+    onMessage(v) {
+        if (v.data === 'TERMINATE') {
+            const worker = v.target as Worker;
+            worker.removeEventListener('message', this.onMessage);
+            worker.terminate();
+            if (worker === this.workerA) { this.workerA = null; console.log("WORKER A DEAD"); }
+            if (worker === this.workerB) { this.workerB = null; }
+            if (worker === this.workerE) { this.workerE = null; }
+        } else {
+            try {
+                this.getSubjectByVisualization(v.data.config.visualization).next(v.data);
+            } catch (e) {
+                debugger;
+            }
+        }
+    }
     execute(config: GraphConfig, subject: Subject<any>): Observable<any> {
-        this.pool.acquire( worker => {
-            return new Promise<any>( ( resolve, reject ) => {
-                const onMessage = (v) => {
-                    if (v.data === 'TERMINATE') {
-                        worker.removeEventListener( 'message', onMessage );
-                        console.log("RESOLVE");
-                        resolve();
-                    } else { subject.next(v.data); }
-                };
-                worker.addEventListener( 'message', onMessage );
-                worker.postMessage( config );
-            });
-        });
+
+        // this.pool.acquire()
+        // this.pool.acquire( worker => {
+        //     return new Promise<any>( ( resolve, reject ) => {
+        //         const onMessage = (v) => {
+        //             if (v.data === 'TERMINATE') {
+        //                 worker.removeEventListener( 'message', onMessage );
+        //                 console.log("RESOLVE");
+        //                 resolve();
+        //             } else { subject.next(v.data); }
+        //         };
+        //         worker.addEventListener( 'message', onMessage );
+        //         worker.postMessage( config );
+        //     });
+        // });
+        switch (config.graph ) {
+            case GraphEnum.GRAPH_A:
+                if (this.workerA !== null) {
+                    this.workerA.removeEventListener('message', this.onMessage);
+                    this.workerA.terminate();
+                    this.workerA = null;
+                }
+                this.workerA = new Worker('assets/compute.js');
+                this.workerA.addEventListener('message', this.onMessage.bind(this));
+                this.workerA.postMessage( config );
+                break;
+
+            case GraphEnum.GRAPH_B:
+                if (this.workerB !== null) {
+                    this.workerB.removeEventListener('message', this.onMessage);
+                    this.workerB.terminate();
+                    this.workerB = null;
+                }
+                this.workerB = new Worker('assets/compute.js');
+                this.workerB.addEventListener('message', this.onMessage.bind(this));
+                this.workerB.postMessage( config );
+                break;
+
+            case GraphEnum.EDGES:
+                if (this.workerE !== null) {
+                    this.workerE.terminate();
+                    this.workerE.removeEventListener('message', this.onMessage);
+                    this.workerE = null;
+                }
+                this.workerE = new Worker('assets/compute.js');
+                this.workerE.addEventListener('message', this.onMessage.bind(this));
+                this.workerE.postMessage( config );
+                break;
+        }
         return subject;
     }
 
