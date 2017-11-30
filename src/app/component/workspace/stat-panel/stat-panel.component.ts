@@ -10,17 +10,14 @@ import {
   Component, ComponentFactoryResolver, Input, Output, ViewContainerRef,
   ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild
 } from '@angular/core';
-import { LegendPanelEnum } from 'app/model/enum.model';
+import { LegendPanelEnum, VisualizationEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import { values } from 'd3';
+import { StatFactory, Stat } from 'app/model/stat.model';
 
 declare var $: any;
 declare var vega: any;
 declare var vegaTooltip: any;
-
-
-
-
 
 @Component({
   selector: 'app-workspace-stat-panel',
@@ -36,6 +33,13 @@ export class StatPanelComponent implements AfterViewInit {
   @Input() graphBData: GraphData;
   @Input() set graphAData(value: GraphData) {
 
+    const stats: Array<Stat> =  StatFactory.getInstance().getStatObjects( value, this.configA.visualization);
+
+    
+
+
+
+    console.log(value.result);
     // Exit if this is trigger before there is data... Could likely be done better with Rxjs
     if (value === null) {
       return;
@@ -74,6 +78,7 @@ export class StatPanelComponent implements AfterViewInit {
       const explainedVarianceRatio = explainedVarianceRatioMap.map((v, i) => ({ id: (i + 1), label: v.label, value: v.value }));
 
     this.metrics = [
+
       { label: 'Histogram', value: genericHistogram(componentArray) },
       // { label: 'Histogram', value: genericHistogram( explainedVarianceRatio  )}
       // { label: 'Violin', value: genericViolin( value.result.explainedVarianceRatio  )},

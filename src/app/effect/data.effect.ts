@@ -86,9 +86,9 @@ export class DataEffect {
             // genomeConfig.graph = GraphEnum.GRAPH_B;
             // genomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
-            const chromosomeConfig = new ChromosomeConfigModel();
-            chromosomeConfig.graph = GraphEnum.GRAPH_A;
-            chromosomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            // const chromosomeConfig = new ChromosomeConfigModel();
+            // chromosomeConfig.graph = GraphEnum.GRAPH_A;
+            // chromosomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             // const boxWhiskersConfig = new BoxWhiskersConfigModel();
             // boxWhiskersConfig.graph = GraphEnum.GRAPH_A;
@@ -116,9 +116,12 @@ export class DataEffect {
             // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             const graphAConfig = new PcaIncrementalConfigModel();
-            // graphAConfig.graph = GraphEnum.GRAPH_B;
-            graphAConfig.graph = GraphEnum.GRAPH_B;
+            graphAConfig.graph = GraphEnum.GRAPH_A;
             graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+
+            const graphBConfig = new PcaIncrementalConfigModel();
+            graphBConfig.graph = GraphEnum.GRAPH_B;
+            graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
 
             // const graphBConfig = new PcaIncrementalConfigModel();
@@ -133,6 +136,7 @@ export class DataEffect {
                 new WorkspaceConfigAction( workspaceConfig ),
                 // new compute.LinkedGeneAction( { config: graphAConfig } ),
                 new compute.PcaIncrementalAction( { config: graphAConfig } ),
+                new compute.PcaIncrementalAction( { config: graphBConfig } ),
                 // new compute.HicAction( { config: hicConfig }),
                 // new compute.BoxWhiskersAction( { config: boxWhiskersConfig } ),
 
@@ -141,7 +145,7 @@ export class DataEffect {
                 // new compute.TimelinesAction( { config: timelinesConfig})
 
                 // new compute.GenomeAction( { config: graphBConfig }),
-                 new compute.ChromosomeAction( { config: chromosomeConfig } )
+                //  new compute.ChromosomeAction( { config: chromosomeConfig } )
                 // new compute.HeatmapAction( { config: heatmapConfig })
                 // new compute.ChromosomeAction( { config: graphBConfig } )
                 // new compute.GenomeAction( { config: genomeConfig })
