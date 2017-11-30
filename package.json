@@ -99,6 +99,7 @@
     "uuid-by-string": "^0.3.0",
     "vcf.js": "^0.3.0",
     "vega": "^3.0.7",
+    "vega-tooltip": "^0.4.4",
     "xlsx": "^0.10.9",
     "zeroclipboard": "^2.3.0",
     "zone.js": "^0.8.16"
