@@ -1,4 +1,4 @@
-import { explainedVarianceRatio, genericDonut, genericHistogram, genericViolin } from './stats-compute';
+import { genericDonut, genericHistogram, genericViolin } from './stats-compute';
 import { StatsFactory } from './stats-factory';
 import { GraphData } from './../../../model/graph-data.model';
 import { INSERT_ANNOTATION } from './../../../action/graph.action';
@@ -14,15 +14,9 @@ import { LegendPanelEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import { values } from 'd3';
 
-
-
 declare var $: any;
 declare var vega: any;
 declare var vegaTooltip: any;
-
-
-
-
 
 @Component({
   selector: 'app-workspace-stat-panel',
@@ -46,7 +40,7 @@ export class StatPanelComponent implements AfterViewInit {
     // Save Data Passed In In Local Variable
     this.data = value;
 
-    // Create Array of PCA (1-3) loadings and map to markerIDs
+    // Component Array, create Array of PCA (1-3) loadings and map to markerIDs
     const componentMap = value.markerIds.reduce((p, c, i) => {
       p[c] = value.result.components.map(v => v[i]);
       return p;
@@ -71,16 +65,20 @@ export class StatPanelComponent implements AfterViewInit {
       .map(v => ({ label: v.marker, value: v.pc1, value2: v.pc2, value3: v.pc3 }));
 
 
+      // explainedVarianceRatio
+      const explainedVarianceRatioMap = value.result.explainedVarianceRatio.map((v, i) => ({ label: 'PC ' + (i + 1), value: v }));
+      const explainedVarianceRatio = explainedVarianceRatioMap.map((v, i) => ({ id: (i + 1), label: v.label, value: v.value }));
 
     this.metrics = [
-      // { label: 'Histogram', value: genericHistogram(componentArray) },
-      // { label: 'Histogram', value: genericHistogram( value.result.explainedVarianceRatio  )},
+
+      { label: 'Histogram', value: genericHistogram(componentArray) },
+      // { label: 'Histogram', value: genericHistogram( explainedVarianceRatio  )}
       // { label: 'Violin', value: genericViolin( value.result.explainedVarianceRatio  )},
-      { label: 'Donut', value: genericDonut( value.result.explainedVariance )}
+      { label: 'Donut', value: genericDonut( explainedVarianceRatio )}
       // { label: 'Explained Variance Ratio', value: explainedVarianceRatio( value.result.explainedVarianceRatio )}
     ];
 
-    // debugger;
+
     // Set Metric Creates The Vega Visualization and +'s it to The Page
     this.setMetric(this.metrics[3]);
     // debugger;
@@ -128,6 +126,7 @@ export class StatPanelComponent implements AfterViewInit {
 
   // // Create The Vega + Render It
   // // below needs work, https://www.npmjs.com/package/vega-tooltip
+
   setMetric(value: any): void {
     debugger;
      const view = new vega.View(vega.parse(value.value), {
