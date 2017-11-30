@@ -13,7 +13,7 @@ export class StatsFactory {
         return new HistogramConfig();
     }
     public createHistogramVega(config: HistogramConfig): any {
-        const graphValues = config.data;
+        const values = config.data;
         const vega = {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'title': {
@@ -27,7 +27,7 @@ export class StatsFactory {
             'data': [
                 {
                     'name': 'table',
-                    'values': graphValues,
+                    'values': values
                 }
             ],
             'signals': [
@@ -146,7 +146,7 @@ export class StatsFactory {
     }
 
     public createDonutVega(config: DonutConfig): any {
-        const values = config.data.map((v, i) => ({ id: (i + 1), label: v.label, field: v.value.toFixed(2) }));
+        const values = config.data;
         const vega = {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'width': config.width,
@@ -160,7 +160,7 @@ export class StatsFactory {
                     'transform': [
                         {
                             'type': 'pie',
-                            'field': 'field',
+                            'field': 'value',
                         }
                     ]
                 }
@@ -171,7 +171,7 @@ export class StatsFactory {
                     'type': 'sqrt',
                     'domain': {
                         'data': 'table',
-                        'field': 'field'
+                        'field': 'value'
                     }
                 },
                 {
@@ -226,13 +226,13 @@ export class StatsFactory {
                             },
                             // How its done in Vega land, uncommented part works but color hovers do not
                             // ,tooltip': {'signal': 'datum['field']+ '%''}
-                            'tooltip': { 'signal': 'datum.field' }
+                            'tooltip': { 'signal': 'datum.value' }
                         },
                         // opacity change on hover
                         'update': {
                             'fill': {
                                 'scale': 'color',
-                                'field': 'field'
+                                'field': 'value'
                             },
                             'fillOpacity': {
                                 'value': 1
@@ -243,7 +243,7 @@ export class StatsFactory {
                                 'value': 0.5
                             },
                             'text': {
-                                'field': 'field'
+                                'field': 'value'
                             }
                         }
                     }
@@ -269,7 +269,7 @@ export class StatsFactory {
                             },
                             'radius': {
                                 'scale': 'r',
-                                'field': 'field',
+                                'field': 'value',
                                 'offset': 90
                             },
                             'theta': {
@@ -287,7 +287,7 @@ export class StatsFactory {
                             'fontSize': {
                                 'value': 14
                             },
-                            'tooltip': { 'signal': 'datum.field' }
+                            'tooltip': { 'signal': 'datum.value' }
                         }
                     }
                 }
