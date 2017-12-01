@@ -35,10 +35,6 @@ export class StatPanelComponent implements AfterViewInit {
 
     const stats: Array<Stat> =  StatFactory.getInstance().getStatObjects( value, this.configA.visualization);
 
-    
-
-
-
     console.log(value.result);
     // Exit if this is trigger before there is data... Could likely be done better with Rxjs
     if (value === null) {
@@ -77,18 +73,18 @@ export class StatPanelComponent implements AfterViewInit {
       const explainedVarianceRatioMap = value.result.explainedVarianceRatio.map((v, i) => ({ label: 'PC ' + (i + 1), value: v }));
       const explainedVarianceRatio = explainedVarianceRatioMap.map((v, i) => ({ id: (i + 1), label: v.label, value: v.value }));
 
-    this.metrics = [
+    // this.metrics = [
 
-      { label: 'Histogram', value: genericHistogram(componentArray) },
-      // { label: 'Histogram', value: genericHistogram( explainedVarianceRatio  )}
-      // { label: 'Violin', value: genericViolin( value.result.explainedVarianceRatio  )},
-      { label: 'Donut', value: genericDonut( explainedVarianceRatio )}
-      // { label: 'Explained Variance Ratio', value: explainedVarianceRatio( value.result.explainedVarianceRatio )}
-    ];
+    //   // { label: 'Histogram', value: genericHistogram(componentArray) },
+    //   // { label: 'Histogram', value: genericHistogram( explainedVarianceRatio  )}
+    //   // { label: 'Violin', value: genericViolin( value.result.explainedVarianceRatio  )},
+    //   // { label: 'Donut', value: genericDonut( explainedVarianceRatio )}
+    //   // { label: 'Explained Variance Ratio', value: explainedVarianceRatio( value.result.explainedVarianceRatio )}
+    // ];
 
 
     // Set Metric Creates The Vega Visualization and +'s it to The Page
-    this.setMetric(this.metrics[3]);
+    // this.setMetric(this.metrics[3]);
     // debugger;
 
   }
@@ -136,7 +132,6 @@ export class StatPanelComponent implements AfterViewInit {
   // // below needs work, https://www.npmjs.com/package/vega-tooltip
 
   setMetric(value: any): void {
-    debugger;
      const view = new vega.View(vega.parse(value.value), {
       renderer: ('svg'),
       // vegaTooltip: vega(value, this.tooltipHistogramOptions)
