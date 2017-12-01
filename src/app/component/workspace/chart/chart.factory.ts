@@ -40,9 +40,10 @@ export class ChartFactory {
         line.geometry = path.createPointsGeometry(50);
         return line;
     }
-    public static lineAllocate(color: number, pt1: THREE.Vector2, pt2: THREE.Vector2): THREE.Line {
+    public static lineAllocate(color: number, pt1: THREE.Vector2, pt2: THREE.Vector2, data?: any): THREE.Line {
         const line = new THREE.Line();
         line.material = this.getLineColor(color);
+        line.userData = data;
         const geometry = new THREE.Geometry();
         geometry.vertices.push( new THREE.Vector3(pt1.x, pt1.y, 0) );
         geometry.vertices.push( new THREE.Vector3(pt2.x, pt2.y, 0) );
