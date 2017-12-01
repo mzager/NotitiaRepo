@@ -54,7 +54,6 @@ export class VegaFactory {
         }
         private constructor() { }
 
-
         // Public Interface + Takes The Visualzion Type and figures which to call
         public getVegaObject(stat: Stat, chartType: ChartTypeEnum): any {
             return (chartType === ChartTypeEnum.DONUT) ? this.createDonut(stat) :
@@ -112,7 +111,7 @@ export class StatFactory {
     private createFastIca(data: any, visualization: VisualizationEnum): Array<Stat> {
         return null;
     }
-    
+
     formatPrincipleComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
         return data.map( (v, i) => ({label: 'PC' + (i + 1), value: v }) );
     }
