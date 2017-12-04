@@ -61,6 +61,7 @@ export class ChartScene {
     private views: Array<VisualizationView>;
     private edges: EdgesGraph;
     private composer: THREE.EffectComposer;
+    private centerLine: THREE.Line;
     public set workspaceConfig(value: WorkspaceConfigModel) {
         if ( !value.hasOwnProperty('layout')  ) { return; }
         this.workspace = value;
@@ -91,11 +92,15 @@ export class ChartScene {
 
         // Center Line
         try {
+            view.scene.remove(this.centerLine);
+        } catch (e) {}
+        
+        try {
             if (this.workspace.layout !== WorkspaceLayoutEnum.SINGLE) {
-                const centerLine = (this.workspace.layout === WorkspaceLayoutEnum.HORIZONTAL) ?
+                this.centerLine = (this.workspace.layout === WorkspaceLayoutEnum.HORIZONTAL) ?
                     ChartFactory.lineAllocate(0x039BE5, new THREE.Vector2(0, -1000), new THREE.Vector2(0, 1000) ) :
                     ChartFactory.lineAllocate(0x039BE5, new THREE.Vector2(-1000, 0), new THREE.Vector2(1000, 0) );
-                view.scene.add(centerLine);
+                view.scene.add(this.centerLine);
                 this.renderer.setViewport( view.viewport.x, view.viewport.y, view.viewport.width, view.viewport.height );
                 this.renderer.render( view.scene, view.camera );
             }
