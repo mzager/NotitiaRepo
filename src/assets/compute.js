@@ -23337,10 +23337,10 @@ exports.timelinesCompute = function (config, worker) {
             var patientEvents = _.groupBy(events, 'p');
             patientEvents = Object.keys(patientEvents).map(function (v) { return [v, patientEvents[v].sort(function (a, b) { return a.start - b.start; })]; });
             if (config.sort !== 'None') {
-                // patientEvents.forEach( v => v.sortField = v[1].find(w => w.subtype === config.sort) );
-                // patientEvents = patientEvents
-                //     .filter(v => v.sortField !== undefined)
-                //     .sort( (a, b) => b.sortField.start - a.sortField.start );
+                patientEvents.forEach(function (v) { return v.sortField = v[1].find(function (w) { return w.subtype === config.sort; }); });
+                patientEvents = patientEvents
+                    .filter(function (v) { return v.sortField !== undefined; })
+                    .sort(function (a, b) { return b.sortField.start - a.sortField.start; });
             }
             patientEvents = patientEvents.map(function (v) {
                 var evts = _.groupBy(v[1], 'type');

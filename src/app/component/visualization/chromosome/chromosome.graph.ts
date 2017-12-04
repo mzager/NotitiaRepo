@@ -18,6 +18,7 @@ import * as scale from 'd3-scale';
 import * as _ from 'lodash';
 import * as THREE from 'three';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
+import { BoxGeometry, Vector3 } from 'three';
 
 export class ChromosomeGraph implements ChartObjectInterface {
 
@@ -85,7 +86,7 @@ export class ChromosomeGraph implements ChartObjectInterface {
         this.meshes = [];
         this.geneLines = [];
         this.chords = [];
-        this.view.controls.enableRotate = true;
+        this.view.controls.enableRotate = false;
         this.group = new THREE.Group();
         this.view.scene.add(this.group);
         this.lineMaterial = new THREE.LineBasicMaterial( { color: 0x039BE5 });
@@ -101,7 +102,6 @@ export class ChromosomeGraph implements ChartObjectInterface {
 
         this.config = config as ChromosomeConfigModel;
         this.data = data;
-
         if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {
             this.removeObjects();
             this.addObjects();
@@ -136,12 +136,8 @@ export class ChromosomeGraph implements ChartObjectInterface {
         this.isEnabled = truthy;
         this.view.controls.enabled = this.isEnabled;
         if (truthy) {
-            this.sMouseUp = this.events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
-            this.sMouseDown = this.events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
             this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
         } else {
-            this.sMouseUp.unsubscribe();
-            this.sMouseDown.unsubscribe();
             this.sMouseMove.unsubscribe();
         }
     }
@@ -151,16 +147,51 @@ export class ChromosomeGraph implements ChartObjectInterface {
 
     //#region bar
     armsCompute(genes: Array<any>, chromosome: any): any {
-        const scaleP = scaleLinear();
-        const scaleQ = scaleLinear();
-        scaleP.domain([0, chromosome.C]);
-        scaleQ.domain([chromosome.C, chromosome.Q]);
-        const w = (this.view.viewport.width * 0.25);
-        scaleP.range([-w, w]);
-        scaleQ.range([-w, w]);
+        const mf = new Set(this.config.markerFilter);
+        const arms = _.groupBy(genes, 'arm');
+        arms.P = arms.P.sort( (a, b) => (a.tss - b.tss)).map( (v, i) => {
+            return Object.assign(v, {
+                inSet: mf.has(v.gene),
+                pos: i
+            });
+        });
+        arms.Q = arms.Q.sort( (a, b) => (a.tss - b.tss)).map( (v, i) => {
+            return Object.assign(v, {
+                inSet: mf.has(v.gene),
+                pos: i
+            });
+        });
+
+        return {
+            genes: arms,
+            centro: null,
+            telem: null
+        };
     }
-    armsAddObjet() {
+    armsAddObjets() {
         const result = this.armsCompute(this.data.result.genes, this.data.result.chromosome);
+        let box: THREE.Mesh;
+
+        result.genes.P.forEach(gene => {
+            box = new THREE.Mesh();
+            box.geometry = (!gene.inSet) ? new THREE.BoxGeometry(1, 1, 1, 1) : new THREE.CircleGeometry(1);
+            box.position.set(-20, gene.pos * 2, 0);
+            box.userData.tip = gene.gene + ' - ' + gene.type.replace(/_/gi, ' ');
+            box.userData.color = this.colorMap[gene.type];
+            box.material = ChartFactory.getColorPhong(box.userData.color);
+            this.meshes.push( box );
+            this.group.add( box );
+        });
+        result.genes.Q.forEach(gene => {
+            box = new THREE.Mesh();
+            box.geometry = (!gene.inSet) ? new THREE.BoxGeometry(1, 1, 1, 1) : new THREE.CircleGeometry(1);
+            box.position.set(20, gene.pos * 2, 0);
+            box.userData.tip = gene.gene + ' - ' + gene.type.replace(/_/gi, ' ');
+            box.userData.color = this.colorMap[gene.type];
+            box.material = ChartFactory.getColorPhong(box.userData.color);
+            this.meshes.push( box );
+            this.group.add( box );
+        });
 
     }
     //#endregion
@@ -170,8 +201,6 @@ export class ChromosomeGraph implements ChartObjectInterface {
         const scaleGene = scaleLinear();
         scaleGene.domain([0, chromosome.Q]);
         scaleGene.range([0, 365]);
-        // const radius = 80;
-        // const r = 5;
         const mf = new Set(this.config.markerFilter);
         const processedGenes = genes.map( (v, i) => {
             const angle = scaleGene(v.tss) * Math.PI / 180;
@@ -232,12 +261,13 @@ export class ChromosomeGraph implements ChartObjectInterface {
     //#endregion
 
     addObjects() {
-       this.circleAddObjects();
+       //this.circleAddObjects();
+       this.armsAddObjets();
     }
 
     removeObjects() {
         this.enable(false);
-        this.geneLines.forEach( gene => {
+        this.meshes.forEach( gene => {
             this.group.remove(gene);
         });
     }
@@ -245,32 +275,62 @@ export class ChromosomeGraph implements ChartObjectInterface {
 
 
     private onMouseMove(e: ChartEvent): void {
-        const intersects = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
-        if (intersects.length > 0) {
+        // this.showLabels(e);
 
-            const gene = intersects[0].object.userData.gene;
-
-            this.chords.forEach( v => {
-                if ( (gene === v.userData.source) || (gene === v.userData.target) ) {
-                    v.material = this.overMaterial;
-                    (v.geometry as THREE.Geometry).vertices = v.userData.overGeometry;
-                    (v.geometry as THREE.Geometry).verticesNeedUpdate = true;
-                }else {
-                    v.material = this.outMaterial;
-                    (v.geometry as THREE.Geometry).vertices = v.userData.outGeometry;
-                    (v.geometry as THREE.Geometry).verticesNeedUpdate = true;
-                }
+        const meshes = ChartUtil.getVisibleMeshes(this.view, this.group);
+        if (meshes.length < 200) {
+            const m = meshes.map<{ label: string, x: number, y: number, z: number }>(mesh => {
+                const coord = ChartUtil.projectToScreen(this.config.graph, mesh, this.view.camera,
+                    this.view.viewport.width, this.view.viewport.height);
+                return { label: mesh.userData.tip, x: coord.x + 10, y: coord.y - 5, z: coord.z };
             });
-            this.onRequestRender.emit();
+            const html = m.filter(v => v.label !== undefined).map(data => {
+            return '<div class="chart-label" style="background: rgba(255, 255, 255, .5);font-size:8px;left:' + data.x + 'px;top:' + data.y +
+                'px;position:absolute;">' + data.label + '</div>';
+        }).reduce((p, c) => p += c, '');
+            this.labels.innerHTML = html;
+        } else {
+            this.labels.innerHTML = '';
         }
     }
 
-    private onMouseUp(e: ChartEvent): void {
+    showLabels(e: ChartEvent) {
+        const geneHit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
+        console.log(geneHit.length);
+        if (geneHit.length > 0) {
+            const xPos = e.mouse.xs + 10;
+            const yPos = e.mouse.ys;
+            this.labels.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#FFF;padding:3px;border-radius:' +
+                '3px;z-index:9999;position:absolute;left:' +
+                xPos + 'px;top:' +
+                yPos + 'px;">' +
+                geneHit[0].object.userData.tip + '</div>';
+            return;
+        } else {
+            this.labels.innerHTML = '';
+        }
 
+        // const keys: Array<string> = Object.keys(this.arms);
+        // for (let i = 0; i < keys.length; i++) {
+        //     const kids = this.arms[keys[i]].children;
+        //     hits = ChartUtil.getIntersects(this.view, e.mouse, kids);
+        //     if (hits.length > 0) {
+        //         const xPos = e.mouse.xs + 10;
+        //         const yPos = e.mouse.ys;
+        //         this.labels.innerHTML = '<div style="background:rgba(255,255,255,.8);padding:3px;border-radius:3px;' +
+        //             'z-index:9999;position:absolute;left:' +
+        //             xPos + 'px;top:' +
+        //             yPos + 'px;">' +
+        //             hits[0].object.userData.tip + '</div>';
+        //         break;
+        //     } else {
+        //         this.labels.innerHTML = '';
+        //     }
+        // }
     }
 
-    private onMouseDown(e: ChartEvent): void {
-
+    hideLabels() {
+        this.labels.innerHTML = '';
     }
 
     constructor() { }

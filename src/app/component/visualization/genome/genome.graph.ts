@@ -89,8 +89,10 @@ export class GenomeGraph implements ChartObjectInterface {
         this.view.controls.enabled = this.isEnabled;
         if (truthy) {
             this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
+            this.sMouseDown = this.events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
         } else {
             this.sMouseMove.unsubscribe();
+            this.sMouseDown.unsubscribe();
         }
     }
     preRender(views: Array<VisualizationView>, layout: WorkspaceLayoutEnum, renderer: THREE.WebGLRenderer) {
@@ -126,6 +128,7 @@ export class GenomeGraph implements ChartObjectInterface {
 
             const teleQ: THREE.Mesh = ChartFactory.meshAllocate(0x0091EA, ShapeEnum.CIRCLE, .5,
                 new THREE.Vector3(0, v.Q - v.C, 0), {});
+            teleQ.userData.chr = v.chr;
             teleQ.userData.type = GenomicEnum.Q_TELOMERE;
             centro.userData.chromosome = i;
             teleQ.userData.tip = 'Telemere Q ' + i;
@@ -134,12 +137,14 @@ export class GenomeGraph implements ChartObjectInterface {
 
             const teleP: THREE.Mesh = ChartFactory.meshAllocate(0x0091EA, ShapeEnum.CIRCLE, .5,
                 new THREE.Vector3(0, v.P - v.C, 0), {});
+            teleP.userData.chr = v.chr;
             teleP.userData.type = GenomicEnum.P_TELOMERE;
             centro.userData.chromosome = i;
+            centro.userData.chr = v.chr;
+            centro.userData.type = GenomicEnum.CENTROMERE;
             teleP.userData.tip = 'Telemere P ' + i;
             this.arms[i + 'P'].add(teleP);
             this.chromosomeMeshes.push(teleP);
-
         });
 
         this.data.bands.forEach((chromo, i) => {
@@ -186,8 +191,6 @@ export class GenomeGraph implements ChartObjectInterface {
                     this.arms[ (chromoIndex - 1) + gene.arm].add(mesh);
                 });
         });
-
-        //this.group.rotateX(Math.PI); // Flip View
         this.view.scene.add(this.group);
     }
 
@@ -197,7 +200,19 @@ export class GenomeGraph implements ChartObjectInterface {
         }
         this.view.scene.remove(this.group);
     }
-
+    private onMouseDown(e: ChartEvent): void {
+        const hits = ChartUtil.getIntersects(this.view, e.mouse, this.chromosomeMeshes);
+        if (hits.length > 0) {
+            switch (hits[0].object.userData.type){
+                case GenomicEnum.CENTROMERE:
+                    debugger;
+                case GenomicEnum.P_TELOMERE:
+                    debugger;
+                case GenomicEnum.Q_TELOMERE:
+                    debugger;
+            }
+        }
+    }
     private onMouseMove(e: ChartEvent): void {
        this.showLabels(e);
     }

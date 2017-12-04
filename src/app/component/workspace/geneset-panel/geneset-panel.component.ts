@@ -124,12 +124,12 @@ export class GenesetPanelComponent implements AfterViewInit {
         this.form.get('geneset').value.hugo.split(',') :
         this.form.get('genelist').value.split(',').map(v => v.trim().toUpperCase());
       if (graph.indexOf('A') !== -1) {
-        this.configA.markerFilter = this.configB.markerFilter = genes;
+        this.configA.markerFilter = this.configB.markerFilter = genes.map(v => v.toUpperCase());
         this.configA.dirtyFlag = this.configB.dirtyFlag = DirtyEnum.LAYOUT;
         this.configChange.emit(this.configA);
       }
       if (graph.indexOf('B') !== -1) {
-          this.configB.markerFilter = this.configB.markerFilter = genes;
+          this.configB.markerFilter = this.configB.markerFilter = genes.map(v => v.toUpperCase());
           this.configB.dirtyFlag = this.configB.dirtyFlag = DirtyEnum.LAYOUT;
           this.configChange.emit(this.configB);
       }
