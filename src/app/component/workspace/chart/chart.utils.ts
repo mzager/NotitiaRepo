@@ -57,13 +57,18 @@ export class ChartUtil {
         return vector;
     }
 
-    public static getVisibleMeshes(view: VisualizationView): Array<THREE.Object3D> {
+    
+
+    public static getVisibleMeshes(view: VisualizationView, parent: THREE.Group = null): Array<THREE.Object3D> {
         const frustum = new THREE.Frustum();
         const cameraViewProjectionMatrix = new THREE.Matrix4();
         view.camera.matrixWorldInverse.getInverse(view.camera.matrixWorld);
         cameraViewProjectionMatrix.multiplyMatrices(view.camera.projectionMatrix, view.camera.matrixWorldInverse);
         frustum.setFromMatrix(cameraViewProjectionMatrix);
-        return view.scene.children.filter( o => o.type === 'Mesh' ).filter( o => frustum.intersectsObject(o) );
+        if (parent === null) {
+            parent = view.scene;
+        }
+        return parent.children.filter( o => o.type === 'Mesh' ).filter( o => frustum.intersectsObject(o) );
     }
 
     public static getIntersects(view: VisualizationView, pos: {x: number, y: number, xs: number, ys: number},

@@ -73,10 +73,10 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 patientEvents = Object.keys(patientEvents).map( v => [v, patientEvents[v].sort( (a, b) => a.start - b.start )] );
 
                 if (config.sort !== 'None') {
-                    // patientEvents.forEach( v => v.sortField = v[1].find(w => w.subtype === config.sort) );
-                    // patientEvents = patientEvents
-                    //     .filter(v => v.sortField !== undefined)
-                    //     .sort( (a, b) => b.sortField.start - a.sortField.start );
+                    patientEvents.forEach( v => v.sortField = v[1].find(w => w.subtype === config.sort) );
+                    patientEvents = patientEvents
+                        .filter(v => v.sortField !== undefined)
+                        .sort( (a, b) => b.sortField.start - a.sortField.start );
                 }
 
                 patientEvents = patientEvents.map( v => {
