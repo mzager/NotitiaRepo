@@ -2,23 +2,36 @@
     <div class="card-tabs">
         <ul class="tabs tabs-fixed-width" #tabs>
             <li class="tab">
-                <a class="active">Stats</a>
+                <a class="active" href="#stats-panel-a">Stats A</a>
+            </li>
+            <li class="tab">
+                <a href="#stats-panel-b">Stats B</a>
             </li>
         </ul>
     </div>
     <div class="card-content">
-        <!-- <div class="form-group">
-            <label class="center-block"><span class="form-label">Metric</span>
-            <select class="browser-default" materialize="material_select"
-                [materializeSelectOptions]="visualizationOptions">
-                <option *ngFor="let option of metrics" [value]="option">{{option.label}}</option>
-            </select>
-            </label>
-        </div>  -->
 
-        <!-- <span style="font-size:8px;">{{data | json}}</span> -->
-        <div id="stat-panel-chart"></div><div class="vg-tooltip"></div>
-        <!-- <ng-template #chartContainer></ng-template> -->
-            
+        <div class="form-group">
+            <label class="center-block">
+                <span class="form-label">Stat</span>
+                <select class="browser-default" 
+                materialize="material_select" [materializeSelectOptions]="statOptions" [(ngModel)]="statOption">
+                    <option *ngFor="let option of statOptions" [ngValue]="option">{{option.name}}</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label class="center-block">
+                <span class="form-label">Chart</span>
+                <select class="browser-default" materialize="material_select" [materializeSelectOptions]="statOption.charts" [(ngModel)]="chartOption"
+                    (ngModelChange)="drawGraph($event)">
+                    <option *ngFor="let option of statOption.charts" [ngValue]="option">{{option}}</option>
+                </select>
+            </label>
+        </div>
+
+        <div id="stat-panel-chart"></div>
+        <div class="vg-tooltip"></div>
     </div>
 </div>
