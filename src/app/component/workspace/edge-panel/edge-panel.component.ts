@@ -3,7 +3,6 @@ import { DataField } from 'app/model/data-field.model';
 import { INSERT_ANNOTATION } from './../../../action/graph.action';
 import { StatsInterface } from './../../../model/stats.interface';
 import { FormBuilder } from '@angular/forms';
-import { VegaFactory } from './../../../service/vega.factory';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { GraphData } from './../../../model/graph-data.model';
 import { Component, ComponentFactoryResolver, Input, Output, ViewContainerRef,
