@@ -144,13 +144,13 @@ export class EntityTypeEnum {
     static readonly EDGE = 'Edge';
     static readonly MIXED = 'Mixed';
 }
-export const enum ChartTypeEnum {
-    PIE = 1,
-    DONUT = 2,
-    HISTOGRAM = 4,
-    LINE = 8,
-    LABEL = 16,
-    SCATTER = 32
+export class ChartTypeEnum {
+    static readonly PIE = 'Pie';
+    static readonly DONUT = 'Donut';
+    static readonly HISTOGRAM = 'Histogram';
+    static readonly LINE = 'Line';
+    static readonly LABEL = 'Label';
+    static readonly SCATTER = 'Scatter';
 }
 export const enum StatTypeEnum {
     ONE_D = 1,

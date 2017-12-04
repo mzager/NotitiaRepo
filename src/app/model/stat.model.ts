@@ -61,37 +61,13 @@ export class StatTwoD implements Stat {
 // Factory Pattern
 export class VegaFactory {
 
-<<<<<<< HEAD
     // Singleton Pattern- can only have 1 Vega Factory and is null until it is evoked
     private static _instance: VegaFactory = null;
     public static getInstance(): VegaFactory {
         if (VegaFactory._instance === null) { VegaFactory._instance = new VegaFactory(); }
         return VegaFactory._instance;
-=======
-        // Singleton Pattern
-        private static _instance: VegaFactory = null;
-        public static getInstance(): VegaFactory {
-            if (VegaFactory._instance === null) { VegaFactory._instance = new VegaFactory(); }
-            return VegaFactory._instance;
-        }
-        private constructor() { }
-
-        // Public Interface + Takes The Visualzion Type and figures which to call
-        public getVegaObject(stat: Stat, chartType: ChartTypeEnum): any {
-            return (chartType === ChartTypeEnum.DONUT) ? this.createDonut(stat) :
-                (chartType === ChartTypeEnum.HISTOGRAM) ? this.createHistogram(stat) :
-                null;
-        }
-
-        private createDonut(stat: Stat): any {
-            return null;
-        }
-
-        private createHistogram(stat: Stat): any {
-            return null;
-        }
->>>>>>> 00bdda24e05747c3df0c71e219fa415afc98cb34
     }
+
     private constructor() { }
 
 
@@ -101,11 +77,11 @@ export class VegaFactory {
     */
     public getVegaObject(stat: Stat, chartType: ChartTypeEnum): any {
         return (chartType === ChartTypeEnum.DONUT) ? this.createDonut(stat) :
-            // (chartType === ChartTypeEnum.HISTOGRAM) ? this.createHistogram(stat) :
-            //     (chartType === ChartTypeEnum.PIE) ? this.createPie(stat) :
-            //         (chartType === ChartTypeEnum.LINE) ? this.createLine(stat) :
-            //             (chartType === ChartTypeEnum.LABEL) ? this.createLabel(stat) :
-            //                 (chartType === ChartTypeEnum.SCATTER) ? this.createScatter(stat) :
+            (chartType === ChartTypeEnum.HISTOGRAM) ? this.createHistogram(stat) :
+                (chartType === ChartTypeEnum.PIE) ? this.createPie(stat) :
+                    (chartType === ChartTypeEnum.LINE) ? this.createLine(stat) :
+                        (chartType === ChartTypeEnum.LABEL) ? this.createLabel(stat) :
+                            (chartType === ChartTypeEnum.SCATTER) ? this.createScatter(stat) :
                                 null;
     }
 
@@ -114,9 +90,9 @@ export class VegaFactory {
         const values = stat.data;
         const vega = {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
-            'width': 250,
+            'width': 185,
             'height': 250,
-            'padding': 25,
+            'padding': 0,
             'autosize': { 'type': 'fit', 'resize': true },
             'data': [
                 {
@@ -260,21 +236,145 @@ export class VegaFactory {
         };
         return vega;
     }
-    // private createHistogram(stat: Stat): any {
-    //     return null;
-    // }
-    // private createPie(stat: Stat): any {
-    //     return null;
-    // }
-    // private createLine(stat: Stat): any {
-    //     return null;
-    // }
-    // private createLabel(stat: Stat): any {
-    //     return null;
-    // }
-    // private createScatter(stat: Stat): any {
-    //     return null;
-    // }
+    private createHistogram(stat: Stat): any {
+        const values = stat.data;
+        const vega = {
+            '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
+            'title': {
+                'text': stat.name,
+                'fontSize': 6,
+            },
+            'width': 185,
+            'height': 250,
+            'padding': 0,
+            'autosize': { 'type': 'fit', 'resize': true },
+            'data': [
+                {
+                    'name': 'table',
+                    'values': values
+                }
+            ],
+            'signals': [
+                {
+                    'name': 'tooltip',
+                    'value': {},
+                    'on': [
+                        { 'events': 'rect:mouseover', 'update': 'datum' },
+                        { 'events': 'rect:mouseout', 'update': '{}' }
+                    ],
+                    'range': {
+                        'scheme': 'spectral'
+                    },
+                }
+            ],
+
+            'scales': [
+                {
+                    'name': 'xscale',
+                    'type': 'band',
+                    'domain': { 'data': 'table', 'field': 'label' },
+                    'range': 'width',
+                    'padding': 0.1,
+                    'round': true
+                },
+                {
+                    'name': 'yscale',
+                    'domain': { 'data': 'table', 'field': 'value' },
+                    'nice': true,
+                    'range': 'height'
+                }
+            ],
+
+            'axes': [
+                {
+                  'orient': 'bottom',
+                  'scale': 'xscale',
+                  'title': 'Genes',
+                  'encode': {
+                    'ticks': {
+                      'update': {
+                        'stroke': {'value': 'steelblue'}
+                      }
+                    },
+                    'labels': {
+                      'interactive': true,
+                      'update': {
+                        'fill': {'value': 'steelblue'},
+                        'angle': {'value': 50},
+                        'fontSize': {'value': 10},
+                        'align': {'value': '90'},
+                        'baseline': {'value': 'middle'},
+                        'dx': {'value': 3}
+                      },
+                      'hover': {
+                        'fill': {'value': '#333'}
+                      }
+                    },
+                    'title': {
+                      'update': {
+                        'fontSize': {'value': 10}
+                      }
+                    },
+                    'domain': {
+                      'update': {
+                        'stroke': {'value': '#333'},
+                        'strokeWidth': {'value': 1.5}
+                      }
+                    }
+                  }
+                }
+              ],
+
+            'marks': [
+                {
+                    'type': 'rect',
+                    'from': { 'data': 'table' },
+                    'encode': {
+                        'enter': {
+                            'x': { 'scale': 'xscale', 'field': 'label' },
+                            'width': { 'scale': 'xscale', 'band': 1 },
+                            'y': { 'scale': 'yscale', 'field': 'value' },
+                            'y2': { 'scale': 'yscale', 'value': 0 }
+                        },
+                        'update': {
+                            'fill': { 'value': '#039BE5' }
+                        },
+                        'hover': {
+                            'fill': { 'value': '#03FFC9' }
+                        }
+                    }
+                },
+                {
+                    'type': 'text',
+                    'encode': {
+                        'enter': {
+                            'align': { 'value': 'center' },
+                            'baseline': { 'value': 'bottom' },
+                            'fill': { 'value': '#000' }
+
+                        },
+                        'update': {
+                            'x': { 'scale': 'xscale', 'signal': 'tooltip.label', 'band': 0.5 },
+                            'y': { 'scale': 'yscale', 'signal': 'tooltip.value', 'offset': -6 }
+                        }
+                    }
+                }
+            ]
+        };
+        return vega;
+    }
+    private createPie(stat: Stat): any {
+        return null;
+    }
+    private createLine(stat: Stat): any {
+        return null;
+    }
+    private createLabel(stat: Stat): any {
+        return null;
+    }
+    private createScatter(stat: Stat): any {
+        return null;
+    }
 }
 
 // Factory Pattern
@@ -305,22 +405,26 @@ export class StatFactory {
 
         // stats array
         const stats = [
-            new StatTwoD('components', data.result.components),
+            new StatTwoD('Components', data.result.components),
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
             new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
             new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues)),
-            new StatOneD('mean', data.result.mean),
+            new StatOneD('Mean', data.result.mean),
             new StatOneD('skvars', data.result.skvars),
-            new StatSingle('nComponents', data.result.nComponents),
-            new StatSingle('nSamplesSeen', data.result.nSamplesSeen),
-            new StatSingle('noiseVariance', data.result.noiseVariance),
+            new StatSingle('Samples Seen', data.result.nSamplesSeen),
+            new StatSingle('Noise Variance', data.result.noiseVariance),
             new StatSingle('nComponents', data.result.nComponents)
+            // new StatKeyValues('Misc', [
+            //     {label: 'Components', value: data.result.nComponents},
+            //     {label: 'Samples Seen', value: data.result.nSamplesSeen},
+            //     {label: 'Noise Variance', value: data.result.noiseVariance},
+            //     {label: 'nComponents', value: data.result.nComponents},
+            // ])
         ];
 
         return stats;
     }
 
-<<<<<<< HEAD
     // private createFastIca(data: any, visualization: VisualizationEnum): Array<Stat> {
     //     return null;
     // }
@@ -341,12 +445,6 @@ export class StatFactory {
     // }
 
     // recycled data formulas
-=======
-    private createFastIca(data: any, visualization: VisualizationEnum): Array<Stat> {
-        return null;
-    }
-
->>>>>>> 00bdda24e05747c3df0c71e219fa415afc98cb34
     formatPrincipleComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
         return data.map((v, i) => ({ label: 'PC' + (i + 1), value: v }));
     }
