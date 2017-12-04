@@ -12,15 +12,5 @@ const _pointShape: Array<number> = [];
 
 export const daCompute = (config: DaConfigModel): Promise<any> => {
 
-    // return new Promise(function (resolve: any, reject: any) {
-
-    //     util.loadData(config.dataKey).then((data) => {
-
-    //         resolve({
-
-    //         });
-
-    //     }, (e) => reject() );
-    // });
     return null;
 };

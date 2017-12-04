@@ -61,11 +61,36 @@ export class StatTwoD implements Stat {
 // Factory Pattern
 export class VegaFactory {
 
+<<<<<<< HEAD
     // Singleton Pattern- can only have 1 Vega Factory and is null until it is evoked
     private static _instance: VegaFactory = null;
     public static getInstance(): VegaFactory {
         if (VegaFactory._instance === null) { VegaFactory._instance = new VegaFactory(); }
         return VegaFactory._instance;
+=======
+        // Singleton Pattern
+        private static _instance: VegaFactory = null;
+        public static getInstance(): VegaFactory {
+            if (VegaFactory._instance === null) { VegaFactory._instance = new VegaFactory(); }
+            return VegaFactory._instance;
+        }
+        private constructor() { }
+
+        // Public Interface + Takes The Visualzion Type and figures which to call
+        public getVegaObject(stat: Stat, chartType: ChartTypeEnum): any {
+            return (chartType === ChartTypeEnum.DONUT) ? this.createDonut(stat) :
+                (chartType === ChartTypeEnum.HISTOGRAM) ? this.createHistogram(stat) :
+                null;
+        }
+
+        private createDonut(stat: Stat): any {
+            return null;
+        }
+
+        private createHistogram(stat: Stat): any {
+            return null;
+        }
+>>>>>>> 00bdda24e05747c3df0c71e219fa415afc98cb34
     }
     private constructor() { }
 
@@ -295,6 +320,7 @@ export class StatFactory {
         return stats;
     }
 
+<<<<<<< HEAD
     // private createFastIca(data: any, visualization: VisualizationEnum): Array<Stat> {
     //     return null;
     // }
@@ -315,6 +341,12 @@ export class StatFactory {
     // }
 
     // recycled data formulas
+=======
+    private createFastIca(data: any, visualization: VisualizationEnum): Array<Stat> {
+        return null;
+    }
+
+>>>>>>> 00bdda24e05747c3df0c71e219fa415afc98cb34
     formatPrincipleComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
         return data.map((v, i) => ({ label: 'PC' + (i + 1), value: v }));
     }

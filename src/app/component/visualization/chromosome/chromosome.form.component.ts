@@ -81,15 +81,24 @@ export class ChromosomeFormComponent {
   geneOptions = [
     {label: 'Protein Coding', value: 'protein_coding'},
     {label: 'LincRNA', value: 'lincRNA'},
+    {label: 'miRNA', value: 'miRNA'},
+    {label: 'Misc RNA', value: 'misc_RNA'},
+    {label: 'rRNA', value: 'rRNA'},
+    {label: 'snRNA', value: 'snRNA'},
+    {label: 'snoRNA', value: 'snoRNA'},
+    {label: 'vaultRNA', value: 'vaultRNA'},
     {label: 'Antisense', value: 'antisense'},
     {label: 'TEC', value: 'TEC'},
     {label: 'Unprocessed Pseudo', value: 'unprocessed_pseudogene'},
     {label: 'Unprocessed Pseudo T', value: 'transcribed_unprocessed_pseudogene'},
     {label: 'Processed Pseudo', value: 'processed_pseudogene'},
     {label: 'Processed Pseudo T', value: 'transcribed_processed_pseudogene'},
+    {label: 'Unitary Pseduo', value: 'unitary_pseudogene'},
     {label: 'Processed Transcript', value: 'processed_transcript'},
     {label: 'Sense Intronic', value: 'sense_intronic'},
-    {label: 'Sense Overlapping', value: 'sense_overlapping'}
+    {label: 'Sense Overlapping', value: 'sense_overlapping'},
+    {label: 'Unitary Pseudo', value: 'unitary_pseudogene'},
+    {label: 'Unitary Pseudo T', value: 'transcribed_unitary_pseudogene'}
 ];
 
   visibilityToggle(item) {
