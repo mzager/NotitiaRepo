@@ -42,36 +42,36 @@ export class StatPanelComponent implements AfterViewInit {
     }
 
     // Save Data Passed In In Local Variable
-    this.data = value;
+    this.data = value.result;
 
     // Component Array, create Array of PCA (1-3) loadings and map to markerIDs
-    const componentMap = value.markerIds.reduce((p, c, i) => {
-      p[c] = value.result.components.map(v => v[i]);
-      return p;
-    }, {});
-    const componentArray = Object.keys(componentMap).map(key => {
-      const item = componentMap[key];
-      return {
-        marker: key,
-        pc1: item[0],
-        pc2: item[1],
-        pc3: item[2]
-      };
-    }, {}).sort((a, b) =>
-      (a.pc1 > b.pc1) ? -1 :
-        (a.pc1 < b.pc1) ? 1 :
-          (a.pc2 > b.pc2) ? -1 :
-            (a.pc2 < b.pc2) ? 1 :
-              (a.pc3 > b.pc3) ? -1 :
-                (a.pc3 < b.pc3) ? 1 : 0
-      // filter to top 20
-      ).filter((v, i) => i < 20)
-      .map(v => ({ label: v.marker, value: v.pc1, value2: v.pc2, value3: v.pc3 }));
+    // const componentMap = value.markerIds.reduce((p, c, i) => {
+    //   p[c] = value.result.components.map(v => v[i]);
+    //   return p;
+    // }, {});
+    // const componentArray = Object.keys(componentMap).map(key => {
+    //   const item = componentMap[key];
+    //   return {
+    //     marker: key,
+    //     pc1: item[0],
+    //     pc2: item[1],
+    //     pc3: item[2]
+    //   };
+    // }, {}).sort((a, b) =>
+    //   (a.pc1 > b.pc1) ? -1 :
+    //     (a.pc1 < b.pc1) ? 1 :
+    //       (a.pc2 > b.pc2) ? -1 :
+    //         (a.pc2 < b.pc2) ? 1 :
+    //           (a.pc3 > b.pc3) ? -1 :
+    //             (a.pc3 < b.pc3) ? 1 : 0
+    //   // filter to top 20
+    //   ).filter((v, i) => i < 20)
+    //   .map(v => ({ label: v.marker, value: v.pc1, value2: v.pc2, value3: v.pc3 }));
 
 
       // explainedVarianceRatio
-      const explainedVarianceRatioMap = value.result.explainedVarianceRatio.map((v, i) => ({ label: 'PC ' + (i + 1), value: v }));
-      const explainedVarianceRatio = explainedVarianceRatioMap.map((v, i) => ({ id: (i + 1), label: v.label, value: v.value }));
+      // const explainedVarianceRatioMap = value.result.explainedVarianceRatio.map((v, i) => ({ label: 'PC ' + (i + 1), value: v }));
+      // const explainedVarianceRatio = explainedVarianceRatioMap.map((v, i) => ({ id: (i + 1), label: v.label, value: v.value }));
 
     // this.metrics = [
 
