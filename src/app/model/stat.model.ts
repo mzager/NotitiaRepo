@@ -11,10 +11,10 @@ This is not a IS A (extends) or a HAS A (contains), this is an interface, ACTS-L
 Each stat needs to have a class of either a SINGLE value, a 1D array or a 2D array. This helps to orgainize the GraphData results
 coming back from Visualization and to control the chartType it will export.
 
-type = readonly because we never want anyone/anything to change that, single will always be single etc
+type = ReadOnly because we never want anyone/anything to change that, single will always be single etc
 name = name of graph
-charts = come from the ChartTypeEnum, PIE = 1, DONUT = 2, etc.
-data: under stat data can be anything, as the classes get seperated data becomes more specific
+charts = come from the ChartTypeEnum, PIE = 1, DONUT = 2, etc (strictly typed)
+data: under stat data can be anything, as the classes get more specific data becomes more strictly typed
 */
 
 export interface Stat {
@@ -61,7 +61,7 @@ export class StatTwoD implements Stat {
 // Factory Pattern
 export class VegaFactory {
 
-    // Singleton Pattern- copied from a previous factory - get more info but structure so you can only have 1 Vega Factory
+    // Singleton Pattern- can only have 1 Vega Factory and is null until it is evoked
     private static _instance: VegaFactory = null;
     public static getInstance(): VegaFactory {
         if (VegaFactory._instance === null) { VegaFactory._instance = new VegaFactory(); }
@@ -71,20 +71,20 @@ export class VegaFactory {
 
 
     /*
-    Public Interface + Takes The graph Type and figures which to call, EXAMPLE: if DONUT create donut with stat variable,
+    Public Interface that takes the ChartType and figures which to call, EXAMPLE: if DONUT create donut with stat variable,
     that requires a name, type, chart and data
     */
     public getVegaObject(stat: Stat, chartType: ChartTypeEnum): any {
         return (chartType === ChartTypeEnum.DONUT) ? this.createDonut(stat) :
-            (chartType === ChartTypeEnum.HISTOGRAM) ? this.createHistogram(stat) :
-                (chartType === ChartTypeEnum.PIE) ? this.createPie(stat) :
-                    (chartType === ChartTypeEnum.LINE) ? this.createLine(stat) :
-                        (chartType === ChartTypeEnum.LABEL) ? this.createLabel(stat) :
-                            (chartType === ChartTypeEnum.SCATTER) ? this.createScatter(stat) :
+            // (chartType === ChartTypeEnum.HISTOGRAM) ? this.createHistogram(stat) :
+            //     (chartType === ChartTypeEnum.PIE) ? this.createPie(stat) :
+            //         (chartType === ChartTypeEnum.LINE) ? this.createLine(stat) :
+            //             (chartType === ChartTypeEnum.LABEL) ? this.createLabel(stat) :
+            //                 (chartType === ChartTypeEnum.SCATTER) ? this.createScatter(stat) :
                                 null;
     }
 
-    // humm, what is passed here, anything that works for a chartType.DONUT? = StatOneD, maybe selected from a dropdown??
+
     private createDonut(stat: Stat): any {
         const values = stat.data;
         const vega = {
@@ -235,21 +235,21 @@ export class VegaFactory {
         };
         return vega;
     }
-    private createHistogram(stat: Stat): any {
-        return null;
-    }
-    private createPie(stat: Stat): any {
-        return null;
-    }
-    private createLine(stat: Stat): any {
-        return null;
-    }
-    private createLabel(stat: Stat): any {
-        return null;
-    }
-    private createScatter(stat: Stat): any {
-        return null;
-    }
+    // private createHistogram(stat: Stat): any {
+    //     return null;
+    // }
+    // private createPie(stat: Stat): any {
+    //     return null;
+    // }
+    // private createLine(stat: Stat): any {
+    //     return null;
+    // }
+    // private createLabel(stat: Stat): any {
+    //     return null;
+    // }
+    // private createScatter(stat: Stat): any {
+    //     return null;
+    // }
 }
 
 // Factory Pattern
@@ -267,12 +267,12 @@ export class StatFactory {
     public getStatObjects(data: GraphData, vis: VisualizationEnum): Array<Stat> {
 
         return (vis === VisualizationEnum.INCREMENTAL_PCA) ? this.chartIncrementalPca(data) :
-            (vis === VisualizationEnum.FAST_ICA) ? this.createFastIca(data, vis) :
-                (vis === VisualizationEnum.MDS) ? this.createMds(data, vis) :
-                    (vis === VisualizationEnum.TRUNCATED_SVD) ? this.createTruncatedSvd(data, vis) :
-                        (vis === VisualizationEnum.KERNAL_PCA) ? this.createKernalPca(data, vis) :
-                            (vis === VisualizationEnum.SPARSE_PCA) ? this.createSparse_PCA(data, vis) :
-                                (vis === VisualizationEnum.DICTIONARY_LEARNING) ? this.createDictionaryLearning(data, vis) :
+            // (vis === VisualizationEnum.FAST_ICA) ? this.createFastIca(data, vis) :
+            //     (vis === VisualizationEnum.MDS) ? this.createMds(data, vis) :
+            //         (vis === VisualizationEnum.TRUNCATED_SVD) ? this.createTruncatedSvd(data, vis) :
+            //             (vis === VisualizationEnum.KERNAL_PCA) ? this.createKernalPca(data, vis) :
+            //                 (vis === VisualizationEnum.SPARSE_PCA) ? this.createSparse_PCA(data, vis) :
+            //                     (vis === VisualizationEnum.DICTIONARY_LEARNING) ? this.createDictionaryLearning(data, vis) :
                                     null;
     }
 
@@ -295,31 +295,32 @@ export class StatFactory {
         return stats;
     }
 
-    private createFastIca(data: any, visualization: VisualizationEnum): Array<Stat> {
-        return null;
-    }
-    private createMds(data: any, visualization: VisualizationEnum): Array<Stat> {
-        return null;
-    }
-    private createTruncatedSvd(data: any, visualization: VisualizationEnum): Array<Stat> {
-        return null;
-    }
-    private createSparse_PCA(data: any, visualization: VisualizationEnum): Array<Stat> {
-        return null;
-    }
-    private createKernalPca(data: any, visualization: VisualizationEnum): Array<Stat> {
-        return null;
-    }
-    private createDictionaryLearning(data: any, visualization: VisualizationEnum): Array<Stat> {
-        return null;
-    }
+    // private createFastIca(data: any, visualization: VisualizationEnum): Array<Stat> {
+    //     return null;
+    // }
+    // private createMds(data: any, visualization: VisualizationEnum): Array<Stat> {
+    //     return null;
+    // }
+    // private createTruncatedSvd(data: any, visualization: VisualizationEnum): Array<Stat> {
+    //     return null;
+    // }
+    // private createSparse_PCA(data: any, visualization: VisualizationEnum): Array<Stat> {
+    //     return null;
+    // }
+    // private createKernalPca(data: any, visualization: VisualizationEnum): Array<Stat> {
+    //     return null;
+    // }
+    // private createDictionaryLearning(data: any, visualization: VisualizationEnum): Array<Stat> {
+    //     return null;
+    // }
 
+    // recycled data formulas
     formatPrincipleComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
         return data.map((v, i) => ({ label: 'PC' + (i + 1), value: v }));
     }
-    formatMarkerComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
-        return null;
-    }
+    // formatMarkerComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
+    //     return null;
+    // }
 
 
 }
