@@ -9,10 +9,9 @@
             </li>
         </ul>
     </div>
-    <div class="card-content">
-
-        <div class="form-group">
-            <label class="center-block">
+    <div class="card-content" >
+        <div class="form-group" >
+            <label class="center-block" style="padding-bottom: 10px">
                 <span class="form-label">Stat</span>
                 <select class="browser-default" 
                 materialize="material_select" [materializeSelectOptions]="statOptions" [(ngModel)]="statOption">
@@ -21,7 +20,7 @@
             </label>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" style= "padding-bottom: 20px;">
             <label class="center-block">
                 <span class="form-label">Chart</span>
                 <select class="browser-default" materialize="material_select" [materializeSelectOptions]="statOption.charts" [(ngModel)]="chartOption"

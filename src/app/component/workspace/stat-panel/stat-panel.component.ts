@@ -45,12 +45,13 @@ export class StatPanelComponent implements AfterViewInit {
     if (value === null) { return; }
 
     this.statOptions = StatFactory.getInstance().getStatObjects( value, this.configA.visualization);
+    // option of statOptions = star at first one
     this.statOption = this.statOptions[0];
   }
 
   drawGraph(): void {
     const vegaJson = VegaFactory.getInstance().getVegaObject(this.statOption, this.chartOption);
-    if (vegaJson === null) { console.log(this.chartOption + 'is not yet implmented'); return; }
+    if (vegaJson === null) { console.log(this.chartOption + ' is not yet implmented'); return; }
     const view = new vega.View(vega.parse(vegaJson), {
       renderer: ('svg'),
     }).initialize('#stat-panel-chart')
