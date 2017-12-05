@@ -6,7 +6,7 @@ Visalization, Graph = is what is final rendering
 */
 
 /*
-This is not a IS A (extends) or a HAS A (contains), this is an interface, ACTS-LIKE "contract" polymorphic
+This is not a IS A (extends) or a HAS A (contains), this is an interface, ACTS-LIKE 'contract' polymorphic
 
 Each stat needs to have a class of either a SINGLE value, a 1D array or a 2D array. This helps to orgainize the GraphData results
 coming back from Visualization and to control the chartType it will export.
@@ -85,11 +85,16 @@ export class VegaFactory {
                                 null;
     }
 
-
     private createDonut(stat: Stat): any {
         const values = stat.data;
         const vega = {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
+            'title': {
+                'text': stat.name,
+                'font': 'Lato',
+                'offset': 10,
+                'fontSize': 8
+            },
             'width': 185,
             'height': 250,
             'padding': 0,
@@ -157,7 +162,7 @@ export class VegaFactory {
                                 'value': 0.035
                             },
                             'innerRadius': {
-                                'value': 60
+                                'value': 40
                             },
                             'outerRadius': {
                                 'signal': 'width / 2'
@@ -211,7 +216,7 @@ export class VegaFactory {
                             'radius': {
                                 'scale': 'r',
                                 'field': 'value',
-                                'offset': 90
+                                'offset': 60
                             },
                             'theta': {
                                 'signal': '(datum.startAngle + datum.endAngle)/2'
@@ -226,7 +231,7 @@ export class VegaFactory {
                                 'value': 'Lato'
                             },
                             'fontSize': {
-                                'value': 14
+                                'value': 10
                             },
                             'tooltip': { 'signal': 'datum.value' }
                         }
@@ -242,7 +247,8 @@ export class VegaFactory {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'title': {
                 'text': stat.name,
-                'fontSize': 6,
+                'fontSize': 10,
+                'font': 'Lato',
             },
             'width': 185,
             'height': 250,
@@ -261,10 +267,7 @@ export class VegaFactory {
                     'on': [
                         { 'events': 'rect:mouseover', 'update': 'datum' },
                         { 'events': 'rect:mouseout', 'update': '{}' }
-                    ],
-                    'range': {
-                        'scheme': 'spectral'
-                    },
+                    ]
                 }
             ],
 
@@ -287,43 +290,43 @@ export class VegaFactory {
 
             'axes': [
                 {
-                  'orient': 'bottom',
-                  'scale': 'xscale',
-                  'title': 'Genes',
-                  'encode': {
-                    'ticks': {
-                      'update': {
-                        'stroke': {'value': 'steelblue'}
-                      }
-                    },
-                    'labels': {
-                      'interactive': true,
-                      'update': {
-                        'fill': {'value': 'steelblue'},
-                        'angle': {'value': 50},
-                        'fontSize': {'value': 10},
-                        'align': {'value': '90'},
-                        'baseline': {'value': 'middle'},
-                        'dx': {'value': 3}
-                      },
-                      'hover': {
-                        'fill': {'value': '#333'}
-                      }
-                    },
-                    'title': {
-                      'update': {
-                        'fontSize': {'value': 10}
-                      }
-                    },
-                    'domain': {
-                      'update': {
-                        'stroke': {'value': '#333'},
-                        'strokeWidth': {'value': 1.5}
-                      }
+                    'orient': 'bottom',
+                    'scale': 'xscale',
+                    'title': 'Genes',
+                    'encode': {
+                        'ticks': {
+                            'update': {
+                                'stroke': { 'value': 'steelblue' }
+                            }
+                        },
+                        'labels': {
+                            'interactive': true,
+                            'update': {
+                                'fill': { 'value': 'steelblue' },
+                                'angle': { 'value': 50 },
+                                'fontSize': { 'value': 10 },
+                                'align': { 'value': '90' },
+                                'baseline': { 'value': 'middle' },
+                                'dx': { 'value': 3 }
+                            },
+                            'hover': {
+                                'fill': { 'value': '#333' }
+                            }
+                        },
+                        'title': {
+                            'update': {
+                                'fontSize': { 'value': 10 }
+                            }
+                        },
+                        'domain': {
+                            'update': {
+                                'stroke': { 'value': '#333' },
+                                'strokeWidth': { 'value': 1.5 }
+                            }
+                        }
                     }
-                  }
                 }
-              ],
+            ],
 
             'marks': [
                 {
@@ -355,7 +358,12 @@ export class VegaFactory {
                         },
                         'update': {
                             'x': { 'scale': 'xscale', 'signal': 'tooltip.label', 'band': 0.5 },
-                            'y': { 'scale': 'yscale', 'signal': 'tooltip.value', 'offset': -6 }
+                            'y': { 'scale': 'yscale', 'signal': 'tooltip.value', 'offset': -6 },
+                            'text': { 'signal': 'tooltip.value' },
+                            'fillOpacity': [
+                                { 'test': 'datum === tooltip', 'value': 0 },
+                                { 'value': 1 }
+                            ]
                         }
                     }
                 }
@@ -364,7 +372,108 @@ export class VegaFactory {
         return vega;
     }
     private createPie(stat: Stat): any {
-        return null;
+        const values = stat.data;
+        const vega = {
+            '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
+            'title': {
+                'text': stat.name,
+                'fontSize': 4,
+                'font': 'Lato'
+            },
+            'width': 185,
+            'height': 250,
+            'padding': 0,
+            'autosize': { 'type': 'fit', 'resize': true },
+            'data': [
+                {
+                    'name': 'table',
+                    'values': stat.data,
+                    'transform': [
+                        {
+                            'type': 'pie',
+                            'field': 'value',
+                            'startAngle': 0,
+                            'endAngle': Math.PI * 2,
+                            'sort': false
+                        }
+                    ]
+                }
+            ],
+
+            'scales': [
+                {
+                    'name': 'color',
+                    'type': 'ordinal',
+                    'range': { 'scheme': 'category20' }
+                }
+            ],
+
+            'marks': [
+                {
+                    'type': 'arc',
+                    'from': { 'data': 'table' },
+                    'encode': {
+                        'enter': {
+                            'fill': { 'scale': 'color', 'field': 'label' },
+                            'x': { 'signal': 'width / 2' },
+                            'y': { 'signal': 'height / 2' },
+                            'tooltip': { 'signal': 'datum.value' }
+                        },
+                        'update': {
+                            'startAngle': { 'field': 'startAngle' },
+                            'endAngle': { 'field': 'endAngle' },
+                            'padAngle': { 'value': 0 },
+                            'innerRadius': { 'value': 0 } ,
+                            'outerRadius': { 'signal': 'width / 2' },
+                            'cornerRadius': { 'value': 0 }
+                        }
+                    }
+                },
+                {
+                    'type': 'text',
+                    'from': {
+                        'data': 'table'
+                    },
+                    'encode': {
+                        'enter': {
+                            'x': {
+                                'field': {
+                                    'group': 'width'
+                                },
+                                'mult': 0.5
+                            },
+                            'y': {
+                                'field': {
+                                    'group': 'height'
+                                },
+                                'mult': 0.5
+                            },
+                            'radius': {
+                                'field': 'value',
+                                'offset': 50
+                            },
+                            'theta': {
+                                'signal': '(datum.startAngle + datum.endAngle)/2'
+                            },
+                            'align': {
+                                'value': 'center'
+                            },
+                            'text': {
+                                'field': 'label'
+                            },
+                            'font': {
+                                'value': 'Lato'
+                            },
+                            'fontSize': {
+                                'value': 10
+                            },
+                            'tooltip': { 'signal': 'datum.value' }
+                        }
+                    }
+                }
+            ]
+        };
+        return vega;
     }
     private createLine(stat: Stat): any {
         return null;
@@ -398,7 +507,7 @@ export class StatFactory {
             //             (vis === VisualizationEnum.KERNAL_PCA) ? this.createKernalPca(data, vis) :
             //                 (vis === VisualizationEnum.SPARSE_PCA) ? this.createSparse_PCA(data, vis) :
             //                     (vis === VisualizationEnum.DICTIONARY_LEARNING) ? this.createDictionaryLearning(data, vis) :
-                                    null;
+            null;
     }
 
     private chartIncrementalPca(data: GraphData): Array<Stat> {
@@ -446,7 +555,7 @@ export class StatFactory {
 
     // recycled data formulas
     formatPrincipleComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
-        return data.map((v, i) => ({ label: 'PC' + (i + 1), value: v }));
+        return data.map((v, i) => ({ label: 'PC' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));
     }
     // formatMarkerComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
     //     return null;
