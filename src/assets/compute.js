@@ -18317,9 +18317,23 @@ var ComputeWorkerUtil = (function () {
         });
     };
     ComputeWorkerUtil.prototype.getMolecularGeneValues = function (markers, field) {
-        return (markers.length === 0) ?
-            this.dbData.table(field.tbl).toArray() :
-            this.dbData.table(field.tbl).where('m').anyOfIgnoreCase(markers).toArray();
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.openDatabaseData().then(function (v) {
+                if (markers.length === 0) {
+                    _this.dbData.table(field.tbl).toArray()
+                        .then(function (result) {
+                        resolve(result);
+                    });
+                }
+                else {
+                    _this.dbData.table(field.tbl).where('m').anyOfIgnoreCase(markers).toArray()
+                        .then(function (result) {
+                        resolve(result);
+                    });
+                }
+            });
+        });
     };
     ComputeWorkerUtil.prototype.getColorMap = function (entity, markers, samples, field) {
         var _this = this;
@@ -19707,6 +19721,18 @@ EntityTypeEnum.SAMPLE = 'Samples';
 EntityTypeEnum.EDGE = 'Edge';
 EntityTypeEnum.MIXED = 'Mixed';
 exports.EntityTypeEnum = EntityTypeEnum;
+var ChartTypeEnum = (function () {
+    function ChartTypeEnum() {
+    }
+    return ChartTypeEnum;
+}());
+ChartTypeEnum.PIE = 'Pie';
+ChartTypeEnum.DONUT = 'Donut';
+ChartTypeEnum.HISTOGRAM = 'Histogram';
+ChartTypeEnum.LINE = 'Line';
+ChartTypeEnum.LABEL = 'Label';
+ChartTypeEnum.SCATTER = 'Scatter';
+exports.ChartTypeEnum = ChartTypeEnum;
 var WorkspaceLayoutEnum = (function () {
     function WorkspaceLayoutEnum() {
     }
@@ -21964,35 +21990,29 @@ exports.chromosomeCompute = function (config, worker) {
         worker.util.getChromosomeInfo(config.chromosome, []).then(function (result) {
             // const mf = new Set(config.markerFilter);
             var chromo = ct.find(function (v) { return v.chr === config.chromosome; });
-            // const scaleGene = scaleLinear();
-            // scaleGene.domain([0, chromo.Q]);
-            // scaleGene.range([0, 365]);
-            // const radius = 60;
-            // const r = 50;
-            // const processedGenes = result.map( (v, i) => {
-            //     const angle = scaleGene(v.tss) * Math.PI / 180;
-            //     return Object.assign(v, {
-            //         highlight: mf.has( v.gene ),
-            //         sPos: { x: radius * Math.cos(angle), y: radius * Math.sin(angle) },
-            //         ePos: { x: (radius + r) * Math.cos(angle), y: (radius + r) * Math.sin(angle) }
-            //     });
-            // });
-            worker.postMessage({
-                config: config,
-                data: {
-                    result: {
-                        genes: result,
-                        chromosome: chromo
-                    },
-                    genes: [],
-                    links: [],
-                    legendItems: [],
-                    patientIds: [],
-                    sampleIds: [],
-                    markerIds: []
-                }
+            var genes = result.map(function (v) { return v.gene; });
+            Promise.all([
+                worker.util.getMolecularGeneValues(genes, { tbl: 'gistic' }),
+                worker.util.getMolecularGeneValues(genes, { tbl: 'mut' }),
+                worker.util.getMolecularGeneValues(genes, { tbl: 'rna' })
+            ]).then(function (v) {
+                worker.postMessage({
+                    config: config,
+                    data: {
+                        result: {
+                            genes: result,
+                            chromosome: chromo
+                        },
+                        genes: [],
+                        links: [],
+                        legendItems: [],
+                        patientIds: [],
+                        sampleIds: [],
+                        markerIds: []
+                    }
+                });
+                worker.postMessage('TERMINATE');
             });
-            worker.postMessage('TERMINATE');
         });
     }
 };
