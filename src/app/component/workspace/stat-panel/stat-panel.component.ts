@@ -57,8 +57,16 @@ export class StatPanelComponent implements AfterViewInit {
     }).initialize('#stat-panel-chart')
       .hover()
       .run();
-  }
 
+      // generate a PNG snapshot and then download the image
+// view.toImageURL('png').then(function(url) {
+//   const link = document.createElement('a');
+//   link.setAttribute('href', url);
+//   link.setAttribute('target', '_blank');
+//   link.setAttribute('download', 'vega-export.png');
+//   link.dispatchEvent(new MouseEvent('click'));
+// }).catch(function(error) { /* error handling */ });
+}
   // Constructor Called Automatically
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
