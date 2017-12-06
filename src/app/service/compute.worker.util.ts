@@ -411,10 +411,22 @@ export class ComputeWorkerUtil {
     }
 
 
-    getMolecularGeneValues(markers: Array<string>, field: DataField): Dexie.Promise<any> {
-        return (markers.length === 0) ?
-            this.dbData.table(field.tbl).toArray() :
-            this.dbData.table(field.tbl).where('m').anyOfIgnoreCase(markers).toArray();
+    getMolecularGeneValues(markers: Array<string>, field: any): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.openDatabaseData().then(v => {
+                if (markers.length === 0) {
+                    this.dbData.table(field.tbl).toArray()
+                    .then(result => {
+                        resolve(result);
+                    });
+                } else {
+                    this.dbData.table(field.tbl).where('m').anyOfIgnoreCase(markers).toArray()
+                    .then( result => {
+                        resolve(result);
+                    });
+                }
+            });
+        });
     }
 
 

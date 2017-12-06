@@ -11,23 +11,33 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 <form [formGroup]="form" novalidate>
-<div class="form-group">
-<label class="center-block"><span class="form-label">Chromosomes</span>
-   <select class="browser-default" materialize="material_select"
-      [compareWith]="byKey"
-      [materializeSelectOptions]="chromosomeOptions"
-      formControlName="chromosome">
-      <option *ngFor="let option of chromosomeOptions" [value]="option">{{option}}</option>
-  </select>
-</label>
-</div>
+  <div class="form-group">
+    <label class="center-block"><span class="form-label">Chromosomes</span>
+      <select class="browser-default" materialize="material_select"
+          [compareWith]="byKey"
+          [materializeSelectOptions]="chromosomeOptions"
+          formControlName="chromosome">
+          <option *ngFor="let option of chromosomeOptions" [value]="option">{{option}}</option>
+      </select>
+    </label>
+  </div>
+  <div class="form-group">
+    <label class="center-block"><span class="form-label">Layout</span>
+      <select class="browser-default" materialize="material_select"
+          [compareWith]="byKey"
+          [materializeSelectOptions]="layoutOptions"
+          formControlName="layoutOption">
+          <option *ngFor="let option of layoutOptions" [value]="option">{{option}}</option>
+      </select>
+    </label>
+  </div>
+  <!--
   <div class="form-group">
     <label class="center-block"><span class="form-label">Gene Color</span>
       <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
           [materializeSelectOptions]="colorOptions"
           formControlName="pointColor">
-          <option *ngFor="let option of colorOptions" [ngValue]="option">{{option.label}}</option>
+          <option *ngFor="let option of colorOptions" [ngValue]="option">{{option}}</option>
       </select>
     </label>
   </div>
@@ -41,6 +51,7 @@ import * as _ from 'lodash';
       </select>
     </label>
   </div>
+  -->
   <div class="form-group"  *ngFor="let item of geneOptions; let i = index">
     <div class="switch">
       <label>
@@ -76,6 +87,7 @@ export class ChromosomeFormComponent {
   shapeOptions: Array<DataField>;
   sizeOptions: Array<DataField>;
   dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D];
+  layoutOptions = ['Circle', 'Line'];
   chromosomeOptions = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
   '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', 'X', 'Y'];
   geneOptions = [
@@ -128,7 +140,8 @@ export class ChromosomeFormComponent {
       pointSize: [],
       dimension: [],
       chromosome: [],
-      allowRotation: []
+      allowRotation: [],
+      layoutOption: []
     });
 
     // Update When Form Changes
