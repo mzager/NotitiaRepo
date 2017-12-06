@@ -48,6 +48,7 @@ export class StatOneD implements Stat {
     }
 }
 
+// need to finish
 export class StatTwoD implements Stat {
     readonly type = StatTypeEnum.TWO_D;
     charts: Array<ChartTypeEnum> = [ChartTypeEnum.SCATTER];
@@ -126,7 +127,7 @@ export class VegaFactory {
                     'type': 'ordinal',
                     'domain': {
                         'data': 'table',
-                        'field': 'label'
+                        'field': 'label',
                     },
                     'range': {
                         'scheme': 'spectral'
@@ -549,32 +550,32 @@ export class StatFactory {
     // Public Interface + Takes The Visualzion Type and figures which to call
     public getStatObjects(data: GraphData, vis: VisualizationEnum): Array<Stat> {
 
-        return (vis === VisualizationEnum.INCREMENTAL_PCA) ? this.chartIncrementalPca(data) :
-            // (vis === VisualizationEnum.FAST_ICA) ? this.createFastIca(data, vis) :
-            //     (vis === VisualizationEnum.MDS) ? this.createMds(data, vis) :
-            //         (vis === VisualizationEnum.TRUNCATED_SVD) ? this.createTruncatedSvd(data, vis) :
-            //             (vis === VisualizationEnum.KERNAL_PCA) ? this.createKernalPca(data, vis) :
-            //                 (vis === VisualizationEnum.SPARSE_PCA) ? this.createSparse_PCA(data, vis) :
-            //                     (vis === VisualizationEnum.DICTIONARY_LEARNING) ? this.createDictionaryLearning(data, vis) :
+        return (vis === VisualizationEnum.INCREMENTAL_PCA) ? this.createIncrementalPca(data) :
+            // (vis === VisualizationEnum.FAST_ICA) ? this.createFastIca(data) :
+            //     (vis === VisualizationEnum.MDS) ? this.createMds(data) :
+                    (vis === VisualizationEnum.TRUNCATED_SVD) ? this.createTruncatedSvd(data) :
+                    (vis === VisualizationEnum.PCA) ? this.createPca(data) :
+            //             (vis === VisualizationEnum.KERNAL_PCA) ? this.createKernalPca(data) :
+            //                 (vis === VisualizationEnum.SPARSE_PCA) ? this.createSparse_PCA(data) :
+            //                     (vis === VisualizationEnum.DICTIONARY_LEARNING) ? this.createDictionaryLearning(data) :
             null;
     }
 
-    private chartIncrementalPca(data: GraphData): Array<Stat> {
-        // stats array
-        // debugger;
-        const x = this.formatPrincipleComponents;
+    private createIncrementalPca(data: GraphData): Array<Stat> {
+        // IncrementalPca stats array
+        debugger;
 
         const stats = [
 
-            new StatTwoD('Components', data.result.components),
+            // new StatTwoD('Components', data.result.components),
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
             new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
-            new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues)),
-            new StatOneD('Mean', data.result.mean),
-            new StatOneD('skvars', data.result.skvars),
-            new StatSingle('Samples Seen', this.singleValue(data.result.nSamplesSeen)),
-            new StatSingle('Noise Variance', this.singleValue(data.result.noiseVariance)),
-            new StatSingle('nComponents', this.singleValue(data.result.nComponents)),
+            new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues))
+            // new StatOneD('Mean', data.result.mean),
+            // new StatOneD('skvars', data.result.skvars),
+            // new StatSingle('Samples Seen', this.singleValue(data.result.nSamplesSeen)),
+            // new StatSingle('Noise Variance', this.singleValue(data.result.noiseVariance)),
+            // new StatSingle('nComponents', this.singleValue(data.result.nComponents)),
             // new StatKeyValues('Misc', [
             //     {label: 'Components', value: data.result.nComponents},
             //     {label: 'Samples Seen', value: data.result.nSamplesSeen},
@@ -592,9 +593,31 @@ export class StatFactory {
     // private createMds(data: any, visualization: VisualizationEnum): Array<Stat> {
     //     return null;
     // }
-    // private createTruncatedSvd(data: any, visualization: VisualizationEnum): Array<Stat> {
-    //     return null;
-    // }
+    private createTruncatedSvd(data: GraphData): Array<Stat> {
+         // Truncated Svd stats array
+                const stats = [
+                    // new StatTwoD('Components', data.result.components),
+                    new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
+                    new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
+                    new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues)),
+                ];
+
+                return stats;
+    }
+    private createPca(data: GraphData): Array<Stat> {
+        // Truncated Svd stats array
+               const stats = [
+                   // new StatTwoD('Components', data.result.components),
+                   // new StatOneD('Mean', data.result.mean),
+                   new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
+                   new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
+                   new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues)),
+                // new StatSingle('Noise Variance', this.singleValue(data.result.noiseVariance)),
+                // new StatSingle('nComponents', this.singleValue(data.result.nComponents)),
+               ];
+
+               return stats;
+   }
     // private createSparse_PCA(data: any, visualization: VisualizationEnum): Array<Stat> {
     //     return null;
     // }
@@ -609,9 +632,9 @@ export class StatFactory {
     formatPrincipleComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
         return data.map((v, i) => ({ label: 'PC' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));
     }
-    singleValue(data: string) {
-        return data;
-    }
+    // singleValue(data: string) {
+    //     return data;
+    // }
     // formatMarkerComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
     //     return null;
     // }
