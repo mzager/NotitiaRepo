@@ -1,5 +1,6 @@
 import { GraphData } from './graph-data.model';
 import { VisualizationEnum, StatTypeEnum, ChartTypeEnum } from 'app/model/enum.model';
+import * as data from 'app/action/data.action';
 
 /* GENERAL note: Visualization = is the graph A/B, example PCA Fast ICA, PCA. Stat = result data coming from ski-kit
 Visalization, Graph = is what is final rendering
@@ -387,7 +388,7 @@ export class VegaFactory {
             'data': [
                 {
                     'name': 'table',
-                    'values': stat.data,
+                    'values': values,
                     'transform': [
                         {
                             'type': 'pie',
@@ -479,8 +480,56 @@ export class VegaFactory {
         return null;
     }
     private createLabel(stat: Stat): any {
-        return null;
+        const values = stat.data;
+        const vega = {
+            '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
+            'title': {
+                'text': stat.name,
+                'font': 'Lato',
+                'offset': 10,
+                'fontSize': 8
+            },
+            'width': 185,
+            'height': 250,
+            'padding': 0,
+            'autosize': { 'type': 'fit', 'resize': true },
+            'data': [
+                {
+                    'name': 'table',
+                    'values': values,
+
+                }
+            ],
+
+            'marks': [
+                {
+                    'type': 'text',
+                    'from': {
+                        'data': 'table'
+                    },
+                    'encode': {
+                        'enter': {
+                            'align': {
+                                'value': 'center'
+                            },
+                            'text': {
+                                'field': 'data'
+                            },
+                            'font': {
+                                'value': 'Lato'
+                            },
+                            'fontSize': {
+                                'value': 10
+                            }
+
+                        }
+                    }
+                }
+            ]
+        };
+        return vega;
     }
+
     private createScatter(stat: Stat): any {
         return null;
     }
@@ -511,18 +560,21 @@ export class StatFactory {
     }
 
     private chartIncrementalPca(data: GraphData): Array<Stat> {
-
         // stats array
+        // debugger;
+        const x = this.formatPrincipleComponents;
+
         const stats = [
+
             new StatTwoD('Components', data.result.components),
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
             new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
             new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues)),
             new StatOneD('Mean', data.result.mean),
             new StatOneD('skvars', data.result.skvars),
-            new StatSingle('Samples Seen', data.result.nSamplesSeen),
-            new StatSingle('Noise Variance', data.result.noiseVariance),
-            new StatSingle('nComponents', data.result.nComponents)
+            new StatSingle('Samples Seen', this.singleValue(data.result.nSamplesSeen)),
+            new StatSingle('Noise Variance', this.singleValue(data.result.noiseVariance)),
+            new StatSingle('nComponents', this.singleValue(data.result.nComponents)),
             // new StatKeyValues('Misc', [
             //     {label: 'Components', value: data.result.nComponents},
             //     {label: 'Samples Seen', value: data.result.nSamplesSeen},
@@ -556,6 +608,9 @@ export class StatFactory {
     // recycled data formulas
     formatPrincipleComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
         return data.map((v, i) => ({ label: 'PC' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));
+    }
+    singleValue(data: string) {
+        return data;
     }
     // formatMarkerComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
     //     return null;
