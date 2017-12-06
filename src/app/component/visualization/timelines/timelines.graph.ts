@@ -80,7 +80,6 @@ export class TimelinesGraph implements ChartObjectInterface {
         this.view.controls.enableRotate = false;
         this.group = new THREE.Group();
         this.view.scene.add(this.group);
-        // this.lineMaterial = new THREE.LineBasicMaterial({ color: 0x039BE5 });
         return this;
     }
 

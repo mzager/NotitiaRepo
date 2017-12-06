@@ -3,7 +3,7 @@ import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Rx';
 import { EdgeConfigModel } from './edges.model';
-import { DimensionEnum } from './../../../model/enum.model';
+import { DimensionEnum, GraphEnum } from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DataTypeEnum, GraphActionEnum, VisualizationEnum, CollectionTypeEnum, DirtyEnum, EntityTypeEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
@@ -113,6 +113,7 @@ export class EdgesFormComponent {
       .subscribe(data => {
         let dirty = 0;
         const form = this.form;
+        data.graph = GraphEnum.EDGES;
         if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
         if (form.get('pointIntersect').dirty) { dirty |= DirtyEnum.INTERSECT; }
         if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }

@@ -1,3 +1,4 @@
+import { DataField } from './../../../model/data-field.model';
 import { Legend } from 'app/model/legend.model';
 import { ColorEnum, DirtyEnum } from 'app/model/enum.model';
 import { ChromosomeConfigModel } from './chromosome.model';
@@ -46,41 +47,35 @@ export const chromosomeCompute = (config: ChromosomeConfigModel, worker: Dedicat
 
         worker.util.getChromosomeInfo(config.chromosome, []).then( result => {
 
-
             // const mf = new Set(config.markerFilter);
             const chromo = ct.find( v => v.chr === config.chromosome );
-            // const scaleGene = scaleLinear();
-            // scaleGene.domain([0, chromo.Q]);
-            // scaleGene.range([0, 365]);
-            // const radius = 60;
-            // const r = 50;
-            // const processedGenes = result.map( (v, i) => {
-            //     const angle = scaleGene(v.tss) * Math.PI / 180;
-            //     return Object.assign(v, {
-            //         highlight: mf.has( v.gene ),
-            //         sPos: { x: radius * Math.cos(angle), y: radius * Math.sin(angle) },
-            //         ePos: { x: (radius + r) * Math.cos(angle), y: (radius + r) * Math.sin(angle) }
-            //     });
-            // });
+            const genes = result.map(v => v.gene);
 
-            worker.postMessage({
-                config: config,
-                data: {
-                    result: {
-                        genes: result,
-                        chromosome: chromo
-                    },
-                    genes: [],
-                    links: [],
-                    legendItems: [],
-                    patientIds: [],
-                    sampleIds: [],
-                    markerIds: []
-                }
+            Promise.all([
+                worker.util.getMolecularGeneValues(genes, {tbl: 'gistic'}),
+                worker.util.getMolecularGeneValues(genes, {tbl: 'mut'}),
+                worker.util.getMolecularGeneValues(genes, {tbl: 'rna'})
+
+            ]).then(v => {
+
+                worker.postMessage({
+                    config: config,
+                    data: {
+                        result: {
+                            genes: result,
+                            chromosome: chromo,
+                            molec: v
+                        },
+                        genes: [],
+                        links: [],
+                        legendItems: [],
+                        patientIds: [],
+                        sampleIds: [],
+                        markerIds: []
+                    }
+                });
+                 worker.postMessage('TERMINATE');
             });
-
-             worker.postMessage('TERMINATE');
-
         });
     }
 };

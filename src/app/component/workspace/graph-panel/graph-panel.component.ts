@@ -70,11 +70,6 @@ export class GraphPanelComponent implements AfterViewInit  {
       const el = $event.target as HTMLSelectElement;
       let gc: GraphConfig;
       switch (parseInt(el.value, 10)) {
-        // case VisualizationEnum.NONE:
-        //   gc = new GraphConfig();
-        //   gc.visualization = VisualizationEnum.NONE;
-        //   gc.dirtyFlag = DirtyEnum.LAYOUT;
-        //   break;
         case VisualizationEnum.TIMELINES:
           gc = new TimelinesConfigModel();
           break;
@@ -175,12 +170,6 @@ export class GraphPanelComponent implements AfterViewInit  {
       const el = $event.target as HTMLSelectElement;
       let gc: GraphConfig;
       switch (parseInt(el.value, 10)) {
-        // case VisualizationEnum.NONE:
-        //   gc = new GraphConfig();
-        //   gc.visualization = VisualizationEnum.NONE;
-        //   gc.entity = EntityTypeEnum.NONE;
-        //   gc.dirtyFlag = DirtyEnum.LAYOUT;
-        //   break;
         case VisualizationEnum.TIMELINES:
           gc = new TimelinesConfigModel();
           break;
