@@ -53,8 +53,8 @@ export class StatTwoD implements Stat {
     readonly type = StatTypeEnum.TWO_D;
     charts: Array<ChartTypeEnum> = [ChartTypeEnum.SCATTER];
     name: string;
-    data: any;
-    constructor(name: string, data: any) {
+    data: Array<{ label: string, value: number, color?: number }>;
+    constructor(name: string, data: Array<{ label: string, value: number, color?: number }>) {
         this.name = name;
         this.data = data;
     }
@@ -563,7 +563,7 @@ export class StatFactory {
 
     private createIncrementalPca(data: GraphData): Array<Stat> {
         // IncrementalPca stats array
-        debugger;
+        // debugger;
 
         const stats = [
 
@@ -632,6 +632,7 @@ export class StatFactory {
     formatPrincipleComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
         return data.map((v, i) => ({ label: 'PC' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));
     }
+
     // singleValue(data: string) {
     //     return data;
     // }
