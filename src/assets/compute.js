@@ -19707,6 +19707,18 @@ EntityTypeEnum.SAMPLE = 'Samples';
 EntityTypeEnum.EDGE = 'Edge';
 EntityTypeEnum.MIXED = 'Mixed';
 exports.EntityTypeEnum = EntityTypeEnum;
+var ChartTypeEnum = (function () {
+    function ChartTypeEnum() {
+    }
+    return ChartTypeEnum;
+}());
+ChartTypeEnum.PIE = 'Pie';
+ChartTypeEnum.DONUT = 'Donut';
+ChartTypeEnum.HISTOGRAM = 'Histogram';
+ChartTypeEnum.LINE = 'Line';
+ChartTypeEnum.LABEL = 'Label';
+ChartTypeEnum.SCATTER = 'Scatter';
+exports.ChartTypeEnum = ChartTypeEnum;
 var WorkspaceLayoutEnum = (function () {
     function WorkspaceLayoutEnum() {
     }
