@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { DirtyEnum } from 'app/model/enum.model';
 // import { Tween, Easing } from 'es6-tween';
 import { Colors, EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
@@ -169,30 +170,58 @@ export class ChromosomeGraph implements ChartObjectInterface {
     armsAddObjets() {
         const result = this.armsCompute(this.data.result.genes, this.data.result.chromosome);
         let box: THREE.Mesh;
+        const molecObjects = this.data.result.molec;
 
         result.genes.P.forEach(gene => {
             box = new THREE.Mesh();
-            //box.geometry = new THREE.BoxGeometry((gene.inSet) ? 100 : 50, 1, 1);
-            box.geometry = new THREE.BoxGeometry( 50, 1, 1);
-            box.position.set(0, gene.pos * 1 - 30, 0);
+            box.geometry = new THREE.BoxGeometry(20, 1, 1);
+            box.position.set(0, gene.pos * 2 - 30, 0);
             box.userData.tip = gene.gene + ' - ' + gene.type.replace(/_/gi, ' ');
             box.userData.color = this.colorMap[gene.type];
             box.userData.mid = gene.gene;
             box.material = ChartFactory.getColorPhong(box.userData.color);
             this.meshes.push( box );
             this.group.add( box );
+
+            molecObjects.forEach( (element, i) => {
+                if (element.hasOwnProperty(gene.gene)) {
+                    box = new THREE.Mesh();
+                    box.geometry = new THREE.BoxGeometry( 20, 1, 1);
+                    box.position.set(21 * i + 21, gene.pos * 2 - 30, 0);
+                    box.userData.tip = gene.gene + ' - ' + gene.type.replace(/_/gi, ' ');
+                    box.userData.color = 0xFF0000;//this.colorMap[gene.type];
+                    box.userData.mid = gene.gene;
+                    box.material = ChartFactory.getColorPhong(box.userData.color);
+                    this.meshes.push( box );
+                    this.group.add( box );
+                }
+            });
         });
         result.genes.Q.forEach(gene => {
             box = new THREE.Mesh();
-            //box.geometry = new THREE.BoxGeometry((gene.inSet) ? 100 : 50, 1, 1);
-            box.geometry = new THREE.BoxGeometry(50, 1, 1);
-            box.position.set(0, gene.pos * 1 + 30, 0);
+            box.geometry = new THREE.BoxGeometry(20, 1, 1);
+            // box.geometry = new THREE.BoxGeometry(50, 1, 1);
+            box.position.set(0, gene.pos * 2 + 30, 0);
             box.userData.tip = gene.gene + ' - ' + gene.type.replace(/_/gi, ' ');
             box.userData.color = this.colorMap[gene.type];
             box.userData.mid = gene.gene;
             box.material = ChartFactory.getColorPhong(box.userData.color);
             this.meshes.push( box );
             this.group.add( box );
+
+            molecObjects.forEach( (element, i) => {
+                if (element.hasOwnProperty(gene.gene)) {
+                    box = new THREE.Mesh();
+                    box.geometry = new THREE.BoxGeometry( 20, 1, 1);
+                    box.position.set(21 * i + 21, gene.pos * 2 + 30, 0);
+                    box.userData.tip = gene.gene + ' - ' + gene.type.replace(/_/gi, ' ');
+                    box.userData.color = 0xFF0000;//this.colorMap[gene.type];
+                    box.userData.mid = gene.gene;
+                    box.material = ChartFactory.getColorPhong(box.userData.color);
+                    this.meshes.push( box );
+                    this.group.add( box );
+                }
+            });
         });
         const mesh = ChartFactory.meshAllocate(0x039BE5, ShapeEnum.CIRCLE, 12, new Vector3(0, 0, 0), {});
         this.meshes.push(mesh);
@@ -246,20 +275,38 @@ export class ChromosomeGraph implements ChartObjectInterface {
         this.meshes.push( line );
         this.group.add( line );
 
+        const molecObjects = this.data.result.molec;
         result.genes.forEach(gene => {
-            if (gene.inSet) {
-                line = ChartFactory.lineAllocate(this.colorMap[gene.type], new THREE.Vector2(gene.sPos.x * 30, gene.sPos.y * 30),
-                new THREE.Vector2(gene.ePos.x * 40, gene.ePos.y * 40),
+
+            let len = molecObjects.length;
+            line = ChartFactory.lineAllocate(this.colorMap[gene.type],
+                new THREE.Vector2(gene.sPos.x * (len * 10 + 12), gene.sPos.y * (len * 10 + 12)),
+                new THREE.Vector2(gene.ePos.x * (len * 10 + 20), gene.ePos.y * (len * 10 + 20)),
                 gene );
+            this.meshes.push( line );
+            this.group.add( line );
+
+            molecObjects.forEach( (element, i) => {
+                if (element.hasOwnProperty(gene.gene)) {
+                    line = ChartFactory.lineAllocate(this.colorMap[gene.type],
+                        new THREE.Vector2(gene.sPos.x * (i * 10 + 12), gene.sPos.y * (i * 10 + 12)),
+                        new THREE.Vector2(gene.ePos.x * (i * 10 + 20), gene.ePos.y * (i * 10 + 20)),
+                        gene );
+                    this.meshes.push( line );
+                    this.group.add( line );
+                }
+            });
+
+            len += 1;
+            if (gene.inSet) {
+                line = ChartFactory.lineAllocate(this.colorMap[gene.type],
+                    new THREE.Vector2(gene.sPos.x * (len * 10 + 12), gene.sPos.y * (len * 10 + 12)),
+                    new THREE.Vector2(gene.ePos.x * (len * 10 + 20), gene.ePos.y * (len * 10 + 20)),
+                    gene );
                 this.meshes.push( line );
                 this.group.add( line );
             }
 
-            line = ChartFactory.lineAllocate(this.colorMap[gene.type], new THREE.Vector2(gene.sPos.x * 50, gene.sPos.y * 50),
-                new THREE.Vector2(gene.ePos.x * 40, gene.ePos.y * 40),
-                gene );
-            this.meshes.push( line );
-            this.group.add( line );
         });
     }
     //#endregion
@@ -287,7 +334,7 @@ export class ChromosomeGraph implements ChartObjectInterface {
 
     showLabels(e: ChartEvent) {
         const meshes = ChartUtil.getVisibleMeshes(this.view, this.group);
-        if (meshes.length < 60) {
+        if (meshes.length < 0) {
             const m = meshes.map<{ label: string, x: number, y: number, z: number }>(mesh => {
                 const coord = ChartUtil.projectToScreen(this.config.graph, mesh, this.view.camera,
                     this.view.viewport.width, this.view.viewport.height);

@@ -22001,7 +22001,13 @@ exports.chromosomeCompute = function (config, worker) {
                     data: {
                         result: {
                             genes: result,
-                            chromosome: chromo
+                            chromosome: chromo,
+                            molec: v.map(function (x) {
+                                return x.reduce(function (p, c) {
+                                    p[c.m] = c.mean;
+                                    return p;
+                                }, {});
+                            })
                         },
                         genes: [],
                         links: [],

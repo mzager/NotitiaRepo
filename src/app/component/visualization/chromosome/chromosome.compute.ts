@@ -57,14 +57,18 @@ export const chromosomeCompute = (config: ChromosomeConfigModel, worker: Dedicat
                 worker.util.getMolecularGeneValues(genes, {tbl: 'rna'})
 
             ]).then(v => {
-
                 worker.postMessage({
                     config: config,
                     data: {
                         result: {
                             genes: result,
                             chromosome: chromo,
-                            molec: v
+                            molec: v.map(x =>
+                                x.reduce( (p, c) => {
+                                    p[c.m] = c.mean;
+                                    return p;
+                                }, {})
+                            )
                         },
                         genes: [],
                         links: [],

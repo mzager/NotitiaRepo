@@ -51,13 +51,15 @@ import Scene = THREE.Scene;
 
 export class ChartScene {
 
+    public static instance: ChartScene;
+    
     public onSelect: EventEmitter<{type: EntityTypeEnum, ids: Array<string>}> =
         new EventEmitter<{type: EntityTypeEnum, ids: Array<string>}>();
     private workspace: WorkspaceConfigModel;
     private container: HTMLElement;
     private labels: HTMLElement;
     private events: ChartEvents;
-    private renderer: WebGLRenderer;
+    public renderer: WebGLRenderer;
     private views: Array<VisualizationView>;
     private edges: EdgesGraph;
     private composer: THREE.EffectComposer;
@@ -355,6 +357,7 @@ export class ChartScene {
     }
 
     constructor() {
+        ChartScene.instance = this;
         requestAnimationFrame(this.animate);
      }
 }
