@@ -1,6 +1,8 @@
 import { GraphData } from './graph-data.model';
 import { VisualizationEnum, StatTypeEnum, ChartTypeEnum } from 'app/model/enum.model';
 import * as data from 'app/action/data.action';
+import { multicast } from 'rxjs/operator/multicast';
+import { single } from 'rxjs/operator/single';
 
 /* GENERAL note: Visualization = is the graph A/B, example PCA Fast ICA, PCA. Stat = result data coming from ski-kit
 Visalization, Graph = is what is final rendering
@@ -425,7 +427,7 @@ export class VegaFactory {
                             'startAngle': { 'field': 'startAngle' },
                             'endAngle': { 'field': 'endAngle' },
                             'padAngle': { 'value': 0 },
-                            'innerRadius': { 'value': 0 } ,
+                            'innerRadius': { 'value': 0 },
                             'outerRadius': { 'signal': 'width / 2' },
                             'cornerRadius': { 'value': 0 }
                         }
@@ -547,17 +549,25 @@ export class StatFactory {
     }
     private constructor() { }
 
-    // Public Interface + Takes The Visualzion Type and figures which to call
+    // Public Interface + Takes The Visualization Type and figures which to call
     public getStatObjects(data: GraphData, vis: VisualizationEnum): Array<Stat> {
-
+        // Unsupervised Learning Clustering
         return (vis === VisualizationEnum.INCREMENTAL_PCA) ? this.createIncrementalPca(data) :
-            // (vis === VisualizationEnum.FAST_ICA) ? this.createFastIca(data) :
-            //     (vis === VisualizationEnum.MDS) ? this.createMds(data) :
-                    (vis === VisualizationEnum.TRUNCATED_SVD) ? this.createTruncatedSvd(data) :
-                    (vis === VisualizationEnum.PCA) ? this.createPca(data) :
-            //             (vis === VisualizationEnum.KERNAL_PCA) ? this.createKernalPca(data) :
-            //                 (vis === VisualizationEnum.SPARSE_PCA) ? this.createSparse_PCA(data) :
-            //                     (vis === VisualizationEnum.DICTIONARY_LEARNING) ? this.createDictionaryLearning(data) :
+                (vis === VisualizationEnum.TRUNCATED_SVD) ? this.createTruncatedSvd(data) :
+                (vis === VisualizationEnum.PCA) ? this.createPca(data) :
+                (vis === VisualizationEnum.SPARSE_PCA) ? this.createSparse_PCA(data) :
+                (vis === VisualizationEnum.KERNAL_PCA) ? this.createKernalPca(data) :
+                (vis === VisualizationEnum.DICTIONARY_LEARNING) ? this.createDictionaryLearning(data) :
+                (vis === VisualizationEnum.FA) ? this.createFactorAnalysis(data) :
+                (vis === VisualizationEnum.LDA) ? this.createLatentDirichletAllocation(data) :
+                (vis === VisualizationEnum.NMF) ? this.createNonNegativeMatrixFactorization(data) :
+                (vis === VisualizationEnum.ISOMAP) ? this.createIsoMap(data) :
+                (vis === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? this.createLocallyLinearEmbedding(data) :
+                (vis === VisualizationEnum.MDS) ? this.createMds(data) :
+                (vis === VisualizationEnum.FAST_ICA) ? this.createFastIca(data) :
+                (vis === VisualizationEnum.SPECTRAL_EMBEDDING) ? this.createSpectralEmbedding(data) :
+                (vis === VisualizationEnum.TSNE) ? this.createTSNE(data) :
+
             null;
     }
 
@@ -566,16 +576,19 @@ export class StatFactory {
         // debugger;
 
         const stats = [
-
-            // new StatTwoD('Components', data.result.components),
+            // Single Stats
+            // new StatSingle('Samples Seen', this.singleValue(data.result.nSamplesSeen)),
+            // new StatSingle('Noise Variance', this.singleValue(data.result.noiseVariance)),
+            // new StatSingle('nComponents', this.singleValue(data.result.nComponents)),
+            // One Dimensional Stats
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
             new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
             new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues))
             // new StatOneD('Mean', data.result.mean),
             // new StatOneD('skvars', data.result.skvars),
-            // new StatSingle('Samples Seen', this.singleValue(data.result.nSamplesSeen)),
-            // new StatSingle('Noise Variance', this.singleValue(data.result.noiseVariance)),
-            // new StatSingle('nComponents', this.singleValue(data.result.nComponents)),
+            // Two Dimensional Stats
+            // new StatTwoD('Components', data.result.components),
+            // Maybe combine Singles?
             // new StatKeyValues('Misc', [
             //     {label: 'Components', value: data.result.nComponents},
             //     {label: 'Samples Seen', value: data.result.nSamplesSeen},
@@ -587,50 +600,191 @@ export class StatFactory {
         return stats;
     }
 
-    // private createFastIca(data: any, visualization: VisualizationEnum): Array<Stat> {
-    //     return null;
-    // }
-    // private createMds(data: any, visualization: VisualizationEnum): Array<Stat> {
-    //     return null;
-    // }
     private createTruncatedSvd(data: GraphData): Array<Stat> {
-         // Truncated Svd stats array
-                const stats = [
-                    // new StatTwoD('Components', data.result.components),
-                    new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
-                    new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
-                    new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues)),
-                ];
+        // Truncated Svd stats array
+        const stats = [
+            // One Dimensional Stats
+            new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
+            new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
+            new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues))
+            // new StatTwoD('Components', data.result.components),
+        ];
 
-                return stats;
+        return stats;
     }
+
     private createPca(data: GraphData): Array<Stat> {
         // Truncated Svd stats array
-               const stats = [
-                   // new StatTwoD('Components', data.result.components),
-                   // new StatOneD('Mean', data.result.mean),
-                   new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
-                   new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
-                   new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues)),
-                // new StatSingle('Noise Variance', this.singleValue(data.result.noiseVariance)),
-                // new StatSingle('nComponents', this.singleValue(data.result.nComponents)),
-               ];
+        const stats = [
+            // Single Stats
+            // new StatSingle('Noise Variance', this.singleValue(data.result.noiseVariance)),
+            // new StatSingle('nComponents', this.singleValue(data.result.nComponents)),
+            // One Dimensional Stats
+            // new StatOneD('Mean', data.result.mean),
+            new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
+            new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
+            new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues))
+            // Two Dimensional Stats
+            // new StatTwoD('Components', data.result.components),
+        ];
 
-               return stats;
-   }
-    // private createSparse_PCA(data: any, visualization: VisualizationEnum): Array<Stat> {
-    //     return null;
-    // }
-    // private createKernalPca(data: any, visualization: VisualizationEnum): Array<Stat> {
-    //     return null;
-    // }
-    // private createDictionaryLearning(data: any, visualization: VisualizationEnum): Array<Stat> {
-    //     return null;
-    // }
+        return stats;
+    }
+
+    private createSparse_PCA(data: GraphData): Array<Stat> {
+        // Sparse PCA Stats Array
+        const stats = [
+            // Single Stats
+            new StatSingle('Iter', data.result.iter),
+            // One Dimensional Stats
+            new StatOneD('Error', this.formatError(data.result.error)),
+            // Two Dimensional Stats
+            new StatTwoD('Components', data.result.components)
+        ];
+
+        return stats;
+    }
+
+    private createKernalPca(data: GraphData): Array<Stat> {
+        // Kernal PCA Stats Array
+        const stats = [
+            // Single Stats
+            new StatSingle('lambdas', data.result.lambdas),
+            // Two Dimensional Stats
+            new StatTwoD('alphas', data.result.alphas)
+        ];
+
+        return stats;
+    }
+
+    private createDictionaryLearning(data: GraphData): Array<Stat> {
+        // Dictionary Learning Stats Array
+        const stats = [
+            // Single Stats
+            new StatSingle('nIter', data.result.nIter),
+            // One Dimensional Stats
+            new StatOneD('error', data.result.error),
+            // Two Dimensional Stats
+            new StatTwoD('components', data.result.components)
+        ];
+
+        return stats;
+    }
+
+    private createFactorAnalysis(data: GraphData): Array<Stat> {
+        // Factor Analysis Stats Array
+        const stats = [
+            // Single Stats
+            new StatSingle('nIter', data.result.nIter),
+            // One Dimensional Stats
+            new StatOneD('loglike', data.result.loglike),
+            new StatOneD('noiseVariance', data.result.noiseVariance)
+            // Two Dimensional Stats
+        ];
+
+        return stats;
+    }
+
+    private createLatentDirichletAllocation(data: GraphData): Array<Stat> {
+           // Latent Dirichlet Allocation Stats Array
+           const stats = [
+                // Single Stats
+                // One Dimensional Stats
+                // Two Dimensional Stats
+           ];
+
+           return stats;
+    }
+
+    private createNonNegativeMatrixFactorization(data: GraphData): Array<Stat> {
+           // Non-Negative Matrix Factorization Stats Array
+           const stats = [
+            // Single Stats
+            // One Dimensional Stats
+            // Two Dimensional Stats
+       ];
+
+       return stats;
+
+    }
+
+    private createIsoMap(data: GraphData): Array<Stat> {
+        // IsoMap Stats Array
+        const stats = [
+            // Single Stat
+            // One Dimensional Stats
+            // Two Dimensional Stats
+            new StatTwoD('embedding', data.result.embedding)
+        ];
+
+        return stats;
+    }
+
+    private createLocallyLinearEmbedding(data: GraphData): Array<Stat> {
+           // Locally Linear Embedding Stats Array
+           const stats = [
+            // Single Stats
+            // One Dimensional Stats
+            // Two Dimensional Stats
+       ];
+
+       return stats;
+    }
+
+    private createMds(data: GraphData): Array<Stat> {
+        // MDS Stats Array
+        const stats = [
+            // Single Stats
+            new StatSingle('stress', data.result.stress),
+            // One Dimensional Stats
+            // Two Dimensional Stats
+            new StatTwoD('embedding', data.result.embedding)
+        ];
+
+        return stats;
+    }
+
+    private createFastIca(data: GraphData): Array<Stat> {
+           // Fast Ica Stats Array
+           const stats = [
+            // Single Stats
+            // One Dimensional Stats
+            // Two Dimensional Stats
+       ];
+
+       return stats;
+    }
+
+    private createSpectralEmbedding(data: GraphData): Array<Stat> {
+          // Spectral Embedding Stats Array
+          const stats = [
+            // Single Stats
+            // One Dimensional Stats
+            // Two Dimensional Stats
+       ];
+
+       return stats;
+    }
+
+    private createTSNE(data: GraphData): Array<Stat> {
+           // TSNE Stats Array
+           const stats = [
+            // Single Stats
+            // One Dimensional Stats
+            // Two Dimensional Stats
+       ];
+
+       return stats;
+    }
+
 
     // recycled data formulas
     formatPrincipleComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
         return data.map((v, i) => ({ label: 'PC' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));
+    }
+    formatError(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
+         const error = data.map((v, i) => ({ label: 'Error' + (i + 1), value: Math.round(v * 1e2) / 1e2  }));
+         return error.filter((v, i) => i < 10);
     }
 
     // singleValue(data: string) {
