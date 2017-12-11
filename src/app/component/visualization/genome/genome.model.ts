@@ -14,6 +14,8 @@ export class GenomeConfigModel extends GraphConfig {
     displayType: DimensionEnum = DimensionEnum.THREE_D;
     domain: Array<number> = [-500, 500];
     chromosomeOption = 'Cytobands';
+    layoutOption = 'Circle';
+    spacingOption = 'Optimized';
 }
 
 export interface GenomeDataModel extends GraphData {

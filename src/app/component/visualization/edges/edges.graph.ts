@@ -42,7 +42,7 @@ export class EdgesGraph implements ChartObjectInterface {
     }
 
     update(config: GraphConfig, data: any) {
-
+debugger;
         this.config = config as EdgeConfigModel;
         this.data = data;
         this.drawEdgesDebounce();
