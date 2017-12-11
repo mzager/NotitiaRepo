@@ -5,19 +5,21 @@ import { DedicatedWorkerGlobalScope } from 'compute';
 import * as _ from 'lodash';
 declare var ML: any;
 
+
 export const fasticaCompute = (config: FastIcaConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
     worker.util.processShapeColorSizeIntersect(config, worker);
 
     if (config.dirtyFlag & DirtyEnum.LAYOUT) {
+
         worker.util
             .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
             .then(mtx => {
+
                 Promise.all([
                     worker.util.getSamplePatientMap(),
                     worker.util
                         .fetchResult({
-                            // added more than server is calling
                             method: 'cluster_sk_fast_ica',
                             data: mtx.data,
                             n_components: config.n_components,
