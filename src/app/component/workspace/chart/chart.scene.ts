@@ -51,13 +51,15 @@ import Scene = THREE.Scene;
 
 export class ChartScene {
 
+    public static instance: ChartScene;
+    
     public onSelect: EventEmitter<{type: EntityTypeEnum, ids: Array<string>}> =
         new EventEmitter<{type: EntityTypeEnum, ids: Array<string>}>();
     private workspace: WorkspaceConfigModel;
     private container: HTMLElement;
     private labels: HTMLElement;
     private events: ChartEvents;
-    private renderer: WebGLRenderer;
+    public renderer: WebGLRenderer;
     private views: Array<VisualizationView>;
     private edges: EdgesGraph;
     private composer: THREE.EffectComposer;
@@ -94,7 +96,7 @@ export class ChartScene {
         try {
             view.scene.remove(this.centerLine);
         } catch (e) {}
-        
+
         try {
             if (this.workspace.layout !== WorkspaceLayoutEnum.SINGLE) {
                 this.centerLine = (this.workspace.layout === WorkspaceLayoutEnum.HORIZONTAL) ?
@@ -187,14 +189,14 @@ export class ChartScene {
             viewport: {x: 0, y: 0, width: Math.floor(dimension.width * .5), height: dimension.height},
             config: { visualization: VisualizationEnum.NONE },
             chart: null,
-            camera: new THREE.PerspectiveCamera(20, 1, 1, 20000)  as THREE.Camera,
+            camera: new THREE.PerspectiveCamera(20, 1, 1, 30000)  as THREE.Camera,
             scene: new THREE.Scene(),
             controls: null
         }, {
             viewport: {x: Math.floor(dimension.width * .5), y: 0, width: Math.floor(dimension.width * .5), height: dimension.height},
             config: { visualization: VisualizationEnum.NONE },
             chart: null,
-            camera: new THREE.PerspectiveCamera(20, 1, 1, 20000)  as THREE.Camera,
+            camera: new THREE.PerspectiveCamera(20, 1, 1, 30000)  as THREE.Camera,
             scene: new THREE.Scene(),
             controls: null
         }, {
@@ -355,6 +357,7 @@ export class ChartScene {
     }
 
     constructor() {
+        ChartScene.instance = this;
         requestAnimationFrame(this.animate);
      }
 }
