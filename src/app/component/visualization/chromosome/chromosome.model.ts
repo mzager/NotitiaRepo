@@ -15,16 +15,12 @@ export class ChromosomeConfigModel extends GraphConfig {
     domain: Array<number> = [-500, 500];
     chromosome = '5';
     layoutOption = 'Circle';
+    spacingOption = 'Linear';
+    geneOption = {label: 'All Genes', key: 'all'};
 }
 
 export interface ChromosomeDataModel extends GraphData {
-    // legends: Array<Legend>;
     genes: any;
     links: any;
     result: any;
-    // bands: any;
-    // chromo: Array<{'chr': string, 'P': number, 'C': number, 'Q': number}>;
-    // showAllGenes: Boolean;
-    // showBands: Boolean;
-    // allowRotation: Boolean;
 }
