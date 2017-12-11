@@ -1,3 +1,4 @@
+import { ChartComponent } from './../workspace/chart/chart.component';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
@@ -7,6 +8,7 @@ import { LegendPanelEnum, StatPanelEnum, GraphPanelEnum } from 'app/model/enum.m
 import { Legend } from 'app/model/legend.model';
 import * as XLSX from 'xlsx';
 import * as downloadjs from 'downloadjs';
+import { ChartScene } from 'app/component/workspace/chart/chart.scene';
 declare var $: any;
 
 @Component({
@@ -34,6 +36,7 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
 
   public uploader: FileUploader = new FileUploader({ url: '' });
   private filesSubject: Subject<File>;
+  private color = 0xFFFFFF;
 
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
@@ -52,6 +55,7 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
       case 'b': this.filePanelToggle.emit(); break;
       case 't': this.tcgaPanelToggle.emit(); break;
       case 'p': this.exportImage(); break;
+      case 'i': this.toggleBackgroundColor(); break;
       // case "s": this.selectTool.emit( ToolEnum.SAVE_COHORT); break;
       // case "s": this.selectTool.emit( ToolEnum.INSERT_ANNOTATION); break;
     }
@@ -59,6 +63,12 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
 
   constructor() {
     this.filesSubject = new Subject();
+  }
+
+  toggleBackgroundColor() {
+    this.color = (this.color === 0x000000) ? 0xFFFFFF : 0x000000;
+    ChartScene.instance.renderer.setClearColor(this.color, 1);
+    ChartScene.instance.render();
   }
 
   changeFile(evt: any) {

@@ -21,6 +21,26 @@ import * as _ from 'lodash';
       </select>
     </label>
   </div>
+  <div class="form-group">
+    <label class="center-block"><span class="form-label">Layout</span>
+      <select class="browser-default" materialize="material_select"
+          [compareWith]="byKey"
+          [materializeSelectOptions]="layoutOptions"
+          formControlName="layoutOption">
+          <option *ngFor="let option of layoutOptions" [value]="option">{{option}}</option>
+      </select>
+    </label>
+  </div>
+  <div class="form-group">
+    <label class="center-block"><span class="form-label">Spacing</span>
+      <select class="browser-default" materialize="material_select"
+          [compareWith]="byKey"
+          [materializeSelectOptions]="spacingOptions"
+          formControlName="spacingOption">
+          <option *ngFor="let option of spacingOptions" [value]="option">{{option}}</option>
+      </select>
+    </label>
+  </div>
 </form>
   `
 })
@@ -79,6 +99,8 @@ export class GenomeFormComponent {
   colorOptions: Array<DataField>;
   shapeOptions: Array<DataField>;
   sizeOptions: Array<DataField>;
+  layoutOptions = ['Circle', 'Line'];
+  spacingOptions = ['Actual', 'Optimized'];
   dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D];
   chromosomeOptions = ['Cytobands', 'Centromeres & Telemeres', 'None'];
 
@@ -107,7 +129,9 @@ export class GenomeFormComponent {
 
       dimension: [],
       chromosomeOption: [],
-      allowRotation: []
+      allowRotation: [],
+      layoutOption: [],
+      spacingOption: []
     });
 
     // Update When Form Changes
