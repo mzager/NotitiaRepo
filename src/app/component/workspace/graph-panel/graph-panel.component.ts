@@ -284,7 +284,7 @@ export class GraphPanelComponent implements AfterViewInit  {
       //{ value: VisualizationEnum.NONE, label: 'None' },
       { value: VisualizationEnum.GENOME, label: 'Genome' },
       { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
-      { value: VisualizationEnum.HIC, label: 'HiC Graph' },
+      { value: VisualizationEnum.HIC, label: 'Force Directed Graph' },
       { value: VisualizationEnum.HEATMAP, label: 'Heatmap'},
       { value: VisualizationEnum.HISTOGRAM, label: 'Histogram'},
       { value: VisualizationEnum.BOX_WHISKERS, label: 'Box Whiskers'},

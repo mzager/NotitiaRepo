@@ -31,35 +31,35 @@ import * as _ from 'lodash';
       </select>
     </label>
   </div>
-  <!--
   <div class="form-group">
-    <label class="center-block"><span class="form-label">Gene Color</span>
+    <label class="center-block"><span class="form-label">Spacing</span>
       <select class="browser-default" materialize="material_select"
-          [materializeSelectOptions]="colorOptions"
-          formControlName="pointColor">
-          <option *ngFor="let option of colorOptions" [ngValue]="option">{{option}}</option>
+          [compareWith]="byKey"
+          [materializeSelectOptions]="spacingOptions"
+          formControlName="spacingOption">
+          <option *ngFor="let option of spacingOptions" [value]="option">{{option}}</option>
       </select>
     </label>
   </div>
   <div class="form-group">
-    <label class="center-block"><span class="form-label">Flare Size</span>
-       <select class="browser-default" materialize="material_select"
+    <label class="center-block"><span class="form-label">Show</span>
+      <select class="browser-default" materialize="material_select"
           [compareWith]="byKey"
-          [materializeSelectOptions]="sizeOptions"
-          formControlName="pointSize">
-          <option *ngFor="let option of sizeOptions" [ngValue]="option">{{option.label}}</option>
+          [materializeSelectOptions]="geneOptions"
+          formControlName="geneOption">
+          <option *ngFor="let option of geneOptions" [ngValue]="option">{{option.label}}</option>
       </select>
     </label>
   </div>
-  -->
-  <div class="form-group"  *ngFor="let item of geneOptions; let i = index">
-    <div class="switch">
-      <label>
-        <input type="checkbox" checked (change)="visibilityToggle(item.value)">
-          <span class="lever"></span>
-            {{item.label}}
-      </label>
-    </div>
+  <div class="form-group">
+  <label class="center-block"><span class="form-label">Gene Color</span>
+    <select class="browser-default" materialize="material_select"
+        [compareWith]="byKey"
+        [materializeSelectOptions]="colorOptions"
+        formControlName="pointColor">
+        <option *ngFor="let option of colorOptions" [ngValue]="option">{{option.label}}</option>
+    </select>
+  </label>
   </div>
 </form>
   `
@@ -88,34 +88,32 @@ export class ChromosomeFormComponent {
   sizeOptions: Array<DataField>;
   dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D];
   layoutOptions = ['Circle', 'Line'];
+  spacingOptions = ['Translational Start Site', 'Linear'];
   chromosomeOptions = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
   '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', 'X', 'Y'];
   geneOptions = [
-    {label: 'Protein Coding', value: 'protein_coding'},
-    {label: 'LincRNA', value: 'lincRNA'},
-    {label: 'miRNA', value: 'miRNA'},
-    {label: 'Misc RNA', value: 'misc_RNA'},
-    {label: 'rRNA', value: 'rRNA'},
-    {label: 'snRNA', value: 'snRNA'},
-    {label: 'snoRNA', value: 'snoRNA'},
-    {label: 'vaultRNA', value: 'vaultRNA'},
-    {label: 'Antisense', value: 'antisense'},
-    {label: 'TEC', value: 'TEC'},
-    {label: 'Unprocessed Pseudo', value: 'unprocessed_pseudogene'},
-    {label: 'Unprocessed Pseudo T', value: 'transcribed_unprocessed_pseudogene'},
-    {label: 'Processed Pseudo', value: 'processed_pseudogene'},
-    {label: 'Processed Pseudo T', value: 'transcribed_processed_pseudogene'},
-    {label: 'Unitary Pseduo', value: 'unitary_pseudogene'},
-    {label: 'Processed Transcript', value: 'processed_transcript'},
-    {label: 'Sense Intronic', value: 'sense_intronic'},
-    {label: 'Sense Overlapping', value: 'sense_overlapping'},
-    {label: 'Unitary Pseudo', value: 'unitary_pseudogene'},
-    {label: 'Unitary Pseudo T', value: 'transcribed_unitary_pseudogene'}
+    {label: 'All Genes', key: 'all'},
+    {label: 'Protein Coding', key: 'protein_coding'},
+    {label: 'LincRNA', key: 'lincRNA'},
+    {label: 'miRNA', key: 'miRNA'},
+    {label: 'Misc RNA', key: 'misc_RNA'},
+    {label: 'rRNA', key: 'rRNA'},
+    {label: 'snRNA', key: 'snRNA'},
+    {label: 'snoRNA', key: 'snoRNA'},
+    {label: 'vaultRNA', key: 'vaultRNA'},
+    {label: 'Antisense', key: 'antisense'},
+    {label: 'TEC', key: 'TEC'},
+    {label: 'Unprocessed Pseudo', key: 'unprocessed_pseudogene'},
+    {label: 'Unprocessed Pseudo T', key: 'transcribed_unprocessed_pseudogene'},
+    {label: 'Processed Pseudo', key: 'processed_pseudogene'},
+    {label: 'Processed Pseudo T', key: 'transcribed_processed_pseudogene'},
+    {label: 'Unitary Pseduo', key: 'unitary_pseudogene'},
+    {label: 'Processed Transcript', key: 'processed_transcript'},
+    {label: 'Sense Intronic', key: 'sense_intronic'},
+    {label: 'Sense Overlapping', key: 'sense_overlapping'},
+    {label: 'Unitary Pseudo', key: 'unitary_pseudogene'},
+    {label: 'Unitary Pseudo T', key: 'transcribed_unitary_pseudogene'}
 ];
-
-  visibilityToggle(item) {
-
-  }
 
   byKey(p1: DataField, p2: DataField) {
     if (p2 === null) { return false; }
@@ -141,7 +139,9 @@ export class ChromosomeFormComponent {
       dimension: [],
       chromosome: [],
       allowRotation: [],
-      layoutOption: []
+      layoutOption: [],
+      spacingOption: [],
+      geneOption: []
     });
 
     // Update When Form Changes

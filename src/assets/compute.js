@@ -21990,36 +21990,34 @@ exports.chromosomeCompute = function (config, worker) {
         worker.util.getChromosomeInfo(config.chromosome, []).then(function (result) {
             // const mf = new Set(config.markerFilter);
             var chromo = ct.find(function (v) { return v.chr === config.chromosome; });
+            if (config.geneOption.key !== 'all') {
+                var gType_1 = config.geneOption.key;
+                result = result.filter(function (v) { return v.type === gType_1; });
+            }
             var genes = result.map(function (v) { return v.gene; });
-            Promise.all([
-                worker.util.getMolecularGeneValues(genes, { tbl: 'gistic' }),
-                worker.util.getMolecularGeneValues(genes, { tbl: 'mut' }),
-                worker.util.getMolecularGeneValues(genes, { tbl: 'rna' })
-            ]).then(function (v) {
-                worker.postMessage({
-                    config: config,
-                    data: {
-                        result: {
-                            genes: result,
-                            chromosome: chromo,
-                            molec: v.map(function (x) {
-                                return x.reduce(function (p, c) {
-                                    p[c.m] = c.mean;
-                                    return p;
-                                }, {});
-                            })
-                        },
-                        genes: [],
-                        links: [],
-                        legendItems: [],
-                        patientIds: [],
-                        sampleIds: [],
-                        markerIds: []
-                    }
-                });
-                worker.postMessage('TERMINATE');
+            // Promise.all([
+            //     // worker.util.getMolecularGeneValues(genes, {tbl: 'gistic'}),
+            //     // worker.util.getMolecularGeneValues(genes, {tbl: 'mut'}),
+            //     worker.util.getMolecularGeneValues(genes, {tbl: 'rna'})
+            // ]).then(v => {
+            worker.postMessage({
+                config: config,
+                data: {
+                    result: {
+                        genes: result,
+                        chromosome: chromo
+                    },
+                    genes: [],
+                    links: [],
+                    legendItems: [],
+                    patientIds: [],
+                    sampleIds: [],
+                    markerIds: []
+                }
             });
+            worker.postMessage('TERMINATE');
         });
+        // });
     }
 };
 
