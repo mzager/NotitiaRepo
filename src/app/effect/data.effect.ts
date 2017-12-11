@@ -96,7 +96,7 @@ export class DataEffect {
 
             // const timelinesConfig = new TimelinesConfigModel();
             // timelinesConfig.graph = GraphEnum.GRAPH_B;
-            //timelinesConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
+            // timelinesConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
 
             // const graphAConfig = new PcaIncrementalConfigModel();
             // graphAConfig.graph = GraphEnum.GRAPH_B;

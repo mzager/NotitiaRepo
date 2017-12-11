@@ -19,7 +19,7 @@ import * as scale from 'd3-scale';
 import * as _ from 'lodash';
 import * as THREE from 'three';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
-import { BoxGeometry, Vector3 } from 'three';
+import { BoxGeometry, Vector3, PerspectiveCamera } from 'three';
 
 export class ChromosomeGraph implements ChartObjectInterface {
 
@@ -72,6 +72,7 @@ export class ChromosomeGraph implements ChartObjectInterface {
     private group: THREE.Group;
     private lineMaterial;
     private chords: Array<THREE.Line>;
+    private centerLine: THREE.Line;
 
     // Private Subscriptions
     private sMouseMove: Subscription;
@@ -91,7 +92,7 @@ export class ChromosomeGraph implements ChartObjectInterface {
         this.lineMaterial = new THREE.LineBasicMaterial( { color: 0x039BE5 });
         return this;
     }
-
+    
     destroy() {
         this.enable(false);
         this.removeObjects();
@@ -144,22 +145,49 @@ export class ChromosomeGraph implements ChartObjectInterface {
 
     }
 
+
+    
     //#region bar
     armsCompute(genes: Array<any>, chromosome: any): any {
         const mf = new Set(this.config.markerFilter);
         const arms = _.groupBy(genes, 'arm');
-        arms.P = arms.P.sort( (a, b) => (b.tss - a.tss)).map( (v, i) => {
-            return Object.assign(v, {
-                inSet: mf.has(v.gene),
-                pos: -i
+
+        if (this.config.spacingOption === 'Linear') {
+            arms.P = arms.P.sort( (a, b) => (b.tss - a.tss)).map( (v, i) => {
+                return Object.assign(v, {
+                    inSet: mf.has(v.gene),
+                    pos: -i
+                });
             });
-        });
-        arms.Q = arms.Q.sort( (a, b) => (a.tss - b.tss)).map( (v, i) => {
-            return Object.assign(v, {
-                inSet: mf.has(v.gene),
-                pos: i
+            arms.Q = arms.Q.sort( (a, b) => (a.tss - b.tss)).map( (v, i) => {
+                return Object.assign(v, {
+                    inSet: mf.has(v.gene),
+                    pos: i
+                });
             });
-        });
+        } else {
+
+            const scaleGeneQ = scaleLinear();
+            scaleGeneQ.domain([chromosome.C, chromosome.Q]);
+            scaleGeneQ.range([0, 5000]);
+
+            const scaleGeneP = scaleLinear();
+            scaleGeneP.domain([chromosome.P, chromosome.C]);
+            scaleGeneP.range([0, -5000]);
+
+            arms.Q = arms.Q.map(v => {
+                return Object.assign(v, {
+                    inSet: mf.has( v.gene ),
+                    pos: scaleGeneQ( v.tss )
+                });
+            });
+            arms.P = arms.P.map(v => {
+                return Object.assign(v, {
+                    inSet: mf.has( v.gene ),
+                    pos: scaleGeneP( v.tss )
+                });
+            });
+        }
 
         return {
             genes: arms,
@@ -169,39 +197,30 @@ export class ChromosomeGraph implements ChartObjectInterface {
     }
     armsAddObjets() {
         const result = this.armsCompute(this.data.result.genes, this.data.result.chromosome);
-        let box: THREE.Mesh;
-        const molecObjects = this.data.result.molec;
 
+        const line = ChartFactory.lineAllocate(0x000000,
+            new THREE.Vector2(0, -10000),
+            new THREE.Vector2(0, 10000),
+            { genomicEnum: GenomicEnum.CHROMOSOME } );
+        this.centerLine = line;
+        this.group.add( line );
+
+        let box: THREE.Mesh;
         result.genes.P.forEach(gene => {
             box = new THREE.Mesh();
-            box.geometry = new THREE.BoxGeometry(20, 1, 1);
-            box.position.set(0, gene.pos * 2 - 30, 0);
+            box.geometry = new THREE.BoxGeometry( gene.inSet ? 60 : 10, 1, 1);
+            box.position.set( gene.inSet ? 30 : 5, gene.pos * 2 - 30, 0);
             box.userData.tip = gene.gene + ' - ' + gene.type.replace(/_/gi, ' ');
             box.userData.color = this.colorMap[gene.type];
             box.userData.mid = gene.gene;
             box.material = ChartFactory.getColorPhong(box.userData.color);
             this.meshes.push( box );
             this.group.add( box );
-
-            molecObjects.forEach( (element, i) => {
-                if (element.hasOwnProperty(gene.gene)) {
-                    box = new THREE.Mesh();
-                    box.geometry = new THREE.BoxGeometry( 20, 1, 1);
-                    box.position.set(21 * i + 21, gene.pos * 2 - 30, 0);
-                    box.userData.tip = gene.gene + ' - ' + gene.type.replace(/_/gi, ' ');
-                    box.userData.color = 0xFF0000;//this.colorMap[gene.type];
-                    box.userData.mid = gene.gene;
-                    box.material = ChartFactory.getColorPhong(box.userData.color);
-                    this.meshes.push( box );
-                    this.group.add( box );
-                }
-            });
         });
         result.genes.Q.forEach(gene => {
             box = new THREE.Mesh();
-            box.geometry = new THREE.BoxGeometry(20, 1, 1);
-            // box.geometry = new THREE.BoxGeometry(50, 1, 1);
-            box.position.set(0, gene.pos * 2 + 30, 0);
+            box.geometry = new THREE.BoxGeometry( gene.inSet ? 60 : 10, 1, 1);
+            box.position.set(gene.inSet ? 30 : 5, gene.pos * 2 + 30, 0);
             box.userData.tip = gene.gene + ' - ' + gene.type.replace(/_/gi, ' ');
             box.userData.color = this.colorMap[gene.type];
             box.userData.mid = gene.gene;
@@ -209,21 +228,10 @@ export class ChromosomeGraph implements ChartObjectInterface {
             this.meshes.push( box );
             this.group.add( box );
 
-            molecObjects.forEach( (element, i) => {
-                if (element.hasOwnProperty(gene.gene)) {
-                    box = new THREE.Mesh();
-                    box.geometry = new THREE.BoxGeometry( 20, 1, 1);
-                    box.position.set(21 * i + 21, gene.pos * 2 + 30, 0);
-                    box.userData.tip = gene.gene + ' - ' + gene.type.replace(/_/gi, ' ');
-                    box.userData.color = 0xFF0000;//this.colorMap[gene.type];
-                    box.userData.mid = gene.gene;
-                    box.material = ChartFactory.getColorPhong(box.userData.color);
-                    this.meshes.push( box );
-                    this.group.add( box );
-                }
-            });
         });
-        const mesh = ChartFactory.meshAllocate(0x039BE5, ShapeEnum.CIRCLE, 12, new Vector3(0, 0, 0), {});
+
+        this.centerLine = line;
+        const mesh = ChartFactory.meshAllocate(0x039BE5, ShapeEnum.CIRCLE, 4, new Vector3(100, 0, 0), {});
         this.meshes.push(mesh);
         this.group.add(mesh);
     }
@@ -231,28 +239,64 @@ export class ChromosomeGraph implements ChartObjectInterface {
 
     //#region circle
     circleCompute(genes: Array<any>, chromosome: any): any {
-        const scaleGene = scaleLinear();
-        scaleGene.domain([0, chromosome.Q]);
-        scaleGene.range([0, 365]);
+
         const mf = new Set(this.config.markerFilter);
-        const processedGenes = genes.map( (v, i) => {
-            const angle = scaleGene(v.tss) * Math.PI / 180;
-            return Object.assign(v, {
-                inSet: mf.has(v.gene),
-                sPos: { x: Math.cos(angle), y: Math.sin(angle) },
-                ePos: { x: Math.cos(angle), y: Math.sin(angle) }
+        let processedGenes, centro, telem;
+
+
+        if (this.config.spacingOption === 'Linear') {
+
+            const scaleGene = scaleLinear();
+            scaleGene.domain([0, genes.length]);
+            scaleGene.range([0, 365]);
+
+            processedGenes = genes.sort( (a, b) => (b.tss - a.tss)).map( (v, i) => {
+                const angle = scaleGene(i) * Math.PI / 180;
+                return Object.assign(v, {
+                    inSet: mf.has(v.gene),
+                    sPos: { x: Math.cos(angle), y: Math.sin(angle) },
+                    ePos: { x: Math.cos(angle), y: Math.sin(angle) }
+                });
             });
-        });
-        const centroAngle = scaleGene(chromosome.C) * Math.PI / 180;
-        const centro = {
-            x: Math.cos(centroAngle),
-            y: Math.sin(centroAngle)
-        };
-        const telemAngle = scaleGene(chromosome.P) * Math.PI / 180;
-        const telem = {
-            x: Math.cos(telemAngle),
-            y: Math.sin(telemAngle)
-        };
+
+            const tele = processedGenes.findIndex( t => t.arm === 'P' );
+
+            centro = {
+                x: Math.cos(0),
+                y: Math.sin(0)
+            };
+
+            telem = {
+                x: Math.cos(tele),
+                y: Math.sin(tele)
+            };
+
+        } else {
+            const scaleGene = scaleLinear();
+            scaleGene.domain([0, chromosome.Q]);
+            scaleGene.range([0, 365]);
+
+            processedGenes = genes.map( (v, i) => {
+                const angle = scaleGene(v.tss) * Math.PI / 180;
+                return Object.assign(v, {
+                    inSet: mf.has(v.gene),
+                    sPos: { x: Math.cos(angle), y: Math.sin(angle) },
+                    ePos: { x: Math.cos(angle), y: Math.sin(angle) }
+                });
+            });
+
+            const centroAngle = scaleGene(chromosome.C) * Math.PI / 180;
+            centro = {
+                x: Math.cos(centroAngle),
+                y: Math.sin(centroAngle)
+            };
+            const telemAngle = scaleGene(chromosome.P) * Math.PI / 180;
+            telem = {
+                x: Math.cos(telemAngle),
+                y: Math.sin(telemAngle)
+            };
+        }
+
         return {
             genes: processedGenes,
             centro: centro,
@@ -260,52 +304,29 @@ export class ChromosomeGraph implements ChartObjectInterface {
         };
     }
     circleAddObjects() {
+
         const result = this.circleCompute(this.data.result.genes, this.data.result.chromosome);
+
         let line;
 
-        line = ChartFactory.lineAllocate(0x000000, new THREE.Vector2(0, 0),
-            new THREE.Vector2(result.centro.x * 50, result.centro.y * 50),
-            { genomicEnum: GenomicEnum.CENTROMERE } );
-        this.meshes.push( line );
-        this.group.add( line );
+        let mesh = ChartFactory.meshAllocate(0x039BE5, ShapeEnum.CIRCLE, 2,
+            new Vector3(result.centro.x * 150, result.centro.y * 150, 0), {});
+        this.meshes.push(mesh);
+        this.group.add(mesh);
 
-        line = ChartFactory.lineAllocate(0x039be5, new THREE.Vector2(0, 0),
-            new THREE.Vector2(result.telem.x * 50, result.telem.y * 50),
-            { genomicEnum: GenomicEnum.TELOMERE } );
-        this.meshes.push( line );
-        this.group.add( line );
+        mesh = ChartFactory.meshAllocate(0xFF0000, ShapeEnum.CIRCLE, 2,
+            new Vector3(result.telem.x * 150, result.telem.y * 150, 0), {});
+        this.meshes.push(mesh);
+        this.group.add(mesh);
 
-        const molecObjects = this.data.result.molec;
         result.genes.forEach(gene => {
 
-            let len = molecObjects.length;
             line = ChartFactory.lineAllocate(this.colorMap[gene.type],
-                new THREE.Vector2(gene.sPos.x * (len * 10 + 12), gene.sPos.y * (len * 10 + 12)),
-                new THREE.Vector2(gene.ePos.x * (len * 10 + 20), gene.ePos.y * (len * 10 + 20)),
+                new THREE.Vector2(gene.sPos.x * (gene.inSet ? 130 : 150), gene.sPos.y * (gene.inSet ? 130 : 150) ),
+                new THREE.Vector2(gene.ePos.x * 140, gene.ePos.y * 140),
                 gene );
             this.meshes.push( line );
             this.group.add( line );
-
-            molecObjects.forEach( (element, i) => {
-                if (element.hasOwnProperty(gene.gene)) {
-                    line = ChartFactory.lineAllocate(this.colorMap[gene.type],
-                        new THREE.Vector2(gene.sPos.x * (i * 10 + 12), gene.sPos.y * (i * 10 + 12)),
-                        new THREE.Vector2(gene.ePos.x * (i * 10 + 20), gene.ePos.y * (i * 10 + 20)),
-                        gene );
-                    this.meshes.push( line );
-                    this.group.add( line );
-                }
-            });
-
-            len += 1;
-            if (gene.inSet) {
-                line = ChartFactory.lineAllocate(this.colorMap[gene.type],
-                    new THREE.Vector2(gene.sPos.x * (len * 10 + 12), gene.sPos.y * (len * 10 + 12)),
-                    new THREE.Vector2(gene.ePos.x * (len * 10 + 20), gene.ePos.y * (len * 10 + 20)),
-                    gene );
-                this.meshes.push( line );
-                this.group.add( line );
-            }
 
         });
     }
@@ -321,6 +342,10 @@ export class ChromosomeGraph implements ChartObjectInterface {
 
     removeObjects() {
         this.enable(false);
+        if (this.centerLine !== null) {
+            this.group.remove(this.centerLine);
+            this.centerLine = null;
+        }
         this.meshes.forEach( gene => {
             this.group.remove(gene);
         });
@@ -329,21 +354,27 @@ export class ChromosomeGraph implements ChartObjectInterface {
 
 
     private onMouseMove(e: ChartEvent): void {
-       this.showLabels(e);
+        if (this.config.layoutOption === 'Line') { this.showLabels(e); }
     }
 
     showLabels(e: ChartEvent) {
+
+        const numItems = (this.view.viewport.height / 10);
+        console.log(numItems);
+        const centerLine = ChartUtil.projectToScreen(this.config.graph, this.centerLine, this.view.camera,
+            this.view.viewport.width, this.view.viewport.height).x - 310;
+
         const meshes = ChartUtil.getVisibleMeshes(this.view, this.group);
-        if (meshes.length < 0) {
+        if (meshes.length < numItems) {
             const m = meshes.map<{ label: string, x: number, y: number, z: number }>(mesh => {
                 const coord = ChartUtil.projectToScreen(this.config.graph, mesh, this.view.camera,
                     this.view.viewport.width, this.view.viewport.height);
                 return { label: mesh.userData.tip, x: coord.x + 10, y: coord.y - 5, z: coord.z };
             });
             const html = m.filter(v => v.label !== undefined).map(data => {
-                return '<div class="chart-label" style="background:rgba(255,255,255,.8);font-size:10px;text-align:center;left:' +
-                    (data.x - 100) + 'px;top:' + data.y +
-                    'px;width:200px;position:absolute;">' + data.label + '</div>';
+                return '<div class="chart-label" style="background:rgba(255,255,255,.8);font-size:10px;text-align:right;left:' +
+                    centerLine + 'px;top:' + data.y +
+                    'px;width:300px;position:absolute;">' + data.label + '</div>';
                 }).reduce((p, c) => p += c, '');
             this.labels.innerHTML = html;
         } else {

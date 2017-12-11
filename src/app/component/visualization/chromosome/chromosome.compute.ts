@@ -49,26 +49,26 @@ export const chromosomeCompute = (config: ChromosomeConfigModel, worker: Dedicat
 
             // const mf = new Set(config.markerFilter);
             const chromo = ct.find( v => v.chr === config.chromosome );
+            if (config.geneOption.key !== 'all') {
+                const gType = config.geneOption.key;
+                result = result.filter( v =>  v.type === gType );
+            }
+
             const genes = result.map(v => v.gene);
 
-            Promise.all([
-                worker.util.getMolecularGeneValues(genes, {tbl: 'gistic'}),
-                worker.util.getMolecularGeneValues(genes, {tbl: 'mut'}),
-                worker.util.getMolecularGeneValues(genes, {tbl: 'rna'})
 
-            ]).then(v => {
+            // Promise.all([
+            //     // worker.util.getMolecularGeneValues(genes, {tbl: 'gistic'}),
+            //     // worker.util.getMolecularGeneValues(genes, {tbl: 'mut'}),
+            //     worker.util.getMolecularGeneValues(genes, {tbl: 'rna'})
+
+            // ]).then(v => {
                 worker.postMessage({
                     config: config,
                     data: {
                         result: {
                             genes: result,
-                            chromosome: chromo,
-                            molec: v.map(x =>
-                                x.reduce( (p, c) => {
-                                    p[c.m] = c.mean;
-                                    return p;
-                                }, {})
-                            )
+                            chromosome: chromo
                         },
                         genes: [],
                         links: [],
@@ -80,6 +80,6 @@ export const chromosomeCompute = (config: ChromosomeConfigModel, worker: Dedicat
                 });
                  worker.postMessage('TERMINATE');
             });
-        });
+        // });
     }
 };

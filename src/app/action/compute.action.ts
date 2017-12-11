@@ -324,7 +324,7 @@ export class GenomeCompleteAction implements Action {
 }
 export class LinkedGeneAction implements Action {
     readonly type: string = COMPUTE_LINKED_GENE;
-    constructor(public payload: {config: GenomeConfigModel} ) { }
+    constructor(public payload: {config: LinkedGeneConfigModel} ) { }
 }
 export class LinkedGeneCompleteAction implements Action {
     readonly type: string = COMPUTE_LINKED_GENE_COMPLETE;
