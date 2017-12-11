@@ -479,9 +479,109 @@ export class VegaFactory {
         };
         return vega;
     }
+    // not complete
     private createLine(stat: Stat): any {
-        return null;
+        const values = stat.data;
+        const vega = {
+            '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
+            'title': {
+                'text': stat.name,
+                'fontSize': 4,
+                'font': 'Lato'
+            },
+            'width': 185,
+            'height': 250,
+            'padding': 0,
+            'autosize': { 'type': 'fit', 'resize': true },
+            'signals': [
+                {
+                    'name': 'interpolate',
+                    'value': 'linear',
+                    'bind': {
+                        'input': 'select',
+                        'options': [
+                            'basis',
+                            'cardinal',
+                            'catmull-rom',
+                            'linear',
+                            'monotone',
+                            'natural',
+                            'step',
+                            'step-after',
+                            'step-before'
+                        ]
+                    }
+                }
+            ],
+            'data': [
+                {
+                    'name': 'table',
+                    'values': values,
+                }
+            ],
+            'scales': [
+                {
+                    'name': 'x',
+                    'type': 'point',
+                    'range': 'width',
+                    'domain': { 'data': 'table', 'field': 'x' }
+                },
+                {
+                    'name': 'y',
+                    'type': 'linear',
+                    'range': 'height',
+                    'nice': true,
+                    'zero': true,
+                    'domain': { 'data': 'table', 'field': 'y' }
+                },
+                {
+                    'name': 'color',
+                    'type': 'ordinal',
+                    'range': 'category',
+                    'domain': { 'data': 'table', 'field': 'c' }
+                }
+            ],
+            'axes': [
+                { 'orient': 'bottom', 'scale': 'x' },
+                { 'orient': 'left', 'scale': 'y' }
+            ],
+            'marks': [
+                {
+                    'type': 'group',
+                    'from': {
+                        'facet': {
+                            'name': 'series',
+                            'data': 'table',
+                            'groupby': 'c'
+                        }
+                    },
+                    'marks': [
+                        {
+                            'type': 'line',
+                            'from': { 'data': 'series' },
+                            'encode': {
+                                'enter': {
+                                    'x': { 'scale': 'x', 'field': 'x' },
+                                    'y': { 'scale': 'y', 'field': 'y' },
+                                    'stroke': { 'scale': 'color', 'field': 'c' },
+                                    'strokeWidth': { 'value': 2 }
+                                },
+                                'update': {
+                                    'interpolate': { 'signal': 'interpolate' },
+                                    'fillOpacity': { 'value': 1 }
+                                },
+                                'hover': {
+                                    'fillOpacity': { 'value': 0.5 }
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        };
+        return vega;
     }
+    // not complete
     private createLabel(stat: Stat): any {
         const values = stat.data;
         const vega = {
@@ -532,9 +632,117 @@ export class VegaFactory {
         };
         return vega;
     }
-
+    // not complete
     private createScatter(stat: Stat): any {
-        return null;
+        const values = stat.data;
+        const vega = {
+            '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
+            'title': {
+                'text': stat.name,
+                'fontSize': 4,
+                'font': 'Lato'
+            },
+            'width': 185,
+            'height': 250,
+            'padding': 0,
+            'autosize': { 'type': 'fit', 'resize': true },
+            'data': [
+                {
+                    'name': 'source',
+                    'values': values,
+                    'transform': [
+                        // {
+                        //     'type': 'filter',
+                        //     'expr': 'datum['Horsepower'] != null && datum['Miles_per_Gallon'] != null && datum['Acceleration'] != null'
+                        // }
+                    ]
+                }
+            ],
+            'scales': [
+                {
+                    'name': 'x',
+                    'type': 'linear',
+                    'round': true,
+                    'nice': true,
+                    'zero': true,
+                    'domain': { 'data': 'source', 'field': 'Horsepower' },
+                    'range': 'width'
+                },
+                {
+                    'name': 'y',
+                    'type': 'linear',
+                    'round': true,
+                    'nice': true,
+                    'zero': true,
+                    'domain': { 'data': 'source', 'field': 'Miles_per_Gallon' },
+                    'range': 'height'
+                },
+                {
+                    'name': 'size',
+                    'type': 'linear',
+                    'round': true,
+                    'nice': false,
+                    'zero': true,
+                    'domain': { 'data': 'source', 'field': 'Acceleration' },
+                    'range': [4, 361]
+                }
+            ],
+            'axes': [
+                {
+                    'scale': 'x',
+                    'grid': true,
+                    'domain': false,
+                    'orient': 'bottom',
+                    'tickCount': 5,
+                    'title': 'Horsepower'
+                },
+                {
+                    'scale': 'y',
+                    'grid': true,
+                    'domain': false,
+                    'orient': 'left',
+                    'titlePadding': 5,
+                    'title': 'Miles_per_Gallon'
+                }
+            ],
+            'legends': [
+                {
+                    'size': 'size',
+                    'title': 'Acceleration',
+                    'format': 's',
+                    'encode': {
+                        'symbols': {
+                            'update': {
+                                'strokeWidth': { 'value': 2 },
+                                'opacity': { 'value': 0.5 },
+                                'stroke': { 'value': '#4682b4' },
+                                'shape': { 'value': 'circle' }
+                            }
+                        }
+                    }
+                }
+            ],
+            'marks': [
+                {
+                    'name': 'marks',
+                    'type': 'symbol',
+                    'from': { 'data': 'source' },
+                    'encode': {
+                        'update': {
+                            'x': { 'scale': 'x', 'field': 'Horsepower' },
+                            'y': { 'scale': 'y', 'field': 'Miles_per_Gallon' },
+                            'size': { 'scale': 'size', 'field': 'Acceleration' },
+                            'shape': { 'value': 'circle' },
+                            'strokeWidth': { 'value': 2 },
+                            'opacity': { 'value': 0.5 },
+                            'stroke': { 'value': '#4682b4' },
+                            'fill': { 'value': 'transparent' }
+                        }
+                    }
+                }
+            ]
+        };
+        return vega;
     }
 }
 
@@ -553,22 +761,22 @@ export class StatFactory {
     public getStatObjects(data: GraphData, vis: VisualizationEnum): Array<Stat> {
         // Unsupervised Learning Clustering
         return (vis === VisualizationEnum.INCREMENTAL_PCA) ? this.createIncrementalPca(data) :
-                (vis === VisualizationEnum.TRUNCATED_SVD) ? this.createTruncatedSvd(data) :
-                (vis === VisualizationEnum.PCA) ? this.createPca(data) :
-                (vis === VisualizationEnum.SPARSE_PCA) ? this.createSparse_PCA(data) :
-                (vis === VisualizationEnum.KERNAL_PCA) ? this.createKernalPca(data) :
-                (vis === VisualizationEnum.DICTIONARY_LEARNING) ? this.createDictionaryLearning(data) :
-                (vis === VisualizationEnum.FA) ? this.createFactorAnalysis(data) :
-                (vis === VisualizationEnum.LDA) ? this.createLatentDirichletAllocation(data) :
-                (vis === VisualizationEnum.NMF) ? this.createNonNegativeMatrixFactorization(data) :
-                (vis === VisualizationEnum.ISOMAP) ? this.createIsoMap(data) :
-                (vis === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? this.createLocallyLinearEmbedding(data) :
-                (vis === VisualizationEnum.MDS) ? this.createMds(data) :
-                (vis === VisualizationEnum.FAST_ICA) ? this.createFastIca(data) :
-                (vis === VisualizationEnum.SPECTRAL_EMBEDDING) ? this.createSpectralEmbedding(data) :
-                (vis === VisualizationEnum.TSNE) ? this.createTSNE(data) :
+            (vis === VisualizationEnum.TRUNCATED_SVD) ? this.createTruncatedSvd(data) :
+            (vis === VisualizationEnum.PCA) ? this.createPca(data) :
+            (vis === VisualizationEnum.SPARSE_PCA) ? this.createSparse_PCA(data) :
+            (vis === VisualizationEnum.KERNAL_PCA) ? this.createKernalPca(data) :
+            (vis === VisualizationEnum.DICTIONARY_LEARNING) ? this.createDictionaryLearning(data) :
+            (vis === VisualizationEnum.FA) ? this.createFactorAnalysis(data) :
+            (vis === VisualizationEnum.LDA) ? this.createLatentDirichletAllocation(data) :
+            (vis === VisualizationEnum.NMF) ? this.createNonNegativeMatrixFactorization(data) :
+            (vis === VisualizationEnum.ISOMAP) ? this.createIsoMap(data) :
+            (vis === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? this.createLocallyLinearEmbedding(data) :
+            (vis === VisualizationEnum.MDS) ? this.createMds(data) :
+            (vis === VisualizationEnum.FAST_ICA) ? this.createFastIca(data) :
+            (vis === VisualizationEnum.SPECTRAL_EMBEDDING) ? this.createSpectralEmbedding(data) :
+            (vis === VisualizationEnum.TSNE) ? this.createTSNE(data) :
 
-            null;
+                null;
     }
 
     private createIncrementalPca(data: GraphData): Array<Stat> {
@@ -684,27 +892,27 @@ export class StatFactory {
 
         return stats;
     }
-
+    // Sci-kit needs work- errorMessage "Negative values in data passed to LatentDirichletAllocation.fit"
     private createLatentDirichletAllocation(data: GraphData): Array<Stat> {
-           // Latent Dirichlet Allocation Stats Array
-           const stats = [
-                // Single Stats
-                // One Dimensional Stats
-                // Two Dimensional Stats
-           ];
-
-           return stats;
-    }
-
-    private createNonNegativeMatrixFactorization(data: GraphData): Array<Stat> {
-           // Non-Negative Matrix Factorization Stats Array
-           const stats = [
+        // Latent Dirichlet Allocation Stats Array
+        const stats = [
             // Single Stats
             // One Dimensional Stats
             // Two Dimensional Stats
-       ];
+        ];
 
-       return stats;
+        return stats;
+    }
+    // Sci-kit needs work- errorMessage "Negative values in data passed to NMF (input X)"
+    private createNonNegativeMatrixFactorization(data: GraphData): Array<Stat> {
+        // Non-Negative Matrix Factorization Stats Array
+        const stats = [
+            // Single Stats
+            // One Dimensional Stats
+            // Two Dimensional Stats
+        ];
+
+        return stats;
 
     }
 
@@ -719,16 +927,18 @@ export class StatFactory {
 
         return stats;
     }
-
+    // long lag-time
     private createLocallyLinearEmbedding(data: GraphData): Array<Stat> {
-           // Locally Linear Embedding Stats Array
-           const stats = [
+        // Locally Linear Embedding Stats Array
+        const stats = [
             // Single Stats
+            new StatSingle('stress', data.result.stress),
             // One Dimensional Stats
             // Two Dimensional Stats
-       ];
+            new StatTwoD('embedding', data.result.embedding)
+        ];
 
-       return stats;
+        return stats;
     }
 
     private createMds(data: GraphData): Array<Stat> {
@@ -743,38 +953,41 @@ export class StatFactory {
 
         return stats;
     }
-
+    // 504 Gateway Timeout, message: "endpoint request timed out"
     private createFastIca(data: GraphData): Array<Stat> {
-           // Fast Ica Stats Array
-           const stats = [
+        // Fast Ica Stats Array
+        const stats = [
             // Single Stats
             // One Dimensional Stats
             // Two Dimensional Stats
-       ];
+        ];
 
-       return stats;
+        return stats;
     }
-
+    // no returned values
     private createSpectralEmbedding(data: GraphData): Array<Stat> {
-          // Spectral Embedding Stats Array
-          const stats = [
+        // Spectral Embedding Stats Array
+        const stats = [
             // Single Stats
             // One Dimensional Stats
             // Two Dimensional Stats
-       ];
+        ];
 
-       return stats;
+        return stats;
     }
 
     private createTSNE(data: GraphData): Array<Stat> {
-           // TSNE Stats Array
-           const stats = [
+        // TSNE Stats Array
+        const stats = [
             // Single Stats
+            new StatSingle('klDivergence', data.result.klDivergence),
+            new StatSingle('nIter', data.result.nIter),
             // One Dimensional Stats
             // Two Dimensional Stats
-       ];
+            new StatTwoD('embedding', data.result.embedding),
+        ];
 
-       return stats;
+        return stats;
     }
 
 
@@ -783,8 +996,8 @@ export class StatFactory {
         return data.map((v, i) => ({ label: 'PC' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));
     }
     formatError(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
-         const error = data.map((v, i) => ({ label: 'Error' + (i + 1), value: Math.round(v * 1e2) / 1e2  }));
-         return error.filter((v, i) => i < 10);
+        const error = data.map((v, i) => ({ label: 'Error' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));
+        return error.filter((v, i) => i < 10);
     }
 
     // singleValue(data: string) {
