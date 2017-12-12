@@ -155,7 +155,8 @@ export class ChartTypeEnum {
 export const enum StatTypeEnum {
     ONE_D = 1,
     TWO_D = 2,
-    SINGLE = 4
+    SINGLE = 4,
+    MISC = 8
 }
 export const enum VisualizationEnum {
     NONE = 0,
