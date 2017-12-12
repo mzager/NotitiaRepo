@@ -41,6 +41,26 @@ const ct = [
 
 export const chromosomeCompute = (config: ChromosomeConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
+    const sendResult = (result, chromo, chords) => {
+        worker.postMessage({
+            config: config,
+            data: {
+                result: {
+                    genes: result,
+                    chromosome: chromo,
+                    chords: chords
+                },
+                genes: [],
+                links: [],
+                legendItems: [],
+                patientIds: [],
+                sampleIds: [],
+                markerIds: []
+            }
+        });
+         worker.postMessage('TERMINATE');
+    };
+
     worker.util.processShapeColorSizeIntersect(config, worker);
 
     if (config.dirtyFlag & DirtyEnum.LAYOUT) {
@@ -56,30 +76,21 @@ export const chromosomeCompute = (config: ChromosomeConfigModel, worker: Dedicat
 
             const genes = result.map(v => v.gene);
 
-
+            if (config.chordOption.key === 'none') {
+                sendResult(result, chromo, null);
+            }else {
+                worker.util.getGeneLinkInfoByGenes(config.markerFilter).then(chords => {
+                    chords.map(chord => ({source: chord.source, target: chord.target, tension: chord.tension}) );
+                    sendResult(result, chromo, chords);
+                });
+            }
             // Promise.all([
             //     // worker.util.getMolecularGeneValues(genes, {tbl: 'gistic'}),
             //     // worker.util.getMolecularGeneValues(genes, {tbl: 'mut'}),
             //     worker.util.getMolecularGeneValues(genes, {tbl: 'rna'})
 
             // ]).then(v => {
-                worker.postMessage({
-                    config: config,
-                    data: {
-                        result: {
-                            genes: result,
-                            chromosome: chromo
-                        },
-                        genes: [],
-                        links: [],
-                        legendItems: [],
-                        patientIds: [],
-                        sampleIds: [],
-                        markerIds: []
-                    }
-                });
-                 worker.postMessage('TERMINATE');
+                
             });
-        // });
     }
 };
