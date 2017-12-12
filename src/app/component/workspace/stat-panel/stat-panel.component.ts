@@ -45,19 +45,28 @@ export class StatPanelComponent implements AfterViewInit {
     if (value === null) { return; }
 
     this.statOptions = StatFactory.getInstance().getStatObjects( value, this.configA.visualization);
+    // option of statOptions = star at first one
     this.statOption = this.statOptions[0];
   }
 
   drawGraph(): void {
     const vegaJson = VegaFactory.getInstance().getVegaObject(this.statOption, this.chartOption);
-    if (vegaJson === null) { console.log(this.chartOption + 'is not yet implmented'); return; }
+    if (vegaJson === null) { console.log(this.chartOption + ' is not yet implmented'); return; }
     const view = new vega.View(vega.parse(vegaJson), {
       renderer: ('svg'),
     }).initialize('#stat-panel-chart')
       .hover()
       .run();
-  }
 
+      // generate a PNG snapshot and then download the image
+// view.toImageURL('png').then(function(url) {
+//   const link = document.createElement('a');
+//   link.setAttribute('href', url);
+//   link.setAttribute('target', '_blank');
+//   link.setAttribute('download', 'vega-export.png');
+//   link.dispatchEvent(new MouseEvent('click'));
+// }).catch(function(error) { /* error handling */ });
+}
   // Constructor Called Automatically
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
