@@ -814,10 +814,9 @@ export class StatFactory {
             // new StatTwoD('Components', data.result.components),
             // Maybe combine Singles?
             new StatKeyValues('Misc',  ([
-                {label: 'Components', value: this.formatMisc(data.result.nComponents)},
-                {label: 'Samples Seen', value: this.formatMisc(data.result.nSamplesSeen)},
-                {label: 'Noise Variance', value: this.formatMisc(data.result.noiseVariance)},
-                {label: 'nComponents', value: this.formatMisc(data.result.nComponents)},
+                {label: 'Samples Seen', value: data.result.nSamplesSeen.toString()},
+                {label: 'Noise Variance', value: data.result.noiseVariance.toString()},
+                {label: 'nComponents', value: data.result.nComponents.toString()},
             ]))
 
         ];
