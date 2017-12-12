@@ -19,7 +19,7 @@ import * as scale from 'd3-scale';
 import * as _ from 'lodash';
 import * as THREE from 'three';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
-import { BoxGeometry, Vector3, PerspectiveCamera } from 'three';
+import { BoxGeometry, Vector3, PerspectiveCamera, Vector2 } from 'three';
 
 export class ChromosomeGraph implements ChartObjectInterface {
 
@@ -45,12 +45,12 @@ export class ChromosomeGraph implements ChartObjectInterface {
         'vaultRNA': 0x5D4037
     };
 
-    private overMaterial = new THREE.LineBasicMaterial( { color: 0x000000 }) ;
-    private outMaterial = new THREE.LineBasicMaterial( { color: 0xFFFFFF }) ;
+    private overMaterial = new THREE.LineBasicMaterial({ color: 0x000000 });
+    private outMaterial = new THREE.LineBasicMaterial({ color: 0xFFFFFF });
 
 
     public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
-    new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
+        new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
 
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
 
@@ -89,10 +89,10 @@ export class ChromosomeGraph implements ChartObjectInterface {
         this.view.controls.enableRotate = false;
         this.group = new THREE.Group();
         this.view.scene.add(this.group);
-        this.lineMaterial = new THREE.LineBasicMaterial( { color: 0x039BE5 });
+        this.lineMaterial = new THREE.LineBasicMaterial({ color: 0x039BE5 });
         return this;
     }
-    
+
     destroy() {
         this.enable(false);
         this.removeObjects();
@@ -145,21 +145,19 @@ export class ChromosomeGraph implements ChartObjectInterface {
 
     }
 
-
-    
     //#region bar
     armsCompute(genes: Array<any>, chromosome: any): any {
         const mf = new Set(this.config.markerFilter);
         const arms = _.groupBy(genes, 'arm');
 
         if (this.config.spacingOption === 'Linear') {
-            arms.P = arms.P.sort( (a, b) => (b.tss - a.tss)).map( (v, i) => {
+            arms.P = arms.P.sort((a, b) => (b.tss - a.tss)).map((v, i) => {
                 return Object.assign(v, {
                     inSet: mf.has(v.gene),
                     pos: -i
                 });
             });
-            arms.Q = arms.Q.sort( (a, b) => (a.tss - b.tss)).map( (v, i) => {
+            arms.Q = arms.Q.sort((a, b) => (a.tss - b.tss)).map((v, i) => {
                 return Object.assign(v, {
                     inSet: mf.has(v.gene),
                     pos: i
@@ -177,61 +175,93 @@ export class ChromosomeGraph implements ChartObjectInterface {
 
             arms.Q = arms.Q.map(v => {
                 return Object.assign(v, {
-                    inSet: mf.has( v.gene ),
-                    pos: scaleGeneQ( v.tss )
+                    inSet: mf.has(v.gene),
+                    pos: scaleGeneQ(v.tss)
                 });
             });
             arms.P = arms.P.map(v => {
                 return Object.assign(v, {
-                    inSet: mf.has( v.gene ),
-                    pos: scaleGeneP( v.tss )
+                    inSet: mf.has(v.gene),
+                    pos: scaleGeneP(v.tss)
                 });
             });
+        }
+
+        let chords = null;
+        if (this.data.result.chords !== null) {
+
+            const lookup = arms.P.reduce( (p, c) => { p[c.gene] = c.pos; return p; }, 
+                arms.Q.reduce( (p, c) => { p[c.gene] = c.pos; return p; }, {})
+            );
+  
+            chords = this.data.result.chords.map(v => {
+                return {
+                    source: lookup[v.source],
+                    target: lookup[v.target]
+                };
+            }).filter(v => (v.source && v.target));
+
         }
 
         return {
             genes: arms,
             centro: null,
-            telem: null
+            telem: null,
+            chords: chords
         };
     }
     armsAddObjets() {
         const result = this.armsCompute(this.data.result.genes, this.data.result.chromosome);
 
-        const line = ChartFactory.lineAllocate(0x000000,
+        let line = ChartFactory.lineAllocate(0xffffff,
             new THREE.Vector2(0, -10000),
             new THREE.Vector2(0, 10000),
-            { genomicEnum: GenomicEnum.CHROMOSOME } );
+            { genomicEnum: GenomicEnum.CHROMOSOME });
         this.centerLine = line;
-        this.group.add( line );
+        this.group.add(line);
 
         let box: THREE.Mesh;
         result.genes.P.forEach(gene => {
             box = new THREE.Mesh();
-            box.geometry = new THREE.BoxGeometry( gene.inSet ? 60 : 10, 1, 1);
-            box.position.set( gene.inSet ? 30 : 5, gene.pos * 2 - 30, 0);
+            box.geometry = new THREE.BoxGeometry(gene.inSet ? 16 : 10, 1, 1);
+            box.position.set(gene.inSet ? 8 : 5, gene.pos * 2, 0);
             box.userData.tip = gene.gene + ' - ' + gene.type.replace(/_/gi, ' ');
             box.userData.color = this.colorMap[gene.type];
             box.userData.mid = gene.gene;
             box.material = ChartFactory.getColorPhong(box.userData.color);
-            this.meshes.push( box );
-            this.group.add( box );
+            this.meshes.push(box);
+            this.group.add(box);
         });
         result.genes.Q.forEach(gene => {
             box = new THREE.Mesh();
-            box.geometry = new THREE.BoxGeometry( gene.inSet ? 60 : 10, 1, 1);
-            box.position.set(gene.inSet ? 30 : 5, gene.pos * 2 + 30, 0);
+            box.geometry = new THREE.BoxGeometry(gene.inSet ? 16 : 10, 1, 1);
+            box.position.set(gene.inSet ? 8 : 5, gene.pos * 2, 0);
             box.userData.tip = gene.gene + ' - ' + gene.type.replace(/_/gi, ' ');
             box.userData.color = this.colorMap[gene.type];
             box.userData.mid = gene.gene;
             box.material = ChartFactory.getColorPhong(box.userData.color);
-            this.meshes.push( box );
-            this.group.add( box );
+            this.meshes.push(box);
+            this.group.add(box);
 
         });
 
+        if (result.chords !== null) {
+            result.chords.forEach(chord => {
+                line = ChartFactory.lineAllocateCurve(0x039BE5,
+                    new THREE.Vector2(16, chord.source * 2),
+                    new THREE.Vector2(16, chord.target * 2),
+                    new THREE.Vector2(
+                        30 + (Math.abs( chord.source * 2 - chord.target * 2) * 0.6),
+                        ((chord.source * 2 + chord.target * 2) / 2)
+                    )
+                );
+                this.meshes.push(line as THREE.Mesh);
+                this.group.add(line);
+            });
+        }
+
         this.centerLine = line;
-        const mesh = ChartFactory.meshAllocate(0x039BE5, ShapeEnum.CIRCLE, 4, new Vector3(100, 0, 0), {});
+        const mesh = ChartFactory.meshAllocate(0x039BE5, ShapeEnum.CIRCLE, 2, new Vector3(5, 0, 0), {});
         this.meshes.push(mesh);
         this.group.add(mesh);
     }
@@ -250,7 +280,7 @@ export class ChromosomeGraph implements ChartObjectInterface {
             scaleGene.domain([0, genes.length]);
             scaleGene.range([0, 365]);
 
-            processedGenes = genes.sort( (a, b) => (b.tss - a.tss)).map( (v, i) => {
+            processedGenes = genes.sort((a, b) => (b.tss - a.tss)).map((v, i) => {
                 const angle = scaleGene(i) * Math.PI / 180;
                 return Object.assign(v, {
                     inSet: mf.has(v.gene),
@@ -259,7 +289,7 @@ export class ChromosomeGraph implements ChartObjectInterface {
                 });
             });
 
-            const tele = processedGenes.findIndex( t => t.arm === 'P' );
+            const tele = processedGenes.findIndex(v => v.arm === 'P');
 
             centro = {
                 x: Math.cos(0),
@@ -267,8 +297,8 @@ export class ChromosomeGraph implements ChartObjectInterface {
             };
 
             telem = {
-                x: Math.cos(tele),
-                y: Math.sin(tele)
+                x: Math.cos(scaleGene(tele)),
+                y: Math.sin(scaleGene(tele))
             };
 
         } else {
@@ -276,7 +306,7 @@ export class ChromosomeGraph implements ChartObjectInterface {
             scaleGene.domain([0, chromosome.Q]);
             scaleGene.range([0, 365]);
 
-            processedGenes = genes.map( (v, i) => {
+            processedGenes = genes.map((v, i) => {
                 const angle = scaleGene(v.tss) * Math.PI / 180;
                 return Object.assign(v, {
                     inSet: mf.has(v.gene),
@@ -297,8 +327,24 @@ export class ChromosomeGraph implements ChartObjectInterface {
             };
         }
 
+        let chords = null;
+        if (this.data.result.chords !== null) {
+            const lookup = processedGenes.reduce((p, c) => {
+                p[c.gene] = c.sPos;
+                return p;
+            }, {});
+            chords = this.data.result.chords.map(v => {
+                return {
+                    source: lookup[v.source],
+                    target: lookup[v.target]
+                };
+            }).filter(v => (v.source && v.target));
+
+        }
+
         return {
             genes: processedGenes,
+            chords: chords,
             centro: centro,
             telem: telem
         };
@@ -309,26 +355,46 @@ export class ChromosomeGraph implements ChartObjectInterface {
 
         let line;
 
-        let mesh = ChartFactory.meshAllocate(0x039BE5, ShapeEnum.CIRCLE, 2,
-            new Vector3(result.centro.x * 150, result.centro.y * 150, 0), {});
+        let mesh = ChartFactory.meshAllocate(0x039BE5, ShapeEnum.CIRCLE, 1.5,
+            new Vector3(result.centro.x * 145, result.centro.y * 145, 0), {});
         this.meshes.push(mesh);
         this.group.add(mesh);
 
-        mesh = ChartFactory.meshAllocate(0xFF0000, ShapeEnum.CIRCLE, 2,
-            new Vector3(result.telem.x * 150, result.telem.y * 150, 0), {});
+        mesh = ChartFactory.meshAllocate(0x039BE5, ShapeEnum.CIRCLE, 1.5,
+            new Vector3(result.telem.x * 145, result.telem.y * 145, 0), {});
         this.meshes.push(mesh);
         this.group.add(mesh);
 
         result.genes.forEach(gene => {
-
             line = ChartFactory.lineAllocate(this.colorMap[gene.type],
-                new THREE.Vector2(gene.sPos.x * (gene.inSet ? 130 : 150), gene.sPos.y * (gene.inSet ? 130 : 150) ),
-                new THREE.Vector2(gene.ePos.x * 140, gene.ePos.y * 140),
-                gene );
-            this.meshes.push( line );
-            this.group.add( line );
+                new THREE.Vector2(gene.sPos.x * (gene.inSet ? 145 : 150), gene.sPos.y * (gene.inSet ? 145 : 150)),
+                new THREE.Vector2(gene.ePos.x * (gene.inSet ? 135 : 140), gene.ePos.y * (gene.inSet ? 135 : 140)),
+                gene);
+            this.meshes.push(line);
+            this.group.add(line);
 
         });
+
+        if (result.chords !== null) {
+            result.chords.forEach(chord => {
+                const x1 = chord.source.x * 135;
+                const x2 = chord.target.x * 135;
+                const y1 = chord.source.y * 135;
+                const y2 = chord.target.y * 135;
+                const dist = Math.sqrt(x1 * x2 + y1 * y2);
+                console.log(dist);
+                line = ChartFactory.lineAllocateCurve(0x039BE5,
+                    new THREE.Vector2(x1, y1),
+                    new THREE.Vector2(x2, y2),
+                    new THREE.Vector2(
+                        ((chord.source.x + chord.target.x) / 2) * 120,
+                        ((chord.source.y + chord.target.y) / 2) * 120
+                    )
+                );
+                this.meshes.push(line);
+                this.group.add(line);
+            });
+        }
     }
     //#endregion
 
@@ -346,7 +412,7 @@ export class ChromosomeGraph implements ChartObjectInterface {
             this.group.remove(this.centerLine);
             this.centerLine = null;
         }
-        this.meshes.forEach( gene => {
+        this.meshes.forEach(gene => {
             this.group.remove(gene);
         });
     }
@@ -375,7 +441,7 @@ export class ChromosomeGraph implements ChartObjectInterface {
                 return '<div class="chart-label" style="background:rgba(255,255,255,.8);font-size:10px;text-align:right;left:' +
                     centerLine + 'px;top:' + data.y +
                     'px;width:300px;position:absolute;">' + data.label + '</div>';
-                }).reduce((p, c) => p += c, '');
+            }).reduce((p, c) => p += c, '');
             this.labels.innerHTML = html;
         } else {
             const geneHit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
@@ -399,4 +465,5 @@ export class ChromosomeGraph implements ChartObjectInterface {
     }
 
     constructor() { }
+
 }

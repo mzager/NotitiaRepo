@@ -52,15 +52,25 @@ import * as _ from 'lodash';
     </label>
   </div>
   <div class="form-group">
-  <label class="center-block"><span class="form-label">Gene Color</span>
+    <label class="center-block"><span class="form-label">Gene Color</span>
+      <select class="browser-default" materialize="material_select"
+          [compareWith]="byKey"
+          [materializeSelectOptions]="colorOptions"
+          formControlName="pointColor">
+          <option *ngFor="let option of colorOptions" [ngValue]="option">{{option.label}}</option>
+      </select>
+    </label>
+  </div>
+  <div class="form-group">
+  <label class="center-block"><span class="form-label">Chords</span>
     <select class="browser-default" materialize="material_select"
         [compareWith]="byKey"
-        [materializeSelectOptions]="colorOptions"
-        formControlName="pointColor">
-        <option *ngFor="let option of colorOptions" [ngValue]="option">{{option.label}}</option>
+        [materializeSelectOptions]="chordOption"
+        formControlName="chordOption">
+        <option *ngFor="let option of chordOptions" [ngValue]="option">{{option.label}}</option>
     </select>
   </label>
-  </div>
+</div>
 </form>
   `
 })
@@ -91,6 +101,11 @@ export class ChromosomeFormComponent {
   spacingOptions = ['Translational Start Site', 'Linear'];
   chromosomeOptions = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
   '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', 'X', 'Y'];
+  chordOptions = [
+    {label: 'None', key: 'none'},
+    {label: 'Hi-C', key: 'hic'}
+  ];
+
   geneOptions = [
     {label: 'All Genes', key: 'all'},
     {label: 'Protein Coding', key: 'protein_coding'},
@@ -141,7 +156,8 @@ export class ChromosomeFormComponent {
       allowRotation: [],
       layoutOption: [],
       spacingOption: [],
-      geneOption: []
+      geneOption: [],
+      chordOption: []
     });
 
     // Update When Form Changes

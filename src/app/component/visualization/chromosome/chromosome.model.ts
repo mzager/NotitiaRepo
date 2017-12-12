@@ -14,9 +14,10 @@ export class ChromosomeConfigModel extends GraphConfig {
     displayType: DimensionEnum = DimensionEnum.THREE_D;
     domain: Array<number> = [-500, 500];
     chromosome = '5';
-    layoutOption = 'Circle';
+    layoutOption = 'Line';
     spacingOption = 'Linear';
     geneOption = {label: 'All Genes', key: 'all'};
+    chordOption = {label: 'None', key: 'none'};
 }
 
 export interface ChromosomeDataModel extends GraphData {
