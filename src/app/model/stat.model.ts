@@ -3,6 +3,7 @@ import { VisualizationEnum, StatTypeEnum, ChartTypeEnum } from 'app/model/enum.m
 import * as data from 'app/action/data.action';
 import { multicast } from 'rxjs/operator/multicast';
 import { single } from 'rxjs/operator/single';
+import { values } from 'd3';
 
 /* GENERAL note: Visualization = is the graph A/B, example PCA Fast ICA, PCA. Stat = result data coming from ski-kit
 Visalization, Graph = is what is final rendering
@@ -29,15 +30,14 @@ export interface Stat {
 
 export class StatSingle implements Stat {
     readonly type = StatTypeEnum.SINGLE;
-    charts: Array<ChartTypeEnum> = [ChartTypeEnum.LABEL];
+    charts: Array<ChartTypeEnum> = [ChartTypeEnum.LABEL, ChartTypeEnum.LINE];
     name: string;
     data: string;
-    constructor(name: string, data: string) {
+    constructor( name: string, data: string) {
         this.name = name;
         this.data = data;
     }
 }
-
 export class StatOneD implements Stat {
     readonly type = StatTypeEnum.ONE_D;
     charts: Array<ChartTypeEnum> = [ChartTypeEnum.PIE, ChartTypeEnum.DONUT, ChartTypeEnum.HISTOGRAM];
@@ -57,6 +57,18 @@ export class StatTwoD implements Stat {
     name: string;
     data: Array<{ label: string, value: number, color?: number }>;
     constructor(name: string, data: Array<{ label: string, value: number, color?: number }>) {
+        this.name = name;
+        this.data = data;
+    }
+}
+
+export class StatKeyValues implements Stat {
+    readonly type = StatTypeEnum.MISC;
+    charts: Array<ChartTypeEnum> = [ChartTypeEnum.LABEL, ChartTypeEnum.LINE];
+    name: string;
+    data: Array<{ label: string, value: string }>;
+
+    constructor(name: string, data: Array<{ label: string, value: string}>) {
         this.name = name;
         this.data = data;
     }
@@ -516,7 +528,7 @@ export class VegaFactory {
             'data': [
                 {
                     'name': 'table',
-                    'values': values,
+                    'values': data,
                 }
             ],
             'scales': [
@@ -598,37 +610,41 @@ export class VegaFactory {
             'autosize': { 'type': 'fit', 'resize': true },
             'data': [
                 {
-                    'name': 'table',
-                    'values': values,
-
-                }
-            ],
-
-            'marks': [
+                  'name': 'table',
+                  'values': values
+                },
+              ],
+              'scales': [
                 {
-                    'type': 'text',
-                    'from': {
-                        'data': 'table'
-                    },
-                    'encode': {
-                        'enter': {
-                            'align': {
-                                'value': 'center'
-                            },
-                            'text': {
-                                'field': 'data'
-                            },
-                            'font': {
-                                'value': 'Lato'
-                            },
-                            'fontSize': {
-                                'value': 10
-                            }
-
-                        }
+                  'name': 'x',
+                  'type': 'ordinal',
+                  'range': 'width',
+                  'domain': {'data': 'table', 'field': 'label'}
+                },
+                {
+                  'name': 'y',
+                  'type': 'linear',
+                  'range': 'height',
+                  'domain': {'data': 'table', 'field': 'value'}
+                },
+              ],
+              'marks': [
+                {
+                  'type': 'text',
+                  'from': 'table',
+                  'properties': {
+                    'enter': {
+                      'y': {'field': 'value'},
+                      'x': {'field': 'label'},
+                      'dx': {'field': 'width', 'mult': 0.5},
+                      'fill': {'value': '#666666'},
+                      'align': {'value': 'left'},
+                      'baseline': {'value': 'middle'},
                     }
+                  }
                 }
-            ]
+              ]
+
         };
         return vega;
     }
@@ -785,24 +801,25 @@ export class StatFactory {
 
         const stats = [
             // Single Stats
-            // new StatSingle('Samples Seen', this.singleValue(data.result.nSamplesSeen)),
-            // new StatSingle('Noise Variance', this.singleValue(data.result.noiseVariance)),
-            // new StatSingle('nComponents', this.singleValue(data.result.nComponents)),
+            new StatSingle('Samples Seen', this.formatSingleValue(data.result.nSamplesSeen)),
+            new StatSingle('Noise Variance', this.formatSingleValue(data.result.noiseVariance)),
+            new StatSingle('nComponents', this.formatSingleValue(data.result.nComponents)),
             // One Dimensional Stats
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
             new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
-            new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues))
+            new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues)),
             // new StatOneD('Mean', data.result.mean),
             // new StatOneD('skvars', data.result.skvars),
             // Two Dimensional Stats
             // new StatTwoD('Components', data.result.components),
             // Maybe combine Singles?
-            // new StatKeyValues('Misc', [
-            //     {label: 'Components', value: data.result.nComponents},
-            //     {label: 'Samples Seen', value: data.result.nSamplesSeen},
-            //     {label: 'Noise Variance', value: data.result.noiseVariance},
-            //     {label: 'nComponents', value: data.result.nComponents},
-            // ])
+            new StatKeyValues('Misc',  ([
+                {label: 'Components', value: this.formatMisc(data.result.nComponents)},
+                {label: 'Samples Seen', value: this.formatMisc(data.result.nSamplesSeen)},
+                {label: 'Noise Variance', value: this.formatMisc(data.result.noiseVariance)},
+                {label: 'nComponents', value: this.formatMisc(data.result.nComponents)},
+            ]))
+
         ];
 
         return stats;
@@ -825,8 +842,8 @@ export class StatFactory {
         // Truncated Svd stats array
         const stats = [
             // Single Stats
-            // new StatSingle('Noise Variance', this.singleValue(data.result.noiseVariance)),
-            // new StatSingle('nComponents', this.singleValue(data.result.nComponents)),
+            new StatSingle('Noise Variance', this.formatSingleValue(data.result.noiseVariance)),
+            new StatSingle('nComponents', this.formatSingleValue(data.result.nComponents)),
             // One Dimensional Stats
             // new StatOneD('Mean', data.result.mean),
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
@@ -843,7 +860,7 @@ export class StatFactory {
         // Sparse PCA Stats Array
         const stats = [
             // Single Stats
-            new StatSingle('Iter', data.result.iter),
+            new StatSingle('Iter', this.formatSingleValue(data.result.iter)),
             // One Dimensional Stats
             new StatOneD('Error', this.formatError(data.result.error)),
             // Two Dimensional Stats
@@ -857,9 +874,9 @@ export class StatFactory {
         // Kernal PCA Stats Array
         const stats = [
             // Single Stats
-            new StatSingle('lambdas', data.result.lambdas),
+            new StatSingle('Lambdas', this.formatSingleValue(data.result.lambdas)),
             // Two Dimensional Stats
-            new StatTwoD('alphas', data.result.alphas)
+            new StatTwoD('Alphas', data.result.alphas)
         ];
 
         return stats;
@@ -869,11 +886,11 @@ export class StatFactory {
         // Dictionary Learning Stats Array
         const stats = [
             // Single Stats
-            new StatSingle('nIter', data.result.nIter),
+            new StatSingle('nIter', this.formatSingleValue(data.result.nIter)),
             // One Dimensional Stats
-            new StatOneD('error', data.result.error),
+            new StatOneD('Error', this.formatError(data.result.error)),
             // Two Dimensional Stats
-            new StatTwoD('components', data.result.components)
+            new StatTwoD('Components', data.result.components)
         ];
 
         return stats;
@@ -883,16 +900,16 @@ export class StatFactory {
         // Factor Analysis Stats Array
         const stats = [
             // Single Stats
-            new StatSingle('nIter', data.result.nIter),
+            new StatSingle('nIter', this.formatSingleValue(data.result.nIter)),
             // One Dimensional Stats
-            new StatOneD('loglike', data.result.loglike),
-            new StatOneD('noiseVariance', data.result.noiseVariance)
+            new StatOneD('loglike', this.formatLoglike(data.result.loglike)),
+            new StatOneD('Noise Variance', this.formatNoiseVariance(data.result.noiseVariance))
             // Two Dimensional Stats
         ];
 
         return stats;
     }
-    // Sci-kit needs work- errorMessage "Negative values in data passed to LatentDirichletAllocation.fit"
+    // Sci-kit needs work- errorMessage 'Negative values in data passed to LatentDirichletAllocation.fit'
     private createLatentDirichletAllocation(data: GraphData): Array<Stat> {
         // Latent Dirichlet Allocation Stats Array
         const stats = [
@@ -903,7 +920,7 @@ export class StatFactory {
 
         return stats;
     }
-    // Sci-kit needs work- errorMessage "Negative values in data passed to NMF (input X)"
+    // Sci-kit needs work- errorMessage 'Negative values in data passed to NMF (input X)'
     private createNonNegativeMatrixFactorization(data: GraphData): Array<Stat> {
         // Non-Negative Matrix Factorization Stats Array
         const stats = [
@@ -922,7 +939,7 @@ export class StatFactory {
             // Single Stat
             // One Dimensional Stats
             // Two Dimensional Stats
-            new StatTwoD('embedding', data.result.embedding)
+            new StatTwoD('Embedding', data.result.embedding)
         ];
 
         return stats;
@@ -932,10 +949,10 @@ export class StatFactory {
         // Locally Linear Embedding Stats Array
         const stats = [
             // Single Stats
-            new StatSingle('stress', data.result.stress),
+            new StatSingle('Stress', this.formatSingleValue(data.result.stress)),
             // One Dimensional Stats
             // Two Dimensional Stats
-            new StatTwoD('embedding', data.result.embedding)
+            new StatTwoD('Embedding', data.result.embedding)
         ];
 
         return stats;
@@ -945,15 +962,15 @@ export class StatFactory {
         // MDS Stats Array
         const stats = [
             // Single Stats
-            new StatSingle('stress', data.result.stress),
+            new StatSingle('Stress', this.formatSingleValue(data.result.stress)),
             // One Dimensional Stats
             // Two Dimensional Stats
-            new StatTwoD('embedding', data.result.embedding)
+            new StatTwoD('Embedding', data.result.embedding)
         ];
 
         return stats;
     }
-    // 504 Gateway Timeout, message: "endpoint request timed out"
+    // 504 Gateway Timeout, message: 'endpoint request timed out'
     private createFastIca(data: GraphData): Array<Stat> {
         // Fast Ica Stats Array
         const stats = [
@@ -980,32 +997,40 @@ export class StatFactory {
         // TSNE Stats Array
         const stats = [
             // Single Stats
-            new StatSingle('klDivergence', data.result.klDivergence),
-            new StatSingle('nIter', data.result.nIter),
+            new StatSingle('klDivergence', this.formatSingleValue(data.result.klDivergence)),
+            new StatSingle('nIter', this.formatSingleValue(data.result.nIter)),
             // One Dimensional Stats
             // Two Dimensional Stats
-            new StatTwoD('embedding', data.result.embedding),
+            new StatTwoD('Embedding', data.result.embedding),
         ];
 
         return stats;
     }
 
-
-    // recycled data formulas
+    // Single Recycled Data Formulas
+    formatSingleValue( data: string) {
+        return data;
+    }
+    formatMisc(data: Array<string>): Array<{ label: string, value: string}> {
+        return data.map((v, i) => ({ label: (++i).toString(), value: v  }));
+    }
+    // One D Recycled Data Formulas
     formatPrincipleComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
         return data.map((v, i) => ({ label: 'PC' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));
     }
+
     formatError(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
         const error = data.map((v, i) => ({ label: 'Error' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));
         return error.filter((v, i) => i < 10);
     }
-
-    // singleValue(data: string) {
-    //     return data;
-    // }
-    // formatMarkerComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
-    //     return null;
-    // }
-
+    formatLoglike(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
+        const logLike = data.map((v, i) => ({ label: 'loglike' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));
+        return logLike.filter((v, i) => i < 10);
+    }
+    formatNoiseVariance(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
+        const noiseVariance = data.map((v, i) => ({ label: 'Noise Var' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));
+        return noiseVariance.filter((v, i) => i < 10);
+    }
+    // Two D Recycled Data Formulas
 
 }
