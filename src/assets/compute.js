@@ -21985,6 +21985,25 @@ var ct = [
     { 'chr': 'Y', 'P': 0, 'C': 11300000, 'Q': 57772954 }
 ];
 exports.chromosomeCompute = function (config, worker) {
+    var sendResult = function (result, chromo, chords) {
+        worker.postMessage({
+            config: config,
+            data: {
+                result: {
+                    genes: result,
+                    chromosome: chromo,
+                    chords: chords
+                },
+                genes: [],
+                links: [],
+                legendItems: [],
+                patientIds: [],
+                sampleIds: [],
+                markerIds: []
+            }
+        });
+        worker.postMessage('TERMINATE');
+    };
     worker.util.processShapeColorSizeIntersect(config, worker);
     if (config.dirtyFlag & 1 /* LAYOUT */) {
         worker.util.getChromosomeInfo(config.chromosome, []).then(function (result) {
@@ -21995,29 +22014,21 @@ exports.chromosomeCompute = function (config, worker) {
                 result = result.filter(function (v) { return v.type === gType_1; });
             }
             var genes = result.map(function (v) { return v.gene; });
+            if (config.chordOption.key === 'none') {
+                sendResult(result, chromo, null);
+            }
+            else {
+                worker.util.getGeneLinkInfoByGenes(config.markerFilter).then(function (chords) {
+                    chords.map(function (chord) { return ({ source: chord.source, target: chord.target, tension: chord.tension }); });
+                    sendResult(result, chromo, chords);
+                });
+            }
             // Promise.all([
             //     // worker.util.getMolecularGeneValues(genes, {tbl: 'gistic'}),
             //     // worker.util.getMolecularGeneValues(genes, {tbl: 'mut'}),
             //     worker.util.getMolecularGeneValues(genes, {tbl: 'rna'})
             // ]).then(v => {
-            worker.postMessage({
-                config: config,
-                data: {
-                    result: {
-                        genes: result,
-                        chromosome: chromo
-                    },
-                    genes: [],
-                    links: [],
-                    legendItems: [],
-                    patientIds: [],
-                    sampleIds: [],
-                    markerIds: []
-                }
-            });
-            worker.postMessage('TERMINATE');
         });
-        // });
     }
 };
 
