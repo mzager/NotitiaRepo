@@ -30,7 +30,7 @@ export interface Stat {
 
 export class StatSingle implements Stat {
     readonly type = StatTypeEnum.SINGLE;
-    charts: Array<ChartTypeEnum> = [ChartTypeEnum.LABEL, ChartTypeEnum.LINE];
+    charts: Array<ChartTypeEnum> = [ChartTypeEnum.LINE, ChartTypeEnum.LABEL];
     name: string;
     data: string;
     constructor( name: string, data: string) {
