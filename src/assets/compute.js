@@ -22182,7 +22182,6 @@ exports.fasticaCompute = function (config, worker) {
                 worker.util.getSamplePatientMap(),
                 worker.util
                     .fetchResult({
-                    // added more than server is calling
                     method: 'cluster_sk_fast_ica',
                     data: mtx.data,
                     n_components: config.n_components,
