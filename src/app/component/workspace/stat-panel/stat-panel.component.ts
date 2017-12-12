@@ -47,6 +47,8 @@ export class StatPanelComponent implements AfterViewInit {
     this.statOptions = StatFactory.getInstance().getStatObjects( value, this.configA.visualization);
     // option of statOptions = star at first one
     this.statOption = this.statOptions[0];
+    this.chartOption = this.statOption.charts[0];
+    this.drawGraph();
   }
 
   drawGraph(): void {
