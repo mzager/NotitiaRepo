@@ -8,16 +8,18 @@ import { GraphEnum, EntityTypeEnum } from 'app/model/enum.model';
 import { ChartObjectInterface } from './../../model/chart.object.interface';
 export class AbstractVisualization implements ChartObjectInterface {
 
+    // Emitters
+    public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
+    public onConfigEmit: EventEmitter<{type: GraphConfig}> = new EventEmitter<{ type: GraphConfig }>();
+    public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
+        new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
+
     // Common Objects
     labels: HTMLElement;
     events: ChartEvents;
     view: VisualizationView;
     isEnabled: boolean;
     meshes: THREE.Object3D[];
-
-    // Events Emitters
-    onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
-    onSelect: EventEmitter<{ type: EntityTypeEnum; ids: string[]; }> = new EventEmitter<{type: EntityTypeEnum, ids: Array<string>}>();
 
     enable(truthy: Boolean) {
         throw new Error('Method not implemented.');

@@ -21,10 +21,12 @@ import * as TWEEN from 'tween.js';
 
 export class GenomeGraph implements ChartObjectInterface {
 
-    public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
-    new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
-
+    // Emitters
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
+    public onConfigEmit: EventEmitter<{type: GraphConfig}> = new EventEmitter<{ type: GraphConfig }>();
+    public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> = 
+        new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
+
 
     // Chart Elements
     private labels: HTMLElement;
@@ -203,8 +205,11 @@ export class GenomeGraph implements ChartObjectInterface {
     private onMouseDown(e: ChartEvent): void {
         const hits = ChartUtil.getIntersects(this.view, e.mouse, this.chromosomeMeshes);
         if (hits.length > 0) {
-            switch (hits[0].object.userData.type){
+            const data = hits[0].object.userData;
+            switch (data.type){
                 case GenomicEnum.CENTROMERE:
+                    
+                    data.chromosome
                     debugger;
                 case GenomicEnum.P_TELOMERE:
                     debugger;

@@ -7,9 +7,13 @@ import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
 
-export class SurvivalGraph implements ChartObjectInterface {
-    onRequestRender: EventEmitter<GraphEnum>;
-    onSelect: EventEmitter<{ type: EntityTypeEnum; ids: string[]; }>;
+export class PathwaysGraph implements ChartObjectInterface {
+    
+    // Emitters
+    public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
+    public onConfigEmit: EventEmitter<{type: GraphConfig}> = new EventEmitter<{ type: GraphConfig }>();
+    public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
+        new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
 
     public meshes: Array<THREE.Mesh>;
 
