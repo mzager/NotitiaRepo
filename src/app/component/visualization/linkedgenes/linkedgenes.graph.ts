@@ -24,12 +24,13 @@ import { scaleLinear, scaleOrdinal } from 'd3-scale';
 
 export class LinkedGeneGraph implements ChartObjectInterface {
 
-    private NODE_SIZE = 5;
-
-    public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
-    new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
-
+    // Emitters
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
+    public onConfigEmit: EventEmitter<{type: GraphConfig}> = new EventEmitter<{ type: GraphConfig }>();
+    public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
+        new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
+
+    private NODE_SIZE = 5;
 
     // Chart Elements
     private labels: HTMLElement;
