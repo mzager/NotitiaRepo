@@ -1,3 +1,4 @@
+import { GraphConfig } from 'app/model/graph-config.model';
 import { TimelinesGraph } from './../../visualization/timelines/timelines.graph';
 import { HicGraph } from './../../visualization/hic/hic.graph';
 import { BoxWhisterksGraph } from './../../visualization/boxwhiskers/boxwhiskers.graph';
@@ -36,7 +37,6 @@ import { Observable } from 'rxjs/Observable';
 import { Injectable, EventEmitter } from '@angular/core';
 import { FontFactory } from './../../../service/font.factory';
 import { ChartControls } from './chart.controls';
-import { GraphConfig } from './../../../model/graph-config.model';
 import * as THREE from 'three';
 import TransformControls from 'three-transformcontrols';
 import { ChromosomeGraph } from './../../visualization/chromosome/chromosome.graph';
@@ -52,7 +52,9 @@ import Scene = THREE.Scene;
 export class ChartScene {
 
     public static instance: ChartScene;
-    
+
+    public onConfigEmit: EventEmitter<{type: GraphConfig}> =
+        new EventEmitter<{type: GraphConfig}>();
     public onSelect: EventEmitter<{type: EntityTypeEnum, ids: Array<string>}> =
         new EventEmitter<{type: EntityTypeEnum, ids: Array<string>}>();
     private workspace: WorkspaceConfigModel;
@@ -109,6 +111,9 @@ export class ChartScene {
         } catch (e) {
             console.log('resolve init');
         }
+    }
+    config = (e: {type: GraphConfig }) => {
+        this.onConfigEmit.next(e);
     }
     select = (e: {type: EntityTypeEnum, ids: Array<string>}) => {
         this.onSelect.next(e);
@@ -289,7 +294,10 @@ export class ChartScene {
 
         // If None
         if (config.visualization === VisualizationEnum.NONE) {
-            if (view.chart !== null) { view.chart.destroy(); }
+            if (view.chart !== null) { 
+                view.chart.onRequestRender.unsubscribe();
+                view.chart.onConfigEmit.unsubscribe();
+                view.chart.destroy(); }
             view.chart = null;
             view.config = config;
             this.onResize(); // Calls render once complete
@@ -308,6 +316,7 @@ export class ChartScene {
             if (view.chart !== null) { view.chart.destroy(); }
             view.chart = this.getChartObject(config.visualization).create(this.labels, this.events, view);
             view.chart.onRequestRender.subscribe(this.render);
+            view.chart.onConfigEmit.subscribe(this.config);
             //view.chart.onSelect.subscribe( this.select );
         }
 

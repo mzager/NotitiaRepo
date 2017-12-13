@@ -14,12 +14,13 @@ import * as _ from 'lodash';
 
 export class EdgesGraph implements ChartObjectInterface {
 
-    public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
-    new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
+    // Emitters
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
+    public onConfigEmit: EventEmitter<{type: GraphConfig}> = new EventEmitter<{ type: GraphConfig }>();
+    public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
+        new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
 
     // Chart Elements
-
     private data: EdgeDataModel;
     private config: EdgeConfigModel;
 

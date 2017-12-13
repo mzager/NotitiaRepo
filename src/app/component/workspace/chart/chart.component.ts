@@ -34,6 +34,9 @@ export class ChartComponent implements AfterViewInit {
   @Output()
   public onSelect: EventEmitter<{type: EntityTypeEnum, ids: Array<string>}> =
         new EventEmitter<{type: EntityTypeEnum, ids: Array<string>}>();
+  @Output()
+  public onConfig: EventEmitter<{type: EntityTypeEnum, ids: Array<string>}> =
+        new EventEmitter<{type: EntityTypeEnum, ids: Array<string>}>();
 
   // Components
   @ViewChild('container')
@@ -50,6 +53,9 @@ export class ChartComponent implements AfterViewInit {
         chartScene.init(this.container.nativeElement, this.labels.nativeElement);
         chartScene.onSelect.subscribe( (e) => {
           this.onSelect.next(e);
+        });
+        chartScene.onConfigEmit.subscribe( (e) => {
+          this.onConfig.next(e);
         });
 
         const workspaceConfig: Observable<WorkspaceConfigModel> = this.store.select(fromRoot.getWorkspaceConfig);
