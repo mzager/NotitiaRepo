@@ -30,17 +30,17 @@ export interface Stat {
 
 export class StatSingle implements Stat {
     readonly type = StatTypeEnum.SINGLE;
-    charts: Array<ChartTypeEnum> = [ChartTypeEnum.LINE, ChartTypeEnum.LABEL];
+    charts: Array<ChartTypeEnum> = [ChartTypeEnum.LABEL];
     name: string;
     data: string;
-    constructor( name: string, data: string) {
+    constructor(name: string, data: string) {
         this.name = name;
         this.data = data;
     }
 }
 export class StatOneD implements Stat {
     readonly type = StatTypeEnum.ONE_D;
-    charts: Array<ChartTypeEnum> = [ChartTypeEnum.PIE, ChartTypeEnum.DONUT, ChartTypeEnum.HISTOGRAM];
+    charts: Array<ChartTypeEnum> = [ChartTypeEnum.DONUT, ChartTypeEnum.HISTOGRAM];
     name: string;
     data: Array<{ label: string, value: number, color?: number }>;
 
@@ -64,11 +64,11 @@ export class StatTwoD implements Stat {
 
 export class StatKeyValues implements Stat {
     readonly type = StatTypeEnum.MISC;
-    charts: Array<ChartTypeEnum> = [ChartTypeEnum.LABEL, ChartTypeEnum.LINE];
+    charts: Array<ChartTypeEnum> = [ChartTypeEnum.LINE, ChartTypeEnum.LABEL];
     name: string;
     data: Array<{ label: string, value: string }>;
 
-    constructor(name: string, data: Array<{ label: string, value: string}>) {
+    constructor(name: string, data: Array<{ label: string, value: string }>) {
         this.name = name;
         this.data = data;
     }
@@ -105,16 +105,20 @@ export class VegaFactory {
         const values = stat.data;
         const vega = {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
-            'title': {
-                'text': stat.name,
-                'font': 'Lato',
-                'offset': 10,
-                'fontSize': 8
+            'config': {
+                'title': {
+                    'offset': 10,
+                    'fontSize': 12
+                }
             },
+            'title': {
+                'text': stat.name
+            },
+            'background': 'white',
             'width': 185,
             'height': 250,
             'padding': 0,
-            'autosize': { 'type': 'fit', 'resize': true },
+            'autosize': { 'type': 'fit', 'resize': false },
             'data': [
                 {
                     'name': 'table',
@@ -144,7 +148,7 @@ export class VegaFactory {
                         'field': 'label',
                     },
                     'range': {
-                        'scheme': 'spectral'
+                        'scheme': 'greenblue-3'
                     }
                 }
             ],
@@ -186,8 +190,6 @@ export class VegaFactory {
                             'cornerRadius': {
                                 'value': 0
                             },
-                            // How its done in Vega land, uncommented part works but color hovers do not
-                            // ,tooltip': {'signal': 'datum['field']+ '%''}
                             'tooltip': { 'signal': 'datum.value' }
                         },
                         // opacity change on hover
@@ -261,15 +263,20 @@ export class VegaFactory {
         const values = stat.data;
         const vega = {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
-            'title': {
-                'text': stat.name,
-                'fontSize': 10,
-                'font': 'Lato',
+            'config': {
+                'title': {
+                    'offset': 10,
+                    'fontSize': 12
+                }
             },
+            'title': {
+                'text': stat.name
+            },
+            'background': 'white',
             'width': 185,
             'height': 250,
             'padding': 0,
-            'autosize': { 'type': 'fit', 'resize': true },
+            'autosize': { 'type': 'fit', 'resize': false },
             'data': [
                 {
                     'name': 'table',
@@ -308,17 +315,17 @@ export class VegaFactory {
                 {
                     'orient': 'bottom',
                     'scale': 'xscale',
-                    'title': 'Genes',
+
                     'encode': {
                         'ticks': {
                             'update': {
-                                'stroke': { 'value': 'steelblue' }
+                                'stroke': { 'value': 'black' }
                             }
                         },
                         'labels': {
-                            'interactive': true,
+                            'interactive': false,
                             'update': {
-                                'fill': { 'value': 'steelblue' },
+                                'fill': { 'value': 'black' },
                                 'angle': { 'value': 50 },
                                 'fontSize': { 'value': 10 },
                                 'align': { 'value': '90' },
@@ -356,10 +363,10 @@ export class VegaFactory {
                             'y2': { 'scale': 'yscale', 'value': 0 }
                         },
                         'update': {
-                            'fill': { 'value': '#039BE5' }
+                            'fill': { 'value': '#a8ddb5' }
                         },
                         'hover': {
-                            'fill': { 'value': '#03FFC9' }
+                            'fill': { 'value': '#019FDE' }
                         }
                     }
                 },
@@ -391,15 +398,20 @@ export class VegaFactory {
         const values = stat.data;
         const vega = {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
-            'title': {
-                'text': stat.name,
-                'fontSize': 4,
-                'font': 'Lato'
+            'config': {
+                'title': {
+                    'offset': 10,
+                    'fontSize': 12
+                }
             },
+            'title': {
+                'text': stat.name
+            },
+            'background': 'white',
             'width': 185,
             'height': 250,
             'padding': 0,
-            'autosize': { 'type': 'fit', 'resize': true },
+            'autosize': { 'type': 'fit', 'resize': false },
             'data': [
                 {
                     'name': 'table',
@@ -420,7 +432,13 @@ export class VegaFactory {
                 {
                     'name': 'color',
                     'type': 'ordinal',
-                    'range': { 'scheme': 'category20' }
+                    'domain': {
+                        'data': 'table',
+                        'field': 'label',
+                    },
+                    'range': {
+                        'scheme': 'greenblue-3'
+                    }
                 }
             ],
 
@@ -496,15 +514,20 @@ export class VegaFactory {
         const values = stat.data;
         const vega = {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
-            'title': {
-                'text': stat.name,
-                'fontSize': 4,
-                'font': 'Lato'
+            'config': {
+                'title': {
+                    'offset': 10,
+                    'fontSize': 12
+                }
             },
+            'title': {
+                'text': stat.name
+            },
+            'background': 'white',
             'width': 185,
             'height': 250,
             'padding': 0,
-            'autosize': { 'type': 'fit', 'resize': true },
+            'autosize': { 'type': 'fit', 'resize': false },
             'signals': [
                 {
                     'name': 'interpolate',
@@ -593,58 +616,101 @@ export class VegaFactory {
         };
         return vega;
     }
-    // not complete
+
     private createLabel(stat: Stat): any {
         const values = stat.data;
         const vega = {
-            '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
-            'title': {
-                'text': stat.name,
-                'font': 'Lato',
-                'offset': 10,
-                'fontSize': 8
+        '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
+            'config': {
+                'title': {
+                    'offset': 10,
+                    'fontSize': 12
+                }
             },
+            'title': {
+                'text': stat.name
+            },
+            'background': 'white',
             'width': 185,
             'height': 250,
             'padding': 0,
-            'autosize': { 'type': 'fit', 'resize': true },
+            'autosize': { 'type': 'fit', 'resize': false },
             'data': [
                 {
-                  'name': 'table',
-                  'values': values
-                },
-              ],
-              'scales': [
-                {
-                  'name': 'x',
-                  'type': 'ordinal',
-                  'range': 'width',
-                  'domain': {'data': 'table', 'field': 'label'}
-                },
-                {
-                  'name': 'y',
-                  'type': 'linear',
-                  'range': 'height',
-                  'domain': {'data': 'table', 'field': 'value'}
-                },
-              ],
-              'marks': [
-                {
-                  'type': 'text',
-                  'from': 'table',
-                  'properties': {
-                    'enter': {
-                      'y': {'field': 'value'},
-                      'x': {'field': 'label'},
-                      'dx': {'field': 'width', 'mult': 0.5},
-                      'fill': {'value': '#666666'},
-                      'align': {'value': 'left'},
-                      'baseline': {'value': 'middle'},
-                    }
-                  }
+                    'name': 'table',
+                    'values': values,
+                    'transform': [
+                        {
+                            'type': 'formula',
+                            'as': 'x_position',
+                            'expr': 'width * 2 / 3'
+                        },
+                        {
+                            'type': 'formula',
+                            'as': 'line_height',
+                            'expr': '20'
+                        },
+                        {
+                            'type': 'stack',
+                            'groupby': ['x_position'],
+                            'field': 'line_height',
+                            'as': ['y0', 'y1']
+                        }
+                    ]
                 }
-              ]
-
+            ],
+            'marks': [
+                {
+                    'type': 'text',
+                    'from': {
+                        'data': 'table'
+                    },
+                    'encode': {
+                        'enter': {
+                            'x': { 'field': 'x_position' },
+                            'y': { 'field': 'y0' },
+                            'y2': { 'field': 'y1' },
+                            'align': {
+                                'value': 'right'
+                            },
+                            'text': {
+                                'signal': 'datum.label'
+                            },
+                            'font': {
+                                'value': 'Lato'
+                            },
+                            'fontSize': {
+                                'value': 12
+                            }
+                        }
+                    }
+                },
+                {
+                    'type': 'text',
+                    'from': {
+                        'data': 'table'
+                    },
+                    'encode': {
+                        'enter': {
+                            'x': { 'field': 'x_position', 'offset': 5 },
+                            'y': { 'field': 'y0' },
+                            'y2': { 'field': 'y1' },
+                            'align': {
+                                'value': 'left'
+                            },
+                            'text': {
+                                'field': 'value'
+                            },
+                            'font': {
+                                'value': 'Lato'
+                            },
+                            'fontSize': {
+                                'value': 10
+                            }
+                        }
+                    }
+                }
+            ]
         };
         return vega;
     }
@@ -653,11 +719,16 @@ export class VegaFactory {
         const values = stat.data;
         const vega = {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
-            'title': {
-                'text': stat.name,
-                'fontSize': 4,
-                'font': 'Lato'
+            'config': {
+                'title': {
+                    'offset': 10,
+                    'fontSize': 12
+                }
             },
+            'title': {
+                'text': stat.name
+            },
+            'background': 'white',
             'width': 185,
             'height': 250,
             'padding': 0,
@@ -778,21 +849,21 @@ export class StatFactory {
         // Unsupervised Learning Clustering
         return (vis === VisualizationEnum.INCREMENTAL_PCA) ? this.createIncrementalPca(data) :
             (vis === VisualizationEnum.TRUNCATED_SVD) ? this.createTruncatedSvd(data) :
-            (vis === VisualizationEnum.PCA) ? this.createPca(data) :
-            (vis === VisualizationEnum.SPARSE_PCA) ? this.createSparse_PCA(data) :
-            (vis === VisualizationEnum.KERNAL_PCA) ? this.createKernalPca(data) :
-            (vis === VisualizationEnum.DICTIONARY_LEARNING) ? this.createDictionaryLearning(data) :
-            (vis === VisualizationEnum.FA) ? this.createFactorAnalysis(data) :
-            (vis === VisualizationEnum.LDA) ? this.createLatentDirichletAllocation(data) :
-            (vis === VisualizationEnum.NMF) ? this.createNonNegativeMatrixFactorization(data) :
-            (vis === VisualizationEnum.ISOMAP) ? this.createIsoMap(data) :
-            (vis === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? this.createLocallyLinearEmbedding(data) :
-            (vis === VisualizationEnum.MDS) ? this.createMds(data) :
-            (vis === VisualizationEnum.FAST_ICA) ? this.createFastIca(data) :
-            (vis === VisualizationEnum.SPECTRAL_EMBEDDING) ? this.createSpectralEmbedding(data) :
-            (vis === VisualizationEnum.TSNE) ? this.createTSNE(data) :
+                (vis === VisualizationEnum.PCA) ? this.createPca(data) :
+                    (vis === VisualizationEnum.SPARSE_PCA) ? this.createSparse_PCA(data) :
+                        (vis === VisualizationEnum.KERNAL_PCA) ? this.createKernalPca(data) :
+                            (vis === VisualizationEnum.DICTIONARY_LEARNING) ? this.createDictionaryLearning(data) :
+                                (vis === VisualizationEnum.FA) ? this.createFactorAnalysis(data) :
+                                    (vis === VisualizationEnum.LDA) ? this.createLatentDirichletAllocation(data) :
+                                        (vis === VisualizationEnum.NMF) ? this.createNonNegativeMatrixFactorization(data) :
+                                            (vis === VisualizationEnum.ISOMAP) ? this.createIsoMap(data) :
+                                                (vis === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? this.createLocallyLinearEmbedding(data) :
+                                                    (vis === VisualizationEnum.MDS) ? this.createMds(data) :
+                                                        (vis === VisualizationEnum.FAST_ICA) ? this.createFastIca(data) :
+                                                            (vis === VisualizationEnum.SPECTRAL_EMBEDDING) ? this.createSpectralEmbedding(data) :
+                                                                (vis === VisualizationEnum.TSNE) ? this.createTSNE(data) :
 
-                null;
+                                                                    null;
     }
 
     private createIncrementalPca(data: GraphData): Array<Stat> {
@@ -801,9 +872,9 @@ export class StatFactory {
 
         const stats = [
             // Single Stats
-            new StatSingle('Samples Seen', this.formatSingleValue(data.result.nSamplesSeen)),
-            new StatSingle('Noise Variance', this.formatSingleValue(data.result.noiseVariance)),
-            new StatSingle('nComponents', this.formatSingleValue(data.result.nComponents)),
+            // new StatSingle('Samples Seen', this.formatSingleValue(data.result.nSamplesSeen)),
+            // new StatSingle('Noise Variance', this.formatSingleValue(data.result.noiseVariance)),
+            // new StatSingle('nComponents', this.formatSingleValue(data.result.nComponents)),
             // One Dimensional Stats
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
             new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
@@ -813,10 +884,10 @@ export class StatFactory {
             // Two Dimensional Stats
             // new StatTwoD('Components', data.result.components),
             // Maybe combine Singles?
-            new StatKeyValues('Misc',  ([
-                {label: 'Samples Seen', value: data.result.nSamplesSeen.toString()},
-                {label: 'Noise Variance', value: data.result.noiseVariance.toString()},
-                {label: 'nComponents', value: data.result.nComponents.toString()},
+            new StatKeyValues('Miscellaneous Results', ([
+                { label: 'nSamples Seen', value: data.result.nSamplesSeen.toString() },
+                { label: 'Noise Variance', value: data.result.noiseVariance.toFixed(2) },
+                { label: 'nComponents', value: data.result.nComponents.toString() },
             ]))
 
         ];
@@ -841,8 +912,10 @@ export class StatFactory {
         // Truncated Svd stats array
         const stats = [
             // Single Stats
-            new StatSingle('Noise Variance', this.formatSingleValue(data.result.noiseVariance)),
-            new StatSingle('nComponents', this.formatSingleValue(data.result.nComponents)),
+            new StatKeyValues('Miscellaneous Results', ([
+                { label: 'Noise Variance', value: data.result.noiseVariance.toFixed(2) },
+                { label: 'nComponents', value: data.result.nComponents.toString() }
+            ])),
             // One Dimensional Stats
             // new StatOneD('Mean', data.result.mean),
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
@@ -859,7 +932,9 @@ export class StatFactory {
         // Sparse PCA Stats Array
         const stats = [
             // Single Stats
-            new StatSingle('Iter', this.formatSingleValue(data.result.iter)),
+            new StatKeyValues('Miscellaneous Results', ([
+                { label: 'Iter', value: data.result.iter.toString() },
+            ])),
             // One Dimensional Stats
             new StatOneD('Error', this.formatError(data.result.error)),
             // Two Dimensional Stats
@@ -873,7 +948,10 @@ export class StatFactory {
         // Kernal PCA Stats Array
         const stats = [
             // Single Stats
-            new StatSingle('Lambdas', this.formatSingleValue(data.result.lambdas)),
+            new StatKeyValues('Miscellaneous Results', ([
+                { label: 'Lambdas', value: data.result.lambdas.toString() },
+             
+            ])),
             // Two Dimensional Stats
             new StatTwoD('Alphas', data.result.alphas)
         ];
@@ -885,7 +963,10 @@ export class StatFactory {
         // Dictionary Learning Stats Array
         const stats = [
             // Single Stats
-            new StatSingle('nIter', this.formatSingleValue(data.result.nIter)),
+            new StatKeyValues('Miscellaneous Results', ([
+                { label: 'nIter', value: data.result.nIter.toString() },
+             
+            ])),
             // One Dimensional Stats
             new StatOneD('Error', this.formatError(data.result.error)),
             // Two Dimensional Stats
@@ -899,7 +980,10 @@ export class StatFactory {
         // Factor Analysis Stats Array
         const stats = [
             // Single Stats
-            new StatSingle('nIter', this.formatSingleValue(data.result.nIter)),
+            new StatKeyValues('Miscellaneous Results', ([
+                { label: 'nIter', value: data.result.nIter.toString() },
+             
+            ])),
             // One Dimensional Stats
             new StatOneD('loglike', this.formatLoglike(data.result.loglike)),
             new StatOneD('Noise Variance', this.formatNoiseVariance(data.result.noiseVariance))
@@ -948,7 +1032,10 @@ export class StatFactory {
         // Locally Linear Embedding Stats Array
         const stats = [
             // Single Stats
-            new StatSingle('Stress', this.formatSingleValue(data.result.stress)),
+            new StatKeyValues('Miscellaneous Results', ([
+                { label: 'Stress', value: data.result.stress.toString() },
+             
+            ])),
             // One Dimensional Stats
             // Two Dimensional Stats
             new StatTwoD('Embedding', data.result.embedding)
@@ -961,7 +1048,10 @@ export class StatFactory {
         // MDS Stats Array
         const stats = [
             // Single Stats
-            new StatSingle('Stress', this.formatSingleValue(data.result.stress)),
+            new StatKeyValues('Miscellaneous Results', ([
+                { label: 'Stress', value: data.result.stress.toFixed(2) },
+             
+            ])),
             // One Dimensional Stats
             // Two Dimensional Stats
             new StatTwoD('Embedding', data.result.embedding)
@@ -996,8 +1086,11 @@ export class StatFactory {
         // TSNE Stats Array
         const stats = [
             // Single Stats
-            new StatSingle('klDivergence', this.formatSingleValue(data.result.klDivergence)),
-            new StatSingle('nIter', this.formatSingleValue(data.result.nIter)),
+            new StatKeyValues('Miscellaneous Results', ([
+                { label: 'kl Divergence', value: data.result.klDivergence.toFixed(2) },
+                { label: 'nIter', value: data.result.nIter.toString() },
+             
+            ])),
             // One Dimensional Stats
             // Two Dimensional Stats
             new StatTwoD('Embedding', data.result.embedding),
@@ -1006,13 +1099,7 @@ export class StatFactory {
         return stats;
     }
 
-    // Single Recycled Data Formulas
-    formatSingleValue( data: string) {
-        return data;
-    }
-    formatMisc(data: Array<string>): Array<{ label: string, value: string}> {
-        return data.map((v, i) => ({ label: (++i).toString(), value: v  }));
-    }
+ 
     // One D Recycled Data Formulas
     formatPrincipleComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
         return data.map((v, i) => ({ label: 'PC' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));
