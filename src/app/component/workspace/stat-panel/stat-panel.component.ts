@@ -55,8 +55,10 @@ export class StatPanelComponent implements AfterViewInit {
     const vegaJson = VegaFactory.getInstance().getVegaObject(this.statOption, this.chartOption);
     if (vegaJson === null) { console.log(this.chartOption + ' is not yet implmented'); return; }
     const view = new vega.View(vega.parse(vegaJson), {
+      
       renderer: ('svg'),
     }).initialize('#stat-panel-chart')
+      // .scheme('oncoscape', ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff'])
       .hover()
       .run();
 
