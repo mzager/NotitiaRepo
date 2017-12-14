@@ -21,15 +21,15 @@ import { scaleLinear, scaleOrdinal } from 'd3-scale';
 
 export class ParallelCoordsGraph implements ChartObjectInterface {
 
-
+    // Emitters
+    public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
+    public onConfigEmit: EventEmitter<{type: GraphConfig}> = new EventEmitter<{ type: GraphConfig }>();
+    public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
+        new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
+        
     private overMaterial = new THREE.LineBasicMaterial( { color: 0x039BE5 }) ;
     private outMaterial = new THREE.LineBasicMaterial( { color: 0xDDDDDD }) ;
 
-
-    public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
-    new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
-
-    public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
 
     // Chart Elements
     private labels: HTMLElement;

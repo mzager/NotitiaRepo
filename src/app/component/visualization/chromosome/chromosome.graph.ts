@@ -23,6 +23,12 @@ import { BoxGeometry, Vector3, PerspectiveCamera, Vector2 } from 'three';
 
 export class ChromosomeGraph implements ChartObjectInterface {
 
+    // Emitters
+    public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
+    public onConfigEmit: EventEmitter<{type: GraphConfig}> = new EventEmitter<{ type: GraphConfig }>();
+    public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
+        new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
+        
     private colorMap = {
         'protein_coding': 0x039BE5,
         'lincRNA': 0x4A148C,
@@ -48,11 +54,6 @@ export class ChromosomeGraph implements ChartObjectInterface {
     private overMaterial = new THREE.LineBasicMaterial({ color: 0x000000 });
     private outMaterial = new THREE.LineBasicMaterial({ color: 0xFFFFFF });
 
-
-    public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
-        new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
-
-    public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
 
     // Chart Elements
     private labels: HTMLElement;

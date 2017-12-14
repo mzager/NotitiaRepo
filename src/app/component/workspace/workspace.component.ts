@@ -1,3 +1,4 @@
+
 import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
 import { HicConfigModel } from './../visualization/hic/hic.model';
 import { BoxWhiskersConfigModel } from './../visualization/boxwhiskers/boxwhiskers.model';
@@ -40,7 +41,7 @@ import {
 import { DataTable } from './../../model/data-field.model';
 import { DictionaryLearningConfigModel } from './../visualization/dictionarylearning/dictionarylearning.model';
 import { EdgeConfigModel } from './../visualization/edges/edges.model';
-import { EntityTypeEnum } from './../../model/enum.model';
+import { EntityTypeEnum, GraphEnum } from './../../model/enum.model';
 import { FaConfigModel } from './../visualization/fa/fa.model';
 import { FastIcaConfigModel } from './../visualization/fastica/fastica.model';
 import {
@@ -184,6 +185,7 @@ export class WorkspaceComponent {
   graphPanelSelectGeneSignature(value: GraphConfig) {
     this.store.dispatch(new layout.GeneSignaturePanelShowAction(value));
   }
+
   graphPanelSetConfig(value: GraphConfig) {
     switch (value.visualization) {
       case enums.VisualizationEnum.NONE:
