@@ -18,13 +18,17 @@ import * as _ from 'lodash';
 import * as THREE from 'three';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
 import * as TWEEN from 'tween.js';
+import { ChromosomeConfigModel } from 'app/component/visualization/chromosome/chromosome.model';
+import { DataTable } from 'app/model/data-field.model';
 
 export class GenomeGraph implements ChartObjectInterface {
 
-    public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
-    new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
-
+    // Emitters
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
+    public onConfigEmit: EventEmitter<{type: GraphConfig}> = new EventEmitter<{ type: GraphConfig }>();
+    public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> = 
+        new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
+
 
     // Chart Elements
     private labels: HTMLElement;
@@ -117,12 +121,13 @@ export class GenomeGraph implements ChartObjectInterface {
         }
 
         this.data.chromo.forEach((v, i) => {
-
+            const chromosomeNumber = i + 1;
             const centro: THREE.Mesh = ChartFactory.meshAllocate(0x0091EA, ShapeEnum.CIRCLE, .5,
                 new THREE.Vector3(0, 0, 0), {});
             centro.userData.type = GenomicEnum.CENTROMERE;
-            centro.userData.chromosome = i;
-            centro.userData.tip = 'Centromere ' + i;
+            centro.userData.chromosome = chromosomeNumber;
+            centro.userData.chr = v.chr;
+            centro.userData.tip = 'Centromere ' + chromosomeNumber;
             this.arms[i + 'Q'].add(centro);
             this.chromosomeMeshes.push(centro);
 
@@ -130,8 +135,8 @@ export class GenomeGraph implements ChartObjectInterface {
                 new THREE.Vector3(0, v.Q - v.C, 0), {});
             teleQ.userData.chr = v.chr;
             teleQ.userData.type = GenomicEnum.Q_TELOMERE;
-            centro.userData.chromosome = i;
-            teleQ.userData.tip = 'Telemere Q ' + i;
+            centro.userData.chromosome = chromosomeNumber;
+            teleQ.userData.tip = 'Telemere Q ' + chromosomeNumber;
             this.arms[i + 'Q'].add(teleQ);
             this.chromosomeMeshes.push(teleQ);
 
@@ -139,10 +144,10 @@ export class GenomeGraph implements ChartObjectInterface {
                 new THREE.Vector3(0, v.P - v.C, 0), {});
             teleP.userData.chr = v.chr;
             teleP.userData.type = GenomicEnum.P_TELOMERE;
-            centro.userData.chromosome = i;
+            centro.userData.chromosome = chromosomeNumber;
             centro.userData.chr = v.chr;
             centro.userData.type = GenomicEnum.CENTROMERE;
-            teleP.userData.tip = 'Telemere P ' + i;
+            teleP.userData.tip = 'Telemere P ' + chromosomeNumber;
             this.arms[i + 'P'].add(teleP);
             this.chromosomeMeshes.push(teleP);
         });
@@ -203,13 +208,21 @@ export class GenomeGraph implements ChartObjectInterface {
     private onMouseDown(e: ChartEvent): void {
         const hits = ChartUtil.getIntersects(this.view, e.mouse, this.chromosomeMeshes);
         if (hits.length > 0) {
-            switch (hits[0].object.userData.type){
+            const data = hits[0].object.userData;
+            switch (data.type){
                 case GenomicEnum.CENTROMERE:
-                    debugger;
-                case GenomicEnum.P_TELOMERE:
-                    debugger;
-                case GenomicEnum.Q_TELOMERE:
-                    debugger;
+                    const chromosomeConfig = new ChromosomeConfigModel();
+                    chromosomeConfig.graph = (this.config.graph === GraphEnum.GRAPH_A) ? GraphEnum.GRAPH_B : GraphEnum.GRAPH_A;
+                    chromosomeConfig.chromosome = data.chromosome.toString();
+                    chromosomeConfig.dirtyFlag = DirtyEnum.LAYOUT;
+                    console.log('TODO: Should not takeover table definition and preserve if possible origional chromo options');
+                    chromosomeConfig.table = this.config.table;
+                    this.onConfigEmit.next({type: chromosomeConfig as GraphConfig});
+                    break;
+                // case GenomicEnum.P_TELOMERE:
+                //     debugger;
+                // case GenomicEnum.Q_TELOMERE:
+                //     debugger;
             }
         }
     }

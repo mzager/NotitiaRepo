@@ -18,11 +18,13 @@ import * as THREE from 'three';
 import { Memoize } from 'typescript-memoize';
 import { ShapeEnum, GraphEnum } from 'app/model/enum.model';
 
-export class PcaGraph implements ChartObjectInterface {
+export class KmedianGraph implements ChartObjectInterface {
 
-    public onSelect: EventEmitter<{type: EntityTypeEnum, ids: Array<string>}> =
-        new EventEmitter<{type: EntityTypeEnum, ids: Array<string>}>();
+    // Emitters
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
+    public onConfigEmit: EventEmitter<{type: GraphConfig}> = new EventEmitter<{ type: GraphConfig }>();
+    public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
+        new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
 
     // Chart Elements
     private labels: HTMLElement;
