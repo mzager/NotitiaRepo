@@ -18,8 +18,11 @@ import { Vector3, CubeGeometry } from 'three';
 
 export class TimelinesGraph implements ChartObjectInterface {
 
+    // Emitters
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
-    public onSelect: EventEmitter<{ type: EntityTypeEnum; ids: string[]; }>;
+    public onConfigEmit: EventEmitter<{type: GraphConfig}> = new EventEmitter<{ type: GraphConfig }>();
+    public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
+        new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
 
     // Chart Elements
     private labels: HTMLElement;
