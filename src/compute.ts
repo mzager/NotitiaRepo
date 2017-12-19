@@ -27,6 +27,8 @@ import { tsneCompute } from './app/component/visualization/tsne/tsne.compute';
 import { pcaCompute } from './app/component/visualization/pca/pca.compute';
 import { chromosomeCompute } from './app/component/visualization/chromosome/chromosome.compute';
 import { ComputeWorkerUtil } from './app/service/compute.worker.util';
+import { pathwaysCompute } from './app/component/visualization/pathways/pathways.compute';
+
 // import * as util from './app/service/compute.worker.util';
 // Recompile:  npm run worker
 export interface DedicatedWorkerGlobalScope extends Window {
@@ -47,6 +49,9 @@ onmessage = function (e) {
     switch (e.data.visualization) {
         case VisualizationEnum.PCA:
             pcaCompute(e.data, me);
+            break;
+        case VisualizationEnum.PATHWAYS:
+            pathwaysCompute(e.data, me);
             break;
         case VisualizationEnum.CHROMOSOME:
             chromosomeCompute(e.data, me);

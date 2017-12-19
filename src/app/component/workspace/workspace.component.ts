@@ -1,3 +1,4 @@
+import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
 
 import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
 import { HicConfigModel } from './../visualization/hic/hic.model';
@@ -196,6 +197,9 @@ export class WorkspaceComponent {
         break;
       case enums.VisualizationEnum.PCA:
         this.store.dispatch( new compute.PcaAction( { config: value as PcaConfigModel} ));
+        break;
+      case enums.VisualizationEnum.PATHWAYS:
+        this.store.dispatch( new compute.PathwaysAction( { config: value as PathwaysConfigModel} ));
         break;
       case enums.VisualizationEnum.CHROMOSOME:
         this.store.dispatch( new compute.ChromosomeAction( { config: value as ChromosomeConfigModel} ));
