@@ -1,3 +1,4 @@
+import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
 import { HicConfigModel } from './../../visualization/hic/hic.model';
 import { ParallelCoordsConfigModel } from './../../visualization/parallelcoords/parallelcoords.model';
 import { BoxWhiskersConfigModel } from './../../visualization/boxwhiskers/boxwhiskers.model';
@@ -72,6 +73,9 @@ export class GraphPanelComponent implements AfterViewInit  {
       switch (parseInt(el.value, 10)) {
         case VisualizationEnum.TIMELINES:
           gc = new TimelinesConfigModel();
+          break;
+        case VisualizationEnum.PATHWAYS:
+          gc = new PathwaysConfigModel();
           break;
         case VisualizationEnum.CHROMOSOME:
           gc = new ChromosomeConfigModel();
@@ -172,6 +176,9 @@ export class GraphPanelComponent implements AfterViewInit  {
       switch (parseInt(el.value, 10)) {
         case VisualizationEnum.TIMELINES:
           gc = new TimelinesConfigModel();
+          break;
+        case VisualizationEnum.PATHWAYS:
+          gc = new PathwaysConfigModel();
           break;
         case VisualizationEnum.CHROMOSOME:
           gc = new ChromosomeConfigModel();
@@ -282,6 +289,7 @@ export class GraphPanelComponent implements AfterViewInit  {
   constructor() {
     this.visualizationOptions = [
       //{ value: VisualizationEnum.NONE, label: 'None' },
+      { value: VisualizationEnum.PATHWAYS, label: 'Pathways'},
       { value: VisualizationEnum.GENOME, label: 'Genome' },
       { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
       { value: VisualizationEnum.HIC, label: 'Force Directed Graph' },

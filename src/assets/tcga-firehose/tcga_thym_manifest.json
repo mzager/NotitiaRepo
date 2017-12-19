@@ -1,0 +1,1 @@
+[{"name":"clinical","dataType":"clinical","file":"tcga_thym_clinical.json.gz"},{"name":"gistic","dataType":"gistic","file":"tcga_thym_gistic.json.gz"},{"name":"gistic threshold","dataType":"gistic_threshold","file":"tcga_thym_gistic_threshold.json.gz"},{"name":"mut","dataType":"mut","file":"tcga_thym_mut.json.gz"},{"name":"rna","dataType":"rna","file":"tcga_thym_rna.json.gz"}]

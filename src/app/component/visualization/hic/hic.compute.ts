@@ -55,7 +55,7 @@ export const hicComputeFn = (config: HicConfigModel): Promise<any> => {
                     (config.dimensions === DimensionEnum.TWO_D) ? 2 : 1)
                 .nodes(nodes)
                 .force('link', d3_force.forceLink().distance(link => link.tension).links(links))
-                .force('charge', d3_force.forceManyBody().strength( link => -200 ) )
+                .force('charge', d3_force.forceManyBody().strength( link => -100 ) )
                 .force('center', d3_force.forceCenter())
                 .stop();
 

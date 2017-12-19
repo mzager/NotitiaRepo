@@ -28,10 +28,10 @@ export class HicGraph implements ChartObjectInterface {
 
     // Emitters
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
-    public onConfigEmit: EventEmitter<{type: GraphConfig}> = new EventEmitter<{ type: GraphConfig }>();
+    public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{ type: GraphConfig }>();
     public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
         new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
-        
+
     private NODE_SIZE = 5;
 
     // Chart Elements
@@ -56,7 +56,7 @@ export class HicGraph implements ChartObjectInterface {
 
     // Private Subscriptions
     private sMouseMove: Subscription;
-    
+
 
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         this.labels = labels;
@@ -83,7 +83,7 @@ export class HicGraph implements ChartObjectInterface {
         }
         if (this.config.dirtyFlag & DirtyEnum.COLOR) {
             const idProperty = (config.entity === EntityTypeEnum.GENE) ? 'mid' :
-            (this.config.pointColor.ctype & CollectionTypeEnum.MOLECULAR) ? 'sid' : 'pid';
+                (this.config.pointColor.ctype & CollectionTypeEnum.MOLECULAR) ? 'sid' : 'pid';
             const objMap = data.pointColor;
             this.meshes.forEach(mesh => {
                 const color = objMap[mesh.userData[idProperty]];
@@ -231,31 +231,34 @@ export class HicGraph implements ChartObjectInterface {
 
     private onMouseMove(e: ChartEvent): void {
 
-        const geneHit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
-        if (geneHit.length > 0) {
-            const xPos = e.mouse.xs + 10;
-            const yPos = e.mouse.ys;
-            this.labels.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#FFF;padding:3px;border-radius:' +
-                '3px;z-index:9999;position:absolute;left:' +
-                xPos + 'px;top:' +
-                yPos + 'px;">' +
-                geneHit[0].object.userData.tip + '</div>';
-            return;
+
+        const meshes = ChartUtil.getVisibleMeshes(this.view).map<{ label: string, x: number, y: number, z: number }>(mesh => {
+            const coord = ChartUtil.projectToScreen(this.config.graph, mesh, this.view.camera,
+                this.view.viewport.width, this.view.viewport.height);
+            return { label: mesh.userData.tip, x: coord.x + 10, y: coord.y - 5, z: coord.z };
+        });
+        if (meshes.length < 15) {
+            const html = meshes.filter(v => v.label !== undefined).map(data => {
+                return '<div class="chart-label" style="background: rgba(255, 255, 255, .5);font-size:8px;left:' + data.x + 'px;top:' + data.y +
+                    'px;position:absolute;">' + data.label + '</div>';
+            }).reduce((p, c) => p += c, '');
+            this.labels.innerHTML = html;
+        } else {
+            const geneHit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
+            if (geneHit.length > 0) {
+                const xPos = e.mouse.xs + 10;
+                const yPos = e.mouse.ys;
+                this.labels.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#FFF;padding:3px;border-radius:' +
+                    '3px;z-index:9999;position:absolute;left:' +
+                    xPos + 'px;top:' +
+                    yPos + 'px;">' +
+                    geneHit[0].object.userData.tip + '</div>';
+                return;
+            }
+            this.labels.innerHTML = '';
+
         }
-        this.labels.innerHTML = '';
 
-
-        // const meshes = ChartUtil.getVisibleMeshes(this.view).map<{ label: string, x: number, y: number, z: number }>(mesh => {
-        //     const coord = ChartUtil.projectToScreen(this.config.graph, mesh, this.view.camera,
-        //         this.view.viewport.width, this.view.viewport.height);
-        //     return { label: mesh.userData.tip, x: coord.x + 10, y: coord.y - 5, z: coord.z };
-        // });
-
-        // const html = meshes.filter(v => v.label !== undefined).map(data => {
-        //     return '<div class="chart-label" style="background: rgba(255, 255, 255, .5);font-size:8px;left:' + data.x + 'px;top:' + data.y +
-        //         'px;position:absolute;">' + data.label + '</div>';
-        // }).reduce((p, c) => p += c, '');
-        // this.labels.innerHTML = html;
     }
 
     constructor() { }

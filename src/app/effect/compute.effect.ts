@@ -20,6 +20,7 @@ import {
   TsneCompleteAction,
   EdgesCompleteAction,
   HeatmapCompleteAction,
+  PathwaysCompleteAction,
   ParallelCoordsCompleteAction,
   BoxWhiskersCompleteAction,
   LinkedGeneCompleteAction,
@@ -150,6 +151,17 @@ export class ComputeEffect {
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new PcaCompleteAction({ config: result.config, data: result.data }));
+        });
+    });
+
+  @Effect() loadPathways: Observable<any> = this.actions$
+    .ofType(compute.COMPUTE_PATHWAYS)
+    .map(toPayload)
+    .switchMap(payload => {
+      return this.computeService.pathways(payload.config)
+        .switchMap(result => {
+          return Observable.of((result === null) ? new NullDataAction() :
+            new PathwaysCompleteAction({ config: result.config, data: result.data }));
         });
     });
 
