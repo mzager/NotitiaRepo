@@ -1,3 +1,4 @@
+import { PathwaysGraph } from './../../visualization/pathways/pathways.graph';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { TimelinesGraph } from './../../visualization/timelines/timelines.graph';
 import { HicGraph } from './../../visualization/hic/hic.graph';
@@ -314,6 +315,9 @@ export class ChartScene {
         if (view.config.visualization !== config.visualization) {
             view.config.visualization = config.visualization;
             if (view.chart !== null) { view.chart.destroy(); }
+            view.camera.position.set(0, 0, 1000);
+            view.camera.rotation.setFromVector3( new THREE.Vector3(0, 0, 0) );
+
             view.chart = this.getChartObject(config.visualization).create(this.labels, this.events, view);
             view.chart.onRequestRender.subscribe(this.render);
             view.chart.onConfigEmit.subscribe(this.config);
@@ -328,6 +332,7 @@ export class ChartScene {
         switch (visualization) {
             case VisualizationEnum.TIMELINES: return new TimelinesGraph();
             case VisualizationEnum.HEATMAP: return new HeatmapGraph();
+            case VisualizationEnum.PATHWAYS: return new PathwaysGraph();
             case VisualizationEnum.EDGES: return new EdgesGraph();
             case VisualizationEnum.PCA: return new PcaGraph();
             case VisualizationEnum.CHROMOSOME: return new ChromosomeGraph();
