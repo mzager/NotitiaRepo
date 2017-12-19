@@ -35,6 +35,7 @@ import { TsneConfigModel } from './../component/visualization/tsne/tsne.model';
 import { UUID } from 'angular2-uuid';
 import * as Pool from 'generic-promise-pool';
 import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
+import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
 declare var thread;
 
 /*
@@ -70,7 +71,7 @@ export class ComputeService {
     private parallelCoords$ = new Subject<any>();
     private linkedGene$ = new Subject<any>();
     private hic$ = new Subject<any>();
-    private dataload$ = new Subject<any>();
+    private pathways$ = new Subject<any>();
 
     constructor(private illumina: IlluminaService) {
         // this.pool = Pool.create({
@@ -96,6 +97,7 @@ export class ComputeService {
 
     getSubjectByVisualization(v: VisualizationEnum): Subject<any> {
         return (v === VisualizationEnum.BOX_WHISKERS) ? this.boxWhiskers$ :
+            (v === VisualizationEnum.PATHWAYS) ? this.pathways$ :
             (v === VisualizationEnum.ISOMAP) ? this.isoMap$ :
             (v === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? this.localLinearEmbedding$ :
             (v === VisualizationEnum.INCREMENTAL_PCA) ? this.pcaIncremental$ :
@@ -153,6 +155,7 @@ export class ComputeService {
         //         worker.postMessage( config );
         //     });
         // });
+
         switch (config.graph ) {
             case GraphEnum.GRAPH_A:
                 if (this.workerA !== null) {
@@ -212,6 +215,10 @@ export class ComputeService {
 
     tsne(config: TsneConfigModel): Observable<any> {
         return this.execute(config, this.tsne$);
+    }
+
+    pathways(config: PathwaysConfigModel): Observable<any> {
+        return this.execute(config, this.pathways$);
     }
 
     pca(config: PcaConfigModel): Observable<any> {

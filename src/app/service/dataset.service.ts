@@ -8,8 +8,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from './http.client';
 import * as jstat from 'jstat';
 import Dexie from 'dexie';
-
-
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class DatasetService {
@@ -18,7 +17,8 @@ export class DatasetService {
   public static API_PATH = '/assets/tcga/';
   public static db: Dexie;
   public static dataTables: Array<{ tbl: string, map: string, label: string, type: CollectionTypeEnum }>;
-
+  private loader: Worker = null;
+  private loader$ = new Subject<any>();
 
   public getDataset(dataset: string): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -26,7 +26,7 @@ export class DatasetService {
         if (exists) {
           DatasetService.db = new Dexie('notitia-dataset');
           DatasetService.db.open().then(v => {
-            DatasetService.db.table('dataset').where({ name: dataset }).first().then( result => {
+            DatasetService.db.table('dataset').where({ name: dataset }).first().then(result => {
               resolve(result);
             });
           });
@@ -36,7 +36,74 @@ export class DatasetService {
       });
     });
   }
+  // createWorker(fn): Worker {
+  //   const blob = new Blob(['self.onmessage = ', fn.toString()], { type: 'text/javascript' });
+  //   const url = URL.createObjectURL(blob);
+  //   return new Worker(url);
+  // }
+  private onMessage(msg: Object): void {
 
+  }
+  public createStore(): void {
+
+  }
+  public load(manifest: any): Observable<any> {
+
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept-Encoding', 'gzip');
+    const requestInit: RequestInit = {
+      method: 'GET',
+      headers: headers,
+      mode: 'cors',
+      cache: 'default'
+    };
+    console.dir(manifest);
+    fetch(manifest.manifest, requestInit)
+      .then(response => response.json())
+      .then(response => {
+        Dexie.exists('notitia-' + manifest.disease)
+          .then(exists => {
+            if (exists) { Dexie.delete('notitia-' + manifest.disease); }
+            const db = DatasetService.db = new Dexie('notitia-' + manifest.disease);
+            db.version(1).stores(response.schema);
+            Promise.all(
+              response.files.map( file => {
+                return new Promise( (resolve, reject) => {
+                  const loader = new Worker('/assets/loader.js');
+                  const onMessage = (msg) => {
+                    
+                  };
+                  loader.addEventListener('message', onMessage);
+                  loader.postMessage( { cmd: 'load', file: file });
+                });
+              })
+            ).then( v => {
+              
+            });
+            console.log("HI");
+
+          });
+      });
+
+    // Retrieve the clinical first... need it for indexes of store
+    // const clinicalTables = response.filter(v => v.name === 'clinical');
+    // if (clinicalTables.length > 0) {
+    //   fetch( clinicalTables[0].file)
+    // }
+    // debugger;
+    // Promise.all(response.map(processResource));
+
+    // if (this.loader !== null) {
+    //   this.loader.removeEventListener('message', this.onMessage);
+    //   this.loader.terminate();
+    //   this.loader = null;
+    // }
+    // this.loader = new Worker('assets/loader.js');
+    // this.loader.addEventListener('message', this.onMessage.bind(this));
+    // this.loader.postMessage( {cmd: 'load', manifest: manifest} );
+    return this.loader$;
+  }
 
   public loadTcga(disease: any): Observable<any> {
 
@@ -47,7 +114,7 @@ export class DatasetService {
         return Observable.forkJoin([
           this.http.get(DatasetService.API_PATH + disease.name + '.json'),
           this.http.get(DatasetService.API_PATH + disease.name + '-events.json')
-          ]);
+        ]);
       })
       .flatMap((res: any) => {
 
@@ -75,22 +142,20 @@ export class DatasetService {
           patientSampleMap: 's, p'
         });
 
-        
-
         // Events
         events = events.events.map(v => {
-            return {
-              p: v[0],
-              type: events.typeMap[v[1]],
-              subtype: events.subtypeMap[v[2]],
-              start:  v[3] * 1000,
-              end: v[4] * 1000,
-              data: v[5]
-              };
-          });
+          return {
+            p: v[0],
+            type: events.typeMap[v[1]],
+            subtype: events.subtypeMap[v[2]],
+            start: v[3] * 1000,
+            end: v[4] * 1000,
+            data: v[5]
+          };
+        });
 
 
-        const patientSampleMap = cm.gistic.samples.map( v => ({s: v, p: v.substr(0, 7) }));
+        const patientSampleMap = cm.gistic.samples.map(v => ({ s: v, p: v.substr(0, 7) }));
 
         // Gistic
         const gistic = cm.gistic.markers.map((marker, m) => {
@@ -218,7 +283,7 @@ export class DatasetService {
         const patient = cm.clinical.patients.map((patientDatum, pi) => {
           return cm.clinical.fields.reduce((obj, field, fi) => {
             obj[field.key] = (field.type === 'number') ?
-            cm.clinical.data[fi][pi] :
+              cm.clinical.data[fi][pi] :
               field.values[cm.clinical.data[fi][pi]];
             return obj;
           }, { p: patientDatum });
@@ -239,17 +304,24 @@ export class DatasetService {
         };
 
         // Build Fields Collection
-        const fields = cm.clinical.fields.map(v => Object.assign(v, { 
+        const fields = cm.clinical.fields.map(v => Object.assign(v, {
           ctype: CollectionTypeEnum.PATIENT,
           tbl: 'patient', type: v.type.toUpperCase(),
-        label: v.key.replace(/_/gi, ' ')
-          .replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); })}));
-        fields.push({ key: 'gistic', label: 'Gistic', type: 'NUMBER', tbl: 'gistic',
-          values: molecularMinMax(gistic), ctype: CollectionTypeEnum.GISTIC  } );
-        fields.push({ key: 'rna', label: 'RNA', type: 'NUMBER', tbl: 'rna',
-          values: molecularMinMax(rna), ctype: CollectionTypeEnum.MRNA } );
-        fields.push({ key: 'gistic_threshold', label: 'Gistic Thresholded', type: 'STRING',
-          tbl: 'gisticT', values: [-2, -1, 0, 1, 2], ctype: CollectionTypeEnum.GISTIC_THRESHOLD } );
+          label: v.key.replace(/_/gi, ' ')
+            .replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); })
+        }));
+        fields.push({
+          key: 'gistic', label: 'Gistic', type: 'NUMBER', tbl: 'gistic',
+          values: molecularMinMax(gistic), ctype: CollectionTypeEnum.GISTIC
+        });
+        fields.push({
+          key: 'rna', label: 'RNA', type: 'NUMBER', tbl: 'rna',
+          values: molecularMinMax(rna), ctype: CollectionTypeEnum.MRNA
+        });
+        fields.push({
+          key: 'gistic_threshold', label: 'Gistic Thresholded', type: 'STRING',
+          tbl: 'gisticT', values: [-2, -1, 0, 1, 2], ctype: CollectionTypeEnum.GISTIC_THRESHOLD
+        });
 
         const dataset = {
           name: disease.name,

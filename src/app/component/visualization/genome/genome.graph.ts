@@ -187,7 +187,7 @@ export class GenomeGraph implements ChartObjectInterface {
                     mesh.position.x = 0;
                     mesh.position.y = (gene.tss - centro);
                     mesh.position.z = 0;
-                    mesh.userData.mid = gene.gene;
+                    mesh.userData.mid = gene.gene.toUpperCase();
                     mesh.userData.tip = gene.gene;
                     //  +
                     //     ' | x̅ ' + (Math.round(100 * gene.mean) / 100) +

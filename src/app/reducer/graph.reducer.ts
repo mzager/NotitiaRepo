@@ -24,7 +24,7 @@ import { COMPUTE_CHROMOSOME, COMPUTE_CHROMOSOME_COMPLETE, COMPUTE_PCA_COMPLETE,
     COMPUTE_SPECTRAL_EMBEDDING_COMPLETE, COMPUTE_PCA_INCREMENTAL_COMPLETE,
     COMPUTE_PCA_KERNAL_COMPLETE, COMPUTE_PCA_SPARSE_COMPLETE, COMPUTE_LINKED_GENE_COMPLETE,
     COMPUTE_NONE_COMPLETE, COMPUTE_BOX_WHISKERS_COMPLETE, COMPUTE_PARALLEL_COORDS_COMPLETE,
-    COMPUTE_HIC_COMPLETE, 
+    COMPUTE_HIC_COMPLETE, COMPUTE_PATHWAYS_COMPLETE,
     COMPUTE_TIMELINES_COMPLETE} from './../action/compute.action';
 import { DataCollection } from './../model/data-collection.model';
 import { DataField } from 'app/model/data-field.model';
@@ -54,6 +54,7 @@ const initialState: State = {
 function processAction(action: UnsafeAction, state: State): State {
     switch (action.type) {
         case COMPUTE_NONE_COMPLETE:
+        case COMPUTE_PATHWAYS_COMPLETE:
         case COMPUTE_TIMELINES_COMPLETE:
         case COMPUTE_HEATMAP_COMPLETE:
         case COMPUTE_BOX_WHISKERS_COMPLETE:
@@ -81,6 +82,7 @@ function processAction(action: UnsafeAction, state: State): State {
         case COMPUTE_PCA_SPARSE_COMPLETE:
         case COMPUTE_PCA_INCREMENTAL_COMPLETE:
         case COMPUTE_PCA_KERNAL_COMPLETE:
+
             const data = action.payload.data as GraphData;
             switch (action.payload.config.dirtyFlag) {
                 case DirtyEnum.LAYOUT:
