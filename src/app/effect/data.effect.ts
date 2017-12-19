@@ -45,6 +45,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/debounceTime';
 import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
+import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
 
 @Injectable()
 export class DataEffect {
@@ -54,7 +55,8 @@ export class DataEffect {
         .ofType(data.DATA_LOAD_FROM_TCGA)
         .map(toPayload)
         .switchMap( (args) => {
-            return this.datasetService.loadTcga(args);
+            args.manifest = 'https://s3-us-west-2.amazonaws.com/notitia/firehose/tcga_' + args.disease + '_manifest.json.gz'
+            return this.datasetService.load(args);
         })
         .mergeMap( (args) => {
             return [
@@ -62,6 +64,7 @@ export class DataEffect {
                 new DataLoadFromDexieAction(args[0])
             ];
         });
+        
 
     // Load Data From Dexie
     @Effect() dataLoadFromDexie$: Observable<DataLoadedAction> = this.actions$
@@ -82,13 +85,17 @@ export class DataEffect {
             const workspaceConfig = new WorkspaceConfigModel();
             workspaceConfig.layout = WorkspaceLayoutEnum.HORIZONTAL;
 
+            const pathwaysConfig = new PathwaysConfigModel();
+            pathwaysConfig.graph = GraphEnum.GRAPH_A;
+            pathwaysConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+
             const genomeConfig = new GenomeConfigModel();
             genomeConfig.graph = GraphEnum.GRAPH_B;
             genomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
-            const chromosomeConfig = new ChromosomeConfigModel();
-            chromosomeConfig.graph = GraphEnum.GRAPH_A;
-            chromosomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            // const chromosomeConfig = new ChromosomeConfigModel();
+            // chromosomeConfig.graph = GraphEnum.GRAPH_A;
+            // chromosomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             // const boxWhiskersConfig = new BoxWhiskersConfigModel();
             // boxWhiskersConfig.graph = GraphEnum.GRAPH_A;
@@ -145,9 +152,10 @@ export class DataEffect {
                 // new compute.TimelinesAction( { config: timelinesConfig})
 
                 // new compute.GenomeAction( { config: graphBConfig }),
-                 new compute.ChromosomeAction( { config: chromosomeConfig } ),
+                //  new compute.ChromosomeAction( { config: chromosomeConfig } ),
                 // new compute.HeatmapAction( { config: heatmapConfig })
                 // new compute.ChromosomeAction( { config: graphBConfig } )
+                new compute.PathwaysAction( { config: pathwaysConfig }),
                 new compute.GenomeAction( { config: genomeConfig })
                 // , new compute.PcaIncrementalAction( { config: graphBConfig } )
             ];

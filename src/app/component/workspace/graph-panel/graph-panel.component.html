@@ -17,6 +17,11 @@
                     </select>
                     </label>
                 </div>
+                <app-pathways-form *ngIf="configA && configA.visualization === 256"
+                    (configChange)="graphPanelSetConfig($event)"
+                    [fields]="fields"
+                    [config]="configA"
+                    ></app-pathways-form>
                 <app-timelines-form *ngIf="configA && configA.visualization === 128"
                     (configChange)="graphPanelSetConfig($event)"
                     [fields]="fields"
@@ -200,6 +205,11 @@
                 </select>
                 </label>
             </div> 
+            <app-pathways-form *ngIf="configB && configB.visualization === 256"
+                (configChange)="graphPanelSetConfig($event)"
+                [fields]="fields"
+                [config]="configB"
+                ></app-pathways-form>
             <app-timelines-form *ngIf="configB && configB.visualization === 128"
                 (configChange)="graphPanelSetConfig($event)"
                 [fields]="fields"
