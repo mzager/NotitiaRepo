@@ -8,7 +8,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "worker": "webpack --config webpack.worker.config.js",
+    "compute": "webpack --config webpack.compute.config.js",
+    "loader": "webpack --config webpack.loader.config.js",
     "e2e": "ng e2e"
   },
   "private": true,
