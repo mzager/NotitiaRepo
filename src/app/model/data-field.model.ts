@@ -15,7 +15,7 @@ export class DataFieldFactory {
         case DataTypeEnum.NUMBER:
           return true;
       }
-    }), DataFieldFactory.getGeneFamily()];
+    }), DataFieldFactory.getGeneFamily(), DataFieldFactory.getGeneType(), DataFieldFactory.getHicType()];
   }
 
   public static getSizeFields(clinicalFields: Array<DataField>): Array<DataField> {
@@ -60,6 +60,28 @@ export class DataFieldFactory {
       tbl: null,
       values: null,
       ctype: CollectionTypeEnum.GENE_FAMILY
+    };
+  }
+
+  public static getGeneType(): DataField {
+    return {
+      key: 'GeneType',
+      label: 'Gene Type',
+      type: DataTypeEnum.FUNCTION,
+      tbl: null,
+      values: null,
+      ctype: CollectionTypeEnum.GENE_TYPE
+    };
+  }
+
+  public static getHicType(): DataField {
+    return {
+      key: 'hic',
+      label: 'Hi-C',
+      type: DataTypeEnum.FUNCTION,
+      tbl: null,
+      values: null,
+      ctype: CollectionTypeEnum.HIC
     };
   }
 
