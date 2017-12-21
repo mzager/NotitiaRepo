@@ -66,24 +66,30 @@ export class DatasetService {
           .then(exists => {
             if (exists) { Dexie.delete('notitia-' + manifest.disease); }
             const db = DatasetService.db = new Dexie('notitia-' + manifest.disease);
+            console.log('notitia-' + manifest.disease);
+            DatasetService.db.on('versionchange', function (event) { });
+            DatasetService.db.on('blocked', () => { });
             db.version(1).stores(response.schema);
             Promise.all(
-              response.files.map( file => {
-                return new Promise( (resolve, reject) => {
+              response.files.filter(file => file.name !== 'manifest.json').map(file => {
+                return new Promise((resolve, reject) => {
                   const loader = new Worker('/assets/loader.js');
                   const onMessage = (msg) => {
-                    
+                    const tables: Array<{tbl: string, data: Array<any>}> = JSON.parse(msg.data);
+                    tables.forEach( table => {
+                      db.table(table.tbl).bulkAdd(table.data);
+                    });
                   };
                   loader.addEventListener('message', onMessage);
-                  loader.postMessage( { cmd: 'load', file: file });
+                  loader.postMessage({ cmd: 'load', disease: manifest.disease, file: file });
                 });
               })
-            ).then( v => {
-              
-            });
-            console.log("HI");
+            ).then(v => {
 
+            });
+            console.log('done');
           });
+
       });
 
     // Retrieve the clinical first... need it for indexes of store

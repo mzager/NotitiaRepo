@@ -128,9 +128,32 @@ var processResource = function (resource) {
     return (resource.dataType === 'clinical') ? loadClinical(resource.name, resource.file) :
         (resource.dataType === 'gistic_threshold') ? loadGisticThreshold(resource.name, resource.file) :
             (resource.dataType === 'gistic') ? loadGistic(resource.name, resource.file) :
-                (resource.dataType === 'mutation') ? loadMutation(resource.name, resource.file) :
+                (resource.dataType === 'mut') ? loadMutation(resource.name, resource.file) :
                     (resource.dataType === 'rna') ? loadRna(resource.name, resource.file) :
-                        null;
+                        (resource.dataType === 'events') ? loadEvents(resource.name, resource.file) :
+                            null;
+};
+var loadEvents = function (name, file) {
+    return fetch(baseUrl + file, requestInit)
+        .then(function (response) { report('Events Loaded'); return response.json(); })
+        .then(function (response) {
+        report('Events Parsed');
+        var eventTable = [];
+        var mult = 86400000;
+        debugger;
+        // {
+        //     data:{gender: "female", race: "white", ethnicity: "not hispanic or latino"},
+        //     end:-387997200000,
+        //     p:"TCGA-02-0001",
+        //     start:-387997200000,
+        //     subtype:"Birth",
+        //     type: "Status"
+        // }
+        report('Events Processed');
+        return new Promise(function (resolve, reject) {
+            resolve([]);
+        });
+    });
 };
 var loadClinical = function (name, file) {
     report('Clinical Requested');
@@ -155,7 +178,10 @@ var loadClinical = function (name, file) {
         });
         report('Clinical Processed');
         return new Promise(function (resolve, reject) {
-            resolve({ meta: patientMetaTable, tbl: patientTable });
+            resolve([
+                { tbl: 'patientMeta', data: patientMetaTable },
+                { tbl: 'patient', data: patientTable }
+            ]);
         });
     });
 };
@@ -178,7 +204,10 @@ var loadGisticThreshold = function (name, file) {
         });
         report('Gistic Threshold Processed');
         return new Promise(function (resolve, reject) {
-            resolve({ ids: gisticThresholdSampleIds, tbl: gisticThresholdTable });
+            resolve([
+                { tbl: name, data: gisticThresholdTable },
+                { tbl: name + 'Map', data: gisticThresholdSampleIds }
+            ]);
         });
     });
 };
@@ -201,7 +230,10 @@ var loadGistic = function (name, file) {
         });
         report('Gistic Processed');
         return new Promise(function (resolve, reject) {
-            resolve({ ids: gisticSampleIds, tbl: gisticTable });
+            resolve([
+                { tbl: name, data: gisticTable },
+                { tbl: name + 'Map', data: gisticSampleIds }
+            ]);
         });
     });
 };
@@ -212,7 +244,7 @@ var loadMutation = function (name, file) {
         .then(function (response) {
         report('Mutation Parsed');
         return new Promise(function (resolve, reject) {
-            resolve({});
+            resolve([]);
         });
     });
 };
@@ -235,7 +267,10 @@ var loadRna = function (name, file) {
         });
         report('RNA Processed');
         return new Promise(function (resolve, reject) {
-            resolve({ ids: rnaSampleIds, tbl: rnaTable });
+            resolve([
+                { tbl: name, data: rnaTable },
+                { tbl: name + 'Map', data: rnaSampleIds }
+            ]);
         });
     });
 };
@@ -244,10 +279,7 @@ onmessage = function (e) {
     switch (e.data.cmd) {
         case 'load':
             processResource(e.data.file).then(function (v) {
-                me.postMessage({
-                    msg: e,
-                    result: v
-                });
+                me.postMessage(JSON.stringify(v));
             });
             break;
     }

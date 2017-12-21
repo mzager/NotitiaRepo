@@ -23408,6 +23408,14 @@ exports.timelinesCompute = function (config, worker) {
                 });
             }
             // Filter Toggles
+            var birth = [];
+            events = events.filter(function (v) {
+                if (v.subtype === 'Birth') {
+                    birth.push(v);
+                    return false;
+                }
+                return true;
+            });
             if (config.hasOwnProperty('visibleElements')) {
                 var show_1 = config.visibleElements;
                 events = events.filter(function (v) { return show_1[v.subtype]; });
