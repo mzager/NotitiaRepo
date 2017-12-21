@@ -4,7 +4,6 @@ export interface LoaderWorkerGlobalScope extends Window {
     postMessage(data: any, transferList?: any): void;
     importScripts(src: string): void;
 }
-
 const mutationType = {
     1: 'Missense',
     2: 'Silent',
@@ -64,12 +63,35 @@ const processResource = (resource: { name: string, dataType: string, file: strin
     return (resource.dataType === 'clinical') ? loadClinical(resource.name, resource.file) :
         (resource.dataType === 'gistic_threshold') ? loadGisticThreshold(resource.name, resource.file) :
             (resource.dataType === 'gistic') ? loadGistic(resource.name, resource.file) :
-                (resource.dataType === 'mutation') ? loadMutation(resource.name, resource.file) :
+                (resource.dataType === 'mut') ? loadMutation(resource.name, resource.file) :
                     (resource.dataType === 'rna') ? loadRna(resource.name, resource.file) :
+                        (resource.dataType === 'events') ? loadEvents(resource.name, resource.file) :
                         null;
 };
 
 
+const loadEvents = (name: string, file: string): Promise<any> => {
+    return fetch(baseUrl + file, requestInit)
+        .then(response => { report('Events Loaded'); return response.json(); })
+        .then(response => {
+            report('Events Parsed');
+            const eventTable = [];
+            const mult = 86400000;
+            debugger;
+            // {
+            //     data:{gender: "female", race: "white", ethnicity: "not hispanic or latino"},
+            //     end:-387997200000,
+            //     p:"TCGA-02-0001",
+            //     start:-387997200000,
+            //     subtype:"Birth",
+            //     type: "Status"
+            // }
+            report('Events Processed');
+            return new Promise( (resolve, reject) => {
+                resolve([]);
+            });
+        });
+};
 const loadClinical = (name: string, file: string): Promise<any> => {
     report('Clinical Requested');
     return fetch(baseUrl + file, requestInit)
@@ -93,9 +115,11 @@ const loadClinical = (name: string, file: string): Promise<any> => {
             });
             report('Clinical Processed');
             return new Promise( (resolve, reject) => {
-                resolve({meta: patientMetaTable, tbl: patientTable});
+                resolve([
+                    {tbl: 'patientMeta', data: patientMetaTable},
+                    {tbl: 'patient', data: patientTable}
+                ]);
             });
-            
         });
 };
 
@@ -118,9 +142,11 @@ const loadGisticThreshold = (name: string, file: string): Promise<any> => {
             });
             report('Gistic Threshold Processed');
             return new Promise( (resolve, reject) => {
-                resolve({ids: gisticThresholdSampleIds, tbl: gisticThresholdTable});
+                resolve([
+                    { tbl: name, data: gisticThresholdTable },
+                    { tbl: name + 'Map', data: gisticThresholdSampleIds }
+                ]);
             });
-            
         });
 };
 
@@ -143,7 +169,10 @@ const loadGistic = (name: string, file: string): Promise<any> => {
             });
             report('Gistic Processed');
             return new Promise( (resolve, reject) => {
-                resolve({ids: gisticSampleIds, tbl: gisticTable});
+                resolve([
+                    { tbl: name, data: gisticTable },
+                    { tbl: name + 'Map', data: gisticSampleIds }
+                ]);
             });
         });
 };
@@ -155,7 +184,7 @@ const loadMutation = (name: string, file: string): Promise<any> => {
         .then(response => {
             report('Mutation Parsed');
             return new Promise( (resolve, reject) => {
-                resolve({});
+                resolve([]);
             });
         });
 };
@@ -179,7 +208,10 @@ const loadRna = (name: string, file: string): Promise<any> => {
             });
             report('RNA Processed');
             return new Promise( (resolve, reject) => {
-                resolve({ids: rnaSampleIds, tbl: rnaTable});
+                resolve([
+                    { tbl: name, data: rnaTable },
+                    { tbl: name + 'Map', data: rnaSampleIds }
+                ]);
             });
         });
 };
@@ -190,10 +222,7 @@ onmessage = function (e) {
     switch (e.data.cmd) {
         case 'load':
             processResource(e.data.file).then( v => {
-                me.postMessage({
-                    msg: e,
-                    result: v
-                });
+                me.postMessage( JSON.stringify(v) );
             });
             break;
     }
