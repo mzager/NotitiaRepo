@@ -39,6 +39,14 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 }
 
                 // Filter Toggles
+                const birth = [];
+                events = events.filter(v => {
+                    if (v.subtype === 'Birth') {
+                        birth.push(v);
+                        return false;
+                    }
+                    return true;
+                });
                 if (config.hasOwnProperty('visibleElements')) {
                     const show = config.visibleElements;
                     events = events.filter(v => show[v.subtype] );
@@ -88,7 +96,6 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                     evts.id = v[0];
                     return evts;
                 });
-
 
                 worker.postMessage({
                     config: config,

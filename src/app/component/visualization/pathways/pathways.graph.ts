@@ -55,7 +55,6 @@ export class PathwaysGraph implements ChartObjectInterface {
     }
 
     update(config: GraphConfig, data: any) {
-debugger
         this.config = config as PathwaysConfigModel;
         this.data = data;
 
@@ -113,7 +112,7 @@ debugger
                     Math.round(parseFloat(end.x) * 0.4),
                     Math.round(parseFloat(end.y) * 0.4)
                 );
-                const line = ChartFactory.lineAllocate(0xFF4081, s, e, {});
+                const line = ChartFactory.lineAllocate(0x039BE5, s, e, {});
                 this.lines.push(line);
                 this.view.scene.add(line);
             });
@@ -131,7 +130,7 @@ debugger
 
         this.meshes = shapes.map(shape => {
             const geo = new THREE.ShapeGeometry(shape);
-            const material = new THREE.MeshLambertMaterial({color: 0x039BE5, transparent: true, opacity: 0.2});
+            const material = new THREE.MeshLambertMaterial({color: 0x039BE5, transparent: true, opacity: 0.1});
             return new THREE.Mesh(geo, material);
         });
 
