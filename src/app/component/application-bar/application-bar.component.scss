@@ -10,7 +10,8 @@
 .application-bar-logo {
     letter-spacing: 8px;
     line-height: 30px;
-    color: #FFF;
+    color: #FFF !important;
+    background: #039be5;
     font-weight: 500;
     font-size: 12px;
     text-transform: uppercase;
@@ -32,13 +33,17 @@
     width: 100%;
     height: 30px;
     z-index: 50;
-    background: #039BE5; //#283e4a;
-    text-align: s;
+    background:#029BE5;
     padding-right: 15px;
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
+    // box-shadow: 3px 3px 0 rgba(2, 155, 229, 0.1), 0 1px 3px 0 rgba(2, 155, 229, 0.1), 0 3px 1px -1px rgba(2, 155, 229, 0.1);
+    // border: solid 0px #029BE5;
+    // border-bottom-width:1px;
+    
     a {
         display: inline-block;
-        color: #FFFFFF;
+        // color: #029BE5;
+        color:#FFF;
+
         padding: 0px 10px;
         line-height: 30px;
         height: 30px;

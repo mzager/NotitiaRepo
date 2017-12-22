@@ -211,9 +211,9 @@ export class ChromosomeGraph implements ChartObjectInterface {
             chords: chords
         };
     }
+
     armsAddObjets() {
         const result = this.armsCompute(this.data.result.genes, this.data.result.chromosome);
-
         let line = ChartFactory.lineAllocate(0xffffff,
             new THREE.Vector2(0, -10000),
             new THREE.Vector2(0, 10000),
