@@ -17,7 +17,6 @@ export interface State {
     legendPanel: e.LegendPanelEnum;
     edgePanel: e.EdgePanelEnum;
     toolPanel: e.ToolPanelEnum;
-    tcgaPanel: e.TcgaPanelEnum;
     historyPanel: e.HistoryPanelEnum;
     cohortPanel: e.GraphPanelEnum;
     dataPanel: e.DataPanelEnum;
@@ -42,7 +41,6 @@ const initialState: State = {
     dataPanel: e.DataPanelEnum.NONE,
     geneSignaturePanel: e.SinglePanelEnum.HIDE,
     clusterAlgorithmPanel: e.SinglePanelEnum.HIDE,
-    tcgaPanel: e.TcgaPanelEnum.NONE,
     workspacePanel: e.WorkspacePanelEnum.NONE,
     workspaceConfig: new WorkspaceConfigModel()
 };
@@ -107,9 +105,6 @@ export function reducer(state = initialState, action: UnsafeAction): State {
         case layout.TOOL_PANEL_TOGGLE:
             return Object.assign({}, state,
                 { toolPanel: (state.toolPanel === e.ToolPanelEnum.NONE) ? e.ToolPanelEnum.SETTINGS : e.ToolPanelEnum.NONE });
-        case layout.TCGA_PANEL_TOGGLE:
-                return Object.assign({}, state,
-                    { tcgaPanel: (state.tcgaPanel === e.TcgaPanelEnum.NONE) ? e.TcgaPanelEnum.DATASETS : e.TcgaPanelEnum.NONE });
         case layout.EDGE_PANEL_TOGGLE:
             return Object.assign({}, state,
                 { edgePanel: (state.edgePanel === e.EdgePanelEnum.NONE) ? e.EdgePanelEnum.SETTINGS : e.EdgePanelEnum.NONE });
@@ -142,7 +137,6 @@ export const getSamplePanelState = (state: State) => state.samplePanel;
 export const getPopulationPanelState = (state: State) => state.populationPanel;
 export const getLegendPanelState = (state: State) => state.legendPanel;
 export const getToolPanelState = (state: State) => state.toolPanel;
-export const getTcgaPanelState = (state: State) => state.tcgaPanel;
 export const getHistoryPanelState = (state: State) => state.historyPanel;
 export const getCohortPanelState = (state: State) => state.cohortPanel;
 export const getDataPanelState = (state: State) => state.dataPanel;

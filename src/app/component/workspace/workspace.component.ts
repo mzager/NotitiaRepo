@@ -100,7 +100,6 @@ export class WorkspaceComponent {
   queryPanelTab: Observable<enums.QueryPanelEnum>;
   edgePanelTab: Observable<enums.EdgePanelEnum>;
   toolPanelTab: Observable<enums.ToolPanelEnum>;
-  tcgaPanelTab: Observable<enums.TcgaPanelEnum>;
   workspacePanelTab: Observable<enums.WorkspacePanelEnum>;
   historyPanelTab: Observable<enums.HistoryPanelEnum>;
   cohortPanelTab: Observable<enums.GraphPanelEnum>;
@@ -126,7 +125,6 @@ export class WorkspaceComponent {
     this.statPanelTab = store.select(fromRoot.getLayoutPopulationPanelState);
     this.queryPanelTab = store.select(fromRoot.getLayoutQueryPanelState);
     this.toolPanelTab = store.select(fromRoot.getLayoutToolPanelState);
-    this.tcgaPanelTab = store.select(fromRoot.getlayoutTcgaPanelState);
     this.workspacePanelTab = store.select(fromRoot.getWorkspacePanelState);
     this.historyPanelTab = store.select(fromRoot.getLayoutHistoryPanelState);
     this.cohortPanelTab = store.select(fromRoot.getLayoutCohortPanelState);
@@ -281,13 +279,6 @@ export class WorkspaceComponent {
   }
   workspacePanelSetConfig(value: WorkspaceConfigModel) {
     this.store.dispatch( new WorkspaceConfigAction( value ));
-  }
-
-  tcgaPanelToggle() {
-    this.store.dispatch(new layout.TcgaPanelToggleAction());
-  }
-  tcgaPanelSetTab(value: enums.TcgaPanelEnum) {
-    this.store.dispatch(new layout.TcgaPanelShowTabAction(value) );
   }
 
   filesLoad(value) {

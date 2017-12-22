@@ -70,7 +70,6 @@ export const getLayoutSamplePanelState = createSelector(getLayoutState, fromLayo
 export const getLayoutPopulationPanelState = createSelector(getLayoutState, fromLayout.getPopulationPanelState);
 export const getLayoutLegendPanelState = createSelector(getLayoutState, fromLayout.getLegendPanelState);
 export const getLayoutToolPanelState = createSelector(getLayoutState, fromLayout.getToolPanelState);
-export const getlayoutTcgaPanelState = createSelector(getLayoutState, fromLayout.getTcgaPanelState);
 export const getLayoutHistoryPanelState = createSelector(getLayoutState, fromLayout.getHistoryPanelState);
 export const getLayoutCohortPanelState = createSelector(getLayoutState, fromLayout.getCohortPanelState);
 export const getLayoutDataPanelState = createSelector(getLayoutState, fromLayout.getDataPanelState);
