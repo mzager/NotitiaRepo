@@ -1,1 +1,0 @@
-[{"name":"clinical","dataType":"clinical","file":"tcga_ucec_clinical.json.gz"},{"name":"gistic","dataType":"gistic","file":"tcga_ucec_gistic.json.gz"},{"name":"gistic threshold","dataType":"gistic_threshold","file":"tcga_ucec_gistic_threshold.json.gz"},{"name":"mut","dataType":"mut","file":"tcga_ucec_mut.json.gz"},{"name":"rna","dataType":"rna","file":"tcga_ucec_rna.json.gz"}]

@@ -120,7 +120,6 @@ export class PathwaysFormComponent {
         form.markAsPristine();
         data.dirtyFlag = dirty;
         this.configChange.emit(data);
-        debugger
       });
   }
 }

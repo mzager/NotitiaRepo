@@ -19,15 +19,13 @@ export class FilePanelComponent {
 
   @Output() filesLoad = new EventEmitter<any>();
   @Output() filePanelToggle = new EventEmitter();
-  @Input() tab: number = 2;
+  @Output() loadTcga = new EventEmitter<any>();
+  @Input() tab = 2;
 
-  showDatasource(source: number): void{
+  showDatasource(source: number): void {
     this.tab = source;
-    debugger;
   }
-  loadTcga(v:any): void{
-
-  }
+  
   constructor() {
     
   }

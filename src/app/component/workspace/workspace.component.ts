@@ -161,8 +161,9 @@ export class WorkspaceComponent {
   fileOpen(value: DataTransfer) {
     this.store.dispatch(new data.DataLoadFromFileAction(value));
   }
-  loadTcga(value: string) {
-      this.store.dispatch(new data.DataLoadFromTcga(value));
+  fileLoadTcga(value: string) {
+    debugger;
+    this.store.dispatch(new data.DataLoadFromTcga(value));
   }
 
   genesetPanelToggle() {

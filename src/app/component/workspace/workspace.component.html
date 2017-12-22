@@ -85,6 +85,7 @@
     *ngIf="filePanelTab | async" 
     (filesLoad)="filesLoad($event)"
     (filePanelToggle)="filePanelToggle()"
+    (loadTcga)="fileLoadTcga($event)"
     ></app-workspace-file-panel>
 
 <app-workspace-query-panel 
@@ -98,11 +99,11 @@
     style="position:absolute;left:100px;top:100px;"></app-workspace-query-panel>
 
 
-<app-workspace-tcga-panel 
+<!-- <app-workspace-tcga-panel 
     *ngIf="tcgaPanelTab | async" 
     style="position:absolute;left:100px;top:100px;"
     (loadTcga)="loadTcga($event)"
-    ></app-workspace-tcga-panel>
+    ></app-workspace-tcga-panel> -->
 
 <app-workspace-tool-bar *ngIf="toolPanelTab | async">
     </app-workspace-tool-bar>
