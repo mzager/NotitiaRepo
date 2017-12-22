@@ -24,7 +24,6 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   @Output() graphPanelToggle = new EventEmitter();
   @Output() genesetPanelToggle = new EventEmitter();
   @Output() legendPanelToggle = new EventEmitter();
-  @Output() tcgaPanelToggle = new EventEmitter();
   @Output() toolPanelToggle = new EventEmitter();
   @Output() queryPanelToggle = new EventEmitter();
   @Output() historyPanelToggle = new EventEmitter();
@@ -52,8 +51,7 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
       case 'd': this.dataPanelToggle.emit(); break;
       case 'w': this.workspacePanelToggle.emit(); break;
       case 'e': this.edgePanelToggle.emit(); break;
-      case 'b': this.filePanelToggle.emit(); break;
-      case 't': this.tcgaPanelToggle.emit(); break;
+      case 'f': this.filePanelToggle.emit(); break;
       case 'p': this.exportImage(); break;
       case 'i': this.toggleBackgroundColor(); break;
       // case "s": this.selectTool.emit( ToolEnum.SAVE_COHORT); break;
