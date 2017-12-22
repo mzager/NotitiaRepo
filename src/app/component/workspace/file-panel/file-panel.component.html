@@ -47,7 +47,7 @@
             <p class="buttons"><input style="width:400px;" type='text' placeholder="Enter manifest location"></p>
         </div>
         <app-workspace-tcga-panel *ngIf='tab == 2' style="padding-top:20px;min-height:396px;"
-        (loadTcga)="loadTcga($event)"
+        (loadTcga)="loadTcga.next($event)"
         ></app-workspace-tcga-panel>
     </div>
 </div>
