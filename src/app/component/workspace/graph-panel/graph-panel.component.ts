@@ -36,6 +36,7 @@ import { Component, Input, Output, ChangeDetectionStrategy,
 import { LegendPanelEnum, VisualizationEnum, GraphEnum, DirtyEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
+import { GraphData } from 'app/model/graph-data.model';
 declare var $: any;
 
 @Component({
@@ -56,8 +57,8 @@ export class GraphPanelComponent implements AfterViewInit  {
   @Input() molecularData: Array<string>;
   @Input() clinicalFields: Array<DataField>;
   @Input() entityType: EntityTypeEnum;
-  @Input() configA: GraphConfig;
-  @Input() configB: GraphConfig;
+  @Input() config: GraphConfig;
+  @Input() data: GraphData;
   @Output() configChange: EventEmitter<GraphConfig> = new EventEmitter();
   @Output() selectClusteringAlgorithm: EventEmitter<GraphConfig> = new EventEmitter();
   @Output() selectGeneSignature: EventEmitter<GraphConfig> = new EventEmitter();
@@ -156,7 +157,7 @@ export class GraphPanelComponent implements AfterViewInit  {
           gc = new PcaSparseConfigModel();
           break;
       }
-      const prevConfig = this.configA;
+      const prevConfig = this.config;
       gc.table = prevConfig.table;
       gc.sampleFilter = prevConfig.sampleFilter;
       gc.markerFilter = prevConfig.markerFilter;
@@ -169,109 +170,7 @@ export class GraphPanelComponent implements AfterViewInit  {
       this.configChange.emit( gc );
     }
   }
-  onGraphBChange($event) {
-    if ($event instanceof CustomEvent) {
-      const el = $event.target as HTMLSelectElement;
-      let gc: GraphConfig;
-      switch (parseInt(el.value, 10)) {
-        case VisualizationEnum.TIMELINES:
-          gc = new TimelinesConfigModel();
-          break;
-        case VisualizationEnum.PATHWAYS:
-          gc = new PathwaysConfigModel();
-          break;
-        case VisualizationEnum.CHROMOSOME:
-          gc = new ChromosomeConfigModel();
-          break;
-        case VisualizationEnum.GENOME:
-          gc = new GenomeConfigModel();
-          break;
-        case VisualizationEnum.PCA:
-          gc = new PcaConfigModel();
-          break;
-        case VisualizationEnum.PLS:
-          gc = new PlsConfigModel();
-          break;
-        case VisualizationEnum.TSNE:
-          gc = new TsneConfigModel();
-          break;
-        case VisualizationEnum.HEATMAP:
-          gc = new HeatmapConfigModel();
-          break;
-        case VisualizationEnum.BOX_WHISKERS:
-          gc = new BoxWhiskersConfigModel();
-          break;
-        case VisualizationEnum.PARALLEL_COORDS:
-          gc = new ParallelCoordsConfigModel();
-          break;
-        case VisualizationEnum.LINKED_GENE:
-          gc = new LinkedGeneConfigModel();
-          break;
-        case VisualizationEnum.HIC:
-          gc = new HicConfigModel();
-          break;
-        case VisualizationEnum.SOM:
-          gc = new SomConfigModel();
-          break;
-        case VisualizationEnum.DA:
-          gc = new DaConfigModel();
-          break;
-        case VisualizationEnum.DE:
-          gc = new DeConfigModel();
-        break;
-          case VisualizationEnum.FA:
-          gc = new FaConfigModel();
-          break;
-        case VisualizationEnum.MDS:
-          gc = new MdsConfigModel();
-          break;
-        case VisualizationEnum.LDA:
-          gc = new LdaConfigModel();
-          break;
-        case VisualizationEnum.NMF:
-          gc = new NmfConfigModel();
-          break;
-        case VisualizationEnum.FAST_ICA:
-          gc = new FastIcaConfigModel();
-          break;
-        case VisualizationEnum.DICTIONARY_LEARNING:
-          gc = new DictionaryLearningConfigModel();
-          break;
-        case VisualizationEnum.TRUNCATED_SVD:
-          gc = new TruncatedSvdConfigModel();
-          break;
-        case VisualizationEnum.ISOMAP:
-          gc = new IsoMapConfigModel();
-          break;
-        case VisualizationEnum.LOCALLY_LINEAR_EMBEDDING:
-          gc = new LocalLinearEmbeddingConfigModel();
-          break;
-        case VisualizationEnum.SPECTRAL_EMBEDDING:
-          gc = new SpectralEmbeddingConfigModel();
-          break;
-        case VisualizationEnum.INCREMENTAL_PCA:
-          gc = new PcaIncrementalConfigModel();
-          break;
-        case VisualizationEnum.KERNAL_PCA:
-          gc = new PcaKernalConfigModel();
-          break;
-        case VisualizationEnum.SPARSE_PCA:
-          gc = new PcaSparseConfigModel();
-          break;
-      }
-      const prevConfig = this.configB;
-      gc.table = prevConfig.table;
-      gc.sampleFilter = prevConfig.sampleFilter;
-      gc.markerFilter = prevConfig.markerFilter;
-      gc.sampleSelect = prevConfig.sampleSelect;
-      gc.markerSelect = prevConfig.markerSelect;
-      gc.pointColor = prevConfig.pointColor;
-      gc.pointShape = prevConfig.pointShape;
-      gc.pointSize = prevConfig.pointSize;
-      gc.graph = GraphEnum.GRAPH_B;
-      this.configChange.emit( gc );
-    }
-  }
+
   graphPanelSelectClusteringAlgorithm(value: GraphConfig) {
     this.selectClusteringAlgorithm.emit(value);
   }

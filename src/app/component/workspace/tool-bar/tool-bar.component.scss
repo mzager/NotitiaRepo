@@ -1,22 +1,31 @@
 .app-workspace-tool-bar {
     position: absolute;
-    right: 8px;
-    top: -2px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
     z-index: 1000;
-    button{
-        font-size:20px;
-        width: 30px;
-        display: inline-block;
-        margin:0px;
-        padding:0px;
-    }
-    .material-icons{
-        font-size: 14px;
-    }
-    // width: 30px;
-    // height: 100%;
     
-    // position:absolute;
-    // background: #EFEFEF;
-    // top:30px;
+}
+
+.a-lbl {
+    background:#029BE5;
+    color:#FFF;
+    display: inline-block;
+    width:30px;
+    height:30px;
+    line-height: 30px;
+    border-radius: 15px 0px 0px 0px;
+    padding:0px;
+    margin:0px;
+}
+.b-lbl {
+    background:#029BE5;
+    color:#FFF;
+    display: inline-block;
+    width:30px;
+    height:30px;
+    line-height: 30px;
+    border-radius: 0px 15px 0px 0px;
+    padding:0px;
+    margin:0px;
 }
