@@ -68,6 +68,7 @@ export class ParallelCoordsFormComponent {
 
   form: FormGroup;
   colorOptions: Array<DataField>;
+  sizeOptions: Array<DataField>;
   shapeOptions: Array<DataField>;
   dataOptions: Array<DataTable>;
   dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D];

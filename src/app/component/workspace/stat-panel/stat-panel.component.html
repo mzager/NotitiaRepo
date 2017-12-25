@@ -1,39 +1,14 @@
-<div class="card" style="width:225;">
-    <div class="card-tabs">
-        <ul class="tabs tabs-fixed-width" #tabs>
-            <li class="tab">
-                <a class="active" href="#stats-panel-a">Stats A</a>
-            </li>
-            <li class="tab">
-                <a href="#stats-panel-b">Stats B</a>
-            </li>
-        </ul>
-    </div>
-    <!-- <button ng-click="" ng-init="" style="margin-top: 25px; margin-left: 50px;">
-        Download PNG
-      </button> -->
-    <div class="card-content" >
-        <div class="form-group" >
-            <label class="center-block" style="padding-bottom: 10px">
-                <span class="form-label">Stat</span>
-                <select class="browser-default" 
-                materialize="material_select" [materializeSelectOptions]="statOptions" [(ngModel)]="statOption">
-                    <option *ngFor="let option of statOptions" [ngValue]="option">{{option.name}}</option>
-                </select>
-            </label>
-        </div>
-
-        <div class="form-group" style= "padding-bottom: 20px;">
-            <label class="center-block">
-                <span class="form-label">Chart</span>
-                <select class="browser-default" materialize="material_select" [materializeSelectOptions]="statOption.charts" [(ngModel)]="chartOption"
-                    (ngModelChange)="drawGraph($event)">
-                    <option *ngFor="let option of statOption.charts" [ngValue]="option">{{option}}</option>
-                </select>
-            </label>
-        </div>
-       
-        <div id="stat-panel-chart"></div>
+<div >
+    <div style="max-height: 450px; overflow-y: auto;">
+        <div id="cc0"></div>
+        <div id="cc1"></div>
+        <div id="cc2"></div>
+        <div id="cc3"></div>
+        <div id="cc4"></div>
+        <div id="cc5"></div>
+        <div id="cc6"></div>
+        <div id="cc7"></div>
+        <div id="cc8"></div>
         <div class="vg-tooltip"></div>
     </div>
 </div>

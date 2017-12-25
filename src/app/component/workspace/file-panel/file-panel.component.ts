@@ -25,8 +25,7 @@ export class FilePanelComponent {
   showDatasource(source: number): void {
     this.tab = source;
   }
-  
+
   constructor() {
-    
   }
 }

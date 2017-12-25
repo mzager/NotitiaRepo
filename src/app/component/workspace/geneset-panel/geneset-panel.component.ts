@@ -13,15 +13,14 @@ declare var $: any;
 
 @Component({
   selector: 'app-workspace-geneset-panel',
-  template: `<div class="card" style="width:225px;">
-  <div class="card-tabs">
-      <ul class="tabs tabs-fixed-width" #tabs>
-          <li class="tab">
-              <a class="active" href="#geneset-panel-genes">Geneset</a>
-          </li>
-      </ul>
-  </div>
-  <div class="card-content">
+  template: `<div class="card"
+  style="top:40px; left:10px; width:225px;height:auto; background:#FFFFFF;"
+  [ng2-draggable]="true" [ng2DraggableHandle]="titlebar">
+    <div class="card-title-bar" #titlebar
+    style="text-align:center;background:#029BE5;color:#FFF;font-weight:normal;font-size:12px;padding:5px 10px;">
+        Geneset
+    </div>
+    <div class="card-content">
       <div id="geneset-panel-genes">
           <form [formGroup]="form" novalidate>
               <div class="form-group">
