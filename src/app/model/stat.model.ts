@@ -620,7 +620,7 @@ export class VegaFactory {
     private createLabel(stat: Stat): any {
         const values = stat.data;
         const vega = {
-        '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
+            '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'config': {
                 'title': {
                     'offset': 10,
@@ -877,7 +877,7 @@ export class StatFactory {
             // new StatSingle('nComponents', this.formatSingleValue(data.result.nComponents)),
             // One Dimensional Stats
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
-            new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
+            // new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
             new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues)),
             // new StatOneD('Mean', data.result.mean),
             // new StatOneD('skvars', data.result.skvars),
@@ -900,7 +900,7 @@ export class StatFactory {
         const stats = [
             // One Dimensional Stats
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
-            new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
+            // new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
             new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues))
             // new StatTwoD('Components', data.result.components),
         ];
@@ -919,7 +919,7 @@ export class StatFactory {
             // One Dimensional Stats
             // new StatOneD('Mean', data.result.mean),
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
-            new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
+            // new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
             new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues))
             // Two Dimensional Stats
             // new StatTwoD('Components', data.result.components),
@@ -950,7 +950,7 @@ export class StatFactory {
             // Single Stats
             new StatKeyValues('Miscellaneous Results', ([
                 { label: 'Lambdas', value: data.result.lambdas.toString() },
-             
+
             ])),
             // Two Dimensional Stats
             new StatTwoD('Alphas', data.result.alphas)
@@ -965,7 +965,7 @@ export class StatFactory {
             // Single Stats
             new StatKeyValues('Miscellaneous Results', ([
                 { label: 'nIter', value: data.result.nIter.toString() },
-             
+
             ])),
             // One Dimensional Stats
             new StatOneD('Error', this.formatError(data.result.error)),
@@ -982,7 +982,7 @@ export class StatFactory {
             // Single Stats
             new StatKeyValues('Miscellaneous Results', ([
                 { label: 'nIter', value: data.result.nIter.toString() },
-             
+
             ])),
             // One Dimensional Stats
             new StatOneD('loglike', this.formatLoglike(data.result.loglike)),
@@ -1034,7 +1034,7 @@ export class StatFactory {
             // Single Stats
             new StatKeyValues('Miscellaneous Results', ([
                 { label: 'Stress', value: data.result.stress.toString() },
-             
+
             ])),
             // One Dimensional Stats
             // Two Dimensional Stats
@@ -1050,7 +1050,7 @@ export class StatFactory {
             // Single Stats
             new StatKeyValues('Miscellaneous Results', ([
                 { label: 'Stress', value: data.result.stress.toFixed(2) },
-             
+
             ])),
             // One Dimensional Stats
             // Two Dimensional Stats
@@ -1089,7 +1089,7 @@ export class StatFactory {
             new StatKeyValues('Miscellaneous Results', ([
                 { label: 'kl Divergence', value: data.result.klDivergence.toFixed(2) },
                 { label: 'nIter', value: data.result.nIter.toString() },
-             
+
             ])),
             // One Dimensional Stats
             // Two Dimensional Stats
@@ -1099,7 +1099,7 @@ export class StatFactory {
         return stats;
     }
 
- 
+
     // One D Recycled Data Formulas
     formatPrincipleComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
         return data.map((v, i) => ({ label: 'PC' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));

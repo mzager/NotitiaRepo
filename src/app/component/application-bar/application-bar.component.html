@@ -22,26 +22,19 @@
 
 <!-- View -->
 <ul id='application-bar-menu-view' class='dropdown-content'>
-    
-    <li><a class="app-bar-menu-item" (click)="workspacePanelToggle.emit()">Layout + Edges</a></li>
-    <li><a class="app-bar-menu-item" (click)="graphPanelToggle.emit()">Graph A</a></li>
-    <li><a class="app-bar-menu-item" (click)="graphPanelToggle.emit()">Graph B</a></li>
-    <!-- <li><a class="app-bar-menu-item" (click)="statPanelToggle.emit()">Stats (s)</a></li> -->
-    <!-- <li><a class="app-bar-menu-item" (click)="legendPanelToggle.emit()">Legends (l)</a></li> -->
-    <li><a class="app-bar-menu-item" (click)="queryPanelToggle.emit()">Cohort Builder</a></li>
+    <li><a class="app-bar-menu-item" (click)="edgePanelToggle.emit()">Workspace</a></li>
+    <li><a class="app-bar-menu-item" (click)="graphPanelToggle.emit()">Graphs</a></li>
+    <li><a class="app-bar-menu-item" (click)="legendPanelToggle.emit()">Legends</a></li>
+    <!-- <li><a class="app-bar-menu-item" (click)="queryPanelToggle.emit()">Cohort Builder</a></li> -->
     <li><a class="app-bar-menu-item" (click)="dataPanelToggle.emit()">Data Table</a></li>
 
+    <!-- <li><a class="app-bar-menu-item" (click)="statPanelToggle.emit()">Stats (s)</a></li> -->
+    <!--  -->
     <!-- <li><a class="app-bar-menu-item" (click)="edgePanelToggle.emit()">Edge (e)</a></li> -->
-    <!--
-    <li class="divider"></li>
-    
-    <li class="divider"></li>
-    -->
-    
-    <!-- 
+    <!-- <li><a class="app-bar-menu-item" (click)="edgePanelToggle.emit()">Edge (e)</a></li> -->
+   <!-- 
         <li class="divider"></li>
-
-        <li><a class="app-bar-menu-item" (click)="cohortPanelToggle.emit()">Cohort (c)</a></li>
+         <li><a class="app-bar-menu-item" (click)="cohortPanelToggle.emit()">Cohort (c)</a></li>
         <li><a class="app-bar-menu-item" (click)="genesetPanelToggle.emit()">Geneset (x)</a></li>
         <li><a class="app-bar-menu-item" (click)="historyPanelToggle.emit()">History (h)</a></li>
         <li><a class="app-bar-menu-item" (click)="toolPanelToggle.emit()">Tool Panel</a></li>
@@ -53,22 +46,12 @@
 
 <!-- Help -->
 <ul id='application-bar-menu-help' class='dropdown-content'>
-    <li><a class="app-bar-menu-item" href="#!">Documentation</a></li>
-    <li><a class="app-bar-menu-item" href="#!">Contact Us</a></li>
+    <li><a class="app-bar-menu-item" href="https://oncoscape.sttrcancer.org/documentation/">Documentation</a></li>
+    <li><a class="app-bar-menu-item" href="http://resources.sttrcancer.org/oncoscape-contact">Contact Us</a></li>
 </ul>
-<!--
-<ul id='application-bar-menu-account' class='dropdown-content'>
-    <li><a class="app-bar-menu-item" href="#!">Profile</a></li>
-    <li><a class="app-bar-menu-item" href="#!">Log Out</a></li>
-</ul>
--->
 
 <!-- Bar -->
 <div class="application-bar-menu">
-    <!-- <span class="application-bar-logo">
-        
-        Oncoscape
-    </span> -->
     <span>
         <a class='dropdown-button nav-button application-bar-logo' 
             data-activates="application-bar-menu-file"
@@ -86,10 +69,5 @@
             data-activates="application-bar-menu-help"
             data-beloworigin="true"
             href="#">Help</a>
-        <!-- <a class='dropdown-button nav-button' 
-            data-activates="application-bar-menu-account"
-            data-beloworigin="true"
-            href="#">Account</a>
-         -->
     </span>
 </div>

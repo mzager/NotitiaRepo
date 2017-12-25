@@ -1,386 +1,85 @@
-<div class="card" style="width:225px;">
+<div class="card" style="top:40px; left:10px; width:225px;height:auto; background:#FFFFFF;" [ng2-draggable]=true [ng2DraggableHandle]="titlebar">
+    <div class="card-title-bar" #titlebar style="text-align:center;background: #029BE5; color:#FFF; font-weight:normal; font-size:12px; padding:5px 10px;">
+        Graph A
+    </div>
     <div class="card-tabs">
         <ul class="tabs tabs-fixed-width" #tabs>
-            <li class="tab"><a class="active" href="#graph-panel-a">Graph A</a></li>
-            <li class="tab"><a href="#graph-panel-b">Graph B</a></li>
+            <li class="tab">
+                <a class="active" href="#graph-panel-a">Visualization</a>
+            </li>
+            <li class="tab">
+                <a href="#graph-panel-b">Data</a>
+            </li>
         </ul>
     </div>
     <div class="card-content">
-        <div id="graph-panel-a" *ngIf="configA">
-                <div class="form-group">
-                    <label class="center-block"><span class="form-label">Visualization</span>
-                    <select class="browser-default" materialize="material_select"
-                        [ngModel]="configA.visualization"
-                        (change)="onGraphAChange($event)"
-                        [materializeSelectOptions]="visualizationOptions" >
-                        <option *ngFor="let option of visualizationOptions" [value]="option.value" [selected]="configA.visualization">{{option.label}}</option>
-                    </select>
-                    </label>
-                </div>
-                <app-pathways-form *ngIf="configA && configA.visualization === 256"
-                    (configChange)="graphPanelSetConfig($event)"
-                    [fields]="fields"
-                    [config]="configA"
-                    ></app-pathways-form>
-                <app-timelines-form *ngIf="configA && configA.visualization === 128"
-                    (configChange)="graphPanelSetConfig($event)"
-                    [fields]="fields"
-                    [events]="events"
-                    [config]="configA"
-                    ></app-timelines-form>
-                <app-genome-form *ngIf="configA && configA.visualization === 2147483648"
-                    (configChange)="graphPanelSetConfig($event)"
-                    [fields]="fields"
-                    [config]="configA"
-                    ></app-genome-form>
-                <app-chromosome-form *ngIf="configA && configA.visualization === 3"
-                    (configChange)="graphPanelSetConfig($event)"
-                    [fields]="fields"
-                    [config]="configA"
-                    ></app-chromosome-form>
-                <app-pca-form *ngIf="configA && configA.visualization === 1"
-                    (configChange)="graphPanelSetConfig($event)"
-                    (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                    (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                    [config]="configA"
-                    [tables]="tables"
-                    [fields]="fields"></app-pca-form>
-                 <app-tsne-form *ngIf="configA && configA.visualization === 4"
-                    (configChange)="graphPanelSetConfig($event)"
-                    (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                    (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                    [config]="configA"
-                    [tables]="tables"
-                    [fields]="fields"
-                    ></app-tsne-form> 
-                <app-pls-form *ngIf="configA && configA.visualization === 2"
-                    [config]="configA" 
-                    [clinicalFields]="clinicalFields"
-                    ></app-pls-form>
-                <app-heatmap-form *ngIf="configA && configA.visualization === 32"
-                    (configChange)="graphPanelSetConfig($event)"
-                    [config]="configA" 
-                    [tables]="tables"
-                    ></app-heatmap-form>
-                <app-boxwhiskers-form *ngIf="configA && configA.visualization === 4294967296"
-                    (configChange)="graphPanelSetConfig($event)"
-                    [config]="configA" 
-                    [tables]="tables"
-                    [fields]="fields"></app-boxwhiskers-form>
-                <app-parallelcoords-form
-                    *ngIf="configA && configA.visualization === 8589934592"
-                    (configChange)="graphPanelSetConfig($event)"
-                    [config]="configA" 
-                    [tables]="tables"
-                    [fields]="fields"></app-parallelcoords-form>
-                <app-linked-gene-form *ngIf="configA && configA.visualization === 1073741824"
-                    (configChange)="graphPanelSetConfig($event)"
-                    [config]="configA"
-                    ></app-linked-gene-form>
-                <app-hic-form *ngIf="configA && configA.visualization === 17179869184"
-                    (configChange)="graphPanelSetConfig($event)"
-                    [config]="configA"
-                    [tables]="tables"
-                    [fields]="fields"
-                    ></app-hic-form>
-                <app-som-form *ngIf="configA && configA.visualization === 4096"
-                    (configChange)="graphPanelSetConfig($event)"
-                    [config]="configA"
-                    [molecularData]="molecularData"
-                    [clinicalFields]="clinicalFields"
-                    ></app-som-form>
-                <app-mds-form *ngIf="configA && configA.visualization === 8192"
-                    (configChange)="graphPanelSetConfig($event)"
-                    (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                    (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                    [config]="configA"
-                    [tables]="tables"
-                    [fields]="fields"
-                    ></app-mds-form>
-                <app-fa-form *ngIf="configA && configA.visualization === 65536"
-                    (configChange)="graphPanelSetConfig($event)"
-                    (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                    (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                    [config]="configA"
-                    [tables]="tables"
-                    [fields]="fields"
-                    ></app-fa-form>
-                <app-fastica-form *ngIf="configA && configA.visualization === 8388608"
-                    (configChange)="graphPanelSetConfig($event)"
-                    (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                    (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                    [config]="configA"
-                    [tables]="tables"
-                    [fields]="fields"
-                    ></app-fastica-form>
-                <app-truncatedsvd-form *ngIf="configA && configA.visualization === 131072"
-                    (configChange)="graphPanelSetConfig($event)"
-                    (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                    (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                    [config]="configA"
-                    [tables]="tables"
-                    [fields]="fields"
-                    ></app-truncatedsvd-form>
-                <app-lda-form *ngIf="configA && configA.visualization === 33554432"
-                    (configChange)="graphPanelSetConfig($event)"
-                    (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                    (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                    [config]="configA"
-                    [tables]="tables"
-                    [fields]="fields"
-                    ></app-lda-form>
-                <app-nmf-form *ngIf="configA && configA.visualization === 67108864"
-                    (configChange)="graphPanelSetConfig($event)"
-                    (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                    (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                    [config]="configA"
-                    [tables]="tables"
-                    [fields]="fields"
-                    ></app-nmf-form>
-                <app-dictionarylearning-form *ngIf="configA && configA.visualization === 16777216"
-                    (configChange)="graphPanelSetConfig($event)"
-                    (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                    (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                    [config]="configA"
-                    [tables]="tables"
-                    [fields]="fields"
-                    ></app-dictionarylearning-form>
-                <app-pcakernal-form *ngIf="configA && configA.visualization === 524288"
-                    (configChange)="graphPanelSetConfig($event)"
-                    (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                    (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                    [config]="configA"
-                    [tables]="tables"
-                    [fields]="fields"
-                    ></app-pcakernal-form>
-                <app-pcaincremental-form *ngIf="configA && configA.visualization === 262144"
-                    (configChange)="graphPanelSetConfig($event)"
-                    (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                    (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                    [config]="configA"
-                    [tables]="tables"
-                    [fields]="fields"
-                    ></app-pcaincremental-form>
-                <app-pcasparse-form *ngIf="configA && configA.visualization === 1048576"
-                    (configChange)="graphPanelSetConfig($event)"
-                    (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                    (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                    [config]="configA"
-                    [tables]="tables"
-                    [fields]="fields"
-                    ></app-pcasparse-form>
-                <app-isomap-form *ngIf="configA && configA.visualization === 134217728"
-                    (configChange)="graphPanelSetConfig($event)"
-                    (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                    (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                    [config]="configA"
-                    [tables]="tables"
-                    [fields]="fields"
-                    ></app-isomap-form>
-                <app-locallinearembedding-form *ngIf="configA && configA.visualization === 268435456"
-                    (configChange)="graphPanelSetConfig($event)"
-                    (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                    (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                    [config]="configA"
-                    [tables]="tables"
-                    [fields]="fields"
-                    ></app-locallinearembedding-form>
-                <app-spectralembedding-form *ngIf="configA && configA.visualization === 536870912"
-                    (configChange)="graphPanelSetConfig($event)"
-                    (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                    (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                    [config]="configA"
-                    [tables]="tables"
-                    [fields]="fields"
-                    ></app-spectralembedding-form>
-        </div>
-        <div id="graph-panel-b" *ngIf="configB">
+        <div id="graph-panel-a" *ngIf="config">
             <div class="form-group">
-                <label class="center-block"><span class="form-label">Analysis</span>
-                <select class="browser-default" materialize="material_select"
-                    [ngModel]="configB.visualization"
-                    (change)="onGraphBChange($event)"
-                    [materializeSelectOptions]="visualizationOptions">
-                    <option *ngFor="let option of visualizationOptions" [value]="option.value" [selected]="configB.visualization">{{option.label}}</option>
-                </select>
+                <label class="center-block">
+                    <span class="form-label">Visualization</span>
+                    <select class="browser-default" materialize="material_select" [ngModel]="config.visualization" (change)="onGraphAChange($event)"
+                        [materializeSelectOptions]="visualizationOptions">
+                        <option *ngFor="let option of visualizationOptions" [value]="option.value" [selected]="config.visualization">{{option.label}}</option>
+                    </select>
                 </label>
-            </div> 
-            <app-pathways-form *ngIf="configB && configB.visualization === 256"
-                (configChange)="graphPanelSetConfig($event)"
-                [fields]="fields"
-                [config]="configB"
-                ></app-pathways-form>
-            <app-timelines-form *ngIf="configB && configB.visualization === 128"
-                (configChange)="graphPanelSetConfig($event)"
-                [fields]="fields"
-                [events]="events"
-                [config]="configB"
-                ></app-timelines-form>
-            <app-genome-form *ngIf="configB && configB.visualization === 2147483648"
-                (configChange)="graphPanelSetConfig($event)"
-                [fields]="fields"
-                [config]="configB"
-                ></app-genome-form>
-             <app-chromosome-form *ngIf="configB && configB.visualization === 3"
-                (configChange)="graphPanelSetConfig($event)"
-                [fields]="fields"
-                [config]="configB"
-                ></app-chromosome-form>
-            <app-pca-form *ngIf="configB && configB.visualization === 1"
-                (configChange)="graphPanelSetConfig($event)"
-                (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                [config]="configB"
-                [tables]="tables"
-                [fields]="fields"></app-pca-form>
-             <app-tsne-form *ngIf="configB && configB.visualization === 4"
-                (configChange)="graphPanelSetConfig($event)"
-                (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                [config]="configB"
-                [tables]="tables"
-                [fields]="fields">
-                </app-tsne-form>
-            <app-pls-form *ngIf="configB && configB.visualization === 2"
-                [config]="configB" 
-                [clinicalFields]="clinicalFields"
-                ></app-pls-form>  
-            <app-heatmap-form *ngIf="configB && configB.visualization === 32"
-                (configChange)="graphPanelSetConfig($event)"
-                [config]="configB" 
-                [tables]="tables"
-                ></app-heatmap-form>
-            <app-boxwhiskers-form *ngIf="configB && configB.visualization === 4294967296"
-                (configChange)="graphPanelSetConfig($event)"
-                [config]="configB" 
-                [tables]="tables"
-                [fields]="fields"></app-boxwhiskers-form>
-            <app-parallelcoords-form
-                *ngIf="configB && configB.visualization === 8589934592"
-                (configChange)="graphPanelSetConfig($event)"
-                [config]="configB" 
-                [tables]="tables"
-                [fields]="fields"></app-parallelcoords-form>
-            <app-linked-gene-form *ngIf="configB && configB.visualization === 1073741824"
-                (configChange)="graphPanelSetConfig($event)"
-                [config]="configB"
-                ></app-linked-gene-form>
-            <app-hic-form *ngIf="configB && configB.visualization === 17179869184"
-                (configChange)="graphPanelSetConfig($event)"
-                [config]="configB"
-                [tables]="tables"
-                [fields]="fields"
-                ></app-hic-form>
-            <app-som-form *ngIf="configB && configB.visualization === 4096"
-                (configChange)="graphPanelSetConfig($event)"
-                [config]="configB"
-                [molecularData]="molecularData"
-                [clinicalFields]="clinicalFields"
-                ></app-som-form>
-            <app-mds-form *ngIf="configB && configB.visualization === 8192"
-                (configChange)="graphPanelSetConfig($event)"
-                (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                [config]="configB"
-                [tables]="tables"
-                [fields]="fields"
-                ></app-mds-form>  
-            <app-fa-form *ngIf="configB && configB.visualization === 65536"
-                (configChange)="graphPanelSetConfig($event)"
-                (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                [config]="configB"
-                [tables]="tables"
-                [fields]="fields"
-                ></app-fa-form>
-            <app-fastica-form *ngIf="configB && configB.visualization === 8388608"
-                (configChange)="graphPanelSetConfig($event)"
-                (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                [config]="configB"
-                [tables]="tables"
-                [fields]="fields"
-                ></app-fastica-form>
-            <app-truncatedsvd-form *ngIf="configB && configB.visualization === 131072"
-                (configChange)="graphPanelSetConfig($event)"
-                (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                [config]="configB"
-                [tables]="tables"
-                [fields]="fields"
-                ></app-truncatedsvd-form>
-            <app-lda-form *ngIf="configB && configB.visualization === 33554432"
-                (configChange)="graphPanelSetConfig($event)"
-                (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                [config]="configB"
-                [tables]="tables"
-                [fields]="fields"
-                ></app-lda-form>
-            <app-nmf-form *ngIf="configB && configB.visualization === 67108864"
-                (configChange)="graphPanelSetConfig($event)"
-                (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                [config]="configB"
-                [tables]="tables"
-                [fields]="fields"
-                ></app-nmf-form>
-            <app-dictionarylearning-form *ngIf="configB && configB.visualization === 16777216"
-                (configChange)="graphPanelSetConfig($event)"
-                (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                [config]="configB"
-                [tables]="tables"
-                [fields]="fields"
-                ></app-dictionarylearning-form>
-            <app-pcakernal-form *ngIf="configB && configB.visualization === 524288"
-                (configChange)="graphPanelSetConfig($event)"
-                (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                [config]="configB"
-                [tables]="tables"
-                [fields]="fields"
-                ></app-pcakernal-form>
-            <app-pcaincremental-form *ngIf="configB && configB.visualization === 262144"
-                (configChange)="graphPanelSetConfig($event)"
-                (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                [config]="configB"
-                [tables]="tables"
-                [fields]="fields"
-                ></app-pcaincremental-form>
-            <app-pcasparse-form *ngIf="configB && configB.visualization === 1048576"
-                (configChange)="graphPanelSetConfig($event)"
-                (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                [config]="configB"
-                [tables]="tables"
-                [fields]="fields"
-                ></app-pcasparse-form>
-            <app-isomap-form *ngIf="configB && configB.visualization === 134217728"
-                (configChange)="graphPanelSetConfig($event)"
-                (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                [config]="configB"
-                [tables]="tables"
-                [fields]="fields"
-                ></app-isomap-form>
-            <app-locallinearembedding-form *ngIf="configB && configB.visualization === 268435456"
-                (configChange)="graphPanelSetConfig($event)"
-                (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                [config]="configB"
-                [tables]="tables"
-                [fields]="fields"
-                ></app-locallinearembedding-form>
-            <app-spectralembedding-form *ngIf="configB && configB.visualization === 536870912"
-                (configChange)="graphPanelSetConfig($event)"
-                (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
-                [config]="configB"
-                [tables]="tables"
-                [fields]="fields"
-                ></app-spectralembedding-form>
+            </div>
+            <app-pathways-form *ngIf="config && config.visualization === 256" (configChange)="graphPanelSetConfig($event)" [fields]="fields"
+                [config]="config"></app-pathways-form>
+            <app-timelines-form *ngIf="config && config.visualization === 128" (configChange)="graphPanelSetConfig($event)" [fields]="fields"
+                [events]="events" [config]="config"></app-timelines-form>
+            <app-genome-form *ngIf="config && config.visualization === 2147483648" (configChange)="graphPanelSetConfig($event)" [fields]="fields"
+                [config]="config"></app-genome-form>
+            <app-chromosome-form *ngIf="config && config.visualization === 3" (configChange)="graphPanelSetConfig($event)" [fields]="fields"
+                [config]="config"></app-chromosome-form>
+            <app-pca-form *ngIf="config && config.visualization === 1" (configChange)="graphPanelSetConfig($event)" (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
+                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)" [config]="config" [tables]="tables" [fields]="fields"></app-pca-form>
+            <app-tsne-form *ngIf="config && config.visualization === 4" (configChange)="graphPanelSetConfig($event)" (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
+                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)" [config]="config" [tables]="tables" [fields]="fields"></app-tsne-form>
+            <app-pls-form *ngIf="config && config.visualization === 2" [config]="config" [clinicalFields]="clinicalFields"></app-pls-form>
+            <app-heatmap-form *ngIf="config && config.visualization === 32" (configChange)="graphPanelSetConfig($event)" [config]="config"
+                [tables]="tables"></app-heatmap-form>
+            <app-boxwhiskers-form *ngIf="config && config.visualization === 4294967296" (configChange)="graphPanelSetConfig($event)"
+                [config]="config" [tables]="tables" [fields]="fields"></app-boxwhiskers-form>
+            <app-parallelcoords-form *ngIf="config && config.visualization === 8589934592" (configChange)="graphPanelSetConfig($event)"
+                [config]="config" [tables]="tables" [fields]="fields"></app-parallelcoords-form>
+            <app-linked-gene-form *ngIf="config && config.visualization === 1073741824" (configChange)="graphPanelSetConfig($event)"
+                [config]="config"></app-linked-gene-form>
+            <app-hic-form *ngIf="config && config.visualization === 17179869184" (configChange)="graphPanelSetConfig($event)" [config]="config"
+                [tables]="tables" [fields]="fields"></app-hic-form>
+            <app-som-form *ngIf="config && config.visualization === 4096" (configChange)="graphPanelSetConfig($event)" [config]="config"
+                [molecularData]="molecularData" [clinicalFields]="clinicalFields"></app-som-form>
+            <app-mds-form *ngIf="config && config.visualization === 8192" (configChange)="graphPanelSetConfig($event)" (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
+                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)" [config]="config" [tables]="tables" [fields]="fields"></app-mds-form>
+            <app-fa-form *ngIf="config && config.visualization === 65536" (configChange)="graphPanelSetConfig($event)" (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
+                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)" [config]="config" [tables]="tables" [fields]="fields"></app-fa-form>
+            <app-fastica-form *ngIf="config && config.visualization === 8388608" (configChange)="graphPanelSetConfig($event)" (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
+                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)" [config]="config" [tables]="tables" [fields]="fields"></app-fastica-form>
+            <app-truncatedsvd-form *ngIf="config && config.visualization === 131072" (configChange)="graphPanelSetConfig($event)" (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
+                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)" [config]="config" [tables]="tables" [fields]="fields"></app-truncatedsvd-form>
+            <app-lda-form *ngIf="config && config.visualization === 33554432" (configChange)="graphPanelSetConfig($event)" (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
+                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)" [config]="config" [tables]="tables" [fields]="fields"></app-lda-form>
+            <app-nmf-form *ngIf="config && config.visualization === 67108864" (configChange)="graphPanelSetConfig($event)" (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
+                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)" [config]="config" [tables]="tables" [fields]="fields"></app-nmf-form>
+            <app-dictionarylearning-form *ngIf="config && config.visualization === 16777216" (configChange)="graphPanelSetConfig($event)"
+                (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)" (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
+                [config]="config" [tables]="tables" [fields]="fields"></app-dictionarylearning-form>
+            <app-pcakernal-form *ngIf="config && config.visualization === 524288" (configChange)="graphPanelSetConfig($event)" (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
+                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)" [config]="config" [tables]="tables" [fields]="fields"></app-pcakernal-form>
+            <app-pcaincremental-form *ngIf="config && config.visualization === 262144" (configChange)="graphPanelSetConfig($event)" (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
+                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)" [config]="config" [tables]="tables" [fields]="fields"></app-pcaincremental-form>
+            <app-pcasparse-form *ngIf="config && config.visualization === 1048576" (configChange)="graphPanelSetConfig($event)" (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
+                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)" [config]="config" [tables]="tables" [fields]="fields"></app-pcasparse-form>
+            <app-isomap-form *ngIf="config && config.visualization === 134217728" (configChange)="graphPanelSetConfig($event)" (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
+                (selectGeneSignature)="graphPanelSelecteGeneSignature($event)" [config]="config" [tables]="tables" [fields]="fields"></app-isomap-form>
+            <app-locallinearembedding-form *ngIf="config && config.visualization === 268435456" (configChange)="graphPanelSetConfig($event)"
+                (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)" (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
+                [config]="config" [tables]="tables" [fields]="fields"></app-locallinearembedding-form>
+            <app-spectralembedding-form *ngIf="config && config.visualization === 536870912" (configChange)="graphPanelSetConfig($event)"
+                (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)" (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
+                [config]="config" [tables]="tables" [fields]="fields"></app-spectralembedding-form>
+        </div>
+        <div id="graph-panel-b" *ngIf="config">
+            <app-workspace-stat-panel [config]="config" [graphData]="data"></app-workspace-stat-panel>
         </div>
     </div>
 </div>

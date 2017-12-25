@@ -162,7 +162,6 @@ export class WorkspaceComponent {
     this.store.dispatch(new data.DataLoadFromFileAction(value));
   }
   fileLoadTcga(value: string) {
-    debugger;
     this.store.dispatch(new data.DataLoadFromTcga(value));
   }
 

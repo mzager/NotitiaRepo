@@ -19,6 +19,7 @@ declare var $: any;
 })
 export class LegendPanelComponent implements AfterViewInit {
 
+  
   // Components
   @ViewChild('tabs') private tabs: ElementRef;
   @ViewChild('legendGraphA') private elLegendA: ElementRef;
@@ -261,8 +262,8 @@ export class LegendPanelComponent implements AfterViewInit {
     svg.attr('height', yOffset);
   }
 
-  ngAfterViewInit() {
-    $(this.tabs.nativeElement).tabs();
+  ngAfterViewInit(): void {
+    $( this.tabs.nativeElement ).tabs();
   }
 
   constructor() { }
