@@ -13,7 +13,7 @@ import {
 })
 export class TcgaPanelComponent {
 
-  @Output() loadTcga = new EventEmitter<GraphConfig>();
+  @Output() loadTcga = new EventEmitter<any>();
 
   datasets = [
     { 'name': 'Adrenocortical carcinoma', 'disease': 'acc', 'img': 'DSadrenal.png' },
@@ -56,47 +56,4 @@ export class TcgaPanelComponent {
     { 'name': 'Lung', 'disease': 'lung', 'img': 'DSlung.png' },
     { 'name': 'Gliomas', 'disease': 'brain', 'img': 'DSbrain.png' },
     */
-
-    loadDataset(dataset) {
-
-      this.loadTcga.emit( dataset );
-
-      // fetch('assets/tcga/result.json')
-      //   .then( v => v.json() )
-      //   .then( v => {
-      //     debugger;
-      //   })
-      // .then( v => v.json() )
-      // .then( v => {
-      //   // Filter Out Genes That Aren't Mutated in At Least 30%
-      //   const NumberOfZerosInGistic = v.data[0].map(function(col, i) {
-      //     return v.data.map(function(row) {
-      //       return row[i];
-      //     });
-      //   }).map( a => a.filter( b => b !== 0).length );
-      //   const includeGenes = NumberOfZerosInGistic.map(x => x > v.data.length * 0.5);
-      //   const genes = v.genes.filter( (datum, i) => includeGenes[i] )
-      //   const data = v.data.map( datum => datum.filter( (gene, index) => includeGenes[index] ) );
-
-      //   fetch('https://0x8okrpyl3.execute-api.us-west-2.amazonaws.com/dev', {
-      //     method: 'POST',
-      //     headers: {
-      //         'Accept': 'application/json',
-      //         'Content-Type': 'application/json'
-      //     },
-      //     body: JSON.stringify({
-      //           method: 'cluster_sk_pca_incremental',
-      //           components: 3,
-      //           data: data,
-      //           whiten: false,
-      //     })
-      //   })
-      //   .then( r => r.json())
-      //   .then( r => {
-      //     console.log("DONE");
-      //     console.log(new Date());
-      //       debugger;
-      //   });
-      // });
-    }
 }

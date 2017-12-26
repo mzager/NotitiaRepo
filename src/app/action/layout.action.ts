@@ -79,7 +79,7 @@ export class GraphPanelShowTabAction implements Action {
 }
 export class GraphPanelToggleAction implements Action {
     readonly type: string = GRAPH_PANEL_TOGGLE;
-    constructor() { }
+    constructor(public GraphPanelEnum) { }
 }
 
 export class ClusteringAlgorithmPanelShowAction implements Action {

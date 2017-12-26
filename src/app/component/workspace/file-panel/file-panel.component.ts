@@ -19,25 +19,13 @@ export class FilePanelComponent {
 
   @Output() filesLoad = new EventEmitter<any>();
   @Output() filePanelToggle = new EventEmitter();
-  sessions = [];
-  session = {Results: []};
-  result = {Files: []};
+  @Output() loadTcga = new EventEmitter<any>();
+  @Input() tab = 2;
 
-  open(session): void {
-    this.filesLoad.emit(session.Results.map(v => v.Files[1]));
+  showDatasource(source: number): void {
+    this.tab = source;
   }
 
-  constructor(private illuminaService: IlluminaService) {
-    this.illuminaService.projects.subscribe( v => {
-      const sess = v.filter( session => session.hasOwnProperty('Result') );
-      sess.forEach(session => {
-        session.Results = session.Results.filter( result => result.hasOwnProperty('Files') );
-      });
-      this.sessions = v;
-      try {
-        this.session = this.sessions[0];
-        this.result = this.session.Results[0];
-      } catch (e) { }
-    });
+  constructor() {
   }
 }

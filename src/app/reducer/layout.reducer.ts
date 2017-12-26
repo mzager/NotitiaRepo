@@ -1,23 +1,24 @@
 import { WORKSPACE_CONFIG } from './../action/graph.action';
 import { WorkspaceConfigModel } from './../model/workspace.model';
 import { WORKSPACE_PANEL_SHOW_TAB, EDGE_PANEL_SHOW_TAB, FILE_PANEL_SHOW_TAB, 
-    TCGA_PANEL_TOGGLE, GENE_SIGNATURE_PANEL_HIDE } from './../action/layout.action';
+    TCGA_PANEL_TOGGLE, GENE_SIGNATURE_PANEL_HIDE, GraphPanelToggleAction } from './../action/layout.action';
 import { UnsafeAction } from './../action/unsafe.action';
 import * as e from 'app/model/enum.model';
 import * as layout from 'app/action/layout.action';
 import { Action } from '@ngrx/store';
+import { GraphPanelEnum } from 'app/model/enum.model';
 
 export interface State {
     filePanel: e.FilePanelEnum;
     queryPanel: e.QueryPanelEnum;
-    graphPanel: e.GraphPanelEnum;
+    graphPanelA: e.GraphPanelEnum;
+    graphPanelB: e.GraphPanelEnum;
     genesetPanel: e.SinglePanelEnum;
     samplePanel: e.StatPanelEnum;
     populationPanel: e.StatPanelEnum;
     legendPanel: e.LegendPanelEnum;
     edgePanel: e.EdgePanelEnum;
     toolPanel: e.ToolPanelEnum;
-    tcgaPanel: e.TcgaPanelEnum;
     historyPanel: e.HistoryPanelEnum;
     cohortPanel: e.GraphPanelEnum;
     dataPanel: e.DataPanelEnum;
@@ -30,7 +31,8 @@ export interface State {
 const initialState: State = {
     filePanel: e.FilePanelEnum.NONE,
     queryPanel: e.QueryPanelEnum.NONE,
-    graphPanel: e.GraphPanelEnum.NONE,
+    graphPanelA: e.GraphPanelEnum.NONE,
+    graphPanelB: e.GraphPanelEnum.NONE,
     genesetPanel: e.SinglePanelEnum.HIDE,
     samplePanel: e.StatPanelEnum.NONE,
     populationPanel: e.StatPanelEnum.NONE,
@@ -42,7 +44,6 @@ const initialState: State = {
     dataPanel: e.DataPanelEnum.NONE,
     geneSignaturePanel: e.SinglePanelEnum.HIDE,
     clusterAlgorithmPanel: e.SinglePanelEnum.HIDE,
-    tcgaPanel: e.TcgaPanelEnum.NONE,
     workspacePanel: e.WorkspacePanelEnum.NONE,
     workspaceConfig: new WorkspaceConfigModel()
 };
@@ -90,8 +91,13 @@ export function reducer(state = initialState, action: UnsafeAction): State {
             return Object.assign({}, state,
                 { queryPanel: (state.queryPanel === e.QueryPanelEnum.NONE) ? e.QueryPanelEnum.BUILDER : e.QueryPanelEnum.NONE });
         case layout.GRAPH_PANEL_TOGGLE:
-            return Object.assign({}, state,
-                { graphPanel: (state.graphPanel === e.GraphPanelEnum.NONE) ? e.GraphPanelEnum.GRAPH_A : e.GraphPanelEnum.NONE });
+            if ((action as GraphPanelToggleAction).GraphPanelEnum === GraphPanelEnum.GRAPH_A) {
+                return Object.assign({}, state,
+                    { graphPanelA: (state.graphPanelA === e.GraphPanelEnum.NONE) ? e.GraphPanelEnum.GRAPH_A : e.GraphPanelEnum.NONE });
+            }else {
+                return Object.assign({}, state,
+                    { graphPanelB: (state.graphPanelB === e.GraphPanelEnum.NONE) ? e.GraphPanelEnum.GRAPH_B : e.GraphPanelEnum.NONE });
+            }
         case layout.GENESET_PANEL_TOGGLE:
             return Object.assign({}, state,
                 { genesetPanel: (state.genesetPanel === e.SinglePanelEnum.HIDE) ? e.SinglePanelEnum.SHOW : e.SinglePanelEnum.HIDE });
@@ -107,9 +113,6 @@ export function reducer(state = initialState, action: UnsafeAction): State {
         case layout.TOOL_PANEL_TOGGLE:
             return Object.assign({}, state,
                 { toolPanel: (state.toolPanel === e.ToolPanelEnum.NONE) ? e.ToolPanelEnum.SETTINGS : e.ToolPanelEnum.NONE });
-        case layout.TCGA_PANEL_TOGGLE:
-                return Object.assign({}, state,
-                    { tcgaPanel: (state.tcgaPanel === e.TcgaPanelEnum.NONE) ? e.TcgaPanelEnum.DATASETS : e.TcgaPanelEnum.NONE });
         case layout.EDGE_PANEL_TOGGLE:
             return Object.assign({}, state,
                 { edgePanel: (state.edgePanel === e.EdgePanelEnum.NONE) ? e.EdgePanelEnum.SETTINGS : e.EdgePanelEnum.NONE });
@@ -136,13 +139,13 @@ export function reducer(state = initialState, action: UnsafeAction): State {
 export const getFilePanelState = (state: State) => state.filePanel;
 export const getEdgePanelState = (state: State) => state.edgePanel;
 export const getQueryPanelState = (state: State) => state.queryPanel;
-export const getGraphPanelState = (state: State) => state.graphPanel;
+export const getGraphPanelAState = (state: State) => state.graphPanelA;
+export const getGraphPanelBState = (state: State) => state.graphPanelB;
 export const getGenesetPanelState = (state: State) => state.genesetPanel;
 export const getSamplePanelState = (state: State) => state.samplePanel;
 export const getPopulationPanelState = (state: State) => state.populationPanel;
 export const getLegendPanelState = (state: State) => state.legendPanel;
 export const getToolPanelState = (state: State) => state.toolPanel;
-export const getTcgaPanelState = (state: State) => state.tcgaPanel;
 export const getHistoryPanelState = (state: State) => state.historyPanel;
 export const getCohortPanelState = (state: State) => state.cohortPanel;
 export const getDataPanelState = (state: State) => state.dataPanel;
