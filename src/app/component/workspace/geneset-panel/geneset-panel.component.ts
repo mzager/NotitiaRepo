@@ -14,7 +14,7 @@ declare var $: any;
 @Component({
   selector: 'app-workspace-geneset-panel',
   template: `<div class="card"
-  style="top:40px; left:10px; width:225px;height:auto; background:#FFFFFF;"
+  style="position:absolute; top:40px; width:225px;height:auto; background:#FFFFFF;"
   [ng2-draggable]="true" [ng2DraggableHandle]="titlebar">
     <div class="card-title-bar" #titlebar
     style="text-align:center;background:#029BE5;color:#FFF;font-weight:normal;font-size:12px;padding:5px 10px;">
@@ -83,14 +83,14 @@ export class GenesetPanelComponent implements AfterViewInit {
   // geneset;
   genesets;
 
-  @ViewChild('tabs') tabs: ElementRef;
+  // @ViewChild('tabs') tabs: ElementRef;
 
   @Input() configA: GraphConfig;
   @Input() configB: GraphConfig;
   @Output() configChange = new EventEmitter<GraphConfig>();
 
   ngAfterViewInit(): void {
-    $(this.tabs.nativeElement).tabs();
+    // $(this.tabs.nativeElement).tabs();
   }
 
   onGenesetCategoryLoaded(me: GenesetPanelComponent, genesets: Array<any>): void {
@@ -148,7 +148,6 @@ export class GenesetPanelComponent implements AfterViewInit {
       geneset: [],
       genelist: ['idh1']
     });
-
     this.form.valueChanges
       .debounceTime(200)
       .distinctUntilChanged()
