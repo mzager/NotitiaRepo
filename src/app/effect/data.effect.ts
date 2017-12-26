@@ -55,7 +55,7 @@ export class DataEffect {
         .ofType(data.DATA_LOAD_FROM_TCGA)
         .map(toPayload)
         .switchMap( (args) => {
-            args.manifest = 'https://s3-us-west-2.amazonaws.com/notitia/firehose/tcga_' + args.disease + '_manifest.json.gz'
+            args.manifest = 'https://s3-us-west-2.amazonaws.com/notitia/firehose/tcga_' + args.disease + '_manifest.json.gz';
             return this.datasetService.load(args);
         })
         .mergeMap( (args) => {
@@ -64,7 +64,6 @@ export class DataEffect {
                 new DataLoadFromDexieAction(args[0])
             ];
         });
-        
 
     // Load Data From Dexie
     @Effect() dataLoadFromDexie$: Observable<DataLoadedAction> = this.actions$
@@ -117,10 +116,6 @@ export class DataEffect {
             // graphAConfig.graph = GraphEnum.GRAPH_A;
             // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
-
-            const graphAConfig = new PcaIncrementalConfigModel();
-            graphAConfig.graph = GraphEnum.GRAPH_A;
-            graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             const graphAConfig = new PcaIncrementalConfigModel();
             graphAConfig.graph = GraphEnum.GRAPH_A;
