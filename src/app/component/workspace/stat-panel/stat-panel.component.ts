@@ -62,7 +62,7 @@ export class StatPanelComponent implements AfterViewInit {
     //   link.dispatchEvent(new MouseEvent('click'));
     // }).catch(function(error) { /* error handling */ });
   }
-  
+
   // Constructor Called Automatically
   constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
 
