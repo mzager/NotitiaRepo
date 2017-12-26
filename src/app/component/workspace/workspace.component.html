@@ -4,7 +4,7 @@
     ></app-workspace-chart>
     
 <app-workspace-graph-panel 
-    style="position:absolute;top:60px;left:20px;"
+    style="position:absolute;top:30px;left:10px;"
     *ngIf="graphPanelATab | async"
     [title]="'Graph A'"
     [events]="events | async"
@@ -22,7 +22,7 @@
     ></app-workspace-graph-panel>
 
 <app-workspace-graph-panel 
-    style="position:absolute;top:60px;right:20px;"
+    style="position:absolute;top:30px;right:10px;"
     *ngIf="graphPanelBTab | async"
     [title]="'Graph B'"
     [events]="events | async"
