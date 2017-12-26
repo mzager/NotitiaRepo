@@ -315,8 +315,8 @@ export class ChartScene {
         if (view.config.visualization !== config.visualization) {
             view.config.visualization = config.visualization;
             if (view.chart !== null) { view.chart.destroy(); }
-            view.camera.position.set(0, 0, 1000);
-            view.camera.rotation.setFromVector3( new THREE.Vector3(0, 0, 0) );
+            // view.camera.position.set(0, 0, 1000);
+            // view.camera.rotation.setFromVector3( new THREE.Vector3(0, 0, 0) );
 
             view.chart = this.getChartObject(config.visualization).create(this.labels, this.events, view);
             view.chart.onRequestRender.subscribe(this.render);

@@ -20,7 +20,7 @@ export class TimelinesGraph implements ChartObjectInterface {
 
     // Emitters
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
-    public onConfigEmit: EventEmitter<{type: GraphConfig}> = new EventEmitter<{ type: GraphConfig }>();
+    public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{ type: GraphConfig }>();
     public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
         new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
 
@@ -31,11 +31,9 @@ export class TimelinesGraph implements ChartObjectInterface {
     private data: TimelinesDataModel;
     private config: TimelinesConfigModel;
     private isEnabled: boolean;
-
-    // Objects
+    public groups: Array<THREE.Group>;
     public meshes: Array<THREE.Mesh>;
-    public patientGroups: Array<THREE.Group>;
-    public group: THREE.Group;
+    public bars: Array<THREE.Line>;
 
     // Private Subscriptions
     private sMouseMove: Subscription;
@@ -58,108 +56,117 @@ export class TimelinesGraph implements ChartObjectInterface {
     }
     update(config: GraphConfig, data: any) {
         this.config = config as TimelinesConfigModel;
-        if (this.config.dirtyFlag & DirtyEnum.OPTIONS) {
-            this.removeObjects();
-            this.addObjects();
-        }
-        if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {
-            this.data = data;
-            this.removeObjects();
-            this.addObjects();
-        }
+        this.data = data;
+        this.removeObjects();
+        this.addObjects();
     }
     preRender(views: Array<VisualizationView>, layout: WorkspaceLayoutEnum, renderer: THREE.WebGLRenderer) {
 
     }
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
-
         this.labels = labels;
         this.events = events;
         this.view = view;
         this.isEnabled = false;
         this.meshes = [];
-        this.patientGroups = [];
-
+        this.groups = [];
+        this.view.camera.position.fromArray([0, 0, 1000]);
+        this.view.camera.lookAt(new THREE.Vector3(0, 0, 0));
         this.view.controls.enableRotate = false;
-        this.group = new THREE.Group();
-        this.view.scene.add(this.group);
         return this;
     }
 
     destroy() {
-        this.enable(false);
         this.removeObjects();
+        this.enable(false);
     }
 
     addObjects(): void {
-        const w = (this.view.viewport.width * 0.5);
 
+        const patients = this.data.result.events;
+        const w = Math.round(this.view.viewport.width * 0.5);
+        const halfW = Math.round(w * 0.5);
         const scale = (this.config.timescale === 'Log') ? scaleLog() : scaleLinear();
-        scale.domain([this.data.result.minMax.min,  this.data.result.minMax.max]);
-        scale.range([0, w]);
+        
+        console.dir(this.data.result);
+        scale.domain([this.data.result.minMax.min, this.data.result.minMax.max]);
+        scale.range([-halfW, halfW]);
+        patients.forEach((patient, i) => {
 
-        this.data.result.events.forEach( (v, i) => {
-
+            // Create Group
             const group = new THREE.Group();
-            group.userData = v.id;
-            group.position.setY( i * 3 );
+            group.userData = patient.id;
+            group.position.setY(i * 10);
+            this.groups.push(group);
+            this.view.scene.add(group);
 
-            if (v.hasOwnProperty('Status')) {
-                v.Status.forEach( (event, j) => {
+            // Create Background Line
+            const line = ChartFactory.lineAllocate(0xDDDDDD, new THREE.Vector2(-halfW, 0), new THREE.Vector2(halfW, 0));
+            group.add(line);
+
+            if (patient.hasOwnProperty('Treatment')) {
+
+                patient.Treatment.forEach(event => {
+
+                    const s = scale(event.start);
+
+                    if (event.start !== event.end) {
+                        const e = scale(event.end);
+                        const geometry = new THREE.PlaneGeometry(1, 2);
+                        const material = new THREE.MeshBasicMaterial({ color: 0x039BE5 });
+                        const rect = new THREE.Mesh(geometry, material);
+                        rect.position.set(e, 2, 0);
+                        rect.userData = event.data;
+                        // rect.userData = {end: event.end};
+                        this.meshes.push(rect);
+                        group.add(rect);
+
+                        const c = (Math.abs(e - s) * 0.5) + Math.min(e, s);
+                        const arc = ChartFactory.lineAllocateCurve(0x039BE5,
+                            new THREE.Vector2(s, 3),
+                            new THREE.Vector2(e, 3),
+                            new THREE.Vector2(c, 6)
+                        );
+                        group.add(arc);
+                    }
+
+                    const geometry = new THREE.PlaneGeometry(1, 2);
+                    const material = new THREE.MeshBasicMaterial({ color: 0x039BE5 });
+                    const rect = new THREE.Mesh(geometry, material);
+                    rect.userData = event.data;
+                    // rect.userData = {start: event.start};
+                    rect.position.set(s, 2, 0);
+                    this.meshes.push(rect);
+                    group.add(rect);
+                });
+            }
+
+            // Create Status Line
+            if (patient.hasOwnProperty('Status')) {
+                patient.Status.forEach((event, j) => {
                     const xStart = Math.floor(scale(event.start));
-                    const xEnd = (v.Status.length > j + 1) ? Math.floor(scale(v.Status[j + 1].start)) : xStart + 1;
+                    const xEnd = (patient.Status.length > j + 1) ? Math.floor(scale(patient.Status[j + 1].start)) : xStart + 1;
                     let width = xEnd - xStart;
-                    if (width === 0) {width = 1; }
+                    if (width === 0) { width = 1; }
                     const mesh = new THREE.Mesh(
                         new THREE.PlaneGeometry(width, 2),
-                        new THREE.MeshBasicMaterial( {color: event.color, side: THREE.DoubleSide} ) );
-                    mesh.position.setX( xStart + (width * 0.5));
+                        new THREE.MeshBasicMaterial({ color: event.color, side: THREE.DoubleSide }));
+                    mesh.position.setX(xStart + (width * 0.5));
                     if (width === 1) { mesh.position.setZ(0.1); }
                     mesh.userData = event.data;
+                    // mesh.userData = {start: event.start, s: scale(event.start)};
                     this.meshes.push(mesh);
                     group.add(mesh);
                 });
             }
-            if (v.hasOwnProperty('Treatment')) {
-                v.Treatment.forEach( event => {
-                    let pos;
-                    let mesh;
-                    if (event.start !== event.end) {
-                        pos  = new Vector3(
-                            Math.floor( scale( event.end ) ),
-                            0, 2);
-                        mesh = ChartFactory.meshAllocate(event.color, ShapeEnum.CIRCLE, .3, pos, event.data );
-                    } else {
-                        pos = new Vector3(
-                            Math.floor( scale( event.start ) ),
-                            0, 2);
-                        mesh = ChartFactory.meshAllocate(event.color, ShapeEnum.SQUARE, .3, pos, event.data );
-                    }
-                    this.meshes.push(mesh);
-                    group.add(mesh);
-                });
-            }
-
-            this.patientGroups.push(group);
-            this.view.scene.add(group);
         });
-        this.onRequestRender.emit( this.config.graph);
-        this.enable(true);
-
     }
     removeObjects(): void {
-        this.meshes.forEach(v => {
-            ChartFactory.meshRelease(v as THREE.Mesh);
-            this.view.scene.remove(v);
-
-        });
-        this.meshes.length = 0;
-        this.patientGroups.forEach(v => {
-            this.view.scene.remove(v);
-        });
+        this.groups.forEach(group => this.view.scene.remove(group));
     }
 
     private onMouseMove(e: ChartEvent): void {
+
         const geneHit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
         if (geneHit.length > 0) {
             const xPos = e.mouse.xs + 10;
@@ -185,14 +192,9 @@ export class TimelinesGraph implements ChartObjectInterface {
             return;
         }
         this.labels.innerHTML = '';
-    }
+     }
+    private onMouseUp(e: ChartEvent): void { }
+    private onMouseDown(e: ChartEvent): void { }
 
-    private onMouseUp(e: ChartEvent): void {
-
-    }
-
-    private onMouseDown(e: ChartEvent): void {
-
-    }
     constructor() { }
 }

@@ -1,37 +1,3 @@
-<div class="app-workspace-tool-bar">
-<!--     
-    <div class="toolbar-label">Graph</div>
-    <button [ngClass]="{active:selectedGraph==1}" (click)="selectGraph.emit(1)" class="waves-effect waves-light btn">
-        <span style="font-weight:500;position:relative;top:-5px;left:4px;">A</span>
-    </button>
-    <button [ngClass]="{active:selectedGraph==2}" (click)="selectGraph.emit(2)" class="waves-effect waves-light btn">
-        <span style="font-weight:500;position:relative;top:-5px;left:4px;">B</span>
-    </button> -->
-    
-    <button [ngClass]="{'active':selectedTool==1}" (click)="selectTool.emit(1)" class="waves-effect waves-light btn">
-        <div class="icon material-icons ">near_me</div>
-    </button>
-    <button [ngClass]="{'active':selectedTool==2}" (click)="selectTool.emit(2)" class="waves-effect waves-light btn">
-        <div class="icon material-icons ">open_with</div>
-    </button>
-    <button  (click)="selectTool.emit(4)" class="waves-effect waves-light btn" tooltip="Rotate (R)" position="right">
-        <div class="material-icons ">3d_rotation</div>
-    </button>
-    <button [ngClass]="{active:selectedTool==8}" (click)="selectTool.emit(8)" class="waves-effect waves-light btn">
-        <div class="material-icons ">zoom_in</div>
-    </button>
-    
-    <button [ngClass]="{active:selectedTool==16}" (click)="selectTool.emit(16)" class="waves-effect waves-light btn">
-        <div class="icon material-icons ">text_format</div>
-    </button>
-    <button (click)="graphAction.emit(2)" class="waves-effect waves-light btn">
-        <div class="icon material-icons ">flip_to_back</div>
-    </button>
-    <button (click)="graphAction.emit(1)" class="waves-effect waves-light btn">
-        <div class="icon material-icons ">visibility</div>
-    </button>
-    <button (click)="graphAction.emit(4)" class="waves-effect waves-light btn">
-        <div class="icon material-icons ">account_balance_wallet</div>
-    </button>
-   
+<div class="app-workspace-tool-bar" style="text-align:center;">
+    <span class="a-lbl">A</span><span class="b-lbl">B</span>
 </div>

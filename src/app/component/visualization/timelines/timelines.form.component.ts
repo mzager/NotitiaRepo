@@ -100,7 +100,6 @@ export class TimelinesFormComponent {
 
 
   visibilityToggle(item: any) {
-  
     this.visibleElements[item] = !this.visibleElements[item];
     this.form.patchValue({visibleElements: this.visibleElements}, { emitEvent: true });
   }
