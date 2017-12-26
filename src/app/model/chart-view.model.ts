@@ -9,7 +9,7 @@ import { OrbitControls } from 'three-orbitcontrols-ts';
  */
 export interface VisualizationView {
   controls: OrbitControls;
-  config: GraphConfig; //{visualization: VisualizationEnum};
+  config: GraphConfig; // {visualization: VisualizationEnum};
   viewport: {x: number, y: number, width: number, height: number};
   camera: THREE.Camera;
   scene: THREE.Scene;
