@@ -47,11 +47,8 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
       // case 'a': this.queryPanelToggle.emit(); break;
       // case 's': this.statPanelToggle.emit(); break;
       // case 'l': this.legendPanelToggle.emit(); break;
-      // case 'h': this.historyPanelToggle.emit(); break;
-      
-      // case 'w': this.workspacePanelToggle.emit(); break;
-      
-      // case 'f': this.filePanelToggle.emit(); break;
+      // case 'h': this.historyPanelToggle.emit(); break;      // case 'w': this.workspacePanelToggle.emit(); break;
+      case 'l': this.filePanelToggle.emit(); break;
       case 'a': this.graphPanelToggle.emit(1); break;
       case 'b': this.graphPanelToggle.emit(2); break;
       case 'g': this.genesetPanelToggle.emit(); break;
