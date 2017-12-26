@@ -28,16 +28,32 @@ export interface Stat {
     data: any;
 }
 
-export class StatSingle implements Stat {
-    readonly type = StatTypeEnum.SINGLE;
-    charts: Array<ChartTypeEnum> = [ChartTypeEnum.LABEL];
+// not being used
+// export class StatSingle implements Stat {
+//     readonly type = StatTypeEnum.SINGLE;
+//     charts: Array<ChartTypeEnum> = [ChartTypeEnum.LABEL];
+//     name: string;
+//     data: string;
+//     constructor(name: string, data: string) {
+//         this.name = name;
+//         this.data = data;
+//     }
+// }
+
+// Single Values
+export class StatKeyValues implements Stat {
+    readonly type = StatTypeEnum.MISC;
+    charts: Array<ChartTypeEnum> = [ChartTypeEnum.LINE, ChartTypeEnum.LABEL];
     name: string;
-    data: string;
-    constructor(name: string, data: string) {
+    data: Array<{ label: string, value: string }>;
+
+    constructor(name: string, data: Array<{ label: string, value: string }>) {
         this.name = name;
         this.data = data;
     }
 }
+
+// 1D Values
 export class StatOneD implements Stat {
     readonly type = StatTypeEnum.ONE_D;
     charts: Array<ChartTypeEnum> = [ChartTypeEnum.DONUT, ChartTypeEnum.HISTOGRAM];
@@ -50,10 +66,10 @@ export class StatOneD implements Stat {
     }
 }
 
-// need to finish
+// 2D Values
 export class StatTwoD implements Stat {
     readonly type = StatTypeEnum.TWO_D;
-    charts: Array<ChartTypeEnum> = [ChartTypeEnum.SCATTER];
+    charts: Array<ChartTypeEnum> = [ChartTypeEnum.SCATTER, ChartTypeEnum.HISTOGRAM];
     name: string;
     data: Array<{ label: string, value: number, color?: number }>;
     constructor(name: string, data: Array<{ label: string, value: number, color?: number }>) {
@@ -62,17 +78,7 @@ export class StatTwoD implements Stat {
     }
 }
 
-export class StatKeyValues implements Stat {
-    readonly type = StatTypeEnum.MISC;
-    charts: Array<ChartTypeEnum> = [ChartTypeEnum.LINE, ChartTypeEnum.LABEL];
-    name: string;
-    data: Array<{ label: string, value: string }>;
 
-    constructor(name: string, data: Array<{ label: string, value: string }>) {
-        this.name = name;
-        this.data = data;
-    }
-}
 
 // Factory Pattern
 export class VegaFactory {
@@ -107,7 +113,7 @@ export class VegaFactory {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'config': {
                 'title': {
-                    'offset': 10,
+                    'offset': 30,
                     'fontSize': 12
                 }
             },
@@ -265,7 +271,7 @@ export class VegaFactory {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'config': {
                 'title': {
-                    'offset': 10,
+                    'offset': 30,
                     'fontSize': 12
                 }
             },
@@ -394,6 +400,7 @@ export class VegaFactory {
         };
         return vega;
     }
+    // not using
     private createPie(stat: Stat): any {
         const values = stat.data;
         const vega = {
@@ -623,7 +630,7 @@ export class VegaFactory {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'config': {
                 'title': {
-                    'offset': 10,
+                    'offset': 30,
                     'fontSize': 12
                 }
             },
@@ -643,7 +650,7 @@ export class VegaFactory {
                         {
                             'type': 'formula',
                             'as': 'x_position',
-                            'expr': 'width * 2 / 3'
+                            'expr': '92.5'
                         },
                         {
                             'type': 'formula',
@@ -705,7 +712,7 @@ export class VegaFactory {
                                 'value': 'Lato'
                             },
                             'fontSize': {
-                                'value': 10
+                                'value': 12
                             }
                         }
                     }
@@ -882,12 +889,12 @@ export class StatFactory {
             // new StatOneD('Mean', data.result.mean),
             // new StatOneD('skvars', data.result.skvars),
             // Two Dimensional Stats
-            // new StatTwoD('Components', data.result.components),
+            new StatTwoD('PCA Loadings', this.formatPCALoadings(data.result.components)),
             // Maybe combine Singles?
             new StatKeyValues('Miscellaneous Results', ([
-                { label: 'nSamples Seen', value: data.result.nSamplesSeen.toString() },
-                { label: 'Noise Variance', value: data.result.noiseVariance.toFixed(2) },
-                { label: 'nComponents', value: data.result.nComponents.toString() },
+                { label: '# Samples Seen:', value: data.result.nSamplesSeen.toString() },
+                { label: '# Components:', value: data.result.nComponents.toString() },
+                { label: 'Noise Variance:', value: data.result.noiseVariance.toFixed(2) },
             ]))
 
         ];
@@ -902,6 +909,7 @@ export class StatFactory {
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
             // new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
             new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues))
+            // Two Dimensional Stats
             // new StatTwoD('Components', data.result.components),
         ];
 
@@ -913,8 +921,8 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('Miscellaneous Results', ([
-                { label: 'Noise Variance', value: data.result.noiseVariance.toFixed(2) },
-                { label: 'nComponents', value: data.result.nComponents.toString() }
+                { label: 'Noise Variance:', value: data.result.noiseVariance.toFixed(2) },
+                { label: '# Components:', value: data.result.nComponents.toString() }
             ])),
             // One Dimensional Stats
             // new StatOneD('Mean', data.result.mean),
@@ -933,7 +941,7 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('Miscellaneous Results', ([
-                { label: 'Iter', value: data.result.iter.toString() },
+                { label: 'Iter:', value: data.result.iter.toFixed(2) },
             ])),
             // One Dimensional Stats
             new StatOneD('Error', this.formatError(data.result.error)),
@@ -949,8 +957,12 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('Miscellaneous Results', ([
+<<<<<<< HEAD
+                { label: 'Lambdas:', value: data.result.lambdas.toString() },
+=======
                 { label: 'Lambdas', value: data.result.lambdas.toString() },
 
+>>>>>>> e6d6b9e3f3b91383e3bc7931b2cf9ab51870c911
             ])),
             // Two Dimensional Stats
             new StatTwoD('Alphas', data.result.alphas)
@@ -965,10 +977,13 @@ export class StatFactory {
             // Single Stats
             new StatKeyValues('Miscellaneous Results', ([
                 { label: 'nIter', value: data.result.nIter.toString() },
+<<<<<<< HEAD
+=======
 
+>>>>>>> e6d6b9e3f3b91383e3bc7931b2cf9ab51870c911
             ])),
             // One Dimensional Stats
-            new StatOneD('Error', this.formatError(data.result.error)),
+            new StatOneD('Error', this.formatError(data.result.error.splice(0, 3))),
             // Two Dimensional Stats
             new StatTwoD('Components', data.result.components)
         ];
@@ -981,8 +996,13 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('Miscellaneous Results', ([
+<<<<<<< HEAD
+                { label: 'nIter:', value: data.result.nIter.toString() },
+             
+=======
                 { label: 'nIter', value: data.result.nIter.toString() },
 
+>>>>>>> e6d6b9e3f3b91383e3bc7931b2cf9ab51870c911
             ])),
             // One Dimensional Stats
             new StatOneD('loglike', this.formatLoglike(data.result.loglike)),
@@ -1033,8 +1053,13 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('Miscellaneous Results', ([
+<<<<<<< HEAD
+                { label: 'Stress:', value: data.result.stress.toString() },
+             
+=======
                 { label: 'Stress', value: data.result.stress.toString() },
 
+>>>>>>> e6d6b9e3f3b91383e3bc7931b2cf9ab51870c911
             ])),
             // One Dimensional Stats
             // Two Dimensional Stats
@@ -1049,8 +1074,13 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('Miscellaneous Results', ([
+<<<<<<< HEAD
+                { label: 'Stress:', value: data.result.stress.toFixed(2) },
+             
+=======
                 { label: 'Stress', value: data.result.stress.toFixed(2) },
 
+>>>>>>> e6d6b9e3f3b91383e3bc7931b2cf9ab51870c911
             ])),
             // One Dimensional Stats
             // Two Dimensional Stats
@@ -1087,9 +1117,15 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('Miscellaneous Results', ([
+<<<<<<< HEAD
+                { label: 'kl Divergence:', value: data.result.klDivergence.toFixed(2) },
+                { label: 'nIter:', value: data.result.nIter.toString() },
+             
+=======
                 { label: 'kl Divergence', value: data.result.klDivergence.toFixed(2) },
                 { label: 'nIter', value: data.result.nIter.toString() },
 
+>>>>>>> e6d6b9e3f3b91383e3bc7931b2cf9ab51870c911
             ])),
             // One Dimensional Stats
             // Two Dimensional Stats
@@ -1099,7 +1135,10 @@ export class StatFactory {
         return stats;
     }
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> e6d6b9e3f3b91383e3bc7931b2cf9ab51870c911
     // One D Recycled Data Formulas
     formatPrincipleComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
         return data.map((v, i) => ({ label: 'PC' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));
@@ -1118,5 +1157,9 @@ export class StatFactory {
         return noiseVariance.filter((v, i) => i < 10);
     }
     // Two D Recycled Data Formulas
+    formatPCALoadings(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
+        const PCALoading = data.map((v, i) => ({ label: 'PCA' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));
+        return PCALoading.filter((v, i) => i < 10);
+    }
 
 }
