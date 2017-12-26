@@ -161,6 +161,7 @@ export class GraphPanelComponent implements AfterViewInit  {
           gc = new PcaSparseConfigModel();
           break;
       }
+
       const prevConfig = this.config;
       gc.table = prevConfig.table;
       gc.sampleFilter = prevConfig.sampleFilter;
@@ -170,7 +171,7 @@ export class GraphPanelComponent implements AfterViewInit  {
       gc.pointColor = prevConfig.pointColor;
       gc.pointShape = prevConfig.pointShape;
       gc.pointSize = prevConfig.pointSize;
-      gc.graph = GraphEnum.GRAPH_A;
+      gc.graph = (this.title === 'Graph A') ? GraphEnum.GRAPH_A : GraphEnum.GRAPH_B;
       this.configChange.emit( gc );
     }
   }

@@ -41,17 +41,22 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   handleKeyboardEvent(event: KeyboardEvent) {
     if (!event.ctrlKey) { return; }
     switch (event.key.toLowerCase()) {
-      case 'g': this.graphPanelToggle.emit(); break;
-      case 'c': this.cohortPanelToggle.emit(); break;
-      case 'x': this.genesetPanelToggle.emit(); break;
-      case 'a': this.queryPanelToggle.emit(); break;
-      case 's': this.statPanelToggle.emit(); break;
-      case 'l': this.legendPanelToggle.emit(); break;
-      case 'h': this.historyPanelToggle.emit(); break;
+      // case 'g': this.graphPanelToggle.emit(); break;
+      // case 'c': this.cohortPanelToggle.emit(); break;
+      // case 'x': this.genesetPanelToggle.emit(); break;
+      // case 'a': this.queryPanelToggle.emit(); break;
+      // case 's': this.statPanelToggle.emit(); break;
+      // case 'l': this.legendPanelToggle.emit(); break;
+      // case 'h': this.historyPanelToggle.emit(); break;
+      
+      // case 'w': this.workspacePanelToggle.emit(); break;
+      
+      // case 'f': this.filePanelToggle.emit(); break;
+      case 'a': this.graphPanelToggle.emit(1); break;
+      case 'b': this.graphPanelToggle.emit(2); break;
+      case 'g': this.genesetPanelToggle.emit(); break;
       case 'd': this.dataPanelToggle.emit(); break;
-      case 'w': this.workspacePanelToggle.emit(); break;
       case 'e': this.edgePanelToggle.emit(); break;
-      case 'f': this.filePanelToggle.emit(); break;
       case 'p': this.exportImage(); break;
       case 'i': this.toggleBackgroundColor(); break;
       // case "s": this.selectTool.emit( ToolEnum.SAVE_COHORT); break;
