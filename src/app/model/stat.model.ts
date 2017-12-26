@@ -43,7 +43,7 @@ export interface Stat {
 // Single Values
 export class StatKeyValues implements Stat {
     readonly type = StatTypeEnum.MISC;
-    charts: Array<ChartTypeEnum> = [ChartTypeEnum.LINE, ChartTypeEnum.LABEL];
+    charts: Array<ChartTypeEnum> = [ChartTypeEnum.LABEL];
     name: string;
     data: Array<{ label: string, value: string }>;
 
@@ -114,15 +114,18 @@ export class VegaFactory {
             'config': {
                 'title': {
                     'offset': 30,
-                    'fontSize': 12
+                    'fontSize': 11,
+                    'font': {
+                        'value': 'Lato'
+                    },
                 }
             },
             'title': {
                 'text': stat.name
             },
             'background': 'white',
-            'width': 185,
-            'height': 250,
+            'width': 110,
+            'height': 150,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
             'data': [
@@ -170,13 +173,13 @@ export class VegaFactory {
                                 'field': {
                                     'group': 'width'
                                 },
-                                'mult': 0.5
+                                'mult': 0.8
                             },
                             'y': {
                                 'field': {
                                     'group': 'height'
                                 },
-                                'mult': 0.5
+                                'mult': 0.8
                             },
                             'startAngle': {
                                 'field': 'startAngle'
@@ -185,10 +188,10 @@ export class VegaFactory {
                                 'field': 'endAngle'
                             },
                             'padAngle': {
-                                'value': 0.035
+                                'value': 0.01
                             },
                             'innerRadius': {
-                                'value': 40
+                                'value': 50
                             },
                             'outerRadius': {
                                 'signal': 'width / 2'
@@ -196,7 +199,7 @@ export class VegaFactory {
                             'cornerRadius': {
                                 'value': 0
                             },
-                            'tooltip': { 'signal': 'datum.value' }
+                            'tooltip': { 'signal': 'datum.label' }
                         },
                         // opacity change on hover
                         'update': {
@@ -218,49 +221,49 @@ export class VegaFactory {
                         }
                     }
                 },
-                {
-                    'type': 'text',
-                    'from': {
-                        'data': 'table'
-                    },
-                    'encode': {
-                        'enter': {
-                            'x': {
-                                'field': {
-                                    'group': 'width'
-                                },
-                                'mult': 0.5
-                            },
-                            'y': {
-                                'field': {
-                                    'group': 'height'
-                                },
-                                'mult': 0.5
-                            },
-                            'radius': {
-                                'scale': 'r',
-                                'field': 'value',
-                                'offset': 60
-                            },
-                            'theta': {
-                                'signal': '(datum.startAngle + datum.endAngle)/2'
-                            },
-                            'align': {
-                                'value': 'center'
-                            },
-                            'text': {
-                                'field': 'label'
-                            },
-                            'font': {
-                                'value': 'Lato'
-                            },
-                            'fontSize': {
-                                'value': 10
-                            },
-                            'tooltip': { 'signal': 'datum.value' }
-                        }
-                    }
-                }
+                // {
+                //     'type': 'text',
+                //     'from': {
+                //         'data': 'table'
+                //     },
+                //     'encode': {
+                //         'enter': {
+                //             'x': {
+                //                 'field': {
+                //                     'group': 'width'
+                //                 },
+                //                 'mult': 0.3
+                //             },
+                //             'y': {
+                //                 'field': {
+                //                     'group': 'height'
+                //                 },
+                //                 'mult': 0.3
+                //             },
+                //             'radius': {
+                //                 'scale': 'r',
+                //                 'field': 'value',
+                //                 'offset': 45
+                //             },
+                //             'theta': {
+                //                 'signal': '(datum.startAngle + datum.endAngle)/2'
+                //             },
+                //             'align': {
+                //                 'value': 'center'
+                //             },
+                //             'text': {
+                //                 'field': 'label'
+                //             },
+                //             'font': {
+                //                 'value': 'Lato'
+                //             },
+                //             'fontSize': {
+                //                 'value': 10
+                //             },
+                //             'tooltip': { 'signal': 'datum.value' }
+                //         }
+                //     }
+                // }
             ]
         };
         return vega;
@@ -630,16 +633,19 @@ export class VegaFactory {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'config': {
                 'title': {
-                    'offset': 30,
-                    'fontSize': 12
-                }
+                    'offset': 20,
+                    'fontSize': 12,
+                },
+                'font': {
+                    'value': 'Lato'
+                },
             },
             'title': {
                 'text': stat.name
             },
             'background': 'white',
             'width': 185,
-            'height': 250,
+            'height': 100,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
             'data': [
@@ -878,10 +884,12 @@ export class StatFactory {
         // debugger;
 
         const stats = [
-            // Single Stats
-            // new StatSingle('Samples Seen', this.formatSingleValue(data.result.nSamplesSeen)),
-            // new StatSingle('Noise Variance', this.formatSingleValue(data.result.noiseVariance)),
-            // new StatSingle('nComponents', this.formatSingleValue(data.result.nComponents)),
+            // Single Arrays
+            new StatKeyValues('Miscellaneous Results', ([
+                { label: '# Samples Seen:', value: data.result.nSamplesSeen.toString() },
+                { label: '# Components:', value: data.result.nComponents.toString() },
+                { label: 'Noise Variance:', value: data.result.noiseVariance.toFixed(2) },
+            ])),
             // One Dimensional Stats
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
             // new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
@@ -889,14 +897,7 @@ export class StatFactory {
             // new StatOneD('Mean', data.result.mean),
             // new StatOneD('skvars', data.result.skvars),
             // Two Dimensional Stats
-            new StatTwoD('PCA Loadings', this.formatPCALoadings(data.result.components)),
-            // Maybe combine Singles?
-            new StatKeyValues('Miscellaneous Results', ([
-                { label: '# Samples Seen:', value: data.result.nSamplesSeen.toString() },
-                { label: '# Components:', value: data.result.nComponents.toString() },
-                { label: 'Noise Variance:', value: data.result.noiseVariance.toFixed(2) },
-            ]))
-
+            // new StatTwoD('PCA Loadings', this.formatPCALoadings(data.result.components))
         ];
 
         return stats;
