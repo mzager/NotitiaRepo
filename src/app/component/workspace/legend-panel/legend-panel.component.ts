@@ -1,10 +1,10 @@
+import { Legend } from './../../../model/legend.model';
 import { GraphData } from './../../../model/graph-data.model';
 import { scaleSequential } from 'd3-scale';
 import { interpolateSpectral } from 'd3-scale-chromatic';
 
 import { Component, Input, Output, ChangeDetectionStrategy, EventEmitter, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { LegendPanelEnum, ShapeEnum, SizeEnum } from 'app/model/enum.model';
-import { Legend } from 'app/model/legend.model';
 import * as d3Interpolate from 'd3-interpolate';
 import * as d3Color from 'd3-color';
 import * as d3Shape from 'd3-shape';
@@ -19,31 +19,16 @@ declare var $: any;
 })
 export class LegendPanelComponent implements AfterViewInit {
 
-  
   // Components
-  @ViewChild('tabs') private tabs: ElementRef;
-  @ViewChild('legendGraphA') private elLegendA: ElementRef;
-  @ViewChild('legendGraphB') private elLegendB: ElementRef;
-  @ViewChild('edges') private elEdges: ElementRef;
+  @ViewChild('legend') private elLegend: ElementRef;
 
   @Input()
-  private set graphAData(data: GraphData) {
+  private set legends(data: Array<Legend>) {
     // '/assets/legend-spectral.png';
     if (data === undefined) { return; }
     if (data === null) { return; }
-    this.render(this.elLegendA, data.legendItems);
+    this.render(this.elLegend, data);
   }
-
-  @Input()
-  private set graphBData(data: GraphData) {
-    if (data === undefined) { return; }
-    if (data === null) { return; }
-    this.render(this.elLegendB, data.legendItems);
-  }
-
-  @Input() edgeLegend: Array<Legend>;
-  @Input() legendPanelTab;
-  @Output() tabChange = new EventEmitter();
 
   private render(container: ElementRef, legendItems: Array<Legend>) {
 
@@ -263,7 +248,6 @@ export class LegendPanelComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    $( this.tabs.nativeElement ).tabs();
   }
 
   constructor() { }

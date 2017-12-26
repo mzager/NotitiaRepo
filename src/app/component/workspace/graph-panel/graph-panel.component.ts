@@ -50,6 +50,8 @@ export class GraphPanelComponent implements AfterViewInit  {
 
   @ViewChild('tabs') tabs: ElementRef;
 
+  @Input() title: string;
+  @Input() cid: string;
   @Input() tables: Array<DataTable>;
   @Input() fields: Array<DataField>;
   @Input() events: Array<{type: string, subtype: string}>;
@@ -62,12 +64,14 @@ export class GraphPanelComponent implements AfterViewInit  {
   @Output() configChange: EventEmitter<GraphConfig> = new EventEmitter();
   @Output() selectClusteringAlgorithm: EventEmitter<GraphConfig> = new EventEmitter();
   @Output() selectGeneSignature: EventEmitter<GraphConfig> = new EventEmitter();
+  @Output() selectGeneset: EventEmitter<any> = new EventEmitter();
+  @Output() selectCohort: EventEmitter<any> = new EventEmitter();
 
 
   visualizationOptions: Array<{value: VisualizationEnum, label: string}>;
 
   // TODO: Fix Duplication
-  onGraphAChange($event: Event) {
+  onVisualizationChange($event: Event) {
     if ($event instanceof CustomEvent) {
       const el = $event.target as HTMLSelectElement;
       let gc: GraphConfig;
@@ -186,6 +190,7 @@ export class GraphPanelComponent implements AfterViewInit  {
   }
 
   constructor() {
+    this.cid = Math.random().toString(36).replace(/[^a-z]+/g, '');
     this.visualizationOptions = [
       //{ value: VisualizationEnum.NONE, label: 'None' },
       { value: VisualizationEnum.PATHWAYS, label: 'Pathways'},

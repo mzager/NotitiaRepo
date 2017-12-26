@@ -1,29 +1,5 @@
-<div class="card" style="top:40px; left:10px; width:225px;height:auto; background:#FFFFFF;" [ng2-draggable]=true [ng2DraggableHandle]="titlebar">
-    <div class="card-title-bar" #titlebar style="text-align:center;background: #029BE5; color:#FFF; font-weight:normal; font-size:12px; padding:5px 10px;">
-        Legends
-    </div>
-    <div class="card-tabs">
-        <ul class="tabs tabs-fixed-width" #tabs>
-            <li class="tab">
-                <a class="active">Graph A</a>
-            </li>
-            <li class="tab">
-                <a>Graph B</a>
-            </li>
-            <li class="tab">
-                <a>Edges</a>
-            </li>
-        </ul>
-    </div>
-    <div class="card-content">
-        <div id="legend-panel-a">
-            <div #legendGraphA></div>
-        </div>
-        <div id="legend-panel-b">
-            <div #legendGraphB></div>
-        </div>
-        <div id="legend-panel-edges">
-            <div #legendEdges></div>
-        </div>
+<div>
+    <div style="max-height: 450px; overflow-y: auto;">
+        <div #legend></div>
     </div>
 </div>

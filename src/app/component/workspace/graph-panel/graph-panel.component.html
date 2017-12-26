@@ -1,28 +1,41 @@
-<div class="card" style="top:40px; left:10px; width:225px;height:auto; background:#FFFFFF;" [ng2-draggable]=true [ng2DraggableHandle]="titlebar">
+<div class="card" style="width:225px; background:#FFFFFF;" [ng2-draggable]=true [ng2DraggableHandle]="titlebar">
     <div class="card-title-bar" #titlebar style="text-align:center;background: #029BE5; color:#FFF; font-weight:normal; font-size:12px; padding:5px 10px;">
-        Graph A
+        {{ title }}
     </div>
     <div class="card-tabs">
         <ul class="tabs tabs-fixed-width" #tabs>
             <li class="tab">
-                <a class="active" href="#graph-panel-a">Visualization</a>
+                <a class="active" href="#{{cid}}Settings">Settings</a>
             </li>
             <li class="tab">
-                <a href="#graph-panel-b">Data</a>
+                <a href="#{{cid}}Summary">Summary</a>
+            </li>
+            <li class="tab">
+                <a href="#{{cid}}Legend">Legend</a>
             </li>
         </ul>
     </div>
     <div class="card-content">
-        <div id="graph-panel-a" *ngIf="config">
+        <div id="{{cid}}Settings" *ngIf="config">
+            <div class="form-group">
+                <label class="center-block">
+                    <span class="form-label">Filters</span>
+                    <button class="browser-default btn-config" style="width:59px;"
+                        (click)="selectGeneset.emit()">Gene Set</button>
+                    <button class="browser-default btn-config" style="width:60px;"
+                        (click)="selectCohort.emit()">Cohort</button>
+                </label>
+            </div>
             <div class="form-group">
                 <label class="center-block">
                     <span class="form-label">Visualization</span>
-                    <select class="browser-default" materialize="material_select" [ngModel]="config.visualization" (change)="onGraphAChange($event)"
+                    <select class="browser-default" materialize="material_select" [ngModel]="config.visualization" (change)="onVisualizationChange($event)"
                         [materializeSelectOptions]="visualizationOptions">
                         <option *ngFor="let option of visualizationOptions" [value]="option.value" [selected]="config.visualization">{{option.label}}</option>
                     </select>
                 </label>
             </div>
+
             <app-pathways-form *ngIf="config && config.visualization === 256" (configChange)="graphPanelSetConfig($event)" [fields]="fields"
                 [config]="config"></app-pathways-form>
             <app-timelines-form *ngIf="config && config.visualization === 128" (configChange)="graphPanelSetConfig($event)" [fields]="fields"
@@ -78,8 +91,13 @@
                 (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)" (selectGeneSignature)="graphPanelSelecteGeneSignature($event)"
                 [config]="config" [tables]="tables" [fields]="fields"></app-spectralembedding-form>
         </div>
-        <div id="graph-panel-b" *ngIf="config">
+        <div id="{{cid}}Summary" *ngIf="config">
             <app-workspace-stat-panel [config]="config" [graphData]="data"></app-workspace-stat-panel>
+        </div>
+        <div id="{{cid}}Legend" *ngIf="data">
+            <app-workspace-legend-panel
+                [legends]="data.legendItems" 
+                ></app-workspace-legend-panel>
         </div>
     </div>
 </div>
