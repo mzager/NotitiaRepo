@@ -627,7 +627,7 @@ export class VegaFactory {
     private createLabel(stat: Stat): any {
         const values = stat.data;
         const vega = {
-        '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
+            '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'config': {
                 'title': {
                     'offset': 30,
@@ -884,7 +884,7 @@ export class StatFactory {
             // new StatSingle('nComponents', this.formatSingleValue(data.result.nComponents)),
             // One Dimensional Stats
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
-            new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
+            // new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
             new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues)),
             // new StatOneD('Mean', data.result.mean),
             // new StatOneD('skvars', data.result.skvars),
@@ -907,7 +907,7 @@ export class StatFactory {
         const stats = [
             // One Dimensional Stats
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
-            new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
+            // new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
             new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues))
             // Two Dimensional Stats
             // new StatTwoD('Components', data.result.components),
@@ -927,7 +927,7 @@ export class StatFactory {
             // One Dimensional Stats
             // new StatOneD('Mean', data.result.mean),
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
-            new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
+            // new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
             new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues))
             // Two Dimensional Stats
             // new StatTwoD('Components', data.result.components),
@@ -957,7 +957,12 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('Miscellaneous Results', ([
+<<<<<<< HEAD
                 { label: 'Lambdas:', value: data.result.lambdas.toString() },
+=======
+                { label: 'Lambdas', value: data.result.lambdas.toString() },
+
+>>>>>>> e6d6b9e3f3b91383e3bc7931b2cf9ab51870c911
             ])),
             // Two Dimensional Stats
             new StatTwoD('Alphas', data.result.alphas)
@@ -972,6 +977,10 @@ export class StatFactory {
             // Single Stats
             new StatKeyValues('Miscellaneous Results', ([
                 { label: 'nIter', value: data.result.nIter.toString() },
+<<<<<<< HEAD
+=======
+
+>>>>>>> e6d6b9e3f3b91383e3bc7931b2cf9ab51870c911
             ])),
             // One Dimensional Stats
             new StatOneD('Error', this.formatError(data.result.error.splice(0, 3))),
@@ -987,8 +996,13 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('Miscellaneous Results', ([
+<<<<<<< HEAD
                 { label: 'nIter:', value: data.result.nIter.toString() },
              
+=======
+                { label: 'nIter', value: data.result.nIter.toString() },
+
+>>>>>>> e6d6b9e3f3b91383e3bc7931b2cf9ab51870c911
             ])),
             // One Dimensional Stats
             new StatOneD('loglike', this.formatLoglike(data.result.loglike)),
@@ -1039,8 +1053,13 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('Miscellaneous Results', ([
+<<<<<<< HEAD
                 { label: 'Stress:', value: data.result.stress.toString() },
              
+=======
+                { label: 'Stress', value: data.result.stress.toString() },
+
+>>>>>>> e6d6b9e3f3b91383e3bc7931b2cf9ab51870c911
             ])),
             // One Dimensional Stats
             // Two Dimensional Stats
@@ -1055,8 +1074,13 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('Miscellaneous Results', ([
+<<<<<<< HEAD
                 { label: 'Stress:', value: data.result.stress.toFixed(2) },
              
+=======
+                { label: 'Stress', value: data.result.stress.toFixed(2) },
+
+>>>>>>> e6d6b9e3f3b91383e3bc7931b2cf9ab51870c911
             ])),
             // One Dimensional Stats
             // Two Dimensional Stats
@@ -1093,9 +1117,15 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('Miscellaneous Results', ([
+<<<<<<< HEAD
                 { label: 'kl Divergence:', value: data.result.klDivergence.toFixed(2) },
                 { label: 'nIter:', value: data.result.nIter.toString() },
              
+=======
+                { label: 'kl Divergence', value: data.result.klDivergence.toFixed(2) },
+                { label: 'nIter', value: data.result.nIter.toString() },
+
+>>>>>>> e6d6b9e3f3b91383e3bc7931b2cf9ab51870c911
             ])),
             // One Dimensional Stats
             // Two Dimensional Stats
@@ -1105,6 +1135,10 @@ export class StatFactory {
         return stats;
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> e6d6b9e3f3b91383e3bc7931b2cf9ab51870c911
     // One D Recycled Data Formulas
     formatPrincipleComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
         return data.map((v, i) => ({ label: 'PC' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));

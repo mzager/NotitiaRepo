@@ -125,13 +125,40 @@ var loadManifest = function (manifestUri) {
     return null;
 };
 var processResource = function (resource) {
+    resource.name = resource.name.replace(/ /gi, '').toLowerCase();
     return (resource.dataType === 'clinical') ? loadClinical(resource.name, resource.file) :
-        (resource.dataType === 'gistic_threshold') ? loadGisticThreshold(resource.name, resource.file) :
-            (resource.dataType === 'gistic') ? loadGistic(resource.name, resource.file) :
-                (resource.dataType === 'mutation') ? loadMutation(resource.name, resource.file) :
-                    (resource.dataType === 'rna') ? loadRna(resource.name, resource.file) :
-                        null;
+        (resource.dataType === 'patient_sample_map') ? loadPatientSampleMap(resource.name, resource.file) :
+            (resource.dataType === 'gistic_threshold') ? loadGisticThreshold(resource.name, resource.file) :
+                (resource.dataType === 'gistic') ? loadGistic(resource.name, resource.file) :
+                    (resource.dataType === 'mut') ? loadMutation(resource.name, resource.file) :
+                        (resource.dataType === 'rna') ? loadRna(resource.name, resource.file) :
+                            (resource.dataType === 'events') ? loadEvents(resource.name, resource.file) :
+                                null;
 };
+// Complete
+var loadEvents = function (name, file) {
+    return fetch(baseUrl + file, requestInit)
+        .then(function (response) { report('Events Loaded'); return response.json(); })
+        .then(function (response) {
+        report('Events Parsed');
+        var eventTable = [];
+        var mult = 86400000;
+        var lookup = Object.keys(response.map).reduce(function (p, c) { p.push({ type: response.map[c], subtype: c }); return p; }, []);
+        var data = response.data.map(function (datum) { return Object.assign({
+            p: datum[0],
+            start: datum[2] * 86400000,
+            end: datum[3] * 86400000,
+            data: datum[4]
+        }, lookup[datum[1]]); });
+        report('Events Processed');
+        return new Promise(function (resolve, reject) {
+            resolve([
+                { tbl: name, data: data },
+            ]);
+        });
+    });
+};
+// Complete
 var loadClinical = function (name, file) {
     report('Clinical Requested');
     return fetch(baseUrl + file, requestInit)
@@ -155,17 +182,21 @@ var loadClinical = function (name, file) {
         });
         report('Clinical Processed');
         return new Promise(function (resolve, reject) {
-            resolve({ meta: patientMetaTable, tbl: patientTable });
+            resolve([
+                { tbl: 'patientMeta', data: patientMetaTable },
+                { tbl: 'patient', data: patientTable }
+            ]);
         });
     });
 };
+// Complete
 var loadGisticThreshold = function (name, file) {
     report('Gistic Threshold Requested');
     return fetch(baseUrl + file, requestInit)
         .then(function (response) { report('Gistic Threshold Loaded'); return response.json(); })
         .then(function (response) {
         report('Gistic Threshold Parsed');
-        var gisticThresholdSampleIds = response.ids;
+        var gisticThresholdSampleIds = response.ids.map(function (s, i) { return ({ i: i, s: s }); });
         var gisticThresholdTable = response.values.map(function (v, i) {
             var obj = v.reduce(function (p, c) {
                 p.min = Math.min(p.min, c);
@@ -178,17 +209,21 @@ var loadGisticThreshold = function (name, file) {
         });
         report('Gistic Threshold Processed');
         return new Promise(function (resolve, reject) {
-            resolve({ ids: gisticThresholdSampleIds, tbl: gisticThresholdTable });
+            resolve([
+                { tbl: name, data: gisticThresholdTable },
+                { tbl: name + 'Map', data: gisticThresholdSampleIds }
+            ]);
         });
     });
 };
+// Complete
 var loadGistic = function (name, file) {
     report('Gistic Requested');
     return fetch(baseUrl + file, requestInit)
         .then(function (response) { report('Gistic Loaded'); return response.json(); })
         .then(function (response) {
         report('Gistic Parsed');
-        var gisticSampleIds = response.ids;
+        var gisticSampleIds = response.ids.map(function (s, i) { return ({ i: i, s: s }); });
         var gisticTable = response.values.map(function (v, i) {
             var obj = v.reduce(function (p, c) {
                 p.min = Math.min(p.min, c);
@@ -201,9 +236,15 @@ var loadGistic = function (name, file) {
         });
         report('Gistic Processed');
         return new Promise(function (resolve, reject) {
-            resolve({ ids: gisticSampleIds, tbl: gisticTable });
+            resolve([
+                { tbl: name, data: gisticTable },
+                { tbl: name + 'Map', data: gisticSampleIds }
+            ]);
         });
     });
+};
+var loadPatientSampleMap = function (name, file) {
+    return null;
 };
 var loadMutation = function (name, file) {
     report('Mutation Requested');
@@ -211,18 +252,35 @@ var loadMutation = function (name, file) {
         .then(function (response) { report('Mutation Loaded'); return response.json(); })
         .then(function (response) {
         report('Mutation Parsed');
+        var ids = response.ids;
+        var genes = response.genes;
+        var mType = mutationType;
+        var lookup = Object.keys(mType);
+        var data = response.values.map(function (v) { return v
+            .split('-')
+            .map(function (v1) { return parseInt(v1, 10); })
+            .map(function (v2, i) { return (i === 0) ? genes[v2] : (i === 1) ? ids[v2] : v2; }); }).reduce(function (p, c) {
+            p.push.apply(p, lookup
+                .filter(function (v) { return (parseInt(v, 10) & c[2]); })
+                .map(function (v) { return ({ m: c[0], s: c[1], t: mType[v] }); }));
+            return p;
+        }, []);
+        report('Mutation Processed');
         return new Promise(function (resolve, reject) {
-            resolve({});
+            resolve([
+                { tbl: name, data: data },
+            ]);
         });
     });
 };
+// Complete
 var loadRna = function (name, file) {
     report('RNA Requested');
     return fetch(baseUrl + file, requestInit)
         .then(function (response) { report('RNA Loaded'); return response.json(); })
         .then(function (response) {
         report('RNA Parsed');
-        var rnaSampleIds = response.ids;
+        var rnaSampleIds = response.ids.map(function (s, i) { return ({ i: i, s: s }); });
         var rnaTable = response.values.map(function (v, i) {
             var obj = v.reduce(function (p, c) {
                 p.min = Math.min(p.min, c);
@@ -235,7 +293,10 @@ var loadRna = function (name, file) {
         });
         report('RNA Processed');
         return new Promise(function (resolve, reject) {
-            resolve({ ids: rnaSampleIds, tbl: rnaTable });
+            resolve([
+                { tbl: name, data: rnaTable },
+                { tbl: name + 'Map', data: rnaSampleIds }
+            ]);
         });
     });
 };
@@ -244,10 +305,7 @@ onmessage = function (e) {
     switch (e.data.cmd) {
         case 'load':
             processResource(e.data.file).then(function (v) {
-                me.postMessage({
-                    msg: e,
-                    result: v
-                });
+                me.postMessage(JSON.stringify(v));
             });
             break;
     }

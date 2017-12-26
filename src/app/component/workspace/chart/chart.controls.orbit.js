@@ -1,5 +1,4 @@
 var THREE = require('three')
-
 	var OrbitControls = ( object, domElement ) => {
 
 		this.object = object;

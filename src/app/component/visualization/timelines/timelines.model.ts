@@ -10,8 +10,8 @@ export class TimelinesConfigModel extends GraphConfig {
         this.visualization = VisualizationEnum.TIMELINES;
         this.entity = EntityTypeEnum.PATIENT;
     }
-    align = 'None';
-    sort = 'None';
+    align = 'Diagnosis';
+    sort = 'Status';
     timescale = 'Linear';
     visibleElements: any;
 }

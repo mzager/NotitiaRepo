@@ -94,13 +94,13 @@ export class WorkspaceComponent {
   edgeLegend: Observable<Array<Legend>>;
   filePanelTab: Observable<enums.FilePanelEnum>;
   legendPanelTab: Observable<enums.LegendPanelEnum>;
-  graphPanelTab: Observable<enums.GraphPanelEnum>;
+  graphPanelATab: Observable<enums.GraphPanelEnum>;
+  graphPanelBTab: Observable<enums.GraphPanelEnum>;
   genesetPanelTab: Observable<enums.SinglePanelEnum>;
   statPanelTab: Observable<enums.StatPanelEnum>;
   queryPanelTab: Observable<enums.QueryPanelEnum>;
   edgePanelTab: Observable<enums.EdgePanelEnum>;
   toolPanelTab: Observable<enums.ToolPanelEnum>;
-  tcgaPanelTab: Observable<enums.TcgaPanelEnum>;
   workspacePanelTab: Observable<enums.WorkspacePanelEnum>;
   historyPanelTab: Observable<enums.HistoryPanelEnum>;
   cohortPanelTab: Observable<enums.GraphPanelEnum>;
@@ -121,12 +121,12 @@ export class WorkspaceComponent {
     this.edgePanelTab = store.select(fromRoot.getLayoutEdgePanelState);
     this.filePanelTab = store.select(fromRoot.getLayoutFilePanelState);
     this.legendPanelTab = store.select(fromRoot.getLayoutLegendPanelState);
-    this.graphPanelTab = store.select(fromRoot.getLayoutGraphPanelState);
+    this.graphPanelATab = store.select(fromRoot.getLayoutGraphPanelAState);
+    this.graphPanelBTab = store.select(fromRoot.getLayoutGraphPanelBState);
     this.genesetPanelTab = store.select(fromRoot.getLayoutGenesetPanelState);
     this.statPanelTab = store.select(fromRoot.getLayoutPopulationPanelState);
     this.queryPanelTab = store.select(fromRoot.getLayoutQueryPanelState);
     this.toolPanelTab = store.select(fromRoot.getLayoutToolPanelState);
-    this.tcgaPanelTab = store.select(fromRoot.getlayoutTcgaPanelState);
     this.workspacePanelTab = store.select(fromRoot.getWorkspacePanelState);
     this.historyPanelTab = store.select(fromRoot.getLayoutHistoryPanelState);
     this.cohortPanelTab = store.select(fromRoot.getLayoutCohortPanelState);
@@ -163,8 +163,8 @@ export class WorkspaceComponent {
   fileOpen(value: DataTransfer) {
     this.store.dispatch(new data.DataLoadFromFileAction(value));
   }
-  loadTcga(value: string) {
-      this.store.dispatch(new data.DataLoadFromTcga(value));
+  fileLoadTcga(value: string) {
+    this.store.dispatch(new data.DataLoadFromTcga(value));
   }
 
   genesetPanelToggle() {
@@ -174,8 +174,8 @@ export class WorkspaceComponent {
     this.store.dispatch(new layout.GenesetPanelShowTabAction(value));
   }
 
-  graphPanelToggle() {
-    this.store.dispatch(new layout.GraphPanelToggleAction());
+  graphPanelToggle(value: enums.GraphPanelEnum) {
+    this.store.dispatch(new layout.GraphPanelToggleAction(value));
   }
   graphPanelSetTab(value: enums.GraphPanelEnum) {
     this.store.dispatch(new layout.GraphPanelShowTabAction(value));
@@ -281,13 +281,6 @@ export class WorkspaceComponent {
   }
   workspacePanelSetConfig(value: WorkspaceConfigModel) {
     this.store.dispatch( new WorkspaceConfigAction( value ));
-  }
-
-  tcgaPanelToggle() {
-    this.store.dispatch(new layout.TcgaPanelToggleAction());
-  }
-  tcgaPanelSetTab(value: enums.TcgaPanelEnum) {
-    this.store.dispatch(new layout.TcgaPanelShowTabAction(value) );
   }
 
   filesLoad(value) {
