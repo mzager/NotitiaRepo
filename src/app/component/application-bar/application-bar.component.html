@@ -22,9 +22,11 @@
 
 <!-- View -->
 <ul id='application-bar-menu-view' class='dropdown-content'>
-    <li><a class="app-bar-menu-item" (click)="edgePanelToggle.emit()">Workspace</a></li>
-    <li><a class="app-bar-menu-item" (click)="graphPanelToggle.emit()">Graphs</a></li>
-    <li><a class="app-bar-menu-item" (click)="legendPanelToggle.emit()">Legends</a></li>
+    <!-- <li><a class="app-bar-menu-item" (click)="edgePanelToggle.emit()">Workspace</a></li> -->
+    <li><a class="app-bar-menu-item" (click)="graphPanelToggle.emit(1)">Graph A</a></li>
+    <li><a class="app-bar-menu-item" (click)="graphPanelToggle.emit(2)">Graph B</a></li>
+    <li><a class="app-bar-menu-item" (click)="edgePanelToggle.emit()">Layout + Edges</a></li>
+    <!-- <li><a class="app-bar-menu-item" (click)="legendPanelToggle.emit()">Legends</a></li> -->
     <!-- <li><a class="app-bar-menu-item" (click)="queryPanelToggle.emit()">Cohort Builder</a></li> -->
     <li><a class="app-bar-menu-item" (click)="dataPanelToggle.emit()">Data Table</a></li>
 
@@ -52,19 +54,20 @@
 
 <!-- Bar -->
 <div class="application-bar-menu">
-    <span>
-        <a class='dropdown-button nav-button application-bar-logo' 
+    <span class="application-bar-logo">Oncoscape</span>
+    <span class="right">
+        <!-- <a class='dropdown-button nav-button application-bar-logo' 
             data-activates="application-bar-menu-file"
             data-beloworigin="true"
-            href="#">Oncoscape</a>
+            href="#">Oncoscape</a> -->
         <a class='dropdown-button nav-button' 
             data-activates="application-bar-menu-file"
             data-beloworigin="true"
-            href="#">File</a>
+            href="#">Data</a>
         <a class='dropdown-button nav-button' 
             data-activates="application-bar-menu-view" 
             data-beloworigin="true"
-            href="#">View</a>
+            href="#">Visualization</a>
         <a class='dropdown-button nav-button' 
             data-activates="application-bar-menu-help"
             data-beloworigin="true"

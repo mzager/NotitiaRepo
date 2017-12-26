@@ -2,7 +2,8 @@
 body{
     height: 100%;
     overflow: hidden;
-    background: linear-gradient(135deg,#1396de 2%,#042a68);
+    /* background: linear-gradient(135deg,#1396de 2%,#042a68); */
+    background: #FFF;
 }
 .btn-small {
     height: 24px;
@@ -85,7 +86,7 @@ body{
  
 .dg .c input[type=text]:focus {
     background: #eee;
-    color: #555;
+    color: #eee;
 }
  
 .dg .c .slider {

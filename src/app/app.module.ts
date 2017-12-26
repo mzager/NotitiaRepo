@@ -83,7 +83,6 @@ import { TruncatedSvdFormComponent } from './component/visualization/truncatedsv
 import { TsneFormComponent } from './component/visualization/tsne/tsne.form.component';
 import { WorkbookService } from './service/workbook.service';
 import { WorkspaceComponent } from 'app/component/workspace/workspace.component';
-import { WorkspacePanelComponent } from './component/workspace/workspace-panel/workspace-panel.component';
 
 @NgModule({
   declarations: [
@@ -96,7 +95,6 @@ import { WorkspacePanelComponent } from './component/workspace/workspace-panel/w
     FilePanelComponent,
     EdgePanelComponent,
     ColorPanelComponent,
-    WorkspacePanelComponent,
     LegendPanelComponent,
     GraphPanelComponent,
     GenesetPanelComponent,

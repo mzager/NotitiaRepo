@@ -94,7 +94,8 @@ export class WorkspaceComponent {
   edgeLegend: Observable<Array<Legend>>;
   filePanelTab: Observable<enums.FilePanelEnum>;
   legendPanelTab: Observable<enums.LegendPanelEnum>;
-  graphPanelTab: Observable<enums.GraphPanelEnum>;
+  graphPanelATab: Observable<enums.GraphPanelEnum>;
+  graphPanelBTab: Observable<enums.GraphPanelEnum>;
   genesetPanelTab: Observable<enums.SinglePanelEnum>;
   statPanelTab: Observable<enums.StatPanelEnum>;
   queryPanelTab: Observable<enums.QueryPanelEnum>;
@@ -120,7 +121,8 @@ export class WorkspaceComponent {
     this.edgePanelTab = store.select(fromRoot.getLayoutEdgePanelState);
     this.filePanelTab = store.select(fromRoot.getLayoutFilePanelState);
     this.legendPanelTab = store.select(fromRoot.getLayoutLegendPanelState);
-    this.graphPanelTab = store.select(fromRoot.getLayoutGraphPanelState);
+    this.graphPanelATab = store.select(fromRoot.getLayoutGraphPanelAState);
+    this.graphPanelBTab = store.select(fromRoot.getLayoutGraphPanelBState);
     this.genesetPanelTab = store.select(fromRoot.getLayoutGenesetPanelState);
     this.statPanelTab = store.select(fromRoot.getLayoutPopulationPanelState);
     this.queryPanelTab = store.select(fromRoot.getLayoutQueryPanelState);
@@ -172,8 +174,8 @@ export class WorkspaceComponent {
     this.store.dispatch(new layout.GenesetPanelShowTabAction(value));
   }
 
-  graphPanelToggle() {
-    this.store.dispatch(new layout.GraphPanelToggleAction());
+  graphPanelToggle(value: enums.GraphPanelEnum) {
+    this.store.dispatch(new layout.GraphPanelToggleAction(value));
   }
   graphPanelSetTab(value: enums.GraphPanelEnum) {
     this.store.dispatch(new layout.GraphPanelShowTabAction(value));
