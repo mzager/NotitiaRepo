@@ -161,7 +161,7 @@ export class GenomeGraph implements ChartObjectInterface {
                         (band.tag === 'acen' && band.arm === 'P') ? 0 : .5,
                         (band.tag === 'acen' && band.arm === 'Q') ? 0 : .5,
                          band.l);
-                const material: THREE.Material = ChartFactory.getColorPhong(band.c);
+                const material: THREE.Material = ChartFactory.getColorMetal(band.c);
                 const mesh: THREE.Mesh = new THREE.Mesh(geometry, material);
                 mesh.userData.type = GenomicEnum.CYTOBAND;
                 mesh.position.set(0, (yPos + (band.l / 2)) - centro, 0);
