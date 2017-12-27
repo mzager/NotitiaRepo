@@ -11,7 +11,7 @@ export class TimelinesConfigModel extends GraphConfig {
         this.entity = EntityTypeEnum.PATIENT;
     }
     align = 'Diagnosis';
-    sort = 'Status';
+    sort = 'Diagnosis';
     timescale = 'Linear';
     visibleElements: any;
 }
