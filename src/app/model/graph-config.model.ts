@@ -15,6 +15,9 @@ export interface Graph {
 
 export class GraphConfig {
 
+    // TODO: Bad Bad Bad...  Need to fix this.
+    public static database = 'gbm';
+
     dirtyFlag = 1;
     visualization: VisualizationEnum;
     entity: EntityTypeEnum;
@@ -54,4 +57,9 @@ export class GraphConfig {
     pointShape: DataField = DataFieldFactory.getUndefined();
     pointSize: DataField = DataFieldFactory.getUndefined();
     pointIntersect: DataField = DataFieldFactory.getUndefined();
+    database: string;
+
+    constructor() {
+        this.database = GraphConfig.database;
+    }
 }

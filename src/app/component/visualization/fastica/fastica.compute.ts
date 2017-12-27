@@ -13,11 +13,11 @@ export const fasticaCompute = (config: FastIcaConfigModel, worker: DedicatedWork
     if (config.dirtyFlag & DirtyEnum.LAYOUT) {
 
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
             .then(mtx => {
 
                 Promise.all([
-                    worker.util.getSamplePatientMap(),
+                    worker.util.getSamplePatientMap(config.database),
                     worker.util
                         .fetchResult({
                             method: 'cluster_sk_fast_ica',

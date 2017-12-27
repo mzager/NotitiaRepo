@@ -17899,6 +17899,8 @@ var ComputeWorkerUtil = (function () {
     //     0x5D4037, 0x455A64];
     function ComputeWorkerUtil() {
         var _this = this;
+        this.dbData = null;
+        this.dbLookup = null;
         this.sizes = [1, 2, 3, 4];
         this.shapes = [1 /* CIRCLE */, 2 /* SQUARE */, 4 /* TRIANGLE */, 8 /* CONE */];
         this.colors = [0xd50000, 0xaa00ff, 0x304ffe, 0x0091ea, 0x00bfa5, 0x64dd17, 0xffd600, 0xff6d00,
@@ -17947,9 +17949,6 @@ var ComputeWorkerUtil = (function () {
             // Only Scale First 3 Elements Needed For Rendering
             return data.map(function (v) { return [scale(v[0]), scale(v[1]), scale(v[2])]; });
         };
-        console.log("OPTIMIZE - LATE OPEN");
-        this.dbData = new dexie_1.default('notitia-dataset');
-        this.dbLookup = new dexie_1.default('notitia');
     }
     ComputeWorkerUtil.prototype.generateCacheKey = function (config) {
         var keys = Object.keys(config).filter(function (v) {
@@ -17976,7 +17975,7 @@ var ComputeWorkerUtil = (function () {
     };
     ComputeWorkerUtil.prototype.processShapeColorSizeIntersect = function (config, worker) {
         if ((config.dirtyFlag & 2 /* COLOR */) > 0) {
-            worker.util.getColorMap(config.entity, config.markerFilter, config.sampleFilter, config.pointColor).then(function (result) {
+            worker.util.getColorMap(config.entity, config.markerFilter, config.sampleFilter, config.database, config.pointColor).then(function (result) {
                 worker.postMessage({
                     config: config,
                     data: {
@@ -17988,7 +17987,7 @@ var ComputeWorkerUtil = (function () {
             });
         }
         if ((config.dirtyFlag & 4 /* SIZE */) > 0) {
-            worker.util.getSizeMap(config.entity, config.markerFilter, config.sampleFilter, config.pointSize).then(function (result) {
+            worker.util.getSizeMap(config.entity, config.markerFilter, config.sampleFilter, config.database, config.pointSize).then(function (result) {
                 worker.postMessage({
                     config: config,
                     data: {
@@ -18000,7 +17999,7 @@ var ComputeWorkerUtil = (function () {
             });
         }
         if ((config.dirtyFlag & 8 /* SHAPE */) > 0) {
-            worker.util.getShapeMap(config.entity, config.markerFilter, config.sampleFilter, config.pointShape).then(function (result) {
+            worker.util.getShapeMap(config.entity, config.markerFilter, config.sampleFilter, config.database, config.pointShape).then(function (result) {
                 worker.postMessage({
                     config: config,
                     data: {
@@ -18012,7 +18011,7 @@ var ComputeWorkerUtil = (function () {
             });
         }
         if ((config.dirtyFlag & 16 /* INTERSECT */) > 0) {
-            worker.util.getIntersectMap(config.markerFilter, config.sampleFilter, config.pointIntersect).then(function (result) {
+            worker.util.getIntersectMap(config.markerFilter, config.sampleFilter, config.database, config.pointIntersect).then(function (result) {
                 worker.postMessage({
                     config: config,
                     data: {
@@ -18100,40 +18099,52 @@ var ComputeWorkerUtil = (function () {
     ComputeWorkerUtil.prototype.openDatabaseLookup = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            if (_this.dbLookup.isOpen()) {
-                resolve();
+            if (_this.dbLookup === null) {
+                _this.dbLookup = new dexie_1.default('notitia');
+                _this.dbLookup.open().then(resolve);
             }
             else {
-                _this.dbLookup.open().then(resolve);
+                if (_this.dbLookup.isOpen()) {
+                    resolve();
+                }
+                else {
+                    _this.dbLookup.open().then(resolve);
+                }
             }
         });
     };
-    ComputeWorkerUtil.prototype.openDatabaseData = function () {
+    ComputeWorkerUtil.prototype.openDatabaseData = function (db) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            if (_this.dbData.isOpen()) {
-                resolve();
+            if (_this.dbData === null) {
+                _this.dbData = new dexie_1.default('notitia-' + db);
+                _this.dbData.open().then(resolve);
             }
             else {
-                _this.dbData.open().then(resolve);
+                if (_this.dbData.isOpen()) {
+                    resolve();
+                }
+                else {
+                    _this.dbData.open().then(resolve);
+                }
             }
         });
     };
     // Call IDB
-    ComputeWorkerUtil.prototype.getEventData = function () {
+    ComputeWorkerUtil.prototype.getEventData = function (db) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.openDatabaseData().then(function (v) {
-                _this.dbData.table('event').toArray().then(function (_events) {
+            _this.openDatabaseData(db).then(function (v) {
+                _this.dbData.table('events').toArray().then(function (_events) {
                     resolve(_events);
                 });
             });
         });
     };
-    ComputeWorkerUtil.prototype.getPatientData = function (samples, tbl) {
+    ComputeWorkerUtil.prototype.getPatientData = function (samples, db, tbl) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.openDatabaseData().then(function (v) {
+            _this.openDatabaseData(db).then(function (v) {
                 console.log('Filter by Seleted Patients / Samples');
                 // const query = (samples.length === 0) ?
                 //     this.dbData.table(tbl) :
@@ -18144,10 +18155,12 @@ var ComputeWorkerUtil = (function () {
             });
         });
     };
-    ComputeWorkerUtil.prototype.getMatrix = function (markers, samples, map, tbl, entity) {
+    ComputeWorkerUtil.prototype.getMatrix = function (markers, samples, map, db, tbl, entity) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.openDatabaseData().then(function (v) {
+            _this.openDatabaseData(db).then(function (v) {
+                map = map.replace(/ /gi, '');
+                tbl = tbl.replace(/ /gi, '');
                 _this.dbData.table(map).toArray().then(function (_samples) {
                     var query = (markers.length === 0) ?
                         _this.dbData.table(tbl) :
@@ -18173,7 +18186,7 @@ var ComputeWorkerUtil = (function () {
                 resolve([]);
                 return;
             }
-            _this.openDatabaseData().then(function (v) {
+            _this.openDatabaseData(config.database).then(function (v) {
                 Promise.all([
                     _this.dbData.table('patient').toArray(),
                     _this.dbData.table('patientSampleMap').toArray()
@@ -18231,8 +18244,8 @@ var ComputeWorkerUtil = (function () {
                 resolve([]);
                 return;
             }
-            _this.openDatabaseData().then(function (v) {
-                _this.getMolecularGeneValues(config.markerFilter, config.pointColor).then(function (result) {
+            _this.openDatabaseData(config.database).then(function (v) {
+                _this.getMolecularGeneValues(config.markerFilter, config.pointColor, config.database).then(function (result) {
                     var edges = result.map(function (gene) { return ({
                         a: gene.m,
                         b: gene.m,
@@ -18256,7 +18269,7 @@ var ComputeWorkerUtil = (function () {
                 resolve([]);
                 return;
             }
-            _this.getMatrix(config.markerFilter, config.sampleFilter, 'gismutMap', 'gisticT', enum_model_1.EntityTypeEnum.GENE)
+            _this.getMatrix(config.markerFilter, config.sampleFilter, 'gismutMap', config.database, 'gisticT', enum_model_1.EntityTypeEnum.GENE)
                 .then(function (result) {
                 var edges = [];
                 var nMarkers = result.markers.length;
@@ -18305,20 +18318,20 @@ var ComputeWorkerUtil = (function () {
             });
         });
     };
-    ComputeWorkerUtil.prototype.getSamplePatientMap = function () {
+    ComputeWorkerUtil.prototype.getSamplePatientMap = function (db) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.openDatabaseData().then(function (v) {
+            _this.openDatabaseData(db).then(function (v) {
                 _this.dbData.table('patientSampleMap').toArray().then(function (result) {
                     resolve(result);
                 });
             });
         });
     };
-    ComputeWorkerUtil.prototype.getMolecularGeneValues = function (markers, field) {
+    ComputeWorkerUtil.prototype.getMolecularGeneValues = function (markers, field, db) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.openDatabaseData().then(function (v) {
+            _this.openDatabaseData(db).then(function (v) {
                 if (markers.length === 0) {
                     _this.dbData.table(field.tbl).toArray()
                         .then(function (result) {
@@ -18334,15 +18347,15 @@ var ComputeWorkerUtil = (function () {
             });
         });
     };
-    ComputeWorkerUtil.prototype.getColorMap = function (entity, markers, samples, field) {
+    ComputeWorkerUtil.prototype.getColorMap = function (entity, markers, samples, db, field) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.openDatabaseData().then(function (v) {
+            _this.openDatabaseData(db).then(function (v) {
                 // Gene Color Maps
                 if (entity === enum_model_1.EntityTypeEnum.GENE) {
-                    if (field.ctype & 1020 /* MOLECULAR */) {
-                        _this.getMolecularGeneValues(markers, field).then(function (result) {
-                            console.log("Would be good to subset color by Filtered Samples / Patients...  Revisit");
+                    if (field.ctype & 17404 /* MOLECULAR */) {
+                        _this.getMolecularGeneValues(markers, field, db).then(function (result) {
+                            console.log('Would be good to subset color by Filtered Samples / Patients...  Revisit');
                             var geneDomain = result.reduce(function (p, c) {
                                 p.min = Math.min(p.min, c.mean);
                                 p.max = Math.max(p.max, c.mean);
@@ -18366,7 +18379,7 @@ var ComputeWorkerUtil = (function () {
                         });
                     }
                     else if (field.ctype & 2048 /* GENE_TYPE */) {
-                        _this.openDatabaseLookup().then(function (db) {
+                        _this.openDatabaseLookup().then(function (r) {
                             _this.dbLookup.table('genecoords').where('gene').anyOfIgnoreCase(markers).toArray().then(function (result) {
                                 result.reduce(function (p, c) { p[c.type] = true; return p; }, {});
                                 var types = Object.keys(result
@@ -18449,13 +18462,13 @@ var ComputeWorkerUtil = (function () {
                     }
                 }
                 if (entity === enum_model_1.EntityTypeEnum.SAMPLE) {
-                    if (field.ctype & 1020 /* MOLECULAR */) {
+                    if (field.ctype & 17404 /* MOLECULAR */) {
                         // Extract Name of The Map Table For Molecular Table
                         _this.dbData.table('dataset').where('name').equals('gbm').first().then(function (dataset) {
                             // Extract Name Of Map
                             var map = dataset.tables.filter(function (tbl) { return tbl.tbl === field.tbl; })[0].map;
                             _this.dbData.table(map).toArray().then(function (sampleMap) {
-                                _this.getMolecularGeneValues(markers, field).then(function (result) {
+                                _this.getMolecularGeneValues(markers, field, db).then(function (result) {
                                     var sampleCount = sampleMap.length;
                                     var sampleAvgs = sampleMap.map(function (sample, index) { return ({
                                         id: sample.s,
@@ -18534,14 +18547,14 @@ var ComputeWorkerUtil = (function () {
             });
         });
     };
-    ComputeWorkerUtil.prototype.getSizeMap = function (entity, markers, samples, field) {
+    ComputeWorkerUtil.prototype.getSizeMap = function (entity, markers, samples, db, field) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.openDatabaseData().then(function (v) {
+            _this.openDatabaseData(db).then(function (v) {
                 // Gene Color Maps
                 if (entity === enum_model_1.EntityTypeEnum.GENE) {
-                    if (field.ctype & 1020 /* MOLECULAR */) {
-                        _this.getMolecularGeneValues(markers, field).then(function (result) {
+                    if (field.ctype & 17404 /* MOLECULAR */) {
+                        _this.getMolecularGeneValues(markers, field, db).then(function (result) {
                             console.log('Would be good to subset color by Filtered Samples / Patients...  Revisit');
                             var geneDomain = result.reduce(function (p, c) {
                                 p.min = Math.min(p.min, c.mean);
@@ -18570,13 +18583,13 @@ var ComputeWorkerUtil = (function () {
                     }
                 }
                 if (entity === enum_model_1.EntityTypeEnum.SAMPLE) {
-                    if (field.ctype & 1020 /* MOLECULAR */) {
+                    if (field.ctype & 17404 /* MOLECULAR */) {
                         // Extract Name of The Map Table For Molecular Table
                         _this.dbData.table('dataset').where('name').equals('gbm').first().then(function (dataset) {
                             // Extract Name Of Map
                             var map = dataset.tables.filter(function (tbl) { return tbl.tbl === field.tbl; })[0].map;
                             _this.dbData.table(map).toArray().then(function (sampleMap) {
-                                _this.getMolecularGeneValues(markers, field).then(function (result) {
+                                _this.getMolecularGeneValues(markers, field, db).then(function (result) {
                                     var sampleCount = sampleMap.length;
                                     var sampleAvgs = sampleMap.map(function (sample, index) { return ({
                                         id: sample.s,
@@ -18636,7 +18649,7 @@ var ComputeWorkerUtil = (function () {
                                 .range([1, 3]);
                             _this.dbData.table(field.tbl).toArray().then(function (row) {
                                 var sizeMap = row.reduce(function (p, c) {
-                                    p[c.p] = Math.round(scale_2(c[fieldKey_2])); //interpolateSpectral(scale(c[fieldKey]));
+                                    p[c.p] = Math.round(scale_2(c[fieldKey_2]));
                                     return p;
                                 }, {});
                                 // Build Legend
@@ -18655,10 +18668,10 @@ var ComputeWorkerUtil = (function () {
             });
         });
     };
-    ComputeWorkerUtil.prototype.getIntersectMap = function (markers, samples, field) {
+    ComputeWorkerUtil.prototype.getIntersectMap = function (markers, samples, db, field) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.openDatabaseData().then(function (v) {
+            _this.openDatabaseData(db).then(function (v) {
                 var fieldKey = field.key;
                 if (field.type === 'STRING') {
                     _this.dbData.table(field.tbl).toArray().then(function (row) {
@@ -18679,10 +18692,10 @@ var ComputeWorkerUtil = (function () {
             });
         });
     };
-    ComputeWorkerUtil.prototype.getShapeMap = function (entity, markers, samples, field) {
+    ComputeWorkerUtil.prototype.getShapeMap = function (entity, markers, samples, db, field) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.openDatabaseData().then(function (v) {
+            _this.openDatabaseData(db).then(function (v) {
                 var fieldKey = field.key;
                 if (field.type === 'STRING') {
                     var cm_3 = field.values.reduce(function (p, c, i) {
@@ -21934,16 +21947,16 @@ exports.boxwhiskersCompute = function (config, worker) {
     if (config.dirtyFlag & 1 /* LAYOUT */) {
         if (config.continuousVariable.tbl !== null && config.categoricalVariable1.tbl !== null) {
             // Continuous Molecular
-            if (config.continuousVariable.ctype & 1020 /* MOLECULAR */) {
+            if (config.continuousVariable.ctype & 17404 /* MOLECULAR */) {
                 worker.util
-                    .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+                    .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
                     .then(function (mtx) {
                     debugger;
                     worker.postMessage('TERMINATE');
                 });
             }
             if (config.continuousVariable.ctype & 2 /* PATIENT */) {
-                worker.util.getPatientData(config.sampleFilter, config.continuousVariable.tbl)
+                worker.util.getPatientData(config.sampleFilter, config.database, config.continuousVariable.tbl)
                     .then(function (data) {
                     debugger;
                 });
@@ -21951,9 +21964,9 @@ exports.boxwhiskersCompute = function (config, worker) {
         }
         else {
             worker.util
-                .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+                .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
                 .then(function (mtx) {
-                worker.util.getSamplePatientMap().then(function (result) {
+                worker.util.getSamplePatientMap(config.database).then(function (result) {
                     // Transpose To Show Patients
                     mtx.data = _.zip.apply(_, mtx.data);
                     var psMap = result.reduce(function (p, c) { p[c.s] = c.p; return p; }, {});
@@ -22078,10 +22091,10 @@ exports.dictionaryLearningCompute = function (config, worker) {
     worker.util.processShapeColorSizeIntersect(config, worker);
     if (config.dirtyFlag & 1 /* LAYOUT */) {
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
             .then(function (mtx) {
             Promise.all([
-                worker.util.getSamplePatientMap(),
+                worker.util.getSamplePatientMap(config.database),
                 worker.util
                     .fetchResult({
                     method: 'cluster_sk_dictionary_learning',
@@ -22174,10 +22187,10 @@ exports.faCompute = function (config, worker) {
     worker.util.processShapeColorSizeIntersect(config, worker);
     if (config.dirtyFlag & 1 /* LAYOUT */) {
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
             .then(function (mtx) {
             Promise.all([
-                worker.util.getSamplePatientMap(),
+                worker.util.getSamplePatientMap(config.database),
                 worker.util
                     .fetchResult({
                     // added more than server is calling
@@ -22221,10 +22234,10 @@ exports.fasticaCompute = function (config, worker) {
     worker.util.processShapeColorSizeIntersect(config, worker);
     if (config.dirtyFlag & 1 /* LAYOUT */) {
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
             .then(function (mtx) {
             Promise.all([
-                worker.util.getSamplePatientMap(),
+                worker.util.getSamplePatientMap(config.database),
                 worker.util
                     .fetchResult({
                     method: 'cluster_sk_fast_ica',
@@ -22315,7 +22328,7 @@ exports.genomeCompute = function (config, worker) {
     worker.util.processShapeColorSizeIntersect(config, worker);
     if (config.dirtyFlag & 1 /* LAYOUT */) {
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
             .then(function (mtx) {
             worker.util.getGenomeInfo(mtx.markers).then(function (result) {
                 var genes = _.groupBy(result[1].map(function (v) {
@@ -22364,10 +22377,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.heatmapCompute = function (config, worker) {
     if (config.dirtyFlag & 1 /* LAYOUT */) {
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
             .then(function (mtx) {
             Promise.all([
-                worker.util.getSamplePatientMap(),
+                worker.util.getSamplePatientMap(config.database),
                 worker.util
                     .fetchResult({
                     // added more than server is calling
@@ -22584,10 +22597,10 @@ exports.isoMapCompute = function (config, worker) {
     worker.util.processShapeColorSizeIntersect(config, worker);
     if (config.dirtyFlag & 1 /* LAYOUT */) {
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
             .then(function (mtx) {
             Promise.all([
-                worker.util.getSamplePatientMap(),
+                worker.util.getSamplePatientMap(config.database),
                 worker.util
                     .fetchResult({
                     // added more than server is calling
@@ -22634,10 +22647,10 @@ exports.ldaCompute = function (config, worker) {
     worker.util.processShapeColorSizeIntersect(config, worker);
     if (config.dirtyFlag & 1 /* LAYOUT */) {
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
             .then(function (mtx) {
             Promise.all([
-                worker.util.getSamplePatientMap(),
+                worker.util.getSamplePatientMap(config.database),
                 worker.util
                     .fetchResult({
                     // added more than server is calling
@@ -22748,7 +22761,7 @@ exports.linkedgeneCompute = function (config, worker) {
     worker.util.processShapeColorSizeIntersect(config, worker);
     if (config.dirtyFlag & 1 /* LAYOUT */) {
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
             .then(function (mtx) {
             worker.util.getGenomeInfo(mtx.markers).then(function (result) {
                 // const genes = _.groupBy(result[1].forEach( gene => {
@@ -22915,10 +22928,10 @@ exports.localLinearEmbeddingCompute = function (config, worker) {
     worker.util.processShapeColorSizeIntersect(config, worker);
     if (config.dirtyFlag & 1 /* LAYOUT */) {
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
             .then(function (mtx) {
             Promise.all([
-                worker.util.getSamplePatientMap(),
+                worker.util.getSamplePatientMap(config.database),
                 worker.util
                     .fetchResult({
                     // added more than server is calling
@@ -22968,10 +22981,10 @@ exports.mdsCompute = function (config, worker) {
     worker.util.processShapeColorSizeIntersect(config, worker);
     if (config.dirtyFlag & 1 /* LAYOUT */) {
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
             .then(function (mtx) {
             Promise.all([
-                worker.util.getSamplePatientMap(),
+                worker.util.getSamplePatientMap(config.database),
                 worker.util
                     .fetchResult({
                     // added more than server is calling
@@ -23016,10 +23029,10 @@ exports.nmfCompute = function (config, worker) {
     worker.util.processShapeColorSizeIntersect(config, worker);
     if (config.dirtyFlag & 1 /* LAYOUT */) {
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
             .then(function (mtx) {
             Promise.all([
-                worker.util.getSamplePatientMap(),
+                worker.util.getSamplePatientMap(config.database),
                 worker.util
                     .fetchResult({
                     // added more than server is calling
@@ -23108,10 +23121,10 @@ exports.pcaCompute = function (config, worker) {
     worker.util.processShapeColorSizeIntersect(config, worker);
     if (config.dirtyFlag & 1 /* LAYOUT */) {
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
             .then(function (mtx) {
             Promise.all([
-                worker.util.getSamplePatientMap(),
+                worker.util.getSamplePatientMap(config.database),
                 worker.util
                     .fetchResult({
                     // added more than server is calling
@@ -23159,10 +23172,10 @@ exports.pcaIncrementalCompute = function (config, worker) {
     worker.util.processShapeColorSizeIntersect(config, worker);
     if (config.dirtyFlag & 1 /* LAYOUT */) {
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
             .then(function (mtx) {
             Promise.all([
-                worker.util.getSamplePatientMap(),
+                worker.util.getSamplePatientMap(config.database),
                 worker.util
                     .fetchResult({
                     method: 'cluster_sk_pca_incremental',
@@ -23204,10 +23217,10 @@ exports.pcaKernalCompute = function (config, worker) {
     worker.util.processShapeColorSizeIntersect(config, worker);
     if (config.dirtyFlag & 1 /* LAYOUT */) {
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
             .then(function (mtx) {
             Promise.all([
-                worker.util.getSamplePatientMap(),
+                worker.util.getSamplePatientMap(config.database),
                 worker.util
                     .fetchResult({
                     method: 'cluster_sk_pca_kernal',
@@ -23255,10 +23268,10 @@ exports.pcaSparseCompute = function (config, worker) {
     worker.util.processShapeColorSizeIntersect(config, worker);
     if (config.dirtyFlag & 1 /* LAYOUT */) {
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
             .then(function (mtx) {
             Promise.all([
-                worker.util.getSamplePatientMap(),
+                worker.util.getSamplePatientMap(config.database),
                 worker.util
                     .fetchResult({
                     method: 'cluster_sk_pca_sparse',
@@ -23332,10 +23345,10 @@ exports.spectralEmbeddingCompute = function (config, worker) {
     worker.util.processShapeColorSizeIntersect(config, worker);
     if (config.dirtyFlag & 1 /* LAYOUT */) {
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
             .then(function (mtx) {
             Promise.all([
-                worker.util.getSamplePatientMap(),
+                worker.util.getSamplePatientMap(config.database),
                 worker.util
                     .fetchResult({
                     // added more than server is calling
@@ -23388,7 +23401,7 @@ exports.timelinesCompute = function (config, worker) {
     }
     if (config.dirtyFlag & 1 /* LAYOUT */) {
         worker.util
-            .getEventData()
+            .getEventData(config.database)
             .then(function (events) {
             var colors = worker.util.colors;
             var legend = new legend_model_1.Legend();
@@ -23486,10 +23499,10 @@ exports.truncatedSvdCompute = function (config, worker) {
     worker.util.processShapeColorSizeIntersect(config, worker);
     if (config.dirtyFlag & 1 /* LAYOUT */) {
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
             .then(function (mtx) {
             Promise.all([
-                worker.util.getSamplePatientMap(),
+                worker.util.getSamplePatientMap(config.database),
                 worker.util
                     .fetchResult({
                     // added more than server is calling
@@ -23533,10 +23546,10 @@ exports.tsneCompute = function (config, worker) {
     worker.util.processShapeColorSizeIntersect(config, worker);
     if (config.dirtyFlag & 1 /* LAYOUT */) {
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
             .then(function (mtx) {
             Promise.all([
-                worker.util.getSamplePatientMap(),
+                worker.util.getSamplePatientMap(config.database),
                 worker.util
                     .fetchResult({
                     method: 'manifold_sk_tsne',

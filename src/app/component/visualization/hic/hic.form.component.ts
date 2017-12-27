@@ -120,6 +120,7 @@ export class HicFormComponent {
       dirtyFlag: [0],
       visualization: [],
       graph: [],
+      database: [],
       entity: [],
       markerFilter: [],
       markerSelect: [],

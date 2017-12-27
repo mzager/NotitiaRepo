@@ -127,6 +127,7 @@ export class PlsFormComponent {
     this.form = this.fb.group({
       visualization: [],
       graph: [],
+      database: [],
       dataKey: [],
       markerFilter: [],
       markerSelect: [],
