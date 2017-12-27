@@ -13,6 +13,7 @@ import * as _ from 'lodash';
 export class DataService {
 
   public static db: Dexie;
+  public static instance: DataService;
 
   public static API_PATH = 'https://dev.oncoscape.sttrcancer.io/api/';
 
@@ -48,8 +49,20 @@ export class DataService {
       .get(DataService.API_PATH + 'z_lookup_geneset_categories')
       .map(res => res.json());
   }
+  getEvents(database: string): Promise<Array<any>> {
+    return new Promise( (resolve, reject) => {
+      const db = new Dexie('notitia-' + database);
+      db.open().then( v => {
+        v.table('dataset').toArray().then( result => {
+          resolve(result[0].events);
+        });
+      });
+    });
+  }
 
   constructor(private http: HttpClient) {
+
+    DataService.instance = this;
 
     Dexie.exists('notitia').then(exists => {
       DataService.db = new Dexie('notitia');
@@ -123,37 +136,6 @@ export class DataService {
               return link;
             });
 
-//             const knots = _.groupBy(links, 'source');
-//             const sourceGenes = Object.keys(knots);
-
-//             const trees = links.reduce((p, c) => {
-
-
-//               const clust = p.find( cl => ( cl.genes.find(g => (g === c.source || g === c.target))));
-
-
-//               if (clust === undefined) {
-//                 p.push({
-//                   genes: [c.source, c.target],
-//                   links: [c]
-//                 });
-//               } else {
-//                 clust.genes.push(c.source);
-//                 clust.genes.push(c.target);
-//                 clust.links.push(c);
-//               }
-
-
-//               return p;
-
-//             }, []);
-
-//             trees.forEach( v => v.genes = Array.from(new Set(v.genes)) );
-//             trees.forEach( v => { v.ratio = v.links.length / v.genes.length; });
-//             trees.forEach( v => { v.tension = v.links.reduce( (p, c) => { p += c.tension; return p; }, 0) / v.links.length; });
-
-// debugger;
-//            DataService.db.table('genetrees').bulkAdd(trees);
             DataService.db.table('genecoords').bulkAdd(result[0]);
             DataService.db.table('bandcoords').bulkAdd(result[1]);
             DataService.db.table('genemap').bulkAdd(result[2]);
