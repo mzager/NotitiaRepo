@@ -55,7 +55,7 @@ export class DataEffect {
         .ofType(data.DATA_LOAD_FROM_TCGA)
         .map(toPayload)
         .switchMap( (args) => {
-            args.manifest = 'https://s3-us-west-2.amazonaws.com/notitia/firehose/tcga_' + args.disease + '_manifest.json.gz';
+            args.manifest = 'https://s3-us-west-2.amazonaws.com/notitia/tcga/tcga_' + args.disease + '_manifest.json.gz';
             return this.datasetService.load(args);
         })
         .mergeMap( (args) => {
