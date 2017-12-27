@@ -107,25 +107,118 @@ export class VegaFactory {
                                 null;
     }
 
+    private createLabel(stat: Stat): any {
+        const values = stat.data;
+        const vega = {
+            '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
+            'config': {
+                'title': {
+                    'offset': 5,
+                    'fontSize': 13,
+                    'color': '#9e9e9e',
+                    'font': 'Lato',
+                    'orient': 'top',
+                    'anchor': 'start',
+                    'fontWeight': 'normal'
+                },
+                'mark': {
+                    'opacity': 0.4,
+                  }
+            },
+            'title': {
+                'text': stat.name
+            },
+            'background': 'white',
+            'width': 185,
+            'height': 80,
+            'padding': 0,
+            'autosize': { 'type': 'fit', 'resize': false },
+            'data': [
+                {
+                    'name': 'table',
+                    'values': values,
+                    'transform': [
+                        {
+                            'type': 'formula',
+                            'as': 'x_position',
+                            'expr': '0'
+                        },
+                        {
+                            'type': 'formula',
+                            'as': 'line_height',
+                            'expr': '20'
+                        },
+                        {
+                            'type': 'stack',
+                            'groupby': ['x_position'],
+                            'field': 'line_height',
+                            'as': ['y0', 'y1']
+                        }
+                    ]
+                }
+            ],
+            'marks': [
+                {
+                    'type': 'text',
+                    'from': {
+                        'data': 'table'
+                    },
+                    'encode': {
+                        'enter': {
+                            'x': { 'field': 'x_position'},
+                            'y': { 'field': 'y0' },
+                            'y2': { 'field': 'y1' },
+                            'align': {
+                                'value': 'left'
+                            },
+                            'text': {
+                                'signal': 'datum.label',
+                            }
+                        }
+                    }
+                },
+                {
+                    'type': 'text',
+                    'from': {
+                        'data': 'table'
+                    },
+                    'encode': {
+                        'enter': {
+                            'x': { 'field': 'x_position', 'offset': 100 },
+                            'y': { 'field': 'y0' },
+                            'y2': { 'field': 'y1' },
+                            'align': {
+                                'value': 'left'
+                            },
+                            'text': {
+                                'field': 'value'
+                            }
+                        }
+                    }
+                }
+            ]
+        };
+        return vega;
+    }
     private createDonut(stat: Stat): any {
         const values = stat.data;
         const vega = {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'config': {
                 'title': {
-                    'offset': 30,
+                    'offset': 60,
                     'fontSize': 11,
-                    'font': {
-                        'value': 'Lato'
-                    },
+                    'color': '#9e9e9e',
+                    'font': 'Lato',
+                    'fontWeight': 'normal'
                 }
             },
             'title': {
-                'text': stat.name
+                'text': stat.name,
             },
             'background': 'white',
-            'width': 110,
-            'height': 150,
+            'width': 130,
+            'height': 100,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
             'data': [
@@ -173,13 +266,13 @@ export class VegaFactory {
                                 'field': {
                                     'group': 'width'
                                 },
-                                'mult': 0.8
+                                'mult': .9
                             },
                             'y': {
                                 'field': {
                                     'group': 'height'
                                 },
-                                'mult': 0.8
+                                'mult': .9
                             },
                             'startAngle': {
                                 'field': 'startAngle'
@@ -191,13 +284,16 @@ export class VegaFactory {
                                 'value': 0.01
                             },
                             'innerRadius': {
-                                'value': 50
+                                'value': 30
                             },
                             'outerRadius': {
                                 'signal': 'width / 2'
                             },
                             'cornerRadius': {
                                 'value': 0
+                            },
+                            'align': {
+                                'value': 'left'
                             },
                             'tooltip': { 'signal': 'datum.label' }
                         },
@@ -626,107 +722,6 @@ export class VegaFactory {
         };
         return vega;
     }
-
-    private createLabel(stat: Stat): any {
-        const values = stat.data;
-        const vega = {
-            '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
-            'config': {
-                'title': {
-                    'offset': 20,
-                    'fontSize': 12,
-                },
-                'font': {
-                    'value': 'Lato'
-                },
-            },
-            'title': {
-                'text': stat.name
-            },
-            'background': 'white',
-            'width': 185,
-            'height': 100,
-            'padding': 0,
-            'autosize': { 'type': 'fit', 'resize': false },
-            'data': [
-                {
-                    'name': 'table',
-                    'values': values,
-                    'transform': [
-                        {
-                            'type': 'formula',
-                            'as': 'x_position',
-                            'expr': '92.5'
-                        },
-                        {
-                            'type': 'formula',
-                            'as': 'line_height',
-                            'expr': '20'
-                        },
-                        {
-                            'type': 'stack',
-                            'groupby': ['x_position'],
-                            'field': 'line_height',
-                            'as': ['y0', 'y1']
-                        }
-                    ]
-                }
-            ],
-            'marks': [
-                {
-                    'type': 'text',
-                    'from': {
-                        'data': 'table'
-                    },
-                    'encode': {
-                        'enter': {
-                            'x': { 'field': 'x_position' },
-                            'y': { 'field': 'y0' },
-                            'y2': { 'field': 'y1' },
-                            'align': {
-                                'value': 'right'
-                            },
-                            'text': {
-                                'signal': 'datum.label'
-                            },
-                            'font': {
-                                'value': 'Lato'
-                            },
-                            'fontSize': {
-                                'value': 12
-                            }
-                        }
-                    }
-                },
-                {
-                    'type': 'text',
-                    'from': {
-                        'data': 'table'
-                    },
-                    'encode': {
-                        'enter': {
-                            'x': { 'field': 'x_position', 'offset': 5 },
-                            'y': { 'field': 'y0' },
-                            'y2': { 'field': 'y1' },
-                            'align': {
-                                'value': 'left'
-                            },
-                            'text': {
-                                'field': 'value'
-                            },
-                            'font': {
-                                'value': 'Lato'
-                            },
-                            'fontSize': {
-                                'value': 12
-                            }
-                        }
-                    }
-                }
-            ]
-        };
-        return vega;
-    }
     // not complete
     private createScatter(stat: Stat): any {
         const values = stat.data;
@@ -885,13 +880,13 @@ export class StatFactory {
 
         const stats = [
             // Single Arrays
-            new StatKeyValues('Miscellaneous Results', ([
-                { label: '# Samples Seen:', value: data.result.nSamplesSeen.toString() },
-                { label: '# Components:', value: data.result.nComponents.toString() },
+            new StatKeyValues('', ([
+                { label: 'Samples Seen:', value: data.result.nSamplesSeen.toString() },
+                { label: 'Components:', value: data.result.nComponents.toString() },
                 { label: 'Noise Variance:', value: data.result.noiseVariance.toFixed(2) },
             ])),
             // One Dimensional Stats
-            new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
+            new StatOneD('Exp Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
             // new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
             new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues)),
             // new StatOneD('Mean', data.result.mean),

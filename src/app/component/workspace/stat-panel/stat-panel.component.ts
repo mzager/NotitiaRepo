@@ -51,6 +51,7 @@ export class StatPanelComponent implements AfterViewInit {
       const c = new vega.View(v)
       .initialize('#cc' + i.toString() )
       .hover()
+      .renderer('svg')
       .run();
     });
     // generate a PNG snapshot and then download the image
