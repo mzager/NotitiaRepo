@@ -118,6 +118,8 @@ export const enum CollectionTypeEnum {
     GENE_FAMILY = 1024,
     GENE_TYPE = 2048,
     HIC = 4096,
+    EVENT = 8192,
+    RNA = 16384,
     // tslint:disable-next-line:no-bitwise
     EXP = CollectionTypeEnum.PROTEIN | CollectionTypeEnum.MIRNA | CollectionTypeEnum.MRNA,
     // tslint:disable-next-line:no-bitwise

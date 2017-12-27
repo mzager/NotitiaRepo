@@ -32,21 +32,10 @@ import * as _ from 'lodash';
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Chromosomes</span>
-       <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="chromosomeOptions"
-          formControlName="chromosome">
-          <option *ngFor="let option of chromosomeOptions" [value]="option">{{option}}</option>
-      </select>
-    </label>
-  </div>
-</form>
-  `
+</form>`
 })
 export class ParallelCoordsFormComponent {
- 
+
   @Input() set tables(tables: Array<DataTable>) {
     this.dataOptions = tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0));
   }
