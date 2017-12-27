@@ -104,17 +104,17 @@ export class TimelinesGraph implements ChartObjectInterface {
 
             // Create Background Line
             let events = [];
-            debugger;
+
             if (patient.hasOwnProperty('Status')) { events = events.concat(patient.Status); }
             if (patient.hasOwnProperty('Treatment')) { events = events.concat(patient.Treatment); }
-console.dir(events);
+
             const se = events.reduce( (p, c) => {
                 p.min = Math.min(p.min, c.start);
-                p.max = Math.max(p.min, c.end);
+                p.max = Math.max(p.max, c.end);
                 return p;
             }, {min: Infinity, max: -Infinity});
-console.dir(se);
-            const line = ChartFactory.lineAllocate(0xDDDDDD, new THREE.Vector2(scale(se.min) , 0), new THREE.Vector2(scale(se.max) , 0));
+
+            const line = ChartFactory.lineAllocate(0x029BE5, new THREE.Vector2(scale(se.min) , 0), new THREE.Vector2(scale(se.max) , 0));
             group.add(line);
 
             if (patient.hasOwnProperty('Treatment')) {
