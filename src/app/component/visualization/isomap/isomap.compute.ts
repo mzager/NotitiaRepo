@@ -30,7 +30,7 @@ export const isoMapCompute = (config: IsoMapConfigModel, worker: DedicatedWorker
                             })
                     ]).then(result => {
                         const psMap = result[0].reduce((p, c) => { p[c.s] = c.p; return p; }, {});
-                        const data = JSON.parse(result[1].body);
+                        const data = result[1];
                         const resultScaled = worker.util.scale3d(data.result);
                         worker.postMessage({
                             config: config,
