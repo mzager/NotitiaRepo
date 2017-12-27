@@ -6,7 +6,6 @@ import * as _ from 'lodash';
 
 declare var ML: any;
 
-
 export const timelinesCompute = (config: TimelinesConfigModel, worker: DedicatedWorkerGlobalScope): void => {
     if (config.dirtyFlag & DirtyEnum.OPTIONS) {
         worker.postMessage({
@@ -18,7 +17,8 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
         worker.util
             .getEventData(config.database)
             .then(events => {
-                const colors = worker.util.colors.reverse();
+
+                const colors = worker.util.colors;
                 const legend: Legend = new Legend();
                 legend.name = 'Color';
                 legend.type = 'COLOR';
