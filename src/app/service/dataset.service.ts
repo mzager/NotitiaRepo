@@ -126,6 +126,7 @@ export class DatasetService {
                     tables.forEach(table => {
                       db.table(table.tbl).bulkAdd(table.data);
                     });
+                    resolve();
                   };
                   loader.addEventListener('message', onMessage);
                   loader.postMessage({ cmd: 'load', disease: manifest.disease, file: file });

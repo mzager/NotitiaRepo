@@ -49,7 +49,7 @@ export class TcgaPanelComponent {
     { 'name': 'Uterine corpus endometrial', 'disease': 'ucec', 'img': 'DSuterine.png' },
     { 'name': 'Uterine carcinosarcoma', 'disease': 'ucs', 'img': 'DSuterine.png' },
     { 'name': 'Uveal melanoma', 'disease': 'uvm', 'img': 'DSeye.png' }
-  ];
+  ].sort( (a, b) => a.img.toUpperCase() < b.img.toUpperCase() ? -1 : 1 );
 
     /*
     { 'name': 'Skin cutaneous melanoma', 'disease': 'skcm', 'img': 'DSskin.png' },

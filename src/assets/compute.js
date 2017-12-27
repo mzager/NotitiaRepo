@@ -18135,7 +18135,7 @@ var ComputeWorkerUtil = (function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             _this.openDatabaseData(db).then(function (v) {
-                _this.dbData.table('event').toArray().then(function (_events) {
+                _this.dbData.table('events').toArray().then(function (_events) {
                     resolve(_events);
                 });
             });
