@@ -60,6 +60,7 @@ export class DataEffect {
             return this.datasetService.load(args);
         }).
         mergeMap( (args) => {
+            debugger;
             return [
                 new FilePanelToggleAction(),
                 new DataLoadFromDexieAction(args.disease)
