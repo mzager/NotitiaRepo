@@ -23403,9 +23403,9 @@ exports.timelinesCompute = function (config, worker) {
         worker.util
             .getEventData(config.database)
             .then(function (events) {
-            var colors = worker.util.colors;
+            var colors = worker.util.colors.reverse();
             var legend = new legend_model_1.Legend();
-            legend.name = 'xxx';
+            legend.name = 'Color';
             legend.type = 'COLOR';
             legend.display = 'DISCRETE';
             // Create Map Of Alignments
