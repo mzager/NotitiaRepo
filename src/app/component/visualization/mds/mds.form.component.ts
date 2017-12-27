@@ -114,6 +114,7 @@ export class MdsFormComponent extends AbstractScatterForm {
       dirtyFlag: [0],
       visualization: [],
       graph: [],
+      database: [],
       entity: [],
       markerFilter: [],
       markerSelect: [],

@@ -138,6 +138,7 @@ export class NmfFormComponent extends AbstractScatterForm {
       dirtyFlag: [0],
       visualization: [],
       graph: [],
+      database: [],
       entity: [],
       markerFilter: [],
       markerSelect: [],

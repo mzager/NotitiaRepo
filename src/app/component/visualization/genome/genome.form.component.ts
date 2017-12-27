@@ -117,6 +117,7 @@ export class GenomeFormComponent {
       dirtyFlag: [0],
       visualization: [],
       graph: [],
+      database: [],
       entity: [],
       markerFilter: [],
       markerSelect: [],

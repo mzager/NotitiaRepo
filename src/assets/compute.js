@@ -17899,6 +17899,8 @@ var ComputeWorkerUtil = (function () {
     //     0x5D4037, 0x455A64];
     function ComputeWorkerUtil() {
         var _this = this;
+        this.dbData = null;
+        this.dbLookup = null;
         this.sizes = [1, 2, 3, 4];
         this.shapes = [1 /* CIRCLE */, 2 /* SQUARE */, 4 /* TRIANGLE */, 8 /* CONE */];
         this.colors = [0xd50000, 0xaa00ff, 0x304ffe, 0x0091ea, 0x00bfa5, 0x64dd17, 0xffd600, 0xff6d00,
@@ -17947,8 +17949,6 @@ var ComputeWorkerUtil = (function () {
             // Only Scale First 3 Elements Needed For Rendering
             return data.map(function (v) { return [scale(v[0]), scale(v[1]), scale(v[2])]; });
         };
-        console.log('OPTIMIZE - LATE OPEN');
-        this.dbLookup = new dexie_1.default('notitia');
     }
     ComputeWorkerUtil.prototype.generateCacheKey = function (config) {
         var keys = Object.keys(config).filter(function (v) {
@@ -18099,23 +18099,34 @@ var ComputeWorkerUtil = (function () {
     ComputeWorkerUtil.prototype.openDatabaseLookup = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            if (_this.dbLookup.isOpen()) {
-                resolve();
+            if (_this.dbLookup === null) {
+                _this.dbLookup = new dexie_1.default('notitia');
+                _this.dbLookup.open().then(resolve);
             }
             else {
-                _this.dbLookup.open().then(resolve);
+                if (_this.dbLookup.isOpen()) {
+                    resolve();
+                }
+                else {
+                    _this.dbLookup.open().then(resolve);
+                }
             }
         });
     };
     ComputeWorkerUtil.prototype.openDatabaseData = function (db) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            if (_this.dbData.isOpen()) {
-                resolve();
-            }
-            else {
+            if (_this.dbData === null) {
                 _this.dbData = new dexie_1.default('notitia-' + db);
                 _this.dbData.open().then(resolve);
+            }
+            else {
+                if (_this.dbData.isOpen()) {
+                    resolve();
+                }
+                else {
+                    _this.dbData.open().then(resolve);
+                }
             }
         });
     };
@@ -23158,13 +23169,11 @@ exports.pcaCompute = function (config, worker) {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.pcaIncrementalCompute = function (config, worker) {
-    debugger;
     worker.util.processShapeColorSizeIntersect(config, worker);
     if (config.dirtyFlag & 1 /* LAYOUT */) {
         worker.util
             .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
             .then(function (mtx) {
-            debugger;
             Promise.all([
                 worker.util.getSamplePatientMap(config.database),
                 worker.util
@@ -23176,7 +23185,6 @@ exports.pcaIncrementalCompute = function (config, worker) {
                     batch_size: config.batch_size
                 })
             ]).then(function (result) {
-                debugger;
                 var psMap = result[0].reduce(function (p, c) { p[c.s] = c.p; return p; }, {});
                 var data = JSON.parse(result[1].body);
                 var resultScaled = worker.util.scale3d(data.result);
