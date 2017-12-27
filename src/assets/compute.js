@@ -17889,10 +17889,6 @@ var dexie_1 = __webpack_require__(263);
 var uuids = __webpack_require__(270);
 var md5_1 = __webpack_require__(269);
 var ComputeWorkerUtil = (function () {
-    // [0xb71c1c, 0x880e4f, 0x4a148c, 0x311b92, 0x1a237e, 0x0d47a1, 0x01579b, 0x006064,
-    //     0x004d40, 0x1b5e20, 0x33691e, 0x827717, 0xf57f17, 0xff6f00, 0xe65100, 0xbf360c, 0x3e2723,
-    //     0xf44336, 0xe91e63, 0x9c27b0, 0x673ab7, 0x3f51b5, 0x2196f3, 0x03a9f4, 0x00bcd4, 0x009688,
-    //     0x4caf50, 0x8bc34a, 0xcddc39, 0xffeb3b, 0xffc107, 0xff9800, 0xff5722, 0x795548];
     // private colors = [0x039BE5, 0x4A148C, 0x880E4F, 0x0D47A1, 0x00B8D4,
     //     0xAA00FF, 0x6200EA, 0x304FFE, 0x2196F3, 0x0091EA,
     //     0x00B8D4, 0x00BFA5, 0x64DD17, 0xAEEA00, 0xFFD600, 0xFFAB00, 0xFF6D00, 0xDD2C00,
@@ -17905,6 +17901,10 @@ var ComputeWorkerUtil = (function () {
         this.shapes = [1 /* CIRCLE */, 2 /* SQUARE */, 4 /* TRIANGLE */, 8 /* CONE */];
         this.colors = [0xd50000, 0xaa00ff, 0x304ffe, 0x0091ea, 0x00bfa5, 0x64dd17, 0xffd600, 0xff6d00,
             0xff8a80, 0xea80fc, 0x8c9eff, 0x80d8ff, 0xa7ffeb, 0xccff90, 0xffff8d, 0xffd180];
+        this.colors2 = [0xb71c1c, 0x880e4f, 0x4a148c, 0x311b92, 0x1a237e, 0x0d47a1, 0x01579b, 0x006064,
+            0x004d40, 0x1b5e20, 0x33691e, 0x827717, 0xf57f17, 0xff6f00, 0xe65100, 0xbf360c, 0x3e2723,
+            0xf44336, 0xe91e63, 0x9c27b0, 0x673ab7, 0x3f51b5, 0x2196f3, 0x03a9f4, 0x00bcd4, 0x009688,
+            0x4caf50, 0x8bc34a, 0xcddc39, 0xffeb3b, 0xffc107, 0xff9800, 0xff5722, 0x795548];
         // OLD //
         // pouchDB: any = null;
         // dataKey = '';
@@ -23403,7 +23403,7 @@ exports.timelinesCompute = function (config, worker) {
         worker.util
             .getEventData(config.database)
             .then(function (events) {
-            var colors = worker.util.colors.reverse();
+            var colors = worker.util.colors;
             var legend = new legend_model_1.Legend();
             legend.name = 'Color';
             legend.type = 'COLOR';
