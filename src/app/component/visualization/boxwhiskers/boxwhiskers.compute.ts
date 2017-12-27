@@ -24,23 +24,23 @@ export const boxwhiskersCompute = (config: BoxWhiskersConfigModel, worker: Dedic
             // Continuous Molecular
             if (config.continuousVariable.ctype & CollectionTypeEnum.MOLECULAR) {
                 worker.util
-                    .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+                    .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
                     .then(mtx => {
                         debugger;
                         worker.postMessage('TERMINATE');
                     });
             }
             if (config.continuousVariable.ctype & CollectionTypeEnum.PATIENT) {
-                worker.util.getPatientData(config.sampleFilter, config.continuousVariable.tbl)
+                worker.util.getPatientData(config.sampleFilter, config.database, config.continuousVariable.tbl)
                     .then(data => {
                         debugger;
                     });
             }
         } else {
             worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
             .then(mtx => {
-                worker.util.getSamplePatientMap().then(result => {
+                worker.util.getSamplePatientMap(config.database).then(result => {
 
 
                     // Transpose To Show Patients
