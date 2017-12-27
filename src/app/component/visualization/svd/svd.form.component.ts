@@ -161,6 +161,7 @@ export class SvdFormComponent {
     this.form = this.fb.group({
       visualization: [],
       graph: [],
+      database: [],
       dataKey: [],
       markerFilter: [],
       markerSelect: [],

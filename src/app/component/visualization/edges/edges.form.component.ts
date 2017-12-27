@@ -91,6 +91,7 @@ export class EdgesFormComponent {
 
       visualization: [],
       graph: [],
+      database: [],
       isVisible: [],
       entityA: [],
       entityB: [],

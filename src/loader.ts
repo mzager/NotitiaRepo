@@ -35,7 +35,7 @@ const mutationType = {
     33554432: 'R'
 };
 
-const baseUrl = 'https://s3-us-west-2.amazonaws.com/notitia/firehose/';
+const baseUrl = 'https://s3-us-west-2.amazonaws.com/notitia/tcga/';
 const headers = new Headers();
 headers.append('Content-Type', 'application/json');
 headers.append('Accept-Encoding', 'gzip');
@@ -64,7 +64,7 @@ const loadManifest = (manifestUri: string): Promise<Array<{ name: string, type: 
 const processResource = (resource: { name: string, dataType: string, file: string }): Promise<any> => {
     resource.name = resource.name.replace(/ /gi, '').toLowerCase();
     return (resource.dataType === 'clinical') ? loadClinical(resource.name, resource.file) :
-        (resource.dataType === 'patient_sample_map') ? loadPatientSampleMap(resource.name, resource.file) :
+        (resource.dataType === 'psmap') ? loadPatientSampleMap(resource.name, resource.file) :
             (resource.dataType === 'gistic_threshold') ? loadGisticThreshold(resource.name, resource.file) :
                 (resource.dataType === 'gistic') ? loadGistic(resource.name, resource.file) :
                     (resource.dataType === 'mut') ? loadMutation(resource.name, resource.file) :
@@ -75,7 +75,7 @@ const processResource = (resource: { name: string, dataType: string, file: strin
 
 // Complete
 const loadEvents = (name: string, file: string): Promise<any> => {
-    return fetch(baseUrl + file, requestInit)
+    return fetch(baseUrl + file + '.gz', requestInit)
         .then(response => { report('Events Loaded'); return response.json(); })
         .then(response => {
             report('Events Parsed');
@@ -84,8 +84,8 @@ const loadEvents = (name: string, file: string): Promise<any> => {
             const lookup = Object.keys(response.map).reduce((p, c) => { p.push({ type: response.map[c], subtype: c }); return p; }, []);
             const data = response.data.map(datum => Object.assign({
                 p: datum[0],
-                start: datum[2] * 86400000,
-                end: datum[3] * 86400000,
+                start: datum[2], // * 86400000,
+                end: datum[3], // * 86400000,
                 data: datum[4]
             }, lookup[datum[1]]));
             report('Events Processed');
@@ -100,7 +100,7 @@ const loadEvents = (name: string, file: string): Promise<any> => {
 // Complete
 const loadClinical = (name: string, file: string): Promise<any> => {
     report('Clinical Requested');
-    return fetch(baseUrl + file, requestInit)
+    return fetch(baseUrl + file + '.gz', requestInit)
         .then(response => { report('Clinical Loaded'); return response.json(); })
         .then(response => {
             report('Clinical Parsed');
@@ -122,7 +122,7 @@ const loadClinical = (name: string, file: string): Promise<any> => {
             report('Clinical Processed');
             return new Promise((resolve, reject) => {
                 resolve([
-                    { tbl: 'patientMeta', data: patientMetaTable },
+                    // { tbl: 'patientMeta', data: patientMetaTable },
                     { tbl: 'patient', data: patientTable }
                 ]);
             });
@@ -132,7 +132,7 @@ const loadClinical = (name: string, file: string): Promise<any> => {
 // Complete
 const loadGisticThreshold = (name: string, file: string): Promise<any> => {
     report('Gistic Threshold Requested');
-    return fetch(baseUrl + file, requestInit)
+    return fetch(baseUrl + file + '.gz', requestInit)
         .then(response => { report('Gistic Threshold Loaded'); return response.json(); })
         .then(response => {
             report('Gistic Threshold Parsed');
@@ -160,7 +160,7 @@ const loadGisticThreshold = (name: string, file: string): Promise<any> => {
 // Complete
 const loadGistic = (name: string, file: string): Promise<any> => {
     report('Gistic Requested');
-    return fetch(baseUrl + file, requestInit)
+    return fetch(baseUrl + file + '.gz', requestInit)
         .then(response => { report('Gistic Loaded'); return response.json(); })
         .then(response => {
             report('Gistic Parsed');
@@ -186,12 +186,26 @@ const loadGistic = (name: string, file: string): Promise<any> => {
 };
 
 const loadPatientSampleMap = (name: string, file: string): Promise<any> => {
-    return null;
+    return fetch(baseUrl + file + '.gz', requestInit)
+        .then(response => { report('PS Map Loaded'); return response.json(); })
+        .then(response => {
+            report('Patient Sample Map Parsed');
+            const data = Object.keys(response).reduce( (p, c) => {
+                response[c].forEach( v => { p.push( {p: c, s: v} ); });
+                return p;
+            }, []);
+            report('Patient Sample Map Processed');
+            return new Promise((resolve, reject) => {
+                resolve([
+                    { tbl: 'patientSampleMap', data: data },
+                ]);
+            });
+        });
 };
 
 const loadMutation = (name: string, file: string): Promise<any> => {
     report('Mutation Requested');
-    return fetch(baseUrl + file, requestInit)
+    return fetch(baseUrl + file + '.gz', requestInit)
         .then(response => { report('Mutation Loaded'); return response.json(); })
         .then(response => {
             report('Mutation Parsed');
@@ -211,8 +225,9 @@ const loadMutation = (name: string, file: string): Promise<any> => {
             }, []);
             report('Mutation Processed');
             return new Promise((resolve, reject) => {
+                // TODO: This is a bug.  Need to replace token mut with value from result
                 resolve([
-                    { tbl: name, data: data },
+                    { tbl: 'mut', data: data },
                 ]);
             });
         });
@@ -221,7 +236,7 @@ const loadMutation = (name: string, file: string): Promise<any> => {
 // Complete
 const loadRna = (name: string, file: string): Promise<any> => {
     report('RNA Requested');
-    return fetch(baseUrl + file, requestInit)
+    return fetch(baseUrl + file + '.gz', requestInit)
         .then(response => { report('RNA Loaded'); return response.json(); })
         .then(response => {
             report('RNA Parsed');
