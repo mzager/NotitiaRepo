@@ -852,7 +852,6 @@ export class ComputeWorkerUtil {
                         legend.display = 'DISCRETE';
                         legend.labels = Object.keys(cm);
                         legend.values = Object.keys(cm).map(key => cm[key]);
-
                         resolve({ map: shapeMap, legend: legend });
                     }
                     );
@@ -867,13 +866,15 @@ export class ComputeWorkerUtil {
     fetchResult(config: any, cache: boolean = false): Promise<any> {
         const headers = {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
         };
-        const md5 = new Md5();
-        md5.appendStr(JSON.stringify(config));
-        const hash = md5.end();
+        // const md5 = new Md5();
+        // md5.appendStr(JSON.stringify(config));
+        // const hash = md5.end();
         // return fetch('https://0x8okrpyl3.execute-api.us-west-2.amazonaws.com/dev?' + hash, {
-        return fetch('https://oncoscape.sttrcancer.org/dev?' + hash, {
+        // return fetch('https://oncoscape.sttrcancer.org/dev?' + hash, {
+        return fetch('http://oncoscape-opencpu.sttrcancer.io/py', {            
             headers: headers,
             method: 'POST',
             body: JSON.stringify(config)
@@ -883,11 +884,7 @@ export class ComputeWorkerUtil {
             });
     }
 
-    // OLD //
-
-    // pouchDB: any = null;
-    // dataKey = '';
-    // data: any = {};
+    
 
     loadData = (dataKey): any => {
         return new Promise((resolve, reject) => {
