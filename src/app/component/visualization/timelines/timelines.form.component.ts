@@ -1,3 +1,4 @@
+import { DataService } from './../../../service/data.service';
 import { TimelinesConfigModel } from './timelines.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DimensionEnum, DataTypeEnum, VisualizationEnum, DirtyEnum } from 'app/model/enum.model';
@@ -109,7 +110,7 @@ export class TimelinesFormComponent {
     return p1.key === p2.key;
   }
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private dataService: DataService) {
 
     // Init Form
     this.form = this.fb.group({
