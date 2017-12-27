@@ -134,6 +134,7 @@ export class KmedoidFormComponent {
     this.form = this.fb.group({
       visualization: [],
       graph: [],
+      database: [],
       dataKey: [],
       markerFilter: [],
       markerSelect: [],

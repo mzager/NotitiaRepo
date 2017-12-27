@@ -14,11 +14,10 @@ export const pcaIncrementalCompute = (config: PcaIncrementalConfigModel, worker:
     if (config.dirtyFlag & DirtyEnum.LAYOUT) {
 
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database,config.table.tbl, config.entity)
             .then(mtx => {
-
                 Promise.all([
-                    worker.util.getSamplePatientMap(),
+                    worker.util.getSamplePatientMap(config.database),
                     worker.util
                         .fetchResult({
                             method: 'cluster_sk_pca_incremental',
@@ -28,6 +27,7 @@ export const pcaIncrementalCompute = (config: PcaIncrementalConfigModel, worker:
                             batch_size: config.batch_size
                         })
                 ]).then(result => {
+
                         const psMap = result[0].reduce( (p, c) => { p[c.s] = c.p; return p; }, {});
                         const data = JSON.parse(result[1].body);
                         const resultScaled = worker.util.scale3d(data.result);

@@ -142,6 +142,7 @@ export class SomFormComponent {
     this.form = this.fb.group({
       visualization: [],
       graph: [],
+      database: [],
       dataKey: [],
       markerFilter: [],
       markerSelect: [],

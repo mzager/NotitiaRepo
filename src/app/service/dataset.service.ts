@@ -22,9 +22,10 @@ export class DatasetService {
 
   public getDataset(dataset: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      Dexie.exists('notitia-dataset').then(exists => {
+      //Dexie.exists('notitia-dataset').then(exists => {
+      Dexie.exists('notitia-' + dataset).then(exists => {
         if (exists) {
-          DatasetService.db = new Dexie('notitia-dataset');
+          DatasetService.db = new Dexie('notitia-' + dataset);
           DatasetService.db.open().then(v => {
             DatasetService.db.table('dataset').where({ name: dataset }).first().then(result => {
               resolve(result);
@@ -48,7 +49,6 @@ export class DatasetService {
 
   }
   public load(manifest: any): Observable<any> {
-
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Accept-Encoding', 'gzip');
@@ -58,18 +58,63 @@ export class DatasetService {
       mode: 'cors',
       cache: 'default'
     };
-    console.dir(manifest);
+    console.log('start: ' + new Date().getTime());
     fetch(manifest.manifest, requestInit)
       .then(response => response.json())
       .then(response => {
         Dexie.exists('notitia-' + manifest.disease)
           .then(exists => {
-            if (exists) { Dexie.delete('notitia-' + manifest.disease); }
+            if (exists) {
+              this.loader$.next(manifest);
+              return;
+              // Dexie.delete('notitia-' + manifest.disease);
+            }
             const db = DatasetService.db = new Dexie('notitia-' + manifest.disease);
-            console.log('notitia-' + manifest.disease);
+            console.log('start: ' + new Date().getTime());
             DatasetService.db.on('versionchange', function (event) { });
             DatasetService.db.on('blocked', () => { });
             db.version(1).stores(response.schema);
+
+            // Patient Meta Data
+            const fields = Object.keys(response.fields).map( v => ({
+              ctype: 2,
+              key: v,
+              label: v.replace(/_/gi, ' '),
+              tbl: 'patient',
+              type: Array.isArray(response.fields[v]) ? 'STRING' : 'NUMBER',
+              values: response.fields[v]
+            }));
+
+            const events = Object.keys(response.events).map( key => ({type: response.events[key], subtype: key}) );
+
+            const tbls = response.files.map(v => {
+              const dt = v.dataType.toLowerCase();
+              return (dt === 'clinical') ?
+                  {tbl: 'patient', map: 'patientMap', label: 'Patient', ctype: CollectionTypeEnum.PATIENT} :
+                (dt === 'events') ?
+                  {tbl: v.name, map: v.name + 'Map', label: v.name, ctype: CollectionTypeEnum.EVENT} :
+                (dt === 'gistic') ?
+                  {tbl: v.name, map: v.name + 'Map', label: v.name, ctype: CollectionTypeEnum.GISTIC} :
+                (dt === 'gistic_threshold') ?
+                  {tbl: v.name, map: v.name + 'Map', label: v.name, ctype: CollectionTypeEnum.GISTIC_THRESHOLD} :
+                (dt === 'mut') ?
+                  {tbl: v.name, map: v.name + 'Map', label: v.name, ctype: CollectionTypeEnum.MUTATION} :
+                (dt === 'rna') ?
+                  {tbl: v.name, map: v.name + 'Map', label: v.name, ctype: CollectionTypeEnum.RNA} :
+                  null;
+            }).filter(v => v);
+
+            const dataset = {
+              name: manifest.disease,
+              events: events,
+              fields: fields,
+              tables: tbls
+            };
+
+            // Add Dataset + Meta Info
+            db.table('dataset').add(dataset);
+            db.table('patientMeta').bulkAdd(fields);
+
             Promise.all(
               response.files.filter(file => file.name !== 'manifest.json').map(file => {
                 return new Promise((resolve, reject) => {
@@ -81,15 +126,16 @@ export class DatasetService {
                     tables.forEach(table => {
                       db.table(table.tbl).bulkAdd(table.data);
                     });
+                    resolve();
                   };
                   loader.addEventListener('message', onMessage);
                   loader.postMessage({ cmd: 'load', disease: manifest.disease, file: file });
                 });
               })
             ).then(v => {
-
+              this.loader$.next(manifest);
+              console.log('done: ' + new Date().getTime());
             });
-            console.log('done');
           });
       });
     return this.loader$;
