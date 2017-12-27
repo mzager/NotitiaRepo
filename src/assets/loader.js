@@ -101,7 +101,7 @@ var mutationType = {
     16777216: 'Indel',
     33554432: 'R'
 };
-var baseUrl = 'https://s3-us-west-2.amazonaws.com/notitia/firehose/';
+var baseUrl = 'https://s3-us-west-2.amazonaws.com/notitia/tcga/';
 var headers = new Headers();
 headers.append('Content-Type', 'application/json');
 headers.append('Accept-Encoding', 'gzip');
@@ -127,7 +127,7 @@ var loadManifest = function (manifestUri) {
 var processResource = function (resource) {
     resource.name = resource.name.replace(/ /gi, '').toLowerCase();
     return (resource.dataType === 'clinical') ? loadClinical(resource.name, resource.file) :
-        (resource.dataType === 'patient_sample_map') ? loadPatientSampleMap(resource.name, resource.file) :
+        (resource.dataType === 'psmap') ? loadPatientSampleMap(resource.name, resource.file) :
             (resource.dataType === 'gistic_threshold') ? loadGisticThreshold(resource.name, resource.file) :
                 (resource.dataType === 'gistic') ? loadGistic(resource.name, resource.file) :
                     (resource.dataType === 'mut') ? loadMutation(resource.name, resource.file) :
@@ -137,7 +137,7 @@ var processResource = function (resource) {
 };
 // Complete
 var loadEvents = function (name, file) {
-    return fetch(baseUrl + file, requestInit)
+    return fetch(baseUrl + file + '.gz', requestInit)
         .then(function (response) { report('Events Loaded'); return response.json(); })
         .then(function (response) {
         report('Events Parsed');
@@ -146,8 +146,8 @@ var loadEvents = function (name, file) {
         var lookup = Object.keys(response.map).reduce(function (p, c) { p.push({ type: response.map[c], subtype: c }); return p; }, []);
         var data = response.data.map(function (datum) { return Object.assign({
             p: datum[0],
-            start: datum[2] * 86400000,
-            end: datum[3] * 86400000,
+            start: datum[2],
+            end: datum[3],
             data: datum[4]
         }, lookup[datum[1]]); });
         report('Events Processed');
@@ -161,7 +161,7 @@ var loadEvents = function (name, file) {
 // Complete
 var loadClinical = function (name, file) {
     report('Clinical Requested');
-    return fetch(baseUrl + file, requestInit)
+    return fetch(baseUrl + file + '.gz', requestInit)
         .then(function (response) { report('Clinical Loaded'); return response.json(); })
         .then(function (response) {
         report('Clinical Parsed');
@@ -183,7 +183,7 @@ var loadClinical = function (name, file) {
         report('Clinical Processed');
         return new Promise(function (resolve, reject) {
             resolve([
-                { tbl: 'patientMeta', data: patientMetaTable },
+                // { tbl: 'patientMeta', data: patientMetaTable },
                 { tbl: 'patient', data: patientTable }
             ]);
         });
@@ -192,7 +192,7 @@ var loadClinical = function (name, file) {
 // Complete
 var loadGisticThreshold = function (name, file) {
     report('Gistic Threshold Requested');
-    return fetch(baseUrl + file, requestInit)
+    return fetch(baseUrl + file + '.gz', requestInit)
         .then(function (response) { report('Gistic Threshold Loaded'); return response.json(); })
         .then(function (response) {
         report('Gistic Threshold Parsed');
@@ -219,7 +219,7 @@ var loadGisticThreshold = function (name, file) {
 // Complete
 var loadGistic = function (name, file) {
     report('Gistic Requested');
-    return fetch(baseUrl + file, requestInit)
+    return fetch(baseUrl + file + '.gz', requestInit)
         .then(function (response) { report('Gistic Loaded'); return response.json(); })
         .then(function (response) {
         report('Gistic Parsed');
@@ -244,11 +244,25 @@ var loadGistic = function (name, file) {
     });
 };
 var loadPatientSampleMap = function (name, file) {
-    return null;
+    return fetch(baseUrl + file + '.gz', requestInit)
+        .then(function (response) { report('PS Map Loaded'); return response.json(); })
+        .then(function (response) {
+        report('Patient Sample Map Parsed');
+        var data = Object.keys(response).reduce(function (p, c) {
+            response[c].forEach(function (v) { p.push({ p: c, s: v }); });
+            return p;
+        }, []);
+        report('Patient Sample Map Processed');
+        return new Promise(function (resolve, reject) {
+            resolve([
+                { tbl: 'patientSampleMap', data: data },
+            ]);
+        });
+    });
 };
 var loadMutation = function (name, file) {
     report('Mutation Requested');
-    return fetch(baseUrl + file, requestInit)
+    return fetch(baseUrl + file + '.gz', requestInit)
         .then(function (response) { report('Mutation Loaded'); return response.json(); })
         .then(function (response) {
         report('Mutation Parsed');
@@ -267,8 +281,9 @@ var loadMutation = function (name, file) {
         }, []);
         report('Mutation Processed');
         return new Promise(function (resolve, reject) {
+            // TODO: This is a bug.  Need to replace token mut with value from result
             resolve([
-                { tbl: name, data: data },
+                { tbl: 'mut', data: data },
             ]);
         });
     });
@@ -276,7 +291,7 @@ var loadMutation = function (name, file) {
 // Complete
 var loadRna = function (name, file) {
     report('RNA Requested');
-    return fetch(baseUrl + file, requestInit)
+    return fetch(baseUrl + file + '.gz', requestInit)
         .then(function (response) { report('RNA Loaded'); return response.json(); })
         .then(function (response) {
         report('RNA Parsed');

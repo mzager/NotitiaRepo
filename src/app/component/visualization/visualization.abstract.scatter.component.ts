@@ -38,7 +38,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     }
 
     update(config: GraphConfig, data: any) {
-        debugger;
+
         this.config = config as GraphConfig;
         this.data = data;
         if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {
