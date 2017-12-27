@@ -30,7 +30,9 @@ import {
   CohortPanelShowTabAction,
   DataPanelShowTabAction,
   WorkspacePanelShowTabAction,
-  WorkspacePanelToggleAction
+  WorkspacePanelToggleAction,
+  DataPanelToggleAction,
+  FilePanelToggleAction
   } from './../../action/layout.action';
 import { DataField } from 'app/model/data-field.model';
 import {
@@ -141,7 +143,8 @@ export class WorkspaceComponent {
     this.fields = store.select(fromRoot.getFields);
     this.events = store.select(fromRoot.getEvents);
     this.queryData = store.select(fromRoot.getQueryData);
-    this.store.dispatch( new DataLoadFromDexieAction('gbm') );
+    this.store.dispatch( new FilePanelToggleAction() );
+    // this.store.dispatch( new DataLoadFromDexieAction('gbm') );
   }
 
   select(selection: {type: EntityTypeEnum, ids: Array<string>}): void {
