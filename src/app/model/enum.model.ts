@@ -125,7 +125,7 @@ export const enum CollectionTypeEnum {
     // tslint:disable-next-line:no-bitwise
     MOLECULAR = CollectionTypeEnum.CNV | CollectionTypeEnum.GISTIC |
         CollectionTypeEnum.GISTIC_THRESHOLD | CollectionTypeEnum.MUTATION | CollectionTypeEnum.MIRNA |
-        CollectionTypeEnum.MRNA | CollectionTypeEnum.EXP | CollectionTypeEnum.METH
+        CollectionTypeEnum.MRNA | CollectionTypeEnum.EXP | CollectionTypeEnum.METH | CollectionTypeEnum.RNA
 }
 
 export class DataTypeEnum {

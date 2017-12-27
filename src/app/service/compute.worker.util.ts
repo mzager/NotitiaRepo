@@ -20,6 +20,7 @@ export class ComputeWorkerUtil {
     private dbData: Dexie;
     private dbLookup: Dexie;
 
+
     private sizes = [1, 2, 3, 4];
     private shapes = [ShapeEnum.CIRCLE, ShapeEnum.SQUARE, ShapeEnum.TRIANGLE, ShapeEnum.CONE];
     public colors = [0xd50000, 0xaa00ff, 0x304ffe, 0x0091ea, 0x00bfa5, 0x64dd17, 0xffd600, 0xff6d00,
@@ -34,8 +35,7 @@ export class ComputeWorkerUtil {
     //     0x5D4037, 0x455A64];
 
     constructor() {
-        console.log("OPTIMIZE - LATE OPEN");
-        this.dbData = new Dexie('notitia-gbm');
+        console.log('OPTIMIZE - LATE OPEN');
         this.dbLookup = new Dexie('notitia');
     }
 
@@ -67,7 +67,7 @@ export class ComputeWorkerUtil {
     processShapeColorSizeIntersect(config: GraphConfig, worker: DedicatedWorkerGlobalScope) {
 
         if ((config.dirtyFlag & DirtyEnum.COLOR) > 0) {
-            worker.util.getColorMap(config.entity, config.markerFilter, config.sampleFilter, config.pointColor).then(
+            worker.util.getColorMap(config.entity, config.markerFilter, config.sampleFilter, config.database, config.pointColor).then(
                 result => {
                     worker.postMessage({
                         config: config,
@@ -82,7 +82,7 @@ export class ComputeWorkerUtil {
         }
 
         if ((config.dirtyFlag & DirtyEnum.SIZE) > 0) {
-            worker.util.getSizeMap(config.entity, config.markerFilter, config.sampleFilter, config.pointSize).then(
+            worker.util.getSizeMap(config.entity, config.markerFilter, config.sampleFilter, config.database, config.pointSize).then(
                 result => {
                     worker.postMessage({
                         config: config,
@@ -97,7 +97,7 @@ export class ComputeWorkerUtil {
         }
 
         if ((config.dirtyFlag & DirtyEnum.SHAPE) > 0) {
-            worker.util.getShapeMap(config.entity, config.markerFilter, config.sampleFilter, config.pointShape).then(
+            worker.util.getShapeMap(config.entity, config.markerFilter, config.sampleFilter, config.database, config.pointShape).then(
                 result => {
                     worker.postMessage({
                         config: config,
@@ -112,7 +112,7 @@ export class ComputeWorkerUtil {
         }
 
         if ((config.dirtyFlag & DirtyEnum.INTERSECT) > 0) {
-            worker.util.getIntersectMap(config.markerFilter, config.sampleFilter, config.pointIntersect).then(
+            worker.util.getIntersectMap(config.markerFilter, config.sampleFilter, config.database, config.pointIntersect).then(
                 result => {
                     worker.postMessage({
                         config: config,
@@ -203,29 +203,30 @@ export class ComputeWorkerUtil {
             }
         });
     }
-    openDatabaseData(): Promise<any> {
+    openDatabaseData(db): Promise<any> {
         return new Promise((resolve, reject) => {
             if (this.dbData.isOpen()) {
                 resolve();
             } else {
+                this.dbData = new Dexie('notitia-' + db);
                 this.dbData.open().then(resolve);
             }
         });
     }
-   
+
     // Call IDB
-    getEventData(): Promise<any> {
+    getEventData(db): Promise<any> {
         return new Promise( (resolve, reject) => {
-            this.openDatabaseData().then(v => {
+            this.openDatabaseData(db).then(v => {
                 this.dbData.table('event').toArray().then(_events => {
                     resolve(_events);
                 });
             });
         });
     }
-    getPatientData(samples: Array<string>, tbl: string): Promise<any> {
+    getPatientData(samples: Array<string>, db: string, tbl: string): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.openDatabaseData().then(v => {
+            this.openDatabaseData(db).then(v => {
                 console.log('Filter by Seleted Patients / Samples');
                 // const query = (samples.length === 0) ?
                 //     this.dbData.table(tbl) :
@@ -236,9 +237,9 @@ export class ComputeWorkerUtil {
             });
         });
     }
-    getMatrix(markers: Array<string>, samples: Array<string>, map: string, tbl: string, entity: EntityTypeEnum): Promise<any> {
+    getMatrix(markers: Array<string>, samples: Array<string>, map: string, db: string, tbl: string, entity: EntityTypeEnum): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.openDatabaseData().then(v => {
+            this.openDatabaseData(db).then(v => {
                 map = map.replace(/ /gi, '');
                 tbl = tbl.replace(/ /gi, '');
                 this.dbData.table(map).toArray().then(_samples => {
@@ -266,7 +267,7 @@ export class ComputeWorkerUtil {
                 resolve([]);
                 return;
             }
-            this.openDatabaseData().then(v => {
+            this.openDatabaseData(config.database).then(v => {
                 Promise.all([
                     this.dbData.table('patient').toArray(),
                     this.dbData.table('patientSampleMap').toArray()
@@ -325,8 +326,8 @@ export class ComputeWorkerUtil {
                 resolve([]);
                 return;
             }
-            this.openDatabaseData().then(v => {
-                this.getMolecularGeneValues(config.markerFilter, config.pointColor).then(result => {
+            this.openDatabaseData(config.database).then(v => {
+                this.getMolecularGeneValues(config.markerFilter, config.pointColor, config.database).then(result => {
                     const edges = result.map( gene => ({
                         a: gene.m,
                         b: gene.m,
@@ -350,7 +351,7 @@ export class ComputeWorkerUtil {
                 resolve([]);
                 return;
             }
-            this.getMatrix(config.markerFilter, config.sampleFilter, 'gismutMap', 'gisticT', EntityTypeEnum.GENE)
+            this.getMatrix(config.markerFilter, config.sampleFilter, 'gismutMap', config.database,'gisticT', EntityTypeEnum.GENE)
                 .then((result: any) => {
                     const edges: Array<any> = [];
                     const nMarkers = result.markers.length;
@@ -401,9 +402,9 @@ export class ComputeWorkerUtil {
         });
     }
 
-    getSamplePatientMap(): Promise<any> {
+    getSamplePatientMap(db: string): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.openDatabaseData().then(v => {
+            this.openDatabaseData(db).then(v => {
                 this.dbData.table('patientSampleMap').toArray().then(result => {
                     resolve(result);
                 });
@@ -412,9 +413,9 @@ export class ComputeWorkerUtil {
     }
 
 
-    getMolecularGeneValues(markers: Array<string>, field: any): Promise<any> {
+    getMolecularGeneValues(markers: Array<string>, field: any, db: string): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.openDatabaseData().then(v => {
+            this.openDatabaseData(db).then(v => {
                 if (markers.length === 0) {
                     this.dbData.table(field.tbl).toArray()
                     .then(result => {
@@ -431,14 +432,14 @@ export class ComputeWorkerUtil {
     }
 
 
-    getColorMap(entity: EntityTypeEnum, markers: Array<string>, samples: Array<string>, field: DataField): Promise<any> {
+    getColorMap(entity: EntityTypeEnum, markers: Array<string>, samples: Array<string>, db: string, field: DataField): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.openDatabaseData().then(v => {
+            this.openDatabaseData(db).then(v => {
 
                 // Gene Color Maps
                 if (entity === EntityTypeEnum.GENE) {
                     if (field.ctype & CollectionTypeEnum.MOLECULAR) {
-                        this.getMolecularGeneValues(markers, field).then(result => {
+                        this.getMolecularGeneValues(markers, field, db).then(result => {
 
                             console.log('Would be good to subset color by Filtered Samples / Patients...  Revisit');
 
@@ -468,7 +469,7 @@ export class ComputeWorkerUtil {
                             resolve({ map: colorMap, legend: legend });
                         });
                     } else if (field.ctype & CollectionTypeEnum.GENE_TYPE) {
-                            this.openDatabaseLookup().then(db => {
+                            this.openDatabaseLookup().then( (r: any) => {
                                 this.dbLookup.table('genecoords').where('gene').anyOfIgnoreCase(markers).toArray().then( result => {
                                     result.reduce( (p, c) => { p[c.type] = true; return p; }, {});
                                     const types = Object.keys(result
@@ -542,7 +543,6 @@ export class ComputeWorkerUtil {
                                     const obj = family.genes.reduce( (p, c) => { p[c] = col; return p; }, {});
                                     return obj;
                                 }));
-                                
                                 resolve({ map: colorMap, legend: legend });
                             });
                         });
@@ -560,7 +560,7 @@ export class ComputeWorkerUtil {
                             // Extract Name Of Map
                             const map = dataset.tables.filter(tbl => tbl.tbl === field.tbl)[0].map;
                             this.dbData.table(map).toArray().then(sampleMap => {
-                                this.getMolecularGeneValues(markers, field).then(result => {
+                                this.getMolecularGeneValues(markers, field, db).then(result => {
                                     const sampleCount = sampleMap.length;
                                     const sampleAvgs = sampleMap.map((sample, index) => ({
                                         id: sample.s,
@@ -654,15 +654,15 @@ export class ComputeWorkerUtil {
         });
     }
 
-    getSizeMap(entity: EntityTypeEnum, markers: Array<string>, samples: Array<string>, field: DataField): Promise<any> {
+    getSizeMap(entity: EntityTypeEnum, markers: Array<string>, samples: Array<string>, db: string, field: DataField): Promise<any> {
 
         return new Promise((resolve, reject) => {
-            this.openDatabaseData().then(v => {
+            this.openDatabaseData(db).then(v => {
 
                 // Gene Color Maps
                 if (entity === EntityTypeEnum.GENE) {
                     if (field.ctype & CollectionTypeEnum.MOLECULAR) {
-                        this.getMolecularGeneValues(markers, field).then(result => {
+                        this.getMolecularGeneValues(markers, field, db).then(result => {
 
                             console.log('Would be good to subset color by Filtered Samples / Patients...  Revisit');
 
@@ -702,7 +702,7 @@ export class ComputeWorkerUtil {
                             // Extract Name Of Map
                             const map = dataset.tables.filter(tbl => tbl.tbl === field.tbl)[0].map;
                             this.dbData.table(map).toArray().then(sampleMap => {
-                                this.getMolecularGeneValues(markers, field).then(result => {
+                                this.getMolecularGeneValues(markers, field, db).then(result => {
                                     const sampleCount = sampleMap.length;
                                     const sampleAvgs = sampleMap.map((sample, index) => ({
                                         id: sample.s,
@@ -773,7 +773,7 @@ export class ComputeWorkerUtil {
 
                             this.dbData.table(field.tbl).toArray().then(row => {
                                 const sizeMap = row.reduce(function (p, c) {
-                                    p[c.p] = Math.round(scale(c[fieldKey])); //interpolateSpectral(scale(c[fieldKey]));
+                                    p[c.p] = Math.round(scale(c[fieldKey]));
                                     return p;
                                 }, {});
 
@@ -796,9 +796,9 @@ export class ComputeWorkerUtil {
         });
     }
 
-    getIntersectMap(markers: Array<string>, samples: Array<string>, field: DataField): Promise<any> {
+    getIntersectMap(markers: Array<string>, samples: Array<string>, db: string, field: DataField): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.openDatabaseData().then(v => {
+            this.openDatabaseData(db).then(v => {
                 const fieldKey = field.key;
                 if (field.type === 'STRING') {
 
@@ -824,9 +824,9 @@ export class ComputeWorkerUtil {
         });
     }
 
-    getShapeMap(entity: EntityTypeEnum, markers: Array<string>, samples: Array<string>, field: DataField): Promise<any> {
+    getShapeMap(entity: EntityTypeEnum, markers: Array<string>, samples: Array<string>, db: string, field: DataField): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.openDatabaseData().then(v => {
+            this.openDatabaseData(db).then(v => {
                 const fieldKey = field.key;
                 if (field.type === 'STRING') {
                     const cm = field.values.reduce((p, c, i) => {

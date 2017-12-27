@@ -12,10 +12,10 @@ export const truncatedSvdCompute = (config: TruncatedSvdConfigModel, worker: Ded
 
         if (config.dirtyFlag & DirtyEnum.LAYOUT) {
             worker.util
-                .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.table.tbl, config.entity)
+                .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
                 .then(mtx => {
                     Promise.all([
-                        worker.util.getSamplePatientMap(),
+                        worker.util.getSamplePatientMap(config.database),
                         worker.util
                             .fetchResult({
                                 // added more than server is calling
