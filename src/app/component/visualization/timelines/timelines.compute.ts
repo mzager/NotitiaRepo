@@ -18,10 +18,9 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
         worker.util
             .getEventData(config.database)
             .then(events => {
-
-                const colors = worker.util.colors;
+                const colors = worker.util.colors.reverse();
                 const legend: Legend = new Legend();
-                legend.name = 'xxx';
+                legend.name = 'Color';
                 legend.type = 'COLOR';
                 legend.display = 'DISCRETE';
 

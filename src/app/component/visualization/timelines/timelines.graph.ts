@@ -15,6 +15,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { geoAlbers } from 'd3';
 import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
 import { Vector3, CubeGeometry } from 'three';
+import { DataService } from 'app/service/data.service';
 
 export class TimelinesGraph implements ChartObjectInterface {
 
@@ -34,6 +35,7 @@ export class TimelinesGraph implements ChartObjectInterface {
     public groups: Array<THREE.Group>;
     public meshes: Array<THREE.Mesh>;
     public bars: Array<THREE.Line>;
+    public database: string;
 
     // Private Subscriptions
     private sMouseMove: Subscription;
@@ -54,6 +56,7 @@ export class TimelinesGraph implements ChartObjectInterface {
             this.sMouseMove.unsubscribe();
         }
     }
+
     update(config: GraphConfig, data: any) {
         this.config = config as TimelinesConfigModel;
         this.data = data;
@@ -87,7 +90,6 @@ export class TimelinesGraph implements ChartObjectInterface {
         const w = Math.round(this.view.viewport.width * 0.5);
         const halfW = Math.round(w * 0.5);
         const scale = (this.config.timescale === 'Log') ? scaleLog() : scaleLinear();
-        
         console.dir(this.data.result);
         scale.domain([this.data.result.minMax.min, this.data.result.minMax.max]);
         scale.range([-halfW, halfW]);
@@ -101,7 +103,18 @@ export class TimelinesGraph implements ChartObjectInterface {
             this.view.scene.add(group);
 
             // Create Background Line
-            const line = ChartFactory.lineAllocate(0xDDDDDD, new THREE.Vector2(-halfW, 0), new THREE.Vector2(halfW, 0));
+            let events = [];
+            debugger;
+            if (patient.hasOwnProperty('Status')) { events = events.concat(patient.Status); }
+            if (patient.hasOwnProperty('Treatment')) { events = events.concat(patient.Treatment); }
+console.dir(events);
+            const se = events.reduce( (p, c) => {
+                p.min = Math.min(p.min, c.start);
+                p.max = Math.max(p.min, c.end);
+                return p;
+            }, {min: Infinity, max: -Infinity});
+console.dir(se);
+            const line = ChartFactory.lineAllocate(0xDDDDDD, new THREE.Vector2(scale(se.min) , 0), new THREE.Vector2(scale(se.max) , 0));
             group.add(line);
 
             if (patient.hasOwnProperty('Treatment')) {
@@ -113,29 +126,29 @@ export class TimelinesGraph implements ChartObjectInterface {
                     if (event.start !== event.end) {
                         const e = scale(event.end);
                         const geometry = new THREE.PlaneGeometry(1, 2);
-                        const material = new THREE.MeshBasicMaterial({ color: 0x039BE5 });
+                        const material = new THREE.MeshBasicMaterial({ color: event.color });
                         const rect = new THREE.Mesh(geometry, material);
-                        rect.position.set(e, 2, 0);
+                        rect.position.set(e, 1, 0);
                         rect.userData = event.data;
                         // rect.userData = {end: event.end};
                         this.meshes.push(rect);
                         group.add(rect);
 
                         const c = (Math.abs(e - s) * 0.5) + Math.min(e, s);
-                        const arc = ChartFactory.lineAllocateCurve(0x039BE5,
-                            new THREE.Vector2(s, 3),
-                            new THREE.Vector2(e, 3),
-                            new THREE.Vector2(c, 6)
+                        const arc = ChartFactory.lineAllocateCurve(event.color,
+                            new THREE.Vector2(s, 2),
+                            new THREE.Vector2(e, 2),
+                            new THREE.Vector2(c, 4)
                         );
                         group.add(arc);
                     }
 
                     const geometry = new THREE.PlaneGeometry(1, 2);
-                    const material = new THREE.MeshBasicMaterial({ color: 0x039BE5 });
+                    const material = new THREE.MeshBasicMaterial({ color: event.color });
                     const rect = new THREE.Mesh(geometry, material);
                     rect.userData = event.data;
                     // rect.userData = {start: event.start};
-                    rect.position.set(s, 2, 0);
+                    rect.position.set(s, 1, 0);
                     this.meshes.push(rect);
                     group.add(rect);
                 });
@@ -143,21 +156,55 @@ export class TimelinesGraph implements ChartObjectInterface {
 
             // Create Status Line
             if (patient.hasOwnProperty('Status')) {
-                patient.Status.forEach((event, j) => {
-                    const xStart = Math.floor(scale(event.start));
-                    const xEnd = (patient.Status.length > j + 1) ? Math.floor(scale(patient.Status[j + 1].start)) : xStart + 1;
-                    let width = xEnd - xStart;
-                    if (width === 0) { width = 1; }
-                    const mesh = new THREE.Mesh(
-                        new THREE.PlaneGeometry(width, 2),
-                        new THREE.MeshBasicMaterial({ color: event.color, side: THREE.DoubleSide }));
-                    mesh.position.setX(xStart + (width * 0.5));
-                    if (width === 1) { mesh.position.setZ(0.1); }
-                    mesh.userData = event.data;
-                    // mesh.userData = {start: event.start, s: scale(event.start)};
-                    this.meshes.push(mesh);
-                    group.add(mesh);
+
+                patient.Status.forEach(event => {
+
+                    const s = scale(event.start);
+
+                    if (event.start !== event.end) {
+                        const e = scale(event.end);
+                        const geometry = new THREE.PlaneGeometry(1, 2);
+                        const material = new THREE.MeshBasicMaterial({ color: event.color });
+                        const rect = new THREE.Mesh(geometry, material);
+                        rect.position.set(e, -1, 0);
+                        rect.userData = event.data;
+                        // rect.userData = {end: event.end};
+                        this.meshes.push(rect);
+                        group.add(rect);
+
+                        const c = (Math.abs(e - s) * 0.5) + Math.min(e, s);
+                        const arc = ChartFactory.lineAllocateCurve(event.color,
+                            new THREE.Vector2(s, -2),
+                            new THREE.Vector2(e, -2),
+                            new THREE.Vector2(c, -4)
+                        );
+                        group.add(arc);
+                    }
+
+                    const geometry = new THREE.PlaneGeometry(1, 2);
+                    const material = new THREE.MeshBasicMaterial({ color: event.color });
+                    const rect = new THREE.Mesh(geometry, material);
+                    rect.userData = event.data;
+                    // rect.userData = {start: event.start};
+                    rect.position.set(s, -1, 0);
+                    this.meshes.push(rect);
+                    group.add(rect);
                 });
+                // patient.Status.forEach((event, j) => {
+                //     const xStart = Math.floor(scale(event.start));
+                //     const xEnd = (patient.Status.length > j + 1) ? Math.floor(scale(patient.Status[j + 1].start)) : xStart + 1;
+                //     let width = xEnd - xStart;
+                //     if (width === 0) { width = 1; }
+                //     const mesh = new THREE.Mesh(
+                //         new THREE.PlaneGeometry(width, 2),
+                //         new THREE.MeshBasicMaterial({ color: event.color, side: THREE.DoubleSide }));
+                //     mesh.position.setX(xStart + (width * 0.5));
+                //     if (width === 1) { mesh.position.setZ(0.1); }
+                //     mesh.userData = event.data;
+                //     // mesh.userData = {start: event.start, s: scale(event.start)};
+                //     this.meshes.push(mesh);
+                //     group.add(mesh);
+                // });
             }
         });
     }
@@ -196,5 +243,5 @@ export class TimelinesGraph implements ChartObjectInterface {
     private onMouseUp(e: ChartEvent): void { }
     private onMouseDown(e: ChartEvent): void { }
 
-    constructor() { }
+    constructor() {}
 }
