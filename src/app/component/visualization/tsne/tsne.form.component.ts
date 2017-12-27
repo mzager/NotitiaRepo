@@ -142,6 +142,7 @@ export class TsneFormComponent extends AbstractScatterForm  {
     this.form = this.fb.group({
       visualization: [],
       graph: [],
+      database: [],
       table: [],
       markerFilter: [],
       markerSelect: [],

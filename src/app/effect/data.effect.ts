@@ -101,10 +101,10 @@ export class DataEffect {
             // boxWhiskersConfig.graph = GraphEnum.GRAPH_A;
             // boxWhiskersConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
 
-            const timelinesConfig = new TimelinesConfigModel();
-            timelinesConfig.graph = GraphEnum.GRAPH_A;
-            timelinesConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
-debugger
+            // const timelinesConfig = new TimelinesConfigModel();
+            // timelinesConfig.graph = GraphEnum.GRAPH_A;
+//            timelinesConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
+
             // const graphAConfig = new PcaIncrementalConfigModel();
             // graphAConfig.graph = GraphEnum.GRAPH_B;
             // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];

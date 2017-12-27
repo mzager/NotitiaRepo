@@ -129,6 +129,7 @@ export class FastIcaFormComponent extends AbstractScatterForm {
     this.form = this.fb.group({
       visualization: [],
       graph: [],
+      database: [],
       entity: [],
       table: [],
       markerFilter: [],

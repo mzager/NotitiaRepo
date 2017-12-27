@@ -116,6 +116,7 @@ export class TimelinesFormComponent {
       dirtyFlag: [0],
       visualization: [],
       graph: [],
+      database: [],
       entity: [],
       markerFilter: [],
       markerSelect: [],

@@ -96,6 +96,7 @@ export class PathwaysFormComponent {
       dirtyFlag: [0],
       visualization: [],
       graph: [],
+      database: [],
       entity: [],
       markerFilter: [],
       markerSelect: [],

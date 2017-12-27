@@ -75,6 +75,7 @@ export class HeatmapFormComponent {
     this.form = this.fb.group({
       visualization: [],
       graph: [],
+      database: [],
       entity: [],
       table: [],
       markerFilter: [],
