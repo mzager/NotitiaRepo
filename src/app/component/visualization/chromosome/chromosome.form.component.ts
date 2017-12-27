@@ -65,7 +65,7 @@ import * as _ from 'lodash';
   <label class="center-block"><span class="form-label">Chords</span>
     <select class="browser-default" materialize="material_select"
         [compareWith]="byKey"
-        [materializeSelectOptions]="chordOption"
+        [materializeSelectOptions]="chordOptions"
         formControlName="chordOption">
         <option *ngFor="let option of chordOptions" [ngValue]="option">{{option.label}}</option>
     </select>

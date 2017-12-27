@@ -7,7 +7,7 @@ import { LinkedGeneConfigModel } from './../component/visualization/linkedgenes/
 import { FaConfigModel } from './../component/visualization/fa/fa.model';
 import { PcaKernalConfigModel } from './../component/visualization/pcakernal/pcakernal.model';
 import { PcaIncrementalConfigModel } from './../component/visualization/pcaincremental/pcaincremental.model';
-import { TcgaPanelToggleAction } from './../action/layout.action';
+import { TcgaPanelToggleAction, FilePanelToggleAction } from './../action/layout.action';
 import { DatasetService } from './../service/dataset.service';
 import { IlluminaService } from './../service/illumina.service';
 import { EdgeConfigModel } from './../component/visualization/edges/edges.model';
@@ -55,13 +55,14 @@ export class DataEffect {
         .ofType(data.DATA_LOAD_FROM_TCGA)
         .map(toPayload)
         .switchMap( (args) => {
+            // TODO: Move Into Config
             args.manifest = 'https://s3-us-west-2.amazonaws.com/notitia/tcga/tcga_' + args.disease + '_manifest.json.gz';
             return this.datasetService.load(args);
-        })
-        .mergeMap( (args) => {
+        }).
+        mergeMap( (args) => {
             return [
-                new TcgaPanelToggleAction(),
-                new DataLoadFromDexieAction(args[0])
+                new FilePanelToggleAction(),
+                new DataLoadFromDexieAction(args.disease)
             ];
         });
 
@@ -69,14 +70,14 @@ export class DataEffect {
     @Effect() dataLoadFromDexie$: Observable<DataLoadedAction> = this.actions$
         .ofType(data.DATA_LOAD_FROM_DEXIE)
         .switchMap( (args: DataLoadFromDexieAction) => {
+            // TODO: Bad Bad Bad ... Fix this one too.
+            GraphConfig.database = args.dataset;
             return Observable.fromPromise(this.datasetService.getDataset(args.dataset));
         })
         .switchMap( (args) => {
             return Observable.of(new DataLoadedAction(args.name, args.tables, args.fields, args.events));
         });
 
-    // Sweet we got the data... now we configure our views.  T
-    // this will ultimately get replaced with a wizard.
     @Effect() dataLoaded$: Observable<Action> = this.actions$
         .ofType(data.DATA_LOADED)
         .mergeMap( (args: DataLoadedAction) => {
@@ -103,7 +104,7 @@ export class DataEffect {
             const timelinesConfig = new TimelinesConfigModel();
             timelinesConfig.graph = GraphEnum.GRAPH_A;
             timelinesConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
-
+debugger
             // const graphAConfig = new PcaIncrementalConfigModel();
             // graphAConfig.graph = GraphEnum.GRAPH_B;
             // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];

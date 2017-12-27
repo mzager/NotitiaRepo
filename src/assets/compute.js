@@ -17948,7 +17948,7 @@ var ComputeWorkerUtil = (function () {
             return data.map(function (v) { return [scale(v[0]), scale(v[1]), scale(v[2])]; });
         };
         console.log("OPTIMIZE - LATE OPEN");
-        this.dbData = new dexie_1.default('notitia-dataset');
+        this.dbData = new dexie_1.default('notitia-gbm');
         this.dbLookup = new dexie_1.default('notitia');
     }
     ComputeWorkerUtil.prototype.generateCacheKey = function (config) {
@@ -18148,6 +18148,8 @@ var ComputeWorkerUtil = (function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             _this.openDatabaseData().then(function (v) {
+                map = map.replace(/ /gi, '');
+                tbl = tbl.replace(/ /gi, '');
                 _this.dbData.table(map).toArray().then(function (_samples) {
                     var query = (markers.length === 0) ?
                         _this.dbData.table(tbl) :

@@ -35,7 +35,7 @@ export class ComputeWorkerUtil {
 
     constructor() {
         console.log("OPTIMIZE - LATE OPEN");
-        this.dbData = new Dexie('notitia-dataset');
+        this.dbData = new Dexie('notitia-gbm');
         this.dbLookup = new Dexie('notitia');
     }
 
@@ -239,6 +239,8 @@ export class ComputeWorkerUtil {
     getMatrix(markers: Array<string>, samples: Array<string>, map: string, tbl: string, entity: EntityTypeEnum): Promise<any> {
         return new Promise((resolve, reject) => {
             this.openDatabaseData().then(v => {
+                map = map.replace(/ /gi, '');
+                tbl = tbl.replace(/ /gi, '');
                 this.dbData.table(map).toArray().then(_samples => {
                     const query = (markers.length === 0) ?
                         this.dbData.table(tbl) :
@@ -438,7 +440,7 @@ export class ComputeWorkerUtil {
                     if (field.ctype & CollectionTypeEnum.MOLECULAR) {
                         this.getMolecularGeneValues(markers, field).then(result => {
 
-                            console.log("Would be good to subset color by Filtered Samples / Patients...  Revisit");
+                            console.log('Would be good to subset color by Filtered Samples / Patients...  Revisit');
 
                             const geneDomain = result.reduce((p, c) => {
                                 p.min = Math.min(p.min, c.mean);
