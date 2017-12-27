@@ -87,10 +87,10 @@ export class DataService {
       requestAnimationFrame(v => {
         DataService.db.table('genemap').count().then(count => {
           if (count > 0) { return; }
-          const genecoords = this.http.get('assets/data/genecoords.json').map(res => res.json());
-          const bandcoords = this.http.get('assets/data/bandcoords.json').map(res => res.json());
-          const genemap = this.http.get('assets/data/genemap.json').map(res => res.json());
-          const genelinks = this.http.get('assets/data/genelinks.json').map(res => res.json());
+          const genecoords = this.http.get('https://s3-us-west-2.amazonaws.com/notitia/reference/genecoords.json.gz').map(res => res.json());
+          const bandcoords = this.http.get('https://s3-us-west-2.amazonaws.com/notitia/reference/bandcoords.json.gz').map(res => res.json());
+          const genemap = this.http.get('https://s3-us-west-2.amazonaws.com/notitia/reference/genemap.json.gz').map(res => res.json());
+          const genelinks = this.http.get('https://s3-us-west-2.amazonaws.com/notitia/reference/genelinks.json.gz').map(res => res.json());
 
           Observable.zip(genecoords, bandcoords, genemap, genelinks).subscribe(result => {
             const hugoLookup = result[2];
