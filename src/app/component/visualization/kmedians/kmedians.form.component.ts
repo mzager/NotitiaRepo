@@ -134,6 +134,7 @@ export class KmedianFormComponent {
     this.form = this.fb.group({
       visualization: [],
       graph: [],
+      database: [],
       dataKey: [],
       markerFilter: [],
       markerSelect: [],

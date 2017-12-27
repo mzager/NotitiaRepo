@@ -8,7 +8,7 @@ import * as _ from 'lodash';
 declare var ML: any;
 
 export const pcaIncrementalCompute = (config: PcaIncrementalConfigModel, worker: DedicatedWorkerGlobalScope): void => {
-debugger;
+
     worker.util.processShapeColorSizeIntersect(config, worker);
 
     if (config.dirtyFlag & DirtyEnum.LAYOUT) {
@@ -16,7 +16,6 @@ debugger;
         worker.util
             .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database,config.table.tbl, config.entity)
             .then(mtx => {
-debugger;
                 Promise.all([
                     worker.util.getSamplePatientMap(config.database),
                     worker.util
@@ -29,7 +28,6 @@ debugger;
                         })
                 ]).then(result => {
 
-                    debugger;
                         const psMap = result[0].reduce( (p, c) => { p[c.s] = c.p; return p; }, {});
                         const data = JSON.parse(result[1].body);
                         const resultScaled = worker.util.scale3d(data.result);

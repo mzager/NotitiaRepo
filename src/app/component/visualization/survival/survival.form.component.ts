@@ -69,6 +69,7 @@ export class SurvivalFormComponent {
      this.form = this.fb.group({
       visualization: [],
       graph: [],
+      database: [],
       dataKey: [],
       markerList: [],
       sampleList: [],

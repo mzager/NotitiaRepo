@@ -142,6 +142,7 @@ export class ChromosomeFormComponent {
       dirtyFlag: [0],
       visualization: [],
       graph: [],
+      database: [],
       entity: [],
       markerFilter: [],
       markerSelect: [],

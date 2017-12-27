@@ -17,8 +17,8 @@ import { Md5 } from 'ts-md5/dist/md5';
 
 export class ComputeWorkerUtil {
 
-    private dbData: Dexie;
-    private dbLookup: Dexie;
+    dbData: Dexie = null;
+    dbLookup: Dexie = null;
 
 
     private sizes = [1, 2, 3, 4];
@@ -35,8 +35,6 @@ export class ComputeWorkerUtil {
     //     0x5D4037, 0x455A64];
 
     constructor() {
-        console.log('OPTIMIZE - LATE OPEN');
-        this.dbLookup = new Dexie('notitia');
     }
 
     generateCacheKey(config: Object): string {
@@ -196,20 +194,29 @@ export class ComputeWorkerUtil {
     }
     openDatabaseLookup(): Promise<any> {
         return new Promise((resolve, reject) => {
-            if (this.dbLookup.isOpen()) {
-                resolve();
-            } else {
+            if (this.dbLookup === null) {
+                this.dbLookup = new Dexie('notitia');
                 this.dbLookup.open().then(resolve);
+            } else {
+                if (this.dbLookup.isOpen()) {
+                    resolve();
+                } else {
+                    this.dbLookup.open().then(resolve);
+                }
             }
         });
     }
     openDatabaseData(db): Promise<any> {
         return new Promise((resolve, reject) => {
-            if (this.dbData.isOpen()) {
-                resolve();
-            } else {
+            if (this.dbData === null) {
                 this.dbData = new Dexie('notitia-' + db);
                 this.dbData.open().then(resolve);
+            } else {
+                if (this.dbData.isOpen()) {
+                    resolve();
+                } else {
+                    this.dbData.open().then(resolve);
+                }
             }
         });
     }
