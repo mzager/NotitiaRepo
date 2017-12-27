@@ -22,9 +22,10 @@ export class DatasetService {
 
   public getDataset(dataset: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      Dexie.exists('notitia-dataset').then(exists => {
+      //Dexie.exists('notitia-dataset').then(exists => {
+      Dexie.exists('notitia-' + dataset).then(exists => {
         if (exists) {
-          DatasetService.db = new Dexie('notitia-dataset');
+          DatasetService.db = new Dexie('notitia-' + dataset);
           DatasetService.db.open().then(v => {
             DatasetService.db.table('dataset').where({ name: dataset }).first().then(result => {
               resolve(result);
@@ -63,7 +64,7 @@ export class DatasetService {
       .then(response => {
         Dexie.exists('notitia-' + manifest.disease)
           .then(exists => {
-            if (exists) { 
+            if (exists) {
               this.loader$.next(manifest);
               return;
               // Dexie.delete('notitia-' + manifest.disease);

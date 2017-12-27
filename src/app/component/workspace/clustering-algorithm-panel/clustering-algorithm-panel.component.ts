@@ -34,7 +34,7 @@ declare var ML: any;
       <div class="form-group">
         <label class="center-block"><span class="form-label">Graph</span>
           <select class="browser-default" materialize="material_select"
-            [materializeSelectOptions]="graph"
+            [materializeSelectOptions]="graphOptions"
             formControlName="graph">
               <option *ngFor="let options of graphOptions">{{options}}</option>
           </select>
