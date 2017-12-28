@@ -916,7 +916,7 @@ export class StatFactory {
         // Truncated Svd stats array
         const stats = [
             // Single Stats
-            new StatKeyValues('Miscellaneous Results', ([
+            new StatKeyValues('', ([
                 { label: 'Noise Variance:', value: data.result.noiseVariance.toFixed(2) },
                 { label: '# Components:', value: data.result.nComponents.toString() }
             ])),
@@ -936,7 +936,7 @@ export class StatFactory {
         // Sparse PCA Stats Array
         const stats = [
             // Single Stats
-            new StatKeyValues('Miscellaneous Results', ([
+            new StatKeyValues('', ([
                 { label: 'Iter:', value: data.result.iter.toFixed(2) },
             ])),
             // One Dimensional Stats
@@ -952,12 +952,12 @@ export class StatFactory {
         // Kernal PCA Stats Array
         const stats = [
             // Single Stats
-            new StatKeyValues('Miscellaneous Results', ([
-                { label: 'Lambdas', value: data.result.lambdas.toString() },
+            new StatKeyValues('', ([
+                { label: 'Lambdas', value: data.result.lambdas.toFixed(2) },
 
             ])),
             // Two Dimensional Stats
-            new StatTwoD('Alphas', data.result.alphas)
+            // new StatTwoD('Alphas', data.result.alphas)
         ];
 
         return stats;
@@ -967,13 +967,13 @@ export class StatFactory {
         // Dictionary Learning Stats Array
         const stats = [
             // Single Stats
-            new StatKeyValues('Miscellaneous Results', ([
+            new StatKeyValues('', ([
                 { label: 'nIter', value: data.result.nIter.toString() },
             ])),
             // One Dimensional Stats
             new StatOneD('Error', this.formatError(data.result.error.splice(0, 3))),
             // Two Dimensional Stats
-            new StatTwoD('Components', data.result.components)
+            // new StatTwoD('Components', data.result.components)
         ];
 
         return stats;
@@ -983,7 +983,7 @@ export class StatFactory {
         // Factor Analysis Stats Array
         const stats = [
             // Single Stats
-            new StatKeyValues('Miscellaneous Results', ([
+            new StatKeyValues('', ([
                 { label: 'nIter', value: data.result.nIter.toString() },
 
             ])),
@@ -1025,7 +1025,7 @@ export class StatFactory {
             // Single Stat
             // One Dimensional Stats
             // Two Dimensional Stats
-            new StatTwoD('Embedding', data.result.embedding)
+            // new StatTwoD('Embedding', data.result.embedding)
         ];
 
         return stats;
@@ -1035,7 +1035,7 @@ export class StatFactory {
         // Locally Linear Embedding Stats Array
         const stats = [
             // Single Stats
-            new StatKeyValues('Miscellaneous Results', ([
+            new StatKeyValues('', ([
                 { label: 'Stress', value: data.result.stress.toString() },
 
             ])),
@@ -1051,7 +1051,7 @@ export class StatFactory {
         // MDS Stats Array
         const stats = [
             // Single Stats
-            new StatKeyValues('Miscellaneous Results', ([
+            new StatKeyValues('', ([
                 { label: 'Stress', value: data.result.stress.toFixed(2) },
 
             ])),
@@ -1089,7 +1089,7 @@ export class StatFactory {
         // TSNE Stats Array
         const stats = [
             // Single Stats
-            new StatKeyValues('Miscellaneous Results', ([
+            new StatKeyValues('', ([
                 { label: 'kl Divergence', value: data.result.klDivergence.toFixed(2) },
                 { label: 'nIter', value: data.result.nIter.toString() },
 
