@@ -39,6 +39,15 @@ import * as _ from 'lodash';
       </select>
     </label>
   </div>
+  <div class="form-group">
+    <label class="center-block"><span class="form-label">Line Color</span>
+      <select class="browser-default" materialize="material_select"
+          [materializeSelectOptions]="timescaleOptions" formControlName="timescale">
+          <option *ngFor="let option of timescaleOptions"
+            [ngValue]="option">{{option}}</option>
+      </select>
+    </label>
+  </div>
   <div class="form-label" style="width:100%;padding-top:5px;"><label>Status Options</label></div>
   <div class="form-group"  *ngFor="let item of statusOptions; let i = index">
     <div class="switch">
