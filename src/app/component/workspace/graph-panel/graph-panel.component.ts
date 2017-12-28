@@ -61,6 +61,7 @@ export class GraphPanelComponent implements AfterViewInit  {
   @Input() entityType: EntityTypeEnum;
   @Input() config: GraphConfig;
   @Input() data: GraphData;
+  @Output() hide: EventEmitter<any> = new EventEmitter();
   @Output() configChange: EventEmitter<GraphConfig> = new EventEmitter();
   @Output() selectClusteringAlgorithm: EventEmitter<GraphConfig> = new EventEmitter();
   @Output() selectGeneSignature: EventEmitter<GraphConfig> = new EventEmitter();

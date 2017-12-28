@@ -73,11 +73,6 @@ export class ChartFactory {
 
     @Memoize()
     public static getColorPhong(color: number): THREE.Material {
-        // return new THREE.MeshStandardMaterial(
-        //     {
-        //         color: color, emissive: new THREE.Color(0x000000),
-        //         metalness: 0.2, roughness: .5, shading: THREE.SmoothShading
-        //     });
         const rv = new THREE.MeshPhongMaterial({
             specular: 0x000000, shininess: 1
         });
