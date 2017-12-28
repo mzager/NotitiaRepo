@@ -80,6 +80,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 patientEvents = Object.keys(patientEvents).map( v => [v, patientEvents[v].sort( (a, b) => a.start - b.start )] );
 
                 if (config.sort !== 'None') {
+                    debugger;
                     patientEvents.forEach( v => v.sortField = v[1].find(w => w.subtype === config.sort) );
                     patientEvents = patientEvents
                         .filter(v => v.sortField !== undefined)
