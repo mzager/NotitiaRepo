@@ -162,6 +162,15 @@ export const enum StatTypeEnum {
     SINGLE = 4,
     MISC = 8
 }
+export const enum StatRendererEnum {
+    HTML = 1,
+    VEGA = 2,
+    D3 = 3
+}
+export const enum StatRendererColumns {
+    SIX = 6,
+    TWELVE = 12
+}
 export const enum VisualizationEnum {
     NONE = 0,
     PCA = 1,
