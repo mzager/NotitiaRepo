@@ -1,21 +1,34 @@
 <div class="card" style="top:40px; left:10px; width:225px;height:auto; background:#FFFFFF;" [ng2-draggable]=true [ng2DraggableHandle]="titlebar">
-    <div class="card-title-bar" #titlebar style="text-align:center;background: #029BE5; color:#FFF; font-weight:normal; font-size:12px; padding:5px 10px;">
+    <div class="card-title-bar" #titlebar style="background: #029BE5; color:#FFF; font-weight:normal; font-size:12px; padding:5px 10px;text-transform:uppercase;letter-spacing:1px;">
         Layout + Edges
+        <i class="tiny material-icons" style="float: right; padding-top: 4px; cursor: pointer"
+        (click)="hide.emit()">close</i>
+    </div>
+    <div class="card-tabs">
+        <ul class="tabs tabs-fixed-width" #tabs>
+            <li class="tab">
+                <a class="active" href="#{{cid}}Settings">Settings</a>
+            </li>
+            <li class="tab">
+                <a href="#{{cid}}Summary">Summary</a>
+            </li>
+            <li class="tab">
+                <a href="#{{cid}}Legend">Legend</a>
+            </li>
+        </ul>
     </div>
     <div class="card-content">
-        <div class="card-content" style="padding:0px;">
-            <form [formGroup]="form" novalidate>
-                <div class="form-group">
-                    <label class="center-block">
-                        <span class="form-label">Layout</span>
-                        <select class="browser-default" materialize="material_select" [materializeSelectOptions]="layoutOptions" formControlName="layout">
-                            <option *ngFor="let option of layoutOptions" [value]="option">{{option}}</option>
-                        </select>
-                    </label>
-                </div>
-            </form>
-            <app-edges-form (configChange)="edgePanelSetConfig($event)" [graphAConfig]="graphAConfig" [graphBConfig]="graphBConfig" [tables]="tables"
-                [fields]="fields" [config]="config"></app-edges-form>
-        </div>
+        <form [formGroup]="form" novalidate>
+            <div class="form-group">
+                <label class="center-block">
+                    <span class="form-label">Layout</span>
+                    <select class="browser-default" materialize="material_select" [materializeSelectOptions]="layoutOptions" formControlName="layout">
+                        <option *ngFor="let option of layoutOptions" [value]="option">{{option}}</option>
+                    </select>
+                </label>
+            </div>
+        </form>
+        <app-edges-form (configChange)="edgePanelSetConfig($event)" [graphAConfig]="graphAConfig" [graphBConfig]="graphBConfig" [tables]="tables"
+            [fields]="fields" [config]="config"></app-edges-form>
     </div>
 </div>

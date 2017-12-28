@@ -23455,6 +23455,7 @@ exports.timelinesCompute = function (config, worker) {
             var patientEvents = _.groupBy(events, 'p');
             patientEvents = Object.keys(patientEvents).map(function (v) { return [v, patientEvents[v].sort(function (a, b) { return a.start - b.start; })]; });
             if (config.sort !== 'None') {
+                debugger;
                 patientEvents.forEach(function (v) { return v.sortField = v[1].find(function (w) { return w.subtype === config.sort; }); });
                 patientEvents = patientEvents
                     .filter(function (v) { return v.sortField !== undefined; })
