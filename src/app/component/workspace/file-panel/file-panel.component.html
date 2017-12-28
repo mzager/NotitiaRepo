@@ -1,15 +1,10 @@
 <div class="card" style="width:800px;height:auto; background:#FFFFFF;position:absolute;left:100px;top:100px;" [ng2-draggable]=true [ng2DraggableHandle]="titlebar">
-    <div class="card-title-bar" #titlebar style="text-align:center;background: #029BE5; color:#FFF; font-weight:normal; font-size:12px; padding:5px 10px;">
-        Data Sources
-        <!-- <a class="btn-small waves-effect waves-light" style="float:right;" (click)="filePanelToggle.emit()">
-                <i style="padding-top:4px;" class="material-icons">clear</i>
-            </a> -->
+    <div class="card-title-bar" #titlebar style="background: #029BE5; color:#FFF; font-weight:normal; font-size:12px; padding:5px 10px;text-transform:uppercase;letter-spacing:1px;">
+        Data Source
+        <i class="tiny material-icons" style="float: right; padding-top: 4px; cursor: pointer"
+            (click)="hide.emit()">close</i>
     </div>
     <div style="float:left;width:100px;border:solid 0px #efefef;border-right-width:1px;">
-        <div class="filepanel-datsource-btn" (click)='showDatasource(1)'
-            [ngClass]="{'tabSelected': tab === 1 }">
-            <img src='./assets/logo-oncoscape.png'> Oncoscape
-        </div>
         <div class="filepanel-datsource-btn" (click)='showDatasource(2)'
             [ngClass]="{'tabSelected': tab === 2 }">
             <img src='./assets/logo-tcga.png'> TCGA
@@ -21,6 +16,10 @@
         <div class="filepanel-datsource-btn" (click)='showDatasource(4)'
             [ngClass]="{'tabSelected': tab === 4 }">
             <img src='./assets/logo-basespace.png'> BaseSpace
+        </div>
+        <div class="filepanel-datsource-btn" (click)='showDatasource(1)'
+            [ngClass]="{'tabSelected': tab === 1 }">
+            <img src='./assets/logo-oncoscape.png'> Upload
         </div>
     </div>
     <div>

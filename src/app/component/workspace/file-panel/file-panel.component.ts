@@ -20,6 +20,7 @@ export class FilePanelComponent {
   @Output() filesLoad = new EventEmitter<any>();
   @Output() filePanelToggle = new EventEmitter();
   @Output() loadTcga = new EventEmitter<any>();
+  @Output() hide = new EventEmitter<any>();
   @Input() tab = 2;
 
   showDatasource(source: number): void {
