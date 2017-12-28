@@ -138,12 +138,12 @@ export class DataEffect {
             return [
                 new WorkspaceConfigAction( workspaceConfig ),
                 // new compute.LinkedGeneAction( { config: graphAConfig } ),
-                new compute.PcaIncrementalAction( { config: graphAConfig } ),
+                // new compute.PcaIncrementalAction( { config: graphAConfig } ),
                 // new compute.PcaIncrementalAction( { config: graphBConfig } ),
                 // new compute.HicAction( { config: hicConfig }),
                 // new compute.BoxWhiskersAction( { config: boxWhiskersConfig } ),
 
-                // new compute.TimelinesAction( { config: timelinesConfig}),
+                new compute.TimelinesAction( { config: timelinesConfig}),
 
                 // new compute.GenomeAction( { config: graphBConfig }),
                 //  new compute.ChromosomeAction( { config: chromosomeConfig } ),
