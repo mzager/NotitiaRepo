@@ -141,7 +141,7 @@ export class VegaFactory {
                         {
                             'type': 'formula',
                             'as': 'x_position',
-                            'expr': '0'
+                            'expr': '40'
                         },
                         {
                             'type': 'formula',
@@ -165,7 +165,7 @@ export class VegaFactory {
                     },
                     'encode': {
                         'enter': {
-                            'x': { 'field': 'x_position'},
+                            'x': { 'field': 'x_position '},
                             'y': { 'field': 'y0' },
                             'y2': { 'field': 'y1' },
                             'align': {
@@ -184,7 +184,7 @@ export class VegaFactory {
                     },
                     'encode': {
                         'enter': {
-                            'x': { 'field': 'x_position', 'offset': 100 },
+                            'x': { 'field': 'x_position', 'offset': 60 },
                             'y': { 'field': 'y0' },
                             'y2': { 'field': 'y1' },
                             'align': {
@@ -206,7 +206,7 @@ export class VegaFactory {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'config': {
                 'title': {
-                    'offset': 60,
+                    'offset': 20,
                     'fontSize': 11,
                     'color': '#9e9e9e',
                     'font': 'Lato',
@@ -217,8 +217,8 @@ export class VegaFactory {
                 'text': stat.name,
             },
             'background': 'white',
-            'width': 130,
-            'height': 100,
+            'width': 92.5,
+            'height': 130,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
             'data': [
@@ -235,131 +235,34 @@ export class VegaFactory {
             ],
             'scales': [
                 {
-                    'name': 'r',
-                    'type': 'sqrt',
-                    'domain': {
-                        'data': 'table',
-                        'field': 'value'
-                    }
-                },
-                {
                     'name': 'color',
                     'type': 'ordinal',
-                    'domain': {
-                        'data': 'table',
-                        'field': 'label',
-                    },
-                    'range': {
-                        'scheme': 'greenblue-3'
-                    }
-                }
+                    'range': {'scheme': 'greenblue-3'}
+                  }
             ],
             'marks': [
                 {
                     'type': 'arc',
-                    'from': {
-                        'data': 'table'
-                    },
+                    'from': { 'data': 'table' },
                     'encode': {
                         'enter': {
-                            'x': {
-                                'field': {
-                                    'group': 'width'
-                                },
-                                'mult': .9
-                            },
-                            'y': {
-                                'field': {
-                                    'group': 'height'
-                                },
-                                'mult': .9
-                            },
-                            'startAngle': {
-                                'field': 'startAngle'
-                            },
-                            'endAngle': {
-                                'field': 'endAngle'
-                            },
-                            'padAngle': {
-                                'value': 0.01
-                            },
-                            'innerRadius': {
-                                'value': 30
-                            },
-                            'outerRadius': {
-                                'signal': 'width / 2'
-                            },
-                            'cornerRadius': {
-                                'value': 0
-                            },
-                            'align': {
-                                'value': 'left'
-                            },
-                            'tooltip': { 'signal': 'datum.label' }
+                            'x': { 'signal': 'width / 2' },
+                            'y': { 'signal': 'height / 2' },
                         },
-                        // opacity change on hover
-                        'update': {
-                            'fill': {
-                                'scale': 'color',
-                                'field': 'value'
-                            },
-                            'fillOpacity': {
-                                'value': 1
-                            }
-                        },
-                        'hover': {
-                            'fillOpacity': {
-                                'value': 0.5
-                            },
-                            'text': {
-                                'field': 'value'
-                            }
+                            'update': {
+                                'fill': { 'scale': 'color', 'field': 'label' },
+                                'startAngle': { 'field': 'startAngle' },
+                                'endAngle': { 'field': 'endAngle' },
+                                'padAngle': {'value': 0.01},
+                                'innerRadius': { 'signal': 'width / 3' },
+                                'outerRadius': { 'signal': 'width / 2' },
+                                'cornerRadius': { 'value': 0 },
+                                'align': { 'value': 'left' },
+                                'tooltip': { 'signal': 'datum.label' }
                         }
                     }
-                },
-                // {
-                //     'type': 'text',
-                //     'from': {
-                //         'data': 'table'
-                //     },
-                //     'encode': {
-                //         'enter': {
-                //             'x': {
-                //                 'field': {
-                //                     'group': 'width'
-                //                 },
-                //                 'mult': 0.3
-                //             },
-                //             'y': {
-                //                 'field': {
-                //                     'group': 'height'
-                //                 },
-                //                 'mult': 0.3
-                //             },
-                //             'radius': {
-                //                 'scale': 'r',
-                //                 'field': 'value',
-                //                 'offset': 45
-                //             },
-                //             'theta': {
-                //                 'signal': '(datum.startAngle + datum.endAngle)/2'
-                //             },
-                //             'align': {
-                //                 'value': 'center'
-                //             },
-                //             'text': {
-                //                 'field': 'label'
-                //             },
-                //             'font': {
-                //                 'value': 'Lato'
-                //             },
-                //             'fontSize': {
-                //                 'value': 10
-                //             },
-                //             'tooltip': { 'signal': 'datum.value' }
-                //         }
-                //     }
-                // }
+
+                }
             ]
         };
         return vega;
