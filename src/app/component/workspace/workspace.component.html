@@ -14,6 +14,7 @@
     [molecularData]="molecularData | async"
     [config]="graphAConfig | async"
     [data]="graphAData | async"
+    (hide)="graphPanelToggle(1)"
     (configChange)="graphPanelSetConfig($event)"
     (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
     (selectGeneSignature)="graphPanelSelectGeneSignature($event)"
@@ -32,6 +33,7 @@
     [molecularData]="molecularData | async"
     [config]="graphBConfig | async"
     [data]="graphBData | async"
+    (hide)="graphPanelToggle(2)"
     (configChange)="graphPanelSetConfig($event)"
     (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
     (selectGeneSignature)="graphPanelSelectGeneSignature($event)"
@@ -46,6 +48,7 @@
     [config]="edgeConfig | async"
     [graphAConfig]="graphAConfig | async"
     [graphBConfig]="graphBConfig | async"
+    (hide)="edgePanelToggle()"
     (configChange)="graphPanelSetConfig($event)"
     [workspaceConfig]="workspaceConfig | async"
     (workspaceConfigChange)="workspacePanelSetConfig($event)"
@@ -73,8 +76,8 @@
 <app-workspace-file-panel
     *ngIf="filePanelTab | async" 
     (filesLoad)="filesLoad($event)"
-    (filePanelToggle)="filePanelToggle()"
     (loadTcga)="fileLoadTcga($event)"
+    (hide)="filePanelToggle()"
     ></app-workspace-file-panel>
 
 <app-workspace-query-panel 
@@ -82,13 +85,14 @@
     [clinicalFields]="clinicalFields | async"
     [molecularData]="molecularData | async"
     (queryPanelToggle)="queryPanelToggle()"
-    [configA]="graphAConfig | async"
-    [configB]="graphBConfig | async"
+    [config]="graphAConfig | async"
     (configChange)="graphPanelSetConfig($event)"
+    (hide)="queryPanelToggle()"
     style="position:absolute;left:100px;top:100px;"></app-workspace-query-panel>
 
-
-<app-workspace-tool-bar></app-workspace-tool-bar>
+<app-workspace-tool-bar
+    (graphAToggle)='graphPanelToggle(1)'
+    (graphBToggle)='graphPanelToggle(2)'></app-workspace-tool-bar>
 
 <app-application-bar 
     (filePanelToggle)="filePanelToggle()"
@@ -104,10 +108,11 @@
     (dataPanelToggle)="dataPanelToggle()"
     (toolPanelToggle)="toolPanelToggle()"
     (fileOpen)="fileOpen($event)"></app-application-bar>
-
+<!-- 
 <app-workspace-data-panel  style="position:absolute;top:30px;bottom:0px;width:100%;background:#ffffff;"
     [tables]="tables | async"
     [configA]="graphAConfig | async"
     [configB]="graphBConfig | async"
+    (hide)="dataPanelToggle()"
     *ngIf="dataPanelTab | async"></app-workspace-data-panel>
-     
+      -->

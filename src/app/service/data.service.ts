@@ -49,9 +49,21 @@ export class DataService {
       .get(DataService.API_PATH + 'z_lookup_geneset_categories')
       .map(res => res.json());
   }
-  getEvents(database: string): Promise<Array<any>> {
+  
+  getDatasetInfo(database: string): Promise<any> {
     return new Promise( (resolve, reject) => {
       const db = new Dexie('notitia-' + database);
+      db.open().then( v => {
+        v.table('dataset').toArray().then( result => {
+          resolve(result[0]);
+        });
+      });
+    });
+  }
+
+  getEvents(database: string): Promise<Array<any>> {
+    return new Promise((resolve, reject) => { 
+     const db = new Dexie('notitia-' + database);
       db.open().then( v => {
         v.table('dataset').toArray().then( result => {
           resolve(result[0].events);
