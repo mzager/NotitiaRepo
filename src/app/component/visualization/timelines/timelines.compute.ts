@@ -28,6 +28,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 if (config.align !== 'None') {
                     const align = events.filter( v => v.subtype === config.align)
                         .reduce( (p, c) => { p[c.p] = c.start; return p; }, {});
+                        
                     // Remove Rows That Don't Have Alignment Property
                     events = events.filter( v => align.hasOwnProperty(v.p));
                     // Preform Alignment
