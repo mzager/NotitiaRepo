@@ -22,134 +22,35 @@ export class QueryPanelComponent implements AfterViewInit {
 
   public static genesetsInCategory: Array<any> = [];
 
-  @Input() configA: GraphConfig;
-  @Input() configB: GraphConfig;
+  @Input() set config(config: GraphConfig){
+    this.dataService.getDatasetInfo(config.database).then( result => {
+      debugger;
+    })
+  };
   @Input() set molecularData(tables: Array<string>){
-    this.dataOptions = tables.map( v => {
-      const rv = {key: v, label: _.startCase(_.toLower(v))};
-      return rv;
-    });
-    this.dataOption = this.dataOptions[0];
+   
   }
   @Output() configChange: EventEmitter<GraphConfig> = new EventEmitter();
-
-  dataOption: {key: string, label: string};
-  dataOptions: Array<{key: string, label: string}>;
-  dimensions: ClientRect;
-  fields: Array<DataField>;
-  model: Array<ConditionModel>;
-  options = {
-    allowDrag: true,
-    allowDrop: true,
-    levelPadding: 0,
-    isExpandedField: 'expanded'
-    };
-
-  action = 'Select';
-  actions: Array<string> = ['Select', 'Deselect', 'Filter', 'Include', 'Exclude'];
-
-  entity = 'Genes';
-  entities: Array<string> = ['Samples', 'Genes'];
-
-  graph = 'Graph A';
-  graphs: Array<string> = ['Graph A', 'Graph B', 'Both Graphs'];
-
-  geneSource = 'A List of Hugo Symbols';
-  geneSources: Array<string> = ['A List of Hugo Symbols', 'A MSigDB Geneset', 'A Threshold'];
-
-  genesetCategory;
-  genesetCategories;
-
+  @Output() hide: EventEmitter<any> = new EventEmitter();
+  
+  query: Array<any> = [];
   operators: Array<string> = ['And', 'Or'];
   conditions: Array<string> = ['=', '≠', '<', '<=', '>', '>='];
 
   @Input()
   set clinicalFields(data: Array<DataField>) {
     if (data.length === 0 ) { return; }
-    this.fields = data;
+    
   }
 
   @Output() queryPanelToggle = new EventEmitter();
 
-  onGenesetCategoryLoaded(v): void {
-    QueryPanelComponent.genesetsInCategory = v;
-    $('#geneMsigInput').autocomplete({
-        data: v.reduce( (p, c) => { p[c.name.replace(/_/g, ' ')] = null; return p; }, {}),
-        limit: 10, // The max amount of results that can be shown at once. Default: Infinity.
-        onAutocomplete: function(val) {
-      },
-      minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
-    });
-  }
-
-  genesetCategoryChange(): void {
-    $('#geneMsigInput')[0].value = '';
-    //this.dataService.getGeneSetByCategory(this.genesetCategory.code).subscribe( this.onGenesetCategoryLoaded );
-  }
-
   ngAfterViewInit(): void {
-    this.dataService.getGeneSetCategories().subscribe(v => {
-      this.genesetCategories = v;
-      this.genesetCategory = v[0];
-      this.genesetCategoryChange();
-    });
-  }
-
-  execute(): void {
-    if (this.entity === 'Samples') {
-
-    }
-    if (this.entity === 'Genes') {
-
-      let genes = [];
-      switch (this.geneSource) {
-
-        case 'A List of Hugo Symbols':
-          genes = $('#geneListInput')[0].value.replace(/ +?/g, '').toUpperCase().split(',');
-          break;
-
-        case 'A MSigDB Geneset':
-          const genesetName = $('#geneMsigInput')[0].value.replace(/ +?/g, '_');
-          const genesetObject = QueryPanelComponent.genesetsInCategory.find( (e) => e.name === genesetName );
-          genes = genesetObject.hugo;
-          break;
-
-        case 'A Threshold':
-          alert('Not yet implemented');
-          break;
-      }
-
-      const configs: Array<GraphConfig> = [];
-      if (this.graph.indexOf('A') !== -1 ) {
-        configs.push(this.configA);
-      }
-      if (this.graph.indexOf('B') !== -1 ) {
-        configs.push(this.configB);
-      }
-
-      switch (this.action) {
-        case 'Select':
-          configs.forEach( v => v.markerSelect = genes );
-          break;
-        case 'Deselect':
-          // configs.forEach( v => v.markerSelect = genes );
-          break;
-        case 'Filter':
-          configs.forEach( v => v.markerFilter = genes );
-          break;
-        case 'Include':
-        case 'Exclude':
-          break;
-      }
-      configs.forEach( config => {
-        this.configChange.emit(config);
-      });
-      this.queryPanelToggle.emit();
-
-    }
+  
   }
 
   constructor(private dataService: DataService) {
+   
   }
 
 

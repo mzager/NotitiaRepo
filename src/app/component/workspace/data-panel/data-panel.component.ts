@@ -46,6 +46,9 @@ export class DataPanelComponent implements AfterViewInit {
   }
   openDatabase(): Promise<any> {
     return new Promise((resolve, reject) => {
+      if (this.db === null) { 
+        this.db = new Dexie('notitia-' + this.configA.database);
+      }
       if (this.db.isOpen()) {
         resolve();
       } else {
@@ -119,6 +122,5 @@ export class DataPanelComponent implements AfterViewInit {
   }
 
   constructor() {
-    this.db = new Dexie('notitia-dataset');
   }
 }

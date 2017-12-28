@@ -11,15 +11,16 @@ declare var dat: any;
 })
 export class ToolBarComponent implements OnInit {
 
-  @Input() selectedTool: ToolEnum;
-  @Input() selectedGraph: GraphEnum;
-  @Output() selectTool = new EventEmitter();
-  @Output() selectGraph = new EventEmitter();
-  @Output() graphAction = new EventEmitter();
+  // @Input() selectedTool: ToolEnum;
+  // @Input() selectedGraph: GraphEnum;
+  // @Output() selectTool = new EventEmitter();
+  // @Output() selectGraph = new EventEmitter();
+  // @Output() graphAction = new EventEmitter();
 
-  datParams: any;
-  datGui: any;
+  @Output() graphAToggle = new EventEmitter();
+  @Output() graphBToggle = new EventEmitter();
 
+  
   ngOnInit(): void {
 
 
