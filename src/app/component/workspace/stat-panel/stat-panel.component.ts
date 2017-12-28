@@ -1,4 +1,4 @@
-import { ChartTypeEnum } from './../../../model/enum.model';
+import { ChartTypeEnum, StatRendererEnum, StatRendererColumns } from './../../../model/enum.model';
 import { genericDonut, genericHistogram, genericViolin } from './stats-compute';
 import { StatsFactory } from './stats-factory';
 import { GraphData } from './../../../model/graph-data.model';
@@ -14,6 +14,7 @@ import { LegendPanelEnum, VisualizationEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import { values } from 'd3';
 import { VegaFactory, StatFactory, Stat } from 'app/model/stat.model';
+import { Element } from '@angular/compiler';
 
 declare var $: any;
 declare var vega: any;
@@ -38,22 +39,43 @@ export class StatPanelComponent implements AfterViewInit {
   @Input() config: GraphConfig;
   @Input() data: GraphData;
   @Input() set graphData(value: GraphData) {
+
     this.data = value;
     this.statOptions = StatFactory.getInstance().getStatObjects(value, this.config.visualization);
     if (this.statOptions === null) { return; }
 
-    const vegas = this.statOptions.map( stat => {
-      return vega.parse(VegaFactory.getInstance().getVegaObject(stat, stat.charts[0]),
-        {renderer: ('svg') });
+    // Parent Container As JQuery Object + Empty
+    const container: any = $(this.elementRef.nativeElement.firstElementChild.firstElementChild.firstElementChild);
+    container.empty();
+    
+    // Loop through the stats
+    this.statOptions.forEach( (stat, i) => { 
+      
+      // Create A div To hold the stat
+      const div = container.append('<div id="cc'+i.toString()+'" class="col ' +
+        ( (stat.columns === StatRendererColumns.SIX) ? 's6' : 's12' )
+      + '"></div>');
+
+      // Process Stat Types
+      switch (stat.renderer) {
+
+        case StatRendererEnum.VEGA:
+          const v = vega.parse(VegaFactory.getInstance().getChartObject(stat, stat.charts[0]), {renderer: ('svg') });
+          const c = new vega.View(v)
+            .initialize('#cc' + i.toString() )
+            .hover()
+            .renderer('svg')
+            .run();
+          break;
+
+        case StatRendererEnum.HTML:
+          div.append( VegaFactory.getInstance().getChartObject(stat, stat.charts[0]).toString() );
+          break;
+
+      }
+
     });
 
-    vegas.forEach( (v, i) => {
-      const c = new vega.View(v)
-      .initialize('#cc' + i.toString() )
-      .hover()
-      .renderer('svg')
-      .run();
-    });
     // generate a PNG snapshot and then download the image
     // view.toImageURL('png').then(function(url) {
     //   const link = document.createElement('a');
@@ -65,7 +87,7 @@ export class StatPanelComponent implements AfterViewInit {
   }
 
   // Constructor Called Automatically
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, public elementRef: ElementRef) { }
 
   // Ng After View Init get's called after the dom has been constructed
   ngAfterViewInit() { }

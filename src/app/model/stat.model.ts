@@ -1,5 +1,5 @@
 import { GraphData } from './graph-data.model';
-import { VisualizationEnum, StatTypeEnum, ChartTypeEnum } from 'app/model/enum.model';
+import { VisualizationEnum, StatTypeEnum, ChartTypeEnum, StatRendererEnum, StatRendererColumns } from 'app/model/enum.model';
 import * as data from 'app/action/data.action';
 import { multicast } from 'rxjs/operator/multicast';
 import { single } from 'rxjs/operator/single';
@@ -26,6 +26,8 @@ export interface Stat {
     type: StatTypeEnum;
     charts: Array<ChartTypeEnum>;
     data: any;
+    renderer: StatRendererEnum;
+    columns: StatRendererColumns;
 }
 
 // not being used
@@ -46,10 +48,14 @@ export class StatKeyValues implements Stat {
     charts: Array<ChartTypeEnum> = [ChartTypeEnum.LABEL];
     name: string;
     data: Array<{ label: string, value: string }>;
+    renderer: StatRendererEnum;
+    columns: StatRendererColumns;
 
     constructor(name: string, data: Array<{ label: string, value: string }>) {
         this.name = name;
         this.data = data;
+        this.renderer = StatRendererEnum.HTML;
+        this.columns = StatRendererColumns.TWELVE;
     }
 }
 
@@ -59,22 +65,30 @@ export class StatOneD implements Stat {
     charts: Array<ChartTypeEnum> = [ChartTypeEnum.DONUT, ChartTypeEnum.HISTOGRAM];
     name: string;
     data: Array<{ label: string, value: number, color?: number }>;
-
+    renderer: StatRendererEnum;
+    columns: StatRendererColumns;
     constructor(name: string, data: Array<{ label: string, value: number, color?: number }>) {
         this.name = name;
         this.data = data;
+        this.renderer = StatRendererEnum.VEGA;
+        this.columns = StatRendererColumns.SIX;
     }
 }
 
 // 2D Values
 export class StatTwoD implements Stat {
     readonly type = StatTypeEnum.TWO_D;
-    charts: Array<ChartTypeEnum> = [ChartTypeEnum.SCATTER, ChartTypeEnum.HISTOGRAM];
+    charts: Array<ChartTypeEnum> = [ChartTypeEnum.HISTOGRAM, ChartTypeEnum.SCATTER];
     name: string;
     data: Array<{ label: string, value: number, color?: number }>;
+    renderer: StatRendererEnum;
+    columns: StatRendererColumns;
+
     constructor(name: string, data: Array<{ label: string, value: number, color?: number }>) {
         this.name = name;
         this.data = data;
+        this.renderer = StatRendererEnum.VEGA;
+        this.columns = StatRendererColumns.SIX;
     }
 }
 
@@ -97,7 +111,7 @@ export class VegaFactory {
     Public Interface that takes the ChartType and figures which to call, EXAMPLE: if DONUT create donut with stat variable,
     that requires a name, type, chart and data
     */
-    public getVegaObject(stat: Stat, chartType: ChartTypeEnum): any {
+    public getChartObject(stat: Stat, chartType: ChartTypeEnum): any {
         return (chartType === ChartTypeEnum.DONUT) ? this.createDonut(stat) :
             (chartType === ChartTypeEnum.HISTOGRAM) ? this.createHistogram(stat) :
                 (chartType === ChartTypeEnum.PIE) ? this.createPie(stat) :
@@ -108,97 +122,106 @@ export class VegaFactory {
     }
 
     private createLabel(stat: Stat): any {
-        const values = stat.data;
-        const vega = {
-            '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
-            'config': {
-                'title': {
-                    'offset': 5,
-                    'fontSize': 13,
-                    'color': '#9e9e9e',
-                    'font': 'Lato',
-                    'orient': 'top',
-                    'anchor': 'start',
-                    'fontWeight': 'normal'
-                },
-                'mark': {
-                    'opacity': 0.4,
-                  }
-            },
-            'title': {
-                'text': stat.name
-            },
-            'background': 'white',
-            'width': 185,
-            'height': 80,
-            'padding': 0,
-            'autosize': { 'type': 'fit', 'resize': false },
-            'data': [
-                {
-                    'name': 'table',
-                    'values': values,
-                    'transform': [
-                        {
-                            'type': 'formula',
-                            'as': 'x_position',
-                            'expr': '40'
-                        },
-                        {
-                            'type': 'formula',
-                            'as': 'line_height',
-                            'expr': '20'
-                        },
-                        {
-                            'type': 'stack',
-                            'groupby': ['x_position'],
-                            'field': 'line_height',
-                            'as': ['y0', 'y1']
-                        }
-                    ]
-                }
-            ],
-            'marks': [
-                {
-                    'type': 'text',
-                    'from': {
-                        'data': 'table'
-                    },
-                    'encode': {
-                        'enter': {
-                            'x': { 'field': 'x_position '},
-                            'y': { 'field': 'y0' },
-                            'y2': { 'field': 'y1' },
-                            'align': {
-                                'value': 'left'
-                            },
-                            'text': {
-                                'signal': 'datum.label',
-                            }
-                        }
-                    }
-                },
-                {
-                    'type': 'text',
-                    'from': {
-                        'data': 'table'
-                    },
-                    'encode': {
-                        'enter': {
-                            'x': { 'field': 'x_position', 'offset': 60 },
-                            'y': { 'field': 'y0' },
-                            'y2': { 'field': 'y1' },
-                            'align': {
-                                'value': 'left'
-                            },
-                            'text': {
-                                'field': 'value'
-                            }
-                        }
-                    }
-                }
-            ]
-        };
-        return vega;
+        return "<div style='padding-bottom:5px;'>" + stat.data.reduce( (p, c) => { 
+            p += "<p><label class='stat-lbl'>" + c.label +
+                "</label><label class='stat-val'> " + c.value + '<label></p>';
+            return p;
+        }, '') + "</div>";
+        
+
+
+        // const values = stat.data;
+        // const vega = {
+        //     '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
+        //     'config': {
+        //         'title': {
+        //             'offset': 5,
+        //             'fontSize': 13,
+        //             'color': '#9e9e9e',
+        //             'font': 'Lato',
+        //             'orient': 'top',
+        //             'anchor': 'start',
+        //             'fontWeight': 'normal'
+        //         },
+        //         'mark': {
+        //             'opacity': 0.4,
+        //           }
+        //     },
+        //     'title': {
+        //         'text': stat.name
+        //     },
+        //     'background': 'white',
+        //     // 'width': 185,
+        //     // 'height': 80,
+        //     'class': 'statLabels',
+        //     'padding': 0,
+        //     'autosize': { 'type': 'none', 'resize': true },
+        //     'data': [
+        //         {
+        //             'name': 'table',
+        //             'values': values,
+        //             'transform': [
+        //                 {
+        //                     'type': 'formula',
+        //                     'as': 'x_position',
+        //                     'expr': '40'
+        //                 },
+        //                 {
+        //                     'type': 'formula',
+        //                     'as': 'line_height',
+        //                     'expr': '20'
+        //                 },
+        //                 {
+        //                     'type': 'stack',
+        //                     'groupby': ['x_position'],
+        //                     'field': 'line_height',
+        //                     'as': ['y0', 'y1']
+        //                 }
+        //             ]
+        //         }
+        //     ],
+        //     'marks': [
+        //         {
+        //             'type': 'text',
+        //             'from': {
+        //                 'data': 'table'
+        //             },
+        //             'encode': {
+        //                 'enter': {
+        //                     'x': { 'field': 'x_position '},
+        //                     'y': { 'field': 'y0' },
+        //                     'y2': { 'field': 'y1' },
+        //                     'align': {
+        //                         'value': 'left'
+        //                     },
+        //                     'text': {
+        //                         'signal': 'datum.label',
+        //                     }
+        //                 }
+        //             }
+        //         },
+        //         {
+        //             'type': 'text',
+        //             'from': {
+        //                 'data': 'table'
+        //             },
+        //             'encode': {
+        //                 'enter': {
+        //                     'x': { 'field': 'x_position', 'offset': 60 },
+        //                     'y': { 'field': 'y0' },
+        //                     'y2': { 'field': 'y1' },
+        //                     'align': {
+        //                         'value': 'left'
+        //                     },
+        //                     'text': {
+        //                         'field': 'value'
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     ]
+        // };
+        // return vega;
     }
     private createDonut(stat: Stat): any {
         const values = stat.data;
@@ -206,12 +229,14 @@ export class VegaFactory {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'config': {
                 'title': {
-                    'offset': 20,
+                    'offset': 0,
                     'fontSize': 11,
                     'color': '#9e9e9e',
                     'font': 'Lato',
-                    'fontWeight': 'normal'
+                    'fontWeight': 'normal',
+                    'orient': 'bottom'
                 }
+
             },
             'title': {
                 'text': stat.name,
@@ -779,8 +804,6 @@ export class StatFactory {
 
     private createIncrementalPca(data: GraphData): Array<Stat> {
         // IncrementalPca stats array
-        // debugger;
-
         const stats = [
             // Single Arrays
             new StatKeyValues('', ([
@@ -795,8 +818,9 @@ export class StatFactory {
             // new StatOneD('Mean', data.result.mean),
             // new StatOneD('skvars', data.result.skvars),
             // Two Dimensional Stats
-            // new StatTwoD('PCA Loadings', this.formatPCALoadings(data.result.components))
+            new StatTwoD('PCA Loadings', this.formatPCALoadings(data.markerIds, data.result.components))
         ];
+
 
         return stats;
     }
@@ -1023,9 +1047,9 @@ export class StatFactory {
         return noiseVariance.filter((v, i) => i < 10);
     }
     // Two D Recycled Data Formulas
-    formatPCALoadings(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
-        const PCALoading = data.map((v, i) => ({ label: 'PCA' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));
-        return PCALoading.filter((v, i) => i < 10);
+    formatPCALoadings(markers: Array<string>, data: Array<Array<number>>): Array<{ label: string, value: number, color?: number }> {
+        return data[0].sort( (a, b) => b-a ).splice(0, 20).map( (v, i) => ({label: markers[i], value: v} ) )
+        
     }
 
 }
