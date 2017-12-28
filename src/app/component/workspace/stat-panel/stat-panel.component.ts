@@ -1,6 +1,4 @@
 import { ChartTypeEnum, StatRendererEnum, StatRendererColumns } from './../../../model/enum.model';
-import { genericDonut, genericHistogram, genericViolin } from './stats-compute';
-import { StatsFactory } from './stats-factory';
 import { GraphData } from './../../../model/graph-data.model';
 import { INSERT_ANNOTATION } from './../../../action/graph.action';
 import { StatsInterface } from './../../../model/stats.interface';
@@ -58,7 +56,6 @@ export class StatPanelComponent implements AfterViewInit {
 
       // Process Stat Types
       switch (stat.renderer) {
-
         case StatRendererEnum.VEGA:
           const v = vega.parse(VegaFactory.getInstance().getChartObject(stat, stat.charts[0]), {renderer: ('svg') });
           const c = new vega.View(v)
@@ -67,13 +64,10 @@ export class StatPanelComponent implements AfterViewInit {
             .renderer('svg')
             .run();
           break;
-
         case StatRendererEnum.HTML:
           div.append( VegaFactory.getInstance().getChartObject(stat, stat.charts[0]).toString() );
           break;
-
       }
-
     });
 
     // generate a PNG snapshot and then download the image
