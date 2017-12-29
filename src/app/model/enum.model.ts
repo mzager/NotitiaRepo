@@ -145,6 +145,7 @@ export class EntityTypeEnum {
     static readonly PATIENT = 'Patients';
     static readonly GENE = 'Genes';
     static readonly SAMPLE = 'Samples';
+    static readonly EVENT = 'Event';
     static readonly EDGE = 'Edge';
     static readonly MIXED = 'Mixed';
 }
