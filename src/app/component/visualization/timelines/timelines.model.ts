@@ -8,7 +8,7 @@ export class TimelinesConfigModel extends GraphConfig {
     constructor() {
         super();
         this.visualization = VisualizationEnum.TIMELINES;
-        this.entity = EntityTypeEnum.PATIENT;
+        this.entity = EntityTypeEnum.EVENT;
     }
     align = 'Diagnosis';
     sort = 'Death';
