@@ -39,15 +39,6 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                     });
                 }
 
-                // Filter Toggles
-                const birth = [];
-                events = events.filter(v => {
-                    if (v.subtype === 'Birth') {
-                        birth.push(v);
-                        return false;
-                    }
-                    return true;
-                });
                 if (config.hasOwnProperty('visibleElements') && config.visibleElements !== null) {
                     const show = config.visibleElements;
                     events = events.filter(v => show[v.subtype]);
@@ -75,14 +66,17 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 if (config.entity === EntityTypeEnum.EVENT) {
 
                     patientEvents = _.groupBy(events, 'subtype');
+
                     // Process Each Event Subtype
-                    minMaxDates = Object.keys(patientEvents).map(subtype => {
+                    minMaxDates = Object.keys(patientEvents).reduce( (p, subtype) => {
                         let subtypeEvents = patientEvents[subtype];
                         subtypeEvents = subtypeEvents.sort((a, b) => a.start - b.start);
                         const first = subtypeEvents[0];
                         const last = subtypeEvents[subtypeEvents.length - 1];
-                        return { subtype: subtype, min: first.start, max: last.end };
-                    });
+                        p[subtype] = { min: first.start, max: last.end };
+                        return p;
+                    }, {});
+
                 }
 
                 if (config.entity === EntityTypeEnum.PATIENT) {

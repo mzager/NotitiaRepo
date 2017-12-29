@@ -786,7 +786,7 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('', ([
-                { label: 'Lambdas', value: data.result.lambdas.toFixed(2) },
+                // { label: 'Lambdas', value: data.result.lambdas.toFixed(2) },
 
             ])),
             // Two Dimensional Stats
