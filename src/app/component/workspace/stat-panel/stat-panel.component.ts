@@ -56,7 +56,6 @@ export class StatPanelComponent implements AfterViewInit {
 
       // Process Stat Types
       switch (stat.renderer) {
-
         case StatRendererEnum.VEGA:
           const v = vega.parse(VegaFactory.getInstance().getChartObject(stat, stat.charts[0]), {renderer: ('svg') });
           const c = new vega.View(v)
@@ -65,13 +64,10 @@ export class StatPanelComponent implements AfterViewInit {
             .renderer('svg')
             .run();
           break;
-
         case StatRendererEnum.HTML:
           div.append( VegaFactory.getInstance().getChartObject(stat, stat.charts[0]).toString() );
           break;
-
       }
-
     });
 
     // generate a PNG snapshot and then download the image
