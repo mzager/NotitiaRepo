@@ -1,0 +1,7 @@
+version: '3'
+services:
+  notitia:
+    build: .
+    ports:
+     - "80:80"
+     - "8004:8004"
