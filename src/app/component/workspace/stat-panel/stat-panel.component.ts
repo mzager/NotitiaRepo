@@ -45,10 +45,10 @@ export class StatPanelComponent implements AfterViewInit {
     // Parent Container As JQuery Object + Empty
     const container: any = $(this.elementRef.nativeElement.firstElementChild.firstElementChild.firstElementChild);
     container.empty();
-    
+
     // Loop through the stats
     this.statOptions.forEach( (stat, i) => { 
-      
+
       // Create A div To hold the stat
       const div = container.append('<div id="cc'+i.toString()+'" class="col ' +
         ( (stat.columns === StatRendererColumns.SIX) ? 's6' : 's12' )
