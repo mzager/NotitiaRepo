@@ -18,7 +18,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
             .getEventData(config.database)
             .then(events => {
 
-                const colors = worker.util.colors;
+                const colors = worker.util.colors3;
                 const legend: Legend = new Legend();
                 legend.name = 'Color';
                 legend.type = 'COLOR';
@@ -47,7 +47,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                     }
                     return true;
                 });
-                if (config.hasOwnProperty('visibleElements')) {
+                if (config.hasOwnProperty('visibleElements') && config.visibleElements !== null) {
                     const show = config.visibleElements;
                     events = events.filter(v => show[v.subtype] );
                 }
@@ -81,7 +81,6 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 patientEvents = Object.keys(patientEvents).map( v => [v, patientEvents[v].sort( (a, b) => a.start - b.start )] );
 
                 if (config.sort !== 'None') {
-                    debugger;
                     patientEvents.forEach( v => v.sortField = v[1].find(w => w.subtype === config.sort) );
                     patientEvents = patientEvents
                         .filter(v => v.sortField !== undefined)
@@ -90,9 +89,16 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
 
                 patientEvents = patientEvents.map( v => {
                     const evts = _.groupBy(v[1], 'type');
-                    evts.Status = evts.Status.sort( (a, b) => a.start - b.start );
+                    if (evts.hasOwnProperty('Status')) {
+                        evts.Status = evts.Status.sort( (a, b) => a.start - b.start );
+                    }else{
+                        evts.Status = [];
+                    }
+                    
                     if (evts.hasOwnProperty('Treatment')) {
                         evts.Treatment = evts.Treatment.sort( (a, b) => a.start - b.start );
+                    }else {
+                        evts.Treatment = [];
                     }
                     evts.id = v[0];
                     return evts;

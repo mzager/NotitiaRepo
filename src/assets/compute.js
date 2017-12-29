@@ -17898,6 +17898,8 @@ var ComputeWorkerUtil = (function () {
         this.dbLookup = null;
         this.sizes = [1, 2, 3, 4];
         this.shapes = [1 /* CIRCLE */, 2 /* SQUARE */, 4 /* TRIANGLE */, 8 /* CONE */];
+        //public colors3 = [0x880e4f, 0x311b92, 0x01579b, 0x1b5e20, 0xf57f17, 0xbf360c, 0x3e2723];
+        this.colors3 = [0xf06292, 0xba68c8, 0x9575cd, 0x7986cb, 0x64b5f6, 0x80cbc4, 0xffcc80, 0xbcaaa4];
         this.colors = [0xd50000, 0xaa00ff, 0x304ffe, 0x0091ea, 0x00bfa5, 0x64dd17, 0xffd600, 0xff6d00,
             0xff8a80, 0xea80fc, 0x8c9eff, 0x80d8ff, 0xa7ffeb, 0xccff90, 0xffff8d, 0xffd180];
         this.colors2 = [0xb71c1c, 0x880e4f, 0x4a148c, 0x311b92, 0x1a237e, 0x0d47a1, 0x01579b, 0x006064,
@@ -23400,7 +23402,7 @@ exports.timelinesCompute = function (config, worker) {
         worker.util
             .getEventData(config.database)
             .then(function (events) {
-            var colors = worker.util.colors;
+            var colors = worker.util.colors3;
             var legend = new legend_model_1.Legend();
             legend.name = 'Color';
             legend.type = 'COLOR';
@@ -23426,7 +23428,7 @@ exports.timelinesCompute = function (config, worker) {
                 }
                 return true;
             });
-            if (config.hasOwnProperty('visibleElements')) {
+            if (config.hasOwnProperty('visibleElements') && config.visibleElements !== null) {
                 var show_1 = config.visibleElements;
                 events = events.filter(function (v) { return show_1[v.subtype]; });
             }
@@ -23455,7 +23457,6 @@ exports.timelinesCompute = function (config, worker) {
             var patientEvents = _.groupBy(events, 'p');
             patientEvents = Object.keys(patientEvents).map(function (v) { return [v, patientEvents[v].sort(function (a, b) { return a.start - b.start; })]; });
             if (config.sort !== 'None') {
-                debugger;
                 patientEvents.forEach(function (v) { return v.sortField = v[1].find(function (w) { return w.subtype === config.sort; }); });
                 patientEvents = patientEvents
                     .filter(function (v) { return v.sortField !== undefined; })
@@ -23463,9 +23464,17 @@ exports.timelinesCompute = function (config, worker) {
             }
             patientEvents = patientEvents.map(function (v) {
                 var evts = _.groupBy(v[1], 'type');
-                evts.Status = evts.Status.sort(function (a, b) { return a.start - b.start; });
+                if (evts.hasOwnProperty('Status')) {
+                    evts.Status = evts.Status.sort(function (a, b) { return a.start - b.start; });
+                }
+                else {
+                    evts.Status = [];
+                }
                 if (evts.hasOwnProperty('Treatment')) {
                     evts.Treatment = evts.Treatment.sort(function (a, b) { return a.start - b.start; });
+                }
+                else {
+                    evts.Treatment = [];
                 }
                 evts.id = v[0];
                 return evts;
