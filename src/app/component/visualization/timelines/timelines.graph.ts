@@ -83,13 +83,10 @@ export class TimelinesGraph implements ChartObjectInterface {
         this.removeObjects();
         this.enable(false);
     }
-
+    // #region
     addBottomLoops(group: THREE.Group, events: Array<any>, scale: any):void{
-
         events.forEach(event => {
-
             const s = scale(event.start);
-
             if (event.start !== event.end) {
                 const e = scale(event.end);
                 const geometry = new THREE.PlaneGeometry(1, 2);
@@ -109,7 +106,6 @@ export class TimelinesGraph implements ChartObjectInterface {
                 );
                 group.add(arc);
             }
-
             const geometry = new THREE.PlaneGeometry(1, 2);
             const material = new THREE.MeshBasicMaterial({ color: event.color });
             const rect = new THREE.Mesh(geometry, material);
@@ -122,9 +118,7 @@ export class TimelinesGraph implements ChartObjectInterface {
     }
     addTopLoops(group: THREE.Group, events: Array<any>, scale: any):void{
         events.forEach(event => {
-
             const s = scale(event.start);
-
             if (event.start !== event.end) {
                 const e = scale(event.end);
                 const geometry = new THREE.PlaneGeometry(1, 2);
@@ -144,53 +138,31 @@ export class TimelinesGraph implements ChartObjectInterface {
                 );
                 group.add(arc);
             }
-
             const geometry = new THREE.PlaneGeometry(1, 2);
             const material = new THREE.MeshBasicMaterial({ color: event.color });
             const rect = new THREE.Mesh(geometry, material);
             rect.userData = event.data;
-            // rect.userData = {start: event.start};
             rect.position.set(s, 1, 0);
             this.meshes.push(rect);
             group.add(rect);
         });
     }
-    addTopBars(group: THREE.Group, events: Array<any>, scale: any):void{
+    addBars(group: THREE.Group, events: Array<any>, scale: any, y: number):void{
         const l = events.length;
-        console.log("------");
         for (let i=0; i < l; i++) {
             const s = scale(events[i].start);
             const j = i + 1;
             const e = scale( j < l ? events[j].start : events[i].end);
             let width = Math.abs(e - s);
             if (width === 0) { width = 1; }
-            const mesh = new THREE.Mesh(
+            const rect = new THREE.Mesh(
                 new THREE.PlaneGeometry(width, 2),
                 new THREE.MeshBasicMaterial({ color: events[i].color, side: THREE.DoubleSide }));
-            mesh.position.setX(s + (width * 0.5));
-            
-            mesh.userData = events[i].data;
-            this.meshes.push(mesh);
-            group.add(mesh);
+            rect.position.set(s + (width * 0.5), y, 0);
+            rect.userData = events[i].data;
+            this.meshes.push(rect);
+            group.add(rect);
         }
-        // events.forEach( (event, i)  => {
-        //     const s = scale(event.start);
-        //     events.length
-
-        //     // const xStart = Math.floor(scale(event.start));
-        //     // const xEnd = (events.length > i + 1) ? Math.floor(scale(event[i + 1].start)) : xStart + 1;
-        //     // let width = xEnd - xStart;
-        //     debugger
-        //     //     if (width === 0) { width = 1; }
-        //     //     const mesh = new THREE.Mesh(
-        //     //         new THREE.PlaneGeometry(width, 2),
-        //     //         new THREE.MeshBasicMaterial({ color: event.color, side: THREE.DoubleSide }));
-        //     //     mesh.position.setX(xStart + (width * 0.5));
-        //     //     if (width === 1) { mesh.position.setZ(0.1); }
-        //     //     mesh.userData = event.data;
-        //     //     this.meshes.push(mesh);
-        //     //     group.add(mesh);
-        // });
     }
     addDurationLine(group: THREE.Group, events: Array<any>, scale: any):void{
         const se = events.reduce( (p, c) => {
@@ -202,35 +174,46 @@ export class TimelinesGraph implements ChartObjectInterface {
         const line = ChartFactory.lineAllocate(0x029BE5, new THREE.Vector2(scale(se.min) , 0), new THREE.Vector2(scale(se.max) , 0));
         group.add(line);
     }
+
+    // #endregion
+
+    addEventBar(): void {
+
+    }
+
+
     addObjects(): void {
         const patients = this.data.result.events;
         const w = Math.round(this.view.viewport.width * 0.5);
         const halfW = Math.round(w * 0.5);
         const scale = (this.config.timescale === 'Log') ? scaleLog() : scaleLinear();
-        console.dir(this.data.result);
-        scale.domain([this.data.result.minMax.min, this.data.result.minMax.max]);
-        scale.range([-halfW, halfW]);
-        patients.forEach( (patient, i) => {
+        debugger;
 
-            // Create Group To Hold Each Patient
-            const group = new THREE.Group();
-            group.userData = patient.id;
-            group.position.setY(i * 7);
-            this.groups.push(group);
-            this.view.scene.add(group);
+        if (this.config.entity === EntityTypeEnum.PATIENT) {
+            scale.domain([this.data.result.minMax.min, this.data.result.minMax.max]);
+            scale.range([-halfW, halfW]);
+            patients.forEach( (patient, i) => {
 
-            // Events (All, Status, Treatment) 
-            let allEvents = patient.Status.concat(patient.Treatment);
-            
+                // Create Group To Hold Each Patient
+                const group = new THREE.Group();
+                group.userData = patient.id;
+                group.position.setY(i * 7);
+                this.groups.push(group);
+                this.view.scene.add(group);
 
-            this.addDurationLine(group, allEvents, scale);
-            this.addTopLoops(group, patient.Status, scale);    
-            this.addTopLoops(group, patient.Treatment, scale);
-            this.addTopBars(group, patient.Status, scale);
+                this.addDurationLine(group, patient.Status.concat(patient.Treatment), scale);
+                this.addTopLoops(group, patient.Status, scale);    
+                this.addTopLoops(group, patient.Treatment, scale);
+                // this.addBars(group, patient.Treatment, scale, 0);
+                // this.addBars(group, patient.Status, scale, 2);
 
-        });
+                // debugger;
 
+            });
+        }
     }
+
+
     removeObjects(): void {
         this.groups.forEach(group => this.view.scene.remove(group));
     }
