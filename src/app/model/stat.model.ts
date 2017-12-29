@@ -88,7 +88,7 @@ export class StatTwoD implements Stat {
         this.name = name;
         this.data = data;
         this.renderer = StatRendererEnum.VEGA;
-        this.columns = StatRendererColumns.SIX;
+        this.columns = StatRendererColumns.TWELVE;
     }
 }
 
@@ -121,107 +121,14 @@ export class VegaFactory {
                                 null;
     }
 
+    // Labels (Singles)
     private createLabel(stat: Stat): any {
         return "<div style='padding-bottom:5px;'>" + stat.data.reduce( (p, c) => { 
             p += "<p><label class='stat-lbl'>" + c.label +
                 "</label><label class='stat-val'> " + c.value + '<label></p>';
             return p;
         }, '') + "</div>";
-        
 
-
-        // const values = stat.data;
-        // const vega = {
-        //     '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
-        //     'config': {
-        //         'title': {
-        //             'offset': 5,
-        //             'fontSize': 13,
-        //             'color': '#9e9e9e',
-        //             'font': 'Lato',
-        //             'orient': 'top',
-        //             'anchor': 'start',
-        //             'fontWeight': 'normal'
-        //         },
-        //         'mark': {
-        //             'opacity': 0.4,
-        //           }
-        //     },
-        //     'title': {
-        //         'text': stat.name
-        //     },
-        //     'background': 'white',
-        //     // 'width': 185,
-        //     // 'height': 80,
-        //     'class': 'statLabels',
-        //     'padding': 0,
-        //     'autosize': { 'type': 'none', 'resize': true },
-        //     'data': [
-        //         {
-        //             'name': 'table',
-        //             'values': values,
-        //             'transform': [
-        //                 {
-        //                     'type': 'formula',
-        //                     'as': 'x_position',
-        //                     'expr': '40'
-        //                 },
-        //                 {
-        //                     'type': 'formula',
-        //                     'as': 'line_height',
-        //                     'expr': '20'
-        //                 },
-        //                 {
-        //                     'type': 'stack',
-        //                     'groupby': ['x_position'],
-        //                     'field': 'line_height',
-        //                     'as': ['y0', 'y1']
-        //                 }
-        //             ]
-        //         }
-        //     ],
-        //     'marks': [
-        //         {
-        //             'type': 'text',
-        //             'from': {
-        //                 'data': 'table'
-        //             },
-        //             'encode': {
-        //                 'enter': {
-        //                     'x': { 'field': 'x_position '},
-        //                     'y': { 'field': 'y0' },
-        //                     'y2': { 'field': 'y1' },
-        //                     'align': {
-        //                         'value': 'left'
-        //                     },
-        //                     'text': {
-        //                         'signal': 'datum.label',
-        //                     }
-        //                 }
-        //             }
-        //         },
-        //         {
-        //             'type': 'text',
-        //             'from': {
-        //                 'data': 'table'
-        //             },
-        //             'encode': {
-        //                 'enter': {
-        //                     'x': { 'field': 'x_position', 'offset': 60 },
-        //                     'y': { 'field': 'y0' },
-        //                     'y2': { 'field': 'y1' },
-        //                     'align': {
-        //                         'value': 'left'
-        //                     },
-        //                     'text': {
-        //                         'field': 'value'
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     ]
-        // };
-        // return vega;
     }
     private createDonut(stat: Stat): any {
         const values = stat.data;
@@ -243,7 +150,7 @@ export class VegaFactory {
             },
             'background': 'white',
             'width': 92.5,
-            'height': 130,
+            'height': 150,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
             'data': [
@@ -298,16 +205,20 @@ export class VegaFactory {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'config': {
                 'title': {
-                    'offset': 30,
-                    'fontSize': 12
+                    'offset': 0,
+                    'fontSize': 11,
+                    'color': '#9e9e9e',
+                    'font': 'Lato',
+                    'fontWeight': 'normal',
+                    'orient': 'bottom'
                 }
             },
             'title': {
                 'text': stat.name
             },
             'background': 'white',
-            'width': 185,
-            'height': 250,
+            'width': 200,
+            'height': 200,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
             'data': [
@@ -352,31 +263,26 @@ export class VegaFactory {
                     'encode': {
                         'ticks': {
                             'update': {
-                                'stroke': { 'value': 'black' }
+                                'stroke': { 'value': '#9e9e9e' }
                             }
                         },
                         'labels': {
                             'interactive': false,
                             'update': {
-                                'fill': { 'value': 'black' },
+                                'fill': { 'value': '#9e9e9e' },
                                 'angle': { 'value': 50 },
-                                'fontSize': { 'value': 10 },
+                                'fontSize': { 'value': 8 },
                                 'align': { 'value': '90' },
                                 'baseline': { 'value': 'middle' },
                                 'dx': { 'value': 3 }
                             },
                             'hover': {
-                                'fill': { 'value': '#333' }
-                            }
-                        },
-                        'title': {
-                            'update': {
-                                'fontSize': { 'value': 10 }
+                                'fill': { 'value': '#9e9e9e' }
                             }
                         },
                         'domain': {
                             'update': {
-                                'stroke': { 'value': '#333' },
+                                'stroke': { 'value': '#9e9e9e' },
                                 'strokeWidth': { 'value': 1.5 }
                             }
                         }
@@ -812,7 +718,7 @@ export class StatFactory {
                 { label: 'Noise Variance:', value: data.result.noiseVariance.toFixed(2) },
             ])),
             // One Dimensional Stats
-            new StatOneD('Exp Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
+            new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
             // new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
             new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues)),
             // new StatOneD('Mean', data.result.mean),
@@ -845,15 +751,15 @@ export class StatFactory {
             // Single Stats
             new StatKeyValues('', ([
                 { label: 'Noise Variance:', value: data.result.noiseVariance.toFixed(2) },
-                { label: '# Components:', value: data.result.nComponents.toString() }
+                { label: 'Components:', value: data.result.nComponents.toString() }
             ])),
             // One Dimensional Stats
             // new StatOneD('Mean', data.result.mean),
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
             // new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
-            new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues))
+            new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues)),
             // Two Dimensional Stats
-            // new StatTwoD('Components', data.result.components),
+            new StatTwoD('PCA Loadings', this.formatPCALoadings(data.markerIds, data.result.components))
         ];
 
         return stats;
@@ -869,7 +775,7 @@ export class StatFactory {
             // One Dimensional Stats
             new StatOneD('Error', this.formatError(data.result.error)),
             // Two Dimensional Stats
-            new StatTwoD('Components', data.result.components)
+            new StatTwoD('PCA Loadings', this.formatPCALoadings(data.markerIds, data.result.components))
         ];
 
         return stats;
@@ -900,7 +806,7 @@ export class StatFactory {
             // One Dimensional Stats
             new StatOneD('Error', this.formatError(data.result.error.splice(0, 3))),
             // Two Dimensional Stats
-            // new StatTwoD('Components', data.result.components)
+            new StatTwoD('PCA Loadings', this.formatPCALoadings(data.markerIds, data.result.components))
         ];
 
         return stats;
@@ -1048,8 +954,7 @@ export class StatFactory {
     }
     // Two D Recycled Data Formulas
     formatPCALoadings(markers: Array<string>, data: Array<Array<number>>): Array<{ label: string, value: number, color?: number }> {
-        return data[0].sort( (a, b) => b-a ).splice(0, 20).map( (v, i) => ({label: markers[i], value: v} ) )
-        
+        return data[0].sort( (a, b) => b - a ).splice(0, 20).map( (v, i) => ({label: markers[i], value: Math.round(v * 1e2) / 1e2 }));
     }
 
 }
