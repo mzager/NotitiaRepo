@@ -183,9 +183,9 @@ export class ChartScene {
         const dimension: ClientRect = container.getBoundingClientRect();
         this.container = container;
         this.labels = labels;
-        this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, preserveDrawingBuffer: true});
+        this.renderer = new THREE.WebGLRenderer({ antialias: false, alpha: false, preserveDrawingBuffer: true});
         this.renderer.setPixelRatio(window.devicePixelRatio);
-        this.renderer.setClearColor(0xfdfdfd, 1);
+        this.renderer.setClearColor(0xffffff, 1);
         this.renderer.autoClear = false;
 
         this.container.appendChild(this.renderer.domElement);

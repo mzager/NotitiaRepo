@@ -23422,14 +23422,14 @@ exports.timelinesCompute = function (config, worker) {
                 });
             }
             // Filter Toggles
-            var birth = [];
-            events = events.filter(function (v) {
-                if (v.subtype === 'Birth') {
-                    birth.push(v);
-                    return false;
-                }
-                return true;
-            });
+            // const birth = [];
+            // events = events.filter(v => {
+            //     if (v.subtype === 'Birth') {
+            //         birth.push(v);
+            //         return false;
+            //     }
+            //     return true;
+            // });
             if (config.hasOwnProperty('visibleElements') && config.visibleElements !== null) {
                 var show_1 = config.visibleElements;
                 events = events.filter(function (v) { return show_1[v.subtype]; });
@@ -23453,13 +23453,14 @@ exports.timelinesCompute = function (config, worker) {
             if (config.entity === enum_model_1.EntityTypeEnum.EVENT) {
                 patientEvents = _.groupBy(events, 'subtype');
                 // Process Each Event Subtype
-                minMaxDates = Object.keys(patientEvents).map(function (subtype) {
+                minMaxDates = Object.keys(patientEvents).reduce(function (p, subtype) {
                     var subtypeEvents = patientEvents[subtype];
                     subtypeEvents = subtypeEvents.sort(function (a, b) { return a.start - b.start; });
                     var first = subtypeEvents[0];
                     var last = subtypeEvents[subtypeEvents.length - 1];
-                    return { subtype: subtype, min: first.start, max: last.end };
-                });
+                    p[subtype] = { min: first.start, max: last.end };
+                    return p;
+                }, {});
             }
             if (config.entity === enum_model_1.EntityTypeEnum.PATIENT) {
                 // Should Move This Down
