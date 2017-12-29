@@ -1,7 +1,7 @@
 import { DataService } from './../../../service/data.service';
 import { TimelinesConfigModel } from './timelines.model';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { DimensionEnum, DataTypeEnum, VisualizationEnum, DirtyEnum } from 'app/model/enum.model';
+import { DimensionEnum, DataTypeEnum, VisualizationEnum, DirtyEnum, EntityTypeEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory } from './../../../model/data-field.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -12,6 +12,16 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
   <form [formGroup]="form" novalidate>
+  <div class="form-group">
+    <label class="center-block"><span class="form-label">Display</span>
+      <select class="browser-default" materialize="material_select"
+          [materializeSelectOptions]="displayOptions"
+          formControlName="entity">
+          <option *ngFor="let option of displayOptions"
+            [ngValue]="option">{{option}}</option>
+      </select>
+    </label>
+  </div>
   <div class="form-group">
     <label class="center-block"><span class="form-label">Align</span>
       <select class="browser-default" materialize="material_select"
@@ -72,6 +82,7 @@ import * as _ from 'lodash';
 })
 export class TimelinesFormComponent {
 
+  public displayOptions = [EntityTypeEnum.PATIENT, EntityTypeEnum.EVENT];
   public alignOptions = [];
   public typeOptions: Array<string>;
   public subtypeOptions: Array<string>;
