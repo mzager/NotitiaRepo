@@ -1,6 +1,6 @@
 # Notitia
 
-This repo contains Oncoscape V3 - Notitia.  This project will ultimately replace the Oncoscape cancer visualization platform, but at the present time is not ready for public contributions.  Given the size of our team and internal timelines, we will likely not be prepaired to support external collaborators until late Spring of 2018.  For questions contact michael@zager.co.
+This repo contains Oncoscape V3 - Notitia.  This project will ultimately replace the Oncoscape cancer visualization platform, but at the present time is not ready for public contributions.  Given the size of our team and internal timelines, we will likely not be prepared to support external collaborators until late Spring of 2018.  For questions contact michael@zager.co.
 
 It was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.5.  
 
