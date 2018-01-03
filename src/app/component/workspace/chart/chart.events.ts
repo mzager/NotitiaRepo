@@ -1,7 +1,9 @@
+import { WorkspaceLayoutEnum } from './../../../model/enum.model';
 import { GraphEnum } from 'app/model/enum.model';
 import { VisualizationView } from './../../../model/chart-view.model';
 import { Observable } from 'rxjs/Rx';
 import { Subject } from 'rxjs/Subject';
+import { WorkspaceConfigModel } from 'app/model/workspace.model';
 
 export class ChartEvent {
     public event: Event;
@@ -29,6 +31,8 @@ export class ChartEvents {
     private mouse: { x: number, y: number, xs: number, ys: number };
     public chart: GraphEnum;
 
+    public workspaceConfig: WorkspaceConfigModel;
+
     constructor(container: HTMLElement) {
 
         this.chart = GraphEnum.GRAPH_A;
@@ -49,12 +53,28 @@ export class ChartEvents {
             });
         this.chartFocus = this.mouseMove
             .map((event: MouseEvent) => {
-                this.chart = event.clientX < Math.floor(this.dimensions.width * 0.5) ? GraphEnum.GRAPH_A : GraphEnum.GRAPH_B;
-                this.mouse.x = (event.clientX / this.dimensions.width * 2) * 2 - 1;
-                if (this.mouse.x > 1) { this.mouse.x -= 2; }  // Assumes Left Right Orientation
-                this.mouse.y = - (event.clientY / this.dimensions.height) * 2 + 1;
+
+                if (this.workspaceConfig.layout === WorkspaceLayoutEnum.HORIZONTAL) {
+                    this.mouse.x = (event.clientX / this.dimensions.width * 2) * 2 - 1;
+                    if (this.mouse.x > 1) { this.mouse.x -= 2; }  // Assumes Left Right Orientation
+                    this.mouse.y = - (event.clientY / this.dimensions.height) * 2 + 1;
+                    this.chart = event.clientX < Math.floor(this.dimensions.width * 0.5) ? GraphEnum.GRAPH_A : GraphEnum.GRAPH_B;
+                } else if (this.workspaceConfig.layout === WorkspaceLayoutEnum.VERTICAL) {
+                    this.mouse.x = (event.clientX / this.dimensions.width) * 2 + 1;
+                    if (this.mouse.x > 1) { this.mouse.x -= 2; }
+                    this.mouse.y = (event.clientY / this.dimensions.height * 2) * 2 - 1;
+                    if (this.mouse.y > 1) { this.mouse.y -= 2; }
+                    this.chart = event.clientY < Math.floor(this.dimensions.height * 0.5) ? GraphEnum.GRAPH_A : GraphEnum.GRAPH_B;
+                } else if (this.workspaceConfig.layout === WorkspaceLayoutEnum.SINGLE) {
+                    this.mouse.y = - (event.clientY / this.dimensions.height) * 2 + 1;
+                    this.mouse.x = (event.clientX / this.dimensions.width) * 2 + 1;
+                    if (this.mouse.x > 1) { this.mouse.x -= 2; }
+                    this.chart = GraphEnum.GRAPH_A;
+                }
+
                 this.mouse.xs = event.clientX;
                 this.mouse.ys = event.clientY;
+
                 return new ChartEvent(event, this.mouse, this.chart);
             })
             .distinctUntilChanged((a, b) => a.chart === b.chart);

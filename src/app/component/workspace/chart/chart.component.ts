@@ -42,15 +42,18 @@ export class ChartComponent implements AfterViewInit {
   @ViewChild('container')
   private container: ElementRef;
 
-  @ViewChild('labels')
-  private labels: ElementRef;
+  @ViewChild('labelsA')
+  private labelsA: ElementRef;
+
+  @ViewChild('labelsB')
+  private labelsB: ElementRef;
 
   /* LIFECYCLE */
   ngAfterViewInit() {
     this.ngZone.runOutsideAngular(() => {
 
         const chartScene: ChartScene = new ChartScene();
-        chartScene.init(this.container.nativeElement, this.labels.nativeElement);
+        chartScene.init(this.container.nativeElement, this.labelsA.nativeElement, this.labelsB.nativeElement);;
         chartScene.onSelect.subscribe( (e) => {
           this.onSelect.next(e);
         });

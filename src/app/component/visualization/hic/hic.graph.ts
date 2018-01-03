@@ -36,6 +36,9 @@ export class HicGraph implements ChartObjectInterface {
 
     // Chart Elements
     private labels: HTMLElement;
+    private title: HTMLElement;
+    private overlay: HTMLElement;
+    private tooltips: HTMLElement;
     private events: ChartEvents;
     private view: VisualizationView;
     private data: HicDataModel;
@@ -56,10 +59,24 @@ export class HicGraph implements ChartObjectInterface {
 
     // Private Subscriptions
     private sMouseMove: Subscription;
-    private g252 = ["BCL6","CDC16","CFL1","CSNK1G2","LOC730668","MUS81","NCOR2","ODC1","SNORA42","ABL1","CLEC3B","FOSL2","FOXL1","IER5L","LINC00705","LOC100506474","NEDD4L","PHLDA1","RALGPS1","RIT1","RNASEH2C","RUNX1","SCARNA4","SCYL1","SECTM1","SNORA80B","TRDMT1","CDK2AP1","DST","DTYMK","EMC3","ENO1","GAS6","IGFBP5","ISCU","KLF6","LOC100506394","LOC644961","MIR125B1","MIR548AR","NOL10","NTMT1","RAB25","SART1","SART3","SF3B2","SLC45A1","TBCD","TMEM222","TRMU","VIM","AGAP1","ALDOA","ARHGDIA","ARHGEF19","ASAP1-IT1","B4GALNT3","BDH1","C17orf62","C9orf78","CEBPB","CHAMP1","CHD4","CIDECP","COTL1","CRYGS","DCXR","DPF2","FANCD2","FAU","FNBP1","FOXC2","FOXK2","GAL3ST3","GON4L","HIP1R","HIST1H2AD","HIST1H2AE","HIST1H2BF","HIST1H3D","HIST1H4H","HIST1H4I","HMGB1","IGFBP3","KAT5","KIF1A","LAMTOR2","LINC00704","LOC100506178","LRRC43","MIR645","MIRLET7BHG","MRPL49","MYL12B","NTNG2","OR6B2","POP5","PRIM2","PRR5L","RAC3","RCAN1","SET","SH2D3C","SLC27A4","SNX32","SORBS3","SRRT","STK25","SYT11","TM7SF2","TRIB2","TSC22D1","TTF2","U2AF1","UBE2V1","UBQLN4","UFSP1","UPF3A","USP20","VEGFA","VGLL4","WDR81","ZMIZ1","ZMIZ1-AS1","ZNF217","ADM","AHDC1","ASAP1","ATG4B","BCL7A","BIN3-IT1","BTN3A2","C17orf89","C1orf61","C1orf64","C1orf86","C8orf58","C9orf106","CAPN1","CDCA3","CDKN1B","CRLF1","CXCR7","DIABLO","DLEU2","DNAJB11","DNAJC1","EFHC1","EGR3","EIF5","ENTHD2","EXOSC2","FAM129B","FAM20C","FAM89B","FBXO9","FGGY","FPGS","FTSJ2","GBA2","GNB3","GPR157","GPS1","HDLBP","HIST1H2AH","HIST1H2AM","HIST1H2BH","HIST1H2BK","HIST1H2BO","HIST1H3F","HIST1H3J","HIST1H4E","HIST1H4G","HMHA1","IRF2BP2","JUN","KIAA0196","KIAA1967","KIF26B","KLF4","LAMP1","LARS2-AS1","LIMD1-AS1","LINC00961","LINC00963","LOC100131060","LOC100505806","LOC101593348","MAP3K11","MARCKS","MATR3","MIR199B","MIR3143","MIR3154","MLF2","MORN1","MRPL33","MSANTD1","MSMP","NCS1","NDUFA10","NRG2","NSMCE2","NUDT1","P4HB","PIANP","PITX3","PLOD3","POLA2","POLH","PRKAR1B","PRPF4B","PSD3","PSMG3","PSMG3-AS1","PTPN6","RASSF1","RBPJ","RCE1","RERE","RFNG","RGP1","RGS12","RRM2","RUFY4","SACM1L","SEMA5A","SH3BP4","SIK1","SLC25A25","SMAP2","SNORA65","SNORD123","SOX5","SPOCD1","SSSCA1","SSSCA1-AS1","SUN1","TBCCD1","TCF4","TGIF1","TRIOBP","USP48","USP5","WASF2","XPO5","YWHAQ","ZC3HC1","ZFP36L1","ZNF750","ZNHIT1","ZNHIT2"];
-    private g5 = ['MRPL49','RNASEH2C','USP5','PSMG3','CDC16','SRRT'];
+    // private g252 = ["BCL6","CDC16","CFL1","CSNK1G2","LOC730668","MUS81","NCOR2","ODC1","SNORA42","ABL1","CLEC3B","FOSL2","FOXL1","IER5L","LINC00705","LOC100506474","NEDD4L","PHLDA1","RALGPS1","RIT1","RNASEH2C","RUNX1","SCARNA4","SCYL1","SECTM1","SNORA80B","TRDMT1","CDK2AP1","DST","DTYMK","EMC3","ENO1","GAS6","IGFBP5","ISCU","KLF6","LOC100506394","LOC644961","MIR125B1","MIR548AR","NOL10","NTMT1","RAB25","SART1","SART3","SF3B2","SLC45A1","TBCD","TMEM222","TRMU","VIM","AGAP1","ALDOA","ARHGDIA","ARHGEF19","ASAP1-IT1","B4GALNT3","BDH1","C17orf62","C9orf78","CEBPB","CHAMP1","CHD4","CIDECP","COTL1","CRYGS","DCXR","DPF2","FANCD2","FAU","FNBP1","FOXC2","FOXK2","GAL3ST3","GON4L","HIP1R","HIST1H2AD","HIST1H2AE","HIST1H2BF","HIST1H3D","HIST1H4H","HIST1H4I","HMGB1","IGFBP3","KAT5","KIF1A","LAMTOR2","LINC00704","LOC100506178","LRRC43","MIR645","MIRLET7BHG","MRPL49","MYL12B","NTNG2","OR6B2","POP5","PRIM2","PRR5L","RAC3","RCAN1","SET","SH2D3C","SLC27A4","SNX32","SORBS3","SRRT","STK25","SYT11","TM7SF2","TRIB2","TSC22D1","TTF2","U2AF1","UBE2V1","UBQLN4","UFSP1","UPF3A","USP20","VEGFA","VGLL4","WDR81","ZMIZ1","ZMIZ1-AS1","ZNF217","ADM","AHDC1","ASAP1","ATG4B","BCL7A","BIN3-IT1","BTN3A2","C17orf89","C1orf61","C1orf64","C1orf86","C8orf58","C9orf106","CAPN1","CDCA3","CDKN1B","CRLF1","CXCR7","DIABLO","DLEU2","DNAJB11","DNAJC1","EFHC1","EGR3","EIF5","ENTHD2","EXOSC2","FAM129B","FAM20C","FAM89B","FBXO9","FGGY","FPGS","FTSJ2","GBA2","GNB3","GPR157","GPS1","HDLBP","HIST1H2AH","HIST1H2AM","HIST1H2BH","HIST1H2BK","HIST1H2BO","HIST1H3F","HIST1H3J","HIST1H4E","HIST1H4G","HMHA1","IRF2BP2","JUN","KIAA0196","KIAA1967","KIF26B","KLF4","LAMP1","LARS2-AS1","LIMD1-AS1","LINC00961","LINC00963","LOC100131060","LOC100505806","LOC101593348","MAP3K11","MARCKS","MATR3","MIR199B","MIR3143","MIR3154","MLF2","MORN1","MRPL33","MSANTD1","MSMP","NCS1","NDUFA10","NRG2","NSMCE2","NUDT1","P4HB","PIANP","PITX3","PLOD3","POLA2","POLH","PRKAR1B","PRPF4B","PSD3","PSMG3","PSMG3-AS1","PTPN6","RASSF1","RBPJ","RCE1","RERE","RFNG","RGP1","RGS12","RRM2","RUFY4","SACM1L","SEMA5A","SH3BP4","SIK1","SLC25A25","SMAP2","SNORA65","SNORD123","SOX5","SPOCD1","SSSCA1","SSSCA1-AS1","SUN1","TBCCD1","TCF4","TGIF1","TRIOBP","USP48","USP5","WASF2","XPO5","YWHAQ","ZC3HC1","ZFP36L1","ZNF750","ZNHIT1","ZNHIT2"];
+    // private g5 = ['MRPL49','RNASEH2C','USP5','PSMG3','CDC16','SRRT'];
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         this.labels = labels;
+        this.labels.innerText = '';
+
+        this.title =  <HTMLDivElement>(document.createElement('div'));
+        this.title.className = 'graph-title';
+        this.title.innerText = 'Force Directed Graph';
+        this.labels.appendChild( this.title );
+
+        this.tooltips = <HTMLDivElement>(document.createElement('div'));
+        this.tooltips.className = 'graph-tooltip';
+        this.labels.appendChild( this.tooltips );
+
+        this.overlay = <HTMLDivElement>(document.createElement('div'));
+        this.overlay.className = 'graph-overlay';
+        this.labels.appendChild( this.overlay );
         this.events = events;
         this.view = view;
         this.isEnabled = false;
@@ -94,7 +111,7 @@ export class HicGraph implements ChartObjectInterface {
         if (this.config.dirtyFlag & DirtyEnum.OPTIONS | DirtyEnum.LAYOUT) {
 
             // Remove Objects
-            this.labels.innerHTML = '';
+            this.overlay.innerHTML = '';
             if (this.chromosomeMesh !== null) {
                 this.view.scene.remove(this.chromosomeMesh);
                 this.chromosomeMesh = null;
@@ -173,9 +190,10 @@ export class HicGraph implements ChartObjectInterface {
             }, { c: 0, t: 0 });
             const scale = sl(metrics.c);
 
-            let color = 0x039BE5;
-            if (this.g252.indexOf(node.gene)>-1) color = 0x00FF00;
-            if (this.g5.indexOf(node.gene)>-1) color = 0xFF0000;
+            const color = 0x039BE5;
+            // if (this.g252.indexOf(node.gene)>-1) color = 0x00FF00;
+            // if (this.g5.indexOf(node.gene)>-1) color = 0xFF0000;
+            // node.color
             const mesh = ChartFactory.meshAllocate(color, ShapeEnum.CIRCLE, scale,
                 new THREE.Vector3(node.x, node.y, node.z), data);
 
@@ -217,7 +235,7 @@ export class HicGraph implements ChartObjectInterface {
     }
 
     removeObjects() {
-        this.labels.innerHTML = '';
+        this.overlay.innerHTML = '';
         for (let i = 0; i < this.meshes.length; i++) {
             this.view.scene.remove(this.meshes[i]);
         }
@@ -240,23 +258,23 @@ export class HicGraph implements ChartObjectInterface {
         });
         if (meshes.length < 15) {
             const html = meshes.filter(v => v.label !== undefined).map(data => {
-                return '<div class="chart-label" style="background: rgba(255, 255, 255, .5);font-size:8px;left:' + data.x + 'px;top:' + data.y +
-                    'px;position:absolute;">' + data.label + '</div>';
+                return '<div class="chart-label" style="background: rgba(255, 255, 255, .5);font-size:8px;left:' +
+                    data.x + 'px;top:' + data.y + 'px;position:absolute;">' + data.label + '</div>';
             }).reduce((p, c) => p += c, '');
-            this.labels.innerHTML = html;
+            this.tooltips.innerHTML = html;
         } else {
             const geneHit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
             if (geneHit.length > 0) {
                 const xPos = e.mouse.xs + 10;
                 const yPos = e.mouse.ys;
-                this.labels.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#FFF;padding:3px;border-radius:' +
+                this.tooltips.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#FFF;padding:3px;border-radius:' +
                     '3px;z-index:9999;position:absolute;left:' +
                     xPos + 'px;top:' +
                     yPos + 'px;">' +
                     geneHit[0].object.userData.tip + '</div>';
                 return;
             }
-            this.labels.innerHTML = '';
+            this.tooltips.innerHTML = '';
 
         }
 

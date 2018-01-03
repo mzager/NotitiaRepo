@@ -1,3 +1,4 @@
+import { MeshLine, MeshLineMaterial } from 'three.meshline';
 import { Injectable } from '@angular/core';
 import { Memoize } from 'typescript-memoize';
 import { GraphEnum, ShapeEnum, SizeEnum } from 'app/model/enum.model';
@@ -40,6 +41,25 @@ export class ChartFactory {
         line.geometry = path.createPointsGeometry(50);
         return line;
     }
+
+    public static meshLineAllocate( color: number, pt1: THREE.Vector2, pt2: THREE.Vector2, camera: any, data?: any): MeshLine {
+        const geometry = new THREE.Geometry();
+        geometry.vertices.push( new THREE.Vector3(pt1.x, pt1.y, 0) );
+        geometry.vertices.push( new THREE.Vector3(pt2.x, pt2.y, 0) );
+        const line = new MeshLine();
+        line.setGeometry(geometry);
+        const material =  new MeshLineMaterial({
+            useMap: false,
+            color: new THREE.Color( color ),
+            opacity: 1,
+            // resolution: resolution,
+            // sizeAttenuation: !false,
+            lineWidth: 2,
+            near: camera.near,
+            far: camera.far
+        });
+        return new THREE.Mesh( line.geometry, material);
+    }
     public static lineAllocate(color: number, pt1: THREE.Vector2, pt2: THREE.Vector2, data?: any): THREE.Line {
         const line = new THREE.Line();
         line.material = this.getLineColor(color);
@@ -69,6 +89,14 @@ export class ChartFactory {
         // return new THREE.MeshStandardMaterial(
         //     {color: color, emissive: new THREE.Color(0x000000),
         //     metalness: 0.5, roughness: .5, shading: THREE.SmoothShading});
+    }
+
+    @Memoize()
+    public static getColorBasic(color: number): THREE.Material {
+        return new THREE.MeshBasicMaterial({
+            color: color,
+            side: THREE.DoubleSide
+            });
     }
 
     @Memoize()
