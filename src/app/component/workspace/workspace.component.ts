@@ -144,13 +144,8 @@ export class WorkspaceComponent {
     this.fields = store.select(fromRoot.getFields);
     this.events = store.select(fromRoot.getEvents);
     this.queryData = store.select(fromRoot.getQueryData);
-<<<<<<< HEAD
-    // this.store.dispatch( new FilePanelToggleAction() );
-    this.store.dispatch( new DataLoadFromDexieAction('gbm') );
-=======
     this.store.dispatch( new FilePanelToggleAction() );
     // this.store.dispatch( new DataLoadFromDexieAction('gbm') );
->>>>>>> 509f30d337bc89668148d5a270e1fc90399bde57
   }
 
   select(selection: {type: EntityTypeEnum, ids: Array<string>}): void {
