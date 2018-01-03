@@ -29,6 +29,7 @@ export class AbstractVisualization implements ChartObjectInterface {
     }
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         this.labels = labels;
+        this.labels.innerText = '';
         this.events = events;
         this.view = view;
         this.isEnabled = false;

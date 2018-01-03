@@ -22282,14 +22282,14 @@ var d3_scale_1 = __webpack_require__(17);
 var _ = __webpack_require__(14);
 exports.genomeCompute = function (config, worker) {
     var bandColors = {
-        'gneg': 0xeceff1,
-        'gpos25': 0xcfd8dc,
-        'gpos50': 0xb0bec5,
-        'gpos75': 0xeceff1,
-        'gpos100': 0x78909c,
-        'acen': 0x039BE5,
-        'gvar': 0x607d8b,
-        'stalk': 0x546e7a
+        'gneg': 0xf1f1f1,
+        'gpos25': 0xededed,
+        'gpos50': 0xe9e9e9,
+        'gpos75': 0xe4e4e4,
+        'gpos100': 0xe0e0e0,
+        'acen': 0xdbdbdb,
+        'gvar': 0xd7d7d7,
+        'stalk': 0xd3d3d3
     };
     var ct = [
         { 'chr': '1', 'P': 0, 'C': 124300000, 'Q': 247249719 },
@@ -23394,6 +23394,7 @@ var enum_model_1 = __webpack_require__(19);
 var legend_model_1 = __webpack_require__(75);
 var _ = __webpack_require__(14);
 exports.timelinesCompute = function (config, worker) {
+    worker.util.processShapeColorSizeIntersect(config, worker);
     if (config.dirtyFlag & 32 /* OPTIONS */) {
         worker.postMessage({
             config: config,
@@ -23477,15 +23478,6 @@ exports.timelinesCompute = function (config, worker) {
                     }
                     else {
                         evts.Status = [];
-                    }
-                    var death = evts.Status.find(function (v) { return v.subtype === 'Death'; });
-                    if (evts.hasOwnProperty('Treatment')) {
-                        if (death !== null)
-                            evts.Treatment = evts.Treatment.filter(function (v) { return (v.start < death.start && v.end < death.start); });
-                        evts.Treatment = evts.Treatment.sort(function (a, b) { return a.start - b.start; });
-                    }
-                    else {
-                        evts.Treatment = [];
                     }
                     evts.id = v[0];
                     return evts;
