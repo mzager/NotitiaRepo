@@ -23421,15 +23421,6 @@ exports.timelinesCompute = function (config, worker) {
                     v.end -= align_1[v.p];
                 });
             }
-            // Filter Toggles
-            // const birth = [];
-            // events = events.filter(v => {
-            //     if (v.subtype === 'Birth') {
-            //         birth.push(v);
-            //         return false;
-            //     }
-            //     return true;
-            // });
             if (config.hasOwnProperty('visibleElements') && config.visibleElements !== null) {
                 var show_1 = config.visibleElements;
                 events = events.filter(function (v) { return show_1[v.subtype]; });

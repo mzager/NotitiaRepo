@@ -1,9 +1,12 @@
 import { GraphData } from './graph-data.model';
-import { VisualizationEnum, StatTypeEnum, ChartTypeEnum, StatRendererEnum, StatRendererColumns } from 'app/model/enum.model';
+import { VisualizationEnum, StatTypeEnum, ChartTypeEnum, StatRendererEnum, StatRendererColumns, GraphEnum } from 'app/model/enum.model';
 import * as data from 'app/action/data.action';
 import { multicast } from 'rxjs/operator/multicast';
 import { single } from 'rxjs/operator/single';
 import { values } from 'd3';
+
+declare var $: any;
+
 
 /* GENERAL note: Visualization = is the graph A/B, example PCA Fast ICA, PCA. Stat = result data coming from ski-kit
 Visalization, Graph = is what is final rendering
@@ -121,13 +124,13 @@ export class VegaFactory {
                                 null;
     }
 
-    // Labels (Singles)
+    // Labels (Singles), need to add classes
     private createLabel(stat: Stat): any {
-        return "<div style='padding-bottom:5px;'>" + stat.data.reduce( (p, c) => { 
-            p += "<p><label class='stat-lbl'>" + c.label +
-                "</label><label class='stat-val'> " + c.value + '<label></p>';
+        return '<div >' + stat.data.reduce( (p, c) => {
+            p += '<p><label>' + c.label +
+                '</label><label> ' + c.value + '<label></p>';
             return p;
-        }, '') + "</div>";
+        }, '') + '</div>';
 
     }
     private createDonut(stat: Stat): any {
@@ -143,7 +146,6 @@ export class VegaFactory {
                     'fontWeight': 'normal',
                     'orient': 'bottom'
                 }
-
             },
             'title': {
                 'text': stat.name,
@@ -161,17 +163,29 @@ export class VegaFactory {
                         {
                             'type': 'pie',
                             'field': 'value',
+                        },
+                    ]
+                },
+                {
+                    'name': 'PC',
+                    'values': values,
+                    'transform': [
+                        {
+                            'type': 'aggregate',
+                            'fields': ['value'],
+                            'ops': ['sum'],
+                            'as': ['PC_total']
                         }
                     ]
                 }
             ],
-            'scales': [
-                {
-                    'name': 'color',
-                    'type': 'ordinal',
-                    'range': {'scheme': 'greenblue-3'}
-                  }
-            ],
+        'scales': [
+            {
+                'name': 'color',
+                'type': 'ordinal',
+                'range': { 'scheme': 'greenblue-3' }
+            }
+        ],
             'marks': [
                 {
                     'type': 'arc',
@@ -181,22 +195,50 @@ export class VegaFactory {
                             'x': { 'signal': 'width / 2' },
                             'y': { 'signal': 'height / 2' },
                         },
-                            'update': {
-                                'fill': { 'scale': 'color', 'field': 'label' },
-                                'startAngle': { 'field': 'startAngle' },
-                                'endAngle': { 'field': 'endAngle' },
-                                'padAngle': {'value': 0.01},
-                                'innerRadius': { 'signal': 'width / 3' },
-                                'outerRadius': { 'signal': 'width / 2' },
-                                'cornerRadius': { 'value': 0 },
-                                'align': { 'value': 'left' },
-                                'tooltip': { 'signal': 'datum.label' }
+                        'update': {
+                            'fill': { 'scale': 'color', 'field': 'label' },
+                            'startAngle': { 'field': 'startAngle' },
+                            'endAngle': { 'field': 'endAngle' },
+                            'padAngle': { 'value': 0.01 },
+                            'innerRadius': { 'signal': 'width / 3' },
+                            'outerRadius': { 'signal': 'width / 2' },
+                            'cornerRadius': { 'value': 0 },
+                            'align': { 'value': 'left' },
+                            // 'tooltip': { 'signal': 'datum.label' }
                         }
                     }
 
+                },
+                {
+                    'type': 'text',
+                    'from': { 'data': 'PC' },
+                    'encode': {
+                        'enter': {
+                            'x': { 'signal': 'width / 2' },
+                            'y': { 'signal': 'height / 2' },
+                            'fill': { 'value': '#9e9e9e' },
+                            'align': { 'value': 'center' },
+                            'baseline': { 'value': 'right' },
+                            'text': { 'field': 'PC_total' },
+                        }
+                    }
+                },
+                {
+                    'type': 'text',
+                    'from': { 'data': 'table' },
+                    'encode': {
+                        'enter': {
+                            'x': {'field': 'startAngle'},
+                            'y': {'signal': 'height / 2'},
+                            'align': {'value': 'center'},
+                            'baseline': {'value': 'middle'},
+                            'fill': { 'value': '#9e9e9e' },
+                            'text': { 'field': 'datum.label' },
+                        }
+                    }
                 }
             ]
-        };
+    };
         return vega;
     }
     private createHistogram(stat: Stat): any {
@@ -721,13 +763,12 @@ export class StatFactory {
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
             // new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
             new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues)),
-            // new StatOneD('Mean', data.result.mean),
-            // new StatOneD('skvars', data.result.skvars),
+            new StatOneD('Mean', this.formatMean(data.result.mean)),
             // Two Dimensional Stats
             new StatTwoD('PCA Loadings', this.formatPCALoadings(data.markerIds, data.result.components))
         ];
 
-
+        stats[3].charts = [ChartTypeEnum.HISTOGRAM];
         return stats;
     }
 
@@ -785,14 +826,11 @@ export class StatFactory {
         // Kernal PCA Stats Array
         const stats = [
             // Single Stats
-            new StatKeyValues('', ([
-                // { label: 'Lambdas', value: data.result.lambdas.toFixed(2) },
-
-            ])),
+            // One Dimensional Stats
+            new StatOneD('Lambdas', this.formatLambdas(data.result.lambdas))
             // Two Dimensional Stats
             // new StatTwoD('Alphas', data.result.alphas)
         ];
-
         return stats;
     }
 
@@ -935,13 +973,17 @@ export class StatFactory {
         return stats;
     }
 
-    // One D Recycled Data Formulas
+    // One D Recycled Data Formulas, repeating possibly redo
     formatPrincipleComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
-        return data.map((v, i) => ({ label: 'PC' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));
+        return data.map((v, i) => ({ label: 'PC' + (i + 1), value: (Math.round( v * 100 ) / 100)  }));
     }
 
     formatError(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
         const error = data.map((v, i) => ({ label: 'Error' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));
+        return error.filter((v, i) => i < 10);
+    }
+    formatLambdas(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
+        const error = data.map((v, i) => ({ label: 'Lambda' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));
         return error.filter((v, i) => i < 10);
     }
     formatLoglike(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
@@ -950,6 +992,10 @@ export class StatFactory {
     }
     formatNoiseVariance(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
         const noiseVariance = data.map((v, i) => ({ label: 'Noise Var' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));
+        return noiseVariance.filter((v, i) => i < 10);
+    }
+    formatMean(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
+        const noiseVariance = data.map((v, i) => ({ label: 'Mean' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));
         return noiseVariance.filter((v, i) => i < 10);
     }
     // Two D Recycled Data Formulas
