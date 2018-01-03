@@ -83,7 +83,7 @@ export class DataEffect {
         .mergeMap( (args: DataLoadedAction) => {
 
             const workspaceConfig = new WorkspaceConfigModel();
-            workspaceConfig.layout = WorkspaceLayoutEnum.SINGLE;
+            workspaceConfig.layout = WorkspaceLayoutEnum.HORIZONTAL;
 
             // const pathwaysConfig = new PathwaysConfigModel();
             // pathwaysConfig.graph = GraphEnum.GRAPH_A;
