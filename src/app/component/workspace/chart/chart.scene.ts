@@ -71,6 +71,7 @@ export class ChartScene {
     public set workspaceConfig(value: WorkspaceConfigModel) {
         if ( !value.hasOwnProperty('layout')  ) { return; }
         this.workspace = value;
+        this.events.workspaceConfig = value;
         this.onResize();
         this.render();
     }
@@ -297,7 +298,7 @@ export class ChartScene {
 
         // If None
         if (config.visualization === VisualizationEnum.NONE) {
-            if (view.chart !== null) { 
+            if (view.chart !== null) {
                 view.chart.onRequestRender.unsubscribe();
                 view.chart.onConfigEmit.unsubscribe();
                 view.chart.destroy(); }

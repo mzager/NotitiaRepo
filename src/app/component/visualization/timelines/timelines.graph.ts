@@ -190,7 +190,7 @@ export class TimelinesGraph implements ChartObjectInterface {
             const rect = new THREE.Mesh(
                 new THREE.PlaneGeometry(width, height),
                 new THREE.MeshBasicMaterial({ color: events[i].color, side: THREE.DoubleSide }));
-            rect.position.set(s + (width * 0.5), y, 0);
+            rect.position.set(s + (width * 0.5), y, -1);
             rect.userData = events[i];
             this.meshes.push(rect);
             group.add(rect);
@@ -248,6 +248,7 @@ export class TimelinesGraph implements ChartObjectInterface {
                             this.addContinuousBars(group, subtypes[subtype], scale, (type === 'Status') ? 0 : 2);
                             break;
                         case TimelinesStyle.SYMBOLS:
+                            this.addSymbols(group, subtypes[subtype], scale, 3);
                             break;
                     }
                 }
@@ -276,16 +277,16 @@ export class TimelinesGraph implements ChartObjectInterface {
                 if (patient.hasOwnProperty('Status')) {
                     switch (this.config.statusStyle) {
                         case TimelinesStyle.TICKS:
-                            this.addTics(group, patient.Status, scale, 4);
+                            this.addTics(group, patient.Status, scale, 3);
                             break;
                         case TimelinesStyle.ARCS:
-                            this.addArcs(group, patient.Status, scale, 4);
+                            this.addArcs(group, patient.Status, scale, 3);
                             break;
                         case TimelinesStyle.CONTINUOUS:
                             this.addContinuousBars(group, patient.Status, scale, 0);
                             break;
                         case TimelinesStyle.SYMBOLS:
-                            this.addSymbols(group, patient.Status, scale, 4);
+                            this.addSymbols(group, patient.Status, scale, 3);
                             break;
                     }
                 }
@@ -352,7 +353,9 @@ export class TimelinesGraph implements ChartObjectInterface {
                 const yPos = e.mouse.ys;
                 const data = hit[0].object.userData.data;
                 const tip = Object.keys(data).reduce((p, c) => {
-                    p += c + ': ' + data[c].toLowerCase() + '<br />';
+                    if (data[c].trim().length > 0) {
+                        p += c + ': ' + data[c].toLowerCase() + '<br />';
+                    }
                     return p;
                 }, '');
                 this.tooltips.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#DDD;padding:5px;border-radius:' +
