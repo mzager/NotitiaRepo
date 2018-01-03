@@ -186,7 +186,7 @@ export class ChartScene {
         this.container = container;
         this.labelsA = labelsA;
         this.labelsB = labelsB;
-        this.renderer = new THREE.WebGLRenderer({ antialias: false, alpha: false, preserveDrawingBuffer: true});
+        this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, preserveDrawingBuffer: true});
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setClearColor(0xffffff, 1);
         this.renderer.autoClear = false;
@@ -245,14 +245,14 @@ export class ChartScene {
             view.controls.addEventListener( 'change', this.render );
 
             // Lighting
-            view.scene.add(new THREE.AmbientLight(0xaaaaaa, .3));
-            let dirLight = new THREE.DirectionalLight(0xffffff, .5);
-            dirLight.position.set(10, 0, 20);
-            view.scene.add(dirLight);
-            dirLight = new THREE.DirectionalLight(0xffffff, .5);
-            dirLight.position.set(-10, 0, -20);
-            view.scene.add(dirLight);
-            view.scene.add( new THREE.HemisphereLight( 0xFFFFFF, 0xFFFFFF, .4 ) );
+            //view.scene.add(new THREE.AmbientLight(0xaaaaaa, .3));
+            // let dirLight = new THREE.DirectionalLight(0xffffff, .5);
+            // dirLight.position.set(10, 0, 20);
+            // view.scene.add(dirLight);
+            // dirLight = new THREE.DirectionalLight(0xffffff, .5);
+            // dirLight.position.set(-10, 0, -20);
+            // view.scene.add(dirLight);
+            view.scene.add( new THREE.HemisphereLight( 0xBBBBBB, 0xFFFFFF, 1 ) );
             return view;
         });
 
@@ -306,7 +306,7 @@ export class ChartScene {
             if (view.chart !== null) {
                 view.chart.onRequestRender.unsubscribe();
                 view.chart.onConfigEmit.unsubscribe();
-                view.chart.destroy(); 
+                view.chart.destroy();
             }
             view.chart = null;
             view.config = config;
@@ -326,6 +326,8 @@ export class ChartScene {
             if (view.chart !== null) { view.chart.destroy(); }
             view.chart = this.getChartObject(config.visualization).create(
                 (config.graph === GraphEnum.GRAPH_A) ? this.labelsA : this.labelsB, this.events, view);
+            view.controls.reset();
+            
             view.chart.onRequestRender.subscribe(this.render);
             view.chart.onConfigEmit.subscribe(this.config);
         }
