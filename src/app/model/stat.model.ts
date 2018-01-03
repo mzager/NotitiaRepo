@@ -184,6 +184,11 @@ export class VegaFactory {
             ],
             'scales': [
                 {
+                    'name': 'r',
+                    'type': 'sqrt',
+                    'domain': {'data': 'table', 'field': 'value'}
+                  },
+                {
                     'name': 'color',
                     'type': 'ordinal',
                     'range': { 'scheme': 'greenblue-3' }
@@ -198,17 +203,15 @@ export class VegaFactory {
                         'enter': {
                             'x': { 'signal': 'width / 2' },
                             'y': { 'signal': 'height / 2' },
-                        },
-                        'update': {
                             'fill': { 'scale': 'color', 'field': 'label' },
                             'startAngle': { 'field': 'startAngle' },
                             'endAngle': { 'field': 'endAngle' },
                             'padAngle': { 'value': 0.01 },
-                            'innerRadius': { 'signal': 'width / 3' },
+                            'innerRadius': { 'value': 26 },
                             'outerRadius': { 'signal': 'width / 2' },
                             'cornerRadius': { 'value': 0 },
                             'align': { 'value': 'left' }
-                        }
+                        },
                     }
                 },
                 {
@@ -222,6 +225,7 @@ export class VegaFactory {
                             'align': { 'value': 'center' },
                             'baseline': { 'value': 'right' },
                             'text': { 'field': 'PC_total' },
+                            'fontSize': {'value': 8},
                         }
                     }
                 },
@@ -230,13 +234,16 @@ export class VegaFactory {
                     'from': { 'data': 'table' },
                     'encode': {
                         'enter': {
-                            'x': { 'signal': 'width / 4' },
-                            'y': { 'signal': 'height / 4' },
-                            'align': {'value': 'center'},
+                            'text': { 'signal': 'datum.label' },
+                            'x': {'signal': 'width / 2'},
+                            'y': {'signal': 'height / 2'},
+                            'radius': {'value': 35},
+                            'theta': {'signal': "(datum['startAngle'] + datum['endAngle'])/2" },
                             'baseline': {'value': 'middle'},
+                            'align': {'value': 'center'},
                             'fill': { 'value': '#9e9e9e' },
-                            'fontSize': {'value': 8},
-                            'text': { 'field': 'label' },
+                            'fontSize': {'value': 6},
+                            'font': {'value': 'Lato'},
                         }
                     }
                 }
