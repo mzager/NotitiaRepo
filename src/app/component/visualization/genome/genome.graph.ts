@@ -32,6 +32,9 @@ export class GenomeGraph implements ChartObjectInterface {
 
     // Chart Elements
     private labels: HTMLElement;
+    private title: HTMLElement;
+    private overlay: HTMLElement;
+    private tooltips: HTMLElement;
     private events: ChartEvents;
     private view: VisualizationView;
     private data: GenomeDataModel;
@@ -54,6 +57,18 @@ export class GenomeGraph implements ChartObjectInterface {
         view.camera.position.set(0, 0, 1000);
         view.camera.rotation.setFromVector3( new THREE.Vector3(0, 0, 0) );
         this.labels = labels;
+        this.title =  <HTMLDivElement>(document.createElement('div'));
+        this.title.className = 'graph-title';
+        this.title.innerText = 'Genome';
+        this.labels.appendChild( this.title );
+
+        this.tooltips = <HTMLDivElement>(document.createElement('div'));
+        this.tooltips.className = 'graph-tooltip';
+        this.labels.appendChild( this.tooltips );
+
+        this.overlay = <HTMLDivElement>(document.createElement('div'));
+        this.overlay.className = 'graph-overlay';
+        this.labels.appendChild( this.overlay );
         this.events = events;
         this.view = view;
         this.isEnabled = false;
@@ -161,7 +176,7 @@ export class GenomeGraph implements ChartObjectInterface {
                         (band.tag === 'acen' && band.arm === 'P') ? 0 : .5,
                         (band.tag === 'acen' && band.arm === 'Q') ? 0 : .5,
                          band.l);
-                const material: THREE.Material = ChartFactory.getColorMetal(band.c);
+                const material: THREE.Material = ChartFactory.getColorPhong(band.c);
                 const mesh: THREE.Mesh = new THREE.Mesh(geometry, material);
                 mesh.userData.type = GenomicEnum.CYTOBAND;
                 mesh.position.set(0, (yPos + (band.l / 2)) - centro, 0);
@@ -234,9 +249,10 @@ export class GenomeGraph implements ChartObjectInterface {
         let hits;
         const geneHit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
         if (geneHit.length > 0) {
-            const xPos = e.mouse.xs + 10;
+            let xPos = e.mouse.xs + 10;
             const yPos = e.mouse.ys;
-            this.labels.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#FFF;padding:3px;border-radius:' +
+            if (this.config.graph === GraphEnum.GRAPH_B) { xPos -= this.view.viewport.width; }
+            this.tooltips.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#FFF;padding:3px;border-radius:' +
                 '3px;z-index:9999;position:absolute;left:' +
                 xPos + 'px;top:' +
                 yPos + 'px;">' +
@@ -249,22 +265,23 @@ export class GenomeGraph implements ChartObjectInterface {
             const kids = this.arms[keys[i]].children;
             hits = ChartUtil.getIntersects(this.view, e.mouse, kids);
             if (hits.length > 0) {
-                const xPos = e.mouse.xs + 10;
+                let xPos = e.mouse.xs + 10;
                 const yPos = e.mouse.ys;
-                this.labels.innerHTML = '<div style="background:rgba(255,255,255,.8);padding:3px;border-radius:3px;' +
+                if (this.config.graph === GraphEnum.GRAPH_B) { xPos -= this.view.viewport.width; }
+                this.tooltips.innerHTML = '<div style="background:rgba(255,255,255,.8);padding:3px;border-radius:3px;' +
                     'z-index:9999;position:absolute;left:' +
                     xPos + 'px;top:' +
                     yPos + 'px;">' +
                     hits[0].object.userData.tip + '</div>';
                 break;
             } else {
-                this.labels.innerHTML = '';
+                this.tooltips.innerHTML = '';
             }
         }
     }
 
     hideLabels() {
-        this.labels.innerHTML = '';
+        this.tooltips.innerHTML = '';
     }
 
     constructor() { }

@@ -60,7 +60,8 @@ export class ChartScene {
         new EventEmitter<{type: EntityTypeEnum, ids: Array<string>}>();
     private workspace: WorkspaceConfigModel;
     private container: HTMLElement;
-    private labels: HTMLElement;
+    private labelsA: HTMLElement;
+    private labelsB: HTMLElement;
     private events: ChartEvents;
     public renderer: WebGLRenderer;
     private views: Array<VisualizationView>;
@@ -177,12 +178,13 @@ export class ChartScene {
         this.render();
     }
 
-    public init(container: HTMLElement, labels: HTMLElement) {
+    public init(container: HTMLElement, labelsA: HTMLElement, labelsB: HTMLElement) {
         window.addEventListener('resize', this.onResize.bind(this));
 
         const dimension: ClientRect = container.getBoundingClientRect();
         this.container = container;
-        this.labels = labels;
+        this.labelsA = labelsA;
+        this.labelsB = labelsB;
         this.renderer = new THREE.WebGLRenderer({ antialias: false, alpha: false, preserveDrawingBuffer: true});
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setClearColor(0xffffff, 1);
@@ -315,13 +317,10 @@ export class ChartScene {
         if (view.config.visualization !== config.visualization) {
             view.config.visualization = config.visualization;
             if (view.chart !== null) { view.chart.destroy(); }
-            // view.camera.position.set(0, 0, 1000);
-            // view.camera.rotation.setFromVector3( new THREE.Vector3(0, 0, 0) );
-
-            view.chart = this.getChartObject(config.visualization).create(this.labels, this.events, view);
+            view.chart = this.getChartObject(config.visualization).create(
+                (config.graph === GraphEnum.GRAPH_A) ? this.labelsA : this.labelsB, this.events, view);
             view.chart.onRequestRender.subscribe(this.render);
             view.chart.onConfigEmit.subscribe(this.config);
-            //view.chart.onSelect.subscribe( this.select );
         }
 
         view.chart.update(config, data);
