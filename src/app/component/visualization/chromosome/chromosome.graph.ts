@@ -57,6 +57,9 @@ export class ChromosomeGraph implements ChartObjectInterface {
 
     // Chart Elements
     private labels: HTMLElement;
+    private title: HTMLElement;
+    private overlay: HTMLElement;
+    private tooltips: HTMLElement;
     private events: ChartEvents;
     private view: VisualizationView;
     private data: ChromosomeDataModel;
@@ -82,6 +85,19 @@ export class ChromosomeGraph implements ChartObjectInterface {
 
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         this.labels = labels;
+        this.labels.innerText = '';
+        this.title =  <HTMLDivElement>(document.createElement('div'));
+        this.title.className = 'graph-title';
+        this.title.innerText = 'Chromosome';
+        this.labels.appendChild( this.title );
+
+        this.tooltips = <HTMLDivElement>(document.createElement('div'));
+        this.tooltips.className = 'graph-tooltip';
+        this.labels.appendChild( this.tooltips );
+
+        this.overlay = <HTMLDivElement>(document.createElement('div'));
+        this.overlay.className = 'graph-overlay';
+        this.labels.appendChild( this.overlay );
         this.events = events;
         this.view = view;
         this.isEnabled = false;
@@ -443,26 +459,26 @@ export class ChromosomeGraph implements ChartObjectInterface {
                     centerLine + 'px;top:' + data.y +
                     'px;width:300px;position:absolute;">' + data.label + '</div>';
             }).reduce((p, c) => p += c, '');
-            this.labels.innerHTML = html;
+            this.overlay.innerHTML = html;
         } else {
             const geneHit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
             if (geneHit.length > 0) {
                 const xPos = e.mouse.xs + 10;
                 const yPos = e.mouse.ys;
-                this.labels.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#fff;padding:3px;border-radius:' +
+                this.overlay.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#fff;padding:3px;border-radius:' +
                     '3px;z-index:9999;position:absolute;font-size:10px;left:' +
                     xPos + 'px;top:' +
                     yPos + 'px;">' +
                     geneHit[0].object.userData.tip + '</div>';
                 return;
             } else {
-                this.labels.innerHTML = '';
+                this.overlay.innerHTML = '';
             }
         }
     }
 
     hideLabels() {
-        this.labels.innerHTML = '';
+        this.overlay.innerHTML = '';
     }
 
     constructor() { }
