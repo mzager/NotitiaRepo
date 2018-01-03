@@ -5,9 +5,6 @@ import { multicast } from 'rxjs/operator/multicast';
 import { single } from 'rxjs/operator/single';
 import { values } from 'd3';
 
-declare var $: any;
-
-
 /* GENERAL note: Visualization = is the graph A/B, example PCA Fast ICA, PCA. Stat = result data coming from ski-kit
 Visalization, Graph = is what is final rendering
 */
@@ -112,7 +109,7 @@ export class VegaFactory {
 
     /*
     Public Interface that takes the ChartType and figures which to call, EXAMPLE: if DONUT create donut with stat variable,
-    that requires a name, type, chart and data
+    that requires a name, type, chart, data, renderer and columns
     */
     public getChartObject(stat: Stat, chartType: ChartTypeEnum): any {
         return (chartType === ChartTypeEnum.DONUT) ? this.createDonut(stat) :
@@ -124,7 +121,7 @@ export class VegaFactory {
                                 null;
     }
 
-    // Labels (Singles), need to add classes
+    // Labels (Singles), need to add classes to apply CSS
     private createLabel(stat: Stat): any {
         return '<div >' + stat.data.reduce( (p, c) => {
             p += '<p><label>' + c.label +
@@ -175,17 +172,24 @@ export class VegaFactory {
                             'fields': ['value'],
                             'ops': ['sum'],
                             'as': ['PC_total']
+                        },
+                        {
+                            'type': 'formula',
+                            'field': 'PC_total',
+                            'expr': '(datum.PC_total * 100) / 100',
+                            'as': ['PC_total']
                         }
                     ]
                 }
             ],
-        'scales': [
-            {
-                'name': 'color',
-                'type': 'ordinal',
-                'range': { 'scheme': 'greenblue-3' }
-            }
-        ],
+            'scales': [
+                {
+                    'name': 'color',
+                    'type': 'ordinal',
+                    'range': { 'scheme': 'greenblue-3' }
+                }
+            ],
+
             'marks': [
                 {
                     'type': 'arc',
@@ -203,11 +207,9 @@ export class VegaFactory {
                             'innerRadius': { 'signal': 'width / 3' },
                             'outerRadius': { 'signal': 'width / 2' },
                             'cornerRadius': { 'value': 0 },
-                            'align': { 'value': 'left' },
-                            // 'tooltip': { 'signal': 'datum.label' }
+                            'align': { 'value': 'left' }
                         }
                     }
-
                 },
                 {
                     'type': 'text',
@@ -228,12 +230,13 @@ export class VegaFactory {
                     'from': { 'data': 'table' },
                     'encode': {
                         'enter': {
-                            'x': {'field': 'startAngle'},
-                            'y': {'signal': 'height / 2'},
+                            'x': { 'signal': 'width / 4' },
+                            'y': { 'signal': 'height / 4' },
                             'align': {'value': 'center'},
                             'baseline': {'value': 'middle'},
                             'fill': { 'value': '#9e9e9e' },
-                            'text': { 'field': 'datum.label' },
+                            'fontSize': {'value': 8},
+                            'text': { 'field': 'label' },
                         }
                     }
                 }
@@ -763,7 +766,7 @@ export class StatFactory {
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
             // new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
             new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues)),
-            new StatOneD('Mean', this.formatMean(data.result.mean)),
+            // new StatOneD('Mean', this.formatMean(data.result.mean)),
             // Two Dimensional Stats
             new StatTwoD('PCA Loadings', this.formatPCALoadings(data.markerIds, data.result.components))
         ];
