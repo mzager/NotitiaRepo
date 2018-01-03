@@ -146,7 +146,6 @@ export class WorkspaceComponent {
     this.queryData = store.select(fromRoot.getQueryData);
     this.store.dispatch( new FilePanelToggleAction() );
     // this.store.dispatch( new DataLoadFromDexieAction('gbm') );
-    
   }
 
   select(selection: {type: EntityTypeEnum, ids: Array<string>}): void {

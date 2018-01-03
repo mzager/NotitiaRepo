@@ -7,7 +7,7 @@ import { LinkedGeneConfigModel } from './../component/visualization/linkedgenes/
 import { FaConfigModel } from './../component/visualization/fa/fa.model';
 import { PcaKernalConfigModel } from './../component/visualization/pcakernal/pcakernal.model';
 import { PcaIncrementalConfigModel } from './../component/visualization/pcaincremental/pcaincremental.model';
-import { TcgaPanelToggleAction, FilePanelToggleAction } from './../action/layout.action';
+import { TcgaPanelToggleAction, FilePanelToggleAction, GraphPanelToggleAction } from './../action/layout.action';
 import { DatasetService } from './../service/dataset.service';
 import { IlluminaService } from './../service/illumina.service';
 import { EdgeConfigModel } from './../component/visualization/edges/edges.model';
@@ -33,7 +33,7 @@ import { ComputeService } from './../service/compute.service';
 import { DataField } from 'app/model/data-field.model';
 import { DataLoadedAction, DataLoadIlluminaVcfAction, DATA_LOADED, DataLoadFromDexieAction } from './../action/data.action';
 import { DataService } from './../service/data.service';
-import { DataTypeEnum, WorkspaceLayoutEnum, CollectionTypeEnum } from './../model/enum.model';
+import { DataTypeEnum, WorkspaceLayoutEnum, CollectionTypeEnum, GraphPanelEnum } from './../model/enum.model';
 import { GraphEnum, ToolEnum } from 'app/model/enum.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -83,7 +83,7 @@ export class DataEffect {
         .mergeMap( (args: DataLoadedAction) => {
 
             const workspaceConfig = new WorkspaceConfigModel();
-            workspaceConfig.layout = WorkspaceLayoutEnum.HORIZONTAL;
+            workspaceConfig.layout = WorkspaceLayoutEnum.SINGLE;
 
             // const pathwaysConfig = new PathwaysConfigModel();
             // pathwaysConfig.graph = GraphEnum.GRAPH_A;
@@ -105,9 +105,9 @@ export class DataEffect {
             timelinesConfig.graph = GraphEnum.GRAPH_A;
             timelinesConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
 
-            const graphAConfig = new PcaIncrementalConfigModel();
-            graphAConfig.graph = GraphEnum.GRAPH_A;
-            graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            // const graphAConfig = new PcaIncrementalConfigModel();
+            // graphAConfig.graph = GraphEnum.GRAPH_A;
+            // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             // const hicConfig = new HicConfigModel();
             // hicConfig.graph = GraphEnum.GRAPH_A;
@@ -150,8 +150,9 @@ export class DataEffect {
                 // new compute.HeatmapAction( { config: heatmapConfig })
                 // new compute.ChromosomeAction( { config: graphBConfig } )
                 // new compute.PathwaysAction( { config: pathwaysConfig }),
-                new compute.GenomeAction( { config: genomeConfig })
+                new compute.GenomeAction( { config: genomeConfig }),
                 // , new compute.PcaIncrementalAction( { config: graphBConfig } )
+                new GraphPanelToggleAction( GraphPanelEnum.GRAPH_A )
             ];
         });
 
