@@ -41,15 +41,6 @@ import * as _ from 'lodash';
     </label>
   </div>
   <div class="form-group">
-    <label class="center-block"><span class="form-label">Time Scale</span>
-      <select class="browser-default" materialize="material_select"
-          [materializeSelectOptions]="timescaleOptions" formControlName="timescale">
-          <option *ngFor="let option of timescaleOptions"
-            [ngValue]="option">{{option}}</option>
-      </select>
-    </label>
-  </div>
-  <div class="form-group">
     <label class="center-block"><span class="form-label">Line Color</span>
       <select class="browser-default" materialize="material_select"
           [compareWith]="byKey"
@@ -107,7 +98,7 @@ export class TimelinesFormComponent {
   public typeOptions: Array<string>;
   public subtypeOptions: Array<string>;
   public timescaleOptions = ['Linear', 'Log'];
-  public styleOptions = [TimelinesStyle.TICKS, TimelinesStyle.ARCS, TimelinesStyle.CONTINUOUS];
+  public styleOptions = [TimelinesStyle.TICKS, TimelinesStyle.ARCS, TimelinesStyle.CONTINUOUS, TimelinesStyle.SYMBOLS];
   public statusOptions = [];
   public colorOptions = [];
   public treatmentOptions = [];
@@ -180,6 +171,7 @@ export class TimelinesFormComponent {
         let dirty = 0;
         const form = this.form;
         if (form.get('timescale').dirty) { dirty |= DirtyEnum.OPTIONS; }
+        if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
         if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
         form.markAsPristine();
         data.dirtyFlag = dirty;

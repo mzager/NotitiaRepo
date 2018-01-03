@@ -8,6 +8,7 @@ export class TimelinesStyle {
     public static CONTINUOUS = 'Continuous Bar';
     public static TICKS = 'Ticks';
     public static ARCS = 'Arcs';
+    public static SYMBOLS = 'Symbols';
 }
 
 export class TimelinesConfigModel extends GraphConfig {
