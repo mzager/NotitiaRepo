@@ -22282,11 +22282,11 @@ var d3_scale_1 = __webpack_require__(17);
 var _ = __webpack_require__(14);
 exports.genomeCompute = function (config, worker) {
     var bandColors = {
-        'gneg': 0xeceff1,
-        'gpos25': 0xcfd8dc,
-        'gpos50': 0xb0bec5,
-        'gpos75': 0xeceff1,
-        'gpos100': 0x78909c,
+        'gneg': 0x777777,
+        'gpos25': 0x848484,
+        'gpos50': 0x929292,
+        'gpos75': 0x9f9f9f,
+        'gpos100': 0xadadad,
         'acen': 0x039BE5,
         'gvar': 0x607d8b,
         'stalk': 0x546e7a
@@ -23421,15 +23421,6 @@ exports.timelinesCompute = function (config, worker) {
                     v.end -= align_1[v.p];
                 });
             }
-            // Filter Toggles
-            // const birth = [];
-            // events = events.filter(v => {
-            //     if (v.subtype === 'Birth') {
-            //         birth.push(v);
-            //         return false;
-            //     }
-            //     return true;
-            // });
             if (config.hasOwnProperty('visibleElements') && config.visibleElements !== null) {
                 var show_1 = config.visibleElements;
                 events = events.filter(function (v) { return show_1[v.subtype]; });

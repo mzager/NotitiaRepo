@@ -1,5 +1,5 @@
 import { DataService } from './../../../service/data.service';
-import { TimelinesConfigModel } from './timelines.model';
+import { TimelinesConfigModel, TimelinesStyle } from './timelines.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DimensionEnum, DataTypeEnum, VisualizationEnum, DirtyEnum, EntityTypeEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory } from './../../../model/data-field.model';
@@ -13,7 +13,7 @@ import * as _ from 'lodash';
   template: `
   <form [formGroup]="form" novalidate>
   <div class="form-group">
-    <label class="center-block"><span class="form-label">Display</span>
+    <label class="center-block"><span class="form-label">Group By</span>
       <select class="browser-default" materialize="material_select"
           [materializeSelectOptions]="displayOptions"
           formControlName="entity">
@@ -52,13 +52,24 @@ import * as _ from 'lodash';
   <div class="form-group">
     <label class="center-block"><span class="form-label">Line Color</span>
       <select class="browser-default" materialize="material_select"
-          [materializeSelectOptions]="timescaleOptions" formControlName="timescale">
-          <option *ngFor="let option of timescaleOptions"
+          [compareWith]="byKey"
+          [materializeSelectOptions]="colorOptions"
+          formControlName="pointColor">
+          <option *ngFor="let option of colorOptions"
+            [ngValue]="option">{{option.label}}</option>
+      </select>
+    </label>
+  </div>
+  <div class="form-label" style="width:100%;padding-top:5px;text-transform: Uppercase;"><label>Status Options</label></div>
+  <div class="form-group">
+    <label class="center-block"><span class="form-label">Style</span>
+      <select class="browser-default" materialize="material_select"
+          [materializeSelectOptions]="styleOptions" formControlName="statusStyle">
+          <option *ngFor="let option of styleOptions"
             [ngValue]="option">{{option}}</option>
       </select>
     </label>
   </div>
-  <div class="form-label" style="width:100%;padding-top:5px;"><label>Status Options</label></div>
   <div class="form-group"  *ngFor="let item of statusOptions; let i = index">
     <div class="switch">
       <label>
@@ -68,7 +79,16 @@ import * as _ from 'lodash';
       </label>
     </div>
   </div>
-  <div class="form-label" style="width:100%;padding-top:5px;"><label>Treatment Options</label></div>
+  <div class="form-label" style="width:100%;padding-top:5px;text-transform: Uppercase;"><label>Treatment Options</label></div>
+  <div class="form-group">
+    <label class="center-block"><span class="form-label">Style</span>
+      <select class="browser-default" materialize="material_select"
+          [materializeSelectOptions]="styleOptions" formControlName="treatmentStyle">
+          <option *ngFor="let option of styleOptions"
+            [ngValue]="option">{{option}}</option>
+      </select>
+    </label>
+  </div>
   <div class="form-group"  *ngFor="let item of treatmentOptions; let i = index">
     <div class="switch">
       <label>
@@ -87,7 +107,9 @@ export class TimelinesFormComponent {
   public typeOptions: Array<string>;
   public subtypeOptions: Array<string>;
   public timescaleOptions = ['Linear', 'Log'];
+  public styleOptions = [TimelinesStyle.TICKS, TimelinesStyle.ARCS, TimelinesStyle.CONTINUOUS];
   public statusOptions = [];
+  public colorOptions = [];
   public treatmentOptions = [];
   public visibleElements: any;
 
@@ -95,9 +117,7 @@ export class TimelinesFormComponent {
     if (fields === null) { return; }
     if (fields.length === 0) { return; }
     const defaultDataField: DataField = DataFieldFactory.getUndefined();
-    // this.colorOptions = DataFieldFactory.getColorFields(fields);
-    // this.shapeOptions = DataFieldFactory.getShapeFields(fields);
-    // this.sizeOptions = DataFieldFactory.getSizeFields(fields);
+    this.colorOptions = DataFieldFactory.getColorFields(fields);
   }
 
   @Input() set events(events: Array<{type: string, subtype: string}>) {
@@ -146,7 +166,10 @@ export class TimelinesFormComponent {
       sort: [],
       align: [],
       timescale: [],
-      visibleElements: []
+      visibleElements: [],
+      treatmentStyle: [],
+      statusStyle: [],
+      pointColor: []
     });
 
     // Update When Form Changes
@@ -163,7 +186,4 @@ export class TimelinesFormComponent {
         this.configChange.emit(data);
       });
   }
-
-
-
 }
