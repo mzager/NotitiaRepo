@@ -15,14 +15,14 @@ import { DedicatedWorkerGlobalScope } from 'compute';
 export const genomeCompute = (config: GenomeConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
     const bandColors = {
-        'gneg': 0x777777,
-        'gpos25': 0x848484,
-        'gpos50': 0x929292,
-        'gpos75': 0x9f9f9f,
-        'gpos100': 0xadadad,
-        'acen': 0x039BE5,
-        'gvar': 0x607d8b,
-        'stalk': 0x546e7a
+        'gneg': 0xf1f1f1,
+        'gpos25': 0xededed,
+        'gpos50': 0xe9e9e9,
+        'gpos75': 0xe4e4e4,
+        'gpos100': 0xe0e0e0,
+        'acen': 0xdbdbdb,
+        'gvar': 0xd7d7d7,
+        'stalk': 0xd3d3d3
     };
 
     const ct = [
