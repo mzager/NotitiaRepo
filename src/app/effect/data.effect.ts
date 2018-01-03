@@ -105,9 +105,9 @@ export class DataEffect {
             timelinesConfig.graph = GraphEnum.GRAPH_A;
             timelinesConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
 
-            // const graphAConfig = new PcaIncrementalConfigModel();
-            // graphAConfig.graph = GraphEnum.GRAPH_A;
-            // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            const graphAConfig = new PcaIncrementalConfigModel();
+            graphAConfig.graph = GraphEnum.GRAPH_A;
+            graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             // const hicConfig = new HicConfigModel();
             // hicConfig.graph = GraphEnum.GRAPH_A;
@@ -138,12 +138,12 @@ export class DataEffect {
             return [
                 new WorkspaceConfigAction( workspaceConfig ),
                 // new compute.LinkedGeneAction( { config: graphAConfig } ),
-                // new compute.PcaIncrementalAction( { config: graphAConfig } ),
+                new compute.PcaIncrementalAction( { config: graphAConfig } ),
                 // new compute.PcaIncrementalAction( { config: graphBConfig } ),
                 // new compute.HicAction( { config: hicConfig }),
                 // new compute.BoxWhiskersAction( { config: boxWhiskersConfig } ),
 
-                new compute.TimelinesAction( { config: timelinesConfig}),
+                // new compute.TimelinesAction( { config: timelinesConfig}),
 
                 // new compute.GenomeAction( { config: graphBConfig }),
                 //  new compute.ChromosomeAction( { config: chromosomeConfig } ),
@@ -152,7 +152,7 @@ export class DataEffect {
                 // new compute.PathwaysAction( { config: pathwaysConfig }),
                 new compute.GenomeAction( { config: genomeConfig }),
                 // , new compute.PcaIncrementalAction( { config: graphBConfig } )
-                new GraphPanelToggleAction( GraphPanelEnum.GRAPH_A )
+                // new GraphPanelToggleAction( GraphPanelEnum.GRAPH_A )
             ];
         });
 
