@@ -4,7 +4,7 @@ import { DragSelectionControl } from './drag.selection.control';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { AbstractVisualization } from './visualization.abstract.component';
 import { Subscription } from 'rxjs/Subscription';
-import { WorkspaceLayoutEnum, DimensionEnum, CollectionTypeEnum } from './../../model/enum.model';
+import { WorkspaceLayoutEnum, DimensionEnum, CollectionTypeEnum, VisualizationEnum } from './../../model/enum.model';
 import { VisualizationView } from './../../model/chart-view.model';
 import { ChartEvent, ChartEvents } from './../workspace/chart/chart.events';
 import { EventEmitter } from '@angular/core';
@@ -20,10 +20,42 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     // Objects
     private lines: Array<THREE.Line>;
     private controls: DragSelectionControl;
+    private title: HTMLElement;
+    private overlay: HTMLElement;
+    private tooltips: HTMLElement;
 
     // Private Subscriptions
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         super.create(labels, events, view);
+        this.title =  <HTMLDivElement>(document.createElement('div'));
+        this.title.className = 'graph-title';
+        this.title.innerText = (view.config.visualization === VisualizationEnum.TSNE) ? 'T-SNE' :
+            (view.config.visualization === VisualizationEnum.DICTIONARY_LEARNING) ? 'Dictionary Learning' :
+            (view.config.visualization === VisualizationEnum.FA) ? 'Factor Analysis' :
+            (view.config.visualization === VisualizationEnum.FAST_ICA) ? 'Fast ICA' :
+            (view.config.visualization === VisualizationEnum.LDA) ? 'Latent Dirichlet Allocation' :
+            (view.config.visualization === VisualizationEnum.NMF) ? 'Non-negative Matrix Factorization' :
+            (view.config.visualization === VisualizationEnum.PCA) ? 'Principal Component Analysis' :
+            (view.config.visualization === VisualizationEnum.INCREMENTAL_PCA) ? 'PCA - Incremental' :
+            (view.config.visualization === VisualizationEnum.KERNAL_PCA) ? 'PCA - Kernal' :
+            (view.config.visualization === VisualizationEnum.SPARSE_PCA) ? 'PCA - Sparse' :
+            (view.config.visualization === VisualizationEnum.TRUNCATED_SVD) ? 'Truncated SVD' :
+            (view.config.visualization === VisualizationEnum.ISOMAP) ? 'ISO Map' :
+            (view.config.visualization === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? 'Local Linear Embedding' :
+            (view.config.visualization === VisualizationEnum.MDS) ? 'Multi-Dimensional Scaling' :
+            'Spectral Embedding';
+
+
+
+        this.labels.appendChild( this.title );
+
+        this.tooltips = <HTMLDivElement>(document.createElement('div'));
+        this.tooltips.className = 'graph-tooltip';
+        this.labels.appendChild( this.tooltips );
+
+        this.overlay = <HTMLDivElement>(document.createElement('div'));
+        this.overlay.className = 'graph-overlay';
+        this.labels.appendChild( this.overlay );
         this.meshes = [];
         this.lines = [];
         this.controls = new DragSelectionControl();

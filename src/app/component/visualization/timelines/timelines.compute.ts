@@ -106,7 +106,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                         } else {
                             evts.Status = [];
                         }
-                        const death = evts.Status.find(v => v.subtype === 'Death');
+                        const death = evts.Status.find( v2 => v2.subtype === 'Death');
 
                         if (evts.hasOwnProperty('Treatment')) {
                             if (death !== null) evts.Treatment = evts.Treatment.filter(v => (v.start < death.start && v.end < death.start));
