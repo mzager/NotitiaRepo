@@ -290,6 +290,11 @@ export class ChartScene {
     }
 
     public update(graph: GraphEnum, config: GraphConfig, data: any) {
+
+        if (!this.views[0].controls.enabled && !this.views[1].controls.enabled) {
+            this.views[0].controls.enabled = true;
+        }
+
         const ecm: EdgeConfigModel = config as EdgeConfigModel;
 
         const view = ( graph === GraphEnum.GRAPH_A ) ? this.views[0] :
@@ -301,7 +306,8 @@ export class ChartScene {
             if (view.chart !== null) {
                 view.chart.onRequestRender.unsubscribe();
                 view.chart.onConfigEmit.unsubscribe();
-                view.chart.destroy(); }
+                view.chart.destroy(); 
+            }
             view.chart = null;
             view.config = config;
             this.onResize(); // Calls render once complete
