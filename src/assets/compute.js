@@ -22282,14 +22282,14 @@ var d3_scale_1 = __webpack_require__(17);
 var _ = __webpack_require__(14);
 exports.genomeCompute = function (config, worker) {
     var bandColors = {
-        'gneg': 0x777777,
-        'gpos25': 0x848484,
-        'gpos50': 0x929292,
-        'gpos75': 0x9f9f9f,
-        'gpos100': 0xadadad,
-        'acen': 0x039BE5,
-        'gvar': 0x607d8b,
-        'stalk': 0x546e7a
+        'gneg': 0xf1f1f1,
+        'gpos25': 0xededed,
+        'gpos50': 0xe9e9e9,
+        'gpos75': 0xe4e4e4,
+        'gpos100': 0xe0e0e0,
+        'acen': 0xdbdbdb,
+        'gvar': 0xd7d7d7,
+        'stalk': 0xd3d3d3
     };
     var ct = [
         { 'chr': '1', 'P': 0, 'C': 124300000, 'Q': 247249719 },
@@ -23478,7 +23478,7 @@ exports.timelinesCompute = function (config, worker) {
                     else {
                         evts.Status = [];
                     }
-                    var death = evts.Status.find(function (v) { return v.subtype === 'Death'; });
+                    var death = evts.Status.find(function (v2) { return v2.subtype === 'Death'; });
                     if (evts.hasOwnProperty('Treatment')) {
                         if (death !== null)
                             evts.Treatment = evts.Treatment.filter(function (v) { return (v.start < death.start && v.end < death.start); });

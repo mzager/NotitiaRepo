@@ -23,6 +23,9 @@ export class PathwaysGraph implements ChartObjectInterface {
 
     // Chart Elements
     private labels: HTMLElement;
+    private title: HTMLElement;
+    private overlay: HTMLElement;
+    private tooltips: HTMLElement;
     private events: ChartEvents;
     private view: VisualizationView;
     private data: PathwaysDataModel;
@@ -40,6 +43,19 @@ export class PathwaysGraph implements ChartObjectInterface {
 
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         this.labels = labels;
+        this.labels.innerText = '';
+        this.title =  <HTMLDivElement>(document.createElement('div'));
+        this.title.className = 'graph-title';
+        this.title.innerText = 'Pathways';
+        this.labels.appendChild( this.title );
+
+        this.tooltips = <HTMLDivElement>(document.createElement('div'));
+        this.tooltips.className = 'graph-tooltip';
+        this.labels.appendChild( this.tooltips );
+
+        this.overlay = <HTMLDivElement>(document.createElement('div'));
+        this.overlay.className = 'graph-overlay';
+        this.labels.appendChild( this.overlay );
         this.events = events;
         this.view = view;
         this.isEnabled = false;

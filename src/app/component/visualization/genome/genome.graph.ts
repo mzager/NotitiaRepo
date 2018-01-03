@@ -57,6 +57,7 @@ export class GenomeGraph implements ChartObjectInterface {
         view.camera.position.set(0, 0, 1000);
         view.camera.rotation.setFromVector3( new THREE.Vector3(0, 0, 0) );
         this.labels = labels;
+        this.labels.innerText = '';
         this.title =  <HTMLDivElement>(document.createElement('div'));
         this.title.className = 'graph-title';
         this.title.innerText = 'Genome';
