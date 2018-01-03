@@ -56,8 +56,8 @@ export class TimelinesGraph implements ChartObjectInterface {
         if (this.isEnabled === truthy) { return; }
         this.isEnabled = truthy;
         this.view.controls.enabled = this.isEnabled;
-        this.view.controls.addEventListener('start', this.zoomStart.bind(this) );
-        this.view.controls.addEventListener('end', _.debounce(this.zoomEnd.bind(this), 300 ) );
+        this.view.controls.addEventListener('start', this.zoomStart.bind(this));
+        this.view.controls.addEventListener('end', _.debounce(this.zoomEnd.bind(this), 300));
 
         if (truthy) {
             this.sMouseUp = this.events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
@@ -83,17 +83,17 @@ export class TimelinesGraph implements ChartObjectInterface {
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         this.labels = labels;
         this.labels.innerText = '';
-        this.title =  <HTMLDivElement>(document.createElement('div'));
+        this.title = <HTMLDivElement>(document.createElement('div'));
         this.title.className = 'graph-title';
-        this.labels.appendChild( this.title );
+        this.labels.appendChild(this.title);
 
         this.tooltips = <HTMLDivElement>(document.createElement('div'));
         this.tooltips.className = 'graph-tooltip';
-        this.labels.appendChild( this.tooltips );
+        this.labels.appendChild(this.tooltips);
 
         this.overlay = <HTMLDivElement>(document.createElement('div'));
         this.overlay.className = 'graph-overlay';
-        this.labels.appendChild( this.overlay );
+        this.labels.appendChild(this.overlay);
 
         this.events = events;
         this.view = view;
@@ -120,6 +120,38 @@ export class TimelinesGraph implements ChartObjectInterface {
             group.add(line);
         });
     }
+    addSymbols(group: THREE.Group, events: Array<any>, scale: any, height: number): void {
+      
+        events.forEach(event => {
+            const squareGeometry: THREE.Geometry = new THREE.Geometry();
+            squareGeometry.vertices.push(new THREE.Vector3(-1.0,  1.0, 0.0));
+            squareGeometry.vertices.push(new THREE.Vector3( 1.0,  1.0, 0.0));
+            squareGeometry.vertices.push(new THREE.Vector3( 1.0, -1.0, 0.0));
+            squareGeometry.vertices.push(new THREE.Vector3(-1.0, -1.0, 0.0));
+            squareGeometry.faces.push(new THREE.Face3(0, 1, 2));
+            squareGeometry.faces.push(new THREE.Face3(0, 2, 3));
+            const square = new THREE.Mesh( squareGeometry, ChartFactory.getColorBasic(event.color));
+            square.userData = event;
+            square.position.set(scale(event.start), 0, 0);
+            group.add(square);
+            this.meshes.push(square);
+
+            if (event.start !== event.end) {
+                const triangleGeometry = new THREE.Geometry();
+                triangleGeometry.vertices.push(new THREE.Vector3( 0.0,  1.0, 0.0));
+                triangleGeometry.vertices.push(new THREE.Vector3(-1.0, -1.0, 0.0));
+                triangleGeometry.vertices.push(new THREE.Vector3( 1.0, -1.0, 0.0));
+                triangleGeometry.faces.push(new THREE.Face3(0, 1, 2));
+                const triangle = new THREE.Mesh(triangleGeometry, ChartFactory.getColorBasic(event.color));
+                triangle.userData = event;
+                triangle.position.set(scale(event.end), 0, 0);
+                group.add(triangle);
+                this.meshes.push(triangle);
+            }
+
+        });
+    }
+
     addArcs(group: THREE.Group, events: Array<any>, scale: any, height: number = 10): void {
         events.forEach(event => {
             const s = scale(event.start);
@@ -215,6 +247,8 @@ export class TimelinesGraph implements ChartObjectInterface {
                         case TimelinesStyle.CONTINUOUS:
                             this.addContinuousBars(group, subtypes[subtype], scale, (type === 'Status') ? 0 : 2);
                             break;
+                        case TimelinesStyle.SYMBOLS:
+                            break;
                     }
                 }
             });
@@ -224,39 +258,53 @@ export class TimelinesGraph implements ChartObjectInterface {
             const patients: Array<any> = this.data.result.events;
             scale.domain([this.data.result.minMax.min, this.data.result.minMax.max]);
             scale.range([-halfW, halfW]);
+
             patients.forEach((patient, i) => {
 
-                // Create Group To Hold Each Patient
+                //Create Group To Hold Each Patient
                 const group = new THREE.Group();
                 group.userData = patient.id;
                 group.position.setY(i * 5);
                 this.groups.push(group);
                 this.view.scene.add(group);
 
-                this.addDurationLine(group, patient.Status.concat(patient.Treatment), scale);
+                let events = [];
+                if (patient.hasOwnProperty('Status')) { events = events.concat(patient.Status); }
+                if (patient.hasOwnProperty('Treatment')) { events = events.concat(patient.Treatment); }
+                this.addDurationLine(group, events, scale);
 
-                switch (this.config.statusStyle) {
-                    case TimelinesStyle.TICKS:
-                        this.addTics(group, patient.Status, scale, 4);
-                        break;
-                    case TimelinesStyle.ARCS:
-                        this.addArcs(group, patient.Status, scale, 4);
-                        break;
-                    case TimelinesStyle.CONTINUOUS:
-                        this.addContinuousBars(group, patient.Status, scale, 0);
-                        break;
+                if (patient.hasOwnProperty('Status')) {
+                    switch (this.config.statusStyle) {
+                        case TimelinesStyle.TICKS:
+                            this.addTics(group, patient.Status, scale, 4);
+                            break;
+                        case TimelinesStyle.ARCS:
+                            this.addArcs(group, patient.Status, scale, 4);
+                            break;
+                        case TimelinesStyle.CONTINUOUS:
+                            this.addContinuousBars(group, patient.Status, scale, 0);
+                            break;
+                        case TimelinesStyle.SYMBOLS:
+                            this.addSymbols(group, patient.Status, scale, 4);
+                            break;
+                    }
                 }
 
-                switch (this.config.treatmentStyle) {
-                    case TimelinesStyle.TICKS:
-                        this.addTics(group, patient.Treatment, scale, 4);
-                        break;
-                    case TimelinesStyle.ARCS:
-                        this.addArcs(group, patient.Treatment, scale, 4);
-                        break;
-                    case TimelinesStyle.CONTINUOUS:
-                        this.addContinuousBars(group, patient.Treatment, scale, 1);
-                        break;
+                if (patient.hasOwnProperty('Treatment')) {
+                    switch (this.config.treatmentStyle) {
+                        case TimelinesStyle.TICKS:
+                            this.addTics(group, patient.Treatment, scale, 4);
+                            break;
+                        case TimelinesStyle.ARCS:
+                            this.addArcs(group, patient.Treatment, scale, 4);
+                            break;
+                        case TimelinesStyle.CONTINUOUS:
+                            this.addContinuousBars(group, patient.Treatment, scale, 1);
+                            break;
+                        case TimelinesStyle.SYMBOLS:
+                            this.addSymbols(group, patient.Treatment, scale, 4);
+                            break;
+                    }
                 }
             });
         }
@@ -279,10 +327,10 @@ export class TimelinesGraph implements ChartObjectInterface {
                 return {
                     type: v.userData.type,
                     subtype: v.userData.subtype,
-                    pos: ChartUtil.projectToScreen( this.config.graph, v, this.view.camera,
+                    pos: ChartUtil.projectToScreen(this.config.graph, v, this.view.camera,
                         this.view.viewport.width, this.view.viewport.height)
                 };
-            }).reduce( (p, c) => {
+            }).reduce((p, c) => {
                 p += '<span style="color:#9e9e9e;position:absolute;left:50px;top:' + c.pos.y + 'px;">';
                 p += c.subtype + ' ' + c.type + '</span>';
                 return p;
@@ -308,11 +356,11 @@ export class TimelinesGraph implements ChartObjectInterface {
                     return p;
                 }, '');
                 this.tooltips.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#DDD;padding:5px;border-radius:' +
-                '3px;z-index:9999;position:absolute;left:' +
-                xPos + 'px;top:' +
-                yPos + 'px;">' +
-                tip + '</div>';
-            } catch ( e ) { }
+                    '3px;z-index:9999;position:absolute;left:' +
+                    xPos + 'px;top:' +
+                    yPos + 'px;">' +
+                    tip + '</div>';
+            } catch (e) { }
 
             return;
         }

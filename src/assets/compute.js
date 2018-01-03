@@ -23394,6 +23394,7 @@ var enum_model_1 = __webpack_require__(19);
 var legend_model_1 = __webpack_require__(75);
 var _ = __webpack_require__(14);
 exports.timelinesCompute = function (config, worker) {
+    worker.util.processShapeColorSizeIntersect(config, worker);
     if (config.dirtyFlag & 32 /* OPTIONS */) {
         worker.postMessage({
             config: config,
@@ -23477,15 +23478,6 @@ exports.timelinesCompute = function (config, worker) {
                     }
                     else {
                         evts.Status = [];
-                    }
-                    var death = evts.Status.find(function (v2) { return v2.subtype === 'Death'; });
-                    if (evts.hasOwnProperty('Treatment')) {
-                        if (death !== null)
-                            evts.Treatment = evts.Treatment.filter(function (v) { return (v.start < death.start && v.end < death.start); });
-                        evts.Treatment = evts.Treatment.sort(function (a, b) { return a.start - b.start; });
-                    }
-                    else {
-                        evts.Treatment = [];
                     }
                     evts.id = v[0];
                     return evts;
