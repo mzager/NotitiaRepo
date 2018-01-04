@@ -101,11 +101,22 @@ export class ChartFactory {
 
     @Memoize()
     public static getColorPhong(color: number): THREE.Material {
-        const rv = new THREE.MeshPhongMaterial({
-            specular: 0x000000, shininess: 1
-        });
-        rv.color.set( new THREE.Color( color ) );
-        return rv;
+        return new THREE.MeshStandardMaterial(
+            {
+                color: color,
+                roughness: 0.0,
+                metalness: 0.04,
+                emissive: new THREE.Color(0x000000),
+                shading: THREE.SmoothShading
+                // color: color, emissive: new THREE.Color(0x000000),
+                // metalness: 0.2, roughness: .5, shading: THREE.SmoothShading
+            });
+
+        // const rv = new THREE.MeshPhongMaterial({
+        //     specular: 0xAAAAAA, shininess: .5
+        // });
+        // rv.color.set( new THREE.Color( color ) );
+        // return rv;
     }
 
     @Memoize()
@@ -114,7 +125,7 @@ export class ChartFactory {
             case ShapeEnum.BOX:
                 return new THREE.BoxGeometry(3, 3, 3);
             case ShapeEnum.CIRCLE:
-                return new THREE.SphereGeometry(2, 10, 10);
+                return new THREE.SphereGeometry(3, 15, 15);
             case ShapeEnum.SQUARE:
                 return new THREE.CubeGeometry(3, 3, 3);
             case ShapeEnum.TRIANGLE:
