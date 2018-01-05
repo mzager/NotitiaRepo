@@ -15,6 +15,7 @@
     [config]="graphAConfig | async"
     [data]="graphAData | async"
     (hide)="graphPanelToggle(1)"
+    (help)="helpPanelToggle($event)"
     (configChange)="graphPanelSetConfig($event)"
     (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
     (selectGeneSignature)="graphPanelSelectGeneSignature($event)"
@@ -58,6 +59,7 @@
     [configA]="graphAConfig | async"
     [configB]="graphBConfig | async"
     (configChange)="graphPanelSetConfig($event)"
+    (hide)="genesetPanelToggle()"
     *ngIf="genesetPanelTab | async">
     </app-workspace-geneset-panel>
 
@@ -90,6 +92,13 @@
     (hide)="queryPanelToggle()"
     style="position:absolute;left:100px;top:100px;"></app-workspace-query-panel>
 
+<app-workspace-help-panel
+    *ngIf="helpPanelTab | async" 
+    [config]="graphAConfig | async"
+    (hide)="helpPanelToggle()"
+    style="position:absolute;left:100px;top:100px;">
+    </app-workspace-help-panel>
+    
 <app-workspace-tool-bar
     (graphAToggle)='graphPanelToggle(1)'
     (graphBToggle)='graphPanelToggle(2)'></app-workspace-tool-bar>
