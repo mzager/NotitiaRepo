@@ -1,3 +1,4 @@
+import { ChartUtil } from './../workspace/chart/chart.utils';
 import { GraphData } from './../../model/graph-data.model';
 import { ChartFactory } from './../workspace/chart/chart.factory';
 import { DragSelectionControl } from './drag.selection.control';
@@ -25,6 +26,11 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     private tooltips: HTMLElement;
 
     // Private Subscriptions
+    private sMouseMove: Subscription;
+    private sMouseDown: Subscription;
+    private sMouseUp: Subscription;
+
+    // Private Subscriptions
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         super.create(labels, events, view);
         this.title =  <HTMLDivElement>(document.createElement('div'));
@@ -44,9 +50,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
             (view.config.visualization === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? 'Local Linear Embedding' :
             (view.config.visualization === VisualizationEnum.MDS) ? 'Multi-Dimensional Scaling' :
             'Spectral Embedding';
-
-
-
         this.labels.appendChild( this.title );
 
         this.tooltips = <HTMLDivElement>(document.createElement('div'));
@@ -113,6 +116,11 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.isEnabled = truthy;
         this.view.controls.enabled = this.isEnabled;
         this.controls.enabled = this.isEnabled;
+        if (truthy) {
+            this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
+        } else {
+            this.sMouseMove.unsubscribe();
+        }
     }
 
     addObjects(type: EntityTypeEnum) {
@@ -156,5 +164,28 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.lines.forEach(v => this.view.scene.remove(v));
         this.lines.length = 0;
     }
+
+
+    private onMouseMove(e: ChartEvent): void {
+        const hit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
+
+        if (hit.length > 0) {
+
+            if (hit[0].object.userData === undefined) {
+                return;
+            }
+            let xPos = e.mouse.xs + 10;
+            const yPos = e.mouse.ys;
+            if (this.config.graph === GraphEnum.GRAPH_B) { xPos -= this.view.viewport.width; }
+            this.tooltips.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#FFF;padding:3px;border-radius:' +
+                '3px;z-index:9999;position:absolute;left:' +
+                xPos + 'px;top:' +
+                yPos + 'px;">' +
+                hit[0].object.userData.sid + '</div>';
+            return;
+        }
+        this.tooltips.innerHTML = '';
+    }
+
 
 }
