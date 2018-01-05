@@ -17,6 +17,7 @@ export class DataService {
 
   public static API_PATH = 'https://dev.oncoscape.sttrcancer.io/api/';
 
+  
   getGeneMap(): Observable<any> {
     return Observable.fromPromise(DataService.db.table('genemap').toArray());
   }
@@ -49,13 +50,24 @@ export class DataService {
       .get(DataService.API_PATH + 'z_lookup_geneset_categories')
       .map(res => res.json());
   }
-  
+
   getDatasetInfo(database: string): Promise<any> {
     return new Promise( (resolve, reject) => {
       const db = new Dexie('notitia-' + database);
       db.open().then( v => {
         v.table('dataset').toArray().then( result => {
           resolve(result[0]);
+        });
+      });
+    });
+  }
+
+  getHelpInfo(method: string): Promise<any> {
+    return new Promise( (resolve, reject) => {
+      const db = new Dexie('notitia');
+      db.open().then( v => {
+        v.table('docs').get({'method': method}).then( result => {
+          resolve(result);
         });
       });
     });
@@ -90,7 +102,8 @@ export class DataService {
         bandcoords: '++id',
         genemap: 'hugo',
         genelinks: '++id, source, target',
-        genetrees: '++id'
+        genetrees: '++id',
+        docs: '++id, method'
       });
       DataService.db.open();
       DataService.db.on('versionchange', function (event) { });
@@ -99,12 +112,15 @@ export class DataService {
       requestAnimationFrame(v => {
         DataService.db.table('genemap').count().then(count => {
           if (count > 0) { return; }
-          const genecoords = this.http.get('https://s3-us-west-2.amazonaws.com/notitia/reference/genecoords.json.gz').map(res => res.json());
-          const bandcoords = this.http.get('https://s3-us-west-2.amazonaws.com/notitia/reference/bandcoords.json.gz').map(res => res.json());
+          const docs = this.http.get('https://s3-us-west-2.amazonaws.com/notitia/reference/scikit.json.gz').map(res => res.json());
+          const genecoords = this.http
+            .get('https://s3-us-west-2.amazonaws.com/notitia/reference/genecoords.json.gz').map(res => res.json());
+          const bandcoords = this.http
+            .get('https://s3-us-west-2.amazonaws.com/notitia/reference/bandcoords.json.gz').map(res => res.json());
           const genemap = this.http.get('https://s3-us-west-2.amazonaws.com/notitia/reference/genemap.json.gz').map(res => res.json());
           const genelinks = this.http.get('https://s3-us-west-2.amazonaws.com/notitia/reference/genelinks.json.gz').map(res => res.json());
 
-          Observable.zip(genecoords, bandcoords, genemap, genelinks).subscribe(result => {
+          Observable.zip(genecoords, bandcoords, genemap, genelinks, docs).subscribe(result => {
             const hugoLookup = result[2];
             hugoLookup.forEach(gene => {
               gene.hugo = gene.hugo.toUpperCase();
@@ -152,6 +168,7 @@ export class DataService {
             DataService.db.table('bandcoords').bulkAdd(result[1]);
             DataService.db.table('genemap').bulkAdd(result[2]);
             DataService.db.table('genelinks').bulkAdd(links);
+            DataService.db.table('docs').bulkAdd(result[4]);
           });
         });
       });

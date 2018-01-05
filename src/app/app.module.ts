@@ -1,3 +1,4 @@
+import { HelpPanelComponent } from './component/workspace/help-panel/help-panel.component';
 import { HicFormComponent } from './component/visualization/hic/hic.form.component';
 import { ParallelCoordsFormComponent } from './component/visualization/parallelcoords/parallelcoords.form.component';
 import { BoxWhiskersFormComponent } from './component/visualization/boxwhiskers/boxwhiskers.form.component';
@@ -139,6 +140,7 @@ import { WorkspaceComponent } from 'app/component/workspace/workspace.component'
     PcaKernalFormComponent,
     PcaSparseFormComponent,
     GeneSignaturePanelComponent,
+    HelpPanelComponent,
     ClusteringAlgorithmPanelComponent
   ],
   entryComponents: [
