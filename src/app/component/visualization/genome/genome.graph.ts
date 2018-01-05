@@ -250,9 +250,9 @@ export class GenomeGraph implements ChartObjectInterface {
         let hits;
         const geneHit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
         if (geneHit.length > 0) {
-            let xPos = e.mouse.xs + 10;
+            const xPos = e.mouse.xs + 10;
             const yPos = e.mouse.ys;
-            if (this.config.graph === GraphEnum.GRAPH_B) { xPos -= this.view.viewport.width; }
+            // if (this.config.graph === GraphEnum.GRAPH_B) { xPos -= this.view.viewport.width; }
             this.tooltips.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#FFF;padding:3px;border-radius:' +
                 '3px;z-index:9999;position:absolute;left:' +
                 xPos + 'px;top:' +
@@ -266,9 +266,9 @@ export class GenomeGraph implements ChartObjectInterface {
             const kids = this.arms[keys[i]].children;
             hits = ChartUtil.getIntersects(this.view, e.mouse, kids);
             if (hits.length > 0) {
-                let xPos = e.mouse.xs + 10;
+                const xPos = e.mouse.xs + 10;
                 const yPos = e.mouse.ys;
-                if (this.config.graph === GraphEnum.GRAPH_B) { xPos -= this.view.viewport.width; }
+                // if (this.config.graph === GraphEnum.GRAPH_B) { xPos -= this.view.viewport.width; }
                 this.tooltips.innerHTML = '<div style="background:rgba(255,255,255,.8);padding:3px;border-radius:3px;' +
                     'z-index:9999;position:absolute;left:' +
                     xPos + 'px;top:' +

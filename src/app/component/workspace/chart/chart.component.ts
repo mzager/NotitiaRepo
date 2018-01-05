@@ -48,6 +48,12 @@ export class ChartComponent implements AfterViewInit {
   @ViewChild('labelsB')
   private labelsB: ElementRef;
 
+  @ViewChild('labelAContainer')
+  private labelsAContainer: ElementRef;
+
+  @ViewChild('labelBContainer')
+  private labelsBContainer: ElementRef;
+
   /* LIFECYCLE */
   ngAfterViewInit() {
     this.ngZone.runOutsideAngular(() => {

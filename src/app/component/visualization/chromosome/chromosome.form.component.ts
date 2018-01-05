@@ -1,6 +1,6 @@
 import { ChromosomeConfigModel } from './chromosome.model';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { DimensionEnum, DataTypeEnum, VisualizationEnum, DirtyEnum, CollectionTypeEnum } from 'app/model/enum.model';
+import { DimensionEnum, DataTypeEnum, VisualizationEnum, DirtyEnum, CollectionTypeEnum, EntityTypeEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -80,9 +80,9 @@ export class ChromosomeFormComponent {
     if (fields === null) { return; }
     if (fields.length === 0) { return; }
     const defaultDataField: DataField = DataFieldFactory.getUndefined();
-    this.colorOptions = DataFieldFactory.getColorFields(fields);
-    this.shapeOptions = DataFieldFactory.getShapeFields(fields);
-    this.sizeOptions = DataFieldFactory.getSizeFields(fields);
+    this.colorOptions = DataFieldFactory.getColorFields(fields, EntityTypeEnum.GENE);
+    this.shapeOptions = DataFieldFactory.getShapeFields(fields, EntityTypeEnum.GENE);
+    this.sizeOptions = DataFieldFactory.getSizeFields(fields, EntityTypeEnum.GENE);
   }
 
   @Input() set config(v: ChromosomeConfigModel) {

@@ -37,6 +37,9 @@ export const GENE_SIGNATURE_PANEL_SHOW = '[LAYOUT] Gene Signature Panel Show';
 export const GENE_SIGNATURE_PANEL_HIDE = '[LAYOUT] Gene Signature Panel Hide';
 export const CLUSTERING_ALGORITHM_PANEL_SHOW = '[LAYOUT] Clustering Algorithm Panel Show';
 export const CLUSTERING_ALGORITHM_PANEL_HIDE = '[LAYOUT] Clustering Algorithm Panel Hide';
+export const HELP_PANEL_SHOW = '[LAYOUT] Help Panel Show';
+export const HELP_PANEL_HIDE = '[LAYOUT] Help Panel Hide';
+
 
 // Action Classes
 export class FilePanelShowTabAction implements Action {
@@ -170,6 +173,14 @@ export class DataPanelToggleAction implements Action {
     readonly type: string = DATA_PANEL_TOGGLE;
     constructor() { }
 }
+export class HelpPanelShowAction implements Action {
+    readonly type: string = HELP_PANEL_SHOW;
+    constructor(public payload: GraphConfig) { }
+}
+export class HelpPanelHideAction implements Action {
+    readonly type: string = HELP_PANEL_HIDE;
+    constructor() { }
+}
 
 // Action Type
 export type Actions =
@@ -186,5 +197,6 @@ export type Actions =
    ToolPanelShowTabAction | ToolPanelToggleAction |
    HistoryPanelShowTabAction | HistoryPanelToggleAction |
    CohortPanelShowTabAction | CohortPanelToggleAction |
+   HelpPanelShowAction | HelpPanelHideAction |
    DataPanelShowTabAction | DataPanelToggleAction |
    WorkspacePanelShowTabAction | WorkspacePanelToggleAction;
