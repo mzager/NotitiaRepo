@@ -152,17 +152,22 @@ export class VegaFactory {
             'height': 150,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
-            'data': [
+            'signals': [
                 {
-                    'name': 'table',
-                    'values': values,
-                    'transform': [
-                        {
-                            'type': 'pie',
-                            'field': 'value',
-                        },
+                    'name': 'hover',
+                    'value': 'null',
+                    'on': [ 
+                      {'events': '@cell:mouseover', 'update': 'datum'},
+                      {'events': '@cell:mouseout', 'update': 'null'}
                     ]
                 },
+                // {
+                //     'name': 'PC_Update',
+                //     'value': 'value',
+                //     'update': 'datum.value' 
+                //   },
+        ],
+            'data': [
                 {
                     'name': 'PC',
                     'values': values,
@@ -178,15 +183,37 @@ export class VegaFactory {
                             'field': 'PC_total',
                             'expr': '(datum.PC_total * 100) / 100',
                             'as': ['PC_total']
+                        },
+                        {
+                            'type': 'formula',
+                            'field': 'PC_total',
+                            'expr': '(100 - datum.PC_total)',
+                            'as': ['PC_total_100']
+                        },
+                        {
+                            'type': 'aggregate',
+                            'values': [ 'PC_total_100'],
+                            'as': ['test']
                         }
                     ]
-                }
+                },
+                {
+                    'name': 'table',
+                    'source': 'PC',
+                    'transform': [
+                        {
+                            'type': 'pie',
+                            'field': 'test'
+                        },
+                    ]
+                },
             ],
+            
             'scales': [
                 {
                     'name': 'r',
                     'type': 'sqrt',
-                    'domain': {'data': 'table', 'field': 'value'}
+                    'domain': {'data': 'table', 'field': 'test'}
                   },
                 {
                     'name': 'color',
@@ -234,7 +261,7 @@ export class VegaFactory {
                     'from': { 'data': 'table' },
                     'encode': {
                         'enter': {
-                            'text': { 'signal': 'datum.label' },
+                            'text': {'signal': 'datum.label'},
                             'x': {'signal': 'width / 2'},
                             'y': {'signal': 'height / 2'},
                             'radius': {'value': 35},
@@ -772,13 +799,13 @@ export class StatFactory {
             // One Dimensional Stats
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
             // new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
-            new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues)),
+            // new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues)),
             // new StatOneD('Mean', this.formatMean(data.result.mean)),
             // Two Dimensional Stats
             new StatTwoD('PCA Loadings', this.formatPCALoadings(data.markerIds, data.result.components))
         ];
 
-        stats[3].charts = [ChartTypeEnum.HISTOGRAM];
+        // stats[3].charts = [ChartTypeEnum.HISTOGRAM];
         return stats;
     }
 
