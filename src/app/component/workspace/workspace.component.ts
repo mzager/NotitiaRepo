@@ -1,5 +1,4 @@
 import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
-
 import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
 import { HicConfigModel } from './../visualization/hic/hic.model';
 import { BoxWhiskersConfigModel } from './../visualization/boxwhiskers/boxwhiskers.model';
@@ -100,6 +99,7 @@ export class WorkspaceComponent {
   graphPanelATab: Observable<enums.GraphPanelEnum>;
   graphPanelBTab: Observable<enums.GraphPanelEnum>;
   genesetPanelTab: Observable<enums.SinglePanelEnum>;
+  helpPanelTab: Observable<enums.SinglePanelEnum>;
   statPanelTab: Observable<enums.StatPanelEnum>;
   queryPanelTab: Observable<enums.QueryPanelEnum>;
   edgePanelTab: Observable<enums.EdgePanelEnum>;
@@ -130,6 +130,7 @@ export class WorkspaceComponent {
     this.statPanelTab = store.select(fromRoot.getLayoutPopulationPanelState);
     this.queryPanelTab = store.select(fromRoot.getLayoutQueryPanelState);
     this.toolPanelTab = store.select(fromRoot.getLayoutToolPanelState);
+    this.helpPanelTab = store.select(fromRoot.getLayoutHelpPanelState);
     this.workspacePanelTab = store.select(fromRoot.getWorkspacePanelState);
     this.historyPanelTab = store.select(fromRoot.getLayoutHistoryPanelState);
     this.cohortPanelTab = store.select(fromRoot.getLayoutCohortPanelState);
@@ -157,6 +158,9 @@ export class WorkspaceComponent {
         this.store.dispatch(new compute.SelectMarkersAction({markers: selection.ids}));
         break;
     }
+  }
+  helpPanelToggle(value: GraphConfig): void {
+    this.store.dispatch( (value === undefined) ? new layout.HelpPanelHideAction() : new layout.HelpPanelShowAction(value) );
   }
   queryPanelToggle() {
     this.store.dispatch(new layout.QueryPanelToggleAction());

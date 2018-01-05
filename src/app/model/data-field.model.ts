@@ -1,3 +1,4 @@
+import { EntityTypeEnum } from 'app/model/enum.model';
 import { CollectionTypeEnum, DataTypeEnum } from './enum.model';
 import { DataField } from './data-field.model';
 
@@ -7,18 +8,27 @@ import { DataField } from './data-field.model';
 export class DataFieldFactory {
 
   public static defaultDataField: DataField = DataFieldFactory.getUndefined();
-  public static getColorFields(clinicalFields: Array<DataField>): Array<DataField> {
-    return [DataFieldFactory.defaultDataField, ...clinicalFields.filter(v => {
-      switch (v.type) {
-        case DataTypeEnum.STRING:
-          return (v.values.length <= 10);
-        case DataTypeEnum.NUMBER:
-          return true;
-      }
-    }), DataFieldFactory.getGeneFamily(), DataFieldFactory.getGeneType(), DataFieldFactory.getHicType()];
+  public static getColorFields(clinicalFields: Array<DataField>, entity: EntityTypeEnum = EntityTypeEnum.SAMPLE): Array<DataField> {
+
+    switch (entity) {
+      case EntityTypeEnum.SAMPLE:
+        return [DataFieldFactory.defaultDataField, ...clinicalFields.filter(v => {
+          switch (v.type) {
+            case DataTypeEnum.STRING:
+              return (v.values.length <= 10);
+            case DataTypeEnum.NUMBER:
+              return true;
+          }
+        }), DataFieldFactory.getGeneFamily(), DataFieldFactory.getGeneType(), DataFieldFactory.getHicType()];
+      case EntityTypeEnum.GENE:
+        return [DataFieldFactory.defaultDataField, DataFieldFactory.getGeneFamily(),
+          DataFieldFactory.getGeneType(), DataFieldFactory.getHicType()];
+
+    }
+    return null;
   }
 
-  public static getSizeFields(clinicalFields: Array<DataField>): Array<DataField> {
+  public static getSizeFields(clinicalFields: Array<DataField>, entity: EntityTypeEnum = EntityTypeEnum.SAMPLE): Array<DataField> {
     return [DataFieldFactory.defaultDataField, ...clinicalFields.filter(v => {
       switch (v.type) {
         case DataTypeEnum.STRING:
@@ -29,7 +39,7 @@ export class DataFieldFactory {
     })];
   }
 
-  public static getShapeFields(clinicalFields: Array<DataField>): Array<DataField> {
+  public static getShapeFields(clinicalFields: Array<DataField>, entity: EntityTypeEnum = EntityTypeEnum.SAMPLE): Array<DataField> {
     return [DataFieldFactory.defaultDataField, ...clinicalFields.filter(v => {
       switch (v.type) {
         case DataTypeEnum.STRING:

@@ -3,6 +3,8 @@
         {{ title }}
         <i class="tiny material-icons" style="float: right; padding-top: 4px; cursor: pointer"
             (click)="hide.emit()">close</i>
+            <span style="float: right; padding-top: 2px; padding-right:5px; cursor: pointer; font-size:10px;"
+            (click)="helpClick()">Info</span>
     </div>
     <div class="card-tabs">
         <ul class="tabs tabs-fixed-width" #tabs>
@@ -22,9 +24,9 @@
             <div class="form-group">
                 <label class="center-block">
                     <span class="form-label">Filters</span>
-                    <button class="browser-default btn-config" style="width:59px;"
+                    <button class="browser-default btn-config" style="width:71px;"
                         (click)="selectGeneset.emit()">Gene Set</button>
-                    <button class="browser-default btn-config" style="width:60px;"
+                    <button class="browser-default btn-config" style="width:71px;"
                         (click)="selectCohort.emit()">Cohort</button>
                 </label>
             </div>

@@ -62,6 +62,7 @@ export class GraphPanelComponent implements AfterViewInit  {
   @Input() config: GraphConfig;
   @Input() data: GraphData;
   @Output() hide: EventEmitter<any> = new EventEmitter();
+  @Output() help: EventEmitter<any> = new EventEmitter();
   @Output() configChange: EventEmitter<GraphConfig> = new EventEmitter();
   @Output() selectClusteringAlgorithm: EventEmitter<GraphConfig> = new EventEmitter();
   @Output() selectGeneSignature: EventEmitter<GraphConfig> = new EventEmitter();
@@ -71,7 +72,9 @@ export class GraphPanelComponent implements AfterViewInit  {
 
   visualizationOptions: Array<{value: VisualizationEnum, label: string}>;
 
-  // TODO: Fix Duplication
+  helpClick(): void {
+    this.help.emit(this.config.visualization);
+  }
   onVisualizationChange($event: Event) {
     if ($event instanceof CustomEvent) {
       const el = $event.target as HTMLSelectElement;

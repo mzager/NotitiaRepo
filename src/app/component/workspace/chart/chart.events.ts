@@ -74,6 +74,14 @@ export class ChartEvents {
 
                 this.mouse.xs = event.clientX;
                 this.mouse.ys = event.clientY;
+                if (this.chart === GraphEnum.GRAPH_B) {
+                    if (this.workspaceConfig.layout === WorkspaceLayoutEnum.HORIZONTAL) {
+                        this.mouse.xs -= this.dimensions.width * 0.5;
+                    }
+                    if (this.workspaceConfig.layout === WorkspaceLayoutEnum.VERTICAL) {
+                        this.mouse.ys -= this.dimensions.height;
+                    }
+                }
 
                 return new ChartEvent(event, this.mouse, this.chart);
             })
