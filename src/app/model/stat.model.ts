@@ -138,7 +138,7 @@ export class VegaFactory {
                 'title': {
                     'offset': 0,
                     'fontSize': 11,
-                    'color': '#9e9e9e',
+                    'color': '#666666',
                     'font': 'Lato',
                     'fontWeight': 'normal',
                     'orient': 'bottom'
@@ -169,6 +169,16 @@ export class VegaFactory {
         ],
             'data': [
                 {
+                    'name': 'table',
+                    'values': values,
+                    'transform': [
+                        {
+                            'type': 'pie',
+                            'field': 'value'
+                        }
+                    ]
+                },
+                {
                     'name': 'PC',
                     'values': values,
                     'transform': [
@@ -184,31 +194,9 @@ export class VegaFactory {
                             'expr': '(datum.PC_total * 100) / 100',
                             'as': ['PC_total']
                         },
-                        {
-                            'type': 'formula',
-                            'field': 'PC_total',
-                            'expr': '(100 - datum.PC_total)',
-                            'as': ['PC_total_100']
-                        },
-                        {
-                            'type': 'aggregate',
-                            'values': [ 'PC_total_100'],
-                            'as': ['test']
-                        }
                     ]
-                },
-                {
-                    'name': 'table',
-                    'source': 'PC',
-                    'transform': [
-                        {
-                            'type': 'pie',
-                            'field': 'test'
-                        },
-                    ]
-                },
+                }
             ],
-            
             'scales': [
                 {
                     'name': 'r',
@@ -218,7 +206,7 @@ export class VegaFactory {
                 {
                     'name': 'color',
                     'type': 'ordinal',
-                    'range': { 'scheme': 'greenblue-3' }
+                    'range': { 'scheme': 'greenblue-4' }
                 }
             ],
 
@@ -248,7 +236,7 @@ export class VegaFactory {
                         'enter': {
                             'x': { 'signal': 'width / 2' },
                             'y': { 'signal': 'height / 2' },
-                            'fill': { 'value': '#9e9e9e' },
+                            'fill': { 'value': '#66666' },
                             'align': { 'value': 'center' },
                             'baseline': { 'value': 'right' },
                             'text': { 'field': 'PC_total' },
@@ -268,7 +256,7 @@ export class VegaFactory {
                             'theta': {'signal': "(datum['startAngle'] + datum['endAngle'])/2" },
                             'baseline': {'value': 'middle'},
                             'align': {'value': 'center'},
-                            'fill': { 'value': '#9e9e9e' },
+                            'fill': { 'value': '#666666' },
                             'fontSize': {'value': 6},
                             'font': {'value': 'Lato'},
                         }
@@ -286,7 +274,7 @@ export class VegaFactory {
                 'title': {
                     'offset': 0,
                     'fontSize': 11,
-                    'color': '#9e9e9e',
+                    'color': '#666666',
                     'font': 'Lato',
                     'fontWeight': 'normal',
                     'orient': 'bottom'
@@ -342,13 +330,13 @@ export class VegaFactory {
                     'encode': {
                         'ticks': {
                             'update': {
-                                'stroke': { 'value': '#9e9e9e' }
+                                'stroke': { 'value': '#666666' }
                             }
                         },
                         'labels': {
                             'interactive': false,
                             'update': {
-                                'fill': { 'value': '#9e9e9e' },
+                                'fill': { 'value': '#666666' },
                                 'angle': { 'value': 50 },
                                 'fontSize': { 'value': 8 },
                                 'align': { 'value': '90' },
@@ -356,12 +344,12 @@ export class VegaFactory {
                                 'dx': { 'value': 3 }
                             },
                             'hover': {
-                                'fill': { 'value': '#9e9e9e' }
+                                'fill': { 'value': '#666666' }
                             }
                         },
                         'domain': {
                             'update': {
-                                'stroke': { 'value': '#9e9e9e' },
+                                'stroke': { 'value': '#666666' },
                                 'strokeWidth': { 'value': 1.5 }
                             }
                         }
@@ -1012,7 +1000,9 @@ export class StatFactory {
 
     // One D Recycled Data Formulas, repeating possibly redo
     formatPrincipleComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
-        return data.map((v, i) => ({ label: 'PC' + (i + 1), value: (Math.round( v * 100 ) / 100)  }));
+        const rv = data.map((v, i) => ({ label: 'PC' + (i + 1), value: (Math.round( v * 100 ) / 100)  }));
+        rv.push( {label: 'Other', value: rv.reduce( (p, c) => { p -= c.value; return p; }, 100 )});
+        return rv;
     }
 
     formatError(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
