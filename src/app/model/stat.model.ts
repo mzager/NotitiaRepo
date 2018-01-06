@@ -138,7 +138,7 @@ export class VegaFactory {
                 'title': {
                     'offset': 0,
                     'fontSize': 11,
-                    'color': '#9e9e9e',
+                    'color': '#666666',
                     'font': 'Lato',
                     'fontWeight': 'normal',
                     'orient': 'bottom'
@@ -152,6 +152,18 @@ export class VegaFactory {
             'height': 150,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
+            'signals': [
+                {
+                    'name': 'signal_get_PC_value',
+                    'field': 'PC_total',
+                    'on': [
+                      {'events': '@PC_values:mouseover', 'update': 'datum.value'},
+                      {'events': '@signal_get_PC_value_text:mouseover', 'update': 'datum.value'},
+                    //   {'events': '@PC_values:mouseout', 'update': ''},
+                    //   {'events': '@signal_get_PC_value_text:mouseout', 'update': ''},
+                    ]
+                  },
+                    ],
             'data': [
                 {
                     'name': 'table',
@@ -159,8 +171,8 @@ export class VegaFactory {
                     'transform': [
                         {
                             'type': 'pie',
-                            'field': 'value',
-                        },
+                            'field': 'value'
+                        }
                     ]
                 },
                 {
@@ -172,21 +184,20 @@ export class VegaFactory {
                             'fields': ['value'],
                             'ops': ['sum'],
                             'as': ['PC_total']
-                        },
-                        {
-                            'type': 'formula',
-                            'field': 'PC_total',
-                            'expr': '(datum.PC_total * 100) / 100',
-                            'as': ['PC_total']
                         }
                     ]
                 }
             ],
             'scales': [
                 {
+                    'name': 'r',
+                    'type': 'sqrt',
+                    'domain': {'data': 'table', 'field': 'value'}
+                  },
+                {
                     'name': 'color',
                     'type': 'ordinal',
-                    'range': { 'scheme': 'greenblue-3' }
+                    'range': { 'scheme': 'accent' }
                 }
             ],
 
@@ -194,21 +205,22 @@ export class VegaFactory {
                 {
                     'type': 'arc',
                     'from': { 'data': 'table' },
+                    'name': 'PC_values',
+                    'interactive': true,
                     'encode': {
                         'enter': {
                             'x': { 'signal': 'width / 2' },
                             'y': { 'signal': 'height / 2' },
-                        },
-                        'update': {
                             'fill': { 'scale': 'color', 'field': 'label' },
                             'startAngle': { 'field': 'startAngle' },
                             'endAngle': { 'field': 'endAngle' },
                             'padAngle': { 'value': 0.01 },
-                            'innerRadius': { 'signal': 'width / 3' },
+                            'innerRadius': { 'value': 26 },
                             'outerRadius': { 'signal': 'width / 2' },
                             'cornerRadius': { 'value': 0 },
-                            'align': { 'value': 'left' }
-                        }
+                            'align': { 'value': 'left' },
+                            'tooltip': { 'feild': 'datum.value' },
+                        },
                     }
                 },
                 {
@@ -218,25 +230,35 @@ export class VegaFactory {
                         'enter': {
                             'x': { 'signal': 'width / 2' },
                             'y': { 'signal': 'height / 2' },
-                            'fill': { 'value': '#9e9e9e' },
+                            'fill': { 'value': '#666666' },
                             'align': { 'value': 'center' },
                             'baseline': { 'value': 'right' },
-                            'text': { 'field': 'PC_total' },
+                            'text': {'value': 'PC_total'},
+                            'fontSize': {'value': 8},
+                        },
+                        'update': {
+                            'text': {'signal': 'signal_get_PC_value'}
                         }
                     }
                 },
                 {
                     'type': 'text',
                     'from': { 'data': 'table' },
+                    'name': 'signal_get_PC_value_text',
+                    'interactive': true,
                     'encode': {
                         'enter': {
-                            'x': { 'signal': 'width / 4' },
-                            'y': { 'signal': 'height / 4' },
-                            'align': { 'value': 'center' },
-                            'baseline': { 'value': 'middle' },
-                            'fill': { 'value': '#9e9e9e' },
-                            'fontSize': { 'value': 8 },
-                            'text': { 'field': 'label' },
+                            'text': {'signal': 'datum.label'},
+                            'x': {'signal': 'width / 2'},
+                            'y': {'signal': 'height / 2'},
+                            'radius': {'value': 35},
+                            'theta': {'signal': '(datum["startAngle"] + datum["endAngle"])/2' },
+                            'baseline': {'value': 'middle'},
+                            'align': {'value': 'center'},
+                            'fill': { 'value': '#666666' },
+                            'fontSize': {'value': 5},
+                            'font': {'value': 'Lato'},
+                            'tooltip': { 'signal': 'datum.value' }
                         }
                     }
                 }
@@ -252,7 +274,7 @@ export class VegaFactory {
                 'title': {
                     'offset': 0,
                     'fontSize': 11,
-                    'color': '#9e9e9e',
+                    'color': '#666666',
                     'font': 'Lato',
                     'fontWeight': 'normal',
                     'orient': 'bottom'
@@ -308,13 +330,13 @@ export class VegaFactory {
                     'encode': {
                         'ticks': {
                             'update': {
-                                'stroke': { 'value': '#9e9e9e' }
+                                'stroke': { 'value': '#666666' }
                             }
                         },
                         'labels': {
                             'interactive': false,
                             'update': {
-                                'fill': { 'value': '#9e9e9e' },
+                                'fill': { 'value': '#666666' },
                                 'angle': { 'value': 50 },
                                 'fontSize': { 'value': 8 },
                                 'align': { 'value': '90' },
@@ -322,12 +344,12 @@ export class VegaFactory {
                                 'dx': { 'value': 3 }
                             },
                             'hover': {
-                                'fill': { 'value': '#9e9e9e' }
+                                'fill': { 'value': '#666666' }
                             }
                         },
                         'domain': {
                             'update': {
-                                'stroke': { 'value': '#9e9e9e' },
+                                'stroke': { 'value': '#666666' },
                                 'strokeWidth': { 'value': 1.5 }
                             }
                         }
@@ -769,13 +791,13 @@ export class StatFactory {
             // One Dimensional Stats
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
             // new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
-            new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues)),
+            // new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues)),
             // new StatOneD('Mean', this.formatMean(data.result.mean)),
             // Two Dimensional Stats
             new StatTwoD('PCA Loadings', this.formatPCALoadings(data.markerIds, data.result.components))
         ];
 
-        stats[3].charts = [ChartTypeEnum.HISTOGRAM];
+        // stats[3].charts = [ChartTypeEnum.HISTOGRAM];
         return stats;
     }
 
@@ -982,7 +1004,13 @@ export class StatFactory {
 
     // One D Recycled Data Formulas, repeating possibly redo
     formatPrincipleComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
+<<<<<<< HEAD
         return data.map((v, i) => ({ label: 'PC' + (i + 1), value: (Math.round(v * 100) / 100) }));
+=======
+        const rv = data.map((v, i) => ({ label: 'PC' + (i + 1), value: (Math.round( v * 100 ) / 100)  }));
+        rv.push( {label: 'Other', value: rv.reduce( (p, c) => { p -= c.value; return p; }, 100 )});
+        return rv;
+>>>>>>> 3a015fd463604e76c277f3eb6c4b6cf81507b20e
     }
 
     formatError(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
