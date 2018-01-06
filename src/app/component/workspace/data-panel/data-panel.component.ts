@@ -30,7 +30,8 @@ export class DataPanelComponent implements AfterViewInit {
   @Input() configA: GraphConfig;
   @Input() configB: GraphConfig;
 
-  _tables: Array<DataTable> = [];
+  public _tables: Array<DataTable> = [];
+  public db: Dexie;
 
   @Input() set tables(v: Array<DataTable>) {
     this._tables = v.concat([
@@ -39,16 +40,16 @@ export class DataPanelComponent implements AfterViewInit {
     ]);
   }
 
-  private db: Dexie;
-
   tableChange(table: DataTable): void {
     this.loadTable(table);
   }
   openDatabase(): Promise<any> {
     return new Promise((resolve, reject) => {
-      if (this.db === null) { 
+      console.dir(this);
+      if (this.db === null) {
         this.db = new Dexie('notitia-' + this.configA.database);
       }
+      console.dir(this);
       if (this.db.isOpen()) {
         resolve();
       } else {

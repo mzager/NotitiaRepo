@@ -50,12 +50,31 @@ export class HelpPanelComponent implements AfterViewInit  {
 
   @ViewChild('tabs') tabs: ElementRef;
 
+  // Mini Batch Dictionary Learning
+  // Mini Batch Sparse PCA
+  // Sparse Coder
+  // Dict Learning Online
+  // Sparse Encode
+
   @Input() set config(config: GraphConfig){
     const v = config.visualization;
     const method = (v === VisualizationEnum.TSNE) ? 'TSNE' :
       (v === VisualizationEnum.PCA) ? 'PCA' :
       (v === VisualizationEnum.INCREMENTAL_PCA) ? 'Incremental PCA' :
-      (v === VisualizationEnum.SPARSE_PCA) ? 'Sparce PCA' :
+      (v === VisualizationEnum.SPARSE_PCA) ? 'Sparse PCA' :
+      (v === VisualizationEnum.DICTIONARY_LEARNING) ? 'Dictionary Learning' :
+      (v === VisualizationEnum.FA) ? 'Factor Analysis' :
+      (v === VisualizationEnum.FAST_ICA) ? 'Fast ICA' :
+      (v === VisualizationEnum.KERNAL_PCA) ? 'Kernal PCA' :
+      (v === VisualizationEnum.LDA) ? 'Latent Dirichlet Allocation' :
+      (v === VisualizationEnum.NMF) ? 'NMF' :
+      (v === VisualizationEnum.TRUNCATED_SVD) ? 'Truncated SVD' :
+      (v === VisualizationEnum.ISOMAP) ? 'Isomap' :
+      (v === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? 'Locally Linear Embedding' :
+      // (v === VisualizationEnum.MDS) ? 
+      // (v === VisualizationEnum.SPECTRAL_EMBEDDING) ? 
+      // (v === VisualizationEnum.TSNE) ? 
+      // (v === VisualizationEnum.DICTIONARY_LEARNING) ? 'Dict Learning' :
       '';
 
     this.dataService.getHelpInfo(method).then( result => {
@@ -64,7 +83,7 @@ export class HelpPanelComponent implements AfterViewInit  {
       this.url = result.url;
       this.attrs = result.attrs;
       this.params = result.params;
-    })
+    });
   }
 
   method = '';
