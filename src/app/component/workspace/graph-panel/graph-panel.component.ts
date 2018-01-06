@@ -225,17 +225,16 @@ export class GraphPanelComponent implements AfterViewInit  {
 
       // Decomposition
       { value: VisualizationEnum.DICTIONARY_LEARNING, label: 'Dictionary Learning'},
+      { value: VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING, label: 'Dictionary Learning - Mini Batch '},
       { value: VisualizationEnum.FA, label: 'Factor Analysis'},
       { value: VisualizationEnum.FAST_ICA, label: 'Fast ICA'},
       { value: VisualizationEnum.LDA, label: 'Latent Dirichlet Allocation'},
-      { value: VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING, label: 'Mini Batch Dictionary Learning'},
-      { value: VisualizationEnum.MINI_BATCH_SPARSE_PCA, label: 'Mini Batch Sparse PCA'},
       { value: VisualizationEnum.NMF, label: 'Non-Negative Matrix Factorization'},
-
       { value: VisualizationEnum.PCA, label: 'PCA' },
       { value: VisualizationEnum.INCREMENTAL_PCA, label: 'PCA - Incremental'},
       { value: VisualizationEnum.KERNAL_PCA, label: 'PCA - Kernel'},
       { value: VisualizationEnum.SPARSE_PCA, label: 'PCA - Sparse'},
+      { value: VisualizationEnum.MINI_BATCH_SPARSE_PCA, label: 'PCA - Sparse - Mini Batch'},
       { value: VisualizationEnum.TRUNCATED_SVD, label: 'Truncated SVD'},
 
       // { value: VisualizationEnum.SPARSE_CODER, label: 'Sparse Coder'},

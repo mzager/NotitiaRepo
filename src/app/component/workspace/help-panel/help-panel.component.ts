@@ -79,7 +79,13 @@ export class HelpPanelComponent implements AfterViewInit  {
       (v === VisualizationEnum.SPECTRAL_EMBEDDING) ? '' :
       //(v === VisualizationEnum.TSNE) ? '' :
       '';
-
+    if (method === '') {
+      this.method = 'NA';
+      this.desc = 'Coming Soon';
+      this.url = 'NA';
+      this.attrs = [];
+      this.params = [];
+    }
     this.dataService.getHelpInfo(method).then( result => {
       this.method = result.method;
       this.desc = result.desc;

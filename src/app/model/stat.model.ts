@@ -777,6 +777,7 @@ export class StatFactory {
             case VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING: return null;
             case VisualizationEnum.MINI_BATCH_SPARSE_PCA: return null;
         }
+        return [];
     }
 
     private createIncrementalPca(data: GraphData): Array<Stat> {
@@ -1004,13 +1005,9 @@ export class StatFactory {
 
     // One D Recycled Data Formulas, repeating possibly redo
     formatPrincipleComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
-<<<<<<< HEAD
-        return data.map((v, i) => ({ label: 'PC' + (i + 1), value: (Math.round(v * 100) / 100) }));
-=======
         const rv = data.map((v, i) => ({ label: 'PC' + (i + 1), value: (Math.round( v * 100 ) / 100)  }));
         rv.push( {label: 'Other', value: rv.reduce( (p, c) => { p -= c.value; return p; }, 100 )});
         return rv;
->>>>>>> 3a015fd463604e76c277f3eb6c4b6cf81507b20e
     }
 
     formatError(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
