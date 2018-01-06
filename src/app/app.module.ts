@@ -1,3 +1,4 @@
+import { MiniBatchSparsePcaFormComponent } from './component/visualization/minibatchsparsepca/minibatchsparsepca.form.component';
 import { HelpPanelComponent } from './component/workspace/help-panel/help-panel.component';
 import { HicFormComponent } from './component/visualization/hic/hic.form.component';
 import { ParallelCoordsFormComponent } from './component/visualization/parallelcoords/parallelcoords.form.component';
@@ -84,6 +85,9 @@ import { TruncatedSvdFormComponent } from './component/visualization/truncatedsv
 import { TsneFormComponent } from './component/visualization/tsne/tsne.form.component';
 import { WorkbookService } from './service/workbook.service';
 import { WorkspaceComponent } from 'app/component/workspace/workspace.component';
+import { QuadradicDiscriminantAnalysisFormComponent } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.form.component';
+import { LinearDiscriminantAnalysisFormComponent } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.form.component';
+import { MiniBatchDictionaryLearningFormComponent } from 'app/component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.form.component';
 
 @NgModule({
   declarations: [
@@ -120,6 +124,10 @@ import { WorkspaceComponent } from 'app/component/workspace/workspace.component'
     KmedianFormComponent,
     KmedoidFormComponent,
     MdsFormComponent,
+    QuadradicDiscriminantAnalysisFormComponent,
+    LinearDiscriminantAnalysisFormComponent,
+    MiniBatchDictionaryLearningFormComponent,
+    MiniBatchSparsePcaFormComponent,
     SomFormComponent,
     ChromosomeFormComponent,
     GenomeFormComponent,
