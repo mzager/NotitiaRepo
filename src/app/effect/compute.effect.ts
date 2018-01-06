@@ -40,7 +40,11 @@ import {
   PcaKernalCompleteAction,
   PcaSparseCompleteAction,
   NoneCompleteAction,
-  NullDataAction
+  NullDataAction,
+  MiniBatchDictionaryLearningCompleteAction,
+  MiniBatchSparsePcaCompleteAction,
+  LinearDiscriminantAnalysisCompleteAction,
+  QuadraticDiscriminantAnalysisCompleteAction
 } from './../action/compute.action';
 import { ComputeService } from './../service/compute.service';
 import { DataService } from './../service/data.service';
@@ -129,6 +133,49 @@ export class ComputeEffect {
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new MdsCompleteAction({ config: result.config, data: result.data }));
+        });
+    });
+
+  @Effect() loadMiniBatchDictionaryLearning: Observable<any> = this.actions$
+    .ofType(compute.COMPUTE_MINI_BATCH_DICTIONARY_LEARNING)
+    .map(toPayload)
+    .switchMap(payload => {
+      return this.computeService.miniBatchDictionaryLearning(payload.config)
+        .switchMap(result => {
+          return Observable.of((result === null) ? new NullDataAction() :
+            new MiniBatchDictionaryLearningCompleteAction({ config: result.config, data: result.data }));
+        });
+    });
+
+  @Effect() loadMiniBatchSparsePca: Observable<any> = this.actions$
+    .ofType(compute.COMPUTE_MINI_BATCH_SPARSE_PCA)
+    .map(toPayload)
+    .switchMap(payload => {
+      return this.computeService.miniBatchSparsePca(payload.config)
+        .switchMap(result => {
+          return Observable.of((result === null) ? new NullDataAction() :
+            new MiniBatchSparsePcaCompleteAction({ config: result.config, data: result.data }));
+        });
+    });
+
+    @Effect() loadLinearDiscriminantAnalysis: Observable<any> = this.actions$
+    .ofType(compute.COMPUTE_LINEAR_DISCRIMINANT_ANALYSIS)
+    .map(toPayload)
+    .switchMap(payload => {
+      return this.computeService.linearDiscriminantAnalysis(payload.config)
+        .switchMap(result => {
+          return Observable.of((result === null) ? new NullDataAction() :
+            new LinearDiscriminantAnalysisCompleteAction({ config: result.config, data: result.data }));
+        });
+    });
+    @Effect() loadQuadraticDiscriminantAnalysis: Observable<any> = this.actions$
+    .ofType(compute.COMPUTE_QUADRATIC_DISCRIMINANT_ANALYSIS)
+    .map(toPayload)
+    .switchMap(payload => {
+      return this.computeService.linearDiscriminantAnalysis(payload.config)
+        .switchMap(result => {
+          return Observable.of((result === null) ? new NullDataAction() :
+            new QuadraticDiscriminantAnalysisCompleteAction({ config: result.config, data: result.data }));
         });
     });
 
@@ -384,6 +431,8 @@ export class ComputeEffect {
             new PcaSparseCompleteAction({ config: result.config, data: result.data }));
         });
     });
+
+
 
   // visualizationToComputeAction(config: any): Action {
   //   switch (config.visualization) {

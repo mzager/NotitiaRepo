@@ -71,10 +71,13 @@ export class HelpPanelComponent implements AfterViewInit  {
       (v === VisualizationEnum.TRUNCATED_SVD) ? 'Truncated SVD' :
       (v === VisualizationEnum.ISOMAP) ? 'Isomap' :
       (v === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? 'Locally Linear Embedding' :
-      // (v === VisualizationEnum.MDS) ? 
-      // (v === VisualizationEnum.SPECTRAL_EMBEDDING) ? 
-      // (v === VisualizationEnum.TSNE) ? 
-      // (v === VisualizationEnum.DICTIONARY_LEARNING) ? 'Dict Learning' :
+      (v === VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING) ? '' :
+      (v === VisualizationEnum.MINI_BATCH_SPARSE_PCA) ? '' :
+      (v === VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS) ? '' :
+      (v === VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS) ? '' :
+      (v === VisualizationEnum.MDS) ? '' :
+      (v === VisualizationEnum.SPECTRAL_EMBEDDING) ? '' :
+      //(v === VisualizationEnum.TSNE) ? '' :
       '';
 
     this.dataService.getHelpInfo(method).then( result => {

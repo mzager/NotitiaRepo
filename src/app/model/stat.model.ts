@@ -123,7 +123,7 @@ export class VegaFactory {
 
     // Labels (Singles), need to add classes to apply CSS
     private createLabel(stat: Stat): any {
-        return '<div >' + stat.data.reduce( (p, c) => {
+        return '<div >' + stat.data.reduce((p, c) => {
             p += '<p><label>' + c.label +
                 '</label><label> ' + c.value + '<label></p>';
             return p;
@@ -232,16 +232,16 @@ export class VegaFactory {
                         'enter': {
                             'x': { 'signal': 'width / 4' },
                             'y': { 'signal': 'height / 4' },
-                            'align': {'value': 'center'},
-                            'baseline': {'value': 'middle'},
+                            'align': { 'value': 'center' },
+                            'baseline': { 'value': 'middle' },
                             'fill': { 'value': '#9e9e9e' },
-                            'fontSize': {'value': 8},
+                            'fontSize': { 'value': 8 },
                             'text': { 'field': 'label' },
                         }
                     }
                 }
             ]
-    };
+        };
         return vega;
     }
     private createHistogram(stat: Stat): any {
@@ -733,24 +733,28 @@ export class StatFactory {
 
     // Public Interface + Takes The Visualization Type and figures which to call
     public getStatObjects(data: GraphData, vis: VisualizationEnum): Array<Stat> {
-        // Unsupervised Learning Clustering
-        return (vis === VisualizationEnum.INCREMENTAL_PCA) ? this.createIncrementalPca(data) :
-            (vis === VisualizationEnum.TRUNCATED_SVD) ? this.createTruncatedSvd(data) :
-                (vis === VisualizationEnum.PCA) ? this.createPca(data) :
-                    (vis === VisualizationEnum.SPARSE_PCA) ? this.createSparse_PCA(data) :
-                        (vis === VisualizationEnum.KERNAL_PCA) ? this.createKernalPca(data) :
-                            (vis === VisualizationEnum.DICTIONARY_LEARNING) ? this.createDictionaryLearning(data) :
-                                (vis === VisualizationEnum.FA) ? this.createFactorAnalysis(data) :
-                                    (vis === VisualizationEnum.LDA) ? this.createLatentDirichletAllocation(data) :
-                                        (vis === VisualizationEnum.NMF) ? this.createNonNegativeMatrixFactorization(data) :
-                                            (vis === VisualizationEnum.ISOMAP) ? this.createIsoMap(data) :
-                                                (vis === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? this.createLocallyLinearEmbedding(data) :
-                                                    (vis === VisualizationEnum.MDS) ? this.createMds(data) :
-                                                        (vis === VisualizationEnum.FAST_ICA) ? this.createFastIca(data) :
-                                                            (vis === VisualizationEnum.SPECTRAL_EMBEDDING) ? this.createSpectralEmbedding(data) :
-                                                                (vis === VisualizationEnum.TSNE) ? this.createTSNE(data) :
-
-                                                                    null;
+        // Unsupervised Learning Clustering + Manifest Learn + Discriminant Analysis
+        switch (vis) {
+            case VisualizationEnum.INCREMENTAL_PCA: return this.createIncrementalPca(data);
+            case VisualizationEnum.TRUNCATED_SVD: return this.createTruncatedSvd(data);
+            case VisualizationEnum.PCA: return this.createPca(data);
+            case VisualizationEnum.SPARSE_PCA: return this.createSparse_PCA(data);
+            case VisualizationEnum.KERNAL_PCA: return this.createKernalPca(data);
+            case VisualizationEnum.DICTIONARY_LEARNING: return this.createDictionaryLearning(data);
+            case VisualizationEnum.FA: return this.createFactorAnalysis(data);
+            case VisualizationEnum.LDA: return this.createLatentDirichletAllocation(data);
+            case VisualizationEnum.NMF: return this.createNonNegativeMatrixFactorization(data);
+            case VisualizationEnum.ISOMAP: return this.createIsoMap(data);
+            case VisualizationEnum.LOCALLY_LINEAR_EMBEDDING: return this.createLocallyLinearEmbedding(data);
+            case VisualizationEnum.MDS: return this.createMds(data);
+            case VisualizationEnum.FAST_ICA: return this.createFastIca(data);
+            case VisualizationEnum.SPECTRAL_EMBEDDING: return this.createSpectralEmbedding(data);
+            case VisualizationEnum.TSNE: return this.createTSNE(data);
+            case VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS: return null;
+            case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS: return null;
+            case VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING: return null;
+            case VisualizationEnum.MINI_BATCH_SPARSE_PCA: return null;
+        }
     }
 
     private createIncrementalPca(data: GraphData): Array<Stat> {
@@ -978,7 +982,7 @@ export class StatFactory {
 
     // One D Recycled Data Formulas, repeating possibly redo
     formatPrincipleComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
-        return data.map((v, i) => ({ label: 'PC' + (i + 1), value: (Math.round( v * 100 ) / 100)  }));
+        return data.map((v, i) => ({ label: 'PC' + (i + 1), value: (Math.round(v * 100) / 100) }));
     }
 
     formatError(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
@@ -1003,7 +1007,7 @@ export class StatFactory {
     }
     // Two D Recycled Data Formulas
     formatPCALoadings(markers: Array<string>, data: Array<Array<number>>): Array<{ label: string, value: number, color?: number }> {
-        return data[0].sort( (a, b) => b - a ).splice(0, 20).map( (v, i) => ({label: markers[i], value: Math.round(v * 1e2) / 1e2 }));
+        return data[0].sort((a, b) => b - a).splice(0, 20).map((v, i) => ({ label: markers[i], value: Math.round(v * 1e2) / 1e2 }));
     }
 
 }
