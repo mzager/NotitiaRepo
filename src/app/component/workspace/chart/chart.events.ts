@@ -56,14 +56,15 @@ export class ChartEvents {
 
                 if (this.workspaceConfig.layout === WorkspaceLayoutEnum.HORIZONTAL) {
                     this.mouse.x = (event.clientX / this.dimensions.width * 2) * 2 - 1;
-                    if (this.mouse.x > 1) { this.mouse.x -= 2; }  // Assumes Left Right Orientation
+                    if (this.mouse.x > 1) { this.mouse.x -= 2; }  // Right
                     this.mouse.y = - (event.clientY / this.dimensions.height) * 2 + 1;
                     this.chart = event.clientX < Math.floor(this.dimensions.width * 0.5) ? GraphEnum.GRAPH_A : GraphEnum.GRAPH_B;
                 } else if (this.workspaceConfig.layout === WorkspaceLayoutEnum.VERTICAL) {
                     this.mouse.x = (event.clientX / this.dimensions.width) * 2 + 1;
                     if (this.mouse.x > 1) { this.mouse.x -= 2; }
                     this.mouse.y = (event.clientY / this.dimensions.height * 2) * 2 - 1;
-                    if (this.mouse.y > 1) { this.mouse.y -= 2; }
+                    this.mouse.y *= -1;
+                    if (this.mouse.y < -1) { this.mouse.y += 2; } // Bottom
                     this.chart = event.clientY < Math.floor(this.dimensions.height * 0.5) ? GraphEnum.GRAPH_A : GraphEnum.GRAPH_B;
                 } else if (this.workspaceConfig.layout === WorkspaceLayoutEnum.SINGLE) {
                     this.mouse.y = - (event.clientY / this.dimensions.height) * 2 + 1;
@@ -79,10 +80,9 @@ export class ChartEvents {
                         this.mouse.xs -= this.dimensions.width * 0.5;
                     }
                     if (this.workspaceConfig.layout === WorkspaceLayoutEnum.VERTICAL) {
-                        this.mouse.ys -= this.dimensions.height;
+                        this.mouse.xs -= this.dimensions.width * 0.5;
                     }
                 }
-
                 return new ChartEvent(event, this.mouse, this.chart);
             })
             .distinctUntilChanged((a, b) => a.chart === b.chart);

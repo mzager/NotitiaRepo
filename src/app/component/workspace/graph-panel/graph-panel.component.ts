@@ -212,6 +212,8 @@ export class GraphPanelComponent implements AfterViewInit  {
       { value: VisualizationEnum.FA, label: 'Factor Analysis'},
       { value: VisualizationEnum.FAST_ICA, label: 'Fast ICA'},
       { value: VisualizationEnum.LDA, label: 'Latent Dirichlet Allocation'},
+      { value: VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING, label: 'Mini Batch Dictionary Learning'},
+      { value: VisualizationEnum.MINI_BATCH_SPARSE_PCA, label: 'Mini Batch Sparse PCA'},
       { value: VisualizationEnum.NMF, label: 'Non-Negative Matrix Factorization'},
 
       { value: VisualizationEnum.PCA, label: 'PCA' },
@@ -220,6 +222,9 @@ export class GraphPanelComponent implements AfterViewInit  {
       { value: VisualizationEnum.SPARSE_PCA, label: 'PCA - Sparse'},
       { value: VisualizationEnum.TRUNCATED_SVD, label: 'Truncated SVD'},
 
+      // { value: VisualizationEnum.SPARSE_CODER, label: 'Sparse Coder'},
+      
+      
       // Manifold learning
       { value: VisualizationEnum.ISOMAP, label: 'Isomap'},
       { value: VisualizationEnum.LOCALLY_LINEAR_EMBEDDING, label: 'Locally Linear Embedding'},
