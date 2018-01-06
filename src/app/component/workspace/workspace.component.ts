@@ -337,6 +337,7 @@ export class WorkspaceComponent {
   }
 
   dataPanelToggle() {
+    alert("!!!");
     this.store.dispatch(new layout.DataPanelToggleAction());
   }
   dataPanelSetTab(value: enums.DataPanelEnum) {
