@@ -81,7 +81,7 @@ export class TimelinesGraph implements ChartObjectInterface {
 
     }
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
-
+        
         this.labels = labels;
         this.labels.innerText = '';
         this.title = <HTMLDivElement>(document.createElement('div'));

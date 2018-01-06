@@ -113,6 +113,7 @@ export class GenomeGraph implements ChartObjectInterface {
         } else {
             this.sMouseMove.unsubscribe();
             this.sMouseDown.unsubscribe();
+            this.tooltips.innerHTML = '';
         }
     }
     preRender(views: Array<VisualizationView>, layout: WorkspaceLayoutEnum, renderer: THREE.WebGLRenderer) {
@@ -247,17 +248,17 @@ export class GenomeGraph implements ChartObjectInterface {
     }
 
     showLabels(e: ChartEvent) {
+
         let hits;
-        const geneHit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
-        if (geneHit.length > 0) {
+        const hit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
+        if (hit.length > 0) {
             const xPos = e.mouse.xs + 10;
             const yPos = e.mouse.ys;
-            // if (this.config.graph === GraphEnum.GRAPH_B) { xPos -= this.view.viewport.width; }
             this.tooltips.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#FFF;padding:3px;border-radius:' +
                 '3px;z-index:9999;position:absolute;left:' +
                 xPos + 'px;top:' +
                 yPos + 'px;">' +
-                geneHit[0].object.userData.tip + '</div>';
+                hit[0].object.userData.tip + '</div>';
             return;
         }
 
@@ -268,7 +269,6 @@ export class GenomeGraph implements ChartObjectInterface {
             if (hits.length > 0) {
                 const xPos = e.mouse.xs + 10;
                 const yPos = e.mouse.ys;
-                // if (this.config.graph === GraphEnum.GRAPH_B) { xPos -= this.view.viewport.width; }
                 this.tooltips.innerHTML = '<div style="background:rgba(255,255,255,.8);padding:3px;border-radius:3px;' +
                     'z-index:9999;position:absolute;left:' +
                     xPos + 'px;top:' +
