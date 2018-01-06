@@ -1,3 +1,5 @@
+import { MiniBatchSparsePcaConfigModel } from 'app/component/visualization/minibatchsparsepca/minibatchsparsepca.model';
+import { MiniBatchDictionaryLearningConfigModel } from 'app/component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
 import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
 import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
 import { HicConfigModel } from './../visualization/hic/hic.model';
@@ -75,6 +77,8 @@ import { TruncatedSvdConfigModel } from './../visualization/truncatedsvd/truncat
 import { TsneConfigModel } from './../visualization/tsne/tsne.model';
 import { VisibilityToggleAction, VisualizationSetAction, WorkspaceConfigAction } from './../../action/graph.action';
 import { WorkspaceConfigModel } from './../../model/workspace.model';
+import { LinearDiscriminantAnalysisConfigModel } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
+import { QuadradicDiscriminantAnalysisConfigModel } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
 
 @Component({
   selector: 'app-workspace',
@@ -278,6 +282,19 @@ export class WorkspaceComponent {
       case enums.VisualizationEnum.SPARSE_PCA:
         this.store.dispatch( new compute.PcaSparseAction( { config: value as PcaSparseConfigModel} ));
         break;
+      case enums.VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING:
+        this.store.dispatch( new compute.MiniBatchDictionaryLearningAction( { config: value as MiniBatchDictionaryLearningConfigModel} ));
+        break;
+      case enums.VisualizationEnum.MINI_BATCH_SPARSE_PCA:
+        this.store.dispatch( new compute.MiniBatchSparsePcaAction( { config: value as MiniBatchSparsePcaConfigModel} ));
+        break;
+      case enums.VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS:
+        this.store.dispatch( new compute.LinearDiscriminantAnalysisAction( { config: value as LinearDiscriminantAnalysisConfigModel} ));
+        break;
+      case enums.VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS:
+        this.store.dispatch( new compute.QuadraticDiscriminantAnalysisAction(
+            { config: value as QuadradicDiscriminantAnalysisConfigModel} ));
+        break;
     }
   }
 
@@ -337,7 +354,6 @@ export class WorkspaceComponent {
   }
 
   dataPanelToggle() {
-    alert("!!!");
     this.store.dispatch(new layout.DataPanelToggleAction());
   }
   dataPanelSetTab(value: enums.DataPanelEnum) {

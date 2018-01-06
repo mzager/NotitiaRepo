@@ -1,3 +1,7 @@
+import { MiniBatchDictionaryLearningConfigModel } from './../component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
+import { miniBatchSparsePcaCompute } from './../component/visualization/minibatchsparsepca/minibatchsparsepca.compute';
+import { LinearDiscriminantAnalysisConfigModel } from './../component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
+import { COMPUTE_MINI_BATCH_SPARSE_PCA } from './../action/compute.action';
 import { graph } from 'ngraph.graph';
 import { HicConfigModel } from './../component/visualization/hic/hic.model';
 import { ParallelCoordsConfigModel } from './../component/visualization/parallelcoords/parallelcoords.model';
@@ -36,6 +40,8 @@ import { UUID } from 'angular2-uuid';
 import * as Pool from 'generic-promise-pool';
 import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
 import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
+import { QuadradicDiscriminantAnalysisConfigModel } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
+import { MiniBatchSparsePcaConfigModel } from 'app/component/visualization/minibatchsparsepca/minibatchsparsepca.model';
 declare var thread;
 
 /*
@@ -56,6 +62,10 @@ export class ComputeService {
     private timelines$ = new Subject<any>();
     private truncatedSvd$ = new Subject<any>();
     private dictionaryLearning$ = new Subject<any>();
+    private linearDiscriminantAnalysis$ = new Subject<any>();
+    private quadradicDiscriminantAnalysis$ = new Subject<any>();
+    private miniBatchDictionaryLearning$ = new Subject<any>();
+    private miniBatchSparsePca$ = new Subject<any>();
     private lda$ = new Subject<any>();
     private nmf$ = new Subject<any>();
     private fa$ = new Subject<any>();
@@ -114,6 +124,10 @@ export class ComputeService {
             (v === VisualizationEnum.MDS) ? this.mds$ :
             (v === VisualizationEnum.PCA) ? this.pca$ :
             (v === VisualizationEnum.SOM) ? this.som$ :
+            (v === VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS) ? this.quadradicDiscriminantAnalysis$ :
+            (v === VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS) ? this.linearDiscriminantAnalysis$ :
+            (v === VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING) ? this.miniBatchDictionaryLearning$ :
+            (v === VisualizationEnum.MINI_BATCH_SPARSE_PCA) ? this.miniBatchSparsePca$ :
             (v === VisualizationEnum.CHROMOSOME) ? this.chromosome$ :
             (v === VisualizationEnum.GENOME) ? this.genome$ :
             (v === VisualizationEnum.TSNE) ? this.tsne$ :
@@ -243,6 +257,22 @@ export class ComputeService {
 
     som(config: SomConfigModel): Observable<any> {
         return this.execute(config, this.som$);
+    }
+
+    quadraticDiscriminantAnalysis(config: QuadradicDiscriminantAnalysisConfigModel): Observable<any> {
+        return this.execute(config, this.quadradicDiscriminantAnalysis$);
+    }
+
+    linearDiscriminantAnalysis(config: LinearDiscriminantAnalysisConfigModel): Observable<any> {
+        return this.execute(config, this.linearDiscriminantAnalysis$);
+    }
+
+    miniBatchSparsePca(config: MiniBatchSparsePcaConfigModel): Observable<any> {
+        return this.execute(config, this.miniBatchSparsePca$);
+    }
+
+    miniBatchDictionaryLearning(config: MiniBatchDictionaryLearningConfigModel): Observable<any> {
+        return this.execute(config, this.miniBatchDictionaryLearning$);
     }
 
     mds(config: MdsConfigModel): Observable<any> {

@@ -1,3 +1,6 @@
+import { LinearDiscriminantAnalysisGraph } from './../../visualization/lineardiscriminantanalysis/lineardiscriminantanalysis';
+import { MiniBatchDictionaryLearningGraph } from './../../visualization/minibatchdictionarylearning/minibatchdictionarylearning';
+import { MiniBatchSparsePcaGraph } from './../../visualization/minibatchsparsepca/minibatchsparsepca';
 import { PathwaysGraph } from './../../visualization/pathways/pathways.graph';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { TimelinesGraph } from './../../visualization/timelines/timelines.graph';
@@ -49,6 +52,7 @@ import { OrbitControls } from 'three-orbitcontrols-ts';
 import WebGLRenderer = THREE.WebGLRenderer;
 import CanvasRenderer = THREE.CanvasRenderer;
 import Scene = THREE.Scene;
+import { QuadradicDiscriminantAnalysisGraph } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis';
 
 export class ChartScene {
 
@@ -327,7 +331,6 @@ export class ChartScene {
             view.chart = this.getChartObject(config.visualization).create(
                 (config.graph === GraphEnum.GRAPH_A) ? this.labelsA : this.labelsB, this.events, view);
             view.controls.reset();
-            
             view.chart.onRequestRender.subscribe(this.render);
             view.chart.onConfigEmit.subscribe(this.config);
         }
@@ -367,8 +370,11 @@ export class ChartScene {
             case VisualizationEnum.SPECTRAL_EMBEDDING: return new SpectralEmbeddingGraph();
             case VisualizationEnum.KERNAL_PCA: return new PcaKernalGraph();
             case VisualizationEnum.SPARSE_PCA: return new PcaSparseGraph();
-            case VisualizationEnum.INCREMENTAL_PCA: return new PcaIncrementalGraph;
-
+            case VisualizationEnum.INCREMENTAL_PCA: return new PcaIncrementalGraph();
+            case VisualizationEnum.MINI_BATCH_SPARSE_PCA: return new MiniBatchSparsePcaGraph();
+            case VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING: return new MiniBatchDictionaryLearningGraph();
+            case VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS: return new LinearDiscriminantAnalysisGraph();
+            case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS: return new QuadradicDiscriminantAnalysisGraph();
         }
     }
 

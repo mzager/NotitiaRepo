@@ -1,3 +1,7 @@
+import { QuadradicDiscriminantAnalysisConfigModel } from './../../visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
+import { LinearDiscriminantAnalysisConfigModel } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
+import { MiniBatchDictionaryLearningConfigModel } from './../../visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
+import { MiniBatchSparsePcaConfigModel } from './../../visualization/minibatchsparsepca/minibatchsparsepca.model';
 import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
 import { HicConfigModel } from './../../visualization/hic/hic.model';
 import { ParallelCoordsConfigModel } from './../../visualization/parallelcoords/parallelcoords.model';
@@ -131,6 +135,18 @@ export class GraphPanelComponent implements AfterViewInit  {
         case VisualizationEnum.MDS:
           gc = new MdsConfigModel();
           break;
+        case VisualizationEnum.MINI_BATCH_SPARSE_PCA:
+          gc = new MiniBatchSparsePcaConfigModel();
+          break;
+        case VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING:
+          gc = new MiniBatchDictionaryLearningConfigModel();
+          break;
+        case VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS:
+          gc = new LinearDiscriminantAnalysisConfigModel();
+          break;
+        case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS:
+          gc = new QuadradicDiscriminantAnalysisConfigModel();
+          break;
         case VisualizationEnum.LDA:
           gc = new LdaConfigModel();
           break;
@@ -232,9 +248,13 @@ export class GraphPanelComponent implements AfterViewInit  {
       { value: VisualizationEnum.SPECTRAL_EMBEDDING, label: 'Spectral Embedding'},
       { value: VisualizationEnum.TSNE, label: 'T-SNE'},
 
-// Discriminant Analysis
-  // Linear Discriminat Analysis
-  // Quadratic Discriminant Analysis
+      // Discriminant Analysis
+      { value: VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS, label: 'Linear Discriminat Analysis'},
+      { value: VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS, label: 'Quadratic Discriminant Analysis'},
+    // lineardiscriminantanalysis
+    // quadradicdescriminantanalysis
+    // minibatchdictionarylearning
+    // minibatchsparcepca
 
 // Random Projection
   // Gaussian, Sparse
@@ -250,11 +270,9 @@ export class GraphPanelComponent implements AfterViewInit  {
       // { value: VisualizationEnum.DA, label: 'Discriminat Analysis '},
       // { value: VisualizationEnum.DE, label: 'Gene Set Enrichmant '},
       // { value: VisualizationEnum.DE, label: 'Differential Expression '},
-      
       // { value: VisualizationEnum.PARALLEL_COORDS, label: 'Parallel Coordinates'},
-      
       // { value: VisualizationEnum.SURVIVAL, label: 'Kaplan Meier Curve Beta'},
-      // { value: VisualizationEnum.PATHWAYS, label: 'Pathways Beta'},
+      
       
     ];
   }
