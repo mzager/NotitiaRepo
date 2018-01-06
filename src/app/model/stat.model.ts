@@ -154,19 +154,16 @@ export class VegaFactory {
             'autosize': { 'type': 'fit', 'resize': false },
             'signals': [
                 {
-                    'name': 'hover',
-                    'value': 'null',
-                    'on': [ 
-                      {'events': '@cell:mouseover', 'update': 'datum'},
-                      {'events': '@cell:mouseout', 'update': 'null'}
+                    'name': 'signal_get_PC_value',
+                    'field': 'PC_total',
+                    'on': [
+                      {'events': '@PC_values:mouseover', 'update': 'datum.value'},
+                      {'events': '@signal_get_PC_value_text:mouseover', 'update': 'datum.value'},
+                    //   {'events': '@PC_values:mouseout', 'update': ''},
+                    //   {'events': '@signal_get_PC_value_text:mouseout', 'update': ''},
                     ]
-                },
-                // {
-                //     'name': 'PC_Update',
-                //     'value': 'value',
-                //     'update': 'datum.value' 
-                //   },
-        ],
+                  },
+                    ],
             'data': [
                 {
                     'name': 'table',
@@ -187,13 +184,7 @@ export class VegaFactory {
                             'fields': ['value'],
                             'ops': ['sum'],
                             'as': ['PC_total']
-                        },
-                        {
-                            'type': 'formula',
-                            'field': 'PC_total',
-                            'expr': '(datum.PC_total * 100) / 100',
-                            'as': ['PC_total']
-                        },
+                        }
                     ]
                 }
             ],
@@ -201,12 +192,12 @@ export class VegaFactory {
                 {
                     'name': 'r',
                     'type': 'sqrt',
-                    'domain': {'data': 'table', 'field': 'test'}
+                    'domain': {'data': 'table', 'field': 'value'}
                   },
                 {
                     'name': 'color',
                     'type': 'ordinal',
-                    'range': { 'scheme': 'greenblue-4' }
+                    'range': { 'scheme': 'accent' }
                 }
             ],
 
@@ -214,6 +205,8 @@ export class VegaFactory {
                 {
                     'type': 'arc',
                     'from': { 'data': 'table' },
+                    'name': 'PC_values',
+                    'interactive': true,
                     'encode': {
                         'enter': {
                             'x': { 'signal': 'width / 2' },
@@ -225,7 +218,8 @@ export class VegaFactory {
                             'innerRadius': { 'value': 26 },
                             'outerRadius': { 'signal': 'width / 2' },
                             'cornerRadius': { 'value': 0 },
-                            'align': { 'value': 'left' }
+                            'align': { 'value': 'left' },
+                            'tooltip': { 'feild': 'datum.value' },
                         },
                     }
                 },
@@ -236,17 +230,22 @@ export class VegaFactory {
                         'enter': {
                             'x': { 'signal': 'width / 2' },
                             'y': { 'signal': 'height / 2' },
-                            'fill': { 'value': '#66666' },
+                            'fill': { 'value': '#666666' },
                             'align': { 'value': 'center' },
                             'baseline': { 'value': 'right' },
-                            'text': { 'field': 'PC_total' },
+                            'text': {'value': 'PC_total'},
                             'fontSize': {'value': 8},
+                        },
+                        'update': {
+                            'text': {'signal': 'signal_get_PC_value'}
                         }
                     }
                 },
                 {
                     'type': 'text',
                     'from': { 'data': 'table' },
+                    'name': 'signal_get_PC_value_text',
+                    'interactive': true,
                     'encode': {
                         'enter': {
                             'text': {'signal': 'datum.label'},
@@ -257,8 +256,9 @@ export class VegaFactory {
                             'baseline': {'value': 'middle'},
                             'align': {'value': 'center'},
                             'fill': { 'value': '#666666' },
-                            'fontSize': {'value': 6},
+                            'fontSize': {'value': 5},
                             'font': {'value': 'Lato'},
+                            'tooltip': { 'signal': 'datum.value' }
                         }
                     }
                 }
