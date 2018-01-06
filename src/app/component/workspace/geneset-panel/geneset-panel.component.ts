@@ -88,6 +88,7 @@ export class GenesetPanelComponent implements AfterViewInit {
   @Input() configA: GraphConfig;
   @Input() configB: GraphConfig;
   @Output() configChange = new EventEmitter<GraphConfig>();
+  @Output() hide = new EventEmitter<any>();
 
   ngAfterViewInit(): void {
     // $(this.tabs.nativeElement).tabs();
