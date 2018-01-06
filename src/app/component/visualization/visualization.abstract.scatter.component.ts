@@ -120,6 +120,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
             this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
         } else {
             this.sMouseMove.unsubscribe();
+            this.tooltips.innerHTML = '';
         }
     }
 

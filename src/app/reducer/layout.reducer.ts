@@ -59,7 +59,7 @@ export function reducer(state = initialState, action: UnsafeAction): State {
         case layout.HELP_PANEL_SHOW:
             return Object.assign({}, state, { helpPanel: e.SinglePanelEnum.SHOW });
         case layout.HELP_PANEL_HIDE:
-            return Object.assign({}, state, { helpPanel: e.SinglePanelEnum.SHOW });
+            return Object.assign({}, state, { helpPanel: e.SinglePanelEnum.HIDE });
         case layout.GENE_SIGNATURE_PANEL_SHOW:
             return Object.assign({}, state, { geneSignaturePanel: e.SinglePanelEnum.SHOW });
         case layout.GENE_SIGNATURE_PANEL_HIDE:
