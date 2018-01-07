@@ -5,24 +5,26 @@ import { DataFieldFactory } from './../../../model/data-field.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DataField } from 'app/model/data-field.model';
 
-export class MiniBatchSparsePcaDissimilarity {
-    public static ECULIDEAN = 'euclidean';
-    public static PRECOMPUTED = 'precomputed';
+export class MiniBatchSparsePcaMethod {
+    public static LARS = 'euclidean';
+    public static CD = 'cd';
 }
 
 export class MiniBatchSparsePcaConfigModel extends GraphConfig {
-
+ 
     constructor() {
         super();
         this.entity = EntityTypeEnum.SAMPLE;
-        this.visualization = VisualizationEnum.MDS;
+        this.visualization = VisualizationEnum.MINI_BATCH_SPARSE_PCA;
     }
 
     n_components = 3;
-    dimension = DimensionEnum.THREE_D;
-    metric: Boolean = true;
-    eps = 1e-3;
-    dissimilarity = MiniBatchSparsePcaDissimilarity.ECULIDEAN;
+    alpha = 1;
+    ridge_alpha = 0.01;
+    n_iter = 100;
+    batch_size = 3;
+    shuffle = true;
+    method = MiniBatchSparsePcaMethod.LARS;
 }
 
 
@@ -35,6 +37,6 @@ export interface MiniBatchSparsePcaDataModel extends GraphData {
     sampleIds: Array<string>;
     markerIds: Array<string>;
     patientIds: Array<string>;
-    embedding: any;
-    stress: any;
+    error: any;
+    n_iter: any;
 }
