@@ -18,13 +18,15 @@ export const miniBatchSparsePcaCompute = (config: MiniBatchSparsePcaConfigModel,
                     worker.util
                         .fetchResult({
                             // added more than server is calling
-                            method: 'manifold_sk_minibatchsparsepca',
+                            method: 'cluster_sk_mini_batch_sparse_pca',
                             data: mtx.data,
                             n_components: config.n_components,
-                            dimension: config.dimension,
-                            metric: config.metric,
-                            eps: config.eps,
-                            dissimilarity: config.dissimilarity
+                            alpha: config.alpha,
+                            ridge_alpha: config.ridge_alpha,
+                            n_iter: config.n_iter,
+                            batch_size: config.batch_size,
+                            shuffle: config.shuffle,
+                            sk_method: config.method
                         })
                 ]).then(result => {
                     const psMap = result[0].reduce((p, c) => { p[c.s] = c.p; return p; }, {});

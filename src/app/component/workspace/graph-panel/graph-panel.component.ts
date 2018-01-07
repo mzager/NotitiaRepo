@@ -250,10 +250,7 @@ export class GraphPanelComponent implements AfterViewInit  {
       // Discriminant Analysis
       { value: VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS, label: 'Linear Discriminat Analysis'},
       { value: VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS, label: 'Quadratic Discriminant Analysis'},
-    // lineardiscriminantanalysis
-    // quadradicdescriminantanalysis
-    // minibatchdictionarylearning
-    // minibatchsparcepca
+
 
 // Random Projection
   // Gaussian, Sparse
