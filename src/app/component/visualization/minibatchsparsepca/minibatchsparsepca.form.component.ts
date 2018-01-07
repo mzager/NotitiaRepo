@@ -1,7 +1,7 @@
 import { DimensionEnum, EntityTypeEnum, CollectionTypeEnum } from './../../../model/enum.model';
 import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { MiniBatchSparsePcaConfigModel, MiniBatchSparsePcaDissimilarity } from './minibatchsparsepca.model';
+import { MiniBatchSparsePcaConfigModel, MiniBatchSparsePcaMethod } from './minibatchsparsepca.model';
 import { DataTypeEnum, DirtyEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
@@ -72,20 +72,20 @@ import * as _ from 'lodash';
     </label>
   </div>
   <div class="form-group">
-    <label class="center-block"><span class="form-label">Dissimilarity</span>
+    <label class="center-block"><span class="form-label">Method</span>
      <select class="browser-default" materialize="material_select"
-      [materializeSelectOptions]="MiniBatchSparsePcaDissimilarityOpitions"
+      [materializeSelectOptions]="MiniBatchSparsePcaMethodOpitions"
       formControlName="dissimilarity">
-        <option *ngFor="let options of MiniBatchSparsePcaDissimilarityOpitions" [ngValue]="options">{{options}}</option>
+        <option *ngFor="let options of MiniBatchSparsePcaMethodOpitions" [ngValue]="options">{{options}}</option>
       </select>
     </label>
   </div>
   <div class="form-group">
     <div class="switch">
       <label>
-        <input type="checkbox" formControlName="metric">
+        <input type="checkbox" formControlName="shuffle">
         <span class="lever"></span>
-        Metric
+        Shuffle
       </label>
     </div>
   </div>
@@ -101,9 +101,9 @@ export class MiniBatchSparsePcaFormComponent extends AbstractScatterForm {
     }
   }
 
-  MiniBatchSparsePcaDissimilarityOpitions = [
-    MiniBatchSparsePcaDissimilarity.ECULIDEAN,
-    MiniBatchSparsePcaDissimilarity.PRECOMPUTED
+  MiniBatchSparsePcaMethodOpitions = [
+    MiniBatchSparsePcaMethod.LARS,
+    MiniBatchSparsePcaMethod.CD
   ];
 
   constructor(private fb: FormBuilder) {
@@ -126,10 +126,12 @@ export class MiniBatchSparsePcaFormComponent extends AbstractScatterForm {
       pointSize: [],
 
       n_components: [],
-      metric: [],
-      eps: [],
-      dimension: [],
-      dissimilarity: []
+      alpha: [],
+      ridge_alpha: [],
+      n_iter: [],
+      batch_size: [],
+      shuffle: [],
+      method: []
     });
     
     this.registerFormChange();
