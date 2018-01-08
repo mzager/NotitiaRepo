@@ -5,6 +5,7 @@ import { DedicatedWorkerGlobalScope } from 'compute';
 import * as _ from 'lodash';
 declare var ML: any;
 
+// tslint:disable-next-line:max-line-length
 export const linearDiscriminantAnalysisCompute = (config: LinearDiscriminantAnalysisConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
     worker.util.processShapeColorSizeIntersect(config, worker);
@@ -22,9 +23,11 @@ export const linearDiscriminantAnalysisCompute = (config: LinearDiscriminantAnal
                             data: mtx.data,
                             n_components: config.n_components,
                             dimension: config.dimension,
-                            metric: config.metric,
-                            eps: config.eps,
-                            dissimilarity: config.dissimilarity
+                            solver: config.solver,
+                            shrinkage: config.shrinkage,
+                            // priors =
+                            store_covariance: config.store_covariance,
+                            tol: config.tol
                         })
                 ]).then(result => {
                     const psMap = result[0].reduce((p, c) => { p[c.s] = c.p; return p; }, {});
