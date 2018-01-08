@@ -5,7 +5,7 @@ import { DedicatedWorkerGlobalScope } from 'compute';
 import * as _ from 'lodash';
 declare var ML: any;
 
-export const miniBatchDictionaryLearningCompute = 
+export const miniBatchDictionaryLearningCompute =
     (config: MiniBatchDictionaryLearningConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
     worker.util.processShapeColorSizeIntersect(config, worker);
