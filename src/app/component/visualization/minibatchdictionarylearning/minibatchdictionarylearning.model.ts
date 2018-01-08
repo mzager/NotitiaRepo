@@ -34,6 +34,9 @@ export class MiniBatchDictionaryLearningConfigModel extends GraphConfig {
     shuffle = true;
     transform_algorithm = MiniBatchDictionaryTransform.OMP;
     split_sign = false;
+    // metric =
+    // eps =
+    // dissimilarity =
 }
 
 
