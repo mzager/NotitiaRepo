@@ -5,24 +5,21 @@ import { DataFieldFactory } from './../../../model/data-field.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DataField } from 'app/model/data-field.model';
 
-export class QuadradicDiscriminantAnalysisDissimilarity {
-    public static ECULIDEAN = 'euclidean';
-    public static PRECOMPUTED = 'precomputed';
-}
 
 export class QuadradicDiscriminantAnalysisConfigModel extends GraphConfig {
 
     constructor() {
         super();
         this.entity = EntityTypeEnum.SAMPLE;
-        this.visualization = VisualizationEnum.MDS;
+        this.visualization = VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS;
     }
 
     n_components = 3;
     dimension = DimensionEnum.THREE_D;
-    metric: Boolean = true;
-    eps = 1e-3;
-    dissimilarity = QuadradicDiscriminantAnalysisDissimilarity.ECULIDEAN;
+    // priors
+    // reg_param
+    store_covariance = false;
+    tol = 1.0e-4;
 }
 
 
@@ -35,6 +32,9 @@ export interface QuadradicDiscriminantAnalysisDataModel extends GraphData {
     sampleIds: Array<string>;
     markerIds: Array<string>;
     patientIds: Array<string>;
-    embedding: any;
-    stress: any;
+    covariance: any;
+    means: any;
+    priors: any;
+    rotations: any;
+    scalings: any;
 }
