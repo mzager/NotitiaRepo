@@ -91,15 +91,6 @@ import { SvmCompleteAction } from '../../../action/compute.action';
     </select>
   </label>
 </div>
-  <div class="form-group">
-    <div class="switch">
-      <label>
-        <input type="checkbox" formControlName="metric">
-        <span class="lever"></span>
-        Metric
-      </label>
-    </div>
-  </div>
 </form>
   `
 })
