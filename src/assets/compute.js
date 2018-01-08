@@ -22692,6 +22692,7 @@ exports.ldaCompute = function (config, worker) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+// tslint:disable-next-line:max-line-length
 exports.linearDiscriminantAnalysisCompute = function (config, worker) {
     worker.util.processShapeColorSizeIntersect(config, worker);
     if (config.dirtyFlag & 1 /* LAYOUT */) {
@@ -22707,9 +22708,11 @@ exports.linearDiscriminantAnalysisCompute = function (config, worker) {
                     data: mtx.data,
                     n_components: config.n_components,
                     dimension: config.dimension,
-                    metric: config.metric,
-                    eps: config.eps,
-                    dissimilarity: config.dissimilarity
+                    solver: config.solver,
+                    shrinkage: config.shrinkage,
+                    // priors =
+                    store_covariance: config.store_covariance,
+                    tol: config.tol
                 })
             ]).then(function (result) {
                 var psMap = result[0].reduce(function (p, c) { p[c.s] = c.p; return p; }, {});
@@ -23083,14 +23086,17 @@ exports.miniBatchDictionaryLearningCompute = function (config, worker) {
                 worker.util.getSamplePatientMap(config.database),
                 worker.util
                     .fetchResult({
-                    // added more than server is calling
                     method: 'manifold_sk_minibatchdictionarylearning',
                     data: mtx.data,
                     n_components: config.n_components,
                     dimension: config.dimension,
-                    metric: config.metric,
-                    eps: config.eps,
-                    dissimilarity: config.dissimilarity
+                    alpha: config.alpha,
+                    n_iter: config.n_iter,
+                    fit_algorithm: config.fit_algorithm,
+                    batch_size: config.batch_size,
+                    shuffle: config.shuffle,
+                    transform_algorithm: config.transform_algorithm,
+                    split_sign: config.split_sign
                 })
             ]).then(function (result) {
                 var psMap = result[0].reduce(function (p, c) { p[c.s] = c.p; return p; }, {});
