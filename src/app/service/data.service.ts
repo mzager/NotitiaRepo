@@ -17,7 +17,6 @@ export class DataService {
 
   public static API_PATH = 'https://dev.oncoscape.sttrcancer.io/api/';
 
-  
   getGeneMap(): Observable<any> {
     return Observable.fromPromise(DataService.db.table('genemap').toArray());
   }
