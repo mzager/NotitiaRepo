@@ -1,7 +1,7 @@
 import { VisualizationEnum, GraphEnum, EntityTypeEnum, DimensionEnum, ShapeEnum } from 'app/model/enum.model';
 import { GraphData } from './../../../model/graph-data.model';
 import { Legend } from './../../../model/legend.model';
-import { DataFieldFactory } from './../../../model/data-field.model';
+import { DataFieldFactory, DataTable } from './../../../model/data-field.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DataField } from 'app/model/data-field.model';
 
@@ -22,7 +22,7 @@ export class MiniBatchDictionaryLearningConfigModel extends GraphConfig {
     constructor() {
         super();
         this.entity = EntityTypeEnum.SAMPLE;
-        this.visualization = VisualizationEnum.MDS;
+        this.visualization = VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING;
     }
 
     dimension = DimensionEnum.THREE_D;
@@ -34,9 +34,6 @@ export class MiniBatchDictionaryLearningConfigModel extends GraphConfig {
     shuffle = true;
     transform_algorithm = MiniBatchDictionaryTransform.OMP;
     split_sign = false;
-    // metric =
-    // eps =
-    // dissimilarity =
 }
 
 
@@ -51,4 +48,5 @@ export interface MiniBatchDictionaryLearningDataModel extends GraphData {
     patientIds: Array<string>;
     components: any;
     iter: any;
+    inner_stats: any;
 }
