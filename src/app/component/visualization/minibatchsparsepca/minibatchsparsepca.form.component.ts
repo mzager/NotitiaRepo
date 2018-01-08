@@ -75,7 +75,7 @@ import * as _ from 'lodash';
     <label class="center-block"><span class="form-label">Method</span>
      <select class="browser-default" materialize="material_select"
       [materializeSelectOptions]="MiniBatchSparsePcaMethodOpitions"
-      formControlName="dissimilarity">
+      formControlName="MiniBatchSparsePcaMethod">
         <option *ngFor="let options of MiniBatchSparsePcaMethodOpitions" [ngValue]="options">{{options}}</option>
       </select>
     </label>
@@ -133,7 +133,7 @@ export class MiniBatchSparsePcaFormComponent extends AbstractScatterForm {
       shuffle: [],
       method: []
     });
-    
+
     this.registerFormChange();
   }
 }
