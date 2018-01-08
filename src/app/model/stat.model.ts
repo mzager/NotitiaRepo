@@ -152,18 +152,6 @@ export class VegaFactory {
             'height': 150,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
-            'signals': [
-                {
-                    'name': 'signal_get_PC_value',
-                    'field': 'PC_total',
-                    'on': [
-                      {'events': '@PC_values:mouseover', 'update': 'datum.value'},
-                      {'events': '@signal_get_PC_value_text:mouseover', 'update': 'datum.value'},
-                    //   {'events': '@PC_values:mouseout', 'update': ''},
-                    //   {'events': '@signal_get_PC_value_text:mouseout', 'update': ''},
-                    ]
-                  },
-                    ],
             'data': [
                 {
                     'name': 'table',
@@ -188,6 +176,19 @@ export class VegaFactory {
                     ]
                 }
             ],
+            'signals': [
+                {
+                    'name': 'signal_get_PC_value',
+                    'description': 'update PC values in center of donut on hover',
+                    'value': 100,
+                    'on': [
+                      {'events': '@PC_values:mouseover', 'update': 'datum.value'},
+                      {'events': '@signal_get_PC_value_text:mouseover', 'update': 'datum.value'},
+                      {'events': '@PC_values:mouseout', 'update': '100'},
+                      {'events': '@signal_get_PC_value_text:mouseout',  'update': '100'}
+                    ]
+                  },
+                    ],
             'scales': [
                 {
                     'name': 'r',
@@ -226,6 +227,8 @@ export class VegaFactory {
                 {
                     'type': 'text',
                     'from': { 'data': 'PC' },
+                    'name': 'signal_get_PC_100',
+                    'interactive': true,
                     'encode': {
                         'enter': {
                             'x': { 'signal': 'width / 2' },
@@ -233,7 +236,6 @@ export class VegaFactory {
                             'fill': { 'value': '#666666' },
                             'align': { 'value': 'center' },
                             'baseline': { 'value': 'right' },
-                            'text': {'value': 'PC_total'},
                             'fontSize': {'value': 8},
                         },
                         'update': {
@@ -258,7 +260,7 @@ export class VegaFactory {
                             'fill': { 'value': '#666666' },
                             'fontSize': {'value': 5},
                             'font': {'value': 'Lato'},
-                            'tooltip': { 'signal': 'datum.value' }
+                            // 'tooltip': { 'signal': 'datum.value' }
                         }
                     }
                 }
@@ -843,7 +845,7 @@ export class StatFactory {
             // new StatOneD('Mean', data.result.mean),
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
             // new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
-            new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues)),
+            // new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues)),
             // Two Dimensional Stats
             new StatTwoD('PCA Loadings', this.formatPCALoadings(data.markerIds, data.result.components))
         ];
@@ -1018,7 +1020,8 @@ export class StatFactory {
         return stats;
     }
 
-    // One D Recycled Data Formulas, repeating possibly redo
+    // One D Recycled Data Formulas
+    // Principle Components
     formatPrincipleComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
         const rv = data.map((v, i) => ({ label: 'PC' + (i + 1), value: (Math.round( v * 100 ) / 100)  }));
         rv.push( {label: 'Other', value: rv.reduce( (p, c) => { p -= c.value; return p; }, 100 )});
