@@ -1,7 +1,7 @@
 import { DimensionEnum, EntityTypeEnum, CollectionTypeEnum } from './../../../model/enum.model';
 import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { MiniBatchDictionaryLearningConfigModel, MiniBatchDictionaryLearningDissimilarity } from './minibatchdictionarylearning.model';
+import { MiniBatchDictionaryLearningConfigModel, MiniBatchDictionaryLearningDissimilarityOpitions } from './minibatchdictionarylearning.model';
 import { DataTypeEnum, DirtyEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
@@ -126,12 +126,12 @@ export class MiniBatchDictionaryLearningFormComponent extends AbstractScatterFor
       pointSize: [],
 
       n_components: [],
-      metric: [],
-      eps: [],
-      dimension: [],
-      dissimilarity: []
+      // metric: [],
+      // eps: [],
+      dimension: []
+      // dissimilarity: []
     });
-    
+
     this.registerFormChange();
   }
 }
