@@ -23,9 +23,10 @@ export const quadradicDiscriminantAnalysisCompute =
                             data: mtx.data,
                             n_components: config.n_components,
                             dimension: config.dimension,
-                            metric: config.metric,
-                            eps: config.eps,
-                            dissimilarity: config.dissimilarity
+                            // priors
+                            // reg_param
+                            store_covariance: config.store_covariance,
+                            tol: config.tol
                         })
                 ]).then(result => {
                     const psMap = result[0].reduce((p, c) => { p[c.s] = c.p; return p; }, {});

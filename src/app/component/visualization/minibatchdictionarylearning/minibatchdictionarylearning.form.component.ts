@@ -91,14 +91,14 @@ import * as _ from 'lodash';
     </select>
   </label>
 </div>
-  <div class="form-group">
-    <div class="switch">
-      <label>
-        <input type="checkbox" formControlName="metric">
-        <span class="lever"></span>
-        Metric
-      </label>
-    </div>
+<div class="form-group">
+  <div class="switch">
+    <label>
+      <input type="checkbox" formControlName="shuffle">
+      <span class="lever"></span>
+      Shuffle
+    </label>
+  </div>
   </div>
 </form>
   `
