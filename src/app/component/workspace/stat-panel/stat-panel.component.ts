@@ -40,6 +40,7 @@ export class StatPanelComponent implements AfterViewInit {
 
     this.data = value;
     this.statOptions = StatFactory.getInstance().getStatObjects(value, this.config.visualization);
+    debugger;
     if (this.statOptions === null) { return; }
 
     // Parent Container As JQuery Object + Empty
