@@ -23,9 +23,9 @@ export const miniBatchDictionaryLearningCompute =
                             data: mtx.data,
                             n_components: config.n_components,
                             dimension: config.dimension,
-                            metric: config.metric,
-                            eps: config.eps,
-                            dissimilarity: config.dissimilarity
+                            // metric: config.metric,
+                            // eps: config.eps,
+                            // dissimilarity: config.dissimilarity
                         })
                 ]).then(result => {
                     const psMap = result[0].reduce((p, c) => { p[c.s] = c.p; return p; }, {});
