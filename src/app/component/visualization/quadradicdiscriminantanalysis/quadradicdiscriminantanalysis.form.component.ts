@@ -1,8 +1,7 @@
 import { DimensionEnum, EntityTypeEnum, CollectionTypeEnum } from './../../../model/enum.model';
 import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { QuadradicDiscriminantAnalysisConfigModel,
-  QuadradicDiscriminantAnalysisDissimilarity } from './quadradicdiscriminantanalysis.model';
+import { QuadradicDiscriminantAnalysisConfigModel } from './quadradicdiscriminantanalysis.model';
 import { DataTypeEnum, DirtyEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
@@ -72,24 +71,6 @@ import * as _ from 'lodash';
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Dissimilarity</span>
-     <select class="browser-default" materialize="material_select"
-      [materializeSelectOptions]="QuadradicDiscriminantAnalysisDissimilarityOpitions"
-      formControlName="dissimilarity">
-        <option *ngFor="let options of QuadradicDiscriminantAnalysisDissimilarityOpitions" [ngValue]="options">{{options}}</option>
-      </select>
-    </label>
-  </div>
-  <div class="form-group">
-    <div class="switch">
-      <label>
-        <input type="checkbox" formControlName="metric">
-        <span class="lever"></span>
-        Metric
-      </label>
-    </div>
-  </div>
 </form>
   `
 })
@@ -101,11 +82,6 @@ export class QuadradicDiscriminantAnalysisFormComponent extends AbstractScatterF
       this.form.patchValue(v, { emitEvent: false });
     }
   }
-
-  QuadradicDiscriminantAnalysisDissimilarityOpitions = [
-    QuadradicDiscriminantAnalysisDissimilarity.ECULIDEAN,
-    QuadradicDiscriminantAnalysisDissimilarity.PRECOMPUTED
-  ];
 
   constructor(private fb: FormBuilder) {
 
@@ -127,12 +103,12 @@ export class QuadradicDiscriminantAnalysisFormComponent extends AbstractScatterF
       pointSize: [],
 
       n_components: [],
-      metric: [],
-      eps: [],
       dimension: [],
-      dissimilarity: []
+      // priors
+      // reg_param
+      store_covariance: [],
+      tol: []
     });
-    
     this.registerFormChange();
   }
 }
