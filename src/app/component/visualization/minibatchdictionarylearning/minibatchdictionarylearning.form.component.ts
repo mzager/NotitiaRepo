@@ -1,12 +1,14 @@
-import { DimensionEnum, EntityTypeEnum, CollectionTypeEnum } from './../../../model/enum.model';
 import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
+// tslint:disable-next-line:max-line-length
+import { MiniBatchDictionaryLearningConfigModel, MiniBatchDictionaryLearningFit, MiniBatchDictionaryTransform  } from './minibatchdictionarylearning.model';
+import { DimensionEnum, EntityTypeEnum, CollectionTypeEnum } from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { MiniBatchDictionaryLearningConfigModel, MiniBatchDictionaryLearningDissimilarityOpitions } from './minibatchdictionarylearning.model';
 import { DataTypeEnum, DirtyEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import * as _ from 'lodash';
+
 
 @Component({
   selector: 'app-minibatchdictionarylearning-form',
@@ -72,14 +74,23 @@ import * as _ from 'lodash';
     </label>
   </div>
   <div class="form-group">
-    <label class="center-block"><span class="form-label">Dissimilarity</span>
+    <label class="center-block"><span class="form-label">Fit Algorithm</span>
      <select class="browser-default" materialize="material_select"
-      [materializeSelectOptions]="MiniBatchDictionaryLearningDissimilarityOpitions"
-      formControlName="dissimilarity">
-        <option *ngFor="let options of MiniBatchDictionaryLearningDissimilarityOpitions" [ngValue]="options">{{options}}</option>
+      [materializeSelectOptions]="MiniBatchDictionaryLearningFitOptions"
+      formControlName="fit_algorithm">
+        <option *ngFor="let options of MiniBatchDictionaryLearningFitOptions" [ngValue]="options">{{options}}</option>
       </select>
     </label>
   </div>
+  <div class="form-group">
+  <label class="center-block"><span class="form-label">Transform Algorithm</span>
+   <select class="browser-default" materialize="material_select"
+    [materializeSelectOptions]="MiniBatchDictionaryTransformOptions"
+    formControlName="transform_algorithm">
+      <option *ngFor="let options of MiniBatchDictionaryTransformOptions" [ngValue]="options">{{options}}</option>
+    </select>
+  </label>
+</div>
   <div class="form-group">
     <div class="switch">
       <label>
@@ -101,9 +112,17 @@ export class MiniBatchDictionaryLearningFormComponent extends AbstractScatterFor
     }
   }
 
-  MiniBatchDictionaryLearningDissimilarityOpitions = [
-    MiniBatchDictionaryLearningDissimilarity.ECULIDEAN,
-    MiniBatchDictionaryLearningDissimilarity.PRECOMPUTED
+  MiniBatchDictionaryLearningFitOptions = [
+    MiniBatchDictionaryLearningFit.LARS,
+    MiniBatchDictionaryLearningFit.CD
+  ];
+
+  MiniBatchDictionaryTransformOptions = [
+    MiniBatchDictionaryTransform.OMP,
+    MiniBatchDictionaryTransform.LASSO_LARS,
+    MiniBatchDictionaryTransform.LASSO_CD,
+    MiniBatchDictionaryTransform.LARS,
+    MiniBatchDictionaryTransform.THRESHOLD
   ];
 
   constructor(private fb: FormBuilder) {
@@ -126,10 +145,14 @@ export class MiniBatchDictionaryLearningFormComponent extends AbstractScatterFor
       pointSize: [],
 
       n_components: [],
-      // metric: [],
-      // eps: [],
-      dimension: []
-      // dissimilarity: []
+      dimension: [],
+      alpha: [],
+      n_iter: [],
+      fit_algorithm: [],
+      batch_size: [],
+      shuffle: [],
+      transform_algorithm: [],
+      split_sign: []
     });
 
     this.registerFormChange();

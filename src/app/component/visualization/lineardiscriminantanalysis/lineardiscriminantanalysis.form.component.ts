@@ -1,12 +1,14 @@
 import { DimensionEnum, EntityTypeEnum, CollectionTypeEnum } from './../../../model/enum.model';
 import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { LinearDiscriminantAnalysisConfigModel, LinearDiscriminantAnalysisDissimilarity } from './lineardiscriminantanalysis.model';
+// tslint:disable-next-line:max-line-length
+import { LinearDiscriminantAnalysisConfigModel, LinearDiscriminantAnalysisSolver, LinearDiscriminantAnalysisShrinkage } from './lineardiscriminantanalysis.model';
 import { DataTypeEnum, DirtyEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import * as _ from 'lodash';
+import { SvmCompleteAction } from '../../../action/compute.action';
 
 @Component({
   selector: 'app-lineardiscriminantanalysis-form',
@@ -74,12 +76,21 @@ import * as _ from 'lodash';
   <div class="form-group">
     <label class="center-block"><span class="form-label">Dissimilarity</span>
      <select class="browser-default" materialize="material_select"
-      [materializeSelectOptions]="LinearDiscriminantAnalysisDissimilarityOpitions"
-      formControlName="dissimilarity">
-        <option *ngFor="let options of LinearDiscriminantAnalysisDissimilarityOpitions" [ngValue]="options">{{options}}</option>
+      [materializeSelectOptions]="LinearDiscriminantAnalysisSolverOptions"
+      formControlName="LinearDiscriminantAnalysisSolver">
+        <option *ngFor="let options of LinearDiscriminantAnalysisSolverOptions" [ngValue]="options">{{options}}</option>
       </select>
     </label>
   </div>
+  <div class="form-group">
+  <label class="center-block"><span class="form-label">Dissimilarity</span>
+   <select class="browser-default" materialize="material_select"
+    [materializeSelectOptions]="LinearDiscriminantAnalysisShrinkageOptions"
+    formControlName="LinearDiscriminantAnalysisShrinkage">
+      <option *ngFor="let options of LinearDiscriminantAnalysisShrinkageOptions" [ngValue]="options">{{options}}</option>
+    </select>
+  </label>
+</div>
   <div class="form-group">
     <div class="switch">
       <label>
@@ -101,9 +112,18 @@ export class LinearDiscriminantAnalysisFormComponent extends AbstractScatterForm
     }
   }
 
-  LinearDiscriminantAnalysisDissimilarityOpitions = [
-    LinearDiscriminantAnalysisDissimilarity.ECULIDEAN,
-    LinearDiscriminantAnalysisDissimilarity.PRECOMPUTED
+  LinearDiscriminantAnalysisSolverOptions = [
+    LinearDiscriminantAnalysisSolver.SVD,
+    LinearDiscriminantAnalysisSolver.LSQR,
+    LinearDiscriminantAnalysisSolver.EIGEN,
+
+  ];
+
+  LinearDiscriminantAnalysisShrinkageOptions = [
+    LinearDiscriminantAnalysisShrinkage.NONE,
+    LinearDiscriminantAnalysisShrinkage.AUTO,
+    LinearDiscriminantAnalysisShrinkage.FLOAT,
+
   ];
 
   constructor(private fb: FormBuilder) {
@@ -126,12 +146,14 @@ export class LinearDiscriminantAnalysisFormComponent extends AbstractScatterForm
       pointSize: [],
 
       n_components: [],
-      metric: [],
-      eps: [],
       dimension: [],
-      dissimilarity: []
+      solver: [],
+      shrinkage: [],
+      // priors =
+      store_covariance: [],
+      tol: []
     });
-    
+
     this.registerFormChange();
   }
 }
