@@ -59,7 +59,7 @@ export class DataPanelComponent implements AfterViewInit {
   }
 
   loadTable(table: DataTable): void {
-    if (table.ctype === CollectionTypeEnum.UNDEFINED){
+    if (table.ctype === CollectionTypeEnum.UNDEFINED) {
       const config: GraphConfig = (table.tbl === 'configA') ? this.configA : this.configB;
       const markers: Array<any> = config.markerFilter.map(v =>
         ( [v, 'Gene', (config.markerSelect.indexOf(v) !== -1) ] ));
