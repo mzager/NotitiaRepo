@@ -1,7 +1,7 @@
-<div class="card" style="width:500px;height:auto; background:#FFFFFF;" [ng2-draggable]=true [ng2DraggableHandle]="titlebar">
+<div class="card" style="width:465px;height:auto; background:#FFFFFF;" [ng2-draggable]=true [ng2DraggableHandle]="titlebar">
     <div class="card-title-bar" #titlebar style="background: #029BE5; color:#FFF; font-weight:normal; font-size:12px; padding:5px 10px;text-transform:uppercase;letter-spacing:1px;">
         Cohort Builder
-        <i class="tiny material-icons" style="float: right; padding-top: 4px; cursor: pointer">close</i>
+        <i (click)="hide.emit()" class="tiny material-icons" style="float: right; padding-top: 4px; cursor: pointer">close</i>
     </div>
     <div style="padding:20px;font-size:12px;">
         <app-workspace-query-builder
@@ -10,4 +10,6 @@
             [config]="cfg"
             ></app-workspace-query-builder>
     </div>
+    <button (click)="filter()" class="btn btn-small">Filter</button>
+    <button (click)="select()" class="btn btn-small">Select</button>
 </div>
