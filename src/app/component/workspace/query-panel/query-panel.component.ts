@@ -22,12 +22,9 @@ declare var $: any;
 })
 export class QueryPanelComponent implements AfterViewInit {
 
-  public static genesetsInCategory: Array<any> = [];
-
+  private _config: GraphConfig;
   @Input() set config(config: GraphConfig) {
-    // this.dataService.getDatasetInfo(config.database).then( result => {
-    //   debugger;
-    // })
+    this._config = config;
     this.dataService.getQueryBuilderConfig(config.database).then(result => {
       this.cfg = result;
       const fieldKey = Object.keys(this.cfg.fields)[0];
@@ -55,6 +52,11 @@ export class QueryPanelComponent implements AfterViewInit {
   }
   filter(): void {
     console.dir(this.query);
+    console.dir(this._config);
+    this.dataService.getPatientIdsWithQueryBuilderCriteria(this._config.database, this.cfg, this.query).then(v => { 
+      
+    });
+
   }
   select(): void {
     console.dir(this.query);
