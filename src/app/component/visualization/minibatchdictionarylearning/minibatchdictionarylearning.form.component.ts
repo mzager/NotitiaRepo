@@ -8,6 +8,7 @@ import { DataField, DataFieldFactory, DataTable } from './../../../model/data-fi
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import * as _ from 'lodash';
+import { SvmCompleteAction } from '../../../action/compute.action';
 
 
 @Component({
