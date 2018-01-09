@@ -1,10 +1,10 @@
 <div>
 
 <div class="switch-field float-right">
-    <button (click)="addRule(data)" class="btn btn-small">+ Rule</button>
-    <button (click)="addRuleSet(data)" class="btn btn-small">+ Ruleset</button>
+    <button (click)="addRule(data)" class="btn btn-small waves-effect waves-light white blue-text">+ Rule</button>
+    <button (click)="addRuleSet(data)" class="btn btn-small waves-effect waves-light white blue-text">+ Ruleset</button>
     <ng-container *ngIf="!!parentData">
-        <button  class="btn waves-light btn-small" (click)="removeRuleSet(data, parentData)"><i class="material-icons small">delete</i></button>
+        <button  class="btn btn-small waves-effect waves-light white blue-text" (click)="removeRuleSet(data, parentData)"><i class="material-icons small">delete</i></button>
     </ng-container>
 </div>
 
@@ -22,7 +22,7 @@
       <li [ngClass]="{'query-item': true, 'rule': !local.ruleset, 'ruleset': local.ruleset, 'invalid-ruleset': local.invalid}">
         <ng-container *ngIf="!local.ruleset">
             <div class="switch-field float-right">
-              <button class="btn waves-light btn-small" (click)="removeRule(item, data)"><i class="material-icons small">delete</i></button>
+              <button class="btn btn-small waves-effect waves-light white blue-text" (click)="removeRule(item, data)"><i class="material-icons small">delete</i></button>
             </div>
 
             <select class="form-control browser-default" [(ngModel)]="item.field" (change)="onFieldChange(item)">
