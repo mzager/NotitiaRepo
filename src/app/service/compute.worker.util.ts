@@ -877,7 +877,7 @@ export class ComputeWorkerUtil {
         // const hash = md5.end();
         // return fetch('https://0x8okrpyl3.execute-api.us-west-2.amazonaws.com/dev?' + hash, {
         // return fetch('https://oncoscape.sttrcancer.org/dev?' + hash, {
-        return fetch('http://oncoscape-opencpu.sttrcancer.io/py', {            
+        return fetch('http://oncoscape-opencpu.sttrcancer.io/py', {
             headers: headers,
             method: 'POST',
             body: JSON.stringify(config)

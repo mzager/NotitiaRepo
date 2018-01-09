@@ -23146,7 +23146,7 @@ exports.miniBatchSparsePcaCompute = function (config, worker) {
                     n_iter: config.n_iter,
                     batch_size: config.batch_size,
                     shuffle: config.shuffle,
-                    sk_method: config.method
+                    sk_method: config.sk_method
                 })
             ]).then(function (result) {
                 var psMap = result[0].reduce(function (p, c) { p[c.s] = c.p; return p; }, {});
