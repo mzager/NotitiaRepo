@@ -25,7 +25,7 @@
     <!-- <li><a class="app-bar-menu-item" (click)="edgePanelToggle.emit()">Workspace</a></li> -->
     <li><a class="app-bar-menu-item" (click)="graphPanelToggle.emit(1)">Graph A</a></li>
     <li><a class="app-bar-menu-item" (click)="graphPanelToggle.emit(2)">Graph B</a></li>
-    <li><a class="app-bar-menu-item" (click)="edgePanelToggle.emit()">Layout + Edges</a></li>
+    <li><a class="app-bar-menu-item" (click)="edgePanelToggle.emit()">Workspace</a></li>
     <!-- <li><a class="app-bar-menu-item" (click)="legendPanelToggle.emit()">Legends</a></li> -->
     <!-- <li><a class="app-bar-menu-item" (click)="queryPanelToggle.emit()">Cohort Builder</a></li> -->
     <li><a class="app-bar-menu-item" (click)="dataPanelToggle.emit()">Data Table</a></li>
@@ -48,9 +48,10 @@
 
 <!-- Help -->
 <ul id='application-bar-menu-help' class='dropdown-content'>
-    <li><a class="app-bar-menu-item" href="https://oncoscape.sttrcancer.org/documentation/">Documentation</a></li>
+    <li><a class="app-bar-menu-item" href="https://oncoscape.sttrcancer.org/documentation/">Help</a></li>
     <li><a class="app-bar-menu-item" href="http://resources.sttrcancer.org/oncoscape-contact">Contact Us</a></li>
     <li><a class="app-bar-menu-item" href="http://jmlr.csail.mit.edu/papers/v12/pedregosa11a.html">Citations</a></li>
+    <li><a class="app-bar-menu-item" href="http://jmlr.csail.mit.edu/papers/v12/pedregosa11a.html">About</a></li>
 </ul>
 
 <!-- Bar -->
@@ -72,6 +73,6 @@
         <a class='dropdown-button nav-button' 
             data-activates="application-bar-menu-help"
             data-beloworigin="true"
-            href="#">Help</a>
+            href="#"><i class='material-icons tiny' style='padding-top:2px;position:relative;top:3px;'>menu</i></a>
     </span>
 </div>

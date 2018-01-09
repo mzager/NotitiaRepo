@@ -1,16 +1,17 @@
 <div>
 
 <div class="switch-field float-right">
-    <button (click)="addRule(data)" class="browser-default btn-config">+ Rule</button>
-    <button (click)="addRuleSet(data)" class="browser-default btn-config">+ Ruleset</button>
+    <button (click)="addRule(data)" class="btn btn-small">+ Rule</button>
+    <button (click)="addRuleSet(data)" class="btn btn-small">+ Ruleset</button>
     <ng-container *ngIf="!!parentData">
-        <button class="btn btn-small" (click)="removeRuleSet(data, parentData)"><i class="material-icons small">delete</i></button>
+        <button  class="btn waves-light btn-small" (click)="removeRuleSet(data, parentData)"><i class="material-icons small">delete</i></button>
     </ng-container>
 </div>
 
 <div class="switch-field">
+    
     <input type="radio" [(ngModel)]="data.condition" value="and" #andOption/>
-    <label (click)="data.condition=andOption.value">AND</label>
+    <label  (click)="data.condition=andOption.value">AND</label>
     <input type="radio" [(ngModel)]="data.condition" value="or" #orOption/>
     <label (click)="data.condition=orOption.value">OR</label>
 </div>
@@ -21,7 +22,7 @@
       <li [ngClass]="{'query-item': true, 'rule': !local.ruleset, 'ruleset': local.ruleset, 'invalid-ruleset': local.invalid}">
         <ng-container *ngIf="!local.ruleset">
             <div class="switch-field float-right">
-              <button class="btn btn-small" (click)="removeRule(item, data)"><i class="material-icons small">delete</i></button>
+              <button class="btn waves-light btn-small" (click)="removeRule(item, data)"><i class="material-icons small">delete</i></button>
             </div>
 
             <select class="form-control browser-default" [(ngModel)]="item.field" (change)="onFieldChange(item)">

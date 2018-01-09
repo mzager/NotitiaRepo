@@ -53,7 +53,12 @@ export class QueryPanelComponent implements AfterViewInit {
   ngAfterViewInit(): void {
 
   }
-
+  filter(): void {
+    console.dir(this.query);
+  }
+  select(): void {
+    console.dir(this.query);
+  }
   constructor(private dataService: DataService) {
 
   }

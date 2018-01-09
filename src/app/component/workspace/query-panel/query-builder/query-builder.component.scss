@@ -1,19 +1,24 @@
 :host {
     display: block;
-
+    color: #666666 !important;
   
-
-    .switch-field {
-        overflow: hidden;
+    select {
+        background-color: rgba(255, 255, 255, 0.9);
+        
+        padding: 5px;
+        
+        border-radius: 1px;
+        height: 2rem;
     }
 
+  
     .float-right {
         float: right;
     }
     
-    .switch-title {
-        margin-bottom: 6px;
-    }
+    // .switch-title {
+    //     margin-bottom: 6px;
+    // }
 
     .form-control {
         display: inline-block;
@@ -21,7 +26,7 @@
         color: #555;
         background-color: #fff;
         background-image: none;
-        border: 1px solid #ccc;
+        border: 1px solid #f2f2f2 !important;
         border-radius: 4px;
     }
     
@@ -81,6 +86,15 @@
         // }
     //}
 
+    input + label {
+        padding-left: 24px;
+        padding-right: 10px;
+        border-width: 1px;
+    }
+    ul {
+        padding-left:20px;
+    }
+
     // .invalid-ruleset {
     //     border: 1px solid rgba(179, 65, 93, 0.5) !important;
     //     background: rgba(179, 65, 93, 0.1) !important;
@@ -93,7 +107,7 @@
 
     .query-tree {
         list-style: none;
-        margin: 4px 0 2px;
+        margin: 4px 0 1px;
 
         .query-item {
             position: relative;
@@ -144,5 +158,11 @@
                 content: none;
             }
         }
+    }
+    .btn {
+        box-shadow: none;
+    }
+    [type="radio"]:not(:checked) + label:before, [type="radio"]:not(:checked) + label:after {
+        border: 1px solid #029BE5;
     }
 }

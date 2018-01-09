@@ -98,7 +98,7 @@ export class DataService {
                 return fields;
               case 'STRING':
                 if (field.values.length <= 10) {
-                  fields[field.key] = { name: field.label, type: 'category', options: field.values };
+                  fields[field.key] = { name: field.label, type: 'category', options: field.values.map(val => ({name: val, value: val}) ) };
                 } else {
                   fields[field.key] = { name: field.label, type: 'string'};
                 }
