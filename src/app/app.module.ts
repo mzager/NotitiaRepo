@@ -88,6 +88,7 @@ import { WorkspaceComponent } from 'app/component/workspace/workspace.component'
 import { QuadradicDiscriminantAnalysisFormComponent } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.form.component';
 import { LinearDiscriminantAnalysisFormComponent } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.form.component';
 import { MiniBatchDictionaryLearningFormComponent } from 'app/component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.form.component';
+import { QueryBuilderComponent } from 'app/component/workspace/query-panel/query-builder/query-builder.component';
 
 @NgModule({
   declarations: [
@@ -149,7 +150,8 @@ import { MiniBatchDictionaryLearningFormComponent } from 'app/component/visualiz
     PcaSparseFormComponent,
     GeneSignaturePanelComponent,
     HelpPanelComponent,
-    ClusteringAlgorithmPanelComponent
+    ClusteringAlgorithmPanelComponent,
+    QueryBuilderComponent
   ],
   entryComponents: [
   ],

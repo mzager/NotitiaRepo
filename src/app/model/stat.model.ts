@@ -755,6 +755,21 @@ export class StatFactory {
     }
     private constructor() { }
 
+    public getPatientStats(data: GraphData): Array<Stat> {
+        // Query All Values In The Patient Table
+        // Create Summary Stats
+        return null;
+    }
+    public getSampleStats(data: GraphData): Array<Stat> {
+        // Get Patients by Sample Id
+        // Query All Values In The Patient Table
+        // Create Summary Stats
+        return null;
+    }
+    public getMarkerStats(data: GraphData): Array<Stat> {
+        // data.markerIds;
+        return null;
+    }
     // Public Interface + Takes The Visualization Type and figures which to call
     public getStatObjects(data: GraphData, vis: VisualizationEnum): Array<Stat> {
         // Unsupervised Learning Clustering + Manifest Learn + Discriminant Analysis

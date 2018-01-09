@@ -84,11 +84,8 @@
 
 <app-workspace-query-panel 
     *ngIf="queryPanelTab | async" 
-    [clinicalFields]="clinicalFields | async"
-    [molecularData]="molecularData | async"
     (queryPanelToggle)="queryPanelToggle()"
     [config]="graphAConfig | async"
-    (configChange)="graphPanelSetConfig($event)"
     (hide)="queryPanelToggle()"
     style="position:absolute;left:100px;top:100px;"></app-workspace-query-panel>
 

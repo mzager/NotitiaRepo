@@ -47,10 +47,10 @@ export class StatPanelComponent implements AfterViewInit {
     container.empty();
 
     // Loop through the stats
-    this.statOptions.forEach( (stat, i) => { 
+    this.statOptions.forEach( (stat, i) => {
 
       // Create A div To hold the stat
-      const div = container.append('<div id="cc'+i.toString()+'" class="col ' +
+      const div = container.append('<div id="cc' + i.toString() + '" class="col ' +
         ( (stat.columns === StatRendererColumns.SIX) ? 's6' : 's12' )
       + '"></div>');
 

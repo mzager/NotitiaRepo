@@ -84,6 +84,33 @@ import { SvmCompleteAction } from '../../../action/compute.action';
     </label>
   </div>
   <div class="form-group">
+<<<<<<< HEAD
+    <label class="center-block"><span class="form-label">Transform Algorithm</span>
+     <select class="browser-default" materialize="material_select"
+      [materializeSelectOptions]="MiniBatchDictionaryLearningTransformOpitions"
+      formControlName="transform_algorithm">
+        <option *ngFor="let options of MiniBatchDictionaryLearningTransformOpitions" [ngValue]="options">{{options}}</option>
+      </select>
+    </label>
+  </div>
+  <div class="form-group">
+    <div class="switch">
+      <label>
+        <input type="checkbox" formControlName="shuffle">
+        <span class="lever"></span>
+        Shuffle
+      </label>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="switch">
+      <label>
+        <input type="checkbox" formControlName="switch_sign">
+        <span class="lever"></span>
+        Switch Sign
+      </label>
+    </div>
+=======
   <label class="center-block"><span class="form-label">Transform Algorithm</span>
    <select class="browser-default" materialize="material_select"
     [materializeSelectOptions]="MiniBatchDictionaryTransformOptions"
@@ -100,6 +127,7 @@ import { SvmCompleteAction } from '../../../action/compute.action';
       Shuffle
     </label>
   </div>
+>>>>>>> 52d449345a4a443c9de999aa441c529dbb30f332
   </div>
 </form>
   `
