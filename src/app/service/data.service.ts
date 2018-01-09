@@ -1,3 +1,4 @@
+
 import { DataFieldFactory } from 'app/model/data-field.model';
 import { DataField } from './../model/data-field.model';
 import { DataCollection } from './../model/data-collection.model';
@@ -7,6 +8,7 @@ import { HttpClient } from './http.client';
 import { Observable } from 'rxjs/Observable';
 import Dexie from 'dexie';
 import * as _ from 'lodash';
+import { QueryBuilderConfig } from 'app/component/workspace/query-panel/query-builder/query-builder.interfaces';
 
 
 @Injectable()
@@ -17,7 +19,6 @@ export class DataService {
 
   public static API_PATH = 'https://dev.oncoscape.sttrcancer.io/api/';
 
-  
   getGeneMap(): Observable<any> {
     return Observable.fromPromise(DataService.db.table('genemap').toArray());
   }
@@ -52,10 +53,10 @@ export class DataService {
   }
 
   getDatasetInfo(database: string): Promise<any> {
-    return new Promise( (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const db = new Dexie('notitia-' + database);
-      db.open().then( v => {
-        v.table('dataset').toArray().then( result => {
+      db.open().then(v => {
+        v.table('dataset').toArray().then(result => {
           resolve(result[0]);
         });
       });
@@ -63,10 +64,10 @@ export class DataService {
   }
 
   getHelpInfo(method: string): Promise<any> {
-    return new Promise( (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const db = new Dexie('notitia');
-      db.open().then( v => {
-        v.table('docs').get({'method': method}).then( result => {
+      db.open().then(v => {
+        v.table('docs').get({ 'method': method }).then(result => {
           resolve(result);
         });
       });
@@ -74,11 +75,37 @@ export class DataService {
   }
 
   getEvents(database: string): Promise<Array<any>> {
-    return new Promise((resolve, reject) => { 
-     const db = new Dexie('notitia-' + database);
-      db.open().then( v => {
-        v.table('dataset').toArray().then( result => {
+    return new Promise((resolve, reject) => {
+      const db = new Dexie('notitia-' + database);
+      db.open().then(v => {
+        v.table('dataset').toArray().then(result => {
           resolve(result[0].events);
+        });
+      });
+    });
+  }
+
+  getQueryBuilderConfig(database: string): Promise<QueryBuilderConfig> {
+    return new Promise((resolve, reject) => {
+      const db = new Dexie('notitia-' + database);
+      db.open().then(v => {
+        console.log('need to ensure it has the table');
+        v.table('patientMeta').toArray().then(result => {
+          const config = result.reduce( (fields, field) => {
+            switch (field.type) {
+              case 'NUMBER':
+                fields[field.key] = { name: field.label, type: field.type.toLowerCase() };
+                return fields;
+              case 'STRING':
+                if (field.values.length <= 10) {
+                  fields[field.key] = { name: field.label, type: 'category', options: field.values.map(val => ({name: val, value: val}) ) };
+                } else {
+                  fields[field.key] = { name: field.label, type: 'string'};
+                }
+                return fields;
+            }
+          }, {});
+          resolve({fields: config});
         });
       });
     });

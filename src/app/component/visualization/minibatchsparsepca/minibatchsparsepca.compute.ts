@@ -26,7 +26,7 @@ export const miniBatchSparsePcaCompute = (config: MiniBatchSparsePcaConfigModel,
                             n_iter: config.n_iter,
                             batch_size: config.batch_size,
                             shuffle: config.shuffle,
-                            sk_method: config.method
+                            sk_method: config.sk_method
                         })
                 ]).then(result => {
                     const psMap = result[0].reduce((p, c) => { p[c.s] = c.p; return p; }, {});

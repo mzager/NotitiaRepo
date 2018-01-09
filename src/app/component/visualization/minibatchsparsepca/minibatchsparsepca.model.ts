@@ -6,7 +6,7 @@ import { GraphConfig } from './../../../model/graph-config.model';
 import { DataField } from 'app/model/data-field.model';
 
 export class MiniBatchSparsePcaMethod {
-    public static LARS = 'euclidean';
+    public static LARS = 'lars';
     public static CD = 'cd';
 }
 
@@ -21,10 +21,10 @@ export class MiniBatchSparsePcaConfigModel extends GraphConfig {
     n_components = 3;
     alpha = 1;
     ridge_alpha = 0.01;
-    n_iter = 100;
+    n_iter = 10;
     batch_size = 3;
     shuffle = true;
-    method = MiniBatchSparsePcaMethod.LARS;
+    sk_method = MiniBatchSparsePcaMethod.LARS;
 }
 
 
