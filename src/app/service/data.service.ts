@@ -84,6 +84,83 @@ export class DataService {
       });
     });
   }
+  getPatientIdsWithQueryBuilderCriteria(database: string, config: QueryBuilderConfig,
+    criteria: { condition: string, rules: Array<{ field: string, operator: string, value: any }> }): Promise<Array<string>> {
+    return new Promise((resolve, reject) => {
+      const db = new Dexie('notitia-' + database);
+      db.open().then(connection => {
+        
+        Promise.all(criteria.rules.map(rule => {
+          switch (config.fields[rule.field].type) {
+            case 'number':
+              switch (rule.operator) {
+                case '=':
+                  return connection.table('patient').where(rule.field).equals(rule.value).toArray();
+                case '!=':
+                  return connection.table('patient').where(rule.field).notEqual(rule.value).toArray();
+                case '>':
+                  return connection.table('patient').where(rule.field).above(rule.value).toArray();
+                case '>=':
+                  return connection.table('patient').where(rule.field).aboveOrEqual(rule.value).toArray();
+                case '<':
+                  return connection.table('patient').where(rule.field).below(rule.value).toArray();
+                case '<=':
+                  return connection.table('patient').where(rule.field).belowOrEqual(rule.value).toArray();
+              }
+              break;
+
+            case 'string':
+              switch (rule.operator) {
+                case '=':
+                  return connection.table('patient').where(rule.field).equalsIgnoreCase(rule.value).toArray();
+                case '!=':
+                  return connection.table('patient').where(rule.field).notEqual(rule.value).toArray();
+                case 'contains':
+                  // return connection.table('patient').where(rule.field).(rule.value).toArray();
+                  alert('Query Contains Operator Not Yet Implemented - Ignoring');
+                  return null;
+                case 'like':
+                  alert('Query Like Operator Not Yet Implemented - Ignoring');
+                  return null;
+              }
+              break;
+
+            case 'category':
+              switch (rule.operator) {
+                case '=':
+                  return connection.table('patient').where(rule.field).equalsIgnoreCase(rule.value).toArray();
+                case '!=':
+                  return connection.table('patient').where(rule.field).notEqual(rule.value).toArray();
+              }
+              break;
+          }
+        }).filter(v => v)).then( v => {
+          
+          debugger
+          if (criteria.condition === 'or') {
+            const union = new Set(v.reduce( (p, c) => { p = p.concat( c.map( cv => cv.p ) ); return p; }, []));
+          }
+ 
+          const sets = v.map( p => p.map( c => c.p ) );
+
+             // if (criteria.condition === 'and') {
+          //   const sets = v.map( c => new Set(c) );
+          //   const intersect = sets.reduce( (p, c) => { 
+          //     return new Set([...p]);
+          //   }, sets.shift());
+           // const t = sets.reduce( (p, c) => new Set([...p].filter(x => c.has(x) )) ), sets.shift() );
+
+          debugger;
+        });
+        // v.table('patient').toArray().then(result => {
+        //   const c = criteria;
+
+        //   debugger;
+        //   resolve([]);
+        // });
+      });
+    });
+  }
 
   getQueryBuilderConfig(database: string): Promise<QueryBuilderConfig> {
     return new Promise((resolve, reject) => {
@@ -91,21 +168,21 @@ export class DataService {
       db.open().then(v => {
         console.log('need to ensure it has the table');
         v.table('patientMeta').toArray().then(result => {
-          const config = result.reduce( (fields, field) => {
+          const config = result.reduce((fields, field) => {
             switch (field.type) {
               case 'NUMBER':
                 fields[field.key] = { name: field.label, type: field.type.toLowerCase() };
                 return fields;
               case 'STRING':
                 if (field.values.length <= 10) {
-                  fields[field.key] = { name: field.label, type: 'category', options: field.values.map(val => ({name: val, value: val}) ) };
+                  fields[field.key] = { name: field.label, type: 'category', options: field.values.map(val => ({ name: val, value: val })) };
                 } else {
-                  fields[field.key] = { name: field.label, type: 'string'};
+                  fields[field.key] = { name: field.label, type: 'string' };
                 }
                 return fields;
             }
           }, {});
-          resolve({fields: config});
+          resolve({ fields: config });
         });
       });
     });
