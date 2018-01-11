@@ -1,7 +1,7 @@
 import { QueryBuilderConfig } from 'app/component/workspace/query-panel/query-builder/query-builder.interfaces';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { DataService } from './../../../service/data.service';
-import { GraphEnum } from 'app/model/enum.model';
+import { GraphEnum, DirtyEnum } from 'app/model/enum.model';
 import { EntityTypeEnum, DataTypeEnum } from './../../../model/enum.model';
 import { DataField } from './../../../model/data-field.model';
 import { Observable } from 'rxjs/Observable';
@@ -22,9 +22,11 @@ declare var $: any;
 })
 export class QueryPanelComponent implements AfterViewInit {
 
-  private _config: GraphConfig;
-  @Input() set config(config: GraphConfig) {
-    this._config = config;
+  private _configA: GraphConfig;
+  private _configB: GraphConfig;
+
+  @Input() set configA(config: GraphConfig) {
+    this._configA = config;
     this.dataService.getQueryBuilderConfig(config.database).then(result => {
       this.cfg = result;
       const fieldKey = Object.keys(this.cfg.fields)[0];
@@ -37,26 +39,41 @@ export class QueryPanelComponent implements AfterViewInit {
     });
   }
 
+  @Input() set configB(config: GraphConfig) {
+    this._configB = config;
+    // this.dataService.getQueryBuilderConfig(config.database).then(result => {
+    //   this.cfg = result;
+    //   const fieldKey = Object.keys(this.cfg.fields)[0];
+    //   const field = result[fieldKey];
+    //   this.query = {
+    //     condition: 'and',
+    //     rules: [ { field: fieldKey, operator: '<=' } ]
+    //   };
+    // this.showBuilder = true;
+    // });
+  }
+
   showBuilder = false;
   cfg: QueryBuilderConfig;
   query: any;
 
   @Output() hide: EventEmitter<any> = new EventEmitter();
-
-
-
   @Output() queryPanelToggle = new EventEmitter();
+  @Output() configChange = new EventEmitter<GraphConfig>();
 
   ngAfterViewInit(): void {
 
   }
   filter(): void {
     console.dir(this.query);
-    console.dir(this._config);
-    this.dataService.getPatientIdsWithQueryBuilderCriteria(this._config.database, this.cfg, this.query).then(v => { 
-      
+    this.dataService.getPatientIdsWithQueryBuilderCriteria(this._configA.database, this.cfg, this.query).then( pids => {
+      this._configA.patientFilter = pids;
+      this.dataService.getSampleIdsWithPatientIds( this._configA.database, pids ).then( sids => {
+        this._configA.sampleFilter = sids;
+        this._configA.dirtyFlag = DirtyEnum.LAYOUT;
+        this.configChange.next(this._configA);
+      });
     });
-
   }
   select(): void {
     console.dir(this.query);

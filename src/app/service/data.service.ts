@@ -1,4 +1,3 @@
-
 import { DataFieldFactory } from 'app/model/data-field.model';
 import { DataField } from './../model/data-field.model';
 import { DataCollection } from './../model/data-collection.model';
@@ -8,6 +7,7 @@ import { HttpClient } from './http.client';
 import { Observable } from 'rxjs/Observable';
 import Dexie from 'dexie';
 import * as _ from 'lodash';
+import * as JStat from 'jstat';
 import { QueryBuilderConfig } from 'app/component/workspace/query-panel/query-builder/query-builder.interfaces';
 
 
@@ -84,13 +84,91 @@ export class DataService {
       });
     });
   }
-  getPatientIdsWithQueryBuilderCriteria(database: string, config: QueryBuilderConfig,
-    criteria: { condition: string, rules: Array<{ field: string, operator: string, value: any }> }): Promise<Array<string>> {
+
+  getQueryBuilderConfig(database: string): Promise<QueryBuilderConfig> {
+    return new Promise((resolve, reject) => {
+      const db = new Dexie('notitia-' + database);
+      db.open().then(v => {
+        console.log('need to ensure it has the table');
+        v.table('patientMeta').toArray().then(result => {
+          const config = result.reduce((fields, field) => {
+            switch (field.type) {
+              case 'NUMBER':
+                fields[field.key] = { name: field.label, type: field.type.toLowerCase() };
+                return fields;
+              case 'STRING':
+                if (field.values.length <= 10) {
+                  fields[field.key] = {
+                    name: field.label, type: 'category',
+                    options: field.values.map(val => ({ name: val, value: val }))
+                  };
+                } else {
+                  fields[field.key] = { name: field.label, type: 'string' };
+                }
+                return fields;
+            }
+          }, {});
+          resolve({ fields: config });
+        });
+      });
+    });
+  }
+
+  getSampleIdsWithPatientIds(database: string, patientIds: Array<string>): Promise<Array<string>> {
     return new Promise((resolve, reject) => {
       const db = new Dexie('notitia-' + database);
       db.open().then(connection => {
-        
+        connection.table('patientSampleMap').where('p').anyOf(patientIds).toArray().then(result => {
+          resolve(Array.from(new Set(result.map(v => v.s))));
+        });
+      });
+    });
+  }
+
+  getPatientStats(database: string, ids: Array<string>): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+      this.getQueryBuilderConfig(database).then(config => {
+        const fields = Object.keys(config.fields)
+          .map(field => Object.assign(config.fields[field], { field: field }))
+          .filter(item => item.type !== 'string')
+          .sort((a, b) => (a.type !== b.type) ? a.type.localeCompare(b.type) : a.name.localeCompare(b.name));
+        const db = new Dexie('notitia-' + database);
+        db.open().then(connection => {
+          const query = (ids.length === 0) ?
+            connection.table('patient') :
+            connection.table('patient').where('p').anyOfIgnoreCase(ids);
+          query.toArray().then(result => {
+            var num = fields.filter(v => v.type === 'number');
+            var rv = num.map(f => {
+              const arr = result.map(v => v[f.field]);
+              const first = JStat.min(arr);
+              const binCnt = 10;
+              const binWidth = (JStat.max(arr) - first) / binCnt;
+              const len = arr.length;
+              const bins = [];
+              let i;
+              for (i = 0; i < binCnt; i++) { bins[i] = 0; }
+              for (i = 0; i < len; i++) { bins[Math.min(Math.floor(((arr[i] - first) / binWidth)), binCnt - 1)] += 1; }
+              const stats = bins.map((v, i) => ({ label: (first + (i * binWidth)).toString(), value: v }));
+              return Object.assign(f, { stat: stats });
+            });
+            resolve(rv);
+          });
+        });
+      });
+    });
+  }
+
+  getPatientIdsWithQueryBuilderCriteria(database: string, config: QueryBuilderConfig,
+    criteria: { condition: string, rules: Array<{ field: string, operator: string, value: any }> }): Promise<Array<string>> {
+    return new Promise((resolve, reject) => {
+
+      const db = new Dexie('notitia-' + database);
+      db.open().then(connection => {
+
         Promise.all(criteria.rules.map(rule => {
+          console.log(config.fields[rule.field].type);
           switch (config.fields[rule.field].type) {
             case 'number':
               switch (rule.operator) {
@@ -134,56 +212,21 @@ export class DataService {
               }
               break;
           }
-        }).filter(v => v)).then( v => {
-          
-          debugger
+        }).filter(v => v)).then(v => {
+          let ids: Array<string>;
           if (criteria.condition === 'or') {
-            const union = new Set(v.reduce( (p, c) => { p = p.concat( c.map( cv => cv.p ) ); return p; }, []));
-          }
- 
-          const sets = v.map( p => p.map( c => c.p ) );
-
-             // if (criteria.condition === 'and') {
-          //   const sets = v.map( c => new Set(c) );
-          //   const intersect = sets.reduce( (p, c) => { 
-          //     return new Set([...p]);
-          //   }, sets.shift());
-           // const t = sets.reduce( (p, c) => new Set([...p].filter(x => c.has(x) )) ), sets.shift() );
-
-          debugger;
-        });
-        // v.table('patient').toArray().then(result => {
-        //   const c = criteria;
-
-        //   debugger;
-        //   resolve([]);
-        // });
-      });
-    });
-  }
-
-  getQueryBuilderConfig(database: string): Promise<QueryBuilderConfig> {
-    return new Promise((resolve, reject) => {
-      const db = new Dexie('notitia-' + database);
-      db.open().then(v => {
-        console.log('need to ensure it has the table');
-        v.table('patientMeta').toArray().then(result => {
-          const config = result.reduce((fields, field) => {
-            switch (field.type) {
-              case 'NUMBER':
-                fields[field.key] = { name: field.label, type: field.type.toLowerCase() };
-                return fields;
-              case 'STRING':
-                if (field.values.length <= 10) {
-                  fields[field.key] = { name: field.label, type: 'category', options: field.values.map(val => ({ name: val, value: val })) };
-                } else {
-                  fields[field.key] = { name: field.label, type: 'string' };
-                }
-                return fields;
+            ids = Array.from(new Set(v.reduce((p, c) => { p = p.concat(c.map(cv => cv.p)); return p; }, [])));
+          } else if (criteria.condition === 'and') {
+            const sets = v.map(c => new Set(c.map(cv => cv.p)));
+            ids = Array.from(sets[0]);
+            for (let i = 1; i < sets.length; i++) {
+              const set = sets[i];
+              ids = ids.filter(item => set.has(item));
             }
-          }, {});
-          resolve({ fields: config });
+          }
+          resolve(ids);
         });
+
       });
     });
   }
@@ -201,6 +244,7 @@ export class DataService {
         DataService.db.on('blocked', () => { });
         return;
       }
+
       DataService.db.version(1).stores({
         genecoords: 'gene, chr, arm, type',
         bandcoords: '++id',
