@@ -18296,7 +18296,10 @@ var ComputeWorkerUtil = (function () {
             _this.openDatabaseData(db).then(function (v) {
                 map = map.replace(/ /gi, '');
                 tbl = tbl.replace(/ /gi, '');
-                _this.dbData.table(map).toArray().then(function (_samples) {
+                var sampleQuery = (samples.length === 0) ?
+                    _this.dbData.table(map) :
+                    _this.dbData.table(map).where('s').anyOfIgnoreCase(samples);
+                sampleQuery.toArray().then(function (_samples) {
                     var query = (markers.length === 0) ?
                         _this.dbData.table(tbl) :
                         _this.dbData.table(tbl).where('m').anyOfIgnoreCase(markers);
@@ -18868,7 +18871,8 @@ var ComputeWorkerUtil = (function () {
         // const hash = md5.end();
         // return fetch('https://0x8okrpyl3.execute-api.us-west-2.amazonaws.com/dev?' + hash, {
         // return fetch('https://oncoscape.sttrcancer.org/dev?' + hash, {
-        return fetch('http://oncoscape-opencpu.sttrcancer.io/py', {
+        // return fetch('http://oncoscape-opencpu.sttrcancer.io/py', {
+        return fetch('http://localhost:5000/py', {
             headers: headers,
             method: 'POST',
             body: JSON.stringify(config)

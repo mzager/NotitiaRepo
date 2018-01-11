@@ -14,6 +14,7 @@ import Dexie from 'dexie';
 import * as uuids from 'uuid-by-string';
 import * as cbor from 'cbor-js';
 import { Md5 } from 'ts-md5/dist/md5';
+import { sample } from 'rxjs/operator/sample';
 
 export class ComputeWorkerUtil {
 
@@ -252,7 +253,10 @@ export class ComputeWorkerUtil {
             this.openDatabaseData(db).then(v => {
                 map = map.replace(/ /gi, '');
                 tbl = tbl.replace(/ /gi, '');
-                this.dbData.table(map).toArray().then(_samples => {
+                const sampleQuery = (samples.length === 0) ?
+                    this.dbData.table(map) :
+                    this.dbData.table(map).where('s').anyOfIgnoreCase(samples);
+                sampleQuery.toArray().then(_samples => {
                     const query = (markers.length === 0) ?
                         this.dbData.table(tbl) :
                         this.dbData.table(tbl).where('m').anyOfIgnoreCase(markers);
@@ -877,7 +881,8 @@ export class ComputeWorkerUtil {
         // const hash = md5.end();
         // return fetch('https://0x8okrpyl3.execute-api.us-west-2.amazonaws.com/dev?' + hash, {
         // return fetch('https://oncoscape.sttrcancer.org/dev?' + hash, {
-        return fetch('http://oncoscape-opencpu.sttrcancer.io/py', {
+        // return fetch('http://oncoscape-opencpu.sttrcancer.io/py', {
+        return fetch('http://localhost:5000/py', {
             headers: headers,
             method: 'POST',
             body: JSON.stringify(config)
