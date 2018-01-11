@@ -9,7 +9,6 @@
 </div>
 
 <div class="switch-field">
-    
     <input type="radio" [(ngModel)]="data.condition" value="and" #andOption/>
     <label  (click)="data.condition=andOption.value">AND</label>
     <input type="radio" [(ngModel)]="data.condition" value="or" #orOption/>
@@ -25,7 +24,8 @@
               <button class="btn btn-small waves-effect waves-light white blue-text" (click)="removeRule(item, data)"><i class="material-icons small">delete</i></button>
             </div>
 
-            <select class="form-control browser-default" [(ngModel)]="item.field" (change)="onFieldChange(item)">
+            <select class="form-control browser-default" style="width:35%"
+              [(ngModel)]="item.field" (change)="onFieldChange(item)">
               <option *ngFor="let field of fieldNames" [ngValue]="field">
                 {{config.fields[field].name}}
               </option>
@@ -36,17 +36,17 @@
               </option>
             </select>
             <ng-container [ngSwitch]="getInputType(item.field, item.operator)">
-              <input class="form-control browser-default" [(ngModel)]="item.value" *ngSwitchCase="'text'" type="text">
-              <input class="form-control browser-default" [(ngModel)]="item.value" *ngSwitchCase="'date'" type="date">
-              <input class="form-control browser-default" [(ngModel)]="item.value" *ngSwitchCase="'number'" type="number">
-              <select class="form-control browser-default" [(ngModel)]="item.value" *ngSwitchCase="'select'">
+              <input class="form-control browser-default" style="width:35%" [(ngModel)]="item.value" *ngSwitchCase="'text'" type="text">
+              <input class="form-control browser-default" style="width:35%" [(ngModel)]="item.value" *ngSwitchCase="'date'" type="date">
+              <input class="form-control browser-default" style="width:35%" [(ngModel)]="item.value" *ngSwitchCase="'number'" type="number">
+              <select class="form-control browser-default" style="width:35%" [(ngModel)]="item.value" *ngSwitchCase="'select'">
                 <option *ngFor="let opt of getOptions(item.field)" [ngValue]="opt.value">
                   {{opt.name}}
                 </option>
               </select>
               <ng-container *ngSwitchCase="'multiselect'">
                 <div style="margin-bottom: 8px"></div>
-                <select class="form-control" [(ngModel)]="item.value" style="min-width: 200px" multiple>
+                <select class="form-control" [(ngModel)]="item.value" style="width:35%" multiple>
                   <option *ngFor="let opt of getOptions(item.field)" [ngValue]="opt.value">
                     {{opt.name}}
                   </option>

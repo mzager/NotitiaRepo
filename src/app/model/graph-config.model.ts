@@ -24,6 +24,8 @@ export class GraphConfig {
     graph: GraphEnum;
     table: DataTable;
 
+    patientSelect: Array<string> = [];
+    patientFilter: Array<string> = [];
     sampleSelect: Array<string> = [];
     markerSelect: Array<string> = [];
     sampleFilter: Array<string> = [];
