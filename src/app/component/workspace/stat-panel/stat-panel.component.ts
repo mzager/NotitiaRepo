@@ -52,17 +52,19 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
   @Input() set graphData(value: GraphData) { this._data = value; this.$dataChange.next(); }
 
   update(value: [GraphConfig, GraphData]): void {
-    const sf = StatFactory.getInstance();
-    this.statOptions = sf.getStatObjects(this._data, this._config);
-    if (this.statOptions === null) { return; }
-    if (this.elementRef.nativeElement === null) { return; }
+    if (this.elementRef === undefined) { return; }
+    if (this.elementRef.nativeElement === undefined) { return; }
     if (this.container === undefined) {
       this.container = $(this.elementRef.nativeElement.firstElementChild.firstElementChild.firstElementChild);
     }
+    if (this._config === null || this._data === null) { return; }
+    const sf = StatFactory.getInstance();
+    this.statOptions = sf.getStatObjects(this._data, this._config);
+    if (this.statOptions === null) { return; }
+   
     this.container.empty();
 
     sf.getPopulationStats(this._config, this.dataService).then(populationStats => {
-
 
       this.statOptions.concat(populationStats).forEach((stat, i) => {
 
