@@ -1,3 +1,5 @@
+import { DataService } from 'app/service/data.service';
+import { GraphConfig } from './graph-config.model';
 import { GraphData } from './graph-data.model';
 import { VisualizationEnum, StatTypeEnum, ChartTypeEnum, StatRendererEnum, StatRendererColumns, GraphEnum } from 'app/model/enum.model';
 import * as data from 'app/action/data.action';
@@ -755,25 +757,26 @@ export class StatFactory {
     }
     private constructor() { }
 
-    public getPatientStats(data: GraphData): Array<Stat> {
-        // Query All Values In The Patient Table
-        // Create Summary Stats
-        return null;
+    public getPopulationStats( config: GraphConfig, dataService: DataService): Promise<Array<Stat>> {
+        return new Promise( (resolve, reject) => {
+            const keyValues = 
+                new StatKeyValues('', [
+                    { label: 'Genes: ', value: ((config.markerFilter.length === 0) ? 'All' : config.markerFilter.length.toString()) },
+                    { label: 'Patients: ', value: ((config.patientFilter.length === 0) ? 'All' : config.patientFilter.length.toString()) },
+                    { label: 'Samples: ', value: ((config.sampleFilter.length === 0) ? 'All' : config.sampleFilter.length.toString()) }
+                ]);
+            dataService.getPatientStats(config.database, config.patientFilter).then( result => {
+                result = result.map( v => new StatOneD(v.name, v.stat));
+                result.unshift(keyValues);
+                resolve(result);
+            });
+        });
     }
-    public getSampleStats(data: GraphData): Array<Stat> {
-        // Get Patients by Sample Id
-        // Query All Values In The Patient Table
-        // Create Summary Stats
-        return null;
-    }
-    public getMarkerStats(data: GraphData): Array<Stat> {
-        // data.markerIds;
-        return null;
-    }
+
     // Public Interface + Takes The Visualization Type and figures which to call
-    public getStatObjects(data: GraphData, vis: VisualizationEnum): Array<Stat> {
+    public getStatObjects(data: GraphData, config: GraphConfig): Array<Stat> {
         // Unsupervised Learning Clustering + Manifest Learn + Discriminant Analysis
-        switch (vis) {
+        switch (config.visualization) {
             case VisualizationEnum.INCREMENTAL_PCA: return this.createIncrementalPca(data);
             case VisualizationEnum.TRUNCATED_SVD: return this.createTruncatedSvd(data);
             case VisualizationEnum.PCA: return this.createPca(data);
@@ -797,6 +800,7 @@ export class StatFactory {
         return [];
     }
 
+   
     private createIncrementalPca(data: GraphData): Array<Stat> {
         // IncrementalPca stats array
         const stats = [
@@ -814,7 +818,7 @@ export class StatFactory {
             // Two Dimensional Stats
             new StatTwoD('PCA Loadings', this.formatPCALoadings(data.markerIds, data.result.components))
         ];
-
+debugger;
         // stats[3].charts = [ChartTypeEnum.HISTOGRAM];
         return stats;
     }
