@@ -150,7 +150,6 @@ export class WorkspaceComponent {
     this.events = store.select(fromRoot.getEvents);
     this.queryData = store.select(fromRoot.getQueryData);
     // this.store.dispatch( new FilePanelToggleAction() );
-    debugger;
     this.store.dispatch( new DataLoadFromDexieAction('gbm') );
   }
 
