@@ -85,7 +85,9 @@
 <app-workspace-query-panel 
     *ngIf="queryPanelTab | async" 
     (queryPanelToggle)="queryPanelToggle()"
-    [config]="graphAConfig | async"
+    [configA]="graphAConfig | async"
+    [configB]="graphBConfig | async"
+    (configChange)="graphPanelSetConfig($event)"
     (hide)="queryPanelToggle()"
     style="position:absolute;left:100px;top:100px;"></app-workspace-query-panel>
 
