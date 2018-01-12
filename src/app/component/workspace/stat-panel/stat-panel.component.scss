@@ -1,3 +1,9 @@
 :host /deep/ g.mark-text.role-title {
     text-transform: capitalize;
 }
+
+:host /deep/ .stat-col {
+    border: 0px #EEEEEE solid;
+    border-bottom-width: 1px;
+
+}
