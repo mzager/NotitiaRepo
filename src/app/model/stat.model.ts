@@ -766,8 +766,15 @@ export class StatFactory {
                     { label: 'Samples: ', value: ((config.sampleFilter.length === 0) ? 'All' : config.sampleFilter.length.toString()) }
                 ]);
             dataService.getPatientStats(config.database, config.patientFilter).then( result => {
-                result = result.map( v => new StatOneD(v.name, v.stat));
-                result.unshift(keyValues);
+                result = result.map( v => {
+                    const stat = new StatOneD(v.name, v.stat)
+                    if (stat.data.length > 7) {
+                        stat.charts = stat.charts.reverse();
+                        stat.columns = StatRendererColumns.TWELVE;
+                    }
+                    return stat;
+                });
+                //result.unshift(keyValues);
                 resolve(result);
             });
         });
