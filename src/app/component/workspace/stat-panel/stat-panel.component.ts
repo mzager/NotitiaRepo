@@ -69,14 +69,14 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
       this.statOptions.concat(populationStats).forEach((stat, i) => {
 
         // Create A div To hold the stat
-  
+        const div = this.container.append('<div id="cc' + i.toString() + '" class="stat-col col ' +
+        ((stat.columns === StatRendererColumns.SIX) ? 's12' : 's12')
+        + '"></div>');
 
         // Process Stat Types
         switch (stat.renderer) {
           case StatRendererEnum.VEGA:
-          const div = this.container.append('<div id="cc' + i.toString() + '" class="stat-col col ' +
-          ((stat.columns === StatRendererColumns.SIX) ? 's12' : 's12')
-          + '"></div>');
+        
             const v = vega.parse(VegaFactory.getInstance().getChartObject(stat, stat.charts[0]), { renderer: ('svg') });
             const c = new vega.View(v)
               .initialize('#cc' + i.toString())

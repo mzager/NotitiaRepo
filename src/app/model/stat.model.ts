@@ -130,7 +130,7 @@ export class VegaFactory {
 
     // Labels (Singles), need to add classes to apply CSS
     private createLabel(stat: Stat): any {
-        return '<div style="padding:10px" class="stat-col col s12">' + stat.data.reduce((p, c) => {
+        return '<div style="padding:10px" class="stat-col">' + stat.data.reduce((p, c) => {
             p += '<p><label>' + c.label +
                 '</label><label> ' + c.value + '<label></p>';
             return p;
@@ -155,7 +155,7 @@ export class VegaFactory {
                 'text': stat.name,
             },
             'background': 'white',
-            'width': 130,
+            'width': 100,
             'height': 150,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
@@ -238,11 +238,11 @@ export class VegaFactory {
                     'encode': {
                         'enter': {
                             'x': { 'signal': 'width / 2' },
-                            'y': { 'signal': 'height / 2 + 5' },
+                            'y': { 'signal': 'height / 2 + 7' },
                             'fill': { 'value': '#666666' },
                             'align': { 'value': 'center' },
                             'baseline': { 'value': 'right' },
-                            'fontSize': {'value': 10},
+                            'fontSize': {'value': 14},
                         },
                         'update': {
                             'text': {'signal': 'signal_get_PC_value'}
@@ -339,7 +339,7 @@ export class VegaFactory {
                     'encode': {
                         'ticks': {
                             'update': {
-                                'stroke': { 'value': '#666666' }
+                                'stroke': { 'value': '#EEEEEE' }
                             }
                         },
                         'labels': {
