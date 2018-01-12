@@ -128,17 +128,24 @@ export class DataService {
   getPatientStats(database: string, ids: Array<string>): Promise<any> {
 
     return new Promise((resolve, reject) => {
+
       this.getQueryBuilderConfig(database).then(config => {
+
+        // Pull field Meta Data
         const fields = Object.keys(config.fields)
           .map(field => Object.assign(config.fields[field], { field: field }))
           .filter(item => item.type !== 'string')
           .sort((a, b) => (a.type !== b.type) ? a.type.localeCompare(b.type) : a.name.localeCompare(b.name));
+          // debugger;
+
         const db = new Dexie('notitia-' + database);
         db.open().then(connection => {
           const query = (ids.length === 0) ?
             connection.table('patient') :
             connection.table('patient').where('p').anyOfIgnoreCase(ids);
+
           query.toArray().then(result => {
+
             const cat = fields.filter(v => v.type === 'category').map(f => { 
               const arr = result.map(v => v[f.field]);
               const stat = arr.reduce( (p, c) => { 
@@ -147,6 +154,7 @@ export class DataService {
               const stats = Object.keys(stat).map(v => ({label: v, value: stat[v]}))
               return Object.assign(f, { stat: stats });
             })
+
             const num = fields.filter(v => v.type === 'number').map(f => {
               const arr = result.map(v => v[f.field]);
               const first = JStat.min(arr);
@@ -160,6 +168,7 @@ export class DataService {
               const stats = bins.map((v, i) => ({ label: Math.round(first + (i * binWidth)).toString(), value: v }));
               return Object.assign(f, { stat: stats });
             });
+
             resolve(num.concat(cat));
           });
         });
