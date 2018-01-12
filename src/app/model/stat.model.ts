@@ -759,7 +759,7 @@ export class StatFactory {
 
     public getPopulationStats( config: GraphConfig, dataService: DataService): Promise<Array<Stat>> {
         return new Promise( (resolve, reject) => {
-            const keyValues = 
+            const keyValues =
                 new StatKeyValues('', [
                     { label: 'Genes: ', value: ((config.markerFilter.length === 0) ? 'All' : config.markerFilter.length.toString()) },
                     { label: 'Patients: ', value: ((config.patientFilter.length === 0) ? 'All' : config.patientFilter.length.toString()) },
@@ -818,8 +818,8 @@ export class StatFactory {
             // Two Dimensional Stats
             new StatTwoD('PCA Loadings', this.formatPCALoadings(data.markerIds, data.result.components))
         ];
-debugger;
-        // stats[3].charts = [ChartTypeEnum.HISTOGRAM];
+// debugger;
+        stats[3].charts = [ChartTypeEnum.HISTOGRAM];
         return stats;
     }
 
