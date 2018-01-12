@@ -18266,11 +18266,14 @@ var ComputeWorkerUtil = (function () {
         });
     };
     // Call IDB
-    ComputeWorkerUtil.prototype.getEventData = function (db) {
+    ComputeWorkerUtil.prototype.getEventData = function (db, pids) {
         var _this = this;
         return new Promise(function (resolve, reject) {
             _this.openDatabaseData(db).then(function (v) {
-                _this.dbData.table('events').toArray().then(function (_events) {
+                var query = (pids.length === 0) ?
+                    _this.dbData.table('events') :
+                    _this.dbData.table('events').where('p').anyOfIgnoreCase(pids);
+                query.toArray().then(function (_events) {
                     resolve(_events);
                 });
             });
@@ -23608,7 +23611,7 @@ exports.timelinesCompute = function (config, worker) {
     }
     if (config.dirtyFlag & 1 /* LAYOUT */) {
         worker.util
-            .getEventData(config.database)
+            .getEventData(config.database, config.patientFilter)
             .then(function (events) {
             var colors = worker.util.colors3;
             var legend = new legend_model_1.Legend();
