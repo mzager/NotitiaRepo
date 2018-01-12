@@ -1,12 +1,11 @@
 import { DataService } from 'app/service/data.service';
 import { GraphConfig } from './graph-config.model';
 import { GraphData } from './graph-data.model';
-import { VisualizationEnum, StatTypeEnum, ChartTypeEnum, StatRendererEnum, StatRendererColumns, GraphEnum, Colors } from 'app/model/enum.model';
+import { VisualizationEnum, StatTypeEnum, ChartTypeEnum, StatRendererEnum, StatRendererColumns, GraphEnum } from 'app/model/enum.model';
 import * as data from 'app/action/data.action';
 import { multicast } from 'rxjs/operator/multicast';
 import { single } from 'rxjs/operator/single';
 import { values } from 'd3';
-declare var vega: any;
 
 /* GENERAL note: Visualization = is the graph A/B, example PCA Fast ICA, PCA. Stat = result data coming from ski-kit
 Visalization, Graph = is what is final rendering
@@ -107,11 +106,7 @@ export class VegaFactory {
         return VegaFactory._instance;
     }
 
-    private constructor() { 
-        //vega.scheme('notitia', ['#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4']);
-        //vega.scheme('notitia', ['#ff4081', '#e040fb', '#7c4dff', '#536dfe', '#448aff', '#40c4ff']);
-        vega.scheme('notitia', ['#b3e5fc', '#81d4fa', '#4fc3f7', '#29b6f6', '#03a9f4', '#039be5']);
-    }
+    private constructor() { }
 
 
     /*
@@ -130,7 +125,7 @@ export class VegaFactory {
 
     // Labels (Singles), need to add classes to apply CSS
     private createLabel(stat: Stat): any {
-        return '<div style="padding:10px">' + stat.data.reduce((p, c) => {
+        return '<div >' + stat.data.reduce((p, c) => {
             p += '<p><label>' + c.label +
                 '</label><label> ' + c.value + '<label></p>';
             return p;
@@ -144,7 +139,7 @@ export class VegaFactory {
             'config': {
                 'title': {
                     'offset': 0,
-                    'fontSize': 10,
+                    'fontSize': 11,
                     'color': '#666666',
                     'font': 'Lato',
                     'fontWeight': 'normal',
@@ -155,7 +150,7 @@ export class VegaFactory {
                 'text': stat.name,
             },
             'background': 'white',
-            'width': 108,
+            'width': 92.5,
             'height': 150,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
@@ -205,7 +200,7 @@ export class VegaFactory {
                 {
                     'name': 'color',
                     'type': 'ordinal',
-                    'range': { 'scheme': 'notitia' }
+                    'range': { 'scheme': 'accent' }
                 }
             ],
 
@@ -223,7 +218,7 @@ export class VegaFactory {
                             'startAngle': { 'field': 'startAngle' },
                             'endAngle': { 'field': 'endAngle' },
                             'padAngle': { 'value': 0.01 },
-                            'innerRadius': { 'value': 30 },
+                            'innerRadius': { 'value': 26 },
                             'outerRadius': { 'signal': 'width / 2' },
                             'cornerRadius': { 'value': 0 },
                             'align': { 'value': 'left' },
@@ -239,38 +234,38 @@ export class VegaFactory {
                     'encode': {
                         'enter': {
                             'x': { 'signal': 'width / 2' },
-                            'y': { 'signal': 'height / 2 + 5' },
+                            'y': { 'signal': 'height / 2' },
                             'fill': { 'value': '#666666' },
                             'align': { 'value': 'center' },
                             'baseline': { 'value': 'right' },
-                            'fontSize': {'value': 10},
+                            'fontSize': {'value': 8},
                         },
                         'update': {
                             'text': {'signal': 'signal_get_PC_value'}
                         }
                     }
                 },
-                // {
-                //     'type': 'text',
-                //     'from': { 'data': 'table' },
-                //     'name': 'signal_get_PC_value_text',
-                //     'interactive': true,
-                //     'encode': {
-                //         'enter': {
-                //             'text': {'signal': 'datum.label'},
-                //             'x': {'signal': 'width / 2'},
-                //             'y': {'signal': 'height / 2'},
-                //             'radius': {'value': 35},
-                //             'theta': {'signal': '(datum["startAngle"] + datum["endAngle"])/2' },
-                //             'baseline': {'value': 'middle'},
-                //             'align': {'value': 'center'},
-                //             'fill': { 'value': '#666666' },
-                //             'fontSize': {'value': 10},
-                //             'font': {'value': 'Lato'},
-                //             // 'tooltip': { 'signal': 'datum.value' }
-                //         }
-                //     }
-                // }
+                {
+                    'type': 'text',
+                    'from': { 'data': 'table' },
+                    'name': 'signal_get_PC_value_text',
+                    'interactive': true,
+                    'encode': {
+                        'enter': {
+                            'text': {'signal': 'datum.label'},
+                            'x': {'signal': 'width / 2'},
+                            'y': {'signal': 'height / 2'},
+                            'radius': {'value': 35},
+                            'theta': {'signal': '(datum["startAngle"] + datum["endAngle"])/2' },
+                            'baseline': {'value': 'middle'},
+                            'align': {'value': 'center'},
+                            'fill': { 'value': '#666666' },
+                            'fontSize': {'value': 5},
+                            'font': {'value': 'Lato'},
+                            // 'tooltip': { 'signal': 'datum.value' }
+                        }
+                    }
+                }
             ]
         };
         return vega;
@@ -282,7 +277,7 @@ export class VegaFactory {
             'config': {
                 'title': {
                     'offset': 0,
-                    'fontSize': 10,
+                    'fontSize': 11,
                     'color': '#666666',
                     'font': 'Lato',
                     'fontWeight': 'normal',
@@ -293,8 +288,8 @@ export class VegaFactory {
                 'text': stat.name
             },
             'background': 'white',
-            'width': 230,
-            'height': 160,
+            'width': 200,
+            'height': 200,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
             'data': [
@@ -320,7 +315,6 @@ export class VegaFactory {
                     'type': 'band',
                     'domain': { 'data': 'table', 'field': 'label' },
                     'range': 'width',
-                    'color': '0xFF0000',
                     'padding': 0.1,
                     'round': true
                 },
@@ -379,10 +373,10 @@ export class VegaFactory {
                             'y2': { 'scale': 'yscale', 'value': 0 }
                         },
                         'update': {
-                            'fill': { 'value': '#29b6f6' }
+                            'fill': { 'value': '#a8ddb5' }
                         },
                         'hover': {
-                            'fill': { 'value': '#039be5' }
+                            'fill': { 'value': '#019FDE' }
                         }
                     }
                 },
@@ -454,7 +448,7 @@ export class VegaFactory {
                         'field': 'label',
                     },
                     'range': {
-                        'scheme': 'notitia'
+                        'scheme': 'greenblue-3'
                     }
                 }
             ],
