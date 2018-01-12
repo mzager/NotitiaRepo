@@ -139,8 +139,15 @@ export class DataService {
             connection.table('patient') :
             connection.table('patient').where('p').anyOfIgnoreCase(ids);
           query.toArray().then(result => {
-            var num = fields.filter(v => v.type === 'number');
-            var rv = num.map(f => {
+            const cat = fields.filter(v => v.type === 'category').map(f => { 
+              const arr = result.map(v => v[f.field]);
+              const stat = arr.reduce( (p, c) => { 
+                if (!p.hasOwnProperty(c)) { p[c] = 1; } else { p[c] += 1; } 
+                return p; }, {});
+              const stats = Object.keys(stat).map(v => ({label: v, value: stat[v]}))
+              return Object.assign(f, { stat: stats });
+            })
+            const num = fields.filter(v => v.type === 'number').map(f => {
               const arr = result.map(v => v[f.field]);
               const first = JStat.min(arr);
               const binCnt = 10;
@@ -150,10 +157,10 @@ export class DataService {
               let i;
               for (i = 0; i < binCnt; i++) { bins[i] = 0; }
               for (i = 0; i < len; i++) { bins[Math.min(Math.floor(((arr[i] - first) / binWidth)), binCnt - 1)] += 1; }
-              const stats = bins.map((v, i) => ({ label: (first + (i * binWidth)).toString(), value: v }));
+              const stats = bins.map((v, i) => ({ label: Math.round(first + (i * binWidth)).toString(), value: v }));
               return Object.assign(f, { stat: stats });
             });
-            resolve(rv);
+            resolve(num.concat(cat));
           });
         });
       });
