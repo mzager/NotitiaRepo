@@ -108,8 +108,8 @@ export class VegaFactory {
     }
 
     private constructor() { 
-        //vega.scheme('notitia', ['#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4']);
-        //vega.scheme('notitia', ['#ff4081', '#e040fb', '#7c4dff', '#536dfe', '#448aff', '#40c4ff']);
+        // vega.scheme('notitia', ['#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4']);
+        // vega.scheme('notitia', ['#ff4081', '#e040fb', '#7c4dff', '#536dfe', '#448aff', '#40c4ff']);
         vega.scheme('notitia', ['#b3e5fc', '#81d4fa', '#4fc3f7', '#29b6f6', '#03a9f4', '#039be5']);
     }
 
@@ -130,7 +130,7 @@ export class VegaFactory {
 
     // Labels (Singles), need to add classes to apply CSS
     private createLabel(stat: Stat): any {
-        return '<div style="padding:10px" class="stat-col">' + stat.data.reduce((p, c) => {
+        return '<div style="padding:10px" class="stat-col col s12">' + stat.data.reduce((p, c) => {
             p += '<p><label>' + c.label +
                 '</label><label> ' + c.value + '<label></p>';
             return p;
@@ -148,7 +148,7 @@ export class VegaFactory {
                     'color': '#666666',
                     'font': 'Lato',
                     'fontWeight': 'normal',
-                    'orient': 'bottom'
+                    'orient': 'top'
                 }
             },
             'title': {
@@ -285,7 +285,7 @@ export class VegaFactory {
                     'color': '#666666',
                     'font': 'Lato',
                     'fontWeight': 'normal',
-                    'orient': 'bottom'
+                    'orient': 'top'
                 }
             },
             'title': {
@@ -339,7 +339,7 @@ export class VegaFactory {
                     'encode': {
                         'ticks': {
                             'update': {
-                                'stroke': { 'value': '#EEEEEE' }
+                                'stroke': { 'value': '#999999' }
                             }
                         },
                         'labels': {
@@ -358,8 +358,8 @@ export class VegaFactory {
                         },
                         'domain': {
                             'update': {
-                                'stroke': { 'value': '#666666' },
-                                'strokeWidth': { 'value': 1.5 }
+                                'stroke': { 'value': '#999999' },
+                                'strokeWidth': { 'value': 1 }
                             }
                         }
                     }
@@ -760,26 +760,27 @@ export class StatFactory {
         if (StatFactory._instance === null) { StatFactory._instance = new StatFactory(); }
         return StatFactory._instance;
     }
+
     private constructor() { }
 
     public getPopulationStats( config: GraphConfig, dataService: DataService): Promise<Array<Stat>> {
+        
         return new Promise( (resolve, reject) => {
+            
             const keyValues = 
                 new StatKeyValues('', [
                     { label: 'Genes: ', value: ((config.markerFilter.length === 0) ? 'All' : config.markerFilter.length.toString()) },
                     { label: 'Patients: ', value: ((config.patientFilter.length === 0) ? 'All' : config.patientFilter.length.toString()) },
                     { label: 'Samples: ', value: ((config.sampleFilter.length === 0) ? 'All' : config.sampleFilter.length.toString()) }
                 ]);
-            dataService.getPatientStats(config.database, config.patientFilter).then( result => {
-
                 
+            dataService.getPatientStats(config.database, config.patientFilter).then( result => {                
                 result = result.map( v => {
                     const stat = new StatOneD(v.name, v.stat);
                     if ( (v.type === 'number') || (v.type === 'category' && v.stat.length >= 7) ){
                         // Transform Into Histogram From pie
                         stat.charts.reverse();
                     }
-                    console.log(stat.charts[0]);
                     return stat;
                 });
                 result.unshift(keyValues);
