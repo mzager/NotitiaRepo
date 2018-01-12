@@ -1,0 +1,15 @@
+:host /deep/ g.mark-text.role-title {
+    text-transform: capitalize;
+}
+
+:host /deep/ .stat-col {
+    padding-top:10px;
+    padding-bottom:5px;
+    border: 0px #EEEEEE solid;
+    border-bottom-width: 1px;
+
+}
+
+:host /deep/ .stat-col:last-child {
+    border-bottom-width: 0px;
+}

@@ -2,7 +2,7 @@ import { DataService } from './../../../service/data.service';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Rx';
-import { ChartTypeEnum, StatRendererEnum, StatRendererColumns } from './../../../model/enum.model';
+import { ChartTypeEnum, StatRendererEnum, StatRendererColumns, Colors } from './../../../model/enum.model';
 import { GraphData } from './../../../model/graph-data.model';
 import { INSERT_ANNOTATION } from './../../../action/graph.action';
 import { StatsInterface } from './../../../model/stats.interface';
@@ -38,7 +38,7 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
   // @Input() means that you can set the properties in the html reprsentation of this object (eg <app-worspace-stat-pane configA=''>)
 
   container: any;
-  statOptions: Array<Stat> = [];
+  chartStats: Array<Stat> = [];
 
   $configChange: Subject<GraphConfig> = new Subject();
   $dataChange: Subject<GraphData> = new Subject();
@@ -52,28 +52,37 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
   @Input() set graphData(value: GraphData) { this._data = value; this.$dataChange.next(); }
 
   update(value: [GraphConfig, GraphData]): void {
-    const sf = StatFactory.getInstance();
-    this.statOptions = sf.getStatObjects(this._data, this._config);
-    if (this.statOptions === null) { return; }
-    if (this.elementRef.nativeElement === null) { return; }
+
+    // Ensure everything is ready to go... This could be cleaned up.
+    if (this.elementRef === undefined) { return; }
+    if (this.elementRef.nativeElement === undefined) { return; }
     if (this.container === undefined) {
       this.container = $(this.elementRef.nativeElement.firstElementChild.firstElementChild.firstElementChild);
     }
+    if (this._config === null || this._data === null) { return; }
+
+
+    // Get Instance Of Stat Factory
+    const sf = StatFactory.getInstance();
+    this.chartStats = sf.getStatObjects(this._data, this._config);
+
+    // Ensure Everything ... Bad Code
+    if (this.chartStats === null) { return; }
+    
     this.container.empty();
+    sf.getPopulationStats(this._config, this.dataService).then( populationStats => {
 
-    sf.getPopulationStats(this._config, this.dataService).then(populationStats => {
-
-
-      this.statOptions.concat(populationStats).forEach((stat, i) => {
+      this.chartStats.concat(populationStats).forEach((stat, i) => {
 
         // Create A div To hold the stat
-        const div = this.container.append('<div id="cc' + i.toString() + '" class="col ' +
-          ((stat.columns === StatRendererColumns.SIX) ? 's6' : 's12')
-          + '"></div>');
+        const div = this.container.append('<div id="cc' + i.toString() + '" class="stat-col col ' +
+        ((stat.columns === StatRendererColumns.SIX) ? 's12' : 's12')
+        + '"></div>');
 
         // Process Stat Types
         switch (stat.renderer) {
           case StatRendererEnum.VEGA:
+        
             const v = vega.parse(VegaFactory.getInstance().getChartObject(stat, stat.charts[0]), { renderer: ('svg') });
             const c = new vega.View(v)
               .initialize('#cc' + i.toString())
