@@ -1,11 +1,12 @@
 import { DataService } from 'app/service/data.service';
 import { GraphConfig } from './graph-config.model';
 import { GraphData } from './graph-data.model';
-import { VisualizationEnum, StatTypeEnum, ChartTypeEnum, StatRendererEnum, StatRendererColumns, GraphEnum } from 'app/model/enum.model';
+import { VisualizationEnum, StatTypeEnum, ChartTypeEnum, StatRendererEnum, StatRendererColumns, GraphEnum, Colors } from 'app/model/enum.model';
 import * as data from 'app/action/data.action';
 import { multicast } from 'rxjs/operator/multicast';
 import { single } from 'rxjs/operator/single';
 import { values } from 'd3';
+declare var vega: any;
 
 /* GENERAL note: Visualization = is the graph A/B, example PCA Fast ICA, PCA. Stat = result data coming from ski-kit
 Visalization, Graph = is what is final rendering
@@ -106,7 +107,11 @@ export class VegaFactory {
         return VegaFactory._instance;
     }
 
-    private constructor() { }
+    private constructor() { 
+        // vega.scheme('notitia', ['#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4']);
+        // vega.scheme('notitia', ['#ff4081', '#e040fb', '#7c4dff', '#536dfe', '#448aff', '#40c4ff']);
+        vega.scheme('notitia', ['#b3e5fc', '#81d4fa', '#4fc3f7', '#29b6f6', '#03a9f4', '#039be5']);
+    }
 
 
     /*
@@ -125,7 +130,7 @@ export class VegaFactory {
 
     // Labels (Singles), need to add classes to apply CSS
     private createLabel(stat: Stat): any {
-        return '<div >' + stat.data.reduce((p, c) => {
+        return '<div style="padding:10px" class="stat-col col s12">' + stat.data.reduce((p, c) => {
             p += '<p><label>' + c.label +
                 '</label><label> ' + c.value + '<label></p>';
             return p;
@@ -139,18 +144,18 @@ export class VegaFactory {
             'config': {
                 'title': {
                     'offset': 0,
-                    'fontSize': 11,
+                    'fontSize': 10,
                     'color': '#666666',
                     'font': 'Lato',
                     'fontWeight': 'normal',
-                    'orient': 'bottom'
+                    'orient': 'top'
                 }
             },
             'title': {
                 'text': stat.name,
             },
             'background': 'white',
-            'width': 92.5,
+            'width': 100,
             'height': 150,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
@@ -200,10 +205,9 @@ export class VegaFactory {
                 {
                     'name': 'color',
                     'type': 'ordinal',
-                    'range': { 'scheme': 'accent' }
+                    'range': { 'scheme': 'notitia' }
                 }
             ],
-
             'marks': [
                 {
                     'type': 'arc',
@@ -218,7 +222,7 @@ export class VegaFactory {
                             'startAngle': { 'field': 'startAngle' },
                             'endAngle': { 'field': 'endAngle' },
                             'padAngle': { 'value': 0.01 },
-                            'innerRadius': { 'value': 26 },
+                            'innerRadius': { 'value': 30 },
                             'outerRadius': { 'signal': 'width / 2' },
                             'cornerRadius': { 'value': 0 },
                             'align': { 'value': 'left' },
@@ -234,38 +238,38 @@ export class VegaFactory {
                     'encode': {
                         'enter': {
                             'x': { 'signal': 'width / 2' },
-                            'y': { 'signal': 'height / 2' },
+                            'y': { 'signal': 'height / 2 + 7' },
                             'fill': { 'value': '#666666' },
                             'align': { 'value': 'center' },
                             'baseline': { 'value': 'right' },
-                            'fontSize': {'value': 8},
+                            'fontSize': {'value': 14},
                         },
                         'update': {
                             'text': {'signal': 'signal_get_PC_value'}
                         }
                     }
                 },
-                {
-                    'type': 'text',
-                    'from': { 'data': 'table' },
-                    'name': 'signal_get_PC_value_text',
-                    'interactive': true,
-                    'encode': {
-                        'enter': {
-                            'text': {'signal': 'datum.label'},
-                            'x': {'signal': 'width / 2'},
-                            'y': {'signal': 'height / 2'},
-                            'radius': {'value': 35},
-                            'theta': {'signal': '(datum["startAngle"] + datum["endAngle"])/2' },
-                            'baseline': {'value': 'middle'},
-                            'align': {'value': 'center'},
-                            'fill': { 'value': '#666666' },
-                            'fontSize': {'value': 5},
-                            'font': {'value': 'Lato'},
-                            // 'tooltip': { 'signal': 'datum.value' }
-                        }
-                    }
-                }
+                // {
+                //     'type': 'text',
+                //     'from': { 'data': 'table' },
+                //     'name': 'signal_get_PC_value_text',
+                //     'interactive': true,
+                //     'encode': {
+                //         'enter': {
+                //             'text': {'signal': 'datum.label'},
+                //             'x': {'signal': 'width / 2'},
+                //             'y': {'signal': 'height / 2'},
+                //             'radius': {'value': 35},
+                //             'theta': {'signal': '(datum["startAngle"] + datum["endAngle"])/2' },
+                //             'baseline': {'value': 'middle'},
+                //             'align': {'value': 'center'},
+                //             'fill': { 'value': '#666666' },
+                //             'fontSize': {'value': 10},
+                //             'font': {'value': 'Lato'},
+                //             // 'tooltip': { 'signal': 'datum.value' }
+                //         }
+                //     }
+                // }
             ]
         };
         return vega;
@@ -277,19 +281,19 @@ export class VegaFactory {
             'config': {
                 'title': {
                     'offset': 0,
-                    'fontSize': 11,
+                    'fontSize': 10,
                     'color': '#666666',
                     'font': 'Lato',
                     'fontWeight': 'normal',
-                    'orient': 'bottom'
+                    'orient': 'top'
                 }
             },
             'title': {
                 'text': stat.name
             },
             'background': 'white',
-            'width': 200,
-            'height': 200,
+            'width': 230,
+            'height': 150,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
             'data': [
@@ -315,6 +319,7 @@ export class VegaFactory {
                     'type': 'band',
                     'domain': { 'data': 'table', 'field': 'label' },
                     'range': 'width',
+                    'color': '0xFF0000',
                     'padding': 0.1,
                     'round': true
                 },
@@ -334,7 +339,7 @@ export class VegaFactory {
                     'encode': {
                         'ticks': {
                             'update': {
-                                'stroke': { 'value': '#666666' }
+                                'stroke': { 'value': '#999999' }
                             }
                         },
                         'labels': {
@@ -353,8 +358,8 @@ export class VegaFactory {
                         },
                         'domain': {
                             'update': {
-                                'stroke': { 'value': '#666666' },
-                                'strokeWidth': { 'value': 1.5 }
+                                'stroke': { 'value': '#999999' },
+                                'strokeWidth': { 'value': 1 }
                             }
                         }
                     }
@@ -373,10 +378,10 @@ export class VegaFactory {
                             'y2': { 'scale': 'yscale', 'value': 0 }
                         },
                         'update': {
-                            'fill': { 'value': '#a8ddb5' }
+                            'fill': { 'value': '#29b6f6' }
                         },
                         'hover': {
-                            'fill': { 'value': '#019FDE' }
+                            'fill': { 'value': '#039be5' }
                         }
                     }
                 },
@@ -419,8 +424,8 @@ export class VegaFactory {
                 'text': stat.name
             },
             'background': 'white',
-            'width': 185,
-            'height': 250,
+            'width': 130,
+            'height': 150,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
             'data': [
@@ -448,7 +453,7 @@ export class VegaFactory {
                         'field': 'label',
                     },
                     'range': {
-                        'scheme': 'greenblue-3'
+                        'scheme': 'notitia'
                     }
                 }
             ],
@@ -755,18 +760,29 @@ export class StatFactory {
         if (StatFactory._instance === null) { StatFactory._instance = new StatFactory(); }
         return StatFactory._instance;
     }
+
     private constructor() { }
 
     public getPopulationStats( config: GraphConfig, dataService: DataService): Promise<Array<Stat>> {
+        
         return new Promise( (resolve, reject) => {
-            const keyValues =
+            
+            const keyValues = 
                 new StatKeyValues('', [
                     { label: 'Genes: ', value: ((config.markerFilter.length === 0) ? 'All' : config.markerFilter.length.toString()) },
                     { label: 'Patients: ', value: ((config.patientFilter.length === 0) ? 'All' : config.patientFilter.length.toString()) },
                     { label: 'Samples: ', value: ((config.sampleFilter.length === 0) ? 'All' : config.sampleFilter.length.toString()) }
                 ]);
-            dataService.getPatientStats(config.database, config.patientFilter).then( result => {
-                result = result.map( v => new StatOneD(v.name, v.stat));
+                
+            dataService.getPatientStats(config.database, config.patientFilter).then( result => {                
+                result = result.map( v => {
+                    const stat = new StatOneD(v.name, v.stat);
+                    if ( (v.type === 'number') || (v.type === 'category' && v.stat.length >= 7) ){
+                        // Transform Into Histogram From pie
+                        stat.charts.reverse();
+                    }
+                    return stat;
+                });
                 result.unshift(keyValues);
                 resolve(result);
             });
@@ -818,8 +834,7 @@ export class StatFactory {
             // Two Dimensional Stats
             new StatTwoD('PCA Loadings', this.formatPCALoadings(data.markerIds, data.result.components))
         ];
-// debugger;
-        stats[3].charts = [ChartTypeEnum.HISTOGRAM];
+        // stats[3].charts = [ChartTypeEnum.HISTOGRAM];
         return stats;
     }
 
@@ -1056,5 +1071,4 @@ export class StatFactory {
     formatPCALoadings(markers: Array<string>, data: Array<Array<number>>): Array<{ label: string, value: number, color?: number }> {
         return data[0].sort((a, b) => b - a).splice(0, 20).map((v, i) => ({ label: markers[i], value: Math.round(v * 1e2) / 1e2 }));
     }
-
 }

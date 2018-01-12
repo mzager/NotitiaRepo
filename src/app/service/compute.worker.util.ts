@@ -226,10 +226,13 @@ export class ComputeWorkerUtil {
     }
 
     // Call IDB
-    getEventData(db): Promise<any> {
+    getEventData(db: string, pids: Array<string>): Promise<any> {
         return new Promise( (resolve, reject) => {
             this.openDatabaseData(db).then(v => {
-                this.dbData.table('events').toArray().then(_events => {
+                const query = (pids.length === 0) ? 
+                    this.dbData.table('events') : 
+                    this.dbData.table('events').where('p').anyOfIgnoreCase(pids);
+                query.toArray().then(_events => {
                     resolve(_events);
                 });
             });

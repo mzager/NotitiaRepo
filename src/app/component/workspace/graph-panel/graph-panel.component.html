@@ -20,7 +20,7 @@
         </ul>
     </div>
     <div class="card-content">
-        <div id="{{cid}}Settings" *ngIf="config">
+        <div id="{{cid}}Settings" *ngIf="config" style="padding:20px">
             <div class="form-group">
                 <label class="center-block">
                     <span class="form-label">Filters</span>
@@ -98,7 +98,7 @@
         <div id="{{cid}}Summary" *ngIf="config">
             <app-workspace-stat-panel [config]="config" [graphData]="data"></app-workspace-stat-panel>
         </div>
-        <div id="{{cid}}Legend" *ngIf="data">
+        <div id="{{cid}}Legend" *ngIf="data" style="padding:20px">
             <app-workspace-legend-panel
                 [legends]="data.legendItems" 
                 ></app-workspace-legend-panel>

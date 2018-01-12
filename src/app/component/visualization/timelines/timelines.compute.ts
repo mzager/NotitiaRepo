@@ -19,7 +19,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
     }
     if (config.dirtyFlag & DirtyEnum.LAYOUT) {
         worker.util
-            .getEventData(config.database)
+            .getEventData(config.database, config.patientFilter)
             .then(events => {
 
                 const colors = worker.util.colors3;
