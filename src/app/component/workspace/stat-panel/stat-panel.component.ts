@@ -2,7 +2,7 @@ import { DataService } from './../../../service/data.service';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Rx';
-import { ChartTypeEnum, StatRendererEnum, StatRendererColumns } from './../../../model/enum.model';
+import { ChartTypeEnum, StatRendererEnum, StatRendererColumns, Colors } from './../../../model/enum.model';
 import { GraphData } from './../../../model/graph-data.model';
 import { INSERT_ANNOTATION } from './../../../action/graph.action';
 import { StatsInterface } from './../../../model/stats.interface';
@@ -76,6 +76,7 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
         // Process Stat Types
         switch (stat.renderer) {
           case StatRendererEnum.VEGA:
+
             const v = vega.parse(VegaFactory.getInstance().getChartObject(stat, stat.charts[0]), { renderer: ('svg') });
             const c = new vega.View(v)
               .initialize('#cc' + i.toString())
