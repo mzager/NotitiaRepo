@@ -74,7 +74,7 @@ export class StatOneD implements Stat {
         this.name = name;
         this.data = data;
         this.renderer = StatRendererEnum.VEGA;
-        this.columns = StatRendererColumns.SIX;
+        this.columns = StatRendererColumns.TWELVE;
     }
 }
 
@@ -143,20 +143,20 @@ export class VegaFactory {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'config': {
                 'title': {
-                    'offset': 0,
+                    'offset': 70,
                     'fontSize': 10,
                     'color': '#666666',
                     'font': 'Lato',
                     'fontWeight': 'normal',
-                    'orient': 'top'
+                    'orient': 'top',
                 }
             },
             'title': {
                 'text': stat.name,
             },
-            'background': 'white',
-            'width': 100,
-            'height': 150,
+            'background': 'white',  
+            'width': 230,
+            'height': 180,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
             'data': [
@@ -171,14 +171,14 @@ export class VegaFactory {
                     ]
                 },
                 {
-                    'name': 'PC',
+                    'name': 'total_values',
                     'values': values,
                     'transform': [
                         {
                             'type': 'aggregate',
                             'fields': ['value'],
                             'ops': ['sum'],
-                            'as': ['PC_total']
+                            'as': ['sums']
                         }
                     ]
                 }
@@ -187,12 +187,12 @@ export class VegaFactory {
                 {
                     'name': 'signal_get_PC_value',
                     'description': 'update PC values in center of donut on hover',
-                    'value': 100,
+                    'value': '',
                     'on': [
-                      {'events': '@PC_values:mouseover', 'update': 'datum.value'},
-                      {'events': '@signal_get_PC_value_text:mouseover', 'update': 'datum.value'},
-                      {'events': '@PC_values:mouseout', 'update': '100'},
-                      {'events': '@signal_get_PC_value_text:mouseout',  'update': '100'}
+                      {'events': '@PC_arc:mouseover', 'update': 'datum.value'},
+                      {'events': '@PC_arc:mouseout', 'update': 'datum.value'},
+                        
+                    
                     ]
                   },
                     ],
@@ -212,65 +212,83 @@ export class VegaFactory {
                 {
                     'type': 'arc',
                     'from': { 'data': 'table' },
-                    'name': 'PC_values',
+                    'name': 'PC_arc',
                     'interactive': true,
                     'encode': {
                         'enter': {
-                            'x': { 'signal': 'width / 2' },
-                            'y': { 'signal': 'height / 2' },
+                            'x': { 'signal': 'width / 4' },
+                            'y': { 'signal': 'height / 4' },
                             'fill': { 'scale': 'color', 'field': 'label' },
                             'startAngle': { 'field': 'startAngle' },
                             'endAngle': { 'field': 'endAngle' },
                             'padAngle': { 'value': 0.01 },
-                            'innerRadius': { 'value': 30 },
-                            'outerRadius': { 'signal': 'width / 2' },
+                            'innerRadius': { 'value': 45 },
+                            'outerRadius': { 'signal': 'width / 3' },
                             'cornerRadius': { 'value': 0 },
-                            'align': { 'value': 'left' },
+                            'align': { 'value': 'right' },   
                             'tooltip': { 'feild': 'datum.value' },
                         },
                     }
                 },
                 {
                     'type': 'text',
-                    'from': { 'data': 'PC' },
+                    'from': { 'data': 'total_values' },
                     'name': 'signal_get_PC_100',
                     'interactive': true,
                     'encode': {
                         'enter': {
-                            'x': { 'signal': 'width / 2' },
-                            'y': { 'signal': 'height / 2 + 7' },
+                            'x': { 'signal': 'width / 4' },
+                            'y': { 'signal': 'height / 4' },
                             'fill': { 'value': '#666666' },
                             'align': { 'value': 'center' },
-                            'baseline': { 'value': 'right' },
-                            'fontSize': {'value': 14},
+                            'fontSize': {'value': 10},
                         },
                         'update': {
                             'text': {'signal': 'signal_get_PC_value'}
+                        },
+                        'exit':{
+                            'text': {'field': 'sums'}
                         }
                     }
                 },
-                // {
-                //     'type': 'text',
-                //     'from': { 'data': 'table' },
-                //     'name': 'signal_get_PC_value_text',
-                //     'interactive': true,
-                //     'encode': {
-                //         'enter': {
-                //             'text': {'signal': 'datum.label'},
-                //             'x': {'signal': 'width / 2'},
-                //             'y': {'signal': 'height / 2'},
-                //             'radius': {'value': 35},
-                //             'theta': {'signal': '(datum["startAngle"] + datum["endAngle"])/2' },
-                //             'baseline': {'value': 'middle'},
-                //             'align': {'value': 'center'},
-                //             'fill': { 'value': '#666666' },
-                //             'fontSize': {'value': 10},
-                //             'font': {'value': 'Lato'},
-                //             // 'tooltip': { 'signal': 'datum.value' }
-                //         }
-                //     }
-                // }
-            ]
+                {
+                    'type': 'text',
+                    'from': { 'data': 'total_values' },
+                    'name': 'test',
+                    'interactive': true,
+                    'encode': {
+                        'enter': {
+                            'x': { 'signal': 'width / 4' },
+                            'y': { 'signal': 'height / 4' },
+                            'fill': { 'value': '#666666' },
+                            'align': { 'value': 'center' },
+                            'fontSize': {'value': 10} 
+                        }
+                    }
+                }       
+            ],
+            'legends': [
+                {
+                    'fill': 'color',   
+                    'orient': 'none',
+                    'encode': {
+                      'labels': {
+                        'interactive': true,
+                        'update': {
+                            'fontSize': {'value': 10},
+                            'fill': {'value': '#666666'}
+                          }
+                        },
+                      'legend': {
+                          'update': {
+                              'x': {'signal': 'width / 2', 'offset': 30 }, 
+                              'y': {'signal': 'height / 2', 'offset': -50}
+                          }
+                      }
+                      
+                    }
+                  }
+              ]
         };
         return vega;
     }
@@ -280,7 +298,7 @@ export class VegaFactory {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'config': {
                 'title': {
-                    'offset': 0,
+                    'offset': 20,
                     'fontSize': 10,
                     'color': '#666666',
                     'font': 'Lato',
