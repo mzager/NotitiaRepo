@@ -17,7 +17,7 @@ export class DataService {
   public static db: Dexie;
   public static instance: DataService;
 
-  public static API_PATH = 'https://dev.oncoscape.sttrcancer.io/api/';
+  public static API_PATH = 'http://dev.oncoscape.sttrcancer.io/api/';
 
   getGeneMap(): Observable<any> {
     return Observable.fromPromise(DataService.db.table('genemap').toArray());
