@@ -20,7 +20,7 @@ declare var $: any;
         Gene Set
         <i class="tiny material-icons" style="float: right; padding-top: 4px; cursor: pointer" (click)="hide.emit()">close</i>
     </div>
-    <div class="card-content">
+    <div class="card-content" style="padding:20px;">
       <div id="geneset-panel-genes">
           <form [formGroup]="form" novalidate>
               <div class="form-group">
