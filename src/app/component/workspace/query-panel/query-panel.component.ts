@@ -65,7 +65,6 @@ export class QueryPanelComponent implements AfterViewInit {
 
   }
   filter(): void {
-    console.dir(this.query);
     this.dataService.getPatientIdsWithQueryBuilderCriteria(this._configA.database, this.cfg, this.query).then( pids => {
       this._configA.patientFilter = pids;
       this.dataService.getSampleIdsWithPatientIds( this._configA.database, pids ).then( sids => {

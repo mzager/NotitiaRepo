@@ -91,7 +91,7 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
               .run();
             break;
           case StatRendererEnum.HTML:
-            div.append(VegaFactory.getInstance().getChartObject(stat, stat.charts[0]).toString());
+            div.children('#cc' + i.toString()).append(VegaFactory.getInstance().getChartObject(stat, stat.charts[0]).toString());
             break;
         }
       });

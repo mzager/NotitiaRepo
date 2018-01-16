@@ -10,41 +10,124 @@ import { EdgeConfigModel } from './edges.model';
 import * as _ from 'lodash';
 
 export const edgesCompute = (config: EdgeConfigModel, worker: DedicatedWorkerGlobalScope): void => {
-
-    if (config.entityA === EntityTypeEnum.SAMPLE && config.entityB === EntityTypeEnum.SAMPLE) {
-        worker.util.getEdgesSampleSample(config).then( result => {
-            worker.postMessage({
-                config: config,
-                data: {
-                    result: result
-                }
+    const egdes = {
+        getEventsEvents(): Promise<any> {
+            return new Promise( (resolve, reject) => {
+                if (this.edgeOptions === 'None') { resolve([]); return; }
+                worker.util.openDatabaseData(config.database).then( db => {
+                });
             });
-            worker.postMessage('TERMINATE');
-        });
-    }
-
-    if (config.entityA === EntityTypeEnum.GENE && config.entityB === EntityTypeEnum.GENE) {
-        worker.util.getEdgesGeneGene(config).then( result => {
-            worker.postMessage({
-                config: config,
-                data: {
-                    result: result
-                }
+        },
+        getEventsGenes(): Promise<any> {
+            return new Promise( (resolve, reject) => {
+                if (this.edgeOptions === 'None') { resolve([]); return; }
+                worker.util.openDatabaseData(config.database).then( db => {
+                });
             });
-            worker.postMessage('TERMINATE');
-        });
-    }
-
-    if ( (config.entityA === EntityTypeEnum.SAMPLE && config.entityB === EntityTypeEnum.GENE) ||
-         (config.entityA === EntityTypeEnum.GENE && config.entityB === EntityTypeEnum.SAMPLE) ) {
-        worker.util.getEdgesGeneSample(config).then( result => {
-            worker.postMessage({
-                config: config,
-                data: {
-                    result: result
-                }
+        },
+        getEventsPatients(): Promise<any> {
+            return new Promise( (resolve, reject) => {
+                if (this.edgeOptions === 'None') { resolve([]); return; }
+                worker.util.openDatabaseData(config.database).then( db => {
+                });
             });
-            worker.postMessage('TERMINATE');
-        });
-    }
+        },
+        getEventsSamples(): Promise<any> {
+            return new Promise( (resolve, reject) => {
+                if (this.edgeOptions === 'None') { resolve([]); return; }
+                worker.util.openDatabaseData(config.database).then( db => {
+                });
+            });
+        },
+        getGenesGenes(): Promise<any> {
+            return new Promise( (resolve, reject) => {
+                if (this.edgeOptions === 'None') { resolve([]); return; }
+                debugger;
+                // worker.util.openDatabaseData(config.database).then( db => {
+                //     const edges = result.map( gene => ({
+                //         a: gene.m,
+                //         b: gene.m,
+                //         c: gene.mean,
+                //         i: null
+                //     }));
+                // });
+            });
+        },
+        getGenesPatients(): Promise<any> {
+            return new Promise( (resolve, reject) => {
+                if (this.edgeOptions === 'None') { resolve([]); return; }
+                worker.util.openDatabaseData(config.database).then( db => {
+                });
+            });
+        },
+        getGenesSamples(): Promise<any> {
+            return new Promise( (resolve, reject) => {
+                if (this.edgeOptions === 'None') { resolve([]); return; }
+                worker.util.openDatabaseData(config.database).then( db => { 
+                });
+            });
+        },
+        getPatientsPatients(): Promise<any> {
+            return new Promise( (resolve, reject) => {
+                if (this.edgeOptions === 'None') { resolve([]); return; }
+                worker.util.openDatabaseData(config.database).then( db => { 
+                });
+            });
+        },
+        getPatientsSamples(): Promise<any> {
+            return new Promise( (resolve, reject) => {
+                if (this.edgeOptions === 'None') { resolve([]); return; }
+                worker.util.openDatabaseData(config.database).then( db => { 
+                });
+            });
+        },
+        getSamplesSamples(): Promise<any> {
+            return new Promise( (resolve, reject) => {
+                if (this.edgeOptions === 'None') { resolve([]); return; }
+                worker.util.openDatabaseData(config.database).then( db => { 
+                });
+            });
+        }
+    };
+    // var t = egdes['get' + [config.entityA, config.entityB];
+    // debugger;
+    
+    egdes['get' + [config.entityA, config.entityB].sort().join('')]();
+
+    // if (config.entityA === EntityTypeEnum.SAMPLE && config.entityB === EntityTypeEnum.SAMPLE) {
+    //     worker.util.getEdgesSampleSample(config).then( result => {
+    //         worker.postMessage({
+    //             config: config,
+    //             data: {
+    //                 result: result
+    //             }
+    //         });
+    //         worker.postMessage('TERMINATE');
+    //     });
+    // }
+
+    // if (config.entityA === EntityTypeEnum.GENE && config.entityB === EntityTypeEnum.GENE) {
+    // worker.util.getEdgesGeneGene(config).then( result => {
+    //         worker.postMessage({
+    //             config: config,
+    //             data: {
+    //                 result: result
+    //             }
+    //         });
+    //         worker.postMessage('TERMINATE');
+    //     });
+    // }
+
+    // if ( (config.entityA === EntityTypeEnum.SAMPLE && config.entityB === EntityTypeEnum.GENE) ||
+    //      (config.entityA === EntityTypeEnum.GENE && config.entityB === EntityTypeEnum.SAMPLE) ) {
+    //     worker.util.getEdgesGeneSample(config).then( result => {
+    //         worker.postMessage({
+    //             config: config,
+    //             data: {
+    //                 result: result
+    //             }
+    //         });
+    //         worker.postMessage('TERMINATE');
+    //     });
+    // }
 };

@@ -102,9 +102,12 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         if (this.config.dirtyFlag & DirtyEnum.SHAPE) {
             const idProperty = (config.entity === EntityTypeEnum.GENE) ? 'mid' :
                 (this.config.pointColor.ctype & CollectionTypeEnum.MOLECULAR) ? 'sid' : 'pid';
+
             this.meshes.forEach(mesh => {
                 const objMap = data.pointShape;
-                const shape = objMap[mesh.userData[idProperty]] as number;
+                let shape = objMap[mesh.userData[idProperty]] as number;
+                console.log(shape);
+                if (shape === undefined) { shape = 1; }
                 const cf = ChartFactory;
                 (mesh as THREE.Mesh).geometry = ChartFactory.getShape(shape);
             });

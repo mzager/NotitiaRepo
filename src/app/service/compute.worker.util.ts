@@ -370,6 +370,7 @@ export class ComputeWorkerUtil {
             }
             this.getMatrix(config.markerFilter, config.sampleFilter, 'gismutMap', config.database,'gisticT', EntityTypeEnum.GENE)
                 .then((result: any) => {
+                    debugger;
                     const edges: Array<any> = [];
                     const nMarkers = result.markers.length;
                     const nSamples = result.samples.length;

@@ -154,9 +154,9 @@ export class VegaFactory {
             'title': {
                 'text': stat.name,
             },
-            'background': 'white',  
+            'background': 'white',
             'width': 230,
-            'height': 180,
+            'height': 150,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
             'data': [
@@ -216,16 +216,16 @@ export class VegaFactory {
                     'interactive': true,
                     'encode': {
                         'enter': {
-                            'x': { 'signal': 'width / 4' },
-                            'y': { 'signal': 'height / 4' },
+                            'x': { 'value': 60 },
+                            'y': { 'value': 0 },
                             'fill': { 'scale': 'color', 'field': 'label' },
                             'startAngle': { 'field': 'startAngle' },
                             'endAngle': { 'field': 'endAngle' },
                             'padAngle': { 'value': 0.01 },
-                            'innerRadius': { 'value': 45 },
-                            'outerRadius': { 'signal': 'width / 3' },
+                            'innerRadius': { 'value': 30 },
+                            'outerRadius': { 'value': 60 },
                             'cornerRadius': { 'value': 0 },
-                            'align': { 'value': 'right' },   
+                            'align': { 'value': 'right' },
                             'tooltip': { 'feild': 'datum.value' },
                         },
                     }
@@ -281,11 +281,10 @@ export class VegaFactory {
                         },
                       'legend': {
                           'update': {
-                              'x': {'signal': 'width / 2', 'offset': 30 }, 
-                              'y': {'signal': 'height / 2', 'offset': -50}
+                              'x': {'value': 150}, // {'signal': 'width / 2', 'offset': 30 }, 
+                              'y': {'value': -30} //{'signal': 'height / 2', 'offset': -50}
                           }
-                      }
-                      
+                      }   
                     }
                   }
               ]
@@ -302,7 +301,7 @@ export class VegaFactory {
                     'fontSize': 10,
                     'color': '#666666',
                     'font': 'Lato',
-                    'fontWeight': 'normal',
+                    'fontWeight': '500',
                     'orient': 'top'
                 }
             },
