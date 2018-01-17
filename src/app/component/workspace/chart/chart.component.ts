@@ -48,6 +48,9 @@ export class ChartComponent implements AfterViewInit {
   @ViewChild('labelsB')
   private labelsB: ElementRef;
 
+  @ViewChild('labelsE')
+  private labelsE: ElementRef;
+
   @ViewChild('labelAContainer')
   private labelsAContainer: ElementRef;
 
@@ -59,7 +62,9 @@ export class ChartComponent implements AfterViewInit {
     this.ngZone.runOutsideAngular(() => {
 
         const chartScene: ChartScene = new ChartScene();
-        chartScene.init(this.container.nativeElement, this.labelsA.nativeElement, this.labelsB.nativeElement);;
+        chartScene.init(this.container.nativeElement, this.labelsA.nativeElement,
+          this.labelsB.nativeElement, this.labelsE.nativeElement);
+
         chartScene.onSelect.subscribe( (e) => {
           this.onSelect.next(e);
         });

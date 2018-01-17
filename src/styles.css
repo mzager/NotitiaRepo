@@ -120,15 +120,14 @@ body{
 
 
 .graph-title {
-    
-    position: absolute;
-    bottom: 0px;
+    position:absolute;
+    top: 95vh;
     height: 30px;
     width: 100%;
     line-height: 30px;
     text-transform: uppercase;
     font-family: 'Lato';
-    font-weight: 500;
+    font-weight: 700;
     font-size: 12px;
     letter-spacing: 1px;
     padding-left: 20px;

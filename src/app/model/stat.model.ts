@@ -156,7 +156,7 @@ export class VegaFactory {
             },
             'background': 'white',
             'width': 230,
-            'height': 180,
+            'height': 150,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
             'data': [
@@ -233,14 +233,14 @@ export class VegaFactory {
                     'interactive': true,
                     'encode': {
                         'enter': {
-                            'x': { 'signal': 'width / 4' },
-                            'y': { 'signal': 'height / 4' },
+                            'x': { 'value': 60 },
+                            'y': { 'value': 0 },
                             'fill': { 'scale': 'color', 'field': 'label' },
                             'startAngle': { 'field': 'startAngle' },
                             'endAngle': { 'field': 'endAngle' },
                             'padAngle': { 'value': 0.01 },
-                            'innerRadius': { 'value': 45 },
-                            'outerRadius': { 'signal': 'width / 3' },
+                            'innerRadius': { 'value': 30 },
+                            'outerRadius': { 'value': 60 },
                             'cornerRadius': { 'value': 0 },
                             'align': { 'value': 'right' }
                         }
@@ -321,7 +321,7 @@ export class VegaFactory {
                     'fontSize': 10,
                     'color': '#666666',
                     'font': 'Lato',
-                    'fontWeight': 'normal',
+                    'fontWeight': '500',
                     'orient': 'top'
                 }
             },

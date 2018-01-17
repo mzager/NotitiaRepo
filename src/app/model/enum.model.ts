@@ -139,13 +139,46 @@ export class DataTypeEnum {
     // static readonly FUNCTION_MEDIAN = 'FUNCTION_MEDIAN';
 }
 
+export class MutationTypeEnum {
+    static readonly COPY_NUMBER_GAIN_HIGH = 'Copy_Number_Gain_High';
+    static readonly COPY_NUMBER_GAIN_LOW = 'Copy_Number_Gain_Low';
+    static readonly COPY_NUMBER_LOSS_HIGH = 'Copy_Number_Loss_High';
+    static readonly COPY_NUMBER_LOSS_LOW = 'Copy_Number_Loss_Low';
+    static readonly MISSENSE = 'Missense';
+    static readonly SILENT = 'Silent';
+    static readonly FRAME_SHIFT_DEL = 'Frame_Shift_Del';
+    static readonly SPLICE_SITE = 'Splice_Site';
+    static readonly NONSENSE_MUTATION = 'Nonsense_Mutation';
+    static readonly FRAME_SHIFT_INS = 'Frame_Shift_Ins';
+    static readonly RNA = 'RNA';
+    static readonly IN_FRAME_DEL = 'In_Frame_Del';
+    static readonly IN_FRAME_INS = 'In_Frame_Ins';
+    static readonly NONSTOP_MUTATION = 'Nonstop_Mutation';
+    static readonly TRANSLATION_START_SITE = 'Translation_Start_Site';
+    static readonly DE_NOVO_START_OUTOFFRAME = 'De_novo_Start_OutOfFrame';
+    static readonly DE_NOVO_START_INFRAME = 'De_novo_Start_InFrame';
+    static readonly INTRON = 'Intron';
+    static readonly THREE_PRIME_UTR = '3\'UTR';
+    static readonly IGR = 'IGR';
+    static readonly FIVE_PRIME_UTR = '5\'UTR';
+    static readonly TARGETED_REGION = 'Targeted_Region';
+    static readonly READ_THROUGH = 'Read-through';
+    static readonly FIVE_PRIME_FLANK = '5\'Flank';
+    static readonly THREE_PRIME_FLANK = '3\'Flank';
+    static readonly SPLICE_SITE_SNP = 'Splice_Site_SNP';
+    static readonly SPLICE_SITE_DEL = 'Splice_Site_Del';
+    static readonly SPLICE_SITE_INS = 'Splice_Site_Ins';
+    static readonly INDEL = 'Indel';
+    static readonly R = 'R';
+}
+
 export class EntityTypeEnum {
     static readonly NONE = 'None';
     static readonly UNKNOWN = 'Unknown';
     static readonly PATIENT = 'Patients';
     static readonly GENE = 'Genes';
     static readonly SAMPLE = 'Samples';
-    static readonly EVENT = 'Event';
+    static readonly EVENT = 'Events';
     static readonly EDGE = 'Edge';
     static readonly MIXED = 'Mixed';
 }
