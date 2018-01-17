@@ -154,6 +154,7 @@ export class TimelinesFormComponent {
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
+      patientFilter: [],
       sort: [],
       align: [],
       timescale: [],

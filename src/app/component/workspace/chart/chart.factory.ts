@@ -105,7 +105,7 @@ export class ChartFactory {
             {
                 color: color,
                 roughness: 0.0,
-                metalness: 0.04,
+                metalness: 0.02,
                 emissive: new THREE.Color(0x000000),
                 shading: THREE.SmoothShading
                 // color: color, emissive: new THREE.Color(0x000000),
