@@ -107,7 +107,7 @@ export class VegaFactory {
         return VegaFactory._instance;
     }
 
-    private constructor() { 
+    private constructor() {
         // vega.scheme('notitia', ['#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4']);
         // vega.scheme('notitia', ['#ff4081', '#e040fb', '#7c4dff', '#536dfe', '#448aff', '#40c4ff']);
         vega.scheme('notitia', ['#b3e5fc', '#81d4fa', '#4fc3f7', '#29b6f6', '#03a9f4', '#039be5']);
@@ -154,7 +154,7 @@ export class VegaFactory {
             'title': {
                 'text': stat.name,
             },
-            'background': 'white',  
+            'background': 'white',
             'width': 230,
             'height': 180,
             'padding': 0,
@@ -172,7 +172,7 @@ export class VegaFactory {
                 },
                 {
                     'name': 'total_values',
-                    'values': values,
+                    'from': values,
                     'transform': [
                         {
                             'type': 'aggregate',
@@ -184,15 +184,32 @@ export class VegaFactory {
                 }
             ],
             'signals': [
-                {
+                // {
+                //     'name': 'signal_get_PC_value',
+                //     'description': 'update PC values in center of donut on arc hover',
+                //     'on': [
+                //       {'events': '@PC_arc:mouseover', 'update': 'datum.value'},
+                //       {'events': '@PC_arc:mouseout', 'update': 'datum.sums'},
+                //     ]
+                //   },
+                  {
                     'name': 'signal_get_PC_value',
-                    'description': 'update PC values in center of donut on hover',
-                    'value': '',
+                    'description': 'update PC values in center of donut on arc hover',
+                    'value': null,
                     'on': [
-                      {'events': '@PC_arc:mouseover', 'update': 'datum.value'},
-                      {'events': '@PC_arc:mouseout', 'update': 'datum.value'},
-                        
-                    
+                      {
+                        'events': '@PC_arc:mouseover',
+                        'update': 'datum.value'
+                      },
+                      {
+                        'events': '@legendLabel:mouseover, @legendSymbol:mouseover',
+                        'update': 'datum.value'
+                      },
+
+                      {
+                        'events': '@PC_arc:mouseout, @legendLabel:mouseout, @legendSymbol:mouseout',
+                        'update': 'datum.sums'
+                      }
                     ]
                   },
                     ],
@@ -225,54 +242,57 @@ export class VegaFactory {
                             'innerRadius': { 'value': 45 },
                             'outerRadius': { 'signal': 'width / 3' },
                             'cornerRadius': { 'value': 0 },
-                            'align': { 'value': 'right' },   
-                            'tooltip': { 'feild': 'datum.value' },
-                        },
+                            'align': { 'value': 'right' }
+                        }
                     }
                 },
                 {
                     'type': 'text',
-                    'from': { 'data': 'total_values' },
-                    'name': 'signal_get_PC_100',
+                    'from': { 'data': 'table' },
                     'interactive': true,
                     'encode': {
                         'enter': {
                             'x': { 'signal': 'width / 4' },
                             'y': { 'signal': 'height / 4' },
-                            'fill': { 'value': '#666666' },
-                            'align': { 'value': 'center' },
-                            'fontSize': {'value': 10},
                         },
                         'update': {
-                            'text': {'signal': 'signal_get_PC_value'}
-                        },
-                        'exit':{
-                            'text': {'field': 'sums'}
+                            'text': {'signal': 'signal_get_PC_value'},
+                            'opacity': {'value': .4},
+                            'fontSize': {'value': 10},
+                            'fill': { 'value': '#666666' },
+                            'align': {'value': 'center'}
                         }
                     }
                 },
-                {
-                    'type': 'text',
-                    'from': { 'data': 'total_values' },
-                    'name': 'test',
-                    'interactive': true,
-                    'encode': {
-                        'enter': {
-                            'x': { 'signal': 'width / 4' },
-                            'y': { 'signal': 'height / 4' },
-                            'fill': { 'value': '#666666' },
-                            'align': { 'value': 'center' },
-                            'fontSize': {'value': 10} 
-                        }
-                    }
-                }       
+                // {
+                //     'type': 'text',
+                //     'from': { 'data': 'total_values' },
+                //     'name': 'test',
+                //     'interactive': true,
+                //     'encode': {
+                //         'enter': {
+                //             'x': { 'signal': 'width / 4' },
+                //             'y': { 'signal': 'height / 4' },
+                //             'fill': { 'value': '#666666' },
+                //             'align': { 'value': 'center' },
+                //             'text': {'field': 'sums'},
+                //         },
+
+                //     }
+                // }
             ],
             'legends': [
                 {
-                    'fill': 'color',   
+                    'fill': 'color',
                     'orient': 'none',
                     'encode': {
+                        'symbols': {
+                            'name': 'legendSymbol',
+                            'interactive': true,
+                            'size': {'value': 64}
+                        },
                       'labels': {
+                        'name': 'legendLabel',
                         'interactive': true,
                         'update': {
                             'fontSize': {'value': 10},
@@ -281,11 +301,10 @@ export class VegaFactory {
                         },
                       'legend': {
                           'update': {
-                              'x': {'signal': 'width / 2', 'offset': 30 }, 
+                              'x': {'signal': 'width / 2', 'offset': 30 },
                               'y': {'signal': 'height / 2', 'offset': -50}
                           }
                       }
-                      
                     }
                   }
               ]
@@ -311,7 +330,7 @@ export class VegaFactory {
             },
             'background': 'white',
             'width': 230,
-            'height': 150,
+            'height': 180,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
             'data': [
@@ -357,7 +376,7 @@ export class VegaFactory {
                     'encode': {
                         'ticks': {
                             'update': {
-                                'stroke': { 'value': '#999999' }
+                                'stroke': { 'value': '#666666' }
                             }
                         },
                         'labels': {
@@ -376,7 +395,7 @@ export class VegaFactory {
                         },
                         'domain': {
                             'update': {
-                                'stroke': { 'value': '#999999' },
+                                'stroke': { 'value': '#666666' },
                                 'strokeWidth': { 'value': 1 }
                             }
                         }
@@ -396,10 +415,10 @@ export class VegaFactory {
                             'y2': { 'scale': 'yscale', 'value': 0 }
                         },
                         'update': {
-                            'fill': { 'value': '#29b6f6' }
+                            'fill': { 'value': '#b3e5fc' }
                         },
                         'hover': {
-                            'fill': { 'value': '#039be5' }
+                            'fill': { 'value': '#4fc3f7' }
                         }
                     }
                 },
@@ -409,13 +428,16 @@ export class VegaFactory {
                         'enter': {
                             'align': { 'value': 'center' },
                             'baseline': { 'value': 'bottom' },
-                            'fill': { 'value': '#000' }
-
+                            'fill': { 'value': '#666666' },
+                            'font': { 'value': 'Lato'},
+                            'fontSize': { 'value': 10 },
                         },
                         'update': {
                             'x': { 'scale': 'xscale', 'signal': 'tooltip.label', 'band': 0.5 },
                             'y': { 'scale': 'yscale', 'signal': 'tooltip.value', 'offset': -6 },
                             'text': { 'signal': 'tooltip.value' },
+                            'fontSize': {'value': 10},
+                            'font': { 'value': 'Lato'},
                             'fillOpacity': [
                                 { 'test': 'datum === tooltip', 'value': 0 },
                                 { 'value': 1 }
@@ -782,20 +804,20 @@ export class StatFactory {
     private constructor() { }
 
     public getPopulationStats( config: GraphConfig, dataService: DataService): Promise<Array<Stat>> {
-        
+
         return new Promise( (resolve, reject) => {
-            
+
             const keyValues = 
                 new StatKeyValues('', [
                     { label: 'Genes: ', value: ((config.markerFilter.length === 0) ? 'All' : config.markerFilter.length.toString()) },
                     { label: 'Patients: ', value: ((config.patientFilter.length === 0) ? 'All' : config.patientFilter.length.toString()) },
                     { label: 'Samples: ', value: ((config.sampleFilter.length === 0) ? 'All' : config.sampleFilter.length.toString()) }
                 ]);
-                
-            dataService.getPatientStats(config.database, config.patientFilter).then( result => {                
+
+            dataService.getPatientStats(config.database, config.patientFilter).then( result => {
                 result = result.map( v => {
                     const stat = new StatOneD(v.name, v.stat);
-                    if ( (v.type === 'number') || (v.type === 'category' && v.stat.length >= 7) ){
+                    if ( (v.type === 'number') || (v.type === 'category' && v.stat.length >= 7) ) {
                         // Transform Into Histogram From pie
                         stat.charts.reverse();
                     }
@@ -834,7 +856,6 @@ export class StatFactory {
         return [];
     }
 
-   
     private createIncrementalPca(data: GraphData): Array<Stat> {
         // IncrementalPca stats array
         const stats = [
