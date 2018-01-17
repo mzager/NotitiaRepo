@@ -143,7 +143,7 @@ export class VegaFactory {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'config': {
                 'title': {
-                    'offset': 70,
+                    'offset': 40,
                     'fontSize': 10,
                     'color': '#666666',
                     'font': 'Lato',
@@ -156,7 +156,7 @@ export class VegaFactory {
             },
             'background': 'white',
             'width': 230,
-            'height': 150,
+            'height': 180,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
             'data': [
@@ -233,14 +233,14 @@ export class VegaFactory {
                     'interactive': true,
                     'encode': {
                         'enter': {
-                            'x': { 'value': 60 },
-                            'y': { 'value': 0 },
+                            'x': { 'signal': 'width / 4' },
+                            'y': { 'signal': 'width / 4' },
                             'fill': { 'scale': 'color', 'field': 'label' },
                             'startAngle': { 'field': 'startAngle' },
                             'endAngle': { 'field': 'endAngle' },
                             'padAngle': { 'value': 0.01 },
-                            'innerRadius': { 'value': 30 },
-                            'outerRadius': { 'value': 60 },
+                            'innerRadius': { 'value': 45 },
+                            'outerRadius': { 'signal' : 'width / 3' },
                             'cornerRadius': { 'value': 0 },
                             'align': { 'value': 'right' }
                         }
@@ -253,11 +253,11 @@ export class VegaFactory {
                     'encode': {
                         'enter': {
                             'x': { 'signal': 'width / 4' },
-                            'y': { 'signal': 'height / 4' },
+                            'y': { 'signal': 'height / 4 + 10' },
                         },
                         'update': {
                             'text': {'signal': 'signal_get_PC_value'},
-                            'opacity': {'value': .4},
+                            'opacity': {'value': 0.4},
                             'fontSize': {'value': 10},
                             'fill': { 'value': '#666666' },
                             'align': {'value': 'center'}
