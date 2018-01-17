@@ -6,6 +6,7 @@ import { DataField, DataFieldFactory } from './../../../model/data-field.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as _ from 'lodash';
+import { FormArray } from '@angular/forms/src/model';
 
 @Component({
   selector: 'app-timelines-form',
@@ -13,112 +14,117 @@ import * as _ from 'lodash';
   template: `
   <form [formGroup]="form" novalidate>
   <div class="form-group">
-    <label class="center-block"><span class="form-label">Group By</span>
-      <select class="browser-default" materialize="material_select"
-          [materializeSelectOptions]="displayOptions"
-          formControlName="entity">
-          <option *ngFor="let option of displayOptions"
-            [ngValue]="option">{{option}}</option>
-      </select>
-    </label>
-  </div>
-  <div class="form-group">
     <label class="center-block"><span class="form-label">Align</span>
-      <select class="browser-default" materialize="material_select"
-          [materializeSelectOptions]="subtypeOptions" formControlName="align">
-          <option *ngFor="let option of subtypeOptions"
-            [ngValue]="option">{{option}}</option>
+      <select formControlName="align"
+        materialize="material_select">
+        <optgroup *ngFor="let group of eventGroups" label="{{group.label}}">
+          <option *ngFor="let evt of group.events"
+            [ngValue]="evt.label">{{evt.label}}</option>
+        </optgroup>
       </select>
     </label>
   </div>
   <div class="form-group">
     <label class="center-block"><span class="form-label">Sort</span>
-      <select class="browser-default" materialize="material_select"
-          [materializeSelectOptions]="subtypeOptions" formControlName="sort">
-          <option *ngFor="let option of subtypeOptions"
-            [ngValue]="option">{{option}}</option>
+      <select formControlName="sort"
+        materialize="material_select">
+        <optgroup *ngFor="let group of eventGroups" label="{{group.label}}">
+          <option *ngFor="let evt of group.events"
+            [ngValue]="evt.label">{{evt.label}}</option>
+        </optgroup>
       </select>
     </label>
   </div>
   <div class="form-group">
-    <label class="center-block"><span class="form-label">Line Color</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="colorOptions"
-          formControlName="pointColor">
-          <option *ngFor="let option of colorOptions"
-            [ngValue]="option">{{option.label}}</option>
+    <label class="center-block"><span class="form-label">Attributes</span>
+      <select formControlName="attributes" multiple="true"
+        materialize="material_select">
+        <option *ngFor="let pa of this.patientAttributes"
+          [ngValue]="pa.label">{{pa.label}}</option>
       </select>
     </label>
   </div>
-  <div class="form-label" style="width:100%;padding-top:5px;text-transform: Uppercase;"><label>Status Options</label></div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Style</span>
-      <select class="browser-default" materialize="material_select"
-          [materializeSelectOptions]="styleOptions" formControlName="statusStyle">
-          <option *ngFor="let option of styleOptions"
-            [ngValue]="option">{{option}}</option>
-      </select>
-    </label>
-  </div>
-  <div class="form-group"  *ngFor="let item of statusOptions; let i = index">
-    <div class="switch">
-      <label>
-        <input type="checkbox" checked (change)="visibilityToggle(item)">
-          <span class="lever"></span>
-            {{item}}
-      </label>
+
+  <div formArrayName="bars">
+    <div *ngFor="let bar of form.controls.bars.controls; let i=index">
+      <div [formGroupName]="i">
+        <span class="form-label" style="width:100%; font-size:1rem; font-weight: 700; padding: 10px 0px 2px 0px;">
+          {{form.controls.bars.controls[i].controls.label.value}} Events</span>        
+          <div class="form-group">
+            <label class="center-block"><span class="form-label">Display</span>
+              <select materialize="material_select" formControlName="style">
+                <option *ngFor="let style of styleOptions"
+                  [ngValue]="style">{{style}}</option>
+              </select>
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="center-block"><span class="form-label">Visible</span>
+              <select materialize="material_select" formControlName="events"
+                multiple>
+                <option *ngFor="let item of eventTypes[form.controls.bars.controls[i].controls.label.value]"
+                  [ngValue]="item.subtype">{{item.subtype}}</option>
+              </select>
+          </label>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="form-label" style="width:100%;padding-top:5px;text-transform: Uppercase;"><label>Treatment Options</label></div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Style</span>
-      <select class="browser-default" materialize="material_select"
-          [materializeSelectOptions]="styleOptions" formControlName="treatmentStyle">
-          <option *ngFor="let option of styleOptions"
-            [ngValue]="option">{{option}}</option>
-      </select>
-    </label>
-  </div>
-  <div class="form-group"  *ngFor="let item of treatmentOptions; let i = index">
-    <div class="switch">
-      <label>
-        <input type="checkbox" checked (change)="visibilityToggle(item)">
-          <span class="lever"></span>
-            {{item}}
-      </label>
-    </div>
-  </div>
+  
+
 </form>`
 })
 export class TimelinesFormComponent {
 
-  public displayOptions = [EntityTypeEnum.PATIENT, EntityTypeEnum.EVENT];
-  public alignOptions = [];
-  public typeOptions: Array<string>;
-  public subtypeOptions: Array<string>;
-  public timescaleOptions = ['Linear', 'Log'];
-  public styleOptions = [TimelinesStyle.TICKS, TimelinesStyle.ARCS, TimelinesStyle.CONTINUOUS, TimelinesStyle.SYMBOLS];
-  public statusOptions = [];
-  public colorOptions = [];
-  public treatmentOptions = [];
-  public visibleElements: any;
+  public styleOptions = [TimelinesStyle.HIDDEN, TimelinesStyle.TICKS, TimelinesStyle.ARCS, 
+    TimelinesStyle.CONTINUOUS, TimelinesStyle.SYMBOLS];
+  public eventGroups = [];
+  public eventTypes = {};
+  public patientAttributes = [];
 
   @Input() set fields(fields: Array<DataField>) {
     if (fields === null) { return; }
     if (fields.length === 0) { return; }
     const defaultDataField: DataField = DataFieldFactory.getUndefined();
-    this.colorOptions = DataFieldFactory.getColorFields(fields);
+    this.patientAttributes = fields.filter(v => (v.type === 'NUMBER') );
   }
 
   @Input() set events(events: Array<{type: string, subtype: string}>) {
     if (events === null) { return; }
     if (events.length === 0) { return ; }
-    this.visibleElements = events.reduce( (p, c) => { p[c.subtype] = true; return p; }, {});
-    this.typeOptions = ['None'].concat(Array.from(new Set( events.map(v => v.type ))));
-    this.subtypeOptions = ['None'].concat(Array.from(new Set( events.map(v => v.subtype ))));
-    this.statusOptions = events.filter(v => v.type === 'Status').map(v => v.subtype );
-    this.treatmentOptions = events.filter(v => v.type === 'Treatment').map(v => v.subtype );
+    const groups = _.groupBy(events, 'type');
+
+    const control = <FormArray>this.form.controls['bars'];
+    Object.keys(groups).forEach( group => {
+      const fg = this.fb.group({
+        label: [group],
+        style: [TimelinesStyle.TICKS],
+        events: []
+        // this.fb.array([
+        //     this.fb.group({
+        //       label: ['asdf'],
+        //       show: [true]
+        //     }),
+        //     this.fb.group({
+        //       label: ['fff'],
+        //       show: [false]
+        //     })
+          // groups[group].map(evt => {
+          //   return this.fb.group({
+          //     label: [evt.subtype],
+          //     show: [evt.visible]
+          //   });
+          // })
+        // ])
+      });
+      control.push(fg);
+    });
+
+    this.eventTypes = groups;
+    this.eventGroups = Object.keys(groups).map(lbl => ({
+      label: lbl, events: groups[lbl].map(evt => ({label: evt.subtype}))
+    }));
+    // this.form.patchValue({events: this.eventGroups});
   }
 
   @Input() set config(v: TimelinesConfigModel) {
@@ -132,8 +138,7 @@ export class TimelinesFormComponent {
 
 
   visibilityToggle(item: any) {
-    this.visibleElements[item] = !this.visibleElements[item];
-    this.form.patchValue({visibleElements: this.visibleElements}, { emitEvent: true });
+    // this.form.patchValue({visibleElements: this.visibleElements}, { emitEvent: true });
   }
 
   byKey(p1: DataField, p2: DataField) {
@@ -155,14 +160,26 @@ export class TimelinesFormComponent {
       sampleFilter: [],
       sampleSelect: [],
       patientFilter: [],
+
       sort: [],
       align: [],
-      timescale: [],
-      visibleElements: [],
-      treatmentStyle: [],
-      statusStyle: [],
-      pointColor: []
+      attributes: [],
+
+      bars: this.fb.array([])
     });
+
+
+  //   this.fb.group({
+  //     label: [],
+  //     style: [],
+  //     events: this.fb.array([
+  //       this.fb.group({
+  //         label: [],
+  //         show: []
+  //       })
+  //     ])
+  //   })
+  // ])
 
     // Update When Form Changes
     this.form.valueChanges
@@ -171,12 +188,14 @@ export class TimelinesFormComponent {
       .subscribe(data => {
         let dirty = 0;
         const form = this.form;
-        if (form.get('timescale').dirty) { dirty |= DirtyEnum.OPTIONS; }
-        if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
+        console.dir(form);
+        // if (form.get('timescale').dirty) { dirty |= DirtyEnum.OPTIONS; }
+        // if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
         if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
         form.markAsPristine();
         data.dirtyFlag = dirty;
-        this.configChange.emit(data);
+        // this.configChange.emit(data);
       });
+
   }
 }

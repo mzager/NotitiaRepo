@@ -72,3 +72,31 @@ p {
 html {
     color: #666666;
 }
+// Dropdown
+.select-wrapper {
+    display: inline-block;
+    width: 135px;
+    margin:0px;
+}
+.select-wrapper input.select-dropdown {
+    font-size: 0.8rem;
+    // background-color: rgba(255, 255, 255, 0.9);
+    width: 100%;
+    border: 1px solid #f2f2f2;
+    border-radius: 3px;
+    height: 2rem;
+    padding-left: 8px;
+    margin-bottom: 0px;
+}
+.dropdown-content {
+    font-size: 0.8rem;
+}
+.dropdown-content li > a, .dropdown-content li > span {
+    font-size: 0.8rem;
+}
+.select-wrapper span.caret{
+    height: 30px;
+    color: #000;
+    font-size: 0.2rem;
+    line-height: 30px;
+}
