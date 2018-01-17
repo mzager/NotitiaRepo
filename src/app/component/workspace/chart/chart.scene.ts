@@ -66,6 +66,7 @@ export class ChartScene {
     private container: HTMLElement;
     private labelsA: HTMLElement;
     private labelsB: HTMLElement;
+    private labelsE: HTMLElement;
     private events: ChartEvents;
     public renderer: WebGLRenderer;
     private views: Array<VisualizationView>;
@@ -183,13 +184,14 @@ export class ChartScene {
         this.render();
     }
 
-    public init(container: HTMLElement, labelsA: HTMLElement, labelsB: HTMLElement) {
+    public init(container: HTMLElement, labelsA: HTMLElement, labelsB: HTMLElement, labelsE: HTMLElement) {
         window.addEventListener('resize', this.onResize.bind(this));
 
         const dimension: ClientRect = container.getBoundingClientRect();
         this.container = container;
         this.labelsA = labelsA;
         this.labelsB = labelsB;
+        this.labelsE = labelsE;
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, preserveDrawingBuffer: true});
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setClearColor(0xffffff, 1);
@@ -294,6 +296,50 @@ export class ChartScene {
     }
 
     public update(graph: GraphEnum, config: GraphConfig, data: any) {
+
+        // let view: VisualizationView;
+        // switch (graph) {
+        //     // case GraphEnum.EDGES:
+        //     //     view = this.views[2];
+        //     //     if (view.config.visualization !== config.visualization) {
+        //     //         if (view.chart !== null) { view.chart.destroy(); }
+        //     //         view.chart = this.getChartObject(config.visualization)
+        //     //             .create(this.labelsE, this.events, view);
+        //     //         view.chart.onRequestRender.subscribe(this.render);
+        //     //         view.chart.onConfigEmit.subscribe(this.config);
+        //     //         (view.chart as EdgesGraph).updateEdges = true;
+        //     //     }
+        //     //     break;
+        //     case GraphEnum.GRAPH_A:
+        //     case GraphEnum.GRAPH_B:
+        //         view = (graph === GraphEnum.GRAPH_A) ? this.views[0] : this.views[1];
+        //         debugger;
+        //         if (view.config.visualization !== config.visualization) {
+        //             if (view.chart !== null) { view.chart.destroy(); }
+        //             view.chart = this.getChartObject(config.visualization).create(
+        //                 (config.graph === GraphEnum.GRAPH_A) ? this.labelsA : this.labelsB, this.events, view);
+        //             view.controls.reset();
+        //             view.chart.onRequestRender.subscribe(this.render);
+        //             view.chart.onConfigEmit.subscribe(this.config);
+        //         } else {
+        //             view.chart.update(config, data);
+        //             this.render();
+        //         }
+        //         break;
+        // }
+
+        // // Set Controls
+        // switch (this.workspace.layout) {
+        //     case WorkspaceLayoutEnum.HORIZONTAL:
+        //     case WorkspaceLayoutEnum.VERTICAL:
+        //         // Add Logic for Mouse Position
+        //         this.views[0].controls.enabled = true;
+        //         break;
+        // }
+        
+        // // Render Loop
+        // view.chart.update(config, data);
+        // this.render();
 
         if (!this.views[0].controls.enabled && !this.views[1].controls.enabled) {
             this.views[0].controls.enabled = true;

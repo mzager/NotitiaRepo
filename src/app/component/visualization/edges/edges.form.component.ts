@@ -3,7 +3,7 @@ import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Rx';
 import { EdgeConfigModel } from './edges.model';
-import { DimensionEnum, GraphEnum } from './../../../model/enum.model';
+import { DimensionEnum, GraphEnum, MutationTypeEnum } from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DataTypeEnum, GraphActionEnum, VisualizationEnum, CollectionTypeEnum, DirtyEnum, EntityTypeEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
@@ -17,16 +17,16 @@ import * as _ from 'lodash';
   template: `
 <form [formGroup]="form" novalidate>
   <div class="form-group">
-    <label class="center-block"><span class="form-label">Color</span>
+    <label class="center-block"><span class="form-label">Edges</span>
       <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="colorOptions"
-          formControlName="pointColor">
-          <option *ngFor="let option of colorOptions"
-            [ngValue]="option">{{option.label}}</option>
+          [materializeSelectOptions]="edgeOptions"
+          formControlName="edgeOption">
+          <option *ngFor="let option of edgeOptions"
+            [ngValue]="option">{{option}}</option>
       </select>
     </label>
   </div>
+  <!--
   <div class="form-group">
     <label class="center-block"><span class="form-label">Intersection</span>
       <select class="browser-default" materialize="material_select"
@@ -37,65 +37,68 @@ import * as _ from 'lodash';
       </select>
     </label>
   </div>
+  -->
 </form>
   `
 })
 export class EdgesFormComponent {
 
-  $tables: Subject<Array<DataTable>>;
-  $fields: Subject<Array<DataField>>;
-  $config: Subject<EdgeConfigModel>;
-  $graphAConfig: Subject<GraphConfig>;
-  $graphBConfig: Subject<GraphConfig>;
+  $tables: Subject<Array<DataTable>> = new Subject();
+  $fields: Subject<Array<DataField>> = new Subject();
+  $config: Subject<EdgeConfigModel> = new Subject();
+  $graphAConfig: Subject<GraphConfig> = new Subject();
+  $graphBConfig: Subject<GraphConfig> = new Subject();
   $latest: Observable<any>;
-  
 
-  @Input() set tables(v: Array<DataTable>) {
-    this.$tables.next(v); }
+  form: FormGroup;
+  edgeOptions: Array<string> = [];
+  mutationOptions: Array<string> = [
+    MutationTypeEnum.COPY_NUMBER_GAIN_HIGH,
+    MutationTypeEnum.COPY_NUMBER_GAIN_LOW,
+    MutationTypeEnum.COPY_NUMBER_LOSS_HIGH,
+    MutationTypeEnum.COPY_NUMBER_LOSS_LOW,
+    MutationTypeEnum.DE_NOVO_START_INFRAME,
+    MutationTypeEnum.DE_NOVO_START_OUTOFFRAME,
+    MutationTypeEnum.FIVE_PRIME_FLANK,
+    MutationTypeEnum.FIVE_PRIME_UTR,
+    MutationTypeEnum.FRAME_SHIFT_DEL,
+    MutationTypeEnum.IGR,
+    MutationTypeEnum.IN_FRAME_INS,
+    MutationTypeEnum.IN_FRAME_DEL,
+    MutationTypeEnum.INDEL,
+    MutationTypeEnum.INTRON,
+    MutationTypeEnum.MISSENSE,
+    MutationTypeEnum.NONSENSE_MUTATION,
+    MutationTypeEnum.NONSTOP_MUTATION,
+    MutationTypeEnum.READ_THROUGH,
+    MutationTypeEnum.RNA,
+    MutationTypeEnum.SILENT,
+    MutationTypeEnum.SPLICE_SITE,
+    MutationTypeEnum.SPLICE_SITE_DEL,
+    MutationTypeEnum.SPLICE_SITE_INS,
+    MutationTypeEnum.SPLICE_SITE_SNP,
+    MutationTypeEnum.TARGETED_REGION,
+    MutationTypeEnum.THREE_PRIME_FLANK,
+    MutationTypeEnum.THREE_PRIME_UTR
+  ];
+
+  @Input() set tables(v: Array<DataTable>) { this.$tables.next(v); }
   @Input() set fields(v: Array<DataField>) { this.$fields.next(v); }
   @Input() set config(v: EdgeConfigModel) { this.$config.next(v); }
   @Input() set graphAConfig(v: GraphConfig) { this.$graphAConfig.next(v); }
   @Input() set graphBConfig(v: GraphConfig) { this.$graphBConfig.next(v); }
-
-  //   if (this.form.value.visualization === null) {
-  //     this.form.patchValue(v, { emitEvent: false });
-  //   }
-  // }
-
-
   @Output() configChange = new EventEmitter<GraphConfig>();
-
-  form: FormGroup;
-  colorOptions: Array<DataField>;
-  intersectOptions: Array<DataField>;
-  dataOptions: Array<DataTable>;
-
-  byKey(p1: DataField, p2: DataField) {
-    if (p2 === null) { return false; }
-    return p1.key === p2.key;
-  }
 
   constructor(private fb: FormBuilder) {
 
-    this.$tables = new Subject();
-    this.$fields = new Subject();
-    this.$config = new Subject();
-    this.$graphAConfig = new Subject();
-    this.$graphBConfig = new Subject();
-
-    this.$tables.subscribe( v => {
-      console.dir(v);
-    });
-
     this.form = this.fb.group({
-
       visualization: [],
       graph: [],
       database: [],
       isVisible: [],
       entityA: [],
       entityB: [],
-      table: [],
+      patientFilter: [],
       markerFilter: [],
       markerSelect: [],
       sampleFilter: [],
@@ -103,8 +106,7 @@ export class EdgesFormComponent {
       pointColor: [],
       pointShape: [],
       pointSize: [],
-      pointIntersect: []
-
+      edgeOption: []
     });
 
     // Update When Form Changes
@@ -115,68 +117,75 @@ export class EdgesFormComponent {
         let dirty = 0;
         const form = this.form;
         data.graph = GraphEnum.EDGES;
-        if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
-        if (form.get('pointIntersect').dirty) { dirty |= DirtyEnum.INTERSECT; }
+        // if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
+        // if (form.get('pointIntersect').dirty) { dirty |= DirtyEnum.INTERSECT; 
         if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
         form.markAsPristine();
         data.dirtyFlag = dirty;
-        data.isVisible = (data.pointIntersect.key !== 'None' || data.pointColor.key !== 'None');
+        // data.isVisible = (data.pointIntersect.key !== 'None' || data.pointColor.key !== 'None');
         this.configChange.emit(data);
       });
 
-      this.$latest = Observable.combineLatest(
-        [
+      this.$latest = Observable.combineLatest([
           this.$tables,
           this.$fields,
           this.$config,
           this.$graphAConfig,
           this.$graphBConfig
-        ]
-      );
+        ]);
 
-      this.$latest.subscribe( v => {
-        const tables: Array<DataTable> = v[0];
-        const fields: Array<DataField> = v[1];
-        const config: EdgeConfigModel = v[2];
-        const graphAConfig: GraphConfig = v[3];
-        const graphBConfig: GraphConfig = v[4];
+      this.$latest.subscribe( this.update.bind(this) );
+  }
 
-        // If The Entity Type Changed.. All Bets Are Off Clear The Edges And Reset Options
-        if ( (graphAConfig.entity !== config.entityA) || (graphBConfig.entity !== config.entityB) ) {
+  update(v: any): void {
+    const me = this;
+    const tables: Array<DataTable> = v[0];
+    const fields: Array<DataField> = v[1];
+    const config: EdgeConfigModel = v[2];
+    const graphAConfig: GraphConfig = v[3];
+    const graphBConfig: GraphConfig = v[4];
 
-          const geneOptions: Array<DataField> = fields.filter( field => (field.tbl !== 'patient'  && field.type === 'STRING' ) );
-          geneOptions.unshift(DataFieldFactory.defaultDataField);
+    // this.form.setValue({'markerFilter':
+    //   Array.from(new Set(graphAConfig.markerFilter.concat(graphBConfig.markerFilter)))},
+    //   {emitEvent: false});
 
-          // Gene + Sample
-          if ( (graphAConfig.entity === EntityTypeEnum.GENE && graphBConfig.entity === EntityTypeEnum.SAMPLE) ||
-              (graphAConfig.entity === EntityTypeEnum.SAMPLE && graphBConfig.entity === EntityTypeEnum.GENE) ) {
-                console.log('GENE + SAMPLE');
-                this.intersectOptions = geneOptions;
-                this.colorOptions = geneOptions;
-          }
+    if ((graphAConfig.entity !== config.entityA) || (graphBConfig !== config.entityB)) {
+      this.reset();
+      this['set' + [graphAConfig.entity, graphBConfig.entity].sort().join('')]();
+    }
+  }
+  setEventsEvents(): void {
 
-          // Gene + Gene
-          if ( (graphAConfig.entity === EntityTypeEnum.GENE) && (graphBConfig.entity === EntityTypeEnum.GENE) ) {
-            console.log('GENE');
-            this.intersectOptions = geneOptions;
-            this.colorOptions = geneOptions;
-          }
+  }
+  setEventsGenes(): void {
 
-          // Sample + Sample
-          if ( (graphAConfig.entity === EntityTypeEnum.SAMPLE) && (graphBConfig.entity === EntityTypeEnum.SAMPLE) ) {
-            this.intersectOptions = DataFieldFactory.getColorFields(fields);
-            this.colorOptions = DataFieldFactory.getColorFields(fields);
-          }
+  }
+  setEventsPatients(): void {
 
-          // Reset Options
-          config.entityA = graphAConfig.entity;
-          config.entityB = graphBConfig.entity;
-          config.pointColor = DataFieldFactory.getUndefined();
-          config.pointIntersect = DataFieldFactory.getUndefined();
-          config.isVisible = false;
-          this.form.patchValue(config); //, { emitEvent: false }
+  }
+  setEventsSamples(): void {
 
-        }
-      });
+  }
+  setGenesGenes(): void {
+    this.edgeOptions = ['None', 'Genes'];
+    
+  }
+  setGenesPatients(): void {
+    this.edgeOptions = ['None', ...this.mutationOptions];
+  }
+  setGenesSamples(): void {
+    this.edgeOptions = ['None', ...this.mutationOptions];
+  }
+  setPatientsPatients(): void {
+    this.edgeOptions = ['None', 'Patients'];
+  }
+  setPatientsSamples(): void {
+    this.edgeOptions = ['None', 'Patient - Sample'];
+  }
+  setSamplesSamples(): void {
+    this.edgeOptions = ['None', 'Samples'];
+  }
+  reset(): void {
+
   }
 }

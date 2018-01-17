@@ -135,6 +135,7 @@ export class ComputeService {
             (v === VisualizationEnum.PARALLEL_COORDS) ? this.parallelCoords$ :
             (v === VisualizationEnum.LINKED_GENE) ? this.linkedGene$ :
             (v === VisualizationEnum.HIC) ? this.hic$ :
+            (v === VisualizationEnum.EDGES) ? this.edges$ :
             null;
     }
     onMessage(v) {
