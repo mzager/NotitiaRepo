@@ -139,11 +139,13 @@ export class VegaFactory {
     }
     private createDonut(stat: Stat): any {
         const values = stat.data;
+        values.forEach(v => {
+            if (v.label.length > 18) { v.label = v.label.substr(0, 18).trim() + '…'; } } );
         const vega = {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'config': {
                 'title': {
-                    'offset': 40,
+                    'offset': 10,
                     'fontSize': 10,
                     'color': '#666666',
                     'font': 'Lato',
@@ -156,7 +158,7 @@ export class VegaFactory {
             },
             'background': 'white',
             'width': 230,
-            'height': 180,
+            'height': 150,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
             'data': [
@@ -201,11 +203,10 @@ export class VegaFactory {
                         'events': '@PC_arc:mouseover',
                         'update': 'datum.value'
                       },
-                      {
-                        'events': '@legendLabel:mouseover, @legendSymbol:mouseover',
-                        'update': 'datum.value'
-                      },
-
+                    //   {
+                    //     'events': '@legendLabel:mouseover, @legendSymbol:mouseover',
+                    //     'update': 'datum.value'
+                    //   },
                       {
                         'events': '@PC_arc:mouseout, @legendLabel:mouseout, @legendSymbol:mouseout',
                         'update': 'datum.sums'
@@ -233,14 +234,14 @@ export class VegaFactory {
                     'interactive': true,
                     'encode': {
                         'enter': {
-                            'x': { 'signal': 'width / 4' },
-                            'y': { 'signal': 'width / 4' },
+                            'x': { 'value': 58 },
+                            'y': { 'value': 58 },
                             'fill': { 'scale': 'color', 'field': 'label' },
                             'startAngle': { 'field': 'startAngle' },
                             'endAngle': { 'field': 'endAngle' },
                             'padAngle': { 'value': 0.01 },
-                            'innerRadius': { 'value': 45 },
-                            'outerRadius': { 'signal' : 'width / 3' },
+                            'innerRadius': { 'value': 38 },
+                            'outerRadius': { 'value' : 58 },
                             'cornerRadius': { 'value': 0 },
                             'align': { 'value': 'right' }
                         }
@@ -252,34 +253,34 @@ export class VegaFactory {
                     'interactive': true,
                     'encode': {
                         'enter': {
-                            'x': { 'signal': 'width / 4' },
-                            'y': { 'signal': 'height / 4 + 10' },
+                            'x': { 'value': 58 },
+                            'y': { 'value': 64 },
                         },
                         'update': {
                             'text': {'signal': 'signal_get_PC_value'},
                             'opacity': {'value': 0.4},
-                            'fontSize': {'value': 10},
+                            'fontSize': {'value': '1rem' },
                             'fill': { 'value': '#666666' },
                             'align': {'value': 'center'}
                         }
                     }
                 },
-                // {
-                //     'type': 'text',
-                //     'from': { 'data': 'total_values' },
-                //     'name': 'test',
-                //     'interactive': true,
-                //     'encode': {
-                //         'enter': {
-                //             'x': { 'signal': 'width / 4' },
-                //             'y': { 'signal': 'height / 4' },
-                //             'fill': { 'value': '#666666' },
-                //             'align': { 'value': 'center' },
-                //             'text': {'field': 'sums'},
-                //         },
+                {
+                    'type': 'text',
+                    'from': { 'data': 'total_values' },
+                    'name': 'test',
+                    'interactive': true,
+                    'encode': {
+                        'enter': {
+                            'x': {'value': 130 },
+                            'y': {'value': 15 },
+                            'fill': { 'value': '#666666' },
+                            'align': { 'value': 'center' },
+                            'text': {'field': 'sums'},
+                        },
 
-                //     }
-                // }
+                    }
+                }
             ],
             'legends': [
                 {
@@ -301,8 +302,8 @@ export class VegaFactory {
                         },
                       'legend': {
                           'update': {
-                              'x': {'signal': 'width / 2', 'offset': 30 },
-                              'y': {'signal': 'height / 2', 'offset': -50}
+                              'x': {'value': 130 },
+                              'y': {'value': 15 }
                           }
                       }
                     }
