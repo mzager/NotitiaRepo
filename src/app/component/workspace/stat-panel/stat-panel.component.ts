@@ -68,7 +68,7 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
 
     // Ensure Everything ... Bad Code
     if (this.chartStats === null) { return; }
-    
+
     this.container.empty();
     sf.getPopulationStats(this._config, this.dataService).then( populationStats => {
 
@@ -82,7 +82,7 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
         // Process Stat Types
         switch (stat.renderer) {
           case StatRendererEnum.VEGA:
-        
+
             const v = vega.parse(VegaFactory.getInstance().getChartObject(stat, stat.charts[0]), { renderer: ('svg') });
             const c = new vega.View(v)
               .initialize('#cc' + i.toString())
