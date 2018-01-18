@@ -871,6 +871,34 @@ export class ComputeWorkerUtil {
         });
     }
 
+    getPatientAttributeSummary(patients: Array<string>, attributes: Array<string>, db: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.openDatabaseData(db).then( v => {
+                const query = (patients.length === 0) ? 
+                    this.dbData.table('patient').toArray() : 
+                    this.dbData.table('patient').where('p').anyOfIgnoreCase(patients).toArray();
+
+                query.then( result => { 
+                    
+                        const rv =  {
+                            pids: result.map(v => v['p']),
+                            attrs: attributes.map(a => {
+                                const prop = a.replace(/ /gi, '_');
+                                const values = result.map(v => v[prop]);
+                                return {
+                                    prop: prop, 
+                                    values: values, 
+                                    min: _.min(values),
+                                    max: _.max(values)
+                                       };
+                            })
+                        };
+                    
+                    resolve(rv);
+                });
+            });
+        });
+    }
 
     // Call Lambda
     // cbor.encode(config)

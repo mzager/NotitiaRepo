@@ -9,6 +9,7 @@ declare var ML: any;
 
 export const timelinesCompute = (config: TimelinesConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
+
     worker.util.processShapeColorSizeIntersect(config, worker);
 
     if (config.dirtyFlag & DirtyEnum.OPTIONS) {
@@ -18,15 +19,31 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
         });
     }
     if (config.dirtyFlag & DirtyEnum.LAYOUT) {
+
+        // !!! THIS WORKS WELL - KEEP
+        // if (config.attributes !== undefined) {
+        //     const pas = worker.util.getPatientAttributeSummary(config.patientFilter, config.attributes, config.database);
+        //     pas.then(v => {
+        //         debugger;
+        //         console.dir(v);
+        //         const a = 'asf';
+        //     });
+        // }
+        
+            
+
         worker.util
             .getEventData(config.database, config.patientFilter)
             .then(events => {
 
-                // const colors = worker.util.colors3;
+                // Const colors = worker.util.colors3;
                 const legend: Legend = new Legend();
                 legend.name = 'Color';
                 legend.type = 'COLOR';
                 legend.display = 'DISCRETE';
+
+                // Preform Alignment
+                debugger;
 
                 // // Create Map Of Alignments
                 // if (config.align !== 'None') {
