@@ -48,11 +48,14 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
   _data: GraphData;
 
   @Input() data: GraphData;
-  @Input() set config(value: GraphConfig) { this._config = value; this.$configChange.next(); }
-  @Input() set graphData(value: GraphData) { this._data = value; this.$dataChange.next(); }
+  @Input() set config(value: GraphConfig) { 
+    this._config = value; this.$configChange.next(); 
+  }
+  @Input() set graphData(value: GraphData) { 
+    this._data = value; this.$dataChange.next(); }
 
   update(value: [GraphConfig, GraphData]): void {
-
+debugger;
     // Ensure everything is ready to go... This could be cleaned up.
     if (this.elementRef === undefined) { return; }
     if (this.elementRef.nativeElement === undefined) { return; }
@@ -103,7 +106,7 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
 
   // Ng After View Init get's called after the dom has been constructed
   ngAfterViewInit() {
-    this.$statsChange = Observable.combineLatest(this.$configChange, this.$dataChange).subscribe(this.update);
+    this.$statsChange = Observable.combineLatest(this.$configChange, this.$dataChange).subscribe( this.update.bind(this) );
     this.update(null);
   }
 
