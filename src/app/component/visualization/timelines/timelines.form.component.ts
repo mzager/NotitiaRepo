@@ -102,22 +102,6 @@ export class TimelinesFormComponent {
         label: [group],
         style: [TimelinesStyle.TICKS],
         events: []
-        // this.fb.array([
-        //     this.fb.group({
-        //       label: ['asdf'],
-        //       show: [true]
-        //     }),
-        //     this.fb.group({
-        //       label: ['fff'],
-        //       show: [false]
-        //     })
-          // groups[group].map(evt => {
-          //   return this.fb.group({
-          //     label: [evt.subtype],
-          //     show: [evt.visible]
-          //   });
-          // })
-        // ])
       });
       control.push(fg);
     });
@@ -196,7 +180,7 @@ export class TimelinesFormComponent {
         if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
         form.markAsPristine();
         data.dirtyFlag = dirty;
-        // this.configChange.emit(data);
+        this.configChange.emit(data);
       });
 
   }
