@@ -18723,6 +18723,32 @@ var ComputeWorkerUtil = (function () {
             });
         });
     };
+    ComputeWorkerUtil.prototype.getPatientAttributeSummary = function (patients, attributes, db) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.openDatabaseData(db).then(function (v) {
+                var query = (patients.length === 0) ?
+                    _this.dbData.table('patient').toArray() :
+                    _this.dbData.table('patient').where('p').anyOfIgnoreCase(patients).toArray();
+                query.then(function (result) {
+                    var rv = {
+                        pids: result.map(function (v) { return v['p']; }),
+                        attrs: attributes.map(function (a) {
+                            var prop = a.replace(/ /gi, '_');
+                            var values = result.map(function (v) { return v[prop]; });
+                            return {
+                                prop: prop,
+                                values: values,
+                                min: _.min(values),
+                                max: _.max(values)
+                            };
+                        })
+                    };
+                    resolve(rv);
+                });
+            });
+        });
+    };
     // Call Lambda
     // cbor.encode(config)
     ComputeWorkerUtil.prototype.fetchResult = function (config, cache) {
@@ -23766,14 +23792,24 @@ exports.timelinesCompute = function (config, worker) {
         });
     }
     if (config.dirtyFlag & 1 /* LAYOUT */) {
+        // if (config.attributes !== undefined) {
+        //     const pas = worker.util.getPatientAttributeSummary(config.patientFilter, config.attributes, config.database);
+        //     pas.then(v => {
+        //         debugger;
+        //         console.dir(v);
+        //         const a = 'asf';
+        //     });
+        // }
         worker.util
             .getEventData(config.database, config.patientFilter)
             .then(function (events) {
-            // const colors = worker.util.colors3;
+            // Const colors = worker.util.colors3;
             var legend = new legend_model_1.Legend();
             legend.name = 'Color';
             legend.type = 'COLOR';
             legend.display = 'DISCRETE';
+            // Preform Alignment
+            debugger;
             // // Create Map Of Alignments
             // if (config.align !== 'None') {
             //     const align = events.filter(v => v.subtype === config.align)

@@ -213,13 +213,12 @@ export class GraphPanelComponent implements AfterViewInit  {
   constructor() {
     this.cid = Math.random().toString(36).replace(/[^a-z]+/g, '');
     this.visualizationOptions = [
-      //{ value: VisualizationEnum.NONE, label: 'None' },
+      
       { value: VisualizationEnum.PATHWAYS, label: 'Pathways'},
       { value: VisualizationEnum.GENOME, label: 'Genome' },
       { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
       { value: VisualizationEnum.HIC, label: 'Force Directed Graph' },
       { value: VisualizationEnum.HEATMAP, label: 'Heatmap'},
-      { value: VisualizationEnum.HISTOGRAM, label: 'Histogram'},
       { value: VisualizationEnum.BOX_WHISKERS, label: 'Box Whiskers'},
       { value: VisualizationEnum.TIMELINES, label: 'Timelines'},
 
