@@ -100,3 +100,33 @@ html {
     font-size: 0.2rem;
     line-height: 30px;
 }
+
+
+
+[type="checkbox"] + label:before, [type="checkbox"]:not(.filled-in) + label:after
+{
+    width: 11px;
+    height: 11px;
+    border: 1px solid #666666;
+    top: 2px;
+    z-index:9999;
+}
+
+[type="checkbox"]:checked + label:before 
+{
+    width: 6px;
+    height: 11px;
+    top: 5px;
+    left: 0px;
+}
+[type="checkbox"] + label
+{
+    padding: 10px;
+}
+dropdown-content li > a, .dropdown-content li > span {
+    font-size: 0.8rem;
+    color: #039be5;
+    display: block;
+    line-height: 30px;
+    padding: 2px 6px;
+}
