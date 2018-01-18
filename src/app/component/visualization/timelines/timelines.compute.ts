@@ -68,19 +68,33 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
 
                 // Filter Events
                 const events = Array.from(config.bars
-                    .reduce( (p,c) => { if (c.events !== null) { c.events.forEach( v => p.add(v) ); } return p;}, new Set()));           
+                    .reduce( (p,c) => { if (c.events !== null) { c.events.forEach( v => p.add(v) ); } return p;}, new Set()))
+                    .map(v => v.toString());
                 result = result.filter(v => events.indexOf(v.subtype) !== -1 )
 
-                // Build Legend
+                // Determine Min + Max "Dates"
+                const minMax = result.reduce( (p, c) => { 
+                    p.min = Math.min(p.min, c.start);
+                    p.max = Math.max(p.max, c.end);
+                    }, {min: Infinity, max: -Infinity});
+
+                // Color Map
                 const colors = worker.util.colors3;
+                const colorMap = events.reduce( (p, c, i) => { 
+                    p[c] = colors[i];
+                    return p;
+                }, {})
+
+                // Build Legend
+                
                 const legend: Legend = new Legend();
                 legend.name = 'Events';
                 legend.type = 'COLOR';
                 legend.display = 'DISCRETE';
-                legend.labels = events.map(v => v.toString() );
-                legend.values = colors.slice(0, events.length);
+                legend.labels = events;
+                legend.values = events.map( v => colorMap[v] );
                 debugger;
-                
+            
 
                 // const subtypes = Array.from(events.reduce((p, c) => { p.add(c.subtype); return p; }, new Set()));
                 // legend.labels = subtypes as Array<string>;
@@ -152,7 +166,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 worker.postMessage({
                     config: config,
                     data: {
-                        legendItems: [],
+                        legendItems: [legend],
                         result: {
                             // minMax: minMaxDates,
                             events: result
