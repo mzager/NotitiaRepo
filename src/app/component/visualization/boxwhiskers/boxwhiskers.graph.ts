@@ -125,9 +125,8 @@ export class BoxWhisterksGraph implements ChartObjectInterface {
 
     }
 
-
     addObjects() {
-        
+
         const w = (this.view.viewport.width * 0.5) - 100;
         const scale = scaleLinear();
         scale.domain([this.data.min, this.data.max]);
@@ -197,7 +196,7 @@ export class BoxWhisterksGraph implements ChartObjectInterface {
     }
 
     private onMouseMove(e: ChartEvent): void {
-     
+
     }
 
     private onMouseUp(e: ChartEvent): void {

@@ -4,7 +4,7 @@ import { VisualizationEnum, DimensionEnum, GraphEnum, EntityTypeEnum } from 'app
 import { DataField, DataFieldFactory } from 'app/model/data-field.model';
 
 export class TimelinesStyle {
-    public static HIDDEN: 'Hidden';
+    public static NONE = 'None';
     public static CONTINUOUS = 'Continuous Bar';
     public static TICKS = 'Ticks';
     public static ARCS = 'Arcs';
@@ -19,8 +19,8 @@ export class TimelinesConfigModel extends GraphConfig {
     }
     align = 'Diagnosis';
     sort = 'Death';
+    attributes: any;
     bars: Array<any>;
-    heatmap: Array<DataField>;
 }
 
 export interface TimelinesDataModel {
