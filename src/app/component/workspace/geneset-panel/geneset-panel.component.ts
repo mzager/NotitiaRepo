@@ -77,7 +77,7 @@ export class GenesetPanelComponent implements AfterViewInit {
 
   // Defining All Component Public Properties
   form: FormGroup;
-  
+
   genesetSources: Array<string> = ['Public Gene Set', 'Custom Gene Set'];
   geneSource = this.genesetSources[0];
   genesetCategories;
@@ -88,17 +88,17 @@ export class GenesetPanelComponent implements AfterViewInit {
   @Output() configChange = new EventEmitter<GraphConfig>();
   @Output() hide = new EventEmitter<any>();
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void { }
 
   onGenesetCategoryLoaded(me: GenesetPanelComponent, genesets: Array<any>): void {
     me.genesets = genesets;
-    me.form.setValue({geneset: genesets[0]}, {emitEvent: true});
+    me.form.setValue({ geneset: genesets[0] }, { emitEvent: true });
     me.cd.markForCheck();
   }
 
   genesetCategoryChange(): void {
     const category = this.form.get('genesetCategory').value.code;
-    this.dataService.getGeneSetByCategory(category).toPromise().then( genesets => {
+    this.dataService.getGeneSetByCategory(category).toPromise().then(genesets => {
       this.onGenesetCategoryLoaded(this, genesets);
     });
   }
@@ -112,21 +112,21 @@ export class GenesetPanelComponent implements AfterViewInit {
   submit(graph) {
 
     // ok mz - get rid of the 1st dropdown and add custom list as an option to source... 
-      const genes = (this.form.get('genesetSource').value === 'Public Gene Set') ?
-        this.form.get('geneset').value.hugo.split(',') :
-        this.form.get('genelist').value.split(',').map(v => v.trim().toUpperCase());
+    const genes = (this.form.get('genesetSource').value === 'Public Gene Set') ?
+      this.form.get('geneset').value.hugo.split(',') :
+      this.form.get('genelist').value.split(',').map(v => v.trim().toUpperCase());
 
-      if (graph.indexOf('A') !== -1) {
-        this.configA.markerFilter =  genes.map(v => v.toUpperCase());
-        this.configA.dirtyFlag = DirtyEnum.LAYOUT;
-        this.configChange.emit(this.configA);
-      }
-      
-      if (graph.indexOf('B') !== -1) {
-          this.configB.markerFilter = genes.map(v => v.toUpperCase());
-          this.configB.dirtyFlag = DirtyEnum.LAYOUT;
-          this.configChange.emit(this.configB);
-      }
+    if (graph.indexOf('A') !== -1) {
+      this.configA.markerFilter = genes.map(v => v.toUpperCase());
+      this.configA.dirtyFlag = DirtyEnum.LAYOUT;
+      this.configChange.emit(this.configA);
+    }
+
+    if (graph.indexOf('B') !== -1) {
+      this.configB.markerFilter = genes.map(v => v.toUpperCase());
+      this.configB.dirtyFlag = DirtyEnum.LAYOUT;
+      this.configChange.emit(this.configB);
+    }
   }
 
   // This runs automatically
