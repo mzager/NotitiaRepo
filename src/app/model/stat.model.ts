@@ -139,12 +139,8 @@ export class VegaFactory {
     }
     private createDonut(stat: Stat): any {
         const values = stat.data;
-        
         values.forEach(v => {
-            try{
             if (v.mylabel.length > 18) { v.mylabel = v.mylabel.substr(0, 18).trim() + '…'; }
-            }catch(e){ debugger;
-            }
         });
         const vega = {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
@@ -963,7 +959,7 @@ export class StatFactory {
             ])),
             // One Dimensional Stats
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
-            // new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
+            new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
             // new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues)),
             // new StatOneD('Mean', this.formatMean(data.result.mean)),
             // Two Dimensional Stats
@@ -978,7 +974,7 @@ export class StatFactory {
         const stats = [
             // One Dimensional Stats
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
-            // new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
+            new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
             new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues))
             // Two Dimensional Stats
             // new StatTwoD('Components', data.result.components),
@@ -998,7 +994,7 @@ export class StatFactory {
             // One Dimensional Stats
             // new StatOneD('Mean', data.result.mean),
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
-            // new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
+            new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
             // new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues)),
             // Two Dimensional Stats
             new StatTwoD('PCA Loadings', this.formatPCALoadings(data.markerIds, data.result.components))
