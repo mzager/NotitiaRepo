@@ -76,7 +76,7 @@ import { FormArray } from '@angular/forms/src/model';
 })
 export class TimelinesFormComponent {
 
-  public styleOptions = [TimelinesStyle.HIDDEN, TimelinesStyle.TICKS, TimelinesStyle.ARCS, 
+  public styleOptions = [TimelinesStyle.None, TimelinesStyle.TICKS, TimelinesStyle.ARCS, 
     TimelinesStyle.CONTINUOUS, TimelinesStyle.SYMBOLS];
   public eventGroups = [];
   public eventTypes = {};
