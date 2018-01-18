@@ -82,7 +82,6 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
         // Process Stat Types
         switch (stat.renderer) {
           case StatRendererEnum.VEGA:
-
             const v = vega.parse(VegaFactory.getInstance().getChartObject(stat, stat.charts[0]), { renderer: ('svg') });
             const c = new vega.View(v)
               .initialize('#cc' + i.toString())
@@ -90,6 +89,7 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
               .renderer('svg')
               .run();
             break;
+
           case StatRendererEnum.HTML:
             div.children('#cc' + i.toString()).append(VegaFactory.getInstance().getChartObject(stat, stat.charts[0]).toString());
             break;
