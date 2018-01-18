@@ -139,9 +139,13 @@ export class VegaFactory {
     }
     private createDonut(stat: Stat): any {
         const values = stat.data;
-        // values.forEach(v => {
-        //     if (v.mylabel.length > 18) { v.mylabel = v.mylabel.substr(0, 18).trim() + '…'; }
-        // });
+        
+        values.forEach(v => {
+            try{
+            if (v.mylabel.length > 18) { v.mylabel = v.mylabel.substr(0, 18).trim() + '…'; }
+            }catch(e){ debugger;
+            }
+        });
         const vega = {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'config': {
@@ -906,7 +910,9 @@ export class StatFactory {
 
             dataService.getPatientStats(config.database, config.patientFilter).then( result => {
                 result = result.map( v => {
-                    const stat = new StatOneD(v.name, v.stat);
+                    const stat = new StatOneD(v.name, v.stat.map( v => ({
+                        mylabel: v.label, myvalue: v.value
+                    })));
                     if ( (v.type === 'number') || (v.type === 'category' && v.stat.length >= 7) ) {
                         // Transform Into Histogram From pie
                         stat.charts.reverse();
