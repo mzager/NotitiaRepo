@@ -34,35 +34,53 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
 
         worker.util
             .getEventData(config.database, config.patientFilter)
-            .then(events => {
+            .then(result => {
+                // Temp
+                if (!config.hasOwnProperty('bars')) {
+                    worker.postMessage({
+                        config: config,
+                        data: {
+                            legendItems: [],
+                            result: {
+                                // minMax: minMaxDates,
+                                events: result
+                            }
+                        }
+                    });
+                    worker.postMessage('TERMINATE');
+                    return;
+                }
 
-                // Const colors = worker.util.colors3;
+                // Align
+                if (config.align !== 'None') {
+                    const align = result.filter(v => v.subtype === config.align)
+                        .reduce((p, c) => { p[c.p] = c.start; return p; }, {});
+
+                    // Remove Rows That Don't Have Alignment Property
+                    result = result.filter(v => align.hasOwnProperty(v.p));
+
+                    // Preform Alignment
+                    result.forEach(v => {
+                        v.start -= align[v.p];
+                        v.end -= align[v.p];
+                    });
+                }
+
+                // Filter Events
+                const events = Array.from(config.bars
+                    .reduce( (p,c) => { if (c.events !== null) { c.events.forEach( v => p.add(v) ); } return p;}, new Set()));           
+                result = result.filter(v => events.indexOf(v.subtype) !== -1 )
+
+                // Build Legend
+                const colors = worker.util.colors3;
                 const legend: Legend = new Legend();
-                legend.name = 'Color';
+                legend.name = 'Events';
                 legend.type = 'COLOR';
                 legend.display = 'DISCRETE';
-
-                // Preform Alignment
+                legend.labels = events.map(v => v.toString() );
+                legend.values = colors.slice(0, events.length);
                 debugger;
-
-                // // Create Map Of Alignments
-                // if (config.align !== 'None') {
-                //     const align = events.filter(v => v.subtype === config.align)
-                //         .reduce((p, c) => { p[c.p] = c.start; return p; }, {});
-
-                //     // Remove Rows That Don't Have Alignment Property
-                //     events = events.filter(v => align.hasOwnProperty(v.p));
-                //     // Preform Alignment
-                //     events.forEach(v => {
-                //         v.start -= align[v.p];
-                //         v.end -= align[v.p];
-                //     });
-                // }
-
-                // if (config.hasOwnProperty('visibleElements') && config.visibleElements !== null) {
-                //     const show = config.visibleElements;
-                //     events = events.filter(v => show[v.subtype]);
-                // }
+                
 
                 // const subtypes = Array.from(events.reduce((p, c) => { p.add(c.subtype); return p; }, new Set()));
                 // legend.labels = subtypes as Array<string>;
@@ -137,7 +155,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                         legendItems: [],
                         result: {
                             // minMax: minMaxDates,
-                            events: events
+                            events: result
                         }
                     }
                 });

@@ -23792,6 +23792,7 @@ exports.timelinesCompute = function (config, worker) {
         });
     }
     if (config.dirtyFlag & 1 /* LAYOUT */) {
+        // !!! THIS WORKS WELL - KEEP
         // if (config.attributes !== undefined) {
         //     const pas = worker.util.getPatientAttributeSummary(config.patientFilter, config.attributes, config.database);
         //     pas.then(v => {
@@ -23802,30 +23803,49 @@ exports.timelinesCompute = function (config, worker) {
         // }
         worker.util
             .getEventData(config.database, config.patientFilter)
-            .then(function (events) {
-            // Const colors = worker.util.colors3;
+            .then(function (result) {
+            // Temp
+            if (!config.hasOwnProperty('bars')) {
+                worker.postMessage({
+                    config: config,
+                    data: {
+                        legendItems: [],
+                        result: {
+                            // minMax: minMaxDates,
+                            events: result
+                        }
+                    }
+                });
+                worker.postMessage('TERMINATE');
+                return;
+            }
+            // Align
+            if (config.align !== 'None') {
+                var align_1 = result.filter(function (v) { return v.subtype === config.align; })
+                    .reduce(function (p, c) { p[c.p] = c.start; return p; }, {});
+                // Remove Rows That Don't Have Alignment Property
+                result = result.filter(function (v) { return align_1.hasOwnProperty(v.p); });
+                // Preform Alignment
+                result.forEach(function (v) {
+                    v.start -= align_1[v.p];
+                    v.end -= align_1[v.p];
+                });
+            }
+            // Filter Events
+            var events = Array.from(config.bars
+                .reduce(function (p, c) { if (c.events !== null) {
+                c.events.forEach(function (v) { return p.add(v); });
+            } return p; }, new Set()));
+            result = result.filter(function (v) { return events.indexOf(v.subtype) !== -1; });
+            // Build Legend
+            var colors = worker.util.colors3;
             var legend = new legend_model_1.Legend();
-            legend.name = 'Color';
+            legend.name = 'Events';
             legend.type = 'COLOR';
             legend.display = 'DISCRETE';
-            // Preform Alignment
+            legend.labels = events.map(function (v) { return v.toString(); });
+            legend.values = colors.slice(0, events.length);
             debugger;
-            // // Create Map Of Alignments
-            // if (config.align !== 'None') {
-            //     const align = events.filter(v => v.subtype === config.align)
-            //         .reduce((p, c) => { p[c.p] = c.start; return p; }, {});
-            //     // Remove Rows That Don't Have Alignment Property
-            //     events = events.filter(v => align.hasOwnProperty(v.p));
-            //     // Preform Alignment
-            //     events.forEach(v => {
-            //         v.start -= align[v.p];
-            //         v.end -= align[v.p];
-            //     });
-            // }
-            // if (config.hasOwnProperty('visibleElements') && config.visibleElements !== null) {
-            //     const show = config.visibleElements;
-            //     events = events.filter(v => show[v.subtype]);
-            // }
             // const subtypes = Array.from(events.reduce((p, c) => { p.add(c.subtype); return p; }, new Set()));
             // legend.labels = subtypes as Array<string>;
             // legend.values = colors.slice(0, legend.labels.length);
@@ -23888,7 +23908,7 @@ exports.timelinesCompute = function (config, worker) {
                     legendItems: [],
                     result: {
                         // minMax: minMaxDates,
-                        events: events
+                        events: result
                     }
                 }
             });
