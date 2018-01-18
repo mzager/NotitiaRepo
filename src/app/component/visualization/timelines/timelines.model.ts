@@ -19,8 +19,8 @@ export class TimelinesConfigModel extends GraphConfig {
     }
     align = 'Diagnosis';
     sort = 'Death';
+    attributes: any;
     bars: Array<any>;
-    heatmap: Array<DataField>;
 }
 
 export interface TimelinesDataModel {
