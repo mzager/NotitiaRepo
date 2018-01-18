@@ -83,11 +83,11 @@ export class StatTwoD implements Stat {
     readonly type = StatTypeEnum.TWO_D;
     charts: Array<ChartTypeEnum> = [ChartTypeEnum.HISTOGRAM, ChartTypeEnum.SCATTER];
     name: string;
-    data: Array<{ label: string, value: number, color?: number }>;
+    data: Array<{ mylabel: string, myvalue: number, color?: number }>;
     renderer: StatRendererEnum;
     columns: StatRendererColumns;
 
-    constructor(name: string, data: Array<{ label: string, value: number, color?: number }>) {
+    constructor(name: string, data: Array<{ mylabel: string, myvalue: number, color?: number }>) {
         this.name = name;
         this.data = data;
         this.renderer = StatRendererEnum.VEGA;
@@ -448,7 +448,7 @@ export class VegaFactory {
                 {
                     'name': 'xscale',
                     'type': 'band',
-                    'domain': { 'data': 'table', 'field': 'label' },
+                    'domain': { 'data': 'table', 'field': 'mylabel' },
                     'range': 'width',
                     'color': '0xFF0000',
                     'padding': 0.1,
@@ -456,7 +456,7 @@ export class VegaFactory {
                 },
                 {
                     'name': 'yscale',
-                    'domain': { 'data': 'table', 'field': 'value' },
+                    'domain': { 'data': 'table', 'field': 'myvalue' },
                     'nice': true,
                     'range': 'height'
                 }
@@ -503,9 +503,9 @@ export class VegaFactory {
                     'from': { 'data': 'table' },
                     'encode': {
                         'enter': {
-                            'x': { 'scale': 'xscale', 'field': 'label' },
+                            'x': { 'scale': 'xscale', 'field': 'mylabel' },
                             'width': { 'scale': 'xscale', 'band': 1 },
-                            'y': { 'scale': 'yscale', 'field': 'value' },
+                            'y': { 'scale': 'yscale', 'field': 'myvalue' },
                             'y2': { 'scale': 'yscale', 'value': 0 }
                         },
                         'update': {
@@ -527,9 +527,9 @@ export class VegaFactory {
                             'fontSize': { 'value': 10 },
                         },
                         'update': {
-                            'x': { 'scale': 'xscale', 'signal': 'tooltip.label', 'band': 0.5 },
-                            'y': { 'scale': 'yscale', 'signal': 'tooltip.value', 'offset': -6 },
-                            'text': { 'signal': 'tooltip.value' },
+                            'x': { 'scale': 'xscale', 'signal': 'tooltip.mylabel', 'band': 0.5 },
+                            'y': { 'scale': 'yscale', 'signal': 'tooltip.myvalue', 'offset': -6 },
+                            'text': { 'signal': 'tooltip.myvalue' },
                             'fontSize': {'value': 10},
                             'font': { 'value': 'Lato'},
                             'fillOpacity': [
@@ -1203,7 +1203,7 @@ export class StatFactory {
         return noiseVariance.filter((v, i) => i < 10);
     }
     // Two D Recycled Data Formulas
-    formatPCALoadings(markers: Array<string>, data: Array<Array<number>>): Array<{ label: string, value: number, color?: number }> {
-        return data[0].sort((a, b) => b - a).splice(0, 20).map((v, i) => ({ label: markers[i], value: Math.round(v * 1e2) / 1e2 }));
+    formatPCALoadings(markers: Array<string>, data: Array<Array<number>>): Array<{ mylabel: string, myvalue: number, color?: number }> {
+        return data[0].sort((a, b) => b - a).splice(0, 20).map((v, i) => ({ mylabel: markers[i], myvalue: Math.round(v * 1e2) / 1e2 }));
     }
 }

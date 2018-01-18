@@ -16,10 +16,12 @@ declare var $: any;
   template: `<div class="card"
     style="position:absolute; top:40px; width:225px;height:auto; background:#FFFFFF;"
     [ng2-draggable]="true" [ng2DraggableHandle]="titlebar">
+    <!-- Title Bar Row -->
     <div class="card-title-bar" #titlebar style="background: #029BE5; color:#FFF; font-weight:normal; font-size:12px; padding:5px 10px;text-transform:uppercase;letter-spacing:1px;">
         Gene Set
         <i class="tiny material-icons" style="float: right; padding-top: 4px; cursor: pointer" (click)="hide.emit()">close</i>
     </div>
+    <!-- Panel Content -->
     <div class="card-content" style="padding:20px;">
       <div id="geneset-panel-genes">
           <form [formGroup]="form" novalidate>
@@ -72,46 +74,36 @@ declare var $: any;
 })
 export class GenesetPanelComponent implements AfterViewInit {
 
+
+  // Defining All Component Public Properties
   form: FormGroup;
-
-  geneSource = 'Public Gene Set';
+  
   genesetSources: Array<string> = ['Public Gene Set', 'Custom Gene Set'];
-
-  // genesetCategory;
+  geneSource = this.genesetSources[0];
   genesetCategories;
-
-  // geneset;
   genesets;
-
-  // @ViewChild('tabs') tabs: ElementRef;
 
   @Input() configA: GraphConfig;
   @Input() configB: GraphConfig;
   @Output() configChange = new EventEmitter<GraphConfig>();
   @Output() hide = new EventEmitter<any>();
 
-  ngAfterViewInit(): void {
-    // $(this.tabs.nativeElement).tabs();
-  }
+  ngAfterViewInit(): void {}
 
   onGenesetCategoryLoaded(me: GenesetPanelComponent, genesets: Array<any>): void {
     me.genesets = genesets;
-    me.form.patchValue({geneset: genesets[0]}, {emitEvent: true});
+    me.form.setValue({geneset: genesets[0]}, {emitEvent: true});
     me.cd.markForCheck();
   }
 
   genesetCategoryChange(): void {
-
-    const f = this.form;
-
-    const v = this.form.getRawValue().genesetCategory.code;
-
     const category = this.form.get('genesetCategory').value.code;
     this.dataService.getGeneSetByCategory(category).toPromise().then( genesets => {
       this.onGenesetCategoryLoaded(this, genesets);
     });
   }
 
+  // Ignore
   byName(p1: any, p2: any) {
     if (p2 === null) { return false; }
     return p1.name === p2.name;
@@ -123,39 +115,52 @@ export class GenesetPanelComponent implements AfterViewInit {
       const genes = (this.form.get('genesetSource').value === 'Public Gene Set') ?
         this.form.get('geneset').value.hugo.split(',') :
         this.form.get('genelist').value.split(',').map(v => v.trim().toUpperCase());
+
       if (graph.indexOf('A') !== -1) {
-        this.configA.markerFilter = this.configB.markerFilter = genes.map(v => v.toUpperCase());
-        this.configA.dirtyFlag = this.configB.dirtyFlag = DirtyEnum.LAYOUT;
+        this.configA.markerFilter =  genes.map(v => v.toUpperCase());
+        this.configA.dirtyFlag = DirtyEnum.LAYOUT;
         this.configChange.emit(this.configA);
       }
+      
       if (graph.indexOf('B') !== -1) {
-          this.configB.markerFilter = this.configB.markerFilter = genes.map(v => v.toUpperCase());
-          this.configB.dirtyFlag = this.configB.dirtyFlag = DirtyEnum.LAYOUT;
+          this.configB.markerFilter = genes.map(v => v.toUpperCase());
+          this.configB.dirtyFlag = DirtyEnum.LAYOUT;
           this.configChange.emit(this.configB);
       }
   }
 
+  // This runs automatically
+  // The parameters are 'injected'... To reference them use this.[paramname]
   constructor(private cd: ChangeDetectorRef, private fb: FormBuilder, private dataService: DataService) {
 
-    this.dataService.getGeneSetCategories().toPromise().then(v => {
-      this.genesetCategories = v;
+    // Load Genesets From Server
+    this.dataService.getGeneSetCategories().toPromise().then(result => {
+      // Got Genesets + Save In Public Variable So It Can Be Used W/ Binding (ngFor)
+      this.genesetCategories = result;
+
+      // Update Our Form Model To Select The First Geneset Category
       this.form.get('genesetCategory').setValue(this.genesetCategories[0]);
+
+      // Trigger Geneset Category Change (Same Function That Gets Called When You Change Dropdown)
       this.genesetCategoryChange();
     });
 
+    // Create Our Form (First Parameter In Arrays is Default)
     this.form = this.fb.group({
       genesetSource: [this.geneSource],
       genesetCategory: [],
       geneset: [],
-      genelist: ['idh1']
+      genelist: []
     });
+
+    // Listens For Changes On The Form And Updates Values
     this.form.valueChanges
-      .debounceTime(200)
-      .distinctUntilChanged()
+      .debounceTime(200)  // Wait At Least This Long
+      .distinctUntilChanged() // Throw Away Unless Somethings Different
       .subscribe(data => {
         const form = this.form;
-        if (form.get('genesetCategory').dirty) {
-          form.markAsPristine();
+        if (form.get('genesetCategory').dirty) { // If Geneset Category Has Changed
+          form.markAsPristine();  // I'm handling The Change... Clean Form
           this.genesetCategoryChange();
         }
       });
