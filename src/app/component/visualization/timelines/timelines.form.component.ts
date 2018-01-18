@@ -15,7 +15,7 @@ import { FormArray } from '@angular/forms/src/model';
   <form [formGroup]="form" novalidate>
   <div class="form-group">
     <label class="center-block"><span class="form-label">Align</span>
-      <select formControlName="align"
+      <select formControlName="align" class="browser-default"
         materialize="material_select">
         <optgroup *ngFor="let group of eventGroups" label="{{group.label}}">
           <option *ngFor="let evt of group.events"
@@ -26,7 +26,7 @@ import { FormArray } from '@angular/forms/src/model';
   </div>
   <div class="form-group">
     <label class="center-block"><span class="form-label">Sort</span>
-      <select formControlName="sort"
+      <select formControlName="sort" class="browser-default"
         materialize="material_select">
         <optgroup *ngFor="let group of eventGroups" label="{{group.label}}">
           <option *ngFor="let evt of group.events"
@@ -35,6 +35,7 @@ import { FormArray } from '@angular/forms/src/model';
       </select>
     </label>
   </div>
+
   <div class="form-group">
     <label class="center-block"><span class="form-label">Attributes</span>
       <select formControlName="attributes" multiple="true"
@@ -48,11 +49,12 @@ import { FormArray } from '@angular/forms/src/model';
   <div formArrayName="bars">
     <div *ngFor="let bar of form.controls.bars.controls; let i=index">
       <div [formGroupName]="i">
-        <span class="form-label" style="width:100%; font-size:1rem; font-weight: 700; padding: 10px 0px 2px 0px;">
-          {{form.controls.bars.controls[i].controls.label.value}} Events</span>        
+        <span class="form-label" style="
+        text-align:left;width:100%;font-weight:700;padding:10px 0px 5px 0px;font-size:0.8rem;">
+          {{form.controls.bars.controls[i].controls.label.value}} Events</span>
           <div class="form-group">
             <label class="center-block"><span class="form-label">Display</span>
-              <select materialize="material_select" formControlName="style">
+              <select class="browser-default" materialize="material_select" formControlName="style">
                 <option *ngFor="let style of styleOptions"
                   [ngValue]="style">{{style}}</option>
               </select>
@@ -76,7 +78,7 @@ import { FormArray } from '@angular/forms/src/model';
 })
 export class TimelinesFormComponent {
 
-  public styleOptions = [TimelinesStyle.None, TimelinesStyle.TICKS, TimelinesStyle.ARCS, 
+  public styleOptions = [TimelinesStyle.NONE, TimelinesStyle.ARCS, TimelinesStyle.TICKS,
     TimelinesStyle.CONTINUOUS, TimelinesStyle.SYMBOLS];
   public eventGroups = [];
   public eventTypes = {};
