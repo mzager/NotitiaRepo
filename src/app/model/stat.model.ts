@@ -50,11 +50,11 @@ export class StatKeyValues implements Stat {
     readonly type = StatTypeEnum.MISC;
     charts: Array<ChartTypeEnum> = [ChartTypeEnum.LABEL];
     name: string;
-    data: Array<{ label: string, value: string }>;
+    data: Array<{ mylabel: string, myvalue: string }>;
     renderer: StatRendererEnum;
     columns: StatRendererColumns;
 
-    constructor(name: string, data: Array<{ label: string, value: string }>) {
+    constructor(name: string, data: Array<{ mylabel: string, myvalue: string }>) {
         this.name = name;
         this.data = data;
         this.renderer = StatRendererEnum.HTML;
@@ -67,10 +67,10 @@ export class StatOneD implements Stat {
     readonly type = StatTypeEnum.ONE_D;
     charts: Array<ChartTypeEnum> = [ChartTypeEnum.DONUT, ChartTypeEnum.HISTOGRAM];
     name: string;
-    data: Array<{ label: string, value: number, color?: number }>;
+    data: Array<{ mylabel: string, myvalue: number, color?: number }>;
     renderer: StatRendererEnum;
     columns: StatRendererColumns;
-    constructor(name: string, data: Array<{ label: string, value: number, color?: number }>) {
+    constructor(name: string, data: Array<{ mylabel: string, myvalue: number, color?: number }>) {
         this.name = name;
         this.data = data;
         this.renderer = StatRendererEnum.VEGA;
@@ -131,16 +131,17 @@ export class VegaFactory {
     // Labels (Singles), need to add classes to apply CSS
     private createLabel(stat: Stat): any {
         return '<div style="padding:10px" class="stat-col col s12">' + stat.data.reduce((p, c) => {
-            p += '<p><label>' + c.label +
-                '</label><label> ' + c.value + '<label></p>';
+            p += '<p><label>' + c.mylabel +
+                '</label><label> ' + c.myvalue + '<label></p>';
             return p;
         }, '') + '</div>';
 
     }
     private createDonut(stat: Stat): any {
         const values = stat.data;
-        values.forEach(v => {
-            if (v.label.length > 18) { v.label = v.label.substr(0, 18).trim() + '…'; } } );
+        // values.forEach(v => {
+        //     if (v.mylabel.length > 18) { v.mylabel = v.mylabel.substr(0, 18).trim() + '…'; }
+        // });
         const vega = {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'config': {
@@ -156,159 +157,247 @@ export class VegaFactory {
             'title': {
                 'text': stat.name,
             },
-            'background': 'white',
             'width': 230,
             'height': 150,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
-            'data': [
+            'data': [{
+                'name': 'table',
+                'values': values,
+                'transform': [{
+                    'type': 'pie',
+                    'field': 'myvalue'
+                }
+                ]
+            }, {
+                'name': 'counts',
+                'source': 'table',
+                'transform': [{
+                    'type': 'aggregate',
+                    'fields': [
+                        'myvalue'
+                    ],
+                    'ops': [
+                        'sum'
+                    ],
+                    'as': [
+                        'sums'
+                    ]
+                }
+                ]
+            }
+            ],
+            'signals': [
                 {
-                    'name': 'table',
-                    'values': values,
-                    'transform': [
-                        {
-                            'type': 'pie',
-                            'field': 'value'
-                        }
+                    'name': 'signal_sums',
+                    'value': null,
+                    'update': "data('counts')[0]['sums']"
+                },
+
+                {
+                    'name': 'signal_hover_arc',
+                    'value': null,
+                    'on': [{
+                        'events': '@PC_arc:mouseover',
+                        'update': 'datum'
+                    }, {
+                        'events': '@PC_arc:mouseout',
+                        'update': 'null'
+                    }
                     ]
                 },
                 {
-                    'name': 'total_values',
-                    'from': values,
-                    'transform': [
-                        {
-                            'type': 'aggregate',
-                            'fields': ['value'],
-                            'ops': ['sum'],
-                            'as': ['sums']
-                        }
+                    'name': 'signal_hover_legend',
+                    'value': null,
+                    'on': [{
+                        'events': '@legendLabel:mouseover, @legendSymbol:mouseover',
+                        'update': 'datum'
+                    }, {
+                        'events': '@legendLabel:mouseout, @legendSymbol:mouseout',
+                        'update': 'null'
+                    }
                     ]
+                },
+                {
+                    'name': 'signal_selected_myvalue',
+                    'value': null,
+                    'update': "signal_hover_arc ? signal_hover_arc['myvalue'] : (signal_hover_legend ? scale('scale_lookup_mylabel_myvalue', signal_hover_legend['value']) : signal_sums)"
+                },
+                {
+                    'name': 'signal_selected_mylabel',
+                    'value': null,
+                    'update': "signal_hover_arc ? signal_hover_arc['mylabel'] : (signal_hover_legend ? signal_hover_legend['value'] : null)"
                 }
             ],
-            'signals': [
-                // {
-                //     'name': 'signal_get_PC_value',
-                //     'description': 'update PC values in center of donut on arc hover',
-                //     'on': [
-                //       {'events': '@PC_arc:mouseover', 'update': 'datum.value'},
-                //       {'events': '@PC_arc:mouseout', 'update': 'datum.sums'},
-                //     ]
-                //   },
-                  {
-                    'name': 'signal_get_PC_value',
-                    'description': 'update PC values in center of donut on arc hover',
-                    'value': null,
-                    'on': [
-                      {
-                        'events': '@PC_arc:mouseover',
-                        'update': 'datum.value'
-                      },
-                    //   {
-                    //     'events': '@legendLabel:mouseover, @legendSymbol:mouseover',
-                    //     'update': 'datum.value'
-                    //   },
-                      {
-                        'events': '@PC_arc:mouseout, @legendLabel:mouseout, @legendSymbol:mouseout',
-                        'update': 'datum.sums'
-                      }
-                    ]
-                  },
-                    ],
             'scales': [
                 {
                     'name': 'r',
                     'type': 'sqrt',
-                    'domain': {'data': 'table', 'field': 'value'}
-                  },
+                    'domain': {
+                        'data': 'table',
+                        'field': 'myvalue'
+                    }
+                },
                 {
                     'name': 'color',
                     'type': 'ordinal',
-                    'range': { 'scheme': 'notitia' }
+                    'domain': { 'data': 'table', 'field': 'mylabel' },
+                    'range': {
+                        'scheme': 'notitia'
+                    }
+                },
+                {
+                    'name': 'scale_lookup_mylabel_myvalue',
+                    'type': 'ordinal',
+                    'domain': { 'data': 'table', 'field': 'mylabel' },
+                    'range': { 'data': 'table', 'field': 'myvalue' }
                 }
-            ],
-            'marks': [
-                {
-                    'type': 'arc',
-                    'from': { 'data': 'table' },
-                    'name': 'PC_arc',
-                    'interactive': true,
-                    'encode': {
-                        'enter': {
-                            'x': { 'value': 58 },
-                            'y': { 'value': 58 },
-                            'fill': { 'scale': 'color', 'field': 'label' },
-                            'startAngle': { 'field': 'startAngle' },
-                            'endAngle': { 'field': 'endAngle' },
-                            'padAngle': { 'value': 0.01 },
-                            'innerRadius': { 'value': 38 },
-                            'outerRadius': { 'value' : 58 },
-                            'cornerRadius': { 'value': 0 },
-                            'align': { 'value': 'right' }
-                        }
-                    }
-                },
-                {
-                    'type': 'text',
-                    'from': { 'data': 'table' },
-                    'interactive': true,
-                    'encode': {
-                        'enter': {
-                            'x': { 'value': 58 },
-                            'y': { 'value': 64 },
-                        },
-                        'update': {
-                            'text': {'signal': 'signal_get_PC_value'},
-                            'opacity': {'value': 0.4},
-                            'fontSize': {'value': '1rem' },
-                            'fill': { 'value': '#666666' },
-                            'align': {'value': 'center'}
-                        }
-                    }
-                },
-                {
-                    'type': 'text',
-                    'from': { 'data': 'total_values' },
-                    'name': 'test',
-                    'interactive': true,
-                    'encode': {
-                        'enter': {
-                            'x': {'value': 130 },
-                            'y': {'value': 15 },
-                            'fill': { 'value': '#666666' },
-                            'align': { 'value': 'center' },
-                            'text': {'field': 'sums'},
-                        },
 
+            ],
+            'marks': [{
+                'type': 'arc',
+                'from': {
+                    'data': 'table'
+                },
+                'name': 'PC_arc',
+                'interactive': true,
+                'encode': {
+                    'enter': {
+                        'x': {
+                            'value': 58
+                        },
+                        'y': {
+                            'value': 58
+                        },
+                        'fill': {
+                            'scale': 'color',
+                            'field': 'mylabel'
+                        },
+                        'startAngle': {
+                            'field': 'startAngle'
+                        },
+                        'endAngle': {
+                            'field': 'endAngle'
+                        },
+                        'padAngle': {
+                            'value': 0.01
+                        },
+                        'innerRadius': {
+                            'value': 38
+                        },
+                        'outerRadius': {
+                            'value' : 58
+                        },
+                        'cornerRadius': {
+                            'value': 0
+                        },
+                        'align': {
+                            'value': 'right'
+                        },
+                        'tooltip': { 'signal': "datum['mylabel'] + ': ' + datum['myvalue']" }
+                    },
+                    'update': {
+                        'fillOpacity': {
+                            'value': 0.6
+                        }
+                    },
+                    'hover': {
+                        'fillOpacity': {
+                            'value': 0.8
+                        }
+                    }
+
+                }
+            }, {
+                'type': 'text',
+                'from': {
+                    'data': 'table'
+                },
+                'encode': {
+                    'update': {
+                        'x': {
+                            'value': 58
+                        },
+                        'y': {
+                            'value': 64
+                        },
+                        'text': {
+                            'signal': 'signal_selected_myvalue'
+                        },
+                        'fillOpacity': {
+                            'value': 0.4
+                        },
+                        'fontSize': {
+                            'value': '1rem',
+                        },
+                        'fill': {
+                            'value': '#666666'
+                        },
+                        'align': {
+                            'value': 'center'
+                        },
+                        // 'baseline': {
+                        //     'value': 'middle'
+                        // }
                     }
                 }
+            }
             ],
-            'legends': [
-                {
-                    'fill': 'color',
-                    'orient': 'none',
-                    'encode': {
-                        'symbols': {
-                            'name': 'legendSymbol',
-                            'interactive': true,
-                            'size': {'value': 64}
+            'legends': [{
+                'fill': 'color',
+                'orient': 'none',
+                'encode': {
+                    'symbols': {
+                        'name': 'legendSymbol',
+                        'interactive': true,
+                        'update': {
+                            'size': {
+                                'value': 50
+                            },
+                            'fillOpacity': {
+                                'value': 1.0
+                            }
                         },
-                      'labels': {
+                        'hover': {
+                            'fillOpacity': {
+                                'value': 0.7
+                            }
+                        }
+
+                    },
+                    'labels': {
                         'name': 'legendLabel',
                         'interactive': true,
                         'update': {
-                            'fontSize': {'value': 10},
-                            'fill': {'value': '#666666'}
-                          }
+                            'fontSize': {
+                                'value': 10
+                            },
+                            'fill': {
+                                'value': '#666666'
+                            },
+                            'fillOpacity': {
+                                'value': 1.0
+                            }
                         },
-                      'legend': {
-                          'update': {
-                              'x': {'value': 130 },
-                              'y': {'value': 15 }
-                          }
-                      }
+                        'hover': {
+                            'fillOpacity': {
+                                'value':  0.7
+                            }
+                        }
+                    },
+                    'legend': {
+                        'update': {
+                            'x': {
+                                'value': 130
+                            },
+                            'y': {
+                                'value': 20
+                            }
+                        }
                     }
-                  }
-              ]
+                }
+            }
+            ]
         };
         return vega;
     }
@@ -370,7 +459,7 @@ export class VegaFactory {
             ],
 
             'axes': [
-                {
+            {
                     'orient': 'bottom',
                     'scale': 'xscale',
 
@@ -810,9 +899,9 @@ export class StatFactory {
 
             const keyValues = 
                 new StatKeyValues('', [
-                    { label: 'Genes: ', value: ((config.markerFilter.length === 0) ? 'All' : config.markerFilter.length.toString()) },
-                    { label: 'Patients: ', value: ((config.patientFilter.length === 0) ? 'All' : config.patientFilter.length.toString()) },
-                    { label: 'Samples: ', value: ((config.sampleFilter.length === 0) ? 'All' : config.sampleFilter.length.toString()) }
+                    { mylabel: 'Genes: ', myvalue: ((config.markerFilter.length === 0) ? 'All' : config.markerFilter.length.toString()) },
+                    { mylabel: 'Patients: ', myvalue: ((config.patientFilter.length === 0) ? 'All' : config.patientFilter.length.toString()) },
+                    { mylabel: 'Samples: ', myvalue: ((config.sampleFilter.length === 0) ? 'All' : config.sampleFilter.length.toString()) }
                 ]);
 
             dataService.getPatientStats(config.database, config.patientFilter).then( result => {
@@ -862,9 +951,9 @@ export class StatFactory {
         const stats = [
             // Single Arrays
             new StatKeyValues('', ([
-                { label: 'Samples Seen:', value: data.result.nSamplesSeen.toString() },
-                { label: 'Components:', value: data.result.nComponents.toString() },
-                { label: 'Noise Variance:', value: data.result.noiseVariance.toFixed(2) },
+                { mylabel: 'Samples Seen:', myvalue: data.result.nSamplesSeen.toString() },
+                { mylabel: 'Components:', myvalue: data.result.nComponents.toString() },
+                { mylabel: 'Noise Variance:', myvalue: data.result.noiseVariance.toFixed(2) },
             ])),
             // One Dimensional Stats
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
@@ -897,8 +986,8 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('', ([
-                { label: 'Noise Variance:', value: data.result.noiseVariance.toFixed(2) },
-                { label: 'Components:', value: data.result.nComponents.toString() }
+                { mylabel: 'Noise Variance:', myvalue: data.result.noiseVariance.toFixed(2) },
+                { mylabel: 'Components:', myvalue: data.result.nComponents.toString() }
             ])),
             // One Dimensional Stats
             // new StatOneD('Mean', data.result.mean),
@@ -917,7 +1006,7 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('', ([
-                { label: 'Iter:', value: data.result.iter.toFixed(2) },
+                { mylabel: 'Iter:', myvalue: data.result.iter.toFixed(2) },
             ])),
             // One Dimensional Stats
             new StatOneD('Error', this.formatError(data.result.error)),
@@ -945,7 +1034,7 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('', ([
-                { label: 'nIter', value: data.result.nIter.toString() },
+                { mylabel: 'nIter', myvalue: data.result.nIter.toString() },
             ])),
             // One Dimensional Stats
             new StatOneD('Error', this.formatError(data.result.error.splice(0, 3))),
@@ -961,7 +1050,7 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('', ([
-                { label: 'nIter', value: data.result.nIter.toString() },
+                { mylabel: 'nIter', myvalue: data.result.nIter.toString() },
 
             ])),
             // One Dimensional Stats
@@ -1013,7 +1102,7 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('', ([
-                { label: 'Stress', value: data.result.stress.toString() },
+                { mylabel: 'Stress', myvalue: data.result.stress.toString() },
 
             ])),
             // One Dimensional Stats
@@ -1029,7 +1118,7 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('', ([
-                { label: 'Stress', value: data.result.stress.toFixed(2) },
+                { mylabel: 'Stress', myvalue: data.result.stress.toFixed(2) },
 
             ])),
             // One Dimensional Stats
@@ -1067,8 +1156,8 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('', ([
-                { label: 'kl Divergence', value: data.result.klDivergence.toFixed(2) },
-                { label: 'nIter', value: data.result.nIter.toString() },
+                { mylabel: 'kl Divergence', myvalue: data.result.klDivergence.toFixed(2) },
+                { mylabel: 'nIter', myvalue: data.result.nIter.toString() },
 
             ])),
             // One Dimensional Stats
@@ -1081,30 +1170,30 @@ export class StatFactory {
 
     // One D Recycled Data Formulas
     // Principle Components
-    formatPrincipleComponents(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
-        const rv = data.map((v, i) => ({ label: 'PC' + (i + 1), value: (Math.round( v * 100 ) / 100)  }));
-        rv.push( {label: 'Other', value: rv.reduce( (p, c) => { p -= c.value; return p; }, 100 )});
+    formatPrincipleComponents(data: Array<number>): Array<{ mylabel: string, myvalue: number, color?: number }> {
+        const rv = data.map((v, i) => ({ mylabel: 'PC' + (i + 1), myvalue: (Math.round( v * 100 ) / 100)  }));
+        rv.push( {mylabel: 'Other', myvalue: rv.reduce( (p, c) => { p -= c.myvalue; return p; }, 100 )});
         return rv;
     }
 
-    formatError(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
-        const error = data.map((v, i) => ({ label: 'Error' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));
+    formatError(data: Array<number>): Array<{ mylabel: string, myvalue: number, color?: number }> {
+        const error = data.map((v, i) => ({ mylabel: 'Error' + (i + 1), myvalue: Math.round(v * 1e2) / 1e2 }));
         return error.filter((v, i) => i < 10);
     }
-    formatLambdas(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
-        const error = data.map((v, i) => ({ label: 'Lambda' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));
+    formatLambdas(data: Array<number>): Array<{ mylabel: string, myvalue: number, color?: number }> {
+        const error = data.map((v, i) => ({ mylabel: 'Lambda' + (i + 1), myvalue: Math.round(v * 1e2) / 1e2 }));
         return error.filter((v, i) => i < 10);
     }
-    formatLoglike(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
-        const logLike = data.map((v, i) => ({ label: 'loglike' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));
+    formatLoglike(data: Array<number>): Array<{ mylabel: string, myvalue: number, color?: number }> {
+        const logLike = data.map((v, i) => ({ mylabel: 'loglike' + (i + 1), myvalue: Math.round(v * 1e2) / 1e2 }));
         return logLike.filter((v, i) => i < 10);
     }
-    formatNoiseVariance(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
-        const noiseVariance = data.map((v, i) => ({ label: 'Noise Var' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));
+    formatNoiseVariance(data: Array<number>): Array<{ mylabel: string, myvalue: number, color?: number }> {
+        const noiseVariance = data.map((v, i) => ({ mylabel: 'Noise Var' + (i + 1), myvalue: Math.round(v * 1e2) / 1e2 }));
         return noiseVariance.filter((v, i) => i < 10);
     }
-    formatMean(data: Array<number>): Array<{ label: string, value: number, color?: number }> {
-        const noiseVariance = data.map((v, i) => ({ label: 'Mean' + (i + 1), value: Math.round(v * 1e2) / 1e2 }));
+    formatMean(data: Array<number>): Array<{ mylabel: string, myvalue: number, color?: number }> {
+        const noiseVariance = data.map((v, i) => ({ mylabel: 'Mean' + (i + 1), myvalue: Math.round(v * 1e2) / 1e2 }));
         return noiseVariance.filter((v, i) => i < 10);
     }
     // Two D Recycled Data Formulas
