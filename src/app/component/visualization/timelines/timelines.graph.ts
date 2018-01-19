@@ -1,3 +1,4 @@
+
 import { OrbitControls } from 'three-orbitcontrols-ts';
 import { TimelinesStyle } from './timelines.model';
 import { Dexie } from 'dexie';
@@ -18,6 +19,7 @@ import { geoAlbers, active } from 'd3';
 import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
 import { Vector3, CubeGeometry, Vector2, OrthographicCamera } from 'three';
 import { DataService } from 'app/service/data.service';
+import MeshLine from 'three.meshline';
 
 export class TimelinesGraph implements ChartObjectInterface {
 
@@ -53,29 +55,28 @@ export class TimelinesGraph implements ChartObjectInterface {
 
 
     enable(truthy: boolean) {
-        // if (this.isEnabled === truthy) { return; }
-        // this.isEnabled = truthy;
-        // this.view.controls.enabled = this.isEnabled;
-        // this.view.controls.addEventListener('start', this.zoomStart.bind(this));
-        // this.view.controls.addEventListener('end', _.debounce(this.zoomEnd.bind(this), 300));
+        if (this.isEnabled === truthy) { return; }
+        this.isEnabled = truthy;
+        this.view.controls.enabled = this.isEnabled;
+        this.view.controls.addEventListener('start', this.zoomStart.bind(this));
+        this.view.controls.addEventListener('end', _.debounce(this.zoomEnd.bind(this), 300));
 
-        // if (truthy) {
-        //     this.sMouseUp = this.events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
-        //     this.sMouseDown = this.events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
-        //     this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
-        // } else {
-        //     this.sMouseUp.unsubscribe();
-        //     this.sMouseDown.unsubscribe();
-        //     this.sMouseMove.unsubscribe();
-        // }
+        if (truthy) {
+            // this.sMouseUp = this.events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
+            // this.sMouseDown = this.events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
+            this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
+        } else {
+            // this.sMouseUp.unsubscribe();
+            // this.sMouseDown.unsubscribe();
+            this.sMouseMove.unsubscribe();
+        }
     }
 
     update(config: GraphConfig, data: any) {
         this.config = config as TimelinesConfigModel;
         this.data = data;
-        debugger;
-        // this.removeObjects();
-        // this.addObjects();
+        this.removeObjects();
+        this.addObjects();
         this.title.innerText = 'Patient Timelines';
     }
     preRender(views: Array<VisualizationView>, layout: WorkspaceLayoutEnum, renderer: THREE.WebGLRenderer) {
@@ -96,11 +97,11 @@ export class TimelinesGraph implements ChartObjectInterface {
         this.overlay.className = 'graph-overlay';
         this.labels.appendChild(this.overlay);
 
-        // this.events = events;
-        // this.view = view;
+        this.events = events;
+        this.view = view;
         // this.isEnabled = false;
-        // this.meshes = [];
-        // this.groups = [];
+        this.meshes = [];
+        this.groups = [];
         // this.view.controls.enableRotate = false;
         return this;
     }
@@ -211,51 +212,59 @@ export class TimelinesGraph implements ChartObjectInterface {
 
     // #endregion
     addObjects(): void {
-        // this.meshes = [];
-        // this.groups = [];
-        // // Line Color
-        // const w = Math.round(this.view.viewport.width * 0.5);
-        // const halfW = Math.round(w * 0.5);
-        // const scale = (this.config.timescale === 'Log') ? scaleLog() : scaleLinear();
 
-        // // Event Type
-        // if (this.config.entity === EntityTypeEnum.EVENT) {
-        //     const subtypes: Array<any> = this.data.result.events;
-        //     Object.keys(subtypes).forEach((subtype, i) => {
-        //         const group = new THREE.Group();
-        //         group.userData = {type: subtypes[subtype][0].type, subtype: subtype};
-        //         group.position.setY(i * 20);
-        //         this.groups.push(group);
-        //         this.view.scene.add(group);
+        this.meshes = [];
+        this.groups = [];
 
-        //         // Line Scale
-        //         const line = ChartFactory.lineAllocate(0x029BE5, new THREE.Vector2(-halfW + 20, 0), new THREE.Vector2(halfW - 20, 0));
-        //         group.add(line);
+        // const w = (this.view.viewport.width * 0.5) - 100;
+        const scale = scaleLinear();
+        scale.domain([this.data.result.minMax.min, this.data.result.minMax.max]);
+        scale.range([-500, 500]);
 
-        //         scale.domain([this.data.result.minMax[subtype].min, this.data.result.minMax[subtype].max]);
-        //         scale.range([-halfW + 20, halfW - 20]);
+        // Calculate row height based on # and type of bars
+        const barHeight = 4;
+        const rowHeight = this.config.bars.length * barHeight;
+        const patients: Array<any> = this.data.result.patients;
 
-        //         if (subtypes[subtype].length > 0) {
-        //             const type = subtypes[subtype][0].type;
-        //             const style = (type === 'Status') ? this.config.statusStyle : this.config.treatmentStyle;
-        //             switch (style) {
-        //                 case TimelinesStyle.TICKS:
-        //                     this.addTics(group, subtypes[subtype], scale);
-        //                     break;
-        //                 case TimelinesStyle.ARCS:
-        //                     this.addArcs(group, subtypes[subtype], scale);
-        //                     break;
-        //                 case TimelinesStyle.CONTINUOUS:
-        //                     this.addContinuousBars(group, subtypes[subtype], scale, (type === 'Status') ? 0 : 2);
-        //                     break;
-        //                 case TimelinesStyle.SYMBOLS:
-        //                     this.addSymbols(group, subtypes[subtype], scale, 3);
-        //                     break;
-        //             }
-        //         }
-        //     });
-        // }
+        patients.forEach( (patient, i) => {
+            const group = new THREE.Group();
+            group.position.setY(i * (rowHeight));
+            group.userData.pid = patient[0].p;
+            this.groups.push(group);
+            this.view.scene.add(group);
 
+            // Divide Line
+            const line = ChartFactory.lineAllocate(0xb3e5fc, new THREE.Vector2(-1000, 0), new THREE.Vector2(1000, 0));
+            line.position.setY(-2);
+            group.add(line);
+
+            patient.forEach(event => {
+                const s = scale(event.start);
+                const e = scale(event.end);
+                const w = Math.round(e - s);
+
+                const mesh = new THREE.Mesh(
+                    new THREE.PlaneGeometry( (w < 4) ? 4 : w, barHeight ),
+                    ChartFactory.getColorPhong(event.color)
+                );
+                mesh.position.set(s, event.bar * barHeight, 0);
+                mesh.userData = event;
+                group.add(mesh);
+                this.meshes.push(mesh);
+
+      
+                
+                // bar
+                // color
+                // data
+                // type
+                // subtype
+            });
+
+
+        });
+
+    
         // if (this.config.entity === EntityTypeEnum.PATIENT) {
         //     const patients: Array<any> = this.data.result.events;
         //     scale.domain([this.data.result.minMax.min, this.data.result.minMax.max]);
@@ -313,7 +322,7 @@ export class TimelinesGraph implements ChartObjectInterface {
         // this.zoomEnd();
     }
     removeObjects(): void {
-        //this.groups.forEach(group => this.view.scene.remove(group));
+        this.groups.forEach(group => this.view.scene.remove(group));
     }
 
     zoomStart(): void {
@@ -321,54 +330,54 @@ export class TimelinesGraph implements ChartObjectInterface {
     }
 
     zoomEnd(): void {
-        // this.overlay.innerText = '';
-        // if (this.config.entity === EntityTypeEnum.EVENT) {
-        //     const m = this.meshes;
-        //     const g = this.groups;
-        //     const lbls = g.map(v => {
-        //         return {
-        //             type: v.userData.type,
-        //             subtype: v.userData.subtype,
-        //             pos: ChartUtil.projectToScreen(this.config.graph, v, this.view.camera,
-        //                 this.view.viewport.width, this.view.viewport.height)
-        //         };
-        //     }).reduce((p, c) => {
-        //         p += '<span style="color:#9e9e9e;position:absolute;left:50px;top:' + c.pos.y + 'px;">';
-        //         p += c.subtype + ' ' + c.type + '</span>';
-        //         return p;
-        //     }, '');
-        //     this.overlay.innerHTML = lbls;
-        // }
+        this.overlay.innerText = '';
+        if (this.config.entity === EntityTypeEnum.EVENT) {
+            const m = this.meshes;
+            const g = this.groups;
+            const lbls = g.map(v => {
+                return {
+                    type: v.userData.type,
+                    subtype: v.userData.subtype,
+                    pos: ChartUtil.projectToScreen(this.config.graph, v, this.view.camera,
+                        this.view.viewport.width, this.view.viewport.height)
+                };
+            }).reduce((p, c) => {
+                p += '<span style="color:#9e9e9e;position:absolute;left:50px;top:' + c.pos.y + 'px;">';
+                p += c.subtype + ' ' + c.type + '</span>';
+                return p;
+            }, '');
+            this.overlay.innerHTML = lbls;
+        }
     }
 
     private onMouseMove(e: ChartEvent): void {
-        // const hit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
+        const hit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
 
-        // if (hit.length > 0) {
+        if (hit.length > 0) {
 
-        //     if (hit[0].object.userData === undefined) {
-        //         return;
-        //     }
-        //     try {
-        //         const xPos = e.mouse.xs + 10;
-        //         const yPos = e.mouse.ys;
-        //         const data = hit[0].object.userData.data;
-        //         const tip = Object.keys(data).reduce((p, c) => {
-        //             if (data[c].trim().length > 0) {
-        //                 p += c + ': ' + data[c].toLowerCase() + '<br />';
-        //             }
-        //             return p;
-        //         }, '');
-        //         this.tooltips.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#DDD;padding:5px;border-radius:' +
-        //             '3px;z-index:9999;position:absolute;left:' +
-        //             xPos + 'px;top:' +
-        //             yPos + 'px;">' +
-        //             tip + '</div>';
-        //     } catch (e) { }
+            if (hit[0].object.userData === undefined) {
+                return;
+            }
+            try {
+                const xPos = e.mouse.xs + 10;
+                const yPos = e.mouse.ys;
+                const data = hit[0].object.userData.data;
+                const tip = Object.keys(data).reduce((p, c) => {
+                    if (data[c].trim().length > 0) {
+                        p += c + ': ' + data[c].toLowerCase() + '<br />';
+                    }
+                    return p;
+                }, '');
+                this.tooltips.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#DDD;padding:5px;border-radius:' +
+                    '3px;z-index:9999;position:absolute;left:' +
+                    xPos + 'px;top:' +
+                    yPos + 'px;">' +
+                    tip + '</div>';
+            } catch (e) { }
 
-        //     return;
-        // }
-        // this.tooltips.innerHTML = '';
+            return;
+        }
+        this.tooltips.innerHTML = '';
     }
     private onMouseUp(e: ChartEvent): void { }
     private onMouseDown(e: ChartEvent): void { }

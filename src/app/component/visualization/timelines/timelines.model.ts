@@ -20,10 +20,10 @@ export class TimelinesConfigModel extends GraphConfig {
     }
     align = 'Diagnosis';
     sort = 'Death';
-    attributes: ['age at diagnosis'];
+    attrs = ['age at diagnosis'];
     bars = [
-        { "label": "Treatment", "style": "Ticks", "events": ["Drug", "Radiation"] },
-        { "label": "Status", "style": "Ticks", "events": ["Birth"] }
+        { 'label': 'Treatment', 'style': 'Ticks', 'events': ['Drug', 'Radiation'] },
+        { 'label': 'Status', 'style': 'Ticks', 'events': ['Follow Up', 'Diagnosis','Death'] }
     ];
 }
 

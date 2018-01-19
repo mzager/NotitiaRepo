@@ -23862,9 +23862,9 @@ exports.timelinesCompute = function (config, worker) {
                 });
             }
             // Get Heatmap Stuff
-            if (config.attributes !== undefined) {
-                var pas = worker.util.getPatientAttributeSummary(config.patientFilter, config.attributes, config.database);
-                pas.then(function (attributes) {
+            if (config.attrs !== undefined) {
+                var pas = worker.util.getPatientAttributeSummary(config.patientFilter, config.attrs, config.database);
+                pas.then(function (attrs) {
                     worker.postMessage({
                         config: config,
                         data: {
@@ -23874,7 +23874,7 @@ exports.timelinesCompute = function (config, worker) {
                                 patients: patients,
                                 // sortMap: sortMap,
                                 // colorMap: colorMap,
-                                attributes: attributes
+                                attrs: attrs
                             }
                         }
                     });
@@ -23891,7 +23891,7 @@ exports.timelinesCompute = function (config, worker) {
                             patients: patients,
                             // sortMap: sortMap,
                             // colorMap: colorMap,
-                            attributes: null
+                            attrs: null
                         }
                     }
                 });
