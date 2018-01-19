@@ -5,11 +5,11 @@ import { DragSelectionControl } from './drag.selection.control';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { AbstractVisualization } from './visualization.abstract.component';
 import { Subscription } from 'rxjs/Subscription';
-import { WorkspaceLayoutEnum, DimensionEnum, CollectionTypeEnum, VisualizationEnum } from './../../model/enum.model';
+import { WorkspaceLayoutEnum, DimensionEnum, CollectionTypeEnum } from './../../model/enum.model';
 import { VisualizationView } from './../../model/chart-view.model';
 import { ChartEvent, ChartEvents } from './../workspace/chart/chart.events';
 import { EventEmitter } from '@angular/core';
-import { GraphEnum, EntityTypeEnum, DirtyEnum, ShapeEnum } from 'app/model/enum.model';
+import { GraphEnum, EntityTypeEnum, DirtyEnum, ShapeEnum, VisualizationEnum } from 'app/model/enum.model';
 import { ChartObjectInterface } from './../../model/chart.object.interface';
 import * as THREE from 'three';
 export class AbstractScatterVisualization extends AbstractVisualization {
@@ -49,6 +49,10 @@ export class AbstractScatterVisualization extends AbstractVisualization {
             (view.config.visualization === VisualizationEnum.ISOMAP) ? 'ISO Map' :
             (view.config.visualization === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? 'Local Linear Embedding' :
             (view.config.visualization === VisualizationEnum.MDS) ? 'Multi-Dimensional Scaling' :
+            (view.config.visualization === VisualizationEnum.MINI_BATCH_SPARSE_PCA) ? 'Mini Batch Sparse PCA' :
+            (view.config.visualization === VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING) ? 'Mini Batch Dictionary Learning' :
+            (view.config.visualization === VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS) ? 'Linear Discriminant Analysis' :
+            (view.config.visualization === VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS) ? 'Quadratic Discriminant Analysis' :
             'Spectral Embedding';
         this.labels.appendChild( this.title );
 

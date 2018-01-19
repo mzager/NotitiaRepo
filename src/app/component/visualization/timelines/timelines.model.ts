@@ -1,6 +1,6 @@
 import { Legend } from './../../../model/legend.model';
 import { GraphConfig } from 'app/model/graph-config.model';
-import { VisualizationEnum, DimensionEnum, GraphEnum, EntityTypeEnum } from 'app/model/enum.model';
+import { VisualizationEnum, DimensionEnum, GraphEnum, EntityTypeEnum, DirtyEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory } from 'app/model/data-field.model';
 
 export class TimelinesStyle {
@@ -16,11 +16,15 @@ export class TimelinesConfigModel extends GraphConfig {
         super();
         this.visualization = VisualizationEnum.TIMELINES;
         this.entity = EntityTypeEnum.PATIENT;
+        this.dirtyFlag = DirtyEnum.LAYOUT;
     }
     align = 'Diagnosis';
     sort = 'Death';
-    attributes: any;
-    bars: Array<any>;
+    attributes: ['age at diagnosis'];
+    bars = [
+        { "label": "Treatment", "style": "Ticks", "events": ["Drug", "Radiation"] },
+        { "label": "Status", "style": "Ticks", "events": ["Birth"] }
+    ];
 }
 
 export interface TimelinesDataModel {
