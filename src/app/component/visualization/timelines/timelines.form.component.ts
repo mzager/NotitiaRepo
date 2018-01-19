@@ -38,7 +38,7 @@ import { FormArray } from '@angular/forms/src/model';
 
   <div class="form-group">
     <label class="center-block"><span class="form-label">Attributes</span>
-      <select formControlName="attributes" multiple="true"
+      <select formControlName="attrs" multiple="true"
         materialize="material_select">
         <option *ngFor="let pa of this.patientAttributes"
           [ngValue]="pa.label">{{pa.label}}</option>
@@ -149,7 +149,7 @@ export class TimelinesFormComponent {
 
       sort: [],
       align: [],
-      attributes: [],
+      attrs: [],
 
       bars: this.fb.array([])
     });
