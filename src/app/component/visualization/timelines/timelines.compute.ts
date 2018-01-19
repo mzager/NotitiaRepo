@@ -92,9 +92,9 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 }
 
                 // Get Heatmap Stuff
-                if (config.attributes !== undefined) {
-                    const pas = worker.util.getPatientAttributeSummary(config.patientFilter, config.attributes, config.database);
-                    pas.then(attributes => {
+                if (config.attrs !== undefined) {
+                    const pas = worker.util.getPatientAttributeSummary(config.patientFilter, config.attrs, config.database);
+                    pas.then(attrs => {
                         worker.postMessage({
                             config: config,
                             data: {
@@ -104,7 +104,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                                     patients: patients,
                                     // sortMap: sortMap,
                                     // colorMap: colorMap,
-                                    attributes: attributes
+                                    attrs: attrs
                                 }
                             }
                         });
@@ -122,7 +122,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                                 patients: patients,
                                 // sortMap: sortMap,
                                 // colorMap: colorMap,
-                                attributes: null
+                                attrs: null
                             }
                         }
                     });
