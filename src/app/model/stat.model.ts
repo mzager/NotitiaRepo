@@ -139,12 +139,9 @@ export class VegaFactory {
     }
     private createDonut(stat: Stat): any {
         const values = stat.data;
-        
+        // HACK HACK for SVG word wrap..
         values.forEach(v => {
-            try{
             if (v.mylabel.length > 18) { v.mylabel = v.mylabel.substr(0, 18).trim() + '…'; }
-            }catch(e){ debugger;
-            }
         });
         const vega = {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
@@ -963,7 +960,7 @@ export class StatFactory {
             ])),
             // One Dimensional Stats
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
-            // new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
+            new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
             // new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues)),
             // new StatOneD('Mean', this.formatMean(data.result.mean)),
             // Two Dimensional Stats
@@ -978,8 +975,8 @@ export class StatFactory {
         const stats = [
             // One Dimensional Stats
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
-            // new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
-            new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues))
+            new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
+            // new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues))
             // Two Dimensional Stats
             // new StatTwoD('Components', data.result.components),
         ];
@@ -998,7 +995,7 @@ export class StatFactory {
             // One Dimensional Stats
             // new StatOneD('Mean', data.result.mean),
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.result.explainedVariance)),
-            // new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
+            new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.result.explainedVarianceRatio)),
             // new StatOneD('Singular Values', this.formatPrincipleComponents(data.result.singularValues)),
             // Two Dimensional Stats
             new StatTwoD('PCA Loadings', this.formatPCALoadings(data.markerIds, data.result.components))
@@ -1015,7 +1012,7 @@ export class StatFactory {
                 { mylabel: 'Iter:', myvalue: data.result.iter.toFixed(2) },
             ])),
             // One Dimensional Stats
-            new StatOneD('Error', this.formatError(data.result.error)),
+            // new StatOneD('Error', this.formatError(data.result.error)),
             // Two Dimensional Stats
             new StatTwoD('PCA Loadings', this.formatPCALoadings(data.markerIds, data.result.components))
         ];
@@ -1028,7 +1025,7 @@ export class StatFactory {
         const stats = [
             // Single Stats
             // One Dimensional Stats
-            new StatOneD('Lambdas', this.formatLambdas(data.result.lambdas))
+            // new StatOneD('Lambdas', this.formatLambdas(data.result.lambdas))
             // Two Dimensional Stats
             // new StatTwoD('Alphas', data.result.alphas)
         ];
@@ -1040,10 +1037,10 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('', ([
-                { mylabel: 'nIter', myvalue: data.result.nIter.toString() },
+                { mylabel: 'nIter:', myvalue: data.result.nIter.toString() },
             ])),
             // One Dimensional Stats
-            new StatOneD('Error', this.formatError(data.result.error.splice(0, 3))),
+            // new StatOneD('Error', this.formatError(data.result.error.splice(0, 3))),
             // Two Dimensional Stats
             new StatTwoD('PCA Loadings', this.formatPCALoadings(data.markerIds, data.result.components))
         ];
@@ -1056,12 +1053,12 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('', ([
-                { mylabel: 'nIter', myvalue: data.result.nIter.toString() },
+                { mylabel: 'nIter:', myvalue: data.result.nIter.toString() },
 
             ])),
             // One Dimensional Stats
-            new StatOneD('loglike', this.formatLoglike(data.result.loglike)),
-            new StatOneD('Noise Variance', this.formatNoiseVariance(data.result.noiseVariance))
+            // new StatOneD('loglike', this.formatLoglike(data.result.loglike)),
+            // new StatOneD('Noise Variance', this.formatNoiseVariance(data.result.noiseVariance))
             // Two Dimensional Stats
         ];
 
@@ -1108,12 +1105,12 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('', ([
-                { mylabel: 'Stress', myvalue: data.result.stress.toString() },
+                { mylabel: 'Stress:', myvalue: data.result.stress.toString() },
 
             ])),
             // One Dimensional Stats
             // Two Dimensional Stats
-            new StatTwoD('Embedding', data.result.embedding)
+            // new StatTwoD('Embedding', data.result.embedding)
         ];
 
         return stats;
@@ -1124,12 +1121,12 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('', ([
-                { mylabel: 'Stress', myvalue: data.result.stress.toFixed(2) },
+                { mylabel: 'Stress:', myvalue: data.result.stress.toFixed(2) },
 
             ])),
             // One Dimensional Stats
             // Two Dimensional Stats
-            new StatTwoD('Embedding', data.result.embedding)
+            // new StatTwoD('Embedding', data.result.embedding)
         ];
 
         return stats;
@@ -1162,46 +1159,47 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('', ([
-                { mylabel: 'kl Divergence', myvalue: data.result.klDivergence.toFixed(2) },
-                { mylabel: 'nIter', myvalue: data.result.nIter.toString() },
+                { mylabel: 'kl Divergence:', myvalue: data.result.klDivergence.toFixed(2) },
+                { mylabel: 'nIter:', myvalue: data.result.nIter.toString() },
 
             ])),
             // One Dimensional Stats
             // Two Dimensional Stats
-            new StatTwoD('Embedding', data.result.embedding),
+            // new StatTwoD('Embedding', data.result.embedding),
         ];
 
         return stats;
     }
 
     // One D Recycled Data Formulas
-    // Principle Components
+    // Principle Components- HACK, HACK - rounding MATH.ROUND
     formatPrincipleComponents(data: Array<number>): Array<{ mylabel: string, myvalue: number, color?: number }> {
         const rv = data.map((v, i) => ({ mylabel: 'PC' + (i + 1), myvalue: (Math.round( v * 100 ) / 100)  }));
-        rv.push( {mylabel: 'Other', myvalue: rv.reduce( (p, c) => { p -= c.myvalue; return p; }, 100 )});
+        rv.push( {mylabel: 'Other', myvalue: rv.reduce( (p, c) => { p -= c.myvalue ; return (Math.round( p * 100 ) / 100); }, 100 )});
         return rv;
     }
 
-    formatError(data: Array<number>): Array<{ mylabel: string, myvalue: number, color?: number }> {
-        const error = data.map((v, i) => ({ mylabel: 'Error' + (i + 1), myvalue: Math.round(v * 1e2) / 1e2 }));
-        return error.filter((v, i) => i < 10);
-    }
-    formatLambdas(data: Array<number>): Array<{ mylabel: string, myvalue: number, color?: number }> {
-        const error = data.map((v, i) => ({ mylabel: 'Lambda' + (i + 1), myvalue: Math.round(v * 1e2) / 1e2 }));
-        return error.filter((v, i) => i < 10);
-    }
-    formatLoglike(data: Array<number>): Array<{ mylabel: string, myvalue: number, color?: number }> {
-        const logLike = data.map((v, i) => ({ mylabel: 'loglike' + (i + 1), myvalue: Math.round(v * 1e2) / 1e2 }));
-        return logLike.filter((v, i) => i < 10);
-    }
-    formatNoiseVariance(data: Array<number>): Array<{ mylabel: string, myvalue: number, color?: number }> {
-        const noiseVariance = data.map((v, i) => ({ mylabel: 'Noise Var' + (i + 1), myvalue: Math.round(v * 1e2) / 1e2 }));
-        return noiseVariance.filter((v, i) => i < 10);
-    }
-    formatMean(data: Array<number>): Array<{ mylabel: string, myvalue: number, color?: number }> {
-        const noiseVariance = data.map((v, i) => ({ mylabel: 'Mean' + (i + 1), myvalue: Math.round(v * 1e2) / 1e2 }));
-        return noiseVariance.filter((v, i) => i < 10);
-    }
+        // hummmmm. go back an look at these, do we need them?
+    // formatError(data: Array<number>): Array<{ mylabel: string, myvalue: number, color?: number }> {
+    //     const error = data.map((v, i) => ({ mylabel: 'Error' + (i + 1), myvalue: Math.round(v * 1e2) / 1e2 }));
+    //     return error.filter((v, i) => i < 10);
+    // }
+    // formatLambdas(data: Array<number>): Array<{ mylabel: string, myvalue: number, color?: number }> {
+    //     const error = data.map((v, i) => ({ mylabel: 'Lambda' + (i + 1), myvalue: Math.round(v * 1e2) / 1e2 }));
+    //     return error.filter((v, i) => i < 10);
+    // }
+    // formatLoglike(data: Array<number>): Array<{ mylabel: string, myvalue: number, color?: number }> {
+    //     const logLike = data.map((v, i) => ({ mylabel: 'loglike' + (i + 1), myvalue: Math.round(v * 1e2) / 1e2 }));
+    //     return logLike.filter((v, i) => i < 10);
+    // }
+    // formatNoiseVariance(data: Array<number>): Array<{ mylabel: string, myvalue: number, color?: number }> {
+    //     const noiseVariance = data.map((v, i) => ({ mylabel: 'Noise Var' + (i + 1), myvalue: Math.round(v * 1e2) / 1e2 }));
+    //     return noiseVariance.filter((v, i) => i < 10);
+    // }
+    // formatMean(data: Array<number>): Array<{ mylabel: string, myvalue: number, color?: number }> {
+    //     const noiseVariance = data.map((v, i) => ({ mylabel: 'Mean' + (i + 1), myvalue: Math.round(v * 1e2) / 1e2 }));
+    //     return noiseVariance.filter((v, i) => i < 10);
+    // }
     // Two D Recycled Data Formulas
     formatPCALoadings(markers: Array<string>, data: Array<Array<number>>): Array<{ mylabel: string, myvalue: number, color?: number }> {
         return data[0].sort((a, b) => b - a).splice(0, 20).map((v, i) => ({ mylabel: markers[i], myvalue: Math.round(v * 1e2) / 1e2 }));
