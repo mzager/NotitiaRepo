@@ -1,4 +1,4 @@
-
+import { scaleSequential, interpolateSpectral } from 'd3-scale-chromatic';
 import { OrbitControls } from 'three-orbitcontrols-ts';
 import { TimelinesStyle } from './timelines.model';
 import { Dexie } from 'dexie';
@@ -13,6 +13,8 @@ import { Injectable, EventEmitter, Output } from '@angular/core';
 import { TimelinesDataModel, TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
 import * as _ from 'lodash';
 import * as THREE from 'three';
+import * as d3Interpolate from 'd3-interpolate';
+import * as d3Scale from 'd3-scale';
 import { scaleLinear, scaleLog } from 'd3-scale';
 import { Subscription } from 'rxjs/Subscription';
 import { geoAlbers, active } from 'd3';
@@ -58,8 +60,8 @@ export class TimelinesGraph implements ChartObjectInterface {
         if (this.isEnabled === truthy) { return; }
         this.isEnabled = truthy;
         this.view.controls.enabled = this.isEnabled;
-        this.view.controls.addEventListener('start', this.zoomStart.bind(this));
-        this.view.controls.addEventListener('end', _.debounce(this.zoomEnd.bind(this), 300));
+        // this.view.controls.addEventListener('start', this.zoomStart.bind(this));
+        // this.view.controls.addEventListener('end', _.debounce(this.zoomEnd.bind(this), 300));
 
         if (truthy) {
             // this.sMouseUp = this.events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
@@ -68,7 +70,9 @@ export class TimelinesGraph implements ChartObjectInterface {
         } else {
             // this.sMouseUp.unsubscribe();
             // this.sMouseDown.unsubscribe();
-            this.sMouseMove.unsubscribe();
+            if (this.sMouseMove !== undefined) {
+                this.sMouseMove.unsubscribe();
+            }
         }
     }
 
@@ -225,16 +229,26 @@ export class TimelinesGraph implements ChartObjectInterface {
         const barHeight = 4;
         const rowHeight = this.config.bars.length * barHeight;
         const patients: Array<any> = this.data.result.patients;
+        const chartHeight = patients.length * barHeight;
 
+        // Vert Lines
+        for (let i = -500; i <= 500; i += 50) {
+            const line = ChartFactory.lineAllocate(0xb3e5fc, new THREE.Vector2(i, -chartHeight), new THREE.Vector2(i, chartHeight));
+            line.position.setY(chartHeight);
+            this.view.scene.add(line);
+        }
+
+        const pidMap: any = {};
         patients.forEach( (patient, i) => {
             const group = new THREE.Group();
             group.position.setY(i * (rowHeight));
             group.userData.pid = patient[0].p;
+            pidMap[patient[0].p] = i;
             this.groups.push(group);
             this.view.scene.add(group);
 
             // Divide Line
-            const line = ChartFactory.lineAllocate(0xb3e5fc, new THREE.Vector2(-1000, 0), new THREE.Vector2(1000, 0));
+            const line = ChartFactory.lineAllocate(0xb3e5fc, new THREE.Vector2(-500, 0), new THREE.Vector2(500, 0));
             line.position.setY(-2);
             group.add(line);
 
@@ -244,27 +258,38 @@ export class TimelinesGraph implements ChartObjectInterface {
                 const w = Math.round(e - s);
 
                 const mesh = new THREE.Mesh(
-                    new THREE.PlaneGeometry( (w < 4) ? 4 : w, barHeight ),
+                    new THREE.PlaneGeometry( (w < 1) ? 1 : w, barHeight ),
                     ChartFactory.getColorPhong(event.color)
                 );
-                mesh.position.set(s, event.bar * barHeight, 0);
+                mesh.position.set(s + (w * 0.5), event.bar * barHeight, 0);
                 mesh.userData = event;
                 group.add(mesh);
                 this.meshes.push(mesh);
-
-      
-                
-                // bar
-                // color
-                // data
-                // type
-                // subtype
             });
-
-
+        });
+        // Create Color Scales For Attributes
+        this.data.result.attrs.attrs.forEach( attr => {
+            attr.scale = d3Scale.scaleSequential(interpolateSpectral).domain([attr.min, attr.max]);
+        });
+        this.data.result.attrs.pids.forEach( (pid, pidIndex) => {
+            const rowIndex = pidMap[pid];
+            const yPos = rowHeight * rowIndex;
+            this.data.result.attrs.attrs.forEach( (attr, attrIndex) => {
+                const value = attr.values[pidIndex];
+                const color = attr.scale(attr.values[pidIndex]);
+                const xPos = -500 - (attrIndex * rowHeight);
+                const mesh = new THREE.Mesh(
+                    new THREE.PlaneGeometry( rowHeight - 2, rowHeight - 2 ),
+                    ChartFactory.getColorPhong(color)
+                );
+                mesh.position.set(xPos - (rowHeight * 0.5) - 1, yPos + 2, 0);
+                mesh.userData = {
+                    pid: pid
+                };
+                this.view.scene.add(mesh);
+            });
         });
 
-    
         // if (this.config.entity === EntityTypeEnum.PATIENT) {
         //     const patients: Array<any> = this.data.result.events;
         //     scale.domain([this.data.result.minMax.min, this.data.result.minMax.max]);
