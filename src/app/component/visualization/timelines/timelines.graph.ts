@@ -72,10 +72,11 @@ export class TimelinesGraph implements ChartObjectInterface {
 
     update(config: GraphConfig, data: any) {
         this.config = config as TimelinesConfigModel;
-        // this.data = data;
+        this.data = data;
+        debugger;
         // this.removeObjects();
         // this.addObjects();
-        this.title.innerText = (config.entity === EntityTypeEnum.PATIENT) ? 'Patient Timelines' : 'Event Timeline';
+        this.title.innerText = 'Patient Timelines';
     }
     preRender(views: Array<VisualizationView>, layout: WorkspaceLayoutEnum, renderer: THREE.WebGLRenderer) {
 

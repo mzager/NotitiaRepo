@@ -55,7 +55,6 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
     this._data = value; this.$dataChange.next(); }
 
   update(value: [GraphConfig, GraphData]): void {
-debugger;
     // Ensure everything is ready to go... This could be cleaned up.
     if (this.elementRef === undefined) { return; }
     if (this.elementRef.nativeElement === undefined) { return; }
