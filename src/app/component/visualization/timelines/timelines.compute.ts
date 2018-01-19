@@ -53,17 +53,17 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 }, { min: Infinity, max: -Infinity });
 
                 // Color Map
-                const colors = worker.util.colors3;
+                const colors = worker.util.colors;
                 const colorMap = events.reduce((p, c, i) => {
                     p[c] = colors[i];
                     return p;
                 }, {});
 
-                // Bar Map 
+                // Bar Map
                 const barMap = config.bars.reduce((p, c, i) => {
                     if (c.events !== null) { c.events.forEach(v => p[v] = i); }
                     return p;
-                }, {})
+                }, {});
 
                 // Associate Bar + Color To Event
                 result = result.map(v => Object.assign(v, { color: colorMap[v.subtype], bar: barMap[v.subtype] }));
@@ -77,7 +77,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 legend.values = events.map(v => colorMap[v]);
 
                 // Group And Execute Sort
-                var patients = _.groupBy(result, 'p');
+                let patients = _.groupBy(result, 'p');
 
                 // Remove From SortMap Patients That Are Not In Result
                 if (sortMap !== null) {
