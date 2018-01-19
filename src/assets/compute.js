@@ -23827,12 +23827,12 @@ exports.timelinesCompute = function (config, worker) {
                 return p;
             }, { min: Infinity, max: -Infinity });
             // Color Map
-            var colors = worker.util.colors3;
+            var colors = worker.util.colors;
             var colorMap = events.reduce(function (p, c, i) {
                 p[c] = colors[i];
                 return p;
             }, {});
-            // Bar Map 
+            // Bar Map
             var barMap = config.bars.reduce(function (p, c, i) {
                 if (c.events !== null) {
                     c.events.forEach(function (v) { return p[v] = i; });
