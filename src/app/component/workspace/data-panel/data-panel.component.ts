@@ -23,7 +23,7 @@ declare var $: any;
 })
 export class DataPanelComponent implements AfterViewInit {
 
-  @ViewChild('dataTable') dataTable;
+  //@ViewChild('dataTable') dataTable;
   @ViewChild('tabs') tabs: ElementRef;
 
 
@@ -59,6 +59,7 @@ export class DataPanelComponent implements AfterViewInit {
   }
 
   loadTable(table: DataTable): void {
+    /*
     if (table.ctype === CollectionTypeEnum.UNDEFINED) {
       const config: GraphConfig = (table.tbl === 'configA') ? this.configA : this.configB;
       const markers: Array<any> = config.markerFilter.map(v =>
@@ -115,11 +116,12 @@ export class DataPanelComponent implements AfterViewInit {
         this.dataTable.inst.loadData(data);
       });
     });
+    */
   }
 
   ngAfterViewInit() {
     $(this.tabs.nativeElement).tabs();
-    this.loadTable(this._tables[0]);
+    // this.loadTable(this._tables[0]);
   }
 
   constructor() {
