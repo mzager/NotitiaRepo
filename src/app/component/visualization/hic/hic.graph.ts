@@ -19,7 +19,7 @@ import * as _ from 'lodash';
 import * as THREE from 'three';
 import graph from 'ngraph.graph';
 import forcelayout3d from 'ngraph.forcelayout3d';
-import MeshLine from 'three.meshline';
+import { MeshLine, MeshLineMaterial } from 'three.meshline';
 import * as TWEEN from 'tween.js';
 import { schemeRdBu, interpolateRdBu, interpolateYlGnBu } from 'd3-scale-chromatic';
 import { scaleLinear, scaleOrdinal, scaleSequential } from 'd3-scale';
@@ -44,7 +44,7 @@ export class HicGraph implements ChartObjectInterface {
     private data: HicDataModel;
     private config: HicConfigModel;
     private isEnabled: boolean;
-    chromosomeLine: any;
+    chromosomeLine: MeshLine;
     chromosomeGeometry: THREE.Geometry;
     chromosomeCurve: THREE.CatmullRomCurve3;
     chromosomePath: THREE.CurvePath<THREE.Vector>;
@@ -146,13 +146,12 @@ export class HicGraph implements ChartObjectInterface {
                 this.chromosomePath.add(this.chromosomeCurve);
 
                 this.chromosomeGeometry = this.chromosomePath.createPointsGeometry(1000);
-                this.chromosomeLine = new MeshLine.MeshLine();
+                this.chromosomeLine = new MeshLine();
                 this.chromosomeLine.setGeometry(this.chromosomeGeometry);
-                const mat = new MeshLine.MeshLineMaterial({
+                const mat = new MeshLineMaterial({
                     color: new THREE.Color(0x90caf9),
                     lineWidth: 2,
                 });
-
                 this.chromosomeMesh = new THREE.Mesh(this.chromosomeLine.geometry, mat); // this syntax could definitely be improved!
                 this.chromosomeMesh.frustumCulled = false;
                 this.view.scene.add(this.chromosomeMesh);
