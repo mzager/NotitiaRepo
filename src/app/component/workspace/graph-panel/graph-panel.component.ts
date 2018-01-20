@@ -73,7 +73,6 @@ export class GraphPanelComponent implements AfterViewInit  {
   @Output() selectGeneset: EventEmitter<any> = new EventEmitter();
   @Output() selectCohort: EventEmitter<any> = new EventEmitter();
 
-
   visualizationOptions: Array<{value: VisualizationEnum, label: string}>;
 
   helpClick(): void {
