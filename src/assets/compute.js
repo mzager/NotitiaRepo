@@ -23835,16 +23835,27 @@ exports.timelinesCompute = function (config, worker) {
             var events = Array.from(config.bars
                 .reduce(function (p, c) { if (c.events !== null) {
                 c.events.forEach(function (v) { return p.add(v); });
-            } return p; }, new Set()));
+            } return p; }, new Set()))
+                .map(function (v) { return v.toString(); });
             result = result.filter(function (v) { return events.indexOf(v.subtype) !== -1; });
-            // Build Legend
+            // Determine Min + Max "Dates"
+            var minMax = result.reduce(function (p, c) {
+                p.min = Math.min(p.min, c.start);
+                p.max = Math.max(p.max, c.end);
+            }, { min: Infinity, max: -Infinity });
+            // Color Map
             var colors = worker.util.colors3;
+            var colorMap = events.reduce(function (p, c, i) {
+                p[c] = colors[i];
+                return p;
+            }, {});
+            // Build Legend
             var legend = new legend_model_1.Legend();
             legend.name = 'Events';
             legend.type = 'COLOR';
             legend.display = 'DISCRETE';
-            legend.labels = events.map(function (v) { return v.toString(); });
-            legend.values = colors.slice(0, events.length);
+            legend.labels = events;
+            legend.values = events.map(function (v) { return colorMap[v]; });
             debugger;
             // const subtypes = Array.from(events.reduce((p, c) => { p.add(c.subtype); return p; }, new Set()));
             // legend.labels = subtypes as Array<string>;
@@ -23905,7 +23916,7 @@ exports.timelinesCompute = function (config, worker) {
             worker.postMessage({
                 config: config,
                 data: {
-                    legendItems: [],
+                    legendItems: [legend],
                     result: {
                         // minMax: minMaxDates,
                         events: result
