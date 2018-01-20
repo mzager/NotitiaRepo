@@ -1,3 +1,4 @@
+import { AngularDraggableModule } from 'angular2-draggable';
 import { MiniBatchSparsePcaFormComponent } from './component/visualization/minibatchsparsepca/minibatchsparsepca.form.component';
 import { HelpPanelComponent } from './component/workspace/help-panel/help-panel.component';
 import { HicFormComponent } from './component/visualization/hic/hic.form.component';
@@ -23,7 +24,6 @@ import { DataService } from 'app/service/data.service';
 import { DatasetService } from './service/dataset.service';
 import { DeFormComponent } from './component/visualization/de/de.form.component';
 import { DictionaryLearningFormComponent } from './component/visualization/dictionarylearning/dictionarylearning.form.component';
-import { Draggable } from 'ng2draggable/draggable.directive';
 import { EdgePanelComponent } from './component/workspace/edge-panel/edge-panel.component';
 import { EdgesFormComponent } from './component/visualization/edges/edges.form.component';
 import { EffectsModule } from '@ngrx/effects';
@@ -38,7 +38,7 @@ import { GenomeFormComponent } from './component/visualization/genome/genome.for
 import { GraphPanelComponent } from 'app/component/workspace/graph-panel/graph-panel.component';
 import { HeatmapFormComponent } from './component/visualization/heatmap/heatmap.form.component';
 import { HistogramFormComponent } from './component/visualization/histogram/histogram.form.component';
-import { HotTableModule } from 'ng2-handsontable';
+// import { HotTableModule } from 'ng2-handsontable';
 import { HttpClient } from './service/http.client';
 import { HttpModule } from '@angular/http';
 import { IlluminaService } from './service/illumina.service';
@@ -80,7 +80,6 @@ import { TcgaPanelComponent } from './component/workspace/tcga-panel/tcga-panel.
 import { TimelinesFormComponent } from './component/visualization/timelines/timelines.form.component';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { ToolBarComponent } from 'app/component/workspace/tool-bar/tool-bar.component';
-import { TreeModule } from 'angular-tree-component';
 import { TruncatedSvdFormComponent } from './component/visualization/truncatedsvd/truncatedsvd.form.component';
 import { TsneFormComponent } from './component/visualization/tsne/tsne.form.component';
 import { WorkbookService } from './service/workbook.service';
@@ -92,7 +91,6 @@ import { QueryBuilderComponent } from 'app/component/workspace/query-panel/query
 
 @NgModule({
   declarations: [
-    Draggable,
     AppComponent,
     WorkspaceComponent,
     ApplicationBarComponent,
@@ -157,9 +155,8 @@ import { QueryBuilderComponent } from 'app/component/workspace/query-panel/query
   ],
   imports: [
     ToastModule.forRoot(),
-    HotTableModule,
+    // HotTableModule,
     MaterializeModule,
-    TreeModule,
     FileUploadModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -167,6 +164,7 @@ import { QueryBuilderComponent } from 'app/component/workspace/query-panel/query
     HttpModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    AngularDraggableModule,
     EffectsModule.forRoot([DataEffect, ComputeEffect, SelectEffect]),
     StoreModule.forRoot( reducers ),
     StoreDevtoolsModule.instrument({
