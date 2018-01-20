@@ -185,8 +185,10 @@ export class GraphPanelComponent implements AfterViewInit  {
       gc.table = prevConfig.table;
       gc.sampleFilter = prevConfig.sampleFilter;
       gc.markerFilter = prevConfig.markerFilter;
+      gc.patientFilter = prevConfig.patientFilter;
       gc.sampleSelect = prevConfig.sampleSelect;
       gc.markerSelect = prevConfig.markerSelect;
+      gc.patientSelect = prevConfig.patientSelect;
       gc.pointColor = prevConfig.pointColor;
       gc.pointShape = prevConfig.pointShape;
       gc.pointSize = prevConfig.pointSize;
