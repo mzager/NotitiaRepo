@@ -74,8 +74,8 @@ import { FormArray, AbstractControl } from '@angular/forms/src/model';
 })
 export class TimelinesFormComponent {
 
-  public styleOptions = [TimelinesStyle.NONE, TimelinesStyle.ARCS, TimelinesStyle.TICKS,
-    TimelinesStyle.CONTINUOUS, TimelinesStyle.SYMBOLS];
+  public styleOptions = [TimelinesStyle.NONE, TimelinesStyle.ARCS,
+    TimelinesStyle.TICKS, TimelinesStyle.SYMBOLS];
   public eventGroups = [];
   public eventTypes = {};
   public patientAttributes = [];
