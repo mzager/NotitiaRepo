@@ -124,21 +124,26 @@ export class PathwaysGraph implements ChartObjectInterface {
             return false;
         });
 
-        const shapes: Array<{ shape: THREE.Shape, color: number }> = nodes
+        debugger;
+
+        const shapes: Array<{ shape: THREE.Shape, color: number, label: string }> = nodes
             .map(node => {
                 const w = Math.round(parseFloat(node.bbox[0].w) * 0.4);
                 const h = Math.round(parseFloat(node.bbox[0].h) * 0.4);
                 const x = Math.round(parseFloat(node.bbox[0].x) * 0.4);
                 const y = -Math.round(parseFloat(node.bbox[0].y) * 0.4);
                 if (w === 0 || h === 0) { return null; }
+                const label = (node.label) ? node.label[0].text : '';
                 // if (node.hasOwnProperty('glyph')) { this.processBranch(node.glyph); }
-                return { shape: PathwaysFactory.createNode(node.class, w, h, x, y), color: node.color };
+                return { shape: PathwaysFactory.createNode(node.class, w, h, x, y), color: node.color, label: label};
             }).filter(v => v);
 
         this.meshes = shapes.map(shape => {
             const geo = new THREE.ShapeGeometry(shape.shape);
             const material = new THREE.MeshLambertMaterial({ color: shape.color, transparent: true, opacity: 0.8 });
-            return new THREE.Mesh(geo, material);
+            const mesh = new THREE.Mesh(geo, material);
+            mesh.userData = shape.label;
+            return mesh;
         });
 
         this.meshes.forEach(mesh => {
