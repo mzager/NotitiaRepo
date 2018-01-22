@@ -1,5 +1,8 @@
-import { ChangeDetectionStrategy, OnInit, EventEmitter, Input, Output, Component } from '@angular/core';
-import { GraphEnum, GraphActionEnum, ToolEnum } from 'app/model/enum.model';
+import { WorkspaceConfigModel } from 'app/model/workspace.model';
+import { ChangeDetectionStrategy, OnInit, EventEmitter, Input, Output, Component, ChangeDetectorRef } from '@angular/core';
+import { GraphEnum, GraphActionEnum, ToolEnum, WorkspaceLayoutEnum } from 'app/model/enum.model';
+import { ElementRef } from '@angular/core/src/linker/element_ref';
+import { ViewChild } from '@angular/core/src/metadata/di';
 // import * as dat from 'dat.gui';
 declare var dat: any;
 
@@ -11,12 +14,17 @@ declare var dat: any;
 })
 export class ToolBarComponent implements OnInit {
 
+  showButtons = true;
   // @Input() selectedTool: ToolEnum;
   // @Input() selectedGraph: GraphEnum;
   // @Output() selectTool = new EventEmitter();
   // @Output() selectGraph = new EventEmitter();
   // @Output() graphAction = new EventEmitter();
-
+  @Input() set workspaceConfig(value: WorkspaceConfigModel) {
+    console.log(value.layout);
+    this.showButtons = (value.layout !== WorkspaceLayoutEnum.SINGLE);
+    this.cd.markForCheck();
+  }
   @Output() graphAToggle = new EventEmitter();
   @Output() graphBToggle = new EventEmitter();
 
@@ -42,5 +50,5 @@ export class ToolBarComponent implements OnInit {
   //   }
   //}
 
-  constructor() { }
+  constructor(private cd: ChangeDetectorRef) { }
 }
