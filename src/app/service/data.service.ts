@@ -46,6 +46,14 @@ export class DataService {
       '%22%20%7D%20%20%7D')
       .map(res => res.json());
   }
+  getGenesetBySearchTerm(searchTerm: string): Observable<any> {
+    return this.http
+      .get(DataService.API_PATH +
+        'z_lookup_geneset/%7B%22%24text%22%3A%7B%22%24search%22%3A%22' +
+        searchTerm +
+        '%22%7D%7D')
+      .map(res => res.json());
+  }
   getGeneSetCategories(): Observable<any> {
     return this.http
       .get(DataService.API_PATH + 'z_lookup_geneset_categories')
