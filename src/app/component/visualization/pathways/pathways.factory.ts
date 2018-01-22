@@ -121,7 +121,6 @@ export class PathwaysFactory {
     }
     private static createConsumption(x1, y1, x2, y2): THREE.Group {
         const group = new THREE.Group();
-        // 0xff5722
         group.add(ChartFactory.lineAllocate(0xf48fb1, new Vector2(x1, y1), new Vector2(x2, y2)));
         return group;
     }

@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs/Subscription';
 import * as THREE from 'three';
 import { PathwaysFactory } from 'app/component/visualization/pathways/pathways.factory';
 import { Vector2, Object3D } from 'three';
-
+import * as _ from 'lodash';
 export class PathwaysGraph implements ChartObjectInterface {
 
     // Emitters
@@ -89,6 +89,9 @@ export class PathwaysGraph implements ChartObjectInterface {
         this.view.controls.enabled = this.isEnabled;
         if (truthy) {
             this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
+            this.view.controls.addEventListener('start', this.onZoomStart.bind(this));
+            this.view.controls.addEventListener('end', _.debounce(this.onZoomEnd.bind(this), 300));
+
         } else {
             this.sMouseMove.unsubscribe();
         }
@@ -120,11 +123,8 @@ export class PathwaysGraph implements ChartObjectInterface {
                     v.color = ColorEnum.PINK;
                     return true;
             }
-            console.log(v.class);
             return false;
         });
-
-        debugger;
 
         const shapes: Array<{ shape: THREE.Shape, color: number, label: string }> = nodes
             .map(node => {
@@ -181,7 +181,13 @@ export class PathwaysGraph implements ChartObjectInterface {
         });
     }
 
+    private onZoomStart(): void {
+        this.overlay.innerText = '';
+    }
 
+    private onZoomEnd(): void {
+        console.log('zoomend');
+    }
 
     private onMouseMove(e: ChartEvent): void {
         //  this.showLabels(e);
