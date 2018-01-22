@@ -1,6 +1,5 @@
 import { DataTable } from './../../../model/data-field.model';
 import { ComputeWorkerUtil } from './../../../service/compute.worker.util';
-import { HotTableModule } from 'ng2-handsontable';
 import { DataField } from 'app/model/data-field.model';
 import {
   ChangeDetectorRef, ViewChild, Component, Input, Output, ElementRef,
@@ -23,7 +22,7 @@ declare var $: any;
 })
 export class DataPanelComponent implements AfterViewInit {
 
-  //@ViewChild('dataTable') dataTable;
+  // @ViewChild('dataTable') dataTable;
   @ViewChild('tabs') tabs: ElementRef;
 
 

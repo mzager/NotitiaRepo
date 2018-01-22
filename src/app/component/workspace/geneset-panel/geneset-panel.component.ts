@@ -16,7 +16,7 @@ declare var $: any;
   styleUrls: ['./geneset-panel.component.scss'],
   template:
 `  <!-- Card -->
-<div class="card" style="width:250px; background:#FFFFFF;" [ng2-draggable]="true" [ng2DraggableHandle]="titlebar">
+<div class="card" style="width:250px; background:#FFFFFF;" [ngDraggable]="true" [handle]="titlebar" >
     <!-- Title Bar Row -->
   <div class="card-title-bar" #titlebar style="background: #029BE5; color:#FFF; font-weight:normal; font-size:12px; padding:5px 10px;text-transform:uppercase;letter-spacing:1px;">Gene Set
     <i class="tiny material-icons" style="float: right; padding-top: 4px; cursor: pointer" (click)="hide.emit()">close</i>
