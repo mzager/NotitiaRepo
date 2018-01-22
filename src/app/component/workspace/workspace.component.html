@@ -100,7 +100,8 @@
     
 <app-workspace-tool-bar
     (graphAToggle)='graphPanelToggle(1)'
-    (graphBToggle)='graphPanelToggle(2)'></app-workspace-tool-bar>
+    (graphBToggle)='graphPanelToggle(2)'
+    [workspaceConfig]="workspaceConfig | async"></app-workspace-tool-bar>
 
 <app-application-bar 
     (filePanelToggle)="filePanelToggle()"

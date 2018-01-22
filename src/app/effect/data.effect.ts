@@ -83,15 +83,15 @@ export class DataEffect {
         .mergeMap( (args: DataLoadedAction) => {
 
             const workspaceConfig = new WorkspaceConfigModel();
-            workspaceConfig.layout = WorkspaceLayoutEnum.HORIZONTAL;
+            workspaceConfig.layout = WorkspaceLayoutEnum.SINGLE;
 
-            const pathwaysConfig = new PathwaysConfigModel();
-            pathwaysConfig.graph = GraphEnum.GRAPH_A;
-            pathwaysConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            // const pathwaysConfig = new PathwaysConfigModel();
+            // pathwaysConfig.graph = GraphEnum.GRAPH_A;
+            // pathwaysConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
-            const genomeConfig = new GenomeConfigModel();
-            genomeConfig.graph = GraphEnum.GRAPH_B;
-            genomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            // const genomeConfig = new GenomeConfigModel();
+            // genomeConfig.graph = GraphEnum.GRAPH_B;
+            // genomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             // const chromosomeConfig = new ChromosomeConfigModel();
             // chromosomeConfig.graph = GraphEnum.GRAPH_A;
@@ -143,14 +143,14 @@ export class DataEffect {
                 // new compute.HicAction( { config: hicConfig }),
                 // new compute.BoxWhiskersAction( { config: boxWhiskersConfig } ),
 
-                //new compute.TimelinesAction( { config: timelinesConfig}),
+                new compute.TimelinesAction( { config: timelinesConfig}),
 
                 // new compute.GenomeAction( { config: graphBConfig }),
                 //  new compute.ChromosomeAction( { config: chromosomeConfig } ),
                 // new compute.HeatmapAction( { config: heatmapConfig })
                 // new compute.ChromosomeAction( { config: graphBConfig } )
-                 new compute.PathwaysAction( { config: pathwaysConfig }),
-                new compute.GenomeAction( { config: genomeConfig }),
+                //  new compute.PathwaysAction( { config: pathwaysConfig }),
+                // new compute.GenomeAction( { config: genomeConfig }),
                 // , new compute.PcaIncrementalAction( { config: graphBConfig } )
                 // new GraphPanelToggleAction( GraphPanelEnum.GRAPH_A )
             ];
