@@ -1,3 +1,4 @@
+import { ChartUtil } from './../../workspace/chart/chart.utils';
 import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
 import { VisualizationView } from './../../../model/chart-view.model';
 import { ChartEvents, ChartEvent } from './../../workspace/chart/chart.events';
@@ -89,8 +90,8 @@ export class PathwaysGraph implements ChartObjectInterface {
         this.view.controls.enabled = this.isEnabled;
         if (truthy) {
             this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
-            this.view.controls.addEventListener('start', this.onZoomStart.bind(this));
-            this.view.controls.addEventListener('end', _.debounce(this.onZoomEnd.bind(this), 300));
+            // this.view.controls.addEventListener('start', this.onZoomStart.bind(this));
+            // this.view.controls.addEventListener('end', _.debounce(this.onZoomEnd.bind(this), 300));
 
         } else {
             this.sMouseMove.unsubscribe();
@@ -181,16 +182,37 @@ export class PathwaysGraph implements ChartObjectInterface {
         });
     }
 
-    private onZoomStart(): void {
-        this.overlay.innerText = '';
-    }
+    // private onZoomStart(): void {
+    //     this.overlay.innerText = '';
+    // }
 
-    private onZoomEnd(): void {
-        console.log('zoomend');
-    }
+    // private onZoomEnd(): void {
+    //     ChartUtil.getVisibleMeshes(this.view, this.meshes);
+
+    // }
 
     private onMouseMove(e: ChartEvent): void {
-        //  this.showLabels(e);
+        const hit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
+
+        if (hit.length > 0) {
+
+            if (hit[0].object.userData === undefined) {
+                return;
+            }
+            try {
+                const xPos = e.mouse.xs + 10;
+                const yPos = e.mouse.ys;
+                const tip = hit[0].object.userData.replace(/_/gi, ' ').trim();
+                this.tooltips.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#DDD;padding:5px;border-radius:' +
+                    '3px;z-index:9999;position:absolute;left:' +
+                    xPos + 'px;top:' +
+                    yPos + 'px;">' +
+                    tip + '</div>';
+            } catch (e) { }
+
+            return;
+        }
+        this.tooltips.innerHTML = '';
     }
 
     showLabels(e: ChartEvent) {

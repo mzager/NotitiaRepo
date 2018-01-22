@@ -53,7 +53,6 @@ export class TimelinesGraph implements ChartObjectInterface {
     private sMouseDown: Subscription;
     private sMouseUp: Subscription;
 
-
     enable(truthy: boolean) {
         if (this.isEnabled === truthy) { return; }
         this.isEnabled = truthy;

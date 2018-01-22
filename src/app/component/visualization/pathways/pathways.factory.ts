@@ -27,7 +27,6 @@ export class PathwayEdgeEnum {
 export class PathwaysFactory {
 
     public static createEdge( edge: string, start: Vector2, end: Vector2): Object3D {
-        console.log(edge);
         switch (edge) {
             case PathwayEdgeEnum.CONSUMPTION:
                 return this.createConsumption(start.x, start.y, end.x, end.y);
