@@ -11,7 +11,6 @@ import {
 } from '@angular/core';
 import * as d3 from 'D3';
 import { tree } from 'd3-hierarchy';
-import * as Tree from 'angular-tree-component';
 import * as _ from 'lodash';
 declare var $: any;
 

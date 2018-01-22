@@ -6,13 +6,12 @@ import { DataField, DataFieldFactory } from './../../../model/data-field.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as _ from 'lodash';
-import { FormArray } from '@angular/forms/src/model';
+import { FormArray, AbstractControl } from '@angular/forms/src/model';
 
 @Component({
   selector: 'app-timelines-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-  <form [formGroup]="form" novalidate>
+  template: `<form [formGroup]="form" novalidate>
   <div class="form-group">
     <label class="center-block"><span class="form-label">Align</span>
       <select formControlName="align" class="browser-default"
@@ -35,10 +34,9 @@ import { FormArray } from '@angular/forms/src/model';
       </select>
     </label>
   </div>
-
   <div class="form-group">
     <label class="center-block"><span class="form-label">Attributes</span>
-      <select formControlName="attributes" multiple="true"
+      <select formControlName="attrs" multiple="true"
         materialize="material_select">
         <option *ngFor="let pa of this.patientAttributes"
           [ngValue]="pa.label">{{pa.label}}</option>
@@ -47,11 +45,11 @@ import { FormArray } from '@angular/forms/src/model';
   </div>
 
   <div formArrayName="bars">
-    <div *ngFor="let bar of form.controls.bars.controls; let i=index">
+    <div *ngFor="let bar of ctrls; let i=index">
       <div [formGroupName]="i">
         <span class="form-label" style="
         text-align:left;width:100%;font-weight:700;padding:10px 0px 5px 0px;font-size:0.8rem;">
-          {{form.controls.bars.controls[i].controls.label.value}} Events</span>
+          {{ctrls[i].get('label').value}} Events</span>
           <div class="form-group">
             <label class="center-block"><span class="form-label">Display</span>
               <select class="browser-default" materialize="material_select" formControlName="style">
@@ -64,7 +62,7 @@ import { FormArray } from '@angular/forms/src/model';
             <label class="center-block"><span class="form-label">Visible</span>
               <select materialize="material_select" formControlName="events"
                 multiple>
-                <option *ngFor="let item of eventTypes[form.controls.bars.controls[i].controls.label.value]"
+                <option *ngFor="let item of eventTypes[ctrls[i].get('label').value]"
                   [ngValue]="item.subtype">{{item.subtype}}</option>
               </select>
           </label>
@@ -72,17 +70,16 @@ import { FormArray } from '@angular/forms/src/model';
       </div>
     </div>
   </div>
-  
-
 </form>`
 })
 export class TimelinesFormComponent {
 
-  public styleOptions = [TimelinesStyle.NONE, TimelinesStyle.ARCS, TimelinesStyle.TICKS,
-    TimelinesStyle.CONTINUOUS, TimelinesStyle.SYMBOLS];
+  public styleOptions = [TimelinesStyle.NONE, TimelinesStyle.ARCS,
+    TimelinesStyle.TICKS, TimelinesStyle.SYMBOLS];
   public eventGroups = [];
   public eventTypes = {};
   public patientAttributes = [];
+  public ctrls = [];
 
   @Input() set fields(fields: Array<DataField>) {
     if (fields === null) { return; }
@@ -105,12 +102,11 @@ export class TimelinesFormComponent {
       });
       control.push(fg);
     });
-
+    this.ctrls = control.controls;
     this.eventTypes = groups;
     this.eventGroups = Object.keys(groups).map(lbl => ({
       label: lbl, events: groups[lbl].map(evt => ({label: evt.subtype}))
     }));
-    // this.form.patchValue({events: this.eventGroups});
   }
 
   @Input() set config(v: TimelinesConfigModel) {
@@ -121,11 +117,6 @@ export class TimelinesFormComponent {
   @Output() configChange = new EventEmitter<GraphConfig>();
 
   form: FormGroup;
-
-
-  visibilityToggle(item: any) {
-    // this.form.patchValue({visibleElements: this.visibleElements}, { emitEvent: true });
-  }
 
   byKey(p1: DataField, p2: DataField) {
     if (p2 === null) { return false; }
@@ -149,23 +140,10 @@ export class TimelinesFormComponent {
 
       sort: [],
       align: [],
-      attributes: [],
+      attrs: [],
 
       bars: this.fb.array([])
     });
-
-
-  //   this.fb.group({
-  //     label: [],
-  //     style: [],
-  //     events: this.fb.array([
-  //       this.fb.group({
-  //         label: [],
-  //         show: []
-  //       })
-  //     ])
-  //   })
-  // ])
 
     // Update When Form Changes
     this.form.valueChanges
