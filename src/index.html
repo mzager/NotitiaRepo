@@ -19,9 +19,10 @@
       background: -webkit-linear-gradient(315deg, #1396de 2%, #042a68);
       background: linear-gradient(135deg, #1396de 2%, #042a68);
       color: #fff;
-      text-transform: uppercase; 
+      text-transform: uppercase;
       text-align: center;
     }
+
     .landing-h1 {
       font-weight: 200;
       letter-spacing: 30px;
@@ -37,16 +38,45 @@
       padding-bottom: 100px;
       color: #FFF;
     }
+
+    .landing {
+      -webkit-animation: fadein 2s;
+      -moz-animation: fadein 2s;
+      -ms-animation: fadein 2s;
+      -o-animation: fadein 2s;
+      animation: fadein 2s;
+    }
+
+    @keyframes fadein {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @-moz-keyframes fadein {
+      from { opacity: 0;}
+      to { opacity: 1;}
+    }
+    @-webkit-keyframes fadein {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @-ms-keyframes fadein {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @-o-keyframes fadein {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
   </style>
 </head>
 
-<body>
+<body style="padding:0px;margin:0px;">
   <app-root>
     <div class="loader-container">
-      
-        <h1 class="landing-h1">Oncoscape</h1>
-        <p class="landing-h2">Cancer Explorer</p>
-      
+
+      <h1 class="landing landing-h1">Oncoscape</h1>
+      <p class="landing landing-h2">Cancer Explorer</p>
+
     </div>
   </app-root>
   <script>
