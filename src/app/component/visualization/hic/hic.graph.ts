@@ -36,7 +36,6 @@ export class HicGraph implements ChartObjectInterface {
 
     // Chart Elements
     private labels: HTMLElement;
-    private title: HTMLElement;
     private overlay: HTMLElement;
     private tooltips: HTMLElement;
     private events: ChartEvents;
@@ -64,11 +63,6 @@ export class HicGraph implements ChartObjectInterface {
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         this.labels = labels;
         this.labels.innerText = '';
-
-        this.title =  <HTMLDivElement>(document.createElement('div'));
-        this.title.className = 'graph-title';
-        this.title.innerText = 'Force Directed Graph';
-        this.labels.appendChild( this.title );
 
         this.tooltips = <HTMLDivElement>(document.createElement('div'));
         this.tooltips.className = 'graph-tooltip';
