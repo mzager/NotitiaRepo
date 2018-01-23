@@ -34,10 +34,10 @@
             "../node_modules/pikaday/pikaday.js",
             "../node_modules/zeroclipboard/dist/ZeroClipboard.min.js",
             "../node_modules/three/build/three.min.js",
-            "../node_modules/dat.gui/build/dat.gui.min.js",
+            // "../node_modules/dat.gui/build/dat.gui.min.js",
             "../node_modules/vega/build/vega.min.js",
             "../node_modules/vega-tooltip/build/vega-tooltip.min.js",
-            "../node_modules/threads/dist/threads.browser.min.js",
+            // "../node_modules/threads/dist/threads.browser.min.js",
             "assets/pouch.min.js",
             "assets/ml220.js"
       ],

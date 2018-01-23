@@ -24,7 +24,6 @@ export class PathwaysGraph implements ChartObjectInterface {
 
     // Chart Elements
     private labels: HTMLElement;
-    private title: HTMLElement;
     private overlay: HTMLElement;
     private tooltips: HTMLElement;
     private events: ChartEvents;
@@ -45,10 +44,6 @@ export class PathwaysGraph implements ChartObjectInterface {
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         this.labels = labels;
         this.labels.innerText = '';
-        this.title = <HTMLDivElement>(document.createElement('div'));
-        this.title.className = 'graph-title';
-        this.title.innerText = 'Pathways';
-        this.labels.appendChild(this.title);
 
         this.tooltips = <HTMLDivElement>(document.createElement('div'));
         this.tooltips.className = 'graph-tooltip';
@@ -63,6 +58,8 @@ export class PathwaysGraph implements ChartObjectInterface {
         this.meshes = [];
         this.lines = [];
         this.view.controls.enableRotate = false;
+        this.view.controls.pan(-1200, -1200);
+        this.view.controls.dollyOut(8);
         return this;
     }
 
