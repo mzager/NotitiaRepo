@@ -338,9 +338,9 @@ export class GenesetPanelComponent implements AfterViewInit {
   @Output() help: EventEmitter<any> = new EventEmitter();
 
   // NEED TO ADD
-  // helpClick(): void {
-  //   this.help.emit(this.configA.visualization);
-  // }
+  helpClick(): void {
+    // this.help.emit(this.configA.visualization);
+  }
 
   ngAfterViewInit(): void {
     $(this.tabs.nativeElement).tabs();
