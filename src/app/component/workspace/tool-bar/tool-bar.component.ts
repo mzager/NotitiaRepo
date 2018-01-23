@@ -14,7 +14,7 @@ declare var dat: any;
 })
 export class ToolBarComponent implements OnInit {
 
-  showButtons = true;
+  hideButtons = false;
   // @Input() selectedTool: ToolEnum;
   // @Input() selectedGraph: GraphEnum;
   // @Output() selectTool = new EventEmitter();
@@ -22,13 +22,13 @@ export class ToolBarComponent implements OnInit {
   // @Output() graphAction = new EventEmitter();
   @Input() set workspaceConfig(value: WorkspaceConfigModel) {
     console.log(value.layout);
-    this.showButtons = (value.layout !== WorkspaceLayoutEnum.SINGLE);
+    this.hideButtons = (value.layout === WorkspaceLayoutEnum.SINGLE);
     this.cd.markForCheck();
   }
+
   @Output() graphAToggle = new EventEmitter();
   @Output() graphBToggle = new EventEmitter();
 
-  
   ngOnInit(): void {
 
 
