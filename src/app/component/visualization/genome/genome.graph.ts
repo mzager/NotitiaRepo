@@ -32,7 +32,6 @@ export class GenomeGraph implements ChartObjectInterface {
 
     // Chart Elements
     private labels: HTMLElement;
-    private title: HTMLElement;
     private overlay: HTMLElement;
     private tooltips: HTMLElement;
     private events: ChartEvents;
@@ -58,10 +57,6 @@ export class GenomeGraph implements ChartObjectInterface {
         view.camera.rotation.setFromVector3( new THREE.Vector3(0, 0, 0) );
         this.labels = labels;
         this.labels.innerText = '';
-        this.title =  <HTMLDivElement>(document.createElement('div'));
-        this.title.className = 'graph-title';
-        this.title.innerText = 'Genome';
-        this.labels.appendChild( this.title );
 
         this.tooltips = <HTMLDivElement>(document.createElement('div'));
         this.tooltips.className = 'graph-tooltip';
