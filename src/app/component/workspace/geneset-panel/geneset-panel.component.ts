@@ -18,64 +18,65 @@ declare var $: any;
     `  <!-- Card -->
 <div class="card" style="width:800px; background:#FFFFFF;position:Absolute;left:100px;top:100px;" [ngDraggable]="true" [handle]="titlebar" >
     <!-- Title Bar Row -->
-  <div class="card-title-bar" #titlebar style="background: #029BE5; color:#FFF; font-weight:normal; font-size:12px; padding:5px 10px;text-transform:uppercase;letter-spacing:1px;">Gene Set
+  <div class="card-title-bar" #titlebar style="background: #029BE5; color:#FFF; font-weight:normal; font-size:12px; padding:5px 10px;
+                                                text-transform:uppercase;letter-spacing:1px;">Gene Set Collections
     <i class="tiny material-icons" style="float: right; padding-top: 4px; cursor: pointer" (click)="hide.emit()">close</i>
             <span style="float: right; padding-top: 2px; padding-right:5px; cursor: pointer; font-size:10px;"
         (click)="helpClick()">Info</span>
   </div>
     <!-- Card Tabs -->
-<div class="card-tabs">
-  <ul class="tabs tabs-fixed-width" #tabs>
-    <li class="tab">
-      <a class="active" href="#{{cid}}MSigDB">Hallmark</a>
-    </li>
-    <li class="tab">
-      <a href="#{{cid}}MSigDB">Positional</a>
-    </li>
-    <li class="tab">
-      <a href="#{{cid}}MSigDB">Curated</a>
-    </li>
-    <li class="tab">
-      <a href="#{{cid}}MSigDB">Motif</a>
-    </li>
-    <li class="tab">
-      <a href="#{{cid}}MSigDB">Computational</a>
-    </li>
-    <li class="tab">
-      <a href="#{{cid}}MSigDB">Go</a>
-    </li>
-    <li class="tab">
-      <a href="#{{cid}}MSigDB">Oncogenic</a>
-    </li>
-    <li class="tab">
-      <a href="#{{cid}}MSigDB">Immunologic</a>
-    </li>
-    <li class="tab">
-      <a href="#{{cid}}Custom">Custom</a>
-    </li>
+  <div class="card-tabs">
+    <ul class="tabs tabs-fixed-width" #tabs>
+      <li class="tab">
+        <a class="active" href="#{{cid}}Hallmark">Hallmark</a>
+      </li>
+      <li class="tab">
+        <a href="#{{cid}}Positional">Positional</a>
+      </li>
+      <li class="tab">
+        <a href="#{{cid}}Curated">Curated</a>
+      </li>
+      <li class="tab">
+        <a href="#{{cid}}Motif">Motif</a>
+      </li>
+      <li class="tab">
+        <a href="#{{cid}}Computational">Computational</a>
+      </li>
+      <li class="tab">
+        <a href="#{{cid}}Go">Go</a>
+      </li>
+      <li class="tab">
+        <a href="#{{cid}}Oncogenic">Oncogenic</a>
+      </li>
+      <li class="tab">
+        <a href="#{{cid}}Immunologic">Immunologic</a>
+      </li>
+      <li class="tab">
+        <a href="#{{cid}}Custom">Custom</a>
+      </li>
     </ul>
-</div>
- 
+  </div>
 <!-- Panel Content -->
-<div class="card-content">
-
+  <div class="card-content" style="padding:20px">
     <form [formGroup]="form" novalidate>
-      <div id="{{cid}}MSigDB" >
+      <div id="{{cid}}Hallmark" >
         <div class="form-group">
-          <label class="center-block"><span class="form-label">Search</span>
-            <input placeholder="Gene Id, ..."
-              class="browser-default" formControlName="search">
-          </label>
+          <div class="row">
+            <div class="col s12">
+               <div class="input-field col s12">
+                <input  formControlName="search" style="color: #666666;"type="text" id="autocomplete-input" class="autocomplete">
+                <label style="font-size: 0.8rem;" for="autocomplete-input">Search</label>
+              </div>
+          </div>
         </div>
+    </div>
         <div *ngFor="let item of autoCompleteOptions" (click)="onAutoCompleteOption(item)">
           {{item.name}}
-          <hr>
+           <hr>
         </div>
-        <div *ngIf="autoCompleteOption">
-          {{autoCompleteOption.name}}<br />
-          {{autoCompleteOption.description}}
-        </div>
-      </div>
+    <div *ngIf="autoCompleteOption">{{autoCompleteOption.name}}<br/>{{autoCompleteOption.summary}}
+    </div>
+    </div>
       <div id="{{cid}}Custom">
         <div class="form-group">
           <label class="center-block"><span class="form-label">Gene List</span>
@@ -84,11 +85,8 @@ declare var $: any;
           </label>
         </div>
       </div>
-      <div class="form-group">
-        <label class="center-block">
-          <span class="form-label">
-              Geneset:
-          </span>
+      <div style="float:right;"class="form-group">
+        <label>
           <button (click)="filterGeneset()" class=" btn-config" style="width:71px;">
               Filter
           </button>
@@ -98,7 +96,7 @@ declare var $: any;
         </label>
       </div>
     </form>
-</div>
+  </div>
 </div>`,
   changeDetection: ChangeDetectionStrategy.Default
 })
@@ -141,7 +139,7 @@ export class GenesetPanelComponent implements AfterViewInit {
       this.onGeneListChange(this.form.get('customGeneList').value, 'apply');
     }
   }
-  onAutoCompleteOption(item: any): void{
+  onAutoCompleteOption(item: any): void {
      this.autoCompleteOptions = [];
      this.autoCompleteOption = item;
      this.cd.markForCheck();
