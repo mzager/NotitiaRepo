@@ -70,7 +70,6 @@ export class DataEffect {
     @Effect() dataLoadFromDexie$: Observable<DataLoadedAction> = this.actions$
         .ofType(data.DATA_LOAD_FROM_DEXIE)
         .switchMap( (args: DataLoadFromDexieAction) => {
-            // TODO: Bad Bad Bad ... Fix this one too.
             GraphConfig.database = args.dataset;
             return Observable.fromPromise(this.datasetService.getDataset(args.dataset));
         })
@@ -83,7 +82,7 @@ export class DataEffect {
         .mergeMap( (args: DataLoadedAction) => {
 
             const workspaceConfig = new WorkspaceConfigModel();
-            workspaceConfig.layout = WorkspaceLayoutEnum.HORIZONTAL;
+            workspaceConfig.layout = WorkspaceLayoutEnum.SINGLE;
 
             // const pathwaysConfig = new PathwaysConfigModel();
             // pathwaysConfig.graph = GraphEnum.GRAPH_A;
@@ -101,13 +100,13 @@ export class DataEffect {
             // boxWhiskersConfig.graph = GraphEnum.GRAPH_A;
             // boxWhiskersConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
 
-            // const timelinesConfig = new TimelinesConfigModel();
-            // timelinesConfig.graph = GraphEnum.GRAPH_A;
-            // timelinesConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
+            const timelinesConfig = new TimelinesConfigModel();
+            timelinesConfig.graph = GraphEnum.GRAPH_A;
+            timelinesConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
 
-            const graphAConfig = new PcaIncrementalConfigModel();
-            graphAConfig.graph = GraphEnum.GRAPH_A;
-            graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            // const graphAConfig = new PcaIncrementalConfigModel();
+            // graphAConfig.graph = GraphEnum.GRAPH_A;
+            // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             // const hicConfig = new HicConfigModel();
             // hicConfig.graph = GraphEnum.GRAPH_A;
@@ -138,18 +137,18 @@ export class DataEffect {
             return [
                 new WorkspaceConfigAction( workspaceConfig ),
                 // new compute.LinkedGeneAction( { config: graphAConfig } ),
-                new compute.PcaIncrementalAction( { config: graphAConfig } ),
+                // new compute.PcaIncrementalAction( { config: graphAConfig } ),
                 // new compute.PcaIncrementalAction( { config: graphBConfig } ),
                 // new compute.HicAction( { config: hicConfig }),
                 // new compute.BoxWhiskersAction( { config: boxWhiskersConfig } ),
 
-                // new compute.TimelinesAction( { config: timelinesConfig}),
+                new compute.TimelinesAction( { config: timelinesConfig}),
 
                 
                 //  new compute.ChromosomeAction( { config: chromosomeConfig } ),
                 // new compute.HeatmapAction( { config: heatmapConfig })
                 // new compute.ChromosomeAction( { config: graphBConfig } )
-                //  new compute.PathwaysAction( { config: pathwaysConfig }),
+                // new compute.PathwaysAction( { config: pathwaysConfig }),
                 new compute.GenomeAction( { config: genomeConfig }),
                 // , new compute.PcaIncrementalAction( { config: graphBConfig } )
                 // new GraphPanelToggleAction( GraphPanelEnum.GRAPH_A )

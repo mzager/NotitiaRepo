@@ -102,8 +102,6 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                                 result: {
                                     minMax: minMax,
                                     patients: patients,
-                                    // sortMap: sortMap,
-                                    // colorMap: colorMap,
                                     attrs: attrs
                                 }
                             }
@@ -120,8 +118,6 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                             result: {
                                 minMax: minMax,
                                 patients: patients,
-                                // sortMap: sortMap,
-                                // colorMap: colorMap,
                                 attrs: null
                             }
                         }

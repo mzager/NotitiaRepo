@@ -43,8 +43,6 @@ export class TimelinesGraph implements ChartObjectInterface {
     public objs: Array<THREE.Object3D>;
     public database: string;
     private activePid: '';
-
-    private title: HTMLElement;
     private overlay: HTMLElement;
     private tooltips: HTMLElement;
 
@@ -61,12 +59,8 @@ export class TimelinesGraph implements ChartObjectInterface {
         // this.view.controls.addEventListener('end', _.debounce(this.zoomEnd.bind(this), 300));
 
         if (truthy) {
-            // this.sMouseUp = this.events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
-            // this.sMouseDown = this.events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
             this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
         } else {
-            // this.sMouseUp.unsubscribe();
-            // this.sMouseDown.unsubscribe();
             if (this.sMouseMove !== undefined) {
                 this.sMouseMove.unsubscribe();
             }
@@ -78,7 +72,6 @@ export class TimelinesGraph implements ChartObjectInterface {
         this.data = data;
         this.removeObjects();
         this.addObjects();
-        this.title.innerText = 'Patient Timelines';
     }
     preRender(views: Array<VisualizationView>, layout: WorkspaceLayoutEnum, renderer: THREE.WebGLRenderer) {
 
@@ -86,9 +79,6 @@ export class TimelinesGraph implements ChartObjectInterface {
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         this.labels = labels;
         this.labels.innerText = '';
-        this.title = <HTMLDivElement>(document.createElement('div'));
-        this.title.className = 'graph-title';
-        this.labels.appendChild(this.title);
 
         this.tooltips = <HTMLDivElement>(document.createElement('div'));
         this.tooltips.className = 'graph-tooltip';
@@ -104,7 +94,9 @@ export class TimelinesGraph implements ChartObjectInterface {
         this.meshes = [];
         this.groups = [];
         this.objs = [];
-        // this.view.controls.enableRotate = false;
+        this.view.controls.enableRotate = false;
+        this.view.controls.pan(0, 1200);
+        this.view.controls.dollyOut(3);
         return this;
     }
 
@@ -126,6 +118,7 @@ export class TimelinesGraph implements ChartObjectInterface {
         group.add(mesh);
         this.meshes.push(mesh);
     }
+
     addArc(event: any, barHeight: number, group: THREE.Group, scale: ScaleLinear<number, number>): void {
         if (event.start !== event.end) {
             const s = scale(event.start);
@@ -172,14 +165,12 @@ export class TimelinesGraph implements ChartObjectInterface {
         }
     }
 
-
     // #endregion
     addObjects(): void {
 
         this.meshes = [];
         this.groups = [];
 
-        // const w = (this.view.viewport.width * 0.5) - 100;
         const scale = scaleLinear();
         scale.domain([this.data.result.minMax.min, this.data.result.minMax.max]);
         scale.range([-500, 500]);
@@ -214,6 +205,7 @@ export class TimelinesGraph implements ChartObjectInterface {
             group.add(line);
 
             patient.forEach(event => {
+                event.data.type = 'event';
                 switch (bars[event.bar].style) {
                     case TimelinesStyle.NONE:
                         break;
@@ -233,6 +225,9 @@ export class TimelinesGraph implements ChartObjectInterface {
         });
 
         // Create Color Scales For Attributes
+        const attrGroup = new THREE.Group();
+        this.view.scene.add(attrGroup);
+        this.groups.push(attrGroup);
         this.data.result.attrs.attrs.forEach( attr => {
             attr.scale = d3Scale.scaleSequential(interpolateSpectral).domain([attr.min, attr.max]);
         });
@@ -248,15 +243,15 @@ export class TimelinesGraph implements ChartObjectInterface {
                     ChartFactory.getColorPhong(color)
                 );
                 mesh.position.set(xPos - (rowHeight * 0.5) - 1, yPos + 2, 0);
-                mesh.userData = {
-                    pid: pid
-                };
-                this.objs.push(mesh);
-                this.view.scene.add(mesh);
+                mesh.userData = { data : {
+                    type: 'attr',
+                    field: attr.prop.replace(/_/gi, ' '),
+                    value: (value !== null) ? value.toString() : 'NA' } };
+                attrGroup.add(mesh);
+                this.meshes.push(mesh);
             });
         });
 
-   
         // this.zoomEnd();
     }
     removeObjects(): void {
@@ -269,24 +264,24 @@ export class TimelinesGraph implements ChartObjectInterface {
     }
 
     zoomEnd(): void {
-        this.overlay.innerText = '';
-        if (this.config.entity === EntityTypeEnum.EVENT) {
-            const m = this.meshes;
-            const g = this.groups;
-            const lbls = g.map(v => {
-                return {
-                    type: v.userData.type,
-                    subtype: v.userData.subtype,
-                    pos: ChartUtil.projectToScreen(this.config.graph, v, this.view.camera,
-                        this.view.viewport.width, this.view.viewport.height)
-                };
-            }).reduce((p, c) => {
-                p += '<span style="color:#9e9e9e;position:absolute;left:50px;top:' + c.pos.y + 'px;">';
-                p += c.subtype + ' ' + c.type + '</span>';
-                return p;
-            }, '');
-            this.overlay.innerHTML = lbls;
-        }
+        // this.overlay.innerText = '';
+        // if (this.config.entity === EntityTypeEnum.EVENT) {
+        //     const m = this.meshes;
+        //     const g = this.groups;
+        //     const lbls = g.map(v => {
+        //         return {
+        //             type: v.userData.type,
+        //             subtype: v.userData.subtype,
+        //             pos: ChartUtil.projectToScreen(this.config.graph, v, this.view.camera,
+        //                 this.view.viewport.width, this.view.viewport.height)
+        //         };
+        //     }).reduce((p, c) => {
+        //         p += '<span style="color:#9e9e9e;position:absolute;left:50px;top:' + c.pos.y + 'px;">';
+        //         p += c.subtype + ' ' + c.type + '</span>';
+        //         return p;
+        //     }, '');
+        //     this.overlay.innerHTML = lbls;
+        // }
     }
 
     private onMouseMove(e: ChartEvent): void {
@@ -301,18 +296,30 @@ export class TimelinesGraph implements ChartObjectInterface {
                 const xPos = e.mouse.xs + 10;
                 const yPos = e.mouse.ys;
                 const data = hit[0].object.userData.data;
-                const tip = Object.keys(data).reduce((p, c) => {
-                    if (data[c].trim().length > 0) {
-                        p += c + ': ' + data[c].toLowerCase() + '<br />';
-                    }
-                    return p;
-                }, '');
-                this.tooltips.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#DDD;padding:5px;border-radius:' +
-                    '3px;z-index:9999;position:absolute;left:' +
+                if (data.type === 'event') {
+                    const tip = Object.keys(data).reduce((p, c) => {
+                        if (data[c].trim().length > 0) {
+                            p += c + ': ' + data[c].toLowerCase() + '<br />';
+                        }
+                        return p;
+                    }, '');
+                    this.tooltips.innerHTML = '<div style="width:auto;background:rgba(0,0,0,.8);color:#DDD;padding:5px;border-radius:' +
+                        '3px;z-index:9999;position:absolute;left:' +
+                        xPos + 'px;top:' +
+                        yPos + 'px;"><nobr>' +
+                        tip + '</nobr></div>';
+                }
+                if (data.type === 'attr') {
+                    const tip = data.field + ': ' + data.value;
+                    this.tooltips.innerHTML = '<div style="width:auto;background:rgba(255,255,255,.8);color:#000;' +
+                    'padding:5px;border-radius:3px;z-index:9999;position:absolute;left:' +
                     xPos + 'px;top:' +
-                    yPos + 'px;">' +
-                    tip + '</div>';
-            } catch (e) { }
+                    yPos + 'px;"><nobr>' +
+                    tip + '</nobr></div>';
+                }
+            } catch (e) {
+                console.log(e);
+            }
 
             return;
         }
