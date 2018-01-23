@@ -383,6 +383,12 @@ export class ChartScene {
 
         view.chart.update(config, data);
         this.render();
+        try {
+            this.views[0].chart.enable( true );
+            this.views[1].chart.enable( false );
+        } catch ( e ) {
+
+        }
     }
 
     private getChartObject(visualization: VisualizationEnum): ChartObjectInterface {

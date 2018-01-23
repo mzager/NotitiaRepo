@@ -21,7 +21,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     // Objects
     private lines: Array<THREE.Line>;
     private controls: DragSelectionControl;
-    private title: HTMLElement;
     private overlay: HTMLElement;
     private tooltips: HTMLElement;
 
@@ -33,29 +32,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     // Private Subscriptions
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         super.create(labels, events, view);
-        this.title =  <HTMLDivElement>(document.createElement('div'));
-        this.title.className = 'graph-title';
-        this.title.innerText = (view.config.visualization === VisualizationEnum.TSNE) ? 'T-SNE' :
-            (view.config.visualization === VisualizationEnum.DICTIONARY_LEARNING) ? 'Dictionary Learning' :
-            (view.config.visualization === VisualizationEnum.FA) ? 'Factor Analysis' :
-            (view.config.visualization === VisualizationEnum.FAST_ICA) ? 'Fast ICA' :
-            (view.config.visualization === VisualizationEnum.LDA) ? 'Latent Dirichlet Allocation' :
-            (view.config.visualization === VisualizationEnum.NMF) ? 'Non-negative Matrix Factorization' :
-            (view.config.visualization === VisualizationEnum.PCA) ? 'Principal Component Analysis' :
-            (view.config.visualization === VisualizationEnum.INCREMENTAL_PCA) ? 'PCA - Incremental' :
-            (view.config.visualization === VisualizationEnum.KERNAL_PCA) ? 'PCA - Kernal' :
-            (view.config.visualization === VisualizationEnum.SPARSE_PCA) ? 'PCA - Sparse' :
-            (view.config.visualization === VisualizationEnum.TRUNCATED_SVD) ? 'Truncated SVD' :
-            (view.config.visualization === VisualizationEnum.ISOMAP) ? 'ISO Map' :
-            (view.config.visualization === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? 'Local Linear Embedding' :
-            (view.config.visualization === VisualizationEnum.MDS) ? 'Multi-Dimensional Scaling' :
-            (view.config.visualization === VisualizationEnum.MINI_BATCH_SPARSE_PCA) ? 'Mini Batch Sparse PCA' :
-            (view.config.visualization === VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING) ? 'Mini Batch Dictionary Learning' :
-            (view.config.visualization === VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS) ? 'Linear Discriminant Analysis' :
-            (view.config.visualization === VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS) ? 'Quadratic Discriminant Analysis' :
-            'Spectral Embedding';
-        this.labels.appendChild( this.title );
-
+   
         this.tooltips = <HTMLDivElement>(document.createElement('div'));
         this.tooltips.className = 'graph-tooltip';
         this.labels.appendChild( this.tooltips );
