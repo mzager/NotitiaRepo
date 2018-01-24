@@ -32,7 +32,7 @@ export interface State {
 const initialState: State = {
     filePanel: e.FilePanelEnum.NONE,
     queryPanel: e.QueryPanelEnum.NONE,
-    graphPanelA: e.GraphPanelEnum.NONE,
+    graphPanelA: e.GraphPanelEnum.GRAPH_A,
     graphPanelB: e.GraphPanelEnum.NONE,
     genesetPanel: e.SinglePanelEnum.HIDE,
     samplePanel: e.StatPanelEnum.NONE,
