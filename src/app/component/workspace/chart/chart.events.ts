@@ -31,13 +31,20 @@ export class ChartEvents {
     private mouse: { x: number, y: number, xs: number, ys: number };
     public chart: GraphEnum;
 
+    private container: HTMLElement;
     public workspaceConfig: WorkspaceConfigModel;
 
-    constructor(container: HTMLElement) {
+    onResize(e: any):void{
+        this.dimensions = this.container.getBoundingClientRect();
+    }
 
+    constructor(container: HTMLElement) {
+        this.container = container;
         this.chart = GraphEnum.GRAPH_A;
         this.mouse = { x: 0, y: 0, xs: 0, ys: 0 };
         this.dimensions = container.getBoundingClientRect();
+
+        window.addEventListener('resize', this.onResize.bind(this))
 
         // Low Level Dom Events
         this.mouseUp = Observable.fromEvent(container, 'mouseup');
@@ -53,7 +60,6 @@ export class ChartEvents {
             });
         this.chartFocus = this.mouseMove
             .map((event: MouseEvent) => {
-
                 if (this.workspaceConfig.layout === WorkspaceLayoutEnum.HORIZONTAL) {
                     this.mouse.x = (event.clientX / this.dimensions.width * 2) * 2 - 1;
                     if (this.mouse.x > 1) { this.mouse.x -= 2; }  // Right

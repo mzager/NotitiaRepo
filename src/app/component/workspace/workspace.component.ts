@@ -16,7 +16,7 @@ import * as layout from 'app/action/layout.action';
 import * as select from 'app/action/select.action';
 import * as XLSX from 'xlsx';
 import { Action, Store } from '@ngrx/store';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {
   ChromosomeAction,
   GenomeAction,
@@ -87,6 +87,9 @@ import { QuadradicDiscriminantAnalysisConfigModel } from 'app/component/visualiz
   styleUrls: ['./workspace.component.scss']
 })
 export class WorkspaceComponent {
+
+  // Components
+  @ViewChild('panelContainer') public panelContainer: ElementRef;
 
   // graphTool: Observable<GraphTool>;
   graphALegend: Observable<Array<Legend>>;
