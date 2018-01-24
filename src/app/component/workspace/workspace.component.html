@@ -2,101 +2,96 @@
     (onSelect)="select($event)"
     (configChange)="graphPanelSetConfig($event)"
     ></app-workspace-chart>
-    
-<app-workspace-graph-panel 
-    style="margin-top:30px;"
-    *ngIf="graphPanelATab | async"
-    [title]="'Graph A'"
-    [events]="events | async"
-    [tables]="tables | async"
-    [fields]="fields | async"
-    [clinicalFields]="clinicalFields | async"
-    [molecularData]="molecularData | async"
-    [config]="graphAConfig | async"
-    [data]="graphAData | async"
-    (hide)="graphPanelToggle(1)"
-    (help)="helpPanelToggle($event)"
-    (configChange)="graphPanelSetConfig($event)"
-    (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-    (selectGeneSignature)="graphPanelSelectGeneSignature($event)"
-    (selectGeneset)="genesetPanelToggle($event)"
-    (selectCohort)="queryPanelToggle($event)"
-    ></app-workspace-graph-panel>
 
-<app-workspace-graph-panel 
-    style="position:absolute;top:30px;right:10px;"
-    *ngIf="graphPanelBTab | async"
-    [title]="'Graph B'"
-    [events]="events | async"
-    [tables]="tables | async"
-    [fields]="fields | async"
-    [clinicalFields]="clinicalFields | async"
-    [molecularData]="molecularData | async"
-    [config]="graphBConfig | async"
-    [data]="graphBData | async"
-    (hide)="graphPanelToggle(2)"
-    (configChange)="graphPanelSetConfig($event)"
-    (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
-    (selectGeneSignature)="graphPanelSelectGeneSignature($event)"
-    (selectGeneset)="genesetPanelToggle($event)"
-    (selectCohort)="queryPanelToggle($event)"
-    ></app-workspace-graph-panel>
+    <app-workspace-graph-panel 
+        *ngIf="graphPanelATab | async"
+        [bounds]="panelContainer | async"
+        [title]="'Graph A'"
+        [events]="events | async"
+        [tables]="tables | async"
+        [fields]="fields | async"
+        [clinicalFields]="clinicalFields | async"
+        [molecularData]="molecularData | async"
+        [config]="graphAConfig | async"
+        [data]="graphAData | async"
+        (hide)="graphPanelToggle(1)"
+        (help)="helpPanelToggle($event)"
+        (configChange)="graphPanelSetConfig($event)"
+        (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
+        (selectGeneSignature)="graphPanelSelectGeneSignature($event)"
+        (selectGeneset)="genesetPanelToggle($event)"
+        (selectCohort)="queryPanelToggle($event)"
+        ></app-workspace-graph-panel>
 
-<app-workspace-edge-panel
-    *ngIf="edgePanelTab | async"
-    [tables]="tables | async"
-    [fields]="fields | async"
-    [config]="edgeConfig | async"
-    [graphAConfig]="graphAConfig | async"
-    [graphBConfig]="graphBConfig | async"
-    (hide)="edgePanelToggle()"
-    (configChange)="graphPanelSetConfig($event)"
-    [workspaceConfig]="workspaceConfig | async"
-    (workspaceConfigChange)="workspacePanelSetConfig($event)"
-    ></app-workspace-edge-panel>
+    <app-workspace-graph-panel 
+        *ngIf="graphPanelBTab | async"
+        [title]="'Graph B'"
+        [events]="events | async"
+        [tables]="tables | async"
+        [fields]="fields | async"
+        [clinicalFields]="clinicalFields | async"
+        [molecularData]="molecularData | async"
+        [config]="graphBConfig | async"
+        [data]="graphBData | async"
+        (hide)="graphPanelToggle(2)"
+        (configChange)="graphPanelSetConfig($event)"
+        (selectClusteringAlgorithm)="graphPanelSelectClusteringAlgorithm($event)"
+        (selectGeneSignature)="graphPanelSelectGeneSignature($event)"
+        (selectGeneset)="genesetPanelToggle($event)"
+        (selectCohort)="queryPanelToggle($event)"
+        ></app-workspace-graph-panel>
 
-<app-workspace-geneset-panel
-    [configA]="graphAConfig | async"
-    [configB]="graphBConfig | async"
-    (configChange)="graphPanelSetConfig($event)"
-    (hide)="genesetPanelToggle()"
-    *ngIf="genesetPanelTab | async">
-    </app-workspace-geneset-panel>
+    <app-workspace-edge-panel
+        *ngIf="edgePanelTab | async"
+        [tables]="tables | async"
+        [fields]="fields | async"
+        [config]="edgeConfig | async"
+        [graphAConfig]="graphAConfig | async"
+        [graphBConfig]="graphBConfig | async"
+        (hide)="edgePanelToggle()"
+        (configChange)="graphPanelSetConfig($event)"
+        [workspaceConfig]="workspaceConfig | async"
+        (workspaceConfigChange)="workspacePanelSetConfig($event)"
+        ></app-workspace-edge-panel>
 
-<app-workspace-gene-signature-panel 
-    *ngIf="geneSignaturePanelTab | async"
-    ></app-workspace-gene-signature-panel>
+    <app-workspace-geneset-panel
+        [configA]="graphAConfig | async"
+        [configB]="graphBConfig | async"
+        (configChange)="graphPanelSetConfig($event)"
+        (hide)="genesetPanelToggle()"
+        *ngIf="genesetPanelTab | async">
+        </app-workspace-geneset-panel>
 
-<app-workspace-clustering-algorithm-panel
-    *ngIf="clusteringAlgorithmPanelTab | async"
-    [configA]="graphAConfig | async"
-    [configB]="graphBConfig | async"
-    [graphAData]="graphAData | async" 
-    [graphBData]="graphBData | async" 
-    ></app-workspace-clustering-algorithm-panel>
+    <app-workspace-clustering-algorithm-panel
+        *ngIf="clusteringAlgorithmPanelTab | async"
+        [configA]="graphAConfig | async"
+        [configB]="graphBConfig | async"
+        [graphAData]="graphAData | async" 
+        [graphBData]="graphBData | async" 
+        ></app-workspace-clustering-algorithm-panel>
 
-<app-workspace-file-panel
-    *ngIf="filePanelTab | async" 
-    (filesLoad)="filesLoad($event)"
-    (loadTcga)="fileLoadTcga($event)"
-    (hide)="filePanelToggle()"
-    ></app-workspace-file-panel>
+    <app-workspace-file-panel
+        *ngIf="filePanelTab | async" 
+        (filesLoad)="filesLoad($event)"
+        (loadTcga)="fileLoadTcga($event)"
+        (hide)="filePanelToggle()"
+        ></app-workspace-file-panel>
 
-<app-workspace-query-panel 
-    *ngIf="queryPanelTab | async" 
-    (queryPanelToggle)="queryPanelToggle()"
-    [configA]="graphAConfig | async"
-    [configB]="graphBConfig | async"
-    (configChange)="graphPanelSetConfig($event)"
-    (hide)="queryPanelToggle()"
-    style="position:absolute;left:100px;top:100px;"></app-workspace-query-panel>
+    <app-workspace-query-panel 
+        *ngIf="queryPanelTab | async" 
+        (queryPanelToggle)="queryPanelToggle()"
+        [configA]="graphAConfig | async"
+        [configB]="graphBConfig | async"
+        (configChange)="graphPanelSetConfig($event)"
+        (hide)="queryPanelToggle()"
+        style="position:absolute;left:100px;top:100px;"></app-workspace-query-panel>
 
-<app-workspace-help-panel
-    *ngIf="helpPanelTab | async" 
-    [config]="graphAConfig | async"
-    (hide)="helpPanelToggle()"
-    style="position:absolute;left:100px;top:100px;">
-    </app-workspace-help-panel>
+    <app-workspace-help-panel
+        *ngIf="helpPanelTab | async" 
+        [config]="graphAConfig | async"
+        (hide)="helpPanelToggle()"
+        style="position:absolute;left:100px;top:100px;">
+        </app-workspace-help-panel>
     
 <app-workspace-tool-bar
     (graphAToggle)='graphPanelToggle(1)'
