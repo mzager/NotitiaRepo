@@ -78,6 +78,7 @@ export class QueryPanelComponent implements AfterViewInit {
         this._configA.sampleFilter = sids;
         this._configA.dirtyFlag = DirtyEnum.LAYOUT;
         this.configChange.next(this._configA);
+        this.hide.emit();
       });
     });
   }
