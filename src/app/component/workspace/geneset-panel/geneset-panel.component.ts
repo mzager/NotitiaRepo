@@ -28,28 +28,32 @@ declare var $: any;
     <div class="card-tabs">
         <ul class="tabs tabs-fixed-width" #tabs>
             <li class="tab">
-                <a class="active" href="#{{cid}}Hallmark">Hallmark</a>
+                <a class="active" 
+                href="#{{cid}}Geneset"
+                (click)="setCategory('hallmark')">Hallmark</a>
             </li>
             <li class="tab">
-                <a href="#{{cid}}Positional">Positional</a>
+                <a href="#{{cid}}Geneset"
+                (click)="setCategory('positional')">Positional</a>
             </li>
             <li class="tab">
-                <a href="#{{cid}}Curated">Curated</a>
+                <a href="#{{cid}}Geneset"
+                (click)="setCategory('curated')">Curated</a>
             </li>
             <li class="tab">
-                <a href="#{{cid}}Motif">Motif</a>
+                <a href="#{{cid}}Geneset">Motif</a>
             </li>
             <li class="tab">
-                <a href="#{{cid}}Computational">Computational</a>
+                <a href="#{{cid}}Geneset">Computational</a>
             </li>
             <li class="tab">
-                <a href="#{{cid}}Go">Go</a>
+                <a href="#{{cid}}Geneset">Go</a>
             </li>
             <li class="tab">
-                <a href="#{{cid}}Oncogenic">Oncogenic</a>
+                <a href="#{{cid}}Geneset">Oncogenic</a>
             </li>
             <li class="tab">
-                <a href="#{{cid}}Immunologic">Immunologic</a>
+                <a href="#{{cid}}Geneset">Immunologic</a>
             </li>
             <li class="tab">
                 <a href="#{{cid}}Custom">Custom</a>
@@ -59,11 +63,10 @@ declare var $: any;
     <!-- Panel Content -->
     <div class="card-content" style="padding:20px">
         <form [formGroup]="form" novalidate>
-            <div id="{{cid}}Hallmark">
+            <div id="{{cid}}Geneset">
                 <div class="row">
                     <div class="col s12">
-                        <div class="genseset-desc"> "H" Coherently expressed signatures derived by aggregating 
-                          many MSigDB gene sets to represent well-defined biological states or processes.
+                        <div class="genseset-desc">{{ category.desc }}
                         </div>
                     </div>
                 </div>
@@ -87,207 +90,8 @@ declare var $: any;
                     </div>
                 </div>
             </div>
-            <!--end hallmark-->
-            <div id="{{cid}}Positional">
-                <div class="row">
-                    <div class="col s12">
-                        <div class="genseset-desc">"C1" Each human chromosome and cytogenetic band.
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col s12">
-                            <div class="input-field col s12">
-                                <input formControlName="search" type="text" id="autocomplete-input">
-                                <label class="geneset-search" for="autocomplete-input">Search</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s12">
-                        <div class="geneset-dropdown" *ngFor="let item of autoCompleteOptions" (click)="onAutoCompleteOption(item)">
-                            {{item.name}} - {{item.summary}}
-                        </div>
-                        <div class="geneset-select" *ngIf="autoCompleteOption">{{autoCompleteOption.name}} - {{autoCompleteOption.summary}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--end Positional-->
-            <div id="{{cid}}Curated">
-                <div class="row">
-                    <div class="col s12">
-                        <div class="genseset-desc">"C2" Online pathway databases, publications in PubMed, 
-                          and knowledge of domain experts.
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col s12">
-                            <div class="input-field col s12">
-                                <input formControlName="search" type="text" id="autocomplete-input">
-                                <label class="geneset-search" for="autocomplete-input">Search</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s12">
-                        <div class="geneset-dropdown" *ngFor="let item of autoCompleteOptions" (click)="onAutoCompleteOption(item)">
-                            {{item.name}} - {{item.summary}}
-                        </div>
-                        <div class="geneset-select" *ngIf="autoCompleteOption">{{autoCompleteOption.name}} - {{autoCompleteOption.summary}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--end Curated-->
-            <div id="{{cid}}Motif">
-                <div class="row">
-                    <div class="col s12">
-                        <div class="genseset-desc">"C4" Conserved cis-regulatory motifs from a comparative analysis 
-                          of the human, mouse, rat, and dog genomes.
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col s12">
-                            <div class="input-field col s12">
-                                <input formControlName="search" type="text" id="autocomplete-input">
-                                <label class="geneset-search" for="autocomplete-input">Search</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s12">
-                        <div class="geneset-dropdown" *ngFor="let item of autoCompleteOptions" (click)="onAutoCompleteOption(item)">
-                            {{item.name}} - {{item.summary}}
-                        </div>
-                        <div class="geneset-select" *ngIf="autoCompleteOption">{{autoCompleteOption.name}} - {{autoCompleteOption.summary}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--end Motif-->
-            <div id="{{cid}}Computational">
-                <div class="row">
-                    <div class="col s12">
-                        <div class="genseset-desc"> "C4" Defined by mining large collections of cancer-oriented 
-                          microarray data.
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col s12">
-                            <div class="input-field col s12">
-                                <input formControlName="search" type="text" id="autocomplete-input">
-                                <label class="geneset-search" for="autocomplete-input">Search</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s12">
-                        <div class="geneset-dropdown" *ngFor="let item of autoCompleteOptions" (click)="onAutoCompleteOption(item)">
-                            {{item.name}} - {{item.summary}}
-                        </div>
-                        <div class="geneset-select" *ngIf="autoCompleteOption">{{autoCompleteOption.name}} - {{autoCompleteOption.summary}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--end Computational-->
-            <div id="{{cid}}Go">
-                <div class="row">
-                    <div class="col s12">
-                        <div class="genseset-desc"> "C5" Genes annotated by the same GO terms.
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col s12">
-                            <div class="input-field col s12">
-                                <input formControlName="search" type="text" id="autocomplete-input">
-                                <label class="geneset-search" for="autocomplete-input">Search</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s12">
-                        <div class="geneset-dropdown" *ngFor="let item of autoCompleteOptions" (click)="onAutoCompleteOption(item)">
-                            {{item.name}} - {{item.summary}}
-                        </div>
-                        <div class="geneset-select" *ngIf="autoCompleteOption">{{autoCompleteOption.name}} - {{autoCompleteOption.summary}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--end Go-->
-            <div id="{{cid}}Oncogenic">
-                <div class="row">
-                    <div class="col s12">
-                        <div class="genseset-desc"> "C6" Microarray gene expression data from cancer 
-                        \gene perturbations.
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col s12">
-                            <div class="input-field col s12">
-                                <input formControlName="search" type="text" id="autocomplete-input">
-                                <label class="geneset-search" for="autocomplete-input">Search</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s12">
-                        <div class="geneset-dropdown" *ngFor="let item of autoCompleteOptions" (click)="onAutoCompleteOption(item)">
-                            {{item.name}} - {{item.summary}}
-                        </div>
-                        <div class="geneset-select" *ngIf="autoCompleteOption">{{autoCompleteOption.name}} - {{autoCompleteOption.summary}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--end Oncogenic-->
-            <div id="{{cid}}Immunologic">
-                <div class="row">
-                    <div class="col s12">
-                        <div class="genseset-desc"> "C7" Microarray gene expression data from immunologic studies.
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col s12">
-                            <div class="input-field col s12">
-                                <input formControlName="search" type="text" id="autocomplete-input">
-                                <label class="geneset-search" for="autocomplete-input">Search</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s12">
-                        <div class="geneset-dropdown" *ngFor="let item of autoCompleteOptions" (click)="onAutoCompleteOption(item)">
-                            {{item.name}} - {{item.summary}}
-                        </div>
-                        <div class="geneset-select" *ngIf="autoCompleteOption">{{autoCompleteOption.name}} - {{autoCompleteOption.summary}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--end Immunologicnic-->
+      
+            <!--end Geneset-->
             <div id="{{cid}}Custom">
                 <div class="row">
                     <div class="col s12">
@@ -330,7 +134,9 @@ export class GenesetPanelComponent implements AfterViewInit {
   geneMap: any;
   autoCompleteOptions: Array<any>;
   autoCompleteOption: any;
-  
+
+  category: {code:string, desc:string};
+
   @Input() bounds: ElementRef;
   @Input() configA: GraphConfig;
   @Input() configB: GraphConfig;
@@ -338,13 +144,32 @@ export class GenesetPanelComponent implements AfterViewInit {
   @Output() hide = new EventEmitter<any>();
   @Output() help: EventEmitter<any> = new EventEmitter();
 
-  // NEED TO ADD
+  setCategory(category: string): void {
+    switch (category){
+        case 'hallmark':
+            this.category = {
+                code: 'H',
+                desc: 'Coherently expressed signatures derived by aggregating many MSigDB gene sets to represent well-defined biological states or processes.'
+                };
+            break;
+        case 'positional':
+            this.category = {
+                code: 'C1',
+                desc: 'Positional'
+                };
+            break;
+        case 'curated':
+            break;
+    }
+  }
+  
   helpClick(): void {
-    // this.help.emit(this.configA.visualization);
+    this.help.emit('GenesetPanel');
   }
 
   ngAfterViewInit(): void {
-    $(this.tabs.nativeElement).tabs();
+    const t = $(this.tabs.nativeElement).tabs();
+    debugger;
   }
 
   getActiveGeneName(): string {
@@ -375,7 +200,7 @@ export class GenesetPanelComponent implements AfterViewInit {
 
   onSearchChange(searchTerm: string): void {
     console.log("SEARCH FOR: " + searchTerm);
-    this.dataService.getGeneSetQuery('H', searchTerm).toPromise()
+    this.dataService.getGeneSetQuery(this.category.code, searchTerm).toPromise()
       .then(result => {
         this.autoCompleteOptions = result;
         this.cd.markForCheck();
@@ -417,6 +242,8 @@ export class GenesetPanelComponent implements AfterViewInit {
       search: [],
       customGeneList: []
     });
+
+    this.setCategory('hallmark');
 
     this.dataService.getGeneMap().toPromise().then(geneMap => {
 

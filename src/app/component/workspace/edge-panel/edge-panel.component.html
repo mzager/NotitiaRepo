@@ -1,8 +1,8 @@
 <div class="card" style="width:250px; background:#FFFFFF;"  [ngDraggable]="true" [handle]="titlebar" [inBounds]="true" [bounds]="bounds">
     <div class="card-title-bar" #titlebar >
         Workspace
-        <i class="tiny material-icons" style="float: right; padding-top: 4px; cursor: pointer"
-        (click)="hide.emit()">close</i>
+        <i class="tiny material-icons" style="float: right; padding-top: 4px; cursor: pointer" (click)="hide.emit()">close</i>
+        <span style="float: right; padding-top: 2px; padding-right:5px; cursor: pointer; font-size:10px;" (click)="helpClick()">Help</span>
     </div>
     <div class="card-tabs">
         <ul class="tabs tabs-fixed-width" #tabs>
