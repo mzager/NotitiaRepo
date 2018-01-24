@@ -1203,6 +1203,12 @@ export class StatFactory {
     // }
     // Two D Recycled Data Formulas
     formatPCALoadings(markers: Array<string>, data: Array<Array<number>>): Array<{ mylabel: string, myvalue: number, color?: number }> {
-        return data[0].sort((a, b) => b - a).splice(0, 20).map((v, i) => ({ mylabel: markers[i], myvalue: Math.round(v * 1e2) / 1e2 }));
+        // Map Data To Marker Names
+        const r = markers.map( (v, i) => ({ marker: v, pc1: data[0][i], pc2: data[1][i], pc3: data[2][i] }))
+            .sort( (a,b) => { return (b.pc1 - a.pc1) } )
+            .map(v => ({mylabel: v.marker, myvalue: Math.round(v.pc1 * 1e2) / 1e2}) ).splice(0, 11);
+        // const o = data[0].sort((a, b) => b - a).splice(0, 20).map((v, i) => ({ mylabel: markers[i], myvalue: Math.round(v * 1e2) / 1e2 }));
+        // debugger;
+        return r;
     }
 }
