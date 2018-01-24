@@ -23,7 +23,10 @@ export class FilePanelComponent {
   @Output() hide = new EventEmitter<any>();
   @Input() tab = 2;
   @Input() bounds: ElementRef;
-  
+
+  helpClick():void { 
+    
+  }
   showDatasource(source: number): void {
     this.tab = source;
   }
