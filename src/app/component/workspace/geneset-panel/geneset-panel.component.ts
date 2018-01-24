@@ -330,7 +330,8 @@ export class GenesetPanelComponent implements AfterViewInit {
   geneMap: any;
   autoCompleteOptions: Array<any>;
   autoCompleteOption: any;
-
+  
+  @Input() bounds: ElementRef;
   @Input() configA: GraphConfig;
   @Input() configB: GraphConfig;
   @Output() configChange = new EventEmitter<GraphConfig>();

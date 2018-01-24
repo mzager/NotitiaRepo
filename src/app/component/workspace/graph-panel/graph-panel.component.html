@@ -1,7 +1,9 @@
-<div class="card" style="margin:40px 10px; width:250px; background:#FFFFFF;" [ngDraggable]="true" [handle]="titlebar">
-    <div class="card-title-bar" #titlebar style="background: #029BE5; color:#FFF; font-weight:normal; font-size:12px; padding:5px 10px;text-transform:uppercase;letter-spacing:1px;">
+<div class="card" style="width:250px; background:#FFFFFF;" [ngDraggable]="true" [handle]="titlebar" [inBounds]="true" [bounds]="bounds">
+    <div class="card-title-bar" #titlebar >
         {{ title }}
+        
         <i class="tiny material-icons" style="float: right; padding-top: 4px; cursor: pointer" (click)="hide.emit()">close</i>
+        
         <span style="float: right; padding-top: 2px; padding-right:5px; cursor: pointer; font-size:10px;" (click)="helpClick()">Help</span>
     </div>
     <div class="card-tabs">

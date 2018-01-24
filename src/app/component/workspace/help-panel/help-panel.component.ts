@@ -49,7 +49,7 @@ declare var $: any;
 export class HelpPanelComponent implements AfterViewInit  {
 
   @ViewChild('tabs') tabs: ElementRef;
-
+  @Input() bounds: ElementRef;
   // Mini Batch Dictionary Learning
   // Mini Batch Sparse PCA
   // Sparse Coder

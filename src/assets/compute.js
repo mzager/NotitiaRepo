@@ -22232,8 +22232,16 @@ exports.timelinesCompute = function (config, worker) {
             // Get Heatmap Stuff
             if (config.attrs !== undefined) {
                 var pas = worker.util.getPatientAttributeSummary(config.patientFilter, config.attrs, config.database);
-                debugger;
                 pas.then(function (attrs) {
+                    legends = legends.concat(attrs.attrs.map(function (attr) {
+                        var legend = new legend_model_1.Legend();
+                        legend.name = attr.prop.replace(/_/gi, ' ');
+                        legend.type = 'COLOR';
+                        legend.display = 'CONTINUOUS';
+                        legend.labels = [attr.min, attr.max].map(function (val) { return Math.round(val).toString(); });
+                        legend.values = [0xFF0000, 0xFF0000];
+                        return legend;
+                    }));
                     worker.postMessage({
                         config: config,
                         data: {
