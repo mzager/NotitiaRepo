@@ -97,6 +97,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 // Get Heatmap Stuff
                 if (config.attrs !== undefined) {
                     const pas = worker.util.getPatientAttributeSummary(config.patientFilter, config.attrs, config.database);
+                    debugger;
                     pas.then(attrs => {
                         worker.postMessage({
                             config: config,

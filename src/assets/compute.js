@@ -22232,6 +22232,7 @@ exports.timelinesCompute = function (config, worker) {
             // Get Heatmap Stuff
             if (config.attrs !== undefined) {
                 var pas = worker.util.getPatientAttributeSummary(config.patientFilter, config.attrs, config.database);
+                debugger;
                 pas.then(function (attrs) {
                     worker.postMessage({
                         config: config,
