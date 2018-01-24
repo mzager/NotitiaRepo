@@ -62,6 +62,9 @@ select.browser-default {
     display: inline-block !important;
     width: 60px;   
 }
+.card {
+    margin:0px;
+}
 .card .card-content{
     padding:0px;
     margin:0px;
@@ -130,3 +133,15 @@ dropdown-content li > a, .dropdown-content li > span {
     line-height: 30px;
     padding: 2px 6px;
 }
+
+
+
+.card-title-bar {
+    background: #029BE5; 
+    color:#FFF; 
+    font-weight:normal; 
+    font-size:12px; 
+    padding:5px 10px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+  }

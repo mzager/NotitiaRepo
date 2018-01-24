@@ -23,7 +23,7 @@ export class EdgePanelComponent implements AfterViewInit {
 
   @ViewChild('chartContainer', { read: ViewContainerRef }) chartContainer: ViewContainerRef;
   @ViewChild('tabs') private tabs: ElementRef;
-
+  @Input() bounds: ElementRef;
   @Input() tables: Array<DataTable>;
   @Input() fields: Array<DataField>;
   @Input() graphAConfig: GraphConfig;

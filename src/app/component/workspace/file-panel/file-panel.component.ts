@@ -22,7 +22,8 @@ export class FilePanelComponent {
   @Output() loadTcga = new EventEmitter<any>();
   @Output() hide = new EventEmitter<any>();
   @Input() tab = 2;
-
+  @Input() bounds: ElementRef;
+  
   showDatasource(source: number): void {
     this.tab = source;
   }

@@ -97,15 +97,14 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 // Get Heatmap Stuff
                 if (config.attrs !== undefined) {
                     const pas = worker.util.getPatientAttributeSummary(config.patientFilter, config.attrs, config.database);
-                    debugger;
                     pas.then(attrs => {
 
-                        legends = legends.concat(attrs.map(attr => { 
+                        legends = legends.concat(attrs.attrs.map(attr => { 
                             const legend: Legend = new Legend();
                             legend.name = attr.prop.replace(/_/gi, ' ');
                             legend.type = 'COLOR';
                             legend.display = 'CONTINUOUS';
-                            legend.labels = [attr.prop.min, attr.prop.max].map(val => Math.round(val).toString());
+                            legend.labels = [attr.min, attr.max].map(val => Math.round(val).toString());
                             legend.values = [0xFF0000, 0xFF0000];
                             return legend;
                         }));
