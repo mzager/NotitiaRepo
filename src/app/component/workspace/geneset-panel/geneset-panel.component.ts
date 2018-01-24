@@ -4,18 +4,18 @@ import { GraphConfig } from './../../../model/graph-config.model';
 import { EntityTypeEnum } from './../../../model/enum.model';
 import { DataField } from 'app/model/data-field.model';
 import {
-  Component, Input, Output, EventEmitter, AfterViewInit,
-  OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef
+    Component, Input, Output, EventEmitter, AfterViewInit,
+    OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef
 } from '@angular/core';
 import { LegendPanelEnum, VisualizationEnum, DirtyEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 declare var $: any;
 
 @Component({
-  selector: 'app-workspace-geneset-panel',
-  styleUrls: ['./geneset-panel.component.scss'],
-  template:
-  `
+    selector: 'app-workspace-geneset-panel',
+    styleUrls: ['./geneset-panel.component.scss'],
+    template:
+        `
 <!-- Card -->
 <div class="card" style="width:800px; background:#FFFFFF;position:Absolute;left:100px;top:100px;" [ngDraggable]="true" [handle]="titlebar">
     <!-- Title Bar Row -->
@@ -28,7 +28,7 @@ declare var $: any;
     <div class="card-tabs">
         <ul class="tabs tabs-fixed-width" #tabs>
             <li class="tab">
-                <a class="active" 
+                <a class="active"
                 href="#{{cid}}Geneset"
                 (click)="setCategory('hallmark')">Hallmark</a>
             </li>
@@ -41,19 +41,24 @@ declare var $: any;
                 (click)="setCategory('curated')">Curated</a>
             </li>
             <li class="tab">
-                <a href="#{{cid}}Geneset">Motif</a>
+                <a href="#{{cid}}Geneset"
+                (click)="setCategory('Motif')">Motif</a>
             </li>
             <li class="tab">
-                <a href="#{{cid}}Geneset">Computational</a>
+                <a href="#{{cid}}Geneset"
+                (click)="setCategory('Computational')">Computational</a>
             </li>
             <li class="tab">
-                <a href="#{{cid}}Geneset">Go</a>
+                <a href="#{{cid}}Geneset"
+                (click)="setCategory('Go')">Go</a>
             </li>
             <li class="tab">
-                <a href="#{{cid}}Geneset">Oncogenic</a>
+                <a href="#{{cid}}Geneset"
+                (click)="setCategory('Oncogenic')">Oncogenic</a>
             </li>
             <li class="tab">
-                <a href="#{{cid}}Geneset">Immunologic</a>
+                <a href="#{{cid}}Geneset"
+                (click)="setCategory('Immunologic')">Immunologic</a>
             </li>
             <li class="tab">
                 <a href="#{{cid}}Custom">Custom</a>
@@ -90,7 +95,6 @@ declare var $: any;
                     </div>
                 </div>
             </div>
-      
             <!--end Geneset-->
             <div id="{{cid}}Custom">
                 <div class="row">
@@ -123,144 +127,178 @@ declare var $: any;
         </form>
     </div>
 </div>`,
-  changeDetection: ChangeDetectionStrategy.Default
+    changeDetection: ChangeDetectionStrategy.Default
 })
 export class GenesetPanelComponent implements AfterViewInit {
 
-  @ViewChild('tabs') tabs: ElementRef;
+    @ViewChild('tabs') tabs: ElementRef;
 
-  form: FormGroup;
-  cid = '';
-  geneMap: any;
-  autoCompleteOptions: Array<any>;
-  autoCompleteOption: any;
+    form: FormGroup;
+    cid = '';
+    geneMap: any;
+    autoCompleteOptions: Array<any>;
+    autoCompleteOption: any;
 
-  category: {code:string, desc:string};
+    category: { code: string, desc: string };
 
-  @Input() bounds: ElementRef;
-  @Input() configA: GraphConfig;
-  @Input() configB: GraphConfig;
-  @Output() configChange = new EventEmitter<GraphConfig>();
-  @Output() hide = new EventEmitter<any>();
-  @Output() help: EventEmitter<any> = new EventEmitter();
+    @Input() bounds: ElementRef;
+    @Input() configA: GraphConfig;
+    @Input() configB: GraphConfig;
+    @Output() configChange = new EventEmitter<GraphConfig>();
+    @Output() hide = new EventEmitter<any>();
+    @Output() help: EventEmitter<any> = new EventEmitter();
 
-  setCategory(category: string): void {
-    switch (category){
-        case 'hallmark':
-            this.category = {
-                code: 'H',
-                desc: 'Coherently expressed signatures derived by aggregating many MSigDB gene sets to represent well-defined biological states or processes.'
+    setCategory(category: string): void {
+        switch (category) {
+            case 'hallmark':
+                this.category = {
+                    code: 'H',
+                    desc: 'Coherently expressed signatures derived by aggregating many MSigDB gene sets to represent well-defined biological states or processes.'
                 };
-            break;
-        case 'positional':
-            this.category = {
-                code: 'C1',
-                desc: 'Positional'
+                break;
+            case 'positional':
+                this.category = {
+                    code: 'C1',
+                    desc: '"C1" Positional gene sets for each human chromosome and cytogenetic band.'
                 };
-            break;
-        case 'curated':
-            break;
+                break;
+            case 'curated':
+                this.category = {
+                    code: 'C2',
+                    desc: '"C2" Online pathway databases, publications in PubMed, and knowledge of domain experts.'
+                };
+                break;
+            case 'Motif':
+                this.category = {
+                    code: 'C3',
+                    desc: '"C3" Conserved cis-regulatory motifs from a comparative analysis of the human, mouse, rat, and dog genomes.'
+                };
+                break;
+            case 'Computational':
+                this.category = {
+                    code: 'C4',
+                    desc: '"C4" Mining large collections of cancer-oriented microarray data.'
+                };
+                break;
+            case 'Go':
+                this.category = {
+                    code: 'C5',
+                    desc: '	"C5" Genes annotated by the same GO terms.'
+                };
+                break;
+            case 'Oncogenic':
+                this.category = {
+                    code: 'C6',
+                    desc: '	"C6 "Microarray gene expression data from cancer gene perturbations.'
+                };
+                break;
+            case 'Immunologic':
+                this.category = {
+                    code: 'C7',
+                    desc: '"C7" Microarray gene expression data from immunologic studies.'
+                };
+                break;
+        }
     }
-  }
-  
-  helpClick(): void {
-    this.help.emit('GenesetPanel');
-  }
 
-  ngAfterViewInit(): void {
-    const t = $(this.tabs.nativeElement).tabs();
-    debugger;
-  }
-
-  getActiveGeneName(): string {
-    return $(this.tabs.nativeElement).find('.active')[0].innerText;
-  }
-
-  // Ignore
-  byName(p1: any, p2: any) {
-    if (p2 === null) { return false; }
-    return p1.name === p2.name;
-  }
-
-  filterGeneset(): void {
-    if (this.getActiveGeneName() === 'CUSTOM') {
-      this.onGeneListChange(this.form.get('customGeneList').value, 'filter');
+    helpClick(): void {
+        this.help.emit('GenesetPanel');
     }
-  }
-  selectGeneset(): void {
-    if (this.getActiveGeneName() === 'CUSTOM') {
-      this.onGeneListChange(this.form.get('customGeneList').value, 'apply');
-    }
-  }
-  onAutoCompleteOption(item: any): void {
-     this.autoCompleteOptions = [];
-     this.autoCompleteOption = item;
-     this.cd.markForCheck();
-  }
 
-  onSearchChange(searchTerm: string): void {
-    console.log("SEARCH FOR: " + searchTerm);
-    this.dataService.getGeneSetQuery(this.category.code, searchTerm).toPromise()
-      .then(result => {
-        this.autoCompleteOptions = result;
+    ngAfterViewInit(): void {
+        const t = $(this.tabs.nativeElement).tabs();
+
+    }
+
+    getActiveGeneName(): string {
+        return $(this.tabs.nativeElement).find('.active')[0].innerText;
+    }
+
+    // Ignore
+    byName(p1: any, p2: any) {
+        if (p2 === null) { return false; }
+        return p1.name === p2.name;
+    }
+
+    filterGeneset(): void {
+        if (this.getActiveGeneName() === 'CUSTOM') {
+            this.onGeneListChange(this.form.get('customGeneList').value, 'filter');
+        }
+    }
+    selectGeneset(): void {
+        if (this.getActiveGeneName() === 'CUSTOM') {
+            this.onGeneListChange(this.form.get('customGeneList').value, 'apply');
+        }
+    }
+    onAutoCompleteOption(item: any): void {
+        this.autoCompleteOptions = [];
+        this.autoCompleteOption = item;
         this.cd.markForCheck();
-      });
-  }
-
-  onGeneListChange(geneList: string, action: string) {
-
-    const genes = geneList.split(',').map(v => v.trim().toUpperCase());
-    const geneMap = this.geneMap;
-    const resolvedGenes = genes.map(gene => geneMap.find(mapItem => {
-      if (mapItem.hugo === gene) { return true; }
-      if (mapItem.symbols.indexOf(gene) !== -1) { return true; }
-      return false;
-    })
-    ).filter(v => v).map(v => v.hugo);
-
-    // Alert User Genes Were Not Found
-    if (genes.length !== resolvedGenes.length) {
-      alert('lost genes');
     }
 
-    if (action === 'filter') {
-      this.configA.markerFilter = resolvedGenes;
-      this.configB.markerFilter = resolvedGenes;
-    } else {
-       this.configA.markerSelect = resolvedGenes;
-       this.configB.markerSelect = resolvedGenes;
+    onSearchChange(searchTerm: string): void {
+        console.log("SEARCH FOR: " + searchTerm);
+        this.dataService.getGeneSetQuery(this.category.code, searchTerm).toPromise()
+            .then(result => {
+                this.autoCompleteOptions = result;
+                this.cd.markForCheck();
+            });
     }
 
-    this.configChange.emit(this.configA);
-    this.configChange.emit(this.configB);
+    onGeneListChange(geneList: string, action: string) {
 
-  }
+        const genes = geneList.split(',').map(v => v.trim().toUpperCase());
+        const geneMap = this.geneMap;
+        const resolvedGenes = genes.map(gene => geneMap.find(mapItem => {
+            if (mapItem.hugo === gene) { return true; }
+            if (mapItem.symbols.indexOf(gene) !== -1) { return true; }
+            return false;
+        })
+        ).filter(v => v).map(v => v.hugo);
 
-  constructor(private cd: ChangeDetectorRef, private fb: FormBuilder, private dataService: DataService) {
+        // Alert User Genes Were Not Found
+        if (genes.length !== resolvedGenes.length) {
+            alert('lost genes');
+        }
 
-    this.form = this.fb.group({
-      search: [],
-      customGeneList: []
-    });
+        if (action === 'filter') {
+            this.configA.markerFilter = resolvedGenes;
+            this.configB.markerFilter = resolvedGenes;
+        } else {
+            this.configA.markerSelect = resolvedGenes;
+            this.configB.markerSelect = resolvedGenes;
+        }
 
-    this.setCategory('hallmark');
+        this.configChange.emit(this.configA);
+        this.configChange.emit(this.configB);
 
-    this.dataService.getGeneMap().toPromise().then(geneMap => {
+    }
 
-      // Save Gene Map
-      this.geneMap = geneMap;
+    constructor(private cd: ChangeDetectorRef, private fb: FormBuilder, private dataService: DataService) {
 
-      // Listens For Changes On The Form And Updates Values
-      this.form.valueChanges
-        .debounceTime(300)  // Wait At Least This Long
-        .distinctUntilChanged() // Throw Away Unless Somethings Different
-        .subscribe(data => {
-          const form = this.form;
-          if (form.get('search').dirty) {
-            this.onSearchChange(form.get('search').value);
-            form.markAsPristine();
-          }
+        this.form = this.fb.group({
+            search: [],
+            customGeneList: []
         });
-    });
-  }
+
+        this.setCategory('hallmark');
+
+        this.dataService.getGeneMap().toPromise().then(geneMap => {
+
+            // Save Gene Map
+            this.geneMap = geneMap;
+
+            // Listens For Changes On The Form And Updates Values
+            this.form.valueChanges
+                .debounceTime(300)  // Wait At Least This Long
+                .distinctUntilChanged() // Throw Away Unless Somethings Different
+                .subscribe(data => {
+                    const form = this.form;
+                    if (form.get('search').dirty) {
+                        this.onSearchChange(form.get('search').value);
+                        form.markAsPristine();
+                    }
+                });
+        });
+    }
 }
