@@ -5,7 +5,7 @@
 
 <div #panelContainer style="pointer-events: none;position:absolute;top:35px;bottom:5px;left:5px;right:5px;">
     <app-workspace-graph-panel 
-        style="pointer-events: all;"
+        style="pointer-events:all;position:relative;"
         *ngIf="graphPanelATab | async"
         [bounds]="panelContainer"
         [title]="'Graph A'"
@@ -46,7 +46,7 @@
         ></app-workspace-graph-panel>
 
     <app-workspace-edge-panel
-        style="pointer-events: all;"
+        style="pointer-events:all;position:relative;"
         *ngIf="edgePanelTab | async"
         [bounds]="panelContainer"
         [tables]="tables | async"
@@ -61,7 +61,7 @@
         ></app-workspace-edge-panel>
 
     <app-workspace-geneset-panel
-        style="pointer-events: all;"
+        style="pointer-events:all;position:relative;"
         [bounds]="panelContainer"
         [configA]="graphAConfig | async"
         [configB]="graphBConfig | async"
@@ -71,7 +71,7 @@
         </app-workspace-geneset-panel>
 
     <app-workspace-clustering-algorithm-panel
-        style="pointer-events: all;"
+        style="pointer-events:all;position:relative;"
         *ngIf="clusteringAlgorithmPanelTab | async"
         [bounds]="panelContainer"
         [configA]="graphAConfig | async"
@@ -81,7 +81,7 @@
         ></app-workspace-clustering-algorithm-panel>
 
     <app-workspace-file-panel
-        style="pointer-events: all;"
+        style="pointer-events:all;position:relative;"
         *ngIf="filePanelTab | async" 
         [bounds]="panelContainer"
         (filesLoad)="filesLoad($event)"
@@ -90,7 +90,7 @@
         ></app-workspace-file-panel>
 
     <app-workspace-query-panel 
-        style="pointer-events: all;"
+        style="pointer-events:all;position:relative;"
         *ngIf="queryPanelTab | async" 
         [bounds]="panelContainer"
         (queryPanelToggle)="queryPanelToggle()"
@@ -101,7 +101,7 @@
         style="position:absolute;left:100px;top:100px;"></app-workspace-query-panel>
 
     <app-workspace-help-panel
-        style="pointer-events: all;"
+        style="pointer-events:all;position:relative;"
         *ngIf="helpPanelTab | async" 
         [bounds]="panelContainer"
         [config]="graphAConfig | async"
