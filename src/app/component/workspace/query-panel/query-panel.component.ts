@@ -22,9 +22,15 @@ declare var $: any;
 export class QueryPanelComponent implements AfterViewInit {
 
   @Input() bounds: ElementRef;
-  
+  @Output() help: EventEmitter<any> = new EventEmitter();
+
   private _configA: GraphConfig;
   private _configB: GraphConfig;
+  
+
+  helpClick(): void {
+    this.help.emit('QueryPanel');
+  }
 
   @Input() set configA(config: GraphConfig) {
     this._configA = config;

@@ -32,6 +32,8 @@ export class EdgePanelComponent implements AfterViewInit {
   @Output() configChange: EventEmitter<GraphConfig> = new EventEmitter();
   @Output() workspaceConfigChange: EventEmitter<WorkspaceConfigModel> = new EventEmitter();
   @Output() hide: EventEmitter<any> = new EventEmitter();
+  @Output() help: EventEmitter<any> = new EventEmitter();
+
   @Input() set workspaceConfig(value: WorkspaceConfigModel) {
     this.layoutOptions = [
       WorkspaceLayoutEnum.SINGLE, WorkspaceLayoutEnum.HORIZONTAL, WorkspaceLayoutEnum.VERTICAL, WorkspaceLayoutEnum.OVERLAY
@@ -50,6 +52,10 @@ export class EdgePanelComponent implements AfterViewInit {
 
   layoutOptions: Array<string>;
   form: FormGroup;
+
+  helpClick():void { 
+    this.help.emit('EdgePanel');
+  }
 
   edgePanelSetConfig(value: GraphConfig): void {
     this.configChange.emit(value);
