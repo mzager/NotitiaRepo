@@ -98,7 +98,7 @@
         [configB]="graphBConfig | async"
         (configChange)="graphPanelSetConfig($event)"
         (hide)="queryPanelToggle()"
-        style="position:absolute;left:100px;top:100px;"></app-workspace-query-panel>
+        ></app-workspace-query-panel>
 
     <app-workspace-help-panel
         style="pointer-events:all;position:relative;"
@@ -106,7 +106,7 @@
         [bounds]="panelContainer"
         [config]="graphAConfig | async"
         (hide)="helpPanelToggle()"
-        style="position:absolute;left:100px;top:100px;">
+        >
         </app-workspace-help-panel>
 </div>
 
