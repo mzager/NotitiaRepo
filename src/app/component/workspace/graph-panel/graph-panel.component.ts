@@ -54,6 +54,7 @@ export class GraphPanelComponent implements AfterViewInit  {
 
   @ViewChild('tabs') tabs: ElementRef;
 
+  @Input() bounds: ElementRef;
   @Input() title: string;
   @Input() cid: string;
   @Input() tables: Array<DataTable>;
@@ -214,7 +215,6 @@ export class GraphPanelComponent implements AfterViewInit  {
   constructor() {
     this.cid = Math.random().toString(36).replace(/[^a-z]+/g, '');
     this.visualizationOptions = [
-      
       { value: VisualizationEnum.PATHWAYS, label: 'Pathways'},
       { value: VisualizationEnum.GENOME, label: 'Genome' },
       { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
