@@ -68,10 +68,18 @@ export class QueryPanelComponent implements AfterViewInit {
   @Output() queryPanelToggle = new EventEmitter();
   @Output() configChange = new EventEmitter<GraphConfig>();
 
+  reset(): void { 
+    this._configA.patientFilter = [];
+    this._configA.dirtyFlag = DirtyEnum.LAYOUT;
+    this.configChange.next(this._configA);
+    this.hide.emit();
+  }
+
   ngAfterViewInit(): void {
 
   }
   filter(): void {
+    
     this.dataService.getPatientIdsWithQueryBuilderCriteria(this._configA.database, this.cfg, this.query).then( pids => {
       this._configA.patientFilter = pids;
       this.dataService.getSampleIdsWithPatientIds( this._configA.database, pids ).then( sids => {
