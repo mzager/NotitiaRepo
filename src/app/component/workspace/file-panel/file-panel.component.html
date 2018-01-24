@@ -1,5 +1,5 @@
-<div class="card" style="width:800px;height:auto; background:#FFFFFF;position:absolute;left:100px;top:100px;">
-    <div class="card-title-bar" #titlebar style="background: #029BE5; color:#FFF; font-weight:normal; font-size:12px; padding:5px 10px;text-transform:uppercase;letter-spacing:1px;">
+<div class="card" style="width:800px;height:auto;background:#FFFFFF;"  [ngDraggable]="true" [handle]="titlebar" [inBounds]="true" [bounds]="bounds">
+    <div class="card-title-bar" #titlebar >
         Data Source
         <i class="tiny material-icons" style="float: right; padding-top: 4px; cursor: pointer"
             (click)="hide.emit()">close</i>

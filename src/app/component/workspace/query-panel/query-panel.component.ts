@@ -21,6 +21,8 @@ declare var $: any;
 })
 export class QueryPanelComponent implements AfterViewInit {
 
+  @Input() bounds: ElementRef;
+  
   private _configA: GraphConfig;
   private _configB: GraphConfig;
 
