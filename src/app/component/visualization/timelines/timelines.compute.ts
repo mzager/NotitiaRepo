@@ -69,7 +69,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 result = result.map(v => Object.assign(v, { color: colorMap[v.subtype], bar: barMap[v.subtype] }));
 
                 // Build Legend
-                const legends = config.bars.map(v => { 
+                let legends = config.bars.map(v => { 
                     const rv = new Legend();
                     rv.name = v.label;
                     rv.type = "COLOR";
@@ -99,6 +99,17 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                     const pas = worker.util.getPatientAttributeSummary(config.patientFilter, config.attrs, config.database);
                     debugger;
                     pas.then(attrs => {
+
+                        legends = legends.concat(attrs.map(attr => { 
+                            const legend: Legend = new Legend();
+                            legend.name = attr.prop.replace(/_/gi, ' ');
+                            legend.type = 'COLOR';
+                            legend.display = 'CONTINUOUS';
+                            legend.labels = [attr.prop.min, attr.prop.max].map(val => Math.round(val).toString());
+                            legend.values = [0xFF0000, 0xFF0000];
+                            return legend;
+                        }));
+                        
                         worker.postMessage({
                             config: config,
                             data: {
