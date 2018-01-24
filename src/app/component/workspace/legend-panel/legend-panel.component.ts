@@ -149,7 +149,7 @@ export class LegendPanelComponent implements AfterViewInit {
         switch (legend.type) {
           case 'COLOR':
             group.append('text')
-              .text('Color')
+              .text( (legend.name === '') ? 'Color' : legend.name)
               .attr('x', '0px')
               .attr('y', yOffset + 15)
               .attr('fill', '#9e9e9e')
