@@ -1,9 +1,9 @@
-<div class="card" style="width:250px; background:#FFFFFF;" [ngDraggable]="true" [handle]="titlebar" [inBounds]="true" [bounds]="bounds"
+<div class="card" style="width:285px; background:#FFFFFF;" [ngDraggable]="true" [handle]="titlebar" [inBounds]="true" [bounds]="bounds"
     [zIndex]="zIndex" [zIndexMoving]="99999" (click)="panelFocus()">
     <div class="card-title-bar" #titlebar >
         {{ title }}
         <i class="tiny material-icons" style="float: right; padding-top: 4px; cursor: pointer" (click)="hide.emit()">close</i>
-        <span style="float: right; padding-top: 2px; padding-right:5px; cursor: pointer; font-size:10px;" (click)="helpClick()">Help</span>
+        <span style="float: right;padding-right:5px; cursor: pointer;" (click)="helpClick()">Help</span>
     </div>
     <div class="card-tabs">
         <ul class="tabs tabs-fixed-width" #tabs>
@@ -24,8 +24,8 @@
                 <div class="form-group">
                     <label class="center-block">
                         <span class="form-label">Filters</span>
-                        <button class="browser-default btn-config" style="width:71px;" (click)="selectGeneset.emit()">Gene Set</button>
-                        <button class="browser-default btn-config" style="width:71px;" (click)="selectCohort.emit()">Cohort</button>
+                        <button class="browser-default btn-config" style="width:78px;" (click)="selectGeneset.emit()">Gene Set</button>
+                        <button class="browser-default btn-config" style="width:78px;" (click)="selectCohort.emit()">Cohort</button>
                     </label>
                 </div>
                 <div class="form-group">

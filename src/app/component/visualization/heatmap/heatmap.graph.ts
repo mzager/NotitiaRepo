@@ -88,6 +88,7 @@ export class HeatmapGraph implements ChartObjectInterface {
 
     }
     addObjects() {
+        debugger;
         const addNode = (tree, index, parent) => {
             const node = {i: index, children: [], data: tree[index]};
             parent.children.push(node);
