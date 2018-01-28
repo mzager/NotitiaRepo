@@ -212,6 +212,7 @@ export class GenomeGraph implements ChartObjectInterface {
     }
 
     removeObjects() {
+
         while (this.group.children.length) {
             this.group.remove(this.group.children[0]);
         }

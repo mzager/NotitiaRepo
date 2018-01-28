@@ -88,6 +88,7 @@ import { QuadradicDiscriminantAnalysisFormComponent } from 'app/component/visual
 import { LinearDiscriminantAnalysisFormComponent } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.form.component';
 import { MiniBatchDictionaryLearningFormComponent } from 'app/component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.form.component';
 import { QueryBuilderComponent } from 'app/component/workspace/query-panel/query-builder/query-builder.component';
+import { ModalService } from 'app/service/modal-service';
 
 @NgModule({
   declarations: [
@@ -180,6 +181,7 @@ import { QueryBuilderComponent } from 'app/component/workspace/query-panel/query
     ChartFactory,
     HttpClient,
     NcbiService,
+    ModalService,
     OAuthService,
     IlluminaService
   ],

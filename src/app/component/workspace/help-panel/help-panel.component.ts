@@ -1,3 +1,4 @@
+import { ModalService } from './../../../service/modal-service';
 import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
 import { HicConfigModel } from './../../visualization/hic/hic.model';
 import { ParallelCoordsConfigModel } from './../../visualization/parallelcoords/parallelcoords.model';
@@ -31,13 +32,14 @@ import { ChromosomeConfigModel } from './../../visualization/chromosome/chromoso
 import { GraphConfig } from './../../../model/graph-config.model';
 import { EntityTypeEnum } from './../../../model/enum.model';
 import { DataField } from 'app/model/data-field.model';
-import { Component, Input, Output, ChangeDetectionStrategy,
+import { Component, Input, Output, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy,
   EventEmitter, AfterViewInit, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { LegendPanelEnum, VisualizationEnum, GraphEnum, DirtyEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
 import { GraphData } from 'app/model/graph-data.model';
 import { DataService } from 'app/service/data.service';
+import { Subscription } from 'rxjs/Subscription';
 declare var $: any;
 
 @Component({
@@ -46,7 +48,7 @@ declare var $: any;
   styleUrls: ['./help-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HelpPanelComponent implements AfterViewInit  {
+export class HelpPanelComponent implements AfterViewInit, OnDestroy  {
 
   @ViewChild('tabs') tabs: ElementRef;
   @Input() bounds: ElementRef;
@@ -95,6 +97,8 @@ export class HelpPanelComponent implements AfterViewInit  {
     });
   }
 
+  zIndex = 1000;
+  focusSubscription: Subscription;
   method = '';
   desc = '';
   url = '';
@@ -106,8 +110,15 @@ export class HelpPanelComponent implements AfterViewInit  {
   ngAfterViewInit(): void {
     $( this.tabs.nativeElement ).tabs();
   }
+  ngOnDestroy(): void{
+    this.focusSubscription.unsubscribe();
+  }
 
-  constructor(private dataService: DataService) {
+  constructor(private dataService: DataService, private ms: ModalService, private cd: ChangeDetectorRef) {
+    this.focusSubscription = this.ms.$focus.subscribe(v => {
+      this.zIndex = (v === 'helpPanel') ? 1001 : 1000;
+      this.cd.markForCheck();
+    });
   }
 
 }

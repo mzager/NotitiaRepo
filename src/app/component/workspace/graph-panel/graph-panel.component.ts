@@ -1,3 +1,4 @@
+import { ModalService } from './../../../service/modal-service';
 import { QuadradicDiscriminantAnalysisConfigModel } from './../../visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
 import { LinearDiscriminantAnalysisConfigModel } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
 import { MiniBatchDictionaryLearningConfigModel } from './../../visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
@@ -35,12 +36,15 @@ import { ChromosomeConfigModel } from './../../visualization/chromosome/chromoso
 import { GraphConfig } from './../../../model/graph-config.model';
 import { EntityTypeEnum } from './../../../model/enum.model';
 import { DataField } from 'app/model/data-field.model';
-import { Component, Input, Output, ChangeDetectionStrategy,
-  EventEmitter, AfterViewInit, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component, Input, Output, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy,
+  EventEmitter, AfterViewInit, OnInit, ViewChild, ElementRef
+} from '@angular/core';
 import { LegendPanelEnum, VisualizationEnum, GraphEnum, DirtyEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
 import { GraphData } from 'app/model/graph-data.model';
+import { Subscription } from 'rxjs/Subscription';
 declare var $: any;
 
 @Component({
@@ -49,7 +53,7 @@ declare var $: any;
   styleUrls: ['./graph-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GraphPanelComponent implements AfterViewInit  {
+export class GraphPanelComponent implements AfterViewInit, OnDestroy {
 
 
   @ViewChild('tabs') tabs: ElementRef;
@@ -59,7 +63,7 @@ export class GraphPanelComponent implements AfterViewInit  {
   @Input() cid: string;
   @Input() tables: Array<DataTable>;
   @Input() fields: Array<DataField>;
-  @Input() events: Array<{type: string, subtype: string}>;
+  @Input() events: Array<{ type: string, subtype: string }>;
 
   @Input() molecularData: Array<string>;
   @Input() clinicalFields: Array<DataField>;
@@ -74,7 +78,9 @@ export class GraphPanelComponent implements AfterViewInit  {
   @Output() selectGeneset: EventEmitter<any> = new EventEmitter();
   @Output() selectCohort: EventEmitter<any> = new EventEmitter();
 
-  visualizationOptions: Array<{value: VisualizationEnum, label: string}>;
+  zIndex = 1000;
+  focusSubscription: Subscription;
+  visualizationOptions: Array<{ value: VisualizationEnum, label: string }>;
 
   helpClick(): void {
     this.help.emit(this.config.visualization);
@@ -194,7 +200,7 @@ export class GraphPanelComponent implements AfterViewInit  {
       gc.pointShape = prevConfig.pointShape;
       gc.pointSize = prevConfig.pointSize;
       gc.graph = (this.title === 'Graph A') ? GraphEnum.GRAPH_A : GraphEnum.GRAPH_B;
-      this.configChange.emit( gc );
+      this.configChange.emit(gc);
     }
   }
 
@@ -208,59 +214,62 @@ export class GraphPanelComponent implements AfterViewInit  {
     this.configChange.emit(value);
   }
 
-  ngAfterViewInit(): void {
-    $( this.tabs.nativeElement ).tabs();
-  }
+  ngAfterViewInit(): void { $(this.tabs.nativeElement).tabs(); }
 
-  constructor() {
+  ngOnDestroy():void { this.focusSubscription.unsubscribe(); }
+
+  panelFocus():void { this.ms.$focus.next('graphPanel'+this.cid); }
+
+  constructor(private ms: ModalService, private cd: ChangeDetectorRef) {
+
+
+
     this.cid = Math.random().toString(36).replace(/[^a-z]+/g, '');
     this.visualizationOptions = [
-      { value: VisualizationEnum.PATHWAYS, label: 'Pathways'},
+      { value: VisualizationEnum.PATHWAYS, label: 'Pathways' },
       { value: VisualizationEnum.GENOME, label: 'Genome' },
       { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
       { value: VisualizationEnum.HIC, label: 'Force Directed Graph' },
-      { value: VisualizationEnum.HEATMAP, label: 'Heatmap'},
-      { value: VisualizationEnum.BOX_WHISKERS, label: 'Box Whiskers'},
-      { value: VisualizationEnum.TIMELINES, label: 'Timelines'},
+      { value: VisualizationEnum.HEATMAP, label: 'Heatmap' },
+      { value: VisualizationEnum.BOX_WHISKERS, label: 'Box Whiskers' },
+      { value: VisualizationEnum.TIMELINES, label: 'Timelines' },
 
       // Decomposition
-      { value: VisualizationEnum.DICTIONARY_LEARNING, label: 'Dictionary Learning'},
-      { value: VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING, label: 'Dictionary Learning - Mini Batch '},
-      { value: VisualizationEnum.FA, label: 'Factor Analysis'},
-      { value: VisualizationEnum.FAST_ICA, label: 'Fast ICA'},
-      { value: VisualizationEnum.LDA, label: 'Latent Dirichlet Allocation'},
-      { value: VisualizationEnum.NMF, label: 'Non-Negative Matrix Factorization'},
+      { value: VisualizationEnum.DICTIONARY_LEARNING, label: 'Dictionary Learning' },
+      { value: VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING, label: 'Dictionary Learning - Mini Batch ' },
+      { value: VisualizationEnum.FA, label: 'Factor Analysis' },
+      { value: VisualizationEnum.FAST_ICA, label: 'Fast ICA' },
+      { value: VisualizationEnum.LDA, label: 'Latent Dirichlet Allocation' },
+      { value: VisualizationEnum.NMF, label: 'Non-Negative Matrix Factorization' },
       { value: VisualizationEnum.PCA, label: 'PCA' },
-      { value: VisualizationEnum.INCREMENTAL_PCA, label: 'PCA - Incremental'},
-      { value: VisualizationEnum.KERNAL_PCA, label: 'PCA - Kernel'},
-      { value: VisualizationEnum.SPARSE_PCA, label: 'PCA - Sparse'},
-      { value: VisualizationEnum.MINI_BATCH_SPARSE_PCA, label: 'PCA - Sparse - Mini Batch'},
-      { value: VisualizationEnum.TRUNCATED_SVD, label: 'Truncated SVD'},
+      { value: VisualizationEnum.INCREMENTAL_PCA, label: 'PCA - Incremental' },
+      { value: VisualizationEnum.KERNAL_PCA, label: 'PCA - Kernel' },
+      { value: VisualizationEnum.SPARSE_PCA, label: 'PCA - Sparse' },
+      { value: VisualizationEnum.MINI_BATCH_SPARSE_PCA, label: 'PCA - Sparse - Mini Batch' },
+      { value: VisualizationEnum.TRUNCATED_SVD, label: 'Truncated SVD' },
 
       // { value: VisualizationEnum.SPARSE_CODER, label: 'Sparse Coder'},
-      
-      
+
+
       // Manifold learning
-      { value: VisualizationEnum.ISOMAP, label: 'Isomap'},
-      { value: VisualizationEnum.LOCALLY_LINEAR_EMBEDDING, label: 'Locally Linear Embedding'},
-      { value: VisualizationEnum.MDS, label: 'Multi-Dimensional Scaling'},
-      { value: VisualizationEnum.SPECTRAL_EMBEDDING, label: 'Spectral Embedding'},
-      { value: VisualizationEnum.TSNE, label: 'T-SNE'},
+      { value: VisualizationEnum.ISOMAP, label: 'Isomap' },
+      { value: VisualizationEnum.LOCALLY_LINEAR_EMBEDDING, label: 'Locally Linear Embedding' },
+      { value: VisualizationEnum.MDS, label: 'Multi-Dimensional Scaling' },
+      { value: VisualizationEnum.SPECTRAL_EMBEDDING, label: 'Spectral Embedding' },
+      { value: VisualizationEnum.TSNE, label: 'T-SNE' },
 
       // Discriminant Analysis
-      { value: VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS, label: 'Linear Discriminat Analysis'},
-      { value: VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS, label: 'Quadratic Discriminant Analysis'},
+      { value: VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS, label: 'Linear Discriminat Analysis' },
+      { value: VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS, label: 'Quadratic Discriminant Analysis' },
 
+      // Random Projection
+      // Gaussian, Sparse
 
-// Random Projection
-  // Gaussian, Sparse
+      // Cross Decomposition
+      // CCA, PLSCanonical, PLSRegression
 
-// Cross Decomposition
-  // CCA, PLSCanonical, PLSRegression
-
-// SVM
-  // LinearSVC, LinearSVR, NuSVC, NuSVR, OneClassSvm, SVC, SVR
-
+      // SVM
+      // LinearSVC, LinearSVR, NuSVC, NuSVR, OneClassSvm, SVC, SVR
       // { value: VisualizationEnum.PLS, label: 'Partial Least Squares'},
       // { value: VisualizationEnum.SOM, label: 'SOM '},
       // { value: VisualizationEnum.DA, label: 'Discriminat Analysis '},
@@ -268,10 +277,13 @@ export class GraphPanelComponent implements AfterViewInit  {
       // { value: VisualizationEnum.DE, label: 'Differential Expression '},
       // { value: VisualizationEnum.PARALLEL_COORDS, label: 'Parallel Coordinates'},
       // { value: VisualizationEnum.SURVIVAL, label: 'Kaplan Meier Curve Beta'},
-      
-      
+
+
     ];
+
+    this.focusSubscription = this.ms.$focus.subscribe(v => {
+      this.zIndex = (v === 'graphPanel' + this.cid) ? 1001 : 1000;
+      this.cd.markForCheck();
+    });
   }
-
-
 }

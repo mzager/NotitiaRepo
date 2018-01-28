@@ -1,3 +1,4 @@
+import { ModalService } from './../../../service/modal-service';
 import { QueryBuilderConfig } from 'app/component/workspace/query-panel/query-builder/query-builder.interfaces';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { DataService } from './../../../service/data.service';
@@ -6,12 +7,13 @@ import { EntityTypeEnum, DataTypeEnum } from './../../../model/enum.model';
 import { DataField } from './../../../model/data-field.model';
 import { Observable } from 'rxjs/Observable';
 import {
-  Component, OnInit, ViewChild, ElementRef,
+  Component, OnInit, ViewChild, ElementRef, OnDestroy, ChangeDetectorRef,
   Input, Output, AfterViewInit, EventEmitter
 } from '@angular/core';
 import * as d3 from 'D3';
 import { tree } from 'd3-hierarchy';
 import * as _ from 'lodash';
+import { Subscription } from 'rxjs/Subscription';
 declare var $: any;
 
 @Component({
@@ -19,7 +21,10 @@ declare var $: any;
   templateUrl: './query-panel.component.html',
   styleUrls: ['./query-panel.component.scss']
 })
-export class QueryPanelComponent implements AfterViewInit {
+export class QueryPanelComponent implements AfterViewInit, OnDestroy {
+
+  // Elements
+  @ViewChild('tabs') tabs: ElementRef;
 
   @Input() bounds: ElementRef;
   @Output() help: EventEmitter<any> = new EventEmitter();
@@ -28,10 +33,7 @@ export class QueryPanelComponent implements AfterViewInit {
   private _configB: GraphConfig;
   
 
-  helpClick(): void {
-    this.help.emit('QueryPanel');
-  }
-
+  helpClick(): void { this.help.emit('QueryPanel'); }
   @Input() set configA(config: GraphConfig) {
     this._configA = config;
     this.dataService.getQueryBuilderConfig(config.database).then(result => {
@@ -60,6 +62,8 @@ export class QueryPanelComponent implements AfterViewInit {
     // });
   }
 
+  zIndex = 1000;
+  focusSubscription: Subscription;
   showBuilder = false;
   cfg: QueryBuilderConfig;
   query: any;
@@ -75,9 +79,8 @@ export class QueryPanelComponent implements AfterViewInit {
     this.hide.emit();
   }
 
-  ngAfterViewInit(): void {
-
-  }
+  
+  
   filter(): void {
     
     this.dataService.getPatientIdsWithQueryBuilderCriteria(this._configA.database, this.cfg, this.query).then( pids => {
@@ -93,10 +96,14 @@ export class QueryPanelComponent implements AfterViewInit {
   select(): void {
     console.dir(this.query);
   }
-  constructor(private dataService: DataService) {
 
+  // Life Cycle
+  ngOnDestroy(): void{ this.focusSubscription.unsubscribe(); }
+  ngAfterViewInit(): void { $(this.tabs.nativeElement).tabs(); }
+  constructor(private dataService: DataService, private ms: ModalService, private cd: ChangeDetectorRef) {
+    this.focusSubscription = this.ms.$focus.subscribe(v => {
+      this.zIndex = (v === 'queryPanel') ? 1001 : 1000;
+      this.cd.markForCheck();
+    });
   }
-
-
-
 }
