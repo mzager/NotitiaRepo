@@ -29,12 +29,16 @@ export class DataService {
     return Observable.fromPromise(DataService.db.table('bandcoords').toArray());
   }
   getGeneSetByCategory(categoryCode: string): Observable<any> {
+    var subcats = ['CGP','CP','CP:BIOCARTA','CP:KEGG','CP:REACTOME','MIR','TFT','CGN','CM','BP','CC','MF','C6','c7'];
+    var field = (subcats.indexOf(categoryCode) === -1) ? 'category' : 'subcategory';
     return this.http
       .get(DataService.API_PATH +
-      'z_lookup_geneset/%7B%22$fields%22:[%22name%22,%22hugo%22,%22summary%22],%20%22$query%22:%7B%22category%22:%22' +
-      categoryCode +
-      '%22%7D%20%7D')
-      .map(res => res.json());
+        'z_lookup_geneset/%7B%22$fields%22:[%22name%22,%22hugo%22,%22summary%22],%20%22$query%22:%7B%22' +
+        field + '%22:%22' +
+        categoryCode +
+        '%22%7D%20%7D')  
+      .map(res => res.json())
+      
   }
   getGeneSetQuery(categoryCode: string, searchTerm: string): Observable<any> {
     return this.http
@@ -251,6 +255,77 @@ export class DataService {
           resolve(ids);
         });
 
+      });
+    });
+  }
+
+  getGenesetCategories(): Promise<Array<{c:string, n:string, d:string}>> { 
+    return this.http
+      .get('https://s3-us-west-2.amazonaws.com/notitia/reference/genesets.json.gz')
+      .map(res => res.json()).toPromise();
+  }
+  getGenesets(category: string): Promise<Array<any>> {
+    return this.http
+      .get('https://s3-us-west-2.amazonaws.com/notitia/reference/geneset-' + category.toLowerCase() + '.json.gz')
+      .map(res => res.json()).toPromise();
+  }
+  getCustomGenesets(database: string): Promise<any>{
+    return new Promise((resolve, reject) => {
+      const db = new Dexie('notitia-' + database);
+      db.open().then(v => {
+        v.table('genesets').toArray().then(result => {
+          resolve(result);
+        });
+      });
+    });
+  }
+  createCustomGeneset(database: string, name: string, genes: Array<string>): Promise<any>{
+    return new Promise((resolve, reject) => {
+      const db = new Dexie('notitia-' + database);
+      db.open().then(v => {
+        v.table('genesets').add({n:name, g:genes}).then(v => { 
+          resolve(v);
+        });
+      });
+    });
+  }
+  deleteCustomGeneset(database: string, name: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const db = new Dexie('notitia-' + database);
+      db.open().then(v => {
+        v.table('genesets').delete(name).then(v => { 
+          resolve(v);
+        });
+      });
+    });
+  }
+  getCustomCohorts(database: string): Promise<any>{
+    return new Promise((resolve, reject) => {
+      const db = new Dexie('notitia-' + database);
+      db.open().then(v => {
+        v.table('cohorts').toArray().then(result => {
+          resolve(result[0]);
+        });
+      });
+    });
+  }
+  createCustomCohort(database: string, name: string, genes: Array<string>): Promise<any>{
+    return new Promise((resolve, reject) => {
+      const db = new Dexie('notitia-' + database);
+      db.open().then(v => {
+        v.table('cohorts').add({n:name, g:genes}).then(v => { 
+          resolve(v);
+        });
+      });
+    });
+  }
+  deleteCustomCohort(database: string, name: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const db = new Dexie('notitia-' + database);
+      db.open().then(v => {
+        v.table('cohorts').delete(name).then(v => { 
+          resolve(v);
+        });
       });
     });
   }

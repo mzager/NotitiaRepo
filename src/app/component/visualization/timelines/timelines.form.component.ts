@@ -92,7 +92,6 @@ export class TimelinesFormComponent {
     if (events === null) { return; }
     if (events.length === 0) { return ; }
     const groups = _.groupBy(events, 'type');
-
     const control = <FormArray>this.form.controls['bars'];
     Object.keys(groups).forEach( group => {
       const fg = this.fb.group({

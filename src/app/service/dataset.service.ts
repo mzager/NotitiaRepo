@@ -67,8 +67,10 @@ export class DatasetService {
             if (exists) {
               this.loader$.next(manifest);
               return;
-              // Dexie.delete('notitia-' + manifest.disease);
             }
+            // Add Chort Table Defs
+            response.schema.cohorts = "++, n";
+            response.schema.genesets = "++, n";
             const db = DatasetService.db = new Dexie('notitia-' + manifest.disease);
             console.log('start: ' + new Date().getTime());
             DatasetService.db.on('versionchange', function (event) { });
