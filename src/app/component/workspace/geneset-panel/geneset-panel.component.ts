@@ -20,13 +20,13 @@ declare var $: any;
     template:
         `
 <!-- Card -->
-<div class="card" style="width:300px;background:#FFFFFF;" [ngDraggable]="true" [handle]="titlebar" [inBounds]="true" [bounds]="bounds"
+<div class="card" style="width:285px;background:#FFFFFF;" [ngDraggable]="true" [handle]="titlebar" [inBounds]="true" [bounds]="bounds"
     [zIndex]="zIndex" [zIndexMoving]="99999" (click)="this.ms.$focus.next('genesetPanel');">
     <!-- Title Bar Row -->
     <div class="card-title-bar" #titlebar style="background: #029BE5; color:#FFF; font-weight:normal; font-size:12px; padding:5px 10px;
         text-transform:uppercase;letter-spacing:1px;">Gene Sets
         <i class="tiny material-icons" style="float: right; padding-top: 4px; cursor: pointer" (click)="hide.emit()">close</i>
-        <span style="float: right; padding-top: 2px; padding-right:5px; cursor: pointer; font-size:10px;" (click)="helpClick()">Help</span>
+        <span style="float: right; padding-right:5px; cursor: pointer;" (click)="helpClick()">Help</span>
     </div>
     <!-- Card Tabs -->
     <div class="card-tabs">
@@ -43,9 +43,9 @@ declare var $: any;
     <div class="card-content">
     
         <div id="GenesetPanelCreate">
-            <div class="center-block" style="padding:20px; font-size:0.8rem;">
+            <div class="center-block" style="padding:20px; font-size:1rem;">
                 <span class="form-label" style="width:100%">Gene Set Name</span>
-                <input class="browser-default" style="border: solid 1px #dddddd; font-size:0.8rem;"
+                <input class="browser-default"
                     [(ngModel)]='customGenesetName'
                     placeholder="Enter Gene Set Name">
                 <span class="form-label" style="width:100%">Gene List</span>
@@ -57,17 +57,17 @@ declare var $: any;
         </div>
 
         <div id="GenesetPanelLoad">   
-            <div class="center-block" style="font-size:.8rem; color:#666; border: solid 1px #dddddd;border-radius:3px;margin: 20px 20px 0px 20px;">
-                <select class="browser-default" materialize="material_select" style="width:85px;border:0px;line-height:22px;margin:0px;"
+            <div class="center-block" style="border: solid 1px #dddddd;border-radius:3px;margin: 20px 20px 0px 20px;">
+                <select class="browser-default" materialize="material_select" style="width:75px;display:inline-block;border-bottom-width:0px;"
                     (change)="collectionChange($event.target.value)">
                     <option *ngFor="let option of collections">{{option.n}}</option>
                 </select>
-                <input id="filter" class="browser-default" style="border:0px solid #dddddd;line-height:22px;width:148px;margin:0px;border-left-width:1px;font-size:0.8rem;padding:0px 10px;"
+                <input id="filter" class="browser-default" style="border:0px solid #dddddd;width:143px;margin:0px;border-left-width:1px;padding:0px 10px;display:inline-block;"
                     placeholder="Filter"
                     (keyup)="filterChange($event.target.value)">
             </div>
             <div class="results" style="max-height:300px;overflow-y:scroll;overflow-x:wrap;padding:20px;">
-                <div style="font-size:0.8rem;" style="padding-bottom:5px;">
+                <div style="font-size:0.9rem;" style="padding-bottom:5px;">
                     <div style='font-weight:700;'>{{collection.n}}</div>
                     {{collection.d}}
                 </div>
