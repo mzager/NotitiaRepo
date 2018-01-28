@@ -1,4 +1,5 @@
-<div class="card" style="width:500px; background:#FFFFFF;"  [ngDraggable]="true" [handle]="titlebar" [inBounds]="true" [bounds]="bounds">
+<div class="card" style="width:500px; background:#FFFFFF;"  [ngDraggable]="true" [handle]="titlebar" [inBounds]="true" [bounds]="bounds"
+    [zIndex]="zIndex" [zIndexMoving]="99999" (click)="this.ms.$focus.next('helpPanel');">
     <div class="card-title-bar" #titlebar>
         {{method}}
         <i class="tiny material-icons" style="float: right; padding-top: 4px; cursor: pointer" (click)="hide.emit()">close</i>
