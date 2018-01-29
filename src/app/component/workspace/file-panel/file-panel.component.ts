@@ -24,8 +24,7 @@ export class FilePanelComponent {
   @Input() tab = 2;
   @Input() bounds: ElementRef;
 
-  helpClick():void { 
-    
+  helpClick(): void {
   }
   showDatasource(source: number): void {
     this.tab = source;
