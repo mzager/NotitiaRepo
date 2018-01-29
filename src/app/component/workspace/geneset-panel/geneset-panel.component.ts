@@ -20,65 +20,69 @@ declare var $: any;
     template:
         `
 <!-- Card -->
-<div class="card" style="width:285px;background:#FFFFFF;" [ngDraggable]="true" [handle]="titlebar" [inBounds]="true" [bounds]="bounds"
-    [zIndex]="zIndex" [zIndexMoving]="99999" (click)="this.ms.$focus.next('genesetPanel');">
+<div class='card' style='width:285px;background:#FFFFFF;' [ngDraggable]='true' [handle]='titlebar' [inBounds]='true' [bounds]='bounds'
+    [zIndex]='zIndex' [zIndexMoving]='99999' (click)='this.ms.$focus.next("genesetPanel");'>
     <!-- Title Bar Row -->
-    <div class="card-title-bar" #titlebar style="background: #029BE5; color:#FFF; font-weight:normal; font-size:12px; padding:5px 10px;
-        text-transform:uppercase;letter-spacing:1px;">Gene Sets
-        <i class="tiny material-icons" style="float: right; padding-top: 4px; cursor: pointer" (click)="hide.emit()">close</i>
-        <span style="float: right; padding-right:5px; cursor: pointer;" (click)="helpClick()">Help</span>
+    <div class='card-title-bar' #titlebar style='background: #029BE5; color:#FFF; font-weight:normal; font-size:12px; padding:5px 10px;
+        text-transform:uppercase;letter-spacing:1px;'>Gene Sets
+        <i class='tiny material-icons' style='float: right; padding-top: 4px; cursor: pointer' (click)='hide.emit()'>close</i>
+        <span style='float: right; padding-right:5px; cursor: pointer;' (click)='helpClick()'>Help</span>
     </div>
     <!-- Card Tabs -->
-    <div class="card-tabs">
-        <ul class="tabs tabs-fixed-width" #tabs>
-            <li class="tab">
-                <a class="active" href="#GenesetPanelLoad">Load</a>
+    <div class='card-tabs'>
+        <ul class='tabs tabs-fixed-width' #tabs>
+            <li class='tab'>
+                <a class='active' href='#GenesetPanelLoad'>Load</a>
             </li>
-            <li class="tab">
-                <a href="#GenesetPanelCreate">Create</a>
+            <li class='tab'>
+                <a href='#GenesetPanelCreate'>Create</a>
             </li>
         </ul>
     </div>
     <!-- Panel Content -->
-    <div class="card-content">
-    
-        <div id="GenesetPanelCreate">
-            <div class="center-block" style="padding:20px; font-size:1rem;">
-                <span class="form-label" style="width:100%">Gene Set Name</span>
-                <input class="browser-default"
+    <div class='card-content'>
+        <div id='GenesetPanelCreate'>
+            <div class='center-block' style='padding:20px; font-size:1rem;'>
+                <span class='form-label' style='width:100%'>Gene Set Name</span>
+                <input class='browser-default' type='text'
                     [(ngModel)]='customGenesetName'
-                    placeholder="Enter Gene Set Name">
-                <span class="form-label" style="width:100%">Gene List</span>
-                <textarea class="browser-default" style="resize:none;width:100%; border: solid 1px #EEEEEE; height:100px;"
+                    style="width:100%;border-width:1px;margin-bottom:5px;"
+                    placeholder='Enter Gene Set Name'>
+                <span class='form-label' style='width:100%'>Gene List</span>
+                <textarea class='browser-default'
+                    style='resize:none;width:100%; border: solid 1px #EEEEEE; height:100px;'
                     [(ngModel)]='customGenesetGenes'
-                    placeholder="Enter Comma Seperated Gene Ids"></textarea>
-                <div style="text-align:right"><button (click)="save()">Save</button></div>
+                    placeholder='Enter Comma Seperated Gene Ids'></textarea>
+                <div style='text-align:right'><button (click)='save()'>Save</button></div>
             </div>
         </div>
 
-        <div id="GenesetPanelLoad">   
-            <div class="center-block" style="border: solid 1px #EEEEEE;border-radius:3px;margin: 20px 20px 0px 20px;">
-                <select class="browser-default" materialize="material_select" style="width:75px;display:inline-block;border-bottom-width:0px;"
-                    (change)="collectionChange($event.target.value)">
-                    <option *ngFor="let option of collections">{{option.n}}</option>
+        <div id='GenesetPanelLoad'>
+            <div class='center-block' style='border: solid 1px #EEEEEE;border-radius:3px;margin: 20px 20px 0px 20px;'>
+                <select class='browser-default' materialize='material_select'
+                style='width:75px;display:inline-block;border-bottom-width:0px;'
+                    (change)='collectionChange($event.target.value)'>
+                    <option *ngFor='let option of collections'>{{option.n}}</option>
                 </select>
-                <input id="filter" class="browser-default" style="border:0px solid #EEEEEE;width:143px;margin:0px;border-left-width:1px;padding:0px 10px;display:inline-block;"
-                    placeholder="Filter"
-                    (keyup)="filterChange($event.target.value)">
+                <input id='filter' class='browser-default' type='text'
+                style='border:0px solid #EEEEEE;width:143px;margin:0px;border-left-width:1px;padding:0px 10px;display:inline-block;'
+                    placeholder='Filter'
+                    (keyup)='filterChange($event.target.value)'>
             </div>
-            <div class="results" style="max-height:300px;overflow-y:scroll;overflow-x:wrap;padding:20px;">
-                <div  style="padding-bottom:5px;">
+            <div class='results' style='max-height:300px;overflow-y:scroll;overflow-x:wrap;padding:20px;'>
+                <div  style='padding-bottom:5px;'>
                     <div style='font-weight:700;'>{{collection.n}}</div>
                     {{collection.d}}
                 </div>
-                <div *ngFor="let option of options" class='geneset-result-row'>
-                    <div class="geneset-result-name">{{option.name}}<div>
-                    <div class="geneset-result-summary">{{option.summary}}</div>
-                    <div class="geneset-result-genes">{{option.genes.length | number}} Genes<span style='padding-top: 5px;float:right'><a style="cursor:pointer;"
-                    (click)='selectGeneset(option)'>Select</a> | <a style="cursor:pointer;"
-                    (click)='selectGeneset(option)'>Deselect</a> | <a style="cursor:pointer;"
+                <div *ngFor='let option of options' class='geneset-result-row'>
+                    <div class='geneset-result-name'>{{option.name}}<div>
+                    <div class='geneset-result-summary'>{{option.summary}}</div>
+                    <div class='geneset-result-genes'>{{option.genes.length | number}} Genes<span style='padding-top: 5px;float:right'>
+                    <a style='cursor:pointer;'
+                    (click)='selectGeneset(option)'>Select</a> | <a style='cursor:pointer;'
+                    (click)='selectGeneset(option)'>Deselect</a> | <a style='cursor:pointer;'
                     (click)='filterGeneset(option)'>Filter</a></span></div>
-                </div>               
+                </div>
             </div>
         </div>
     </div>
@@ -99,10 +103,9 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
     @Output() help: EventEmitter<any> = new EventEmitter();
 
     // Properties
-    
-    customGenesetName: string = '';
-    customGenesetGenes: string = '';
-    collections: Array<{ c: string, n: string, d: string }>
+    customGenesetName = '';
+    customGenesetGenes = '';
+    collections: Array<{ c: string, n: string, d: string }>;
     genesets: Array<any>;   // All Possible Genesets In A Category
     collection: any = { c: '', g: '', d: 'Loading' };
     options: Array<any>;    // Genesets That Match Criteria + Show Up In List
@@ -118,7 +121,7 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
         this.options = [];
         this.cd.markForCheck();
         if (collectionCode === 'Custom') {
-            this.dataService.getCustomGenesets(this.configA.database).then(result => { 
+            this.dataService.getCustomGenesets(this.configA.database).then(result => {
                 this.options = this.genesets = result.map(v => ({
                     genes: v.g,
                     hugo: v.g.join(','),
@@ -127,14 +130,14 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
                 }));
                 this.cd.markForCheck();
             });
-        }else{
+        } else {
             this.dataService.getGeneSetByCategory(collectionCode)
-                .toPromise().then(v => { 
-                    v.forEach(geneset => { 
-                        geneset.name = geneset.name.replace(/_/gi, ' '); 
+                .toPromise().then(v => {
+                    v.forEach(geneset => {
+                        geneset.name = geneset.name.replace(/_/gi, ' ');
                         geneset.genes = geneset.hugo.split(',');
                     });
-                    this.options = this.genesets = v; 
+                    this.options = this.genesets = v;
                     this.cd.markForCheck();
                 });
         }
@@ -144,52 +147,49 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
         this.options = this.genesets.filter(v => {
             const haystack = (v.name + ' ' + v.summary + ' ' + v.hugo).toUpperCase();
             for (let i = 0; i < terms.length; i++) {
-                if (haystack.indexOf(terms[i]) === -1) return false;
+                if (haystack.indexOf(terms[i]) === -1) { return false; }
             }
             return true;
         });
         this.cd.markForCheck();
     }
     save(): void {
-        this.customGenesetGenes;
         const genes = this.customGenesetGenes.split(',').map(v => v.trim().toUpperCase());
-        if (this.customGenesetName.length === 0) return;
-        if (this.customGenesetGenes.length === 0) return;
+        if (this.customGenesetName.length === 0) { return; }
+        if (this.customGenesetGenes.length === 0) { return; }
         this.dataService.createCustomGeneset(this.configA.database, this.customGenesetName, genes);
         $(this.tabs.nativeElement).tabs('select_tab', 'GenesetPanelLoad');
     }
-    selectGeneset(option): void{
-        this.configA.markerSelect = option.hugo.split(",").map(v => v.toUpperCase().trim() );
+    selectGeneset(option): void {
+        this.configA.markerSelect = option.hugo.split(',').map(v => v.toUpperCase().trim() );
         this.configA.dirtyFlag = DirtyEnum .LAYOUT;
         this.configChange.emit(this.configA);
-        this.configB.markerSelect = option.hugo.split(",").map(v => v.toUpperCase().trim() );
+        this.configB.markerSelect = option.hugo.split(',').map(v => v.toUpperCase().trim() );
         this.configB.dirtyFlag = DirtyEnum.LAYOUT;
         this.configChange.emit(this.configB);
-        
     }
-    filterGeneset(option): void{ 
-        this.configA.markerFilter = option.hugo.split(",").map(v => v.toUpperCase().trim() );
+    filterGeneset(option): void {
+        this.configA.markerFilter = option.hugo.split(',').map(v => v.toUpperCase().trim() );
         this.configA.dirtyFlag = DirtyEnum.LAYOUT;
         this.configChange.emit(this.configA);
-        this.configB.markerFilter = option.hugo.split(",").map(v => v.toUpperCase().trim() );
+        this.configB.markerFilter = option.hugo.split(',').map(v => v.toUpperCase().trim() );
         this.configB.dirtyFlag = DirtyEnum.LAYOUT;
         this.configChange.emit(this.configB);
     }
 
 
     // Life Cycle
-    init(): void{
+    init(): void {
         const categories = this.dataService.getGenesetCategories();
         const geneset = this.dataService.getGeneSetByCategory('H').toPromise();
         this.options = [];
         this.filterChange = _.debounce(this.filter);
         Promise.all([categories, geneset]).then(response => {
-            // response[0].unshift({ c: 'Custom', n: 'My Gene Sets', d: 'These gene sets were created in Oncoscape using the create tab above or by interacting with one of the visualizations.' });
-            response[1].forEach(geneset => { 
-                geneset.name = geneset.name.replace(/_/gi, ' '); 
-                geneset.genes = geneset.hugo.split(',');
+            response[1].forEach(v => {
+                v.name = v.name.replace(/_/gi, ' ');
+                v.genes = v.hugo.split(',');
             });
-            response[0].push({ c: 'Custom', n: 'My Gene Sets', d: 'These gene sets were created in Oncoscape using the create tab above or by interacting with one of the visualizations.' });
+            response[0].push({ c: 'Custom', n: 'My Gene Sets', d: 'User Generated Genesets' });
             this.collections = response[0];
             this.collection = this.collections[0];
             this.genesets = response[1];
@@ -202,7 +202,6 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
         });
     }
 
-    
     ngOnDestroy(): void { this.focusSubscription.unsubscribe(); }
     ngAfterViewInit(): void { $(this.tabs.nativeElement).tabs(); }
     constructor(private cd: ChangeDetectorRef, private dataService: DataService, private ms: ModalService) {
