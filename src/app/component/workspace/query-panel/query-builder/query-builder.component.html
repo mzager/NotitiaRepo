@@ -10,7 +10,7 @@
 
 <div class='switch-field'>
     <input type='radio' [(ngModel)]='data.condition' value='and' #andOption/>
-    <label  (click)='data.condition=andOption.value'>AND</label>
+    <label (click)='data.condition=andOption.value'>AND</label>
     <input type='radio' [(ngModel)]='data.condition' value='or' #orOption/>
     <label (click)='data.condition=orOption.value'>OR</label>
 </div>
