@@ -68,7 +68,7 @@ select:not([multiple]) {
     width: 160px;
     color: #666666;
     border-radius: 0px;
-    border: solid 0px #dddddd;
+    border: solid 0px #EEEEEE;
     border-bottom-width: 1px;
    
     cursor: pointer;
@@ -89,9 +89,13 @@ p {
 }
 html {
     color: #666666;
+    font-size: 80%;
 }
 body {
     color: #666666;
+    // text-rendering: optimizeLegibility;
+	// -webkit-font-smoothing: antialiased;
+	// -moz-osx-font-smoothing: grayscale;
 }
 // Dropdown
 .select-wrapper {

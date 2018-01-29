@@ -141,14 +141,14 @@ export class VegaFactory {
         const values = stat.data;
         // HACK HACK for SVG word wrap..
         values.forEach(v => {
-            if (v.mylabel.length > 18) { v.mylabel = v.mylabel.substr(0, 18).trim() + '…'; }
+            if (v.mylabel.length > 22) { v.mylabel = v.mylabel.substr(0, 22).trim() + '…'; }
         });
         const vega = {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'config': {
                 'title': {
                     'offset': 10,
-                    'fontSize': 10,
+                    'fontSize': 12,
                     'color': '#666666',
                     'font': 'Lato',
                     'fontWeight': 'normal',
@@ -158,7 +158,7 @@ export class VegaFactory {
             'title': {
                 'text': stat.name,
             },
-            'width': 230,
+            'width': 265,
             'height': 150,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
@@ -329,7 +329,7 @@ export class VegaFactory {
                             'value': 0.4
                         },
                         'fontSize': {
-                            'value': '1rem',
+                            'value': 10,
                         },
                         'fill': {
                             'value': '#666666'
@@ -409,7 +409,7 @@ export class VegaFactory {
             'config': {
                 'title': {
                     'offset': 20,
-                    'fontSize': 10,
+                    'fontSize': 12,
                     'color': '#666666',
                     'font': 'Lato',
                     'fontWeight': '500',
@@ -420,7 +420,7 @@ export class VegaFactory {
                 'text': stat.name
             },
             'background': 'white',
-            'width': 230,
+            'width': 265,
             'height': 180,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },

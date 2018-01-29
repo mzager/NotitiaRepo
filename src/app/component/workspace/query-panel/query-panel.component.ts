@@ -28,12 +28,6 @@ export class QueryPanelComponent implements AfterViewInit, OnDestroy {
 
   @Input() bounds: ElementRef;
   @Output() help: EventEmitter<any> = new EventEmitter();
-
-  private _configA: GraphConfig;
-  private _configB: GraphConfig;
-  
-
-  helpClick(): void { this.help.emit('QueryPanel'); }
   @Input() set configA(config: GraphConfig) {
     this._configA = config;
     this.dataService.getQueryBuilderConfig(config.database).then(result => {
@@ -50,18 +44,20 @@ export class QueryPanelComponent implements AfterViewInit, OnDestroy {
 
   @Input() set configB(config: GraphConfig) {
     this._configB = config;
-    // this.dataService.getQueryBuilderConfig(config.database).then(result => {
-    //   this.cfg = result;
-    //   const fieldKey = Object.keys(this.cfg.fields)[0];
-    //   const field = result[fieldKey];
-    //   this.query = {
-    //     condition: 'and',
-    //     rules: [ { field: fieldKey, operator: '<=' } ]
-    //   };
-    // this.showBuilder = true;
-    // });
+    this.dataService.getQueryBuilderConfig(config.database).then(result => {
+      this.cfg = result;
+      const fieldKey = Object.keys(this.cfg.fields)[0];
+      const field = result[fieldKey];
+      this.query = {
+        condition: 'and',
+        rules: [ { field: fieldKey, operator: '<=' } ]
+      };
+    this.showBuilder = true;
+    });
   }
 
+  private _configA: GraphConfig;
+  private _configB: GraphConfig;
   zIndex = 1000;
   focusSubscription: Subscription;
   showBuilder = false;
@@ -72,17 +68,14 @@ export class QueryPanelComponent implements AfterViewInit, OnDestroy {
   @Output() queryPanelToggle = new EventEmitter();
   @Output() configChange = new EventEmitter<GraphConfig>();
 
-  reset(): void { 
+  reset(): void {
     this._configA.patientFilter = [];
     this._configA.dirtyFlag = DirtyEnum.LAYOUT;
     this.configChange.next(this._configA);
     this.hide.emit();
   }
 
-  
-  
   filter(): void {
-    
     this.dataService.getPatientIdsWithQueryBuilderCriteria(this._configA.database, this.cfg, this.query).then( pids => {
       this._configA.patientFilter = pids;
       this.dataService.getSampleIdsWithPatientIds( this._configA.database, pids ).then( sids => {
@@ -94,11 +87,12 @@ export class QueryPanelComponent implements AfterViewInit, OnDestroy {
     });
   }
   select(): void {
-    console.dir(this.query);
+    // console.dir(this.query);
   }
 
   // Life Cycle
-  ngOnDestroy(): void{ this.focusSubscription.unsubscribe(); }
+  helpClick(): void { this.help.emit('QueryPanel'); }
+  ngOnDestroy(): void { this.focusSubscription.unsubscribe(); }
   ngAfterViewInit(): void { $(this.tabs.nativeElement).tabs(); }
   constructor(private dataService: DataService, private ms: ModalService, private cd: ChangeDetectorRef) {
     this.focusSubscription = this.ms.$focus.subscribe(v => {

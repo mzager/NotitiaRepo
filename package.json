@@ -57,6 +57,7 @@
     "downloadjs": "^1.4.7",
     "es6-tween": "^3.8.24",
     "fs": "0.0.1-security",
+    "fsevents": "^1.1.3",
     "generic-promise-pool": "^1.2.2",
     "hammerjs": "^2.0.8",
     "http-proxy": "^1.16.2",

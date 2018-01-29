@@ -281,6 +281,14 @@ export class DataService {
   }
   createCustomGeneset(database: string, name: string, genes: Array<string>): Promise<any>{
     return new Promise((resolve, reject) => {
+      // this.http
+      // .get(DataService.API_PATH +
+      //   'z_lookup_geneset/%7B%22$fields%22:[%22name%22,%22hugo%22,%22summary%22],%20%22$query%22:%7B%22' +
+      //   field + '%22:%22' +
+      //   categoryCode +
+      //   '%22%7D%20%7D')  
+      // .map(res => res.json())
+      // z_lookup_genemap
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
         v.table('genesets').add({n:name, g:genes}).then(v => { 
