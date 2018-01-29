@@ -91,13 +91,13 @@ p {
 }
 html {
     color: #666666;
-    font-size: 70%;
+    font-size: 80%;
 }
 body {
     color: #666666;
-    // text-rendering: optimizeLegibility;
-	// -webkit-font-smoothing: antialiased;
-	// -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 // Dropdown
 .select-wrapper {
@@ -172,4 +172,7 @@ dropdown-content li > a, .dropdown-content li > span {
   }
   input[type=range] {
       margin: 0px;
+  }
+  .switch{
+    margin-bottom: 6px;
   }
