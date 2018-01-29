@@ -11,59 +11,59 @@ import { FormArray, AbstractControl } from '@angular/forms/src/model';
 @Component({
   selector: 'app-timelines-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<form [formGroup]="form" novalidate>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Align</span>
-      <select formControlName="align" class="browser-default"
-        materialize="material_select">
-        <optgroup *ngFor="let group of eventGroups" label="{{group.label}}">
-          <option *ngFor="let evt of group.events"
-            [ngValue]="evt.label">{{evt.label}}</option>
+  template: `<form [formGroup]='form' novalidate>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Align</span>
+      <select formControlName='align' class='browser-default'
+        materialize='material_select'>
+        <optgroup *ngFor='let group of eventGroups' label='{{group.label}}'>
+          <option *ngFor='let evt of group.events'
+            [ngValue]='evt.label'>{{evt.label}}</option>
         </optgroup>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Sort</span>
-      <select formControlName="sort" class="browser-default"
-        materialize="material_select">
-        <optgroup *ngFor="let group of eventGroups" label="{{group.label}}">
-          <option *ngFor="let evt of group.events"
-            [ngValue]="evt.label">{{evt.label}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Sort</span>
+      <select formControlName='sort' class='browser-default'
+        materialize='material_select'>
+        <optgroup *ngFor='let group of eventGroups' label='{{group.label}}'>
+          <option *ngFor='let evt of group.events'
+            [ngValue]='evt.label'>{{evt.label}}</option>
         </optgroup>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Attributes</span>
-      <select formControlName="attrs" multiple="true"
-        materialize="material_select">
-        <option *ngFor="let pa of this.patientAttributes"
-          [ngValue]="pa.label">{{pa.label}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Attributes</span>
+      <select formControlName='attrs' multiple='true'
+        materialize='material_select'>
+        <option *ngFor='let pa of this.patientAttributes'
+          [ngValue]='pa.label'>{{pa.label}}</option>
       </select>
     </label>
   </div>
 
-  <div formArrayName="bars">
-    <div *ngFor="let bar of ctrls; let i=index">
-      <div [formGroupName]="i">
-        <span class="form-label" style="
-        text-align:left;width:100%;font-weight:700;padding:10px 0px 5px 0px;font-size:0.8rem;">
+  <div formArrayName='bars'>
+    <div *ngFor='let bar of ctrls; let i=index'>
+      <div [formGroupName]='i'>
+        <span class='form-label' style='
+        text-align:left;width:100%;font-weight:700;padding:10px 0px 5px 0px;font-size:0.8rem;'>
           {{ctrls[i].get('label').value}} Events</span>
-          <div class="form-group">
-            <label class="center-block"><span class="form-label">Display</span>
-              <select class="browser-default" materialize="material_select" formControlName="style">
-                <option *ngFor="let style of styleOptions"
-                  [ngValue]="style">{{style}}</option>
+          <div class='form-group'>
+            <label class='center-block'><span class='form-label'>Display</span>
+              <select class='browser-default' materialize='material_select' formControlName='style'>
+                <option *ngFor='let style of styleOptions'
+                  [ngValue]='style'>{{style}}</option>
               </select>
             </label>
           </div>
-          <div class="form-group">
-            <label class="center-block"><span class="form-label">Visible</span>
-              <select materialize="material_select" formControlName="events"
+          <div class='form-group'>
+            <label class='center-block'><span class='form-label'>Visible</span>
+              <select materialize='material_select' formControlName='events'
                 multiple>
-                <option *ngFor="let item of eventTypes[ctrls[i].get('label').value]"
-                  [ngValue]="item.subtype">{{item.subtype}}</option>
+                <option *ngFor='let item of eventTypes[ctrls[i].get("label").value]'
+                  [ngValue]='item.subtype'>{{item.subtype}}</option>
               </select>
           </label>
         </div>
