@@ -1,7 +1,6 @@
 :host {
     display: block;
     color: #666666 !important;
-  
     select {
         background-color: rgba(255, 255, 255, 0.9);
         padding: 0px;
@@ -10,18 +9,16 @@
     .float-right {
         float: right;
     }
-    
-
-
     .form-control {
         display: inline-block;
         color: #666666;
         background-color: #fff;
         background-image: none;
-        border: 0px solid #EEEEEE !important;
+        border: 0px solid #EEEEEE;
         font-size: 0.9rem;
         line-height: 0.9rem;
         padding: 0px 2px;
+        width:97px;
     }
     
     .switch-field {
