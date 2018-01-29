@@ -11,25 +11,25 @@ import * as _ from 'lodash';
   selector: 'app-genome-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-<form [formGroup]="form" novalidate>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Gene Color</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="colorOptions"
-          formControlName="pointColor">
-          <option *ngFor="let option of colorOptions" [ngValue]="option">{{option.label}}</option>
+<form [formGroup]='form' novalidate>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Gene Color</span>
+      <select class='browser-default' materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='colorOptions'
+          formControlName='pointColor'>
+          <option *ngFor='let option of colorOptions' [ngValue]='option'>{{option.label}}</option>
       </select>
     </label>
   </div>
   <!--
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Spacing</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="spacingOptions"
-          formControlName="spacingOption">
-          <option *ngFor="let option of spacingOptions" [value]="option">{{option}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Spacing</span>
+      <select class='browser-default' materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='spacingOptions'
+          formControlName='spacingOption'>
+          <option *ngFor='let option of spacingOptions' [value]='option'>{{option}}</option>
       </select>
     </label>
   </div>

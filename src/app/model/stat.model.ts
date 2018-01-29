@@ -1009,9 +1009,9 @@ export class StatFactory {
         // Sparse PCA Stats Array
         const stats = [
             // Single Stats
-            new StatKeyValues('', ([
-                { mylabel: 'Iter:', myvalue: data.result.iter.toFixed(2) },
-            ])),
+            // new StatKeyValues('', ([
+            //    { mylabel: 'Iter:', myvalue: data.result.iter.toFixed(2) },
+            // ])),
             // One Dimensional Stats
             // new StatOneD('Error', this.formatError(data.result.error)),
             // Two Dimensional Stats
