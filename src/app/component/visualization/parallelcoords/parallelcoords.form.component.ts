@@ -11,24 +11,24 @@ import * as _ from 'lodash';
   selector: 'app-parallelcoords-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-<form [formGroup]="form" novalidate>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Gene Color</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="colorOptions"
-          formControlName="pointColor">
-          <option *ngFor="let option of colorOptions" [ngValue]="option">{{option.label}}</option>
+<form [formGroup]='form' novalidate>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Gene Color</span>
+      <select class='browser-default' materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='colorOptions'
+          formControlName='pointColor'>
+          <option *ngFor='let option of colorOptions' [ngValue]='option'>{{option.label}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Gene Size</span>
-       <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="sizeOptions"
-          formControlName="pointSize">
-          <option *ngFor="let option of sizeOptions" [ngValue]="option">{{option.label}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Gene Size</span>
+       <select class='browser-default' materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='sizeOptions'
+          formControlName='pointSize'>
+          <option *ngFor='let option of sizeOptions' [ngValue]='option'>{{option.label}}</option>
       </select>
     </label>
   </div>

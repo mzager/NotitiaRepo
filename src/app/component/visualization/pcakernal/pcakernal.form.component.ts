@@ -12,95 +12,95 @@ import * as _ from 'lodash';
   selector: 'app-pcakernal-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-<form [formGroup]="form" novalidate>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Data</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          formControlName="table">
-          <option *ngFor="let option of dataOptions" [ngValue]="option">{{option.label}}</option>
+<form [formGroup]='form' novalidate>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Data</span>
+      <select class='browser-default' materialize='material_select'
+          [compareWith]='byKey'
+          formControlName='table'>
+          <option *ngFor='let option of dataOptions' [ngValue]='option'>{{option.label}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Display</span>
-      <select class="browser-default" materialize="material_select"
-          formControlName="entity">
-          <option *ngFor="let option of displayOptions">{{option}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Display</span>
+      <select class='browser-default' materialize='material_select'
+          formControlName='entity'>
+          <option *ngFor='let option of displayOptions'>{{option}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Color</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="colorOptions"
-          formControlName="pointColor">
-          <option *ngFor="let option of colorOptions"
-            [ngValue]="option">{{option.label}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Color</span>
+      <select class='browser-default' materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='colorOptions'
+          formControlName='pointColor'>
+          <option *ngFor='let option of colorOptions'
+            [ngValue]='option'>{{option.label}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Size</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="sizeOptions"
-          formControlName="pointSize">
-          <option *ngFor="let option of sizeOptions"
-            [ngValue]="option">{{option.label}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Size</span>
+      <select class='browser-default' materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='sizeOptions'
+          formControlName='pointSize'>
+          <option *ngFor='let option of sizeOptions'
+            [ngValue]='option'>{{option.label}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Shape</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="colorOptions" formControlName="pointShape">
-          <option *ngFor="let option of shapeOptions"
-            [ngValue]="option">{{option.label}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Shape</span>
+      <select class='browser-default' materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='colorOptions' formControlName='pointShape'>
+          <option *ngFor='let option of shapeOptions'
+            [ngValue]='option'>{{option.label}}</option>
       </select>
     </label>
   </div>
-   <div class="form-group">
-    <label class="center-block"><span class="form-label">Dimension</span>
-      <select class="browser-default" materialize="material_select"
-        [materializeSelectOptions]="dimensionOptions"
-        formControlName="dimension">
-          <option *ngFor="let options of dimensionOptions">{{options}}</option>
+   <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Dimension</span>
+      <select class='browser-default' materialize='material_select'
+        [materializeSelectOptions]='dimensionOptions'
+        formControlName='dimension'>
+          <option *ngFor='let options of dimensionOptions'>{{options}}</option>
       </select>
     </label>
   </div>
 
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Kernal</span>
-      <select class="browser-default" materialize="material_select"
-        [materializeSelectOptions]="dimensionOptions"
-        formControlName="kernel">
-          <option *ngFor="let options of kernalOptions">{{options}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Kernal</span>
+      <select class='browser-default' materialize='material_select'
+        [materializeSelectOptions]='dimensionOptions'
+        formControlName='kernel'>
+          <option *ngFor='let options of kernalOptions'>{{options}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Eigen Solver</span>
-      <select class="browser-default" materialize="material_select"
-        [materializeSelectOptions]="dimensionOptions"
-        formControlName="eigen_solver">
-          <option *ngFor="let options of eigenSolverOptions">{{options}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Eigen Solver</span>
+      <select class='browser-default' materialize='material_select'
+        [materializeSelectOptions]='dimensionOptions'
+        formControlName='eigen_solver'>
+          <option *ngFor='let options of eigenSolverOptions'>{{options}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <div class="switch">
-      <label class="center-block"><span class="form-label">Fit Inverse</span>
-        <input type="checkbox" formControlName="fit_inverse_transform">
-        <span class="lever"></span>
+  <div class='form-group'>
+    <div class='switch'>
+      <label class='center-block'><span class='form-label'>Fit Inverse</span>
+        <input type='checkbox' formControlName='fit_inverse_transform'>
+        <span class='lever'></span>
       </label>
     </div>
-    <div class="switch">
-      <label class="center-block"><span class="form-label">- 0 Eig</span>
-        <input type="checkbox" formControlName="remove_zero_eig">
-        <span class="lever"></span>
+    <div class='switch'>
+      <label class='center-block'><span class='form-label'>- 0 Eig</span>
+        <input type='checkbox' formControlName='remove_zero_eig'>
+        <span class='lever'></span>
       </label>
     </div>
   </div>

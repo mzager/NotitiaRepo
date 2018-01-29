@@ -15,25 +15,25 @@ import * as _ from 'lodash';
   selector: 'app-edges-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-<form [formGroup]="form" novalidate>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Edges</span>
-      <select class="browser-default" materialize="material_select"
-          [materializeSelectOptions]="edgeOptions"
-          formControlName="edgeOption">
-          <option *ngFor="let option of edgeOptions"
-            [ngValue]="option">{{option}}</option>
+<form [formGroup]='form' novalidate>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Edges</span>
+      <select class='browser-default' materialize='material_select'
+          [materializeSelectOptions]='edgeOptions'
+          formControlName='edgeOption'>
+          <option *ngFor='let option of edgeOptions'
+            [ngValue]='option'>{{option}}</option>
       </select>
     </label>
   </div>
   <!--
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Intersection</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="colorOptions" formControlName="pointIntersect">
-          <option *ngFor="let option of intersectOptions"
-            [ngValue]="option">{{option.label}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Intersection</span>
+      <select class='browser-default' materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='colorOptions' formControlName='pointIntersect'>
+          <option *ngFor='let option of intersectOptions'
+            [ngValue]='option'>{{option.label}}</option>
       </select>
     </label>
   </div>

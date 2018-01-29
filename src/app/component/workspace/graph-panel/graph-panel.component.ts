@@ -216,9 +216,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void { $(this.tabs.nativeElement).tabs(); }
 
-  ngOnDestroy():void { this.focusSubscription.unsubscribe(); }
+  ngOnDestroy(): void { this.focusSubscription.unsubscribe(); }
 
-  panelFocus():void { this.ms.$focus.next('graphPanel'+this.cid); }
+  panelFocus(): void { this.ms.$focus.next('graphPanel' + this.cid); }
 
   constructor(private ms: ModalService, private cd: ChangeDetectorRef) {
 
@@ -236,7 +236,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
 
       // Decomposition
       { value: VisualizationEnum.DICTIONARY_LEARNING, label: 'Dictionary Learning' },
-      { value: VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING, label: 'Dictionary Learning - Mini Batch ' },
+      // { value: VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING, label: 'Dictionary Learning - Mini Batch ' },
       { value: VisualizationEnum.FA, label: 'Factor Analysis' },
       { value: VisualizationEnum.FAST_ICA, label: 'Fast ICA' },
       { value: VisualizationEnum.LDA, label: 'Latent Dirichlet Allocation' },
@@ -245,9 +245,8 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       { value: VisualizationEnum.INCREMENTAL_PCA, label: 'PCA - Incremental' },
       { value: VisualizationEnum.KERNAL_PCA, label: 'PCA - Kernel' },
       { value: VisualizationEnum.SPARSE_PCA, label: 'PCA - Sparse' },
-      { value: VisualizationEnum.MINI_BATCH_SPARSE_PCA, label: 'PCA - Sparse - Mini Batch' },
+      // { value: VisualizationEnum.MINI_BATCH_SPARSE_PCA, label: 'PCA - Sparse - Mini Batch' },
       { value: VisualizationEnum.TRUNCATED_SVD, label: 'Truncated SVD' },
-
       // { value: VisualizationEnum.SPARSE_CODER, label: 'Sparse Coder'},
 
 
@@ -259,8 +258,8 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       { value: VisualizationEnum.TSNE, label: 'T-SNE' },
 
       // Discriminant Analysis
-      { value: VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS, label: 'Linear Discriminat Analysis' },
-      { value: VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS, label: 'Quadratic Discriminant Analysis' },
+      // { value: VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS, label: 'Linear Discriminat Analysis' },
+      // { value: VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS, label: 'Quadratic Discriminant Analysis' },
 
       // Random Projection
       // Gaussian, Sparse

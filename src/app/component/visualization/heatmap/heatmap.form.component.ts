@@ -12,31 +12,31 @@ import * as _ from 'lodash';
   selector: 'app-heatmap-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-  <form [formGroup]="form" novalidate>
-    <div class="form-group">
-      <label class="center-block"><span class="form-label">Data</span>
-        <select class="browser-default" materialize="material_select"
-            [materializeSelectOptions]="dataOptions"
-            formControlName="table">
-            <option *ngFor="let option of dataOptions" [value]="option">{{option.label}}</option>
+  <form [formGroup]='form' novalidate>
+    <div class='form-group'>
+      <label class='center-block'><span class='form-label'>Data</span>
+        <select class='browser-default' materialize='material_select'
+            [materializeSelectOptions]='dataOptions'
+            formControlName='table'>
+            <option *ngFor='let option of dataOptions' [value]='option'>{{option.label}}</option>
         </select>
       </label>
     </div>
-    <div class="form-group">
-    <label class="center-block"><span class="form-label">Affinity</span>
-      <select class="browser-default" materialize="material_select"
-          [materializeSelectOptions]="dataOptions"
-          formControlName="dist">
-          <option *ngFor="let option of distanceOptions" [value]="option.value">{{option.label}}</option>
+    <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Affinity</span>
+      <select class='browser-default' materialize='material_select'
+          [materializeSelectOptions]='dataOptions'
+          formControlName='dist'>
+          <option *ngFor='let option of distanceOptions' [value]='option.value'>{{option.label}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Linkage</span>
-      <select class="browser-default" materialize="material_select"
-          [materializeSelectOptions]="dataOptions"
-          formControlName="method">
-          <option *ngFor="let option of distanceOptions" [value]="option.value">{{option.label}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Linkage</span>
+      <select class='browser-default' materialize='material_select'
+          [materializeSelectOptions]='dataOptions'
+          formControlName='method'>
+          <option *ngFor='let option of distanceOptions' [value]='option.value'>{{option.label}}</option>
       </select>
     </label>
   </div>
