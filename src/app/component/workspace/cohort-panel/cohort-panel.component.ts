@@ -13,17 +13,16 @@ declare var $: any;
 
 @Component({
   selector: 'app-workspace-cohort-panel',
-  template: `<div class="card" style="width:285px;">
-  <div class="card-tabs">
-      <ul class="tabs tabs-fixed-width" #tabs>
-          <li class="tab">
-              <a class="active" href="#cohort-panel" style="padding:0px;">Cohort</a>
+  template: `<div class='card' style='width:285px;'>
+  <div class='card-tabs'>
+      <ul class='tabs tabs-fixed-width' #tabs>
+          <li class='tab'>
+              <a class='active' href='#cohort-panel' style='padding:0px;'>Cohort</a>
           </li>
       </ul>
   </div>
-  <div class="card-content">
-      <div id="cohort-panel">
-          
+  <div class='card-content'>
+      <div id='cohort-panel'>
       </div>
   </div>
 </div>`,
@@ -54,11 +53,9 @@ export class CohortPanelComponent implements AfterViewInit {
   constructor(private cd: ChangeDetectorRef, private fb: FormBuilder, private dataService: DataService) {
 
     this.dataService.getGeneSetCategories().toPromise().then(v => {
-      
     });
 
     this.form = this.fb.group({
-      
     });
 
     this.form.valueChanges
