@@ -20,19 +20,20 @@
     <div class="card-content">
         <div id="QueryPanelCreate" style="padding: 20px;">
             <app-workspace-query-builder *ngIf="showBuilder" [data]="query" [config]="cfg"></app-workspace-query-builder>
-            <div style="padding-bottom:10px;padding-right:25px;text-align:right;">
+            <!-- <div style="padding-bottom:10px;padding-right:25px;text-align:right;">
                     <button (click)="reset()" class="btn btn-small" style='box-shadow: none;'>Reset</button>
                     <button (click)="filter()" class="btn btn-small" style='box-shadow: none;'>Filter</button>
                     <button (click)="select()" class="btn btn-small" style='box-shadow: none;'>Select</button>
-            </div>
+            </div> -->
         </div>
         
         <div id="QueryPanelLoad">
-            <div class="center-block" style="font-size:.8rem; color:#666; border: solid 1px #dddddd;border-radius:3px;margin: 20px 20px 0px 20px;">
-
+            <div class="center-block" style="font-size:.8rem; color:#666; border: solid 1px #EEEEEE;border-radius:3px;margin: 20px 20px 0px 20px;">
+<!--
 <div class="geneset-result-genes">{{option.hugo.length | number}} Patients<span style='float:right'><a
     (click)='select(option)'>Select</a> | <a
     (click)='filter(option)'>Filter</a></span></div>
+-->
             </div>
         </div>
     </div>

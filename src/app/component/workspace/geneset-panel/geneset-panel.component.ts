@@ -49,7 +49,7 @@ declare var $: any;
                     [(ngModel)]='customGenesetName'
                     placeholder="Enter Gene Set Name">
                 <span class="form-label" style="width:100%">Gene List</span>
-                <textarea class="browser-default" style="resize:none;width:100%; border: solid 1px #dddddd; height:100px;"
+                <textarea class="browser-default" style="resize:none;width:100%; border: solid 1px #EEEEEE; height:100px;"
                     [(ngModel)]='customGenesetGenes'
                     placeholder="Enter Comma Seperated Gene Ids"></textarea>
                 <div style="text-align:right"><button (click)="save()">Save</button></div>
@@ -57,17 +57,17 @@ declare var $: any;
         </div>
 
         <div id="GenesetPanelLoad">   
-            <div class="center-block" style="border: solid 1px #dddddd;border-radius:3px;margin: 20px 20px 0px 20px;">
+            <div class="center-block" style="border: solid 1px #EEEEEE;border-radius:3px;margin: 20px 20px 0px 20px;">
                 <select class="browser-default" materialize="material_select" style="width:75px;display:inline-block;border-bottom-width:0px;"
                     (change)="collectionChange($event.target.value)">
                     <option *ngFor="let option of collections">{{option.n}}</option>
                 </select>
-                <input id="filter" class="browser-default" style="border:0px solid #dddddd;width:143px;margin:0px;border-left-width:1px;padding:0px 10px;display:inline-block;"
+                <input id="filter" class="browser-default" style="border:0px solid #EEEEEE;width:143px;margin:0px;border-left-width:1px;padding:0px 10px;display:inline-block;"
                     placeholder="Filter"
                     (keyup)="filterChange($event.target.value)">
             </div>
             <div class="results" style="max-height:300px;overflow-y:scroll;overflow-x:wrap;padding:20px;">
-                <div style="font-size:0.9rem;" style="padding-bottom:5px;">
+                <div  style="padding-bottom:5px;">
                     <div style='font-weight:700;'>{{collection.n}}</div>
                     {{collection.d}}
                 </div>
