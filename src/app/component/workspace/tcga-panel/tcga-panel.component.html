@@ -1,13 +1,13 @@
 
-<div style="padding:20px;font-size:12px;max-height:500px;overflow-y:scroll;">
-    <div class="row">
-        <div class="col s4" 
-        style="overflow: hidden;
+<div style='padding:20px;font-size:12px;max-height:500px;overflow-y:scroll;'>
+    <div class='row'>
+        <div class='col s4' 
+        style='overflow: hidden;
         text-overflow: ellipsis;
-        max-height: 30px;"
-            *ngFor="let dataset of datasets; let i = index" (click)="this.loadTcga.emit( dataset )">
-            <img style="padding-left:20px;height:30px;float:left" src='./assets/disease/img{{dataset.img}}'><div style="line-height:30px;overflow: hidden;
-            text-overflow: ellipsis;">&nbsp;{{dataset.name}}</div>
+        max-height: 30px;'
+            *ngFor='let dataset of datasets; let i = index' (click)='this.loadTcga.emit(dataset)'>
+            <img style='padding-left:20px;height:30px;float:left' src='./assets/disease/img{{dataset.img}}'><div style='line-height:30px;overflow: hidden;
+            text-overflow: ellipsis;'>&nbsp;{{dataset.name}}</div>
         </div>
     </div>
 </div>

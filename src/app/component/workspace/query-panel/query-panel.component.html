@@ -1,36 +1,36 @@
-<div class="card" style="width:465px; background:#FFFFFF;" [ngDraggable]="true" [handle]="titlebar" [inBounds]="true" [bounds]="bounds"
-    [zIndex]="zIndex" [zIndexMoving]="99999" (click)="this.ms.$focus.next('queryPanel');">
-    <div class="card-title-bar" #titlebar>
+<div class='card' style='width:465px; background:#FFFFFF;' [ngDraggable]='true' [handle]='titlebar' [inBounds]='true' [bounds]='bounds'
+    [zIndex]='zIndex' [zIndexMoving]='99999' (click)='this.ms.$focus.next("queryPanel");'>
+    <div class='card-title-bar' #titlebar>
         Cohorts
-        <i (click)="hide.emit()" class="tiny material-icons" style="float: right; padding-top: 4px; cursor: pointer">close</i>
-        <span style="float: right; padding-right:5px; cursor: pointer;" (click)="helpClick()">Help</span>
+        <i (click)='hide.emit()' class='tiny material-icons' style='float: right; padding-top: 4px; cursor: pointer'>close</i>
+        <span style='float: right; padding-right:5px; cursor: pointer;' (click)='helpClick()'>Help</span>
     </div>
     <!-- Card Tabs -->
-    <div class="card-tabs">
-        <ul class="tabs tabs-fixed-width" #tabs>
-            <li class="tab">
-                <a class="active" href="#QueryPanelLoad">Load</a>
+    <div class='card-tabs'>
+        <ul class='tabs tabs-fixed-width' #tabs>
+            <li class='tab'>
+                <a class='active' href='#QueryPanelLoad'>Load</a>
             </li>
-            <li class="tab">
-                <a href="#QueryPanelCreate">Create</a>
+            <li class='tab'>
+                <a href='#QueryPanelCreate'>Create</a>
             </li>
         </ul>
     </div>
     <!-- Panel Content -->
-    <div class="card-content">
-        <div id="QueryPanelCreate" style="padding: 20px;">
-            <app-workspace-query-builder *ngIf="showBuilder" [data]="query" [config]="cfg"></app-workspace-query-builder>
-            <!-- <div style="padding-bottom:10px;padding-right:25px;text-align:right;">
-                    <button (click)="reset()" class="btn btn-small" style='box-shadow: none;'>Reset</button>
-                    <button (click)="filter()" class="btn btn-small" style='box-shadow: none;'>Filter</button>
-                    <button (click)="select()" class="btn btn-small" style='box-shadow: none;'>Select</button>
+    <div class='card-content'>
+        <div id='QueryPanelCreate' style='padding: 20px;'>
+            <app-workspace-query-builder *ngIf='showBuilder' [data]='query' [config]='cfg'></app-workspace-query-builder>
+            <!-- <div style='padding-bottom:10px;padding-right:25px;text-align:right;'>
+                    <button (click)='reset()' class='btn btn-small' style='box-shadow: none;'>Reset</button>
+                    <button (click)='filter()' class='btn btn-small' style='box-shadow: none;'>Filter</button>
+                    <button (click)='select()' class='btn btn-small' style='box-shadow: none;'>Select</button>
             </div> -->
         </div>
         
-        <div id="QueryPanelLoad">
-            <div class="center-block" style="font-size:.8rem; color:#666; border: solid 1px #EEEEEE;border-radius:3px;margin: 20px 20px 0px 20px;">
+        <div id='QueryPanelLoad'>
+            <div class='center-block' style='font-size:.8rem; color:#666; border: solid 1px #EEEEEE;border-radius:3px;margin: 20px 20px 0px 20px;'>
 <!--
-<div class="geneset-result-genes">{{option.hugo.length | number}} Patients<span style='float:right'><a
+<div class='geneset-result-genes'>{{option.hugo.length | number}} Patients<span style='float:right'><a
     (click)='select(option)'>Select</a> | <a
     (click)='filter(option)'>Filter</a></span></div>
 -->
