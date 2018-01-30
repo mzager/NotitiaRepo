@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
 import { Field, Option, QueryBuilderConfig, Rule, RuleSet } from './query-builder.interfaces';
 
 @Component({
@@ -7,16 +7,18 @@ import { Field, Option, QueryBuilderConfig, Rule, RuleSet } from './query-builde
   styleUrls: ['./query-builder.component.scss']
 })
 export class QueryBuilderComponent implements OnInit, OnChanges {
-  public fieldNames: string[];
+
   @Input() operatorMap: {[key: string]: string[]};
   @Input() typeMap: {[key: string]: string};
   @Input() parentData: RuleSet;
   @Input() data: RuleSet = { condition: 'and', rules: [] };
   @Input() config: QueryBuilderConfig = { fields: {} };
+  @Output() onSave: EventEmitter<any> = new EventEmitter<any>();
 
+  public fieldNames: string[];
   private defaultEmptyList: any[] = [];
   private operatorsCache: {[key: string]: string[]};
-  customCohortName = '';
+  public customCohortName = '';
 
   constructor() {
     this.typeMap = {
@@ -142,6 +144,7 @@ export class QueryBuilderComponent implements OnInit, OnChanges {
   }
 
   save(): void {
-    alert(this.customCohortName + ' NAME');
+    this.onSave.emit();
   }
+
 }
