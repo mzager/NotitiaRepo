@@ -1,4 +1,4 @@
-<div class='card' style='width:285px; background:#FFFFFF;' [ngDraggable]='true' [handle]='titlebar' [inBounds]='true' [bounds]='bounds'
+<div class='card' style='min-width:320px; background:#FFFFFF;' [ngDraggable]='true' [handle]='titlebar' [inBounds]='true' [bounds]='bounds'
     [zIndex]='zIndex' [zIndexMoving]='99999' (click)='this.ms.$focus.next("queryPanel");'>
     <div class='card-title-bar' #titlebar>
         Cohorts
@@ -18,7 +18,7 @@
     </div>
     <!-- Panel Content -->
     <div class='card-content'>
-        <div id='QueryPanelCreate' style='padding-right:5px;padding-top: 10px;padding-bottom:10px;'>
+        <div id='QueryPanelCreate' style='padding:20px;'>
             <app-workspace-query-builder *ngIf='showBuilder' [data]='query' [config]='cfg'></app-workspace-query-builder>
             <!-- <div style='padding-bottom:10px;padding-right:25px;text-align:right;'>
                     <button (click)='reset()' class='btn btn-small' style='box-shadow: none;'>Reset</button>

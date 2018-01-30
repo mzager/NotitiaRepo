@@ -1,8 +1,8 @@
 <div>
 
 <div class='switch-field float-right'>
-    <button (click)='addRule(data)' class='btn btn-small waves-effect waves-light white blue-text'>+ Rule</button>
-    <button (click)='addRuleSet(data)' class='btn btn-small waves-effect waves-light white blue-text'>+ Ruleset</button>
+    <button (click)='addRule(data)' class='browser-default btn-config'>+ Rule</button>
+    <button (click)='addRuleSet(data)' class='browser-default btn-config'>+ Ruleset</button>
     <ng-container *ngIf='!!parentData'>
         <button  class='btn btn-small waves-effect waves-light white blue-text' (click)='removeRuleSet(data, parentData)'><i class='material-icons small'>delete</i></button>
     </ng-container>
@@ -18,7 +18,8 @@
 <ul class='query-tree'>
   <ng-container *ngFor='let item of data.rules'>
     <ng-container *ngIf='{ruleset: !!item.rules, invalid: !config.allowEmptyRuleset && item.rules && item.rules.length === 0} as local'>
-      <li [ngClass]='{"query-item": true, "rule": !local.ruleset, "ruleset": local.ruleset, "invalid-ruleset": local.invalid}'>
+      <li [ngClass]='{"query-item": true, "rule": !local.ruleset, "ruleset": local.ruleset, "invalid-ruleset": local.invalid}'
+      style='padding-left:5px;width:260px;'>
         <ng-container *ngIf='!local.ruleset'>
             <select class='form-control browser-default'
               [(ngModel)]='item.field' (change)='onFieldChange(item)'>
@@ -26,7 +27,7 @@
                 {{config.fields[field].name}}
               </option>
             </select><select 
-            class='form-control browser-default' [(ngModel)]='item.operator' style='width:30px;border:0px solid #EEEEEE;border-left-width:1px;border-right-width:1px;'> 
+            class='form-control browser-default' [(ngModel)]='item.operator' style='width:23px;border:0px solid #EEEEEE;border-left-width:1px;border-right-width:1px;'> 
               <option *ngFor='let operator of getOperators(item.field)' [ngValue]='operator'>
                 {{operator}}
               </option>

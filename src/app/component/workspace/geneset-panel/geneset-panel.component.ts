@@ -43,17 +43,17 @@ declare var $: any;
     <div class='card-content'>
         <div id='GenesetPanelCreate'>
             <div class='center-block' style='padding:20px; font-size:1rem;'>
-                <span class='form-label' style='width:100%'>Gene Set Name</span>
-                <input class='browser-default' type='text'
-                    [(ngModel)]='customGenesetName'
-                    style="width:100%;border-width:1px;margin-bottom:5px;"
-                    placeholder='Enter Gene Set Name'>
-                <span class='form-label' style='width:100%'>Gene List</span>
+                <span class='form-label' style='width:100%'>Custom Gene Set</span>
                 <textarea class='browser-default'
                     style='resize:none;width:100%; border: solid 1px #EEEEEE; height:100px;'
                     [(ngModel)]='customGenesetGenes'
                     placeholder='Enter Comma Seperated Gene Ids'></textarea>
-                <div style='text-align:right'><button (click)='save()'>Save</button></div>
+
+                <input class='browser-default' type='text'
+                    [(ngModel)]='customGenesetName'
+                    style="width:100%;border-width:1px;margin-bottom:5px;"
+                    placeholder='Enter Gene Set Name'>
+                <button class='browser-default btn-config' (click)='save()'>Save</button>
             </div>
         </div>
 
