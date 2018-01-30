@@ -1,3 +1,4 @@
+@import '~handsontable/dist/handsontable.full.css';
 /* Remove Bounce Scroll ioS */
 body{
     height: 100%;

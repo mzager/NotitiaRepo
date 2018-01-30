@@ -118,6 +118,7 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
         this.collection = this.collections.find(v => v.n === name);
         const collectionCode = this.collection.c;
         this.options = [];
+        debugger;
         this.cd.markForCheck();
         if (collectionCode === 'Custom') {
             this.dataService.getCustomGenesets(this.configA.database).then(result => {
