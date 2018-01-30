@@ -81,7 +81,9 @@ select:not([multiple]) {
 }
 .card {
     margin:0px;
+    position:absolute;
 }
+
 .card .card-content{
     padding:0px;
     margin:0px;
@@ -128,8 +130,6 @@ input, .select-wrapper input.select-dropdown {
     line-height: 30px;
 }
 
-
-
 [type="checkbox"] + label:before, [type="checkbox"]:not(.filled-in) + label:after
 {
     width: 11px;
@@ -167,12 +167,32 @@ dropdown-content li > a, .dropdown-content li > span {
     letter-spacing:1px;
     cursor: move;
   }
-  .card {
-      position:absolute;
-  }
+
   input[type=range] {
       margin: 0px;
   }
   .switch{
     margin-bottom: 6px;
   }
+
+  // global tabs, blue 
+  .tabs .tab a{
+    padding: 0px;
+    font-size: .9rem;
+}
+.tab-icon {
+    float: right; 
+    padding-top: 4px; 
+    cursor: pointer;
+}
+.tab-span {
+    float: right; 
+    padding-right:5px; 
+    cursor: pointer;
+} 
+// buttons
+.waves-effect.waves-onco-blue .waves-ripple {
+    /* The alpha value allows the text and background color
+    of the button to still show through. */
+     background-color: rgba(2, 155, 229, 1);
+   }
