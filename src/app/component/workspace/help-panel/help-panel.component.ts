@@ -110,7 +110,7 @@ export class HelpPanelComponent implements AfterViewInit, OnDestroy  {
   ngAfterViewInit(): void {
     $( this.tabs.nativeElement ).tabs();
   }
-  ngOnDestroy(): void{
+  ngOnDestroy(): void {
     this.focusSubscription.unsubscribe();
   }
 
