@@ -16,6 +16,7 @@ export class QueryBuilderComponent implements OnInit, OnChanges {
 
   private defaultEmptyList: any[] = [];
   private operatorsCache: {[key: string]: string[]};
+  customCohortName = '';
 
   constructor() {
     this.typeMap = {
@@ -138,5 +139,9 @@ export class QueryBuilderComponent implements OnInit, OnChanges {
     delete rule.value;
     const fieldObject = this.config.fields[rule.field];
     rule.operator = this.operatorMap[fieldObject.type][0];
+  }
+
+  save(): void {
+    alert(this.customCohortName + ' NAME');
   }
 }
