@@ -20,7 +20,8 @@
     <div class='card-content' style='padding:20px;'>
 
         <div id='QueryPanelCreate'>
-            <app-workspace-query-builder *ngIf='showBuilder' [data]='query' [config]='cfg'></app-workspace-query-builder>
+            <app-workspace-query-builder *ngIf='showBuilder' [data]='query' [config]='cfg'
+                (onSave)='filter();'></app-workspace-query-builder>
         </div>
 
         <div id='QueryPanelLoad'>

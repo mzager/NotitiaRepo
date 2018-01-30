@@ -34,6 +34,7 @@
     "@types/pouchdb-browser": "^6.1.2",
     "@types/stats": "^0.16.30",
     "@types/three": "^0.84.37",
+    "angular-handsontable": "^1.0.0-beta3",
     "angular2-cookie": "^1.2.6",
     "angular2-draggable": "^1.1.0-beta.0",
     "angular2-materialize": "^15.1.10",
