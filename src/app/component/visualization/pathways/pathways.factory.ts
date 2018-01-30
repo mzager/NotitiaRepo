@@ -43,15 +43,15 @@ export class PathwaysFactory {
     }
     public static createNode( node: string, w: number, h: number, x: number, y: number): THREE.Shape {
         switch (node) {
-            case PathwayNodeEnum.UNSPECIFIED_ENTRY:
+            case PathwayNodeEnum.UNSPECIFIED_ENTRY: // Potentially Gene
             case PathwayNodeEnum.SIMPLE_CHEMICAL:
                 return this.createEllipseShape(w, h, x, y);
             case PathwayNodeEnum.PROCESS:
             case PathwayNodeEnum.COMPARTMENT:
-            case PathwayNodeEnum.MACROMOLECULE:
+            case PathwayNodeEnum.MACROMOLECULE: // Potentially Gene
                 return this.createRoundedRectangleShape( w, h, x, y);
-            case PathwayNodeEnum.COMPLEX:
-            case PathwayNodeEnum.COMPLEX_MULTIMER:
+            case PathwayNodeEnum.COMPLEX:  // Potentially Gene
+            case PathwayNodeEnum.COMPLEX_MULTIMER:  // Potentially Gene
                 return this.createOctagonShape( w, h, x, y);
             case PathwayNodeEnum.UNIT_OF_INFORMATION:
                 return this.createRectangleShape( w, h, x, y);
