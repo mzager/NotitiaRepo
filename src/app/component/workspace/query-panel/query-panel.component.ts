@@ -63,6 +63,7 @@ export class QueryPanelComponent implements AfterViewInit, OnDestroy {
   showBuilder = false;
   cfg: QueryBuilderConfig;
   query: any;
+  options = [];
 
   @Output() hide: EventEmitter<any> = new EventEmitter();
   @Output() queryPanelToggle = new EventEmitter();
