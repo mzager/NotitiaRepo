@@ -1,9 +1,9 @@
-<div class='card' style='width:285px; background:#FFFFFF;'  [ngDraggable]='true' [handle]='titlebar' [inBounds]='true' [bounds]='bounds'
+<div class='card'  [ngDraggable]='true' [handle]='titlebar' [inBounds]='true' [bounds]='bounds'
     [zIndex]='zIndex' [zIndexMoving]='99999' (click)='this.ms.$focus.next("edgePanel");'>
     <div class='card-title-bar' #titlebar >
         Workspace
-        <i class='tiny material-icons' style='float: right; padding-top: 4px; cursor: pointer' (click)='hide.emit()'>close</i>
-        <span style='float: right; padding-right:5px; cursor: pointer;' (click)='helpClick()'>Help</span>
+        <i class='tiny material-icons tab-icon' (click)='hide.emit()'>close</i>
+        <span class='tab-span' (click)='helpClick()'>Help</span>
     </div>
     <div class='card-tabs'>
         <ul class='tabs tabs-fixed-width' #tabs>
@@ -18,7 +18,7 @@
             </li>
         </ul>
     </div>
-    <div class='card-content' style='padding:10px'>
+    <div class='card-content edge-panel-card'>
         <div id='EdgePanelSettings'>
             <form [formGroup]='form' novalidate>
                 <div class='form-group'>
