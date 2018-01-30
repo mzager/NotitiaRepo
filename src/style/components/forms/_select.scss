@@ -37,6 +37,7 @@ select {
   }
 
   span.caret {
+    display: none;
     color: initial;
     position: absolute;
     right: 0;
