@@ -63,6 +63,7 @@ export class QueryPanelComponent implements AfterViewInit, OnDestroy {
   showBuilder = false;
   cfg: QueryBuilderConfig;
   query: any;
+  options = [];
 
   @Output() hide: EventEmitter<any> = new EventEmitter();
   @Output() queryPanelToggle = new EventEmitter();
@@ -76,6 +77,7 @@ export class QueryPanelComponent implements AfterViewInit, OnDestroy {
   }
 
   filter(): void {
+    debugger;
     this.dataService.getPatientIdsWithQueryBuilderCriteria(this._configA.database, this.cfg, this.query).then( pids => {
       this._configA.patientFilter = pids;
       this.dataService.getSampleIdsWithPatientIds( this._configA.database, pids ).then( sids => {
