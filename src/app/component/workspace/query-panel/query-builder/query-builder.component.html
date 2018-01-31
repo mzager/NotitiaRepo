@@ -1,64 +1,74 @@
 <div>
 
-<div class='switch-field float-right'>
-    <button (click)='addRule(data)' class='btn btn-small waves-effect waves-light white blue-text'>+ Rule</button>
-    <button (click)='addRuleSet(data)' class='btn btn-small waves-effect waves-light white blue-text'>+ Ruleset</button>
+  <div class='switch-field float-right'>
+    <button (click)='addRule(data)' class='browser-default btn-config'>+ Rule</button>
+    <button (click)='addRuleSet(data)' class='browser-default btn-config'>+ Ruleset</button>
     <ng-container *ngIf='!!parentData'>
-        <button  class='btn btn-small waves-effect waves-light white blue-text' (click)='removeRuleSet(data, parentData)'><i class='material-icons small'>delete</i></button>
+      <button class='btn btn-small waves-effect waves-light white blue-text' (click)='removeRuleSet(data, parentData)'>
+        <i class='material-icons small'>delete</i>
+      </button>
     </ng-container>
-</div>
+  </div>
 
-<div class='switch-field'>
+  <div class='switch-field'>
     <input type='radio' [(ngModel)]='data.condition' value='and' #andOption/>
     <label (click)='data.condition=andOption.value'>AND</label>
     <input type='radio' [(ngModel)]='data.condition' value='or' #orOption/>
     <label (click)='data.condition=orOption.value'>OR</label>
-</div>
+  </div>
 
-<ul class='query-tree'>
-  <ng-container *ngFor='let item of data.rules'>
-    <ng-container *ngIf='{ruleset: !!item.rules, invalid: !config.allowEmptyRuleset && item.rules && item.rules.length === 0} as local'>
-      <li [ngClass]='{"query-item": true, "rule": !local.ruleset, "ruleset": local.ruleset, "invalid-ruleset": local.invalid}'>
-        <ng-container *ngIf='!local.ruleset'>
-            <select class='form-control browser-default'
-              [(ngModel)]='item.field' (change)='onFieldChange(item)'>
+  <ul class='query-tree'>
+    <ng-container *ngFor='let item of data.rules'>
+      <ng-container *ngIf='{ruleset: !!item.rules, invalid: !config.allowEmptyRuleset && item.rules && item.rules.length === 0} as local'>
+        <li [ngClass]='{"query-item": true, "rule": !local.ruleset, "ruleset": local.ruleset, "invalid-ruleset": local.invalid}'
+          style='padding-left:5px;width:265px;margin-right:0px;'>
+          <ng-container *ngIf='!local.ruleset'>
+            <select class='form-control browser-default' [(ngModel)]='item.field' (change)='onFieldChange(item)'>
               <option *ngFor='let field of fieldNames' [ngValue]='field'>
                 {{config.fields[field].name}}
               </option>
-            </select><select 
-            class='form-control browser-default' [(ngModel)]='item.operator' style='width:30px;border:0px solid #EEEEEE;border-left-width:1px;border-right-width:1px;'> 
+            </select>
+            <select class='form-control browser-default' [(ngModel)]='item.operator' style='width:23px;border:0px solid #EEEEEE;border-left-width:1px;border-right-width:1px;'>
               <option *ngFor='let operator of getOperators(item.field)' [ngValue]='operator'>
                 {{operator}}
               </option>
-            </select><ng-container 
-              [ngSwitch]='getInputType(item.field, item.operator)'><input 
-              class='form-control browser-default' [(ngModel)]='item.value' *ngSwitchCase='"text"' type='text'><input 
-              class='form-control browser-default' [(ngModel)]='item.value' *ngSwitchCase='"date"' type='date'><input 
-              class='form-control browser-default' [(ngModel)]='item.value' *ngSwitchCase='"number"' type='number'><select 
-              class='form-control browser-default' [(ngModel)]='item.value' *ngSwitchCase='"select"'>
+            </select>
+            <ng-container [ngSwitch]='getInputType(item.field, item.operator)'>
+              <input class='form-control browser-default' [(ngModel)]='item.value' *ngSwitchCase='"text"' type='text'>
+              <input class='form-control browser-default' [(ngModel)]='item.value' *ngSwitchCase='"date"' type='date'>
+              <input class='form-control browser-default' [(ngModel)]='item.value' *ngSwitchCase='"number"' type='number'>
+              <select class='form-control browser-default' [(ngModel)]='item.value' *ngSwitchCase='"select"'>
                 <option *ngFor='let opt of getOptions(item.field)' [ngValue]='opt.value'>
                   {{opt.name}}
                 </option>
               </select>
               <ng-container *ngSwitchCase='"multiselect"'>
-                <div style='margin-bottom: 8px'></div><select 
-                class='form-control' [(ngModel)]='item.value' multiple>
+                <div style='margin-bottom: 8px'></div>
+                <select class='form-control' [(ngModel)]='item.value' multiple>
                   <option *ngFor='let opt of getOptions(item.field)' [ngValue]='opt.value'>
                     {{opt.name}}
                   </option>
                 </select>
-                
               </ng-container>
               <div class='switch-field' style='border:0px solid #EEEEEE; border-left-width:1px;display: inline-block;'>
-                <button class='btn btn-small waves-effect waves-light white blue-text' (click)='removeRule(item, data)'><i class='material-icons small'>delete</i></button>
+                <button class='btn btn-small waves-effect waves-light white blue-text' (click)='removeRule(item, data)'>
+                  <i class='material-icons small'>delete</i>
+                </button>
               </div>
               <input class='form-control' [(ngModel)]='item.value' *ngSwitchCase='"checkbox"' type='checkbox'>
             </ng-container>
-        </ng-container>
-        <app-workspace-query-builder *ngIf='local.ruleset' [data]='item' [parentData]='data' [config]='config' [typeMap]='typeMap' [operatorMap]='operatorMap'></app-workspace-query-builder>
-        <p class='empty-warning' *ngIf='local.invalid'>A ruleset cannot be empty. Please add a rule or remove it all together.</p>        
-      </li>
+          </ng-container>
+          <app-workspace-query-builder *ngIf='local.ruleset' [data]='item' [parentData]='data' [config]='config' [typeMap]='typeMap'
+            [operatorMap]='operatorMap'></app-workspace-query-builder>
+          <p class='empty-warning' *ngIf='local.invalid'>A ruleset cannot be empty. Please add a rule or remove it all together.</p>
+        </li>
+      </ng-container>
     </ng-container>
-  </ng-container>
-</ul>
+  </ul>
+  <div style='text-align:right'>
+    <input type='text' class='browser-default' style='border-width:1px;width:196px;'
+      placeholder="Enter Cohort Name"
+      [(ngModel)]='customCohortName'>
+    <button class='browser-default btn-config' (click)='save()'>Save</button>
+  </div>
 </div>

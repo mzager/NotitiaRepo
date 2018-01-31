@@ -89,7 +89,7 @@ import { LinearDiscriminantAnalysisFormComponent } from 'app/component/visualiza
 import { MiniBatchDictionaryLearningFormComponent } from 'app/component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.form.component';
 import { QueryBuilderComponent } from 'app/component/workspace/query-panel/query-builder/query-builder.component';
 import { ModalService } from 'app/service/modal-service';
-
+import { HotTableModule } from 'angular-handsontable';
 @NgModule({
   declarations: [
     AppComponent,
@@ -156,7 +156,6 @@ import { ModalService } from 'app/service/modal-service';
   ],
   imports: [
     ToastModule.forRoot(),
-    // HotTableModule,
     MaterializeModule,
     FileUploadModule,
     BrowserModule,
@@ -170,7 +169,8 @@ import { ModalService } from 'app/service/modal-service';
     StoreModule.forRoot( reducers ),
     StoreDevtoolsModule.instrument({
       maxAge: 25 //  Retains last 25 states
-    })
+    }),
+    HotTableModule
   ],
   providers: [
     Title,
