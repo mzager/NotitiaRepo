@@ -11,6 +11,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import * as util from 'app/service/compute.worker.util';
 import Dexie from 'dexie';
 import { GraphConfig } from 'app/model/graph-config.model';
+import { HotRegisterer } from 'angular-handsontable';
 declare var $: any;
 // declare var Handsontable: any;
 
@@ -22,7 +23,7 @@ declare var $: any;
 })
 export class DataPanelComponent implements AfterViewInit {
 
-  // @ViewChild('dataTable') dataTable;
+  @ViewChild('dataTable') dataTable;
   @ViewChild('tabs') tabs: ElementRef;
 
 
@@ -30,7 +31,7 @@ export class DataPanelComponent implements AfterViewInit {
   @Input() configB: GraphConfig;
 
   public _tables: Array<DataTable> = [];
-  public db: Dexie;
+  public db: Dexie = null;
 
   @Input() set tables(v: Array<DataTable>) {
     this._tables = v.concat([
@@ -58,7 +59,8 @@ export class DataPanelComponent implements AfterViewInit {
   }
 
   loadTable(table: DataTable): void {
-    /*
+debugger;
+    const hot = this.hotRegisterer.getInstance('hotInstance');
     if (table.ctype === CollectionTypeEnum.UNDEFINED) {
       const config: GraphConfig = (table.tbl === 'configA') ? this.configA : this.configB;
       const markers: Array<any> = config.markerFilter.map(v =>
@@ -70,7 +72,7 @@ export class DataPanelComponent implements AfterViewInit {
       const data = markers.concat(samples);
       const colHeaders = ['Name', 'Type', 'Selected'];
 
-      this.dataTable.inst.updateSettings({
+      hot.updateSettings({
         manualColumnResize: true,
         columnSorting: true,
         sortIndicator: true,
@@ -84,9 +86,8 @@ export class DataPanelComponent implements AfterViewInit {
         autoRowSize: false,
         autoColSize: false,
         contextMenu: true
-      });
-      this.dataTable.inst.loadData(data);
-
+      }, true);
+      hot.loadData(data);
       return;
     }
     this.openDatabase().then(() => {
@@ -97,7 +98,7 @@ export class DataPanelComponent implements AfterViewInit {
         const colHeaders = result[1].map(v => v.s);
         const rowHeaders = result[0].map(v => v.m );
         const data = result[0].map(v => v.d );
-        this.dataTable.inst.updateSettings({
+        hot.updateSettings({
           manualColumnResize: true,
           columnSorting: true,
           sortIndicator: true,
@@ -111,18 +112,17 @@ export class DataPanelComponent implements AfterViewInit {
           autoRowSize: false,
           autoColSize: false,
           contextMenu: true
-        });
-        this.dataTable.inst.loadData(data);
+        }, true);
+        hot.loadData(data);
       });
     });
-    */
   }
 
   ngAfterViewInit() {
     $(this.tabs.nativeElement).tabs();
-    // this.loadTable(this._tables[0]);
+    this.loadTable(this._tables[0]);
   }
 
-  constructor() {
+  constructor(private hotRegisterer: HotRegisterer) {
   }
 }

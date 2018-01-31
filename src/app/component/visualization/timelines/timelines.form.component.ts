@@ -48,7 +48,7 @@ import { FormArray, AbstractControl } from '@angular/forms/src/model';
     <div *ngFor='let bar of ctrls; let i=index'>
       <div [formGroupName]='i'>
         <span class='form-label' style='
-        text-align:left;width:100%;font-weight:700;padding:10px 0px 5px 0px;font-size:0.8rem;'>
+        text-align:left;width:100%;font-weight:700;padding:10px 0px 5px 0px;font-size:1rem;'>
           {{ctrls[i].get('label').value}} Events</span>
           <div class='form-group'>
             <label class='center-block'><span class='form-label'>Display</span>
