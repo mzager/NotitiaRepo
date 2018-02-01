@@ -55,7 +55,6 @@ declare var $: any;
                 <button style='width:66px;' class='browser-default btn-config' (click)='save()'>Save</button>
             </div>
         </div>
-
         <div id='GenesetPanelLoad'>
             <div class='center-block' style='border: solid 1px #EEEEEE;border-radius:3px;margin: 20px 20px 0px 20px;'>
                 <select class='browser-default' materialize='material_select'
@@ -118,7 +117,7 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
         this.collection = this.collections.find(v => v.n === name);
         const collectionCode = this.collection.c;
         this.options = [];
-        debugger;
+        // debugger;
         this.cd.markForCheck();
         if (collectionCode === 'Custom') {
             this.dataService.getCustomGenesets(this.configA.database).then(result => {

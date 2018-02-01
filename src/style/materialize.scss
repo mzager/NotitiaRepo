@@ -43,6 +43,21 @@
 @import "components/date_picker/default.time";
 
 
+body {
+    color: #666666;
+    text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+html {
+    color: #666666;
+    font-size: 80%;
+}
+p {
+    color: #666666;
+}
+
 .form-group{
     margin-top:3px;
 }
@@ -75,6 +90,13 @@ select:not([multiple]) {
     padding: 0px;
     cursor: pointer;
 }
+.btn-config {
+    background-color: rgba(255, 255, 255, 0.9);
+    width: 100%;
+    border: 1px solid #EEEEEE;
+    border-radius: 2px;
+    height: 2rem;
+}
 .form-label {
     display: inline-block !important;
     width: 80px;
@@ -88,19 +110,7 @@ select:not([multiple]) {
     padding:0px;
     margin:0px;
 }
-p {
-    color: #666666;
-}
-html {
-    color: #666666;
-    font-size: 80%;
-}
-body {
-    color: #666666;
-    text-rendering: optimizeLegibility;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-}
+
 // Dropdown
 .select-wrapper {
     display: inline-block;
