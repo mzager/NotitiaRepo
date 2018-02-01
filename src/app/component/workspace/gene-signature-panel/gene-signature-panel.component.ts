@@ -23,8 +23,7 @@ declare var $: any;
   </div>
   <div class="card-content">
       <div id="cohort-panel">
-          
-      </div>
+      </div>s
   </div>
 </div>`,
   changeDetection: ChangeDetectionStrategy.Default
