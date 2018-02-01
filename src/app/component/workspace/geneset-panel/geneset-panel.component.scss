@@ -5,10 +5,72 @@
     font-size: .9rem;
 }
 
-.btn-config {
-    background-color: rgba(255, 255, 255, 0.9);
-    width: 100%;
-    border: 1px solid #EEEEEE;
-    border-radius: 2px;
-    height: 2rem;
+.geneset-panel {
+    width:285px;
+    background:#FFFFFF;
 }
+.geneset-panel-bar{
+    background: #029BE5; 
+    color:#FFF; 
+    font-weight:normal; 
+    font-size:12px; 
+    padding:5px 10px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+// custom panel
+.geneset-panel-custom {
+    padding:20px; 
+    font-size:1rem;
+}
+.geneset-custom-label {
+    width:100%;
+    padding-bottom:5px;
+}
+.geneset-custom-textarea {
+    resize:none;
+    width:100%; 
+    border: solid 1px #EEEEEE; 
+    height:100px;
+}
+.geneset-custom-name {
+    width:175px;
+    border-width:1px;
+    margin-bottom:5px;
+}
+//load panel
+// .geneset-load-panel {
+//     border: solid 1px #EEEEEE;
+//     border-radius:3px;
+//     margin: 20px 20px 0px 20px;
+// }
+// .geneset-load-name {
+//     width:75px;
+//     display:inline-block;
+//     border-bottom-width:0px;
+// }
+// .geneset-load-search {
+//     border:0px solid #EEEEEE;
+//     margin:0px;
+//     border-left-width:1px;
+//     padding:0px 10px;
+//     display:inline-block;
+
+// }
+// .geneset-load-results {
+//     max-height:300px;
+//     overflow-y:scroll;
+//     overflow-x:wrap;
+//     padding:20px;
+// }
+// .geneset-load-padding {
+//     padding-bottom:5px;
+// }
+// .geneset-load-collection {
+//     font-weight:700;
+// }
+// .geneset-result-genes {
+//     padding-top: 5px;
+//     float:right;
+// }
+
