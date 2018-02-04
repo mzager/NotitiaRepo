@@ -898,12 +898,20 @@ export class StatFactory {
 
         return new Promise( (resolve, reject) => {
 
-            const stats = [
-                { mylabel: 'Genes: ', myvalue: ((config.markerFilter.length === 0) ? 'All' : config.markerFilter.length.toString()) },
-                { mylabel: 'Patients: ', myvalue: ((config.patientFilter.length === 0) ? 'All' : config.patientFilter.length.toString()) },
-                { mylabel: 'Samples: ', myvalue: ((config.sampleFilter.length === 0) ? 'All' : config.sampleFilter.length.toString()) }
-            ];
-
+            const stats = [];
+            if (config.markerFilter !== null) {
+                stats.push({ mylabel: 'Genes: ', myvalue: ((config.markerFilter.length === 0) ?
+                    'All' : config.markerFilter.length.toString()) });
+            }
+            if (config.patientFilter !== null) {
+                stats.push({ mylabel: 'Patients: ', myvalue: ((config.patientFilter.length === 0) ?
+                    'All' : config.patientFilter.length.toString()) });
+            }
+            if (config.sampleFilter !== null) {
+                stats.push({ mylabel: 'Samples: ', myvalue: ((config.sampleFilter.length === 0) ?
+                    'All' : config.sampleFilter.length.toString()) });
+            }
+            
             const keyValues = new StatKeyValues('', stats);
 
             dataService.getPatientStats(config.database, config.patientFilter).then( result => {

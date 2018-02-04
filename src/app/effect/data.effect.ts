@@ -82,14 +82,14 @@ export class DataEffect {
         .mergeMap( (args: DataLoadedAction) => {
 
             const workspaceConfig = new WorkspaceConfigModel();
-            workspaceConfig.layout = WorkspaceLayoutEnum.HORIZONTAL;
+            workspaceConfig.layout = WorkspaceLayoutEnum.SINGLE;
 
             // const pathwaysConfig = new PathwaysConfigModel();
             // pathwaysConfig.graph = GraphEnum.GRAPH_A;
             // pathwaysConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             const genomeConfig = new GenomeConfigModel();
-            genomeConfig.graph = GraphEnum.GRAPH_B;
+            genomeConfig.graph = GraphEnum.GRAPH_A;
             genomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             // const chromosomeConfig = new ChromosomeConfigModel();
@@ -105,7 +105,7 @@ export class DataEffect {
             // timelinesConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
 
             const graphAConfig = new PcaIncrementalConfigModel();
-            graphAConfig.graph = GraphEnum.GRAPH_A;
+            graphAConfig.graph = GraphEnum.GRAPH_B;
             graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             // const hicConfig = new HicConfigModel();

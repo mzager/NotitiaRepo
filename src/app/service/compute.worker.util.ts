@@ -184,7 +184,18 @@ export class ComputeWorkerUtil {
             });
         });
     }
+
+    getGenomePositions(alignment: string): Promise<any> {
+        return Promise.all([
+            fetch('https://s3-us-west-2.amazonaws.com/notitia/reference/hg-' + alignment + '-cytoband.json.gz',{
+                method: 'GET' }).then(res => res.json() ),
+            fetch('https://s3-us-west-2.amazonaws.com/notitia/reference/hg-' + alignment + '-genes.json.gz',{
+                method: 'GET'   }).then(res => res.json() )
+        ]);
+    }
+
     getGenomeInfo(genes: Array<string>): Promise<any> {
+        console.log('THIS SHOULD BE DEPRECATED');
         return new Promise((resolve, reject) => {
             this.openDatabaseLookup().then(v => {
                 Promise.all([
@@ -249,6 +260,14 @@ export class ComputeWorkerUtil {
                     resolve(_patients);
                 });
             });
+        });
+    }
+    
+    getTads(): Promise<any> {
+        return new Promise( (resolve, reject) => {
+            fetch('https://s3-us-west-2.amazonaws.com/notitia/reference/tads.json.gz',{
+                method: 'GET'
+            }).then(res => { res.json().then( resolve ); });
         });
     }
     getMatrix(markers: Array<string>, samples: Array<string>, map: string, db: string, tbl: string, entity: EntityTypeEnum): Promise<any> {

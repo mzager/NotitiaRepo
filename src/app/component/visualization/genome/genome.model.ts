@@ -13,14 +13,17 @@ export class GenomeConfigModel extends GraphConfig {
 
     displayType: DimensionEnum = DimensionEnum.THREE_D;
     domain: Array<number> = [-500, 500];
+    alignment = '19';
     chromosomeOption = 'Cytobands';
     layoutOption = 'Circle';
     spacingOption = 'Optimized';
+    showTads = true;
 }
 
 export interface GenomeDataModel extends GraphData {
     legends: Array<Legend>;
     genes: any;
+    tads: any;
     bands: any;
     chromo: Array<{'chr': string, 'P': number, 'C': number, 'Q': number}>;
     showAllGenes: Boolean;
