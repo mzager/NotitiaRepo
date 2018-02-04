@@ -22,6 +22,23 @@ import * as _ from 'lodash';
       </select>
     </label>
   </div>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Alignment</span>
+      <select class='browser-default' materialize='material_select'
+          [materializeSelectOptions]='alignmentOptions'
+          formControlName='alignment'>
+          <option *ngFor='let option of alignmentOptions' [ngValue]='option'>HG{{option}}</option>
+      </select>
+    </label>
+  </div>
+  <div class='form-group'>
+    <div class='switch'>
+      <label class='center-block'><span class='form-label'>HG19 Tads</span>
+        <input type='checkbox' formControlName='showTads'>
+        <span class='lever'></span>
+      </label>
+    </div>
+  </div>
   <!--
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Spacing</span>
@@ -59,6 +76,7 @@ export class GenomeFormComponent {
   colorOptions: Array<DataField>;
   shapeOptions: Array<DataField>;
   sizeOptions: Array<DataField>;
+  alignmentOptions = ['19', '38'];
   layoutOptions = ['Circle', 'Line'];
   spacingOptions = ['Actual', 'Optimized'];
   dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D];
@@ -88,10 +106,12 @@ export class GenomeFormComponent {
       pointSize: [],
 
       dimension: [],
+      alignment: [],
       chromosomeOption: [],
       allowRotation: [],
       layoutOption: [],
-      spacingOption: []
+      spacingOption: [],
+      showTads: []
     });
 
     // Update When Form Changes
