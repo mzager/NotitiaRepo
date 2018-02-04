@@ -96,6 +96,7 @@
     "three-bmfont-text": "^2.2.1",
     "three-orbitcontrols-ts": "^0.1.2",
     "three-transformcontrols": "^0.78.1",
+    "three.js-svg-renderer": "^3.1.6",
     "three.meshline": "^1.0.3",
     "ts-loader": "^2.3.7",
     "ts-md5": "^1.2.3",
