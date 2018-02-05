@@ -14,7 +14,7 @@ import * as _ from 'lodash';
 <form [formGroup]='form' novalidate>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Pathway</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           [materializeSelectOptions]='pathwayOptions'
           formControlName='pathway'>
           <option *ngFor='let option of pathwayOptions' [value]='option'>{{option}}</option>

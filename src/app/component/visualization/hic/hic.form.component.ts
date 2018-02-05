@@ -13,7 +13,7 @@ import * as _ from 'lodash';
 <form [formGroup]='form' novalidate>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Gene Color</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           [compareWith]='byKey'
           [materializeSelectOptions]='colorOptions'
           formControlName='pointColor'>
@@ -23,7 +23,7 @@ import * as _ from 'lodash';
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Dimensions</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
         [materializeSelectOptions]='dimensionOptions'
         formControlName='dimensions'>
           <option *ngFor='let options of dimensionOptions'>{{options}}</option>
@@ -70,7 +70,7 @@ export class HicFormComponent {
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Gene Size</span>
-       <select class='browser-default' materialize='material_select'
+       <select materialize='material_select'
           [compareWith]='byKey'
           [materializeSelectOptions]='sizeOptions'
           formControlName='pointSize'>
@@ -80,7 +80,7 @@ export class HicFormComponent {
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Gene Shape</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           [compareWith]='byKey'
           [materializeSelectOptions]='sizeOptions'
           formControlName='pointShape'>

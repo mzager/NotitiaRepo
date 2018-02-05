@@ -16,7 +16,7 @@ import { SvmCompleteAction } from '../../../action/compute.action';
 <form [formGroup]='form' novalidate>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Data</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
       [compareWith]='byKey'
       formControlName='table'>
       <option *ngFor='let option of dataOptions'>{{option.label}}</option>
@@ -25,7 +25,7 @@ import { SvmCompleteAction } from '../../../action/compute.action';
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Display</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           formControlName='entity'>
           <option *ngFor='let option of displayOptions'>{{option}}</option>
       </select>
@@ -33,7 +33,7 @@ import { SvmCompleteAction } from '../../../action/compute.action';
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Color</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           [compareWith]='byKey'
           [materializeSelectOptions]='colorOptions'
           formControlName='pointColor'>
@@ -44,7 +44,7 @@ import { SvmCompleteAction } from '../../../action/compute.action';
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Size</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           [compareWith]='byKey'
           [materializeSelectOptions]='sizeOptions'
           formControlName='pointSize'>
@@ -55,7 +55,7 @@ import { SvmCompleteAction } from '../../../action/compute.action';
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Shape</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           [compareWith]='byKey'
           [materializeSelectOptions]='colorOptions' formControlName='pointShape'>
           <option *ngFor='let option of shapeOptions'
@@ -65,7 +65,7 @@ import { SvmCompleteAction } from '../../../action/compute.action';
   </div>
    <div class='form-group'>
     <label class='center-block'><span class='form-label'>Dimension</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
         [materializeSelectOptions]='dimensionOptions'
         formControlName='dimension'>
           <option *ngFor='let options of dimensionOptions'>{{options}}</option>

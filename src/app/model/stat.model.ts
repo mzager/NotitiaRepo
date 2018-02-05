@@ -419,7 +419,7 @@ export class VegaFactory {
             'title': {
                 'text': stat.name
             },
-            'background': 'white',
+            'background': 0xFAFAFA,
             'width': 265,
             'height': 180,
             'padding': 0,
@@ -554,7 +554,7 @@ export class VegaFactory {
             'title': {
                 'text': stat.name
             },
-            'background': 'white',
+            'background': 0xFAFAFA,
             'width': 130,
             'height': 150,
             'padding': 0,
@@ -670,7 +670,7 @@ export class VegaFactory {
             'title': {
                 'text': stat.name
             },
-            'background': 'white',
+            'background': 0xFAFAFA,
             'width': 185,
             'height': 250,
             'padding': 0,
@@ -777,7 +777,7 @@ export class VegaFactory {
             'title': {
                 'text': stat.name
             },
-            'background': 'white',
+            'background': 0xFAFAFA,
             'width': 185,
             'height': 250,
             'padding': 0,
@@ -911,7 +911,7 @@ export class StatFactory {
                 stats.push({ mylabel: 'Samples: ', myvalue: ((config.sampleFilter.length === 0) ?
                     'All' : config.sampleFilter.length.toString()) });
             }
-            
+
             const keyValues = new StatKeyValues('', stats);
 
             dataService.getPatientStats(config.database, config.patientFilter).then( result => {

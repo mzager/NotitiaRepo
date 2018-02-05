@@ -1,4 +1,4 @@
-<div class='card' style='width:285px; background:#FFFFFF;' [ngDraggable]='true' [handle]='titlebar' [inBounds]='true' [bounds]='bounds'
+<div class='card' style='width:285px; background:#FAFAFA;' [ngDraggable]='true' [handle]='titlebar' [inBounds]='true' [bounds]='bounds'
     [zIndex]='zIndex' [zIndexMoving]='99999' (click)='panelFocus()'>
     <div class='card-title-bar' #titlebar >
         {{ title }}
@@ -34,7 +34,7 @@
                 <div class='form-group'>
                     <label class='center-block'>
                         <span class='form-label'>Visualization</span>
-                        <select class='browser-default' materialize='material_select' [ngModel]='config.visualization' (change)='onVisualizationChange($event)'
+                        <select materialize='material_select' [ngModel]='config.visualization' (change)='onVisualizationChange($event)'
                             [materializeSelectOptions]='visualizationOptions'>
                             <option *ngFor='let option of visualizationOptions' [value]='option.value' [selected]='config.visualization'>{{option.label}}</option>
                         </select>
