@@ -14,7 +14,7 @@ import * as _ from 'lodash';
 <form [formGroup]='form' novalidate>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Gene Color</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           [compareWith]='byKey'
           [materializeSelectOptions]='colorOptions'
           formControlName='pointColor'>
@@ -24,7 +24,7 @@ import * as _ from 'lodash';
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Alignment</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           [materializeSelectOptions]='alignmentOptions'
           formControlName='alignment'>
           <option *ngFor='let option of alignmentOptions' [ngValue]='option'>HG{{option}}</option>
@@ -42,7 +42,7 @@ import * as _ from 'lodash';
   <!--
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Spacing</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           [compareWith]='byKey'
           [materializeSelectOptions]='spacingOptions'
           formControlName='spacingOption'>

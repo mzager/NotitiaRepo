@@ -13,7 +13,7 @@ import * as _ from 'lodash';
 <form [formGroup]='form' novalidate>
 <div class='form-group'>
   <label class='center-block'><span class='form-label'>Continuous Variable</span>
-    <select class='browser-default' materialize='material_select'
+    <select materialize='material_select'
         [compareWith]='byKey'
         [materializeSelectOptions]='continuousOptions' formControlName='continuousVariable'>
         <option *ngFor='let option of continuousOptions'
@@ -23,7 +23,7 @@ import * as _ from 'lodash';
 </div>
 <div class='form-group'>
   <label class='center-block'><span class='form-label'>Categoricial Variable 1</span>
-    <select class='browser-default' materialize='material_select'
+    <select materialize='material_select'
         [compareWith]='byKey'
         [materializeSelectOptions]='categoricalOptions' formControlName='categoricalVariable1'>
         <option *ngFor='let option of categoricalOptions'
@@ -33,7 +33,7 @@ import * as _ from 'lodash';
 </div>
 <div class='form-group'>
   <label class='center-block'><span class='form-label'>Categoricial Variable 2</span>
-    <select class='browser-default' materialize='material_select'
+    <select materialize='material_select'
         [compareWith]='byKey'
         [materializeSelectOptions]='categoricalOptions' formControlName='categoricalVariable2'>
         <option *ngFor='let option of categoricalOptions'
@@ -43,7 +43,7 @@ import * as _ from 'lodash';
 </div>
 <div class='form-group'>
   <label class='center-block'><span class='form-label'>Color</span>
-    <select class='browser-default' materialize='material_select'
+    <select materialize='material_select'
         [compareWith]='byKey'
         [materializeSelectOptions]='colorOptions'
         formControlName='pointColor'>
@@ -54,7 +54,7 @@ import * as _ from 'lodash';
 </div>
 <div class='form-group'>
 <label class='center-block'><span class='form-label'>Sort</span>
-  <select class='browser-default' materialize='material_select'
+  <select materialize='material_select'
       [compareWith]='byKey'
       [materializeSelectOptions]='colorOptions'
       formControlName='pointColor'>

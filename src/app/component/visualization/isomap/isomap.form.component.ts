@@ -15,7 +15,7 @@ import * as _ from 'lodash';
 <form [formGroup]='form' novalidate>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Data</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
         [compareWith]='byKey'
         formControlName='table'>
         <option *ngFor='let option of dataOptions'>{{option.label}}</option>
@@ -24,7 +24,7 @@ import * as _ from 'lodash';
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Display</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           formControlName='entity'>
           <option *ngFor='let option of displayOptions'>{{option}}</option>
       </select>
@@ -32,7 +32,7 @@ import * as _ from 'lodash';
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Color</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           [compareWith]='byKey'
           [materializeSelectOptions]='colorOptions'
           formControlName='pointColor'>
@@ -43,7 +43,7 @@ import * as _ from 'lodash';
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Size</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           [compareWith]='byKey'
           [materializeSelectOptions]='sizeOptions'
           formControlName='pointSize'>
@@ -54,7 +54,7 @@ import * as _ from 'lodash';
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Shape</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           [compareWith]='byKey'
           [materializeSelectOptions]='colorOptions' formControlName='pointShape'>
           <option *ngFor='let option of shapeOptions'
@@ -64,7 +64,7 @@ import * as _ from 'lodash';
   </div>
    <div class='form-group'>
     <label class='center-block'><span class='form-label'>Dimension</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
         [materializeSelectOptions]='dimensionOptions'
         formControlName='dimension'>
           <option *ngFor='let options of dimensionOptions'>{{options}}</option>
@@ -73,7 +73,7 @@ import * as _ from 'lodash';
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Eigen Solver</span>
-    <select class='browser-default' materialize='material_select'
+    <select materialize='material_select'
       [materializeSelectOptions]='IsoMapEigenSolverOpitions'
       formControlName='eigen_solver'>
         <option *ngFor='let options of IsoMapEigenSolverOpitions' [ngValue]='options'>{{options}}</option>
@@ -82,7 +82,7 @@ import * as _ from 'lodash';
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Path Method</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
         [materializeSelectOptions]='IsoMapPathMethodOpitions'
         formControlName='path_method'>
         <option *ngFor='let options of IsoMapPathMethodOpitions' [ngValue]='options'>{{options}}</option>
@@ -91,7 +91,7 @@ import * as _ from 'lodash';
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Neighbors Algorithm</span>
-        <select class='browser-default' materialize='material_select'
+        <select materialize='material_select'
         [materializeSelectOptions]='IsoMapNeighborsAlgorithmOpitions'
         formControlName='neighbors_algorithm'>
           <option *ngFor='let options of IsoMapNeighborsAlgorithmOpitions' [ngValue]='options'>{{options}}</option>

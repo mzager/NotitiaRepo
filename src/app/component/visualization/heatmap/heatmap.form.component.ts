@@ -15,7 +15,7 @@ import * as _ from 'lodash';
   <form [formGroup]='form' novalidate>
     <div class='form-group'>
       <label class='center-block'><span class='form-label'>Data</span>
-        <select class='browser-default' materialize='material_select'
+        <select materialize='material_select'
             [materializeSelectOptions]='dataOptions'
             formControlName='table'>
             <option *ngFor='let option of dataOptions' [value]='option'>{{option.label}}</option>
@@ -24,7 +24,7 @@ import * as _ from 'lodash';
     </div>
     <div class='form-group'>
     <label class='center-block'><span class='form-label'>Affinity</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           [materializeSelectOptions]='dataOptions'
           formControlName='dist'>
           <option *ngFor='let option of distanceOptions' [value]='option.value'>{{option.label}}</option>
@@ -33,7 +33,7 @@ import * as _ from 'lodash';
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Linkage</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           [materializeSelectOptions]='dataOptions'
           formControlName='method'>
           <option *ngFor='let option of distanceOptions' [value]='option.value'>{{option.label}}</option>

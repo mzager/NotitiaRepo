@@ -41,6 +41,7 @@ export class GenomeGraph implements ChartObjectInterface {
 
     // Objects
     public tads: Array<THREE.Object3D>;
+    public lines: Array<THREE.Line>;
     public meshes: Array<THREE.Mesh>;
     public groups: Array<THREE.Group>;
     public chromosomeMeshes: Array<THREE.Mesh>;
@@ -71,6 +72,7 @@ export class GenomeGraph implements ChartObjectInterface {
         this.isEnabled = false;
         this.arms = {};
         this.meshes = [];
+        this.lines = [];
         this.tads = [];
         this.groups = [];
         this.chromosomeMeshes = [];
@@ -93,11 +95,16 @@ export class GenomeGraph implements ChartObjectInterface {
         }
         if (this.config.dirtyFlag & DirtyEnum.COLOR) {
             const objMap = data.pointColor;
+
             this.meshes.forEach(mesh => {
                 const color = objMap[mesh.userData.mid];
-                (mesh.children[0] as THREE.Line).material = new THREE.LineBasicMaterial({color: color});
-                (mesh.children[1] as THREE.Mesh).material = ChartFactory.getColorPhong(color);
+               mesh.material = ChartFactory.getColorPhong(color); 
                 mesh.userData.color = color;
+            });
+            this.lines.forEach(line => {
+                const color = objMap[line.userData.mid];
+                line.material = new THREE.LineBasicMaterial({color: color});
+                line.userData.color = color;
             });
         }
     }
@@ -229,6 +236,9 @@ export class GenomeGraph implements ChartObjectInterface {
                         new THREE.Vector3( 0, 0, 0 )
                     );
                     const line = new THREE.Line(lineGeom, lineMat);
+                    line.userData.mid = gene.gene.toUpperCase();
+                    line.userData.tip = gene.gene;
+                    this.lines.push(line);
                     group.add(line);
 
                     const shape = new THREE.PlaneGeometry(4, 1);
@@ -237,9 +247,9 @@ export class GenomeGraph implements ChartObjectInterface {
                     mesh.userData.mid = gene.gene.toUpperCase();
                     mesh.userData.tip = gene.gene;
                     mesh.position.setX(-3.5);
+                    this.meshes.push(mesh);
                     group.add(mesh);
 
-                    this.meshes.push(mesh);
                     this.arms[ (chromoIndex - 1) + gene.arm].add(group);
                 });
         });

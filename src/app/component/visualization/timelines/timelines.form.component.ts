@@ -14,7 +14,7 @@ import { FormArray, AbstractControl } from '@angular/forms/src/model';
   template: `<form [formGroup]='form' novalidate>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Align</span>
-      <select formControlName='align' class='browser-default'
+      <select formControlName='align'
         materialize='material_select'>
         <optgroup *ngFor='let group of eventGroups' label='{{group.label}}'>
           <option *ngFor='let evt of group.events'
@@ -25,7 +25,7 @@ import { FormArray, AbstractControl } from '@angular/forms/src/model';
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Sort</span>
-      <select formControlName='sort' class='browser-default'
+      <select formControlName='sort'
         materialize='material_select'>
         <optgroup *ngFor='let group of eventGroups' label='{{group.label}}'>
           <option *ngFor='let evt of group.events'
@@ -52,7 +52,7 @@ import { FormArray, AbstractControl } from '@angular/forms/src/model';
           {{ctrls[i].get('label').value}} Events</span>
           <div class='form-group'>
             <label class='center-block'><span class='form-label'>Display</span>
-              <select class='browser-default' materialize='material_select' formControlName='style'>
+              <select materialize='material_select' formControlName='style'>
                 <option *ngFor='let style of styleOptions'
                   [ngValue]='style'>{{style}}</option>
               </select>
