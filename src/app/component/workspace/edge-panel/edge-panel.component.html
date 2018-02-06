@@ -24,7 +24,7 @@
                 <div class='form-group'>
                     <label class='center-block'>
                         <span class='form-label'>Layout</span>
-                        <select class='browser-default' materialize='material_select' [materializeSelectOptions]='layoutOptions' formControlName='layout'>
+                        <select materialize='material_select' [materializeSelectOptions]='layoutOptions' formControlName='layout'>
                             <option *ngFor='let option of layoutOptions' [value]='option'>{{option}}</option>
                         </select>
                     </label>

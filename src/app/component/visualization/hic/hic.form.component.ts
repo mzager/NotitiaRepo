@@ -1,6 +1,6 @@
 import { HicConfigModel } from './hic.model';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { DimensionEnum, DataTypeEnum, VisualizationEnum, DirtyEnum, CollectionTypeEnum } from 'app/model/enum.model';
+import { DimensionEnum, DataTypeEnum, VisualizationEnum, DirtyEnum, CollectionTypeEnum, EntityTypeEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -13,7 +13,7 @@ import * as _ from 'lodash';
 <form [formGroup]='form' novalidate>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Gene Color</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           [compareWith]='byKey'
           [materializeSelectOptions]='colorOptions'
           formControlName='pointColor'>
@@ -23,7 +23,7 @@ import * as _ from 'lodash';
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Dimensions</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
         [materializeSelectOptions]='dimensionOptions'
         formControlName='dimensions'>
           <option *ngFor='let options of dimensionOptions'>{{options}}</option>
@@ -48,6 +48,15 @@ import * as _ from 'lodash';
       </label>
     </div>
   </div>
+  <div class='form-group'>
+    <div class='switch'>
+      <label>
+        <input type='checkbox' formControlName='showChromosome'>
+        <span class='lever'></span>
+        Show CTCF
+      </label>
+    </div>
+  </div>
 </form>
   `
 })
@@ -61,7 +70,7 @@ export class HicFormComponent {
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Gene Size</span>
-       <select class='browser-default' materialize='material_select'
+       <select materialize='material_select'
           [compareWith]='byKey'
           [materializeSelectOptions]='sizeOptions'
           formControlName='pointSize'>
@@ -71,7 +80,7 @@ export class HicFormComponent {
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Gene Shape</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           [compareWith]='byKey'
           [materializeSelectOptions]='sizeOptions'
           formControlName='pointShape'>
@@ -85,9 +94,9 @@ export class HicFormComponent {
     if (fields === null) { return; }
     if (fields.length === 0) { return; }
     const defaultDataField: DataField = DataFieldFactory.getUndefined();
-    this.colorOptions = DataFieldFactory.getColorFields(fields).filter( v => v.ctype !== undefined );
-    this.shapeOptions = DataFieldFactory.getShapeFields(fields).filter( v => v.ctype !== undefined );
-    this.sizeOptions = DataFieldFactory.getSizeFields(fields).filter( v => v.ctype !== undefined );
+    this.colorOptions = DataFieldFactory.getColorFields(fields, EntityTypeEnum.GENE); //.filter( v => v.ctype !== undefined );
+    this.shapeOptions = DataFieldFactory.getShapeFields(fields, EntityTypeEnum.GENE); //.filter( v => v.ctype !== undefined );
+    this.sizeOptions = DataFieldFactory.getSizeFields(fields, EntityTypeEnum.GENE); //.filter( v => v.ctype !== undefined );
   }
 
   @Input() set tables(tables: Array<DataTable>) {

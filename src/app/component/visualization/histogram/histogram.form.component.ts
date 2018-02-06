@@ -13,7 +13,7 @@ import * as _ from 'lodash';
 <form [formGroup]='form' novalidate>
   <div class='form-group'>
     <label class='center-block'>Data
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           [materializeSelectOptions]='dataOptions'
           formControlName='molecularTable'>
           <option *ngFor='let option of dataOptions' [value]='option'>{{option}}</option>
@@ -22,7 +22,7 @@ import * as _ from 'lodash';
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Point Color</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           [compareWith]='byKey'
           [materializeSelectOptions]='colorOptions'
           formControlName='pointColor'>
@@ -32,7 +32,7 @@ import * as _ from 'lodash';
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Point Size</span>
-       <select class='browser-default' materialize='material_select'
+       <select materialize='material_select'
           [compareWith]='byKey'
           [materializeSelectOptions]='sizeOptions'
           formControlName='pointSize'>

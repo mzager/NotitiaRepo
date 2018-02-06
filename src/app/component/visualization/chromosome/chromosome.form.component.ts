@@ -13,7 +13,7 @@ import * as _ from 'lodash';
 <form [formGroup]='form' novalidate>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Chromosomes</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           [compareWith]='byKey'
           [materializeSelectOptions]='chromosomeOptions'
           formControlName='chromosome'>
@@ -23,7 +23,7 @@ import * as _ from 'lodash';
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Layout</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           [compareWith]='byKey'
           [materializeSelectOptions]='layoutOptions'
           formControlName='layoutOption'>
@@ -33,7 +33,7 @@ import * as _ from 'lodash';
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Spacing</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           [compareWith]='byKey'
           [materializeSelectOptions]='spacingOptions'
           formControlName='spacingOption'>
@@ -43,7 +43,7 @@ import * as _ from 'lodash';
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Show</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           [compareWith]='byKey'
           [materializeSelectOptions]='geneOptions'
           formControlName='geneOption'>
@@ -53,7 +53,7 @@ import * as _ from 'lodash';
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Gene Color</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           [compareWith]='byKey'
           [materializeSelectOptions]='colorOptions'
           formControlName='pointColor'>
@@ -63,7 +63,7 @@ import * as _ from 'lodash';
   </div>
   <div class='form-group'>
   <label class='center-block'><span class='form-label'>Chords</span>
-    <select class='browser-default' materialize='material_select'
+    <select materialize='material_select'
         [compareWith]='byKey'
         [materializeSelectOptions]='chordOptions'
         formControlName='chordOption'>

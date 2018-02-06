@@ -419,7 +419,7 @@ export class VegaFactory {
             'title': {
                 'text': stat.name
             },
-            'background': 'white',
+            'background': 0xFAFAFA,
             'width': 265,
             'height': 180,
             'padding': 0,
@@ -554,7 +554,7 @@ export class VegaFactory {
             'title': {
                 'text': stat.name
             },
-            'background': 'white',
+            'background': 0xFAFAFA,
             'width': 130,
             'height': 150,
             'padding': 0,
@@ -670,7 +670,7 @@ export class VegaFactory {
             'title': {
                 'text': stat.name
             },
-            'background': 'white',
+            'background': 0xFAFAFA,
             'width': 185,
             'height': 250,
             'padding': 0,
@@ -777,7 +777,7 @@ export class VegaFactory {
             'title': {
                 'text': stat.name
             },
-            'background': 'white',
+            'background': 0xFAFAFA,
             'width': 185,
             'height': 250,
             'padding': 0,
@@ -898,11 +898,19 @@ export class StatFactory {
 
         return new Promise( (resolve, reject) => {
 
-            const stats = [
-                { mylabel: 'Genes: ', myvalue: ((config.markerFilter.length === 0) ? 'All' : config.markerFilter.length.toString()) },
-                { mylabel: 'Patients: ', myvalue: ((config.patientFilter.length === 0) ? 'All' : config.patientFilter.length.toString()) },
-                { mylabel: 'Samples: ', myvalue: ((config.sampleFilter.length === 0) ? 'All' : config.sampleFilter.length.toString()) }
-            ];
+            const stats = [];
+            if (config.markerFilter !== null) {
+                stats.push({ mylabel: 'Genes: ', myvalue: ((config.markerFilter.length === 0) ?
+                    'All' : config.markerFilter.length.toString()) });
+            }
+            if (config.patientFilter !== null) {
+                stats.push({ mylabel: 'Patients: ', myvalue: ((config.patientFilter.length === 0) ?
+                    'All' : config.patientFilter.length.toString()) });
+            }
+            if (config.sampleFilter !== null) {
+                stats.push({ mylabel: 'Samples: ', myvalue: ((config.sampleFilter.length === 0) ?
+                    'All' : config.sampleFilter.length.toString()) });
+            }
 
             const keyValues = new StatKeyValues('', stats);
 

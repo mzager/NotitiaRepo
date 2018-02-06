@@ -20,8 +20,7 @@ declare var $: any;
     template:
         `
 <!-- Card -->
-<div class='card' style='width:285px;background:#FFFFFF;' [ngDraggable]='true' [handle]='titlebar' [inBounds]='true' [bounds]='bounds'
-    [zIndex]='zIndex' [zIndexMoving]='99999' (click)='this.ms.$focus.next("genesetPanel");'>
+<div class='card' style='width:285px;background:#FFFFFF;' (click)='this.ms.$focus.next("genesetPanel");'>
     <!-- Title Bar Row -->
     <div class='card-title-bar' #titlebar style='background: #029BE5; color:#FFF; font-weight:normal; font-size:12px; padding:5px 10px;
         text-transform:uppercase;letter-spacing:1px;'>Gene Sets
@@ -57,12 +56,13 @@ declare var $: any;
         </div>
         <div id='GenesetPanelLoad'>
             <div class='center-block' style='border: solid 1px #EEEEEE;border-radius:3px;margin: 20px 20px 0px 20px;'>
-                <select class='browser-default' materialize='material_select'
-                style='width:75px;display:inline-block;border-bottom-width:0px;'
+            
+                <select materialize='material_select' style='width:75px;'
                     (change)='collectionChange($event.target.value)'>
                     <option *ngFor='let option of collections'>{{option.n}}</option>
                 </select>
-                <input id='filter' class='browser-default' type='text'
+            
+                <input id='filter' type='text'
                 style='border:0px solid #EEEEEE;width:143px;margin:0px;border-left-width:1px;padding:0px 10px;display:inline-block;'
                     placeholder='Filter'
                     (keyup)='filterChange($event.target.value)'>
