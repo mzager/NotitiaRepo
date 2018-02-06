@@ -20,7 +20,10 @@ declare var $: any;
     template:
         `
 <!-- Card -->
-<div class='card' style='width:285px;background:#FFFFFF;' (click)='this.ms.$focus.next("genesetPanel");'>
+<div class='card' style='width:285px;background:#FFFFFF;' 
+    [ngDraggable]='true' [handle]='titlebar' [inBounds]='true' [bounds]='bounds'
+    [preventDefaultEvent]='false'
+    [zIndex]='zIndex' [zIndexMoving]='99999' (click)='this.ms.$focus.next("genesetPanel");'>
     <!-- Title Bar Row -->
     <div class='card-title-bar' #titlebar style='background: #029BE5; color:#FFF; font-weight:normal; font-size:12px; padding:5px 10px;
         text-transform:uppercase;letter-spacing:1px;'>Gene Sets
@@ -44,12 +47,12 @@ declare var $: any;
             <div class='center-block' style='padding:20px; font-size:1rem;'>
                 <span class='form-label' style='width:100%;padding-bottom:5px;'>Custom Gene Set</span>
                 <textarea class='browser-default'
-                    style='resize:none;width:100%; border: solid 1px #EEEEEE; height:100px;'
+                    style='resize:none;width:100%; border: solid 1px #EEEEEE; height:100px; padding:3px;'
                     [(ngModel)]='customGenesetGenes'
                     placeholder='Enter Comma Seperated Gene Ids'></textarea>
                 <input class='browser-default' type='text'
                     [(ngModel)]='customGenesetName'
-                    style="width:175px;border-width:1px;margin-bottom:5px;"
+                    style="width:175px;border-width:1px;margin-bottom:5px;height:2rem;line-height:2rem; padding:0px 3px;'"
                     placeholder='Enter Gene Set Name'>
                 <button style='width:66px;' class='browser-default btn-config' (click)='save()'>Save</button>
             </div>
@@ -58,13 +61,14 @@ declare var $: any;
         <div id='GenesetPanelLoad'>
             <div class='center-block' style='border: solid 1px #EEEEEE;border-radius:3px;margin: 20px 20px 0px 20px;'>
             
-                <select materialize='material_select' style='width:75px;'
+                <select materialize='material_select'
                     (change)='collectionChange($event.target.value)'>
                     <option *ngFor='let option of collections'>{{option.n}}</option>
                 </select>
             
                 <input id='filter' type='text'
-                style='border:0px solid #EEEEEE;width:143px;margin:0px;border-left-width:1px;padding:0px 10px;display:inline-block;'
+                    class='browser-default'
+                    style='height:2rem;line-height:2rem;'
                     placeholder='Filter'
                     (keyup)='filterChange($event.target.value)'>
             </div>

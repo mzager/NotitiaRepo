@@ -85,7 +85,8 @@ export class TimelinesFormComponent {
     if (fields === null) { return; }
     if (fields.length === 0) { return; }
     const defaultDataField: DataField = DataFieldFactory.getUndefined();
-    this.patientAttributes = fields.filter(v => (v.type === 'NUMBER') );
+    this.patientAttributes = fields;
+    //.filter(v => (v.type === 'NUMBER') );
   }
 
   @Input() set events(events: Array<{type: string, subtype: string}>) {
