@@ -18,7 +18,7 @@ import * as _ from 'lodash';
 <form [formGroup]='form' novalidate>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Edges</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           [materializeSelectOptions]='edgeOptions'
           formControlName='edgeOption'>
           <option *ngFor='let option of edgeOptions'
@@ -29,7 +29,7 @@ import * as _ from 'lodash';
   <!--
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Intersection</span>
-      <select class='browser-default' materialize='material_select'
+      <select materialize='material_select'
           [compareWith]='byKey'
           [materializeSelectOptions]='colorOptions' formControlName='pointIntersect'>
           <option *ngFor='let option of intersectOptions'
