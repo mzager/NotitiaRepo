@@ -19,8 +19,17 @@ export class DataFieldFactory {
             case DataTypeEnum.NUMBER:
               return true;
           }
-        }), DataFieldFactory.getGeneFamily(), DataFieldFactory.getGeneType(), DataFieldFactory.getHicType()];
+        })];
+        //, DataFieldFactory.getGeneFamily(), DataFieldFactory.getGeneType(), DataFieldFactory.getHicType()];
       case EntityTypeEnum.GENE:
+      const  g = {
+        key: 'Gistic',
+        label: 'Gistic',
+        type: DataTypeEnum.NUMBER,
+        tbl: 'Gistic',
+        values: null,
+        ctype: CollectionTypeEnum.MOLECULAR
+      };
         return [DataFieldFactory.defaultDataField, DataFieldFactory.getGeneFamily(),
           DataFieldFactory.getGeneType(), DataFieldFactory.getHicType()];
 

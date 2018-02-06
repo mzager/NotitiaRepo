@@ -14,42 +14,120 @@ import { DedicatedWorkerGlobalScope } from 'compute';
 
 export const genomeCompute = (config: GenomeConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
+    // const bandColors = {
+    //     'gneg': 0xf1f1f1,
+    //     'gpos25': 0xededed,
+    //     'gpos50': 0xe9e9e9,
+    //     'gpos75': 0xe4e4e4,
+    //     'gpos100': 0xe0e0e0,
+    //     'acen': 0xdbdbdb,
+    //     'gvar': 0xd7d7d7,
+    //     'stalk': 0xd3d3d3
+    // };
+
+    // const bandColors = {
+    //     'gneg': 0xEEEEEE,
+    //     'gpos25': 0xDDDDDD,
+    //     'gpos50': 0xCCCCCC,
+    //     'gpos75': 0xBBBBBB,
+    //     'gpos100': 0xAAAAAA,
+    //     'acen': 0xdbdbdb,
+    //     'gvar': 0x999999,
+    //     'stalk': 0x888888
+    // };
+
     const bandColors = {
-        'gneg': 0xf1f1f1,
-        'gpos25': 0xededed,
-        'gpos50': 0xe9e9e9,
-        'gpos75': 0xe4e4e4,
-        'gpos100': 0xe0e0e0,
-        'acen': 0xdbdbdb,
-        'gvar': 0xd7d7d7,
-        'stalk': 0xd3d3d3
+        'gneg': 0xEC407A,
+        'gpos25': 0xAB47BC,
+        'gpos50': 0x7E57C2,
+        'gpos75': 0x5C6BC0,
+        'gpos100': 0x42A5F5,
+        'acen': 0x29B6F6,
+        'gvar': 0x26C6DA,
+        'stalk': 0x26A69A
     };
 
-    const ct = [
-        { 'chr': '1', 'P': 0, 'C': 124300000, 'Q': 247249719 },
-        { 'chr': '2', 'P': 0, 'C': 93300000, 'Q': 242951149 },
-        { 'chr': '3', 'P': 0, 'C': 91700000, 'Q': 199501827 },
-        { 'chr': '4', 'P': 0, 'C': 50700000, 'Q': 191273063 },
-        { 'chr': '5', 'P': 0, 'C': 47700000, 'Q': 180857866 },
-        { 'chr': '6', 'P': 0, 'C': 60500000, 'Q': 170899992 },
-        { 'chr': '7', 'P': 0, 'C': 59100000, 'Q': 158821424 },
-        { 'chr': '8', 'P': 0, 'C': 45200000, 'Q': 146274826 },
-        { 'chr': '9', 'P': 0, 'C': 51800000, 'Q': 140273252 },
-        { 'chr': '10', 'P': 0, 'C': 40300000, 'Q': 135374737 },
-        { 'chr': '11', 'P': 0, 'C': 52900000, 'Q': 134452384 },
-        { 'chr': '12', 'P': 0, 'C': 35400000, 'Q': 132349534 },
-        { 'chr': '13', 'P': 0, 'C': 16000000, 'Q': 114142980 },
-        { 'chr': '14', 'P': 0, 'C': 15600000, 'Q': 106368585 },
-        { 'chr': '15', 'P': 0, 'C': 17000000, 'Q': 100338915 },
-        { 'chr': '16', 'P': 0, 'C': 38200000, 'Q': 88827254 },
-        { 'chr': '17', 'P': 0, 'C': 22200000, 'Q': 78774742 },
-        { 'chr': '18', 'P': 0, 'C': 16100000, 'Q': 76117153 },
-        { 'chr': '19', 'P': 0, 'C': 28500000, 'Q': 63811651 },
-        { 'chr': '20', 'P': 0, 'C': 27100000, 'Q': 62435964 },
-        { 'chr': '21', 'P': 0, 'C': 12300000, 'Q': 46944323 },
-        { 'chr': '22', 'P': 0, 'C': 11800000, 'Q': 49691432 },
-        { 'chr': 'X', 'P': 0, 'C': 59500000, 'Q': 154913754 },
-        { 'chr': 'Y', 'P': 0, 'C': 11300000, 'Q': 57772954 }];
+  
+    
+
+    // const ct = [
+    //     { 'chr': '1', 'P': 0, 'C': 124300000, 'Q': 247249719 },
+    //     { 'chr': '2', 'P': 0, 'C': 93300000, 'Q': 242951149 },
+    //     { 'chr': '3', 'P': 0, 'C': 91700000, 'Q': 199501827 },
+    //     { 'chr': '4', 'P': 0, 'C': 50700000, 'Q': 191273063 },
+    //     { 'chr': '5', 'P': 0, 'C': 47700000, 'Q': 180857866 },
+    //     { 'chr': '6', 'P': 0, 'C': 60500000, 'Q': 170899992 },
+    //     { 'chr': '7', 'P': 0, 'C': 59100000, 'Q': 158821424 },
+    //     { 'chr': '8', 'P': 0, 'C': 45200000, 'Q': 146274826 },
+    //     { 'chr': '9', 'P': 0, 'C': 51800000, 'Q': 140273252 },
+    //     { 'chr': '10', 'P': 0, 'C': 40300000, 'Q': 135374737 },
+    //     { 'chr': '11', 'P': 0, 'C': 52900000, 'Q': 134452384 },
+    //     { 'chr': '12', 'P': 0, 'C': 35400000, 'Q': 132349534 },
+    //     { 'chr': '13', 'P': 0, 'C': 16000000, 'Q': 114142980 },
+    //     { 'chr': '14', 'P': 0, 'C': 15600000, 'Q': 106368585 },
+    //     { 'chr': '15', 'P': 0, 'C': 17000000, 'Q': 100338915 },
+    //     { 'chr': '16', 'P': 0, 'C': 38200000, 'Q': 88827254 },
+    //     { 'chr': '17', 'P': 0, 'C': 22200000, 'Q': 78774742 },
+    //     { 'chr': '18', 'P': 0, 'C': 16100000, 'Q': 76117153 },
+    //     { 'chr': '19', 'P': 0, 'C': 28500000, 'Q': 63811651 },
+    //     { 'chr': '20', 'P': 0, 'C': 27100000, 'Q': 62435964 },
+    //     { 'chr': '21', 'P': 0, 'C': 12300000, 'Q': 46944323 },
+    //     { 'chr': '22', 'P': 0, 'C': 11800000, 'Q': 49691432 },
+    //     { 'chr': 'X', 'P': 0, 'C': 59500000, 'Q': 154913754 },
+    //     { 'chr': 'Y', 'P': 0, 'C': 11300000, 'Q': 57772954 }];
+
+    const ct38 = [ { chr: '1', P: 0, C: 123400000, Q: 248956422 },
+    { chr: '2', P: 0, C: 93900000, Q: 242193529 },
+    { chr: '3', P: 0, C: 90900000, Q: 198295559 },
+    { chr: '4', P: 0, C: 50000000, Q: 190214555 },
+    { chr: '5', P: 0, C: 48800000, Q: 181538259 },
+    { chr: '6', P: 0, C: 59800000, Q: 170805979 },
+    { chr: '7', P: 0, C: 60100000, Q: 159345973 },
+    { chr: '8', P: 0, C: 45200000, Q: 145138636 },
+    { chr: '9', P: 0, C: 43000000, Q: 138394717 },
+    { chr: '10', P: 0, C: 39800000, Q: 133797422 },
+    { chr: '11', P: 0, C: 53400000, Q: 135086622 },
+    { chr: '12', P: 0, C: 35500000, Q: 133275309 },
+    { chr: '13', P: 0, C: 17700000, Q: 114364328 },
+    { chr: '14', P: 0, C: 17200000, Q: 107043718 },
+    { chr: '15', P: 0, C: 19000000, Q: 101991189 },
+    { chr: '16', P: 0, C: 36800000, Q: 90338345 },
+    { chr: '17', P: 0, C: 25100000, Q: 83257441 },
+    { chr: '18', P: 0, C: 18500000, Q: 80373285 },
+    { chr: '19', P: 0, C: 26200000, Q: 58617616 },
+    { chr: '20', P: 0, C: 28100000, Q: 64444167 },
+    { chr: '21', P: 0, C: 12000000, Q: 46709983 },
+    { chr: '22', P: 0, C: 15000000, Q: 50818468 },
+    { chr: 'X', P: 0, C: 61000000, Q: 156040895 },
+    { chr: 'Y', P: 0, C: 10400000, Q: 57227415 } ];
+
+
+    const ct19 = [
+        { chr: '1', P: 0, C: 125000000, Q: 249250621 },
+        { chr: '2', P: 0, C: 93300000, Q: 243199373 },
+        { chr: '3', P: 0, C: 91000000, Q: 198022430 },
+        { chr: '4', P: 0, C: 50400000, Q: 191154276 },
+        { chr: '5', P: 0, C: 48400000, Q: 180915260 },
+        { chr: '6', P: 0, C: 61000000, Q: 171115067 },
+        { chr: '7', P: 0, C: 59900000, Q: 159138663 },
+        { chr: '8', P: 0, C: 45600000, Q: 146364022 },
+        { chr: '9', P: 0, C: 49000000, Q: 141213431 },
+        { chr: '10', P: 0, C: 40200000, Q: 135534747 },
+        { chr: '11', P: 0, C: 53700000, Q: 135006516 },
+        { chr: '12', P: 0, C: 35800000, Q: 133851895 },
+        { chr: '13', P: 0, C: 17900000, Q: 115169878 },
+        { chr: '14', P: 0, C: 17600000, Q: 107349540 },
+        { chr: '15', P: 0, C: 19000000, Q: 102531392 },
+        { chr: '16', P: 0, C: 36600000, Q: 90354753 },
+        { chr: '17', P: 0, C: 24000000, Q: 81195210 },
+        { chr: '18', P: 0, C: 17200000, Q: 78077248 },
+        { chr: '19', P: 0, C: 26500000, Q: 59128983 },
+        { chr: '20', P: 0, C: 27500000, Q: 63025520 },
+        { chr: '21', P: 0, C: 13200000, Q: 48129895 },
+        { chr: '22', P: 0, C: 14700000, Q: 51304566 },
+        { chr: 'X', P: 0, C: 60600000, Q: 155270560 },
+        { chr: 'Y', P: 0, C: 12500000, Q: 59373566 }
+    ];
 
     // Gene Scale (Y)
     const scaleGene = scaleLinear();
@@ -62,18 +140,32 @@ export const genomeCompute = (config: GenomeConfigModel, worker: DedicatedWorker
     scaleChromosome.range([0, 300]);
 
     worker.util.processShapeColorSizeIntersect(config, worker);
-
     if (config.dirtyFlag & DirtyEnum.LAYOUT) {
         worker.util
             .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
             .then(mtx => {
-                worker.util.getGenomeInfo(mtx.markers).then(result => {
+                worker.util.getGenomePositions(config.alignment).then(result => {
+                    result[0] = result[0]
+                        .filter(v => v[0] !== '')
+                        .map(v => {
+                        return {
+                            arm: v[3].substr(0, 1).toUpperCase(),
+                            chr: v[0],
+                            s: v[1],
+                            e: v[2],
+                            tag: v[4],
+                            subband: v[3].substring(1)
+                        };
+                    });
 
-                    const genes = _.groupBy(result[1].map(v => {
-                        v.color = 0x039BE5;
-                        v.tss = scaleGene(v.tss);
-                        return v;
-                    }), 'chr');
+                    const genes = _.groupBy(result[1]
+                        .filter(v => mtx.markers.indexOf(v[0]) !== -1)
+                        .map(v => ({
+                            gene: v[0], chr: v[1],
+                            tss: scaleGene(v[3]), s: scaleGene(v[4]), e: scaleGene(v[5]),
+                            strand: v[6], type: v[7], color: 0x039BE5,
+                            arm: v[2].substr(0, 1).toUpperCase(),
+                            band: v[2].substring(1) })), 'chr');
 
                     const chromoObj = _.groupBy(result[0], 'chr');
                     const bands = Object.keys(chromoObj)
@@ -89,18 +181,34 @@ export const genomeCompute = (config: GenomeConfigModel, worker: DedicatedWorker
                                 return w;
                             })
                         );
-
+                    const ct = ct19;
                     const d = {
                         legendItems: [],
                         genes: genes,
                         bands: bands,
+                        tads: [],
                         chromo: ct.map(v => { v.C = scaleGene(v.C); v.Q = scaleGene(v.Q); return v; })
                     };
-                    worker.postMessage({
-                        config: config,
-                        data: d
-                    });
-                    worker.postMessage('TERMINATE');
+                    if (config.showTads) {
+                        worker.util.getTads().then( tads => {
+                            tads.forEach(tad => {
+                                tad.s = scaleGene(tad.s);
+                                tad.e = scaleGene(tad.e);
+                            });
+                            d.tads = tads;
+                            worker.postMessage({
+                                config: config,
+                                data: d
+                            });
+                            worker.postMessage('TERMINATE');
+                        });
+                    } else {
+                        worker.postMessage({
+                            config: config,
+                            data: d
+                        });
+                        worker.postMessage('TERMINATE');
+                    }
                 });
             });
     }
