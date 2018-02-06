@@ -18,13 +18,21 @@ export class TimelinesConfigModel extends GraphConfig {
         this.entity = EntityTypeEnum.PATIENT;
         this.dirtyFlag = DirtyEnum.LAYOUT;
     }
-    align = 'Diagnosis';
-    sort = 'Death';
-    attrs = ['age at diagnosis'];
+    // align = 'Diagnosis';
+    // sort = 'Death';
+    align = 'Start ISP';
+    sort = 'Stop';
+    attrs = [];
     bars = [
-        { 'label': 'Status', 'style': 'Bars', 'events': ['Follow Up', 'Diagnosis', 'Death'] },
-        { 'label': 'Treatment', 'style': 'Bars', 'events': ['Drug', 'Radiation'] }
-    ];
+        {label: 'Response or Relapse', style: TimelinesStyle.TICKS, events: ['CR','Relapse']},
+        {label: 'GVHD', style: TimelinesStyle.TICKS, events: ['Chronic GVHD', 'Acute GVHD', 'Acute GVHD Grade I-II', 'Acute GVHD Grade III-IV']},
+        {label: 'Treatment', style: TimelinesStyle.TICKS, events: ['Consolidation chemotherapy']},
+        {label: 'Immunosuppression Kinetics', style: TimelinesStyle.TICKS, events: ['Start ISP', 'Stop ISP', 'Restart ISP']},
+    ]
+    // bars = [
+    //     { 'label': 'Status', 'style': 'Bars', 'events': ['Follow Up', 'Diagnosis', 'Death'] },
+    //     { 'label': 'Treatment', 'style': 'Bars', 'events': ['Drug', 'Radiation'] }
+    // ];
 }
 
 export interface TimelinesDataModel {

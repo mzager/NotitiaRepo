@@ -25,6 +25,7 @@ import MeshLine from 'three.meshline';
 
 export class TimelinesGraph implements ChartObjectInterface {
 
+
     // Emitters
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
     public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{ type: GraphConfig }>();
@@ -110,7 +111,6 @@ export class TimelinesGraph implements ChartObjectInterface {
     }
 
     addTic(event: any, barHeight: number, rowHeight: number, group: THREE.Group, scale: ScaleLinear<number, number>): void {
-        
         const s = scale(event.start);
         const e = scale(event.end);
         const w = Math.round(e - s);
@@ -118,7 +118,6 @@ export class TimelinesGraph implements ChartObjectInterface {
             new THREE.PlaneGeometry( (w < 1) ? 1 : w, barHeight ),
             ChartFactory.getColorPhong(event.color)
         );
-        
         const yPos = (rowHeight - (event.bar * barHeight)) - 2;
         mesh.position.set(s + (w * 0.5), yPos , 0);
         mesh.userData = event;
@@ -150,8 +149,6 @@ export class TimelinesGraph implements ChartObjectInterface {
         const s = scale(event.start);
         const e = scale(event.end);
         const w = Math.round(e - s);
-        new THREE.CircleGeometry(2);
-        
         const mesh = new THREE.Mesh(
             new THREE.CircleGeometry(2, 20),
             ChartFactory.getColorPhong(event.color)
@@ -176,8 +173,7 @@ export class TimelinesGraph implements ChartObjectInterface {
             this.meshes.push(triangle);
         }
     }
-    addAttrs(rowHeight, rowCount, pidMap): void { 
-
+    addAttrs(rowHeight, rowCount, pidMap): void {
         // Add Scales To Attributes
         this.data.result.attrs.attrs.forEach( attr => {
             attr.scale = d3Scale.scaleSequential(interpolateSpectral).domain([attr.min, attr.max]);
@@ -211,7 +207,7 @@ export class TimelinesGraph implements ChartObjectInterface {
             const line = ChartFactory.lineAllocate(0xb3e5fc, new THREE.Vector2(i, chartHeight), new THREE.Vector2(i, 0));
             this.lines.add(line);
         }
-        for (let i=0; i < rowCount + 1; i++){
+        for (let i = 0; i < rowCount + 1; i++){
             const line = ChartFactory.lineAllocate(0xb3e5fc, new THREE.Vector2(-500, i * rowHeight), new THREE.Vector2(500, i * rowHeight));
             this.lines.add(line);
         }
@@ -223,11 +219,12 @@ export class TimelinesGraph implements ChartObjectInterface {
 
         // Helper Variables
         const bars = this.config.bars;
-        const pts: Array<any> = this.data.result.patients;
+        let pts: Array<any> = this.data.result.patients;
+        pts = Object.keys(pts).map(v => pts[v]);
         const barHeight = 4;
         const rowHeight = bars.filter(v => v.style  !== TimelinesStyle.NONE).length * barHeight;
         const rowCount = pts.length;
-        
+
         // Grid
         this.addLines(rowHeight, rowCount);
 
@@ -238,7 +235,7 @@ export class TimelinesGraph implements ChartObjectInterface {
 
         // Patients + PID MAP
         const pidMap: any = {};
-        pts.forEach( (patient, i) => { 
+        pts.forEach( (patient, i) => {
             pidMap[patient[0].p] = i;
             const group = new THREE.Group();
             this.patients.push(group);
@@ -303,12 +300,14 @@ export class TimelinesGraph implements ChartObjectInterface {
                 const data = hit[0].object.userData.data;
                 if (data.type === 'event') {
                     const tip = Object.keys(data).reduce((p, c) => {
-                        if (data[c].trim().length > 0) {
-                            p += c + ': ' + data[c].toLowerCase() + '<br />';
+                        if (c !== 'type'){
+                            if (data[c].trim().length > 0) {
+                                p += c + ': ' + data[c].toLowerCase() + '<br />';
+                            }
                         }
                         return p;
-                    }, '');
-                    this.tooltips.innerHTML = '<div style="width:auto;background:rgba(0,0,0,.8);color:#DDD;padding:5px;border-radius:' +
+                    }, '<span style="font-weight:700;font-size:1rem;color:#FFF;">'+hit[0].object.userData.subtype+'</span><br />');
+                    this.tooltips.innerHTML = '<div style="width:auto;background:rgba(0,0,0,.8);font-size:.9rem;color:#DDD;padding:5px;border-radius:' +
                         '3px;z-index:9999;position:absolute;left:' +
                         xPos + 'px;top:' +
                         yPos + 'px;"><nobr>' +

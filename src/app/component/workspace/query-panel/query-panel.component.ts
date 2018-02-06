@@ -75,9 +75,11 @@ export class QueryPanelComponent implements AfterViewInit, OnDestroy {
     this.configChange.next(this._configA);
     this.hide.emit();
   }
+  save(): void {
+
+  }
 
   filter(): void {
-    debugger;
     this.dataService.getPatientIdsWithQueryBuilderCriteria(this._configA.database, this.cfg, this.query).then( pids => {
       this._configA.patientFilter = pids;
       this.dataService.getSampleIdsWithPatientIds( this._configA.database, pids ).then( sids => {

@@ -13,7 +13,7 @@ declare var $: any;
 
 @Component({
   selector: 'app-workspace-cohort-panel',
-  template: `<div class='card' style='width:285px;'>
+  template: `<div class='card' style='width:400px;'>
   <div class='card-tabs'>
       <ul class='tabs tabs-fixed-width' #tabs>
           <li class='tab'>
