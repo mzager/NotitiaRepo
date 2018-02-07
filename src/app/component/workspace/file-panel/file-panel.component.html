@@ -43,7 +43,7 @@
             <p class='file-panel-buttons'><a href=''>Goto Portal</a><span class='pipe'>|</span><a href=''>Learn More</a></p>
             <p class='file-panel-title'>URL</p>
             <p class='file-panel-desc'>For those interested in hosting their own datasets</p>
-            <p class='file-panel-buttons'><input style='width:400px;' type='text' placeholder='Enter manifest location'></p>
+            <p class='file-panel-buttons'><input class='file-input' type='text' placeholder='Enter manifest location'></p>
         </div>
         <app-workspace-tcga-panel *ngIf='tab == 2' class='file-panel-tcga'
         (loadTcga)='loadTcga.next($event)'
