@@ -7,6 +7,14 @@ import * as _ from 'lodash';
 
 export const timelinesCompute = (config: TimelinesConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
+    const colors = [
+        [0xf44336, 0x4caf50],
+        [0xbbdefb, 0x64b5f6, 0x2196f3, 0x1976d2],
+        [0xb71c1c, 0x880e4f, 0x4a148c, 0x311b92, 0x1a237e, 0x0d47a1, 0x004d40, 0x1b5e20, 0xf57f17, 0xe65100, 0xbf360c, 0x3e2723],
+        [0xe91e63, 0x9c27b0, 0x673ab7]
+    ];
+
+
     if (config.dirtyFlag & DirtyEnum.OPTIONS) {
         worker.postMessage({
             config: config,
@@ -22,7 +30,13 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 // Align
                 if (config.align !== 'None') {
                     const align = result.filter(v => v.subtype === config.align)
-                        .reduce((p, c) => { p[c.p] = c.start; return p; }, {});
+                        .reduce((p, c) => { 
+                            if (p.hasOwnProperty(c.p)) {
+                                if (p[c.p] > c.start) { p[c.p] = c.start; }
+                            } else {
+                                p[c.p] = c.start; 
+                            }
+                            return p; }, {});
                     result = result.filter(v => align.hasOwnProperty(v.p));
                     result.forEach(v => {
                         v.start -= align[v.p];
@@ -37,6 +51,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                         .filter(v => v.subtype === config.sort)
                         .sort((a, b) => a.start - b.start)
                         .map(v => v.p)));
+
                 }
 
                 // Filter Events
@@ -53,11 +68,19 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 }, { min: Infinity, max: -Infinity });
 
                 // Color Map
-                const colors = worker.util.colors;
-                const colorMap = events.reduce((p, c, i) => {
-                    p[c] = colors[i];
-                    return p;
-                }, {});
+                // const colors = worker.util.colors;
+
+                // debugger;
+                // const colorMap = events.reduce((p, c, i) => {
+                //     debugger;
+                //     p[c] = colors[i];
+                //     return p;
+                // }, {});
+                const colorMap = config.bars.map( (v, i) => 
+                    v.events.reduce((p, c, j) => {
+                        p[c] = colors[i][j];
+                        return p; }, {})
+                ).reduce( (p, c) => Object.assign(p, c), {});
 
                 // Bar Map
                 const barMap = config.bars.reduce((p, c, i) => {
@@ -66,14 +89,16 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 }, {});
 
                 // Associate Bar + Color To Event
-                result = result.map(v => Object.assign(v, { color: colorMap[v.subtype], bar: barMap[v.subtype] }));
+                result = result.map(v => {
+                    return Object.assign(v, { 'color': colorMap[v.subtype], 'bar': barMap[v.subtype] });
+                });
 
                 // Build Legend
-                let legends = config.bars.map(v => { 
+                let legends = config.bars.map(v => {
                     const rv = new Legend();
                     rv.name = v.label;
-                    rv.type = "COLOR";
-                    rv.display = "DISCRETE";
+                    rv.type = 'COLOR';
+                    rv.display = 'DISCRETE';
                     rv.labels = v.events;
                     rv.values = rv.labels.map(v => colorMap[v]);
                     return rv;
@@ -96,10 +121,12 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
 
                 // Get Heatmap Stuff
                 if (config.attrs !== undefined) {
+
                     const pas = worker.util.getPatientAttributeSummary(config.patientFilter, config.attrs, config.database);
+debugger;
                     pas.then(attrs => {
 
-                        legends = legends.concat(attrs.attrs.map(attr => { 
+                        legends = legends.concat(attrs.attrs.map(attr => {
                             const legend: Legend = new Legend();
                             legend.name = attr.prop.replace(/_/gi, ' ');
                             legend.type = 'COLOR';
@@ -108,7 +135,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                             legend.values = [0xFF0000, 0xFF0000];
                             return legend;
                         }));
-                        
+
                         worker.postMessage({
                             config: config,
                             data: {
@@ -139,6 +166,6 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                     worker.postMessage('TERMINATE');
 
                 }
-        });
+            });
     }
 };

@@ -48,15 +48,6 @@ import * as _ from 'lodash';
       </label>
     </div>
   </div>
-  <div class='form-group'>
-    <div class='switch'>
-      <label>
-        <input type='checkbox' formControlName='showChromosome'>
-        <span class='lever'></span>
-        Show CTCF
-      </label>
-    </div>
-  </div>
 </form>
   `
 })

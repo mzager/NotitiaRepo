@@ -31,7 +31,8 @@ export class DataFieldFactory {
         ctype: CollectionTypeEnum.MOLECULAR
       };
         return [DataFieldFactory.defaultDataField, DataFieldFactory.getGeneFamily(),
-          DataFieldFactory.getGeneType(), DataFieldFactory.getHicType()];
+          DataFieldFactory.getGeneType(), DataFieldFactory.getHicType(),
+          DataFieldFactory.getTadType()];
 
     }
     return null;
@@ -93,6 +94,16 @@ export class DataFieldFactory {
     };
   }
 
+  public static getTadType(): DataField {
+    return {
+      key: 'tad',
+      label: 'Tad',
+      type: DataTypeEnum.FUNCTION,
+      tbl: null,
+      values: null,
+      ctype: CollectionTypeEnum.TAD
+    };
+  }
   public static getHicType(): DataField {
     return {
       key: 'hic',

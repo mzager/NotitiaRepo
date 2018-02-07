@@ -78,25 +78,6 @@ select:not([multiple]) {
     padding-left: .5em;
     padding-right: 1.5em
 }
-.browser-default {
-    display: inline-block;
-    width: 160px;
-    color: #666666;
-    border-radius: 0px;
-    border: solid 0px #EEEEEE;
-    border-bottom-width: 1px;
-    font-size: 1rem;
-    line-height: 1rem;
-    padding: 0px;
-    cursor: pointer;
-}
-.btn-config {
-    background-color: rgba(255, 255, 255, 0.9);
-    width: 100%;
-    border: 1px solid #EEEEEE;
-    border-radius: 2px;
-    height: 2rem;
-}
 .form-label {
     display: inline-block !important;
     width: 80px;
@@ -138,9 +119,7 @@ select:not([multiple]) {
 .dropdown-content {
     font-size: 1rem;
 }
-.dropdown-content li > a, .dropdown-content li > span {
-    font-size: 1rem;
-}
+
 .select-wrapper span.caret{
     height: 30px;
     color: #000;
@@ -209,9 +188,29 @@ dropdown-content li > a, .dropdown-content li > span {
     cursor: pointer;
 } 
 // buttons
-.waves-effect.waves-light-blue .waves-ripple {
+.waves-effect.waves-grey .waves-ripple  {
     /* The alpha value allows the text and background color
     of the button to still show through. */
-    
-     background-color:#EEEEEE; // rgba(179, 229, 252, 1);
+     background-color:#EEEEEE; 
    }
+
+.dropdown-content li {
+    min-height: 1.1rem;
+}
+.dropdown-content li > a, .dropdown-content li > span {
+    font-size: 1rem;
+    line-height: 1.1rem;
+    color:#666666;
+}
+.browser-default {
+    display: inline-block;
+    width: 160px;
+    color: #666666;
+    border-radius: 0px;
+    border: solid 0px #EEEEEE;
+    border-bottom-width: 1px;
+    font-size: 1rem;
+    line-height: 1rem;
+    padding: 0px;
+    cursor: pointer;
+}
