@@ -43,6 +43,21 @@
 @import "components/date_picker/default.time";
 
 
+body {
+    color: #666666;
+    text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+html {
+    color: #666666;
+    font-size: 80%;
+}
+p {
+    color: #666666;
+}
+
 .form-group{
     margin-top:3px;
 }
@@ -63,7 +78,6 @@ select:not([multiple]) {
     padding-left: .5em;
     padding-right: 1.5em
 }
-
 .form-label {
     display: inline-block !important;
     width: 80px;
@@ -77,19 +91,7 @@ select:not([multiple]) {
     padding:0px;
     margin:0px;
 }
-p {
-    color: #666666;
-}
-html {
-    color: #666666;
-    font-size: 80%;
-}
-body {
-    color: #666666;
-    text-rendering: optimizeLegibility;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-}
+
 // Dropdown
 .select-wrapper {
     display: inline-block;
@@ -186,11 +188,10 @@ dropdown-content li > a, .dropdown-content li > span {
     cursor: pointer;
 } 
 // buttons
-.waves-effect.waves-light-blue .waves-ripple {
+.waves-effect.waves-grey .waves-ripple  {
     /* The alpha value allows the text and background color
     of the button to still show through. */
-    
-     background-color:#EEEEEE; // rgba(179, 229, 252, 1);
+     background-color:#EEEEEE; 
    }
 
 .dropdown-content li {
