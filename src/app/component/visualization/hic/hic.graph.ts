@@ -23,6 +23,7 @@ import { MeshLine, MeshLineMaterial } from 'three.meshline';
 import * as TWEEN from 'tween.js';
 import { schemeRdBu, interpolateRdBu, interpolateYlGnBu } from 'd3-scale-chromatic';
 import { scaleLinear, scaleOrdinal, scaleSequential } from 'd3-scale';
+import { MeshBasicMaterialParameters, SphereGeometry } from 'three';
 
 export class HicGraph implements ChartObjectInterface {
 
@@ -33,7 +34,7 @@ export class HicGraph implements ChartObjectInterface {
         new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
 
     private NODE_SIZE = 5;
-
+    
     // Chart Elements
     private labels: HTMLElement;
     private overlay: HTMLElement;
@@ -49,6 +50,9 @@ export class HicGraph implements ChartObjectInterface {
     chromosomePath: THREE.CurvePath<THREE.Vector>;
     normal = new THREE.Vector3(0, 0, 0);
     binormals = new THREE.Vector3(0, 0, 0);
+    
+    private wireframe_material = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true, wireframeLinewidth: 10 } );
+
 
     // Objects
     public meshes: Array<THREE.Mesh>;
@@ -98,7 +102,9 @@ export class HicGraph implements ChartObjectInterface {
             const objMap = data.pointColor;
             this.meshes.forEach(mesh => {
                 const color = objMap[mesh.userData[idProperty]];
-                (mesh as THREE.Mesh).material = ChartFactory.getColorPhong(color);
+                (mesh as THREE.Mesh).material = [
+                    ChartFactory.getColorPhong(color),
+                    this.wireframe_material];
                 mesh.userData.color = color;
             });
         }
@@ -168,7 +174,6 @@ export class HicGraph implements ChartObjectInterface {
 
     }
     addObjects() {
-
         const sl = scaleLinear().range([.2, 2]).domain([1, 20]);
         const cs = scaleSequential(interpolateYlGnBu).domain([0, 7]);
         this.data.nodes.forEach(node => {
@@ -189,7 +194,7 @@ export class HicGraph implements ChartObjectInterface {
             // node.color
             const mesh = ChartFactory.meshAllocate(color, ShapeEnum.CIRCLE, scale,
                 new THREE.Vector3(node.x, node.y, node.z), data);
-
+            mesh.material = ChartFactory.getColorPhong(color);
             data.tip += ' [' + metrics.c + '.' + Math.round(metrics.t / metrics.c) + ']';
 
             this.meshes.push(mesh);
