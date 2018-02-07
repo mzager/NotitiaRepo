@@ -1,5 +1,5 @@
-<div class='card' style='width:285px; background:#FAFAFA;' [ngDraggable]='true' [handle]='titlebar' [inBounds]='true' [bounds]='bounds'
-    [zIndex]='zIndex' [zIndexMoving]='99999' (click)='panelFocus()'>
+<div class='card' style='width:285px; background:#FFFFFF;' [ngDraggable]='true' [handle]='titlebar' [inBounds]='true' [bounds]='bounds'
+    [zIndex]='zIndex' [zIndexMoving]='99999' [preventDefaultEvent]= 'false' (click)='panelFocus()'>
     <div class='card-title-bar' #titlebar >
         {{ title }}
         <i class='tiny material-icons' style='float: right; padding-top: 4px; cursor: pointer' (click)='hide.emit()'>close</i>
@@ -27,8 +27,8 @@
                 <div class='form-group'>
                     <label class='center-block'>
                         <span class='form-label'>Filters</span>
-                        <button class='waves-effect waves-light-blue  browser-default btn-config' style='width:78px;' (click)='selectGeneset.emit()'>Gene Set</button>
-                        <button class=' waves-effect waves-light-blue  browser-default btn-config' style='width:78px;' (click)='selectCohort.emit()'>Cohort</button>
+                        <button class='waves-effect waves-grey browser-default btn-config' style='width:78px;' (click)='selectGeneset.emit()'>Gene Set</button>
+                        <button class=' waves-effect waves-grey browser-default btn-config' style='width:78px;' (click)='selectCohort.emit()'>Cohort</button>
                     </label>
                 </div>
                 <div class='form-group'>

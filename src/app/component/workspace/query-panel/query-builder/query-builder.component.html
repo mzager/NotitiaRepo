@@ -21,36 +21,40 @@
     <ng-container *ngFor='let item of data.rules'>
       <ng-container *ngIf='{ruleset: !!item.rules, invalid: !config.allowEmptyRuleset && item.rules && item.rules.length === 0} as local'>
         <li [ngClass]='{"query-item": true, "rule": !local.ruleset, "ruleset": local.ruleset, "invalid-ruleset": local.invalid}'
-          style='padding-left:5px;width:265px;margin-right:0px;'>
+          style='padding-left:5px;margin-right:0px;'>
           <ng-container *ngIf='!local.ruleset'>
-            <select class='form-control browser-default' [(ngModel)]='item.field' (change)='onFieldChange(item)'>
+            <select class='browser-default' [(ngModel)]='item.field' (change)='onFieldChange(item)' style='border-bottom-width:0px;padding-left:5px;'>
               <option *ngFor='let field of fieldNames' [ngValue]='field'>
                 {{config.fields[field].name}}
               </option>
             </select>
-            <select class='form-control browser-default' [(ngModel)]='item.operator' style='width:23px;border:0px solid #EEEEEE;border-left-width:1px;border-right-width:1px;'>
+            <select class='browser-default' [(ngModel)]='item.operator' style='border:0px solid #EEEEEE;border-width:0px 1px;padding-left:5px;width:50px;'>
               <option *ngFor='let operator of getOperators(item.field)' [ngValue]='operator'>
                 {{operator}}
               </option>
             </select>
             <ng-container [ngSwitch]='getInputType(item.field, item.operator)'>
-              <input class='form-control browser-default' [(ngModel)]='item.value' *ngSwitchCase='"text"' type='text'>
-              <input class='form-control browser-default' [(ngModel)]='item.value' *ngSwitchCase='"date"' type='date'>
-              <input class='form-control browser-default' [(ngModel)]='item.value' *ngSwitchCase='"number"' type='number'>
-              <select class='form-control browser-default' [(ngModel)]='item.value' *ngSwitchCase='"select"'>
+              <input class='browser-default' [(ngModel)]='item.value' *ngSwitchCase='"text"' type='text' style='border-bottom-width:0px;padding-left:5px;'>
+              <input class='browser-default' [(ngModel)]='item.value' *ngSwitchCase='"date"' type='date' style='border-bottom-width:0px;padding-left:5px;'>
+              <input class='browser-default' [(ngModel)]='item.value' *ngSwitchCase='"number"' type='number' style='border-bottom-width:0px;padding-left:5px;'>
+              <select class='browser-default' [(ngModel)]='item.value' *ngSwitchCase='"select"' style='border-bottom-width:0px;padding-left:5px;'>
                 <option *ngFor='let opt of getOptions(item.field)' [ngValue]='opt.value'>
                   {{opt.name}}
                 </option>
               </select>
               <ng-container *ngSwitchCase='"multiselect"'>
                 <div style='margin-bottom: 8px'></div>
-                <select class='form-control' [(ngModel)]='item.value' multiple>
-                  <option *ngFor='let opt of getOptions(item.field)' [ngValue]='opt.value'>
-                    {{opt.name}}
-                  </option>
-                </select>
+                <div class='form-group'>
+                  <label class='center-block'>
+                    <select [(ngModel)]='item.value' multiple materialize='material_select'>
+                      <option *ngFor='let opt of getOptions(item.field)' [ngValue]='opt.value'>
+                        {{opt.name}}
+                      </option>
+                    </select>
+                  </label>
+                </div>
               </ng-container>
-              <div class='switch-field' style='border:0px solid #EEEEEE; border-left-width:1px;display: inline-block;'>
+              <div class='switch-field' style='border:0px solid #EEEEEE; border-left-width:1px;display: inline-block;width:50px;text-align:center;'>
                 <button class='btn btn-small waves-effect waves-light white blue-text' (click)='removeRule(item, data)'>
                   <i class='material-icons small'>delete</i>
                 </button>
@@ -66,9 +70,8 @@
     </ng-container>
   </ul>
   <div style='text-align:right'>
-    <input type='text' class='browser-default' style='border-width:1px;width:196px;'
-      placeholder="Enter Cohort Name"
-      [(ngModel)]='customCohortName'>
+    <input type='text' class='browser-default' style='border-width:1px;height:2rem;' placeholder="Enter Cohort Name" [(ngModel)]='customCohortName'>
     <button class='browser-default btn-config' (click)='save()'>Save</button>
+    <button class='browser-default btn-config' (click)='filter()'>Filter</button>
   </div>
 </div>

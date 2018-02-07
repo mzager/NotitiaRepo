@@ -235,7 +235,7 @@ export class GenomeGraph implements ChartObjectInterface {
                         new THREE.Vector3( -2, 0, 0 ),
                         new THREE.Vector3( 0, 0, 0 )
                     );
-                    const line = new THREE.Line(lineGeom, lineMat);
+                    const line = new THREE.Line(lineGeom, lineMat);                    
                     line.userData.mid = gene.gene.toUpperCase();
                     line.userData.tip = gene.gene;
                     this.lines.push(line);
