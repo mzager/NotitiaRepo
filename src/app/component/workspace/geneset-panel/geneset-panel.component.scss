@@ -1,5 +1,5 @@
 .geneset-result-row { 
-    padding: 10px 0px;
+    padding: 0px 0px;
     border: 0px solid #EEEEEE;
     border-top-width: 1px;
     font-size: .9rem;
@@ -51,17 +51,41 @@
     padding:0px 3px;
     background-color: #FFFFFF;
 }
-//load panel
-.geneset-load-panel {
-    border: solid 1px #EEEEEE;
-    border-radius:3px;
-    margin: 20px 20px 0px 20px;
+
+.genset-custom-button:focus {
+ outline: none;
 }
-// .geneset-load-name {
-//     width:75px;
-//     display:inline-block;
-//     border-bottom-width:0px;
-// }
+// load panel
+.geneset-load-panel {
+    // border: solid 1px #EEEEEE;
+    // border-radius:3px;
+    margin: 20px 20px 0px 5px;
+}
+
+.geneset-load-filter {
+    width: 48%;
+    height: 2rem;
+    line-height: 2rem;
+
+}
+.geneset-result-name {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.results {
+    max-height:300px;
+    overflow-y:scroll;
+    padding: 20px;
+    font-size: 1rem;
+}
+.geneset-result-summary {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.geneset-load-desc {
+    padding-bottom: 20px;
+}
+
 // .geneset-load-search {
 //     border:0px solid #EEEEEE;
 //     margin:0px;
@@ -70,20 +94,15 @@
 //     display:inline-block;
 
 // }
-// .geneset-load-results {
-//     max-height:300px;
-//     overflow-y:scroll;
-//     overflow-x:wrap;
-//     padding:20px;
-// }
+
 // .geneset-load-padding {
 //     padding-bottom:5px;
 // }
 // .geneset-load-collection {
 //     font-weight:700;
 // }
-// .geneset-result-genes {
-//     padding-top: 5px;
-//     float:right;
-// }
+.geneset-result-genes {
+    padding-top: 5px;
+    float:right;
+}
 
