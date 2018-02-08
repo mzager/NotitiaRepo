@@ -55,26 +55,24 @@ declare var $: any;
             </div>
         </div>
         <div id='GenesetPanelLoad'>
-            <div class='center-block geneset-load-panel'>
-                <select materialize='material_select'
-                    (change)='collectionChange($event.target.value)'>
+            <div class='row geneset-load-panel'>
+                <select class='col s6'  materialize='material_select'
+                    (change)='collectionChange($event.target.value)' >
                     <option *ngFor='let option of collections'>{{option.n}}</option>
                 </select>
-                <input id='filter' type='text'
-                    class='browser-default'
-                    style='height:2rem;line-height:2rem;'
+                <input class='col s6' id='filter' type='text'
+                    class='geneset-load-filter  browser-default'
                     placeholder='Filter'
                     (keyup)='filterChange($event.target.value)'>
             </div>
-            <div class='results' style='max-height:300px;overflow-y:scroll;overflow-x:wrap;padding:20px;'>
-                <div  style='padding-bottom:5px;'>
-                    <div style='font-weight:700;'>{{collection.n}}</div>
+            <div class='results'>
+                <div class='geneset-load-desc'>
                     {{collection.d}}
                 </div>
                 <div *ngFor='let option of options' class='geneset-result-row'>
                     <div class='geneset-result-name'>{{option.name}}<div>
                     <div class='geneset-result-summary'>{{option.summary}}</div>
-                    <div class='geneset-result-genes'>{{option.genes.length | number}} Genes<span style='padding-top: 5px;float:right'>
+                    <div>{{option.genes.length | number}} Genes<span class='geneset-result-genes'>
                     <a style='cursor:pointer;'
                     (click)='selectGeneset(option)'>Select</a> | <a style='cursor:pointer;'
                     (click)='selectGeneset(option)'>Deselect</a> | <a style='cursor:pointer;'
