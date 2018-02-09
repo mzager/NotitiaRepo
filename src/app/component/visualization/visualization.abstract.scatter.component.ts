@@ -12,6 +12,7 @@ import { EventEmitter } from '@angular/core';
 import { GraphEnum, EntityTypeEnum, DirtyEnum, ShapeEnum, VisualizationEnum } from 'app/model/enum.model';
 import { ChartObjectInterface } from './../../model/chart.object.interface';
 import * as THREE from 'three';
+import { CircleGeometry } from 'three';
 export class AbstractScatterVisualization extends AbstractVisualization {
 
     // Chart Elements
@@ -134,6 +135,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
                     (this.config['dimension'] === DimensionEnum.ONE_D) ? 0 : position[1],
                     (this.config['dimension'] !== DimensionEnum.THREE_D) ? 0 : position[2]
                 ), userData);
+
             this.meshes.push(mesh);
             this.view.scene.add(mesh);
         }

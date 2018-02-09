@@ -1,4 +1,6 @@
-import { scaleSequential, interpolateSpectral } from 'd3-scale-chromatic';
+import { scaleLinear, scaleLog, InterpolatorFactory, scaleSequential, scaleQuantize, scaleQuantile } from 'd3-scale';
+import { interpolateRgb, interpolateHcl } from 'd3-interpolate';
+import { rgb } from 'd3-color';
 import { OrbitControls } from 'three-orbitcontrols-ts';
 import { TimelinesStyle } from './timelines.model';
 import { Dexie } from 'dexie';
@@ -15,7 +17,6 @@ import * as _ from 'lodash';
 import * as THREE from 'three';
 import * as d3Interpolate from 'd3-interpolate';
 import * as d3Scale from 'd3-scale';
-import { scaleLinear, scaleLog } from 'd3-scale';
 import { Subscription } from 'rxjs/Subscription';
 import { geoAlbers, active, ScaleLinear } from 'd3';
 import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
@@ -110,28 +111,28 @@ export class TimelinesGraph implements ChartObjectInterface {
         this.enable(false);
     }
 
-    addTic(event: any, barHeight: number, rowHeight: number, group: THREE.Group, scale: ScaleLinear<number, number>): void {
+    addTic(event: any, bar: number, barHeight: number, rowHeight: number, group: THREE.Group, scale: ScaleLinear<number, number>): void {
         const s = scale(event.start);
         const e = scale(event.end);
         const w = Math.round(e - s);
         const mesh = new THREE.Mesh(
-            new THREE.PlaneGeometry( (w < 1) ? 1 : w, barHeight ),
+            new THREE.PlaneGeometry( (w < 1) ? 1 : w, barHeight * 0.3 ),
             ChartFactory.getColorPhong(event.color)
         );
-        const yPos = (rowHeight - (event.bar * barHeight)) - 2;
+        const yPos = (rowHeight - (bar * barHeight)) - 2;
         mesh.position.set(s + (w * 0.5), yPos , 0);
         mesh.userData = event;
         group.add(mesh);
         this.meshes.push(mesh);
     }
 
-    addArc(event: any, barHeight: number, rowHeight: number, group: THREE.Group, scale: ScaleLinear<number, number>): void {
+    addArc(event: any, bar: number, barHeight: number, rowHeight: number, group: THREE.Group, scale: ScaleLinear<number, number>): void {
         if (event.start !== event.end) {
             const s = scale(event.start);
             const e = scale(event.end);
             const w = Math.round(e - s);
             const c = (Math.abs(e - s) * 0.5) + Math.min(e, s);
-            const yPos = (rowHeight - (event.bar * barHeight)) - 2;
+            const yPos = (rowHeight - (bar * barHeight)) - 2;
             const mesh = ChartFactory.lineAllocateCurve(event.color,
                 new THREE.Vector2(s, yPos - 2 ),
                 new THREE.Vector2(e, yPos - 2 ),
@@ -141,30 +142,30 @@ export class TimelinesGraph implements ChartObjectInterface {
             group.add(mesh);
             this.meshes.push(mesh);
         } else {
-            this.addTic(event, barHeight, barHeight, group, scale);
+            this.addTic(event, bar, barHeight, barHeight, group, scale);
         }
     }
 
-    addSymbol(event: any, barHeight: number, rowHeight: number, group: THREE.Group, scale: ScaleLinear<number, number>): void {
+    addSymbol(event: any, bar: number, barHeight: number, rowHeight: number, group: THREE.Group, scale: ScaleLinear<number, number>): void {
         const s = scale(event.start);
         const e = scale(event.end);
         const w = Math.round(e - s);
         const mesh = new THREE.Mesh(
-            new THREE.CircleGeometry(2, 20),
+            new THREE.CircleGeometry(1.6, 20),
             ChartFactory.getColorPhong(event.color)
         );
-        const yPos = (rowHeight - (event.bar * barHeight)) - 2;
+        const yPos = (rowHeight - (bar * barHeight)) - 2;
 
-        mesh.position.set(s, yPos, 0);
+        mesh.position.set(s, yPos, 1);
         mesh.userData = event;
         group.add(mesh);
         this.meshes.push(mesh);
 
         if (event.start !== event.end) {
             const triangleGeometry = new THREE.Geometry();
-            triangleGeometry.vertices.push(new THREE.Vector3( 0.0,  2.0, 0.0));
-            triangleGeometry.vertices.push(new THREE.Vector3(-2.0, -2.0, 0.0));
-            triangleGeometry.vertices.push(new THREE.Vector3( 2.0, -2.0, 0.0));
+            triangleGeometry.vertices.push(new THREE.Vector3( 0.0,  1.8,  0.0));
+            triangleGeometry.vertices.push(new THREE.Vector3(-1.8, -1.8, 0.0));
+            triangleGeometry.vertices.push(new THREE.Vector3( 1.8, -1.8, 0.0));
             triangleGeometry.faces.push(new THREE.Face3(0, 1, 2));
             const triangle = new THREE.Mesh(triangleGeometry, ChartFactory.getColorBasic(event.color));
             triangle.userData = event;
@@ -174,16 +175,13 @@ export class TimelinesGraph implements ChartObjectInterface {
         }
     }
     addAttrs(rowHeight, rowCount, pidMap): void {
-        // Add Scales To Attributes
-        this.data.result.attrs.attrs.forEach( attr => {
-            attr.scale = d3Scale.scaleSequential(interpolateSpectral).domain([attr.min, attr.max]);
-        });
+        const d = this.data;
         this.data.result.attrs.pids.forEach( (pid, pidIndex) => {
             const rowIndex = pidMap[pid];
             const yPos = (rowHeight * rowIndex) - (rowHeight * -0.5);
             this.data.result.attrs.attrs.forEach( (attr, attrIndex) => {
-                const value = attr.values[pidIndex];
-                const color = attr.scale(attr.values[pidIndex]);
+                const value = attr.values[pidIndex].label;
+                const color = attr.values[pidIndex].color;
                 const xPos = -500 - (attrIndex * rowHeight);
                 const mesh = new THREE.Mesh(
                     new THREE.PlaneGeometry( rowHeight - 2, rowHeight - 2 ),
@@ -204,11 +202,11 @@ export class TimelinesGraph implements ChartObjectInterface {
     addLines(rowHeight, rowCount): void {
         const chartHeight = rowHeight * rowCount;
         for (let i = -500; i <= 500; i += 50) {
-            const line = ChartFactory.lineAllocate(0xb3e5fc, new THREE.Vector2(i, chartHeight), new THREE.Vector2(i, 0));
+            const line = ChartFactory.lineAllocate(0xEEEEEE, new THREE.Vector2(i, chartHeight), new THREE.Vector2(i, 0));
             this.lines.add(line);
         }
-        for (let i = 0; i < rowCount + 1; i++){
-            const line = ChartFactory.lineAllocate(0xb3e5fc, new THREE.Vector2(-500, i * rowHeight), new THREE.Vector2(500, i * rowHeight));
+        for (let i = 0; i < rowCount + 1; i++) {
+            const line = ChartFactory.lineAllocate(0xEEEEEE, new THREE.Vector2(-500, i * rowHeight), new THREE.Vector2(500, i * rowHeight));
             this.lines.add(line);
         }
         this.view.scene.add(this.lines);
@@ -221,8 +219,20 @@ export class TimelinesGraph implements ChartObjectInterface {
         const bars = this.config.bars;
         let pts: Array<any> = this.data.result.patients;
         pts = Object.keys(pts).map(v => pts[v]);
-        const barHeight = 4;
-        const rowHeight = bars.filter(v => v.style  !== TimelinesStyle.NONE).length * barHeight;
+
+        const barHeight = 4; //bars.reduce( (p,c) => p = Math.max(p, c.row), -Infinity) + 1;
+        const barLayout = bars.filter(v => v.style  !== 'None').sort( (a, b) => a.z - b.z).sort( (a, b) => a.row - b.row);
+        let track = -1;
+        let lastRow = -1;
+        for (let i = 0; i < barLayout.length; i++) {
+            const bar = barLayout[i];
+            if (bar.row !== lastRow) {
+                lastRow = bar.row;
+                track += 1;
+            }
+            bar.track = track;
+        }
+        const rowHeight = (track + 1) * barHeight;
         const rowCount = pts.length;
 
         // Grid
@@ -241,23 +251,24 @@ export class TimelinesGraph implements ChartObjectInterface {
             this.patients.push(group);
             this.view.scene.add(group);
             group.position.setY(i * rowHeight);
-            patient.forEach(event => {
-                event.data.type = 'event';
-                switch (bars[event.bar].style) {
-                    case TimelinesStyle.NONE:
-                        break;
-                    case TimelinesStyle.ARCS:
-                        this.addArc(event, barHeight, rowHeight, group, scale);
-                        break;
-                    case TimelinesStyle.TICKS:
-                        this.addTic(event, barHeight, rowHeight, group, scale);
-                        break;
-                    case TimelinesStyle.SYMBOLS:
-                        this.addSymbol(event, barHeight, rowHeight, group, scale);
-                        break;
-                    case TimelinesStyle.CONTINUOUS:
-                        break;
-                }
+            barLayout.forEach( bl => {
+                const barEvents = patient.filter( p => p.type === bl.label);
+                barEvents.forEach(event => {
+                    event.data.type = 'event';
+                    switch (bl.style) {
+                        case TimelinesStyle.NONE:
+                            break;
+                        case TimelinesStyle.ARCS:
+                            this.addArc(event, bl.track, barHeight, rowHeight, group, scale);
+                            break;
+                        case TimelinesStyle.TICKS:
+                            this.addTic(event, bl.track, barHeight, rowHeight, group, scale);
+                            break;
+                        case TimelinesStyle.SYMBOLS:
+                            this.addSymbol(event, bl.track, barHeight, rowHeight, group, scale);
+                            break;
+                    }
+                });
             });
         });
 
@@ -266,14 +277,12 @@ export class TimelinesGraph implements ChartObjectInterface {
 
         // Reset Controls
         this.view.controls.reset();
-        requestAnimationFrame( () => { 
+        requestAnimationFrame( () => {
             console.log(rowHeight * rowCount);
             this.view.controls.pan(0, (rowHeight * rowCount) );
             this.view.controls.dollyOut(3);
             this.view.controls.update();
         });
-        
-        
     }
 
     removeObjects(): void {
@@ -307,19 +316,19 @@ export class TimelinesGraph implements ChartObjectInterface {
                         }
                         return p;
                     }, '<span style="font-weight:700;font-size:1rem;color:#FFF;">'+hit[0].object.userData.subtype+'</span><br />');
-                    this.tooltips.innerHTML = '<div style="width:auto;background:rgba(0,0,0,.8);font-size:.9rem;color:#DDD;padding:5px;border-radius:' +
+                    this.tooltips.innerHTML = '<div style="max-width:600px;width:auto;background:rgba(0,0,0,.8);font-size:.9rem;color:#DDD;padding:5px;border-radius:' +
                         '3px;z-index:9999;position:absolute;left:' +
                         xPos + 'px;top:' +
-                        yPos + 'px;"><nobr>' +
-                        tip + '</nobr></div>';
+                        yPos + 'px;">' +
+                        tip + '</div>';
                 }
                 if (data.type === 'attr') {
                     const tip = data.field + ': ' + data.value;
-                    this.tooltips.innerHTML = '<div style="width:auto;background:rgba(255,255,255,.8);color:#000;' +
+                    this.tooltips.innerHTML = '<div style="max-width:600px;width:auto;background:rgba(255,255,255,.8);color:#000;' +
                     'padding:5px;border-radius:3px;z-index:9999;position:absolute;left:' +
                     xPos + 'px;top:' +
-                    yPos + 'px;"><nobr>' +
-                    tip + '</nobr></div>';
+                    yPos + 'px;">' +
+                    tip + '</div>';
                 }
             } catch (e) {
                 console.log(e);

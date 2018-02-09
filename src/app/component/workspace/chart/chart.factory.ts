@@ -4,6 +4,7 @@ import { Memoize } from 'typescript-memoize';
 import { GraphEnum, ShapeEnum, SizeEnum } from 'app/model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import * as THREE from 'three';
+import { Vector3 } from 'three';
 
 export class ChartFactory {
 
@@ -89,6 +90,71 @@ export class ChartFactory {
         // return new THREE.MeshStandardMaterial(
         //     {color: color, emissive: new THREE.Color(0x000000),
         //     metalness: 0.5, roughness: .5, shading: THREE.SmoothShading});
+    }
+
+    // @Memoize()
+    public static getOutlineShader(cameraPosition: Vector3, color: number = 0xff0000): THREE.ShaderMaterial {
+        // const shader = {
+        //     'outline' : {
+        //         'vertex_shader': [
+        //             'uniform float offset;',
+        //             'void main() {',
+        //             'vec4 pos = modelViewMatrix * vec4( position + normal * offset, 1.0 );',
+        //             'gl_Position = projectionMatrix * pos;',
+        //             '}'
+        //         ].join('\n'),
+        //         'fragment_shader': [ 'void main(){',
+        //         'gl_FragColor = vec4( 1.0, 0.0, 0.0, 1.0 );',
+        //     '}'].join('\n')
+        //     }
+        // };
+        // const uniforms = {
+        //     'offset': {
+        //         'type': 'f',
+        //         'value': 1
+        //     }
+        // };
+        const shader = {
+            'glow': {
+                'vertex_shader': [
+                    'uniform vec3 viewVector;',
+                    'uniform float c;',
+                    'uniform float p;',
+                    'varying float intensity;',
+                    'void main() ',
+                    '{',
+                        'vec3 vNormal = normalize( normalMatrix * normal );',
+                        'vec3 vNormel = normalize( normalMatrix * viewVector );',
+                        'intensity = pow( c - dot(vNormal, vNormel), p );',
+                        'gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );',
+                    '}'
+                ].join('\n'),
+                'fragment_shader': [
+                    'uniform vec3 glowColor;',
+                    'varying float intensity;',
+                    'void main() ',
+                    '{',
+                        'vec3 glow = glowColor * intensity;',
+                        'gl_FragColor = vec4( glow, 1.0 );',
+                    '}'
+                ].join('\n')
+            }
+        };
+        const uniforms = {
+            'c': { type: 'f', value: 1.0 },
+			'p': { type: 'f', value: 1.4 },
+            glowColor: { type: 'c', value: new THREE.Color(color) },
+            viewVector: { type: 'v3', value: cameraPosition}
+        };
+
+        return new THREE.ShaderMaterial({
+            uniforms: uniforms,
+            vertexShader: shader.glow.vertex_shader,
+            fragmentShader: shader.glow.fragment_shader,
+            side: THREE.BackSide,
+            blending: THREE.NormalBlending,
+            transparent: true
+        });
     }
 
     @Memoize()

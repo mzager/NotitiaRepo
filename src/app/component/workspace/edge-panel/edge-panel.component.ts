@@ -67,7 +67,7 @@ export class EdgePanelComponent implements AfterViewInit, OnDestroy {
   }
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver,
-    private fb: FormBuilder, private ms: ModalService, private cd: ChangeDetectorRef) {
+    private fb: FormBuilder, public ms: ModalService, private cd: ChangeDetectorRef) {
 
     this.layoutOptions = [
       WorkspaceLayoutEnum.SINGLE, WorkspaceLayoutEnum.HORIZONTAL, WorkspaceLayoutEnum.VERTICAL, WorkspaceLayoutEnum.OVERLAY
