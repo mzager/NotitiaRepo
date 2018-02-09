@@ -29,6 +29,7 @@ export class GenomeGraph implements ChartObjectInterface {
     public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
         new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
 
+
     // Chart Elements
     private labels: HTMLElement;
     private overlay: HTMLElement;
@@ -185,7 +186,7 @@ export class GenomeGraph implements ChartObjectInterface {
                 const mesh: THREE.Mesh = new THREE.Mesh(geometry, material);
                 mesh.userData.type = GenomicEnum.CYTOBAND;
                 mesh.position.set(0, (yPos + (band.l / 2)) - centro, 0);
-                mesh.userData.tip = band.chr + band.arm.toLowerCase() + band.band +
+                mesh.userData.tip = band.chr + band.arm.toLowerCase() + 
                     ((band.subband) ? '.' + band.subband : '') + ' | ' + band.tag.replace('neg', '-').replace('pos', '+');
                 this.arms[i + band.arm].add(mesh);
                 yPos += band.l;

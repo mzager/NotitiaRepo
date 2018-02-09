@@ -92,7 +92,6 @@ export class ChartScene {
 
         // Graph B
         view = this.views[1];
-
         this.renderer.setViewport( view.viewport.x, view.viewport.y, view.viewport.width, view.viewport.height );
         this.renderer.render( view.scene, view.camera );
 
@@ -196,6 +195,8 @@ export class ChartScene {
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setClearColor(0xffffff, 1);
         this.renderer.autoClear = false;
+        // this.renderer.gammaInput = true;
+        // this.renderer.gammaOutput = true;
 
         this.container.appendChild(this.renderer.domElement);
 

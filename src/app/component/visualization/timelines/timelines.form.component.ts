@@ -13,7 +13,7 @@ import { FormArray, AbstractControl } from '@angular/forms/src/model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<form [formGroup]='form' novalidate>
   <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Align</span>
+    <label class='center-block'><span class='form-label'>Align By</span>
       <select formControlName='align'
         materialize='material_select'>
         <optgroup *ngFor='let group of eventGroups' label='{{group.label}}'>
@@ -24,8 +24,19 @@ import { FormArray, AbstractControl } from '@angular/forms/src/model';
     </label>
   </div>
   <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Sort</span>
+    <label class='center-block'><span class='form-label'>Sort By</span>
       <select formControlName='sort'
+        materialize='material_select'>
+        <optgroup *ngFor='let group of eventGroups' label='{{group.label}}'>
+          <option *ngFor='let evt of group.events'
+            [ngValue]='evt.label'>{{evt.label}}</option>
+        </optgroup>
+      </select>
+    </label>
+  </div>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Group By</span>
+      <select formControlName='group'
         materialize='material_select'>
         <optgroup *ngFor='let group of eventGroups' label='{{group.label}}'>
           <option *ngFor='let evt of group.events'
@@ -86,7 +97,6 @@ export class TimelinesFormComponent {
     if (fields.length === 0) { return; }
     const defaultDataField: DataField = DataFieldFactory.getUndefined();
     this.patientAttributes = fields;
-    //.filter(v => (v.type === 'NUMBER') );
   }
 
   @Input() set events(events: Array<{type: string, subtype: string}>) {
@@ -98,7 +108,10 @@ export class TimelinesFormComponent {
       const fg = this.fb.group({
         label: [group],
         style: [TimelinesStyle.TICKS],
-        events: []
+        events: [],
+        row: [],
+        track: [],
+        z: []
       });
       control.push(fg);
     });
@@ -139,6 +152,7 @@ export class TimelinesFormComponent {
       patientFilter: [],
 
       sort: [],
+      group: [],
       align: [],
       attrs: [],
 
