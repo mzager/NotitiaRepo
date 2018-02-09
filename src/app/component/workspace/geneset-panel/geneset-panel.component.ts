@@ -56,14 +56,18 @@ declare var $: any;
         </div>
         <div id='GenesetPanelLoad'>
             <div class='row geneset-load-panel' >
-                <select   materialize='material_select' class='col s6'
+            <div class='col s6'>
+                <select materialize='material_select'
                     (change)='collectionChange($event.target.value)' >
                     <option  *ngFor='let option of collections'>{{option.n}}</option>
                 </select>
-                <input class='col s6' id='filter' type='text'
+                </div>
+                <div class='col s6'>
+                <input id='filter' type='text' style='width: 100%'
                     class='geneset-load-filter  browser-default'
                     placeholder='Filter'
                     (keyup)='filterChange($event.target.value)'>
+                </div>
             </div>
             <div class='results'>
                 <div class='geneset-load-desc'>
