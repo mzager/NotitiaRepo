@@ -20,7 +20,7 @@ declare var $: any;
     template:
         `
 <!-- Card -->
-<div class='card' style='width:285px;background:#FFFFFF;' 
+<div class='card' style='width:285px;background:#FFFFFF;'
     [ngDraggable]='true' [handle]='titlebar' [inBounds]='true' [bounds]='bounds'
     [preventDefaultEvent]='false'
     [zIndex]='zIndex' [zIndexMoving]='99999' (click)='this.ms.$focus.next("genesetPanel");'>
@@ -208,7 +208,7 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
 
     ngOnDestroy(): void { this.focusSubscription.unsubscribe(); }
     ngAfterViewInit(): void { $(this.tabs.nativeElement).tabs(); }
-    constructor(private cd: ChangeDetectorRef, private dataService: DataService, private ms: ModalService) {
+    constructor(private cd: ChangeDetectorRef, private dataService: DataService, public ms: ModalService) {
         this.init();
     }
 

@@ -20,15 +20,16 @@ export class TimelinesConfigModel extends GraphConfig {
     }
     // align = 'Diagnosis';
     // sort = 'Death';
-    align = 'Start ISP';
-    sort = 'Stop';
+    align = 'Relapse';
+    sort = 'Relapse';
+    group = '';
     attrs = [];
     bars = [
-        {label: 'Response or Relapse', style: TimelinesStyle.TICKS, events: ['CR','Relapse']},
-        {label: 'GVHD', style: TimelinesStyle.TICKS, events: ['Chronic GVHD', 'Acute GVHD', 'Acute GVHD Grade I-II', 'Acute GVHD Grade III-IV']},
-        {label: 'Treatment', style: TimelinesStyle.TICKS, events: ['Consolidation chemotherapy']},
-        {label: 'Immunosuppression Kinetics', style: TimelinesStyle.TICKS, events: ['Start ISP', 'Stop ISP', 'Restart ISP']},
-    ]
+        {label: 'Immunosuppression Kinetics', style: TimelinesStyle.TICKS, events: ['Start ISP', 'Stop ISP', 'Restart ISP'], row: 0, z: 0, track: 0},
+        {label: 'GVHD', style: TimelinesStyle.SYMBOLS, events: ['Chronic GVHD', 'Acute GVHD', 'Acute GVHD Grade I-II', 'Acute GVHD Grade III-IV'], row: 0, z: 1, track: 0},
+        {label: 'Response or Relapse', style: TimelinesStyle.TICKS, events: ['CR', 'Relapse', 'Death', 'Last Follow Up'], row: 1, z: 0, track: 1},
+        {label: 'Treatment', style: TimelinesStyle.SYMBOLS, events: ['Induction chemotherapy','Consolidation chemotherapy','Hydroxyurea','Intrathecal therapy','Radiation','Hypomethylating therapy','Targeted therapy','Checkpoint inhibitors','Cytokine','DLI','HCT','Other'], row: 1, z: 1, track: 1},
+    ];
     // bars = [
     //     { 'label': 'Status', 'style': 'Bars', 'events': ['Follow Up', 'Diagnosis', 'Death'] },
     //     { 'label': 'Treatment', 'style': 'Bars', 'events': ['Drug', 'Radiation'] }
