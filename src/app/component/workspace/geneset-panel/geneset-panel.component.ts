@@ -20,15 +20,13 @@ declare var $: any;
     template:
         `
 <!-- Card -->
-<div class='card' style='width:285px;background:#FFFFFF;'
-    [ngDraggable]='true' [handle]='titlebar' [inBounds]='true' [bounds]='bounds'
+<div class='card geneset-panel' [ngDraggable]='true' [handle]='titlebar' [inBounds]='true' [bounds]='bounds'
     [preventDefaultEvent]='false'
     [zIndex]='zIndex' [zIndexMoving]='99999' (click)='this.ms.$focus.next("genesetPanel");'>
     <!-- Title Bar Row -->
-    <div class='card-title-bar' #titlebar style='background: #029BE5; color:#FFF; font-weight:normal; font-size:12px; padding:5px 10px;
-        text-transform:uppercase;letter-spacing:1px;'>Gene Sets
-        <i class='tiny material-icons' style='float: right; padding-top: 4px; cursor: pointer' (click)='hide.emit()'>close</i>
-        <span style='float: right; padding-right:5px; cursor: pointer;' (click)='helpClick()'>Help</span>
+    <div class='card-title-bar' #titlebar>Gene Sets
+        <i class='tiny material-icons tab-icon' (click)='hide.emit()'>close</i>
+        <span class='tab-span' (click)='helpClick()'>Help</span>
     </div>
     <!-- Card Tabs -->
     <div class='card-tabs'>
@@ -44,28 +42,24 @@ declare var $: any;
     <!-- Panel Content -->
     <div class='card-content'>
         <div id='GenesetPanelCreate'>
-            <div class='center-block' style='padding:20px; font-size:1rem;'>
-                <span class='form-label' style='width:100%;padding-bottom:5px;'>Custom Gene Set</span>
-                <textarea class='browser-default'
-                    style='resize:none;width:100%; border: solid 1px #EEEEEE; height:100px; padding:3px;'
+            <div class='center-block geneset-panel-custom'>
+                <span class='form-label geneset-custom-label'>Custom Gene Set</span>
+                <textarea class='browser-default geneset-custom-textarea'
                     [(ngModel)]='customGenesetGenes'
                     placeholder='Enter Comma Seperated Gene Ids'></textarea>
-                <input class='browser-default' type='text'
+                <input class='browser-default geneset-custom-name' type='text'
                     [(ngModel)]='customGenesetName'
-                    style="width:175px;border-width:1px;margin-bottom:5px;height:2rem;line-height:2rem; padding:0px 3px;'"
                     placeholder='Enter Gene Set Name'>
-                <button style='width:66px;' class='browser-default btn-config' (click)='save()'>Save</button>
+                <button class='waves-effect waves-grey genset-custom-button browser-default'
+                (click)='save()'>Save</button>
             </div>
         </div>
-
         <div id='GenesetPanelLoad'>
-            <div class='center-block' style='border: solid 1px #EEEEEE;border-radius:3px;margin: 20px 20px 0px 20px;'>
-            
+            <div class='center-block geneset-load-panel'>
                 <select materialize='material_select'
                     (change)='collectionChange($event.target.value)'>
                     <option *ngFor='let option of collections'>{{option.n}}</option>
                 </select>
-            
                 <input id='filter' type='text'
                     class='browser-default'
                     style='height:2rem;line-height:2rem;'
@@ -122,7 +116,7 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
         this.collection = this.collections.find(v => v.n === name);
         const collectionCode = this.collection.c;
         this.options = [];
-        debugger;
+        // debugger;
         this.cd.markForCheck();
         if (collectionCode === 'Custom') {
             this.dataService.getCustomGenesets(this.configA.database).then(result => {
