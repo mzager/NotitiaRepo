@@ -98,7 +98,7 @@ export class QueryPanelComponent implements AfterViewInit, OnDestroy {
   helpClick(): void { this.help.emit('QueryPanel'); }
   ngOnDestroy(): void { this.focusSubscription.unsubscribe(); }
   ngAfterViewInit(): void { $(this.tabs.nativeElement).tabs(); }
-  constructor(private dataService: DataService, private ms: ModalService, private cd: ChangeDetectorRef) {
+  constructor(private dataService: DataService, public ms: ModalService, private cd: ChangeDetectorRef) {
     this.focusSubscription = this.ms.$focus.subscribe(v => {
       this.zIndex = (v === 'queryPanel') ? 1001 : 1000;
       this.cd.markForCheck();

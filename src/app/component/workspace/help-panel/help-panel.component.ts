@@ -114,7 +114,7 @@ export class HelpPanelComponent implements AfterViewInit, OnDestroy  {
     this.focusSubscription.unsubscribe();
   }
 
-  constructor(private dataService: DataService, private ms: ModalService, private cd: ChangeDetectorRef) {
+  constructor(private dataService: DataService, public ms: ModalService, private cd: ChangeDetectorRef) {
     this.focusSubscription = this.ms.$focus.subscribe(v => {
       this.zIndex = (v === 'helpPanel') ? 1001 : 1000;
       this.cd.markForCheck();
