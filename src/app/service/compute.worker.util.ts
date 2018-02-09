@@ -25,6 +25,7 @@ export class ComputeWorkerUtil {
     private sizes = [1, 2, 3, 4];
     private shapes = [ShapeEnum.CIRCLE, ShapeEnum.SQUARE, ShapeEnum.TRIANGLE, ShapeEnum.CONE];
 
+    public colors4 = [0x419268, 0xd044cc ,0x55a338, 0x754ad0, 0xc58528, 0x6885ce, 0xdd5031, 0x6a448f, 0x777d30, 0xc454a9,0xb17048,0xdd416c,0x97392b,0xc9759a];
     public colors3 = [0xf06292, 0xba68c8, 0x9575cd, 0x7986cb, 0x64b5f6, 0x80cbc4, 0xffcc80, 0xbcaaa4];
     public colors = [0xd50000, 0xaa00ff, 0x304ffe, 0x0091ea, 0x00bfa5, 0x64dd17, 0xffd600, 0xff6d00,
         0xff8a80, 0xea80fc, 0x8c9eff, 0x80d8ff, 0xa7ffeb, 0xccff90, 0xffff8d, 0xffd180];
@@ -35,6 +36,7 @@ export class ComputeWorkerUtil {
 
     constructor() {
     }
+
 
     generateCacheKey(config: Object): string {
 
@@ -514,26 +516,28 @@ export class ComputeWorkerUtil {
                             this.getTads()
                         ]).then(result => {
                             const m = markers;
-                            const posMap = result[0].reduce( (p, c) => { p[c[0]] = c[5]; return p; }, {});
+                            const posMap = result[0].reduce((p, c) => { p[c[0]] = c[5]; return p; }, {});
                             const tads = result[1];
-                            const pos = markers.map(w => ({gene:w, pos: posMap[w]}))
-                                .map( w => {
+                            const pos = markers.map(w => ({ gene: w, pos: posMap[w] }))
+                                .map(w => {
                                     let tad;
                                     if (w.pos === undefined) {
                                         tad = -1;
                                     } else {
-                                        tad = tads.find( c => c.s <= w.pos && c.e >= w.pos);
+                                        tad = tads.find(c => c.s <= w.pos && c.e >= w.pos);
                                     }
-                                    return {gene: w.gene, tad: tad.s+'-'+tad.e};
+                                    return { gene: w.gene, tad: tad.s + '-' + tad.e };
                                 });
                             const tadGroups = _.groupBy(pos, 'tad');
                             const colors = this.colors;
-                            const colorGroups = Object.keys(tadGroups).map( w => ({ name:w,
-                                genes:tadGroups[w].map(x => x.gene),
-                                len: tadGroups[w].length })).sort( (a, b) => b.len - a.len )
-                                .map( (w, i) =>  Object.assign(w, {color: colors[i]}) );
-                            const cm = colorGroups.reduce( (p, c) => {
-                                return Object.assign(p, c.genes.reduce( (p2, c2) => {
+                            const colorGroups = Object.keys(tadGroups).map(w => ({
+                                name: w,
+                                genes: tadGroups[w].map(x => x.gene),
+                                len: tadGroups[w].length
+                            })).sort((a, b) => b.len - a.len)
+                                .map((w, i) => Object.assign(w, { color: colors[i] }));
+                            const cm = colorGroups.reduce((p, c) => {
+                                return Object.assign(p, c.genes.reduce((p2, c2) => {
                                     p2[c2] = c.color;
                                     return p2;
                                 }, {}));
@@ -558,8 +562,8 @@ export class ComputeWorkerUtil {
                                 const types = Object.keys(result
                                     .reduce((p, c) => { p[c.type] = true; return p; }, {}))
                                     .reduce((p, c, i) => {
-                                    p[c] =
-                                        (i < this.colors.length) ? this.colors[i] : 0x039BE5;
+                                        p[c] =
+                                            (i < this.colors.length) ? this.colors[i] : 0x039BE5;
                                         return p;
                                     }, {});
                                 const cm = result.reduce((p, c) => { p[c.gene] = types[c.type]; return p; }, {});
@@ -959,7 +963,7 @@ export class ComputeWorkerUtil {
                             const values = result.map(w => w[prop]);
                             if (isNaN(values[0])) {
                                 return {
-                                    prop:prop,
+                                    prop: prop,
                                     values: values,
                                     set: _.uniq(values)
                                 };
