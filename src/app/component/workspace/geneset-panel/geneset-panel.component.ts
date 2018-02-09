@@ -55,10 +55,10 @@ declare var $: any;
             </div>
         </div>
         <div id='GenesetPanelLoad'>
-            <div class='row geneset-load-panel'>
-                <select class='col s6'  materialize='material_select'
+            <div class='row geneset-load-panel' >
+                <select   materialize='material_select' class='col s6'
                     (change)='collectionChange($event.target.value)' >
-                    <option *ngFor='let option of collections'>{{option.n}}</option>
+                    <option  *ngFor='let option of collections'>{{option.n}}</option>
                 </select>
                 <input class='col s6' id='filter' type='text'
                     class='geneset-load-filter  browser-default'
