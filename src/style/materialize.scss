@@ -221,3 +221,11 @@ input:focus, textarea:focus, select:focus {
 :focus {
     outline: -webkit-focus-ring-color auto 1px;
 }
+
+.materialize-pointer{
+    cursor:pointer;
+}
+.materialize-builder {
+    padding-top: 5px;
+    float:right;
+}
