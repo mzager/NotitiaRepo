@@ -320,9 +320,9 @@ export class TimelinesGraph implements ChartObjectInterface {
                 const data = hit[0].object.userData.data;
                 if (data.type === 'event') {
                     const tip = Object.keys(data).reduce((p, c) => {
-                        if (c !== 'type'){
+                        if (c !== 'type') {
                             if (data[c].trim().length > 0) {
-                                p += c + ': ' + data[c].toLowerCase() + '<br />';
+                                p += '<nobr>' + c + ': ' + data[c].toLowerCase() + '</nobr><br />';
                             }
                         }
                         return p;
@@ -335,7 +335,7 @@ export class TimelinesGraph implements ChartObjectInterface {
                 }
                 if (data.type === 'attr') {
                     const tip = data.field + ': ' + data.value;
-                    this.tooltips.innerHTML = '<div style="min-width:300px;max-width:600px;width:auto;background:rgba(255,255,255,.8);color:#000;' +
+                    this.tooltips.innerHTML = '<div style="width:auto;background:rgba(255,255,255,.8);color:#000;' +
                     'padding:5px;border-radius:3px;z-index:9999;position:absolute;left:' +
                     xPos + 'px;top:' +
                     yPos + 'px;">' +
