@@ -37,7 +37,7 @@
     padding:3px;
 }
 .geneset-custom-name {
-    width:175px;
+    width:290px;
     border-width:1px;
     margin-bottom:5px;
     height:2rem;
@@ -61,11 +61,11 @@
 .geneset-load-panel {
     // border: solid 1px #EEEEEE;
     // border-radius:3px;
-    margin: 20px 20px 0px 5px;
+    margin: 20px 20px 0px 0px;
 }
 
 .geneset-load-filter {
-    width: 160px;
+    width: 180px;
     height: 2rem;
     line-height: 2rem;
 
@@ -81,7 +81,7 @@
 .results {
     max-height:300px;
     overflow-y:scroll;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
     font-size: 1rem;
 }
 .geneset-result-summary {
@@ -92,25 +92,7 @@
     padding-bottom: 20px;
 }
 
-// .geneset-load-search {
-//     border:0px solid #EEEEEE;
-//     margin:0px;
-//     border-left-width:1px;
-//     padding:0px 10px;
-//     display:inline-block;
 
-// }
-
-// .geneset-load-padding {
-//     padding-bottom:5px;
-// }
-// .geneset-load-collection {
-//     font-weight:700;
-// }
-.geneset-result-genes {
-    padding-top: 5px;
-    float:right;
-}
 
 
 
