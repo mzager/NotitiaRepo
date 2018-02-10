@@ -22237,6 +22237,17 @@ var legend_model_1 = __webpack_require__(46);
 var _ = __webpack_require__(11);
 var d3_scale_1 = __webpack_require__(12);
 exports.timelinesCompute = function (config, worker) {
+    var colorToHex = function (color) {
+        if (color.substr(0, 1) === '#') {
+            return color;
+        }
+        var digits = /(.*?)rgb\((\d+), (\d+), (\d+)\)/.exec(color);
+        var red = parseInt(digits[2], 10);
+        var green = parseInt(digits[3], 10);
+        var blue = parseInt(digits[4], 10);
+        var rgb = blue | (green << 8) | (red << 16);
+        return rgb;
+    };
     var colors = [
         [0x90caf9, 0x0d47a1, 0x64b5f6],
         [0xff5722, 0xffc107, 0xcddc39, 0x4caf50],
@@ -22244,15 +22255,10 @@ exports.timelinesCompute = function (config, worker) {
         [0x795548, 0xff9800, 0xffeb3b, 0x8bc34a,
             0x009688, 0x03a9f4, 0x3f51b5, 0x9c27b0,
             0xf44336, 0x607d8b, 0x673ab7, 0xe91e63]
-        // [0xbbdefb, 0x64b5f6, 0x2196f3, 0x1976d2],
-        //[0xb71c1c, 0x880e4f, 0x4a148c, 0x311b92],
-        // [0xd32f2f, 0x7b1fa2, 0x283593, 0x0277bd],
-        // [0xd1c4e9, 0x9575cd, 0x673ab7, // Purple
-        //     0xc8e6c9, 0x81c784, 0x4caf50, // Green
-        //     0xf8bbd0, 0xf06292, 0xe91e63, // Pink;
-        //     0xffe0b2, 0xffb74d, 0xff9800] // Orange;
-        // 0x004d40, 0x1b5e20, 0xf57f17, 0xe65100, 0xbf360c, 0x3e2723],
     ];
+    var getPatientInfo = function (db, tbl) {
+        return worker.util.getPatientData([], db, tbl);
+    };
     if (config.dirtyFlag & 32 /* OPTIONS */) {
         worker.postMessage({
             config: config,
@@ -22260,12 +22266,15 @@ exports.timelinesCompute = function (config, worker) {
         });
     }
     if (config.dirtyFlag & 1 /* LAYOUT */) {
-        worker.util
-            .getEventData(config.database, config.patientFilter)
-            .then(function (result) {
+        Promise.all([
+            worker.util.getEventData(config.database, config.patientFilter),
+            worker.util.getPatientData([], config.database, 'patient')
+        ]).then(function (result) {
+            var eventData = result[0];
+            var patientData = result[1];
             // Align
             if (config.align !== 'None') {
-                var align_1 = result.filter(function (v) { return v.subtype === config.align; })
+                var align_1 = eventData.filter(function (v) { return v.subtype === config.align; })
                     .reduce(function (p, c) {
                     if (p.hasOwnProperty(c.p)) {
                         if (p[c.p] > c.start) {
@@ -22277,29 +22286,29 @@ exports.timelinesCompute = function (config, worker) {
                     }
                     return p;
                 }, {});
-                result = result.filter(function (v) { return align_1.hasOwnProperty(v.p); });
-                result.forEach(function (v) {
+                eventData = eventData.filter(function (v) { return align_1.hasOwnProperty(v.p); });
+                eventData.forEach(function (v) {
                     v.start -= align_1[v.p];
                     v.end -= align_1[v.p];
                 });
             }
-            // Sort Map (sort must occur here, pre-filter)
-            var sortMap = null;
-            if (config.sort !== 'None') {
-                sortMap = Array.from(new Set(result
-                    .filter(function (v) { return v.subtype === config.sort; })
-                    .sort(function (a, b) { return a.start - b.start; })
-                    .map(function (v) { return v.p; })));
-            }
+            // // Sort Map (sort must occur here, pre-filter)
+            // let sortMap = null;
+            // if (config.sort !== 'None') {
+            //     sortMap = Array.from(new Set(eventData
+            //         .filter(v => v.subtype === config.sort)
+            //         .sort((a, b) => a.start - b.start)
+            //         .map(v => v.p)));
+            // }
             // Filter Events
             var events = Array.from(config.bars
                 .reduce(function (p, c) { if (c.events !== null) {
                 c.events.forEach(function (v) { return p.add(v.toString()); });
             } return p; }, new Set()))
                 .map(function (v) { return v.toString(); });
-            result = result.filter(function (v) { return events.indexOf(v.subtype) !== -1; });
+            eventData = eventData.filter(function (v) { return events.indexOf(v.subtype) !== -1; });
             // Determine Min + Max "Dates"
-            var minMax = result.reduce(function (p, c) {
+            var minMax = eventData.reduce(function (p, c) {
                 p.min = Math.min(p.min, c.start);
                 p.max = Math.max(p.max, c.end);
                 return p;
@@ -22316,7 +22325,7 @@ exports.timelinesCompute = function (config, worker) {
             //     return p;
             // }, {});
             // Associate Bar + Color To Event
-            result = result.map(function (v) {
+            eventData = eventData.map(function (v) {
                 return Object.assign(v, { 'color': colorMap[v.subtype] }); //, 'bar': barMap[v.subtype] });
             });
             // Build Legend
@@ -22330,29 +22339,62 @@ exports.timelinesCompute = function (config, worker) {
                 return rv;
             });
             // Group And Execute Sort
-            var patients = _.groupBy(result, 'p');
-            // Remove From SortMap Patients That Are Not In Result
-            if (sortMap !== null) {
-                sortMap = sortMap.filter(function (v) { return patients[v]; }).reduce(function (p, c, i) { p[c] = i; return p; }, {});
-                patients = Object.keys(patients)
-                    .map(function (key) { return patients[key]; })
-                    .sort(function (a, b) {
-                    a = (sortMap.hasOwnProperty(a[0].p)) ? sortMap[a[0].p] : -1;
-                    b = (sortMap.hasOwnProperty(b[0].p)) ? sortMap[b[0].p] : -1;
-                    return a - b;
+            var patients = _.groupBy(eventData, 'p');
+            if (config.group.label !== 'None') {
+                patientData.forEach(function (patient) {
+                    if (patients.hasOwnProperty(patient.p)) {
+                        patients[patient.p].group = patient[config.group.label];
+                    }
                 });
+                // patients = patients.filter(v => v.group);
             }
-            var colorToHex = function (color) {
-                if (color.substr(0, 1) === '#') {
-                    return color;
+            if (config.sort.label !== 'None') {
+                if (config.sort['type'] === 'patient') {
+                    patientData.forEach(function (patient) {
+                        if (patients.hasOwnProperty(patient.p)) {
+                            patients[patient.p].sort = patient[config.sort['key']];
+                        }
+                    });
                 }
-                var digits = /(.*?)rgb\((\d+), (\d+), (\d+)\)/.exec(color);
-                var red = parseInt(digits[2], 10);
-                var green = parseInt(digits[3], 10);
-                var blue = parseInt(digits[4], 10);
-                var rgb = blue | (green << 8) | (red << 16);
-                return rgb;
-            };
+                else {
+                    Object.keys(patients).forEach(function (pid) {
+                        var patient = patients[pid];
+                        var eref = patient.find(function (v) { return v.subtype === config.sort.label; });
+                        if (eref !== undefined) {
+                            patient.sort = eref.start;
+                        }
+                    });
+                }
+                // patients = patients.filter(v => v.sort);
+            }
+            patients = Object.keys(patients).map(function (key) { return ({
+                sort: patients[key].hasOwnProperty('sort') ? patients[key].sort : null,
+                group: patients[key].hasOwnProperty('group') ? patients[key].group : null,
+                events: patients[key]
+            }); });
+            if (config.sort.label !== 'None') {
+                patients = patients.filter(function (p) { return p.sort !== null; });
+                patients = patients.sort(function (a, b) { return b.sort - a.sort; });
+            }
+            if (config.group.label !== 'None') {
+                patients = patients.filter(function (p) { return p.group !== null; });
+                patients = _.groupBy(patients, 'group');
+                patients = Object.keys(patients).reduce(function (p, c) { return p.concat(patients[c]); }, []);
+            }
+            debugger;
+            patients = patients.map(function (patient) { return patient.events; });
+            debugger;
+            // Remove From SortMap Patients That Are Not In Result
+            // if (sortMap !== null) {
+            //     sortMap = sortMap.filter(v => patients[v]).reduce((p, c, i) => { p[c] = i; return p; }, {});
+            //     patients = Object.keys(patients)
+            //         .map(key => patients[key])
+            //         .sort((a, b) => {
+            //             a = (sortMap.hasOwnProperty(a[0].p)) ? sortMap[a[0].p] : -1;
+            //             b = (sortMap.hasOwnProperty(b[0].p)) ? sortMap[b[0].p] : -1;
+            //             return a - b;
+            //         });
+            // }
             // Get Heatmap Stuff
             if (config.attrs !== undefined) {
                 var pas = worker.util.getPatientAttributeSummary(config.patientFilter, config.attrs, config.database);
