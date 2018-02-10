@@ -22365,7 +22365,6 @@ exports.timelinesCompute = function (config, worker) {
                         }
                     });
                 }
-                // patients = patients.filter(v => v.sort);
             }
             patients = Object.keys(patients).map(function (key) { return ({
                 sort: patients[key].hasOwnProperty('sort') ? patients[key].sort : null,
@@ -22381,20 +22380,7 @@ exports.timelinesCompute = function (config, worker) {
                 patients = _.groupBy(patients, 'group');
                 patients = Object.keys(patients).reduce(function (p, c) { return p.concat(patients[c]); }, []);
             }
-            debugger;
             patients = patients.map(function (patient) { return patient.events; });
-            debugger;
-            // Remove From SortMap Patients That Are Not In Result
-            // if (sortMap !== null) {
-            //     sortMap = sortMap.filter(v => patients[v]).reduce((p, c, i) => { p[c] = i; return p; }, {});
-            //     patients = Object.keys(patients)
-            //         .map(key => patients[key])
-            //         .sort((a, b) => {
-            //             a = (sortMap.hasOwnProperty(a[0].p)) ? sortMap[a[0].p] : -1;
-            //             b = (sortMap.hasOwnProperty(b[0].p)) ? sortMap[b[0].p] : -1;
-            //             return a - b;
-            //         });
-            // }
             // Get Heatmap Stuff
             if (config.attrs !== undefined) {
                 var pas = worker.util.getPatientAttributeSummary(config.patientFilter, config.attrs, config.database);

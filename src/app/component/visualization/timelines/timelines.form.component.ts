@@ -49,7 +49,7 @@ import { Subscription } from 'rxjs/Subscription';
     </label>
   </div>
   <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Attributes</span>
+    <label class='center-block'><span class='form-label'>Heat Map</span>
       <select formControlName='attrs' multiple='true'
         materialize='material_select'>
         <option *ngFor='let pa of this.patientAttributes'
@@ -57,7 +57,6 @@ import { Subscription } from 'rxjs/Subscription';
       </select>
     </label>
   </div>
-
   <div formArrayName='bars'>
     <div *ngFor='let bar of ctrls; let i=index'>
       <div [formGroupName]='i'>
@@ -151,7 +150,7 @@ export class TimelinesFormComponent implements OnDestroy {
       label: v.label,
       items: v.events.map(w => ({label: w.label, type: 'event'}))
     }));
-    sort.push({
+    sort.unshift({
       label: 'Patient',
       items: [{label: 'None'}].concat(options[0].filter(w => w.type === 'NUMBER').map(w => Object.assign(w, {type: 'patient'})))
     });
