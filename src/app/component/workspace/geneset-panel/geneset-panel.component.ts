@@ -55,22 +55,22 @@ declare var $: any;
             </div>
         </div>
         <div id='GenesetPanelLoad'>
-        <div class='row'>
-        <div class=' geneset-load-panel' >
-           <div class='col s6'>
-            <select   materialize='material_select'
-                    (change)='collectionChange($event.target.value)'>
-                    <option  *ngFor='let option of collections'>{{option.n}}</option>
-                </select>
-                </div>
-                <div class='col s6'>
+            <div class='row'>
+                <div class=' geneset-load-panel' >
+                    <div class='col s6'>
+                         <select   materialize='material_select'
+                            (change)='collectionChange($event.target.value)'>
+                             <option  *ngFor='let option of collections'>{{option.n}}</option>
+                        </select>
+                    </div>
+            <div class='col s6'>
                 <input id='filter' type='text'
                     class='geneset-load-filter  browser-default'
                     placeholder='Filter'
                     (keyup)='filterChange($event.target.value)'>
-                    </div>
-                    </div>
+                </div>
             </div>
+        </div>
             <div class='results'>
                 <div class='geneset-load-desc'>
                     {{collection.d}}
@@ -78,10 +78,10 @@ declare var $: any;
                 <div *ngFor='let option of options' class='geneset-result-row'>
                     <div class='geneset-result-name'>{{option.name}}<div>
                     <div class='geneset-result-summary'>{{option.summary}}</div>
-                    <div>{{option.genes.length | number}} Genes<span class='geneset-result-genes'>
-                    <a style='cursor:pointer;'
-                    (click)='selectGeneset(option)'>Select</a> | <a style='cursor:pointer;'
-                    (click)='selectGeneset(option)'>Deselect</a> | <a style='cursor:pointer;'
+                    <div>{{option.genes.length | number}} Genes<span class='materialize-builder'>
+                    <a class='materialize-pointer'
+                    (click)='selectGeneset(option)'>Select</a> | <a class='materialize-pointer'
+                    (click)='selectGeneset(option)'>Deselect</a> | <a class='materialize-pointer'
                     (click)='filterGeneset(option)'>Filter</a></span></div>
                 </div>
             </div>
