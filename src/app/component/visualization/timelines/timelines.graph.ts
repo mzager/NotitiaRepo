@@ -142,7 +142,13 @@ export class TimelinesGraph implements ChartObjectInterface {
             group.add(mesh);
             this.meshes.push(mesh);
         } else {
-            this.addTic(event, bar, barHeight, barHeight, group, scale);
+            const s = scale(event.start);
+            const yPos = (rowHeight - (bar * barHeight)) - 2;
+            const mesh = ChartFactory.lineAllocate(event.color, new Vector2(s, yPos - 2), new Vector2(s, yPos + 2))
+            mesh.userData = event;
+            group.add(mesh);
+            this.meshes.push(mesh);
+            // this.addTic(event, bar, barHeight, barHeight, group, scale);
         }
     }
 
