@@ -1,5 +1,30 @@
 @charset "UTF-8";
+@import "~nouislider/distribute/nouislider.min.css";
+.noUi-target {
+    background: #EEEEEE;
+    border-radius: 3px;
+    border: 0px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.noUi-horizontal {
+    height: 6px;
+}
 
+.noUi-horizontal .noUi-handle{
+    right: -9px !important;
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    border: none;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    background: #029BE5;
+}
+.noUi-connect {
+    //background: #029BE5;
+    background: rgb(179, 229, 252);
+}
 // Mixins
 @import "components/mixins";
 @import "components/color";

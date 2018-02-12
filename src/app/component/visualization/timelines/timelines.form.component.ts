@@ -1,15 +1,19 @@
+import { NoneAction } from './../../../action/compute.action';
 import { Observable } from 'rxjs/Observable';
 import { DataService } from './../../../service/data.service';
 import { TimelinesConfigModel, TimelinesStyle } from './timelines.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DimensionEnum, DataTypeEnum, VisualizationEnum, DirtyEnum, EntityTypeEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory } from './../../../model/data-field.model';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as _ from 'lodash';
 import { FormArray, AbstractControl } from '@angular/forms/src/model';
 import { Subject } from 'rxjs/subject';
 import { Subscription } from 'rxjs/Subscription';
+import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
+declare var $: any;
+declare var noUiSlider;
 
 @Component({
   selector: 'app-timelines-form',
@@ -62,7 +66,7 @@ import { Subscription } from 'rxjs/Subscription';
       <div [formGroupName]='i'>
         <span class='form-label' style='
         text-align:left;width:100%;font-weight:700;padding:10px 0px 5px 0px;font-size:1rem;'>
-          {{ctrls[i].get('label').value}} Events</span>
+          Events</span>
           <div class='form-group'>
             <label class='center-block'><span class='form-label'>Display</span>
               <select materialize='material_select' formControlName='style'>
@@ -83,10 +87,21 @@ import { Subscription } from 'rxjs/Subscription';
       </div>
     </div>
   </div>
-</form>`
+</form>
+<div>
+  <span class='form-label' style='text-align:left;width:100%;font-weight:700;padding:10px 0px 0px 0px;font-size:1rem;'>
+  Visible Day Range
+  </span>
+  <div style='padding:0px 6px;'>
+    <nouislider [connect]='true' [min]='0' [max]='100' [step]='1' [(ngModel)]='this.rv'
+      (change)='rangeChange()'></nouislider>
+  </div>
+</div>
+`
 })
 export class TimelinesFormComponent implements OnDestroy {
 
+  public rv = [0, 100];
   public styleOptions = [TimelinesStyle.NONE, TimelinesStyle.ARCS,
     TimelinesStyle.TICKS, TimelinesStyle.SYMBOLS];
   public eventGroups = [];
@@ -142,6 +157,10 @@ export class TimelinesFormComponent implements OnDestroy {
 
   form: FormGroup;
 
+  rangeChange(): void {
+    this.form.patchValue({range: this.rv}, {onlySelf: true, emitEvent: true});
+  }
+
   setOptions(options: any): void {
     const clinical = options[0];
     const events = options[1];
@@ -193,6 +212,7 @@ export class TimelinesFormComponent implements OnDestroy {
       group: [],
       align: [],
       attrs: [],
+      range: [],
 
       bars: this.fb.array([])
     });
