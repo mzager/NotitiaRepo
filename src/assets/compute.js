@@ -22328,7 +22328,7 @@ exports.timelinesCompute = function (config, worker) {
                     }
                 });
             }
-            if (config.sort.label !== 'None') {
+            if (config.sort['label'] !== 'None') {
                 if (config.sort['type'] === 'patient') {
                     patientData.forEach(function (patient) {
                         if (patients.hasOwnProperty(patient.p)) {
@@ -22339,7 +22339,7 @@ exports.timelinesCompute = function (config, worker) {
                 else {
                     Object.keys(patients).forEach(function (pid) {
                         var patient = patients[pid];
-                        var eref = patient.find(function (v) { return v.subtype === config.sort.label; });
+                        var eref = patient.find(function (v) { return v.subtype === config.sort['label']; });
                         if (eref !== undefined) {
                             patient.sort = eref.start;
                         }
@@ -22351,7 +22351,7 @@ exports.timelinesCompute = function (config, worker) {
                 group: patients[key].hasOwnProperty('group') ? patients[key].group : null,
                 events: patients[key]
             }); });
-            if (config.sort.label !== 'None') {
+            if (config.sort['label'] !== 'None') {
                 patients = patients.filter(function (p) { return p.sort !== null; });
                 patients = patients.sort(function (a, b) { return b.sort - a.sort; });
             }
