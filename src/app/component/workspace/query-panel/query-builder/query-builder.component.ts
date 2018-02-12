@@ -15,6 +15,7 @@ export class QueryBuilderComponent implements OnInit, OnChanges {
   @Input() config: QueryBuilderConfig = { fields: {} };
   @Output() onSave: EventEmitter<any> = new EventEmitter<any>();
   @Output() onFilter: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onReset: EventEmitter<any> = new EventEmitter<any>();
 
   public fieldNames: string[];
   private defaultEmptyList: any[] = [];
@@ -147,8 +148,10 @@ export class QueryBuilderComponent implements OnInit, OnChanges {
   save(): void {
     this.onSave.emit();
   }
-  filter(): void{
+  filter(): void {
     this.onFilter.emit();
   }
-
+  reset(): void {
+    this.onReset.emit();
+  }
 }
