@@ -22,7 +22,7 @@ import { geoAlbers, active, ScaleLinear } from 'd3';
 import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
 import { Vector3, CubeGeometry, Vector2, OrthographicCamera } from 'three';
 import { DataService } from 'app/service/data.service';
-import MeshLine from 'three.meshline';
+// import MeshLine from 'three.meshline';
 
 export class TimelinesGraph implements ChartObjectInterface {
 
@@ -138,6 +138,10 @@ export class TimelinesGraph implements ChartObjectInterface {
                 new THREE.Vector2(e, yPos - 2 ),
                 new THREE.Vector2(c, yPos + 2)
             );
+            // mesh.material =  new MeshLineMaterial({
+            //     color: new THREE.Color(0x90caf9),
+            //     lineWidth: 2,
+            // });
             mesh.userData = event;
             group.add(mesh);
             this.meshes.push(mesh);
@@ -208,11 +212,11 @@ export class TimelinesGraph implements ChartObjectInterface {
     addLines(rowHeight, rowCount): void {
         const chartHeight = rowHeight * rowCount;
         for (let i = -500; i <= 500; i += 50) {
-            const line = ChartFactory.lineAllocate(0xEEEEEE, new THREE.Vector2(i, chartHeight), new THREE.Vector2(i, 0));
+            const line = ChartFactory.lineAllocate(0xDDDDDD, new THREE.Vector2(i, chartHeight), new THREE.Vector2(i, 0));
             this.lines.add(line);
         }
         for (let i = 0; i < rowCount + 1; i++) {
-            const line = ChartFactory.lineAllocate(0xEEEEEE, new THREE.Vector2(-500, i * rowHeight), new THREE.Vector2(500, i * rowHeight));
+            const line = ChartFactory.lineAllocate(0xDDDDDD, new THREE.Vector2(-500, i * rowHeight), new THREE.Vector2(500, i * rowHeight));
             this.lines.add(line);
         }
         this.view.scene.add(this.lines);
@@ -246,6 +250,7 @@ export class TimelinesGraph implements ChartObjectInterface {
 
         // Scale
         const scale = scaleLinear();
+        // - (this.data.result.minMax.max * .7)
         scale.domain([this.data.result.minMax.min, this.data.result.minMax.max]);
         scale.range([-500, 500]);
 
@@ -315,14 +320,14 @@ export class TimelinesGraph implements ChartObjectInterface {
                 const data = hit[0].object.userData.data;
                 if (data.type === 'event') {
                     const tip = Object.keys(data).reduce((p, c) => {
-                        if (c !== 'type'){
+                        if (c !== 'type') {
                             if (data[c].trim().length > 0) {
-                                p += c + ': ' + data[c].toLowerCase() + '<br />';
+                                p += '<nobr>' + c + ': ' + data[c].toLowerCase() + '</nobr><br />';
                             }
                         }
                         return p;
-                    }, '<span style="font-weight:700;font-size:1rem;color:#FFF;">'+hit[0].object.userData.subtype+'</span><br />');
-                    this.tooltips.innerHTML = '<div style="max-width:600px;width:auto;background:rgba(0,0,0,.8);font-size:.9rem;color:#DDD;padding:5px;border-radius:' +
+                    }, '<span style="font-weight:700;font-size:1rem;color:#FFF;">' + hit[0].object.userData.subtype + '</span><br />');
+                    this.tooltips.innerHTML = '<div style="width:auto;background:rgba(0,0,0,.8);font-size:.9rem;color:#DDD;padding:5px;border-radius:' +
                         '3px;z-index:9999;position:absolute;left:' +
                         xPos + 'px;top:' +
                         yPos + 'px;">' +
@@ -330,7 +335,7 @@ export class TimelinesGraph implements ChartObjectInterface {
                 }
                 if (data.type === 'attr') {
                     const tip = data.field + ': ' + data.value;
-                    this.tooltips.innerHTML = '<div style="max-width:600px;width:auto;background:rgba(255,255,255,.8);color:#000;' +
+                    this.tooltips.innerHTML = '<div style="width:auto;background:rgba(255,255,255,.8);color:#000;' +
                     'padding:5px;border-radius:3px;z-index:9999;position:absolute;left:' +
                     xPos + 'px;top:' +
                     yPos + 'px;">' +
