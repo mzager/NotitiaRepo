@@ -22292,14 +22292,6 @@ exports.timelinesCompute = function (config, worker) {
                     v.end -= align_1[v.p];
                 });
             }
-            // // Sort Map (sort must occur here, pre-filter)
-            // let sortMap = null;
-            // if (config.sort !== 'None') {
-            //     sortMap = Array.from(new Set(eventData
-            //         .filter(v => v.subtype === config.sort)
-            //         .sort((a, b) => a.start - b.start)
-            //         .map(v => v.p)));
-            // }
             // Filter Events
             var events = Array.from(config.bars
                 .reduce(function (p, c) { if (c.events !== null) {
@@ -22319,11 +22311,6 @@ exports.timelinesCompute = function (config, worker) {
                     return p;
                 }, {});
             }).reduce(function (p, c) { return Object.assign(p, c); }, {});
-            // Bar Map
-            // const barMap = config.bars.reduce((p, c, i) => {
-            //     if (c.events !== null) { c.events.forEach(v => p[v] = i); }
-            //     return p;
-            // }, {});
             // Associate Bar + Color To Event
             eventData = eventData.map(function (v) {
                 return Object.assign(v, { 'color': colorMap[v.subtype] }); //, 'bar': barMap[v.subtype] });
@@ -22346,7 +22333,6 @@ exports.timelinesCompute = function (config, worker) {
                         patients[patient.p].group = patient[config.group.label];
                     }
                 });
-                // patients = patients.filter(v => v.group);
             }
             if (config.sort.label !== 'None') {
                 if (config.sort['type'] === 'patient') {
