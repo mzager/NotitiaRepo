@@ -22299,12 +22299,6 @@ exports.timelinesCompute = function (config, worker) {
             } return p; }, new Set()))
                 .map(function (v) { return v.toString(); });
             eventData = eventData.filter(function (v) { return events.indexOf(v.subtype) !== -1; });
-            // Determine Min + Max "Dates"
-            var minMax = eventData.reduce(function (p, c) {
-                p.min = Math.min(p.min, c.start);
-                p.max = Math.max(p.max, c.end);
-                return p;
-            }, { min: Infinity, max: -Infinity });
             var colorMap = config.bars.map(function (v, i) {
                 return v.events.reduce(function (p, c, j) {
                     p[c] = colors[i][j];
@@ -22316,7 +22310,7 @@ exports.timelinesCompute = function (config, worker) {
                 return Object.assign(v, { 'color': colorMap[v.subtype] }); //, 'bar': barMap[v.subtype] });
             });
             // Build Legend
-            var legends = config.bars.map(function (v) {
+            var legends = config.bars.filter(function (v) { return v.style !== 'None'; }).map(function (v) {
                 var rv = new legend_model_1.Legend();
                 rv.name = 'ROW // ' + v.label.toUpperCase();
                 rv.type = 'COLOR';
@@ -22367,6 +22361,12 @@ exports.timelinesCompute = function (config, worker) {
                 patients = Object.keys(patients).reduce(function (p, c) { return p.concat(patients[c]); }, []);
             }
             patients = patients.map(function (patient) { return patient.events; });
+            // Determine Min + Max "Dates"
+            var minMax = eventData.reduce(function (p, c) {
+                p.min = Math.min(p.min, c.start);
+                p.max = Math.max(p.max, c.end);
+                return p;
+            }, { min: Infinity, max: -Infinity });
             // Get Heatmap Stuff
             if (config.attrs !== undefined) {
                 var pas = worker.util.getPatientAttributeSummary(config.patientFilter, config.attrs, config.database);
