@@ -22292,14 +22292,6 @@ exports.timelinesCompute = function (config, worker) {
                     v.end -= align_1[v.p];
                 });
             }
-            // // Sort Map (sort must occur here, pre-filter)
-            // let sortMap = null;
-            // if (config.sort !== 'None') {
-            //     sortMap = Array.from(new Set(eventData
-            //         .filter(v => v.subtype === config.sort)
-            //         .sort((a, b) => a.start - b.start)
-            //         .map(v => v.p)));
-            // }
             // Filter Events
             var events = Array.from(config.bars
                 .reduce(function (p, c) { if (c.events !== null) {
@@ -22307,29 +22299,18 @@ exports.timelinesCompute = function (config, worker) {
             } return p; }, new Set()))
                 .map(function (v) { return v.toString(); });
             eventData = eventData.filter(function (v) { return events.indexOf(v.subtype) !== -1; });
-            // Determine Min + Max "Dates"
-            var minMax = eventData.reduce(function (p, c) {
-                p.min = Math.min(p.min, c.start);
-                p.max = Math.max(p.max, c.end);
-                return p;
-            }, { min: Infinity, max: -Infinity });
             var colorMap = config.bars.map(function (v, i) {
                 return v.events.reduce(function (p, c, j) {
                     p[c] = colors[i][j];
                     return p;
                 }, {});
             }).reduce(function (p, c) { return Object.assign(p, c); }, {});
-            // Bar Map
-            // const barMap = config.bars.reduce((p, c, i) => {
-            //     if (c.events !== null) { c.events.forEach(v => p[v] = i); }
-            //     return p;
-            // }, {});
             // Associate Bar + Color To Event
             eventData = eventData.map(function (v) {
                 return Object.assign(v, { 'color': colorMap[v.subtype] }); //, 'bar': barMap[v.subtype] });
             });
             // Build Legend
-            var legends = config.bars.map(function (v) {
+            var legends = config.bars.filter(function (v) { return v.style !== 'None'; }).map(function (v) {
                 var rv = new legend_model_1.Legend();
                 rv.name = 'ROW // ' + v.label.toUpperCase();
                 rv.type = 'COLOR';
@@ -22346,7 +22327,6 @@ exports.timelinesCompute = function (config, worker) {
                         patients[patient.p].group = patient[config.group.label];
                     }
                 });
-                // patients = patients.filter(v => v.group);
             }
             if (config.sort.label !== 'None') {
                 if (config.sort['type'] === 'patient') {
@@ -22381,6 +22361,12 @@ exports.timelinesCompute = function (config, worker) {
                 patients = Object.keys(patients).reduce(function (p, c) { return p.concat(patients[c]); }, []);
             }
             patients = patients.map(function (patient) { return patient.events; });
+            // Determine Min + Max "Dates"
+            var minMax = eventData.reduce(function (p, c) {
+                p.min = Math.min(p.min, c.start);
+                p.max = Math.max(p.max, c.end);
+                return p;
+            }, { min: Infinity, max: -Infinity });
             // Get Heatmap Stuff
             if (config.attrs !== undefined) {
                 var pas = worker.util.getPatientAttributeSummary(config.patientFilter, config.attrs, config.database);

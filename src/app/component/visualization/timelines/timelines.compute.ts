@@ -48,9 +48,10 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
             worker.util.getEventData(config.database, config.patientFilter),
             worker.util.getPatientData([], config.database, 'patient')
         ]).then(result => {
+
             let eventData = result[0];
             const patientData = result[1];
-            
+
             // Align
             if (config.align !== 'None') {
                 const align = eventData.filter(v => v.subtype === config.align)
@@ -75,13 +76,6 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 .map(v => v.toString());
             eventData = eventData.filter(v => events.indexOf(v.subtype) !== -1);
 
-            // Determine Min + Max "Dates"
-            const minMax = eventData.reduce((p, c) => {
-                p.min = Math.min(p.min, c.start);
-                p.max = Math.max(p.max, c.end);
-                return p;
-            }, { min: Infinity, max: -Infinity });
-
             const colorMap = config.bars.map((v, i) =>
                 v.events.reduce((p, c, j) => {
                     p[c] = colors[i][j];
@@ -95,7 +89,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
             });
 
             // Build Legend
-            let legends = config.bars.map(v => {
+            let legends = config.bars.filter(v => v.style !== 'None').map(v => {
                 const rv = new Legend();
                 rv.name = 'ROW // ' + v.label.toUpperCase();
                 rv.type = 'COLOR';
@@ -148,6 +142,13 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 patients = Object.keys(patients).reduce((p, c) => p.concat(patients[c]), []);
             }
             patients = patients.map(patient => patient.events);
+
+            // Determine Min + Max "Dates"
+            const minMax = eventData.reduce((p, c) => {
+                p.min = Math.min(p.min, c.start);
+                p.max = Math.max(p.max, c.end);
+                return p;
+            }, { min: Infinity, max: -Infinity });
 
             // Get Heatmap Stuff
             if (config.attrs !== undefined) {

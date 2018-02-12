@@ -22,7 +22,7 @@
 
         <div id='QueryPanelCreate'>
             <app-workspace-query-builder *ngIf='showBuilder' [data]='query' [config]='cfg'
-                (onFilter)='filter()' (onSave)='save();'></app-workspace-query-builder>
+                (onReset)='reset()' (onFilter)='filter()' (onSave)='save()'></app-workspace-query-builder>
         </div>
 
         <div id='QueryPanelLoad'>
