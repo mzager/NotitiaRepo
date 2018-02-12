@@ -90,6 +90,7 @@ import { MiniBatchDictionaryLearningFormComponent } from 'app/component/visualiz
 import { QueryBuilderComponent } from 'app/component/workspace/query-panel/query-builder/query-builder.component';
 import { ModalService } from 'app/service/modal-service';
 import { HotTableModule } from 'angular-handsontable';
+import { NouisliderModule } from 'ng2-nouislider';
 @NgModule({
   declarations: [
     AppComponent,
@@ -155,6 +156,7 @@ import { HotTableModule } from 'angular-handsontable';
   entryComponents: [
   ],
   imports: [
+    NouisliderModule,
     ToastModule.forRoot(),
     MaterializeModule,
     FileUploadModule,

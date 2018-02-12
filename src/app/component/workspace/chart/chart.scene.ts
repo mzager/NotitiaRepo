@@ -195,6 +195,7 @@ export class ChartScene {
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setClearColor(0xffffff, 1);
         this.renderer.autoClear = false;
+        this.renderer.localClippingEnabled = true;
         // this.renderer.gammaInput = true;
         // this.renderer.gammaOutput = true;
 

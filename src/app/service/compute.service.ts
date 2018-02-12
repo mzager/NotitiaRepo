@@ -28,7 +28,7 @@ import { EdgeConfigModel } from './../component/visualization/edges/edges.model'
 import { GraphConfig } from 'app/model/graph-config.model';
 import { chromosomeCompute } from './../component/visualization/chromosome/chromosome.compute';
 import { ChromosomeConfigModel } from './../component/visualization/chromosome/chromosome.model';
-import { GraphEnum, VisualizationEnum } from 'app/model/enum.model';
+import { GraphEnum, VisualizationEnum, DirtyEnum } from 'app/model/enum.model';
 import { IlluminaService } from './illumina.service';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -156,20 +156,11 @@ export class ComputeService {
     }
     execute(config: GraphConfig, subject: Subject<any>): Observable<any> {
 
-        // this.pool.acquire()
-        // this.pool.acquire( worker => {
-        //     return new Promise<any>( ( resolve, reject ) => {
-        //         const onMessage = (v) => {
-        //             if (v.data === 'TERMINATE') {
-        //                 worker.removeEventListener( 'message', onMessage );
-        //                 console.log("RESOLVE");
-        //                 resolve();
-        //             } else { subject.next(v.data); }
-        //         };
-        //         worker.addEventListener( 'message', onMessage );
-        //         worker.postMessage( config );
-        //     });
-        // });
+        // If user requests no computation, just pass the config through
+        // if (config.dirtyFlag & DirtyEnum.NO_COMPUTE) {
+        //     this.getSubjectByVisualization(config.visualization).next({config: config, data: {}});
+        //     return;
+        // }
 
         switch (config.graph ) {
             case GraphEnum.GRAPH_A:
