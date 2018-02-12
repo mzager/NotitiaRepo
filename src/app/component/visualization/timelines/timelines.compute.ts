@@ -109,7 +109,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                     }
                 });
             }
-            if (config.sort.label !== 'None') {
+            if (config.sort['label'] !== 'None') {
                 if (config.sort['type'] === 'patient') {
                     patientData.forEach(patient => {
                         if (patients.hasOwnProperty(patient.p)) {
@@ -119,7 +119,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 } else {
                     Object.keys(patients).forEach(pid => {
                         const patient = patients[pid];
-                        const eref = patient.find(v => v.subtype === config.sort.label);
+                        const eref = patient.find(v => v.subtype === config.sort['label']);
                         if (eref !== undefined) {
                             patient.sort = eref.start;
                         }
@@ -132,7 +132,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 group: patients[key].hasOwnProperty('group') ? patients[key].group : null,
                 events: patients[key]
             }));
-            if (config.sort.label !== 'None') {
+            if (config.sort['label'] !== 'None') {
                 patients = patients.filter(p => p.sort !== null);
                 patients = patients.sort((a, b) => b.sort - a.sort);
             }
