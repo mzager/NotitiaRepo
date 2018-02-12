@@ -45,6 +45,7 @@ export class TimelinesGraph implements ChartObjectInterface {
     public attrs: THREE.Group;
     public lines: THREE.Group;
     public meshes: Array<THREE.Object3D>;
+    public clipPlanes: Array<THREE.Object3D> = [];
     public database: string;
 
     private overlay: HTMLElement;
@@ -225,6 +226,25 @@ export class TimelinesGraph implements ChartObjectInterface {
     // #endregion
     addObjects(): void {
 
+
+        this.clipPlanes = [];
+
+        let plane = new THREE.PlaneGeometry(1000, 3000);
+        let mesh = new THREE.Mesh(plane, ChartFactory.getColorBasic(0xFFFFFF));
+        mesh.position.x -= 1000;
+        mesh.position.y = 0;
+        mesh.position.z = 10;
+        this.clipPlanes.push(mesh);
+        this.view.scene.add(mesh);
+
+        plane = new THREE.PlaneGeometry(1000, 3000);
+        mesh = new THREE.Mesh(plane, ChartFactory.getColorBasic(0xFFFFFF));
+        mesh.position.x += 1000;
+        mesh.position.y = 0;
+        mesh.position.z = 10;
+        this.clipPlanes.push(mesh);
+        this.view.scene.add(mesh);
+
         // Helper Variables
         const bars = this.config.bars;
         let pts: Array<any> = this.data.result.patients;
@@ -250,9 +270,25 @@ export class TimelinesGraph implements ChartObjectInterface {
 
         // Scale
         const scale = scaleLinear();
-        // - (this.data.result.minMax.max * .7)
-        scale.domain([this.data.result.minMax.min, this.data.result.minMax.max]);
         scale.range([-500, 500]);
+        if (this.config.range[0] !== 0 || this.config.range[1] !== 100) {
+
+            const span = this.data.result.minMax.max - this.data.result.minMax.min;
+
+            const minOffset = (this.config.range[0] / 100) * span;
+            const maxOffset = (this.config.range[1] / 100) * span;
+
+            const min = (this.config.range[0] !== 0) ?
+                this.data.result.minMax.min + minOffset : this.data.result.minMax.min;
+            const max = (this.config.range[1] !== 100) ?
+                maxOffset : this.data.result.minMax.max;
+
+            scale.domain([min, max]);
+
+        } else {
+            scale.domain([this.data.result.minMax.min, this.data.result.minMax.max]);
+        }
+
 
         // Patients + PID MAP
         const pidMap: any = {};
@@ -283,6 +319,8 @@ export class TimelinesGraph implements ChartObjectInterface {
             });
         });
 
+
+
         // Attributes
         this.addAttrs(rowHeight, rowCount, pidMap);
 
@@ -297,6 +335,7 @@ export class TimelinesGraph implements ChartObjectInterface {
     }
 
     removeObjects(): void {
+        this.clipPlanes.forEach(plane => this.view.scene.remove(plane));
         this.patients.forEach(patient => this.view.scene.remove(patient));
         this.view.scene.remove(this.attrs);
         this.view.scene.remove(this.lines);
@@ -349,6 +388,8 @@ export class TimelinesGraph implements ChartObjectInterface {
         }
         this.tooltips.innerHTML = '';
     }
-   
-    constructor() { }
+
+    constructor() {
+
+    }
 }

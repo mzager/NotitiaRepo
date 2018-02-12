@@ -20,7 +20,6 @@ export class TimelinesConfigModel extends GraphConfig {
     }
 
     attrs = [];
-
     align = 'Relapse';
     sort = {label: 'None'}; //{label: 'Relapse', type: 'event'};
     group = {label: 'None'};
@@ -30,6 +29,8 @@ export class TimelinesConfigModel extends GraphConfig {
         {label: 'Response or Relapse', style: TimelinesStyle.TICKS, events: ['CR', 'Relapse', 'Death', 'Last Follow Up'], row: 1, z: 0, track: 1},
         {label: 'Treatment', style: TimelinesStyle.SYMBOLS, events: ['Induction chemotherapy','Consolidation chemotherapy','Hydroxyurea','Intrathecal therapy','Radiation','Hypomethylating therapy','Targeted therapy','Checkpoint inhibitors','Cytokine','DLI','HCT','Other'], row: 1, z: 1, track: 1},
     ];
+    range = [0, 100];
+  
     // align = 'Diagnosis';
     // sort = 'Death';
     // bars = [
