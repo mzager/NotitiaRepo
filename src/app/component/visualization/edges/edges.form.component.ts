@@ -19,7 +19,8 @@ import * as _ from 'lodash';
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Edges</span>
       <select materialize='material_select'
-          [materializeSelectOptions]='edgeOptions'
+          [materializeSelectOptions]='edgeOptions' multiple='true'
+          materialize='material_select'
           formControlName='edgeOption'>
           <option *ngFor='let option of edgeOptions'
             [ngValue]='option'>{{option}}</option>

@@ -227,14 +227,14 @@ export class ComputeWorkerUtil {
             }
         });
     }
-    openDatabaseData(db): Promise<any> {
+    openDatabaseData(db): Promise<Dexie> {
         return new Promise((resolve, reject) => {
             if (this.dbData === null) {
                 this.dbData = new Dexie('notitia-' + db);
                 this.dbData.open().then(resolve);
             } else {
                 if (this.dbData.isOpen()) {
-                    resolve();
+                    resolve(this.dbData);
                 } else {
                     this.dbData.open().then(resolve);
                 }
