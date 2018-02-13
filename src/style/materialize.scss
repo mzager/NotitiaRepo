@@ -103,6 +103,9 @@ select:not([multiple]) {
     padding-left: .5em;
     padding-right: 1.5em
 }
+select:focus {
+    outline: 0px solid #EEEEEE;
+}
 .form-label {
     display: inline-block !important;
     width: 80px;
