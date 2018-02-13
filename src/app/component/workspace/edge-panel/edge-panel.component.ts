@@ -1,6 +1,6 @@
 import { ModalService } from 'app/service/modal-service';
 import { WorkspaceConfigModel } from './../../../model/workspace.model';
-import { WorkspaceLayoutEnum } from './../../../model/enum.model';
+import { WorkspaceLayoutEnum, VisualizationEnum } from './../../../model/enum.model';
 import { DataTable } from './../../../model/data-field.model';
 import { DataField } from 'app/model/data-field.model';
 import { INSERT_ANNOTATION } from './../../../action/graph.action';
@@ -14,6 +14,7 @@ import { Component, ComponentFactoryResolver, Input, Output, ViewContainerRef,
 import { LegendPanelEnum, GraphEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import { Subscription } from 'rxjs/Subscription';
+import { EdgeConfigModel } from 'app/component/visualization/edges/edges.model';
 declare var $: any;
 
 @Component({
@@ -63,6 +64,11 @@ export class EdgePanelComponent implements AfterViewInit, OnDestroy {
   }
 
   edgePanelSetConfig(value: GraphConfig): void {
+    const ecm: EdgeConfigModel = (value as EdgeConfigModel);
+    ecm.database = this.graphAConfig.database;
+    ecm.entityA = this.graphAConfig.entity;
+    ecm.entityB = this.graphBConfig.entity;
+    value.visualization = VisualizationEnum.EDGES;
     this.configChange.emit(value);
   }
 

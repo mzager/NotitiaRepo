@@ -63,7 +63,7 @@ const loadManifest = (manifestUri: string): Promise<Array<{ name: string, type: 
 
 const processResource = (resource: { name: string, dataType: string, file: string }): Promise<any> => {
     resource.name = resource.name.replace(/ /gi, '').toLowerCase();
-    return (resource.dataType === 'clinical') ? loadClinical(resource.name, resource.file) :
+    return (resource.dataType === 'clinical' || resource.dataType === 'patient') ? loadClinical(resource.name, resource.file) :
         (resource.dataType === 'psmap') ? loadPatientSampleMap(resource.name, resource.file) :
             (resource.dataType === 'gistic_threshold') ? loadGisticThreshold(resource.name, resource.file) :
                 (resource.dataType === 'gistic') ? loadGistic(resource.name, resource.file) :

@@ -302,6 +302,7 @@ export class TimelinesGraph implements ChartObjectInterface {
                 const barEvents = patient.filter( p => p.type === bl.label);
                 barEvents.forEach(event => {
                     event.data.type = 'event';
+                    event.data.id = patient[0].p;
                     switch (bl.style) {
                         case TimelinesStyle.NONE:
                             break;

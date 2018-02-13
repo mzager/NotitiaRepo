@@ -20,7 +20,7 @@ export class EdgeConfigModel extends GraphConfig {
     pointColor: DataField = DataFieldFactory.getUndefined();
     pointShape: DataField = DataFieldFactory.getUndefined();
     pointSize: DataField = DataFieldFactory.getUndefined();
-    edgeOption = 'None';
+    edgeOption = ['None'];
 }
 
 export class EdgeDataModel implements GraphData {

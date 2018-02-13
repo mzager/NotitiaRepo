@@ -50,7 +50,7 @@ export class DatasetService {
   }
   public load(manifest: any): Observable<any> {
     const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
+    // headers.append('Content-Type', 'application/json');
     headers.append('Accept-Encoding', 'gzip');
     const requestInit: RequestInit = {
       method: 'GET',
