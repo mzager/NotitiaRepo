@@ -9,7 +9,6 @@ export class DataFieldFactory {
 
   public static defaultDataField: DataField = DataFieldFactory.getUndefined();
   public static getColorFields(clinicalFields: Array<DataField>, entity: EntityTypeEnum = EntityTypeEnum.SAMPLE): Array<DataField> {
-
     switch (entity) {
       case EntityTypeEnum.SAMPLE:
         return [DataFieldFactory.defaultDataField, ...clinicalFields.filter(v => {

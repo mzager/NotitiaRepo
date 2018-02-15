@@ -11,6 +11,7 @@ import * as d3Scale from 'd3-scale';
 import * as d3Color from 'd3-color';
 import * as util from 'app/service/compute.worker.util';
 import * as _ from 'lodash';
+import { interpolateViridis } from 'd3';
 declare var ML: any;
 
 export const heatmapCompute = (config: HeatmapConfigModel, worker: DedicatedWorkerGlobalScope): void => {
@@ -19,33 +20,75 @@ export const heatmapCompute = (config: HeatmapConfigModel, worker: DedicatedWork
         worker.util
             .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
             .then(mtx => {
+                // mtx.data = [
+                //     [2,2,1,0,2],
+                //     [2,1,1,0,2]
+                //     [-2,1,-1,3,2]
+                // ];
 
                 Promise.all([
                     worker.util.getSamplePatientMap(config.database),
                     worker.util
                         .fetchResult({
-                            // added more than server is calling
-                            method: 'cluster_bio_tree',
+                            // // added more than server is calling
+                            // method: 'cluster_bio_tree',
                             data: mtx.data,
-                            c_method: config.method,
-                            dist: config.dist,
-                            transpose: config.transpose
+                            // c_method: config.method,
+                            // dist: config.dist,
+                            transpose: 0,
+                            method: 'cluster_sk_agglomerative',
+                            n_clusters: -1,
+                            affinity: config.dist,
+                            linkage: config.method
+
+                        }),
+                    worker.util
+                        .fetchResult({
+                            // // added more than server is calling
+                            // method: 'cluster_bio_tree',
+                            data: mtx.data,
+                            // c_method: config.method,
+                            // dist: config.dist,
+                            transpose: 1,
+                            method: 'cluster_sk_agglomerative',
+                            n_clusters: -1,
+                            affinity: config.dist,
+                            linkage: config.method
+
                         })
                 ]).then(result => {
-                    debugger;
-                    // // const matrix = mtx.data;
-                    // // const minMax = matrix.reduce((p, c) => {
-                    // //     p[0] = Math.min(p[0], ...c);
-                    // //     p[1] = Math.max(p[1], ...c);
-                    // //     return p;
-                    // // }, [Infinity, -Infinity]); // Min Max
 
+                    // // const matrix = mtx.data;
+                    const minMax = mtx.data.reduce((p, c) => {
+                        p[0] = Math.min(p[0], ...c);
+                        p[1] = Math.max(p[1], ...c);
+                        return p;
+                    }, [Infinity, -Infinity]); // Min Max
+
+                    const color = d3Scale.scaleSequential(interpolateViridis).domain(minMax);
+                    const colors = mtx.data.map(row => row.map( cell => color(cell)));
+debugger;
                     worker.postMessage({
                         config: config,
                         data: {
-                            data: mtx.data,
                             map: result[0],
-                            tree: JSON.parse(result[1].body)
+                            values: mtx.data,
+                            colors: colors,
+                            range: minMax,
+                            x: {
+                                children: result[1].children,
+                                labels: result[1].labels,
+                                n_components: result[1].n_components,
+                                n_leaves: result[1].n_leaves,
+                                result: result[1].result
+                            },
+                            y: {
+                                children: result[2].children,
+                                labels: result[2].labels,
+                                n_components: result[2].n_components,
+                                n_leaves: result[2].n_leaves,
+                                result: result[2].result
+                            }
                         }
                     });
                     worker.postMessage('TERMINATE');
