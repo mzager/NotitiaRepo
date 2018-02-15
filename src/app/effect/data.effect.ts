@@ -87,9 +87,9 @@ export class DataEffect {
             const workspaceConfig = new WorkspaceConfigModel();
             workspaceConfig.layout = WorkspaceLayoutEnum.SINGLE;
 
-            // const pathwaysConfig = new PathwaysConfigModel();
-            // pathwaysConfig.graph = GraphEnum.GRAPH_A;
-            // pathwaysConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            const pathwaysConfig = new PathwaysConfigModel();
+            pathwaysConfig.graph = GraphEnum.GRAPH_B;
+            pathwaysConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             // const genomeConfig = new GenomeConfigModel();
             // genomeConfig.graph = GraphEnum.GRAPH_B;
@@ -103,16 +103,16 @@ export class DataEffect {
             // boxWhiskersConfig.graph = GraphEnum.GRAPH_A;
             // boxWhiskersConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
 
-            const timelinesConfigA = new TimelinesConfigModel();
-            timelinesConfigA.graph = GraphEnum.GRAPH_A;
-            timelinesConfigA.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
+            // const timelinesConfigA = new TimelinesConfigModel();
+            // timelinesConfigA.graph = GraphEnum.GRAPH_A;
+            // timelinesConfigA.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
 
-            const timelinesConfigB = new TimelinesConfigModel();
-            timelinesConfigB.graph = GraphEnum.GRAPH_B;
-            timelinesConfigB.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
+            // const timelinesConfigB = new TimelinesConfigModel();
+            // timelinesConfigB.graph = GraphEnum.GRAPH_B;
+            // timelinesConfigB.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
 
             // const graphBConfig = new PcaIncrementalConfigModel();
-            // graphBConfig.graph = GraphEnum.GRAPH_A;
+            // graphBConfig.graph = GraphEnum.GRAPH_B;
             // graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             // const hicConfig = new HicConfigModel();
@@ -137,9 +137,9 @@ export class DataEffect {
             // graphBConfig.graph = GraphEnum.GRAPH_B;
             // graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
-            // const heatmapConfig = new HeatmapConfigModel();
-            // heatmapConfig.graph = GraphEnum.GRAPH_A;
-            // heatmapConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            const heatmapConfig = new HeatmapConfigModel();
+            heatmapConfig.graph = GraphEnum.GRAPH_A;
+            heatmapConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             return [
                 new WorkspaceConfigAction( workspaceConfig ),
@@ -149,14 +149,14 @@ export class DataEffect {
                 // new compute.HicAction( { config: hicConfig }),
                 // new compute.BoxWhiskersAction( { config: boxWhiskersConfig } ),
 
-                new compute.TimelinesAction( { config: timelinesConfigA}),
-                new compute.TimelinesAction( { config: timelinesConfigB})
+                // new compute.TimelinesAction( { config: timelinesConfigA}),
+                // new compute.TimelinesAction( { config: timelinesConfigB})
 
                 
                 //  new compute.ChromosomeAction( { config: chromosomeConfig } ),
-                // new compute.HeatmapAction( { config: heatmapConfig })
+                new compute.HeatmapAction( { config: heatmapConfig }),
                 // new compute.ChromosomeAction( { config: chromosomeConfig } )
-                // new compute.PathwaysAction( { config: pathwaysConfig }),
+                new compute.PathwaysAction( { config: pathwaysConfig }),
                 // new compute.GenomeAction( { config: genomeConfig }),
                 // , new compute.PcaIncrementalAction( { config: graphBConfig } )
                 // new GraphPanelToggleAction( GraphPanelEnum.GRAPH_A )

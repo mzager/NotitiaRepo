@@ -80,7 +80,7 @@ export class ChartFactory {
         return new THREE.LineBasicMaterial({ color: color });
     }
 
-    // @Memoize()
+    @Memoize()
     public static getColorMetal(color: number): THREE.Material {
         return new THREE.MeshStandardMaterial(
             {
@@ -92,7 +92,7 @@ export class ChartFactory {
         //     metalness: 0.5, roughness: .5, shading: THREE.SmoothShading});
     }
 
-    // @Memoize()
+    @Memoize()
     public static getOutlineShader(cameraPosition: Vector3, color: number = 0xff0000): THREE.ShaderMaterial {
         // const shader = {
         //     'outline' : {
@@ -157,6 +157,10 @@ export class ChartFactory {
         });
     }
 
+    @Memoize()
+    public static getColor(color: number): THREE.Color {
+        return new THREE.Color(color);
+    }
     @Memoize()
     public static getColorBasic(color: number): THREE.Material {
         return new THREE.MeshBasicMaterial({
