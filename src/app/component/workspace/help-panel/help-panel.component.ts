@@ -85,13 +85,15 @@ export class HelpPanelComponent implements AfterViewInit, OnDestroy {
     this.method = method;
 
     if (method === '') {
+
       this.method = 'NA';
       this.desc = 'Coming Soon';
       this.url = 'NA';
       this.attrs = [];
       this.params = [];
+
     } else {
-      
+
       this.dataService.getHelpInfo(method).then(result => {
         this.method = result.method;
         this.desc = result.desc;
