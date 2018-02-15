@@ -32,13 +32,11 @@ declare var vegaTooltip: any;
 })
 export class StatPanelComponent implements AfterViewInit, OnDestroy {
 
-  // // @ ViewChild means that you can access the html element in the corresponding html template file
   @ViewChild('chartContainer', { read: ViewContainerRef }) chartContainer: ViewContainerRef;
-
-  // @Input() means that you can set the properties in the html reprsentation of this object (eg <app-worspace-stat-pane configA=''>)
 
   container: any;
   chartStats: Array<Stat> = [];
+  statFactory: StatFactory;
 
   $configChange: Subject<GraphConfig> = new Subject();
   $dataChange: Subject<GraphData> = new Subject();
@@ -48,39 +46,25 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
   _data: GraphData;
 
   @Input() data: GraphData;
-  @Input() set config(value: GraphConfig) { 
-    this._config = value; this.$configChange.next(); 
+  @Input() set config(value: GraphConfig) {
+    if (value === null) { return; }
+    this._config = value; this.$configChange.next();
   }
-  @Input() set graphData(value: GraphData) { 
-    this._data = value; this.$dataChange.next(); }
+  @Input() set graphData(value: GraphData) {
+    if (value === null) { return; }
+    this._data = value; this.$dataChange.next();
+  }
 
-  update(value: [GraphConfig, GraphData]): void {
+  update(): void {
 
-    // Ensure everything is ready to go... This could be cleaned up.
-    if (this.elementRef === undefined) { return; }
-    if (this.elementRef.nativeElement === undefined) { return; }
-    if (this.container === undefined) {
-      this.container = $(this.elementRef.nativeElement.firstElementChild.firstElementChild.firstElementChild);
-    }
     if (this._config === null || this._data === null) { return; }
-
-
-    // Get Instance Of Stat Factory
-    const sf = StatFactory.getInstance();
-    this.chartStats = sf.getStatObjects(this._data, this._config);
-
-    // Ensure Everything ... Bad Code
-    if (this.chartStats === null) { return; }
-
     this.container.empty();
-    sf.getPopulationStats(this._config, this.dataService).then( populationStats => {
+    this.statFactory.getPopulationStats(this._config, this.dataService).then(populationStats => {
 
-      this.chartStats.concat(populationStats).forEach((stat, i) => {
-
-        // Create A div To hold the stat
+      this.statFactory.getStatObjects(this._data, this._config).concat(populationStats).forEach((stat, i) => {
         const div = this.container.append('<div id="cc' + i.toString() + '" class="stat-col col ' +
-        ((stat.columns === StatRendererColumns.SIX) ? 's12' : 's12')
-        + '"></div>');
+          ((stat.columns === StatRendererColumns.SIX) ? 's12' : 's12')
+          + '"></div>');
 
         // Process Stat Types
         switch (stat.renderer) {
@@ -101,13 +85,13 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  // Constructor Called Automatically
-  constructor(public elementRef: ElementRef, public dataService: DataService) { }
-
   // Ng After View Init get's called after the dom has been constructed
   ngAfterViewInit() {
-    this.$statsChange = Observable.combineLatest(this.$configChange, this.$dataChange).subscribe( this.update.bind(this) );
-    this.update(null);
+    this.statFactory = StatFactory.getInstance();
+    this.container = $(this.elementRef.nativeElement.firstElementChild.firstElementChild.firstElementChild);
+    this.$statsChange = Observable.combineLatest(this.$configChange, this.$dataChange)
+      .debounceTime(300).subscribe(this.update.bind(this));
+    this.update();
   }
 
   ngOnDestroy() {
@@ -115,4 +99,6 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
     this.$configChange.complete();
     this.$statsChange.unsubscribe();
   }
+
+  constructor(public elementRef: ElementRef, public dataService: DataService) { }
 }
