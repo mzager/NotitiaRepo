@@ -62,19 +62,19 @@ export class HelpPanelComponent implements AfterViewInit, OnDestroy {
 
   @Input() set config(config: GraphConfig) {
     const v = config.visualization;
-    const method = (v === VisualizationEnum.TSNE) ? 'TSNE' :
-      (v === VisualizationEnum.PCA) ? 'PCA' :
-        (v === VisualizationEnum.INCREMENTAL_PCA) ? 'Incremental PCA' :
-          (v === VisualizationEnum.SPARSE_PCA) ? 'Sparse PCA' :
-            (v === VisualizationEnum.DICTIONARY_LEARNING) ? 'Dictionary Learning' :
-              (v === VisualizationEnum.FA) ? 'Factor Analysis' :
-                (v === VisualizationEnum.FAST_ICA) ? 'Fast ICA' :
-                  (v === VisualizationEnum.KERNAL_PCA) ? 'Kernal PCA' :
-                    (v === VisualizationEnum.LDA) ? 'Latent Dirichlet Allocation' :
-                      (v === VisualizationEnum.NMF) ? 'NMF' :
-                        (v === VisualizationEnum.TRUNCATED_SVD) ? 'Truncated SVD' :
-                          (v === VisualizationEnum.ISOMAP) ? 'Isomap' :
-                            (v === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? 'Locally Linear Embedding' :
+    const method = (v === VisualizationEnum.TSNE) ? 'tsne.json' :
+      (v === VisualizationEnum.PCA) ? 'pca.json' :
+        (v === VisualizationEnum.INCREMENTAL_PCA) ? 'incremental_pca.json' :
+          (v === VisualizationEnum.SPARSE_PCA) ? 'sparse_pca.json' :
+            (v === VisualizationEnum.DICTIONARY_LEARNING) ? 'dictionary_learning.json' :
+              (v === VisualizationEnum.FA) ? 'factor_analysis.json' :
+                (v === VisualizationEnum.FAST_ICA) ? 'fast_ica.json' :
+                  (v === VisualizationEnum.KERNAL_PCA) ? 'kernal_pca.json' :
+                    (v === VisualizationEnum.LDA) ? 'latent_dirichlet_allocation.json' :
+                      (v === VisualizationEnum.NMF) ? 'nmf.json' :
+                        (v === VisualizationEnum.TRUNCATED_SVD) ? 'truncated_svd.json' :
+                          (v === VisualizationEnum.ISOMAP) ? 'isomap.json' :
+                            (v === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? 'locally_linear_embedding.json' :
                               (v === VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING) ? '' :
                                 (v === VisualizationEnum.MINI_BATCH_SPARSE_PCA) ? '' :
                                   (v === VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS) ? '' :
@@ -91,8 +91,8 @@ export class HelpPanelComponent implements AfterViewInit, OnDestroy {
       this.attrs = [];
       this.params = [];
     } else {
-      const filename = method.replace(/ /gi, '_').toLowerCase() + '.json';
-      this.dataService.getHelpInfo(filename).then(result => {
+      
+      this.dataService.getHelpInfo(method).then(result => {
         this.method = result.method;
         this.desc = result.desc;
         this.url = result.url;
