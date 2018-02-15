@@ -58,7 +58,8 @@ export class DataEffect {
         .map(toPayload)
         .switchMap( (args) => {
             // TODO: Move Into Config
-            //args.manifest = 'https://canaantt-test.s3.amazonaws.com/5a7e7be1a5a1b333f4e9989b_manifest_json.gz?AWSAccessKeyId=AKIAIKDBEKXIPN4XUFTA&Expires=1533864341&Signature=nboSjgz99Qs3IUsgCx%2BTs06aYo0%3D'
+            // args.manifest = 'https://canaantt-test.s3.amazonaws.com/5a7e7be1a5a1b333f4e9989b_manifest_json.gz?AWSAccessKeyId=AKIAIKDBEKXIPN4XUFTA&Expires=1534025109&Signature=9xOf6j6LAQ4MvNg63B5bO%2B2n9vA%3D';
+            //'https://canaantt-test.s3.amazonaws.com/5a7e7be1a5a1b333f4e9989b_manifest_json.gz?AWSAccessKeyId=AKIAIKDBEKXIPN4XUFTA&Expires=1533864341&Signature=nboSjgz99Qs3IUsgCx%2BTs06aYo0%3D'
             args.manifest = 'https://s3-us-west-2.amazonaws.com/notitia/tcga/tcga_' + args.disease + '_manifest.json.gz';
             return this.datasetService.load(args);
         }).
@@ -96,7 +97,7 @@ export class DataEffect {
             // genomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             const chromosomeConfig = new ChromosomeConfigModel();
-            chromosomeConfig.graph = GraphEnum.GRAPH_A;
+            chromosomeConfig.graph = GraphEnum.GRAPH_B;
             chromosomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             // const boxWhiskersConfig = new BoxWhiskersConfigModel();
@@ -112,7 +113,7 @@ export class DataEffect {
             // timelinesConfigB.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
 
             // const graphBConfig = new PcaIncrementalConfigModel();
-            // graphBConfig.graph = GraphEnum.GRAPH_B;
+            // graphBConfig.graph = GraphEnum.GRAPH_A;
             // graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             // const hicConfig = new HicConfigModel();
@@ -124,9 +125,9 @@ export class DataEffect {
             // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
 
-            const graphBConfig = new PcaIncrementalConfigModel();
-            graphBConfig.graph = GraphEnum.GRAPH_B;
-            graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            const graphAConfig = new PcaIncrementalConfigModel();
+            graphAConfig.graph = GraphEnum.GRAPH_A;
+            graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             // const graphBConfig = new PcaIncrementalConfigModel();
             // graphBConfig.graph = GraphEnum.GRAPH_B;
@@ -145,7 +146,7 @@ export class DataEffect {
                 new WorkspaceConfigAction( workspaceConfig ),
                 // new compute.LinkedGeneAction( { config: graphAConfig } ),
                 // new compute.PcaIncrementalAction( { config: graphBConfig } ),
-                new compute.PcaIncrementalAction( { config: graphBConfig } ),
+                new compute.PcaIncrementalAction( { config: graphAConfig } ),
                 // new compute.HicAction( { config: hicConfig }),
                 // new compute.BoxWhiskersAction( { config: boxWhiskersConfig } ),
 

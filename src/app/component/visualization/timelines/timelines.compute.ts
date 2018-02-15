@@ -101,7 +101,6 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
 
             // Group And Execute Sort
             let patients = _.groupBy(eventData, 'p');
-
             if (config.group.label !== 'None') {
                 patientData.forEach(patient => {
                     if (patients.hasOwnProperty(patient.p)) {

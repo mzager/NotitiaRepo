@@ -19051,7 +19051,7 @@ var ComputeWorkerUtil = /** @class */ (function () {
             }
             else {
                 if (_this.dbData.isOpen()) {
-                    resolve();
+                    resolve(_this.dbData);
                 }
                 else {
                     _this.dbData.open().then(resolve);
@@ -39359,8 +39359,8 @@ exports.heatmapCompute = function (config, worker) {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.edgesCompute = function (config, worker) {
-    var egdes = {
-        getEventsEvents: function () {
+    var edges = {
+        getEventsEvents: function (cfg) {
             var _this = this;
             return new Promise(function (resolve, reject) {
                 if (_this.edgeOptions === 'None') {
@@ -39371,7 +39371,7 @@ exports.edgesCompute = function (config, worker) {
                 });
             });
         },
-        getEventsGenes: function () {
+        getEventsGenes: function (cfg) {
             var _this = this;
             return new Promise(function (resolve, reject) {
                 if (_this.edgeOptions === 'None') {
@@ -39382,7 +39382,7 @@ exports.edgesCompute = function (config, worker) {
                 });
             });
         },
-        getEventsPatients: function () {
+        getEventsPatients: function (cfg) {
             var _this = this;
             return new Promise(function (resolve, reject) {
                 if (_this.edgeOptions === 'None') {
@@ -39393,7 +39393,7 @@ exports.edgesCompute = function (config, worker) {
                 });
             });
         },
-        getEventsSamples: function () {
+        getEventsSamples: function (cfg) {
             var _this = this;
             return new Promise(function (resolve, reject) {
                 if (_this.edgeOptions === 'None') {
@@ -39404,14 +39404,13 @@ exports.edgesCompute = function (config, worker) {
                 });
             });
         },
-        getGenesGenes: function () {
+        getGenesGenes: function (cfg) {
             var _this = this;
             return new Promise(function (resolve, reject) {
                 if (_this.edgeOptions === 'None') {
                     resolve([]);
                     return;
                 }
-                debugger;
                 // worker.util.openDatabaseData(config.database).then( db => {
                 //     const edges = result.map( gene => ({
                 //         a: gene.m,
@@ -39422,7 +39421,7 @@ exports.edgesCompute = function (config, worker) {
                 // });
             });
         },
-        getGenesPatients: function () {
+        getGenesPatients: function (cfg) {
             var _this = this;
             return new Promise(function (resolve, reject) {
                 if (_this.edgeOptions === 'None') {
@@ -39433,7 +39432,38 @@ exports.edgesCompute = function (config, worker) {
                 });
             });
         },
-        getGenesSamples: function () {
+        getGenesSamples: function (cfg) {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                if (_this.edgeOptions === 'None') {
+                    resolve([]);
+                    return;
+                }
+                var colors = [0xab47bc, 0xffca28, 0x5c6bc0, 0x26c6da, 0x66bb6a, 0xffca28];
+                var colorMap = cfg.edgeOption.reduce(function (p, c, i) {
+                    p[c] = colors[i];
+                    return p;
+                }, {});
+                worker.util.openDatabaseData(cfg.database).then(function (db) {
+                    db.table('mut').where('t').anyOfIgnoreCase(cfg.edgeOption).toArray().then(function (result) {
+                        var data = result.map(function (v) { return ({
+                            a: v.s,
+                            b: v.m,
+                            c: colorMap[v.t],
+                            i: null
+                        }); });
+                        worker.postMessage({
+                            config: cfg,
+                            data: {
+                                result: data
+                            }
+                        });
+                        worker.postMessage('TERMINATE');
+                    });
+                });
+            });
+        },
+        getPatientsPatients: function (cfg) {
             var _this = this;
             return new Promise(function (resolve, reject) {
                 if (_this.edgeOptions === 'None') {
@@ -39444,7 +39474,7 @@ exports.edgesCompute = function (config, worker) {
                 });
             });
         },
-        getPatientsPatients: function () {
+        getPatientsSamples: function (cfg) {
             var _this = this;
             return new Promise(function (resolve, reject) {
                 if (_this.edgeOptions === 'None') {
@@ -39455,18 +39485,7 @@ exports.edgesCompute = function (config, worker) {
                 });
             });
         },
-        getPatientsSamples: function () {
-            var _this = this;
-            return new Promise(function (resolve, reject) {
-                if (_this.edgeOptions === 'None') {
-                    resolve([]);
-                    return;
-                }
-                worker.util.openDatabaseData(config.database).then(function (db) {
-                });
-            });
-        },
-        getSamplesSamples: function () {
+        getSamplesSamples: function (cfg) {
             var _this = this;
             return new Promise(function (resolve, reject) {
                 if (_this.edgeOptions === 'None') {
@@ -39480,7 +39499,7 @@ exports.edgesCompute = function (config, worker) {
     };
     // var t = egdes['get' + [config.entityA, config.entityB];
     // debugger;
-    egdes['get' + [config.entityA, config.entityB].sort().join('')]();
+    edges['get' + [config.entityA, config.entityB].sort().join('')](config);
     // if (config.entityA === EntityTypeEnum.SAMPLE && config.entityB === EntityTypeEnum.SAMPLE) {
     //     worker.util.getEdgesSampleSample(config).then( result => {
     //         worker.postMessage({

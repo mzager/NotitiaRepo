@@ -198,7 +198,7 @@ export class TimelinesGraph implements ChartObjectInterface {
                     new THREE.PlaneGeometry( rowHeight - 2, rowHeight - 2 ),
                     ChartFactory.getColorPhong(color)
                 );
-                mesh.position.set(xPos - (rowHeight * 0.5) - 1, yPos , 0);
+                mesh.position.set(xPos - (rowHeight * 0.5) - 1, yPos , 10);
                 mesh.userData = { data : {
                     type: 'attr',
                     field: attr.prop.replace(/_/gi, ' '),
@@ -233,7 +233,7 @@ export class TimelinesGraph implements ChartObjectInterface {
         let mesh = new THREE.Mesh(plane, ChartFactory.getColorBasic(0xFFFFFF));
         mesh.position.x -= 1000;
         mesh.position.y = 0;
-        mesh.position.z = 10;
+        mesh.position.z = 5;
         this.clipPlanes.push(mesh);
         this.view.scene.add(mesh);
 
@@ -241,7 +241,7 @@ export class TimelinesGraph implements ChartObjectInterface {
         mesh = new THREE.Mesh(plane, ChartFactory.getColorBasic(0xFFFFFF));
         mesh.position.x += 1000;
         mesh.position.y = 0;
-        mesh.position.z = 10;
+        mesh.position.z = 5;
         this.clipPlanes.push(mesh);
         this.view.scene.add(mesh);
 
@@ -302,6 +302,7 @@ export class TimelinesGraph implements ChartObjectInterface {
                 const barEvents = patient.filter( p => p.type === bl.label);
                 barEvents.forEach(event => {
                     event.data.type = 'event';
+                    event.data.id = patient[0].p;
                     switch (bl.style) {
                         case TimelinesStyle.NONE:
                             break;
