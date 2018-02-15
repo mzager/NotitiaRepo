@@ -75,15 +75,22 @@ export class DataService {
     });
   }
 
-  getHelpInfo(method: string): Promise<any> {
-    return new Promise((resolve, reject) => {
-      const db = new Dexie('notitia');
-      db.open().then(v => {
-        v.table('docs').get({ 'method': method }).then(result => {
-          resolve(result);
-        });
-      });
-    });
+  getHelpInfo(filename: string): Promise<any> {
+    return this.http
+      .get('./assets/help/' + filename)
+      .map(res => res.json()).toPromise();
+    // // return this.http
+    // //   .get('https://s3-us-west-2.amazonaws.com/notitia/reference/genesets.json.gz')
+    // //   .map(res => res.json()).toPromise();
+
+    // return new Promise((resolve, reject) => {
+    //   // const db = new Dexie('notitia');
+    //   // db.open().then(v => {
+    //   //   v.table('docs').get({ 'method': method }).then(result => {
+    //   //     resolve(result);
+    //   //   });
+    //   // });
+    // });
   }
 
   getEvents(database: string): Promise<Array<any>> {

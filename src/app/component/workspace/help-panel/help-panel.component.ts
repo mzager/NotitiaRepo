@@ -91,7 +91,8 @@ export class HelpPanelComponent implements AfterViewInit, OnDestroy {
       this.attrs = [];
       this.params = [];
     } else {
-      this.dataService.getHelpInfo(method).then(result => {
+      const filename = method.replace(/ /gi, '_').toLowerCase() + '.json';
+      this.dataService.getHelpInfo(filename).then(result => {
         this.method = result.method;
         this.desc = result.desc;
         this.url = result.url;
