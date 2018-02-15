@@ -1,5 +1,4 @@
 <div>
-
   <div class='switch-field float-right'>
     <button (click)='addRule(data)' class='browser-default btn-config'>+ Rule</button>
     <button (click)='addRuleSet(data)' class='browser-default btn-config'>+ Ruleset</button>
@@ -9,14 +8,12 @@
       </button>
     </ng-container>
   </div>
-
   <div class='switch-field'>
     <input type='radio' [(ngModel)]='data.condition' value='and' #andOption/>
     <label (click)='data.condition=andOption.value'>AND</label>
     <input type='radio' [(ngModel)]='data.condition' value='or' #orOption/>
     <label (click)='data.condition=orOption.value'>OR</label>
   </div>
-
   <ul class='query-tree'>
     <ng-container *ngFor='let item of data.rules'>
       <ng-container *ngIf='{ruleset: !!item.rules, invalid: !config.allowEmptyRuleset && item.rules && item.rules.length === 0} as local'>
@@ -69,8 +66,8 @@
       </ng-container>
     </ng-container>
   </ul>
-  <div style='text-align:right'>
-    <input type='text' class='browser-default' style='border-width:1px;height:2rem;' placeholder="Enter Cohort Name" [(ngModel)]='customCohortName'>
+  <div >
+    <input type='text' class='browser-default' style='margin-left: 20px; border-width:1px;height:2rem; width: 169px;' placeholder="Enter Cohort Name" [(ngModel)]='customCohortName'>
     <button class='browser-default btn-config' (click)='save()'>Save Cohort</button>
     <button class='browser-default btn-config' (click)='filter()'>Filter Patients</button>
     <button class='browser-default btn-config' (click)='reset()'>All Patients</button>
