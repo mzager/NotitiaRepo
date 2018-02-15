@@ -10,28 +10,32 @@
                 <a class='active' href='#HelpOverview'>Overview</a>
             </li>
             <li class='tab'>
-                <a href='#HelpParameters'>Settings</a>
+                <a href='#HelpParameters'>Parameters</a>
             </li>
             <li class='tab'>
-                <a href='#HelpAttributes'>Summary</a>
+                <a href='#HelpAttributes'>Attributes</a>
             </li>
         </ul>
     </div>
     <div class='card-content' style='max-height: 300px; padding:10px; overflow-y:scroll;'>
         <div id='HelpOverview'>
-            <p [innerHTML]='desc'></p>
+                <p [innerHTML]='desc'></p>
+            <a [innerHTML]='url'></a>
         </div>
         <div id='HelpParameters'>
+                <!-- <p>{{method}} Parameters:</p> -->
             <div *ngFor='let attr of params; let i = index'>
-                <label>{{ attr.name }}</label>
+                <p style ='font-weight: 600;padding-bottom: 2px; padding-top:5px;'>{{ attr.name }}</p>
                 <p>{{ attr.desc }}</p>
+                <hr style ='display: block;height: 1px;border: 0;border-top: 1px solid #eee;margin: 1em 0;padding: 0;'>
             </div>
 
         </div>
         <div id='HelpAttributes'>
             <div *ngFor='let attr of attrs; let i = index'>
-                <label>{{ attr.name }}</label>
-                <p>{{ attr.desc }}</p>
+                    <p style ='font-weight: 600;padding-bottom: 5px; padding-top:5px;'>{{ attr.name }}</p>
+                    <p>{{ attr.desc }}</p>
+                <hr style ='display: block;height: 1px;border: 0;border-top: 1px solid #eee;margin: 1em 0;padding: 0;'>
             </div>
         </div>
     </div>
