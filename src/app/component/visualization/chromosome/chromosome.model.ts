@@ -9,6 +9,7 @@ export class ChromosomeConfigModel extends GraphConfig {
         super();
         this.entity = EntityTypeEnum.GENE;
         this.visualization = VisualizationEnum.CHROMOSOME;
+        this.label = 'Chromosome';
     }
 
     displayType: DimensionEnum = DimensionEnum.THREE_D;

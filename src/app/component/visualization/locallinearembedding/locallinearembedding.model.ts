@@ -31,6 +31,7 @@ export class LocalLinearEmbeddingConfigModel extends GraphConfig {
         super();
         this.entity = EntityTypeEnum.SAMPLE;
         this.visualization = VisualizationEnum.LOCALLY_LINEAR_EMBEDDING;
+        this.label = 'Local Linear Embedding';
     }
 
     n_components = 3;

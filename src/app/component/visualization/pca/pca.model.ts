@@ -19,6 +19,7 @@ export class PcaConfigModel extends GraphConfig {
         super();
         this.entity = EntityTypeEnum.SAMPLE;
         this.visualization = VisualizationEnum.PCA;
+        this.label = 'PCA';
     }
 
     n_components = 3;

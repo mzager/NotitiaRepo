@@ -2,7 +2,7 @@ import { HeatmapAction } from './../../../action/compute.action';
 import { HeatmapConfigModel, HeatmapMethod, HeatmapDistance, HeatmapDataModel } from './heatmap.model';
 import { DimensionEnum, DistanceEnum, DenseSparseEnum, HClustMethodEnum, HClustDistanceEnum } from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { DataTypeEnum, CollectionTypeEnum } from 'app/model/enum.model';
+import { DataTypeEnum, CollectionTypeEnum, DirtyEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -16,29 +16,34 @@ import * as _ from 'lodash';
     <div class='form-group'>
       <label class='center-block'><span class='form-label'>Data</span>
         <select materialize='material_select'
-            [materializeSelectOptions]='dataOptions'
             formControlName='table'>
             <option *ngFor='let option of dataOptions' [value]='option'>{{option.label}}</option>
         </select>
       </label>
     </div>
     <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Affinity</span>
+    <label class='center-block'><span class='form-label'>Method</span>
       <select materialize='material_select'
-          [materializeSelectOptions]='dataOptions'
+          formControlName='method'>
+          <option *ngFor='let option of methodOptions' [value]='option.value'>{{option.label}}</option>
+      </select>
+    </label>
+  </div>
+    <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Distance</span>
+      <select materialize='material_select'
           formControlName='dist'>
           <option *ngFor='let option of distanceOptions' [value]='option.value'>{{option.label}}</option>
       </select>
     </label>
   </div>
   <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Linkage</span>
-      <select materialize='material_select'
-          [materializeSelectOptions]='dataOptions'
-          formControlName='method'>
-          <option *ngFor='let option of distanceOptions' [value]='option.value'>{{option.label}}</option>
-      </select>
-    </label>
+    <div class='switch'>
+      <label class='center-block'><span class='form-label'>Sort Dendo</span>
+        <input type='checkbox' formControlName='order'>
+        <span class='lever'></span>
+      </label>
+    </div>
   </div>
   </form>
   `
@@ -59,10 +64,39 @@ export class HeatmapFormComponent {
 
   form: FormGroup;
   dataOptions: Array<DataTable>;
-  methodOptions = [HeatmapMethod.AVERAGE, HeatmapMethod.CENTROID, HeatmapMethod.COMPLETE, HeatmapMethod.SINGLE];
-  distanceOptions = [HeatmapDistance.CORRELATION, HeatmapDistance.ABS_CORRELATION,
-    HeatmapDistance.UNCENTERED, HeatmapDistance.ABS_UNCENTERED,
-    HeatmapDistance.EUCLIDEAN, HeatmapDistance.MANHATTEN, HeatmapDistance.KENDALL, HeatmapDistance.SPEARMANS]
+
+  methodOptions = [
+    HeatmapMethod.SINGLE,
+    HeatmapMethod.COMPLETE,
+    HeatmapMethod.AVERAGE,
+    HeatmapMethod.WEIGHTED,
+    HeatmapMethod.CENTROID,
+    HeatmapMethod.MEDIAN,
+    HeatmapMethod.WARD];
+
+  distanceOptions = [
+    HeatmapDistance.BRAYCURTIS,
+    HeatmapDistance.CANBERRA,
+    HeatmapDistance.CHEBYSHEV,
+    HeatmapDistance.CITYBLOCK,
+    HeatmapDistance.CORRELATION,
+    HeatmapDistance.COSINE,
+    HeatmapDistance.DICE,
+    HeatmapDistance.EUCLIDEAN,
+    HeatmapDistance.HAMMING,
+    HeatmapDistance.JACCARD,
+    HeatmapDistance.KULSINSKI,
+    HeatmapDistance.MAHALANOBIS,
+    HeatmapDistance.MATCHING,
+    HeatmapDistance.MINKOWSKI,
+    HeatmapDistance.ROGERSTANIMOTO,
+    HeatmapDistance.RUSSELLRAO,
+    HeatmapDistance.SEUCLIDEAN,
+    HeatmapDistance.SOKALMICHENER,
+    HeatmapDistance.SOKALSNEATH,
+    HeatmapDistance.SQEUCLIDEAN,
+    HeatmapDistance.YULE
+  ];
 
   byKey(p1: DataField, p2: DataField) {
     if (p2 === null) { return false; }
@@ -71,25 +105,25 @@ export class HeatmapFormComponent {
 
   constructor(private fb: FormBuilder) {
 
-
     this.form = this.fb.group({
+      dirtyFlag: [0],
       visualization: [],
       graph: [],
       database: [],
       entity: [],
-      table: [],
       markerFilter: [],
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
-      dataOption: [],
+      table: [],
       pointColor: [],
       pointShape: [],
       pointSize: [],
 
       method: [],
       dist: [],
-      transpose: []
+      transpose: [],
+      order: []
     });
 
     // Update When Form Changes
@@ -97,6 +131,9 @@ export class HeatmapFormComponent {
       .debounceTime(500)
       .distinctUntilChanged()
       .subscribe(data => {
+        const form = this.form;
+        form.markAsPristine();
+        data.dirtyFlag = DirtyEnum.LAYOUT;
         this.configChange.emit(data);
       });
   }

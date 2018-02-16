@@ -12,7 +12,6 @@ import * as d3Color from 'd3-color';
 import * as util from 'app/service/compute.worker.util';
 import * as _ from 'lodash';
 import { interpolateViridis } from 'd3';
-declare var ML: any;
 
 export const heatmapCompute = (config: HeatmapConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
@@ -20,41 +19,28 @@ export const heatmapCompute = (config: HeatmapConfigModel, worker: DedicatedWork
         worker.util
             .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
             .then(mtx => {
-                // mtx.data = [
-                //     [2,2,1,0,2],
-                //     [2,1,1,0,2]
-                //     [-2,1,-1,3,2]
-                // ];
 
                 Promise.all([
                     worker.util.getSamplePatientMap(config.database),
                     worker.util
                         .fetchResult({
-                            // // added more than server is calling
-                            // method: 'cluster_bio_tree',
                             data: mtx.data,
-                            // c_method: config.method,
-                            // dist: config.dist,
                             transpose: 0,
                             method: 'cluster_sk_agglomerative',
                             n_clusters: -1,
-                            affinity: config.dist,
-                            linkage: config.method
-
+                            sp_metric: config.dist,
+                            sp_method: config.method,
+                            sp_ordering: config.order ? -1 : 1
                         }),
                     worker.util
                         .fetchResult({
-                            // // added more than server is calling
-                            // method: 'cluster_bio_tree',
                             data: mtx.data,
-                            // c_method: config.method,
-                            // dist: config.dist,
                             transpose: 1,
                             method: 'cluster_sk_agglomerative',
                             n_clusters: -1,
-                            affinity: config.dist,
-                            linkage: config.method
-
+                            sp_metric: config.dist,
+                            sp_method: config.method,
+                            sp_ordering: config.order  ? -1 : 1
                         })
                 ]).then(result => {
 
@@ -68,7 +54,7 @@ export const heatmapCompute = (config: HeatmapConfigModel, worker: DedicatedWork
                     const color = d3Scale.scaleSequential(interpolateViridis).domain(minMax);
                     let colors = mtx.data.map(row => row.map(cell => color(cell)));
                     colors = result[1].order.map(v => result[2].order.map(w => colors[v][w]));
-                    
+
                     worker.postMessage({
                         config: config,
                         data: {
