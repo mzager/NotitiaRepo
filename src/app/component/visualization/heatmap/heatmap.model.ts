@@ -10,22 +10,37 @@ import {
 } from './../../../model/enum.model';
 
 export class HeatmapMethod {
-    public static SINGLE = {label: 'single linkage', value: 's'};
-    public static COMPLETE = {label: 'complete linkage', value: 'complete'};
-    public static CENTROID = {label: 'centroid linkage', value: 'centroid'};
-    public static AVERAGE = {label: 'average linkage', value: 'average'};
+    public static SINGLE = { label: 'single', value: 'single' };
+    public static COMPLETE = { label: 'complete', value: 'complete' };
+    public static AVERAGE = { label: 'average', value: 'average' };
+    public static WEIGHTED = { label: 'weighted', value: 'weighted' };
+    public static CENTROID = { label: 'centroid', value: 'centroid' };
+    public static MEDIAN = { label: 'median', value: 'median' };
+    public static WARD = { label: 'ward', value: 'ward' };
 }
-// 'ward', 'complete', 'average'
-// “euclidean”, “l1”, “l2”, “manhattan”, “cosine”, or ‘precomputed
+
 export class HeatmapDistance {
-    public static CORRELATION = {label: 'Correlation', value: 'c'};
-    public static ABS_CORRELATION = {label: 'Abs(Correlation)', value: 'a'};
-    public static UNCENTERED = {label: 'Uncentered', value: 'u'};
-    public static ABS_UNCENTERED = {label: 'Abs(Uncentered)', value: 'x'};
-    public static SPEARMANS = {label: 'Spearman’s Correlation', value: 's'};
-    public static KENDALL = {label: 'Kendall’s τ', value: 'k'};
-    public static EUCLIDEAN = {label: 'Euclidean', value: 'euclidean'};
-    public static MANHATTEN = {label: 'Manhatten', value: 'm'};
+    public static BRAYCURTIS = { label: 'braycurtis', value: 'braycurtis' };
+    public static CANBERRA = { label: 'canberra', value: 'canberra' };
+    public static CHEBYSHEV = { label: 'chebyshev', value: 'chebyshev' };
+    public static CITYBLOCK = { label: 'cityblock', value: 'cityblock' };
+    public static CORRELATION = { label: 'correlation', value: 'correlation' };
+    public static COSINE = { label: 'cosine', value: 'cosine' };
+    public static DICE = { label: 'dice', value: 'dice' };
+    public static EUCLIDEAN = { label: 'euclidean', value: 'euclidean' };
+    public static HAMMING = { label: 'hamming', value: 'hamming' };
+    public static JACCARD = { label: 'jaccard', value: 'jaccard' };
+    public static KULSINSKI = { label: 'kulsinski', value: 'kulsinski' };
+    public static MAHALANOBIS = { label: 'mahalanobis', value: 'mahalanobis' };
+    public static MATCHING = { label: 'matching', value: 'matching' };
+    public static MINKOWSKI = { label: 'minkowski', value: 'minkowski' };
+    public static ROGERSTANIMOTO = { label: 'rogerstanimoto', value: 'rogerstanimoto' };
+    public static RUSSELLRAO = { label: 'russellrao', value: 'russellrao' };
+    public static SEUCLIDEAN = { label: 'seuclidean', value: 'seuclidean' };
+    public static SOKALMICHENER = { label: 'sokalmichener', value: 'sokalmichener' };
+    public static SOKALSNEATH = { label: 'sokalsneath', value: 'sokalsneath' };
+    public static SQEUCLIDEAN = { label: 'sqeuclidean', value: 'sqeuclidean' };
+    public static YULE = { label: 'yule', value: 'yule' };
 }
 
 export class HeatmapConfigModel extends GraphConfig {
@@ -34,9 +49,11 @@ export class HeatmapConfigModel extends GraphConfig {
         super();
         this.entity = EntityTypeEnum.SAMPLE;
         this.visualization = VisualizationEnum.HEATMAP;
+        this.label = 'Heatmap';
     }
 
-    method = 'ward'; //HeatmapMethod.SINGLE.value;
+    order = false;
+    method = HeatmapMethod.WARD.value;
     dist = HeatmapDistance.EUCLIDEAN.value;
     transpose = 0;
 }

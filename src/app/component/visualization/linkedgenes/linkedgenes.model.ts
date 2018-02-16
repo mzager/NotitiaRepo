@@ -9,6 +9,7 @@ export class LinkedGeneConfigModel extends GraphConfig {
         super();
         this.entity = EntityTypeEnum.GENE;
         this.visualization = VisualizationEnum.LINKED_GENE;
+        this.label = 'Linked Geneww';
     }
 
     displayType: DimensionEnum = DimensionEnum.THREE_D;

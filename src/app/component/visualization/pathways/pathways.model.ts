@@ -10,6 +10,7 @@ export class PathwaysConfigModel extends GraphConfig {
         this.entity = EntityTypeEnum.GENE;
         this.visualization = VisualizationEnum.PATHWAYS;
         this.dirtyFlag = DirtyEnum.LAYOUT;
+        this.label = 'Pathways';
     }
 
     displayType: DimensionEnum = DimensionEnum.THREE_D;

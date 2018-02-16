@@ -24,6 +24,7 @@ export class DictionaryLearningConfigModel extends GraphConfig {
         super();
         this.entity = EntityTypeEnum.SAMPLE;
         this.visualization = VisualizationEnum.DICTIONARY_LEARNING;
+        this.label = 'Dictionary Learning';
     }
 
     n_components = 3;

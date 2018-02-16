@@ -22,6 +22,7 @@ export class FastIcaConfigModel extends GraphConfig {
         super();
         this.entity = EntityTypeEnum.SAMPLE;
         this.visualization = VisualizationEnum.FAST_ICA;
+        this.label = 'Fast ICA';
     }
 
     dimension = DimensionEnum.THREE_D;

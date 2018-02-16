@@ -9,6 +9,7 @@ export class GenomeConfigModel extends GraphConfig {
         super();
         this.entity = EntityTypeEnum.GENE;
         this.visualization = VisualizationEnum.GENOME;
+        this.label = 'Genome';
     }
 
     displayType: DimensionEnum = DimensionEnum.THREE_D;
