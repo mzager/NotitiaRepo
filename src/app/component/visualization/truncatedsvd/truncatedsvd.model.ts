@@ -15,6 +15,7 @@ export class TruncatedSvdConfigModel extends GraphConfig {
         super();
         this.entity = EntityTypeEnum.SAMPLE;
         this.visualization = VisualizationEnum.TRUNCATED_SVD;
+        this.label = 'Truncated SVD';
     }
     dimension = DimensionEnum.THREE_D;
     algorithm = TruncatedSvdAlgorithem.RANDOMIZED;

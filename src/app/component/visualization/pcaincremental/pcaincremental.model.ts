@@ -11,6 +11,7 @@ export class PcaIncrementalConfigModel extends GraphConfig {
         super();
         this.entity = EntityTypeEnum.SAMPLE;
         this.visualization = VisualizationEnum.INCREMENTAL_PCA;
+        this.label = 'PCA Incremental';
     }
 
     n_components = 3;

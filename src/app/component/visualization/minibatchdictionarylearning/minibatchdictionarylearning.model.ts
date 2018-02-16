@@ -23,6 +23,7 @@ export class MiniBatchDictionaryLearningConfigModel extends GraphConfig {
         super();
         this.entity = EntityTypeEnum.SAMPLE;
         this.visualization = VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING;
+        this.label = 'Dictionary Learning Mini Batch';
     }
 
     dimension = DimensionEnum.THREE_D;

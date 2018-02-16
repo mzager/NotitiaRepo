@@ -15,6 +15,7 @@ export class LdaConfigModel extends GraphConfig {
         super();
         this.entity = EntityTypeEnum.SAMPLE;
         this.visualization = VisualizationEnum.LDA;
+        this.label = 'LDA';
     }
     // coulld review this, there are a lot
     dimension = DimensionEnum.THREE_D;

@@ -23,15 +23,17 @@ export class GraphConfig {
     entity: EntityTypeEnum;
     graph: GraphEnum;
     table: DataTable;
+    label = '';
+    
 
     patientSelect: Array<string> = [];
     patientFilter: Array<string> = [];
     sampleSelect: Array<string> = [];
     markerSelect: Array<string> = [];
     sampleFilter: Array<string> = [];
+
     // Default Genes Listed Are 'KEGG Pathways In Cancer'
     markerFilter: Array<string> = ['ABL1', 'AKT1', 'AKT2', 'AKT3', 'APC', 'APC2', 'APPL1', 'AR', 'ARAF', 'ARNT', 'ARNT2', 'AXIN1',
-    
     'AXIN2', 'BAD', 'BAX', 'BCL2', 'BCL2L1', 'BCR', 'BID', 'BIRC2', 'BIRC3', 'BIRC5', 'BMP2', 'BMP4', 'BRAF', 'BRCA2', 'CASP3',
     'CASP8', 'CASP9', 'CBL', 'CBLB', 'CBLC', 'CCDC6', 'CCNA1', 'CCND1', 'CCNE1', 'CCNE2', 'CDC42', 'CDH1', 'CDK2', 'CDK4', 'CDK6',
     'CDKN1A', 'CDKN1B', 'CDKN2A', 'CDKN2B', 'CEBPA', 'CHUK', 'CKS1B', 'COL4A1', 'COL4A2', 'COL4A4', 'COL4A6', 'CREBBP', 'CRK', 'CRKL',
