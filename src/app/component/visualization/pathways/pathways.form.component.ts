@@ -11,32 +11,13 @@ import * as _ from 'lodash';
   selector: 'app-pathways-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-<form [formGroup]="form" novalidate>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Data</span>
-      <select class="browser-default" materialize="material_select"
-        [compareWith]="byKey"
-        formControlName="table">
-        <option *ngFor="let option of dataOptions">{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Pathway</span>
-      <select class="browser-default" materialize="material_select"
-          [materializeSelectOptions]="pathwayOptions"
-          formControlName="pathway">
-          <option *ngFor="let option of pathwayOptions" [value]="option">{{option}}</option>
-      </select>
-    </label>
-  </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Point Color</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="colorOptions"
-          formControlName="pointColor">
-          <option *ngFor="let option of colorOptions" [ngValue]="option">{{option.label}}</option>
+<form [formGroup]='form' novalidate>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Pathway</span>
+      <select materialize='material_select'
+          [materializeSelectOptions]='pathwayOptions'
+          formControlName='pathway'>
+          <option *ngFor='let option of pathwayOptions' [value]='option'>{{option}}</option>
       </select>
     </label>
   </div>

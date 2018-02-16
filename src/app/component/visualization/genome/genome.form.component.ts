@@ -1,3 +1,4 @@
+import { EntityTypeEnum } from './../../../model/enum.model';
 import { GenomeConfigModel } from './genome.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DimensionEnum, DataTypeEnum, VisualizationEnum, DirtyEnum, CollectionTypeEnum } from 'app/model/enum.model';
@@ -10,82 +11,58 @@ import * as _ from 'lodash';
   selector: 'app-genome-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-<form [formGroup]="form" novalidate>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Gene Color</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="colorOptions"
-          formControlName="pointColor">
-          <option *ngFor="let option of colorOptions" [ngValue]="option">{{option.label}}</option>
+<form [formGroup]='form' novalidate>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Gene Color</span>
+      <select materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='colorOptions'
+          formControlName='pointColor'>
+          <option *ngFor='let option of colorOptions' [ngValue]='option'>{{option.label}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Layout</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="layoutOptions"
-          formControlName="layoutOption">
-          <option *ngFor="let option of layoutOptions" [value]="option">{{option}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Alignment</span>
+      <select materialize='material_select'
+          [materializeSelectOptions]='alignmentOptions'
+          formControlName='alignment'>
+          <option *ngFor='let option of alignmentOptions' [ngValue]='option'>HG{{option}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Spacing</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="spacingOptions"
-          formControlName="spacingOption">
-          <option *ngFor="let option of spacingOptions" [value]="option">{{option}}</option>
+  <div class='form-group'>
+    <div class='switch'>
+      <label class='center-block'><span class='form-label'>HG19 Tads</span>
+        <input type='checkbox' formControlName='showTads'>
+        <span class='lever'></span>
+      </label>
+    </div>
+  </div>
+  <!--
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Spacing</span>
+      <select materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='spacingOptions'
+          formControlName='spacingOption'>
+          <option *ngFor='let option of spacingOptions' [value]='option'>{{option}}</option>
       </select>
     </label>
   </div>
+  -->
 </form>
   `
 })
 export class GenomeFormComponent {
 
-  /*
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Gene Size</span>
-       <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="sizeOptions"
-          formControlName="pointSize">
-          <option *ngFor="let option of sizeOptions" [ngValue]="option">{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Gene Shape</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="sizeOptions"
-          formControlName="pointShape">
-          <option *ngFor="let option of shapeOptions" [ngValue]="option">{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Chromosome</span>
-       <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="chromosomeOptions"
-          formControlName="chromosomeOption">
-          <option *ngFor="let option of chromosomeOptions" [value]="option">{{option}}</option>
-      </select>
-    </label>
-  </div>
-  */
-  
   @Input() set fields(fields: Array<DataField>) {
     if (fields === null) { return; }
     if (fields.length === 0) { return; }
     const defaultDataField: DataField = DataFieldFactory.getUndefined();
-    this.colorOptions = DataFieldFactory.getColorFields(fields).filter( v => v.ctype !== undefined );
-    this.shapeOptions = DataFieldFactory.getShapeFields(fields).filter( v => v.ctype !== undefined );
-    this.sizeOptions = DataFieldFactory.getSizeFields(fields).filter( v => v.ctype !== undefined );
+    this.colorOptions = DataFieldFactory.getColorFields(fields, EntityTypeEnum.GENE).filter( v => v.ctype !== undefined );
+    this.shapeOptions = DataFieldFactory.getShapeFields(fields, EntityTypeEnum.GENE).filter( v => v.ctype !== undefined );
+    this.sizeOptions = DataFieldFactory.getSizeFields(fields, EntityTypeEnum.GENE).filter( v => v.ctype !== undefined );
   }
 
   @Input() set config(v: GenomeConfigModel) {
@@ -99,6 +76,7 @@ export class GenomeFormComponent {
   colorOptions: Array<DataField>;
   shapeOptions: Array<DataField>;
   sizeOptions: Array<DataField>;
+  alignmentOptions = ['19', '38'];
   layoutOptions = ['Circle', 'Line'];
   spacingOptions = ['Actual', 'Optimized'];
   dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D];
@@ -110,7 +88,6 @@ export class GenomeFormComponent {
   }
 
   constructor(private fb: FormBuilder) {
-
 
     // Init Form
     this.form = this.fb.group({
@@ -129,10 +106,12 @@ export class GenomeFormComponent {
       pointSize: [],
 
       dimension: [],
+      alignment: [],
       chromosomeOption: [],
       allowRotation: [],
       layoutOption: [],
-      spacingOption: []
+      spacingOption: [],
+      showTads: []
     });
 
     // Update When Form Changes

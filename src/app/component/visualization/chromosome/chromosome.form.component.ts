@@ -1,6 +1,6 @@
 import { ChromosomeConfigModel } from './chromosome.model';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { DimensionEnum, DataTypeEnum, VisualizationEnum, DirtyEnum, CollectionTypeEnum } from 'app/model/enum.model';
+import { DimensionEnum, DataTypeEnum, VisualizationEnum, DirtyEnum, CollectionTypeEnum, EntityTypeEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -10,64 +10,64 @@ import * as _ from 'lodash';
   selector: 'app-chromosome-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-<form [formGroup]="form" novalidate>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Chromosomes</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="chromosomeOptions"
-          formControlName="chromosome">
-          <option *ngFor="let option of chromosomeOptions" [value]="option">{{option}}</option>
+<form [formGroup]='form' novalidate>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Chromosomes</span>
+      <select materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='chromosomeOptions'
+          formControlName='chromosome'>
+          <option *ngFor='let option of chromosomeOptions' [value]='option'>{{option}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Layout</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="layoutOptions"
-          formControlName="layoutOption">
-          <option *ngFor="let option of layoutOptions" [value]="option">{{option}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Layout</span>
+      <select materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='layoutOptions'
+          formControlName='layoutOption'>
+          <option *ngFor='let option of layoutOptions' [value]='option'>{{option}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Spacing</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="spacingOptions"
-          formControlName="spacingOption">
-          <option *ngFor="let option of spacingOptions" [value]="option">{{option}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Spacing</span>
+      <select materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='spacingOptions'
+          formControlName='spacingOption'>
+          <option *ngFor='let option of spacingOptions' [value]='option'>{{option}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Show</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="geneOptions"
-          formControlName="geneOption">
-          <option *ngFor="let option of geneOptions" [ngValue]="option">{{option.label}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Show</span>
+      <select materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='geneOptions'
+          formControlName='geneOption'>
+          <option *ngFor='let option of geneOptions' [ngValue]='option'>{{option.label}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Gene Color</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="colorOptions"
-          formControlName="pointColor">
-          <option *ngFor="let option of colorOptions" [ngValue]="option">{{option.label}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Gene Color</span>
+      <select materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='colorOptions'
+          formControlName='pointColor'>
+          <option *ngFor='let option of colorOptions' [ngValue]='option'>{{option.label}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-  <label class="center-block"><span class="form-label">Chords</span>
-    <select class="browser-default" materialize="material_select"
-        [compareWith]="byKey"
-        [materializeSelectOptions]="chordOptions"
-        formControlName="chordOption">
-        <option *ngFor="let option of chordOptions" [ngValue]="option">{{option.label}}</option>
+  <div class='form-group'>
+  <label class='center-block'><span class='form-label'>Chords</span>
+    <select materialize='material_select'
+        [compareWith]='byKey'
+        [materializeSelectOptions]='chordOptions'
+        formControlName='chordOption'>
+        <option *ngFor='let option of chordOptions' [ngValue]='option'>{{option.label}}</option>
     </select>
   </label>
 </div>
@@ -80,9 +80,9 @@ export class ChromosomeFormComponent {
     if (fields === null) { return; }
     if (fields.length === 0) { return; }
     const defaultDataField: DataField = DataFieldFactory.getUndefined();
-    this.colorOptions = DataFieldFactory.getColorFields(fields);
-    this.shapeOptions = DataFieldFactory.getShapeFields(fields);
-    this.sizeOptions = DataFieldFactory.getSizeFields(fields);
+    this.colorOptions = DataFieldFactory.getColorFields(fields, EntityTypeEnum.GENE);
+    this.shapeOptions = DataFieldFactory.getShapeFields(fields, EntityTypeEnum.GENE);
+    this.sizeOptions = DataFieldFactory.getSizeFields(fields, EntityTypeEnum.GENE);
   }
 
   @Input() set config(v: ChromosomeConfigModel) {

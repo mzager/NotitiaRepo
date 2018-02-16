@@ -33,9 +33,6 @@
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
 /******/
-/******/ 	// identity function for calling harmony imports with the correct context
-/******/ 	__webpack_require__.i = function(value) { return value; };
-/******/
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
@@ -126,7 +123,7 @@ var loadManifest = function (manifestUri) {
 };
 var processResource = function (resource) {
     resource.name = resource.name.replace(/ /gi, '').toLowerCase();
-    return (resource.dataType === 'clinical') ? loadClinical(resource.name, resource.file) :
+    return (resource.dataType === 'clinical' || resource.dataType === 'patient') ? loadClinical(resource.name, resource.file) :
         (resource.dataType === 'psmap') ? loadPatientSampleMap(resource.name, resource.file) :
             (resource.dataType === 'gistic_threshold') ? loadGisticThreshold(resource.name, resource.file) :
                 (resource.dataType === 'gistic') ? loadGistic(resource.name, resource.file) :

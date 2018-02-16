@@ -1,12 +1,50 @@
-<div class="card" style="width:410px;height:auto; background:#FFFFFF;" [ng2-draggable]=true [ng2DraggableHandle]="titlebar">
-    <div class="card-title-bar" #titlebar style="background: #029BE5; color:#FFF; font-weight:normal; font-size:12px; padding:5px 10px;text-transform:uppercase;letter-spacing:1px;">
-        Cohort Builder
-        <i class="tiny material-icons" style="float: right; padding-top: 4px; cursor: pointer">close</i>
+<div class='card' style='min-width:500px; background:#FFFFFF;' [ngDraggable]='true' [handle]='titlebar' [inBounds]='true'
+    [preventDefaultEvent]='false'
+    [bounds]='bounds' [zIndex]='zIndex' [zIndexMoving]='99999' (click)='this.ms.$focus.next("queryPanel");'>
+    <div class='card-title-bar' #titlebar>
+        Cohorts
+        <i (click)='hide.emit()' class='tiny material-icons' style='float: right; padding-top: 4px; cursor: pointer'>close</i>
+        <span style='float: right; padding-right:5px; cursor: pointer;' (click)='helpClick()'>Help</span>
     </div>
-    <div style="padding:20px;font-size:12px;">
-      <div >
+    <!-- Card Tabs -->
+    <div class='card-tabs'>
+        <ul class='tabs tabs-fixed-width' #tabs>
+            <li class='tab'>
+                <a href='#QueryPanelLoad'>Load</a>
+            </li>
+            <li class='tab'>
+                <a class='active' href='#QueryPanelCreate'>Create</a>
+            </li>
+        </ul>
+    </div>
+    <!-- Panel Content -->
+    <div class='card-content' style='padding:20px;'>
 
-      </div>
+        <div id='QueryPanelCreate'>
+            <app-workspace-query-builder *ngIf='showBuilder' [data]='query' [config]='cfg'
+                (onReset)='reset()' (onFilter)='filter()' (onSave)='save()'></app-workspace-query-builder>
+        </div>
+        <div id='QueryPanelLoad'>
+            <div class='results' style='max-height:300px;overflow-y:scroll;overflow-x:wrap;'>
+                <div style='padding-bottom:5px;'>
+                    <div style='font-weight:700;'>Cohorts</div>
+                    Coming soon.
+                </div>
+                <div *ngFor='let option of options' class='geneset-result-row'>
+                    <div class='geneset-result-name'>{{option.name}}
+                        <div>
+                            <div class='geneset-result-summary'>{{option.name}}</div>
+                            <div class='geneset-result-genes'>
+                                <span class='materialize-builder'>
+                                    <a class='materialize-pointer' (click)='selectGeneset(option)'>Select</a> |
+                                    <a class='materialize-pointer;' (click)='selectGeneset(option)'>Deselect</a> |
+                                    <a class='materialize-pointer;' (click)='filterGeneset(option)'>Filter</a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    
 </div>

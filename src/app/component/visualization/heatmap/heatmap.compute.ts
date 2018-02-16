@@ -11,6 +11,7 @@ import * as d3Scale from 'd3-scale';
 import * as d3Color from 'd3-color';
 import * as util from 'app/service/compute.worker.util';
 import * as _ from 'lodash';
+import { interpolateViridis } from 'd3';
 declare var ML: any;
 
 export const heatmapCompute = (config: HeatmapConfigModel, worker: DedicatedWorkerGlobalScope): void => {
@@ -19,154 +20,67 @@ export const heatmapCompute = (config: HeatmapConfigModel, worker: DedicatedWork
         worker.util
             .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
             .then(mtx => {
+                // mtx.data = [
+                //     [2,2,1,0,2],
+                //     [2,1,1,0,2]
+                //     [-2,1,-1,3,2]
+                // ];
 
                 Promise.all([
                     worker.util.getSamplePatientMap(config.database),
                     worker.util
                         .fetchResult({
-                            // added more than server is calling
-                            method: 'cluster_bio_tree',
+                            // // added more than server is calling
+                            // method: 'cluster_bio_tree',
                             data: mtx.data,
-                            c_method: config.method,
-                            dist: config.dist,
-                            transpose: config.transpose
+                            // c_method: config.method,
+                            // dist: config.dist,
+                            transpose: 0,
+                            method: 'cluster_sk_agglomerative',
+                            n_clusters: -1,
+                            affinity: config.dist,
+                            linkage: config.method
+
+                        }),
+                    worker.util
+                        .fetchResult({
+                            // // added more than server is calling
+                            // method: 'cluster_bio_tree',
+                            data: mtx.data,
+                            // c_method: config.method,
+                            // dist: config.dist,
+                            transpose: 1,
+                            method: 'cluster_sk_agglomerative',
+                            n_clusters: -1,
+                            affinity: config.dist,
+                            linkage: config.method
+
                         })
                 ]).then(result => {
-                    debugger;
-                    // // const matrix = mtx.data;
-                    // // const minMax = matrix.reduce((p, c) => {
-                    // //     p[0] = Math.min(p[0], ...c);
-                    // //     p[1] = Math.max(p[1], ...c);
-                    // //     return p;
-                    // // }, [Infinity, -Infinity]); // Min Max
 
+                    // // const matrix = mtx.data;
+                    const minMax = mtx.data.reduce((p, c) => {
+                        p[0] = Math.min(p[0], ...c);
+                        p[1] = Math.max(p[1], ...c);
+                        return p;
+                    }, [Infinity, -Infinity]); // Min Max
+
+                    const color = d3Scale.scaleSequential(interpolateViridis).domain(minMax);
+                    let colors = mtx.data.map(row => row.map(cell => color(cell)));
+                    colors = result[1].order.map(v => result[2].order.map(w => colors[v][w]));
+                    
                     worker.postMessage({
                         config: config,
                         data: {
-                            data: mtx.data,
                             map: result[0],
-                            tree: JSON.parse(result[1].body)
+                            colors: colors,
+                            range: minMax,
+                            x: result[1],
+                            y: result[2]
                         }
                     });
                     worker.postMessage('TERMINATE');
                 });
-
-
-                // const matrix = result.data;
-                // const minMax = matrix.reduce((p, c) => {
-                //     p[0] = Math.min(p[0], ...c);
-                //     p[1] = Math.max(p[1], ...c);
-                //     return p;
-                // }, [Infinity, -Infinity]); // Min Max
-
-                // const scaleColor = d3Scale.scaleSequential(interpolateRdBu).domain(minMax);
-                // const scaleRegex = /rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)/;
-                // const scale = (val) => scaleRegex.exec(scaleColor(val).toString())
-                //     .reduce((p, c, rgbi) => {
-                //         if (rgbi > 0 && rgbi < 4) {
-                //             p[rgbi - 1] = parseInt(c, 10) / 255;
-                //         }
-                //         return p;
-                //     }, new Array(3));
-
-                // const markerCount = result.markers.length;
-                // const sampleCount = result.samples.length;
-                // const points = markerCount * sampleCount;
-                // const positions = new Float32Array(points * 3);
-                // const colors = new Float32Array(points * 3);
-
-                // const pointSize = 1;
-                // matrix.map((row, r) => row.map((col, c) => {
-
-                //     const index = (r * (sampleCount) + c) * 3;
-                //     positions[index] = r * pointSize;
-                //     positions[index + 1] = c * pointSize;
-                //     positions[index + 2] = 0;
-
-                //     const rgbArray = scale(col);
-                //     colors[index] = rgbArray[0];
-                //     colors[index + 1] = rgbArray[1];
-                //     colors[index + 2] = rgbArray[2];
-                // }));
-
-                // worker.postMessage({
-                //     config: config,
-                //     data: {
-                //         // legendItems: legendItems,
-                //         positions: positions,
-                //         colors: colors,
-                //         //cluster: cluster
-                //     }
-                // });
             });
-        }
-
-    // // const postMessageThrottled = _.throttle(postMessage, 1000);
-    // worker.util.loadData(config.dataKey).then((data) => {
-
-    //     const legendItems: Array<Legend> = [];
-    //     const molecularData = data.molecularData[0];
-
-    //     let matrix = molecularData.data;
-    //     if (config.markerFilter.length > 0) {
-    //         const genesOfInterest = molecularData.markers
-    //             .map((v, i) => (config.markerFilter.indexOf(v) >= 0) ? { gene: v, i: i } : -1)
-    //             .filter(v => v !== -1);
-    //         matrix = genesOfInterest.map(v => molecularData.data[v.i]);
-    //     }
-    //     const pointSize = 1;
-
-    //     const method = (config.method === HClustMethodEnum.AGNES) ? ML.Clust.hclust.agnes : ML.Clust.hclust.diana;
-    //     const cluster = method(matrix, { kind: config.distance });
-
-    //     const markerCount = matrix.length;
-    //     const sampleCount = matrix[0].length;
-
-    //     const points = markerCount * sampleCount;
-    //     const positions = new Float32Array(points * 3);
-    //     const colors = new Float32Array(points * 3);
-
-    // const minMax = matrix.reduce( (p, c) => {
-    //     p[0] = Math.min( p[0], ...c);
-    //     p[1] = Math.max( p[1], ...c);
-    //     return p;
-    // }, [Infinity, -Infinity]); // Min Max
-    // const scaleColor = d3Scale.scaleSequential(interpolateRdBu).domain(minMax);
-    // const scaleRegex = /rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)/;
-
-    //     for (let i = 0; i < markerCount; ++i) {
-    //         const mtx2d = matrix[cluster.index[i].index];
-    //         for (let j = 0; j < sampleCount; ++j) {
-    //             const val = mtx2d[j];
-    //             const index = (i * sampleCount + j) * 3;
-
-    //             positions[index] = i * pointSize;
-    //             positions[index + 1] = j * pointSize;
-    //             positions[index + 2] = 0;
-
-    //             const rgbArray = scaleRegex.exec(scaleColor(val).toString())
-    //                 .reduce( (p, c, rgbi) => {
-    //                     if (rgbi > 0 && rgbi < 4) {
-    //                         p[rgbi - 1] = parseInt(c, 10) / 255;
-    //                     }
-    //                     return p;
-    //                 }, new Array(3) );
-    //             colors[index] = rgbArray[0];
-    //             colors[index + 1] = rgbArray[1];
-    //             colors[index + 2] = rgbArray[2];
-    //         }
-    //     }
-
-    //     worker.postMessage({
-    //         config: config,
-    //         data: {
-    //             legendItems: legendItems,
-    //             positions: positions,
-    //             colors: colors,
-    //             cluster: cluster
-    //         }
-    //     });
-
-    //     worker.postMessage('TERMINATE');
-    // });
+    }
 };

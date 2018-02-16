@@ -1,0 +1,100 @@
+.geneset-result-row { 
+    padding: 0px 0px;
+    border: 0px solid #EEEEEE;
+    border-top-width: 1px;
+    font-size: .9rem;
+}
+.geneset-dd {
+    width:70%;
+}
+.geneset-panel {
+    width:400px;
+    background:#FFFFFF;
+}
+.geneset-panel-bar{
+    background: #029BE5; 
+    color:#FFF; 
+    font-weight:normal; 
+    font-size:12px; 
+    padding:5px 10px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+// custom panel
+.geneset-panel-custom {
+    padding:20px; 
+    font-size:1rem;
+}
+.geneset-custom-label {
+    width:100%;
+    padding-bottom:5px;
+}
+.geneset-custom-textarea {
+    resize:none;
+    width:100%; 
+    border: solid 1px #EEEEEE; 
+    height:100px;
+    padding:3px;
+}
+.geneset-custom-name {
+    width:278px;
+    border-width:1px;
+    margin-bottom:5px;
+    height:2rem;
+    line-height:2rem; 
+    padding:0px 3px;
+}
+.genset-custom-button {
+    width:78px;
+    border-width:1px;
+    margin-bottom:3px;
+    height:2rem;
+    line-height:2rem; 
+    padding:0px 3px;
+    background-color: #FFFFFF;
+}
+
+.genset-custom-button:focus {
+ outline: none;
+}
+// load panel
+.geneset-load-panel {
+    // border: solid 1px #EEEEEE;
+    // border-radius:3px;
+    margin: 20px 20px 0px 0px;
+}
+
+.geneset-load-filter {
+    width: 180px;
+    height: 2rem;
+    line-height: 2rem;
+
+}
+.geneset-load-filter:focus  {
+    outline: none;
+
+}
+.geneset-result-name {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.results {
+    max-height:300px;
+    overflow-y:scroll;
+    padding: 0px 20px 20px 20px;
+    font-size: 1rem;
+}
+.geneset-result-summary {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.geneset-load-desc {
+    padding-bottom: 20px;
+}
+
+
+
+
+
+
+

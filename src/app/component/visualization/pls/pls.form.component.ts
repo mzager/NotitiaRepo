@@ -10,78 +10,78 @@ import * as _ from 'lodash';
   selector: 'app-pls-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-<form [formGroup]="form" novalidate>
-  <div class="form-group">
-    <label class="center-block">Point Data
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="dataOptions"
-          formControlName="pointData">
-          <option *ngFor="let option of dataOptions">{{option.label}}</option>
+<form [formGroup]='form' novalidate>
+  <div class='form-group'>
+    <label class='center-block'>Point Data
+      <select materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='dataOptions'
+          formControlName='pointData'>
+          <option *ngFor='let option of dataOptions'>{{option.label}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Point Color</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="colorOptions"
-          formControlName="pointColor">
-          <option *ngFor="let option of colorOptions"
-            [ngValue]="option">{{option.label}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Point Color</span>
+      <select materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='colorOptions'
+          formControlName='pointColor'>
+          <option *ngFor='let option of colorOptions'
+            [ngValue]='option'>{{option.label}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Point Size</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="sizeOptions"
-          formControlName="pointSize">
-          <option *ngFor="let option of sizeOptions"
-            [ngValue]="option">{{option.label}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Point Size</span>
+      <select materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='sizeOptions'
+          formControlName='pointSize'>
+          <option *ngFor='let option of sizeOptions'
+            [ngValue]='option'>{{option.label}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Point Shape</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="colorOptions" formControlName="pointShape">
-          <option *ngFor="let option of shapeOptions"
-            [ngValue]="option">{{option.label}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Point Shape</span>
+      <select materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='colorOptions' formControlName='pointShape'>
+          <option *ngFor='let option of shapeOptions'
+            [ngValue]='option'>{{option.label}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Display Dimension</span>
-      <select class="browser-default" materialize="material_select"
-        [materializeSelectOptions]="dimensionOptions"
-        formControlName="dimension">
-          <option *ngFor="let options of dimensionOptions">{{options}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Display Dimension</span>
+      <select materialize='material_select'
+        [materializeSelectOptions]='dimensionOptions'
+        formControlName='dimension'>
+          <option *ngFor='let options of dimensionOptions'>{{options}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Age at Diagnosis</span>
-      <input class="browser-default" type="range" value="800" min="0" max="1000">
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Age at Diagnosis</span>
+      <input class='browser-default' type='range' value='800' min='0' max='1000'>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Latient Vectors</span>
-      <input type="number" formControlName="latientVectors">
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Latient Vectors</span>
+      <input type='number' formControlName='latientVectors'>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Tolerence</span>
-      <input type="number" formControlName="tolerance">
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Tolerence</span>
+      <input type='number' formControlName='tolerance'>
     </label>
   </div>
-  <div class="form-group">
-    <div class="switch">
+  <div class='form-group'>
+    <div class='switch'>
       <label>
-        <input type="checkbox" formControlName="showVectors">
-        <span class="lever"></span>
+        <input type='checkbox' formControlName='showVectors'>
+        <span class='lever'></span>
         Weights
       </label>
     </div>

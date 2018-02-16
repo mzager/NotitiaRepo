@@ -1,3 +1,4 @@
+import { NoneAction } from './../../../action/compute.action';
 import { HeatmapDataModel, HeatmapConfigModel } from './heatmap.model';
 import { EventEmitter, Output } from '@angular/core';
 
@@ -17,12 +18,14 @@ import * as _ from 'lodash';
 import * as THREE from 'three';
 import { Memoize } from 'typescript-memoize';
 import { ShapeEnum, GraphEnum } from 'app/model/enum.model';
+import { Vector2, Vector3 } from 'three';
+import * as d3 from 'd3';
 
 export class HeatmapGraph implements ChartObjectInterface {
 
     // Emitters
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
-    public onConfigEmit: EventEmitter<{type: GraphConfig}> = new EventEmitter<{ type: GraphConfig }>();
+    public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{ type: GraphConfig }>();
     public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
         new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
 
@@ -38,12 +41,14 @@ export class HeatmapGraph implements ChartObjectInterface {
     pointSize = 1;
     particles: THREE.Points;
     geometry = new THREE.BufferGeometry();
-    material = new THREE.PointsMaterial( {
+    material = new THREE.PointsMaterial({
         size: this.pointSize,
         vertexColors: THREE.VertexColors
     });
 
     meshes: THREE.Object3D[];
+    private points: THREE.Points;
+    private group: THREE.Group;
 
 
     // Private Subscriptions
@@ -57,8 +62,8 @@ export class HeatmapGraph implements ChartObjectInterface {
         this.events = events;
         this.view = view;
         this.isEnabled = false;
-        this.view.controls.enableRotate = true;
-        // this.meshes = [];
+        this.view.controls.enableRotate = false;
+        this.meshes = [];
         // this.selector = new THREE.Mesh(
         //     new THREE.SphereGeometry(3, 30, 30),
         //     new THREE.MeshStandardMaterial({ opacity: .2, transparent: true }));
@@ -69,7 +74,7 @@ export class HeatmapGraph implements ChartObjectInterface {
         this.enable(false);
     }
 
-    update( config: GraphConfig, data: any) {
+    update(config: GraphConfig, data: any) {
         this.config = config as HeatmapConfigModel;
         this.data = data;
         this.removeObjects();
@@ -85,29 +90,67 @@ export class HeatmapGraph implements ChartObjectInterface {
         this.view.controls.enabled = this.isEnabled;
     }
     removeObjects() {
-
+        if (this.points !== null) {
+            this.view.scene.remove(this.group);
+        }
     }
-    addObjects() {
-        const addNode = (tree, index, parent) => {
-            const node = {i: index, children: [], data: tree[index]};
-            parent.children.push(node);
-            if (node.data === undefined) {
+    drawDendogram(result: any, horizontal: boolean): void {
 
-            }else {
-                if (node.data.l >= 0) { addNode(tree, node.data.l, node); }
-                if (node.data.r >= 0) { addNode(tree, node.data.r, node); }
+        const dendrogram = new THREE.Group;
+        this.group.add(dendrogram);
+
+
+        if (horizontal) {
+            dendrogram.rotateZ(Math.PI * 0.5);
+            for (let n = 0 ; n < result.dendo.icoord.length; n += 1) {
+                const x = result.dendo.icoord[n];
+                const y = result.dendo.dcoord[n];
+                dendrogram.add( ChartFactory.linesAllocate(0x029BE5, [
+                    new Vector2( x[0] * .2 - 1, y[0] + 1),
+                    new Vector2( x[1] * .2 - 1, y[1] + 1),
+                    new Vector2( x[2] * .2 - 1, y[2] + 1),
+                    new Vector2( x[3] * .2 - 1, y[3] + 1),
+                    ], {}));
             }
-        };
+        } else {
+            for (let n = 0 ; n < result.dendo.icoord.length; n += 1) {
+                const x = result.dendo.icoord[n];
+                const y = result.dendo.dcoord[n];
+                dendrogram.add( ChartFactory.linesAllocate(0x029BE5, [
+                    new Vector2( x[0] * .2 - 1, -y[0] - 1),
+                    new Vector2( x[1] * .2 - 1, -y[1] - 1),
+                    new Vector2( x[2] * .2 - 1, -y[2] - 1),
+                    new Vector2( x[3] * .2 - 1, -y[3] - 1),
+                    ], {}));
+            }
+        }
+    }
 
-        const root = {children: []};
-        addNode(this.data.tree, 0, root);
-        debugger;
-        // this.material.size = 30;
-        // this.geometry.addAttribute('position', new THREE.BufferAttribute(this.data.positions, 3));
-        // this.geometry.addAttribute('color', new THREE.BufferAttribute(this.data.colors, 3));
-        // this.geometry.computeBoundingSphere();
-        // this.particles = new THREE.Points(this.geometry, this.material);
-        // this.view.scene.add( this.particles );
+    addObjects() {
+        this.group = new THREE.Group();
+        this.view.scene.add(this.group);
+        const geometry = new THREE.BufferGeometry();
+        const positions = [];
+        const colors = [];
+        const itemsPerRow = this.data.colors.length;
+        this.data.colors.forEach((row, i) => {
+            row.forEach((col, j) => {
+                positions.push(i * 2, j * 2, 0);
+                const c = ChartFactory.getColor(col);
+                colors.push(c.r, c.g, c.b);
+            });
+        });
+
+        geometry.addAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+        geometry.addAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+        geometry.computeBoundingSphere();
+        const material = new THREE.PointsMaterial({ size: 10, vertexColors: THREE.VertexColors });
+        this.points = new THREE.Points(geometry, material);
+        this.group.add(this.points);
+
+        this.drawDendogram(this.data.y, true);//, this.data.colors[0].length);
+        this.drawDendogram(this.data.x, false);
+
         this.onRequestRender.next();
     }
 
@@ -115,5 +158,7 @@ export class HeatmapGraph implements ChartObjectInterface {
 
     }
 
-    constructor() { }
+    constructor() {
+
+    }
 }

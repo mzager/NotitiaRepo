@@ -80,7 +80,7 @@ export class ClusteringAlgorithmPanelComponent implements AfterViewInit {
   graphOptions = ['Graph A', 'Graph B'];
 
   @ViewChild('tabs') tabs: ElementRef;
-
+  @Input() bounds: ElementRef;
 
   @Input() configA: GraphConfig;
   @Input() configB: GraphConfig;

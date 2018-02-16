@@ -83,10 +83,5 @@ export class AbstractScatterForm {
                 this.configChange.emit(data);
             });
     }
-
-
-    constructor() {
-
-
-    }
+    constructor() {}
 }

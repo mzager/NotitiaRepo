@@ -1,3 +1,6 @@
+import { LinearDiscriminantAnalysisGraph } from './../../visualization/lineardiscriminantanalysis/lineardiscriminantanalysis';
+import { MiniBatchDictionaryLearningGraph } from './../../visualization/minibatchdictionarylearning/minibatchdictionarylearning';
+import { MiniBatchSparsePcaGraph } from './../../visualization/minibatchsparsepca/minibatchsparsepca';
 import { PathwaysGraph } from './../../visualization/pathways/pathways.graph';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { TimelinesGraph } from './../../visualization/timelines/timelines.graph';
@@ -49,6 +52,7 @@ import { OrbitControls } from 'three-orbitcontrols-ts';
 import WebGLRenderer = THREE.WebGLRenderer;
 import CanvasRenderer = THREE.CanvasRenderer;
 import Scene = THREE.Scene;
+import { QuadradicDiscriminantAnalysisGraph } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis';
 
 export class ChartScene {
 
@@ -62,6 +66,7 @@ export class ChartScene {
     private container: HTMLElement;
     private labelsA: HTMLElement;
     private labelsB: HTMLElement;
+    private labelsE: HTMLElement;
     private events: ChartEvents;
     public renderer: WebGLRenderer;
     private views: Array<VisualizationView>;
@@ -87,7 +92,6 @@ export class ChartScene {
 
         // Graph B
         view = this.views[1];
-
         this.renderer.setViewport( view.viewport.x, view.viewport.y, view.viewport.width, view.viewport.height );
         this.renderer.render( view.scene, view.camera );
 
@@ -179,17 +183,21 @@ export class ChartScene {
         this.render();
     }
 
-    public init(container: HTMLElement, labelsA: HTMLElement, labelsB: HTMLElement) {
+    public init(container: HTMLElement, labelsA: HTMLElement, labelsB: HTMLElement, labelsE: HTMLElement) {
         window.addEventListener('resize', this.onResize.bind(this));
 
         const dimension: ClientRect = container.getBoundingClientRect();
         this.container = container;
         this.labelsA = labelsA;
         this.labelsB = labelsB;
+        this.labelsE = labelsE;
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, preserveDrawingBuffer: true});
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setClearColor(0xffffff, 1);
         this.renderer.autoClear = false;
+        this.renderer.localClippingEnabled = true;
+        // this.renderer.gammaInput = true;
+        // this.renderer.gammaOutput = true;
 
         this.container.appendChild(this.renderer.domElement);
 
@@ -291,6 +299,50 @@ export class ChartScene {
 
     public update(graph: GraphEnum, config: GraphConfig, data: any) {
 
+        // let view: VisualizationView;
+        // switch (graph) {
+        //     // case GraphEnum.EDGES:
+        //     //     view = this.views[2];
+        //     //     if (view.config.visualization !== config.visualization) {
+        //     //         if (view.chart !== null) { view.chart.destroy(); }
+        //     //         view.chart = this.getChartObject(config.visualization)
+        //     //             .create(this.labelsE, this.events, view);
+        //     //         view.chart.onRequestRender.subscribe(this.render);
+        //     //         view.chart.onConfigEmit.subscribe(this.config);
+        //     //         (view.chart as EdgesGraph).updateEdges = true;
+        //     //     }
+        //     //     break;
+        //     case GraphEnum.GRAPH_A:
+        //     case GraphEnum.GRAPH_B:
+        //         view = (graph === GraphEnum.GRAPH_A) ? this.views[0] : this.views[1];
+        //         debugger;
+        //         if (view.config.visualization !== config.visualization) {
+        //             if (view.chart !== null) { view.chart.destroy(); }
+        //             view.chart = this.getChartObject(config.visualization).create(
+        //                 (config.graph === GraphEnum.GRAPH_A) ? this.labelsA : this.labelsB, this.events, view);
+        //             view.controls.reset();
+        //             view.chart.onRequestRender.subscribe(this.render);
+        //             view.chart.onConfigEmit.subscribe(this.config);
+        //         } else {
+        //             view.chart.update(config, data);
+        //             this.render();
+        //         }
+        //         break;
+        // }
+
+        // // Set Controls
+        // switch (this.workspace.layout) {
+        //     case WorkspaceLayoutEnum.HORIZONTAL:
+        //     case WorkspaceLayoutEnum.VERTICAL:
+        //         // Add Logic for Mouse Position
+        //         this.views[0].controls.enabled = true;
+        //         break;
+        // }
+        
+        // // Render Loop
+        // view.chart.update(config, data);
+        // this.render();
+
         if (!this.views[0].controls.enabled && !this.views[1].controls.enabled) {
             this.views[0].controls.enabled = true;
         }
@@ -326,14 +378,26 @@ export class ChartScene {
             if (view.chart !== null) { view.chart.destroy(); }
             view.chart = this.getChartObject(config.visualization).create(
                 (config.graph === GraphEnum.GRAPH_A) ? this.labelsA : this.labelsB, this.events, view);
+            if (config.visualization === VisualizationEnum.EDGES) {
+                view.chart.onRequestRender.subscribe(this.render);
+                view.chart.onConfigEmit.subscribe(this.config);
+                view.chart.update(config, data);
+                this.render();
+                return;
+            }
             view.controls.reset();
-            
             view.chart.onRequestRender.subscribe(this.render);
             view.chart.onConfigEmit.subscribe(this.config);
         }
 
         view.chart.update(config, data);
         this.render();
+        try {
+            this.views[0].chart.enable( true );
+            this.views[1].chart.enable( false );
+        } catch ( e ) {
+
+        }
     }
 
     private getChartObject(visualization: VisualizationEnum): ChartObjectInterface {
@@ -367,8 +431,11 @@ export class ChartScene {
             case VisualizationEnum.SPECTRAL_EMBEDDING: return new SpectralEmbeddingGraph();
             case VisualizationEnum.KERNAL_PCA: return new PcaKernalGraph();
             case VisualizationEnum.SPARSE_PCA: return new PcaSparseGraph();
-            case VisualizationEnum.INCREMENTAL_PCA: return new PcaIncrementalGraph;
-
+            case VisualizationEnum.INCREMENTAL_PCA: return new PcaIncrementalGraph();
+            case VisualizationEnum.MINI_BATCH_SPARSE_PCA: return new MiniBatchSparsePcaGraph();
+            case VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING: return new MiniBatchDictionaryLearningGraph();
+            case VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS: return new LinearDiscriminantAnalysisGraph();
+            case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS: return new QuadradicDiscriminantAnalysisGraph();
         }
     }
 

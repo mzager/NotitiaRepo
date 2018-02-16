@@ -10,48 +10,48 @@ import * as _ from 'lodash';
   selector: 'app-histogram-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-<form [formGroup]="form" novalidate>
-  <div class="form-group">
-    <label class="center-block">Data
-      <select class="browser-default" materialize="material_select"
-          [materializeSelectOptions]="dataOptions"
-          formControlName="molecularTable">
-          <option *ngFor="let option of dataOptions" [value]="option">{{option}}</option>
+<form [formGroup]='form' novalidate>
+  <div class='form-group'>
+    <label class='center-block'>Data
+      <select materialize='material_select'
+          [materializeSelectOptions]='dataOptions'
+          formControlName='molecularTable'>
+          <option *ngFor='let option of dataOptions' [value]='option'>{{option}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Point Color</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="colorOptions"
-          formControlName="pointColor">
-          <option *ngFor="let option of colorOptions" [ngValue]="option">{{option.label}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Point Color</span>
+      <select materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='colorOptions'
+          formControlName='pointColor'>
+          <option *ngFor='let option of colorOptions' [ngValue]='option'>{{option.label}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Point Size</span>
-       <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="sizeOptions"
-          formControlName="pointSize">
-          <option *ngFor="let option of sizeOptions" [ngValue]="option">{{option.label}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Point Size</span>
+       <select materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='sizeOptions'
+          formControlName='pointSize'>
+          <option *ngFor='let option of sizeOptions' [ngValue]='option'>{{option.label}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <div class="switch">
+  <div class='form-group'>
+    <div class='switch'>
       <label>
-        <input type="checkbox" formControlName="showCytobands">
-        <span class="lever"></span>
+        <input type='checkbox' formControlName='showCytobands'>
+        <span class='lever'></span>
         Cytobands
       </label>
     </div>
-    <div class="switch">
+    <div class='switch'>
       <label>
-        <input type="checkbox" formControlName="showCytobands">
-        <span class="lever"></span>
+        <input type='checkbox' formControlName='showCytobands'>
+        <span class='lever'></span>
         Rotation
       </label>
     </div>

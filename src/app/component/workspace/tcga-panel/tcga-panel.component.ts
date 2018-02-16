@@ -48,7 +48,8 @@ export class TcgaPanelComponent {
     { 'name': 'Thymoma', 'disease': 'thym', 'img': 'DSthymus.png' },
     { 'name': 'Uterine corpus endometrial', 'disease': 'ucec', 'img': 'DSuterine.png' },
     { 'name': 'Uterine carcinosarcoma', 'disease': 'ucs', 'img': 'DSuterine.png' },
-    { 'name': 'Uveal melanoma', 'disease': 'uvm', 'img': 'DSeye.png' }
+    { 'name': 'Uveal melanoma', 'disease': 'uvm', 'img': 'DSeye.png' },
+    { 'name': 'AML Krakow', 'disease': 'ek', 'img': 'DSblood.png' }
   ].sort( (a, b) => a.img.toUpperCase() < b.img.toUpperCase() ? -1 : 1 );
 
     /*

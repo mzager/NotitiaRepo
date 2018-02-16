@@ -9,6 +9,7 @@ import { Legend } from 'app/model/legend.model';
 import * as XLSX from 'xlsx';
 import * as downloadjs from 'downloadjs';
 import { ChartScene } from 'app/component/workspace/chart/chart.scene';
+// import { SVGRenderer } from 'three.js-svg-renderer';
 declare var $: any;
 
 @Component({
@@ -55,6 +56,7 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
       case 'd': this.dataPanelToggle.emit(); break;
       case 'e': this.edgePanelToggle.emit(); break;
       case 'p': this.exportImage(); break;
+      case 's': this.exportSvg(); break;
       case 'i': this.toggleBackgroundColor(); break;
       // case "s": this.selectTool.emit( ToolEnum.SAVE_COHORT); break;
       // case "s": this.selectTool.emit( ToolEnum.INSERT_ANNOTATION); break;
@@ -76,6 +78,10 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   }
   print() {
     window.print();
+  }
+  exportSvg() {
+    // const x = SVGRenderer;
+    // debugger;
   }
   exportImage() {
     const jpg = $('canvas')[0].toDataURL('image/jpeg', 1);
