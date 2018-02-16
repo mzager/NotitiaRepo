@@ -92,175 +92,38 @@ export class HeatmapGraph implements ChartObjectInterface {
     removeObjects() {
         if (this.points !== null) {
             this.view.scene.remove(this.group);
-            // this.group.remove(this.points);
         }
     }
-    drawDendogram(result: any, horizontal: boolean, posMap: any): void {
+    drawDendogram(result: any, horizontal: boolean): void {
+
         const dendrogram = new THREE.Group;
         this.group.add(dendrogram);
 
-        const N = result.n_leaves;
-        const root = d3.stratify().id((d, i, data) => (i + N).toString())
-            .parentId((d, i, data) => {
-                const parIndex = result.children.findIndex(e => e.includes(i + N));
-                return (parIndex < 0) ? undefined : (parIndex + N).toString();
-            })(result.children)
-            .sort((a, b) => (a.height - b.height) || a.id.localeCompare(b.id));
 
-        let height = 100;
-        // const treemap = d3.tree().size([(result.n_leaves - 1) * 2, height]);
-
-        const treemap = d3.cluster().size([(result.n_leaves - 1) * 2, height]);
-
-
-        const nodes = treemap(d3.hierarchy(root, d => {
-            return d.children;
-        }));
-
-        height += 4;
-
-        // nodes.leaves().forEach(node => {
-        //     // dendrogram.add(ChartFactory.meshAllocate(0x000000, ShapeEnum.SQUARE, .4,
-        //     //     new Vector3(node.x, node.y - height), {}));
-
-        //     // dendrogram.add( ChartFactory.lineAllocate(0x000000,
-        //     //     new Vector2(node.x, node.y - height),
-        //     //     new Vector2(posMap[node.data['data'][0]] * 2, 0),
-        //     // {}));
-        //     // // dendrogram.add( ChartFactory.lineAllocate(0x000000,
-        //     // //     new Vector2(node.x, node.y - height),
-        //     // //     new Vector2(posMap[node.data['data'][1]] * 2, 0),
-        //     // {}));
-        // });
-        nodes.descendants().slice(1).forEach(node => {
-            dendrogram.add(ChartFactory.meshAllocate(0xFF000, ShapeEnum.SQUARE, .2,
-                new Vector3(node.x, node.y - height), {}));
-            dendrogram.add(ChartFactory.lineAllocate(
-                0x029BE5,
-                new Vector2(node.x, node.y - height),
-                new Vector2(node.x, node.parent.y - height)
-            ));
-            dendrogram.add(ChartFactory.lineAllocate(
-                0x029BE5,
-                new Vector2(node.x, node.parent.y - height),
-                new Vector2(node.parent.x, node.parent.y - height)
-            ));
-
-        });
-        debugger;
-
-
-
-        // const hier = d3.hierarchy(root);
-
-
-        // let height = 100;
-        // const dimension = [(result.n_leaves - 1) * 2, height];
-        // const clust = d3.cluster().size([(result.n_leaves - 1) * 2, height]);
-
-        // if (horizontal) {
-        //     dendrogram.rotateZ(-1.5708);
-        //     dendrogram.position.y += ((result.n_leaves - 1) * 2);
-        // }
-        // height += 5;
-
-        // clust(root);
-        //         debugger;
-        //         root.descendants().forEach(node => {
-
-        //             // Root
-        //             if (!node.parent) {
-        //                 dendrogram.add(ChartFactory.meshAllocate(0x000000, ShapeEnum.SQUARE, .4,
-        //                     new Vector3(node['x'], node['y'] - height ), {}));
-
-        //             } else {
-        //                 dendrogram.add(ChartFactory.meshAllocate(0xFF0000, ShapeEnum.SQUARE, .2,
-        //                     new Vector3(node['x'], node['y'] - height ), {}));
-
-        //                 dendrogram.add(ChartFactory.lineAllocate(
-        //                     0x029BE5,
-        //                     new Vector2(node['x'], node['y'] - height),
-        //                     new Vector2(node['x'], node.parent['y'] - height)
-        //                 ));
-
-        //                 dendrogram.add(ChartFactory.lineAllocate(
-        //                     0x029BE5,
-        //                     new Vector2(node['x'], node.parent['y'] - height),
-        //                     new Vector2(node.parent['x'], node.parent['y'] - height)
-        //                 ));
-        //             }
-        //             // if (node.children === undefined) {
-        //             //     dendrogram.add(ChartFactory.meshAllocate(0x00FF00, ShapeEnum.SQUARE, .2,
-        //             //         new Vector3(node['x'], node['y'] - height ), {}));
-
-        //             //     debugger;
-        //             //     // new Vector2(node['x'], node['y'] - height),
-        //             //     // new Vector2(node['x'], node.parent['y'] - height)
-        //             // }
-        // //             if (node.children === undefined) {
-
-        // //                 // dendrogram.add(ChartFactory.meshAllocate(0xFF00FF, ShapeEnum.SQUARE, .2,
-        // //                 //     new Vector3(posMap[node.data[0]] * 2, node['y'] - height ), {}));
-
-        // // //                 // Side
-        // // //                 dendrogram.add(ChartFactory.lineAllocate(
-        // // //                     0x029BE5,
-        // // //                     new Vector2(posMap[node.data[0]] * 2, 0),
-        // // //                     new Vector2(posMap[node.data[0]] * 2, node['y'] - height)
-        // // //                 ));
-        // // // debugger;
-        // // //                 dendrogram.add(ChartFactory.lineAllocate(
-        // // //                     0x029BE5,
-        // // //                     new Vector2(posMap[node.data[1]] * 2, 0),
-        // // //                     new Vector2(posMap[node.data[1]] * 2, node['y'] - height)
-        // // //                 ));
-        // //                 // dendrogram.add(ChartFactory.lineAllocate(
-        // //                 //     0xFF0000,
-        // //                 //     new Vector2(posMap[node.data[0]] * 2, node['y'] - height),
-        // //                 //     new Vector2(posMap[node.data[1]] * 2, node['y'] - height)
-        // //                 // ));
-
-        // //                 // // Top
-        // //                 // dendrogram.add(ChartFactory.lineAllocate(
-        // //                 //     0x029BE5,
-        // //                 //     new Vector2(posMap[node.data[0]] * 2, node['y'] - height),
-        // //                 //     new Vector2(posMap[node.data[0]] * 2 + 2, node['y'] - height),
-        // //                 // ));
-
-        // //                 // Side
-        // //                 // dendrogram.add(ChartFactory.lineAllocate(
-        // //                 //     0x029BE5,
-        // //                 //     new Vector2(posMap[node.data[1]] * 2, node['y'] - height),
-        // //                 //     new Vector2(posMap[node.data[1]] * 2, 0)
-        // //                 // ));
-
-        // //                 // Top
-        // //                 // dendrogram.add(ChartFactory.lineAllocate(
-        // //                 //     0x029BE5,
-        // //                 //     new Vector2(node['x'], node['y'] - height)
-        // //                 //     new Vector2(posMap[node.data[0]] * 2, node['y'] - height)
-
-        // //                     // new Vector2(posMap[node.data[1]] * 2, node['y'] - height)
-        // //                 // ));
-        // //         } else if (node.children.length === 1) {
-        // //                 // const pos = (node.data[0].toString() === node.children[0].id) ? node.data[1] : node.data[0];
-
-        // //                 // // // Side
-        // //                 // debugger;
-        // //                 // dendrogram.add(ChartFactory.lineAllocate(
-        // //                 //     0x029BE5,
-        // //                 //     new Vector2(posMap[pos] * 2, node['y'] - height),
-        // //                 //     new Vector2(posMap[pos] * 2, 0)
-        // //                 // ));
-
-        // //                 // Top
-        // //                 // dendrogram.add(ChartFactory.lineAllocate(
-        // //                 //     0x029BE5,
-        // //                 //     new Vector2(posMap[pos] * 2, node['y'] - height * 2),
-        // //                 //     new Vector2(node['x'], node['y'] - height * 2)
-        // //                 // ));
-        // //             }
-        //         });
+        if (horizontal) {
+            dendrogram.rotateZ(Math.PI * 0.5);
+            for (let n = 0 ; n < result.dendo.icoord.length; n += 1) {
+                const x = result.dendo.icoord[n];
+                const y = result.dendo.dcoord[n];
+                dendrogram.add( ChartFactory.linesAllocate(0x029BE5, [
+                    new Vector2( x[0] * .2 - 1, y[0] + 1),
+                    new Vector2( x[1] * .2 - 1, y[1] + 1),
+                    new Vector2( x[2] * .2 - 1, y[2] + 1),
+                    new Vector2( x[3] * .2 - 1, y[3] + 1),
+                    ], {}));
+            }
+        } else {
+            for (let n = 0 ; n < result.dendo.icoord.length; n += 1) {
+                const x = result.dendo.icoord[n];
+                const y = result.dendo.dcoord[n];
+                dendrogram.add( ChartFactory.linesAllocate(0x029BE5, [
+                    new Vector2( x[0] * .2 - 1, -y[0] - 1),
+                    new Vector2( x[1] * .2 - 1, -y[1] - 1),
+                    new Vector2( x[2] * .2 - 1, -y[2] - 1),
+                    new Vector2( x[3] * .2 - 1, -y[3] - 1),
+                    ], {}));
+            }
+        }
     }
 
     addObjects() {
@@ -270,11 +133,9 @@ export class HeatmapGraph implements ChartObjectInterface {
         const positions = [];
         const colors = [];
         const itemsPerRow = this.data.colors.length;
-        const posMapX = this.data.x.result.reduce((p, c, i) => { p[c] = i; return p; }, {});
-        const posMapY = this.data.y.result.reduce((p, c, i) => { p[c] = i; return p; }, {});
         this.data.colors.forEach((row, i) => {
             row.forEach((col, j) => {
-                positions.push((posMapX[i]) * 2, (posMapY[j]) * 2, 0);
+                positions.push(i * 2, j * 2, 0);
                 const c = ChartFactory.getColor(col);
                 colors.push(c.r, c.g, c.b);
             });
@@ -287,11 +148,8 @@ export class HeatmapGraph implements ChartObjectInterface {
         this.points = new THREE.Points(geometry, material);
         this.group.add(this.points);
 
-        // this.drawDendogram(this.data.y, false, posMapY);
-        this.drawDendogram(this.data.x, false, posMapY);
-
-
-
+        this.drawDendogram(this.data.y, true);//, this.data.colors[0].length);
+        this.drawDendogram(this.data.x, false);
 
         this.onRequestRender.next();
     }
