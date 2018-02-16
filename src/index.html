@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>Oncoscape</title>
@@ -9,11 +10,79 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" type="text/css">
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:100,200,300,400,500,700" type="text/css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <style>
+    .loader-container {
+      position: relative;
+      top: -27px;
+      width: 100%;
+      height: 100vh;
+      background: -webkit-linear-gradient(315deg, #1396de 2%, #042a68);
+      background: linear-gradient(135deg, #1396de 2%, #042a68);
+      color: #fff;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .landing-h1 {
+      font-weight: 200;
+      letter-spacing: 30px;
+      font-size: 70px;
+      padding-top: 30vh;
+    }
+
+    .landing-h2 {
+      font-weight: 400;
+      letter-spacing: 17px;
+      font-size: 20px;
+      padding-top: 10px;
+      padding-bottom: 100px;
+      color: #FFF;
+    }
+
+    .landing {
+      opacity: 0;
+      -webkit-animation: fadein 3s;
+      -moz-animation: fadein 3s;
+      -ms-animation: fadein 3s;
+      -o-animation: fadein 3s;
+      animation: fadein 3s;
+      animation-delay: 2s;
+    }
+
+    @keyframes fadein {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @-moz-keyframes fadein {
+      from { opacity: 0;}
+      to { opacity: 1;}
+    }
+    @-webkit-keyframes fadein {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @-ms-keyframes fadein {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @-o-keyframes fadein {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
 </head>
-<body>
-  <app-root></app-root>
+
+<body style="padding:0px;margin:0px;background: linear-gradient(135deg, #1396de 2%, #042a68);">
+  <app-root>
+    <div class="loader-container">
+
+      <h1 class="landing landing-h1">Oncoscape</h1>
+      <p class="landing landing-h2">Cancer Explorer</p>
+
+    </div>
+  </app-root>
   <script>
+    document.oncontextmenu = () => false;
   // if ('serviceWorker' in navigator) {
   //   window.addEventListener('load', function() {
   //     navigator.serviceWorker.register('/sw.js').then(function(registration) {
@@ -27,4 +96,5 @@
   // }
   </script>
 </body>
+
 </html>

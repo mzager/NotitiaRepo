@@ -40,7 +40,7 @@ export class LegendPanelComponent implements AfterViewInit {
 
     // Setup SVG With Linear Gradient
     const svg = el.append('svg')
-      .attr('width', '180px');
+      .attr('width', '210px');
     const colors = scaleSequential(interpolateSpectral);
     const defs = svg.append('defs');
     const legendGradient = defs.append('linearGradient')
@@ -91,22 +91,22 @@ export class LegendPanelComponent implements AfterViewInit {
             group.append('rect')
               .attr('x', 0)
               .attr('y', yOffset)
-              .attr('width', '180px')
-              .attr('height', '20px')
+              .attr('width', '210px')
+              .attr('height', '10px')
               .style('fill', 'url(#linear-gradient)');
-            yOffset += 20;
+            yOffset += 10;
 
             group.append('text')
               .text(legend.labels[0])
               .attr('x', 0)
-              .attr('y', yOffset + 15)
+              .attr('y', yOffset + 10)
               .attr('fill', '#9e9e9e')
               .style('font-size', '10px');
 
             group.append('text')
               .text(legend.labels[1])
-              .attr('x', '180px')
-              .attr('y', yOffset + 15)
+              .attr('x', '210px')
+              .attr('y', yOffset + 10)
               .attr('fill', '#9e9e9e')
               .style('text-anchor', 'end')
               .style('font-size', '10px');
@@ -123,7 +123,7 @@ export class LegendPanelComponent implements AfterViewInit {
             yOffset += 20;
 
             group.append('polyline')
-              .attr('points', '0 ' + yOffset + ', 0 ' + (yOffset + 20) + ', 180 ' + (yOffset + 20) + ', 0 ' + yOffset)
+              .attr('points', '0 ' + yOffset + ', 0 ' + (yOffset + 20) + ', 210 ' + (yOffset + 20) + ', 0 ' + yOffset)
               .style('fill', '#039BE5');
             yOffset += 20;
 
@@ -136,7 +136,7 @@ export class LegendPanelComponent implements AfterViewInit {
 
             group.append('text')
               .text(legend.labels[1])
-              .attr('x', '180px')
+              .attr('x', '210px')
               .attr('y', yOffset + 15)
               .attr('fill', '#9e9e9e')
               .style('text-anchor', 'end')
@@ -149,7 +149,7 @@ export class LegendPanelComponent implements AfterViewInit {
         switch (legend.type) {
           case 'COLOR':
             group.append('text')
-              .text('Color')
+              .text( (legend.name === '') ? 'Color' : legend.name)
               .attr('x', '0px')
               .attr('y', yOffset + 15)
               .attr('fill', '#9e9e9e')
@@ -169,7 +169,7 @@ export class LegendPanelComponent implements AfterViewInit {
 
               group.append('text')
                 .text(label)
-                .attr('x', '25px')
+                .attr('x', '20px')
                 .attr('y', yOffset + 15)
                 .attr('fill', '#9e9e9e')
                 .attr('font-size', '10px');
@@ -201,7 +201,7 @@ export class LegendPanelComponent implements AfterViewInit {
 
               group.append('text')
                 .text(label)
-                .attr('x', '25px')
+                .attr('x', '20px')
                 .attr('y', yOffset + 15)
                 .attr('fill', '#9e9e9e')
                 .attr('font-size', '10px');
@@ -233,7 +233,7 @@ export class LegendPanelComponent implements AfterViewInit {
 
               group.append('text')
                 .text(label)
-                .attr('x', '25px')
+                .attr('x', '20px')
                 .attr('y', yOffset + 15)
                 .attr('fill', '#9e9e9e')
                 .attr('font-size', '10px');

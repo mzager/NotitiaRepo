@@ -13,7 +13,7 @@
     color: #FFF !important;
     background: #039be5;
     font-weight: 500;
-    font-size: 12px;
+    font-size: 1rem;
     text-transform: uppercase;
     padding-left: 30px;
     padding-right: 30px;
@@ -21,9 +21,9 @@
 }
 
 .app-bar-menu-item {
-    color: #029BE5 !important; // #283e4a !important; //
-    font-size: 12px;
-    font-weight: 300;
+    color: #666666 !important; // #283e4a !important; //
+    font-size: 1rem;
+    font-weight: 500;
 }
 
 .application-bar-menu {
@@ -43,10 +43,11 @@
         display: inline-block;
         // color: #029BE5;
         color:#FFF;
-
+        letter-spacing: 1px;
+        font-weight: 500;
         padding: 0px 10px;
         line-height: 30px;
         height: 30px;
-        font-size: 12px;
+        font-size: 1rem;
     }
 }

@@ -1,0 +1,10 @@
+.noUi-target {
+    background: #FAFAFA;
+    border-radius: 3px;
+    border: 0px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.noUi-horizontal {
+    height: 6px;
+}

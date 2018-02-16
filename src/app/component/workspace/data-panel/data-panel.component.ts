@@ -1,6 +1,5 @@
 import { DataTable } from './../../../model/data-field.model';
 import { ComputeWorkerUtil } from './../../../service/compute.worker.util';
-import { HotTableModule } from 'ng2-handsontable';
 import { DataField } from 'app/model/data-field.model';
 import {
   ChangeDetectorRef, ViewChild, Component, Input, Output, ElementRef,
@@ -12,6 +11,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import * as util from 'app/service/compute.worker.util';
 import Dexie from 'dexie';
 import { GraphConfig } from 'app/model/graph-config.model';
+import { HotRegisterer } from 'angular-handsontable';
 declare var $: any;
 // declare var Handsontable: any;
 
@@ -30,7 +30,8 @@ export class DataPanelComponent implements AfterViewInit {
   @Input() configA: GraphConfig;
   @Input() configB: GraphConfig;
 
-  _tables: Array<DataTable> = [];
+  public _tables: Array<DataTable> = [];
+  public db: Dexie = null;
 
   @Input() set tables(v: Array<DataTable>) {
     this._tables = v.concat([
@@ -39,16 +40,16 @@ export class DataPanelComponent implements AfterViewInit {
     ]);
   }
 
-  private db: Dexie;
-
   tableChange(table: DataTable): void {
     this.loadTable(table);
   }
   openDatabase(): Promise<any> {
     return new Promise((resolve, reject) => {
-      if (this.db === null) { 
+      console.dir(this);
+      if (this.db === null) {
         this.db = new Dexie('notitia-' + this.configA.database);
       }
+      console.dir(this);
       if (this.db.isOpen()) {
         resolve();
       } else {
@@ -58,7 +59,9 @@ export class DataPanelComponent implements AfterViewInit {
   }
 
   loadTable(table: DataTable): void {
-    if (table.ctype === CollectionTypeEnum.UNDEFINED){
+debugger;
+    const hot = this.hotRegisterer.getInstance('hotInstance');
+    if (table.ctype === CollectionTypeEnum.UNDEFINED) {
       const config: GraphConfig = (table.tbl === 'configA') ? this.configA : this.configB;
       const markers: Array<any> = config.markerFilter.map(v =>
         ( [v, 'Gene', (config.markerSelect.indexOf(v) !== -1) ] ));
@@ -69,7 +72,7 @@ export class DataPanelComponent implements AfterViewInit {
       const data = markers.concat(samples);
       const colHeaders = ['Name', 'Type', 'Selected'];
 
-      this.dataTable.inst.updateSettings({
+      hot.updateSettings({
         manualColumnResize: true,
         columnSorting: true,
         sortIndicator: true,
@@ -83,9 +86,8 @@ export class DataPanelComponent implements AfterViewInit {
         autoRowSize: false,
         autoColSize: false,
         contextMenu: true
-      });
-      this.dataTable.inst.loadData(data);
-
+      }, true);
+      hot.loadData(data);
       return;
     }
     this.openDatabase().then(() => {
@@ -96,7 +98,7 @@ export class DataPanelComponent implements AfterViewInit {
         const colHeaders = result[1].map(v => v.s);
         const rowHeaders = result[0].map(v => v.m );
         const data = result[0].map(v => v.d );
-        this.dataTable.inst.updateSettings({
+        hot.updateSettings({
           manualColumnResize: true,
           columnSorting: true,
           sortIndicator: true,
@@ -110,8 +112,8 @@ export class DataPanelComponent implements AfterViewInit {
           autoRowSize: false,
           autoColSize: false,
           contextMenu: true
-        });
-        this.dataTable.inst.loadData(data);
+        }, true);
+        hot.loadData(data);
       });
     });
   }
@@ -121,6 +123,6 @@ export class DataPanelComponent implements AfterViewInit {
     this.loadTable(this._tables[0]);
   }
 
-  constructor() {
+  constructor(private hotRegisterer: HotRegisterer) {
   }
 }

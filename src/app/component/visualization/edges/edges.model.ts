@@ -15,14 +15,12 @@ export class EdgeConfigModel extends GraphConfig {
     }
 
     isVisible = false;
-    table: DataTable;
     entityA: EntityTypeEnum = EntityTypeEnum.UNKNOWN;
     entityB: EntityTypeEnum = EntityTypeEnum.UNKNOWN;
-    intersect: DataField = DataFieldFactory.getUndefined();
     pointColor: DataField = DataFieldFactory.getUndefined();
     pointShape: DataField = DataFieldFactory.getUndefined();
     pointSize: DataField = DataFieldFactory.getUndefined();
-    pointIntersect: DataField = DataFieldFactory.getUndefined();
+    edgeOption = ['None'];
 }
 
 export class EdgeDataModel implements GraphData {
