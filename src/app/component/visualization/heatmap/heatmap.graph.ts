@@ -62,7 +62,7 @@ export class HeatmapGraph implements ChartObjectInterface {
         this.events = events;
         this.view = view;
         this.isEnabled = false;
-        this.view.controls.enableRotate = false;
+        this.view.controls.enableRotate = true;
         this.meshes = [];
         // this.selector = new THREE.Mesh(
         //     new THREE.SphereGeometry(3, 30, 30),
@@ -71,10 +71,12 @@ export class HeatmapGraph implements ChartObjectInterface {
     }
 
     destroy() {
+        this.removeObjects();
         this.enable(false);
     }
 
     update(config: GraphConfig, data: any) {
+        console.log("REDRAW");
         this.config = config as HeatmapConfigModel;
         this.data = data;
         this.removeObjects();

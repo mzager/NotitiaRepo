@@ -17,6 +17,7 @@ export class TimelinesConfigModel extends GraphConfig {
         this.visualization = VisualizationEnum.TIMELINES;
         this.entity = EntityTypeEnum.PATIENT;
         this.dirtyFlag = DirtyEnum.LAYOUT;
+        this.label = 'Timelines';
     }
 
     attrs = [];

@@ -14,6 +14,7 @@ import {
   NgZone,
   ViewChild,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   EventEmitter,
   Output
   } from '@angular/core';
@@ -30,6 +31,9 @@ import { GraphEnum } from 'app/model/enum.model';
   providers: [ChartScene]
 })
 export class ChartComponent implements AfterViewInit {
+
+  labelA = '';
+  labelB = '';
 
   @Output()
   public onSelect: EventEmitter<{type: EntityTypeEnum, ids: Array<string>}> =
@@ -80,14 +84,22 @@ export class ChartComponent implements AfterViewInit {
           .select(fromRoot.getGraphAData)
           .withLatestFrom(selectedGraphAConfig)
           .filter( v => v[0] !== null);
-        updateGraphA.subscribe( v => chartScene.update(GraphEnum.GRAPH_A, v[1], v[0]) );
+        updateGraphA.subscribe( v => {
+          this.labelA = v[1].label;
+          this.cdr.markForCheck();
+          return chartScene.update(GraphEnum.GRAPH_A, v[1], v[0]);
+        });
 
         const selectedGraphBConfig: Observable<GraphConfig> = this.store.select(fromRoot.getGraphBConfig);
         const updateGraphB: Observable<any> = this.store
           .select(fromRoot.getGraphBData)
           .withLatestFrom(selectedGraphBConfig)
           .filter( v => v[0] !== null);
-        updateGraphB.subscribe( v => chartScene.update(GraphEnum.GRAPH_B, v[1], v[0]) );
+        updateGraphB.subscribe( v => {
+          this.labelB = v[1].label;
+          this.cdr.markForCheck();
+          return chartScene.update(GraphEnum.GRAPH_B, v[1], v[0]);
+        });
 
 
         const selectedEdgesConfig: Observable<GraphConfig> = this.store.select(fromRoot.getEdgesConfig);
@@ -101,6 +113,6 @@ export class ChartComponent implements AfterViewInit {
     });
   }
 
-  constructor(private ngZone: NgZone, private store: Store<any>) {
+  constructor(private ngZone: NgZone, private store: Store<any>, private cdr: ChangeDetectorRef) {
   }
 }

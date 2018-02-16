@@ -24,6 +24,7 @@ export class LinearDiscriminantAnalysisConfigModel extends GraphConfig {
         super();
         this.entity = EntityTypeEnum.SAMPLE;
         this.visualization = VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS;
+        this.label = 'Linear Discriminant Analysis';
     }
 
     n_components = 3;
