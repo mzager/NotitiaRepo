@@ -4,7 +4,7 @@ import { Memoize } from 'typescript-memoize';
 import { GraphEnum, ShapeEnum, SizeEnum } from 'app/model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import * as THREE from 'three';
-import { Vector3 } from 'three';
+import { Vector3, Vector2 } from 'three';
 
 export class ChartFactory {
 
@@ -60,6 +60,15 @@ export class ChartFactory {
             far: camera.far
         });
         return new THREE.Mesh( line.geometry, material);
+    }
+    public static linesAllocate(color: number, pts: Array<THREE.Vector2>, data: any): THREE.Line {
+        const line = new THREE.Line();
+        line.material = this.getLineColor(color);
+        line.userData = data;
+        const geometry = new THREE.Geometry();
+        geometry.vertices.push( ...pts.map( v => new THREE.Vector3(v.x, v.y, 0) ) );
+        line.geometry = geometry;
+        return line;
     }
     public static lineAllocate(color: number, pt1: THREE.Vector2, pt2: THREE.Vector2, data?: any): THREE.Line {
         const line = new THREE.Line();
