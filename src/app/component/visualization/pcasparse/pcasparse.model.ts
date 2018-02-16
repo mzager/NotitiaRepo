@@ -16,6 +16,7 @@ export class PcaSparseConfigModel extends GraphConfig {
         super();
         this.entity = EntityTypeEnum.SAMPLE;
         this.visualization = VisualizationEnum.SPARSE_PCA;
+        this.label = 'PCA Sparse';
     }
 
     n_components = 3;

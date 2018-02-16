@@ -25,6 +25,7 @@ export class SpectralEmbeddingConfigModel extends GraphConfig {
         super();
         this.entity = EntityTypeEnum.SAMPLE;
         this.visualization = VisualizationEnum.SPECTRAL_EMBEDDING;
+        this.label = 'Spectral Embedding';
     }
 
     n_components = 3;

@@ -16,6 +16,7 @@ export class MdsConfigModel extends GraphConfig {
         super();
         this.entity = EntityTypeEnum.SAMPLE;
         this.visualization = VisualizationEnum.MDS;
+        this.label = 'Multidimensional Scaling';
     }
 
     n_components = 3;

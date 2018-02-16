@@ -70,6 +70,7 @@ export class PathwaysFormComponent {
       .then(response => response.json())
       .then(response => {
         this.pathwayOptions = response;
+        this.pathwayOptions = this.pathwayOptions.slice(0, 100);
         cd.detectChanges();
       });
     // Init Form
