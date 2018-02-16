@@ -9,6 +9,7 @@ export class ParallelCoordsConfigModel extends GraphConfig {
         super();
         this.entity = EntityTypeEnum.MIXED;
         this.visualization = VisualizationEnum.PARALLEL_COORDS;
+        this.label = 'Parallel Coordinates';
     }
 
     displayType: DimensionEnum = DimensionEnum.THREE_D;

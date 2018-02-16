@@ -46,6 +46,7 @@ export class TsneConfigModel extends GraphConfig {
         super();
         this.entity = EntityTypeEnum.SAMPLE;
         this.visualization = VisualizationEnum.TSNE;
+        this.label = 'T-SNE';
     }
 
     dimension = DimensionEnum.THREE_D;

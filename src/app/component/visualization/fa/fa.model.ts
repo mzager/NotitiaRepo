@@ -16,6 +16,7 @@ export class FaConfigModel extends GraphConfig {
         super();
         this.entity = EntityTypeEnum.SAMPLE;
         this.visualization = VisualizationEnum.FA;
+        this.label = 'Factor Analysis';
     }
 
     dimension = DimensionEnum.THREE_D;

@@ -27,6 +27,7 @@ export class NmfConfigModel extends GraphConfig {
         super();
         this.entity = EntityTypeEnum.SAMPLE;
         this.visualization = VisualizationEnum.NMF;
+        this.label = 'Non-Negative Matrix Factorization';
     }
 
     n_components = 3;

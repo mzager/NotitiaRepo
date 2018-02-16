@@ -16,6 +16,7 @@ export class MiniBatchSparsePcaConfigModel extends GraphConfig {
         super();
         this.entity = EntityTypeEnum.SAMPLE;
         this.visualization = VisualizationEnum.MINI_BATCH_SPARSE_PCA;
+        this.label = 'PCA Sparse Mini Batch';
     }
 
     n_components = 3;

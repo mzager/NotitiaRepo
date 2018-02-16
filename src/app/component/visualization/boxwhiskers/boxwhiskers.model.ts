@@ -10,6 +10,7 @@ export class BoxWhiskersConfigModel extends GraphConfig {
         super();
         this.entity = EntityTypeEnum.GENE;
         this.visualization = VisualizationEnum.BOX_WHISKERS;
+        this.label = 'Box + Whiskers';
     }
 
     displayType: DimensionEnum = DimensionEnum.THREE_D;

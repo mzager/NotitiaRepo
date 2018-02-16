@@ -146,6 +146,11 @@ export class DataService {
 
   getPatientStats(database: string, ids: Array<string>): Promise<any> {
 
+    // TODO: FIX This
+    if (ids === undefined || ids === null) {
+      ids = [];
+    }
+
     return new Promise((resolve, reject) => {
 
       this.getQueryBuilderConfig(database).then(config => {
@@ -155,7 +160,6 @@ export class DataService {
           .map(field => Object.assign(config.fields[field], { field: field }))
           .filter(item => item.type !== 'string')
           .sort((a, b) => (a.type !== b.type) ? a.type.localeCompare(b.type) : a.name.localeCompare(b.name));
-          // debugger;
 
         const db = new Dexie('notitia-' + database);
         db.open().then(connection => {

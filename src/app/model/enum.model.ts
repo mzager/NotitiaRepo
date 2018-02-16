@@ -251,6 +251,7 @@ export const enum VisualizationEnum {
     QUADRATIC_DISCRIMINANT_ANALYSIS = 274877906944
 }
 
+
 // Visibility
 export const enum VisibilityEnum {
     SHOW = 1,
