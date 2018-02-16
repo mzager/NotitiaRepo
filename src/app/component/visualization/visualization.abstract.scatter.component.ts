@@ -1,16 +1,18 @@
+import { ChartUtil } from './../workspace/chart/chart.utils';
 import { GraphData } from './../../model/graph-data.model';
 import { ChartFactory } from './../workspace/chart/chart.factory';
 import { DragSelectionControl } from './drag.selection.control';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { AbstractVisualization } from './visualization.abstract.component';
 import { Subscription } from 'rxjs/Subscription';
-import { WorkspaceLayoutEnum, DimensionEnum, CollectionTypeEnum, VisualizationEnum } from './../../model/enum.model';
+import { WorkspaceLayoutEnum, DimensionEnum, CollectionTypeEnum } from './../../model/enum.model';
 import { VisualizationView } from './../../model/chart-view.model';
 import { ChartEvent, ChartEvents } from './../workspace/chart/chart.events';
 import { EventEmitter } from '@angular/core';
-import { GraphEnum, EntityTypeEnum, DirtyEnum, ShapeEnum } from 'app/model/enum.model';
+import { GraphEnum, EntityTypeEnum, DirtyEnum, ShapeEnum, VisualizationEnum } from 'app/model/enum.model';
 import { ChartObjectInterface } from './../../model/chart.object.interface';
 import * as THREE from 'three';
+import { CircleGeometry } from 'three';
 export class AbstractScatterVisualization extends AbstractVisualization {
 
     // Chart Elements
@@ -20,35 +22,18 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     // Objects
     private lines: Array<THREE.Line>;
     private controls: DragSelectionControl;
-    private title: HTMLElement;
     private overlay: HTMLElement;
     private tooltips: HTMLElement;
 
     // Private Subscriptions
+    private sMouseMove: Subscription;
+    private sMouseDown: Subscription;
+    private sMouseUp: Subscription;
+
+    // Private Subscriptions
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         super.create(labels, events, view);
-        this.title =  <HTMLDivElement>(document.createElement('div'));
-        this.title.className = 'graph-title';
-        this.title.innerText = (view.config.visualization === VisualizationEnum.TSNE) ? 'T-SNE' :
-            (view.config.visualization === VisualizationEnum.DICTIONARY_LEARNING) ? 'Dictionary Learning' :
-            (view.config.visualization === VisualizationEnum.FA) ? 'Factor Analysis' :
-            (view.config.visualization === VisualizationEnum.FAST_ICA) ? 'Fast ICA' :
-            (view.config.visualization === VisualizationEnum.LDA) ? 'Latent Dirichlet Allocation' :
-            (view.config.visualization === VisualizationEnum.NMF) ? 'Non-negative Matrix Factorization' :
-            (view.config.visualization === VisualizationEnum.PCA) ? 'Principal Component Analysis' :
-            (view.config.visualization === VisualizationEnum.INCREMENTAL_PCA) ? 'PCA - Incremental' :
-            (view.config.visualization === VisualizationEnum.KERNAL_PCA) ? 'PCA - Kernal' :
-            (view.config.visualization === VisualizationEnum.SPARSE_PCA) ? 'PCA - Sparse' :
-            (view.config.visualization === VisualizationEnum.TRUNCATED_SVD) ? 'Truncated SVD' :
-            (view.config.visualization === VisualizationEnum.ISOMAP) ? 'ISO Map' :
-            (view.config.visualization === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? 'Local Linear Embedding' :
-            (view.config.visualization === VisualizationEnum.MDS) ? 'Multi-Dimensional Scaling' :
-            'Spectral Embedding';
-
-
-
-        this.labels.appendChild( this.title );
-
+   
         this.tooltips = <HTMLDivElement>(document.createElement('div'));
         this.tooltips.className = 'graph-tooltip';
         this.labels.appendChild( this.tooltips );
@@ -99,9 +84,12 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         if (this.config.dirtyFlag & DirtyEnum.SHAPE) {
             const idProperty = (config.entity === EntityTypeEnum.GENE) ? 'mid' :
                 (this.config.pointColor.ctype & CollectionTypeEnum.MOLECULAR) ? 'sid' : 'pid';
+
             this.meshes.forEach(mesh => {
                 const objMap = data.pointShape;
-                const shape = objMap[mesh.userData[idProperty]] as number;
+                let shape = objMap[mesh.userData[idProperty]] as number;
+                console.log(shape);
+                if (shape === undefined) { shape = 1; }
                 const cf = ChartFactory;
                 (mesh as THREE.Mesh).geometry = ChartFactory.getShape(shape);
             });
@@ -113,6 +101,12 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.isEnabled = truthy;
         this.view.controls.enabled = this.isEnabled;
         this.controls.enabled = this.isEnabled;
+        if (truthy) {
+            this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
+        } else {
+            this.sMouseMove.unsubscribe();
+            this.tooltips.innerHTML = '';
+        }
     }
 
     addObjects(type: EntityTypeEnum) {
@@ -141,6 +135,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
                     (this.config['dimension'] === DimensionEnum.ONE_D) ? 0 : position[1],
                     (this.config['dimension'] !== DimensionEnum.THREE_D) ? 0 : position[2]
                 ), userData);
+
             this.meshes.push(mesh);
             this.view.scene.add(mesh);
         }
@@ -156,5 +151,28 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.lines.forEach(v => this.view.scene.remove(v));
         this.lines.length = 0;
     }
+
+
+    private onMouseMove(e: ChartEvent): void {
+        const hit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
+
+        if (hit.length > 0) {
+
+            if (hit[0].object.userData === undefined) {
+                return;
+            }
+            let xPos = e.mouse.xs + 10;
+            const yPos = e.mouse.ys;
+            if (this.config.graph === GraphEnum.GRAPH_B) { xPos -= this.view.viewport.width; }
+            this.tooltips.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#FFF;padding:3px;border-radius:' +
+                '3px;z-index:9999;position:absolute;left:' +
+                xPos + 'px;top:' +
+                yPos + 'px;">' +
+                hit[0].object.userData.sid + '</div>';
+            return;
+        }
+        this.tooltips.innerHTML = '';
+    }
+
 
 }

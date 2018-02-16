@@ -44,7 +44,8 @@ export const enum DirtyEnum {
     SIZE = 4,
     SHAPE = 8,
     INTERSECT = 16,
-    OPTIONS = 32
+    OPTIONS = 32,
+    NO_COMPUTE = 64
 }
 
 export class LogicalOperatorEnum {
@@ -120,6 +121,7 @@ export const enum CollectionTypeEnum {
     HIC = 4096,
     EVENT = 8192,
     RNA = 16384,
+    TAD = 32768,
     // tslint:disable-next-line:no-bitwise
     EXP = CollectionTypeEnum.PROTEIN | CollectionTypeEnum.MIRNA | CollectionTypeEnum.MRNA,
     // tslint:disable-next-line:no-bitwise
@@ -139,13 +141,46 @@ export class DataTypeEnum {
     // static readonly FUNCTION_MEDIAN = 'FUNCTION_MEDIAN';
 }
 
+export class MutationTypeEnum {
+    static readonly COPY_NUMBER_GAIN_HIGH = 'Copy_Number_Gain_High';
+    static readonly COPY_NUMBER_GAIN_LOW = 'Copy_Number_Gain_Low';
+    static readonly COPY_NUMBER_LOSS_HIGH = 'Copy_Number_Loss_High';
+    static readonly COPY_NUMBER_LOSS_LOW = 'Copy_Number_Loss_Low';
+    static readonly MISSENSE = 'Missense';
+    static readonly SILENT = 'Silent';
+    static readonly FRAME_SHIFT_DEL = 'Frame_Shift_Del';
+    static readonly SPLICE_SITE = 'Splice_Site';
+    static readonly NONSENSE_MUTATION = 'Nonsense_Mutation';
+    static readonly FRAME_SHIFT_INS = 'Frame_Shift_Ins';
+    static readonly RNA = 'RNA';
+    static readonly IN_FRAME_DEL = 'In_Frame_Del';
+    static readonly IN_FRAME_INS = 'In_Frame_Ins';
+    static readonly NONSTOP_MUTATION = 'Nonstop_Mutation';
+    static readonly TRANSLATION_START_SITE = 'Translation_Start_Site';
+    static readonly DE_NOVO_START_OUTOFFRAME = 'De_novo_Start_OutOfFrame';
+    static readonly DE_NOVO_START_INFRAME = 'De_novo_Start_InFrame';
+    static readonly INTRON = 'Intron';
+    static readonly THREE_PRIME_UTR = '3\'UTR';
+    static readonly IGR = 'IGR';
+    static readonly FIVE_PRIME_UTR = '5\'UTR';
+    static readonly TARGETED_REGION = 'Targeted_Region';
+    static readonly READ_THROUGH = 'Read-through';
+    static readonly FIVE_PRIME_FLANK = '5\'Flank';
+    static readonly THREE_PRIME_FLANK = '3\'Flank';
+    static readonly SPLICE_SITE_SNP = 'Splice_Site_SNP';
+    static readonly SPLICE_SITE_DEL = 'Splice_Site_Del';
+    static readonly SPLICE_SITE_INS = 'Splice_Site_Ins';
+    static readonly INDEL = 'Indel';
+    static readonly R = 'R';
+}
+
 export class EntityTypeEnum {
     static readonly NONE = 'None';
     static readonly UNKNOWN = 'Unknown';
     static readonly PATIENT = 'Patients';
     static readonly GENE = 'Genes';
     static readonly SAMPLE = 'Samples';
-    static readonly EVENT = 'Event';
+    static readonly EVENT = 'Events';
     static readonly EDGE = 'Edge';
     static readonly MIXED = 'Mixed';
 }
@@ -209,7 +244,11 @@ export const enum VisualizationEnum {
     GENOME = 2147483648,
     BOX_WHISKERS = 4294967296,
     PARALLEL_COORDS = 8589934592,
-    HIC = 17179869184
+    HIC = 17179869184,
+    MINI_BATCH_DICTIONARY_LEARNING = 34359738368,
+    MINI_BATCH_SPARSE_PCA = 68719476736,
+    LINEAR_DISCRIMINANT_ANALYSIS = 137438953472,
+    QUADRATIC_DISCRIMINANT_ANALYSIS = 274877906944
 }
 
 // Visibility

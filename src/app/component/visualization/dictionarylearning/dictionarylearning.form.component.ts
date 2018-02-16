@@ -13,80 +13,80 @@ import * as _ from 'lodash';
   selector: 'app-dictionarylearning-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-<form [formGroup]="form" novalidate>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Data</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          formControlName="table">
-          <option *ngFor="let option of dataOptions" [ngValue]="option">{{option.label}}</option>
+<form [formGroup]='form' novalidate>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Data</span>
+      <select materialize='material_select'
+          [compareWith]='byKey'
+          formControlName='table'>
+          <option *ngFor='let option of dataOptions' [ngValue]='option'>{{option.label}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Display</span>
-      <select class="browser-default" materialize="material_select"
-          formControlName="entity">
-          <option *ngFor="let option of displayOptions">{{option}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Display</span>
+      <select materialize='material_select'
+          formControlName='entity'>
+          <option *ngFor='let option of displayOptions'>{{option}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Color</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="colorOptions"
-          formControlName="pointColor">
-          <option *ngFor="let option of colorOptions"
-            [ngValue]="option">{{option.label}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Color</span>
+      <select materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='colorOptions'
+          formControlName='pointColor'>
+          <option *ngFor='let option of colorOptions'
+            [ngValue]='option'>{{option.label}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Size</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="sizeOptions"
-          formControlName="pointSize">
-          <option *ngFor="let option of sizeOptions"
-            [ngValue]="option">{{option.label}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Size</span>
+      <select materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='sizeOptions'
+          formControlName='pointSize'>
+          <option *ngFor='let option of sizeOptions'
+            [ngValue]='option'>{{option.label}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Shape</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="colorOptions" formControlName="pointShape">
-          <option *ngFor="let option of shapeOptions"
-            [ngValue]="option">{{option.label}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Shape</span>
+      <select materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='colorOptions' formControlName='pointShape'>
+          <option *ngFor='let option of shapeOptions'
+            [ngValue]='option'>{{option.label}}</option>
       </select>
     </label>
   </div>
-   <div class="form-group">
-    <label class="center-block"><span class="form-label">Dimension</span>
-      <select class="browser-default" materialize="material_select"
-        [materializeSelectOptions]="dimensionOptions"
-        formControlName="dimension">
-          <option *ngFor="let options of dimensionOptions">{{options}}</option>
+   <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Dimension</span>
+      <select materialize='material_select'
+        [materializeSelectOptions]='dimensionOptions'
+        formControlName='dimension'>
+          <option *ngFor='let options of dimensionOptions'>{{options}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-  <label class="center-block"><span class="form-label">Fit Algo</span>
-    <select class="browser-default" materialize="material_select"
-      [materializeSelectOptions]="dimensionOptions"
-      formControlName="fit_algorithm">
-        <option *ngFor="let options of fitAlgorithemOptions" [ngValue]="options">{{options}}</option>
+  <div class='form-group'>
+  <label class='center-block'><span class='form-label'>Fit Algo</span>
+    <select materialize='material_select'
+      [materializeSelectOptions]='dimensionOptions'
+      formControlName='fit_algorithm'>
+        <option *ngFor='let options of fitAlgorithemOptions' [ngValue]='options'>{{options}}</option>
     </select>
   </label>
 </div>
-<div class="form-group">
-  <label class="center-block"><span class="form-label">Transform Algo</span>
-    <select class="browser-default" materialize="material_select"
-      [materializeSelectOptions]="dimensionOptions"
-      formControlName="transform_algorithm">
-      <option *ngFor="let options of transformAlgorithemOptions" [ngValue]="options">{{options}}</option>
+<div class='form-group'>
+  <label class='center-block'><span class='form-label'>Transform Algo</span>
+    <select materialize='material_select'
+      [materializeSelectOptions]='dimensionOptions'
+      formControlName='transform_algorithm'>
+      <option *ngFor='let options of transformAlgorithemOptions' [ngValue]='options'>{{options}}</option>
     </select>
     </label>
   </div>

@@ -43,7 +43,6 @@ export class EdgesGraph implements ChartObjectInterface {
     }
 
     update(config: GraphConfig, data: any) {
-debugger;
         this.config = config as EdgeConfigModel;
         this.data = data;
         this.drawEdgesDebounce();
@@ -52,7 +51,7 @@ debugger;
     drawEdges(views, layout, renderer) {
         this.view.scene.children = this.view.scene.children.splice(0, 2);
 
-        if (!this.config.isVisible) { return; }
+        // if (!this.config.isVisible) { return; }
         if (views[0].chart === null || views[1].chart === null) { return; }
 
         const aId = (this.config.entityA === EntityTypeEnum.GENE) ? 'mid' : 'sid';

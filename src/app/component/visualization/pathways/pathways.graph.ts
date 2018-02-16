@@ -1,8 +1,9 @@
+import { ChartUtil } from './../../workspace/chart/chart.utils';
 import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
 import { VisualizationView } from './../../../model/chart-view.model';
 import { ChartEvents, ChartEvent } from './../../workspace/chart/chart.events';
 import { GraphConfig } from 'app/model/graph-config.model';
-import { EntityTypeEnum, WorkspaceLayoutEnum, ShapeEnum } from './../../../model/enum.model';
+import { EntityTypeEnum, WorkspaceLayoutEnum, ShapeEnum, ColorEnum } from './../../../model/enum.model';
 import { GraphEnum, DirtyEnum } from 'app/model/enum.model';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { Injectable, EventEmitter, Output } from '@angular/core';
@@ -11,8 +12,8 @@ import { PathwaysDataModel, PathwaysConfigModel } from 'app/component/visualizat
 import { Subscription } from 'rxjs/Subscription';
 import * as THREE from 'three';
 import { PathwaysFactory } from 'app/component/visualization/pathways/pathways.factory';
-import { Vector2 } from 'three';
-
+import { Vector2, Object3D } from 'three';
+import * as _ from 'lodash';
 export class PathwaysGraph implements ChartObjectInterface {
 
     // Emitters
@@ -23,7 +24,6 @@ export class PathwaysGraph implements ChartObjectInterface {
 
     // Chart Elements
     private labels: HTMLElement;
-    private title: HTMLElement;
     private overlay: HTMLElement;
     private tooltips: HTMLElement;
     private events: ChartEvents;
@@ -34,7 +34,7 @@ export class PathwaysGraph implements ChartObjectInterface {
 
     // Objects
     public meshes: Array<THREE.Mesh>;
-    public lines: Array<THREE.Line>;
+    public lines: Array<THREE.Object3D>;
 
     // Private Subscriptions
     private sMouseMove: Subscription;
@@ -44,24 +44,22 @@ export class PathwaysGraph implements ChartObjectInterface {
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         this.labels = labels;
         this.labels.innerText = '';
-        this.title =  <HTMLDivElement>(document.createElement('div'));
-        this.title.className = 'graph-title';
-        this.title.innerText = 'Pathways';
-        this.labels.appendChild( this.title );
 
         this.tooltips = <HTMLDivElement>(document.createElement('div'));
         this.tooltips.className = 'graph-tooltip';
-        this.labels.appendChild( this.tooltips );
+        this.labels.appendChild(this.tooltips);
 
         this.overlay = <HTMLDivElement>(document.createElement('div'));
         this.overlay.className = 'graph-overlay';
-        this.labels.appendChild( this.overlay );
+        this.labels.appendChild(this.overlay);
         this.events = events;
         this.view = view;
         this.isEnabled = false;
         this.meshes = [];
         this.lines = [];
         this.view.controls.enableRotate = false;
+        this.view.controls.pan(-1200, -1200);
+        this.view.controls.dollyOut(8);
         return this;
     }
 
@@ -89,6 +87,9 @@ export class PathwaysGraph implements ChartObjectInterface {
         this.view.controls.enabled = this.isEnabled;
         if (truthy) {
             this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
+            // this.view.controls.addEventListener('start', this.onZoomStart.bind(this));
+            // this.view.controls.addEventListener('end', _.debounce(this.onZoomEnd.bind(this), 300));
+
         } else {
             this.sMouseMove.unsubscribe();
         }
@@ -97,57 +98,50 @@ export class PathwaysGraph implements ChartObjectInterface {
 
     }
 
-    processBranch( glyph ) {
-        const node = glyph[0];
-        const w = Math.round(parseFloat(node.bbox[0].w) * 0.4);
-        const h = Math.round(parseFloat(node.bbox[0].h) * 0.4);
-        const x = Math.round(parseFloat(node.bbox[0].x) * 0.4);
-        const y = Math.round(parseFloat(node.bbox[0].y) * 0.4);
-        if (w > 0 && h > 0) {
-            if (node.hasOwnProperty('glyph')) { this.processBranch(node.glyph); }
-            // const shape =  PathwaysFactory.createNode(node.class, w, h, x, y + h);
-            // const geo = new THREE.ShapeGeometry(shape);
-            // const material = new THREE.MeshLambertMaterial({color: 0x039BE5, transparent: true, opacity: 0.2});
-            // const mesh = new THREE.Mesh(geo, material);
-            // this.view.scene.add(mesh);
-        }
-    }
 
     addObjects() {
+        const nodes = this.data.layout.nodes.filter(v => {
+            switch (v.class) {
+                case 'unspecified entity':
+                    v.color = ColorEnum.BLUE;
+                    return true;
+                case 'macromolecule':
+                    v.color = ColorEnum.RED;
+                    return true;
+                case 'process':
+                    v.color = ColorEnum.GREEN;
+                    return true;
+                case 'simple chemical':
+                    v.color = ColorEnum.PURPLE;
+                    return true;
+                case 'complex multimer':
+                    v.color = ColorEnum.ORANGE;
+                    return true;
+                case 'complex':
+                    v.color = ColorEnum.PINK;
+                    return true;
+            }
+            return false;
+        });
 
-        console.dir(this.data.layout);
-        const edges = this.data.layout.edges
-            .map( edge => {
-                const start = edge.start[0];
-                const end = edge.end[0];
-                const s = new THREE.Vector2(
-                    Math.round(parseFloat(start.x) * 0.4),
-                    Math.round(parseFloat(start.y) * 0.4)
-                );
-                const e = new THREE.Vector2(
-                    Math.round(parseFloat(end.x) * 0.4),
-                    Math.round(parseFloat(end.y) * 0.4)
-                );
-                const line = ChartFactory.lineAllocate(0x039BE5, s, e, {});
-                this.lines.push(line);
-                this.view.scene.add(line);
-            });
-
-        const shapes: Array<THREE.Shape> = this.data.layout.nodes
-            .map( node => {
+        const shapes: Array<{ shape: THREE.Shape, color: number, label: string }> = nodes
+            .map(node => {
                 const w = Math.round(parseFloat(node.bbox[0].w) * 0.4);
                 const h = Math.round(parseFloat(node.bbox[0].h) * 0.4);
                 const x = Math.round(parseFloat(node.bbox[0].x) * 0.4);
-                const y = Math.round(parseFloat(node.bbox[0].y) * 0.4);
+                const y = -Math.round(parseFloat(node.bbox[0].y) * 0.4);
                 if (w === 0 || h === 0) { return null; }
-                if (node.hasOwnProperty('glyph')) { this.processBranch(node.glyph); }
-                return PathwaysFactory.createNode(node.class, w, h, x, y + h);
-            }).filter( v => v);
+                const label = (node.label) ? node.label[0].text : '';
+                // if (node.hasOwnProperty('glyph')) { this.processBranch(node.glyph); }
+                return { shape: PathwaysFactory.createNode(node.class, w, h, x, y), color: node.color, label: label};
+            }).filter(v => v);
 
         this.meshes = shapes.map(shape => {
-            const geo = new THREE.ShapeGeometry(shape);
-            const material = new THREE.MeshLambertMaterial({color: 0x039BE5, transparent: true, opacity: 0.1});
-            return new THREE.Mesh(geo, material);
+            const geo = new THREE.ShapeGeometry(shape.shape);
+            const material = new THREE.MeshLambertMaterial({ color: shape.color, transparent: true, opacity: 0.8 });
+            const mesh = new THREE.Mesh(geo, material);
+            mesh.userData = shape.label;
+            return mesh;
         });
 
         this.meshes.forEach(mesh => {
@@ -155,6 +149,24 @@ export class PathwaysGraph implements ChartObjectInterface {
             this.view.scene.add(mesh);
         });
 
+        // Edges
+        const edges = this.data.layout.edges
+            .map(edge => {
+                const start = edge.start[0];
+                const end = edge.end[0];
+
+                const s = new THREE.Vector2(
+                    Math.round(parseFloat(start.x) * 0.4),
+                    - Math.round(parseFloat(start.y) * 0.4)
+                );
+                const e = new THREE.Vector2(
+                    Math.round(parseFloat(end.x) * 0.4),
+                    - Math.round(parseFloat(end.y) * 0.4)
+                );
+                const o = PathwaysFactory.createEdge(edge.class, s, e);
+                this.lines.push(o);
+                this.view.scene.add(o);
+            });
     }
 
     removeObjects() {
@@ -167,10 +179,37 @@ export class PathwaysGraph implements ChartObjectInterface {
         });
     }
 
+    // private onZoomStart(): void {
+    //     this.overlay.innerText = '';
+    // }
 
+    // private onZoomEnd(): void {
+    //     ChartUtil.getVisibleMeshes(this.view, this.meshes);
+
+    // }
 
     private onMouseMove(e: ChartEvent): void {
-        //  this.showLabels(e);
+        const hit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
+
+        if (hit.length > 0) {
+
+            if (hit[0].object.userData === undefined) {
+                return;
+            }
+            try {
+                const xPos = e.mouse.xs + 10;
+                const yPos = e.mouse.ys;
+                const tip = hit[0].object.userData.replace(/_/gi, ' ').trim();
+                this.tooltips.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#DDD;padding:5px;border-radius:' +
+                    '3px;z-index:9999;position:absolute;left:' +
+                    xPos + 'px;top:' +
+                    yPos + 'px;">' +
+                    tip + '</div>';
+            } catch (e) { }
+
+            return;
+        }
+        this.tooltips.innerHTML = '';
     }
 
     showLabels(e: ChartEvent) {

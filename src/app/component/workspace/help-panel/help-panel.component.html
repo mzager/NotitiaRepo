@@ -1,0 +1,42 @@
+<div class='card' style='width:500px; background:#FFFFFF;'  [ngDraggable]='true' [handle]='titlebar' [inBounds]='true' [bounds]='bounds'
+    [zIndex]='zIndex' [zIndexMoving]='99999' (click)='this.ms.$focus.next("helpPanel");'>
+    <div class='card-title-bar' #titlebar>
+        {{method}}
+        <i class='tiny material-icons' style='float: right; padding-top: 4px; cursor: pointer' (click)='hide.emit()'>close</i>
+    </div>
+    <div class='card-tabs'>
+        <ul class='tabs tabs-fixed-width' #tabs>
+            <li class='tab'>
+                <a class='active' href='#HelpOverview'>Overview</a>
+            </li>
+            <li class='tab'>
+                <a href='#HelpParameters'>Parameters</a>
+            </li>
+            <li class='tab'>
+                <a href='#HelpAttributes'>Attributes</a>
+            </li>
+        </ul>
+    </div>
+    <div class='card-content' style='max-height: 300px; padding:10px; overflow-y:scroll;'>
+        <div id='HelpOverview'>
+            <p [innerHTML]='desc'></p>
+            <a href='{{url}}' target='_blank'>Learn More</a>
+        </div>
+        <div id='HelpParameters'>
+                <!-- <p>{{method}} Parameters:</p> -->
+            <div *ngFor='let attr of params; let i = index'>
+                <p style ='font-weight: 600;padding-bottom: 2px; padding-top:5px;'>{{ attr.name }}</p>
+                <p>{{ attr.desc }}</p>
+                <hr style ='display: block;height: 1px;border: 0;border-top: 1px solid #eee;margin: 1em 0;padding: 0;'>
+            </div>
+
+        </div>
+        <div id='HelpAttributes'>
+            <div *ngFor='let attr of attrs; let i = index'>
+                    <p style ='font-weight: 600;padding-bottom: 5px; padding-top:5px;'>{{ attr.name }}</p>
+                    <p>{{ attr.desc }}</p>
+                <hr style ='display: block;height: 1px;border: 0;border-top: 1px solid #eee;margin: 1em 0;padding: 0;'>
+            </div>
+        </div>
+    </div>
+</div>

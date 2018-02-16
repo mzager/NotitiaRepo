@@ -24,6 +24,7 @@ export interface State {
     dataPanel: e.DataPanelEnum;
     geneSignaturePanel: e.SinglePanelEnum;
     clusterAlgorithmPanel: e.SinglePanelEnum;
+    helpPanel: e.SinglePanelEnum;
     workspacePanel: e.WorkspacePanelEnum;
     workspaceConfig: WorkspaceConfigModel;   // Would fit better in a more generalized state reducer
 }
@@ -44,6 +45,7 @@ const initialState: State = {
     dataPanel: e.DataPanelEnum.NONE,
     geneSignaturePanel: e.SinglePanelEnum.HIDE,
     clusterAlgorithmPanel: e.SinglePanelEnum.HIDE,
+    helpPanel: e.SinglePanelEnum.HIDE,
     workspacePanel: e.WorkspacePanelEnum.NONE,
     workspaceConfig: new WorkspaceConfigModel()
 };
@@ -54,6 +56,10 @@ export function reducer(state = initialState, action: UnsafeAction): State {
             return Object.assign({}, state, { clusterAlgorithmPanel: e.SinglePanelEnum.SHOW });
         case layout.CLUSTERING_ALGORITHM_PANEL_HIDE:
             return Object.assign({}, state, { clusterAlgorithmPanel: e.SinglePanelEnum.HIDE });
+        case layout.HELP_PANEL_SHOW:
+            return Object.assign({}, state, { helpPanel: e.SinglePanelEnum.SHOW });
+        case layout.HELP_PANEL_HIDE:
+            return Object.assign({}, state, { helpPanel: e.SinglePanelEnum.HIDE });
         case layout.GENE_SIGNATURE_PANEL_SHOW:
             return Object.assign({}, state, { geneSignaturePanel: e.SinglePanelEnum.SHOW });
         case layout.GENE_SIGNATURE_PANEL_HIDE:
@@ -151,4 +157,5 @@ export const getCohortPanelState = (state: State) => state.cohortPanel;
 export const getDataPanelState = (state: State) => state.dataPanel;
 export const getWorkspacePanelState = (state: State) => state.workspacePanel;
 export const getGeneSignaturePanelState = (state: State) => state.geneSignaturePanel;
+export const getHelpPanelState = (state: State) => state.helpPanel;
 export const getClusteringAlgorithmPanelState = (state: State) => state.clusterAlgorithmPanel;

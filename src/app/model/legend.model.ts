@@ -2,7 +2,7 @@
  * Represents a visual legend
  */
 export class Legend {
-  name: String;
+  name: string;
   type: 'COLOR' | 'SHAPE' | 'SIZE' | 'INTERSECT';
   display: 'CONTINUOUS' | 'DISCRETE';
   labels: Array<string>;

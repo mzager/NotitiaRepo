@@ -1,0 +1,167 @@
+
+:host {
+
+    display: block;
+    color: #666666 !important;
+
+    .btn-config {
+        background-color: rgba(255, 255, 255, 0.9);
+        border: 1px solid #EEEEEE;
+        border-radius: 2px;
+        width: 87px;
+        height: 2rem;
+    }
+    
+    select {
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 0px;
+        border-radius: 0px;
+    }
+    .float-right {
+        float: right;
+    }
+    .form-control {
+        display: inline-block;
+        color: #666666;
+        background-color: #fff;
+        background-image: none;
+        border: 0px solid #EEEEEE;
+        font-size: 0.9rem;
+        line-height: 0.9rem;
+        padding: 0px 2px;
+        width:94px;
+    }
+    
+    .switch-field {
+        font-size: 0.8rem !important;
+    }
+
+    //     button {
+    //         margin-left: 8px;
+    //         background-color: white;
+    //     }
+
+    //     label {
+    //         background-color: #e4e4e4;
+    //     }
+
+    //     label, button {
+    //         float: left;
+    //         min-width: 30px;
+    //         color: rgba(0, 0, 0, 0.6);
+    //         font-size: 14px;
+    //         font-weight: normal;
+    //         text-align: center;
+    //         text-shadow: none;
+    //         padding: 4px 8px;
+    //         border: 1px solid rgba(0, 0, 0, 0.2);
+    //         -webkit-transition: all 0.1s ease-in-out;
+    //         -moz-transition:    all 0.1s ease-in-out;
+    //         -ms-transition:     all 0.1s ease-in-out;
+    //         -o-transition:      all 0.1s ease-in-out;
+    //         transition:         all 0.1s ease-in-out;
+
+    //         &:hover {
+    //             cursor: pointer;
+    //             background-color: #F0F0F0;
+    //         }
+
+    //         &.success {
+    //             color: #75BE47;
+    //         }
+
+    //         &.danger {
+    //             color: #B3415D;
+    //         }
+    //     }
+
+        // input:checked + label {
+        //     border: 1px solid rgb(97, 158, 215);
+        //     background: white;
+        //     color: rgb(49, 118, 179);
+        // }
+    //}
+
+    input + label {
+        padding-left: 24px;
+        padding-right: 10px;
+        border-width: 1px;
+    }
+    ul {
+        padding-left:20px;
+    }
+
+    // .invalid-ruleset {
+    //     border: 1px solid rgba(179, 65, 93, 0.5) !important;
+    //     background: rgba(179, 65, 93, 0.1) !important;
+    // }
+
+    // .empty-warning {
+    //     color: rgb(141, 37, 46);
+    //     text-align: center;
+    // }
+
+    .query-tree {
+        list-style: none;
+        margin: 4px 0 1px;
+
+        .query-item {
+            position: relative;
+            padding-left: 5px;
+            margin: 0px;
+            padding: 0px;
+            margin-bottom: 5px;
+            border: 1px solid #EEEEEE;
+            border-radius: 6px;
+
+            -webkit-transition: all 0.1s ease-in-out;
+            -moz-transition:    all 0.1s ease-in-out;
+            -ms-transition:     all 0.1s ease-in-out;
+            -o-transition:      all 0.1s ease-in-out;
+            transition:         all 0.1s ease-in-out;
+
+            &.ruleset {
+                background: rgba(204, 204, 204, 0.2);
+        
+                &:hover {
+                    border: 1px solid rgba(97, 158, 215, 0.5);
+                    background: rgba(97, 158, 215, 0.1);
+                }
+            }
+        
+            &.rule {
+                background: white;
+            }
+
+            &::before {
+                top: -5px;
+                border-width: 0 0 1px 1px;
+            }
+
+            &::after {
+                border-width: 0 0 0 1px;
+                top: 50%;
+            }
+
+            &::before, &::after {
+                content: '';
+                left: -12px;
+                border-color: #CCC;
+                border-style: solid;
+                width: 9px;
+                height: calc(50% + 6px);
+                position: absolute;
+            }
+            
+            &:last-child::after {
+                content: none;
+            }
+        }
+    }
+    .btn {
+        box-shadow: none;
+    }
+    [type="radio"]:not(:checked) + label:before, [type="radio"]:not(:checked) + label:after {
+        border: 1px solid #029BE5;
+    }
+}

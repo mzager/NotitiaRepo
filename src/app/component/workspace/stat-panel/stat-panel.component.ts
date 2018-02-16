@@ -1,4 +1,8 @@
-import { ChartTypeEnum, StatRendererEnum, StatRendererColumns } from './../../../model/enum.model';
+import { DataService } from './../../../service/data.service';
+import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Rx';
+import { ChartTypeEnum, StatRendererEnum, StatRendererColumns, Colors } from './../../../model/enum.model';
 import { GraphData } from './../../../model/graph-data.model';
 import { INSERT_ANNOTATION } from './../../../action/graph.action';
 import { StatsInterface } from './../../../model/stats.interface';
@@ -13,6 +17,8 @@ import { Legend } from 'app/model/legend.model';
 import { values } from 'd3';
 import { VegaFactory, StatFactory, Stat } from 'app/model/stat.model';
 import { Element } from '@angular/compiler';
+import { combineLatest } from 'rxjs/observable/combineLatest';
+import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 
 declare var $: any;
 declare var vega: any;
@@ -24,65 +30,75 @@ declare var vegaTooltip: any;
   styleUrls: ['./stat-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StatPanelComponent implements AfterViewInit {
+export class StatPanelComponent implements AfterViewInit, OnDestroy {
 
-  // @ ViewChild means that you can access the html element in the corresponding html template file
   @ViewChild('chartContainer', { read: ViewContainerRef }) chartContainer: ViewContainerRef;
 
-  // @Input() means that you can set the properties in the html reprsentation of this object (eg <app-worspace-stat-pane configA=''>)
-  statOption: Stat;
-  statOptions: Array<Stat> = [];
-  chartOption: ChartTypeEnum;
+  container: any;
+  chartStats: Array<Stat> = [];
+  statFactory: StatFactory;
 
-  @Input() config: GraphConfig;
+  $configChange: Subject<GraphConfig> = new Subject();
+  $dataChange: Subject<GraphData> = new Subject();
+  $statsChange: Subscription;
+
+  _config: GraphConfig;
+  _data: GraphData;
+
   @Input() data: GraphData;
+  @Input() set config(value: GraphConfig) {
+    if (value === null) { return; }
+    this._config = value; this.$configChange.next();
+  }
   @Input() set graphData(value: GraphData) {
-
-    this.data = value;
-    this.statOptions = StatFactory.getInstance().getStatObjects(value, this.config.visualization);
-    if (this.statOptions === null) { return; }
-
-    // Parent Container As JQuery Object + Empty
-    const container: any = $(this.elementRef.nativeElement.firstElementChild.firstElementChild.firstElementChild);
-    container.empty();
-
-    // Loop through the stats
-    this.statOptions.forEach( (stat, i) => { 
-
-      // Create A div To hold the stat
-      const div = container.append('<div id="cc'+i.toString()+'" class="col ' +
-        ( (stat.columns === StatRendererColumns.SIX) ? 's6' : 's12' )
-      + '"></div>');
-
-      // Process Stat Types
-      switch (stat.renderer) {
-        case StatRendererEnum.VEGA:
-          const v = vega.parse(VegaFactory.getInstance().getChartObject(stat, stat.charts[0]), {renderer: ('svg') });
-          const c = new vega.View(v)
-            .initialize('#cc' + i.toString() )
-            .hover()
-            .renderer('svg')
-            .run();
-          break;
-        case StatRendererEnum.HTML:
-          div.append( VegaFactory.getInstance().getChartObject(stat, stat.charts[0]).toString() );
-          break;
-      }
-    });
-
-    // generate a PNG snapshot and then download the image
-    // view.toImageURL('png').then(function(url) {
-    //   const link = document.createElement('a');
-    //   link.setAttribute('href', url);
-    //   link.setAttribute('target', '_blank');
-    //   link.setAttribute('download', 'vega-export.png');
-    //   link.dispatchEvent(new MouseEvent('click'));
-    // }).catch(function(error) { /* error handling */ });
+    if (value === null) { return; }
+    this._data = value; this.$dataChange.next();
   }
 
-  // Constructor Called Automatically
-  constructor(private componentFactoryResolver: ComponentFactoryResolver, public elementRef: ElementRef) { }
+  update(): void {
+
+    if (this._config === null || this._data === null) { return; }
+    this.container.empty();
+    this.statFactory.getPopulationStats(this._config, this.dataService).then(populationStats => {
+
+      this.statFactory.getStatObjects(this._data, this._config).concat(populationStats).forEach((stat, i) => {
+        const div = this.container.append('<div id="cc' + i.toString() + '" class="stat-col col ' +
+          ((stat.columns === StatRendererColumns.SIX) ? 's12' : 's12')
+          + '"></div>');
+
+        // Process Stat Types
+        switch (stat.renderer) {
+          case StatRendererEnum.VEGA:
+            const v = vega.parse(VegaFactory.getInstance().getChartObject(stat, stat.charts[0]), { renderer: ('svg') });
+            const c = new vega.View(v)
+              .initialize('#cc' + i.toString())
+              .hover()
+              .renderer('svg')
+              .run();
+            break;
+
+          case StatRendererEnum.HTML:
+            div.children('#cc' + i.toString()).append(VegaFactory.getInstance().getChartObject(stat, stat.charts[0]).toString());
+            break;
+        }
+      });
+    });
+  }
 
   // Ng After View Init get's called after the dom has been constructed
-  ngAfterViewInit() { }
+  ngAfterViewInit() {
+    this.statFactory = StatFactory.getInstance();
+    this.container = $(this.elementRef.nativeElement.firstElementChild.firstElementChild.firstElementChild);
+    this.$statsChange = Observable.combineLatest(this.$configChange, this.$dataChange)
+      .debounceTime(300).subscribe(this.update.bind(this));
+    this.update();
+  }
+
+  ngOnDestroy() {
+    this.$dataChange.complete();
+    this.$configChange.complete();
+    this.$statsChange.unsubscribe();
+  }
+
+  constructor(public elementRef: ElementRef, public dataService: DataService) { }
 }

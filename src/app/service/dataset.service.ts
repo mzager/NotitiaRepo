@@ -50,7 +50,7 @@ export class DatasetService {
   }
   public load(manifest: any): Observable<any> {
     const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
+    // headers.append('Content-Type', 'application/json');
     headers.append('Accept-Encoding', 'gzip');
     const requestInit: RequestInit = {
       method: 'GET',
@@ -67,8 +67,10 @@ export class DatasetService {
             if (exists) {
               this.loader$.next(manifest);
               return;
-              // Dexie.delete('notitia-' + manifest.disease);
             }
+            // Add Chort Table Defs
+            response.schema.cohorts = '++, n';
+            response.schema.genesets = '++, n';
             const db = DatasetService.db = new Dexie('notitia-' + manifest.disease);
             console.log('start: ' + new Date().getTime());
             DatasetService.db.on('versionchange', function (event) { });

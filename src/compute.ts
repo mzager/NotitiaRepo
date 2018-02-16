@@ -1,3 +1,4 @@
+
 import { timelinesCompute } from './app/component/visualization/timelines/timelines.compute';
 import { hicCompute } from './app/component/visualization/hic/hic.compute';
 import { parallelcoordsCompute } from './app/component/visualization/parallelcoords/parallelcoords.compute';
@@ -16,7 +17,6 @@ import { fasticaCompute } from './app/component/visualization/fastica/fastica.co
 import { truncatedSvdCompute } from './app/component/visualization/truncatedsvd/truncatedsvd.compute';
 import { ldaCompute } from './app/component/visualization/lda/lda.compute';
 import { nmfCompute } from './app/component/visualization/nmf/nmf.compute';
-
 import { faCompute } from './app/component/visualization/fa/fa.compute';
 import { mdsCompute } from './app/component/visualization/mds/mds.compute';
 import { somCompute } from './app/component/visualization/som/som.compute';
@@ -28,6 +28,13 @@ import { pcaCompute } from './app/component/visualization/pca/pca.compute';
 import { chromosomeCompute } from './app/component/visualization/chromosome/chromosome.compute';
 import { ComputeWorkerUtil } from './app/service/compute.worker.util';
 import { pathwaysCompute } from './app/component/visualization/pathways/pathways.compute';
+import { miniBatchSparsePcaCompute } from './app/component/visualization/minibatchsparsepca/minibatchsparsepca.compute';
+import { linearDiscriminantAnalysisCompute
+    } from './app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.compute';
+import { miniBatchDictionaryLearningCompute
+    } from './app/component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.compute';
+import { quadradicDiscriminantAnalysisCompute
+    } from './app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.compute';
 
 // import * as util from './app/service/compute.worker.util';
 // Recompile:  npm run worker
@@ -47,6 +54,18 @@ onmessage = function (e) {
     }
 
     switch (e.data.visualization) {
+        case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS:
+            quadradicDiscriminantAnalysisCompute(e.data, me);
+            break;
+        case VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS:
+            linearDiscriminantAnalysisCompute(e.data, me);
+            break;
+        case VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING:
+            miniBatchDictionaryLearningCompute(e.data, me);
+            break;
+        case VisualizationEnum.MINI_BATCH_SPARSE_PCA:
+            miniBatchSparsePcaCompute(e.data, me);
+            break;
         case VisualizationEnum.PCA:
             pcaCompute(e.data, me);
             break;

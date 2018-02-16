@@ -12,7 +12,6 @@ export const pcaIncrementalCompute = (config: PcaIncrementalConfigModel, worker:
     worker.util.processShapeColorSizeIntersect(config, worker);
 
     if (config.dirtyFlag & DirtyEnum.LAYOUT) {
-
         worker.util
             .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database,config.table.tbl, config.entity)
             .then(mtx => {

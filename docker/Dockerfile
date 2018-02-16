@@ -65,7 +65,7 @@ RUN apt-get install -y supervisor
 COPY Docker.Supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Html
-COPY /client /var/www/html
+COPY /dist2 /var/www/html
 
 # Start
 EXPOSE 80 8004 8005

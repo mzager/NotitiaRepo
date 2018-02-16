@@ -12,104 +12,104 @@ import * as _ from 'lodash';
   selector: 'app-tsne-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-<form [formGroup]="form" novalidate>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Data</span>
-        <select class="browser-default" materialize="material_select"
-        [compareWith]="byKey"
-        formControlName="table">
-        <option *ngFor="let option of dataOptions">{{option.label}}</option>
+<form [formGroup]='form' novalidate>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Data</span>
+        <select materialize='material_select'
+        [compareWith]='byKey'
+        formControlName='table'>
+        <option *ngFor='let option of dataOptions'>{{option.label}}</option>
         </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Point Color</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="colorOptions"
-          formControlName="pointColor">
-          <option *ngFor="let option of colorOptions"
-            [ngValue]="option">{{option.label}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Point Color</span>
+      <select materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='colorOptions'
+          formControlName='pointColor'>
+          <option *ngFor='let option of colorOptions'
+            [ngValue]='option'>{{option.label}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Point Size</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="sizeOptions"
-          formControlName="pointSize">
-          <option *ngFor="let option of sizeOptions"
-            [ngValue]="option">{{option.label}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Point Size</span>
+      <select materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='sizeOptions'
+          formControlName='pointSize'>
+          <option *ngFor='let option of sizeOptions'
+            [ngValue]='option'>{{option.label}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Point Shape</span>
-      <select class="browser-default" materialize="material_select"
-          [compareWith]="byKey"
-          [materializeSelectOptions]="colorOptions" formControlName="pointShape">
-          <option *ngFor="let option of shapeOptions"
-            [ngValue]="option">{{option.label}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Point Shape</span>
+      <select materialize='material_select'
+          [compareWith]='byKey'
+          [materializeSelectOptions]='colorOptions' formControlName='pointShape'>
+          <option *ngFor='let option of shapeOptions'
+            [ngValue]='option'>{{option.label}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Display Dimension</span>
-      <select class="browser-default" materialize="material_select"
-        [materializeSelectOptions]="dimensionOptions"
-        formControlName="dimension">
-          <option *ngFor="let options of dimensionOptions">{{options}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Display Dimension</span>
+      <select materialize='material_select'
+        [materializeSelectOptions]='dimensionOptions'
+        formControlName='dimension'>
+          <option *ngFor='let options of dimensionOptions'>{{options}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Metric</span>
-      <select class="browser-default" materialize="material_select"
-        [materializeSelectOptions]="TsneMetricOptions"
-        formControlName="metric">
-          <option *ngFor="let options of TsneMetricOptions" [ngValue]="options" >{{options}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Metric</span>
+      <select materialize='material_select'
+        [materializeSelectOptions]='TsneMetricOptions'
+        formControlName='metric'>
+          <option *ngFor='let options of TsneMetricOptions' [ngValue]='options' >{{options}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Method</span>
-      <select class="browser-default" materialize="material_select"
-        [materializeSelectOptions]="TsneMethodOptions"
-        formControlName="sk_method">
-          <option *ngFor="let options of TsneMethodOptions">{{options}}</option>
+  <div class='form-group'>
+    <label class='center-block'><span class='form-label'>Method</span>
+      <select materialize='material_select'
+        [materializeSelectOptions]='TsneMethodOptions'
+        formControlName='sk_method'>
+          <option *ngFor='let options of TsneMethodOptions'>{{options}}</option>
       </select>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block">
-      <span class="form-label">Perplexity</span>
-        <p class="range-field">
-          <input type="range" min="5" max="50" formControlName="perplexity" />
+  <div class='form-group'>
+    <label class='center-block'>
+      <span class='form-label'>Perplexity</span>
+        <p class='range-field'>
+          <input type='range' min='5' max='50' formControlName='perplexity' />
         </p>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block">
-      <span class="form-label">Early Exaggeration</span>
-        <p class="range-field">
-          <input type="range" min="3" max="24" step=".1" formControlName="early_exaggeration" />
+  <div class='form-group'>
+    <label class='center-block'>
+      <span class='form-label'>Early Exaggeration</span>
+        <p class='range-field'>
+          <input type='range' min='3' max='24' step='.1' formControlName='early_exaggeration' />
         </p>
     </label>
   </div>
-  <div class="form-group">
-    <label class="center-block">
-      <span class="form-label">Learning Rate</span>
-        <p class="range-field">
-          <input type="range" min="1" max="1000" formControlName="learning_rate" />
+  <div class='form-group'>
+    <label class='center-block'>
+      <span class='form-label'>Learning Rate</span>
+        <p class='range-field'>
+          <input type='range' min='1' max='1000' formControlName='learning_rate' />
       </p>
     </label>
   </div>
-  <div class="form-group">
-      <label class="center-block">
-        <span class="form-label">Max Iterations</span>
-          <p class="range-field">
-          <input type="range" min="250" max="2000" formControlName="n_iter" />
+  <div class='form-group'>
+      <label class='center-block'>
+        <span class='form-label'>Max Iterations</span>
+          <p class='range-field'>
+          <input type='range' min='250' max='2000' formControlName='n_iter' />
         </p>
     </label>
   </div>

@@ -1,3 +1,6 @@
+import { scaleLinear, scaleLog, InterpolatorFactory, scaleSequential, scaleQuantize, scaleQuantile } from 'd3-scale';
+import { interpolateRgb, interpolateHcl } from 'd3-interpolate';
+import { rgb } from 'd3-color';
 import { OrbitControls } from 'three-orbitcontrols-ts';
 import { TimelinesStyle } from './timelines.model';
 import { Dexie } from 'dexie';
@@ -12,14 +15,17 @@ import { Injectable, EventEmitter, Output } from '@angular/core';
 import { TimelinesDataModel, TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
 import * as _ from 'lodash';
 import * as THREE from 'three';
-import { scaleLinear, scaleLog } from 'd3-scale';
+import * as d3Interpolate from 'd3-interpolate';
+import * as d3Scale from 'd3-scale';
 import { Subscription } from 'rxjs/Subscription';
-import { geoAlbers, active } from 'd3';
+import { geoAlbers, active, ScaleLinear } from 'd3';
 import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
 import { Vector3, CubeGeometry, Vector2, OrthographicCamera } from 'three';
 import { DataService } from 'app/service/data.service';
+// import MeshLine from 'three.meshline';
 
 export class TimelinesGraph implements ChartObjectInterface {
+
 
     // Emitters
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
@@ -34,39 +40,30 @@ export class TimelinesGraph implements ChartObjectInterface {
     private data: TimelinesDataModel;
     private config: TimelinesConfigModel;
     private isEnabled: boolean;
-    public groups: Array<THREE.Group>;
-    public meshes: Array<THREE.Object3D>;
-    public bars: Array<THREE.Line>;
-    public database: string;
-    private activePid: '';
 
-    private title: HTMLElement;
+    public patients: Array<THREE.Group>;
+    public attrs: THREE.Group;
+    public lines: THREE.Group;
+    public meshes: Array<THREE.Object3D>;
+    public clipPlanes: Array<THREE.Object3D> = [];
+    public database: string;
+
     private overlay: HTMLElement;
     private tooltips: HTMLElement;
 
     // Private Subscriptions
     private sMouseMove: Subscription;
-    private sMouseDown: Subscription;
-    private sMouseUp: Subscription;
-
-
-
 
     enable(truthy: boolean) {
         if (this.isEnabled === truthy) { return; }
         this.isEnabled = truthy;
         this.view.controls.enabled = this.isEnabled;
-        this.view.controls.addEventListener('start', this.zoomStart.bind(this));
-        this.view.controls.addEventListener('end', _.debounce(this.zoomEnd.bind(this), 300));
-
         if (truthy) {
-            this.sMouseUp = this.events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
-            this.sMouseDown = this.events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
             this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
         } else {
-            this.sMouseUp.unsubscribe();
-            this.sMouseDown.unsubscribe();
-            this.sMouseMove.unsubscribe();
+            if (this.sMouseMove !== undefined) {
+                this.sMouseMove.unsubscribe();
+            }
         }
     }
 
@@ -75,18 +72,16 @@ export class TimelinesGraph implements ChartObjectInterface {
         this.data = data;
         this.removeObjects();
         this.addObjects();
-        this.title.innerText = (config.entity === EntityTypeEnum.PATIENT) ? 'Patient Timelines' : 'Event Timeline';
     }
+
     preRender(views: Array<VisualizationView>, layout: WorkspaceLayoutEnum, renderer: THREE.WebGLRenderer) {
 
     }
+
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
 
         this.labels = labels;
         this.labels.innerText = '';
-        this.title = <HTMLDivElement>(document.createElement('div'));
-        this.title.className = 'graph-title';
-        this.labels.appendChild(this.title);
 
         this.tooltips = <HTMLDivElement>(document.createElement('div'));
         this.tooltips.className = 'graph-tooltip';
@@ -98,10 +93,17 @@ export class TimelinesGraph implements ChartObjectInterface {
 
         this.events = events;
         this.view = view;
-        this.isEnabled = false;
+
         this.meshes = [];
-        this.groups = [];
+        this.patients = [];
+        this.attrs = new THREE.Group();
+        this.lines = new THREE.Group();
+        
         this.view.controls.enableRotate = false;
+        this.view.controls.reset();
+        this.view.controls.maxZoom = 1;
+        this.view.controls.pan(0, 1200);
+        this.view.controls.dollyOut(3);
         return this;
     }
 
@@ -109,236 +111,239 @@ export class TimelinesGraph implements ChartObjectInterface {
         this.removeObjects();
         this.enable(false);
     }
-    // #region
-    addTics(group: THREE.Group, events: Array<any>, scale: any, height: number = 10): void {
-        events.forEach(event => {
+
+    addTic(event: any, bar: number, barHeight: number, rowHeight: number, group: THREE.Group, scale: ScaleLinear<number, number>): void {
+        const s = scale(event.start);
+        const e = scale(event.end);
+        const w = Math.round(e - s);
+        const mesh = new THREE.Mesh(
+            new THREE.PlaneGeometry( (w < 1) ? 1 : w, barHeight * 0.3 ),
+            ChartFactory.getColorPhong(event.color)
+        );
+        const yPos = (rowHeight - (bar * barHeight)) - 2;
+        mesh.position.set(s + (w * 0.5), yPos , 0);
+        mesh.userData = event;
+        group.add(mesh);
+        this.meshes.push(mesh);
+    }
+
+    addArc(event: any, bar: number, barHeight: number, rowHeight: number, group: THREE.Group, scale: ScaleLinear<number, number>): void {
+        if (event.start !== event.end) {
             const s = scale(event.start);
-            const line = ChartFactory.lineAllocate(event.color,
-                new Vector2(s, 0),
-                new Vector2(s, height),
-                event);
-            this.meshes.push(line);
-            group.add(line);
-        });
-    }
-    addSymbols(group: THREE.Group, events: Array<any>, scale: any, height: number): void {
-      
-        events.forEach(event => {
-            const squareGeometry: THREE.Geometry = new THREE.Geometry();
-            squareGeometry.vertices.push(new THREE.Vector3(-1.0,  1.0, 0.0));
-            squareGeometry.vertices.push(new THREE.Vector3( 1.0,  1.0, 0.0));
-            squareGeometry.vertices.push(new THREE.Vector3( 1.0, -1.0, 0.0));
-            squareGeometry.vertices.push(new THREE.Vector3(-1.0, -1.0, 0.0));
-            squareGeometry.faces.push(new THREE.Face3(0, 1, 2));
-            squareGeometry.faces.push(new THREE.Face3(0, 2, 3));
-            const square = new THREE.Mesh( squareGeometry, ChartFactory.getColorBasic(event.color));
-            square.userData = event;
-            square.position.set(scale(event.start), 0, 0);
-            group.add(square);
-            this.meshes.push(square);
-
-            if (event.start !== event.end) {
-                const triangleGeometry = new THREE.Geometry();
-                triangleGeometry.vertices.push(new THREE.Vector3( 0.0,  1.0, 0.0));
-                triangleGeometry.vertices.push(new THREE.Vector3(-1.0, -1.0, 0.0));
-                triangleGeometry.vertices.push(new THREE.Vector3( 1.0, -1.0, 0.0));
-                triangleGeometry.faces.push(new THREE.Face3(0, 1, 2));
-                const triangle = new THREE.Mesh(triangleGeometry, ChartFactory.getColorBasic(event.color));
-                triangle.userData = event;
-                triangle.position.set(scale(event.end), 0, 0);
-                group.add(triangle);
-                this.meshes.push(triangle);
-            }
-
-        });
-    }
-
-    addArcs(group: THREE.Group, events: Array<any>, scale: any, height: number = 10): void {
-        events.forEach(event => {
+            const e = scale(event.end);
+            const w = Math.round(e - s);
+            const c = (Math.abs(e - s) * 0.5) + Math.min(e, s);
+            const yPos = (rowHeight - (bar * barHeight)) - 2;
+            const mesh = ChartFactory.lineAllocateCurve(event.color,
+                new THREE.Vector2(s, yPos - 2 ),
+                new THREE.Vector2(e, yPos - 2 ),
+                new THREE.Vector2(c, yPos + 2)
+            );
+            // mesh.material =  new MeshLineMaterial({
+            //     color: new THREE.Color(0x90caf9),
+            //     lineWidth: 2,
+            // });
+            mesh.userData = event;
+            group.add(mesh);
+            this.meshes.push(mesh);
+        } else {
             const s = scale(event.start);
-            if (event.start !== event.end) {
-                const e = scale(event.end);
-                const line = ChartFactory.lineAllocate(event.color,
-                    new Vector2(e, 0),
-                    new Vector2(e, height),
-                    event);
-                this.meshes.push(line);
-                group.add(line);
-                const c = (Math.abs(e - s) * 0.5) + Math.min(e, s);
-                const arc = ChartFactory.lineAllocateCurve(event.color,
-                    new THREE.Vector2(s, 0),
-                    new THREE.Vector2(e, 0),
-                    new THREE.Vector2(c, height)
-                );
-                group.add(arc);
-            }
-            const rect = ChartFactory.lineAllocate(event.color,
-                new Vector2(s, 0),
-                new Vector2(s, height),
-                event);
-            this.meshes.push(rect);
-            group.add(rect);
-        });
-    }
-    addContinuousBars(group: THREE.Group, events: Array<any>, scale: any, y: number, height: number = 1): void {
-        const l = events.length;
-        for (let i = 0; i < l; i++) {
-            const s = scale(events[i].start);
-            const j = i + 1;
-            const e = scale(j < l ? events[j].start : events[i].end);
-            let width = Math.abs(e - s);
-            if (width === 0) { width = 1; }
-            const rect = new THREE.Mesh(
-                new THREE.PlaneGeometry(width, height),
-                new THREE.MeshBasicMaterial({ color: events[i].color, side: THREE.DoubleSide }));
-            rect.position.set(s + (width * 0.5), y, -1);
-            rect.userData = events[i];
-            this.meshes.push(rect);
-            group.add(rect);
+            const yPos = (rowHeight - (bar * barHeight)) - 2;
+            const mesh = ChartFactory.lineAllocate(event.color, new Vector2(s, yPos - 2), new Vector2(s, yPos + 2))
+            mesh.userData = event;
+            group.add(mesh);
+            this.meshes.push(mesh);
+            // this.addTic(event, bar, barHeight, barHeight, group, scale);
         }
     }
-    addDurationLine(group: THREE.Group, events: Array<any>, scale: any): void {
-        const se = events.reduce((p, c) => {
-            p.min = Math.min(p.min, c.start);
-            p.max = Math.max(p.max, c.end);
-            return p;
-        }, { min: Infinity, max: -Infinity });
 
-        const line = ChartFactory.lineAllocate(0x029BE5, new THREE.Vector2(scale(se.min), 0), new THREE.Vector2(scale(se.max), 0));
-        this.meshes.push(line);
-        group.add(line);
+    addSymbol(event: any, bar: number, barHeight: number, rowHeight: number, group: THREE.Group, scale: ScaleLinear<number, number>): void {
+        const s = scale(event.start);
+        const e = scale(event.end);
+        const w = Math.round(e - s);
+        const mesh = new THREE.Mesh(
+            new THREE.CircleGeometry(1.6, 20),
+            ChartFactory.getColorPhong(event.color)
+        );
+        const yPos = (rowHeight - (bar * barHeight)) - 2;
+
+        mesh.position.set(s, yPos, 1);
+        mesh.userData = event;
+        group.add(mesh);
+        this.meshes.push(mesh);
+
+        if (event.start !== event.end) {
+            const triangleGeometry = new THREE.Geometry();
+            triangleGeometry.vertices.push(new THREE.Vector3( 0.0,  1.8,  0.0));
+            triangleGeometry.vertices.push(new THREE.Vector3(-1.8, -1.8, 0.0));
+            triangleGeometry.vertices.push(new THREE.Vector3( 1.8, -1.8, 0.0));
+            triangleGeometry.faces.push(new THREE.Face3(0, 1, 2));
+            const triangle = new THREE.Mesh(triangleGeometry, ChartFactory.getColorBasic(event.color));
+            triangle.userData = event;
+            triangle.position.set(scale(event.end), yPos, 0);
+            group.add(triangle);
+            this.meshes.push(triangle);
+        }
+    }
+    addAttrs(rowHeight, rowCount, pidMap): void {
+        const d = this.data;
+        this.data.result.attrs.pids.forEach( (pid, pidIndex) => {
+            const rowIndex = pidMap[pid];
+            const yPos = (rowHeight * rowIndex) - (rowHeight * -0.5);
+            this.data.result.attrs.attrs.forEach( (attr, attrIndex) => {
+                const value = attr.values[pidIndex].label;
+                const color = attr.values[pidIndex].color;
+                const xPos = -500 - (attrIndex * rowHeight);
+                const mesh = new THREE.Mesh(
+                    new THREE.PlaneGeometry( rowHeight - 2, rowHeight - 2 ),
+                    ChartFactory.getColorPhong(color)
+                );
+                mesh.position.set(xPos - (rowHeight * 0.5) - 1, yPos , 10);
+                mesh.userData = { data : {
+                    type: 'attr',
+                    field: attr.prop.replace(/_/gi, ' '),
+                    value: (value !== null) ? value.toString() : 'NA' } };
+                this.attrs.add(mesh);
+                this.meshes.push(mesh);
+            });
+        });
+        this.view.scene.add(this.attrs);
+    }
+
+    addLines(rowHeight, rowCount): void {
+        const chartHeight = rowHeight * rowCount;
+        for (let i = -500; i <= 500; i += 50) {
+            const line = ChartFactory.lineAllocate(0xDDDDDD, new THREE.Vector2(i, chartHeight), new THREE.Vector2(i, 0));
+            this.lines.add(line);
+        }
+        for (let i = 0; i < rowCount + 1; i++) {
+            const line = ChartFactory.lineAllocate(0xDDDDDD, new THREE.Vector2(-500, i * rowHeight), new THREE.Vector2(500, i * rowHeight));
+            this.lines.add(line);
+        }
+        this.view.scene.add(this.lines);
     }
 
     // #endregion
     addObjects(): void {
-        this.meshes = [];
-        this.groups = [];
-        // Line Color
-        const w = Math.round(this.view.viewport.width * 0.5);
-        const halfW = Math.round(w * 0.5);
-        const scale = (this.config.timescale === 'Log') ? scaleLog() : scaleLinear();
 
-        // Event Type
-        if (this.config.entity === EntityTypeEnum.EVENT) {
-            const subtypes: Array<any> = this.data.result.events;
-            Object.keys(subtypes).forEach((subtype, i) => {
-                const group = new THREE.Group();
-                group.userData = {type: subtypes[subtype][0].type, subtype: subtype};
-                group.position.setY(i * 20);
-                this.groups.push(group);
-                this.view.scene.add(group);
 
-                // Line Scale
-                const line = ChartFactory.lineAllocate(0x029BE5, new THREE.Vector2(-halfW + 20, 0), new THREE.Vector2(halfW - 20, 0));
-                group.add(line);
+        this.clipPlanes = [];
 
-                scale.domain([this.data.result.minMax[subtype].min, this.data.result.minMax[subtype].max]);
-                scale.range([-halfW + 20, halfW - 20]);
+        let plane = new THREE.PlaneGeometry(1000, 3000);
+        let mesh = new THREE.Mesh(plane, ChartFactory.getColorBasic(0xFFFFFF));
+        mesh.position.x -= 1000;
+        mesh.position.y = 0;
+        mesh.position.z = 5;
+        this.clipPlanes.push(mesh);
+        this.view.scene.add(mesh);
 
-                if (subtypes[subtype].length > 0) {
-                    const type = subtypes[subtype][0].type;
-                    const style = (type === 'Status') ? this.config.statusStyle : this.config.treatmentStyle;
-                    switch (style) {
-                        case TimelinesStyle.TICKS:
-                            this.addTics(group, subtypes[subtype], scale);
-                            break;
-                        case TimelinesStyle.ARCS:
-                            this.addArcs(group, subtypes[subtype], scale);
-                            break;
-                        case TimelinesStyle.CONTINUOUS:
-                            this.addContinuousBars(group, subtypes[subtype], scale, (type === 'Status') ? 0 : 2);
-                            break;
-                        case TimelinesStyle.SYMBOLS:
-                            this.addSymbols(group, subtypes[subtype], scale, 3);
-                            break;
-                    }
-                }
-            });
+        plane = new THREE.PlaneGeometry(1000, 3000);
+        mesh = new THREE.Mesh(plane, ChartFactory.getColorBasic(0xFFFFFF));
+        mesh.position.x += 1000;
+        mesh.position.y = 0;
+        mesh.position.z = 5;
+        this.clipPlanes.push(mesh);
+        this.view.scene.add(mesh);
+
+        // Helper Variables
+        const bars = this.config.bars;
+        let pts: Array<any> = this.data.result.patients;
+        pts = Object.keys(pts).map(v => pts[v]);
+
+        const barHeight = 4; //bars.reduce( (p,c) => p = Math.max(p, c.row), -Infinity) + 1;
+        const barLayout = bars.filter(v => v.style  !== 'None').sort( (a, b) => a.z - b.z).sort( (a, b) => a.row - b.row);
+        let track = -1;
+        let lastRow = -1;
+        for (let i = 0; i < barLayout.length; i++) {
+            const bar = barLayout[i];
+            if (bar.row !== lastRow) {
+                lastRow = bar.row;
+                track += 1;
+            }
+            bar.track = track;
         }
+        const rowHeight = (track + 1) * barHeight;
+        const rowCount = pts.length;
 
-        if (this.config.entity === EntityTypeEnum.PATIENT) {
-            const patients: Array<any> = this.data.result.events;
+        // Grid
+        this.addLines(rowHeight, rowCount);
+
+        // Scale
+        const scale = scaleLinear();
+        scale.range([-500, 500]);
+        if (this.config.range[0] !== 0 || this.config.range[1] !== 100) {
+
+            const span = this.data.result.minMax.max - this.data.result.minMax.min;
+
+            const minOffset = (this.config.range[0] / 100) * span;
+            const maxOffset = (this.config.range[1] / 100) * span;
+
+            const min = (this.config.range[0] !== 0) ?
+                this.data.result.minMax.min + minOffset : this.data.result.minMax.min;
+            const max = (this.config.range[1] !== 100) ?
+                maxOffset : this.data.result.minMax.max;
+
+            scale.domain([min, max]);
+
+        } else {
             scale.domain([this.data.result.minMax.min, this.data.result.minMax.max]);
-            scale.range([-halfW, halfW]);
+        }
 
-            patients.forEach((patient, i) => {
 
-                //Create Group To Hold Each Patient
-                const group = new THREE.Group();
-                group.userData = patient.id;
-                group.position.setY(i * 5);
-                this.groups.push(group);
-                this.view.scene.add(group);
-
-                let events = [];
-                if (patient.hasOwnProperty('Status')) { events = events.concat(patient.Status); }
-                if (patient.hasOwnProperty('Treatment')) { events = events.concat(patient.Treatment); }
-                this.addDurationLine(group, events, scale);
-
-                if (patient.hasOwnProperty('Status')) {
-                    switch (this.config.statusStyle) {
-                        case TimelinesStyle.TICKS:
-                            this.addTics(group, patient.Status, scale, 3);
+        // Patients + PID MAP
+        const pidMap: any = {};
+        pts.forEach( (patient, i) => {
+            pidMap[patient[0].p] = i;
+            const group = new THREE.Group();
+            this.patients.push(group);
+            this.view.scene.add(group);
+            group.position.setY(i * rowHeight);
+            barLayout.forEach( bl => {
+                const barEvents = patient.filter( p => p.type === bl.label);
+                barEvents.forEach(event => {
+                    event.data.type = 'event';
+                    event.data.id = patient[0].p;
+                    switch (bl.style) {
+                        case TimelinesStyle.NONE:
                             break;
                         case TimelinesStyle.ARCS:
-                            this.addArcs(group, patient.Status, scale, 3);
+                            this.addArc(event, bl.track, barHeight, rowHeight, group, scale);
                             break;
-                        case TimelinesStyle.CONTINUOUS:
-                            this.addContinuousBars(group, patient.Status, scale, 0);
-                            break;
-                        case TimelinesStyle.SYMBOLS:
-                            this.addSymbols(group, patient.Status, scale, 3);
-                            break;
-                    }
-                }
-
-                if (patient.hasOwnProperty('Treatment')) {
-                    switch (this.config.treatmentStyle) {
                         case TimelinesStyle.TICKS:
-                            this.addTics(group, patient.Treatment, scale, 4);
-                            break;
-                        case TimelinesStyle.ARCS:
-                            this.addArcs(group, patient.Treatment, scale, 4);
-                            break;
-                        case TimelinesStyle.CONTINUOUS:
-                            this.addContinuousBars(group, patient.Treatment, scale, 1);
+                            this.addTic(event, bl.track, barHeight, rowHeight, group, scale);
                             break;
                         case TimelinesStyle.SYMBOLS:
-                            this.addSymbols(group, patient.Treatment, scale, 4);
+                            this.addSymbol(event, bl.track, barHeight, rowHeight, group, scale);
                             break;
                     }
-                }
+                });
             });
-        }
-        this.zoomEnd();
+        });
+
+
+
+        // Attributes
+        this.addAttrs(rowHeight, rowCount, pidMap);
+
+        // Reset Controls
+        this.view.controls.reset();
+        requestAnimationFrame( () => {
+            console.log(rowHeight * rowCount);
+            this.view.controls.pan(0, (rowHeight * rowCount) );
+            this.view.controls.dollyOut(3);
+            this.view.controls.update();
+        });
     }
+
     removeObjects(): void {
-        this.groups.forEach(group => this.view.scene.remove(group));
-    }
-
-    zoomStart(): void {
-        this.overlay.innerText = '';
-    }
-
-    zoomEnd(): void {
-        this.overlay.innerText = '';
-        if (this.config.entity === EntityTypeEnum.EVENT) {
-            const m = this.meshes;
-            const g = this.groups;
-            const lbls = g.map(v => {
-                return {
-                    type: v.userData.type,
-                    subtype: v.userData.subtype,
-                    pos: ChartUtil.projectToScreen(this.config.graph, v, this.view.camera,
-                        this.view.viewport.width, this.view.viewport.height)
-                };
-            }).reduce((p, c) => {
-                p += '<span style="color:#9e9e9e;position:absolute;left:50px;top:' + c.pos.y + 'px;">';
-                p += c.subtype + ' ' + c.type + '</span>';
-                return p;
-            }, '');
-            this.overlay.innerHTML = lbls;
-        }
+        this.clipPlanes.forEach(plane => this.view.scene.remove(plane));
+        this.patients.forEach(patient => this.view.scene.remove(patient));
+        this.view.scene.remove(this.attrs);
+        this.view.scene.remove(this.lines);
+        this.meshes = [];
+        this.patients = [];
+        this.attrs = new THREE.Group();
+        this.lines = new THREE.Group();
     }
 
     private onMouseMove(e: ChartEvent): void {
@@ -353,26 +358,39 @@ export class TimelinesGraph implements ChartObjectInterface {
                 const xPos = e.mouse.xs + 10;
                 const yPos = e.mouse.ys;
                 const data = hit[0].object.userData.data;
-                const tip = Object.keys(data).reduce((p, c) => {
-                    if (data[c].trim().length > 0) {
-                        p += c + ': ' + data[c].toLowerCase() + '<br />';
-                    }
-                    return p;
-                }, '');
-                this.tooltips.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#DDD;padding:5px;border-radius:' +
-                    '3px;z-index:9999;position:absolute;left:' +
+                if (data.type === 'event') {
+                    const tip = Object.keys(data).reduce((p, c) => {
+                        if (c !== 'type') {
+                            if (data[c].trim().length > 0) {
+                                p += '<nobr>' + c + ': ' + data[c].toLowerCase() + '</nobr><br />';
+                            }
+                        }
+                        return p;
+                    }, '<span style="font-weight:700;font-size:1rem;color:#FFF;">' + hit[0].object.userData.subtype + '</span><br />');
+                    this.tooltips.innerHTML = '<div style="width:auto;background:rgba(0,0,0,.8);font-size:.9rem;color:#DDD;padding:5px;border-radius:' +
+                        '3px;z-index:9999;position:absolute;left:' +
+                        xPos + 'px;top:' +
+                        yPos + 'px;">' +
+                        tip + '</div>';
+                }
+                if (data.type === 'attr') {
+                    const tip = data.field + ': ' + data.value;
+                    this.tooltips.innerHTML = '<div style="width:auto;background:rgba(255,255,255,.8);color:#000;' +
+                    'padding:5px;border-radius:3px;z-index:9999;position:absolute;left:' +
                     xPos + 'px;top:' +
                     yPos + 'px;">' +
                     tip + '</div>';
-            } catch (e) { }
+                }
+            } catch (e) {
+                console.log(e);
+            }
 
             return;
         }
         this.tooltips.innerHTML = '';
     }
-    private onMouseUp(e: ChartEvent): void { }
-    private onMouseDown(e: ChartEvent): void { }
 
-    constructor() { }
+    constructor() {
 
+    }
 }

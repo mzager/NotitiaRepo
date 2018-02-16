@@ -1,5 +1,6 @@
+import { MiniBatchSparsePcaConfigModel } from 'app/component/visualization/minibatchsparsepca/minibatchsparsepca.model';
+import { MiniBatchDictionaryLearningConfigModel } from 'app/component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
 import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
-
 import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
 import { HicConfigModel } from './../visualization/hic/hic.model';
 import { BoxWhiskersConfigModel } from './../visualization/boxwhiskers/boxwhiskers.model';
@@ -15,7 +16,7 @@ import * as layout from 'app/action/layout.action';
 import * as select from 'app/action/select.action';
 import * as XLSX from 'xlsx';
 import { Action, Store } from '@ngrx/store';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {
   ChromosomeAction,
   GenomeAction,
@@ -76,6 +77,8 @@ import { TruncatedSvdConfigModel } from './../visualization/truncatedsvd/truncat
 import { TsneConfigModel } from './../visualization/tsne/tsne.model';
 import { VisibilityToggleAction, VisualizationSetAction, WorkspaceConfigAction } from './../../action/graph.action';
 import { WorkspaceConfigModel } from './../../model/workspace.model';
+import { LinearDiscriminantAnalysisConfigModel } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
+import { QuadradicDiscriminantAnalysisConfigModel } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
 
 @Component({
   selector: 'app-workspace',
@@ -84,6 +87,9 @@ import { WorkspaceConfigModel } from './../../model/workspace.model';
   styleUrls: ['./workspace.component.scss']
 })
 export class WorkspaceComponent {
+
+  // Components
+  @ViewChild('panelContainer') public panelContainer: ElementRef;
 
   // graphTool: Observable<GraphTool>;
   graphALegend: Observable<Array<Legend>>;
@@ -100,6 +106,7 @@ export class WorkspaceComponent {
   graphPanelATab: Observable<enums.GraphPanelEnum>;
   graphPanelBTab: Observable<enums.GraphPanelEnum>;
   genesetPanelTab: Observable<enums.SinglePanelEnum>;
+  helpPanelTab: Observable<enums.SinglePanelEnum>;
   statPanelTab: Observable<enums.StatPanelEnum>;
   queryPanelTab: Observable<enums.QueryPanelEnum>;
   edgePanelTab: Observable<enums.EdgePanelEnum>;
@@ -130,6 +137,7 @@ export class WorkspaceComponent {
     this.statPanelTab = store.select(fromRoot.getLayoutPopulationPanelState);
     this.queryPanelTab = store.select(fromRoot.getLayoutQueryPanelState);
     this.toolPanelTab = store.select(fromRoot.getLayoutToolPanelState);
+    this.helpPanelTab = store.select(fromRoot.getLayoutHelpPanelState);
     this.workspacePanelTab = store.select(fromRoot.getWorkspacePanelState);
     this.historyPanelTab = store.select(fromRoot.getLayoutHistoryPanelState);
     this.cohortPanelTab = store.select(fromRoot.getLayoutCohortPanelState);
@@ -157,6 +165,9 @@ export class WorkspaceComponent {
         this.store.dispatch(new compute.SelectMarkersAction({markers: selection.ids}));
         break;
     }
+  }
+  helpPanelToggle(value: GraphConfig): void {
+    this.store.dispatch( (value === undefined) ? new layout.HelpPanelHideAction() : new layout.HelpPanelShowAction(value) );
   }
   queryPanelToggle() {
     this.store.dispatch(new layout.QueryPanelToggleAction());
@@ -273,6 +284,19 @@ export class WorkspaceComponent {
         break;
       case enums.VisualizationEnum.SPARSE_PCA:
         this.store.dispatch( new compute.PcaSparseAction( { config: value as PcaSparseConfigModel} ));
+        break;
+      case enums.VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING:
+        this.store.dispatch( new compute.MiniBatchDictionaryLearningAction( { config: value as MiniBatchDictionaryLearningConfigModel} ));
+        break;
+      case enums.VisualizationEnum.MINI_BATCH_SPARSE_PCA:
+        this.store.dispatch( new compute.MiniBatchSparsePcaAction( { config: value as MiniBatchSparsePcaConfigModel} ));
+        break;
+      case enums.VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS:
+        this.store.dispatch( new compute.LinearDiscriminantAnalysisAction( { config: value as LinearDiscriminantAnalysisConfigModel} ));
+        break;
+      case enums.VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS:
+        this.store.dispatch( new compute.QuadraticDiscriminantAnalysisAction(
+            { config: value as QuadradicDiscriminantAnalysisConfigModel} ));
         break;
     }
   }

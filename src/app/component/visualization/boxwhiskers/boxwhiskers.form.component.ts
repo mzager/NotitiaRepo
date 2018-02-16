@@ -10,91 +10,91 @@ import * as _ from 'lodash';
   selector: 'app-boxwhiskers-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-<form [formGroup]="form" novalidate>
-<div class="form-group">
-  <label class="center-block"><span class="form-label">Continuous Variable</span>
-    <select class="browser-default" materialize="material_select"
-        [compareWith]="byKey"
-        [materializeSelectOptions]="continuousOptions" formControlName="continuousVariable">
-        <option *ngFor="let option of continuousOptions"
-          [ngValue]="option">{{option.label}}</option>
+<form [formGroup]='form' novalidate>
+<div class='form-group'>
+  <label class='center-block'><span class='form-label'>Continuous Variable</span>
+    <select materialize='material_select'
+        [compareWith]='byKey'
+        [materializeSelectOptions]='continuousOptions' formControlName='continuousVariable'>
+        <option *ngFor='let option of continuousOptions'
+          [ngValue]='option'>{{option.label}}</option>
     </select>
   </label>
 </div>
-<div class="form-group">
-  <label class="center-block"><span class="form-label">Categoricial Variable 1</span>
-    <select class="browser-default" materialize="material_select"
-        [compareWith]="byKey"
-        [materializeSelectOptions]="categoricalOptions" formControlName="categoricalVariable1">
-        <option *ngFor="let option of categoricalOptions"
-          [ngValue]="option">{{option.label}}</option>
+<div class='form-group'>
+  <label class='center-block'><span class='form-label'>Categoricial Variable 1</span>
+    <select materialize='material_select'
+        [compareWith]='byKey'
+        [materializeSelectOptions]='categoricalOptions' formControlName='categoricalVariable1'>
+        <option *ngFor='let option of categoricalOptions'
+          [ngValue]='option'>{{option.label}}</option>
     </select>
   </label>
 </div>
-<div class="form-group">
-  <label class="center-block"><span class="form-label">Categoricial Variable 2</span>
-    <select class="browser-default" materialize="material_select"
-        [compareWith]="byKey"
-        [materializeSelectOptions]="categoricalOptions" formControlName="categoricalVariable2">
-        <option *ngFor="let option of categoricalOptions"
-          [ngValue]="option">{{option.label}}</option>
+<div class='form-group'>
+  <label class='center-block'><span class='form-label'>Categoricial Variable 2</span>
+    <select materialize='material_select'
+        [compareWith]='byKey'
+        [materializeSelectOptions]='categoricalOptions' formControlName='categoricalVariable2'>
+        <option *ngFor='let option of categoricalOptions'
+          [ngValue]='option'>{{option.label}}</option>
     </select>
   </label>
 </div>
-<div class="form-group">
-  <label class="center-block"><span class="form-label">Color</span>
-    <select class="browser-default" materialize="material_select"
-        [compareWith]="byKey"
-        [materializeSelectOptions]="colorOptions"
-        formControlName="pointColor">
-        <option *ngFor="let option of colorOptions"
-          [ngValue]="option">{{option.label}}</option>
+<div class='form-group'>
+  <label class='center-block'><span class='form-label'>Color</span>
+    <select materialize='material_select'
+        [compareWith]='byKey'
+        [materializeSelectOptions]='colorOptions'
+        formControlName='pointColor'>
+        <option *ngFor='let option of colorOptions'
+          [ngValue]='option'>{{option.label}}</option>
     </select>
   </label>
 </div>
-<div class="form-group">
-<label class="center-block"><span class="form-label">Sort</span>
-  <select class="browser-default" materialize="material_select"
-      [compareWith]="byKey"
-      [materializeSelectOptions]="colorOptions"
-      formControlName="pointColor">
-      <option *ngFor="let option of colorOptions"
-        [ngValue]="option">{{option.label}}</option>
+<div class='form-group'>
+<label class='center-block'><span class='form-label'>Sort</span>
+  <select materialize='material_select'
+      [compareWith]='byKey'
+      [materializeSelectOptions]='colorOptions'
+      formControlName='pointColor'>
+      <option *ngFor='let option of colorOptions'
+        [ngValue]='option'>{{option.label}}</option>
   </select>
 </label>
 </div>
-<div class="form-group">
-  <div class="switch">
+<div class='form-group'>
+  <div class='switch'>
     <label>
-      <input type="checkbox" formControlName="scatter">
-        <span class="lever"></span>
+      <input type='checkbox' formControlName='scatter'>
+        <span class='lever'></span>
           Scatter
     </label>
   </div>
 </div>
-<div class="form-group">
-  <div class="switch">
+<div class='form-group'>
+  <div class='switch'>
     <label>
-      <input type="checkbox" formControlName="outliers">
-        <span class="lever"></span>
+      <input type='checkbox' formControlName='outliers'>
+        <span class='lever'></span>
           Outliers
     </label>
   </div>
 </div>
-<div class="form-group">
-  <div class="switch">
+<div class='form-group'>
+  <div class='switch'>
     <label>
-      <input type="checkbox" formControlName="average">
-        <span class="lever"></span>
+      <input type='checkbox' formControlName='average'>
+        <span class='lever'></span>
           Average
     </label>
   </div>
 </div>
-<div class="form-group">
-  <div class="switch">
+<div class='form-group'>
+  <div class='switch'>
     <label>
-      <input type="checkbox" formControlName="standardDeviation">
-        <span class="lever"></span>
+      <input type='checkbox' formControlName='standardDeviation'>
+        <span class='lever'></span>
           Standard Deviation
     </label>
   </div>
