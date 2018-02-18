@@ -1,4 +1,6 @@
+import { SurvivalConfigModel } from './survival.model';
 import { ChromosomeConfigModel } from './../chromosome/chromosome.model';
+import { DedicatedWorkerGlobalScope } from './../../../../compute';
 // /*global require: false, module: false */
 // 'use strict';
 
@@ -245,6 +247,52 @@ import { ChromosomeConfigModel } from './../chromosome/chromosome.model';
 
 
 // module.exports = exports;
-export const survivalCompute = (config: ChromosomeConfigModel): Promise<any> => {
-    return null;
+export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWorkerGlobalScope): void => {
+
+    worker.util.getPatientData([], config.database, 'patient')
+        .then(result => {
+
+            const p = result.map(v => v.p);
+            const e = result.map(v => (v.vital_status === 'dead') ? 1 : 0 );
+            const t = result.map(v => (v.vital_status === 'dead') ?
+                v.days_to_death : v.days_to_last_follow_up)
+                .map(v => (v === null) ? 0 : v);
+
+            worker.util.fetchResult({
+                method: 'survival_ll_kaplan_meier',
+                times: t,
+                events: e
+            }).then( (survivalResult) => {
+                debugger;
+                const sr = Object.keys(survivalResult.result.KM_estimate)
+                    .map(v => [parseFloat(v), survivalResult.result.KM_estimate[v]]),
+                const range = [sr[0][0], sr[result.length-1][0]];
+
+                worker.postMessage({
+                    config: config,
+                    data: {
+                        legendItems: [],
+                        result: {
+                            cohorts: [
+                                {
+                                    name: 'All',
+                                    result: sr,
+                                    confidence: {
+                                        upper: Object.keys(survivalResult.confidence['KM_estimate_upper_0.95'])
+                                            .map(v => [parseFloat(v), survivalResult.confidence['KM_estimate_upper_0.95'][v]]),
+                                        lower: Object.keys(survivalResult.confidence['KM_estimate_upper_0.95'])
+                                            .map(v => [parseFloat(v), survivalResult.confidence['KM_estimate_upper_0.95'][v]])      
+                                    },
+                                    tte: 0,
+                                    median: sr.median,
+                                    timeRange: sr
+                                }
+                            ]
+                        }
+                    }
+                });
+                worker.postMessage('TERMINATE');
+            });
+
+        });
 };
