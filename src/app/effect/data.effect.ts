@@ -1,3 +1,4 @@
+import { SurvivalConfigModel } from './../component/visualization/survival/survival.model';
 import { genomeCompute } from './../component/visualization/genome/genome.compute';
 import { HeatmapConfigModel } from './../component/visualization/heatmap/heatmap.model';
 import { HicConfigModel } from './../component/visualization/hic/hic.model';
@@ -86,19 +87,21 @@ export class DataEffect {
         .mergeMap( (args: DataLoadedAction) => {
 
             const workspaceConfig = new WorkspaceConfigModel();
-            workspaceConfig.layout = WorkspaceLayoutEnum.SINGLE;
+            workspaceConfig.layout = WorkspaceLayoutEnum.HORIZONTAL;
 
-            const pathwaysConfig = new PathwaysConfigModel();
-            pathwaysConfig.graph = GraphEnum.GRAPH_B;
-            pathwaysConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            const survivalConfig = new SurvivalConfigModel();
+            survivalConfig.graph = GraphEnum.GRAPH_A;
+            // const pathwaysConfig = new PathwaysConfigModel();
+            // pathwaysConfig.graph = GraphEnum.GRAPH_B;
+            // pathwaysConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             // const genomeConfig = new GenomeConfigModel();
             // genomeConfig.graph = GraphEnum.GRAPH_B;
             // genomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
-            const chromosomeConfig = new ChromosomeConfigModel();
-            chromosomeConfig.graph = GraphEnum.GRAPH_B;
-            chromosomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            // const chromosomeConfig = new ChromosomeConfigModel();
+            // chromosomeConfig.graph = GraphEnum.GRAPH_B;
+            // chromosomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             // const boxWhiskersConfig = new BoxWhiskersConfigModel();
             // boxWhiskersConfig.graph = GraphEnum.GRAPH_A;
@@ -154,7 +157,8 @@ export class DataEffect {
                 // new compute.TimelinesAction( { config: timelinesConfigB})
 
                 //  new compute.ChromosomeAction( { config: chromosomeConfig } ),
-                new compute.HeatmapAction( { config: heatmapConfig })
+                // new compute.HeatmapAction( { config: heatmapConfig })
+                new compute.SurvivalAction( { config: survivalConfig })
                 // new compute.ChromosomeAction( { config: chromosomeConfig } )
                 // new compute.PathwaysAction( { config: pathwaysConfig }),
                 // new compute.GenomeAction( { config: genomeConfig }),

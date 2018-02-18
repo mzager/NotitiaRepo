@@ -1,3 +1,4 @@
+import { SurvivalGraph } from './../../visualization/survival/survival.graph';
 import { LinearDiscriminantAnalysisGraph } from './../../visualization/lineardiscriminantanalysis/lineardiscriminantanalysis';
 import { MiniBatchDictionaryLearningGraph } from './../../visualization/minibatchdictionarylearning/minibatchdictionarylearning';
 import { MiniBatchSparsePcaGraph } from './../../visualization/minibatchsparsepca/minibatchsparsepca';
@@ -436,6 +437,7 @@ export class ChartScene {
             case VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING: return new MiniBatchDictionaryLearningGraph();
             case VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS: return new LinearDiscriminantAnalysisGraph();
             case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS: return new QuadradicDiscriminantAnalysisGraph();
+            case VisualizationEnum.SURVIVAL: return new SurvivalGraph();
         }
     }
 
