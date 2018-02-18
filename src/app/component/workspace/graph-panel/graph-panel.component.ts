@@ -1,3 +1,4 @@
+import { SurvivalConfigModel } from './../../visualization/survival/survival.model';
 import { ModalService } from './../../../service/modal-service';
 import { QuadradicDiscriminantAnalysisConfigModel } from './../../visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
 import { LinearDiscriminantAnalysisConfigModel } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
@@ -101,6 +102,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
           break;
         case VisualizationEnum.GENOME:
           gc = new GenomeConfigModel();
+          break;
+        case VisualizationEnum.SURVIVAL:
+          gc = new SurvivalConfigModel();
           break;
         case VisualizationEnum.PCA:
           gc = new PcaConfigModel();
@@ -233,6 +237,8 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       { value: VisualizationEnum.HEATMAP, label: 'Heatmap' },
       { value: VisualizationEnum.BOX_WHISKERS, label: 'Box Whiskers' },
       { value: VisualizationEnum.TIMELINES, label: 'Timelines' },
+      { value: VisualizationEnum.SURVIVAL, label: 'Survival'},
+      { value: VisualizationEnum.HISTOGRAM, label: 'Histogram'},
 
       // Decomposition
       { value: VisualizationEnum.DICTIONARY_LEARNING, label: 'Dictionary Learning' },
@@ -245,7 +251,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       { value: VisualizationEnum.INCREMENTAL_PCA, label: 'PCA - Incremental' },
       { value: VisualizationEnum.KERNAL_PCA, label: 'PCA - Kernel' },
       { value: VisualizationEnum.SPARSE_PCA, label: 'PCA - Sparse' },
-      // { value: VisualizationEnum.MINI_BATCH_SPARSE_PCA, label: 'PCA - Sparse - Mini Batch' },
+      { value: VisualizationEnum.MINI_BATCH_SPARSE_PCA, label: 'PCA - Sparse - Mini Batch' },
       { value: VisualizationEnum.TRUNCATED_SVD, label: 'Truncated SVD' },
       // { value: VisualizationEnum.SPARSE_CODER, label: 'Sparse Coder'},
 
@@ -275,7 +281,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       // { value: VisualizationEnum.DE, label: 'Gene Set Enrichmant '},
       // { value: VisualizationEnum.DE, label: 'Differential Expression '},
       // { value: VisualizationEnum.PARALLEL_COORDS, label: 'Parallel Coordinates'},
-      // { value: VisualizationEnum.SURVIVAL, label: 'Kaplan Meier Curve Beta'},
+     
 
 
     ];

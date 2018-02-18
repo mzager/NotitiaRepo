@@ -27,7 +27,7 @@ export class SurvivalGraph implements ChartObjectInterface {
 
     }
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
-        return null;
+        return this;
     }
     destroy() {
 

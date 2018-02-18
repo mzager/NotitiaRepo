@@ -1,3 +1,4 @@
+import { survivalCompute } from './app/component/visualization/survival/survival.compute';
 
 import { timelinesCompute } from './app/component/visualization/timelines/timelines.compute';
 import { hicCompute } from './app/component/visualization/hic/hic.compute';
@@ -77,6 +78,9 @@ onmessage = function (e) {
             break;
         case VisualizationEnum.GENOME:
             genomeCompute(e.data, me);
+            break;
+        case VisualizationEnum.SURVIVAL:
+            survivalCompute(e.data, me);
             break;
         case VisualizationEnum.TSNE:
             tsneCompute(e.data, me);

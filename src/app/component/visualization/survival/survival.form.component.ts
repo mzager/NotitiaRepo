@@ -1,3 +1,5 @@
+import { SurvivalConfigModel } from './survival.model';
+import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { ChromosomeConfigModel } from './../chromosome/chromosome.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DimensionEnum, DataTypeEnum, VisualizationEnum } from 'app/model/enum.model';
@@ -11,105 +13,44 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 <form [formGroup]='form' novalidate>
-  <div class='form-group'>
-    <label class='center-block'>Data
-      <select materialize='material_select'
-          [materializeSelectOptions]='dataOptions'
-          formControlName='molecularTable'>
-          <option *ngFor='let option of dataOptions' [value]='option'>{{option}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Point Color</span>
-      <select materialize='material_select'
-          [compareWith]='byKey'
-          [materializeSelectOptions]='colorOptions'
-          formControlName='pointColor'>
-          <option *ngFor='let option of colorOptions' [ngValue]='option'>{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Point Size</span>
-       <select materialize='material_select'
-          [compareWith]='byKey'
-          [materializeSelectOptions]='sizeOptions'
-          formControlName='pointSize'>
-          <option *ngFor='let option of sizeOptions' [ngValue]='option'>{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <div class='switch'>
-      <label>
-        <input type='checkbox' formControlName='showCytobands'>
-        <span class='lever'></span>
-        Cytobands
-      </label>
-    </div>
-    <div class='switch'>
-      <label>
-        <input type='checkbox' formControlName='showCytobands'>
-        <span class='lever'></span>
-        Rotation
-      </label>
-    </div>
-  </div>
+
 </form>
   `
 })
-export class SurvivalFormComponent {
+export class SurvivalFormComponent implements OnDestroy {
 
-  @Input() set molecularData(tables: Array<string>){
-    this.dataOptions = tables;
-    
 
-     // Init Form
-     this.form = this.fb.group({
-      visualization: [],
-      graph: [],
-      database: [],
-      dataKey: [],
-      markerList: [],
-      sampleList: [],
-      molecularTable: this.dataOptions[0],
-      pointColor: this.colorOptions[0],
-      pointSize: this.sizeOptions[0],
-      dimension: [],
-      showCytobands: [],
-      allowRotation: []
-    });
-
-    // Update When Form Changes
-    this.form.valueChanges
-      .debounceTime(200)
-      .distinctUntilChanged()
-      .subscribe(data => {
-        this.configChange.emit(data);
-      });
-  }
-
-  @Input() set config(v: ChromosomeConfigModel) {
+  form: FormGroup;
+  @Input() set config(v: SurvivalConfigModel) {
     if (v === null) { return; }
-    this.form.patchValue(v, {emitEvent : false});
+    this.form.patchValue(v, { emitEvent: false });
   }
 
   @Output() configChange = new EventEmitter<GraphConfig>();
 
-  form: FormGroup;
-  colorOptions: Array<DataField>;
-  shapeOptions: Array<DataField>;
-  sizeOptions: Array<DataField>;
-  dataOptions: Array<string>;
-  dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D];
-
-  byKey(p1: DataField, p2: DataField) {
-    if (p2 === null) { return false; }
-    return p1.key === p2.key;
-  }
+ 
+  ngOnDestroy(): void {}
 
   constructor(private fb: FormBuilder) {
 
+
+    this.form = this.fb.group({
+      visualization: [],
+      graph: [],
+      database: [],
+      table: [],
+      markerFilter: [],
+      markerSelect: [],
+      sampleFilter: [],
+      sampleSelect: [],
+      pointData: [],
+      pointColor: [],
+      pointShape: [],
+      pointSize: [],
+
+      censorEvent: [],
+      cohorts: []
+
+    });
   }
 }
