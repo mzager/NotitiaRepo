@@ -62,26 +62,36 @@ export class HelpPanelComponent implements AfterViewInit, OnDestroy {
 
   @Input() set config(config: GraphConfig) {
     const v = config.visualization;
-    const method = (v === VisualizationEnum.TSNE) ? 'tsne.json' :
-      (v === VisualizationEnum.PCA) ? 'pca.json' :
-        (v === VisualizationEnum.INCREMENTAL_PCA) ? 'incremental_pca.json' :
-          (v === VisualizationEnum.SPARSE_PCA) ? 'sparse_pca.json' :
-            (v === VisualizationEnum.DICTIONARY_LEARNING) ? 'dictionary_learning.json' :
-              (v === VisualizationEnum.FA) ? 'factor_analysis.json' :
-                (v === VisualizationEnum.FAST_ICA) ? 'fast_ica.json' :
-                  (v === VisualizationEnum.KERNAL_PCA) ? 'kernal_pca.json' :
-                    (v === VisualizationEnum.LDA) ? 'latent_dirichlet_allocation.json' :
-                      (v === VisualizationEnum.NMF) ? 'nmf.json' :
-                        (v === VisualizationEnum.TRUNCATED_SVD) ? 'truncated_svd.json' :
-                          (v === VisualizationEnum.ISOMAP) ? 'isomap.json' :
-                            (v === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? 'locally_linear_embedding.json' :
-                              (v === VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING) ? '' :
-                                (v === VisualizationEnum.MINI_BATCH_SPARSE_PCA) ? '' :
-                                  (v === VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS) ? '' :
-                                    (v === VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS) ? '' :
-                                      (v === VisualizationEnum.MDS) ? '' :
-                                        (v === VisualizationEnum.SPECTRAL_EMBEDDING) ? '' :
-                                          '';
+    const method = (v === VisualizationEnum.BOX_WHISKERS) ? 'box_whiskers.json' :
+    (v === VisualizationEnum.CHROMOSOME) ? 'chromosome.json' :
+    (v === VisualizationEnum.DICTIONARY_LEARNING) ? 'dictionary_learning.json' :
+    (v === VisualizationEnum.FA) ? 'factor_analysis.json' :
+    (v === VisualizationEnum.FAST_ICA) ? 'fast_ica.json' :
+    (v === VisualizationEnum.HIC) ? 'force_directed_graph.json' :
+    (v === VisualizationEnum.GENOME) ? 'genome.json' :
+    (v === VisualizationEnum.HEATMAP) ? 'heatmap.json' :
+    (v === VisualizationEnum.HISTOGRAM) ? 'histogram.json' :
+    (v === VisualizationEnum.INCREMENTAL_PCA) ? 'incremental_pca.json' :
+    (v === VisualizationEnum.ISOMAP) ? 'isomap.json' :
+    (v === VisualizationEnum.KERNAL_PCA) ? 'kernal_pca.json' :
+    (v === VisualizationEnum.LDA) ? 'latent_dirichlet_allocation.json' :
+    (v === VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS) ? 'linear_discriminant_analysis.json' :
+    (v === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? 'locally_linear_embedding.json' :
+    (v === VisualizationEnum.MDS) ? 'mds.json' :
+    (v === VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING) ? 'mini_batch_dictionary_learning.json' :
+    (v === VisualizationEnum.MINI_BATCH_SPARSE_PCA) ? 'mini_batch_sparse_pca.json' :
+    (v === VisualizationEnum.NMF) ? 'nmf.json' :
+    (v === VisualizationEnum.PATHWAYS) ? 'pathways.json' :
+    (v === VisualizationEnum.PCA) ? 'pca.json' :
+    (v === VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS) ? 'quadratic_discriminant_analysis.json)' :
+    (v === VisualizationEnum.SPARSE_PCA) ? 'sparse_pca.json' :
+    (v === VisualizationEnum.SPECTRAL_EMBEDDING) ? 'spectral_embedding.json' :
+    (v === VisualizationEnum.SURVIVAL) ? 'survival.json' :
+    (v === VisualizationEnum.TIMELINES) ? 'timelines.json' :
+    (v === VisualizationEnum.TRUNCATED_SVD) ? 'truncated_svd.json' :
+    (v === VisualizationEnum.TSNE) ? 'tsne.json' :
+    '';
+
     this.method = method;
 
     if (method === '') {
