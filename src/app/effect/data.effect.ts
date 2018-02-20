@@ -87,10 +87,10 @@ export class DataEffect {
         .mergeMap( (args: DataLoadedAction) => {
 
             const workspaceConfig = new WorkspaceConfigModel();
-            workspaceConfig.layout = WorkspaceLayoutEnum.HORIZONTAL;
+            workspaceConfig.layout = WorkspaceLayoutEnum.SINGLE;
 
-            const survivalConfig = new SurvivalConfigModel();
-            survivalConfig.graph = GraphEnum.GRAPH_A;
+            // const survivalConfig = new SurvivalConfigModel();
+            // survivalConfig.graph = GraphEnum.GRAPH_A;
             // const pathwaysConfig = new PathwaysConfigModel();
             // pathwaysConfig.graph = GraphEnum.GRAPH_B;
             // pathwaysConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
@@ -99,9 +99,9 @@ export class DataEffect {
             // genomeConfig.graph = GraphEnum.GRAPH_B;
             // genomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
-            // const chromosomeConfig = new ChromosomeConfigModel();
-            // chromosomeConfig.graph = GraphEnum.GRAPH_B;
-            // chromosomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            const chromosomeConfig = new ChromosomeConfigModel();
+            chromosomeConfig.graph = GraphEnum.GRAPH_A;
+            chromosomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             // const boxWhiskersConfig = new BoxWhiskersConfigModel();
             // boxWhiskersConfig.graph = GraphEnum.GRAPH_A;
@@ -142,13 +142,13 @@ export class DataEffect {
             // graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             const heatmapConfig = new HeatmapConfigModel();
-            heatmapConfig.graph = GraphEnum.GRAPH_A;
+            heatmapConfig.graph = GraphEnum.GRAPH_B;
             heatmapConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             return [
                 new WorkspaceConfigAction( workspaceConfig ),
                 // new compute.LinkedGeneAction( { config: graphAConfig } ),
-                new compute.PcaIncrementalAction( { config: graphBConfig } ),
+                // new compute.PcaIncrementalAction( { config: graphBConfig } ),
                 // new compute.PcaIncrementalAction( { config: graphAConfig } ),
                 // new compute.HicAction( { config: hicConfig }),
                 // new compute.BoxWhiskersAction( { config: boxWhiskersConfig } ),
@@ -157,9 +157,9 @@ export class DataEffect {
                 // new compute.TimelinesAction( { config: timelinesConfigB})
 
                 //  new compute.ChromosomeAction( { config: chromosomeConfig } ),
-                // new compute.HeatmapAction( { config: heatmapConfig })
-                new compute.SurvivalAction( { config: survivalConfig })
-                // new compute.ChromosomeAction( { config: chromosomeConfig } )
+                new compute.HeatmapAction( { config: heatmapConfig })
+                // new compute.SurvivalAction( { config: survivalConfig })
+                new compute.ChromosomeAction( { config: chromosomeConfig } )
                 // new compute.PathwaysAction( { config: pathwaysConfig }),
                 // new compute.GenomeAction( { config: genomeConfig }),
                 // new compute.PcaIncrementalAction( { config: graphBConfig } )

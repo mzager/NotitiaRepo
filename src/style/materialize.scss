@@ -25,6 +25,9 @@
     //background: #029BE5;
     background: rgb(179, 229, 252);
 }
+.help-method {
+    display: none;
+}
 // Mixins
 @import "components/mixins";
 @import "components/color";
