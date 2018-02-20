@@ -1,0 +1,20 @@
+{
+    "method": "Histogram",
+    "desc": "<span class='help-method'>Histogram</span> Coming Soon",
+    "url": "",
+    "params": [
+        {
+            "name": "n components",
+            "type": "int or None",
+            "desc": "Coming Soon"
+        }
+        
+    ],
+    "attrs": [
+        {
+            "name": "components",
+            "type": "array, [n_components, n_features]",
+            "desc": "Coming Soon"
+        }
+    ]
+}
