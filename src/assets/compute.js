@@ -30236,7 +30236,6 @@ exports.survivalCompute = function (config, worker) {
             times: t,
             events: e
         }).then(function (survivalResult) {
-            debugger;
             var sr = Object.keys(survivalResult.result.KM_estimate)
                 .map(function (v) { return [parseFloat(v), survivalResult.result.KM_estimate[v]]; });
             var range = [sr[0][0], sr[result.length - 1][0]];
@@ -30256,7 +30255,7 @@ exports.survivalCompute = function (config, worker) {
                                         .map(function (v) { return [parseFloat(v), survivalResult.confidence['KM_estimate_upper_0.95'][v]]; })
                                 },
                                 tte: 0,
-                                median: sr.median,
+                                median: sr,
                                 timeRange: sr
                             }
                         ]
