@@ -1,3 +1,4 @@
+import { SurvivalConfigModel } from './../component/visualization/survival/survival.model';
 import { MiniBatchDictionaryLearningConfigModel } from './../component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
 import { miniBatchSparsePcaCompute } from './../component/visualization/minibatchsparsepca/minibatchsparsepca.compute';
 import { LinearDiscriminantAnalysisConfigModel } from './../component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
@@ -82,6 +83,7 @@ export class ComputeService {
     private linkedGene$ = new Subject<any>();
     private hic$ = new Subject<any>();
     private pathways$ = new Subject<any>();
+    private survival$ = new Subject<any>();
 
     constructor(private illumina: IlluminaService) {
         // this.pool = Pool.create({
@@ -135,6 +137,7 @@ export class ComputeService {
             (v === VisualizationEnum.PARALLEL_COORDS) ? this.parallelCoords$ :
             (v === VisualizationEnum.LINKED_GENE) ? this.linkedGene$ :
             (v === VisualizationEnum.HIC) ? this.hic$ :
+            (v === VisualizationEnum.SURVIVAL) ? this.survival$ :
             (v === VisualizationEnum.EDGES) ? this.edges$ :
             null;
     }
@@ -241,6 +244,10 @@ export class ComputeService {
 
     genome(config: GenomeConfigModel): Observable<any> {
         return this.execute(config, this.genome$);
+    }
+
+    survival(config: SurvivalConfigModel): Observable<any> {
+        return this.execute(config, this.survival$);
     }
 
     edges(config: EdgeConfigModel): Observable<any> {

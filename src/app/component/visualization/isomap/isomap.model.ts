@@ -30,6 +30,7 @@ export class IsoMapConfigModel extends GraphConfig {
         super();
         this.entity = EntityTypeEnum.SAMPLE;
         this.visualization = VisualizationEnum.ISOMAP;
+        this.label = 'ISOMAP';
     }
 
     n_components = 3;

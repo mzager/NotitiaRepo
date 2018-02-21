@@ -1,4 +1,17 @@
-.chart-label{
-    color:red;
+.chart-labels {
     position: absolute;
+    pointer-events:none;
+    bottom: 25px;
+    width: 100%;
+}
+.chart-label {
+    letter-spacing: 8px;
+    font-weight: 500;
+    font-size: 1rem;
+    text-transform: uppercase;
+    width:49.5%; 
+    text-align:center;
+    display: inline-block;
+    white-space: nowrap;
+    pointer-events: none;
 }

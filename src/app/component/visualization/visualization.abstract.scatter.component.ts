@@ -161,9 +161,8 @@ export class AbstractScatterVisualization extends AbstractVisualization {
             if (hit[0].object.userData === undefined) {
                 return;
             }
-            let xPos = e.mouse.xs + 10;
+            const xPos = e.mouse.xs + 10;
             const yPos = e.mouse.ys;
-            if (this.config.graph === GraphEnum.GRAPH_B) { xPos -= this.view.viewport.width; }
             this.tooltips.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#FFF;padding:3px;border-radius:' +
                 '3px;z-index:9999;position:absolute;left:' +
                 xPos + 'px;top:' +
