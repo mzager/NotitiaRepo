@@ -1,7 +1,7 @@
 {
     "method": "Quadratic Discriminant Analysis",
     "desc": "<span class='help-method'>Quadratic Discriminant Analysis/span> Coming Soon",
-    "url": "",
+    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis.html#sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis",
     "params": [
         {
             "name": "n components",
@@ -19,9 +19,14 @@
     ],
     "citations": [
         {
-            "name": "",
-            "desc": "",
-            "url": ""
+            "name": "Scikit-learn: Machine Learning in Python",
+            "desc": "Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.",
+            "url": "http://www.jmlr.org/papers/volume12/pedregosa11a/pedregosa11a.pdf"
+        },
+        {
+            "name": "API design for machine learning software: experiences from the scikit-learn project",
+            "desc": "API design for machine learning software: experiences from the scikit-learn project, Buitinck et al., 2013.",
+            "url": "http://www.di.ens.fr/sierra/pdfs/icml09.pdf"
         }
     ]
 }

@@ -63,9 +63,29 @@
     ],
     "citations": [
         {
-            "name": "",
-            "desc": "",
-            "url": ""
+            "name":"Modern Multidimensional Scaling - Theory and Applications",
+            "desc": "Modern Multidimensional Scaling - Theory and Applications” Borg, I.; Groenen P. Springer Series in Statistics (1997)",
+            "url": "http://www.springer.com/us/book/9781475727111"
+        },
+        {
+            "name":"Nonmetric multidimensional scaling: a numerical method",
+            "desc": "Nonmetric multidimensional scaling: a numerical method” Kruskal, J. Psychometrika, 29 (1964)",
+            "url": "https://link.springer.com/article/10.1007/BF02289694"
+        },
+        {
+            "name":"Multidimensional scaling by optimizing goodness of fit to a nonmetric hypothesis",
+            "desc": "Multidimensional scaling by optimizing goodness of fit to a nonmetric hypothesis” Kruskal, J. Psychometrika, 29, (1964)",
+            "url": "https://link.springer.com/article/10.1007/BF02289565"
+        },
+        {
+            "name": "Scikit-learn: Machine Learning in Python",
+            "desc": "Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.",
+            "url": "http://www.jmlr.org/papers/volume12/pedregosa11a/pedregosa11a.pdf"
+        },
+        {
+            "name": "API design for machine learning software: experiences from the scikit-learn project",
+            "desc": "API design for machine learning software: experiences from the scikit-learn project, Buitinck et al., 2013.",
+            "url": "http://www.di.ens.fr/sierra/pdfs/icml09.pdf"
         }
     ]
 }

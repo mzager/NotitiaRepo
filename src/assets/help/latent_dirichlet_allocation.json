@@ -108,9 +108,29 @@
     ],
     "citations": [
         {
-            "name": "",
-            "desc": "",
+            "name": "Online Learning for Latent Dirichlet Allocation",
+            "desc": "Online Learning for Latent Dirichlet Allocation”, Matthew D. Hoffman, David M. Blei, Francis Bach, 2010",
             "url": ""
+        },
+        {
+            "name": "Stochastic Variational Inference",
+            "desc": "Stochastic Variational Inference”, Matthew D. Hoffman, David M. Blei, Chong Wang, John Paisley, 2013",
+            "url": ""
+        },
+        {
+            "name": "Matthew D. Hoffman’s onlineldavb code",
+            "desc": "Matthew D. Hoffman’s onlineldavb code",
+            "url": "http://papers.nips.cc/paper/3902-online-learning-for-latentdirichlet-allocation!"
+        },
+        {
+            "name": "Scikit-learn: Machine Learning in Python",
+            "desc": "Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.",
+            "url": "http://www.jmlr.org/papers/volume12/pedregosa11a/pedregosa11a.pdf"
+        },
+        {
+            "name": "API design for machine learning software: experiences from the scikit-learn project",
+            "desc": "API design for machine learning software: experiences from the scikit-learn project, Buitinck et al., 2013.",
+            "url": "http://www.di.ens.fr/sierra/pdfs/icml09.pdf"
         }
     ]
 }
