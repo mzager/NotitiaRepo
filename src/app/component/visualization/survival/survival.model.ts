@@ -3,21 +3,33 @@ import { Legend } from './../../../model/legend.model';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { VisualizationEnum, DimensionEnum, GraphEnum, EntityTypeEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory } from 'app/model/data-field.model';
+import { GraphData } from 'app/model/graph-data.model';
 
 export class SurvivalConfigModel extends GraphConfig {
+    constructor() {
+        super();
+        this.entity = EntityTypeEnum.PATIENT;
+        this.visualization = VisualizationEnum.SURVIVAL;
+        this.label = 'Survival';
+    }
+    censorEvent: string;
 
-    displayType: DimensionEnum = DimensionEnum.THREE_D;
-    domain: Array<number> = [-500, 500];
-    showAllGenes: Boolean = false;
-    showCytobands: Boolean = true;
+    cohorts: Array<{
+        name: string,
+        sampleIds: Array<number>
+    }>;
 }
 
-export interface SurvivalDataModel {
+export interface SurvivalDataModel extends GraphData {
     legends: Array<Legend>;
-    genes: any;
-    bands: any;
-    chromo: Array<{'chr': string, 'P': number, 'C': number, 'Q': number}>;
-    showAllGenes: Boolean;
-    showBands: Boolean;
-    allowRotation: Boolean;
+    cohorts: Array<{
+        name: string,
+        result: Array<[number, number]>,
+        confidence: {
+            upper: Array<[number, number]>,
+            lower: Array<[number, number]>
+        },
+        median: number,
+        timeRange: [number, number]
+    }>;
 }

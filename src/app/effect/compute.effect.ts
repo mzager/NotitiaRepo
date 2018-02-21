@@ -44,7 +44,8 @@ import {
   MiniBatchDictionaryLearningCompleteAction,
   MiniBatchSparsePcaCompleteAction,
   LinearDiscriminantAnalysisCompleteAction,
-  QuadraticDiscriminantAnalysisCompleteAction
+  QuadraticDiscriminantAnalysisCompleteAction,
+  SurvivalCompleteAction
 } from './../action/compute.action';
 import { ComputeService } from './../service/compute.service';
 import { DataService } from './../service/data.service';
@@ -206,6 +207,17 @@ export class ComputeEffect {
     .map(toPayload)
     .switchMap(payload => {
       return this.computeService.pathways(payload.config)
+        .switchMap(result => {
+          return Observable.of((result === null) ? new NullDataAction() :
+            new PathwaysCompleteAction({ config: result.config, data: result.data }));
+        });
+    });
+
+  @Effect() loadSurvival: Observable<any> = this.actions$
+    .ofType(compute.COMPUTE_SURVIVAL)
+    .map(toPayload)
+    .switchMap(payload => {
+      return this.computeService.survival(payload.config)
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new PathwaysCompleteAction({ config: result.config, data: result.data }));

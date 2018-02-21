@@ -1,10 +1,14 @@
 <div style='position:absolute;left:0px;top:0px;right:0px;bottom:0px;'>
     <div #container style='position:absolute;width:100%; height:100vh;'></div>
     <div #labelAContainer style='width:50%; height:100vh; pointer-events:none;position:absolute;'>
-        <div #labelsA style='position: relative;top: 95vh;text-align: center;'>{{labelA}}</div>
+        <div #labelsA style='position:relative;'></div>
     </div>
-    <div #labelBsContainer style='width:50%; left: 50%; height:100vh; pointer-events:none;position:absolute;'>
-        <div #labelsB style='position: relative;top: 95vh;text-align: center;'>{{labelB}}</div>
+    <div #labelBContainer style='width:50%; left: 50%; height:100vh; pointer-events:none;position:absolute;'>
+        <div #labelsB style='position:relative;'></div>
     </div>
     <div #labelsE></div>
+    <div class="chart-labels">
+        <div class="chart-label">{{labelA}}</div>
+        <div class="chart-label">{{labelB}}</div>
+    </div>
 </div>
