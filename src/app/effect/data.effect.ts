@@ -87,12 +87,12 @@ export class DataEffect {
         .mergeMap( (args: DataLoadedAction) => {
 
             const workspaceConfig = new WorkspaceConfigModel();
-            workspaceConfig.layout = WorkspaceLayoutEnum.SINGLE;
+            workspaceConfig.layout = WorkspaceLayoutEnum.HORIZONTAL;
 
             // const survivalConfig = new SurvivalConfigModel();
             // survivalConfig.graph = GraphEnum.GRAPH_A;
             const pathwaysConfig = new PathwaysConfigModel();
-            pathwaysConfig.graph = GraphEnum.GRAPH_A;
+            pathwaysConfig.graph = GraphEnum.GRAPH_B;
             pathwaysConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             // const genomeConfig = new GenomeConfigModel();
@@ -128,9 +128,9 @@ export class DataEffect {
             // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
 
-            // const graphAConfig = new PcaIncrementalConfigModel();
-            // graphAConfig.graph = GraphEnum.GRAPH_A;
-            // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            const graphAConfig = new PcaIncrementalConfigModel();
+            graphAConfig.graph = GraphEnum.GRAPH_A;
+            graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             // const graphBConfig = new PcaIncrementalConfigModel();
             // graphBConfig.graph = GraphEnum.GRAPH_B;
@@ -144,8 +144,7 @@ export class DataEffect {
             return [
                 new WorkspaceConfigAction( workspaceConfig ),
                 // new compute.LinkedGeneAction( { config: graphAConfig } ),
-                // new compute.PcaIncrementalAction( { config: graphBConfig } ),
-                // new compute.PcaIncrementalAction( { config: graphAConfig } ),
+                new compute.PcaIncrementalAction( { config: graphAConfig } ),
                 // new compute.HicAction( { config: hicConfig }),
                 // new compute.BoxWhiskersAction( { config: boxWhiskersConfig } ),
 
