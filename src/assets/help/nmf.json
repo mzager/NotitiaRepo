@@ -75,5 +75,12 @@
             "type": "int",
             "desc": "Actual number of iterations."
         }
+    ],
+    "citations": [
+        {
+            "name": "",
+            "desc": "",
+            "url": ""
+        }
     ]
 }
