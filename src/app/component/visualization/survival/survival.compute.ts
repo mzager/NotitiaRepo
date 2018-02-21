@@ -17,6 +17,7 @@ export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWo
                 times: t,
                 events: e
             }).then( (survivalResult) => {
+<<<<<<< HEAD
 
                 const result = Object.keys(survivalResult.result.KM_estimate)
                     .map(v => [parseFloat(v), survivalResult.result.KM_estimate[v]])
@@ -31,6 +32,11 @@ export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWo
                     .sort( (a,b) => a[0]-b[0]);
 
                 const range = [result[0][0], result[result.length - 1][0]];
+=======
+                const sr = Object.keys(survivalResult.result.KM_estimate)
+                    .map(v => [parseFloat(v), survivalResult.result.KM_estimate[v]]);
+                const range = [sr[0][0], sr[result.length - 1][0]];
+>>>>>>> a247df4a3862422d818b9c64d84ab84269eade6c
 
                 worker.postMessage({
                     config: config,
@@ -42,11 +48,22 @@ export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWo
                                     name: 'All',
                                     result: result,
                                     confidence: {
+<<<<<<< HEAD
                                         upper: upper,
                                         lower: lower
                                     },
                                     median: survivalResult.median,
                                     timeRange: range
+=======
+                                        upper: Object.keys(survivalResult.confidence['KM_estimate_upper_0.95'])
+                                            .map(v => [parseFloat(v), survivalResult.confidence['KM_estimate_upper_0.95'][v]]),
+                                        lower: Object.keys(survivalResult.confidence['KM_estimate_upper_0.95'])
+                                            .map(v => [parseFloat(v), survivalResult.confidence['KM_estimate_upper_0.95'][v]])
+                                    },
+                                    tte: 0,
+                                    median: sr,
+                                    timeRange: sr
+>>>>>>> a247df4a3862422d818b9c64d84ab84269eade6c
                                 }
                             ]
                         }
