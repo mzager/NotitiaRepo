@@ -21,7 +21,7 @@ export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWo
                 const result = Object.keys(survivalResult.result.KM_estimate)
                     .map(v => [parseFloat(v), survivalResult.result.KM_estimate[v]])
                     .sort( (a,b) => a[0]-b[0])
-    
+
                 const upper = Object.keys(survivalResult.confidence['KM_estimate_upper_0.95'])
                     .map(v => [parseFloat(v), survivalResult.confidence['KM_estimate_upper_0.95'][v]])
                     .sort( (a,b) => a[0]-b[0]);
