@@ -1,1 +1,91 @@
-{"method":"Isomap","desc":"<span class='help-method'>Isomap Embedding</span>Non-linear dimensionality reduction through Isometric Mapping Read more in the scikit-learn user guide. ","url":"http://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html#sklearn.manifold.Isomap","params":[{"name":"n neighbors","type":"integer","desc":"number of neighbors to consider for each point."},{"name":"n components","type":"integer","desc":"number of coordinates for the manifold"},{"name":"eigen solver","type":"[‘auto’|’arpack’|’dense’]","desc":"‘auto’ : Attempt to choose the most efficient solver for the given problem. ‘arpack’ : Use Arnoldi decomposition to find the eigenvalues and eigenvectors. ‘dense’ : Use a direct solver (i.e. LAPACK) for the eigenvalue decomposition."},{"name":"tol","type":"float","desc":"Convergence tolerance passed to arpack or lobpcg. not used if eigen_solver == ‘dense’."},{"name":"max iter","type":"integer","desc":"Maximum number of iterations for the arpack solver. not used if eigen_solver == ‘dense’."},{"name":"path method","type":"string [‘auto’|’FW’|’D’]","desc":"Method to use in finding shortest path. ‘auto’ : attempt to choose the best algorithm automatically. ‘FW’ : Floyd-Warshall algorithm. ‘D’ : Dijkstra’s algorithm."},{"name":"neighbors algorithm","type":"string [‘auto’|’brute’|’kd_tree’|’ball_tree’]","desc":"Algorithm to use for nearest neighbors search, passed to neighbors.NearestNeighbors instance."},{"name":"n jobs","type":"int, optional (default = 1)","desc":"The number of parallel jobs to run. If -1, then the number of jobs is set to the number of CPU cores."}],"attrs":[{"name":"embedding","type":"array-like, shape (n_samples, n_components)","desc":"Stores the embedding vectors."},{"name":"kernel pca","type":"object","desc":"KernelPCA object used to implement the embedding."},{"name":"training data","type":"array-like, shape (n_samples, n_features)","desc":"Stores the training data."},{"name":"nbrs","type":"sklearn.neighbors.NearestNeighbors instance","desc":"Stores nearest neighbors instance, including BallTree or KDtree if applicable."},{"name":"dist matrix","type":"array-like, shape (n_samples, n_samples)","desc":"Stores the geodesic distance matrix of training data."}]}
+{
+    "method": "Isomap",
+    "desc": "<span class='help-method'>Isomap Embedding</span>Non-linear dimensionality reduction through Isometric Mapping Read more in the scikit-learn user guide. ",
+    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html#sklearn.manifold.Isomap",
+    "params": [
+        {
+            "name": "n neighbors",
+            "type": "integer",
+            "desc": "number of neighbors to consider for each point."
+        },
+        {
+            "name": "n components",
+            "type": "integer",
+            "desc": "number of coordinates for the manifold"
+        },
+        {
+            "name": "eigen solver",
+            "type": "[‘auto’|’arpack’|’dense’]",
+            "desc": "‘auto’ : Attempt to choose the most efficient solver for the given problem. ‘arpack’ : Use Arnoldi decomposition to find the eigenvalues and eigenvectors. ‘dense’ : Use a direct solver (i.e. LAPACK) for the eigenvalue decomposition."
+        },
+        {
+            "name": "tol",
+            "type": "float",
+            "desc": "Convergence tolerance passed to arpack or lobpcg. not used if eigen_solver == ‘dense’."
+        },
+        {
+            "name": "max iter",
+            "type": "integer",
+            "desc": "Maximum number of iterations for the arpack solver. not used if eigen_solver == ‘dense’."
+        },
+        {
+            "name": "path method",
+            "type": "string [‘auto’|’FW’|’D’]",
+            "desc": "Method to use in finding shortest path. ‘auto’ : attempt to choose the best algorithm automatically. ‘FW’ : Floyd-Warshall algorithm. ‘D’ : Dijkstra’s algorithm."
+        },
+        {
+            "name": "neighbors algorithm",
+            "type": "string [‘auto’|’brute’|’kd_tree’|’ball_tree’]",
+            "desc": "Algorithm to use for nearest neighbors search, passed to neighbors.NearestNeighbors instance."
+        },
+        {
+            "name": "n jobs",
+            "type": "int, optional (default = 1)",
+            "desc": "The number of parallel jobs to run. If -1, then the number of jobs is set to the number of CPU cores."
+        }
+    ],
+    "attrs": [
+        {
+            "name": "embedding",
+            "type": "array-like, shape (n_samples, n_components)",
+            "desc": "Stores the embedding vectors."
+        },
+        {
+            "name": "kernel pca",
+            "type": "object",
+            "desc": "KernelPCA object used to implement the embedding."
+        },
+        {
+            "name": "training data",
+            "type": "array-like, shape (n_samples, n_features)",
+            "desc": "Stores the training data."
+        },
+        {
+            "name": "nbrs",
+            "type": "sklearn.neighbors.NearestNeighbors instance",
+            "desc": "Stores nearest neighbors instance, including BallTree or KDtree if applicable."
+        },
+        {
+            "name": "dist matrix",
+            "type": "array-like, shape (n_samples, n_samples)",
+            "desc": "Stores the geodesic distance matrix of training data."
+        }
+    ],
+    "citations": [
+        {
+            "name": " A global geometric framework for nonlinear dimensionality reduction",
+            "desc": "Tenenbaum, J.B.; De Silva, V.; & Langford, J.C. A global geometric framework for nonlinear dimensionality reduction. Science 290 (5500)",
+            "url": "http://web.mit.edu/cocosci/Papers/sci_reprint.pdf"
+        },
+        {
+            "name": "Scikit-learn: Machine Learning in Python",
+            "desc": "Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.",
+            "url": "http://www.jmlr.org/papers/volume12/pedregosa11a/pedregosa11a.pdf"
+        },
+        {
+            "name": "API design for machine learning software: experiences from the scikit-learn project",
+            "desc": "API design for machine learning software: experiences from the scikit-learn project, Buitinck et al., 2013.",
+            "url": "http://www.di.ens.fr/sierra/pdfs/icml09.pdf"
+        }
+    ]
+}
