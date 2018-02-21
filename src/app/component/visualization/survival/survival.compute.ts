@@ -56,4 +56,4 @@ export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWo
             });
 
         });
-}
+};
