@@ -26,7 +26,7 @@ export const heatmapCompute = (config: HeatmapConfigModel, worker: DedicatedWork
                         .fetchResult({
                             data: mtx.data,
                             transpose: 0,
-                            method: 'cluster_sk_agglomerative',
+                            method: 'cluster_sp_agglomerative',
                             n_clusters: -1,
                             sp_metric: config.dist,
                             sp_method: config.method,
@@ -36,7 +36,7 @@ export const heatmapCompute = (config: HeatmapConfigModel, worker: DedicatedWork
                         .fetchResult({
                             data: mtx.data,
                             transpose: 1,
-                            method: 'cluster_sk_agglomerative',
+                            method: 'cluster_sp_agglomerative',
                             n_clusters: -1,
                             sp_metric: config.dist,
                             sp_method: config.method,

@@ -1,1 +1,94 @@
-{"method":"Dict Learning","desc":"<span class='help-method'>Solves a dictionary learning matrix factorization problem.</span>Finds the best dictionary and the corresponding sparse code for approximating the data matrix X by solving: (U^*, V^*) = argmin 0.5 || X - U V ||_2^2 + alpha * || U ||_1 (U,V) with || V_k ||_2 = 1 for all  0 <= k < n_components where V is the dictionary and U is the sparse code. Read more in the scikit-learn user guide. ","url":"http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.dict_learning.html#sklearn.decomposition.dict_learning","params":[{"name":"X","type":"array of shape (n_samples, n_features)","desc":"Data matrix."},{"name":"n components","type":"int,","desc":"Number of dictionary atoms to extract."},{"name":"alpha","type":"int,","desc":"Sparsity controlling parameter."},{"name":"max iter","type":"int,","desc":"Maximum number of iterations to perform."},{"name":"tol","type":"float,","desc":"Tolerance for the stopping condition."},{"name":"method","type":"{‘lars’, ‘cd’}","desc":"lars: uses the least angle regression method to solve the lasso problem (linear_model.lars_path) cd: uses the coordinate descent method to compute the Lasso solution (linear_model.Lasso). Lars will be faster if the estimated components are sparse."},{"name":"n jobs","type":"int,","desc":"Number of parallel jobs to run, or -1 to autodetect."},{"name":"dict init","type":"array of shape (n_components, n_features),","desc":"Initial value for the dictionary for warm restart scenarios."},{"name":"code init","type":"array of shape (n_samples, n_components),","desc":"Initial value for the sparse code for warm restart scenarios."},{"name":"callback","type":"callable or None, optional (default","desc":"Callable that gets invoked every five iterations"},{"name":"verbose","type":"bool, optional (default","desc":"To control the verbosity of the procedure."},{"name":"random state","type":"int, RandomState instance or None, optional (default=None)","desc":"If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random."},{"name":"return n iter","type":"bool","desc":"Whether or not to return the number of iterations."}],"attrs":[{"name":"code","type":"array of shape (n_samples, n_components)","desc":"The sparse code factor in the matrix factorization."},{"name":"dictionary","type":"array of shape (n_components, n_features),","desc":"The dictionary factor in the matrix factorization."},{"name":"errors","type":"array","desc":"Vector of errors at each iteration."},{"name":"n iter","type":"int","desc":"Number of iterations run. Returned only if return_n_iter is set to True."}]}
+{
+    "method": "Dict Learning",
+    "desc": "<span class='help-method'>Solves a dictionary learning matrix factorization problem.</span>Finds the best dictionary and the corresponding sparse code for approximating the data matrix X by solving: (U^*, V^*) = argmin 0.5 || X - U V ||_2^2 + alpha * || U ||_1 (U,V) with || V_k ||_2 = 1 for all  0 <= k < n_components where V is the dictionary and U is the sparse code. Read more in the scikit-learn user guide. ",
+    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.dict_learning.html#sklearn.decomposition.dict_learning",
+    "params": [
+        {
+            "name": "X",
+            "type": "array of shape (n_samples, n_features)",
+            "desc": "Data matrix."
+        },
+        {
+            "name": "n components",
+            "type": "int,",
+            "desc": "Number of dictionary atoms to extract."
+        },
+        {
+            "name": "alpha",
+            "type": "int,",
+            "desc": "Sparsity controlling parameter."
+        },
+        {
+            "name": "max iter",
+            "type": "int,",
+            "desc": "Maximum number of iterations to perform."
+        },
+        {
+            "name": "tol",
+            "type": "float,",
+            "desc": "Tolerance for the stopping condition."
+        },
+        {
+            "name": "method",
+            "type": "{‘lars’, ‘cd’}",
+            "desc": "lars: uses the least angle regression method to solve the lasso problem (linear_model.lars_path) cd: uses the coordinate descent method to compute the Lasso solution (linear_model.Lasso). Lars will be faster if the estimated components are sparse."
+        },
+        {
+            "name": "n jobs",
+            "type": "int,",
+            "desc": "Number of parallel jobs to run, or -1 to autodetect."
+        },
+        {
+            "name": "dict init",
+            "type": "array of shape (n_components, n_features),",
+            "desc": "Initial value for the dictionary for warm restart scenarios."
+        },
+        {
+            "name": "code init",
+            "type": "array of shape (n_samples, n_components),",
+            "desc": "Initial value for the sparse code for warm restart scenarios."
+        },
+        {
+            "name": "callback",
+            "type": "callable or None, optional (default",
+            "desc": "Callable that gets invoked every five iterations"
+        },
+        {
+            "name": "verbose",
+            "type": "bool, optional (default",
+            "desc": "To control the verbosity of the procedure."
+        },
+        {
+            "name": "random state",
+            "type": "int, RandomState instance or None, optional (default=None)",
+            "desc": "If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random."
+        },
+        {
+            "name": "return n iter",
+            "type": "bool",
+            "desc": "Whether or not to return the number of iterations."
+        }
+    ],
+    "attrs": [
+        {
+            "name": "code",
+            "type": "array of shape (n_samples, n_components)",
+            "desc": "The sparse code factor in the matrix factorization."
+        },
+        {
+            "name": "dictionary",
+            "type": "array of shape (n_components, n_features),",
+            "desc": "The dictionary factor in the matrix factorization."
+        },
+        {
+            "name": "errors",
+            "type": "array",
+            "desc": "Vector of errors at each iteration."
+        },
+        {
+            "name": "n iter",
+            "type": "int",
+            "desc": "Number of iterations run. Returned only if return_n_iter is set to True."
+        }
+    ]
+}
