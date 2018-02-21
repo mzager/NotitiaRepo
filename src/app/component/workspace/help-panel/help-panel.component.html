@@ -15,6 +15,9 @@
             <li class='tab'>
                 <a href='#HelpAttributes'>Attributes</a>
             </li>
+            <li class='tab'>
+                <a href='#Citations'>Citations</a>
+            </li>
         </ul>
     </div>
     <div class='card-content' style='max-height: 300px; padding:10px; overflow-y:scroll;'>
@@ -38,5 +41,12 @@
                 <hr style ='display: block;height: 1px;border: 0;border-top: 1px solid #eee;margin: 1em 0;padding: 0;'>
             </div>
         </div>
+        <div id='Citations'>
+                <div *ngFor='let attr of citations; let i = index'>
+                        <p style ='font-weight: 600;padding-bottom: 5px; padding-top:5px;'>{{ attr.name }}</p>
+                        <p>{{ attr.desc }}</p><span><a href='{{ attr.url }}' target='_blank'>Link to Pub</a></span>
+                    <hr style ='display: block;height: 1px;border: 0;border-top: 1px solid #eee;margin: 1em 0;padding: 0;'>
+                </div>
+            </div>
     </div>
 </div>

@@ -1,1 +1,56 @@
-{"method":"Spectral Embedding","desc":"<span class='help-method'>Project the sample on the first eigenvectors of the graph Laplacian.</span>The adjacency matrix is used to compute a normalized graph Laplacian whose spectrum (especially the eigenvectors associated to the smallest eigenvalues) has an interpretation in terms of minimal number of cuts necessary to split the graph into comparably sized components. This embedding can also ‘work’ even if the adjacency variable is not strictly the adjacency matrix of a graph but more generally an affinity or similarity matrix between samples (for instance the heat kernel of a euclidean distance matrix or a k-NN matrix). However care must taken to always make the affinity matrix symmetric so that the eigenvector decomposition works as expected. Note : Laplacian Eigenmaps is the actual algorithm implemented here. Read more in the scikit-learn user guide. ","url":"http://scikit-learn.org/stable/modules/generated/sklearn.manifold.spectral_embedding.html#sklearn.manifold.spectral_embedding","params":[{"name":"adjacency","type":"array-like or sparse matrix, shape","desc":"The adjacency matrix of the graph to embed."},{"name":"n components","type":"integer, optional, default 8","desc":"The dimension of the projection subspace."},{"name":"eigen solver","type":"{None, ‘arpack’, ‘lobpcg’, or ‘amg’}, default None","desc":"The eigenvalue decomposition strategy to use. AMG requires pyamg to be installed. It can be faster on very large, sparse problems, but may also lead to instabilities."},{"name":"random state","type":"int, RandomState instance or None, optional, default","desc":"A pseudo random number generator used for the initialization of the lobpcg eigenvectors decomposition.  If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random. Used when solver == ‘amg’."},{"name":"eigen tol","type":"float, optional, default=0.0","desc":"Stopping criterion for eigendecomposition of the Laplacian matrix when using arpack eigen_solver."},{"name":"norm laplacian","type":"bool, optional, default=True","desc":"If True, then compute normalized Laplacian."},{"name":"drop first","type":"bool, optional, default=True","desc":"Whether to drop the first eigenvector. For spectral embedding, this should be True as the first eigenvector should be constant vector for connected graph, but for spectral clustering, this should be kept as False to retain the first eigenvector."}],"attrs":[{"name":"embedding","type":"array, shape=(n_samples, n_components)","desc":"The reduced samples."}]}
+{
+    "method": "Spectral Embedding",
+    "desc": "<span class='help-method'>Project the sample on the first eigenvectors of the graph Laplacian.</span>The adjacency matrix is used to compute a normalized graph Laplacian whose spectrum (especially the eigenvectors associated to the smallest eigenvalues) has an interpretation in terms of minimal number of cuts necessary to split the graph into comparably sized components. This embedding can also ‘work’ even if the adjacency variable is not strictly the adjacency matrix of a graph but more generally an affinity or similarity matrix between samples (for instance the heat kernel of a euclidean distance matrix or a k-NN matrix). However care must taken to always make the affinity matrix symmetric so that the eigenvector decomposition works as expected. Note : Laplacian Eigenmaps is the actual algorithm implemented here. Read more in the scikit-learn user guide. ",
+    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.spectral_embedding.html#sklearn.manifold.spectral_embedding",
+    "params": [
+        {
+            "name": "adjacency",
+            "type": "array-like or sparse matrix, shape",
+            "desc": "The adjacency matrix of the graph to embed."
+        },
+        {
+            "name": "n components",
+            "type": "integer, optional, default 8",
+            "desc": "The dimension of the projection subspace."
+        },
+        {
+            "name": "eigen solver",
+            "type": "{None, ‘arpack’, ‘lobpcg’, or ‘amg’}, default None",
+            "desc": "The eigenvalue decomposition strategy to use. AMG requires pyamg to be installed. It can be faster on very large, sparse problems, but may also lead to instabilities."
+        },
+        {
+            "name": "random state",
+            "type": "int, RandomState instance or None, optional, default",
+            "desc": "A pseudo random number generator used for the initialization of the lobpcg eigenvectors decomposition.  If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random. Used when solver == ‘amg’."
+        },
+        {
+            "name": "eigen tol",
+            "type": "float, optional, default=0.0",
+            "desc": "Stopping criterion for eigendecomposition of the Laplacian matrix when using arpack eigen_solver."
+        },
+        {
+            "name": "norm laplacian",
+            "type": "bool, optional, default=True",
+            "desc": "If True, then compute normalized Laplacian."
+        },
+        {
+            "name": "drop first",
+            "type": "bool, optional, default=True",
+            "desc": "Whether to drop the first eigenvector. For spectral embedding, this should be True as the first eigenvector should be constant vector for connected graph, but for spectral clustering, this should be kept as False to retain the first eigenvector."
+        }
+    ],
+    "attrs": [
+        {
+            "name": "embedding",
+            "type": "array, shape=(n_samples, n_components)",
+            "desc": "The reduced samples."
+        }
+    ],
+    "citations": [
+        {
+            "name": "",
+            "desc": "",
+            "url": ""
+        }
+    ]
+}

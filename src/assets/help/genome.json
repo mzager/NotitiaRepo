@@ -16,5 +16,12 @@
             "type": "array, [n_components, n_features]",
             "desc": "Coming Soon"
         }
+    ],
+    "citations": [
+        {
+            "name": "",
+            "desc": "",
+            "url": ""
+        }
     ]
 }

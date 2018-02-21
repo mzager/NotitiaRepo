@@ -230,15 +230,15 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
 
     this.cid = Math.random().toString(36).replace(/[^a-z]+/g, '');
     this.visualizationOptions = [
-      { value: VisualizationEnum.PATHWAYS, label: 'Pathways' },
-      { value: VisualizationEnum.GENOME, label: 'Genome' },
+      { value: VisualizationEnum.BOX_WHISKERS, label: 'Box Whiskers' },
       { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
       { value: VisualizationEnum.HIC, label: 'Force Directed Graph' },
+      { value: VisualizationEnum.GENOME, label: 'Genome' },
       { value: VisualizationEnum.HEATMAP, label: 'Heatmap' },
-      { value: VisualizationEnum.BOX_WHISKERS, label: 'Box Whiskers' },
-      { value: VisualizationEnum.TIMELINES, label: 'Timelines' },
-      { value: VisualizationEnum.SURVIVAL, label: 'Survival'},
       { value: VisualizationEnum.HISTOGRAM, label: 'Histogram'},
+      { value: VisualizationEnum.PATHWAYS, label: 'Pathways' },
+      { value: VisualizationEnum.SURVIVAL, label: 'Survival'},
+      { value: VisualizationEnum.TIMELINES, label: 'Timelines' },
 
       // Decomposition
       { value: VisualizationEnum.DICTIONARY_LEARNING, label: 'Dictionary Learning' },
