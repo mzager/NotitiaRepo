@@ -224,10 +224,9 @@ export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWo
                 times: t,
                 events: e
             }).then( (survivalResult) => {
-                debugger;
                 const sr = Object.keys(survivalResult.result.KM_estimate)
-                    .map(v => [parseFloat(v), survivalResult.result.KM_estimate[v]]),
-                const range = [sr[0][0], sr[result.length-1][0]];
+                    .map(v => [parseFloat(v), survivalResult.result.KM_estimate[v]]);
+                const range = [sr[0][0], sr[result.length - 1][0]];
 
                 worker.postMessage({
                     config: config,
@@ -242,10 +241,10 @@ export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWo
                                         upper: Object.keys(survivalResult.confidence['KM_estimate_upper_0.95'])
                                             .map(v => [parseFloat(v), survivalResult.confidence['KM_estimate_upper_0.95'][v]]),
                                         lower: Object.keys(survivalResult.confidence['KM_estimate_upper_0.95'])
-                                            .map(v => [parseFloat(v), survivalResult.confidence['KM_estimate_upper_0.95'][v]])      
+                                            .map(v => [parseFloat(v), survivalResult.confidence['KM_estimate_upper_0.95'][v]])
                                     },
                                     tte: 0,
-                                    median: sr.median,
+                                    median: sr,
                                     timeRange: sr
                                 }
                             ]

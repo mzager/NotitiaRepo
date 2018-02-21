@@ -90,5 +90,12 @@
             "type": "int",
             "desc": "Number of iterations run."
         }
+    ],
+    "citations": [
+        {
+            "name": "",
+            "desc": "",
+            "url": ""
+        }
     ]
 }
