@@ -1,1 +1,81 @@
-{"method":"Factor Analysis","desc":"<span class='help-method'>Factor Analysis (FA)</span>A simple linear generative model with Gaussian latent variables. The observations are assumed to be caused by a linear transformation of lower dimensional latent factors and added Gaussian noise. Without loss of generality the factors are distributed according to a Gaussian with zero mean and unit covariance. The noise is also zero mean and has an arbitrary diagonal covariance matrix. If we would restrict the model further, by assuming that the Gaussian noise is even isotropic (all diagonal entries are the same) we would obtain PPCA. FactorAnalysis performs a maximum likelihood estimate of the so-called loading matrix, the transformation of the latent variables to the observed ones, using expectation-maximization (EM). Read more in the scikit-learn user guide. ","url":"http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FactorAnalysis.html#sklearn.decomposition.FactorAnalysis","params":[{"name":"n components","type":"int | None","desc":"Dimensionality of latent space, the number of components of X that are obtained after transform. If None, n_components is set to the number of features."},{"name":"tol","type":"float","desc":"Stopping tolerance for EM algorithm."},{"name":"copy","type":"bool","desc":"Whether to make a copy of X. If False, the input X gets overwritten during fitting."},{"name":"max iter","type":"int","desc":"Maximum number of iterations."},{"name":"noise variance init","type":"None | array, shape=(n_features,)","desc":"The initial guess of the noise variance for each feature. If None, it defaults to np.ones(n_features)"},{"name":"svd method","type":"{‘lapack’, ‘randomized’}","desc":"Which SVD method to use. If ‘lapack’ use standard SVD from scipy.linalg, if ‘randomized’ use fast randomized_svd function. Defaults to ‘randomized’. For most applications ‘randomized’ will be sufficiently precise while providing significant speed gains. Accuracy can also be improved by setting higher values for iterated_power. If this is not sufficient, for maximum precision you should choose ‘lapack’."},{"name":"iterated power","type":"int, optional","desc":"Number of iterations for the power method. 3 by default. Only used if svd_method equals ‘randomized’"},{"name":"random state","type":"int, RandomState instance or None, optional (default=0)","desc":"If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random. Only used when svd_method equals ‘randomized’."}],"attrs":[{"name":"components","type":"array, [n_components, n_features]","desc":"Components with maximum variance."},{"name":"loglike","type":"list, [n_iterations]","desc":"The log likelihood at each iteration."},{"name":"noise variance","type":"array, shape=(n_features,)","desc":"The estimated noise variance for each feature."},{"name":"n iter","type":"int","desc":"Number of iterations run."}]}
+{
+    "method": "Factor Analysis",
+    "desc": "<span class='help-method'>Factor Analysis (FA)</span>A simple linear generative model with Gaussian latent variables. The observations are assumed to be caused by a linear transformation of lower dimensional latent factors and added Gaussian noise. Without loss of generality the factors are distributed according to a Gaussian with zero mean and unit covariance. The noise is also zero mean and has an arbitrary diagonal covariance matrix. If we would restrict the model further, by assuming that the Gaussian noise is even isotropic (all diagonal entries are the same) we would obtain PPCA. FactorAnalysis performs a maximum likelihood estimate of the so-called loading matrix, the transformation of the latent variables to the observed ones, using expectation-maximization (EM). Read more in the scikit-learn user guide. ",
+    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FactorAnalysis.html#sklearn.decomposition.FactorAnalysis",
+    "params": [
+        {
+            "name": "n components",
+            "type": "int | None",
+            "desc": "Dimensionality of latent space, the number of components of X that are obtained after transform. If None, n_components is set to the number of features."
+        },
+        {
+            "name": "tol",
+            "type": "float",
+            "desc": "Stopping tolerance for EM algorithm."
+        },
+        {
+            "name": "copy",
+            "type": "bool",
+            "desc": "Whether to make a copy of X. If False, the input X gets overwritten during fitting."
+        },
+        {
+            "name": "max iter",
+            "type": "int",
+            "desc": "Maximum number of iterations."
+        },
+        {
+            "name": "noise variance init",
+            "type": "None | array, shape=(n_features,)",
+            "desc": "The initial guess of the noise variance for each feature. If None, it defaults to np.ones(n_features)"
+        },
+        {
+            "name": "svd method",
+            "type": "{‘lapack’, ‘randomized’}",
+            "desc": "Which SVD method to use. If ‘lapack’ use standard SVD from scipy.linalg, if ‘randomized’ use fast randomized_svd function. Defaults to ‘randomized’. For most applications ‘randomized’ will be sufficiently precise while providing significant speed gains. Accuracy can also be improved by setting higher values for iterated_power. If this is not sufficient, for maximum precision you should choose ‘lapack’."
+        },
+        {
+            "name": "iterated power",
+            "type": "int, optional",
+            "desc": "Number of iterations for the power method. 3 by default. Only used if svd_method equals ‘randomized’"
+        },
+        {
+            "name": "random state",
+            "type": "int, RandomState instance or None, optional (default=0)",
+            "desc": "If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random. Only used when svd_method equals ‘randomized’."
+        }
+    ],
+    "attrs": [
+        {
+            "name": "components",
+            "type": "array, [n_components, n_features]",
+            "desc": "Components with maximum variance."
+        },
+        {
+            "name": "loglike",
+            "type": "list, [n_iterations]",
+            "desc": "The log likelihood at each iteration."
+        },
+        {
+            "name": "noise variance",
+            "type": "array, shape=(n_features,)",
+            "desc": "The estimated noise variance for each feature."
+        },
+        {
+            "name": "n iter",
+            "type": "int",
+            "desc": "Number of iterations run."
+        }
+    ],
+    "citations": [
+        {
+            "name": "Scikit-learn: Machine Learning in Python",
+            "desc": "Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.",
+            "url": "http://www.jmlr.org/papers/volume12/pedregosa11a/pedregosa11a.pdf"
+        },
+        {
+            "name": "API design for machine learning software: experiences from the scikit-learn project",
+            "desc": "API design for machine learning software: experiences from the scikit-learn project, Buitinck et al., 2013.",
+            "url": "http://www.di.ens.fr/sierra/pdfs/icml09.pdf"
+        }
+    ]
+}
