@@ -79,28 +79,38 @@
     "citations": [
         {
             "name": "Scikit-learn: Machine Learning in Python",
-            "desc": ["Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011."],
+            "desc": "Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.",
             "url": "http://www.jmlr.org/papers/v12/pedregosa11a.html"
         },
         {
             "name": "For n_components == ‘mle’",
-            "desc": ["This class uses the method of Thomas P. Minka: Automatic Choice of Dimensionality for PCA. NIPS 2000: 598-604"],
+            "desc": "This class uses the method of Thomas P. Minka: Automatic Choice of Dimensionality for PCA. NIPS 2000: 598-604",
             "url": "https://papers.nips.cc/paper/1853-automatic-choice-of-dimensionality-for-pca.pdf"
         },
         {
             "name": "For svd_solver == ‘arpack’,",
-            "desc": ["Refer to scipy.sparse.linalg.svds"],
+            "desc": "Refer to scipy.sparse.linalg.svds",
             "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.svds.html"
         },
         {
             "name": "For svd_solver == ‘randomized’",
-            "desc": ["Finding structure with randomness: Stochastic algorithms for constructing approximate matrix decompositions Halko, et al., 2009 (arXiv:909) "],
+            "desc": "Finding structure with randomness: Stochastic algorithms for constructing approximate matrix decompositions Halko, et al., 2009 (arXiv:909) ",
             "url": "https://arxiv.org/abs/0909.4061"
         },
         {
             "name": "For svd_solver == ‘randomized’",
-            "desc": ["A randomized algorithm for the decomposition of matrices Per-Gunnar Martinsson, Vladimir Rokhlin and Mark Tygert"],
+            "desc": "A randomized algorithm for the decomposition of matrices Per-Gunnar Martinsson, Vladimir Rokhlin and Mark Tygert",
             "url": "https://www.sciencedirect.com/science/article/pii/S1063520310000242"
+        },
+        {
+            "name": "Scikit-learn: Machine Learning in Python",
+            "desc": "Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.",
+            "url": "http://www.jmlr.org/papers/volume12/pedregosa11a/pedregosa11a.pdf"
+        },
+        {
+            "name": "API design for machine learning software: experiences from the scikit-learn project",
+            "desc": "API design for machine learning software: experiences from the scikit-learn project, Buitinck et al., 2013.",
+            "url": "http://www.di.ens.fr/sierra/pdfs/icml09.pdf"
         }
     ]
 }

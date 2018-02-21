@@ -7,6 +7,16 @@ RUN apt-get -y update && \
     apt-get -y upgrade && \
     apt-get install -y git nano
 
+
+# Open CPU
+RUN \
+  apt-get update && \
+  apt-get -y dist-upgrade && \
+  apt-get install -y software-properties-common && \
+  add-apt-repository -y ppa:opencpu/opencpu-2.0 && \
+  apt-get update && \
+  apt-get install -y opencpu-server
+
 # Python
 RUN apt-get install -y software-properties-common && \
     add-apt-repository ppa:deadsnakes/ppa && \
@@ -15,9 +25,8 @@ RUN apt-get install -y software-properties-common && \
     apt-get -y update && \
     apt-get install -y python3-pip python-virtualenv && \
     pip3 install --upgrade pip && \
-    pip3 install flask scipy scikit-learn eve uwsgi && \
+    pip3 install flask scipy lifelines pandas scikit-learn numpy eve uwsgi && \
     pip3 install -U flask-cors && \
-    mkdir /var/www && \
     cd /var/www && \
     git clone https://github.com/mzager/Python
 COPY Docker.Uwsgi.ini /var/www/Python/uwsgi.ini
@@ -28,15 +37,6 @@ RUN rm /etc/nginx/sites-enabled/default
 COPY Docker.Nginx.conf /etc/nginx/sites-available/server.conf
 RUN ln -s /etc/nginx/sites-available/server.conf /etc/nginx/sites-enabled/server.conf && \
     echo "daemon off;" >> /etc/nginx/nginx.conf
-
-# Open CPU
-RUN \
-  apt-get update && \
-  apt-get -y dist-upgrade && \
-  apt-get install -y software-properties-common && \
-  add-apt-repository -y ppa:opencpu/opencpu-2.0 && \
-  apt-get update && \
-  apt-get install -y opencpu-server
 
 # Prints apache logs to stdout
 RUN \

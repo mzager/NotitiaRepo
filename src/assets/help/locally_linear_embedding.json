@@ -78,9 +78,34 @@
     ],
     "citations": [
         {
-            "name": "",
-            "desc": "",
-            "url": ""
+            "name": "Nonlinear dimensionality reduction by locally linear embedding",
+            "desc": "Roweis, S. & Saul, L. Nonlinear dimensionality reduction by locally linear embedding. Science 290:2323 (2000).",
+            "url": "http://www.robots.ox.ac.uk/~az/lectures/ml/lle.pdf"
+        },
+        {
+            "name": "Hessian eigenmaps: Locally linear embedding techniques for high-dimensional data",
+            "desc": "Donoho, D. & Grimes, C. Hessian eigenmaps: Locally linear embedding techniques for high-dimensional data. Proc Natl Acad Sci U S A. 100:5591 (2003).",
+            "url": "http://www.pnas.org/content/100/10/5591"
+        },
+        {
+            "name": "MLLE: Modified Locally Linear Embedding Using Multiple Weights",
+            "desc": "Zhang, Z. & Wang, J. MLLE: Modified Locally Linear Embedding Using Multiple Weights.",
+            "url": "http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.70.382"
+        },
+        {
+            "name": "Principal manifolds and nonlinear dimensionality reduction via tangent space alignment",
+            "desc": "Zhang, Z. & Zha, H. Principal manifolds and nonlinear dimensionality reduction via tangent space alignment. Journal of Shanghai Univ. 8:406 (2004)",
+            "url": "https://arxiv.org/abs/cs/0212008"
+        },
+        {
+            "name": "Scikit-learn: Machine Learning in Python",
+            "desc": "Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.",
+            "url": "http://www.jmlr.org/papers/volume12/pedregosa11a/pedregosa11a.pdf"
+        },
+        {
+            "name": "API design for machine learning software: experiences from the scikit-learn project",
+            "desc": "API design for machine learning software: experiences from the scikit-learn project, Buitinck et al., 2013.",
+            "url": "http://www.di.ens.fr/sierra/pdfs/icml09.pdf"
         }
     ]
 }
