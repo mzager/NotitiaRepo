@@ -21,12 +21,15 @@ export class SurvivalGraph implements ChartObjectInterface {
     public meshes: Array<THREE.Mesh>;
     config: SurvivalConfigModel;
     data: SurvivalDataModel;
-    view: VisualizationView;
-    grid: Group;
-    curves: Group;
+    private view: VisualizationView;
+    private grid: Group;
+    private curves: Group;
+    private isEnabled: boolean;
 
-    enable(truthy: Boolean) {
-
+    enable(truthy: boolean) {
+        if (this.isEnabled === truthy) { return; }
+        this.isEnabled = truthy;
+        this.view.controls.enabled = this.isEnabled;
     }
     update(config: GraphConfig, data: any) {
         this.config = config as SurvivalConfigModel;
@@ -59,9 +62,7 @@ export class SurvivalGraph implements ChartObjectInterface {
         debugger
 
         const cohort = this.data.cohorts[0];
-        this.data.cohorts[0].result.sort( (a,b) => a[0]-b[0])
-        this.data.cohorts[0].confidence.lower.sort( (a,b) => a[0]-b[0])
-        this.data.cohorts[0].confidence.upper.sort( (a,b) => a[0]-b[0])
+        
         const xScale = scaleLinear().range([-500, 500]).domain(cohort.timeRange);
         const yScale = scaleLinear().range([-500, 500]).domain([0, 1]);
         let pts: Array<Vector2>;

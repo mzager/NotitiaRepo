@@ -87,10 +87,12 @@ export class DataEffect {
         .mergeMap( (args: DataLoadedAction) => {
 
             const workspaceConfig = new WorkspaceConfigModel();
-            workspaceConfig.layout = WorkspaceLayoutEnum.SINGLE;
+            workspaceConfig.layout = WorkspaceLayoutEnum.HORIZONTAL;
 
-            // const survivalConfig = new SurvivalConfigModel();
-            // survivalConfig.graph = GraphEnum.GRAPH_A;
+            const survivalConfig = new SurvivalConfigModel();
+            survivalConfig.graph = GraphEnum.GRAPH_A;
+            survivalConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
+
             // const pathwaysConfig = new PathwaysConfigModel();
             // pathwaysConfig.graph = GraphEnum.GRAPH_B;
             // pathwaysConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
@@ -99,9 +101,9 @@ export class DataEffect {
             // genomeConfig.graph = GraphEnum.GRAPH_B;
             // genomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
-            const chromosomeConfig = new ChromosomeConfigModel();
-            chromosomeConfig.graph = GraphEnum.GRAPH_A;
-            chromosomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            // const chromosomeConfig = new ChromosomeConfigModel();
+            // chromosomeConfig.graph = GraphEnum.GRAPH_A;
+            // chromosomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             // const boxWhiskersConfig = new BoxWhiskersConfigModel();
             // boxWhiskersConfig.graph = GraphEnum.GRAPH_A;
@@ -157,9 +159,9 @@ export class DataEffect {
                 // new compute.TimelinesAction( { config: timelinesConfigB})
 
                 //  new compute.ChromosomeAction( { config: chromosomeConfig } ),
-                new compute.HeatmapAction( { config: heatmapConfig })
-                // new compute.SurvivalAction( { config: survivalConfig })
-                new compute.ChromosomeAction( { config: chromosomeConfig } )
+                new compute.HeatmapAction( { config: heatmapConfig }),
+                new compute.SurvivalAction( { config: survivalConfig })
+                // new compute.ChromosomeAction( { config: chromosomeConfig } )
                 // new compute.PathwaysAction( { config: pathwaysConfig }),
                 // new compute.GenomeAction( { config: genomeConfig }),
                 // new compute.PcaIncrementalAction( { config: graphBConfig } )
