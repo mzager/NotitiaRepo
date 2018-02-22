@@ -91,7 +91,7 @@ export class DataEffect {
 
             const survivalConfig = new SurvivalConfigModel();
             survivalConfig.graph = GraphEnum.GRAPH_A;
-            survivalConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
+            survivalConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             // const pathwaysConfig = new PathwaysConfigModel();
             // pathwaysConfig.graph = GraphEnum.GRAPH_B;
@@ -130,18 +130,14 @@ export class DataEffect {
             // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
 
-            // const graphAConfig = new PcaIncrementalConfigModel();
-            // graphAConfig.graph = GraphEnum.GRAPH_A;
-            // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
-
-            const graphBConfig = new PcaIncrementalConfigModel();
-            graphBConfig.graph = GraphEnum.GRAPH_B;
-            graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
-
+            const graphAConfig = new PcaIncrementalConfigModel();
+            graphAConfig.graph = GraphEnum.GRAPH_A;
+            graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             // const graphBConfig = new PcaIncrementalConfigModel();
             // graphBConfig.graph = GraphEnum.GRAPH_B;
             // graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+
 
             const heatmapConfig = new HeatmapConfigModel();
             heatmapConfig.graph = GraphEnum.GRAPH_B;
@@ -150,7 +146,6 @@ export class DataEffect {
             return [
                 new WorkspaceConfigAction( workspaceConfig ),
                 // new compute.LinkedGeneAction( { config: graphAConfig } ),
-                // new compute.PcaIncrementalAction( { config: graphBConfig } ),
                 // new compute.PcaIncrementalAction( { config: graphAConfig } ),
                 // new compute.HicAction( { config: hicConfig }),
                 // new compute.BoxWhiskersAction( { config: boxWhiskersConfig } ),

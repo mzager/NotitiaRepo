@@ -1,7 +1,8 @@
 import { DataService } from 'app/service/data.service';
 import { GraphConfig } from './graph-config.model';
 import { GraphData } from './graph-data.model';
-import { VisualizationEnum, StatTypeEnum, ChartTypeEnum, StatRendererEnum, StatRendererColumns, GraphEnum, Colors } from 'app/model/enum.model';
+import { VisualizationEnum, StatTypeEnum, ChartTypeEnum, StatRendererEnum, StatRendererColumns, GraphEnum,
+    Colors } from 'app/model/enum.model';
 import * as data from 'app/action/data.action';
 import { multicast } from 'rxjs/operator/multicast';
 import { single } from 'rxjs/operator/single';
@@ -1219,7 +1220,7 @@ export class StatFactory {
     formatPCALoadings(markers: Array<string>, data: Array<Array<number>>): Array<{ mylabel: string, myvalue: number, color?: number }> {
         // Map Data To Marker Names
         const r = markers.map( (v, i) => ({ marker: v, pc1: data[0][i], pc2: data[1][i], pc3: data[2][i] }))
-            .sort( (a,b) => { return (b.pc1 - a.pc1) } )
+            .sort( (a, b) =>  (b.pc1 - a.pc1) )
             .map(v => ({mylabel: v.marker, myvalue: Math.round(v.pc1 * 1e2) / 1e2}) ).splice(0, 11);
         // const o = data[0].sort((a, b) => b - a).splice(0, 20).map((v, i) => ({ mylabel: markers[i], myvalue: Math.round(v * 1e2) / 1e2 }));
         // debugger;
