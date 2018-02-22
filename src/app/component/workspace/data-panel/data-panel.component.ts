@@ -38,6 +38,9 @@ export class DataPanelComponent implements AfterViewInit {
       { tbl: 'configA', label: 'Chart A', map: '', ctype: CollectionTypeEnum.UNDEFINED },
       { tbl: 'configB', label: 'Chart B', map: '', ctype: CollectionTypeEnum.UNDEFINED }
     ]);
+    this._tables.unshift(
+      { tbl: 'summary', label: 'Summary', map: '', ctype: CollectionTypeEnum.UNDEFINED },
+    );
   }
 
   tableChange(table: DataTable): void {
@@ -59,7 +62,7 @@ export class DataPanelComponent implements AfterViewInit {
   }
 
   loadTable(table: DataTable): void {
-debugger;
+
     const hot = this.hotRegisterer.getInstance('hotInstance');
     if (table.ctype === CollectionTypeEnum.UNDEFINED) {
       const config: GraphConfig = (table.tbl === 'configA') ? this.configA : this.configB;
@@ -119,8 +122,8 @@ debugger;
   }
 
   ngAfterViewInit() {
-    $(this.tabs.nativeElement).tabs();
-    this.loadTable(this._tables[0]);
+    // $(this.tabs.nativeElement).tabs();
+    // this.loadTable(this._tables[0]);
   }
 
   constructor(private hotRegisterer: HotRegisterer) {

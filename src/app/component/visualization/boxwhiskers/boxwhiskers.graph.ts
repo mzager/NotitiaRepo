@@ -64,7 +64,8 @@ export class BoxWhisterksGraph implements ChartObjectInterface {
         this.meshes = [];
         this.geneLines = [];
         this.chords = [];
-        this.view.controls.enableRotate = false;
+        this.view.controls.enableRotate = true;
+        
         this.group = new THREE.Group();
         this.view.scene.add(this.group);
         this.lineMaterial = new THREE.LineBasicMaterial( { color: 0x039BE5 });
@@ -76,10 +77,14 @@ export class BoxWhisterksGraph implements ChartObjectInterface {
         this.removeObjects();
     }
 
+    // Focus On This
     update(config: GraphConfig, data: any) {
+
+        // Save Config + Data Locally 
         this.config = config as BoxWhiskersConfigModel;
         this.data = data;
 
+        
         if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {
             this.removeObjects();
             this.addObjects();
@@ -107,6 +112,7 @@ export class BoxWhisterksGraph implements ChartObjectInterface {
         }
     }
 
+    // Ignore
     enable(truthy: boolean) {
         if (this.isEnabled === truthy) { return; }
         this.isEnabled = truthy;
@@ -125,6 +131,7 @@ export class BoxWhisterksGraph implements ChartObjectInterface {
 
     }
 
+    // Focus On This
     addObjects() {
 
         const w = (this.view.viewport.width * 0.5) - 100;
@@ -133,27 +140,42 @@ export class BoxWhisterksGraph implements ChartObjectInterface {
         scale.range([0, w]);
 
         this.data.result.forEach( (datum, i) => {
+
             const y = i * 7;
             const q1 = scale(datum.quartiles[0]);
             const q2 = scale(datum.quartiles[2]);
             const m  = scale(datum.quartiles[1]);
-            const boxGeometry = new THREE.PlaneGeometry( q2 - q1, 5);
-            const boxMaterial = new THREE.MeshBasicMaterial({ color: 0x039BE5 });
-            const box = new THREE.Mesh(boxGeometry, boxMaterial);
-            box.position.setX( m  );
-            box.position.setY( y );
+            
+
+            // if (this.config.scatter){
+                
+            // }else{
+                // Mesh = Geometry (shape) + Material (color)
+                // Mesh Is Like A Div + Get's added to the scene or parent "div"
+                const boxGeometry = new THREE.PlaneGeometry( q2 - q1, 5);
+                const boxMaterial = ChartFactory.getColorBasic(0x039BE5);
+                const box = new THREE.Mesh(boxGeometry, boxMaterial);
+                box.position.setX( m  );
+                box.position.setY( y );
+            
+
+            const circle = ChartFactory.meshAllocate(0xFF000, ShapeEnum.CIRCLE, 2, new THREE.Vector3(m, y, 0),{});
+            this.group.add(circle);
+
+            // Group is like a parent div - add all child objects to it
             this.group.add(box);
 
             const lineMaterialBlue = new THREE.LineBasicMaterial({ color: 0x039BE5 });
             const lineMaterialWhite = new THREE.LineBasicMaterial({ color: 0xFFFFFF });
+
             let lineGeometry;
             let line;
 
             // median
             lineGeometry = new THREE.Geometry();
             lineGeometry.vertices.push(
-                new THREE.Vector3( scale(datum.median), y - 3, 0 ),
-                new THREE.Vector3( scale(datum.median), y + 3, 0 )
+                new THREE.Vector3( scale(datum.median), y - 3, 1 ),
+                new THREE.Vector3( scale(datum.median), y + 3, 1 )
             );
             line = new THREE.Line( lineGeometry, lineMaterialWhite );
             this.group.add(line);
@@ -176,7 +198,7 @@ export class BoxWhisterksGraph implements ChartObjectInterface {
             line = new THREE.Line( lineGeometry, lineMaterialBlue );
             this.group.add(line);
 
-
+            // Horiz
             lineGeometry = new THREE.Geometry();
             lineGeometry.vertices.push(
                 new THREE.Vector3( scale(datum.min), y, 0 ),
