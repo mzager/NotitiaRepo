@@ -2,5 +2,7 @@
     <ul class='tabs tabs-fixed-width' #tabs>
         <li class='tab' *ngFor='let table of _tables'><a class='active' (click)='tableChange(table)'>{{table.label}}</a></li>
     </ul>
-    <hot-table #dataTable  hotId="hotInstance"></hot-table>
+
+    <app-summary config="configA"></app-summary>
+    <hot-table #dataTable  hotId="hotInstance" style="display:none;"></hot-table>
 </div>

@@ -91,6 +91,7 @@ import { QueryBuilderComponent } from 'app/component/workspace/query-panel/query
 import { ModalService } from 'app/service/modal-service';
 import { HotTableModule } from 'angular-handsontable';
 import { NouisliderModule } from 'ng2-nouislider';
+import { SummaryComponent } from './component/workspace/data-panel/summary/summary.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -150,6 +151,7 @@ import { NouisliderModule } from 'ng2-nouislider';
     PcaSparseFormComponent,
     GeneSignaturePanelComponent,
     HelpPanelComponent,
+    SummaryComponent,
     ClusteringAlgorithmPanelComponent,
     QueryBuilderComponent
   ],
