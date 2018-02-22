@@ -71,7 +71,6 @@ export class SurvivalGraph implements ChartObjectInterface {
         if (this.data.cohorts === undefined) {
             return;
         }
-        debugger
 
         const cohort = this.data.cohorts[0];
         
