@@ -101,6 +101,7 @@ export class HelpPanelComponent implements AfterViewInit, OnDestroy {
       this.url = 'NA';
       this.attrs = [];
       this.params = [];
+      this.citations = [];
 
     } else {
 
@@ -110,6 +111,7 @@ export class HelpPanelComponent implements AfterViewInit, OnDestroy {
         this.url = result.url;
         this.attrs = result.attrs;
         this.params = result.params;
+        this.citations = result.citations;
       });
     }
   }
@@ -121,6 +123,7 @@ export class HelpPanelComponent implements AfterViewInit, OnDestroy {
   url = '';
   attrs: Array<{ name: string, type: string, desc: string }> = [];
   params: Array<{ name: string, type: string, desc: string }> = [];
+  citations: Array<{ name: string, desc: string, url: string }> = [];
 
   @Output() hide: EventEmitter<any> = new EventEmitter();
 

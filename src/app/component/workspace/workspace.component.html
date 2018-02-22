@@ -38,6 +38,7 @@
         [config]='graphBConfig | async'
         [data]='graphBData | async'
         (hide)='graphPanelToggle(2)'
+        (help)='helpPanelToggle($event)'
         (configChange)='graphPanelSetConfig($event)'
         (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
         (selectGeneSignature)='graphPanelSelectGeneSignature($event)'
@@ -104,10 +105,9 @@
         style='pointer-events:all;position:relative;'
         *ngIf='helpPanelTab | async' 
         [bounds]='panelContainer'
-        [config]='graphAConfig | async'
+        [config]='helpPanelConfig | async'
         (hide)='helpPanelToggle()'
-        >
-        </app-workspace-help-panel>
+        ></app-workspace-help-panel>
 </div>
 
 <app-workspace-tool-bar

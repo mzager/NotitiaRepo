@@ -1,3 +1,4 @@
+import * as fromHelp from './help.reducer';
 import * as fromData from './data.reducer';
 import * as fromGraph from './graph.reducer';
 import * as fromLayout from './layout.reducer';
@@ -16,6 +17,7 @@ import { storeFreeze } from 'ngrx-store-freeze';
 
 export interface State {
     layout: fromLayout.State;
+    help: fromHelp.State;
     graphA: fromGraph.State;
     graphB: fromGraph.State;
     edges: fromEdges.State;
@@ -27,6 +29,7 @@ export interface State {
 const graphAReducer = fromGraph.graphReducerA;
 const graphBReducer = fromGraph.graphReducerB;
 export let reducers = {
+    help: fromHelp.reducer,
     layout: fromLayout.reducer,
     graphA: graphAReducer,
     graphB: graphBReducer,
@@ -104,8 +107,10 @@ export const getFields = createSelector(getDataState, fromData.getFields);
 export const getTables = createSelector(getDataState, fromData.getTables);
 export const getEvents = createSelector(getDataState, fromData.getEvents);
 
-/**
- * Spreadsheet Reducer
- */
+// Spreadsheet Reducer
 export const getSpreadsheetState = (state: State) => state.spreadsheet;
 export const getDataTable = createSelector(getSpreadsheetState, fromSpreadsheet.getDataTable);
+
+// Help Reducer
+export const getHelpState = (state: State) => state.help;
+export const getHelpConfigState = createSelector(getHelpState, fromHelp.getHelpConfigState);

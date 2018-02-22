@@ -9,6 +9,7 @@ import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
 import { Vector2, Shape, ShapeGeometry, MeshPhongMaterial, Mesh, DoubleSide, Line, LineBasicMaterial, BufferGeometry, Vector3, Group } from 'three';
+import { MeshText2D, textAlign } from 'three-text2d';
 
 export class SurvivalGraph implements ChartObjectInterface {
 
@@ -47,11 +48,22 @@ export class SurvivalGraph implements ChartObjectInterface {
         for (let x = -500; x <= 500; x += 100) {
             const line = ChartFactory.lineAllocate(0xDDDDDD, new Vector2(x, -500), new Vector2(x, 500));
             this.grid.add(line);
+            
+            
         }
+        let percent = 0;
         for (let y = -500; y <= 500; y += 100) {
             const line = ChartFactory.lineAllocate(0xDDDDDD, new Vector2(-500, y), new Vector2(500, y));
             this.grid.add(line);
+            const text = new MeshText2D(percent.toString(), { align: textAlign.right, font: '12px Ariel', fillStyle: '#666666', antialias: true });
+            text.position.setX(-506);
+            text.position.setY(y + 6);
+            this.grid.add(text);
+            percent +=  10;
         }
+        
+        
+        
     }
 
     addObjects(): void {
