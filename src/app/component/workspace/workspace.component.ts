@@ -96,6 +96,7 @@ export class WorkspaceComponent {
   graphBLegend: Observable<Array<Legend>>;
   graphAConfig: Observable<GraphConfig>;
   graphBConfig: Observable<GraphConfig>;
+  helpPanelConfig: Observable<GraphConfig>;
   workspaceConfig: Observable<WorkspaceConfigModel>;
   graphAData: Observable<any>;
   graphBData: Observable<any>;
@@ -138,6 +139,7 @@ export class WorkspaceComponent {
     this.queryPanelTab = store.select(fromRoot.getLayoutQueryPanelState);
     this.toolPanelTab = store.select(fromRoot.getLayoutToolPanelState);
     this.helpPanelTab = store.select(fromRoot.getLayoutHelpPanelState);
+    this.helpPanelConfig = store.select(fromRoot.getHelpConfigState);
     this.workspacePanelTab = store.select(fromRoot.getWorkspacePanelState);
     this.historyPanelTab = store.select(fromRoot.getLayoutHistoryPanelState);
     this.cohortPanelTab = store.select(fromRoot.getLayoutCohortPanelState);

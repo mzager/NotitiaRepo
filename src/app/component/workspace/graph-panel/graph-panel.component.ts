@@ -72,7 +72,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Input() config: GraphConfig;
   @Input() data: GraphData;
   @Output() hide: EventEmitter<any> = new EventEmitter();
-  @Output() help: EventEmitter<any> = new EventEmitter();
+  @Output() help: EventEmitter<GraphConfig> = new EventEmitter();
   @Output() configChange: EventEmitter<GraphConfig> = new EventEmitter();
   @Output() selectClusteringAlgorithm: EventEmitter<GraphConfig> = new EventEmitter();
   @Output() selectGeneSignature: EventEmitter<GraphConfig> = new EventEmitter();
@@ -84,7 +84,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   visualizationOptions: Array<{ value: VisualizationEnum, label: string }>;
 
   helpClick(): void {
-    this.help.emit(this.config.visualization);
+    this.help.emit(this.config);
   }
   onVisualizationChange($event: Event) {
     if ($event instanceof CustomEvent) {
@@ -230,15 +230,15 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
 
     this.cid = Math.random().toString(36).replace(/[^a-z]+/g, '');
     this.visualizationOptions = [
-      { value: VisualizationEnum.PATHWAYS, label: 'Pathways' },
-      { value: VisualizationEnum.GENOME, label: 'Genome' },
+      { value: VisualizationEnum.BOX_WHISKERS, label: 'Box Whiskers' },
       { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
       { value: VisualizationEnum.HIC, label: 'Force Directed Graph' },
+      { value: VisualizationEnum.GENOME, label: 'Genome' },
       { value: VisualizationEnum.HEATMAP, label: 'Heatmap' },
-      { value: VisualizationEnum.BOX_WHISKERS, label: 'Box Whiskers' },
-      { value: VisualizationEnum.TIMELINES, label: 'Timelines' },
-      { value: VisualizationEnum.SURVIVAL, label: 'Survival'},
       { value: VisualizationEnum.HISTOGRAM, label: 'Histogram'},
+      { value: VisualizationEnum.PATHWAYS, label: 'Pathways' },
+      { value: VisualizationEnum.SURVIVAL, label: 'Survival'},
+      { value: VisualizationEnum.TIMELINES, label: 'Timelines' },
 
       // Decomposition
       { value: VisualizationEnum.DICTIONARY_LEARNING, label: 'Dictionary Learning' },
