@@ -245,6 +245,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       { value: VisualizationEnum.PATHWAYS, label: 'Pathways' },
       { value: VisualizationEnum.SURVIVAL, label: 'Survival'},
       { value: VisualizationEnum.TIMELINES, label: 'Timelines' },
+      { value: VisualizationEnum.SPREADSHEET, label: 'Spreadsheet' },
 
       // Decomposition
       { value: VisualizationEnum.DICTIONARY_LEARNING, label: 'Dictionary Learning' },
