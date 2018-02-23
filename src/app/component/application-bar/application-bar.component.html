@@ -10,7 +10,7 @@
    </li> -->
    <!-- <li><a class='app-bar-menu-item' href='https://dev.oncoscape.sttrcancer.io/upload/'>Oncoscape</a></li> -->
    <li><a class='app-bar-menu-item' (click)='filePanelToggle.emit()'>Load </a></li>
-   <li><a class='app-bar-menu-item' (click)='filePanelToggle.emit()'>Save </a></li>
+   <!-- <li><a class='app-bar-menu-item' (click)='filePanelToggle.emit()'>Save </a></li> -->
    <li class='divider'></li>
    <li><a class='app-bar-menu-item' (click)='exportImage();'>Export</a></li>
    <li><a class='app-bar-menu-item' (click)='print();'>Print</a></li>
@@ -42,9 +42,6 @@
 
 <!-- Help -->
 <ul id='application-bar-menu-help' class='dropdown-content'>
-    <li><a class='app-bar-menu-item' href='https://oncoscape.sttrcancer.org/documentation/'>Help</a></li>
-    <li><a class='app-bar-menu-item' href='http://resources.sttrcancer.org/oncoscape-contact'>Contact Us</a></li>
-    <li><a class='app-bar-menu-item' href='http://jmlr.csail.mit.edu/papers/v12/pedregosa11a.html'>Citations</a></li>
     <li><a class='app-bar-menu-item' href='http://jmlr.csail.mit.edu/papers/v12/pedregosa11a.html'>About</a></li>
 </ul>
 
@@ -52,14 +49,14 @@
 <div class='application-bar-menu'>
     <span class='application-bar-logo'>Oncoscape</span>
     <span class='right'>
-        <a class='dropdown-button nav-button' 
+        <!-- <a class='dropdown-button nav-button' 
             data-activates='application-bar-menu-file'
             data-beloworigin='true'
-            href='#'>Data</a>
-        <a class='dropdown-button nav-button' 
+            href='#'>Data</a> -->
+        <!-- <a class='dropdown-button nav-button' 
             data-activates='application-bar-menu-view' 
             data-beloworigin='true'
-            href='#'>Visualization</a>
+            href='#'>Visualization</a> -->
         <a class='dropdown-button nav-button' 
             data-activates='application-bar-menu-help'
             data-beloworigin='true'
