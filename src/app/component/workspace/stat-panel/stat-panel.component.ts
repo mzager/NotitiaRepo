@@ -59,9 +59,9 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
 
     if (this._config === null || this._data === null) { return; }
     this.container.empty();
-    this.statFactory.getPopulationStats(this._config, this.dataService).then(populationStats => {
+    // this.statFactory.getPopulationStats(this._config, this.dataService).then(populationStats => {
 
-      this.statFactory.getStatObjects(this._data, this._config).concat(populationStats).forEach((stat, i) => {
+      this.statFactory.getStatObjects(this._data, this._config).forEach((stat, i) => {
         const div = this.container.append('<div id="cc' + i.toString() + '" class="statItemContainer"></div>');
 
         // Process Stat Types
@@ -80,7 +80,7 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
             break;
         }
       });
-    });
+    // });
   }
 
   // Ng After View Init get's called after the dom has been constructed

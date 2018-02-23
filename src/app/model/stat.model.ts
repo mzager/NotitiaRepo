@@ -131,7 +131,7 @@ export class VegaFactory {
 
     // Labels (Singles), need to add classes to apply CSS
     private createLabel(stat: Stat): any {
-        return '<div>' + stat.data.reduce((p, c) => {
+        return '<div style="padding-bottom:15px;">' + stat.data.reduce((p, c) => {
             p += '<label>' + c.mylabel +
                 '</label><label> ' + c.myvalue + '<label><br />';
             return p;
@@ -148,12 +148,13 @@ export class VegaFactory {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'config': {
                 'title': {
-                    'offset': 10,
+                    'offset': 15,
                     'fontSize': 12,
                     'color': '#666666',
                     'font': 'Lato',
                     'fontWeight': 'normal',
                     'orient': 'top',
+                    'anchor': 'start'
                 }
             },
             'title': {
@@ -410,11 +411,12 @@ export class VegaFactory {
             'config': {
                 'title': {
                     'offset': 20,
-                    'fontSize': 12,
+                    'fontSize': 12.8,
                     'color': '#666666',
                     'font': 'Lato',
                     'fontWeight': '500',
-                    'orient': 'top'
+                    'orient': 'top',
+                    'anchor': 'start'
                 }
             },
             'title': {
@@ -549,7 +551,7 @@ export class VegaFactory {
             'config': {
                 'title': {
                     'offset': 10,
-                    'fontSize': 12
+                    'fontSize': 12.8
                 }
             },
             'title': {
