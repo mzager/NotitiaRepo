@@ -1,3 +1,4 @@
+import { ChartUtil } from 'app/component/workspace/chart/chart.utils';
 import { ChartFactory } from './../../workspace/chart/chart.factory';
 import { SurvivalConfigModel, SurvivalDataModel } from './survival.model';
 import { VisualizationView } from './../../../model/chart-view.model';
@@ -48,8 +49,6 @@ export class SurvivalGraph implements ChartObjectInterface {
         for (let x = -500; x <= 500; x += 100) {
             const line = ChartFactory.lineAllocate(0xDDDDDD, new Vector2(x, -500), new Vector2(x, 500));
             this.grid.add(line);
-            
-            
         }
         let percent = 0;
         for (let y = -500; y <= 500; y += 100) {
@@ -62,7 +61,9 @@ export class SurvivalGraph implements ChartObjectInterface {
             percent +=  10;
         }
         
-        
+        // ChartUtil.fitCameraToObject(this.view.camera, 
+        //     new THREE.Box3(new Vector3(-1500, -1500, -1500), new Vector3(1500,1500,1500))
+        //         , 1, this.view.controls);
         
     }
 

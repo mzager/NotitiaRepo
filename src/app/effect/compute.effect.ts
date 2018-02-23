@@ -19,6 +19,7 @@ import {
   GenomeCompleteAction,
   TsneCompleteAction,
   EdgesCompleteAction,
+  DendogramCompleteAction,
   HeatmapCompleteAction,
   PathwaysCompleteAction,
   ParallelCoordsCompleteAction,
@@ -276,6 +277,17 @@ export class ComputeEffect {
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new HeatmapCompleteAction({ config: result.config, data: result.data }));
+        });
+    });
+  
+  @Effect() loadDendogram: Observable<any> = this.actions$
+    .ofType(compute.COMPUTE_DENDOGRAM)
+    .map(toPayload)
+    .switchMap(payload => {
+      return this.computeService.dendogram(payload.config)
+        .switchMap(result => {
+          return Observable.of((result === null) ? new NullDataAction() :
+            new DendogramCompleteAction({ config: result.config, data: result.data }));
         });
     });
 

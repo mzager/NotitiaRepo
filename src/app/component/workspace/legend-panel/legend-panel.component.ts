@@ -83,8 +83,8 @@ export class LegendPanelComponent implements AfterViewInit {
             group.append('text')
               .attr('x', 0)
               .attr('y', yOffset + 15)
-              .attr('fill', '#9e9e9e')
-              .style('font-size', '10px')
+              .attr('fill', '#666666')
+              .style('font-size', '1rem')
               .text(legend.name.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()));
             yOffset += 20;
 
@@ -100,14 +100,14 @@ export class LegendPanelComponent implements AfterViewInit {
               .text(legend.labels[0])
               .attr('x', 0)
               .attr('y', yOffset + 10)
-              .attr('fill', '#9e9e9e')
+              .attr('fill', '#666666')
               .style('font-size', '10px');
 
             group.append('text')
               .text(legend.labels[1])
               .attr('x', '210px')
               .attr('y', yOffset + 10)
-              .attr('fill', '#9e9e9e')
+              .attr('fill', '#666666')
               .style('text-anchor', 'end')
               .style('font-size', '10px');
 
@@ -117,8 +117,8 @@ export class LegendPanelComponent implements AfterViewInit {
             group.append('text')
               .attr('x', 0)
               .attr('y', yOffset + 15)
-              .attr('fill', '#9e9e9e')
-              .style('font-size', '10px')
+              .attr('fill', '#666666')
+              .style('font-size', '1rem')
               .text(legend.name.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()));
             yOffset += 20;
 
@@ -131,14 +131,14 @@ export class LegendPanelComponent implements AfterViewInit {
               .text(legend.labels[0])
               .attr('x', 0)
               .attr('y', yOffset + 15)
-              .attr('fill', '#9e9e9e')
+              .attr('fill', '#666666')
               .style('font-size', '10px');
 
             group.append('text')
               .text(legend.labels[1])
               .attr('x', '210px')
               .attr('y', yOffset + 15)
-              .attr('fill', '#9e9e9e')
+              .attr('fill', '#666666')
               .style('text-anchor', 'end')
               .style('font-size', '10px');
             yOffset += 20;
@@ -152,8 +152,8 @@ export class LegendPanelComponent implements AfterViewInit {
               .text( (legend.name === '') ? 'Color' : legend.name)
               .attr('x', '0px')
               .attr('y', yOffset + 15)
-              .attr('fill', '#9e9e9e')
-              .attr('font-size', '10px');
+              .attr('fill', '#666666')
+              .attr('font-size', '1rem');
             yOffset += 20;
             for (let si = 0, sl = legend.labels.length; si < sl; si++) {
 
@@ -171,8 +171,8 @@ export class LegendPanelComponent implements AfterViewInit {
                 .text(label)
                 .attr('x', '20px')
                 .attr('y', yOffset + 15)
-                .attr('fill', '#9e9e9e')
-                .attr('font-size', '10px');
+                .attr('fill', '#666666')
+                .attr('font-size', '1rem');
               yOffset += 20;
 
             }
@@ -182,8 +182,8 @@ export class LegendPanelComponent implements AfterViewInit {
               .text('Shape')
               .attr('x', '0px')
               .attr('y', yOffset + 15)
-              .attr('fill', '#9e9e9e')
-              .attr('font-size', '10px');
+              .attr('fill', '#666666')
+              .attr('font-size', '1rem');
             yOffset += 20;
             for (let si = 0, sl = legend.labels.length; si < sl; si++) {
 

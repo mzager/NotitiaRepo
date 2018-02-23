@@ -1,3 +1,4 @@
+import { DendogramConfigModel, DendogramDataModel } from './../component/visualization/dendogram/dendogram.model';
 import { MiniBatchSparsePcaConfigModel, MiniBatchSparsePcaDataModel } from 'app/component/visualization/minibatchsparsepca/minibatchsparsepca.model';
 import { MiniBatchDictionaryLearningConfigModel, MiniBatchDictionaryLearningDataModel } from 'app/component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
 import { LinearDiscriminantAnalysisConfigModel, LinearDiscriminantAnalysisDataModel } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
@@ -85,6 +86,8 @@ export const COMPUTE_DE = '[Compute] De';
 export const COMPUTE_DE_COMPLETE = '[Compute] De Complete';
 export const COMPUTE_SURVIVAL = '[Compute] Survival';
 export const COMPUTE_SURVIVAL_COMPLETE = '[Compute] Survival Complete';
+export const COMPUTE_DENDOGRAM = '[Compute] Dendogram';
+export const COMPUTE_DENDOGRAM_COMPLETE = '[Compute] Dendogram Complete';
 export const COMPUTE_HEATMAP = '[Compute] Heatmap';
 export const COMPUTE_HEATMAP_COMPLETE = '[Compute] Heatmap Complete';
 export const COMPUTE_HISTOGRAM = '[Compute] Histogram';
@@ -342,6 +345,14 @@ export class SurvivalCompleteAction implements Action {
     readonly type: string = COMPUTE_SURVIVAL_COMPLETE;
     constructor(public payload: { config: SurvivalConfigModel, data: SurvivalDataModel }) { }
 }
+export class DendogramAction implements Action {
+    readonly type: string = COMPUTE_DENDOGRAM;
+    constructor(public payload: { config: DendogramConfigModel }) { }
+}
+export class DendogramCompleteAction implements Action {
+    readonly type: string = COMPUTE_DENDOGRAM_COMPLETE;
+    constructor(public payload: { config: DendogramConfigModel, data: DendogramDataModel }) { }
+}
 export class HeatmapAction implements Action {
     readonly type: string = COMPUTE_HEATMAP;
     constructor(public payload: { config: HeatmapConfigModel }) { }
@@ -525,6 +536,7 @@ export type Actions =
     PlsAction | PlsCompleteAction |
     TsneAction | TsneCompleteAction |
     SurvivalAction | SurvivalCompleteAction |
+    DendogramAction | DendogramCompleteAction |
     HeatmapAction | HeatmapCompleteAction |
     BoxWhiskersAction | BoxWhiskersCompleteAction |
     ParallelCoordsAction | ParallelCoordsCompleteAction |
@@ -549,3 +561,4 @@ export type Actions =
     GraphColorAction | GraphShapeAction | GraphSizeAction |
     GraphColorCompleteAction | GraphShapeCompleteAction | GraphSizeCompleteAction |
     SelectSamplesAction | SelectMarkersAction;
+ 

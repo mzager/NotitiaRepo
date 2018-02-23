@@ -4,7 +4,7 @@
 }
 
 .btn-config {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: #FFF;
     width: 100%;
     border: 1px solid #EEEEEE;
     border-radius: 2px;
@@ -43,4 +43,17 @@
 }
 .dropdown-content {
     font-size: 1rem;
+}
+.graphPanelHeader{
+    background: #fafafa;
+    border: 1px solid #eee;
+    border-left-width: 0px;
+    padding-left:10px;
+    text-transform: uppercase;
+    font-size: .9rem;
+    letter-spacing: 3px;
+    line-height: 30px;
+    width: 285px;
+    left:0px;
+    top:0px;
 }

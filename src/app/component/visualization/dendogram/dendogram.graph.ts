@@ -1,5 +1,5 @@
+import { DendogramDataModel, DendogramConfigModel } from './dendogram.model';
 import { NoneAction } from './../../../action/compute.action';
-import { HeatmapDataModel, HeatmapConfigModel } from './heatmap.model';
 import { EventEmitter, Output } from '@angular/core';
 
 import { ChartUtil } from './../../workspace/chart/chart.utils';
@@ -21,7 +21,7 @@ import { ShapeEnum, GraphEnum } from 'app/model/enum.model';
 import { Vector2, Vector3 } from 'three';
 import * as d3 from 'd3';
 
-export class HeatmapGraph implements ChartObjectInterface {
+export class DendogramGraph implements ChartObjectInterface {
 
     // Emitters
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
@@ -33,8 +33,8 @@ export class HeatmapGraph implements ChartObjectInterface {
     private labels: HTMLElement;
     private events: ChartEvents;
     private view: VisualizationView;
-    private data: HeatmapDataModel;
-    private config: HeatmapConfigModel;
+    private data: DendogramDataModel;
+    private config: DendogramConfigModel;
     private isEnabled: boolean;
 
     // Objects
@@ -77,7 +77,7 @@ export class HeatmapGraph implements ChartObjectInterface {
 
     update(config: GraphConfig, data: any) {
         console.log("REDRAW");
-        this.config = config as HeatmapConfigModel;
+        this.config = config as DendogramConfigModel;
         this.data = data;
         this.removeObjects();
         this.addObjects();
@@ -150,8 +150,8 @@ export class HeatmapGraph implements ChartObjectInterface {
         this.points = new THREE.Points(geometry, material);
         this.group.add(this.points);
 
-        this.drawDendogram(this.data.y, true);//, this.data.colors[0].length);
-        this.drawDendogram(this.data.x, false);
+        this.drawDendogram(this.data.result, false);
+        
         this.onRequestRender.next();
     }
 

@@ -69,6 +69,7 @@ export class HelpPanelComponent implements AfterViewInit, OnDestroy {
     (v === VisualizationEnum.FAST_ICA) ? 'fast_ica.json' :
     (v === VisualizationEnum.HIC) ? 'force_directed_graph.json' :
     (v === VisualizationEnum.GENOME) ? 'genome.json' :
+    (v === VisualizationEnum.DENDOGRAM) ? 'dendogram.json' : 
     (v === VisualizationEnum.HEATMAP) ? 'heatmap.json' :
     (v === VisualizationEnum.HISTOGRAM) ? 'histogram.json' :
     (v === VisualizationEnum.INCREMENTAL_PCA) ? 'incremental_pca.json' :
