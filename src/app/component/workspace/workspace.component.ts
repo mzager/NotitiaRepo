@@ -1,3 +1,4 @@
+import { DendogramConfigModel } from './../visualization/dendogram/dendogram.model';
 import { MiniBatchSparsePcaConfigModel } from 'app/component/visualization/minibatchsparsepca/minibatchsparsepca.model';
 import { MiniBatchDictionaryLearningConfigModel } from 'app/component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
 import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
@@ -232,6 +233,9 @@ export class WorkspaceComponent {
         break;
       case enums.VisualizationEnum.HEATMAP:
         this.store.dispatch( new compute.HeatmapAction( { config: value as HeatmapConfigModel} ));
+        break;
+      case enums.VisualizationEnum.DENDOGRAM:
+        this.store.dispatch( new compute.DendogramAction( { config: value as DendogramConfigModel} ));
         break;
       case enums.VisualizationEnum.PARALLEL_COORDS:
         this.store.dispatch( new compute.ParallelCoordsAction( { config: value as ParallelCoordsConfigModel} ));

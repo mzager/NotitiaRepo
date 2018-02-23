@@ -92,6 +92,7 @@ import { ModalService } from 'app/service/modal-service';
 import { HotTableModule } from 'angular-handsontable';
 import { NouisliderModule } from 'ng2-nouislider';
 import { SummaryComponent } from './component/workspace/data-panel/summary/summary.component';
+import { DendogramFormComponent } from './component/visualization/dendogram/dendogram.form.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -138,6 +139,7 @@ import { SummaryComponent } from './component/workspace/data-panel/summary/summa
     TimelinesFormComponent,
     SurvivalFormComponent,
     HeatmapFormComponent,
+    DendogramFormComponent,
     BoxWhiskersFormComponent,
     ParallelCoordsFormComponent,
     HistogramFormComponent,

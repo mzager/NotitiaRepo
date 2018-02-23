@@ -131,9 +131,9 @@ export class VegaFactory {
 
     // Labels (Singles), need to add classes to apply CSS
     private createLabel(stat: Stat): any {
-        return '<div style="padding:10px" class="stat-col col s12">' + stat.data.reduce((p, c) => {
-            p += '<p><label>' + c.mylabel +
-                '</label><label> ' + c.myvalue + '<label></p>';
+        return '<div>' + stat.data.reduce((p, c) => {
+            p += '<label>' + c.mylabel +
+                '</label><label> ' + c.myvalue + '<label><br />';
             return p;
         }, '') + '</div>';
 
@@ -897,6 +897,9 @@ export class StatFactory {
 
     public getPopulationStats( config: GraphConfig, dataService: DataService): Promise<Array<Stat>> {
 
+        if (config === undefined) {
+            return new Promise( (resolve, reject) => { resolve([]); });
+        }
         return new Promise( (resolve, reject) => {
 
             const stats = [];
@@ -940,6 +943,9 @@ export class StatFactory {
 
     // Public Interface + Takes The Visualization Type and figures which to call
     public getStatObjects(data: GraphData, config: GraphConfig): Array<Stat> {
+
+        if (config === undefined) { return []; }
+
         // Unsupervised Learning Clustering + Manifest Learn + Discriminant Analysis
         switch (config.visualization) {
             case VisualizationEnum.INCREMENTAL_PCA: return this.createIncrementalPca(data);
