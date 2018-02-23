@@ -14,7 +14,7 @@ import * as _ from 'lodash';
   template: `
 <form [formGroup]='form' novalidate>
   <div class='form-group'>
-    <label><span class='form-label'>Data</span>
+    <label><span class='form-label'>Table</span>
       <select materialize='material_select'
           [compareWith]='byKey'
           formControlName='table'>

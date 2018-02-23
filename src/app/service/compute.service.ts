@@ -1,3 +1,4 @@
+import { DendogramConfigModel } from './../component/visualization/dendogram/dendogram.model';
 import { SurvivalConfigModel } from './../component/visualization/survival/survival.model';
 import { MiniBatchDictionaryLearningConfigModel } from './../component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
 import { miniBatchSparsePcaCompute } from './../component/visualization/minibatchsparsepca/minibatchsparsepca.compute';
@@ -78,6 +79,7 @@ export class ComputeService {
     private tsne$ = new Subject<any>();
     private edges$ = new Subject<any>();
     private heatmap$ = new Subject<any>();
+    private dendogram$ = new Subject<any>();
     private boxWhiskers$ = new Subject<any>();
     private parallelCoords$ = new Subject<any>();
     private linkedGene$ = new Subject<any>();
@@ -134,6 +136,7 @@ export class ComputeService {
             (v === VisualizationEnum.GENOME) ? this.genome$ :
             (v === VisualizationEnum.TSNE) ? this.tsne$ :
             (v === VisualizationEnum.HEATMAP) ? this.heatmap$ :
+            (v === VisualizationEnum.DENDOGRAM) ? this.dendogram$ : 
             (v === VisualizationEnum.PARALLEL_COORDS) ? this.parallelCoords$ :
             (v === VisualizationEnum.LINKED_GENE) ? this.linkedGene$ :
             (v === VisualizationEnum.HIC) ? this.hic$ :
@@ -204,6 +207,10 @@ export class ComputeService {
 
     heatmap(config: HeatmapConfigModel): Observable<any> {
         return this.execute(config, this.heatmap$);
+    }
+
+    dendogram(config: DendogramConfigModel): Observable<any> {
+        return this.execute(config, this.dendogram$);
     }
 
     boxWhiskers(config: BoxWhiskersConfigModel): Observable<any> {

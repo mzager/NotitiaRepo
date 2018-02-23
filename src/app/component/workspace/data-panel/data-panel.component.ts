@@ -27,6 +27,7 @@ export class DataPanelComponent implements AfterViewInit {
   @ViewChild('tabs') tabs: ElementRef;
 
 
+
   @Input() configA: GraphConfig;
   @Input() configB: GraphConfig;
 
@@ -122,8 +123,8 @@ export class DataPanelComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // $(this.tabs.nativeElement).tabs();
-    // this.loadTable(this._tables[0]);
+    $(this.tabs.nativeElement).tabs();
+    this.loadTable(this._tables[0]);
   }
 
   constructor(private hotRegisterer: HotRegisterer) {

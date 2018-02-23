@@ -1,3 +1,4 @@
+import { DendogramGraph } from './../../visualization/dendogram/dendogram.graph';
 import { SurvivalGraph } from './../../visualization/survival/survival.graph';
 import { LinearDiscriminantAnalysisGraph } from './../../visualization/lineardiscriminantanalysis/lineardiscriminantanalysis';
 import { MiniBatchDictionaryLearningGraph } from './../../visualization/minibatchdictionarylearning/minibatchdictionarylearning';
@@ -438,6 +439,7 @@ export class ChartScene {
             case VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS: return new LinearDiscriminantAnalysisGraph();
             case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS: return new QuadradicDiscriminantAnalysisGraph();
             case VisualizationEnum.SURVIVAL: return new SurvivalGraph();
+            case VisualizationEnum.DENDOGRAM: return new DendogramGraph();
         }
     }
 

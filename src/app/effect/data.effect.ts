@@ -87,7 +87,7 @@ export class DataEffect {
         .mergeMap( (args: DataLoadedAction) => {
 
             const workspaceConfig = new WorkspaceConfigModel();
-            workspaceConfig.layout = WorkspaceLayoutEnum.HORIZONTAL;
+            workspaceConfig.layout = WorkspaceLayoutEnum.SINGLE;
 
             const survivalConfig = new SurvivalConfigModel();
             survivalConfig.graph = GraphEnum.GRAPH_A;
@@ -117,9 +117,9 @@ export class DataEffect {
             // timelinesConfigB.graph = GraphEnum.GRAPH_B;
             // timelinesConfigB.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
 
-            // const graphBConfig = new PcaIncrementalConfigModel();
-            // graphBConfig.graph = GraphEnum.GRAPH_B;
-            // graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            const graphBConfig = new PcaIncrementalConfigModel();
+            graphBConfig.graph = GraphEnum.GRAPH_A;
+            graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             // const hicConfig = new HicConfigModel();
             // hicConfig.graph = GraphEnum.GRAPH_B;
@@ -155,11 +155,11 @@ export class DataEffect {
 
                 //  new compute.ChromosomeAction( { config: chromosomeConfig } ),
                 new compute.HeatmapAction( { config: heatmapConfig }),
-                new compute.SurvivalAction( { config: survivalConfig })
+                // new compute.SurvivalAction( { config: survivalConfig })
                 // new compute.ChromosomeAction( { config: chromosomeConfig } )
                 // new compute.PathwaysAction( { config: pathwaysConfig }),
                 // new compute.GenomeAction( { config: genomeConfig }),
-                // new compute.PcaIncrementalAction( { config: graphBConfig } )
+                new compute.PcaIncrementalAction( { config: graphBConfig } )
                 // new GraphPanelToggleAction( GraphPanelEnum.GRAPH_A )
             ];
         });

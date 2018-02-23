@@ -1,3 +1,4 @@
+import { DendogramConfigModel } from './../../visualization/dendogram/dendogram.model';
 import { SurvivalConfigModel } from './../../visualization/survival/survival.model';
 import { ModalService } from './../../../service/modal-service';
 import { QuadradicDiscriminantAnalysisConfigModel } from './../../visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
@@ -118,6 +119,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
         case VisualizationEnum.HEATMAP:
           gc = new HeatmapConfigModel();
           break;
+        case VisualizationEnum.DENDOGRAM:
+          gc = new DendogramConfigModel();
+          break;
         case VisualizationEnum.BOX_WHISKERS:
           gc = new BoxWhiskersConfigModel();
           break;
@@ -218,7 +222,8 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.configChange.emit(value);
   }
 
-  ngAfterViewInit(): void { $(this.tabs.nativeElement).tabs(); }
+  ngAfterViewInit(): void { }
+    //$(this.tabs.nativeElement).tabs(); }
 
   ngOnDestroy(): void { this.focusSubscription.unsubscribe(); }
 
@@ -234,6 +239,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
       { value: VisualizationEnum.HIC, label: 'Force Directed Graph' },
       { value: VisualizationEnum.GENOME, label: 'Genome' },
+      { value: VisualizationEnum.DENDOGRAM, label: 'Dendogram'},
       { value: VisualizationEnum.HEATMAP, label: 'Heatmap' },
       { value: VisualizationEnum.HISTOGRAM, label: 'Histogram'},
       { value: VisualizationEnum.PATHWAYS, label: 'Pathways' },
