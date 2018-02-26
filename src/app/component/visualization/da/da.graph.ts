@@ -9,7 +9,6 @@ import { DaConfigModel, DaDataModel } from './da.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import * as _ from 'lodash';
 import * as THREE from 'three';
-import { Memoize } from 'typescript-memoize';
 import { ShapeEnum, GraphEnum } from 'app/model/enum.model';
 
 export class DaGraph implements ChartObjectInterface {

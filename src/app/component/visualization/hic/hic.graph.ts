@@ -106,9 +106,8 @@ export class HicGraph implements ChartObjectInterface {
             const objMap = data.pointColor;
             this.meshes.forEach(mesh => {
                 const color = objMap[mesh.userData[idProperty]];
-                (mesh as THREE.Mesh).material = [
-                    ChartFactory.getColorPhong(color),
-                    this.wireframe_material];
+                (mesh as THREE.Mesh).material = ChartFactory.getColorPhong(color);
+                    
                 mesh.userData.color = color;
             });
         }

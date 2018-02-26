@@ -25,6 +25,20 @@
     font-size: 1rem;
     font-weight: 500;
 }
+.app-bar-menu-item-comparison {
+    border: 1px solid  rgba(0, 0, 0, 0.38);;
+    border-width: 0px 1px 0px 0px;
+    color: #FFF !important;
+    display: inline-block;
+    line-height: 30px;
+    ::placeholder {
+        color: #FFF;
+    }
+    
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+}
 
 .application-bar-menu {
     position: absolute;
@@ -36,7 +50,6 @@
     // background: linear-gradient(135deg, #1396de 2%, #042a68);
     background:#029BE5;
     // background: linear-gradient(135deg, #042a68, #1395DE 10%, #042a68);
-    padding-right: 10px;
     box-shadow: 0px 2px 4px #bbb;
     // border: solid 0px #029BE5;
     // border-bottom-width:1px;

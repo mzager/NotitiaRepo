@@ -1,10 +1,10 @@
 import { MeshLine, MeshLineMaterial } from 'three.meshline';
 import { Injectable } from '@angular/core';
-import { Memoize } from 'typescript-memoize';
+import memoize from 'memoize-decorator';
 import { GraphEnum, ShapeEnum, SizeEnum } from 'app/model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import * as THREE from 'three';
-import { Vector3, Vector2 } from 'three';
+import { Vector3, Vector2, Shading, SmoothShading } from 'three';
 
 export class ChartFactory {
 
@@ -39,7 +39,13 @@ export class ChartFactory {
         line.material = this.getLineColor(color);
         const curve = new THREE.SplineCurve([pt1, pt3, pt2]);
         const path = new THREE.Path(curve.getPoints(50));
-        line.geometry = path.createPointsGeometry(50);
+
+        const pts = path.getPoints();
+        
+        var geometry = new THREE.BufferGeometry().setFromPoints( pts );
+        
+        line.geometry = geometry;
+        // line.geometry = path.createPointsGeometry(50);
         return line;
     }
 
@@ -84,24 +90,25 @@ export class ChartFactory {
         this.linePool.length = 0;
     }
 
-    @Memoize()
+    //@memoize()
     public static getLineColor(color: number): THREE.LineBasicMaterial {
         return new THREE.LineBasicMaterial({ color: color });
     }
 
-    @Memoize()
+    //@memoize()
     public static getColorMetal(color: number): THREE.Material {
         return new THREE.MeshStandardMaterial(
             {
                 color: color, emissive: new THREE.Color(0x000000),
-                metalness: 0.2, roughness: .5, shading: THREE.SmoothShading
+                metalness: 0.2, roughness: .5
             });
+
         // return new THREE.MeshStandardMaterial(
         //     {color: color, emissive: new THREE.Color(0x000000),
         //     metalness: 0.5, roughness: .5, shading: THREE.SmoothShading});
     }
 
-    @Memoize()
+    //@memoize()
     public static getOutlineShader(cameraPosition: Vector3, color: number = 0xff0000): THREE.ShaderMaterial {
         // const shader = {
         //     'outline' : {
@@ -166,11 +173,11 @@ export class ChartFactory {
         });
     }
 
-    @Memoize()
+    //@memoize()
     public static getColor(color: number): THREE.Color {
         return new THREE.Color(color);
     }
-    @Memoize()
+    //@memoize()
     public static getColorBasic(color: number): THREE.Material {
         return new THREE.MeshBasicMaterial({
             color: color,
@@ -178,15 +185,14 @@ export class ChartFactory {
             });
     }
 
-    @Memoize()
+    //@memoize()
     public static getColorPhong(color: number): THREE.Material {
         return new THREE.MeshStandardMaterial(
             {
                 color: color,
                 roughness: 0.0,
                 metalness: 0.02,
-                emissive: new THREE.Color(0x000000),
-                shading: THREE.SmoothShading
+                emissive: new THREE.Color(0x000000)
                 // color: color, emissive: new THREE.Color(0x000000),
                 // metalness: 0.2, roughness: .5, shading: THREE.SmoothShading
             });
@@ -198,7 +204,7 @@ export class ChartFactory {
         // return rv;
     }
 
-    @Memoize()
+    //@memoize()
     public static getShape(shape: ShapeEnum): THREE.Geometry {
         switch (shape) {
             case ShapeEnum.BOX:
