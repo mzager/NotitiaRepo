@@ -4,7 +4,7 @@ import { scaleSequential } from 'd3-scale';
 import { interpolateSpectral } from 'd3-scale-chromatic';
 
 import { Component, Input, Output, ChangeDetectionStrategy, EventEmitter, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { LegendPanelEnum, ShapeEnum, SizeEnum } from 'app/model/enum.model';
+import { ShapeEnum, SizeEnum } from 'app/model/enum.model';
 import * as d3Interpolate from 'd3-interpolate';
 import * as d3Color from 'd3-color';
 import * as d3Shape from 'd3-shape';

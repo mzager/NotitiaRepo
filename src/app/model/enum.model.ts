@@ -309,7 +309,8 @@ export const enum PanelEnum {
     COHORT = 16,
     GENESET = 32,
     COLOR = 64,
-    HELP = 128
+    HELP = 128,
+    SETTINGS = 256
 }
 
 // Panels
@@ -317,56 +318,9 @@ export const enum SinglePanelEnum {
     SHOW = 1,
     HIDE = 0
 }
-export const enum FilePanelEnum {
-    NONE = 0,
-    OPEN = 1,
-    SAVE = 2
-}
-export const enum EdgePanelEnum {
-    NONE = 0,
-    SETTINGS = 1
-}
-export const enum TcgaPanelEnum {
-    NONE = 0,
-    DATASETS = 1
-}
-export const enum QueryPanelEnum {
-    NONE = 0,
-    BUILDER = 1,
-    SAVED = 2
-}
-export const enum ToolPanelEnum {
-    NONE = 0,
-    SETTINGS = 1
-}
+
 export const enum GraphPanelEnum {
     NONE = 0,
     GRAPH_A = 1,
     GRAPH_B = 2
-}
-export const enum StatPanelEnum {
-    NONE = 0,
-    SURVIVAL = 1,
-    HISTOGRAM = 2,
-    SUMMARY = 3,
-}
-export const enum LegendPanelEnum {
-    NONE = 0,
-    ALL = 1,
-    GRAPH_1 = 2,
-    GRAPH_2 = 3,
-    EDGES = 4
-}
-export const enum HistoryPanelEnum {
-    NONE = 0,
-    HISTORY = 1
-}
-
-export const enum DataPanelEnum {
-    NONE = 0,
-    TABLE = 1
-}
-export const enum WorkspacePanelEnum {
-    NONE = 0,
-    SETTINGS = 1
 }

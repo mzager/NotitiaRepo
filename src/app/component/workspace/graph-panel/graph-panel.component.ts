@@ -42,7 +42,7 @@ import {
   Component, Input, Output, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy,
   EventEmitter, AfterViewInit, OnInit, ViewChild, ElementRef
 } from '@angular/core';
-import { LegendPanelEnum, VisualizationEnum, GraphEnum, DirtyEnum } from 'app/model/enum.model';
+import { VisualizationEnum, GraphEnum, DirtyEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
 import { GraphData } from 'app/model/graph-data.model';

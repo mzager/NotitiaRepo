@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { Component, Input, Output, ChangeDetectionStrategy, EventEmitter, HostListener, OnInit, OnDestroy } from '@angular/core';
-import { LegendPanelEnum, StatPanelEnum, GraphPanelEnum } from 'app/model/enum.model';
+import { GraphPanelEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import * as XLSX from 'xlsx';
 import * as downloadjs from 'downloadjs';
@@ -42,14 +42,6 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   handleKeyboardEvent(event: KeyboardEvent) {
     if (!event.ctrlKey) { return; }
     switch (event.key.toLowerCase()) {
-      // case 'g': this.graphPanelToggle.emit(); break;
-      // case 'c': this.cohortPanelToggle.emit(); break;
-      // case 'x': this.genesetPanelToggle.emit(); break;
-      // case 'a': this.queryPanelToggle.emit(); break;
-      // case 's': this.statPanelToggle.emit(); break;
-      // case 'l': this.legendPanelToggle.emit(); break;
-      // case 'h': this.historyPanelToggle.emit(); break;      // case 'w': this.workspacePanelToggle.emit(); break;
-      case 'l': this.filePanelToggle.emit(); break;
       case 'a': this.graphPanelToggle.emit(1); break;
       case 'b': this.graphPanelToggle.emit(2); break;
       case 'g': this.genesetPanelToggle.emit(); break;

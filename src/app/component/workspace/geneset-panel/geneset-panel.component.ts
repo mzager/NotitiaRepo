@@ -8,7 +8,7 @@ import {
     Component, Input, Output, EventEmitter, AfterViewInit, OnDestroy,
     OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef
 } from '@angular/core';
-import { LegendPanelEnum, VisualizationEnum, DirtyEnum } from 'app/model/enum.model';
+import { VisualizationEnum, DirtyEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import { Subscription } from 'rxjs/Subscription';
 import * as _ from 'lodash';
