@@ -12,7 +12,7 @@ import {
   Component, ComponentFactoryResolver, Input, Output, ViewContainerRef,
   ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild
 } from '@angular/core';
-import { LegendPanelEnum, VisualizationEnum } from 'app/model/enum.model';
+import { VisualizationEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import { values } from 'd3';
 import { VegaFactory, StatFactory, Stat } from 'app/model/stat.model';

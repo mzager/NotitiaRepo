@@ -1,4 +1,3 @@
-import { HelpPanelShowAction } from './../action/layout.action';
 import { GraphConfig } from './../model/graph-config.model';
 import { DataLoadedAction, DataLoadFromDexieAction } from './../action/data.action';
 import { DataChromosome } from './../model/data-chromosome.model';
@@ -17,9 +16,9 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: Action): State {
     switch (action.type) {
-        case layout.HELP_PANEL_SHOW:
-            const hsa: HelpPanelShowAction = action as HelpPanelShowAction;
-            return Object.assign({}, state, { helpConfig: hsa.payload });
+        // case layout.HELP_PANEL_SHOW:
+        //     const hsa: HelpPanelShowAction = action as HelpPanelShowAction;
+        //     return Object.assign({}, state, { helpConfig: hsa.payload });
         default:
             return state;
     }

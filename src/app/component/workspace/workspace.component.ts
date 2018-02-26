@@ -28,15 +28,7 @@ import {
   TsneAction
   } from './../../action/compute.action';
 import { ChromosomeConfigModel } from './../visualization/chromosome/chromosome.model';
-import {
-  CohortPanelShowTabAction,
-  DataPanelShowTabAction,
-  WorkspacePanelShowTabAction,
-  WorkspacePanelToggleAction,
-  DataPanelToggleAction,
-  FilePanelToggleAction,
-  GraphPanelToggleAction
-  } from './../../action/layout.action';
+import { GraphPanelToggleAction } from './../../action/layout.action';
 import { DataField } from 'app/model/data-field.model';
 import {
   DataLoadedAction,
@@ -53,11 +45,8 @@ import { FastIcaConfigModel } from './../visualization/fastica/fastica.model';
 import {
   getFields,
   getGraphAConfig,
-  getLayoutCohortPanelState,
-  getLayoutFilePanelState,
   getQueryData
   } from './../../reducer/index.reducer';
-import { getHistoryPanelState, getToolPanelState, getWorkspacePanelState } from './../../reducer/layout.reducer';
 import { GraphConfig } from './../../model/graph-config.model';
 import { GraphTool } from 'app/model/graph-tool.model';
 import { HeatmapConfigModel } from './../visualization/heatmap/heatmap.model';
@@ -103,22 +92,12 @@ export class WorkspaceComponent {
   graphBData: Observable<any>;
   edgeConfig: Observable<GraphConfig>;
   edgeLegend: Observable<Array<Legend>>;
-  filePanelTab: Observable<enums.FilePanelEnum>;
-  legendPanelTab: Observable<enums.LegendPanelEnum>;
+  
   graphPanelATab: Observable<enums.GraphPanelEnum>;
   graphPanelBTab: Observable<enums.GraphPanelEnum>;
   genesetPanelTab: Observable<enums.SinglePanelEnum>;
-  helpPanelTab: Observable<enums.SinglePanelEnum>;
-  statPanelTab: Observable<enums.StatPanelEnum>;
-  queryPanelTab: Observable<enums.QueryPanelEnum>;
-  edgePanelTab: Observable<enums.EdgePanelEnum>;
-  toolPanelTab: Observable<enums.ToolPanelEnum>;
-  workspacePanelTab: Observable<enums.WorkspacePanelEnum>;
-  historyPanelTab: Observable<enums.HistoryPanelEnum>;
-  cohortPanelTab: Observable<enums.GraphPanelEnum>;
-  dataPanelTab: Observable<enums.DataPanelEnum>;
-  geneSignaturePanelTab: Observable<enums.SinglePanelEnum>;
-  clusteringAlgorithmPanelTab: Observable<enums.SinglePanelEnum>;
+  modalPanel: Observable<enums.PanelEnum>;
+  
   selectedTool: Observable<enums.ToolEnum>;
   selectedGraph: Observable<enums.GraphEnum>;
   fields: Observable<Array<DataField>>;
@@ -128,34 +107,24 @@ export class WorkspaceComponent {
   _selectedGraph: enums.GraphEnum; // This is super wrong
 
   constructor(private store: Store<fromRoot.State>) {
-    this.clusteringAlgorithmPanelTab = store.select(fromRoot.getLayoutClusteringAlgorithmPanelState);
-    this.geneSignaturePanelTab = store.select(fromRoot.getLayoutGeneSignaturePanelState);
-    this.edgePanelTab = store.select(fromRoot.getLayoutEdgePanelState);
-    this.filePanelTab = store.select(fromRoot.getLayoutFilePanelState);
-    this.legendPanelTab = store.select(fromRoot.getLayoutLegendPanelState);
+    
     this.graphPanelATab = store.select(fromRoot.getLayoutGraphPanelAState);
     this.graphPanelBTab = store.select(fromRoot.getLayoutGraphPanelBState);
-    this.genesetPanelTab = store.select(fromRoot.getLayoutGenesetPanelState);
-    this.statPanelTab = store.select(fromRoot.getLayoutPopulationPanelState);
-    this.queryPanelTab = store.select(fromRoot.getLayoutQueryPanelState);
-    this.toolPanelTab = store.select(fromRoot.getLayoutToolPanelState);
-    this.helpPanelTab = store.select(fromRoot.getLayoutHelpPanelState);
+    this.modalPanel = store.select(fromRoot.getLayoutModalPanelState)
     this.helpPanelConfig = store.select(fromRoot.getHelpConfigState);
-    this.workspacePanelTab = store.select(fromRoot.getWorkspacePanelState);
-    this.historyPanelTab = store.select(fromRoot.getLayoutHistoryPanelState);
-    this.cohortPanelTab = store.select(fromRoot.getLayoutCohortPanelState);
-    this.dataPanelTab = store.select(fromRoot.getLayoutDataPanelState);
+    
     this.edgeConfig = store.select(fromRoot.getEdgesConfig);
     this.graphAConfig = store.select(fromRoot.getGraphAConfig);
     this.graphBConfig = store.select(fromRoot.getGraphBConfig);
     this.workspaceConfig = store.select(fromRoot.getWorkspaceConfig);
+
     this.graphAData = store.select(fromRoot.getGraphAData);
     this.graphBData = store.select(fromRoot.getGraphBData);
     this.tables = store.select(fromRoot.getTables);
     this.fields = store.select(fromRoot.getFields);
     this.events = store.select(fromRoot.getEvents);
     this.queryData = store.select(fromRoot.getQueryData);
-    // this.store.dispatch( new FilePanelToggleAction() );
+
     this.store.dispatch( new DataLoadFromDexieAction('gbm') );
   }
 
@@ -169,15 +138,7 @@ export class WorkspaceComponent {
         break;
     }
   }
-  helpPanelToggle(value: GraphConfig): void {
-    this.store.dispatch( (value === undefined) ? new layout.HelpPanelHideAction() : new layout.HelpPanelShowAction(value) );
-  }
-  queryPanelToggle() {
-    this.store.dispatch(new layout.QueryPanelToggleAction());
-  }
-  queryPanelSetTab(value: enums.QueryPanelEnum) {
-    this.store.dispatch(new layout.QueryPanelShowTabAction(value));
-  }
+  
   fileOpen(value: DataTransfer) {
     this.store.dispatch(new data.DataLoadFromFileAction(value));
   }
@@ -185,25 +146,12 @@ export class WorkspaceComponent {
     this.store.dispatch(new data.DataLoadFromTcga(value));
   }
 
-  genesetPanelToggle() {
-    this.store.dispatch(new layout.GenesetPanelToggleAction());
-  }
-  genesetPanelSetTab(value: enums.SinglePanelEnum) {
-    this.store.dispatch(new layout.GenesetPanelShowTabAction(value));
-  }
+  
 
   graphPanelToggle(value: enums.GraphPanelEnum) {
     this.store.dispatch(new layout.GraphPanelToggleAction(value));
   }
-  graphPanelSetTab(value: enums.GraphPanelEnum) {
-    this.store.dispatch(new layout.GraphPanelShowTabAction(value));
-  }
-  graphPanelSelectClusteringAlgorithm(value: GraphConfig) {
-    this.store.dispatch(new layout.ClusteringAlgorithmPanelShowAction(value));
-  }
-  graphPanelSelectGeneSignature(value: GraphConfig) {
-    this.store.dispatch(new layout.GeneSignaturePanelShowAction(value));
-  }
+
 
   graphPanelSetConfig(value: GraphConfig) {
     switch (value.visualization) {
@@ -307,73 +255,12 @@ export class WorkspaceComponent {
     }
   }
 
-  workspacePanelToggle() {
-    this.store.dispatch(new layout.WorkspacePanelToggleAction());
-  }
-  workspacePanelSetTab(value) {
-    this.store.dispatch(new layout.WorkspacePanelShowTabAction(value));
-  }
   workspacePanelSetConfig(value: WorkspaceConfigModel) {
     this.store.dispatch( new WorkspaceConfigAction( value ));
   }
 
   filesLoad(value) {
     this.store.dispatch( new DataLoadIlluminaVcfAction( value ));
-  }
-  filePanelToggle() {
-    this.store.dispatch(new layout.FilePanelToggleAction());
-  }
-  filePanelSetTab(value: enums.FilePanelEnum) {
-    this.store.dispatch(new layout.FilePanelShowTabAction(value) );
-  }
-
-  edgePanelToggle() {
-    this.store.dispatch(new layout.EdgePanelToggleAction());
-  }
-  edgePanelSetTab(value: enums.EdgePanelEnum) {
-    this.store.dispatch(new layout.EdgePanelShowTabAction(value));
-  }
-
-  toolPanelToggle() {
-    this.store.dispatch(new layout.ToolPanelToggleAction());
-  }
-  toolPanelSetTab(value: enums.ToolPanelEnum) {
-    this.store.dispatch(new layout.ToolPanelShowTabAction(value));
-  }
-
-  statPanelToggle() {
-    this.store.dispatch(new layout.PopulationPanelToggleAction());
-  }
-  statPanelSetTab(value: enums.StatPanelEnum) {
-    this.store.dispatch(new layout.PopulationPanelShowTabAction(value));
-  }
-
-  legendPanelToggle() {
-    this.store.dispatch(new layout.LegendPanelToggleAction());
-  }
-  legendPanelSetTab(value: enums.LegendPanelEnum) {
-    this.store.dispatch(new layout.LegendPanelShowTabAction(value));
-  }
-
-  historyPanelToggle() {
-    this.store.dispatch(new layout.HistoryPanelToggleAction());
-  }
-  historyPanelSetTab(value: enums.HistoryPanelEnum) {
-    this.store.dispatch(new layout.HistoryPanelShowTabAction(value));
-  }
-
-  dataPanelToggle() {
-    this.store.dispatch(new layout.DataPanelToggleAction());
-  }
-  dataPanelSetTab(value: enums.DataPanelEnum) {
-    this.store.dispatch(new layout.DataPanelShowTabAction(value));
-  }
-
-  cohortPanelToggle() {
-    this.store.dispatch(new layout.CohortPanelToggleAction());
-  }
-  cohortPanelSetTab(value: enums.GraphPanelEnum) {
-    this.store.dispatch(new layout.CohortPanelShowTabAction(value));
   }
 
 }

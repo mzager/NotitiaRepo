@@ -62,24 +62,11 @@ export const getQueryData = createSelector(getQueryState, fromQuery.getQueryData
  * Layout Reducer
  */
 export const getLayoutState = (state: State) => state.layout;
-export const getLayoutFilePanelState = createSelector(getLayoutState, fromLayout.getFilePanelState);
-export const getLayoutGeneSignaturePanelState = createSelector( getLayoutState, fromLayout.getGeneSignaturePanelState);
-export const getLayoutClusteringAlgorithmPanelState = createSelector( getLayoutState, fromLayout.getClusteringAlgorithmPanelState );
-export const getLayoutEdgePanelState = createSelector(getLayoutState, fromLayout.getEdgePanelState);
-export const getLayoutQueryPanelState = createSelector(getLayoutState, fromLayout.getQueryPanelState);
 export const getLayoutGraphPanelAState = createSelector(getLayoutState, fromLayout.getGraphPanelAState);
 export const getLayoutGraphPanelBState = createSelector(getLayoutState, fromLayout.getGraphPanelBState);
-export const getLayoutGenesetPanelState = createSelector(getLayoutState, fromLayout.getGenesetPanelState);
-export const getLayoutSamplePanelState = createSelector(getLayoutState, fromLayout.getSamplePanelState);
-export const getLayoutPopulationPanelState = createSelector(getLayoutState, fromLayout.getPopulationPanelState);
-export const getLayoutLegendPanelState = createSelector(getLayoutState, fromLayout.getLegendPanelState);
-export const getLayoutToolPanelState = createSelector(getLayoutState, fromLayout.getToolPanelState);
-export const getLayoutHelpPanelState = createSelector(getLayoutState, fromLayout.getHelpPanelState);
-export const getLayoutHistoryPanelState = createSelector(getLayoutState, fromLayout.getHistoryPanelState);
-export const getLayoutCohortPanelState = createSelector(getLayoutState, fromLayout.getCohortPanelState);
-export const getLayoutDataPanelState = createSelector(getLayoutState, fromLayout.getDataPanelState);
-export const getWorkspacePanelState = createSelector(getLayoutState, fromLayout.getWorkspacePanelState);
+export const getLayoutModalPanelState = createSelector(getLayoutState, fromLayout.getModalPanelState);
 export const getWorkspaceConfig = createSelector( getLayoutState, (state: fromLayout.State) => state.workspaceConfig );
+
 
 /**
  * Graph Reducers

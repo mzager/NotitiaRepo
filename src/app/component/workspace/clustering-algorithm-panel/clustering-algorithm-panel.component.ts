@@ -13,7 +13,7 @@ import {
   Component, Input, Output, EventEmitter, AfterViewInit,
   OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef
 } from '@angular/core';
-import { LegendPanelEnum, VisualizationEnum, DirtyEnum, GraphEnum } from 'app/model/enum.model';
+import { VisualizationEnum, DirtyEnum, GraphEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 declare var $: any;
 declare var ML: any;

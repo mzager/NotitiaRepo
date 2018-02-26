@@ -5,7 +5,7 @@ import {
   ChangeDetectorRef, ViewChild, Component, Input, Output, ElementRef,
   ChangeDetectionStrategy, EventEmitter, AfterViewInit, NgZone
 } from '@angular/core';
-import { LegendPanelEnum, CollectionTypeEnum } from 'app/model/enum.model';
+import { CollectionTypeEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import * as util from 'app/service/compute.worker.util';
