@@ -301,7 +301,16 @@ export class HClustDistanceEnum {
     static readonly WARD = 'ward';
 }
 
-
+export const enum PanelEnum {
+    NONE = 1,
+    LANDING = 2,
+    DATA = 4,
+    ANALYSIS = 8,
+    COHORT = 16,
+    GENESET = 32,
+    COLOR = 64,
+    HELP = 128
+}
 
 // Panels
 export const enum SinglePanelEnum {
