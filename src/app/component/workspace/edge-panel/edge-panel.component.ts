@@ -11,7 +11,7 @@ import { GraphData } from './../../../model/graph-data.model';
 import { Component, ComponentFactoryResolver, Input, Output, ViewContainerRef,
   ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild,
   OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { LegendPanelEnum, GraphEnum } from 'app/model/enum.model';
+import { GraphEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import { Subscription } from 'rxjs/Subscription';
 import { EdgeConfigModel } from 'app/component/visualization/edges/edges.model';

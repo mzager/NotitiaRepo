@@ -47,6 +47,7 @@
         (selectCohort)='queryPanelToggle($event)'
         ></app-workspace-graph-panel>
 
+<!--     
     <app-workspace-edge-panel
         style='pointer-events:all;position:relative;'
         *ngIf='edgePanelTab | async'
@@ -60,7 +61,7 @@
         (configChange)='graphPanelSetConfig($event)'
         [workspaceConfig]='workspaceConfig | async'
         (workspaceConfigChange)='workspacePanelSetConfig($event)'
-        ></app-workspace-edge-panel>
+        ></app-workspace-edge-panel> -->
 
     <app-workspace-geneset-panel
         style='pointer-events:all;position:relative;'
@@ -72,7 +73,7 @@
         *ngIf='genesetPanelTab | async'>
         </app-workspace-geneset-panel>
 
-    <app-workspace-clustering-algorithm-panel
+    <!-- <app-workspace-clustering-algorithm-panel
         style='pointer-events:all;position:relative;'
         *ngIf='clusteringAlgorithmPanelTab | async'
         [bounds]='panelContainer'
@@ -80,18 +81,18 @@
         [configB]='graphBConfig | async'
         [graphAData]='graphAData | async' 
         [graphBData]='graphBData | async' 
-        ></app-workspace-clustering-algorithm-panel>
+        ></app-workspace-clustering-algorithm-panel> -->
 
-    <app-workspace-file-panel
+    <!-- <app-workspace-file-panel
         style='pointer-events:all;position:relative;'
         *ngIf='filePanelTab | async' 
         [bounds]='panelContainer'
         (filesLoad)='filesLoad($event)'
         (loadTcga)='fileLoadTcga($event)'
         (hide)='filePanelToggle()'
-        ></app-workspace-file-panel>
+        ></app-workspace-file-panel> -->
 
-    <app-workspace-query-panel 
+    <!-- <app-workspace-query-panel 
         style='pointer-events:all;position:relative;'
         *ngIf='queryPanelTab | async' 
         [bounds]='panelContainer'
@@ -100,21 +101,21 @@
         [configB]='graphBConfig | async'
         (configChange)='graphPanelSetConfig($event)'
         (hide)='queryPanelToggle()'
-        ></app-workspace-query-panel>
+        ></app-workspace-query-panel> -->
 
-    <app-workspace-help-panel
+    <!-- <app-workspace-help-panel
         style='pointer-events:all;position:relative;'
         *ngIf='helpPanelTab | async' 
         [bounds]='panelContainer'
         [config]='helpPanelConfig | async'
         (hide)='helpPanelToggle()'
-        ></app-workspace-help-panel>
+        ></app-workspace-help-panel> -->
 </div>
 
-<app-workspace-tool-bar
+<!-- <app-workspace-tool-bar
     (graphAToggle)='graphPanelToggle(1)'
     (graphBToggle)='graphPanelToggle(2)'
-    [workspaceConfig]='workspaceConfig | async'></app-workspace-tool-bar>
+    [workspaceConfig]='workspaceConfig | async'></app-workspace-tool-bar> -->
 
 <app-application-bar 
     (filePanelToggle)='filePanelToggle()'

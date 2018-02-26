@@ -9,7 +9,7 @@ import { LinkedGeneConfigModel } from './../component/visualization/linkedgenes/
 import { FaConfigModel } from './../component/visualization/fa/fa.model';
 import { PcaKernalConfigModel } from './../component/visualization/pcakernal/pcakernal.model';
 import { PcaIncrementalConfigModel } from './../component/visualization/pcaincremental/pcaincremental.model';
-import { TcgaPanelToggleAction, FilePanelToggleAction, GraphPanelToggleAction } from './../action/layout.action';
+import { GraphPanelToggleAction } from './../action/layout.action';
 import { DatasetService } from './../service/dataset.service';
 import { IlluminaService } from './../service/illumina.service';
 import { EdgeConfigModel } from './../component/visualization/edges/edges.model';
@@ -66,7 +66,7 @@ export class DataEffect {
         }).
         mergeMap( (args) => {
             return [
-                new FilePanelToggleAction(),
+                // new FilePanelToggleAction(),
                 new DataLoadFromDexieAction(args.disease)
             ];
         });

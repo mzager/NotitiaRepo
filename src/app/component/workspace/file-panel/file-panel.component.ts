@@ -5,7 +5,6 @@ import { FormBuilder } from '@angular/forms';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { Component, ComponentFactoryResolver, Input, Output, ViewContainerRef,
   ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
-import { LegendPanelEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 
 
