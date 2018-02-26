@@ -58,8 +58,8 @@ declare var $: any;
 export class GraphPanelComponent implements AfterViewInit, OnDestroy {
 
 
-  @ViewChild('tabs') tabs: ElementRef;
-
+  @ViewChild('panel') panel: ElementRef;
+  @ViewChild('panelButton') panelButton: ElementRef;
   @Input() bounds: ElementRef;
   @Input() title: string;
   @Input() cid: string;
@@ -83,7 +83,16 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   zIndex = 1000;
   focusSubscription: Subscription;
   visualizationOptions: Array<{ value: VisualizationEnum, label: string }>;
-
+  toggleClick(): void {
+     
+     if (this.panel.nativeElement.classList.contains('graphPanelCollapsed')){
+      this.panel.nativeElement.classList.remove('graphPanelCollapsed');
+      this.panelButton.nativeElement.classList.remove('graphPanelCollapsedButton')
+     } else {
+      this.panel.nativeElement.classList.add('graphPanelCollapsed');
+      this.panelButton.nativeElement.classList.add('graphPanelCollapsedButton')
+     }
+  }
   helpClick(): void {
     this.help.emit(this.config);
   }

@@ -1,3 +1,4 @@
+import { UnsafeAction } from './../action/unsafe.action';
 import { boxwhiskersCompute } from './../component/visualization/boxwhiskers/boxwhiskers.compute';
 import { GraphData } from './../model/graph-data.model';
 import { EdgeConfigModel, EdgeDataModel } from './../component/visualization/edges/edges.model';
@@ -7,7 +8,7 @@ import * as compute from 'app/action/compute.action';
 import * as data from 'app/action/data.action';
 import * as moment from 'moment';
 import { Action, Store } from '@ngrx/store';
-import { Actions, Effect, toPayload } from '@ngrx/effects';
+import { Actions, Effect } from '@ngrx/effects';
 import {
   COMPUTE_CHROMOSOME,
   COMPUTE_CHROMOSOME_COMPLETE,
@@ -66,10 +67,10 @@ export class ComputeEffect {
 
   @Effect() loadEdges: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_EDGES)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap( (payload: any) => {
-      const config: EdgeConfigModel = payload.config;
-      return this.computeService.edges(payload.config)
+      const config: EdgeConfigModel = payload['config'];
+      return this.computeService.edges(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new EdgesCompleteAction({ config: result.config, data: result.data }));
@@ -100,7 +101,7 @@ export class ComputeEffect {
 
   @Effect() loadNone: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_NONE)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       const data:  GraphData = {
         legendItems: null,
@@ -113,14 +114,14 @@ export class ComputeEffect {
         markerIds: [],
         patientIds: []
       };
-      return Observable.of( new NoneCompleteAction({ config: payload.config, data: data }) );
+      return Observable.of( new NoneCompleteAction({ config: payload['config'], data: data }) );
     });
 
   @Effect() loadFa: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_FA)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.fa(payload.config)
+      return this.computeService.fa(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new FaCompleteAction({ config: result.config, data: result.data }));
@@ -129,9 +130,9 @@ export class ComputeEffect {
 
   @Effect() loadMds: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_MDS)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.mds(payload.config)
+      return this.computeService.mds(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new MdsCompleteAction({ config: result.config, data: result.data }));
@@ -140,9 +141,9 @@ export class ComputeEffect {
 
   @Effect() loadMiniBatchDictionaryLearning: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_MINI_BATCH_DICTIONARY_LEARNING)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.miniBatchDictionaryLearning(payload.config)
+      return this.computeService.miniBatchDictionaryLearning(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new MiniBatchDictionaryLearningCompleteAction({ config: result.config, data: result.data }));
@@ -151,9 +152,9 @@ export class ComputeEffect {
 
   @Effect() loadMiniBatchSparsePca: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_MINI_BATCH_SPARSE_PCA)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.miniBatchSparsePca(payload.config)
+      return this.computeService.miniBatchSparsePca(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new MiniBatchSparsePcaCompleteAction({ config: result.config, data: result.data }));
@@ -162,9 +163,9 @@ export class ComputeEffect {
 
     @Effect() loadLinearDiscriminantAnalysis: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_LINEAR_DISCRIMINANT_ANALYSIS)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.linearDiscriminantAnalysis(payload.config)
+      return this.computeService.linearDiscriminantAnalysis(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new LinearDiscriminantAnalysisCompleteAction({ config: result.config, data: result.data }));
@@ -172,9 +173,9 @@ export class ComputeEffect {
     });
     @Effect() loadQuadraticDiscriminantAnalysis: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_QUADRATIC_DISCRIMINANT_ANALYSIS)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.linearDiscriminantAnalysis(payload.config)
+      return this.computeService.linearDiscriminantAnalysis(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new QuadraticDiscriminantAnalysisCompleteAction({ config: result.config, data: result.data }));
@@ -183,9 +184,9 @@ export class ComputeEffect {
 
   @Effect() loadTsne: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_TSNE)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.tsne(payload.config)
+      return this.computeService.tsne(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new TsneCompleteAction({ config: result.config, data: result.data }));
@@ -194,9 +195,9 @@ export class ComputeEffect {
 
   @Effect() loadPca: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_PCA)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.pca(payload.config)
+      return this.computeService.pca(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new PcaCompleteAction({ config: result.config, data: result.data }));
@@ -205,9 +206,9 @@ export class ComputeEffect {
 
   @Effect() loadPathways: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_PATHWAYS)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.pathways(payload.config)
+      return this.computeService.pathways(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new PathwaysCompleteAction({ config: result.config, data: result.data }));
@@ -216,9 +217,9 @@ export class ComputeEffect {
 
   @Effect() loadSurvival: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_SURVIVAL)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.survival(payload.config)
+      return this.computeService.survival(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new PathwaysCompleteAction({ config: result.config, data: result.data }));
@@ -227,9 +228,9 @@ export class ComputeEffect {
 
   @Effect() loadSom: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_SOM)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.pca(payload.config)
+      return this.computeService.pca(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new SomCompleteAction({ config: result.config, data: result.data }));
@@ -238,9 +239,9 @@ export class ComputeEffect {
 
   @Effect() loadChromosome: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_CHROMOSOME)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.chromosome(payload.config)
+      return this.computeService.chromosome(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new ChromosomeCompleteAction({ config: result.config, data: result.data }));
@@ -249,9 +250,9 @@ export class ComputeEffect {
 
   @Effect() loadGenome: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_GENOME)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.genome(payload.config)
+      return this.computeService.genome(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new GenomeCompleteAction({ config: result.config, data: result.data }));
@@ -260,9 +261,9 @@ export class ComputeEffect {
 
   @Effect() loadTimelines: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_TIMELINES)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.timelines(payload.config)
+      return this.computeService.timelines(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new TimelinesCompleteAction({ config: result.config, data: result.data }));
@@ -271,9 +272,9 @@ export class ComputeEffect {
 
   @Effect() loadHeatmap: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_HEATMAP)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.heatmap(payload.config)
+      return this.computeService.heatmap(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new HeatmapCompleteAction({ config: result.config, data: result.data }));
@@ -282,9 +283,9 @@ export class ComputeEffect {
   
   @Effect() loadDendogram: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_DENDOGRAM)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.dendogram(payload.config)
+      return this.computeService.dendogram(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new DendogramCompleteAction({ config: result.config, data: result.data }));
@@ -293,9 +294,9 @@ export class ComputeEffect {
 
   @Effect() loadBoxWhiskers: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_BOX_WHISKERS)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.boxWhiskers(payload.config)
+      return this.computeService.boxWhiskers(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new BoxWhiskersCompleteAction({ config: result.config, data: result.data }));
@@ -304,9 +305,9 @@ export class ComputeEffect {
 
   @Effect() loadParallelCoords: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_PARALLEL_COORDS)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.boxWhiskers(payload.config)
+      return this.computeService.boxWhiskers(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new ParallelCoordsCompleteAction({ config: result.config, data: result.data }));
@@ -315,9 +316,9 @@ export class ComputeEffect {
 
   @Effect() loadLinkedGene: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_LINKED_GENE)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.linkedGene(payload.config)
+      return this.computeService.linkedGene(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new LinkedGeneCompleteAction({ config: result.config, data: result.data }));
@@ -326,9 +327,9 @@ export class ComputeEffect {
 
   @Effect() loadHic: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_HIC)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.hic(payload.config)
+      return this.computeService.hic(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new HicCompleteAction({ config: result.config, data: result.data }));
@@ -337,9 +338,9 @@ export class ComputeEffect {
 
   @Effect() loadDictionaryLearning: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_DICTIONARY_LEARNING)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.dictionaryLearning(payload.config)
+      return this.computeService.dictionaryLearning(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new DictionaryLearningCompleteAction({ config: result.config, data: result.data }));
@@ -348,9 +349,9 @@ export class ComputeEffect {
 
   @Effect() loadTruncatedSvd: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_TRUNCATED_SVD)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.truncatedSvd(payload.config)
+      return this.computeService.truncatedSvd(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new TruncatedSvdCompleteAction({ config: result.config, data: result.data }));
@@ -359,9 +360,9 @@ export class ComputeEffect {
 
   @Effect() loadFastIca: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_FAST_ICA)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.fastIca(payload.config)
+      return this.computeService.fastIca(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new FastIcaCompleteAction({ config: result.config, data: result.data }));
@@ -370,9 +371,9 @@ export class ComputeEffect {
 
   @Effect() loadLda: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_LDA)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.lda(payload.config)
+      return this.computeService.lda(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new LdaCompleteAction({ config: result.config, data: result.data }));
@@ -381,9 +382,9 @@ export class ComputeEffect {
 
   @Effect() loadNmf: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_NMF)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.nmf(payload.config)
+      return this.computeService.nmf(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new NmfCompleteAction({ config: result.config, data: result.data }));
@@ -392,9 +393,9 @@ export class ComputeEffect {
 
   @Effect() loadLocalLinearEmbedding: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_LOCAL_LINEAR_EMBEDDING)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.nmf(payload.config)
+      return this.computeService.nmf(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new LocalLinearEmbeddingCompleteAction({ config: result.config, data: result.data }));
@@ -403,9 +404,9 @@ export class ComputeEffect {
 
   @Effect() loadIsoMap: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_ISO_MAP)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.isoMap(payload.config)
+      return this.computeService.isoMap(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new IsoMapCompleteAction({ config: result.config, data: result.data }));
@@ -414,9 +415,9 @@ export class ComputeEffect {
 
   @Effect() loadSpectralEmbedding: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_SPECTRAL_EMBEDDING)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.spectralEmbedding(payload.config)
+      return this.computeService.spectralEmbedding(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new SpectralEmbeddingCompleteAction({ config: result.config, data: result.data }));
@@ -425,9 +426,9 @@ export class ComputeEffect {
 
   @Effect() loadPcaIncremental: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_PCA_INCREMENTAL)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.pcaIncremental(payload.config)
+      return this.computeService.pcaIncremental(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new PcaIncrementalCompleteAction({ config: result.config, data: result.data }));
@@ -436,9 +437,9 @@ export class ComputeEffect {
 
   @Effect() loadPcaKernal: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_PCA_KERNAL)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.pcaKernal(payload.config)
+      return this.computeService.pcaKernal(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new PcaKernalCompleteAction({ config: result.config, data: result.data }));
@@ -447,9 +448,9 @@ export class ComputeEffect {
 
   @Effect() loadPcaSparse: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_PCA_SPARSE)
-    .map(toPayload)
+    .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.pcaSparse(payload.config)
+      return this.computeService.pcaSparse(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
             new PcaSparseCompleteAction({ config: result.config, data: result.data }));

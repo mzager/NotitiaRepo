@@ -1,36 +1,41 @@
-<!-- <div class='card' style='width:285px; background:#FFFFFF;' [ngDraggable]='true' [handle]='titlebar' [inBounds]='true' [bounds]='bounds'
-    [zIndex]='zIndex' [zIndexMoving]='99999' [preventDefaultEvent]= 'false' (click)='panelFocus()'>
- -->
- <div class='graph-panel' style='width:285px; background: rgba(255,255,255,0.95); height:100vh;box-shadow: 0px 2px 4px #ddd; overflow-y: scroll'>
-        <!-- Stats -->
+<div class='graph-panel' *ngIf='config'>
+
+    <div #panelButton class="graphPanelExpandedButton">
+            <a (click)='toggleClick()'><i class="material-icons small">expand_less</i></a>
+    </div>
+
+    <div #panel class="graphPanelExpanded">
+
         <div class='graphPanelHeader'>PCA Incremental</div>
         <div style='padding:10px'>
-            
-            PCA Incremental computes the principal components of a sequence of samples incrementally without estimating the covariance matrix.<br />
-            <a href=''>Learn More</a>
+            PCA Incremental computes the principal components of a sequence of samples incrementally without estimating the covariance
+            matrix.
+            <br />
+            <a (click)='helpClick()'>Learn More</a>
         </div>
-   
+
         <div class='graphPanelHeader'>Settings</div>
 
-            
+
         <div style='padding:10px'>
-                <div class='form-group'>
-                        <label class='center-block'>
-                            <span class='form-label'>Visualization</span>
-                            <select materialize='material_select' [ngModel]='config.visualization' (change)='onVisualizationChange($event)' [materializeSelectOptions]='visualizationOptions'>
-                                <option *ngFor='let option of visualizationOptions' [value]='option.value' [selected]='config.visualization'>{{option.label}}</option>
-                            </select>
-                        </label>
-                    </div> 
-                <div class='form-group'>
-                        <label class='center-block'>
-                            <span class='form-label'>Data</span>
-                            <button class='waves-effect waves-grey browser-default btn-config' style='width:78px;' (click)='selectGeneset.emit()'>Gene Set</button>
-                            <button class=' waves-effect waves-grey browser-default btn-config' style='width:78px;' (click)='selectCohort.emit()'>Cohort</button>
-                        </label>
-                    </div>
+            <app-workspace-edge-panel *ngIf='config.graph==2'></app-workspace-edge-panel>
+            <div class='form-group'>
+                <label class='center-block'>
+                    <span class='form-label'>Visualization</span>
+                    <select materialize='material_select' [ngModel]='config.visualization' (change)='onVisualizationChange($event)' [materializeSelectOptions]='visualizationOptions'>
+                        <option *ngFor='let option of visualizationOptions' [value]='option.value' [selected]='config.visualization'>{{option.label}}</option>
+                    </select>
+                </label>
+            </div>
+            <div class='form-group'>
+                <label class='center-block'>
+                    <span class='form-label'>Data</span>
+                    <button class='waves-effect waves-grey browser-default btn-config' style='width:78px;' (click)='selectGeneset.emit()'>Gene Set</button>
+                    <button class=' waves-effect waves-grey browser-default btn-config' style='width:78px;' (click)='selectCohort.emit()'>Cohort</button>
+                </label>
+            </div>
             <div *ngIf='config'>
-                
+
                 <app-pathways-form *ngIf='config && config.visualization === 256' (configChange)='graphPanelSetConfig($event)' [fields]='fields'
                     [config]='config'></app-pathways-form>
                 <app-timelines-form *ngIf='config && config.visualization === 128' (configChange)='graphPanelSetConfig($event)' [fields]='fields'
@@ -95,3 +100,4 @@
             <app-workspace-stat-panel [config]='config' [graphData]='data'></app-workspace-stat-panel>
         </div>
     </div>
+</div>

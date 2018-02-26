@@ -30,7 +30,7 @@ import * as fromRoot from 'app/reducer/index.reducer';
 import * as moment from 'moment';
 import * as service from 'app/service/http.client';
 import { Action, Store } from '@ngrx/store';
-import { Actions, Effect, toPayload } from '@ngrx/effects';
+import { Actions, Effect } from '@ngrx/effects';
 import { ComputeService } from './../service/compute.service';
 import { DataField } from 'app/model/data-field.model';
 import { DataLoadedAction, DataLoadIlluminaVcfAction, DATA_LOADED, DataLoadFromDexieAction } from './../action/data.action';
@@ -56,12 +56,12 @@ export class DataEffect {
     // Load Data From TCGA
     @Effect() dataLoadFromTcga$: Observable<any> = this.actions$
         .ofType(data.DATA_LOAD_FROM_TCGA)
-        .map(toPayload)
+        .map((action: UnsafeAction) => action.payload)
         .switchMap( (args) => {
             // TODO: Move Into Config
             // args.manifest = 'https://canaantt-test.s3.amazonaws.com/5a7e7be1a5a1b333f4e9989b_manifest_json.gz?AWSAccessKeyId=AKIAIKDBEKXIPN4XUFTA&Expires=1534025109&Signature=9xOf6j6LAQ4MvNg63B5bO%2B2n9vA%3D';
             //'https://canaantt-test.s3.amazonaws.com/5a7e7be1a5a1b333f4e9989b_manifest_json.gz?AWSAccessKeyId=AKIAIKDBEKXIPN4XUFTA&Expires=1533864341&Signature=nboSjgz99Qs3IUsgCx%2BTs06aYo0%3D'
-            args.manifest = 'https://s3-us-west-2.amazonaws.com/notitia/tcga/tcga_' + args.disease + '_manifest.json.gz';
+            args['manifest'] = 'https://s3-us-west-2.amazonaws.com/notitia/tcga/tcga_' + args['disease'] + '_manifest.json.gz';
             return this.datasetService.load(args);
         }).
         mergeMap( (args) => {

@@ -16,7 +16,6 @@ import { DimensionEnum, EntityTypeEnum, WorkspaceLayoutEnum } from './../../../m
 import * as scale from 'd3-scale';
 import * as _ from 'lodash';
 import * as THREE from 'three';
-import { Memoize } from 'typescript-memoize';
 import { ShapeEnum, GraphEnum } from 'app/model/enum.model';
 import { Vector2, Vector3 } from 'three';
 import * as d3 from 'd3';

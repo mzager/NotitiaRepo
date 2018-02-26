@@ -8,7 +8,7 @@ import * as compute from './../action/compute.action';
 import * as select from 'app/action/select.action';
 import * as service from 'app/service/http.client';
 import { Action, Store } from '@ngrx/store';
-import { Actions, Effect, toPayload } from '@ngrx/effects';
+import { Actions, Effect } from '@ngrx/effects';
 import { GraphEnum } from 'app/model/enum.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';

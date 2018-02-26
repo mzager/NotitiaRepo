@@ -158,8 +158,8 @@ export class LinkedGeneGraph implements ChartObjectInterface {
     }
 
     removeObjects() {
-        this.lines.forEach( this.view.scene.remove);
-        this.meshes.forEach( this.view.scene.remove);
+        // this.lines.forEach( this.view.scene.remove);
+        // this.meshes.forEach( this.view.scene.remove);
     }
 
     constructor() { }

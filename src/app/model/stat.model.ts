@@ -423,7 +423,7 @@ export class VegaFactory {
                 'text': stat.name
             },
             'background': 0xFFFFFF,
-            'width': 265,
+            'width': 250,
             'height': 180,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
