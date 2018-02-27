@@ -310,7 +310,8 @@ export const enum PanelEnum {
     GENESET = 32,
     COLOR = 64,
     HELP = 128,
-    SETTINGS = 256
+    SETTINGS = 256,
+    ABOUT = 512
 }
 
 // Panels
