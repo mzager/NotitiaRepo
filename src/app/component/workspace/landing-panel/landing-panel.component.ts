@@ -9,8 +9,13 @@ import { Component, Input, Output, ChangeDetectionStrategy,
 })
 export class LandingPanelComponent implements AfterViewInit  {
 
+  @Output() onGetStarted: EventEmitter<any> = new EventEmitter();
 
   ngAfterViewInit(): void {
+  }
+
+  getStartedClick(): void {
+     this.onGetStarted.next();
   }
 
 }

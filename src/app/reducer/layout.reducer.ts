@@ -10,7 +10,7 @@ import { GraphPanelEnum } from 'app/model/enum.model';
 export interface State {
     graphPanelA: e.GraphPanelEnum;
     graphPanelB: e.GraphPanelEnum;
-    modalPanel: e.PanelEnum;
+    modalPanel: e.PanelEnum.LANDING;
     workspaceConfig: WorkspaceConfigModel;
 }
 
@@ -24,7 +24,7 @@ const initialState: State = {
 export function reducer(state = initialState, action: UnsafeAction): State {
     switch (action.type) {
         case layout.GRAPH_PANEL_TOGGLE:
-            if ((action as GraphPanelToggleAction).GraphPanelEnum === GraphPanelEnum.GRAPH_A) {
+            if ((action as GraphPanelToggleAction).payload === GraphPanelEnum.GRAPH_A) {
                 return Object.assign({}, state,
                     { graphPanelA: (state.graphPanelA === e.GraphPanelEnum.NONE) ? e.GraphPanelEnum.GRAPH_A : e.GraphPanelEnum.NONE });
             } else {

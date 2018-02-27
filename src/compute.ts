@@ -1,3 +1,4 @@
+import { dendogramCompute } from './app/component/visualization/dendogram/dendogram.compute';
 import { survivalCompute } from './app/component/visualization/survival/survival.compute';
 
 import { timelinesCompute } from './app/component/visualization/timelines/timelines.compute';
@@ -55,6 +56,9 @@ onmessage = function (e) {
     }
 
     switch (e.data.visualization) {
+        case VisualizationEnum.DENDOGRAM:
+            dendogramCompute(e.data, me);
+            break;
         case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS:
             quadradicDiscriminantAnalysisCompute(e.data, me);
             break;
