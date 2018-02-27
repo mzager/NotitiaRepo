@@ -14,7 +14,6 @@ import * as _ from 'lodash';
 import { interpolateViridis } from 'd3';
 
 export const dendogramCompute = (config: DendogramConfigModel, worker: DedicatedWorkerGlobalScope): void => {
-
     if (config.dirtyFlag & DirtyEnum.LAYOUT) {
         worker.util
             .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
@@ -40,15 +39,15 @@ export const dendogramCompute = (config: DendogramConfigModel, worker: Dedicated
                         return p;
                     }, [Infinity, -Infinity]); // Min Max
 
-                    const color = d3Scale.scaleSequential(interpolateViridis).domain(minMax);
-                    let colors = mtx.data.map(row => row.map(cell => color(cell)));
-                    colors = result[1].order.map(v => result[2].order.map(w => colors[v][w]));
+                    // const color = d3Scale.scaleSequential(interpolateViridis).domain(minMax);
+                    // let colors = mtx.data.map(row => row.map(cell => color(cell)));
+                    // colors = result[1].order.map(v => result[2].order.map(w => colors[v][w]));
 
                     worker.postMessage({
                         config: config,
                         data: {
                             map: result[0],
-                            colors: colors,
+                            // colors: colors,
                             range: minMax,
                             result: result[1],
                         }

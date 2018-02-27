@@ -219,10 +219,11 @@ export class ComputeEffect {
     .ofType(compute.COMPUTE_SURVIVAL)
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
+      debugger
       return this.computeService.survival(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :
-            new PathwaysCompleteAction({ config: result.config, data: result.data }));
+            new SurvivalCompleteAction({ config: result.config, data: result.data }));
         });
     });
 

@@ -1,52 +1,16 @@
-<div class='card file-panel-card'  [ngDraggable]='true' [handle]='titlebar' [inBounds]='true' [bounds]='bounds'>
-    <div class='card-title-bar' #titlebar >
-        Data Source
-        <i class='tiny material-icons tab-icon' (click)='hide.emit()'>close</i>
-        <span class='tab-span' (click)='helpClick()'>Help</span>
-    </div>
-    <div class='file-panel-imgs'>
-        <div class='filepanel-datsource-btn' (click)='showDatasource(2)'
-            [ngClass]='{"tabSelected": tab === 2 }'>
-            <img src='./assets/logo-tcga.png'> TCGA
-        </div>
-        <div class='filepanel-datsource-btn' (click)='showDatasource(3)'
-            [ngClass]='{"tabSelected": tab === 3 }'>
-            <img src='./assets/logo-pcawg.png'> PCAWG
-        </div>
-        <div class='filepanel-datsource-btn' (click)='showDatasource(4)'
-            [ngClass]='{"tabSelected": tab === 4 }'>
-            <img src='./assets/logo-basespace.png'> BaseSpace
-        </div>
-        <div class='filepanel-datsource-btn' (click)='showDatasource(1)'
-            [ngClass]='{"tabSelected": tab === 1 }'>
-            <img src='./assets/logo-oncoscape.png'> Upload
-        </div>
-    </div>
-    <div>
-        <div class='file-panel-para' *ngIf='tab == 3'>
-            <p class='file-panel-title'>Coming Soon...</p>
-            <p class='file-panel-desc'>The PCAWG study is an international collaboration to identify common patterns of mutation in more than 2,800 cancer whole genomes from the International Cancer Genome Consortium. The project produced large amount data with many types including simple somatic mutations (SNVs, MNVs and small INDELs), large-scale somatic structural variations, copy number alterations, germline variations, RNA expression profiles, gene fusions, and phenotypic annotations etc. PCAWG data have been imported, processed and made available in the following four major online resources for download and exploration by the cancer researchers worldwide.</p>
-        </div>
-        <div class='file-panel-para' *ngIf='tab == 4'>
-                <p class='file-panel-title'>Coming Soon...</p>
-                <p class='file-panel-desc'>BaseSpace Sequence Hub is the Illumina cloud computing environment for analyzing sequencing data. You will be able to stream data directly from your sequencing run from HiSeq, NextSeq, MiSeq, and MiniSeq systems into Oncoscape.</p>
-            </div>
-        <div class='file-panel-para' *ngIf='tab == 1'>
-            <p class='file-panel-title'>Excel Upload</p>
-            <p class='file-panel-desc'>Format your data in Excel and load it into Oncosacpe.  Your data will never be saved to the cloud.</p>
-            <p class='file-panel-buttons'><a href=''>Upload XLS</a><span class='pipe'>|</span><a href=''>Learn More</a></p>
-            <p class='file-panel-title'>OSF Files</p>
-            <p class='file-panel-desc'>OncoScape Files (.OSF) contain both data and layout information.  To create an OSF select 'save' from the file menu.</p>
-            <p class='file-panel-buttons'><a href=''>Open File</a><span class='pipe'>|</span><a href=''>Learn More</a></p>
-            <p class='file-panel-title'>Data Portal</p>
-            <p class='file-panel-desc'>Upload, Publish and Share your datasets in our secure cloud enviroment.</p>
-            <p class='file-panel-buttons'><a href=''>Goto Portal</a><span class='pipe'>|</span><a href=''>Learn More</a></p>
-            <p class='file-panel-title'>URL</p>
-            <p class='file-panel-desc'>For those interested in hosting their own datasets</p>
-            <p class='file-panel-buttons'><input class='file-input' type='text' placeholder='Enter manifest location'></p>
-        </div>
-        <app-workspace-tcga-panel *ngIf='tab == 2' class='file-panel-tcga'
-        (loadTcga)='loadTcga.next($event)'
-        ></app-workspace-tcga-panel>
-    </div>
+<div>
+
+    <h1>To get started, all we need is some data.</h1>
+    <h2>If you are interested in viewing your own data there are two options.<br />
+    
+        1) Upload the data to our private data hub and share it with your collaborators.
+        <a href="https://dev.oncoscape.sttrcancer.io/upload/#/projects/dashboard">Visit Data Hub</a><br />
+    
+        2) Read the data directly off your computer and rest assured it will never be saved to the cloud.
+        <a href="https://dev.oncoscape.sttrcancer.io/upload/#/projects/dashboard">Analyize Excel File</a><br />
+        Alternatively feel free to explore one of TCGA datasets below.
+    </h2>
+
+    <app-workspace-tcga-panel class='file-panel-tcga' (loadTcga)='loadTcga.next($event)'></app-workspace-tcga-panel>
+
 </div>

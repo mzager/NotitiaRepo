@@ -18,7 +18,8 @@
 
 
         <div style='padding:10px'>
-            <app-workspace-edge-panel *ngIf='config.graph==2'></app-workspace-edge-panel>
+            <app-workspace-edge-panel *ngIf='config.graph === 2'></app-workspace-edge-panel>
+
             <div class='form-group'>
                 <label class='center-block'>
                     <span class='form-label'>Visualization</span>
@@ -27,6 +28,7 @@
                     </select>
                 </label>
             </div>
+            <!--
             <div class='form-group'>
                 <label class='center-block'>
                     <span class='form-label'>Data</span>
@@ -34,6 +36,7 @@
                     <button class=' waves-effect waves-grey browser-default btn-config' style='width:78px;' (click)='selectCohort.emit()'>Cohort</button>
                 </label>
             </div>
+        -->
             <div *ngIf='config'>
 
                 <app-pathways-form *ngIf='config && config.visualization === 256' (configChange)='graphPanelSetConfig($event)' [fields]='fields'

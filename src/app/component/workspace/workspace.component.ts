@@ -1,3 +1,4 @@
+import { SurvivalConfigModel } from './../visualization/survival/survival.model';
 import { DendogramConfigModel } from './../visualization/dendogram/dendogram.model';
 import { MiniBatchSparsePcaConfigModel } from 'app/component/visualization/minibatchsparsepca/minibatchsparsepca.model';
 import { MiniBatchDictionaryLearningConfigModel } from 'app/component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
@@ -28,7 +29,7 @@ import {
   TsneAction
   } from './../../action/compute.action';
 import { ChromosomeConfigModel } from './../visualization/chromosome/chromosome.model';
-import { GraphPanelToggleAction } from './../../action/layout.action';
+import { GraphPanelToggleAction, ModalPanelAction } from './../../action/layout.action';
 import { DataField } from 'app/model/data-field.model';
 import {
   DataLoadedAction,
@@ -97,6 +98,7 @@ export class WorkspaceComponent {
   graphPanelBTab: Observable<enums.GraphPanelEnum>;
   genesetPanelTab: Observable<enums.SinglePanelEnum>;
   modalPanel: Observable<enums.PanelEnum>;
+  modalPanelNumber: number;
   
   selectedTool: Observable<enums.ToolEnum>;
   selectedGraph: Observable<enums.GraphEnum>;
@@ -124,8 +126,7 @@ export class WorkspaceComponent {
     this.fields = store.select(fromRoot.getFields);
     this.events = store.select(fromRoot.getEvents);
     this.queryData = store.select(fromRoot.getQueryData);
-
-    this.store.dispatch( new DataLoadFromDexieAction('gbm') );
+    // this.store.dispatch( new DataLoadFromDexieAction('gbm') );
   }
 
   select(selection: {type: EntityTypeEnum, ids: Array<string>}): void {
@@ -139,18 +140,16 @@ export class WorkspaceComponent {
     }
   }
   
-  fileOpen(value: DataTransfer) {
-    this.store.dispatch(new data.DataLoadFromFileAction(value));
-  }
-  fileLoadTcga(value: string) {
-    this.store.dispatch(new data.DataLoadFromTcga(value));
-  }
+  // fileOpen(value: DataTransfer) {
+  //   this.store.dispatch(new data.DataLoadFromFileAction(value));
+  // }
+  
 
   
 
-  graphPanelToggle(value: enums.GraphPanelEnum) {
-    this.store.dispatch(new layout.GraphPanelToggleAction(value));
-  }
+  // graphPanelToggle(value: enums.GraphPanelEnum) {
+  //   this.store.dispatch(new layout.GraphPanelToggleAction(value));
+  // }
 
 
   graphPanelSetConfig(value: GraphConfig) {
@@ -248,19 +247,30 @@ export class WorkspaceComponent {
       case enums.VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS:
         this.store.dispatch( new compute.LinearDiscriminantAnalysisAction( { config: value as LinearDiscriminantAnalysisConfigModel} ));
         break;
+      case enums.VisualizationEnum.SURVIVAL:
+        this.store.dispatch( new compute.SurvivalAction( { config: value as SurvivalConfigModel } ));
+        break;
       case enums.VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS:
         this.store.dispatch( new compute.QuadraticDiscriminantAnalysisAction(
             { config: value as QuadradicDiscriminantAnalysisConfigModel} ));
         break;
     }
   }
+  splitScreenChange(value: boolean): void {
+    const model = new WorkspaceConfigModel();
+    model.layout = (value) ? enums.WorkspaceLayoutEnum.HORIZONTAL : enums.WorkspaceLayoutEnum.SINGLE;
+    this.store.dispatch( new WorkspaceConfigAction( model ) );
+    this.store.dispatch( new GraphPanelToggleAction( enums.GraphPanelEnum.GRAPH_B ) );
 
+  }
+  setModalPanel(value: enums.PanelEnum): void{ 
+    this.store.dispatch( new ModalPanelAction(value) );
+  }
   workspacePanelSetConfig(value: WorkspaceConfigModel) {
     this.store.dispatch( new WorkspaceConfigAction( value ));
   }
-
-  filesLoad(value) {
-    this.store.dispatch( new DataLoadIlluminaVcfAction( value ));
+  fileLoadTcga(value: string) {
+    this.store.dispatch(new data.DataLoadFromTcga(value));
+    this.store.dispatch( new ModalPanelAction(enums.PanelEnum.NONE) );
   }
-
 }
