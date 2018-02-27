@@ -25,6 +25,7 @@ declare var $: any;
 export class QueryPanelComponent implements AfterViewInit, OnDestroy {
 
   form: FormGroup;
+  showForm = false;
 
   @Input() set configA(config: GraphConfig) {
     this._configA = config;
@@ -36,21 +37,11 @@ export class QueryPanelComponent implements AfterViewInit, OnDestroy {
         condition: 'and',
         rules: [ { field: fieldKey, operator: '<=' } ]
       };
+      this.showForm = true;
+      this.cd.markForCheck();
     });
   }
 
-  // @Input() set configB(config: GraphConfig) {
-  //   this._configB = config;
-  //   this.dataService.getQueryBuilderConfig(config.database).then(result => {
-  //     this.cfg = result;
-  //     const fieldKey = Object.keys(this.cfg.fields)[0];
-  //     const field = result[fieldKey];
-  //     this.query = {
-  //       condition: 'and',
-  //       rules: [ { field: fieldKey, operator: '<=' } ]
-  //     };
-  //   });
-  // }
 
   private _configA: GraphConfig;
   // private _configB: GraphConfig;
