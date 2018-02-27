@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { Component, Input, Output, ChangeDetectionStrategy, EventEmitter, HostListener, OnInit, OnDestroy } from '@angular/core';
-import { GraphPanelEnum } from 'app/model/enum.model';
+import { GraphPanelEnum, PanelEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import * as XLSX from 'xlsx';
 import * as downloadjs from 'downloadjs';
@@ -22,6 +22,7 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
 
   // TODO:  COME BACK AND CLEAN OUT  
   @Output() splitScreenChange = new EventEmitter<boolean>();
+  @Output() showModalPanel = new EventEmitter<PanelEnum>();
   // @Output() graphPanelToggle = new EventEmitter<GraphPanelEnum>();
   // @Output() genesetPanelToggle = new EventEmitter();
   // @Output() toolPanelToggle = new EventEmitter();
@@ -53,7 +54,9 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   constructor() {
     this.filesSubject = new Subject();
   }
-
+  viewPanel(panel: PanelEnum) : void { 
+    this.showModalPanel.emit(panel);
+  }
   onSplitScreenChange(e:any): void { 
     this.splitScreenChange.next(e.target.checked);
   }
