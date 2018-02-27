@@ -1,10 +1,9 @@
 <div style='overflow-y: scroll;'>
     <h1>{{method}}</h1>
-
     <p style="padding-top: 5px; padding-bottom: 5px; font-size:1.5rem;" [innerHTML]='desc'></p>
     <a href='{{url}}' target='_blank'>Learn More</a>
+
     <h2>Settings</h2>
-    <!-- <p>{{method}} Parameters:</p> -->
     <div *ngFor='let attr of params; let i = index'>
         <p style='font-weight: 600;padding-bottom: 2px; font-size: 1.5rem;'>{{ attr.name }}</p>
         <p style='font-size: 1.5rem;'>{{ attr.desc }}</p>
