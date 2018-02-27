@@ -74,11 +74,25 @@
 </div>
 
 <app-application-bar
-    (splitScreenChange)='splitScreenChange($event)'></app-application-bar>
+    (splitScreenChange)='splitScreenChange($event)'
+    (showModalPanel)='setModalPanel($event)'></app-application-bar>
+
+
+<!-- Panels -->
 <app-workspace-landing-panel *ngIf='(modalPanel | async) === 2'
     class='modal-panel' (onGetStarted)='setModalPanel(4)'></app-workspace-landing-panel>
 <app-workspace-file-panel *ngIf='(modalPanel | async) === 4'
     class='modal-panel' (filesLoad)='filesLoad($event)' (loadTcga)='fileLoadTcga($event)'></app-workspace-file-panel>
+<app-workspace-query-panel *ngIf='(modalPanel | async) === 16' [configA]='graphAConfig | async'
+    class='modal-panel' ></app-workspace-query-panel>
+
+<!--
+     [configA]='graphAConfig | async'
+    [configB]='graphBConfig | async'
+    (configChange)='graphPanelSetConfig($event)'
+-->
+
+<!-- Panels -->
 <!-- 
 (filePanelToggle)='filePanelToggle()'
     (edgePanelToggle)='edgePanelToggle()'
