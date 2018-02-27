@@ -1,3 +1,5 @@
+import { AnalysisPanelComponent } from './component/workspace/analysis-panel/analysis-panel.component';
+import { LandingPanelComponent } from './component/workspace/landing-panel/landing-panel.component';
 import { AngularDraggableModule } from 'angular2-draggable';
 import { MiniBatchSparsePcaFormComponent } from './component/visualization/minibatchsparsepca/minibatchsparsepca.form.component';
 import { HelpPanelComponent } from './component/workspace/help-panel/help-panel.component';
@@ -155,7 +157,9 @@ import { DendogramFormComponent } from './component/visualization/dendogram/dend
     HelpPanelComponent,
     SummaryComponent,
     ClusteringAlgorithmPanelComponent,
-    QueryBuilderComponent
+    QueryBuilderComponent,
+    LandingPanelComponent,
+    AnalysisPanelComponent
   ],
   entryComponents: [
   ],

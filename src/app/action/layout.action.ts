@@ -9,12 +9,12 @@ export const MODAL_PANEL = '[LAYOUT] Modal Panel';
 // Action Classes
 export class GraphPanelToggleAction implements Action {
     readonly type: string = GRAPH_PANEL_TOGGLE;
-    constructor(public GraphPanelEnum) { }
+    constructor(public payload: GraphPanelEnum) { }
 }
 
 export class ModalPanelAction implements Action {
     readonly type: string = MODAL_PANEL;
-    constructor(public PanelEnu) { }
+    constructor(public payload: PanelEnum) { }
 }
 
 

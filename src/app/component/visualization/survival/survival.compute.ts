@@ -31,7 +31,6 @@ export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWo
                     .sort( (a,b) => a[0]-b[0]);
 
                 const range = [result[0][0], result[result.length - 1][0]];
-
                 worker.postMessage({
                     config: config,
                     data: {

@@ -75,6 +75,7 @@ export class DendogramGraph implements ChartObjectInterface {
     }
 
     update(config: GraphConfig, data: any) {
+        debugger;
         console.log("REDRAW");
         this.config = config as DendogramConfigModel;
         this.data = data;
@@ -99,32 +100,32 @@ export class DendogramGraph implements ChartObjectInterface {
 
         const dendrogram = new THREE.Group;
         this.group.add(dendrogram);
+debugger;
 
-
-        if (horizontal) {
-            dendrogram.rotateZ(Math.PI * 0.5);
-            for (let n = 0 ; n < result.dendo.icoord.length; n += 1) {
-                const x = result.dendo.icoord[n];
-                const y = result.dendo.dcoord[n];
-                dendrogram.add( ChartFactory.linesAllocate(0x029BE5, [
-                    new Vector2( x[0] * .2 - 1, y[0] + 1),
-                    new Vector2( x[1] * .2 - 1, y[1] + 1),
-                    new Vector2( x[2] * .2 - 1, y[2] + 1),
-                    new Vector2( x[3] * .2 - 1, y[3] + 1),
-                    ], {}));
-            }
-        } else {
-            for (let n = 0 ; n < result.dendo.icoord.length; n += 1) {
-                const x = result.dendo.icoord[n];
-                const y = result.dendo.dcoord[n];
-                dendrogram.add( ChartFactory.linesAllocate(0x029BE5, [
-                    new Vector2( x[0] * .2 - 1, -y[0] - 1),
-                    new Vector2( x[1] * .2 - 1, -y[1] - 1),
-                    new Vector2( x[2] * .2 - 1, -y[2] - 1),
-                    new Vector2( x[3] * .2 - 1, -y[3] - 1),
-                    ], {}));
-            }
-        }
+        // if (horizontal) {
+        //     dendrogram.rotateZ(Math.PI * 0.5);
+        //     for (let n = 0 ; n < result.dendo.icoord.length; n += 1) {
+        //         const x = result.dendo.icoord[n];
+        //         const y = result.dendo.dcoord[n];
+        //         dendrogram.add( ChartFactory.linesAllocate(0x029BE5, [
+        //             new Vector2( x[0] * .2 - 1, y[0] + 1),
+        //             new Vector2( x[1] * .2 - 1, y[1] + 1),
+        //             new Vector2( x[2] * .2 - 1, y[2] + 1),
+        //             new Vector2( x[3] * .2 - 1, y[3] + 1),
+        //             ], {}));
+        //     }
+        // } else {
+        //     for (let n = 0 ; n < result.dendo.icoord.length; n += 1) {
+        //         const x = result.dendo.icoord[n];
+        //         const y = result.dendo.dcoord[n];
+        //         dendrogram.add( ChartFactory.linesAllocate(0x029BE5, [
+        //             new Vector2( x[0] * .2 - 1, -y[0] - 1),
+        //             new Vector2( x[1] * .2 - 1, -y[1] - 1),
+        //             new Vector2( x[2] * .2 - 1, -y[2] - 1),
+        //             new Vector2( x[3] * .2 - 1, -y[3] - 1),
+        //             ], {}));
+        //     }
+        // }
     }
 
     addObjects() {

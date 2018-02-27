@@ -60,6 +60,9 @@
         <a class='app-bar-menu-item' href=''>Load Data</a>
     </li>
     <li>
+        <a class='app-bar-menu-item' href=''>Settings</a>
+    </li>
+    <li>
         <a class='app-bar-menu-item' href=''>About</a>
     </li>
 </ul>
@@ -68,16 +71,14 @@
 <div class='application-bar-menu'>
     <span class='application-bar-logo'>Oncoscape</span>
     <span class='right'>
-        <div class='app-bar-menu-item' class='app-bar-menu-item-comparison'
-            style='border-width:0px 1px; position:relative;'>
-            <input type='text' placeholder="Search Chart"
-            style='color:#FFF; border-bottom-width: 0px; margin: 0px; padding-left:30px; width:80px;'>
+        <div class='app-bar-menu-item' class='app-bar-menu-item-comparison' style='border-width:0px 1px; position:relative;'>
+            <input type='text' placeholder="Search Chart" style='color:#FFF; border-bottom-width: 0px; margin: 0px; padding-left:30px; width:80px;'>
             <i class="material-icons" style='position:absolute;top:4px;left:10px;'>search</i>
-        </div>    
+        </div>
         <div class='app-bar-menu-item' class='app-bar-menu-item-comparison'>
             <div class='switch' style='margin:0px;color:#FFF;'>
                 <label style='color:#FFF;'>Split Screen
-                    <input type="checkbox">
+                    <input type="checkbox" (change)='onSplitScreenChange($event)'>
                     <span class="lever"></span>
                 </label>
             </div>
