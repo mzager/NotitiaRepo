@@ -100,7 +100,7 @@ export class DendogramGraph implements ChartObjectInterface {
 
         const dendrogram = new THREE.Group;
         this.group.add(dendrogram);
-debugger;
+
 
         // if (horizontal) {
         //     dendrogram.rotateZ(Math.PI * 0.5);

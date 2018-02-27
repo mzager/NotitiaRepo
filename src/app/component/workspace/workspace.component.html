@@ -30,10 +30,7 @@
         (workspaceConfigChange)='workspacePanelSetConfig($event)'
         ></app-workspace-edge-panel> -->
 
-    <app-workspace-geneset-panel style='pointer-events:all;position:relative;' [bounds]='panelContainer' [configA]='graphAConfig | async'
-        [configB]='graphBConfig | async' (configChange)='graphPanelSetConfig($event)' (hide)='genesetPanelToggle()' *ngIf='genesetPanelTab | async'>
-    </app-workspace-geneset-panel>
-
+   
     <!-- <app-workspace-clustering-algorithm-panel
         style='pointer-events:all;position:relative;'
         *ngIf='clusteringAlgorithmPanelTab | async'
@@ -44,25 +41,6 @@
         [graphBData]='graphBData | async' 
         ></app-workspace-clustering-algorithm-panel> -->
 
-    <!-- <app-workspace-file-panel
-        style='pointer-events:all;position:relative;'
-        *ngIf='filePanelTab | async' 
-        [bounds]='panelContainer'
-        (filesLoad)='filesLoad($event)'
-        (loadTcga)='fileLoadTcga($event)'
-        (hide)='filePanelToggle()'
-        ></app-workspace-file-panel> -->
-
-    <!-- <app-workspace-query-panel 
-        style='pointer-events:all;position:relative;'
-        *ngIf='queryPanelTab | async' 
-        [bounds]='panelContainer'
-        (queryPanelToggle)='queryPanelToggle()'
-        [configA]='graphAConfig | async'
-        [configB]='graphBConfig | async'
-        (configChange)='graphPanelSetConfig($event)'
-        (hide)='queryPanelToggle()'
-        ></app-workspace-query-panel> -->
 
     <!-- <app-workspace-help-panel
         style='pointer-events:all;position:relative;'
@@ -84,36 +62,14 @@
 <app-workspace-file-panel *ngIf='(modalPanel | async) === 4'
     class='modal-panel' (filesLoad)='filesLoad($event)' (loadTcga)='fileLoadTcga($event)'></app-workspace-file-panel>
 <app-workspace-query-panel *ngIf='(modalPanel | async) === 16' [configA]='graphAConfig | async'
-    class='modal-panel' ></app-workspace-query-panel>
+    class='modal-panel'></app-workspace-query-panel>
+<app-workspace-geneset-panel *ngIf='(modalPanel | async) === 32'
+    class='modal-panel'></app-workspace-geneset-panel>
+<app-workspace-help-panel *ngIf='(modalPanel | async) === 128'
+    class='modal-panel' [config]='helpPanelConfig | async'></app-workspace-help-panel>
+
 
 <!--
-     [configA]='graphAConfig | async'
-    [configB]='graphBConfig | async'
-    (configChange)='graphPanelSetConfig($event)'
--->
-
-<!-- Panels -->
-<!-- 
-(filePanelToggle)='filePanelToggle()'
-    (edgePanelToggle)='edgePanelToggle()'
-    (statPanelToggle)='statPanelToggle()' 
-    (workspacePanelToggle)='workspacePanelToggle()'
-    (graphPanelToggle)='graphPanelToggle($event)' 
-    (genesetPanelToggle)='genesetPanelToggle()'
-    (historyPanelToggle)='historyPanelToggle()'
-    (cohortPanelToggle)='cohortPanelToggle()'
-    (legendPanelToggle)='legendPanelToggle()'
-    (queryPanelToggle)='queryPanelToggle()' 
-    (dataPanelToggle)='dataPanelToggle()'
-    (toolPanelToggle)='toolPanelToggle()'
-    (fileOpen)='fileOpen($event)' -->
-
-
-<!-- 
-<app-workspace-data-panel *ngIf='(modalPanel | async) === 4' 
-    
-    ></app-workspace-data-panel> -->
-<!-- 
 <app-workspace-data-panel  style='position:absolute;top:30px;bottom:0px;width:100%;background:#ffffff;'
     [tables]='tables | async'
     [configA]='graphAConfig | async'
