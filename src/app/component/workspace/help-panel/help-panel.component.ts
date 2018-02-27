@@ -52,8 +52,6 @@ declare var $: any;
 })
 export class HelpPanelComponent implements AfterViewInit, OnDestroy {
 
-  @ViewChild('tabs') tabs: ElementRef;
-  @Input() bounds: ElementRef;
   // Mini Batch Dictionary Learning
   // Mini Batch Sparse PCA
   // Sparse Coder
@@ -113,12 +111,11 @@ export class HelpPanelComponent implements AfterViewInit, OnDestroy {
         this.attrs = result.attrs;
         this.params = result.params;
         this.citations = result.citations;
+        this.cd.markForCheck();
       });
     }
   }
 
-  zIndex = 1000;
-  focusSubscription: Subscription;
   method = '';
   desc = '';
   url = '';
@@ -128,18 +125,11 @@ export class HelpPanelComponent implements AfterViewInit, OnDestroy {
 
   @Output() hide: EventEmitter<any> = new EventEmitter();
 
-  ngAfterViewInit(): void {
-    $(this.tabs.nativeElement).tabs();
-  }
-  ngOnDestroy(): void {
-    this.focusSubscription.unsubscribe();
-  }
+  ngAfterViewInit(): void { }
+  ngOnDestroy(): void { }
 
   constructor(private dataService: DataService, public ms: ModalService, private cd: ChangeDetectorRef) {
-    this.focusSubscription = this.ms.$focus.subscribe(v => {
-      this.zIndex = (v === 'helpPanel') ? 1001 : 1000;
-      this.cd.markForCheck();
-    });
+    
   }
 
 }

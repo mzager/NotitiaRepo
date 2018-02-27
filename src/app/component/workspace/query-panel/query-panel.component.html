@@ -4,7 +4,7 @@
     <h2>Comparing different cohorts of patients is easy, simply fill out the the following form and click save.
         <br /> Once created, your cohort will appear in the cohort dropdown of the settings panel. </h2>
 
-    <div style='width: 60%'>
+    <div style='width: 60%; padding-top:20px;padding-bottom:20px;'>
         <form [formGroup]='form' novalidate>
             <div class='form-group'>
                 <label class='center-block'>
@@ -19,7 +19,7 @@
                 </label>
             </div>
         </form>
-        <app-workspace-query-builder [data]='query' [config]='cfg'></app-workspace-query-builder>
+        <app-workspace-query-builder *ngIf='showForm' [data]='query' [config]='cfg'></app-workspace-query-builder>
         <p>
             <a href="#" (click)="getStartedClick()">Save</a> <span style='color:#EEEEEE;padding:10px;'>|</span> <a href="#" (click)="getStartedClick()">Cancel</a>
         </p>

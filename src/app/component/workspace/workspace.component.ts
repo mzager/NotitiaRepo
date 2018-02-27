@@ -1,3 +1,4 @@
+import { HelpSetConfigAction } from './../../action/help.action';
 import { SurvivalConfigModel } from './../visualization/survival/survival.model';
 import { DendogramConfigModel } from './../visualization/dendogram/dendogram.model';
 import { MiniBatchSparsePcaConfigModel } from 'app/component/visualization/minibatchsparsepca/minibatchsparsepca.model';
@@ -255,13 +256,20 @@ export class WorkspaceComponent {
             { config: value as QuadradicDiscriminantAnalysisConfigModel} ));
         break;
     }
+    this.store.dispatch( new DataLoadFromDexieAction('gbm') );
   }
+
+  helpPanelToggle(config: GraphConfig): void { 
+    this.store.dispatch( new HelpSetConfigAction(config) );
+    this.store.dispatch( new ModalPanelAction(enums.PanelEnum.HELP) );
+    console.log('set');
+  }
+
   splitScreenChange(value: boolean): void {
     const model = new WorkspaceConfigModel();
     model.layout = (value) ? enums.WorkspaceLayoutEnum.HORIZONTAL : enums.WorkspaceLayoutEnum.SINGLE;
     this.store.dispatch( new WorkspaceConfigAction( model ) );
     this.store.dispatch( new GraphPanelToggleAction( enums.GraphPanelEnum.GRAPH_B ) );
-
   }
   setModalPanel(value: enums.PanelEnum): void{ 
     this.store.dispatch( new ModalPanelAction(value) );

@@ -10,14 +10,14 @@ import { GraphPanelEnum } from 'app/model/enum.model';
 export interface State {
     graphPanelA: e.GraphPanelEnum;
     graphPanelB: e.GraphPanelEnum;
-    modalPanel: e.PanelEnum.LANDING;
+    modalPanel: e.PanelEnum;
     workspaceConfig: WorkspaceConfigModel;
 }
 
 const initialState: State = {
     graphPanelA: e.GraphPanelEnum.GRAPH_A,
     graphPanelB: e.GraphPanelEnum.NONE,
-    modalPanel: e.PanelEnum.LANDING,
+    modalPanel: e.PanelEnum.DATA,
     workspaceConfig: new WorkspaceConfigModel()
 };
 
