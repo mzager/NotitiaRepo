@@ -178,7 +178,6 @@ export class ComputeService {
                 this.workerA = new Worker('assets/compute.js');
                 this.workerA.addEventListener('message', this.onMessage.bind(this));
                 this.workerA.postMessage( config );
-                debugger;
                 break;
 
             case GraphEnum.GRAPH_B:
