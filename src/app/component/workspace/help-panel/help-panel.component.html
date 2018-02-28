@@ -1,30 +1,34 @@
 <div style='overflow-y: scroll;'>
-    <h1>{{method}}</h1>
-    <p style="padding-top: 5px; padding-bottom: 5px; font-size:1.5rem;" [innerHTML]='desc'></p>
-    <a href='{{url}}' target='_blank'>Learn More</a>
+    <a class="btn-floating btn-large waves-effect waves-light white"
+        style='position: fixed;right: 50px;'><i class="material-icons" style='color:#029BE5'>close</i></a>
+        
+    <div style='max-width:800px;'>
+        <h1>{{method}}</h1>
+        <p class='help-desc' [innerHTML]='desc'></p>
+        <a class='help-link' href='{{url}}' target='_blank'>Learn More</a>
 
-    <h2>Settings</h2>
-    <div *ngFor='let attr of params; let i = index'>
-        <p style='font-weight: 600;padding-bottom: 2px; font-size: 1.5rem;'>{{ attr.name }}</p>
-        <p style='font-size: 1.5rem;'>{{ attr.desc }}</p>
-        <hr style='display: block;height: 1px;border: 0;border-top: 1px solid #eee;margin: 1em 0;padding: 0;'>
+        <h2 class='help-section'>Settings</h2>
+        <div *ngFor='let attr of params; let i = index'>
+            <p class='help-label'>{{ attr.name }}</p>
+            <p class='help-desc'>{{ attr.desc }}</p>
+            <!-- <hr style='display: block;height: 1px;border: 0;border-top: 1px solid #eee;margin: 1em 0;padding: 0;'> -->
+        </div>
+
+        <h2 class='help-section'>Legend</h2>
+        <div *ngFor='let attr of attrs; let i = index'>
+            <p class='help-label'>{{ attr.name }}</p>
+            <p class='help-desc'>{{ attr.desc }}</p>
+            <!-- <hr style='display: block;height: 1px;border: 0; font-size: 1.5rem; border-top: 1px solid #eee;margin: 1em 0;padding: 0;'> -->
+        </div>
+
+        <h2 class='help-section'>Citations</h2>
+        <div *ngFor='let attr of citations; let i = index'>
+            <p class='help-label'>{{ attr.name }}</p>
+            <p class='help-desc'>{{ attr.desc }}<br />
+            <span class='help-link'>
+                <a href='{{ attr.url }}' target='_blank'>Link to Pub</a>
+            </span>
+            </p>
+        </div>
     </div>
-
-    <h2>Legend</h2>
-    <div *ngFor='let attr of attrs; let i = index'>
-        <p style='font-weight: 600;padding-bottom: 2px; font-size: 1.5rem;'>{{ attr.name }}</p>
-        <p style='font-size: 1.5rem;'>{{ attr.desc }}</p>
-        <hr style='display: block;height: 1px;border: 0; font-size: 1.5rem; border-top: 1px solid #eee;margin: 1em 0;padding: 0;'>
-    </div>
-
-    <h2>Citations</h2>
-    <div *ngFor='let attr of citations; let i = index'>
-        <p style='font-weight: 600;padding-bottom: 5px; font-size: 1.5rem; padding-top:5px;'>{{ attr.name }}</p>
-        <p style='font-size: 1.5rem;'>{{ attr.desc }}</p>
-        <span>
-            <a href='{{ attr.url }}' target='_blank'>Link to Pub</a>
-        </span>
-        <hr style='display: block;height: 1px;border: 0;border-top: 1px solid #eee;margin: 1em 0;padding: 0;'>
-    </div>
-
 </div>

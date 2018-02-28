@@ -128,6 +128,9 @@ export class HelpPanelComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void { }
   ngOnDestroy(): void { }
 
+  closeClick() {
+    this.hide.emit();
+  }
   constructor(private dataService: DataService, public ms: ModalService, private cd: ChangeDetectorRef) {
     
   }
