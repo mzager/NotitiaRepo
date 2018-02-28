@@ -1,6 +1,6 @@
 {
     "method": "MDS",
-    "summary": "",
+    "summary": "Multidimensional scaling is a means of visualizing the level of similarity of individual cases of a dataset.  It refers to a set of related ordination techniques used in information visualization, in particular to display the information contained in a distance matrix",
     "desc": "<span class='help-method'>Multidimensional scaling</span>Read more in the scikit-learn user guide. ",
     "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html#sklearn.manifold.MDS",
     "params": [
