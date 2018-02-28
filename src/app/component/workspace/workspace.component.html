@@ -2,13 +2,13 @@
 
 <div #panelContainer style='pointer-events: none;position:relative;padding-top:30px;height:100vh;width:100%'>
 
-    <app-workspace-graph-panel style='pointer-events:all;position:absolute;left:0px;' *ngIf='graphPanelATab | async' [bounds]='panelContainer'
+    <app-workspace-graph-panel style='pointer-events:all;position:absolute;left:0px;' *ngIf='graphPanelATab | async'
         [title]='"Graph A"' [events]='events | async' [tables]='tables | async' [fields]='fields | async' [clinicalFields]='clinicalFields | async'
         [molecularData]='molecularData | async' [config]='graphAConfig | async' [data]='graphAData | async' (hide)='graphPanelToggle(1)'
         (help)='helpPanelToggle($event)' (configChange)='graphPanelSetConfig($event)' (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
         (selectGeneSignature)='graphPanelSelectGeneSignature($event)' (selectGeneset)='genesetPanelToggle($event)' (selectCohort)='queryPanelToggle($event)'></app-workspace-graph-panel>
 
-    <app-workspace-graph-panel style='pointer-events:all;position:absolute;right:0px;' *ngIf='graphPanelBTab | async' [bounds]='panelContainer'
+    <app-workspace-graph-panel style='pointer-events:all;position:absolute;right:0px;' *ngIf='graphPanelBTab | async'
         [title]='"Graph B"' [events]='events | async' [tables]='tables | async' [fields]='fields | async' [clinicalFields]='clinicalFields | async'
         [molecularData]='molecularData | async' [config]='graphBConfig | async' [data]='graphBData | async' (hide)='graphPanelToggle(2)'
         (help)='helpPanelToggle($event)' (configChange)='graphPanelSetConfig($event)' (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
@@ -57,10 +57,13 @@
 
 
 <!-- Panels -->
+
+
 <app-workspace-landing-panel *ngIf='(modalPanel | async) === 2'
     class='modal-panel' (onGetStarted)='setModalPanel(4)'></app-workspace-landing-panel>
 <app-workspace-file-panel *ngIf='(modalPanel | async) === 4'
     class='modal-panel' (filesLoad)='filesLoad($event)' (loadTcga)='fileLoadTcga($event)'></app-workspace-file-panel>
+    
 <app-workspace-query-panel *ngIf='(modalPanel | async) === 16' [configA]='graphAConfig | async'
     class='modal-panel'></app-workspace-query-panel>
 <app-workspace-geneset-panel *ngIf='(modalPanel | async) === 32'
