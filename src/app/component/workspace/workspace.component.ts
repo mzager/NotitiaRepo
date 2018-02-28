@@ -256,7 +256,6 @@ export class WorkspaceComponent {
             { config: value as QuadradicDiscriminantAnalysisConfigModel} ));
         break;
     }
-    this.store.dispatch( new DataLoadFromDexieAction('gbm') );
   }
 
   helpPanelToggle(config: GraphConfig): void { 
