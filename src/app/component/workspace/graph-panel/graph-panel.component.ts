@@ -60,7 +60,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('panel') panel: ElementRef;
   @ViewChild('panelButton') panelButton: ElementRef;
-  @Input() bounds: ElementRef;
+  
   @Input() title: string;
   @Input() cid: string;
   @Input() tables: Array<DataTable>;
@@ -80,8 +80,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Output() selectGeneset: EventEmitter<any> = new EventEmitter();
   @Output() selectCohort: EventEmitter<any> = new EventEmitter();
 
-  zIndex = 1000;
-  focusSubscription: Subscription;
+  
   visualizationOptions: Array<{ value: VisualizationEnum, label: string }>;
   toggleClick(): void {
      
@@ -232,11 +231,8 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void { }
-    //$(this.tabs.nativeElement).tabs(); }
 
-  ngOnDestroy(): void { this.focusSubscription.unsubscribe(); }
-
-  panelFocus(): void { this.ms.$focus.next('graphPanel' + this.cid); }
+  ngOnDestroy(): void {  }
 
   constructor(private ms: ModalService, private cd: ChangeDetectorRef) {
 
@@ -302,9 +298,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
 
     ];
 
-    this.focusSubscription = this.ms.$focus.subscribe(v => {
-      this.zIndex = (v === 'graphPanel' + this.cid) ? 1001 : 1000;
-      this.cd.markForCheck();
-    });
+   
   }
 }
