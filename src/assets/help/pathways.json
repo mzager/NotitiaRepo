@@ -1,5 +1,6 @@
 {
     "method": "Pathways",
+    "summary": "",
     "desc": "<span class='help-method'>Pathways</span> Pathways is generated using REACTOME, an open-source, open access, manually curated and peer-reviewed pathway database. Pathways is a genome-wide, hierarchical visualization of Reactome pathways in a space-filling graph",
     "url": "",
     "params": [
