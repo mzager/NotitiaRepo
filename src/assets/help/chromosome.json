@@ -1,5 +1,6 @@
 {
     "method": "Chromosome",
+    "summary": "Explore genes and genetic mutations using chromosome view. Zoom to see associated genes, or delve into edges, to link patient populations",
     "desc": "<span class='help-method'>Chromosome</span> Ensemble Genes 91 – Human Genes GRCH38 and GRCH19",
     "url": "",
     "params": [

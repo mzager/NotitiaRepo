@@ -1,6 +1,7 @@
 {
     "method": "Survival",
     "desc": "<span class='help-method'>Survival</span> Survival analysis is a branch of statistics for analyzing the expected duration of time until one or more events happen",
+    "summary": "",
     "url": "",
     "params": [
         {
