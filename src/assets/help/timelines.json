@@ -1,6 +1,6 @@
 {
     "method": "Timelines",
-    "desc": "<span class='help-method'>Timelines</span> Timelines allows users to visualize clinical information linearly (or log) to help establish patient treatment timelines. Patient timelines can be aligned and ordered by different patient events. Timelines can operate over specific events, various patient cohorts and different plotting mechanisms.",
+    "desc": "<span class='help-method'>Timelines</span> Timelines allows users to visualize clinical information linearly (or log) to help establish patient treatment timelines. Patient timelines can be aligned and ordered by different patient events can operate over specific events, various patient cohorts and different plotting mechanisms.",
     "summary": "",
     "url": "",
     "params": [
