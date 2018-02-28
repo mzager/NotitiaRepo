@@ -1,6 +1,7 @@
 {
     "method": "Genome",
-    "desc": "<span class='help-method'>Genome</span> Coming Soon",
+    "summary": "Interactive visualization of the 23 pairs of chromosomes, view cytobands, search for genes and link mutations to patient populations",
+    "desc": "<span class='help-method'>Genome</span> Interactive visualization of the 23 pairs of chromosomes, search for genes and link mutations to patient populations",
     "url": "",
     "params": [
         {

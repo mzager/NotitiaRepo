@@ -42,7 +42,7 @@ export class ChartFactory {
 
         const pts = path.getPoints();
         
-        var geometry = new THREE.BufferGeometry().setFromPoints( pts );
+        const geometry = new THREE.BufferGeometry().setFromPoints( pts );
         
         line.geometry = geometry;
         // line.geometry = path.createPointsGeometry(50);
