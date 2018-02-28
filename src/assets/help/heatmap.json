@@ -1,5 +1,6 @@
 {
     "method": "Heatmap",
+    "summary": "These functions cut hierarchical clusterings into flat clusterings or find the roots of the forest formed by a cut by providing the flat cluster ids of each observation",
     "desc": "<span class='help-method'>Heatmap</span> These functions cut hierarchical clusterings into flat clusterings or find the roots of the forest formed by a cut by providing the flat cluster ids of each observation",
     "url": "",
     "params": [
