@@ -1,6 +1,7 @@
 {
     "method": "Spectral Embedding",
     "desc": "<span class='help-method'>Project the sample on the first eigenvectors of the graph Laplacian.</span>The adjacency matrix is used to compute a normalized graph Laplacian whose spectrum (especially the eigenvectors associated to the smallest eigenvalues) has an interpretation in terms of minimal number of cuts necessary to split the graph into comparably sized components. This embedding can also ‘work’ even if the adjacency variable is not strictly the adjacency matrix of a graph but more generally an affinity or similarity matrix between samples (for instance the heat kernel of a euclidean distance matrix or a k-NN matrix). However care must taken to always make the affinity matrix symmetric so that the eigenvector decomposition works as expected. Note : Laplacian Eigenmaps is the actual algorithm implemented here. Read more in the scikit-learn user guide. ",
+    "summary": "",
     "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.spectral_embedding.html#sklearn.manifold.spectral_embedding",
     "params": [
         {

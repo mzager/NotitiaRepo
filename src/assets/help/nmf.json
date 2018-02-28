@@ -1,5 +1,6 @@
 {
     "method": "NMF",
+    "summary": "",
     "desc": "<span class='help-method'>Non-Negative Matrix Factorization (NMF)</span>Find two non-negative matrices (W, H) whose product approximates the non- negative matrix X. This factorization can be used for example for dimensionality reduction, source separation or topic extraction. The objective function is: 0.5 * ||X - WH||_Fro^2 + alpha * l1_ratio * ||vec(W)||_1 + alpha * l1_ratio * ||vec(H)||_1 + 0.5 * alpha * (1 - l1_ratio) * ||W||_Fro^2 + 0.5 * alpha * (1 - l1_ratio) * ||H||_Fro^2 Where: ||A||_Fro^2 = \\sum_{i,j} A_{ij}^2 (Frobenius norm) ||vec(A)||_1 = \\sum_{i,j} abs(A_{ij}) (Elementwise L1 norm) For multiplicative-update (‘mu’) solver, the Frobenius norm (0.5 * ||X - WH||_Fro^2) can be changed into another beta-divergence loss, by changing the beta_loss parameter. The objective function is minimized with an alternating minimization of W and H. Read more in the scikit-learn user guide. ",
     "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.NMF.html#sklearn.decomposition.NMF",
     "params": [
