@@ -1,6 +1,7 @@
 {
     "method": "Box + Whisker",
-    "desc": "<span class='help-method'>Box + Whisker</span> Coming Soon",
+    "summary": "Summarize a set of data measured on an interval scale. Use for explanatory data analysis to show the shape of the distribution, its central value, and its variability.",
+    "desc": "<span class='help-method'>Box + Whisker</span> Summarize a set of data measured on an interval scale. Use for explanatory data analysis to show the shape of the distribution, its central value, and its variability.",
     "url": "",
     "params": [
         {
