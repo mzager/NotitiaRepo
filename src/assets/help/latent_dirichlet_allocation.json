@@ -1,5 +1,6 @@
 {
     "method": "Latent Dirichlet Allocation",
+    "summary": "",
     "desc": "<span class='help-method'>Latent Dirichlet Allocation with online variational Bayes algorithm</span>New in version 0.17. Read more in the scikit-learn user guide. ",
     "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.LatentDirichletAllocation.html#sklearn.decomposition.LatentDirichletAllocation",
     "params": [

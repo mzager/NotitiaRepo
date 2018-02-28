@@ -1,5 +1,6 @@
 {
     "method": "Sparse PCA",
+    "summary": "",
     "desc": "<span class='help-method'>Sparse Principal Components Analysis (SparsePCA)</span>Finds the set of sparse components that can optimally reconstruct the data.  The amount of sparseness is controllable by the coefficient of the L1 penalty, given by the parameter alpha. Read more in the scikit-learn user guide. ",
     "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.SparsePCA.html#sklearn.decomposition.SparsePCA",
     "params": [
