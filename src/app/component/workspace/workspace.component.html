@@ -60,7 +60,7 @@
 
 
 <app-workspace-landing-panel *ngIf='(modalPanel | async) === 2'
-    class='modal-panel' (onGetStarted)='setModalPanel(4)'></app-workspace-landing-panel>
+    class='modal-panel' style='z-index:999999' (onGetStarted)='setModalPanel(4)'></app-workspace-landing-panel>
 <app-workspace-file-panel *ngIf='(modalPanel | async) === 4'
     class='modal-panel' (filesLoad)='filesLoad($event)' (loadTcga)='fileLoadTcga($event)'></app-workspace-file-panel>
     
