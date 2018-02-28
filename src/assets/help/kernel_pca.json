@@ -1,6 +1,6 @@
 {
     "method": "Kernel PCA",
-    "summary": "",
+    "summary": "Kernel PCA is an extension of principal component analysis (PCA) using techniques of kernel methods. Using a kernel, the originally linear operations of PCA are performed in a reproducing kernel Hilbert space",
     "desc": "<span class='help-method'>Kernel Principal component analysis (KPCA)</span>Non-linear dimensionality reduction through the use of kernels (see Pairwise metrics, Affinities and Kernels). Read more in the scikit-learn user guide. ",
     "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA",
     "params": [
