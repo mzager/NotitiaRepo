@@ -1,5 +1,6 @@
 {
     "method": "Locally Linear Embedding",
+    "summary": "",
     "desc": "<span class='help-method'>Perform a Locally Linear Embedding analysis on the data.</span>Read more in the scikit-learn user guide. ",
     "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.locally_linear_embedding.html#sklearn.manifold.locally_linear_embedding",
     "params": [

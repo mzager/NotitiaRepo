@@ -1,5 +1,6 @@
 {
     "method": "Kernel PCA",
+    "summary": "",
     "desc": "<span class='help-method'>Kernel Principal component analysis (KPCA)</span>Non-linear dimensionality reduction through the use of kernels (see Pairwise metrics, Affinities and Kernels). Read more in the scikit-learn user guide. ",
     "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA",
     "params": [

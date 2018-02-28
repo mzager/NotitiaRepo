@@ -1,6 +1,7 @@
 {
     "method": "Quadratic Discriminant Analysis",
     "desc": "<span class='help-method'>Quadratic Discriminant Analysis/span> Coming Soon",
+    "summary": "",
     "url": "http://scikit-learn.org/stable/modules/generated/sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis.html#sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis",
     "params": [
         {
