@@ -15,18 +15,18 @@ declare var $: any;
   selector: 'app-workspace-cohort-panel',
   styleUrls: ['./cohort-panel.component.scss'],
   template: `<div>
-  <h1>Cohort Builder</h1>
-  <h2><a href='' target='_blank'>Create, Manage and Apply custom cohorts to your visualizations - Learn More</a></h2>
+  <h1>Cohorts</h1>
+  <h2>Create, Manage and Apply custom cohorts to your visualizations - <a href='' target='_blank'>Watch Tutorial</a></h2>
   <div class='row'>
     <!-- My Cohorts -->
     <div class='col s3' style='border: 0px solid #EEE; border-right-width: 1px;padding-left: 0px;padding-right: 30px;'>
       <span class='cohortHeader'>My Cohorts</span>
       <div *ngFor='let myCohort of myCohorts'>
-        <div class='cohortMyRow'>{{myCohort.name}} (33 patients / 66 samples)<i class='material-icons cohortMyRowDelete'>delete</i></div>
+        <div class='cohortMyRow'><span class='cohortMyRowname'>{{myCohort.name}}</span> (33 patients / 66 samples)<i class='material-icons cohortMyRowDelete'>delete</i></div>
       </div>
     </div>
     <div class='col s6' style='padding-left:30px;padding-right:30px;'>
-      <span class='cohortHeader' style='padding-bottom:20px;'>Build Cohort</span>
+      <span class='cohortHeader' style='padding-bottom:20px;'>Build A Cohort</span>
       
 
       <div class='cohortField'>
@@ -49,7 +49,8 @@ declare var $: any;
 
     </div>
     <div class='col s3' style='border: 0px solid #EEE; border-left-width: 1px; padding-left:30px; padding-right:0px; '>
-      <span class='cohortHeader'>Summary</span>
+      <span class='cohortHeader'>More Information</span>
+      <div style='width:100%; height:150px;background:#eee;'></div>
     </div>
   </div>
 </div>`,
