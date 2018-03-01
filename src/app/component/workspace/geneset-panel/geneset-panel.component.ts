@@ -24,7 +24,9 @@ declare var $: any;
 
     <h1>Gene Sets</h1>
     <h2>Select from thousands of curated gene sets, or build your own.
+    <!--
     <br /> Once selected, your cohort will appear in the geneset dropdown of the settings panel. </h2>
+    -->
     <div id='GenesetPanelLoad' style='width:60%'>
         <div class='row'>
             <div class=' geneset-load-panel' >
