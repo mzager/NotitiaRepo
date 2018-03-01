@@ -73,6 +73,8 @@
     class='modal-panel'></app-workspace-settings-panel>
 <app-workspace-about-panel *ngIf='(modalPanel | async) === 512' (hide)='setModalPanel(1)'
     class='modal-panel'></app-workspace-about-panel>
+<app-workspace-citations-panel *ngIf='(modalPanel | async) === 1024' (hide)='setModalPanel(1)'
+    class='modal-panel'></app-workspace-citations-panel>
 
 <!--
 <app-workspace-data-panel  style='position:absolute;top:30px;bottom:0px;width:100%;background:#ffffff;'

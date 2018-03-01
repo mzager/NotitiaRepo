@@ -15,26 +15,16 @@ import * as _ from 'lodash';
 declare var $: any;
 
 @Component({
-    selector: 'app-workspace-about-panel',
-    styleUrls: ['./about-panel.component.scss'],
+    selector: 'app-workspace-citations-panel',
+    styleUrls: ['./citations-panel.component.scss'],
     template:
         `
 <!-- Card -->
 <div>
-    <h1>About</h1>
-    <h2>Fhcrc / holland Lab</h2>
-
-    <h1>Feedback</h1>
+    <h1>Citations</h1>
     <h2>Lorum Ipsum</h2>
 
-    <h1>Credits</h1>
-    <h2>Lorum Ipsum</h2>
-    <a href='https://github.com/mzager/NotitiaRepo/graphs/contributors'>Github Contributors</a>
-
-    <h1>Special Thanks</h1>
-    <h2>Lorum Ipsum</h2>
-    Ilsa ...
-    Hamid ...
+  
 
     <!--
     <br /> Once selected, your cohort will appear in the geneset dropdown of the settings panel. </h2>
@@ -42,7 +32,7 @@ declare var $: any;
 </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AboutPanelComponent implements AfterViewInit, OnDestroy {
+export class CitationsPanelComponent implements AfterViewInit, OnDestroy {
 
  
     // Attributes
