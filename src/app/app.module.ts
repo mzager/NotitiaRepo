@@ -1,3 +1,4 @@
+import { CitationsPanelComponent } from './component/workspace/citations-panel/citations-panel.component';
 import { AboutPanelComponent } from './component/workspace/about-panel/about-panel.component';
 import { AnalysisPanelComponent } from './component/workspace/analysis-panel/analysis-panel.component';
 import { LandingPanelComponent } from './component/workspace/landing-panel/landing-panel.component';
@@ -163,7 +164,8 @@ import { SettingsPanelComponent } from './component/workspace/settings-panel/set
     LandingPanelComponent,
     AnalysisPanelComponent,
     SettingsPanelComponent,
-    AboutPanelComponent
+    AboutPanelComponent,
+    CitationsPanelComponent
   ],
   entryComponents: [
   ],
