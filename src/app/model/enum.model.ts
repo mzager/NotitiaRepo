@@ -311,7 +311,9 @@ export const enum PanelEnum {
     COLOR = 64,
     HELP = 128,
     SETTINGS = 256,
-    ABOUT = 512
+    ABOUT = 512,
+    CITATION = 1024,
+    DOCUMENTATION = 2048
 }
 
 // Panels
