@@ -46,6 +46,7 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
       // case 'b': this.graphPanelToggle.emit(2); break;
       // case 'g': this.genesetPanelToggle.emit(); break;
       // case 'd': this.dataPanelToggle.emit(); break;
+      case 'c': this.viewPanel(PanelEnum.COHORT); break;
       case 'p': this.exportImage(); break;
       case 'i': this.toggleBackgroundColor(); break;
     }
