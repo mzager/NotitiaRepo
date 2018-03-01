@@ -13,7 +13,7 @@
 }
 
 .cohortField {
-    background: #f3f3f3;
+    // background: #f3f3f3;
     position: relative;
     margin-top: 1px;
     label {
@@ -30,6 +30,7 @@
         background: #FFF;
     }
 }
+
 .cohortFieldOr {
     margin-left: 25px;
     margin-top: 1px;
@@ -38,12 +39,18 @@
     }
 }
 .cohortFieldButtons {
-    display: inline-block;
+    display: none;
     position: absolute;
     right: 0px;
     top: 7px;
     padding-right:10px;
     // margin-right: 0px 10px;
+}
+.cohortField:hover {
+    background: #EFEFEF;
+    .cohortFieldButtons {
+        display: inline-block;
+    }
 }
 .cohortFieldDropdown {
     width: 125px;
