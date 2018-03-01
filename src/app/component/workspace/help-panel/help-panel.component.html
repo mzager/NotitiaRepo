@@ -1,27 +1,29 @@
 <div style='overflow-y: scroll;'>
     <a class="btn-floating btn-large waves-effect waves-light white" (click)='closeClick()'
-        style='position: fixed;right: 50px;'><i class="material-icons" style='color:#029BE5'>close</i></a>
+        style='position: fixed;right: 50px;'><i class="tiny material-icons" style='color:#029BE5'>close</i></a>
         
     <div style='max-width:800px;'>
-        <h1>{{method}}</h1>
+        <h1 class="help-title">{{method}}</h1>
         <p class='help-desc' [innerHTML]='desc'></p>
+        <p class='help-desc' [innerHTML]='learn'></p>
+        <p class='help-desc'>{{learn}}</p>
         <a class='help-link' href='{{url}}' target='_blank'>Learn More</a>
 
-        <h2 class='help-section'>Settings</h2>
+        <h2 class='help-section'>Method Settings</h2>
         <div *ngFor='let attr of params; let i = index'>
             <p class='help-label'>{{ attr.name }}</p>
             <p class='help-desc'>{{ attr.desc }}</p>
             <!-- <hr style='display: block;height: 1px;border: 0;border-top: 1px solid #eee;margin: 1em 0;padding: 0;'> -->
         </div>
 
-        <h2 class='help-section'>Legend</h2>
+        <h2 class='help-section'>Returned Values</h2>
         <div *ngFor='let attr of attrs; let i = index'>
             <p class='help-label'>{{ attr.name }}</p>
             <p class='help-desc'>{{ attr.desc }}</p>
             <!-- <hr style='display: block;height: 1px;border: 0; font-size: 1.5rem; border-top: 1px solid #eee;margin: 1em 0;padding: 0;'> -->
         </div>
 
-        <h2 class='help-section'>Citations</h2>
+        <h2 class='help-section'>Method Citations</h2>
         <div *ngFor='let attr of citations; let i = index'>
             <p class='help-label'>{{ attr.name }}</p>
             <p class='help-desc'>{{ attr.desc }}<br />
