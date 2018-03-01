@@ -104,7 +104,7 @@ export class DataService {
     });
   }
 
-  getQueryBuilderConfig(database: string): Promise<QueryBuilderConfig> {
+  getQueryBuilderConfig(database: string): Promise<any> {
     return new Promise((resolve, reject) => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
@@ -328,11 +328,11 @@ export class DataService {
       });
     });
   }
-  createCustomCohort(database: string, name: string, genes: Array<string>): Promise<any>{
+  createCustomCohort(database: string, name: string, patientIds: Array<string>): Promise<any>{
     return new Promise((resolve, reject) => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
-        v.table('cohorts').add({n:name, g:genes}).then(v => { 
+        v.table('cohorts').add({n:name, p:patientIds}).then(v => { 
           resolve(v);
         });
       });
