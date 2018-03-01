@@ -1,66 +1,12 @@
-.filepanel-datsource-btn {
-    text-align: center;
-    padding: 15px;
-    img {
-        width: 50px;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
+.fileLink {
+    line-height: 30px;
+    font-weight: 300;
+    padding-bottom: 5px;
+    font-size: 1.2rem;
 }
 
-.file-panel-title {
-    font-size: 20px;
-    margin: 0px;
-    padding: 0px;
-}
-
-.file-panel-desc {
-    margin: 0px;
-    padding: 0px;
-}
-
-.pipe {
-    padding-left: 5px;
-    padding-right: 5px;
-}
-
-.file-panel-buttons {
-    margin: 0px;
-    padding: 0px;
-    padding-bottom: 20px;
-}
-
-.file-panel-manifest {
-    width: 400px;
-}
-
-.tabSelected {
-    background: #e3f2fd;
-}
-
-.file-panel-card {
-    width: 800px;
-    height: auto;
-    background: #FFFFFF;
-}
-
-.file-panel-imgs {
+.fileImage {
+    height: 30px;
     float: left;
-    width: 100px;
-    border: solid 0px #efefef;
-    border-right-width: 1px;
-}
-
-.file-panel-para {
-    padding: 20px;
-    margin-left: 100px;
-    min-height: 396px;
-}
-.file-panel-tcga {
-    padding: 20px;
-    min-height: 396px;
-}
-.file-input {
-    width: 400px;
+    padding-right: 10px;
 }
