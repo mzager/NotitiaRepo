@@ -1,26 +1,69 @@
 <div>
 
     <h1>To get started, all we need is some data.</h1>
-    <h2>
-        Visualize your own data or explore one of TGCA datasets below.
+    <h2>Visualize your own data or explore one of TCGA datasets below.
         
-<!--         
+
         If you are interested in viewing your own data there are two options.<br />
     
-        1) Upload the data to our private data hub and share it with your collaborators.
+        
+        1) Read the data directly off your computer and rest assured it will never be saved to the cloud.
+        <a href="https://dev.oncoscape.sttrcancer.io/upload/#/projects/dashboard">Analyze Excel File</a><br />
+
+        2) Upload the data to our private data hub and share it with your collaborators.
         <a href="https://dev.oncoscape.sttrcancer.io/upload/#/projects/dashboard">Visit Data Hub</a><br />
     
-        2) Read the data directly off your computer and rest assured it will never be saved to the cloud.
-        <a href="https://dev.oncoscape.sttrcancer.io/upload/#/projects/dashboard">Analyze Excel File</a><br />
-        Alternatively, feel free to explore one of TCGA datasets below. -->
     </h2>
 
-<!--     
-    <img style='height:30px;float:left' src='./assets/disease/imgDSadrenal.png'><div style='line-height:30px;overflow: hidden;
-    text-overflow: ellipsis;font-size:1.5rem;'>&nbsp;Upload An Excel File</div>
-    <img style='height:30px;float:left' src='./assets/disease/imgDSadrenal.png'><div style='line-height:30px;overflow: hidden;
-    text-overflow: ellipsis;font-size:1.5rem;'>&nbsp;Oncoscape Data Hub</div> -->
 
-    <app-workspace-tcga-panel class='file-panel-tcga' (loadTcga)='loadTcga.next($event)'></app-workspace-tcga-panel>
+    <!-- <div class='row'>
+            <div class='col s4' style='padding-left: 0px; font-size: 1.2rem;'>
+                    <img class='fileImage' src='./assets/logo-excel.png'>
+                    <div class='fileLink'>Upload An Excel File</div>
+            </div>
+            <div class='col s4' style='padding-left: 0px; font-size: 1.2rem;'>
+                    <img class='fileImage' src='./assets/logo-cloud.png'>
+                    <div class='fileLink'>Visit Data Hub</div>
+            </div>
+    </div> -->
 
+    <div class='row'>
+            <div class='col s4' style='padding-left: 0px; font-size: 1.2rem;'
+                *ngFor='let dataset of datasets; let i = index' (click)='this.loadTcga.emit(dataset)'>
+                    <img class='fileImage' src='./assets/disease/img{{dataset.img}}'>
+                    <div class='fileLink'>{{dataset.name}}</div>
+            </div>
+    </div>
+    
+<!-- 
+    <div  style='font-size:1.5rem;font-weight:300;'>
+            <div class='row'>
+                    <div class='col s4'         
+                    style='overflow: hidden;
+                    padding: 0px;
+                    text-overflow: ellipsis;
+                    max-height: 30px;
+                    cursor: pointer;'></div>
+                    <img style='height:40px;float:left' src='./assets/logo-excel.png'><div style='line-height:30px;overflow: hidden;
+                    text-overflow: ellipsis;font-size:1.5rem;'>&nbsp;Upload An Excel File</div>
+                    <img style='height:40px;float:left' src='./assets/logo-cloud.png'><div style='line-height:30px;overflow: hidden;
+                    text-overflow: ellipsis;font-size:1.5rem;'>&nbsp;Oncoscape Data Hub</div>
+                
+            </div>
+            <div class='row'>
+                <div class='col s4' 
+                style='overflow: hidden;
+                padding: 0px;
+                text-overflow: ellipsis;
+                max-height: 30px;
+                cursor: pointer;'
+                    *ngFor='let dataset of datasets; let i = index' (click)='this.loadTcga.emit(dataset)'>
+                    <img style='height:40px;float:left' src='./assets/disease/img{{dataset.img}}'><div 
+                    class='tcgaLink'
+                    style='line-height:40px;overflow: hidden;
+                    text-overflow: ellipsis;'>&nbsp;{{dataset.name}}</div>
+                </div>
+            </div>
+        </div>     -->
+   
 </div>
