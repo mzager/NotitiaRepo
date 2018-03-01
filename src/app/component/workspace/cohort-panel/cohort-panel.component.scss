@@ -6,6 +6,18 @@
     border-bottom-width: 1px;
     position: relative;
     padding: 10px 0px;
+    .cohortMyRowDelete {
+        display: none;
+    }
+}
+.cohortMyRow:hover { 
+    background: #eee;
+    .cohortMyRowDelete {
+        display: inline;
+    }
+}
+.cohortMyRowname { 
+    font-weight: 700;
 }
 .cohortMyRowDelete {
     position: absolute;

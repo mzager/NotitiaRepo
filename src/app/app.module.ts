@@ -1,3 +1,4 @@
+import { AboutPanelComponent } from './component/workspace/about-panel/about-panel.component';
 import { AnalysisPanelComponent } from './component/workspace/analysis-panel/analysis-panel.component';
 import { LandingPanelComponent } from './component/workspace/landing-panel/landing-panel.component';
 import { AngularDraggableModule } from 'angular2-draggable';
@@ -95,6 +96,7 @@ import { HotTableModule } from 'angular-handsontable';
 import { NouisliderModule } from 'ng2-nouislider';
 import { SummaryComponent } from './component/workspace/data-panel/summary/summary.component';
 import { DendogramFormComponent } from './component/visualization/dendogram/dendogram.form.component';
+import { SettingsPanelComponent } from './component/workspace/settings-panel/settings-panel.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -159,7 +161,9 @@ import { DendogramFormComponent } from './component/visualization/dendogram/dend
     ClusteringAlgorithmPanelComponent,
     QueryBuilderComponent,
     LandingPanelComponent,
-    AnalysisPanelComponent
+    AnalysisPanelComponent,
+    SettingsPanelComponent,
+    AboutPanelComponent
   ],
   entryComponents: [
   ],
