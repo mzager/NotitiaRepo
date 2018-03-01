@@ -80,7 +80,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import { SurvivalFormComponent } from './component/visualization/survival/survival.form.component';
 import { SvdFormComponent } from './component/visualization/svd/svd.form.component';
-import { TcgaPanelComponent } from './component/workspace/tcga-panel/tcga-panel.component';
 import { TimelinesFormComponent } from './component/visualization/timelines/timelines.form.component';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { ToolBarComponent } from 'app/component/workspace/tool-bar/tool-bar.component';
@@ -104,7 +103,6 @@ import { SettingsPanelComponent } from './component/workspace/settings-panel/set
     WorkspaceComponent,
     ApplicationBarComponent,
     ToolBarComponent,
-    TcgaPanelComponent,
     FilePanelComponent,
     EdgePanelComponent,
     ColorPanelComponent,
