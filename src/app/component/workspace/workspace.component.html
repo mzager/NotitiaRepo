@@ -64,8 +64,10 @@
 <app-workspace-file-panel *ngIf='(modalPanel | async) === 4'
     class='modal-panel' (filesLoad)='filesLoad($event)' (loadTcga)='fileLoadTcga($event)'></app-workspace-file-panel>
     
-<app-workspace-query-panel *ngIf='(modalPanel | async) === 16' [configA]='graphAConfig | async'
-    class='modal-panel'></app-workspace-query-panel>
+<app-workspace-cohort-panel *ngIf='(modalPanel | async) === 16' [config]='graphAConfig | async'
+    class='modal-panel'></app-workspace-cohort-panel>
+<!-- <app-workspace-query-panel *ngIf='(modalPanel | async) === 16' [configA]='graphAConfig | async'
+    class='modal-panel'></app-workspace-query-panel> -->
 <app-workspace-geneset-panel *ngIf='(modalPanel | async) === 32'
     class='modal-panel'></app-workspace-geneset-panel>
 <app-workspace-help-panel *ngIf='(modalPanel | async) === 128' (hide)='setModalPanel(1)'
