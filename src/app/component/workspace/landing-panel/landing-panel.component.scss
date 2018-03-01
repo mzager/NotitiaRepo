@@ -1,10 +1,37 @@
-.button {
-    letter-spacing: 5px;
-    font-size: 1.6rem;
-    text-transform: uppercase;
-    padding-left: 900px;
-    margin-bottom: 80px;
+/** content **/
+.landing-content{
+    margin-top: 70px;
+    margin-left: 100px;
+    // width: 500px;
 }
+.landing-h1, {
+    color: #039be5;
+    padding: 0px;
+    margin: 0px;
+    letter-spacing: 20px;
+    text-transform: uppercase;
+    font-weight: 300;
+    font-size: 64px;
+}
+.landing-h2 { 
+    font-size:20px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #666666;
+    margin-bottom: 70px;
+    font-weight: 300;
+}
+
+.landing-link {
+    padding: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #039be5;
+    margin-left: 100px;
+    font-size: 20px;
+    font-weight: 400;
+}
+
 .caption-style-4{
     list-style-type: none;
     margin: 0px;
@@ -73,65 +100,8 @@
     text-align: center;
     top:100px;
 }
-/** Nav Menu */
-ul.nav-menu{
-    padding: 0px;
-    margin: 0px;
-    list-style-type: none;
-    width: 900px;
-    margin: 60px auto;
-}
-ul.nav-menu li{
-    display: inline;
-    margin-right: 10px;
-    padding:10px;
-    border: 1px solid #000000;
-}
-ul.nav-menu li a{
-    color: #000000;
-    text-decoration: none;
-    text-transform: uppercase;
-}
-ul.nav-menu li a:hover, ul.nav-menu li a.active{
-    color: #000000;
-} 
-/** content **/
-.content{
-    margin-top: 100px;
-    margin-left: 100px;
-    width: 500px;
-}
-.content h1, {
-    color: #0383c2;
-    padding: 0px;
-    margin: 0px;
-    font-weight: normal;
-    letter-spacing: 20px;
-    text-transform: uppercase;
-}
-.content h1{
-    font-weight: 300;
-    font-size: 64px;
-}
-.content h2{
-    font-size:20px;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    color: #666666;
-    margin-bottom: 100px;
-}
-.content p{
-    color: #666666;
-    font-family: "Lato";
-    line-height: 28px;
-    font-size: 15px;
-    
-}
-p.credit{
-    padding-top: 20px;
-    font-size: 12px;
-}
-p a{
-    color: #666666;
-}
+
+
+
+
 
