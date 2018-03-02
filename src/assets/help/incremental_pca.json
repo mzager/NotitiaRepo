@@ -2,7 +2,6 @@
     "method": "PCA Incremental",
     "summary": "PCA Incremental computes the principal components of a sequence of samples incrementally without estimating the covariance matrix.",
     "desc": "<span class='help-method'>Incremental principal components analysis (IPCA).</span>Linear dimensionality reduction using Singular Value Decomposition of centered data, keeping only the most significant singular vectors to project the data to a lower dimensional space. Depending on the size of the input data, this algorithm can be much more memory efficient than a PCA. This algorithm has constant memory complexity, on the order of batch_size, enabling use of np.memmap files without loading the entire file into memory. The computational overhead of each SVD is O(batch_size * n_features ** 2), but only 2 * batch_size samples remain in memory at a time. There will be n_samples / batch_size SVD computations to get the principal components, versus 1 large SVD of complexity O(n_samples * n_features ** 2) for PCA.",
-    "learn": "Read more in the scikit-learn user guide.",
     "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.IncrementalPCA.html#sklearn.decomposition.IncrementalPCA",
     "params": [
         {
@@ -60,7 +59,7 @@
         {
             "name": "noise variance",
             "type": "float",
-            "desc": "The estimated noise covariance following the Probabilistic PCA model from Tipping and Bishop 1999. See “Pattern Recognition and Machine Learning” by C. Bishop, 12.2.1 p. 574 or http://www.miketipping.com/papers/met-mppca.pdf."
+            "desc": "The estimated noise covariance following the Probabilistic PCA model from Tipping and Bishop 1999. See “Pattern Recognition and Machine Learning” below."
         },
         {
             "name": "n components",
@@ -98,6 +97,11 @@
             "name": "API design for machine learning software: experiences from the scikit-learn project",
             "desc": "API design for machine learning software: experiences from the scikit-learn project, Buitinck et al., 2013.",
             "url": "http://www.di.ens.fr/sierra/pdfs/icml09.pdf"
+        },
+        {
+            "name": "Pattern Recognition and Machine Learning (noise variance)",
+            "desc": "Pattern Recognition and Machine Learning by C. Bishop, 12.2.1 p. 574",
+            "url": "http://www.miketipping.com/papers/met-mppca.pdf"
         }
     ]
 }
