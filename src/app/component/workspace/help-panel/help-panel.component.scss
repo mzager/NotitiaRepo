@@ -7,7 +7,7 @@
     font-weight: 300;
     margin-bottom: 10px;
     text-transform: uppercase;
-    letter-spacing: 5px;
+    letter-spacing: 3px;
 }
 
 .btn-config {
@@ -23,24 +23,32 @@
 
 .help-section {
     font-weight: 300;
-    padding-top: 30px;
-    font-size: 2rem;
+    padding-top: 25px;
+    font-size: 1.7rem;
     text-transform: uppercase;
-    letter-spacing: 5px;
-    margin-bottom: 0;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
 }
 .help-label {
     font-weight: 400;
-    font-size: 1.5rem;
+    font-size: 1rem;
     margin-bottom: 0px;
-    margin-top: 10px;
+    margin-top: 5px;
+    text-transform: uppercase;
 }
 .help-desc {
     font-weight: 300;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     margin-top: 0px;
 }
 .help-link { 
-    font-size: 1.4rem;
-    font-weight: 500;
+    font-size: 1.2rem;
+    font-weight: 300;
 }
+.help-link-desc {
+    font-weight: 300;
+    font-size: 1.2rem;
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+
