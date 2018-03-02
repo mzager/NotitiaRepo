@@ -1,3 +1,5 @@
+import { GraphConfig } from 'app/model/graph-config.model';
+import { VisualizationEnum } from 'app/model/enum.model';
 import { DataFieldFactory } from 'app/model/data-field.model';
 import { DataField } from './../model/data-field.model';
 import { DataCollection } from './../model/data-collection.model';
@@ -75,9 +77,57 @@ export class DataService {
     });
   }
 
-  getHelpInfo(filename: string): Promise<any> {
+  getHelpInfo(config: GraphConfig): Promise<any> {
+
+    const v = config.visualization;
+    const method = (v === VisualizationEnum.BOX_WHISKERS) ? 'box_whiskers.json' :
+    (v === VisualizationEnum.CHROMOSOME) ? 'chromosome.json' :
+    (v === VisualizationEnum.DICTIONARY_LEARNING) ? 'dictionary_learning.json' :
+    (v === VisualizationEnum.FA) ? 'factor_analysis.json' :
+    (v === VisualizationEnum.FAST_ICA) ? 'fast_ica.json' :
+    (v === VisualizationEnum.HIC) ? 'force_directed_graph.json' :
+    (v === VisualizationEnum.GENOME) ? 'genome.json' :
+    (v === VisualizationEnum.DENDOGRAM) ? 'dendogram.json' : 
+    (v === VisualizationEnum.HEATMAP) ? 'heatmap.json' :
+    (v === VisualizationEnum.HISTOGRAM) ? 'histogram.json' :
+    (v === VisualizationEnum.INCREMENTAL_PCA) ? 'incremental_pca.json' :
+    (v === VisualizationEnum.ISOMAP) ? 'isomap.json' :
+    (v === VisualizationEnum.KERNAL_PCA) ? 'kernal_pca.json' :
+    (v === VisualizationEnum.LDA) ? 'latent_dirichlet_allocation.json' :
+    (v === VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS) ? 'linear_discriminant_analysis.json' :
+    (v === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? 'locally_linear_embedding.json' :
+    (v === VisualizationEnum.MDS) ? 'mds.json' :
+    (v === VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING) ? 'mini_batch_dictionary_learning.json' :
+    (v === VisualizationEnum.MINI_BATCH_SPARSE_PCA) ? 'mini_batch_sparse_pca.json' :
+    (v === VisualizationEnum.NMF) ? 'nmf.json' :
+    (v === VisualizationEnum.PATHWAYS) ? 'pathways.json' :
+    (v === VisualizationEnum.PCA) ? 'pca.json' :
+    (v === VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS) ? 'quadratic_discriminant_analysis.json)' :
+    (v === VisualizationEnum.SPARSE_PCA) ? 'sparse_pca.json' :
+    (v === VisualizationEnum.SPECTRAL_EMBEDDING) ? 'spectral_embedding.json' :
+    (v === VisualizationEnum.SURVIVAL) ? 'survival.json' :
+    (v === VisualizationEnum.TIMELINES) ? 'timelines.json' :
+    (v === VisualizationEnum.TRUNCATED_SVD) ? 'truncated_svd.json' :
+    (v === VisualizationEnum.TSNE) ? 'tsne.json' :
+    '';
+
+
+    if (method === '') {
+      return new Promise( (resolve, reject) => { 
+        resolve({
+          method: 'NA',
+          desc: 'Comming Soon',
+          url: 'NA',
+          attrs: [],
+          params: [],
+          citations: []
+        });
+      });
+
+    }
+
     return this.http
-      .get('./assets/help/' + filename)
+      .get('./assets/help/' + method)
       .map(res => res.json()).toPromise();
     // // return this.http
     // //   .get('https://s3-us-west-2.amazonaws.com/notitia/reference/genesets.json.gz')
@@ -312,7 +362,7 @@ export class DataService {
     return new Promise((resolve, reject) => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
-        v.table('genesets').delete(name).then(v => { 
+        v.table('genesets').where('n').equalsIgnoreCase(name).delete().then(v => { 
           resolve(v);
         });
       });
