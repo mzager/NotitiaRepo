@@ -21,12 +21,113 @@ declare var $: any;
         `
 <!-- Card -->
 <div>
-
     <h1>Gene Sets</h1>
-    <h2>Select from thousands of curated gene sets, or build your own.
-    <!--
-    <br /> Once selected, your cohort will appear in the geneset dropdown of the settings panel. </h2>
-    -->
+    <h2>Select from thousands of curated gene sets, or build your own - <a href='' target='_blank'>Watch Tutorial</a></h2>
+
+    <div class='row'>
+        <!-- My Cohorts -->
+        <div class='col s3' style='border: 0px solid #EEE; border-right-width: 1px;padding-left: 0px;padding-right: 30px;'>
+            <span class='cohortHeader'>My Genesets</span>
+            <div *ngFor='let myGeneset of myGenesets' (click)='geneSetDel(myGeneset)'>
+                <div class='cohortMyRow'><span class='cohortMyRowname'>{{myGeneset.name}}</span> ({{myGeneset.genes.length}} genes)<i class='material-icons cohortMyRowDelete'>delete</i></div>
+            </div>
+        </div>
+        <div class='col s6' style='padding-left:30px;padding-right:30px;'>
+            <span class='cohortHeader' style='padding-bottom:20px;'>Select / Build a Gene Set</span>
+
+            <!-- From -->
+            <div class='cohortField'>
+                <label>From</label>
+                <select class='cohortFieldDropdown browser-default' materialize='material_select'
+                    (change)='setBuildType($event)'>
+                    <option value='CURATED'>Curated Gene Set</option>
+                    <option value='CUSTOM'>List of Genes</option>
+                    <option value='CONDITIONAL'>Criteria</option>
+                </select>
+                <select *ngIf='buildType === "CURATED"'
+                    class='cohortFieldDropdown browser-default' materialize='material_select' 
+                    (change)='genesetCategoryChange($event.target.value)'>
+                    <option  *ngFor='let option of genesetCategories'>{{option.n}}</option>
+                </select>
+            </div>
+
+            <!-- Curated -->
+            <span *ngIf='buildType === "CURATED"'>
+
+                <div class='cohortField' >
+                    <label>Where</label>
+                    <input id='cohortName' type='text' placeholder='Gene Set Contains'
+                    ng-model='genesetFilter'
+                    style='margin-bottom:5px;border-color:#EEE;width:293px;padding-left: 6px;'>
+                </div>
+
+                <div style='position:relative;'>
+                    <label class='cohortFieldLabel'>Options</label>
+                    <div style='height:40vh;overflow-y:scroll;display: inline-block;position: absolute;left: 80px;top: 5px;'>
+                        <div class='cohortField' *ngFor='let option of genesetOptions'
+                        style='border:0px solid #ddd; border-bottom-width:1px;padding: 5px 0px;'>
+                            <div class='cohortFieldButtons'>
+                                <button class='waves-effect waves-light btn btn-small white cohortBtn' 
+                                (click)='geneSetAdd(option)'
+                                ><i class="material-icons">add</i></button>
+                            </div>
+                            {{option.name}}<br />
+                            {{option.summary}}
+                        </div>
+                    </div>
+                </div>
+
+            </span>
+        
+            <!-- Custom -->
+            <span *ngIf='buildType === "CUSTOM"'>
+
+                <div class='cohortField'>
+                    <label for='genesetName'>Create</label>
+                    <input id='genesetName' type='text' placeholder='Enter Gene Set Name'
+                    style='margin-bottom:5px;border-color:#EEE;width:293px;padding-left: 6px;'>
+                </div>
+    
+                <div style='position:relative;'>
+                    <label class='cohortFieldLabel'>Genes</label>
+                    <textarea type='text' placeholder='Enter a comma seperated list of gene names'
+                        style='padding:5px;height:40vh;overflow-y:scroll;display: inline-block;
+                        width:80%;position: absolute;left: 80px;top: 5px; border-color:#EEE;'></textarea>
+                </div>
+                <div>
+                    <button class='waves-effect waves-light btn btn-small white cohortBtn'>Save</button>
+                </div>
+
+            </span>
+
+            <!-- Conditional -->
+            <span *ngIf='buildType === "CONDITIONAL"'>
+                Above Expression...<br />
+                With Mutation... <br />
+                By Quartile... <br />
+                etc...
+            </span>
+            
+          
+        </div>
+        <div class='col s3' style='border: 0px solid #EEE; border-left-width: 1px; padding-left:30px; padding-right:0px; '>
+            <div style='width:100%; height:150px; background:#eee; text-align: center; padding-top: 40px;'>
+                <i class="material-icons large">play_circle_outline</i>
+            </div>
+        </div>
+    </div>
+ <!--
+                <select class='cohortValueDropdown browser-default'materialize='material_select'><option>Female</option></select>
+                <div class='cohortFieldButtons'>
+                    <button class='waves-effect waves-light btn btn-small white cohortBtn' (click)='fieldAnd(condition)'>And</button>
+                    <button class='waves-effect waves-light btn btn-small white cohortBtn' (click)='fieldOr(condition)'>Or</button>
+                    <button class='waves-effect waves-light btn btn-small white cohortBtn' (click)='fieldDel(condition)'><i class="material-icons">delete</i></button>
+                </div>
+                -->
+  
+
+
+<!--
     <div id='GenesetPanelLoad' style='width:60%'>
         <div class='row'>
             <div class=' geneset-load-panel' >
@@ -72,127 +173,162 @@ declare var $: any;
             (click)='save()'>Save</button>
         </div>
     </div>
+    -->
 </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
 
-    // Elements
-    @ViewChild('tabs') tabs: ElementRef;
+    buildType: 'CURATED' |  'CUSTOM' | 'CONDITIONAL' = 'CURATED';
+    myGenesets: Array<{name:string, genes:Array<string>, query:any}> = [];
+    genesetFilter = '';
+    genesetCategories: Array<{ c: string, n: string, d: string }>;
+    genesetOptions: Array<any>;
 
     // Attributes
-    @Input() bounds: ElementRef;
-    @Input() configA: GraphConfig;
-    @Input() configB: GraphConfig;
-    @Output() configChange = new EventEmitter<GraphConfig>();
-    @Output() hide = new EventEmitter<any>();
-    @Output() help: EventEmitter<any> = new EventEmitter();
+    private _config;
+    get config(): GraphConfig { return this._config; }
+    @Input() set config(config: GraphConfig) {
+        this._config = config;
+        this.refreshGenelist();   
+    }
 
-    // Properties
-    customGenesetName = '';
-    customGenesetGenes = '';
-    collections: Array<{ c: string, n: string, d: string }>;
-    genesets: Array<any>;   // All Possible Genesets In A Category
-    collection: any = { c: '', g: '', d: 'Loading' };
-    options: Array<any>;    // Genesets That Match Criteria + Show Up In List
-    zIndex = 1000;
-    focusSubscription: Subscription;
-    filterChange: Function;
-
-    // Event Handlers
-    helpClick(): void { this.help.emit('GenesetPanel'); }
-    collectionChange(name: string): void {
-        this.collection = this.collections.find(v => v.n === name);
-        const collectionCode = this.collection.c;
-        this.options = [];
-        // debugger;
+    setBuildType(e: any): void {
+        this.buildType = e.target.value;
         this.cd.markForCheck();
-        if (collectionCode === 'Custom') {
-            this.dataService.getCustomGenesets(this.configA.database).then(result => {
-                this.options = this.genesets = result.map(v => ({
-                    genes: v.g,
-                    hugo: v.g.join(','),
-                    name: v.n,
-                    summary: ''
-                }));
+    }
+
+    genesetCategoryChange(name: string): void { 
+        const genesetCode = this.genesetCategories.find(v => v.n === name).c;
+        this.genesetOptions = [];
+        this.cd.markForCheck();
+        this.dataService.getGeneSetByCategory(genesetCode)
+            .toPromise().then(v => {
+                v.forEach(geneset => {
+                    geneset.name = geneset.name.replace(/_/gi, ' ');
+                    geneset.genes = geneset.hugo.split(',');
+                });
+                this.genesetOptions = v;
                 this.cd.markForCheck();
             });
-        } else {
-            this.dataService.getGeneSetByCategory(collectionCode)
-                .toPromise().then(v => {
-                    v.forEach(geneset => {
-                        geneset.name = geneset.name.replace(/_/gi, ' ');
-                        geneset.genes = geneset.hugo.split(',');
-                    });
-                    this.options = this.genesets = v;
-                    this.cd.markForCheck();
-                });
-        }
     }
-    filter(criteria: string): void {
-        const terms = criteria.split(' ').map(v => v.toUpperCase().trim()).filter(v => v.length > 1);
-        this.options = this.genesets.filter(v => {
-            const haystack = (v.name + ' ' + v.summary + ' ' + v.hugo).toUpperCase();
-            for (let i = 0; i < terms.length; i++) {
-                if (haystack.indexOf(terms[i]) === -1) { return false; }
-            }
-            return true;
+
+    refreshGenelist(): void {
+        this.dataService.getCustomGenesets(this.config.database).then(v => { 
+            this.myGenesets = v.map(v => ({name: v.n, genes: v.g, query: ''}));
+            this.cd.markForCheck();
         });
-        this.cd.markForCheck();
-    }
-    save(): void {
-        const genes = this.customGenesetGenes.split(',').map(v => v.trim().toUpperCase());
-        if (this.customGenesetName.length === 0) { return; }
-        if (this.customGenesetGenes.length === 0) { return; }
-        this.dataService.createCustomGeneset(this.configA.database, this.customGenesetName, genes);
-        $(this.tabs.nativeElement).tabs('select_tab', 'GenesetPanelLoad');
-    }
-    selectGeneset(option): void {
-        this.configA.markerSelect = option.hugo.split(',').map(v => v.toUpperCase().trim());
-        this.configA.dirtyFlag = DirtyEnum.LAYOUT;
-        this.configChange.emit(this.configA);
-        this.configB.markerSelect = option.hugo.split(',').map(v => v.toUpperCase().trim());
-        this.configB.dirtyFlag = DirtyEnum.LAYOUT;
-        this.configChange.emit(this.configB);
-    }
-    filterGeneset(option): void {
-        this.configA.markerFilter = option.hugo.split(',').map(v => v.toUpperCase().trim());
-        this.configA.dirtyFlag = DirtyEnum.LAYOUT;
-        this.configChange.emit(this.configA);
-        this.configB.markerFilter = option.hugo.split(',').map(v => v.toUpperCase().trim());
-        this.configB.dirtyFlag = DirtyEnum.LAYOUT;
-        this.configChange.emit(this.configB);
     }
 
+    geneSetDel(v): void {
+        this.dataService.deleteCustomGeneset(this.config.database, v.name).then( v => {
+            this.refreshGenelist();
+        });
+    }
 
-    // Life Cycle
-    init(): void {
+    geneSetAdd(v): void {
+         v.name;
+         v.genes;
+         this.dataService.createCustomGeneset(this.config.database, v.name, v.genes).then(v => { 
+            this.refreshGenelist();
+         })
+    }
+
+    
+
+    // // Properties
+    // customGenesetName = '';
+    // customGenesetGenes = '';
+    // collections: Array<{ c: string, n: string, d: string }>;
+    // genesets: Array<any>;   // All Possible Genesets In A Category
+    // collection: any = { c: '', g: '', d: 'Loading' };
+    // options: Array<any>;    // Genesets That Match Criteria + Show Up In List
+    // filterChange: Function;
+
+    // // Event Handlers
+    // collectionChange(name: string): void {
+    //     this.collection = this.collections.find(v => v.n === name);
+    //     const collectionCode = this.collection.c;
+    //     this.options = [];
+    //     // debugger;
+    //     this.cd.markForCheck();
+    //     if (collectionCode === 'Custom') {
+    //         this.dataService.getCustomGenesets(this.configA.database).then(result => {
+    //             this.options = this.genesets = result.map(v => ({
+    //                 genes: v.g,
+    //                 hugo: v.g.join(','),
+    //                 name: v.n,
+    //                 summary: ''
+    //             }));
+    //             this.cd.markForCheck();
+    //         });
+    //     } else {
+    //         this.dataService.getGeneSetByCategory(collectionCode)
+    //             .toPromise().then(v => {
+    //                 v.forEach(geneset => {
+    //                     geneset.name = geneset.name.replace(/_/gi, ' ');
+    //                     geneset.genes = geneset.hugo.split(',');
+    //                 });
+    //                 this.options = this.genesets = v;
+    //                 this.cd.markForCheck();
+    //             });
+    //     }
+    // }
+    // filter(criteria: string): void {
+    //     const terms = criteria.split(' ').map(v => v.toUpperCase().trim()).filter(v => v.length > 1);
+    //     this.options = this.genesets.filter(v => {
+    //         const haystack = (v.name + ' ' + v.summary + ' ' + v.hugo).toUpperCase();
+    //         for (let i = 0; i < terms.length; i++) {
+    //             if (haystack.indexOf(terms[i]) === -1) { return false; }
+    //         }
+    //         return true;
+    //     });
+    //     this.cd.markForCheck();
+    // }
+    // save(): void {
+    //     const genes = this.customGenesetGenes.split(',').map(v => v.trim().toUpperCase());
+    //     if (this.customGenesetName.length === 0) { return; }
+    //     if (this.customGenesetGenes.length === 0) { return; }
+    //     this.dataService.createCustomGeneset(this.configA.database, this.customGenesetName, genes);
+    // }
+
+       
+
+    // // Life Cycle
+    // init(): void {
+        // const categories = this.dataService.getGenesetCategories();
+        // const geneset = this.dataService.getGeneSetByCategory('H').toPromise();
+        // this.options = [];
+    //     this.filterChange = _.debounce(this.filter);
+        // Promise.all([categories, geneset]).then(response => {
+        //     response[1].forEach(v => {
+        //         v.name = v.name.replace(/_/gi, ' ');
+        //         v.genes = v.hugo.split(',');
+        //     });
+        //     response[0].push({ c: 'Custom', n: 'My Gene Sets', d: 'User Generated Genesets' });
+        //     this.collections = response[0];
+        //     this.collection = this.collections[0];
+        //     this.genesets = response[1];
+        //     this.options = this.genesets;
+        //     this.cd.markForCheck();
+        // });
+    // }
+
+    ngOnDestroy(): void { }
+    ngAfterViewInit(): void { }
+    constructor(private cd: ChangeDetectorRef, private dataService: DataService, public ms: ModalService) {
+        
         const categories = this.dataService.getGenesetCategories();
         const geneset = this.dataService.getGeneSetByCategory('H').toPromise();
-        this.options = [];
-        this.filterChange = _.debounce(this.filter);
         Promise.all([categories, geneset]).then(response => {
             response[1].forEach(v => {
                 v.name = v.name.replace(/_/gi, ' ');
                 v.genes = v.hugo.split(',');
             });
-            response[0].push({ c: 'Custom', n: 'My Gene Sets', d: 'User Generated Genesets' });
-            this.collections = response[0];
-            this.collection = this.collections[0];
-            this.genesets = response[1];
-            this.options = this.genesets;
+            this.genesetCategories = response[0];
+            this.genesetOptions = response[1];
             this.cd.markForCheck();
         });
-        this.focusSubscription = this.ms.$focus.subscribe(v => {
-            this.zIndex = (v === 'genesetPanel') ? 1001 : 1000;
-            this.cd.markForCheck();
-        });
-    }
-
-    ngOnDestroy(): void { this.focusSubscription.unsubscribe(); }
-    ngAfterViewInit(): void { $(this.tabs.nativeElement).tabs(); }
-    constructor(private cd: ChangeDetectorRef, private dataService: DataService, public ms: ModalService) {
-        this.init();
     }
 
 
