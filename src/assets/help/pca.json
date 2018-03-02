@@ -1,7 +1,7 @@
 {
     "method": "PCA",
     "summary": "Principal component analysis is a statistical procedure that uses an orthogonal transformation to convert a set of observations of possibly correlated variables into a set of values of linearly uncorrelated variables called principal components.",
-    "desc": "<span class='help-method'>Principal component analysis (PCA)</span>Linear dimensionality reduction using Singular Value Decomposition of the data to project it to a lower dimensional space. It uses the LAPACK implementation of the full SVD or a randomized truncated SVD by the method of Halko et al. 2009, depending on the shape of the input data and the number of components to extract. It can also use the scipy.sparse.linalg ARPACK implementation of the truncated SVD. Notice that this class does not support sparse input. See TruncatedSVD for an alternative with sparse data. Read more in the scikit-learn user guide. ",
+    "desc": "<span class='help-method'>Principal component analysis (PCA)</span>Linear dimensionality reduction using Singular Value Decomposition of the data to project it to a lower dimensional space. It uses the LAPACK implementation of the full SVD or a randomized truncated SVD by the method of Halko et al. 2009, depending on the shape of the input data and the number of components to extract. It can also use the scipy.sparse.linalg ARPACK implementation of the truncated SVD. Notice that this class does not support sparse input. See TruncatedSVD for an alternative with sparse data. ",
     "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA",
     "params": [
         {
