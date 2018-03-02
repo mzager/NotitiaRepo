@@ -1,7 +1,7 @@
 {
     "method": "Dictionary Learning",
     "summary": "Dictionary learning is a branch of signal processing and machine learning that aims at finding a frame (called dictionary) in which some training data admits a sparse representation. The sparser the representation, the better the dictionary.",
-    "desc": "<span class='help-method'>Dictionary learning</span>Finds a dictionary (a set of atoms) that can best be used to represent data using a sparse code. Solves the optimization problem: (U^*,V^*) = argmin 0.5 || Y - U V ||_2^2 + alpha * || U ||_1 (U,V) with || V_k ||_2 = 1 for all  0 <= k < n_components Read more in the scikit-learn user guide. ",
+    "desc": "<span class='help-method'>Dictionary learning</span>Finds a dictionary (a set of atoms) that can best be used to represent data using a sparse code. Solves the optimization problem: (U^*,V^*) = argmin 0.5 || Y - U V ||_2^2 + alpha * || U ||_1 (U,V) with || V_k ||_2 = 1 for all  0 <= k < n_components. ",
     "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.DictionaryLearning.html#sklearn.decomposition.DictionaryLearning",
     "params": [
         {
