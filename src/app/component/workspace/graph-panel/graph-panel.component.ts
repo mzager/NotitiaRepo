@@ -60,18 +60,18 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('panel') panel: ElementRef;
   @ViewChild('panelButton') panelButton: ElementRef;
-  
+
   @Input() title: string;
   @Input() cid: string;
   @Input() tables: Array<DataTable>;
   @Input() fields: Array<DataField>;
   @Input() events: Array<{ type: string, subtype: string }>;
 
-  @Input() molecularData: Array<string>;
-  @Input() clinicalFields: Array<DataField>;
-  @Input() entityType: EntityTypeEnum;
-  @Input() config: GraphConfig;
-  @Input() data: GraphData;
+  @Input()  molecularData: Array<string>;
+  @Input()  clinicalFields: Array<DataField>;
+  @Input()  entityType: EntityTypeEnum;
+  @Input()  config: GraphConfig;
+  @Input()  data: GraphData;
   @Output() hide: EventEmitter<any> = new EventEmitter();
   @Output() help: EventEmitter<GraphConfig> = new EventEmitter();
   @Output() configChange: EventEmitter<GraphConfig> = new EventEmitter();
@@ -80,17 +80,17 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Output() selectGeneset: EventEmitter<any> = new EventEmitter();
   @Output() selectCohort: EventEmitter<any> = new EventEmitter();
 
-  
+
   visualizationOptions: Array<{ value: VisualizationEnum, label: string }>;
   toggleClick(): void {
-     
-     if (this.panel.nativeElement.classList.contains('graphPanelCollapsed')){
+
+    if (this.panel.nativeElement.classList.contains('graphPanelCollapsed')) {
       this.panel.nativeElement.classList.remove('graphPanelCollapsed');
-      this.panelButton.nativeElement.classList.remove('graphPanelCollapsedButton')
-     } else {
+      this.panelButton.nativeElement.classList.remove('graphPanelCollapsedButton');
+    } else {
       this.panel.nativeElement.classList.add('graphPanelCollapsed');
-      this.panelButton.nativeElement.classList.add('graphPanelCollapsedButton')
-     }
+      this.panelButton.nativeElement.classList.add('graphPanelCollapsedButton');
+    }
   }
   helpClick(): void {
     this.help.emit(this.config);
@@ -232,7 +232,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void { }
 
-  ngOnDestroy(): void {  }
+  ngOnDestroy(): void { }
 
   constructor(private ms: ModalService, private cd: ChangeDetectorRef) {
 
@@ -244,11 +244,11 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
       { value: VisualizationEnum.HIC, label: 'Force Directed Graph' },
       { value: VisualizationEnum.GENOME, label: 'Genome' },
-      { value: VisualizationEnum.DENDOGRAM, label: 'Dendogram'},
+      { value: VisualizationEnum.DENDOGRAM, label: 'Dendogram' },
       { value: VisualizationEnum.HEATMAP, label: 'Heatmap' },
-      { value: VisualizationEnum.HISTOGRAM, label: 'Histogram'},
+      { value: VisualizationEnum.HISTOGRAM, label: 'Histogram' },
       { value: VisualizationEnum.PATHWAYS, label: 'Pathways' },
-      { value: VisualizationEnum.SURVIVAL, label: 'Survival'},
+      { value: VisualizationEnum.SURVIVAL, label: 'Survival' },
       { value: VisualizationEnum.TIMELINES, label: 'Timelines' },
       { value: VisualizationEnum.SPREADSHEET, label: 'Spreadsheet' },
 
@@ -293,11 +293,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       // { value: VisualizationEnum.DE, label: 'Gene Set Enrichmant '},
       // { value: VisualizationEnum.DE, label: 'Differential Expression '},
       // { value: VisualizationEnum.PARALLEL_COORDS, label: 'Parallel Coordinates'},
-     
-
 
     ];
-
-   
   }
 }
