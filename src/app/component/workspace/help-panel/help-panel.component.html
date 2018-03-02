@@ -1,12 +1,12 @@
 <div style='overflow-y: scroll;'>
     <a class="btn-floating btn-large waves-effect waves-light white" (click)='closeClick()'
-        style='position: fixed;right: 50px;'><i class="tiny material-icons" style='color:#029BE5'>close</i></a>
+        style='position: fixed;right: 50px;'><i class="material-icons md-24" style='color:#029BE5'>close</i></a>
         
     <div style='max-width:800px;'>
         <h1 class="help-title">{{method}}</h1>
         <p class='help-desc' [innerHTML]='desc'></p>
         <p class='help-desc' [innerHTML]='learn'></p>
-        <p class='help-desc'>{{learn}}</p>
+        <p class='help-link-desc'>Read more in the scikit-learn user guide.</p>
         <a class='help-link' href='{{url}}' target='_blank'>Learn More</a>
 
         <h2 class='help-section'>Method Settings</h2>
@@ -28,7 +28,7 @@
             <p class='help-label'>{{ attr.name }}</p>
             <p class='help-desc'>{{ attr.desc }}<br />
             <span class='help-link'>
-                <a href='{{ attr.url }}' target='_blank'>Link to Pub</a>
+                <a class='help-link' href='{{ attr.url }}' target='_blank'>Link to Pub</a>
             </span>
             </p>
         </div>
