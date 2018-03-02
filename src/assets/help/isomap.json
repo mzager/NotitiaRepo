@@ -1,7 +1,7 @@
 {
     "method": "Isomap",
     "summary": "Isomap is a nonlinear dimensionality reduction method. It is one of several widely used low-dimensional embedding methods. Isomap is used for computing a quasi-isometric, low-dimensional embedding of a set of high-dimensional data points.",
-    "desc": "<span class='help-method'>Isomap Embedding</span>Non-linear dimensionality reduction through Isometric Mapping Read more in the scikit-learn user guide. ",
+    "desc": "<span class='help-method'>Isomap Embedding</span>Non-linear dimensionality reduction through Isometric Mapping. ",
     "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html#sklearn.manifold.Isomap",
     "params": [
         {
