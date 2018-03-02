@@ -88,6 +88,7 @@ declare var noUiSlider;
     </div>
   </div>
 </form>
+<!--
 <div>
   <span class='form-label' style='text-align:left;width:100%;font-weight:700;padding:10px 0px 0px 0px;font-size:.9rem;'>
   Visible Day Range
@@ -97,6 +98,7 @@ declare var noUiSlider;
       (change)='rangeChange()'></nouislider>
   </div>
 </div>
+-->
 `
 })
 export class TimelinesFormComponent implements OnDestroy {

@@ -1,3 +1,4 @@
+import { DataService } from 'app/service/data.service';
 import { DendogramConfigModel } from './../../visualization/dendogram/dendogram.model';
 import { SurvivalConfigModel } from './../../visualization/survival/survival.model';
 import { ModalService } from './../../../service/modal-service';
@@ -70,7 +71,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Input()  molecularData: Array<string>;
   @Input()  clinicalFields: Array<DataField>;
   @Input()  entityType: EntityTypeEnum;
-  @Input()  config: GraphConfig;
   @Input()  data: GraphData;
   @Output() hide: EventEmitter<any> = new EventEmitter();
   @Output() help: EventEmitter<GraphConfig> = new EventEmitter();
@@ -79,6 +79,30 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Output() selectGeneSignature: EventEmitter<GraphConfig> = new EventEmitter();
   @Output() selectGeneset: EventEmitter<any> = new EventEmitter();
   @Output() selectCohort: EventEmitter<any> = new EventEmitter();
+
+  methodName = '';
+  methodSummary = '';
+
+  private _config: GraphConfig = null;
+  get config(): GraphConfig { return this._config; }
+  @Input() set config(value: GraphConfig) {
+    let updateHelp = false;
+    if (value === null) { return; }
+    if (this._config === null) {
+      updateHelp = true;
+    } else if (this._config.visualization !== value.visualization) {
+      updateHelp = true;
+    }
+    this._config = value;
+    if (updateHelp) {
+      this.dataService.getHelpInfo(value).then(v => { 
+        this.methodName = v.method;
+        this.methodSummary = v.summary;
+        this.cd.markForCheck();
+      });
+    }
+  }
+
 
 
   visualizationOptions: Array<{ value: VisualizationEnum, label: string }>;
@@ -234,7 +258,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void { }
 
-  constructor(private ms: ModalService, private cd: ChangeDetectorRef) {
+  constructor(private ms: ModalService, private cd: ChangeDetectorRef, private dataService: DataService) {
 
 
 

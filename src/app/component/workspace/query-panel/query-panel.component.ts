@@ -29,6 +29,7 @@ export class QueryPanelComponent implements AfterViewInit, OnDestroy {
 
   @Input() set configA(config: GraphConfig) {
     this._configA = config;
+    
     this.dataService.getQueryBuilderConfig(config.database).then(result => {
       this.cfg = result;
       const fieldKey = Object.keys(this.cfg.fields)[0];

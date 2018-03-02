@@ -49,8 +49,9 @@ declare var $: any;
 
     </div>
     <div class='col s3' style='border: 0px solid #EEE; border-left-width: 1px; padding-left:30px; padding-right:0px; '>
-      <span class='cohortHeader'>More Information</span>
-      <div style='width:100%; height:150px;background:#eee;'></div>
+      <div style='width:100%; height:150px; background:#eee; text-align: center; padding-top: 40px;'>
+        <i class="material-icons large">play_circle_outline</i>
+      </div>
     </div>
   </div>
 </div>`,
@@ -58,14 +59,13 @@ declare var $: any;
 })
 export class CohortPanelComponent implements AfterViewInit {
 
+  myCohorts: Array<{name:string, patients:Array<string>, query:any}> = [];
   fields: Array<{name: string, type: 'number' | 'category', options?: Array<{name: string, value: string}>}>;
   defaultField: {field: string, value: string | [number, number], condition: string};
   activeCohort: {
     name: string,
     conditions: Array<{field: string, value: string | [number, number], condition: string}>;
   }
-
-  myCohorts: Array<{name:string, patients:Array<string>, query:any}> = [];
 
   @Input() set config(config: GraphConfig) {
     this.dataService.getQueryBuilderConfig(config.database).then(result => {
@@ -80,7 +80,7 @@ export class CohortPanelComponent implements AfterViewInit {
     });
     this.dataService.getCustomCohorts(config.database).then(v => { 
       this.myCohorts = [
-        { name: 'Females', patients: ['a','b','c'], query: {} },
+        { name: 'All Patients', patients: [], query: {} },
         { name: 'Over 55', patients: ['a','b','c'], query: {} },
         { name: 'IDH1', patients: ['a','b','c'], query: {} }
       ];
@@ -88,11 +88,7 @@ export class CohortPanelComponent implements AfterViewInit {
     })
   }
   
-  ngAfterViewInit(): void {
-  }
-
-
-
+  ngAfterViewInit(): void { }
 
   resetForm(): void { 
     this.activeCohort.name = '';
@@ -120,10 +116,8 @@ export class CohortPanelComponent implements AfterViewInit {
     this.cd.markForCheck();
   }
 
-
   constructor(private cd: ChangeDetectorRef, private fb: FormBuilder, private dataService: DataService) {
     this.activeCohort = { name:'', conditions:[] };
-
   }
 
 }

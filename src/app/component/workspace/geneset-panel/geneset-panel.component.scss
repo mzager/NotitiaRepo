@@ -1,100 +1,86 @@
-.geneset-result-row { 
-    padding: 0px 0px;
-    border: 0px solid #EEEEEE;
-    border-top-width: 1px;
-    font-size: .9rem;
+.cohortHeader {
+    font-size: 1.5rem;
 }
-.geneset-dd {
-    width:70%;
+.cohortMyRow { 
+    border: 0px solid #eee;
+    border-bottom-width: 1px;
+    position: relative;
+    padding: 10px 0px;
+    .cohortMyRowDelete {
+        display: none;
+    }
 }
-.geneset-panel {
-    width:400px;
-    background:#FFFFFF;
+.cohortMyRow:hover { 
+    background: #eee;
+    .cohortMyRowDelete {
+        display: inline;
+    }
 }
-.geneset-panel-bar{
-    background: #029BE5; 
-    color:#FFF; 
-    font-weight:normal; 
-    font-size:12px; 
-    padding:5px 10px;
-    text-transform:uppercase;
-    letter-spacing:1px;
+.cohortMyRowname { 
+    font-weight: 400;
 }
-// custom panel
-.geneset-panel-custom {
-    padding:20px; 
-    font-size:1rem;
-}
-.geneset-custom-label {
-    width:100%;
-    padding-bottom:5px;
-}
-.geneset-custom-textarea {
-    resize:none;
-    width:100%; 
-    border: solid 1px #EEEEEE; 
-    height:100px;
-    padding:3px;
-}
-.geneset-custom-name {
-    width:278px;
-    border-width:1px;
-    margin-bottom:5px;
-    height:2rem;
-    line-height:2rem; 
-    padding:0px 3px;
-}
-.genset-custom-button {
-    width:78px;
-    border-width:1px;
-    margin-bottom:3px;
-    height:2rem;
-    line-height:2rem; 
-    padding:0px 3px;
-    background-color: #FFFFFF;
+.cohortMyRowDelete {
+    position: absolute;
+    right:0px;
 }
 
-.genset-custom-button:focus {
- outline: none;
+.cohortField {
+    // background: #f3f3f3;
+    position: relative;
+    margin-top: 1px;
+    label {
+        display: inline-block;
+        width: 75px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+    input { 
+        background: #FFF;
+    }
 }
-// load panel
-.geneset-load-panel {
-    // border: solid 1px #EEEEEE;
-    // border-radius:3px;
-    margin: 20px 20px 0px 0px;
+.cohortFieldLabel {
+    display: inline-block;
+    width: 75px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
 }
-
-.geneset-load-filter {
-    width: 180px;
-    height: 2rem;
-    line-height: 2rem;
-
+.cohortFieldOr {
+    margin-left: 25px;
+    margin-top: 1px;
+    label {
+        width: 50px;
+    }
 }
-.geneset-load-filter:focus  {
-    outline: none;
-
+.cohortFieldButtons {
+    display: none;
+    position: absolute;
+    right: 0px;
+    top: 7px;
+    padding-right:10px;
+    // margin-right: 0px 10px;
 }
-.geneset-result-name {
-    padding-top: 10px;
-    padding-bottom: 10px;
+.cohortField:hover {
+    background: #EFEFEF;
+    .cohortFieldButtons {
+        display: inline-block;
+    }
 }
-.results {
-    max-height:300px;
-    overflow-y:scroll;
-    padding: 0px 20px 20px 20px;
-    font-size: 1rem;
+.cohortFieldDropdown {
+    width: 125px;
+    display: inline-block;
+    margin-left: 0px;
+    margin-right: 10px;
 }
-.geneset-result-summary {
-    padding-top: 5px;
-    padding-bottom: 5px;
+.cohortBtn {
+    border: solid 0px #EEEEEE;
+    border-bottom-width: 1px;
+    color:#666;
+    background: #FFFFFF;
+    box-shadow: none;
 }
-.geneset-load-desc {
-    padding-bottom: 20px;
-}
-
-
-
-
-
-
-
