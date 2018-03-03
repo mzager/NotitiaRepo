@@ -68,6 +68,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Input() fields: Array<DataField>;
   @Input() events: Array<{ type: string, subtype: string }>;
 
+
   @Input()  molecularData: Array<string>;
   @Input()  clinicalFields: Array<DataField>;
   @Input()  entityType: EntityTypeEnum;
@@ -80,6 +81,8 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Output() selectGeneset: EventEmitter<any> = new EventEmitter();
   @Output() selectCohort: EventEmitter<any> = new EventEmitter();
 
+  genesets: Array<any> = [];
+  cohorts: Array<any> = [];
   methodName = '';
   methodSummary = '';
 
@@ -95,10 +98,21 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     }
     this._config = value;
     if (updateHelp) {
-      this.dataService.getHelpInfo(value).then(v => { 
-        this.methodName = v.method;
-        this.methodSummary = v.summary;
+      Promise.all([
+        this.dataService.getCustomCohorts(value.database),
+        this.dataService.getCustomGenesets(value.database),
+        this.dataService.getHelpInfo(value)])
+      .then(v => { 
+        this.cohorts = (v[0] === undefined) ? [] : v[0];
+        this.genesets = (v[1] === undefined) ? [] : v[1];
+        this.methodName = v[2].method;
+        this.methodSummary = v[2].summary;
+        this.cohorts.unshift({n: 'All Patients', s: []})
         this.cd.markForCheck();
+        requestAnimationFrame(() => {
+          this.cd.markForCheck();
+        })
+        
       });
     }
   }
@@ -119,6 +133,15 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   helpClick(): void {
     this.help.emit(this.config);
   }
+  onCohortChange($event: Event) {
+debugger;
+  }
+  onGenesetChange($event: Event) {
+    const selected = this.genesets.find(v => v.n === $event.target['value']);
+    this.config.markerFilter = selected.g;
+    this.configChange.emit(this.config);
+  }
+  
   onVisualizationChange($event: Event) {
     if ($event instanceof CustomEvent) {
       const el = $event.target as HTMLSelectElement;
@@ -261,6 +284,8 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   constructor(private ms: ModalService, private cd: ChangeDetectorRef, private dataService: DataService) {
 
 
+    this.genesets = [];
+    this.cohorts = [];
 
     this.cid = Math.random().toString(36).replace(/[^a-z]+/g, '');
     this.visualizationOptions = [

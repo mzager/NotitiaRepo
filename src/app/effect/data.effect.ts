@@ -161,6 +161,7 @@ export class DataEffect {
                 // new compute.GenomeAction( { config: genomeConfig }),
                 new compute.PcaIncrementalAction( { config: graphBConfig } )
                 // new GraphPanelToggleAction( GraphPanelEnum.GRAPH_A )
+                
             ];
         });
 
