@@ -18,13 +18,31 @@
 
 
         <div style='padding:10px'>
-            <!-- <app-workspace-edge-panel *ngIf='config.graph === 2'></app-workspace-edge-panel> -->
+            <app-workspace-edge-panel *ngIf='config.graph === 2'></app-workspace-edge-panel>
 
             <div class='form-group'>
                 <label class='center-block'>
                     <span class='form-label'>Visualization</span>
                     <select materialize='material_select' [ngModel]='config.visualization' (change)='onVisualizationChange($event)' [materializeSelectOptions]='visualizationOptions'>
                         <option *ngFor='let option of visualizationOptions' [value]='option.value' [selected]='config.visualization'>{{option.label}}</option>
+                    </select>
+                </label>
+            </div>
+            <div class='form-group'>
+                <label class='center-block'>
+                    <span class='form-label'>Gene Set</span>
+                    <select materialize='material_select' (change)='onGenesetChange($event)'>
+                        <option *ngFor='let option of genesets' [value]='option.n'>{{option.n}}</option>
+                    </select>
+                    
+                </label>
+            </div>
+            
+            <div class='form-group'>
+                <label class='center-block'>
+                    <span class='form-label'>Cohort</span>
+                    <select materialize='material_select' (change)='onCohortChange($event)'>
+                        <option *ngFor='let option of cohorts' [value]='option.n' >{{option.n}}</option>
                     </select>
                 </label>
             </div>

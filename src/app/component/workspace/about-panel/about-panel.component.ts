@@ -29,12 +29,12 @@ declare var $: any;
 
     <h1>Credits</h1>
     <h2>Lorum Ipsum</h2>
-    <a href='https://github.com/mzager/NotitiaRepo/graphs/contributors'>Github Contributors</a>
-
+  
     <h1>Special Thanks</h1>
     <h2>Lorum Ipsum</h2>
-    Ilsa ...
-    Hamid ...
+
+    <h1>Citations</h1>
+    <h2>Lorum Ipsum</h2>
 
     <!--
     <br /> Once selected, your cohort will appear in the geneset dropdown of the settings panel. </h2>

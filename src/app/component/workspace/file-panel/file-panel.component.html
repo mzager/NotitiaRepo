@@ -1,68 +1,39 @@
 <div>
 
-    <h1>To get started, all we need is some data.</h1>
-    <h2>Visualize your own data or explore one of TCGA datasets below.
-        
-
-        If you are interested in viewing your own data there are two options.<br />
-    
-        1) Read the data directly off your computer and rest assured it will never be saved to the cloud.
-        <a href="https://dev.oncoscape.sttrcancer.io/upload/#/projects/dashboard">Analyze Excel File</a><br />
-
-        2) Upload the data to our private data hub and share it with your collaborators.
-        <a href="https://dev.oncoscape.sttrcancer.io/upload/#/projects/dashboard">Visit Data Hub</a><br />
-    
-    </h2>
+        <h1>Data Sets</h1>
+        <h2>Select from public data sets, or visualize your own -
+                <a href='' target='_blank'>Watch Tutorial</a>
+        </h2>
 
 
-    <!-- <div class='row'>
-            <div class='col s4' style='padding-left: 0px; font-size: 1.2rem;'>
-                    <img class='fileImage' src='./assets/logo-excel.png'>
-                    <div class='fileLink'>Upload An Excel File</div>
-            </div>
-            <div class='col s4' style='padding-left: 0px; font-size: 1.2rem;'>
-                    <img class='fileImage' src='./assets/logo-cloud.png'>
-                    <div class='fileLink'>Visit Data Hub</div>
-            </div>
-    </div> -->
 
-    <div class='row'>
-            <div class='col s4' style='padding-left: 0px; font-size: 1.2rem;'
-                *ngFor='let dataset of datasets; let i = index' (click)='this.loadTcga.emit(dataset)'>
-                    <img class='fileImage' src='./assets/disease/img{{dataset.img}}'>
-                    <div class='fileLink'>{{dataset.name}}</div>
-            </div>
-    </div>
-    
-<!-- 
-    <div  style='font-size:1.5rem;font-weight:300;'>
-            <div class='row'>
-                    <div class='col s4'         
-                    style='overflow: hidden;
-                    padding: 0px;
-                    text-overflow: ellipsis;
-                    max-height: 30px;
-                    cursor: pointer;'></div>
-                    <img style='height:40px;float:left' src='./assets/logo-excel.png'><div style='line-height:30px;overflow: hidden;
-                    text-overflow: ellipsis;font-size:1.5rem;'>&nbsp;Upload An Excel File</div>
-                    <img style='height:40px;float:left' src='./assets/logo-cloud.png'><div style='line-height:30px;overflow: hidden;
-                    text-overflow: ellipsis;font-size:1.5rem;'>&nbsp;Oncoscape Data Hub</div>
-                
-            </div>
-            <div class='row'>
-                <div class='col s4' 
-                style='overflow: hidden;
-                padding: 0px;
-                text-overflow: ellipsis;
-                max-height: 30px;
-                cursor: pointer;'
-                    *ngFor='let dataset of datasets; let i = index' (click)='this.loadTcga.emit(dataset)'>
-                    <img style='height:40px;float:left' src='./assets/disease/img{{dataset.img}}'><div 
-                    class='tcgaLink'
-                    style='line-height:40px;overflow: hidden;
-                    text-overflow: ellipsis;'>&nbsp;{{dataset.name}}</div>
+        <div class='row'>
+                <!-- My Cohorts -->
+                <div class='col s3' style='border: 0px solid #EEE; border-right-width: 1px;padding-left: 0px;padding-right: 30px;'>
+                        <span class='cohortHeader'>My Datasets</span>
+                        
+                        <div class='fileLink'><img class='fileImage' src='./assets/logo-excel.png'>Upload an Excel File</div>
+                        <div class='fileLink'><img class='fileImage' src='./assets/logo-cloud.png'>Upload to Data Hub</div>
                 </div>
-            </div>
-        </div>     -->
-   
-</div>
+                <div class='col s6' style='padding-left:30px;padding-right:30px;'>
+                        <span class='cohortHeader' style='padding-bottom:20px;'>Public Data Sets</span>                                
+                        <div style='height:60vh;overflow-y:scroll;'>
+                                <div class='cohortField' *ngFor='let dataset of datasets; let i = index' (click)='this.loadTcga.emit(dataset)'>
+                                        <img class='fileImage' src='./assets/disease/img{{dataset.img}}'>
+                                        <div class='fileLink'>{{dataset.name}}</div>
+                                </div>
+                        </div>
+
+
+
+
+
+                        </div>
+                        <div class='col s3' style='border: 0px solid #EEE; border-left-width: 1px; padding-left:30px; padding-right:0px; '>
+                                <div style='width:100%; height:150px; background:#eee; text-align: center; padding-top: 40px;'>
+                                        <i class="material-icons large">play_circle_outline</i>
+                                </div>
+                        </div>
+                </div>
+
+        </div>

@@ -107,6 +107,9 @@ export class WorkspaceComponent {
   tables: Observable<Array<DataTable>>;
   events: Observable<Array<{type: string, subtype: string}>>;
   queryData: Observable<any>;
+  genesets: Observable<any>;
+  cohorts: Observable<any>;
+
   _selectedGraph: enums.GraphEnum; // This is super wrong
 
   constructor(private store: Store<fromRoot.State>) {
