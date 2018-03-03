@@ -93,6 +93,15 @@ p.range-field {
     display: inline-block;
     width: 122px;
 }
+.select-dropdown {
+    text-transform: capitalize !important;   
+}
+.select-wrapper input.select-dropdown {
+    text-transform: capitalize !important;   
+}
+select {
+    text-transform: capitalize !important;
+}
 select.browser-default {
     display: inline-block;
     text-transform: capitalize;

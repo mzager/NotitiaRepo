@@ -10,6 +10,8 @@ export interface State {
     dataset: string;
     fields: Array<DataField>;
     tables: Array<DataTable>;
+    genesets: Array<any>;
+    cohorts: Array<any>;
     events: Array<{type: string, subtype: string}>;
 }
 
@@ -18,7 +20,9 @@ const initialState: State = {
     dataset: null,
     fields: [],
     tables: [],
-    events: []
+    events: [],
+    genesets: [],
+    cohorts: []
 };
 
 export function reducer(state = initialState, action: Action): State {
@@ -30,6 +34,8 @@ export function reducer(state = initialState, action: Action): State {
             return state;
     }
 }
+export const getGenesets = (state: State) => state.genesets;
+export const getCohorts = (state: State) => state.cohorts;
 export const getDataset = (state: State) => state.dataset;
 export const getFields = (state: State) => state.fields;
 export const getTables = (state: State) => state.tables;
