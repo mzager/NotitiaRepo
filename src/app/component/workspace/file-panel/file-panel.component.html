@@ -1,39 +1,35 @@
 <div>
-
+                <!-- <a class="btn-floating btn-large waves-effect waves-light white" (click)='closeClick()'
+                style='position: fixed;right: 50px;'><i class="material-icons md-24" style='color:#029BE5'>close</i></a>
+                 -->
         <h1>Data Sets</h1>
         <h2>Select from public data sets, or visualize your own -
                 <a href='' target='_blank'>Watch Tutorial</a>
         </h2>
 
-
-
         <div class='row'>
                 <!-- My Cohorts -->
                 <div class='col s3' style='border: 0px solid #EEE; border-right-width: 1px;padding-left: 0px;padding-right: 30px;'>
                         <span class='cohortHeader'>My Datasets</span>
-                        
-                        <div class='fileLink'><img class='fileImage' src='./assets/logo-excel.png'>Upload an Excel File</div>
-                        <div class='fileLink'><img class='fileImage' src='./assets/logo-cloud.png'>Upload to Data Hub</div>
+                        <div class='fileLink'>
+                                <img class='fileImage' src='./assets/logo-excel.png'>Upload an Excel File</div>
+                        <div class='fileLink'>
+                                <img class='fileImage' src='./assets/logo-cloud.png'>Upload to Data Hub</div>
                 </div>
                 <div class='col s6' style='padding-left:30px;padding-right:30px;'>
-                        <span class='cohortHeader' style='padding-bottom:20px;'>Public Data Sets</span>                                
+                        <span class='cohortHeader' style='padding-bottom:20px;'>Public Data Sets</span>
                         <div style='height:60vh;overflow-y:scroll;'>
-                                <div class='cohortField' *ngFor='let dataset of datasets; let i = index' (click)='this.loadTcga.emit(dataset)'>
+                                <div style='width:50%; display: inline-block; text-overflow: ellipsis; overflow: hidden; height: 25px;' class='cohortField' *ngFor='let dataset of datasets; let i = index' (click)='this.loadTcga.emit(dataset)'>
                                         <img class='fileImage' src='./assets/disease/img{{dataset.img}}'>
                                         <div class='fileLink'>{{dataset.name}}</div>
                                 </div>
                         </div>
-
-
-
-
-
-                        </div>
-                        <div class='col s3' style='border: 0px solid #EEE; border-left-width: 1px; padding-left:30px; padding-right:0px; '>
-                                <div style='width:100%; height:150px; background:#eee; text-align: center; padding-top: 40px;'>
-                                        <i class="material-icons large">play_circle_outline</i>
-                                </div>
+                </div>
+                <div class='col s3' style='border: 0px solid #EEE; border-left-width: 1px; padding-left:30px; padding-right:0px; '>
+                        <div style='width:100%; height:150px; background:#eee; text-align: center; padding-top: 40px;'>
+                                <i class="material-icons large">play_circle_outline</i>
                         </div>
                 </div>
-
         </div>
+
+</div>

@@ -34,7 +34,9 @@ $thetransition: all .5s cubic-bezier(1, .25, 0, .75) 0s;
     display: inline-block;
     overflow: hidden; // height: 60vh;
     img {
-        width: 260%;
+        width: 200%;
+        // transform: rotate(90deg);
+        // transform-origin: center center;
     }
 }
 
