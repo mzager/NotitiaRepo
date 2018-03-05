@@ -15,6 +15,7 @@ declare var $: any;
   selector: 'app-workspace-cohort-panel',
   styleUrls: ['./cohort-panel.component.scss'],
   template: `<div>
+  <a href='#' class='modalClose' (click)='closeClick()'></a>
   <h1>Cohorts</h1>
   <h2>Create, Manage and Apply custom cohorts to your visualizations - <a href='' target='_blank'>Watch Tutorial</a></h2>
   <div class='row'>
@@ -66,6 +67,7 @@ export class CohortPanelComponent implements AfterViewInit {
     name: string,
     conditions: Array<{field: string, value: string | [number, number], condition: string}>;
   }
+  @Output() hide: EventEmitter<any> = new EventEmitter();
 
   @Input() set config(config: GraphConfig) {
     this.dataService.getQueryBuilderConfig(config.database).then(result => {
@@ -89,6 +91,10 @@ export class CohortPanelComponent implements AfterViewInit {
   }
   
   ngAfterViewInit(): void { }
+
+  closeClick() {
+    this.hide.emit();
+  }
 
   resetForm(): void { 
     this.activeCohort.name = '';
