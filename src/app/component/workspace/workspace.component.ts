@@ -157,13 +157,6 @@ export class WorkspaceComponent {
   // fileOpen(value: DataTransfer) {
   //   this.store.dispatch(new data.DataLoadFromFileAction(value));
   // }
-  
-
-  
-
-  // graphPanelToggle(value: enums.GraphPanelEnum) {
-  //   this.store.dispatch(new layout.GraphPanelToggleAction(value));
-  // }
 
 
   graphPanelSetConfig(value: GraphConfig) {

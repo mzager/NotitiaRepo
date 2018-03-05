@@ -327,7 +327,7 @@ input:focus, textarea:focus, select:focus {
     display: inline-block;
 
     &:before, &:after {
-        $width: 50px;
+        $width: 46px;
         $height: 2px;
         transform: rotate(-45deg);
         content: '';
