@@ -63,12 +63,12 @@
 
 <app-workspace-landing-panel *ngIf='(modalPanel | async) === 2'
     class='modal-panel' style='z-index:999999' (onGetStarted)='setModalPanel(4)'></app-workspace-landing-panel>
-<app-workspace-file-panel *ngIf='(modalPanel | async) === 4'
+<app-workspace-file-panel *ngIf='(modalPanel | async) === 4' (hide)='setModalPanel(1)'
     class='modal-panel' (filesLoad)='filesLoad($event)' (loadTcga)='fileLoadTcga($event)'></app-workspace-file-panel>
-<app-workspace-cohort-panel *ngIf='(modalPanel | async) === 16' [config]='graphAConfig | async'
-    class='modal-panel'></app-workspace-cohort-panel>
-<app-workspace-geneset-panel *ngIf='(modalPanel | async) === 32' [config]='graphAConfig | async'
-    class='modal-panel'></app-workspace-geneset-panel>
+<app-workspace-cohort-panel *ngIf='(modalPanel | async) === 16' (hide)='setModalPanel(1)'
+    [config]='graphAConfig | async' class='modal-panel'></app-workspace-cohort-panel>
+<app-workspace-geneset-panel *ngIf='(modalPanel | async) === 32' (hide)='setModalPanel(1)'
+    [config]='graphAConfig | async' class='modal-panel'></app-workspace-geneset-panel>
 <app-workspace-help-panel *ngIf='(modalPanel | async) === 128' (hide)='setModalPanel(1)'
     class='modal-panel' [config]='helpPanelConfig | async'></app-workspace-help-panel>
 <app-workspace-settings-panel *ngIf='(modalPanel | async) === 256' (hide)='setModalPanel(1)'

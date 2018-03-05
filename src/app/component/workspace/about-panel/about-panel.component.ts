@@ -21,6 +21,7 @@ declare var $: any;
         `
 <!-- Card -->
 <div>
+    <a href='#' class='modalClose' (click)='closeClick()'></a>    
     <h1>About</h1>
     <h2>Fhcrc / holland Lab</h2>
 
@@ -47,7 +48,9 @@ export class AboutPanelComponent implements AfterViewInit, OnDestroy {
  
     // Attributes
     @Output() hide = new EventEmitter<any>();
-    
+    closeClick(): void {
+         this.hide.emit();
+    }
 
     ngOnDestroy(): void { }
     ngAfterViewInit(): void {}

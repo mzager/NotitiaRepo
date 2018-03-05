@@ -23,6 +23,7 @@ declare var $: any;
         `
 <!-- Card -->
 <div>
+    <a href='#' class='modalClose' (click)='closeClick()'></a>
     <h1>Gene Sets</h1>
     <h2>Select from thousands of curated gene sets, or build your own - <a href='' target='_blank'>Watch Tutorial</a></h2>
 
@@ -136,6 +137,11 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
         this.refreshGenelist();
     }
 
+    @Output() hide: EventEmitter<any> = new EventEmitter();
+    
+    closeClick() {
+        this.hide.emit();
+    }
     setBuildType(e: any): void {
         this.buildType = e.target.value;
         this.cd.markForCheck();

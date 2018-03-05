@@ -19,6 +19,7 @@ declare var $: any;
     styleUrls: ['./settings-panel.component.scss'],
     template:
 `<div>
+    <a href='#' class='modalClose' (click)='closeClick()'></a>    
     <h1>Settings</h1>
     <h2>Lorum Ipsum</h2>
     <p>Invert Colors</p>
@@ -34,7 +35,10 @@ export class SettingsPanelComponent implements AfterViewInit, OnDestroy {
     // Attributes
     @Output() hide = new EventEmitter<any>();
     
-
+    closeClick(): void {
+         this.hide.emit();
+    }
+    
     ngOnDestroy(): void { }
     ngAfterViewInit(): void {}
     constructor(private cd: ChangeDetectorRef, private dataService: DataService, public ms: ModalService) {
