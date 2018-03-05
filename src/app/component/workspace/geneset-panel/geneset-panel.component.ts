@@ -1,3 +1,4 @@
+import { GeneSet } from './../../../model/gene-set.model';
 import { Observable } from 'rxjs/Observable';
 import { ModalService } from 'app/service/modal-service';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -31,11 +32,11 @@ declare var $: any;
         <!-- My Cohorts -->
         <div class='col s3' style='border: 0px solid #EEE; border-right-width: 1px;padding-left: 0px;padding-right: 30px;'>
             <span class='cohortHeader'>My Genesets</span>
-            <div *ngFor='let myGeneset of myGenesets' (click)='geneSetDel(myGeneset)'>
-                <div class='cohortMyRow'><span class='cohortMyRowname'>{{myGeneset.name}}</span> ({{myGeneset.genes.length}} genes)<i class='material-icons cohortMyRowDelete'>delete</i></div>
+            <div *ngFor='let myGeneset of genesets' (click)='geneSetDel(myGeneset)'>
+                <div class='cohortMyRow'><span class='cohortMyRowname'>{{myGeneset.n}}</span> ({{myGeneset.g.length}} genes)<i class='material-icons cohortMyRowDelete'>delete</i></div>
             </div>
         </div>
-        <div class='col s6' style='padding-left:30px;padding-right:30px;'>
+        <div class='col s9' style='padding-left:30px;padding-right:30px;'>
             <span class='cohortHeader' style='padding-bottom:20px;'>Select / Build a Gene Set</span>
 
             <!-- From -->
@@ -67,7 +68,7 @@ declare var $: any;
                     <label class='cohortFieldLabel'>Options</label>
                     <div style='height:40vh;overflow-y:scroll;display: inline-block;position: absolute;left: 80px;top: 5px;'>
                         <div class='cohortField' *ngFor='let option of genesetOptionsFilter'
-                        style='border:0px solid #ddd; border-bottom-width:1px;padding: 5px 0px;'>
+                        style='padding-bottom: 10px;'>
                             <div class='cohortFieldButtons'>
                                 <button class='waves-effect waves-light btn btn-small white cohortBtn' 
                                 (click)='geneSetAdd(option)'
@@ -107,22 +108,17 @@ declare var $: any;
                 etc...
             </span>          
         </div>
-        <div class='col s3' style='border: 0px solid #EEE; border-left-width: 1px; padding-left:30px; padding-right:0px; '>
-            <div class='videoHelp'>
-                <i class="material-icons large">play_circle_outline</i>
-                <div class='videoThumbnail'></div>
-            </div>
-        </div>
     </div>
 </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
 
-
+    @Input() genesets: Array<GeneSet> = [];
+    @Output() addGeneset: EventEmitter<{ database: string, geneset: GeneSet }> = new EventEmitter();
+    @Output() delGeneset: EventEmitter<{ database: string, geneset: GeneSet }> = new EventEmitter();
     $genesetFilter: Subject<any>;
     buildType: 'CURATED' | 'CUSTOM' | 'CONDITIONAL' = 'CURATED';
-    myGenesets: Array<{ name: string, genes: Array<string>, query: any }> = [];
     genesetFilter = '';
     genesetCategories: Array<{ c: string, n: string, d: string }>;
     genesetOptions: Array<any>;
@@ -135,7 +131,6 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
     get config(): GraphConfig { return this._config; }
     @Input() set config(config: GraphConfig) {
         this._config = config;
-        this.refreshGenelist();
     }
 
     @Output() hide: EventEmitter<any> = new EventEmitter();
@@ -164,25 +159,18 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
             });
     }
 
-    refreshGenelist(): void {
-        this.dataService.getCustomGenesets(this.config.database).then(v => {
-            this.myGenesets = v.map(v => ({ name: v.n, genes: v.g, query: '' }));
-            this.cd.markForCheck();
-        });
-    }
-
-    onCustomSave(): void { 
-        debugger;
+    onCustomSave(): void {
         const name = this.customName.toLowerCase();
-        const genes = this.customGenes.split(',').map(v => v.trim().toUpperCase() );
-        if (name.length===0 || genes.length===0) { 
+        const genes = this.customGenes.split(',').map(v => v.trim().toUpperCase());
+        if (name.length === 0 || genes.length === 0) {
             alert('name or genes empty.. better validation coming.');
             return;
         }
-        this.dataService.createCustomGeneset(this.config.database, name, genes).then(v => {
-            this.customName = this.customGenes = '';
-            this.refreshGenelist();
-        });
+        this.addGeneset.emit({ database: this.config.database, geneset: {n: name, g: genes}})
+        // this.dataService.createCustomGeneset(this.config.database, name, genes).then(v => {
+        //     this.customName = this.customGenes = '';
+        //     this.updateGeneset.emit();
+        // });
     }
 
     onGenesetFilterChange(criteria: string): void {
@@ -197,17 +185,19 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
         this.cd.markForCheck();
     }
     geneSetDel(v): void {
-        this.dataService.deleteCustomGeneset(this.config.database, v.name).then(v => {
-            this.refreshGenelist();
-        });
+        this.delGeneset.emit({ database: this.config.database, geneset: { n: v.name, g: [] }} );
+        // this.dataService.deleteCustomGeneset(this.config.database, v.name).then(v => {
+        //     this.updateGeneset.emit();
+        // });
     }
 
     geneSetAdd(v): void {
-        this.dataService.createCustomGeneset(this.config.database, v.name.toLowerCase(), v.genes).then(v => {
-            this.refreshGenelist();
-        })
+        this.addGeneset.emit({ database: this.config.database, geneset: {n: v.name.toLowerCase(), g: v.genes.map(v => v.toUpperCase()) }})
+        // this.dataService.createCustomGeneset(this.config.database, v.name.toLowerCase(), v.genes).then(v => {
+        //     this.updateGeneset.emit();
+        // })
     }
-    
+
 
     ngOnDestroy(): void {
         this.$genesetFilter.unsubscribe();

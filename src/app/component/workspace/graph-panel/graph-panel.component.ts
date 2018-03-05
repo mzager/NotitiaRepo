@@ -67,7 +67,8 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Input() tables: Array<DataTable>;
   @Input() fields: Array<DataField>;
   @Input() events: Array<{ type: string, subtype: string }>;
-
+  @Input() genesets: Array<any>;
+  @Input() cohorts: Array<any>;
 
   @Input()  molecularData: Array<string>;
   @Input()  clinicalFields: Array<DataField>;
@@ -81,8 +82,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Output() selectGeneset: EventEmitter<any> = new EventEmitter();
   @Output() selectCohort: EventEmitter<any> = new EventEmitter();
 
-  genesets: Array<any> = [];
-  cohorts: Array<any> = [];
+  
   methodName = '';
   methodSummary = '';
 
@@ -98,16 +98,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     }
     this._config = value;
     if (updateHelp) {
-      Promise.all([
-        this.dataService.getCustomCohorts(value.database),
-        this.dataService.getCustomGenesets(value.database),
-        this.dataService.getHelpInfo(value)])
-      .then(v => { 
-        this.cohorts = (v[0] === undefined) ? [] : v[0];
-        this.genesets = (v[1] === undefined) ? [] : v[1];
-        this.methodName = v[2].method;
-        this.methodSummary = v[2].summary;
-        this.cohorts.unshift({n: 'All Patients', s: []})
+      this.dataService.getHelpInfo(value).then(v => { 
+        this.methodName = v.method;
+        this.methodSummary = v.summary;
         this.cd.markForCheck();
         requestAnimationFrame(() => {
           this.cd.markForCheck();

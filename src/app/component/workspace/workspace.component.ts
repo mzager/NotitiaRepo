@@ -1,3 +1,5 @@
+import { Cohort } from './../../model/cohort.model';
+import { GeneSet } from './../../model/gene-set.model';
 import { HelpSetConfigAction } from './../../action/help.action';
 import { SurvivalConfigModel } from './../visualization/survival/survival.model';
 import { DendogramConfigModel } from './../visualization/dendogram/dendogram.model';
@@ -27,7 +29,7 @@ import {
   GraphSizeAction,
   PcaAction,
   SelectMarkersAction,
-  TsneAction
+  TsneAction,
   } from './../../action/compute.action';
 import { ChromosomeConfigModel } from './../visualization/chromosome/chromosome.model';
 import { GraphPanelToggleAction, ModalPanelAction } from './../../action/layout.action';
@@ -36,7 +38,13 @@ import {
   DataLoadedAction,
   DataLoadFromDexieAction,
   DataLoadFromFileAction,
-  DataLoadIlluminaVcfAction
+  DataLoadIlluminaVcfAction,
+  DataUpdateGenesetsAction,
+  DataUpdateCohortsAction,
+  DataAddGenesetAction,
+  DataDelGenesetAction,
+  DataAddCohortAction,
+  DataDelCohortAction
   } from './../../action/data.action';
 import { DataTable } from './../../model/data-field.model';
 import { DictionaryLearningConfigModel } from './../visualization/dictionarylearning/dictionarylearning.model';
@@ -84,6 +92,8 @@ export class WorkspaceComponent {
   @ViewChild('panelContainer') public panelContainer: ElementRef;
 
   // graphTool: Observable<GraphTool>;
+  genesets: Observable<Array<any>>;
+  cohorts: Observable<Array<any>>;
   graphALegend: Observable<Array<Legend>>;
   graphBLegend: Observable<Array<Legend>>;
   graphAConfig: Observable<GraphConfig>;
@@ -107,13 +117,13 @@ export class WorkspaceComponent {
   tables: Observable<Array<DataTable>>;
   events: Observable<Array<{type: string, subtype: string}>>;
   queryData: Observable<any>;
-  genesets: Observable<any>;
-  cohorts: Observable<any>;
 
   _selectedGraph: enums.GraphEnum; // This is super wrong
 
   constructor(private store: Store<fromRoot.State>) {
     
+    this.genesets = store.select(fromRoot.getGenesets);
+    this.cohorts = store.select(fromRoot.getCohorts);
     this.graphPanelATab = store.select(fromRoot.getLayoutGraphPanelAState);
     this.graphPanelBTab = store.select(fromRoot.getLayoutGraphPanelBState);
     this.modalPanel = store.select(fromRoot.getLayoutModalPanelState)
@@ -261,12 +271,26 @@ export class WorkspaceComponent {
     }
   }
 
+  addGeneset(value: {database: string, geneset: GeneSet}): void {
+     this.store.dispatch( new DataAddGenesetAction(value) );
+  }
+  delGeneset(value: {database: string, geneset: GeneSet}): void {
+    this.store.dispatch( new DataDelGenesetAction(value) );
+  }
+
+  addCohort(value: {database: string, cohort: Cohort}): void { 
+    this.store.dispatch( new DataAddCohortAction( value ) );
+  }
+  delCohort(value: {database: string, cohort: Cohort}): void { 
+    this.store.dispatch( new DataDelCohortAction( value ) );
+  }
+
+
   helpPanelToggle(config: GraphConfig): void { 
     this.store.dispatch( new HelpSetConfigAction(config) );
     this.store.dispatch( new ModalPanelAction(enums.PanelEnum.HELP) );
     console.log('set');
   }
-
   splitScreenChange(value: boolean): void {
     const model = new WorkspaceConfigModel();
     model.layout = (value) ? enums.WorkspaceLayoutEnum.HORIZONTAL : enums.WorkspaceLayoutEnum.SINGLE;

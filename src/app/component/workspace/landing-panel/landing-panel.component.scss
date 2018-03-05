@@ -32,9 +32,10 @@ $thetransition: all .5s cubic-bezier(1, .25, 0, .75) 0s;
     margin-right: 1%;
     width: 18%;
     display: inline-block;
-    overflow: hidden; // height: 60vh;
+    overflow: hidden;
+    // height: 60vh;
     img {
-        width: 70%;
-        transform: rotate(90deg);
+        width: 200%;
+        // transform: rotate(90deg);
     }
 }
