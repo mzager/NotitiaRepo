@@ -108,8 +108,9 @@ declare var $: any;
             </span>          
         </div>
         <div class='col s3' style='border: 0px solid #EEE; border-left-width: 1px; padding-left:30px; padding-right:0px; '>
-            <div style='width:100%; height:150px; background:#eee; text-align: center; padding-top: 40px;'>
+            <div class='videoHelp'>
                 <i class="material-icons large">play_circle_outline</i>
+                <div class='videoThumbnail'></div>
             </div>
         </div>
     </div>
@@ -138,7 +139,7 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
     }
 
     @Output() hide: EventEmitter<any> = new EventEmitter();
-    
+
     closeClick() {
         this.hide.emit();
     }
