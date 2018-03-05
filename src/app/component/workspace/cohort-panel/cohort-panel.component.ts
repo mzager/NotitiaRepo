@@ -1,3 +1,4 @@
+import { Cohort } from './../../../model/cohort.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DataService } from './../../../service/data.service';
 import { GraphConfig } from './../../../model/graph-config.model';
@@ -61,6 +62,9 @@ declare var $: any;
 })
 export class CohortPanelComponent implements AfterViewInit {
 
+  @Input() cohorts: Array<Cohort> = [];
+  @Output() addCohort: EventEmitter<{ database: string, cohort: Cohort }> = new EventEmitter();
+  @Output() delCohort: EventEmitter<{ database: string, cohort: Cohort }> = new EventEmitter();
   myCohorts: Array<{ name: string, patients: Array<string>, query: any }> = [];
   fields: Array<{ name: string, type: 'number' | 'category', options?: Array<{ name: string, value: string }> }>;
   defaultField: { field: string, value: string | [number, number], condition: string };

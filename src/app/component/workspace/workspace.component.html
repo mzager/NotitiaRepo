@@ -4,14 +4,14 @@
 
     <app-workspace-graph-panel style='pointer-events:all;position:absolute;left:0px;' *ngIf='graphPanelATab | async'
         [title]='"Graph A"' [events]='events | async' [tables]='tables | async' [fields]='fields | async' [clinicalFields]='clinicalFields | async'
-        
+        [genesets]='genesets | async' [cohorts]='cohorts | async'
         [molecularData]='molecularData | async' [config]='graphAConfig | async' [data]='graphAData | async' (hide)='graphPanelToggle(1)'
         (help)='helpPanelToggle($event)' (configChange)='graphPanelSetConfig($event)' (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
         (selectGeneSignature)='graphPanelSelectGeneSignature($event)' (selectGeneset)='genesetPanelToggle($event)' (selectCohort)='queryPanelToggle($event)'></app-workspace-graph-panel>
 
     <app-workspace-graph-panel style='pointer-events:all;position:absolute;right:0px;' *ngIf='graphPanelBTab | async'
         [title]='"Graph B"' [events]='events | async' [tables]='tables | async' [fields]='fields | async' [clinicalFields]='clinicalFields | async'
-        
+        [genesets]='genesets | async' [cohorts]='cohorts | async'
         [molecularData]='molecularData | async' [config]='graphBConfig | async' [data]='graphBData | async' (hide)='graphPanelToggle(2)'
         (help)='helpPanelToggle($event)' (configChange)='graphPanelSetConfig($event)' (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
         (selectGeneSignature)='graphPanelSelectGeneSignature($event)' (selectGeneset)='genesetPanelToggle($event)' (selectCohort)='queryPanelToggle($event)'></app-workspace-graph-panel>
@@ -42,33 +42,25 @@
         [graphAData]='graphAData | async' 
         [graphBData]='graphBData | async' 
         ></app-workspace-clustering-algorithm-panel> -->
-
-
-    <!-- <app-workspace-help-panel
-        style='pointer-events:all;position:relative;'
-        *ngIf='helpPanelTab | async' 
-        [bounds]='panelContainer'
-        [config]='helpPanelConfig | async'
-        (hide)='helpPanelToggle()'
-        ></app-workspace-help-panel> -->
 </div>
 
+<!-- Application Menu Bar -->
 <app-application-bar
     (splitScreenChange)='splitScreenChange($event)'
     (showModalPanel)='setModalPanel($event)'></app-application-bar>
 
 
 <!-- Panels -->
-
-
 <app-workspace-landing-panel *ngIf='(modalPanel | async) === 2'
     class='modal-panel' style='z-index:999999' (onGetStarted)='setModalPanel(4)'></app-workspace-landing-panel>
 <app-workspace-file-panel *ngIf='(modalPanel | async) === 4' (hide)='setModalPanel(1)'
     class='modal-panel' (filesLoad)='filesLoad($event)' (loadTcga)='fileLoadTcga($event)'></app-workspace-file-panel>
 <app-workspace-cohort-panel *ngIf='(modalPanel | async) === 16' (hide)='setModalPanel(1)'
+    (addCohort)='addCohort($event)' (delCohort)='delCohort($event)'
     [config]='graphAConfig | async' class='modal-panel'></app-workspace-cohort-panel>
 <app-workspace-geneset-panel *ngIf='(modalPanel | async) === 32' (hide)='setModalPanel(1)'
-    [config]='graphAConfig | async' class='modal-panel'></app-workspace-geneset-panel>
+    (addGeneset)='addGeneset($event)' (delGeneset)='delGeneset($event)'
+    [genesets]='genesets | async' [config]='graphAConfig | async' class='modal-panel'></app-workspace-geneset-panel>
 <app-workspace-help-panel *ngIf='(modalPanel | async) === 128' (hide)='setModalPanel(1)'
     class='modal-panel' [config]='helpPanelConfig | async'></app-workspace-help-panel>
 <app-workspace-settings-panel *ngIf='(modalPanel | async) === 256' (hide)='setModalPanel(1)'
