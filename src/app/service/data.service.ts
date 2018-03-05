@@ -1,3 +1,5 @@
+import { GeneSet } from './../model/gene-set.model';
+import { Cohort } from './../model/cohort.model';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { VisualizationEnum } from 'app/model/enum.model';
 import { DataFieldFactory } from 'app/model/data-field.model';
@@ -340,7 +342,7 @@ export class DataService {
       });
     });
   }
-  createCustomGeneset(database: string, name: string, genes: Array<string>): Promise<any>{
+  createCustomGeneset(database: string, geneset: GeneSet): Promise<any>{
     return new Promise((resolve, reject) => {
       // this.http
       // .get(DataService.API_PATH +
@@ -352,17 +354,17 @@ export class DataService {
       // z_lookup_genemap
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
-        v.table('genesets').add({n:name, g:genes}).then(v => { 
+        v.table('genesets').add(geneset).then(v => { 
           resolve(v);
         });
       });
     });
   }
-  deleteCustomGeneset(database: string, name: string): Promise<any> {
+  deleteCustomGeneset(database: string, geneset: GeneSet): Promise<any> {
     return new Promise((resolve, reject) => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
-        v.table('genesets').where('n').equalsIgnoreCase(name).delete().then(v => { 
+        v.table('genesets').where('n').equalsIgnoreCase(geneset.n).delete().then(v => { 
           resolve(v);
         });
       });
@@ -373,26 +375,28 @@ export class DataService {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
         v.table('cohorts').toArray().then(result => {
+          if (result[0] === undefined) { result[0] = []; }
+          result[0].unshift({n:'All Patients', p: []})
           resolve(result[0]);
         });
       });
     });
   }
-  createCustomCohort(database: string, name: string, patientIds: Array<string>): Promise<any>{
+  createCustomCohort(database: string, cohort: Cohort): Promise<any>{
     return new Promise((resolve, reject) => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
-        v.table('cohorts').add({n:name, p:patientIds}).then(v => { 
+        v.table('cohorts').add(cohort).then(v => { 
           resolve(v);
         });
       });
     });
   }
-  deleteCustomCohort(database: string, name: string): Promise<any> {
+  deleteCustomCohort(database: string, cohort: Cohort): Promise<any> {
     return new Promise((resolve, reject) => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
-        v.table('cohorts').delete(name).then(v => { 
+        v.table('cohorts').delete(cohort.name).then(v => { 
           resolve(v);
         });
       });

@@ -14,21 +14,21 @@
                         <div class='fileLink'>
                                 <img class='fileImage' src='./assets/logo-cloud.png'>Upload to Data Hub</div>
                 </div>
-                <div class='col s6' style='padding-left:30px;padding-right:30px;'>
+                <div class='col s9' style='padding-left:30px;padding-right:30px;'>
                         <span class='cohortHeader' style='padding-bottom:20px;'>Public Data Sets</span>
                         <div style='height:60vh;overflow-y:scroll;'>
-                                <div style='width:50%; display: inline-block; text-overflow: ellipsis; overflow: hidden; height: 25px;' class='cohortField' *ngFor='let dataset of datasets; let i = index' (click)='this.loadTcga.emit(dataset)'>
+                                <div style='width:33%; display: inline-block; text-overflow: ellipsis; overflow: hidden; height: 25px;' class='cohortField' *ngFor='let dataset of datasets; let i = index' (click)='this.loadTcga.emit(dataset)'>
                                         <img class='fileImage' src='./assets/disease/img{{dataset.img}}'>
                                         <div class='fileLink'>{{dataset.name}}</div>
                                 </div>
                         </div>
                 </div>
-                <div class='col s3' style='border: 0px solid #EEE; border-left-width: 1px; padding-left:30px; padding-right:0px; '>
+                <!-- <div class='col s3' style='border: 0px solid #EEE; border-left-width: 1px; padding-left:30px; padding-right:0px; '>
                         <div class='videoHelp'>
                                 <i class="material-icons large">play_circle_outline</i>
                                 <div class='videoThumbnail'></div>
                         </div>
-                </div>
+                </div> -->
         </div>
 
 </div>
