@@ -166,11 +166,7 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
             alert('name or genes empty.. better validation coming.');
             return;
         }
-        this.addGeneset.emit({ database: this.config.database, geneset: {n: name, g: genes}})
-        // this.dataService.createCustomGeneset(this.config.database, name, genes).then(v => {
-        //     this.customName = this.customGenes = '';
-        //     this.updateGeneset.emit();
-        // });
+        this.addGeneset.emit({ database: this.config.database, geneset: { n: name, g: genes } })
     }
 
     onGenesetFilterChange(criteria: string): void {
@@ -184,18 +180,12 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
         });
         this.cd.markForCheck();
     }
-    geneSetDel(v): void {
-        this.delGeneset.emit({ database: this.config.database, geneset: { n: v.name, g: [] }} );
-        // this.dataService.deleteCustomGeneset(this.config.database, v.name).then(v => {
-        //     this.updateGeneset.emit();
-        // });
+    geneSetDel(v: any): void {
+        this.delGeneset.emit({ database: this.config.database, geneset: v });
     }
 
-    geneSetAdd(v): void {
-        this.addGeneset.emit({ database: this.config.database, geneset: {n: v.name.toLowerCase(), g: v.genes.map(v => v.toUpperCase()) }})
-        // this.dataService.createCustomGeneset(this.config.database, v.name.toLowerCase(), v.genes).then(v => {
-        //     this.updateGeneset.emit();
-        // })
+    geneSetAdd(v: any): void {
+        this.addGeneset.emit({ database: this.config.database, geneset: { n: v.name.toLowerCase(), g: v.genes.map(v => v.toUpperCase()) } })
     }
 
 
