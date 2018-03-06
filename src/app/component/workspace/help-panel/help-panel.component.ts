@@ -59,10 +59,12 @@ export class HelpPanelComponent implements AfterViewInit, OnDestroy {
   method = '';
   desc = '';
   url = '';
-  attrs: Array < { name: string, type: string, desc: string } > =[];
-  params: Array < { name: string, type: string, desc: string } > =[];
-  citations: Array < { name: string, desc: string, url: string } > =[];
-  
+  urlparagraph = '';
+  attrs: Array < { name: string, type: string, desc: string } > = [];
+  params: Array < { name: string, type: string, desc: string } > = [];
+  citations: Array < { name: string, desc: string, url: string } > = [];
+  tutorial: Array < { desc: string, url: string} > = [];
+
 
   @Input() set config(config: GraphConfig) {
 
@@ -70,14 +72,15 @@ export class HelpPanelComponent implements AfterViewInit, OnDestroy {
       this.method = result.method;
       this.desc = result.desc;
       this.url = result.url;
+      this.urlparagraph = result.urlparagraph;
       this.attrs = result.attrs;
       this.params = result.params;
       this.citations = result.citations;
+      this.tutorial = result.tutorial;
       this.cd.markForCheck();
     });
   }
 
-  
 
   @Output() hide: EventEmitter<any> = new EventEmitter();
 

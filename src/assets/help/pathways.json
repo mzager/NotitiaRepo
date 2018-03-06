@@ -2,7 +2,14 @@
     "method": "Pathways",
     "summary": "Visualize a series of pathways among molecular interactions",
     "desc": "<span class='help-method'>Pathways</span> Pathways is generated using REACTOME, an open-source, open access, manually curated and peer-reviewed pathway database. Pathways is a genome-wide, hierarchical visualization of Reactome pathways in a space-filling graph",
+    "urlparagraph":"Read more about the methods used to build pathways.",
     "url": "",
+    "tutorial": [
+        {
+            "desc": "View tutorial on Pathways",
+            "url": "https://www.youtube.com/embed/XQu8TTBmGhA"  
+        }
+    ],
     "params": [
         {
             "name": "n components",
