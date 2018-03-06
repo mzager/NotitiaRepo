@@ -1,34 +1,22 @@
-.cohortHeader {
-    font-size: 1.5rem;
-}
+
+
 .cohortMyRow { 
-    padding-right: 50px;
+
     position: relative;
+    line-height: 30px;
+    font-weight: 300;
+    font-size: 1rem;
+    text-transform: capitalize;
     cursor: pointer;
     .cohortMyRowDelete {
-        opacity: 0;
-        transition: opacity .3s;
-    }
-    span {
-        position: absolute;
-        top: 3px;
-        left: 0px;
-        transition: left .3s;
-        font-size: 1rem;
-        // font-weight: 300;
+        padding-right: 5px;
+        transform: translateY(7px);
     }
 }
 .cohortMyRow:hover { 
-    .cohortMyRowDelete {
-        opacity: 1;
-    }
-    span {
-        left: 30px;
-    }
+    color: #029BE5;
 }
-.cohortMyRowname { 
-    font-weight: 400;
-}
+
 .cohortMyRowDelete {
     color: #029BE5;
 }
@@ -74,7 +62,7 @@
     padding-right:10px;
 }
 .cohortField:hover {
-    background: #EFEFEF;
+    color: #029BE5;
     .cohortFieldButtons {
         display: inline-block;
     }
@@ -91,4 +79,18 @@
     color:#666;
     background: #FFFFFF;
     box-shadow: none;
+}
+.genesetResult { 
+    font-weight: 300;
+    cursor: pointer;
+    i {
+    color: #029BE5;
+    padding-right:  10px;
+    padding-left: 40px;
+    }
+    div { 
+        display: inline-block;
+        margin-bottom: 10px;
+        
+    }
 }
