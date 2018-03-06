@@ -31,7 +31,6 @@ import { GraphConfig } from 'app/model/graph-config.model';
 import { chromosomeCompute } from './../component/visualization/chromosome/chromosome.compute';
 import { ChromosomeConfigModel } from './../component/visualization/chromosome/chromosome.model';
 import { GraphEnum, VisualizationEnum, DirtyEnum } from 'app/model/enum.model';
-import { IlluminaService } from './illumina.service';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { pcaCompute } from './../component/visualization/pca/pca.compute';
@@ -87,7 +86,7 @@ export class ComputeService {
     private pathways$ = new Subject<any>();
     private survival$ = new Subject<any>();
 
-    constructor(private illumina: IlluminaService) {
+    constructor() {
         // this.pool = Pool.create({
         //     name    : 'worker',
         //     max     : 20,

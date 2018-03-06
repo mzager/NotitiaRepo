@@ -26,7 +26,7 @@ declare var $: any;
 <div>
     <a href='#' class='modalClose' (click)='closeClick()'></a>
     <h1>Gene Sets</h1>
-    <h2>Select from thousands of curated gene sets, or build your own - <a href='' target='_blank'>Watch Tutorial</a></h2>
+    <h2>Select from thousands of curated gene sets, or build your own <a href='' target='_blank'><i class='small material-icons modalWatchVideoIcon'>ondemand_video</i>Watch Tutorial</a></h2>
 
     <div class='row'>
         <!-- My Cohorts -->
@@ -34,8 +34,8 @@ declare var $: any;
             <span class='cohortHeader'>My Genesets</span>
             <div *ngFor='let myGeneset of genesets' (click)='geneSetDel(myGeneset)'>
                 <div class='cohortMyRow'>
-                    <i class='material-icons cohortMyRowDelete'>remove</i>
-                    <span class='cohortMyRowname'>{{myGeneset.n}} ({{myGeneset.g.length}} genes)</span>
+                    <i class='material-icons cohortMyRowDelete'>remove_circle_outline</i>
+                    <span class='cohortMyRowname'>{{myGeneset.n}}</span>
                 </div>    
             </div>
         </div>
@@ -67,12 +67,12 @@ declare var $: any;
                     ng-model='genesetFilter'
                     style='margin-bottom:5px;border-color:#EEE;width:293px;padding-left: 6px;'>
                 </div>
-                <div>
-                    <label class='cohortFieldLabel'>Options</label>                    
-                    <div class='cohortField genesetResult' *ngFor='let option of genesetOptionsFilter'>
-                        <i class='material-icons' (click)='geneSetAdd(option)'>add</i>
+                <div>                  
+                    <div class='cohortField genesetResult' *ngFor='let option of genesetOptionsFilter'
+                        (click)='geneSetAdd(option)'>
+                        <i class='material-icons'>add_circle_outline</i>
                         <div>
-                            {{option.name}} ({{option.genes.length}} Genes)<br />
+                            {{option.name}}<br />
                             {{option.summary}}
                         </div>
                     </div>
@@ -94,7 +94,7 @@ declare var $: any;
                 </div>
                 <div>
                     <a class='cohortFieldLabel' 
-                    style='border: 1px solid #039be5' href='#' (click)='onCustomSave()'>Save</a>
+                    style='border: 2px solid #039be5' href='#' (click)='onCustomSave()'>Save</a>
                 </div>
             </span>
 

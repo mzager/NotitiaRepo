@@ -45,7 +45,6 @@ import { HistogramFormComponent } from './component/visualization/histogram/hist
 // import { HotTableModule } from 'ng2-handsontable';
 import { HttpClient } from './service/http.client';
 import { HttpModule } from '@angular/http';
-import { IlluminaService } from './service/illumina.service';
 import { IsoMapFormComponent } from './component/visualization/isomap/isomap.form.component';
 import { KmeansConfigModel } from './component/visualization/kmeans/kmeans.model';
 import { KMeansFormComponent } from './component/visualization/kmeans/kmeans.form.component';
@@ -196,8 +195,7 @@ import { SettingsPanelComponent } from './component/workspace/settings-panel/set
     HttpClient,
     NcbiService,
     ModalService,
-    OAuthService,
-    IlluminaService
+    OAuthService
   ],
   bootstrap: [AppComponent]
 })

@@ -18,19 +18,19 @@ declare var $: any;
   template: `<div>
   <a href='#' class='modalClose' (click)='closeClick()'></a>
   <h1>Cohorts</h1>
-  <h2>Create, Manage and Apply custom cohorts to your visualizations - <a href='' target='_blank'>Watch Tutorial</a></h2>
+  <h2>Create, Manage and Apply custom cohorts to your visualizations <a href='' target='_blank'><i class='small material-icons modalWatchVideoIcon'>ondemand_video</i>Watch Tutorial</a></h2>
   <div class='row'>
     <!-- My Cohorts -->
     <div class='col s3' style='border: 0px solid #EEE; border-right-width: 1px;padding-left: 0px;padding-right: 30px;'>
       <span class='cohortHeader'>My Cohorts</span>
       <div *ngFor='let myCohort of cohorts'>
       <div class='cohortMyRow'>
-        <i class='material-icons cohortMyRowDelete'>remove</i>
+        <i class='material-icons cohortMyRowDelete'>remove_circle_outline</i>
         <span class='cohortMyRowname'>{{myCohort.n}}</span>
       </div>
       </div>
     </div>
-    <div class='col s9' style='padding-left:30px;padding-right:30px;'>
+    <div class='col s6' style='padding-left:30px;padding-right:30px;'>
       <span class='cohortHeader' style='padding-bottom:20px;'>Build A Cohort</span>
       <div class='cohortField'>
         <label for='cohortName'>Create</label>
@@ -59,11 +59,14 @@ declare var $: any;
         <div class='cohortFieldButtons'>
           <button class='waves-effect waves-light btn btn-small white cohortBtn' (click)='fieldAnd(condition)'>And</button>
           <button class='waves-effect waves-light btn btn-small white cohortBtn' (click)='fieldOr(condition)'>Or</button>
-          <button class='waves-effect waves-light btn btn-small white cohortBtn' (click)='fieldDel(condition)'><i class="material-icons">x</i></button>
+          <button class='waves-effect waves-light btn btn-small white cohortBtn' (click)='fieldDel(condition)'><i class="material-icons">remove</i></button>
         </div>
-      </div>
-      
 
+        <div>
+        <a class='cohortFieldLabel' 
+        style='border: 2px solid #039be5; padding-top: 10px;' href='#'>Save</a>
+      </div>
+      </div>
     </div>
   </div>
 </div>`,
