@@ -1,10 +1,17 @@
 /**
- * Represents a Geneset Set
+ * Represents a Patient / Sample Cohort
  */
 export interface Cohort {
     name: string;
     patientIds: Array<string>;
     sampleIds: Array<string>;
-    criteria: any;
-  }
-  
+    conditions: Array<CohortCondition>;
+}
+
+export interface CohortCondition {
+    field: any;
+    condition: string;
+    value?: string;
+    min?: number;
+    max?: number;
+}
