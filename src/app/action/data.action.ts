@@ -20,6 +20,7 @@ export const DATA_DEL_GENESET = '[Data] Del Geneset';
 export const DATA_UPDATE_COHORTS = '[Data] Update Cohorts';
 export const DATA_ADD_COHORT = '[Data] Add Cohort';
 export const DATA_DEL_COHORT = '[Data] Del Cohort';
+export const DATA_QUERY_COHORT = '[Data] Query Cohort';
 
 
 // Action Classes
@@ -41,6 +42,10 @@ export class DataUpdateGenesetsAction implements Action {
     constructor(public payload: Array<GeneSet>) {}
 }
 
+export class DataQueryCohortAction implements Action {
+    readonly type: string = DATA_QUERY_COHORT;
+    constructor(public payload: {cohort: Cohort, database: string}) {}
+}
 export class DataAddCohortAction implements Action {
     readonly type: string = DATA_ADD_COHORT;
     constructor(public payload: {cohort: Cohort, database: string}) {}
@@ -80,4 +85,4 @@ export type Actions =
     DataLoadFromFileAction | DataLoadFromDexieAction |
     DataLoadedAction | DataLoadIlluminaVcfAction | DataLoadFromTcga | 
     DataAddGenesetAction | DataDelGenesetAction | DataUpdateGenesetsAction | 
-    DataAddCohortAction | DataDelCohortAction | DataUpdateCohortsAction;
+    DataAddCohortAction | DataDelCohortAction | DataUpdateCohortsAction | DataQueryCohortAction;
