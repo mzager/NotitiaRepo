@@ -2,15 +2,15 @@
 
     <div #panelButton class="graphPanelExpandedButton"
         [ngClass]="{leftPanel: title === 'Graph B'}">
-            <a (click)='toggleClick()'><i class="material-icons small">expand_less</i></a>
+            <a  (click)='toggleClick()'><i class="material-icons small" style="color: #029BE5;">expand_less</i></a>
     </div>
 
     <div #panel class="graphPanelExpanded">
 
         <div class='graphPanelHeader'>{{methodName}}</div>
         <p style='padding:10px; margin:0px;'>{{methodSummary}}</p>
-       
-            <p style = "margin-left: 10px; margin-top: 0px;"><a (click)='helpClick()' href='#'><i class='material-icons tiny' style='top:2px;position:relative'>info_outline</i> Read More</a></p>
+            <p style = "margin-left: 10px; margin-top: 0px;"><a (click)='helpClick()' href='#'>Read More</a></p>
+            <!-- <i class='material-icons tiny' style='top:2px;position:relative'>info_outline</i>  -->
             <!-- &nbsp;&nbsp;
             <a (click)='helpClick()' href='#'><i class='material-icons tiny' style='top:2px;position:relative'>play_circle_outline</i> Watch Video</a> -->
             <!-- <app-workspace-help-panel [config]='config' [graphData]='data'></app-workspace-help-panel> -->
