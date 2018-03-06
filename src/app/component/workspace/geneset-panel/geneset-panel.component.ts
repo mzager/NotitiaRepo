@@ -33,7 +33,10 @@ declare var $: any;
         <div class='col s3' style='border: 0px solid #EEE; border-right-width: 1px;padding-left: 0px;padding-right: 30px;'>
             <span class='cohortHeader'>My Genesets</span>
             <div *ngFor='let myGeneset of genesets' (click)='geneSetDel(myGeneset)'>
-                <div class='cohortMyRow'><span class='cohortMyRowname'>{{myGeneset.n}}</span> ({{myGeneset.g.length}} genes)<i class='material-icons cohortMyRowDelete'>delete</i></div>
+                <div class='cohortMyRow'>
+                    <i class='material-icons cohortMyRowDelete'>remove</i>
+                    <span class='cohortMyRowname'>{{myGeneset.n}} ({{myGeneset.g.length}} genes)</span>
+                </div>    
             </div>
         </div>
         <div class='col s9' style='padding-left:30px;padding-right:30px;'>
@@ -64,16 +67,11 @@ declare var $: any;
                     ng-model='genesetFilter'
                     style='margin-bottom:5px;border-color:#EEE;width:293px;padding-left: 6px;'>
                 </div>
-                <div style='position:relative;'>
-                    <label class='cohortFieldLabel'>Options</label>
-                    <div style='height:40vh;overflow-y:scroll;display: inline-block;position: absolute;left: 80px;top: 5px;'>
-                        <div class='cohortField' *ngFor='let option of genesetOptionsFilter'
-                        style='padding-bottom: 10px;'>
-                            <div class='cohortFieldButtons'>
-                                <button class='waves-effect waves-light btn btn-small white cohortBtn' 
-                                (click)='geneSetAdd(option)'
-                                ><i class="material-icons">add</i></button>
-                            </div>
+                <div>
+                    <label class='cohortFieldLabel'>Options</label>                    
+                    <div class='cohortField genesetResult' *ngFor='let option of genesetOptionsFilter'>
+                        <i class='material-icons' (click)='geneSetAdd(option)'>add</i>
+                        <div>
                             {{option.name}} ({{option.genes.length}} Genes)<br />
                             {{option.summary}}
                         </div>
