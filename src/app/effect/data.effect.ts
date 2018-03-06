@@ -98,6 +98,7 @@ export class DataEffect {
     @Effect() addCohort: Observable<Action> = this.actions$
         .ofType(data.DATA_ADD_COHORT)
         .switchMap((args: DataAddCohortAction) => {
+            debugger;
             return this.dataService.createCustomCohort(args.payload.database, args.payload.cohort)
         });
 

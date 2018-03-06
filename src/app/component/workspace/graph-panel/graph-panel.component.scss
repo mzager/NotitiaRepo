@@ -89,6 +89,7 @@
     // -webkit-box-shadow: 0px 2px 4px #ddd;
     // box-shadow: 0px 2px 4px #ddd;
     a {
+        transform-origin: 50% 50%;
         transform: rotate(-90deg);
         text-rendering: optimizeLegibility;
         -webkit-font-feature-settings: 'liga';
@@ -104,4 +105,10 @@
 }
 .graphPanelCollapsedButton {
     // right: -30px;
+}
+.leftPanel {
+    left: -20px;
+    a {
+        transform: rotate(90deg) translateY(5px);
+    }
 }

@@ -1,21 +1,26 @@
 
-
 .cohortMyRow { 
 
     position: relative;
     line-height: 30px;
     font-weight: 300;
     font-size: 1rem;
-    text-transform: capitalize;
     cursor: pointer;
     .cohortMyRowDelete {
-        padding-right: 5px;
-        transform: translateY(7px);
+        transform: translateY(6px);
+    }
+    span {
+        text-transform: capitalize;
     }
 }
-.cohortMyRow:hover { 
-    color: #029BE5;
-}
+// .cohortMyRow:hover { 
+//     .cohortMyRowDelete {
+//         opacity: 1;
+        
+//     }
+
+    
+// }
 
 .cohortMyRowDelete {
     color: #029BE5;
@@ -60,6 +65,7 @@
     right: 0px;
     top: 7px;
     padding-right:10px;
+    color: #039be5;
 }
 .cohortField:hover {
     color: #029BE5;
@@ -76,13 +82,100 @@
 .cohortBtn {
     border: solid 0px #EEEEEE;
     border-bottom-width: 1px;
-    color:#666;
+}
+.cohortMyRow { 
+
+    position: relative;
+    line-height: 30px;
+    font-weight: 300;
+    font-size: 1rem;
+    cursor: pointer;
+    .cohortMyRowDelete {
+    //     opacity: 1;
+        transform: translateY(6px);
+    //     transition: opacity .6s;
+    }
+    // span {
+    //     position: absolute;
+    //     top: 3px;
+    //     left: 0px;
+    // }
+}
+// .cohortMyRow:hover { 
+//     .cohortMyRowDelete {
+//         opacity: 1;
+        
+//     }
+
+    
+// }
+
+.cohortMyRowDelete {
+    color: #029BE5;
+}
+
+.cohortField {
+    // background: #f3f3f3;
+    position: relative;
+    margin-top: 1px;
+    label {
+        display: inline-block;
+        width: 75px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+    input { 
+        background: #FFF;
+    }
+}
+.cohortFieldLabel {
+    display: inline-block;
+    width: 75px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+.cohortFieldOr {
+    margin-left: 25px;
+    margin-top: 1px;
+    label {
+        width: 50px;
+    }
+}
+.cohortFieldButtons {
+    display: none;
+    position: absolute;
+    right: 0px;
+    top: 7px;
+    padding-right:10px;
+    color: #039be5;
+}
+.cohortField:hover {
+    color: #029BE5;
+    .cohortFieldButtons {
+        display: inline-block;
+    }
+}
+.cohortFieldDropdown {
+    width: 125px;
+    display: inline-block;
+    margin-left: 0px;
+    margin-right: 10px;
+}
+.cohortBtn {
+    border: solid 0px #EEEEEE;
+    border-bottom-width: 1px;
+    color:#029BE5;
     background: #FFFFFF;
     box-shadow: none;
 }
 .genesetResult { 
     font-weight: 300;
-    cursor: pointer;
     i {
     color: #029BE5;
     padding-right:  10px;
@@ -91,6 +184,6 @@
     div { 
         display: inline-block;
         margin-bottom: 10px;
-        
+        padding-left: 5px;
     }
 }

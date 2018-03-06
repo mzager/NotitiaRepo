@@ -7,6 +7,81 @@
     font-size: 1rem;
     cursor: pointer;
     .cohortMyRowDelete {
+        transform: translateY(6px);
+    }
+}
+
+.cohortMyRowDelete {
+    color: #029BE5;
+}
+
+.cohortField {
+    // background: #f3f3f3;
+    position: relative;
+    margin-top: 1px;
+    label {
+        display: inline-block;
+        width: 75px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+    input { 
+        background: #FFF;
+    }
+}
+.cohortFieldLabel {
+    display: inline-block;
+    width: 75px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+.cohortFieldOr {
+    margin-left: 25px;
+    margin-top: 1px;
+    label {
+        width: 50px;
+    }
+}
+.cohortFieldButtons {
+    display: none;
+    color: #039be5;
+    a { 
+        padding-left: 10px;
+        padding-right: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+}
+.cohortField:hover {
+    color: #029BE5;
+    .cohortFieldButtons {
+        display: inline-block;
+    }
+}
+.cohortFieldDropdown {
+    width: 125px;
+    display: inline-block;
+    margin-left: 0px;
+    margin-right: 10px;
+}
+.cohortBtn {
+    border: solid 0px #EEEEEE;
+    border-bottom-width: 1px;
+}
+.cohortMyRow { 
+
+    position: relative;
+    line-height: 30px;
+    font-weight: 300;
+    font-size: 1rem;
+    cursor: pointer;
+    .cohortMyRowDelete {
     //     opacity: 1;
         transform: translateY(6px);
     //     transition: opacity .6s;
@@ -63,13 +138,7 @@
         width: 50px;
     }
 }
-.cohortFieldButtons {
-    display: none;
-    position: absolute;
-    right: 0px;
-    top: 7px;
-    padding-right:10px;
-}
+
 .cohortField:hover {
     color: #029BE5;
     .cohortFieldButtons {
@@ -83,11 +152,25 @@
     margin-right: 10px;
 }
 .cohortBtn {
-    border: solid 0px #EEEEEE;
-    border-bottom-width: 1px;
-    color:#666;
+
+    font-weight: 400;
+    text-transform: uppercase;
+    color:#029BE5;
     background: #FFFFFF;
     box-shadow: none;
+}
+.genesetResult { 
+    font-weight: 300;
+    i {
+    color: #029BE5;
+    padding-right:  10px;
+    padding-left: 40px;
+    }
+    div { 
+        display: inline-block;
+        margin-bottom: 10px;
+        padding-left: 5px;
+    }
 }
 .genesetResult { 
     font-weight: 300;
