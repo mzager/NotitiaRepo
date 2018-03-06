@@ -2,7 +2,14 @@
     "method": "Fast ICA",
     "summary": "Is an efficient and popular algorithm for independent component analysis, which is probably the most widely used algorithm for performing independent component analysis, a recently developed variant of factor analysis that is completely estimable unlike classical methods, and able to perform blind source separation",
     "desc": "<span class='help-method'>FastICA: a fast algorithm for Independent Component Analysis.</span> ",
+    "urlparagraph":"Read more in the scikit-learn user guide.",
     "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FastICA.html#sklearn.decomposition.FastICA",
+    "tutorial": [
+        {
+            "desc": "Learn more on Oncoscape + Sci-Kit clustering methods",
+            "url": "https://www.youtube.com/embed/XQu8TTBmGhA"  
+        }
+    ],
     "params": [
         {
             "name": "n components",

@@ -2,7 +2,14 @@
     "method": "Heatmap",
     "summary": "These functions cut hierarchical clusterings into flat clusterings or find the roots of the forest formed by a cut by providing the flat cluster ids of each observation",
     "desc": "<span class='help-method'>Heatmap</span> These functions cut hierarchical clusterings into flat clusterings or find the roots of the forest formed by a cut by providing the flat cluster ids of each observation",
+    "urlparagraph":"Read more about the methods used to build heatmap.",
     "url": "",
+    "tutorial": [
+        {
+            "desc": "View tutorial on Heatmap",
+            "url": "https://www.youtube.com/embed/XQu8TTBmGhA"  
+        }
+    ],
     "params": [
         {
             "name": "n components",

@@ -1,12 +1,14 @@
 <div style='overflow-y: scroll;'>
     <a href='#' class='modalClose' (click)='closeClick()'></a>
     <div class='row'>
-
         <div class='col s9'>
             <h1 class="help-title">{{method}}</h1>
+            <div *ngFor='let attr of tutorial; let i = index'>
+            <h2>{{attr.desc}}<a href='{{attr.url}}' target='_blank'><i class='small material-icons modalWatchVideoIcon'>ondemand_video</i>Watch Tutorial</a></h2>
+            </div>
             <p class='help-desc' [innerHTML]='desc'></p>
             <p class='help-desc' [innerHTML]='learn'></p>
-            <p class='help-link-desc'>Read more in the scikit-learn user guide.</p>
+            <p class='help-link-desc'>{{urlparagraph}}</p>
             <a class='help-link' href='{{url}}' target='_blank'>Learn More</a>
 
             <h2 class='help-section'>Method Settings</h2>
