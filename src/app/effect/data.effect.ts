@@ -11,7 +11,6 @@ import { PcaKernalConfigModel } from './../component/visualization/pcakernal/pca
 import { PcaIncrementalConfigModel } from './../component/visualization/pcaincremental/pcaincremental.model';
 import { GraphPanelToggleAction } from './../action/layout.action';
 import { DatasetService } from './../service/dataset.service';
-import { IlluminaService } from './../service/illumina.service';
 import { EdgeConfigModel } from './../component/visualization/edges/edges.model';
 import { WorkspaceConfigAction } from './../action/graph.action';
 import { WorkspaceConfigModel } from './../model/workspace.model';
@@ -218,7 +217,6 @@ export class DataEffect {
         private computeService: ComputeService,
         private dataService: DataService,
         private datasetService: DatasetService,
-        private workbookService: WorkbookService,
-        private illunimaService: IlluminaService
+        private workbookService: WorkbookService
     ) { }
 }

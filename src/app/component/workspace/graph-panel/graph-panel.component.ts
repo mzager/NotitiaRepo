@@ -32,7 +32,6 @@ import { DaConfigModel } from './../../visualization/da/da.model';
 import { SomConfigModel } from './../../visualization/som/som.model';
 import { HeatmapConfigModel } from './../../visualization/heatmap/heatmap.model';
 import { TsneConfigModel } from './../../visualization/tsne/tsne.model';
-import { TSNE } from 'tsne-js';
 import { PlsConfigModel } from './../../visualization/pls/pls.model';
 import { PcaConfigModel } from './../../visualization/pca/pca.model';
 import { ChromosomeConfigModel } from './../../visualization/chromosome/chromosome.model';

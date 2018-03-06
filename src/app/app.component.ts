@@ -1,5 +1,4 @@
 import { DataLoadIlluminaVcfAction } from './action/data.action';
-import { IlluminaService } from './service/illumina.service';
 import { Store } from '@ngrx/store';
 import { Component } from '@angular/core';
 
@@ -10,11 +9,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  //constructor(private store: Store<any>, private illuminaService: IlluminaService) {
   constructor(private store: Store<any>) {
-    // illuminaService.onData.subscribe( data => {
-    //   store.dispatch(new DataLoadIlluminaVcfAction(data));
-    // });
+
   }
 
 }

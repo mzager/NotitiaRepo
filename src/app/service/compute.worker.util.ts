@@ -9,10 +9,8 @@ import { Legend } from './../model/legend.model';
 import { DataTypeEnum, ShapeEnum, EntityTypeEnum, CollectionTypeEnum, DirtyEnum } from './../model/enum.model';
 import { DataField } from './../model/data-field.model';
 import * as _ from 'lodash';
-import * as PouchDB from 'pouchdb-browser';
 import Dexie from 'dexie';
 import * as uuids from 'uuid-by-string';
-import * as cbor from 'cbor-js';
 import { Md5 } from 'ts-md5/dist/md5';
 import { sample } from 'rxjs/operator/sample';
 

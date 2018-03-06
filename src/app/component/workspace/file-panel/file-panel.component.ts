@@ -1,4 +1,3 @@
-import { IlluminaService } from './../../../service/illumina.service';
 import { INSERT_ANNOTATION } from './../../../action/graph.action';
 import { StatsInterface } from './../../../model/stats.interface';
 import { FormBuilder } from '@angular/forms';
