@@ -2,7 +2,14 @@
     "method": "Mini Batch Sparse PCA",
     "summary": ">Mini-batch Sparse Principal Components Analysis finds the set of sparse components that can optimally reconstruct the data.  The amount of sparseness is controllable by the coefficient of the L1 penalty, given by the parameter alpha. ",
     "desc": "<span class='help-method'>Mini-batch Sparse Principal Components Analysis</span>Finds the set of sparse components that can optimally reconstruct the data.  The amount of sparseness is controllable by the coefficient of the L1 penalty, given by the parameter alpha. ",
+    "urlparagraph":"Read more in the scikit-learn user guide.",
     "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.MiniBatchSparsePCA.html#sklearn.decomposition.MiniBatchSparsePCA",
+    "tutorial": [
+        {
+            "desc": "Learn more on Oncoscape + Sci-Kit clustering methods",
+            "url": "https://www.youtube.com/embed/XQu8TTBmGhA"  
+        }
+    ],
     "params": [
         {
             "name": "n components",

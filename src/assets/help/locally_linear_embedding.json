@@ -2,7 +2,14 @@
     "method": "Locally Linear Embedding",
     "summary": "Locally linear embedding computes low dimensional, neighborhood preserving embeddings of high dimensional data and attempts to discover nonlinear structure in high dimensional data by exploiting the local symmetries of linear reconstructions.",
     "desc": "<span class='help-method'>Perform a Locally Linear Embedding analysis on the data.</span> ",
+    "urlparagraph":"Read more in the scikit-learn user guide.",
     "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.locally_linear_embedding.html#sklearn.manifold.locally_linear_embedding",
+    "tutorial": [
+        {
+            "desc": "Learn more on Oncoscape + Sci-Kit clustering methods",
+            "url": "https://www.youtube.com/embed/XQu8TTBmGhA"  
+        }
+    ],
     "params": [
         {
             "name": "X",
