@@ -57,6 +57,7 @@
     class='modal-panel' (filesLoad)='filesLoad($event)' (loadTcga)='fileLoadTcga($event)'></app-workspace-file-panel>
 <app-workspace-cohort-panel *ngIf='(modalPanel | async) === 16' (hide)='setModalPanel(1)'
     (addCohort)='addCohort($event)' (delCohort)='delCohort($event)'
+    [cohorts]='cohorts | async'
     [config]='graphAConfig | async' class='modal-panel'></app-workspace-cohort-panel>
 <app-workspace-geneset-panel *ngIf='(modalPanel | async) === 32' (hide)='setModalPanel(1)'
     (addGeneset)='addGeneset($event)' (delGeneset)='delGeneset($event)'
