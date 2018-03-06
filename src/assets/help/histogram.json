@@ -2,7 +2,14 @@
     "method": "Histogram",
     "summary": "",
     "desc": "<span class='help-method'>Histogram</span> Coming Soon",
+    "urlparagraph":"Read more about the methods used to build histogram.",
     "url": "",
+    "tutorial": [
+        {
+            "desc": "View tutorial on Histogram",
+            "url": "https://www.youtube.com/embed/XQu8TTBmGhA"  
+        }
+    ],
     "params": [
         {
             "name": "n components",
