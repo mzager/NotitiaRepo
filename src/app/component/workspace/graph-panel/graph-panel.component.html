@@ -1,6 +1,7 @@
 <div class='graph-panel' *ngIf='config'>
 
-    <div #panelButton class="graphPanelExpandedButton">
+    <div #panelButton class="graphPanelExpandedButton"
+        [ngClass]="{leftPanel: title === 'Graph B'}">
             <a (click)='toggleClick()'><i class="material-icons small">expand_less</i></a>
     </div>
 
