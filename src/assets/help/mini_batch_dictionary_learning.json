@@ -2,7 +2,14 @@
     "method": "Mini Batch Dictionary Learning",
     "summary": "Mini-batch dictionary learning finds a dictionary (a set of atoms) that can best be used to represent data using a sparse code.",
     "desc": "<span class='help-method'>Mini-batch dictionary learning</span>Finds a dictionary (a set of atoms) that can best be used to represent data using a sparse code. Solves the optimization problem: (U^*,V^*) = argmin 0.5 || Y - U V ||_2^2 + alpha * || U ||_1 (U,V) with || V_k ||_2 = 1 for all  0 <= k < n_components. ",
+    "urlparagraph":"Read more in the scikit-learn user guide.",
     "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.MiniBatchDictionaryLearning.html#sklearn.decomposition.MiniBatchDictionaryLearning",
+    "tutorial": [
+        {
+            "desc": "Learn more on Oncoscape + Sci-Kit clustering methods",
+            "url": "https://www.youtube.com/embed/XQu8TTBmGhA"  
+        }
+    ],
     "params": [
         {
             "name": "n components",
