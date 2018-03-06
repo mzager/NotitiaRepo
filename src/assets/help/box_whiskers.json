@@ -2,7 +2,14 @@
     "method": "Box + Whisker",
     "summary": "Summarize a set of data measured on an interval scale. Use for explanatory data analysis to show the shape of the distribution, its central value, and its variability.",
     "desc": "<span class='help-method'>Box + Whisker</span> Summarize a set of data measured on an interval scale. Use for explanatory data analysis to show the shape of the distribution, its central value, and its variability.",
+    "urlparagraph":"Read more about the methods used to build Box and Whiskers.",
     "url": "",
+    "tutorial": [
+        {
+            "desc": "View tutorial on Box + Whisker",
+            "url": "https://www.youtube.com/embed/XQu8TTBmGhA"  
+        }
+    ],
     "params": [
         {
             "name": "n components",
