@@ -92,6 +92,7 @@ export class CohortPanelComponent implements AfterViewInit {
   get config():GraphConfig { return this._config; }
   @Input() set config(config: GraphConfig) {
     if (config === null) return;
+    this._config = config;
     this.dataService.getQueryBuilderConfig(config.database).then(result => {
       this.fields = Object.keys(result.fields).map(v => result.fields[v]);
       if (this.fields[0].type === 'category') {
