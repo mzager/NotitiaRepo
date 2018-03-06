@@ -2,27 +2,35 @@
     font-size: 1.5rem;
 }
 .cohortMyRow { 
-    border: 0px solid #eee;
-    border-bottom-width: 1px;
+    padding-right: 50px;
     position: relative;
-    padding: 10px 0px;
-    text-transform: capitalize;
+    cursor: pointer;
     .cohortMyRowDelete {
-        display: none;
+        opacity: 0;
+        transition: opacity .3s;
+    }
+    span {
+        position: absolute;
+        top: 3px;
+        left: 0px;
+        transition: left .3s;
+        font-size: 1rem;
+        // font-weight: 300;
     }
 }
 .cohortMyRow:hover { 
-    background: #eee;
     .cohortMyRowDelete {
-        display: inline;
+        opacity: 1;
+    }
+    span {
+        left: 30px;
     }
 }
 .cohortMyRowname { 
     font-weight: 400;
 }
 .cohortMyRowDelete {
-    position: absolute;
-    right:0px;
+    color: #029BE5;
 }
 
 .cohortField {
@@ -64,7 +72,6 @@
     right: 0px;
     top: 7px;
     padding-right:10px;
-    // margin-right: 0px 10px;
 }
 .cohortField:hover {
     background: #EFEFEF;

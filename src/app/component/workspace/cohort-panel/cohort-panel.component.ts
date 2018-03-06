@@ -23,14 +23,15 @@ declare var $: any;
     <!-- My Cohorts -->
     <div class='col s3' style='border: 0px solid #EEE; border-right-width: 1px;padding-left: 0px;padding-right: 30px;'>
       <span class='cohortHeader'>My Cohorts</span>
-      <div *ngFor='let myCohort of myCohorts'>
-        <div class='cohortMyRow'><span class='cohortMyRowname'>{{myCohort.name}}</span> (33 patients / 66 samples)<i class='material-icons cohortMyRowDelete'>delete</i></div>
+      <div *ngFor='let myCohort of cohorts'>
+      <div class='cohortMyRow'>
+        <i class='material-icons cohortMyRowDelete'>remove</i>
+        <span class='cohortMyRowname'>{{myCohort.n}}</span>
+      </div>
       </div>
     </div>
-    <div class='col s6' style='padding-left:30px;padding-right:30px;'>
+    <div class='col s9' style='padding-left:30px;padding-right:30px;'>
       <span class='cohortHeader' style='padding-bottom:20px;'>Build A Cohort</span>
-      
-
       <div class='cohortField'>
         <label for='cohortName'>Create</label>
         <input id='cohortName' type='text' placeholder='Enter Cohort Name'
@@ -39,22 +40,30 @@ declare var $: any;
 
       <div class='cohortField' [class.cohortFieldOr]='condition.condition==="or"' *ngFor='let condition of activeCohort.conditions'>
         <label>{{condition.condition}}</label>
-        <select class='cohortFieldDropdown browser-default' materialize='material_select'><option>Gender</option></select>
-        <select class='cohortValueDropdown browser-default'materialize='material_select'><option>Female</option></select>
+        <select class='cohortFieldDropdown browser-default' [(ngModel)]='condition.field' materialize='material_select'>
+          <option *ngFor='let option of fields' [ngValue]='option'>{{option.name}}</option>
+        </select>
+        <select *ngIf='condition.field.type==="category"'
+          class='cohortFieldDropdown browser-default' [(ngModel)]='condition.value' materialize='material_select'>
+          <option *ngFor='let option of condition.field.options' [ngValue]='option.value'>{{option.name}}</option>
+        </select>
+        <span *ngIf='condition.field.type==="number"'>
+          <input type='number' [(ngModel)]='condition.min'
+            placeholder='Min'
+            style='margin-bottom:5px;border-color:#EEE;width:65px;padding-left: 6px;'> to
+          <input type='number' [(ngModel)]='condition.max'
+            placeholder='Max'
+            style='margin-bottom:5px;border-color:#EEE;width:65px;padding-left: 6px;'>
+        </span>
+
         <div class='cohortFieldButtons'>
           <button class='waves-effect waves-light btn btn-small white cohortBtn' (click)='fieldAnd(condition)'>And</button>
           <button class='waves-effect waves-light btn btn-small white cohortBtn' (click)='fieldOr(condition)'>Or</button>
-          <button class='waves-effect waves-light btn btn-small white cohortBtn' (click)='fieldDel(condition)'><i class="material-icons">delete</i></button>
+          <button class='waves-effect waves-light btn btn-small white cohortBtn' (click)='fieldDel(condition)'><i class="material-icons">x</i></button>
         </div>
       </div>
       
 
-    </div>
-    <div class='col s3' style='border: 0px solid #EEE; border-left-width: 1px; padding-left:30px; padding-right:0px; '>
-      <div class='videoHelp'>
-        <i class="material-icons large">play_circle_outline</i>
-        <div class='videoThumbnail'></div>
-      </div>
     </div>
   </div>
 </div>`,
@@ -65,12 +74,12 @@ export class CohortPanelComponent implements AfterViewInit {
   @Input() cohorts: Array<Cohort> = [];
   @Output() addCohort: EventEmitter<{ database: string, cohort: Cohort }> = new EventEmitter();
   @Output() delCohort: EventEmitter<{ database: string, cohort: Cohort }> = new EventEmitter();
-  myCohorts: Array<{ name: string, patients: Array<string>, query: any }> = [];
-  fields: Array<{ name: string, type: 'number' | 'category', options?: Array<{ name: string, value: string }> }>;
-  defaultField: { field: string, value: string | [number, number], condition: string };
+  
+  fields: Array<{ name: string, type: 'number' | 'category', options?: Array<{ name: string, value?: string, min?: number, max?: number }> }>;
+  defaultField: { field: any, condition: string, value?: string, min?: number, max?: number };
   activeCohort: {
     name: string,
-    conditions: Array<{ field: string, value: string | [number, number], condition: string }>;
+    conditions: Array<{ field: string, condition: string, value?: string, min?: number, max?: number }>;
   }
   @Output() hide: EventEmitter<any> = new EventEmitter();
 
@@ -78,21 +87,15 @@ export class CohortPanelComponent implements AfterViewInit {
     this.dataService.getQueryBuilderConfig(config.database).then(result => {
       this.fields = Object.keys(result.fields).map(v => result.fields[v]);
       if (this.fields[0].type === 'category') {
-        this.defaultField = { field: this.fields[0].name, value: this.fields[0].options[0].value, condition: 'where' };
+        debugger;
+        this.defaultField = { field: this.fields[0], value: this.fields[0].options[0].value, condition: 'where' };
       }
       if (this.fields[0].type === 'number') {
-        this.defaultField = { field: this.fields[0].name, value: [0, 0], condition: 'where' };
+        debugger;
+        this.defaultField = { field: this.fields[0], min: null, max: null, condition: 'where' };
       }
       this.resetForm();
     });
-    this.dataService.getCustomCohorts(config.database).then(v => {
-      this.myCohorts = [
-        { name: 'All Patients', patients: [], query: {} },
-        { name: 'Over 55', patients: ['a', 'b', 'c'], query: {} },
-        { name: 'IDH1', patients: ['a', 'b', 'c'], query: {} }
-      ];
-      this.cd.markForCheck();
-    })
   }
 
   ngAfterViewInit(): void { }
@@ -115,6 +118,7 @@ export class CohortPanelComponent implements AfterViewInit {
   }
 
   fieldOr(item: any): void {
+    debugger;
     const newField = Object.assign({}, item);
     newField.condition = 'or';
     this.activeCohort.conditions.push(newField);
