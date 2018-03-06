@@ -62,7 +62,7 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
     // this.statFactory.getPopulationStats(this._config, this.dataService).then(populationStats => {
 
       this.statFactory.getStatObjects(this._data, this._config).forEach((stat, i) => {
-        const div = this.container.append('<div id="cc' + i.toString() + '" class="statItemContainer"></div>');
+        const div = this.container.append('<div id="cc' + i.toString() + '" class="statItemContainer" style="padding-bottom:20px;"></div>');
 
         // Process Stat Types
         switch (stat.renderer) {
