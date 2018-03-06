@@ -17,7 +17,7 @@ declare var $: any;
   styleUrls: ['./cohort-panel.component.scss'],
   template: `<div>
   <a href='#' class='modalClose' (click)='closeClick()'></a>
-  <h1>Cohorts</h1>
+  <h1 style = 'font-size: 3rem; font-weight: 300; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 3px;'>Cohorts</h1>
   <h2>Create, Manage and Apply custom cohorts to your visualizations <a href='' target='_blank'><i class='small material-icons modalWatchVideoIcon'>ondemand_video</i>Watch Tutorial</a></h2>
   <div class='row'>
     <!-- My Cohorts -->
