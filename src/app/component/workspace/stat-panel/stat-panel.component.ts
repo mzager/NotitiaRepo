@@ -61,25 +61,25 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
     this.container.empty();
     // this.statFactory.getPopulationStats(this._config, this.dataService).then(populationStats => {
 
-      this.statFactory.getStatObjects(this._data, this._config).forEach((stat, i) => {
-        const div = this.container.append('<div id="cc' + i.toString() + '" class="statItemContainer" style="padding-bottom:20px;"></div>');
+    this.statFactory.getStatObjects(this._data, this._config).forEach((stat, i) => {
+      const div = this.container.append('<div id="cc' + i.toString() + '" class="statItemContainer" style="padding-bottom:20px;"></div>');
 
-        // Process Stat Types
-        switch (stat.renderer) {
-          case StatRendererEnum.VEGA:
-            const v = vega.parse(VegaFactory.getInstance().getChartObject(stat, stat.charts[0]), { renderer: ('svg') });
-            const c = new vega.View(v)
-              .initialize('#cc' + i.toString())
-              .hover()
-              .renderer('svg')
-              .run();
-            break;
+      // Process Stat Types
+      switch (stat.renderer) {
+        case StatRendererEnum.VEGA:
+          const v = vega.parse(VegaFactory.getInstance().getChartObject(stat, stat.charts[0]), { renderer: ('svg') });
+          const c = new vega.View(v)
+            .initialize('#cc' + i.toString())
+            .hover()
+            .renderer('svg')
+            .run();
+          break;
 
-          case StatRendererEnum.HTML:
-            div.children('#cc' + i.toString()).append(VegaFactory.getInstance().getChartObject(stat, stat.charts[0]).toString());
-            break;
-        }
-      });
+        case StatRendererEnum.HTML:
+          div.children('#cc' + i.toString()).append(VegaFactory.getInstance().getChartObject(stat, stat.charts[0]).toString());
+          break;
+      }
+    });
     // });
   }
 

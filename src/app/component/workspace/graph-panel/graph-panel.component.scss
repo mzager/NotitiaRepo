@@ -1,4 +1,4 @@
-.tabs .tab a{
+.tabs .tab a {
     padding: 0px;
     font-size: 0.9rem;
 }
@@ -10,22 +10,22 @@
     border-radius: 2px;
     height: 2rem;
 }
+
 // Dropdown
 .select-wrapper {
     display: inline-block;
     width: 135px;
-    margin:0px;
+    margin: 0px;
 }
+
 .select-wrapper input.select-dropdown {
     font-size: 1rem;
-
     border: 0px solid #f2f2f2;
     border-bottom-width: 1px;
     border-radius: 3px;
     height: 2rem;
     padding-left: 8px;
     margin-bottom: 0px;
-
     -webkit-appearance: none;
     -moz-appearance: none;
     background-position: right 50%;
@@ -35,48 +35,51 @@
     padding-right: 1.5em
 }
 
-.select-wrapper span.caret{
+.select-wrapper span.caret {
     height: 30px;
     color: #666666;
     font-size: 0.2rem;
     line-height: 30px;
 }
+
 .dropdown-content {
     font-size: 1rem;
 }
-.graphPanel { 
+
+.graphPanel {
     overflow-x: hidden;
 }
-.graphPanelHeader{
+
+.graphPanelHeader {
     background: #fafafa;
     border: 1px solid #eee;
     border-left-width: 0px;
-    padding-left:10px;
+    padding-left: 10px;
     text-transform: uppercase;
     font-size: .9rem;
     letter-spacing: 3px;
     line-height: 30px;
     width: 285px;
-    left:0px;
-    top:0px;
+    left: 0px;
+    top: 0px;
 }
-.graphPanelExpanded { 
-    width:265px; 
-    background: rgba(255,255,255,0.95); 
-    height:100vh;
-    box-shadow: 0px 2px 4px #ddd; 
+
+.graphPanelExpanded {
+    width: 265px;
+    background: rgba(255, 255, 255, 0.95);
+    height: 100vh;
+    box-shadow: 0px 2px 4px #ddd;
     overflow-y: scroll;
     overflow-x: hidden;
     -webkit-transition: width .3s;
     transition: width .3s;
-    
 }
-.graphPanelCollapsed { 
-    width:0px;
+
+.graphPanelCollapsed {
+    width: 0px;
 }
 
 .graphPanelExpandedButton {
-
     position: absolute;
     right: -20px;
     top: 42vh;
@@ -84,10 +87,7 @@
     height: 70px;
     color: #fff !important;
     background: #fafafa;
-    border: 1px solid #eee;
-
-    
-    // -webkit-box-shadow: 0px 2px 4px #ddd;
+    border: 1px solid #eee; // -webkit-box-shadow: 0px 2px 4px #ddd;
     // box-shadow: 0px 2px 4px #ddd;
     a {
         transform-origin: 50% 50%;
@@ -95,7 +95,8 @@
         text-rendering: optimizeLegibility;
         -webkit-font-feature-settings: 'liga';
         font-feature-settings: 'liga';
-        top: 20px;;
+        top: 20px;
+        ;
         position: absolute;
         left: -1px;
         color: #FFF;
@@ -104,9 +105,11 @@
         transform: rotate(-90deg);
     }
 }
+
 .graphPanelCollapsedButton {
     // right: -30px;
 }
+
 .leftPanel {
     left: -20px;
     a {
