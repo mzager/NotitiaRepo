@@ -4,27 +4,29 @@
         <div class='col s9'>
             <h1 class="help-title">{{method}}</h1>
             <div *ngFor='let attr of tutorial; let i = index'>
-            <h2>{{attr.desc}}<a  href='{{attr.url}}' target='_blank'><i class='small material-icons modalWatchVideoIcon'>ondemand_video</i>Watch Tutorial</a></h2>
+                <h2>{{attr.desc}}
+                    <a href='{{attr.url}}' target='_blank'>
+                        <i class='small material-icons modalWatchVideoIcon'>ondemand_video</i>Watch Tutorial</a>
+                </h2>
             </div>
             <p class='help-desc' [innerHTML]='desc'></p>
             <p class='help-desc' [innerHTML]='learn'></p>
             <p class='help-link-desc'>{{urlparagraph}}</p>
             <a class='help-link' href='{{url}}' target='_blank'>Learn More</a>
-
             <h2 class='help-section'>Method Settings</h2>
             <div *ngFor='let attr of params; let i = index'>
                 <p class='help-label'>{{ attr.name }}</p>
                 <p class='help-desc'>{{ attr.desc }}</p>
                 <!-- <hr style='display: block;height: 1px;border: 0;border-top: 1px solid #eee;margin: 1em 0;padding: 0;'> -->
             </div>
-
-            <h2 class='help-section'>Returned Values<span style="font-size: 1.2rem;"> (as viewed in chart legend)</span></h2>
+            <h2 class='help-section'>Returned Values
+                <span style="font-size: 1.2rem;"> (as viewed in chart legend)</span>
+            </h2>
             <div *ngFor='let attr of attrs; let i = index'>
                 <p class='help-label'>{{ attr.name }}</p>
                 <p class='help-desc'>{{ attr.desc }}</p>
                 <!-- <hr style='display: block;height: 1px;border: 0; font-size: 1.5rem; border-top: 1px solid #eee;margin: 1em 0;padding: 0;'> -->
             </div>
-
             <h2 class='help-section'>Method Citations</h2>
             <div *ngFor='let attr of citations; let i = index'>
                 <p class='help-label'>{{ attr.name }}</p>
@@ -36,7 +38,6 @@
                 </p>
             </div>
         </div>
-
         <div class='col s3' style='margin-top:95px; border: 0px solid #EEE; border-left-width: 1px; padding-left:30px; padding-right:0px; '>
             <div class='videoHelp'>
                 <i class="material-icons large">play_circle_outline</i>
