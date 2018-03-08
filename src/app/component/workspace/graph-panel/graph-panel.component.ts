@@ -144,11 +144,13 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     const selected = this.cohorts.find(v => v.n === $event.target['value']);
     this.config.patientFilter = selected.pids;
     this.config.sampleFilter = selected.sids;
+    this.config.dirtyFlag = DirtyEnum.LAYOUT & DirtyEnum.COLOR & DirtyEnum.SHAPE & DirtyEnum.SIZE & DirtyEnum.INTERSECT;
     this.configChange.emit(this.config);
   }
   onGenesetChange($event: Event) {
     const selected = this.genesets.find(v => v.n === $event.target['value']);
     this.config.markerFilter = selected.g;
+    this.config.dirtyFlag = DirtyEnum.LAYOUT & DirtyEnum.COLOR & DirtyEnum.SHAPE & DirtyEnum.SIZE & DirtyEnum.INTERSECT;
     this.configChange.emit(this.config);
   }
 
@@ -324,9 +326,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       { value: VisualizationEnum.SURVIVAL, label: 'Survival' },
       { value: VisualizationEnum.TIMELINES, label: 'Timelines' },
       { value: VisualizationEnum.SPREADSHEET, label: 'Spreadsheet' },
-      { value: VisualizationEnum.DECOMPOSITION, label: 'Decomposition', methodOptions: [
+      { value: VisualizationEnum.DECOMPOSITION, label: 'Matrix Decomposition', methodOptions: [
           { value: VisualizationEnum.DICTIONARY_LEARNING, label: 'Dictionary Learning' },
-          // { value: VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING, label: 'Dictionary Learning - Mini Batch ' },
+          { value: VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING, label: 'Dictionary Learning - Mini Batch ' },
           { value: VisualizationEnum.FA, label: 'Factor Analysis' },
           { value: VisualizationEnum.FAST_ICA, label: 'Fast ICA' },
           { value: VisualizationEnum.LDA, label: 'Latent Dirichlet Allocation' },
@@ -336,8 +338,8 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
           { value: VisualizationEnum.KERNAL_PCA, label: 'PCA - Kernel' },
           { value: VisualizationEnum.SPARSE_PCA, label: 'PCA - Sparse' },
           { value: VisualizationEnum.MINI_BATCH_SPARSE_PCA, label: 'PCA - Sparse - Mini Batch' },
-          { value: VisualizationEnum.TRUNCATED_SVD, label: 'Truncated SVD' },
-          // { value: VisualizationEnum.SPARSE_CODER, label: 'Sparse Coder'},
+          { value: VisualizationEnum.SPARSE_CODER, label: 'Sparse Coder'},
+          { value: VisualizationEnum.TRUNCATED_SVD, label: 'Truncated SVD' }
         ]
       },
       { value: VisualizationEnum.MANIFOLDLEARNING, label: 'Manifold Learning', methodOptions: [
@@ -347,6 +349,20 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
         { value: VisualizationEnum.SPECTRAL_EMBEDDING, label: 'Spectral Embedding' },
         { value: VisualizationEnum.TSNE, label: 'T-SNE' }
       ] },
+      // { value: VisualizationEnum.DECOMPOSITION, label: 'Cross Decomposition', methodOptions: [
+
+//    {
+//         value: VisualizationEnum.SUPPORT_VECTOR_MACHINES, label: 'Support Vector Machines', methodOptions: [
+          
+// svm.LinearSVC([penalty, loss, dual, tol, C, …])	Linear Support Vector Classification.
+// svm.LinearSVR([epsilon, tol, C, loss, …])	Linear Support Vector Regression.
+// svm.NuSVC([nu, kernel, degree, gamma, …])	Nu-Support Vector Classification.
+// svm.NuSVR([nu, C, kernel, degree, gamma, …])	Nu Support Vector Regression.
+// svm.OneClassSVM([kernel, degree, gamma, …])	Unsupervised Outlier Detection.
+// svm.SVC([C, kernel, degree, gamma, coef0, …])	C-Support Vector Classification.
+// svm.SVR([kernel, degree, gamma, coef0, tol, …])	Epsilon-Support Vector Regression. 
+//         ]
+//       }
 
       // Decomposition
 
