@@ -141,7 +141,10 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.help.emit(this.config);
   }
   onCohortChange($event: Event) {
-
+    const selected = this.cohorts.find(v => v.n === $event.target['value']);
+    this.config.patientFilter = selected.pids;
+    this.config.sampleFilter = selected.sids;
+    this.configChange.emit(this.config);
   }
   onGenesetChange($event: Event) {
     const selected = this.genesets.find(v => v.n === $event.target['value']);
