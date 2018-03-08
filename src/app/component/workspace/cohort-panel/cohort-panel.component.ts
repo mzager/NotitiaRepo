@@ -24,7 +24,7 @@ declare var $: any;
     <div class='col s3' style='border: 0px solid #EEE; border-right-width: 1px;padding-left: 0px;padding-right: 30px;'>
       <span class='cohortHeader'>My Cohorts</span>
       <div *ngFor='let myCohort of cohorts'>
-      <div class='cohortMyRow' (click)='removeClick(myCohort)'>
+      <div class='cohortMyRow' (click)='deleteClick(myCohort)'>
         <i class='material-icons cohortMyRowDelete'>remove_circle_outline</i>
         <span class='cohortMyRowname'>{{myCohort.n}}</span>
       </div>
@@ -122,7 +122,7 @@ export class CohortPanelComponent implements AfterViewInit {
     }
     this.addCohort.emit({cohort: this.activeCohort, database: this.config.database});
   }
-  removeClick(cohort: Cohort):void { 
+  deleteClick(cohort: Cohort):void { 
     this.delCohort.emit({database: this.config.database, cohort: cohort});
   }
   resetForm(): void {

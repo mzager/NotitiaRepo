@@ -278,11 +278,9 @@ export class WorkspaceComponent {
     this.store.dispatch( new DataDelCohortAction( value ) );
   }
 
-
   helpPanelToggle(config: GraphConfig): void { 
     this.store.dispatch( new HelpSetConfigAction(config) );
     this.store.dispatch( new ModalPanelAction(enums.PanelEnum.HELP) );
-    console.log('set');
   }
   splitScreenChange(value: boolean): void {
     const model = new WorkspaceConfigModel();
