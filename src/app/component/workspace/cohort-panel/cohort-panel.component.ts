@@ -1,4 +1,4 @@
-import { Cohort, CohortCondition } from './../../../model/cohort.model';
+import { Cohort, CohortCondition, CohortField } from './../../../model/cohort.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DataService } from './../../../service/data.service';
 import { GraphConfig } from './../../../model/graph-config.model';
@@ -34,7 +34,7 @@ declare var $: any;
       <span class='cohortHeader' style='padding-bottom:20px;'>Build A Cohort</span>
       <div class='cohortField'>
         <label for='cohortName'>Create</label>
-        <input id='cohortName' type='text' placeholder='Enter Cohort Name'
+        <input id='cohortName' type='text' placeholder='Enter Cohort Name' [(ngModel)]='activeCohort.n'
           style='margin-bottom:5px;border-color:#EEE;width:293px;padding-left: 6px;'>
       </div>
 
@@ -82,25 +82,26 @@ export class CohortPanelComponent implements AfterViewInit {
   @Output() addCohort: EventEmitter<{ database: string, cohort: Cohort }> = new EventEmitter();
   @Output() delCohort: EventEmitter<{ database: string, cohort: Cohort }> = new EventEmitter();
   @Output() queryCohort: EventEmitter<{ database: string, cohort: Cohort }> = new EventEmitter();
-  
-  fields: Array<{ name: string, type: 'number' | 'category', options?: Array<{ name: string, value?: string, min?: number, max?: number }> }>;
-  defaultField: CohortCondition;
-  activeCohort: Cohort;
   @Output() hide: EventEmitter<any> = new EventEmitter();
 
+  //{ name: string, type: 'number' | 'category', options?: Array<{ name: string, value?: string, min?: number, max?: number }> }
+  fields: Array<CohortField>;
+  defaultCondition: CohortCondition;
+  activeCohort: Cohort;
+  
   private _config: GraphConfig;
   get config():GraphConfig { return this._config; }
   @Input() set config(config: GraphConfig) {
     if (config === null) return;
     this._config = config;
     this.dataService.getQueryBuilderConfig(config.database).then(result => {
-      this.fields = Object.keys(result.fields).map(v => result.fields[v]);
-      if (this.fields[0].type === 'category') {
-        this.defaultField = { field: this.fields[0], value: this.fields[0].options[0].value, condition: 'where' };
-      }
-      if (this.fields[0].type === 'number') {
-        this.defaultField = { field: this.fields[0], min: null, max: null, condition: 'where' };
-      }
+      const fields = result.fields;
+      this.fields = Object.keys(fields).map( key => (fields[key].type === 'number') ? 
+          { key: key, name: fields[key].name, type: fields[key].type } : 
+          { key: key, name: fields[key].name, type: fields[key].type, options: fields[key].options }
+      );
+      const field = this.fields[0];
+      this.defaultCondition = { field: field, pids: [], condition: 'where', min: null, max: null, value: (field.type==='category') ? field.options[0] : null };
       this.resetForm();
     });
   }
@@ -125,8 +126,8 @@ export class CohortPanelComponent implements AfterViewInit {
     this.delCohort.emit({database: this.config.database, cohort: cohort});
   }
   resetForm(): void {
-    this.activeCohort.name = '';
-    this.activeCohort.conditions.push(this.defaultField);
+    this.activeCohort.n = '';
+    this.activeCohort.conditions.push(this.defaultCondition);
     this.cd.markForCheck();
   }
 
@@ -152,7 +153,7 @@ export class CohortPanelComponent implements AfterViewInit {
   }
 
   constructor(private cd: ChangeDetectorRef, private fb: FormBuilder, private dataService: DataService) {
-    this.activeCohort = { name: '', patientIds: [], sampleIds: [], conditions: [] };
+    this.activeCohort = { n: '', pids: [], sids: [], conditions: [] };
   }
 
 }

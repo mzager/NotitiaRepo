@@ -208,6 +208,8 @@ export const enum StatRendererColumns {
     TWELVE = 12
 }
 export const enum VisualizationEnum {
+    DECOMPOSITION = 257,
+    MANIFOLDLEARNING = 258,
     NONE = 0,
     PCA = 1,
     PLS = 2,
@@ -251,6 +253,8 @@ export const enum VisualizationEnum {
     QUADRATIC_DISCRIMINANT_ANALYSIS = 274877906944,
     DENDOGRAM = 549755813888,
     SPREADSHEET = 1099511627776
+    
+
 }
 
 

@@ -1,16 +1,27 @@
+import { CohortField } from './cohort.model';
 /**
  * Represents a Patient / Sample Cohort
  */
+
 export interface Cohort {
-    name: string;
-    patientIds: Array<string>;
-    sampleIds: Array<string>;
+    n: string;
+    pids: Array<string>;
+    sids: Array<string>;
     conditions: Array<CohortCondition>;
 }
 
-export interface CohortCondition {
-    field: any;
-    condition: string;
+export interface CohortField {  // Field W/o Value
+    key: string;
+    name: string;
+    type: 'category' | 'number';
+    options?: Array<string>;
+}
+
+
+export interface CohortCondition {  // Field W Value
+    field: CohortField;
+    pids: Array<string>;
+    condition: 'where' | 'and' | 'or';
     value?: string;
     min?: number;
     max?: number;

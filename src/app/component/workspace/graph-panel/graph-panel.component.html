@@ -25,11 +25,21 @@
             <div class='form-group'>
                 <label class='center-block'>
                     <span class='form-label'>Visualization</span>
-                    <select materialize='material_select' [ngModel]='config.visualization' (change)='onVisualizationChange($event)' [materializeSelectOptions]='visualizationOptions'>
+                    <select materialize='material_select' [ngModel]='visualizationOption' (change)='onVisualizationChange($event)' [materializeSelectOptions]='visualizationOptions'>
                         <option *ngFor='let option of visualizationOptions' [value]='option.value' [selected]='config.visualization'>{{option.label}}</option>
                     </select>
                 </label>
             </div>
+        
+            <div class='form-group' *ngIf='methodOptions.length'>
+                    <label class='center-block'>
+                        <span class='form-label'>Method</span>
+                        <select materialize='material_select' [ngModel]='methodOption' (change)='onVisualizationChange($event)' [materializeSelectOptions]='methodOptions'>
+                            <option *ngFor='let option of methodOptions' [value]='option.value' [selected]='config.visualization'>{{option.label}}</option>
+                        </select>
+                    </label>
+                </div>
+
             <div class='form-group'>
                 <label class='center-block'>
                     <span class='form-label'>Gene Set</span>
