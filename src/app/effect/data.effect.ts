@@ -98,14 +98,20 @@ export class DataEffect {
     @Effect() addCohort: Observable<Action> = this.actions$
         .ofType(data.DATA_ADD_COHORT)
         .switchMap((args: DataAddCohortAction) => {
-            debugger;
-            return this.dataService.createCustomCohort(args.payload.database, args.payload.cohort)
-        });
+            return Observable.fromPromise(this.dataService.createCustomCohort(args.payload.database, args.payload.cohort)
+                .then(v => this.dataService.getCustomCohorts(args.payload.database)));
+        }).switchMap((args: any) => {
+             return Observable.of(new DataUpdateCohortsAction(args))
+        })
 
     @Effect() delCohort: Observable<Action> = this.actions$
         .ofType(data.DATA_DEL_COHORT)
         .switchMap((args: DataDelCohortAction) => {
-            return this.dataService.deleteCustomCohort(args.payload.database, args.payload.cohort)
+            return Observable.fromPromise(
+                this.dataService.deleteCustomCohort(args.payload.database, args.payload.cohort)
+                    .then(v => this.dataService.getCustomCohorts(args.payload.database)));
+        }).switchMap((args: any) => { 
+            return Observable.of(new DataUpdateCohortsAction(args));
         });
 
     @Effect() addGeneset: Observable<Action> = this.actions$
