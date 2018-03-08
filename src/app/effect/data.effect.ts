@@ -203,10 +203,8 @@ export class DataEffect {
                 // new compute.PcaIncrementalAction( { config: graphAConfig } ),
                 // new compute.HicAction( { config: hicConfig }),
                 // new compute.BoxWhiskersAction( { config: boxWhiskersConfig } ),
-
                 // new compute.TimelinesAction( { config: timelinesConfigA}),
                 // new compute.TimelinesAction( { config: timelinesConfigB})
-
                 //  new compute.ChromosomeAction( { config: chromosomeConfig } ),
                 new compute.HeatmapAction({ config: heatmapConfig }),
                 // new compute.SurvivalAction( { config: survivalConfig })
