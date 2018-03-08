@@ -375,9 +375,10 @@ export class DataService {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
         v.table('cohorts').toArray().then(result => {
-          if (result[0] === undefined) { result[0] = []; }
-          result[0].unshift({n:'All Patients', p: []})
-          resolve(result[0]);
+          const cohorts = result;
+          // if (result[0] === undefined) { result[0] = []; }
+          cohorts.unshift({n:'All Patients', p: []});
+          resolve(cohorts);
         });
       });
     });
@@ -385,9 +386,42 @@ export class DataService {
   createCustomCohort(database: string, cohort: Cohort): Promise<any>{
     return new Promise((resolve, reject) => {
       const db = new Dexie('notitia-' + database);
-      db.open().then(v => {
-        v.table('cohorts').add(cohort).then(v => { 
-          resolve(v);
+      db.open().then(conn => {
+        Promise.all(
+          cohort.conditions.map(condition => { 
+            if (condition.field.type === 'number') { 
+              if (condition.min !== null && condition.max !== null) {
+                return conn.table('patient').where(condition.field.key).between(condition.min, condition.max).toArray();
+              }
+              if (condition.min !== null) {
+                return conn.table('patient').where(condition.field.key).aboveOrEqual(condition.min).toArray();
+              }
+              return conn.table('patient').where(condition.field.key).aboveOrEqual(condition.max).toArray();
+            }
+            return conn.table('patient').where(condition.field.key).equalsIgnoreCase(condition.value).toArray();
+          })
+      ).then( conditions => { 
+          conditions.forEach( (patients, i) => { 
+            cohort.conditions[i].pids = patients.map(v => v.p);
+          });
+          const orGroups = cohort.conditions.reduce( (p, c) => { 
+            if (c.condition === 'where' || c.condition === 'and') { p.push([c]);
+            } else { p[p.length-1].push(c); }
+            return p;
+          }, []);
+          const andGroups = orGroups.map(group => group.reduce( (p, c) => { 
+            return Array.from(new Set([...p, ...c.pids])) }, []));
+          const pids = (andGroups.length === 1) ? andGroups[0].pids :
+            Array.from( andGroups.reduce( (p, c) => { const cSet = new Set(c);
+              return new Set([...p].filter( x => cSet.has(x))) }, andGroups.shift()) );
+            cohort.pids = pids;
+          conn.table('patientSampleMap').toArray().then(ps => {
+            const pids = new Set(cohort.pids);
+            cohort.sids = ps.filter(v => pids.has(v.p)).map(v => v.s);
+          conn.table('cohorts').add(cohort).then(v => { 
+              resolve(v);
+            });
+          });
         });
       });
     });
@@ -396,7 +430,7 @@ export class DataService {
     return new Promise((resolve, reject) => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
-        v.table('cohorts').delete(cohort.name).then(v => { 
+        v.table('cohorts').delete(cohort.n).then(v => { 
           resolve(v);
         });
       });
