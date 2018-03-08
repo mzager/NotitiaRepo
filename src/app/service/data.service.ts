@@ -33,25 +33,25 @@ export class DataService {
     return Observable.fromPromise(DataService.db.table('bandcoords').toArray());
   }
   getGeneSetByCategory(categoryCode: string): Observable<any> {
-    var subcats = ['CGP','CP','CP:BIOCARTA','CP:KEGG','CP:REACTOME','MIR','TFT','CGN','CM','BP','CC','MF','C6','c7'];
+    var subcats = ['CGP', 'CP', 'CP:BIOCARTA', 'CP:KEGG', 'CP:REACTOME', 'MIR', 'TFT', 'CGN', 'CM', 'BP', 'CC', 'MF', 'C6', 'c7'];
     var field = (subcats.indexOf(categoryCode) === -1) ? 'category' : 'subcategory';
     return this.http
       .get(DataService.API_PATH +
         'z_lookup_geneset/%7B%22$fields%22:[%22name%22,%22hugo%22,%22summary%22],%20%22$query%22:%7B%22' +
         field + '%22:%22' +
         categoryCode +
-        '%22%7D%20%7D')  
+        '%22%7D%20%7D')
       .map(res => res.json())
-      
+
   }
   getGeneSetQuery(categoryCode: string, searchTerm: string): Observable<any> {
     return this.http
       .get(DataService.API_PATH +
-      'z_lookup_geneset/%20%7B%22category%22%3A%22' +
-      categoryCode +
-      '%22%2C%20%20%22%24text%22%3A%20%7B%20%22%24search%22%3A%20%22' +
-      searchTerm +
-      '%22%20%7D%20%20%7D')
+        'z_lookup_geneset/%20%7B%22category%22%3A%22' +
+        categoryCode +
+        '%22%2C%20%20%22%24text%22%3A%20%7B%20%22%24search%22%3A%20%22' +
+        searchTerm +
+        '%22%20%7D%20%20%7D')
       .map(res => res.json());
   }
   getGenesetBySearchTerm(searchTerm: string): Observable<any> {
@@ -83,39 +83,39 @@ export class DataService {
 
     const v = config.visualization;
     const method = (v === VisualizationEnum.BOX_WHISKERS) ? 'box_whiskers.json' :
-    (v === VisualizationEnum.CHROMOSOME) ? 'chromosome.json' :
-    (v === VisualizationEnum.DICTIONARY_LEARNING) ? 'dictionary_learning.json' :
-    (v === VisualizationEnum.FA) ? 'factor_analysis.json' :
-    (v === VisualizationEnum.FAST_ICA) ? 'fast_ica.json' :
-    (v === VisualizationEnum.HIC) ? 'force_directed_graph.json' :
-    (v === VisualizationEnum.GENOME) ? 'genome.json' :
-    (v === VisualizationEnum.DENDOGRAM) ? 'dendogram.json' : 
-    (v === VisualizationEnum.HEATMAP) ? 'heatmap.json' :
-    (v === VisualizationEnum.HISTOGRAM) ? 'histogram.json' :
-    (v === VisualizationEnum.INCREMENTAL_PCA) ? 'incremental_pca.json' :
-    (v === VisualizationEnum.ISOMAP) ? 'isomap.json' :
-    (v === VisualizationEnum.KERNAL_PCA) ? 'kernal_pca.json' :
-    (v === VisualizationEnum.LDA) ? 'latent_dirichlet_allocation.json' :
-    (v === VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS) ? 'linear_discriminant_analysis.json' :
-    (v === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? 'locally_linear_embedding.json' :
-    (v === VisualizationEnum.MDS) ? 'mds.json' :
-    (v === VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING) ? 'mini_batch_dictionary_learning.json' :
-    (v === VisualizationEnum.MINI_BATCH_SPARSE_PCA) ? 'mini_batch_sparse_pca.json' :
-    (v === VisualizationEnum.NMF) ? 'nmf.json' :
-    (v === VisualizationEnum.PATHWAYS) ? 'pathways.json' :
-    (v === VisualizationEnum.PCA) ? 'pca.json' :
-    (v === VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS) ? 'quadratic_discriminant_analysis.json)' :
-    (v === VisualizationEnum.SPARSE_PCA) ? 'sparse_pca.json' :
-    (v === VisualizationEnum.SPECTRAL_EMBEDDING) ? 'spectral_embedding.json' :
-    (v === VisualizationEnum.SURVIVAL) ? 'survival.json' :
-    (v === VisualizationEnum.TIMELINES) ? 'timelines.json' :
-    (v === VisualizationEnum.TRUNCATED_SVD) ? 'truncated_svd.json' :
-    (v === VisualizationEnum.TSNE) ? 'tsne.json' :
-    '';
+      (v === VisualizationEnum.CHROMOSOME) ? 'chromosome.json' :
+        (v === VisualizationEnum.DICTIONARY_LEARNING) ? 'dictionary_learning.json' :
+          (v === VisualizationEnum.FA) ? 'factor_analysis.json' :
+            (v === VisualizationEnum.FAST_ICA) ? 'fast_ica.json' :
+              (v === VisualizationEnum.HIC) ? 'force_directed_graph.json' :
+                (v === VisualizationEnum.GENOME) ? 'genome.json' :
+                  (v === VisualizationEnum.DENDOGRAM) ? 'dendogram.json' :
+                    (v === VisualizationEnum.HEATMAP) ? 'heatmap.json' :
+                      (v === VisualizationEnum.HISTOGRAM) ? 'histogram.json' :
+                        (v === VisualizationEnum.INCREMENTAL_PCA) ? 'incremental_pca.json' :
+                          (v === VisualizationEnum.ISOMAP) ? 'isomap.json' :
+                            (v === VisualizationEnum.KERNAL_PCA) ? 'kernal_pca.json' :
+                              (v === VisualizationEnum.LDA) ? 'latent_dirichlet_allocation.json' :
+                                (v === VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS) ? 'linear_discriminant_analysis.json' :
+                                  (v === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? 'locally_linear_embedding.json' :
+                                    (v === VisualizationEnum.MDS) ? 'mds.json' :
+                                      (v === VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING) ? 'mini_batch_dictionary_learning.json' :
+                                        (v === VisualizationEnum.MINI_BATCH_SPARSE_PCA) ? 'mini_batch_sparse_pca.json' :
+                                          (v === VisualizationEnum.NMF) ? 'nmf.json' :
+                                            (v === VisualizationEnum.PATHWAYS) ? 'pathways.json' :
+                                              (v === VisualizationEnum.PCA) ? 'pca.json' :
+                                                (v === VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS) ? 'quadratic_discriminant_analysis.json)' :
+                                                  (v === VisualizationEnum.SPARSE_PCA) ? 'sparse_pca.json' :
+                                                    (v === VisualizationEnum.SPECTRAL_EMBEDDING) ? 'spectral_embedding.json' :
+                                                      (v === VisualizationEnum.SURVIVAL) ? 'survival.json' :
+                                                        (v === VisualizationEnum.TIMELINES) ? 'timelines.json' :
+                                                          (v === VisualizationEnum.TRUNCATED_SVD) ? 'truncated_svd.json' :
+                                                            (v === VisualizationEnum.TSNE) ? 'tsne.json' :
+                                                              '';
 
 
     if (method === '') {
-      return new Promise( (resolve, reject) => { 
+      return new Promise((resolve, reject) => {
         resolve({
           method: 'NA',
           desc: 'Comming Soon',
@@ -221,12 +221,13 @@ export class DataService {
 
           query.toArray().then(result => {
 
-            const cat = fields.filter(v => v.type === 'category').map(f => { 
+            const cat = fields.filter(v => v.type === 'category').map(f => {
               const arr = result.map(v => v[f.field]);
-              const stat = arr.reduce( (p, c) => { 
-                if (!p.hasOwnProperty(c)) { p[c] = 1; } else { p[c] += 1; } 
-                return p; }, {});
-              const stats = Object.keys(stat).map(v => ({label: v, value: stat[v]}))
+              const stat = arr.reduce((p, c) => {
+                if (!p.hasOwnProperty(c)) { p[c] = 1; } else { p[c] += 1; }
+                return p;
+              }, {});
+              const stats = Object.keys(stat).map(v => ({ label: v, value: stat[v] }))
               return Object.assign(f, { stat: stats });
             })
 
@@ -322,7 +323,7 @@ export class DataService {
     });
   }
 
-  getGenesetCategories(): Promise<Array<{c:string, n:string, d:string}>> { 
+  getGenesetCategories(): Promise<Array<{ c: string, n: string, d: string }>> {
     return this.http
       .get('https://s3-us-west-2.amazonaws.com/notitia/reference/genesets.json.gz')
       .map(res => res.json()).toPromise();
@@ -332,7 +333,7 @@ export class DataService {
       .get('https://s3-us-west-2.amazonaws.com/notitia/reference/geneset-' + category.toLowerCase() + '.json.gz')
       .map(res => res.json()).toPromise();
   }
-  getCustomGenesets(database: string): Promise<any>{
+  getCustomGenesets(database: string): Promise<any> {
     return new Promise((resolve, reject) => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
@@ -342,7 +343,7 @@ export class DataService {
       });
     });
   }
-  createCustomGeneset(database: string, geneset: GeneSet): Promise<any>{
+  createCustomGeneset(database: string, geneset: GeneSet): Promise<any> {
     return new Promise((resolve, reject) => {
       // this.http
       // .get(DataService.API_PATH +
@@ -354,7 +355,7 @@ export class DataService {
       // z_lookup_genemap
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
-        v.table('genesets').add(geneset).then(v => { 
+        v.table('genesets').add(geneset).then(v => {
           resolve(v);
         });
       });
@@ -364,32 +365,32 @@ export class DataService {
     return new Promise((resolve, reject) => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
-        v.table('genesets').where('n').equalsIgnoreCase(geneset.n).delete().then(v => { 
+        v.table('genesets').where('n').equalsIgnoreCase(geneset.n).delete().then(v => {
           resolve(v);
         });
       });
     });
   }
-  getCustomCohorts(database: string): Promise<any>{
+  getCustomCohorts(database: string): Promise<any> {
     return new Promise((resolve, reject) => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
         v.table('cohorts').toArray().then(result => {
           const cohorts = result;
           // if (result[0] === undefined) { result[0] = []; }
-          cohorts.unshift({n:'All Patients', p: []});
+          cohorts.unshift({ n: 'All Patients', p: [] });
           resolve(cohorts);
         });
       });
     });
   }
-  createCustomCohort(database: string, cohort: Cohort): Promise<any>{
+  createCustomCohort(database: string, cohort: Cohort): Promise<any> {
     return new Promise((resolve, reject) => {
       const db = new Dexie('notitia-' + database);
       db.open().then(conn => {
         Promise.all(
-          cohort.conditions.map(condition => { 
-            if (condition.field.type === 'number') { 
+          cohort.conditions.map(condition => {
+            if (condition.field.type === 'number') {
               if (condition.min !== null && condition.max !== null) {
                 return conn.table('patient').where(condition.field.key).between(condition.min, condition.max).toArray();
               }
@@ -400,25 +401,33 @@ export class DataService {
             }
             return conn.table('patient').where(condition.field.key).equalsIgnoreCase(condition.value).toArray();
           })
-      ).then( conditions => { 
-          conditions.forEach( (patients, i) => { 
+        ).then(conditions => {
+          if (!cohort.n.trim().length) { 
+            const d = new Date();
+            cohort.n = d.toLocaleDateString + ' ' + d.toLocaleTimeString()
+          }
+          conditions.forEach((patients, i) => {
             cohort.conditions[i].pids = patients.map(v => v.p);
           });
-          const orGroups = cohort.conditions.reduce( (p, c) => { 
-            if (c.condition === 'where' || c.condition === 'and') { p.push([c]);
-            } else { p[p.length-1].push(c); }
+          const orGroups = cohort.conditions.reduce((p, c) => {
+            if (c.condition === 'where' || c.condition === 'and') {
+              p.push([c]);
+            } else { p[p.length - 1].push(c); }
             return p;
           }, []);
-          const andGroups = orGroups.map(group => group.reduce( (p, c) => { 
-            return Array.from(new Set([...p, ...c.pids])) }, []));
-          const pids = (andGroups.length === 1) ? andGroups[0].pids :
-            Array.from( andGroups.reduce( (p, c) => { const cSet = new Set(c);
-              return new Set([...p].filter( x => cSet.has(x))) }, andGroups.shift()) );
-            cohort.pids = pids;
+          const andGroups = orGroups.map(group => group.reduce((p, c) => {
+            return Array.from(new Set([...p, ...c.pids]))
+          }, []));
+          const pids = (andGroups.length === 1) ? andGroups[0] :
+            Array.from(andGroups.reduce((p, c) => {
+              const cSet = new Set(c);
+              return new Set([...p].filter(x => cSet.has(x)))
+            }, andGroups.shift()));
+          cohort.pids = pids;
           conn.table('patientSampleMap').toArray().then(ps => {
             const pids = new Set(cohort.pids);
             cohort.sids = ps.filter(v => pids.has(v.p)).map(v => v.s);
-          conn.table('cohorts').add(cohort).then(v => { 
+            conn.table('cohorts').add(cohort).then(v => {
               resolve(v);
             });
           });
@@ -430,7 +439,7 @@ export class DataService {
     return new Promise((resolve, reject) => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
-        v.table('cohorts').delete(cohort.n).then(v => { 
+        v.table('cohorts').where('n').equalsIgnoreCase(cohort.n).delete().then(v => {
           resolve(v);
         });
       });
