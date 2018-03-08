@@ -106,7 +106,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
         })
       });
     }
-
   
     const topTierVisualization = this.visualizationOptions.find(v => v.value === value.visualization);
     if (topTierVisualization) {
@@ -118,24 +117,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       this.visualizationOption = secondTierVisualization.value;
       this.methodOptions = secondTierVisualization.methodOptions;
       this.methodOption = value.visualization;
-      // this.visualizationOption =
-
-      debugger;
     }
-
-    debugger;
-    // if (visOption === undefined) {
-    //   // const vizOption = this.visualizationOptions.filter(v => v.methodOptions)
-    //   //   .filter( v => v.methodOptions.find(mo => mo.value == value.visualization ))[0];
-    //   //   debugger;
-    //   // this.visualizationOption = vizOption.value;
-    //   // this.methodOptions = vizOption.methodOptions;
-    //   // this.methodOption = value.visualization;
-
-    // } else {
-    //   this.visualizationOption = value.visualization;
-    //   this.methodOptions = [];
-    // }
   }
 
 

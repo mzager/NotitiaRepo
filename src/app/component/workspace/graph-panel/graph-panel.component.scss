@@ -85,10 +85,6 @@
     color: #fff !important;
     background: #fafafa;
     border: 1px solid #eee;
-
-    
-    // -webkit-box-shadow: 0px 2px 4px #ddd;
-    // box-shadow: 0px 2px 4px #ddd;
     a {
         transform-origin: 50% 50%;
         transform: rotate(-90deg);
@@ -104,9 +100,7 @@
         transform: rotate(-90deg);
     }
 }
-.graphPanelCollapsedButton {
-    // right: -30px;
-}
+
 .leftPanel {
     left: -20px;
     a {
