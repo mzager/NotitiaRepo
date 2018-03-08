@@ -69,10 +69,10 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Input() genesets: Array<any>;
   @Input() cohorts: Array<any>;
 
-  @Input()  molecularData: Array<string>;
-  @Input()  clinicalFields: Array<DataField>;
-  @Input()  entityType: EntityTypeEnum;
-  @Input()  data: GraphData;
+  @Input() molecularData: Array<string>;
+  @Input() clinicalFields: Array<DataField>;
+  @Input() entityType: EntityTypeEnum;
+  @Input() data: GraphData;
   @Output() hide: EventEmitter<any> = new EventEmitter();
   @Output() help: EventEmitter<GraphConfig> = new EventEmitter();
   @Output() configChange: EventEmitter<GraphConfig> = new EventEmitter();
@@ -81,7 +81,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Output() selectGeneset: EventEmitter<any> = new EventEmitter();
   @Output() selectCohort: EventEmitter<any> = new EventEmitter();
 
-  
+
   methodName = '';
   methodSummary = '';
 
@@ -97,21 +97,54 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     }
     this._config = value;
     if (updateHelp) {
-      this.dataService.getHelpInfo(value).then(v => { 
+      this.dataService.getHelpInfo(value).then(v => {
         this.methodName = v.method;
         this.methodSummary = v.summary;
         this.cd.markForCheck();
         requestAnimationFrame(() => {
           this.cd.markForCheck();
         })
-        
       });
     }
+
+  
+    const topTierVisualization = this.visualizationOptions.find(v => v.value === value.visualization);
+    if (topTierVisualization) {
+      this.methodOption = null;
+      this.methodOptions = [];
+      this.visualizationOption = value.visualization;
+    } else {
+      const secondTierVisualization = this.visualizationOptions.filter(v => v.methodOptions).filter(v => v.methodOptions.find( w => w.value === value.visualization))[0];
+      this.visualizationOption = secondTierVisualization.value;
+      this.methodOptions = secondTierVisualization.methodOptions;
+      this.methodOption = value.visualization;
+      // this.visualizationOption =
+
+      debugger;
+    }
+
+    debugger;
+    // if (visOption === undefined) {
+    //   // const vizOption = this.visualizationOptions.filter(v => v.methodOptions)
+    //   //   .filter( v => v.methodOptions.find(mo => mo.value == value.visualization ))[0];
+    //   //   debugger;
+    //   // this.visualizationOption = vizOption.value;
+    //   // this.methodOptions = vizOption.methodOptions;
+    //   // this.methodOption = value.visualization;
+
+    // } else {
+    //   this.visualizationOption = value.visualization;
+    //   this.methodOptions = [];
+    // }
   }
 
 
 
-  visualizationOptions: Array<{ value: VisualizationEnum, label: string }>;
+  visualizationOptions: Array<any>
+  visualizationOption: any;
+  methodOptions: Array<any>;
+  methodOption: any;
+
   toggleClick(): void {
 
     if (this.panel.nativeElement.classList.contains('graphPanelCollapsed')) {
@@ -133,130 +166,143 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.config.markerFilter = selected.g;
     this.configChange.emit(this.config);
   }
-  
+
   onVisualizationChange($event: Event) {
     if ($event instanceof CustomEvent) {
       const el = $event.target as HTMLSelectElement;
-      let gc: GraphConfig;
-      switch (parseInt(el.value, 10)) {
-        case VisualizationEnum.TIMELINES:
-          gc = new TimelinesConfigModel();
-          break;
-        case VisualizationEnum.PATHWAYS:
-          gc = new PathwaysConfigModel();
-          break;
-        case VisualizationEnum.CHROMOSOME:
-          gc = new ChromosomeConfigModel();
-          break;
-        case VisualizationEnum.GENOME:
-          gc = new GenomeConfigModel();
-          break;
-        case VisualizationEnum.SURVIVAL:
-          gc = new SurvivalConfigModel();
-          break;
-        case VisualizationEnum.PCA:
-          gc = new PcaConfigModel();
-          break;
-        case VisualizationEnum.PLS:
-          gc = new PlsConfigModel();
-          break;
-        case VisualizationEnum.TSNE:
-          gc = new TsneConfigModel();
-          break;
-        case VisualizationEnum.HEATMAP:
-          gc = new HeatmapConfigModel();
-          break;
-        case VisualizationEnum.DENDOGRAM:
-          gc = new DendogramConfigModel();
-          break;
-        case VisualizationEnum.BOX_WHISKERS:
-          gc = new BoxWhiskersConfigModel();
-          break;
-        case VisualizationEnum.PARALLEL_COORDS:
-          gc = new ParallelCoordsConfigModel();
-          break;
-        case VisualizationEnum.LINKED_GENE:
-          gc = new LinkedGeneConfigModel();
-          break;
-        case VisualizationEnum.HIC:
-          gc = new HicConfigModel();
-          break;
-        case VisualizationEnum.SOM:
-          gc = new SomConfigModel();
-          break;
-        case VisualizationEnum.DA:
-          gc = new DaConfigModel();
-          break;
-        case VisualizationEnum.DE:
-          gc = new DeConfigModel();
-          break;
-        case VisualizationEnum.FA:
-          gc = new FaConfigModel();
-          break;
-        case VisualizationEnum.MDS:
-          gc = new MdsConfigModel();
-          break;
-        case VisualizationEnum.MINI_BATCH_SPARSE_PCA:
-          gc = new MiniBatchSparsePcaConfigModel();
-          break;
-        case VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING:
-          gc = new MiniBatchDictionaryLearningConfigModel();
-          break;
-        case VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS:
-          gc = new LinearDiscriminantAnalysisConfigModel();
-          break;
-        case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS:
-          gc = new QuadradicDiscriminantAnalysisConfigModel();
-          break;
-        case VisualizationEnum.LDA:
-          gc = new LdaConfigModel();
-          break;
-        case VisualizationEnum.NMF:
-          gc = new NmfConfigModel();
-          break;
-        case VisualizationEnum.FAST_ICA:
-          gc = new FastIcaConfigModel();
-          break;
-        case VisualizationEnum.DICTIONARY_LEARNING:
-          gc = new DictionaryLearningConfigModel();
-          break;
-        case VisualizationEnum.TRUNCATED_SVD:
-          gc = new TruncatedSvdConfigModel();
-          break;
-        case VisualizationEnum.ISOMAP:
-          gc = new IsoMapConfigModel();
-          break;
-        case VisualizationEnum.LOCALLY_LINEAR_EMBEDDING:
-          gc = new LocalLinearEmbeddingConfigModel();
-          break;
-        case VisualizationEnum.SPECTRAL_EMBEDDING:
-          gc = new SpectralEmbeddingConfigModel();
-          break;
-        case VisualizationEnum.INCREMENTAL_PCA:
-          gc = new PcaIncrementalConfigModel();
-          break;
-        case VisualizationEnum.KERNAL_PCA:
-          gc = new PcaKernalConfigModel();
-          break;
-        case VisualizationEnum.SPARSE_PCA:
-          gc = new PcaSparseConfigModel();
-          break;
-      }
-
-      const prevConfig = this.config;
-      gc.table = prevConfig.table;
-      gc.sampleFilter = prevConfig.sampleFilter;
-      gc.markerFilter = prevConfig.markerFilter;
-      gc.patientFilter = prevConfig.patientFilter;
-      gc.sampleSelect = prevConfig.sampleSelect;
-      gc.markerSelect = prevConfig.markerSelect;
-      gc.patientSelect = prevConfig.patientSelect;
-      gc.pointColor = prevConfig.pointColor;
-      gc.pointShape = prevConfig.pointShape;
-      gc.pointSize = prevConfig.pointSize;
-      gc.graph = (this.title === 'Graph A') ? GraphEnum.GRAPH_A : GraphEnum.GRAPH_B;
-      this.configChange.emit(gc);
+      const visualizationEnumValue = parseInt(el.value, 10);
+      this.setVisualization(visualizationEnumValue);
     }
+  }
+
+  setVisualization(visualizationEnumValue): void 
+  {
+    let gc: GraphConfig;
+    switch (visualizationEnumValue) {
+      case VisualizationEnum.DECOMPOSITION:
+      case VisualizationEnum.MANIFOLDLEARNING:
+        this.setVisualization(this.visualizationOptions.find(v => v.value == visualizationEnumValue).methodOptions[0].value);
+        return;
+      case VisualizationEnum.TIMELINES:
+        gc = new TimelinesConfigModel();
+        break;
+      case VisualizationEnum.PATHWAYS:
+        gc = new PathwaysConfigModel();
+        break;
+      case VisualizationEnum.CHROMOSOME:
+        gc = new ChromosomeConfigModel();
+        break;
+      case VisualizationEnum.GENOME:
+        gc = new GenomeConfigModel();
+        break;
+      case VisualizationEnum.SURVIVAL:
+        gc = new SurvivalConfigModel();
+        break;
+      case VisualizationEnum.PCA:
+        gc = new PcaConfigModel();
+        break;
+      case VisualizationEnum.PLS:
+        gc = new PlsConfigModel();
+        break;
+      case VisualizationEnum.TSNE:
+        gc = new TsneConfigModel();
+        break;
+      case VisualizationEnum.HEATMAP:
+        gc = new HeatmapConfigModel();
+        break;
+      case VisualizationEnum.DENDOGRAM:
+        gc = new DendogramConfigModel();
+        break;
+      case VisualizationEnum.BOX_WHISKERS:
+        gc = new BoxWhiskersConfigModel();
+        break;
+      case VisualizationEnum.PARALLEL_COORDS:
+        gc = new ParallelCoordsConfigModel();
+        break;
+      case VisualizationEnum.LINKED_GENE:
+        gc = new LinkedGeneConfigModel();
+        break;
+      case VisualizationEnum.HIC:
+        gc = new HicConfigModel();
+        break;
+      case VisualizationEnum.SOM:
+        gc = new SomConfigModel();
+        break;
+      case VisualizationEnum.DA:
+        gc = new DaConfigModel();
+        break;
+      case VisualizationEnum.DE:
+        gc = new DeConfigModel();
+        break;
+      case VisualizationEnum.FA:
+        gc = new FaConfigModel();
+        break;
+      case VisualizationEnum.MDS:
+        gc = new MdsConfigModel();
+        break;
+      case VisualizationEnum.MINI_BATCH_SPARSE_PCA:
+        gc = new MiniBatchSparsePcaConfigModel();
+        break;
+      case VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING:
+        gc = new MiniBatchDictionaryLearningConfigModel();
+        break;
+      case VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS:
+        gc = new LinearDiscriminantAnalysisConfigModel();
+        break;
+      case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS:
+        gc = new QuadradicDiscriminantAnalysisConfigModel();
+        break;
+      case VisualizationEnum.LDA:
+        gc = new LdaConfigModel();
+        break;
+      case VisualizationEnum.NMF:
+        gc = new NmfConfigModel();
+        break;
+      case VisualizationEnum.FAST_ICA:
+        gc = new FastIcaConfigModel();
+        break;
+      case VisualizationEnum.DICTIONARY_LEARNING:
+        gc = new DictionaryLearningConfigModel();
+        break;
+      case VisualizationEnum.TRUNCATED_SVD:
+        gc = new TruncatedSvdConfigModel();
+        break;
+      case VisualizationEnum.ISOMAP:
+        gc = new IsoMapConfigModel();
+        break;
+      case VisualizationEnum.LOCALLY_LINEAR_EMBEDDING:
+        gc = new LocalLinearEmbeddingConfigModel();
+        break;
+      case VisualizationEnum.SPECTRAL_EMBEDDING:
+        gc = new SpectralEmbeddingConfigModel();
+        break;
+      case VisualizationEnum.INCREMENTAL_PCA:
+        gc = new PcaIncrementalConfigModel();
+        break;
+      case VisualizationEnum.KERNAL_PCA:
+        gc = new PcaKernalConfigModel();
+        break;
+      case VisualizationEnum.SPARSE_PCA:
+        gc = new PcaSparseConfigModel();
+        break;
+      default:
+        this.methodOptions = [];
+        break;
+    }
+
+    const prevConfig = this.config;
+    gc.table = prevConfig.table;
+    gc.sampleFilter = prevConfig.sampleFilter;
+    gc.markerFilter = prevConfig.markerFilter;
+    gc.patientFilter = prevConfig.patientFilter;
+    gc.sampleSelect = prevConfig.sampleSelect;
+    gc.markerSelect = prevConfig.markerSelect;
+    gc.patientSelect = prevConfig.patientSelect;
+    gc.pointColor = prevConfig.pointColor;
+    gc.pointShape = prevConfig.pointShape;
+    gc.pointSize = prevConfig.pointSize;
+    gc.graph = (this.title === 'Graph A') ? GraphEnum.GRAPH_A : GraphEnum.GRAPH_B;
+    this.configChange.emit(gc);
   }
 
   graphPanelSelectClusteringAlgorithm(value: GraphConfig) {
@@ -280,6 +326,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.cohorts = [];
 
     this.cid = Math.random().toString(36).replace(/[^a-z]+/g, '');
+    this.methodOptions = [];
     this.visualizationOptions = [
       { value: VisualizationEnum.BOX_WHISKERS, label: 'Box Whiskers' },
       { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
@@ -292,29 +339,36 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       { value: VisualizationEnum.SURVIVAL, label: 'Survival' },
       { value: VisualizationEnum.TIMELINES, label: 'Timelines' },
       { value: VisualizationEnum.SPREADSHEET, label: 'Spreadsheet' },
+      { value: VisualizationEnum.DECOMPOSITION, label: 'Decomposition', methodOptions: [
+          { value: VisualizationEnum.DICTIONARY_LEARNING, label: 'Dictionary Learning' },
+          // { value: VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING, label: 'Dictionary Learning - Mini Batch ' },
+          { value: VisualizationEnum.FA, label: 'Factor Analysis' },
+          { value: VisualizationEnum.FAST_ICA, label: 'Fast ICA' },
+          { value: VisualizationEnum.LDA, label: 'Latent Dirichlet Allocation' },
+          { value: VisualizationEnum.NMF, label: 'Non-Negative Matrix Factorization' },
+          { value: VisualizationEnum.PCA, label: 'PCA' },
+          { value: VisualizationEnum.INCREMENTAL_PCA, label: 'PCA - Incremental' },
+          { value: VisualizationEnum.KERNAL_PCA, label: 'PCA - Kernel' },
+          { value: VisualizationEnum.SPARSE_PCA, label: 'PCA - Sparse' },
+          { value: VisualizationEnum.MINI_BATCH_SPARSE_PCA, label: 'PCA - Sparse - Mini Batch' },
+          { value: VisualizationEnum.TRUNCATED_SVD, label: 'Truncated SVD' },
+          // { value: VisualizationEnum.SPARSE_CODER, label: 'Sparse Coder'},
+        ]
+      },
+      { value: VisualizationEnum.MANIFOLDLEARNING, label: 'Manifold Learning', methodOptions: [
+        { value: VisualizationEnum.ISOMAP, label: 'Isomap' },
+        { value: VisualizationEnum.LOCALLY_LINEAR_EMBEDDING, label: 'Locally Linear Embedding' },
+        { value: VisualizationEnum.MDS, label: 'Multi-Dimensional Scaling' },
+        { value: VisualizationEnum.SPECTRAL_EMBEDDING, label: 'Spectral Embedding' },
+        { value: VisualizationEnum.TSNE, label: 'T-SNE' }
+      ] },
 
       // Decomposition
-      { value: VisualizationEnum.DICTIONARY_LEARNING, label: 'Dictionary Learning' },
-      // { value: VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING, label: 'Dictionary Learning - Mini Batch ' },
-      { value: VisualizationEnum.FA, label: 'Factor Analysis' },
-      { value: VisualizationEnum.FAST_ICA, label: 'Fast ICA' },
-      { value: VisualizationEnum.LDA, label: 'Latent Dirichlet Allocation' },
-      { value: VisualizationEnum.NMF, label: 'Non-Negative Matrix Factorization' },
-      { value: VisualizationEnum.PCA, label: 'PCA' },
-      { value: VisualizationEnum.INCREMENTAL_PCA, label: 'PCA - Incremental' },
-      { value: VisualizationEnum.KERNAL_PCA, label: 'PCA - Kernel' },
-      { value: VisualizationEnum.SPARSE_PCA, label: 'PCA - Sparse' },
-      { value: VisualizationEnum.MINI_BATCH_SPARSE_PCA, label: 'PCA - Sparse - Mini Batch' },
-      { value: VisualizationEnum.TRUNCATED_SVD, label: 'Truncated SVD' },
-      // { value: VisualizationEnum.SPARSE_CODER, label: 'Sparse Coder'},
+
 
 
       // Manifold learning
-      { value: VisualizationEnum.ISOMAP, label: 'Isomap' },
-      { value: VisualizationEnum.LOCALLY_LINEAR_EMBEDDING, label: 'Locally Linear Embedding' },
-      { value: VisualizationEnum.MDS, label: 'Multi-Dimensional Scaling' },
-      { value: VisualizationEnum.SPECTRAL_EMBEDDING, label: 'Spectral Embedding' },
-      { value: VisualizationEnum.TSNE, label: 'T-SNE' },
+     
 
       // Discriminant Analysis
       // { value: VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS, label: 'Linear Discriminat Analysis' },
