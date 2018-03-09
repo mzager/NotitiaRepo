@@ -317,7 +317,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.cid = Math.random().toString(36).replace(/[^a-z]+/g, '');
     this.methodOptions = [];
     this.visualizationOptions = [
-      { value: VisualizationEnum.BOX_WHISKERS, label: 'Box + Whisker' },
+      { value: VisualizationEnum.BOX_WHISKERS, label: 'Box Whiskers' },
       { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
       { value: VisualizationEnum.HIC, label: 'Force Directed Graph' },
       { value: VisualizationEnum.GENOME, label: 'Genome' },
@@ -352,7 +352,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
         { value: VisualizationEnum.TSNE, label: 'T-SNE' }
       ] },
       // { value: VisualizationEnum.DECOMPOSITION, label: 'Cross Decomposition', methodOptions: [
-
 //    {
 //         value: VisualizationEnum.SUPPORT_VECTOR_MACHINES, label: 'Support Vector Machines', methodOptions: [
           
@@ -365,7 +364,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
 // svm.SVR([kernel, degree, gamma, coef0, tol, …])	Epsilon-Support Vector Regression. 
 //         ]
 //       }
-
       // Decomposition
 
 
