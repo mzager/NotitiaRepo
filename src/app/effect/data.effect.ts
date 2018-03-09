@@ -9,7 +9,7 @@ import { LinkedGeneConfigModel } from './../component/visualization/linkedgenes/
 import { FaConfigModel } from './../component/visualization/fa/fa.model';
 import { PcaKernalConfigModel } from './../component/visualization/pcakernal/pcakernal.model';
 import { PcaIncrementalConfigModel } from './../component/visualization/pcaincremental/pcaincremental.model';
-import { GraphPanelToggleAction } from './../action/layout.action';
+import { GraphPanelToggleAction, LoaderShowAction } from './../action/layout.action';
 import { DatasetService } from './../service/dataset.service';
 import { EdgeConfigModel } from './../component/visualization/edges/edges.model';
 import { WorkspaceConfigAction } from './../action/graph.action';
@@ -141,9 +141,9 @@ export class DataEffect {
             const workspaceConfig = new WorkspaceConfigModel();
             workspaceConfig.layout = WorkspaceLayoutEnum.SINGLE;
 
-            const survivalConfig = new SurvivalConfigModel();
-            survivalConfig.graph = GraphEnum.GRAPH_A;
-            survivalConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
+            // const survivalConfig = new SurvivalConfigModel();
+            // survivalConfig.graph = GraphEnum.GRAPH_A;
+            // survivalConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
 
             // const pathwaysConfig = new PathwaysConfigModel();
             // pathwaysConfig.graph = GraphEnum.GRAPH_B;
@@ -169,9 +169,9 @@ export class DataEffect {
             // timelinesConfigB.graph = GraphEnum.GRAPH_B;
             // timelinesConfigB.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
 
-            const graphBConfig = new PcaIncrementalConfigModel();
-            graphBConfig.graph = GraphEnum.GRAPH_A;
-            graphBConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
+            // const graphBConfig = new PcaIncrementalConfigModel();
+            // graphBConfig.graph = GraphEnum.GRAPH_A;
+            // graphBConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
 
             // const hicConfig = new HicConfigModel();
             // hicConfig.graph = GraphEnum.GRAPH_B;
@@ -182,14 +182,17 @@ export class DataEffect {
             // graphAConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
 
-            const graphAConfig = new PcaIncrementalConfigModel();
-            graphAConfig.graph = GraphEnum.GRAPH_A;
-            graphAConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
+            // const graphAConfig = new PcaIncrementalConfigModel();
+            // graphAConfig.graph = GraphEnum.GRAPH_A;
+            // graphAConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
 
             // const graphBConfig = new PcaIncrementalConfigModel();
             // graphBConfig.graph = GraphEnum.GRAPH_B;
             // graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
+            const pcaConfig = new PcaConfigModel();
+            pcaConfig.graph = GraphEnum.GRAPH_A;
+            pcaConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             const heatmapConfig = new HeatmapConfigModel();
             heatmapConfig.graph = GraphEnum.GRAPH_B;
@@ -211,8 +214,11 @@ export class DataEffect {
                 // new compute.ChromosomeAction( { config: chromosomeConfig } )
                 // new compute.PathwaysAction( { config: pathwaysConfig }),
                 // new compute.GenomeAction( { config: genomeConfig }),
-                new compute.PcaIncrementalAction({ config: graphBConfig })
+                // new compute.PcaIncrementalAction({ config: graphBConfig })
                 // new GraphPanelToggleAction( GraphPanelEnum.GRAPH_A )
+                new compute.PcaAction({ config: pcaConfig }),
+                new LoaderShowAction()
+
 
             ];
         });
