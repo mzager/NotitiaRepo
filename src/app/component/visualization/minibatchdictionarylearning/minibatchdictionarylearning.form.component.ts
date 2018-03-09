@@ -140,6 +140,8 @@ export class MiniBatchDictionaryLearningFormComponent extends AbstractScatterFor
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
+      patientFilter: [],
+      patientSelect: [],
       table: [],
       pointColor: [],
       pointShape: [],
