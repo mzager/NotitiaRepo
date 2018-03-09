@@ -1000,24 +1000,7 @@ export class ComputeWorkerUtil {
             });
     }
 
-    loadData = (dataKey): any => {
-        return new Promise((resolve, reject) => {
-            // // Only connect once
-            // if (this.pouchDB === null) {
-            //     this.pouchDB = new PouchDB['default']('Notitia', { adapter: 'idb' });
-            // }
-            // // If data key already in memory, return it...
-            // if (this.dataKey === dataKey) {
-            //     resolve(this.data);
-            //     return;
-            // }
-            // this.pouchDB.get(dataKey).then(v => {
-            //     this.dataKey = dataKey;
-            //     this.data = v;
-            //     resolve(v);
-            // });
-        });
-    }
+
     processMolecularData(molecularData: any, config: GraphConfig): any {
         let matrix = molecularData.data;
         if (config.markerFilter.length > 0) {
@@ -1043,21 +1026,22 @@ export class ComputeWorkerUtil {
         };
     }
 
-    scale3d = (data) => {
+    scale3d = (data, i0 = 0, i1 = 1, i2 = 2) => {
         const scale = this.createScale(
             [-300, 300],
             data.reduce((p, c) => {
-                p[0] = Math.min(p[0], c[0]);
-                p[0] = Math.min(p[0], c[1]);
-                p[0] = Math.min(p[0], c[2]);
-                p[1] = Math.max(p[1], c[0]);
-                p[1] = Math.max(p[1], c[1]);
-                p[1] = Math.max(p[1], c[2]);
+                p[0] = Math.min(p[0], c[i0]);
+                p[0] = Math.min(p[0], c[i1]);
+                p[0] = Math.min(p[0], c[i2]);
+                p[1] = Math.max(p[1], c[i0]);
+                p[1] = Math.max(p[1], c[i1]);
+                p[1] = Math.max(p[1], c[i2]);
                 return p;
             }, [Infinity, -Infinity])
         );
+
         // Only Scale First 3 Elements Needed For Rendering
-        return data.map(v => [scale(v[0]), scale(v[1]), scale(v[2])]);
+        return data.map(v => [scale(v[i0]), scale(v[i1]), scale(v[i2])]);
     }
 
 }

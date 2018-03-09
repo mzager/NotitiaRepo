@@ -62,14 +62,32 @@ import * as _ from 'lodash';
       </select>
     </label>
   </div>
-   <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Dimension</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='dimensionOptions'
-        formControlName='dimension'>
-          <option *ngFor='let options of dimensionOptions'>{{options}}</option>
-      </select>
-    </label>
+  <div class='form-group'>
+  <label class='center-block'><span class='form-label'>X Axis</span>
+    <select materialize='material_select'
+        [materializeSelectOptions]='PcOptions'
+        formControlName='pcx'>
+        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
+    </select>
+  </label>
+  </div>
+  <div class='form-group'>
+  <label class='center-block'><span class='form-label'>Y Axis</span>
+    <select materialize='material_select'
+        [materializeSelectOptions]='PcOptions'
+        formControlName='pcy'>
+        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
+    </select>
+  </label>
+  </div>
+  <div class='form-group'>
+  <label class='center-block'><span class='form-label'>Z Axis</span>
+    <select materialize='material_select'
+        [materializeSelectOptions]='PcOptions'
+        formControlName='pcz'>
+        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
+    </select>
+  </label>
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Svd Solver</span>
@@ -95,13 +113,6 @@ import * as _ from 'lodash';
 // if svd_solver = arpack then tol
 export class PcaFormComponent extends AbstractScatterForm {
 
-  @Input() set config(v: PcaConfigModel) {
-    if (v === null) { return; }
-    if (this.form.value.visualization === null) {
-      this.form.patchValue(v, { emitEvent: false });
-    }
-  }
-
   PcaSvdSolverOptions = [
     PcaSvdSolver.AUTO,
     PcaSvdSolver.ARPACK,
@@ -109,6 +120,14 @@ export class PcaFormComponent extends AbstractScatterForm {
     PcaSvdSolver.FULL
   ];
 
+  PcOptions = [1,2,3,4,5,6,7,8,9,10];
+
+  @Input() set config(v: PcaConfigModel) {
+    if (v === null) { return; }
+    if (this.form.value.visualization === null) {
+      this.form.patchValue(v, { emitEvent: false });
+    }
+  }
 
   constructor(private fb: FormBuilder) {
 
@@ -136,9 +155,12 @@ export class PcaFormComponent extends AbstractScatterForm {
           whiten: [],
           copy: [],
           iterated_power: [],
-          random_state: []
+          random_state: [],
+          pcx: [],
+          pcy: [],
+          pcz: []
     });
-
+    
     this.registerFormChange();
   }
 }
