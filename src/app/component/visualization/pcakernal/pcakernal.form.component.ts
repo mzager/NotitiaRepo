@@ -98,7 +98,7 @@ import * as _ from 'lodash';
       </label>
     </div>
     <div class='switch'>
-      <label class='center-block'><span class='form-label'>- 0 Eig</span>
+      <label class='center-block'><span class='form-label'>Remove 0 Eig</span>
         <input type='checkbox' formControlName='remove_zero_eig'>
         <span class='lever'></span>
       </label>
