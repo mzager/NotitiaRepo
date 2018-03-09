@@ -45,7 +45,8 @@ export const enum DirtyEnum {
     SHAPE = 8,
     INTERSECT = 16,
     OPTIONS = 32,
-    NO_COMPUTE = 64
+    NO_COMPUTE = 64,
+    ALL = LAYOUT & COLOR & SIZE & SHAPE & INTERSECT & OPTIONS
 }
 
 export class LogicalOperatorEnum {

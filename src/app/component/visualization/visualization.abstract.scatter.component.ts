@@ -61,6 +61,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
             this.removeObjects();
             this.addObjects(this.config.entity);
         }
+
         if (this.config.dirtyFlag & DirtyEnum.COLOR) {
             const idProperty = (config.entity === EntityTypeEnum.GENE) ? 'mid' :
                 (this.config.pointColor.ctype & CollectionTypeEnum.MOLECULAR) ? 'sid' : 'pid';
@@ -71,6 +72,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
                 mesh.userData.color = color;
             });
         }
+
         if (this.config.dirtyFlag & DirtyEnum.SIZE) {
             const idProperty = (config.entity === EntityTypeEnum.GENE) ? 'mid' :
                 (this.config.pointColor.ctype & CollectionTypeEnum.MOLECULAR) ? 'sid' : 'pid';
