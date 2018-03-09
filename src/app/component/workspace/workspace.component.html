@@ -54,7 +54,7 @@
 <app-workspace-landing-panel *ngIf='(modalPanel | async) === 2'
     class='modal-panel' style='z-index:999999' (onGetStarted)='setModalPanel(4)'></app-workspace-landing-panel>
 <app-workspace-file-panel *ngIf='(modalPanel | async) === 4' (hide)='setModalPanel(1)'
-    class='modal-panel' (filesLoad)='filesLoad($event)' (loadTcga)='fileLoadTcga($event)'></app-workspace-file-panel>
+    class='modal-panel' (uploadExcel)='uploadExcel($event)' (loadTcga)='fileLoadTcga($event)'></app-workspace-file-panel>
 <app-workspace-cohort-panel *ngIf='(modalPanel | async) === 16' (hide)='setModalPanel(1)'
     (addCohort)='addCohort($event)' (delCohort)='delCohort($event)'
     [cohorts]='cohorts | async'
@@ -78,3 +78,6 @@
     [configB]='graphBConfig | async'
     (hide)='dataPanelToggle()'
     *ngIf='dataPanelTab | async'></app-workspace-data-panel> -->
+
+<!-- Loader -->
+<app-workspace-loader *ngIf='(loader | async)'></app-workspace-loader>

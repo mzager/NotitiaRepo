@@ -15,8 +15,7 @@ import { Legend } from 'app/model/legend.model';
 })
 export class FilePanelComponent {
 
-  @Output() filesLoad = new EventEmitter<any>();
-  @Output() filePanelToggle = new EventEmitter();
+  @Output() uploadExcel = new EventEmitter<any>();
   @Output() loadTcga = new EventEmitter<any>();
   @Output() hide = new EventEmitter<any>();
 
@@ -57,6 +56,13 @@ export class FilePanelComponent {
     // { 'name': 'AML Krakow', 'disease': 'ek', 'img': 'DSblood.png' }
   ].sort( (a, b) => a.img.toUpperCase() < b.img.toUpperCase() ? -1 : 1 );
 
+  uploadExcelClick(): void {
+    this.uploadExcel.emit();
+  }
+
+  uploadHubClick(): void {
+    window.location.href = 'https://dev.oncoscape.sttrcancer.io/upload/#/landing';
+  }
   closeClick(): void { 
     this.hide.emit();
   }
