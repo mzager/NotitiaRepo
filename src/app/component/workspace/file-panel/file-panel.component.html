@@ -1,10 +1,10 @@
 <div>
         <a href='#' class='modalClose' (click)='closeClick()'></a>
-        <h1 style = 'font-size: 3rem; font-weight: 300; margin-bottom: 10px; letter-spacing: 3px;'>Data Sets</h1>
-        <h2>Select from public data sets, or visualize your own 
-                <a href='https://www.youtube.com/embed/XQu8TTBmGhA' target='_blank'><i class='small material-icons modalWatchVideoIcon'>ondemand_video</i>Watch Tutorial</a>
+        <h1 style='font-size: 3rem; font-weight: 300; margin-bottom: 10px; letter-spacing: 3px;'>Data Sets</h1>
+        <h2>Select from public data sets, or visualize your own
+                <a href='https://www.youtube.com/embed/XQu8TTBmGhA' target='_blank'>
+                        <i class='small material-icons modalWatchVideoIcon'>ondemand_video</i>Watch Tutorial</a>
         </h2>
-
         <div class='row'>
                 <!-- My Cohorts -->
                 <div class='col s3' style='border: 0px solid #EEE; border-right-width: 1px;padding-left: 0px;padding-right: 30px;'>
@@ -17,18 +17,13 @@
                 <div class='col s9' style='padding-left:30px;padding-right:30px;'>
                         <span class='cohortHeader' style='padding-bottom:20px;'>Public Data Sets</span>
                         <div style='height:60vh;overflow-y:scroll;'>
-                                <div style='width:33%; display: inline-block; text-overflow: ellipsis; overflow: hidden; height: 25px;' class='cohortField' *ngFor='let dataset of datasets; let i = index' (click)='this.loadTcga.emit(dataset)'>
+                                <div style='width:33%; display: inline-block; text-overflow: ellipsis; overflow: hidden; height: 25px;' class='cohortField'
+                                        *ngFor='let dataset of datasets; let i = index' (click)='this.loadTcga.emit(dataset)'>
                                         <img class='fileImage' src='./assets/disease/img{{dataset.img}}'>
                                         <div class='fileLink'>{{dataset.name}}</div>
                                 </div>
                         </div>
                 </div>
-                <!-- <div class='col s3' style='border: 0px solid #EEE; border-left-width: 1px; padding-left:30px; padding-right:0px; '>
-                        <div class='videoHelp'>
-                                <i class="material-icons large">play_circle_outline</i>
-                                <div class='videoThumbnail'></div>
-                        </div>
-                </div> -->
         </div>
 
 </div>

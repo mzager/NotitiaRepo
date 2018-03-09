@@ -352,7 +352,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
         { value: VisualizationEnum.TSNE, label: 'T-SNE' }
       ] },
       // { value: VisualizationEnum.DECOMPOSITION, label: 'Cross Decomposition', methodOptions: [
-
 //    {
 //         value: VisualizationEnum.SUPPORT_VECTOR_MACHINES, label: 'Support Vector Machines', methodOptions: [
           
@@ -365,9 +364,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
 // svm.SVR([kernel, degree, gamma, coef0, tol, …])	Epsilon-Support Vector Regression. 
 //         ]
 //       }
-
       // Decomposition
-
 
 
       // Manifold learning
@@ -376,13 +373,10 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       // Discriminant Analysis
       // { value: VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS, label: 'Linear Discriminat Analysis' },
       // { value: VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS, label: 'Quadratic Discriminant Analysis' },
-
       // Random Projection
       // Gaussian, Sparse
-
       // Cross Decomposition
       // CCA, PLSCanonical, PLSRegression
-
       // SVM
       // LinearSVC, LinearSVR, NuSVC, NuSVR, OneClassSvm, SVC, SVR
       // { value: VisualizationEnum.PLS, label: 'Partial Least Squares'},
@@ -391,7 +385,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       // { value: VisualizationEnum.DE, label: 'Gene Set Enrichmant '},
       // { value: VisualizationEnum.DE, label: 'Differential Expression '},
       // { value: VisualizationEnum.PARALLEL_COORDS, label: 'Parallel Coordinates'},
-
     ];
   }
 }
