@@ -33,25 +33,25 @@ export class DataService {
     return Observable.fromPromise(DataService.db.table('bandcoords').toArray());
   }
   getGeneSetByCategory(categoryCode: string): Observable<any> {
-    var subcats = ['CGP','CP','CP:BIOCARTA','CP:KEGG','CP:REACTOME','MIR','TFT','CGN','CM','BP','CC','MF','C6','c7'];
+    var subcats = ['CGP', 'CP', 'CP:BIOCARTA', 'CP:KEGG', 'CP:REACTOME', 'MIR', 'TFT', 'CGN', 'CM', 'BP', 'CC', 'MF', 'C6', 'c7'];
     var field = (subcats.indexOf(categoryCode) === -1) ? 'category' : 'subcategory';
     return this.http
       .get(DataService.API_PATH +
         'z_lookup_geneset/%7B%22$fields%22:[%22name%22,%22hugo%22,%22summary%22],%20%22$query%22:%7B%22' +
         field + '%22:%22' +
         categoryCode +
-        '%22%7D%20%7D')  
+        '%22%7D%20%7D')
       .map(res => res.json())
-      
+
   }
   getGeneSetQuery(categoryCode: string, searchTerm: string): Observable<any> {
     return this.http
       .get(DataService.API_PATH +
-      'z_lookup_geneset/%20%7B%22category%22%3A%22' +
-      categoryCode +
-      '%22%2C%20%20%22%24text%22%3A%20%7B%20%22%24search%22%3A%20%22' +
-      searchTerm +
-      '%22%20%7D%20%20%7D')
+        'z_lookup_geneset/%20%7B%22category%22%3A%22' +
+        categoryCode +
+        '%22%2C%20%20%22%24text%22%3A%20%7B%20%22%24search%22%3A%20%22' +
+        searchTerm +
+        '%22%20%7D%20%20%7D')
       .map(res => res.json());
   }
   getGenesetBySearchTerm(searchTerm: string): Observable<any> {
@@ -83,39 +83,39 @@ export class DataService {
 
     const v = config.visualization;
     const method = (v === VisualizationEnum.BOX_WHISKERS) ? 'box_whiskers.json' :
-    (v === VisualizationEnum.CHROMOSOME) ? 'chromosome.json' :
-    (v === VisualizationEnum.DICTIONARY_LEARNING) ? 'dictionary_learning.json' :
-    (v === VisualizationEnum.FA) ? 'factor_analysis.json' :
-    (v === VisualizationEnum.FAST_ICA) ? 'fast_ica.json' :
-    (v === VisualizationEnum.HIC) ? 'force_directed_graph.json' :
-    (v === VisualizationEnum.GENOME) ? 'genome.json' :
-    (v === VisualizationEnum.DENDOGRAM) ? 'dendogram.json' : 
-    (v === VisualizationEnum.HEATMAP) ? 'heatmap.json' :
-    (v === VisualizationEnum.HISTOGRAM) ? 'histogram.json' :
-    (v === VisualizationEnum.INCREMENTAL_PCA) ? 'incremental_pca.json' :
-    (v === VisualizationEnum.ISOMAP) ? 'isomap.json' :
-    (v === VisualizationEnum.KERNAL_PCA) ? 'kernal_pca.json' :
-    (v === VisualizationEnum.LDA) ? 'latent_dirichlet_allocation.json' :
-    (v === VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS) ? 'linear_discriminant_analysis.json' :
-    (v === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? 'locally_linear_embedding.json' :
-    (v === VisualizationEnum.MDS) ? 'mds.json' :
-    (v === VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING) ? 'mini_batch_dictionary_learning.json' :
-    (v === VisualizationEnum.MINI_BATCH_SPARSE_PCA) ? 'mini_batch_sparse_pca.json' :
-    (v === VisualizationEnum.NMF) ? 'nmf.json' :
-    (v === VisualizationEnum.PATHWAYS) ? 'pathways.json' :
-    (v === VisualizationEnum.PCA) ? 'pca.json' :
-    (v === VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS) ? 'quadratic_discriminant_analysis.json)' :
-    (v === VisualizationEnum.SPARSE_PCA) ? 'sparse_pca.json' :
-    (v === VisualizationEnum.SPECTRAL_EMBEDDING) ? 'spectral_embedding.json' :
-    (v === VisualizationEnum.SURVIVAL) ? 'survival.json' :
-    (v === VisualizationEnum.TIMELINES) ? 'timelines.json' :
-    (v === VisualizationEnum.TRUNCATED_SVD) ? 'truncated_svd.json' :
-    (v === VisualizationEnum.TSNE) ? 'tsne.json' :
-    '';
+      (v === VisualizationEnum.CHROMOSOME) ? 'chromosome.json' :
+        (v === VisualizationEnum.DICTIONARY_LEARNING) ? 'dictionary_learning.json' :
+          (v === VisualizationEnum.FA) ? 'factor_analysis.json' :
+            (v === VisualizationEnum.FAST_ICA) ? 'fast_ica.json' :
+              (v === VisualizationEnum.HIC) ? 'force_directed_graph.json' :
+                (v === VisualizationEnum.GENOME) ? 'genome.json' :
+                  (v === VisualizationEnum.DENDOGRAM) ? 'dendogram.json' :
+                    (v === VisualizationEnum.HEATMAP) ? 'heatmap.json' :
+                      (v === VisualizationEnum.HISTOGRAM) ? 'histogram.json' :
+                        (v === VisualizationEnum.INCREMENTAL_PCA) ? 'incremental_pca.json' :
+                          (v === VisualizationEnum.ISOMAP) ? 'isomap.json' :
+                            (v === VisualizationEnum.KERNAL_PCA) ? 'kernal_pca.json' :
+                              (v === VisualizationEnum.LDA) ? 'latent_dirichlet_allocation.json' :
+                                (v === VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS) ? 'linear_discriminant_analysis.json' :
+                                  (v === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? 'locally_linear_embedding.json' :
+                                    (v === VisualizationEnum.MDS) ? 'mds.json' :
+                                      (v === VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING) ? 'mini_batch_dictionary_learning.json' :
+                                        (v === VisualizationEnum.MINI_BATCH_SPARSE_PCA) ? 'mini_batch_sparse_pca.json' :
+                                          (v === VisualizationEnum.NMF) ? 'nmf.json' :
+                                            (v === VisualizationEnum.PATHWAYS) ? 'pathways.json' :
+                                              (v === VisualizationEnum.PCA) ? 'pca.json' :
+                                                (v === VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS) ? 'quadratic_discriminant_analysis.json)' :
+                                                  (v === VisualizationEnum.SPARSE_PCA) ? 'sparse_pca.json' :
+                                                    (v === VisualizationEnum.SPECTRAL_EMBEDDING) ? 'spectral_embedding.json' :
+                                                      (v === VisualizationEnum.SURVIVAL) ? 'survival.json' :
+                                                        (v === VisualizationEnum.TIMELINES) ? 'timelines.json' :
+                                                          (v === VisualizationEnum.TRUNCATED_SVD) ? 'truncated_svd.json' :
+                                                            (v === VisualizationEnum.TSNE) ? 'tsne.json' :
+                                                              '';
 
 
     if (method === '') {
-      return new Promise( (resolve, reject) => { 
+      return new Promise((resolve, reject) => {
         resolve({
           method: 'NA',
           desc: 'Comming Soon',
@@ -221,12 +221,13 @@ export class DataService {
 
           query.toArray().then(result => {
 
-            const cat = fields.filter(v => v.type === 'category').map(f => { 
+            const cat = fields.filter(v => v.type === 'category').map(f => {
               const arr = result.map(v => v[f.field]);
-              const stat = arr.reduce( (p, c) => { 
-                if (!p.hasOwnProperty(c)) { p[c] = 1; } else { p[c] += 1; } 
-                return p; }, {});
-              const stats = Object.keys(stat).map(v => ({label: v, value: stat[v]}))
+              const stat = arr.reduce((p, c) => {
+                if (!p.hasOwnProperty(c)) { p[c] = 1; } else { p[c] += 1; }
+                return p;
+              }, {});
+              const stats = Object.keys(stat).map(v => ({ label: v, value: stat[v] }))
               return Object.assign(f, { stat: stats });
             })
 
@@ -322,7 +323,7 @@ export class DataService {
     });
   }
 
-  getGenesetCategories(): Promise<Array<{c:string, n:string, d:string}>> { 
+  getGenesetCategories(): Promise<Array<{ c: string, n: string, d: string }>> {
     return this.http
       .get('https://s3-us-west-2.amazonaws.com/notitia/reference/genesets.json.gz')
       .map(res => res.json()).toPromise();
@@ -332,17 +333,43 @@ export class DataService {
       .get('https://s3-us-west-2.amazonaws.com/notitia/reference/geneset-' + category.toLowerCase() + '.json.gz')
       .map(res => res.json()).toPromise();
   }
-  getCustomGenesets(database: string): Promise<any>{
+  getCustomGenesets(database: string): Promise<any> {
     return new Promise((resolve, reject) => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
         v.table('genesets').toArray().then(result => {
+          var genesets = result;
+          genesets.unshift({ n: 'Pathways in Cancer', g: [
+            'ABL1', 'AKT1', 'AKT2', 'AKT3', 'APC', 'APC2', 'APPL1', 'AR', 'ARAF', 'ARNT', 'ARNT2', 'AXIN1',
+    'AXIN2', 'BAD', 'BAX', 'BCL2', 'BCL2L1', 'BCR', 'BID', 'BIRC2', 'BIRC3', 'BIRC5', 'BMP2', 'BMP4', 'BRAF', 'BRCA2', 'CASP3',
+    'CASP8', 'CASP9', 'CBL', 'CBLB', 'CBLC', 'CCDC6', 'CCNA1', 'CCND1', 'CCNE1', 'CCNE2', 'CDC42', 'CDH1', 'CDK2', 'CDK4', 'CDK6',
+    'CDKN1A', 'CDKN1B', 'CDKN2A', 'CDKN2B', 'CEBPA', 'CHUK', 'CKS1B', 'COL4A1', 'COL4A2', 'COL4A4', 'COL4A6', 'CREBBP', 'CRK', 'CRKL',
+    'CSF1R', 'CSF2RA', 'CSF3R', 'CTBP1', 'CTBP2', 'CTNNA1', 'CTNNA2', 'CTNNA3', 'CTNNB1', 'CUL2', 'CYCS', 'DAPK1', 'DAPK2', 'DAPK3',
+    'DCC', 'DVL1', 'DVL2', 'DVL3', 'E2F1', 'E2F2', 'E2F3', 'EGF', 'EGFR', 'EGLN1', 'EGLN2', 'EGLN3', 'EP300', 'EPAS1', 'ERBB2', 'ETS1',
+    'FADD', 'FAS', 'FASLG', 'FGF1', 'FGF10', 'FGF11', 'FGF12', 'FGF13', 'FGF14', 'FGF16', 'FGF17', 'FGF18', 'FGF19', 'FGF2', 'FGF20',
+    'FGF21', 'FGF22', 'FGF23', 'FGF3', 'FGF4', 'FGF5', 'FGF6', 'FGF7', 'FGF8', 'FGF9', 'FGFR1', 'FGFR2', 'FGFR3', 'FH', 'FIGF', 'FLT3',
+    'FLT3LG', 'FN1', 'FOS', 'FOXO1', 'FZD1', 'FZD10', 'FZD2', 'FZD3', 'FZD4', 'FZD5', 'FZD6', 'FZD7', 'FZD8', 'FZD9', 'GLI1', 'GLI2',
+    'GLI3', 'GRB2', 'GSK3B', 'GSTP1', 'HDAC1', 'HDAC2', 'HGF', 'HHIP', 'HIF1A', 'HRAS', 'HSP90AA1', 'HSP90AB1', 'HSP90B1', 'IGF1',
+    'IGF1R', 'IKBKB', 'IKBKG', 'IL6', 'IL8', 'ITGA2', 'ITGA2B', 'ITGA3', 'ITGA6', 'ITGAV', 'ITGB1', 'JAK1', 'JUN', 'JUP', 'KIT',
+    'KITLG', 'KLK3', 'KRAS', 'LAMA1', 'LAMA2', 'LAMA3', 'LAMA4', 'LAMA5', 'LAMB1', 'LAMB2', 'LAMB3', 'LAMB4', 'LAMC1', 'LAMC2', 'LAMC3',
+    'LEF1', 'LOC652346', 'LOC652671', 'LOC652799', 'MAP2K1', 'MAP2K2', 'MAPK1', 'MAPK10', 'MAPK3', 'MAPK8', 'MAPK9', 'MAX', 'MDM2',
+    'MECOM', 'MET', 'MITF', 'MLH1', 'MMP1', 'MMP2', 'MMP9', 'MSH2', 'MSH3', 'MSH6', 'MTOR', 'MYC', 'NCOA4', 'NFKB1', 'NFKB2', 'NFKBIA',
+    'NKX3-1', 'NOS2', 'NRAS', 'NTRK1', 'PAX8', 'PDGFA', 'PDGFB', 'PDGFRA', 'PDGFRB', 'PGF', 'PIAS1', 'PIAS2', 'PIAS3', 'PIAS4', 'PIK3CA',
+    'PIK3CB', 'PIK3CD', 'PIK3CG', 'PIK3R1', 'PIK3R2', 'PIK3R3', 'PIK3R5', 'PLCG1', 'PLCG2', 'PLD1', 'PML', 'PPARD', 'PPARG', 'PRKCA',
+    'PRKCB', 'PRKCG', 'PTCH1', 'PTCH2', 'PTEN', 'PTGS2', 'PTK2', 'RAC1', 'RAC2', 'RAC3', 'RAD51', 'RAF1', 'RALA', 'RALB', 'RALBP1',
+    'RALGDS', 'RARA', 'RARB', 'RASSF1', 'RASSF5', 'RB1', 'RBX1', 'RELA', 'RET', 'RHOA', 'RUNX1', 'RUNX1T1', 'RXRA', 'RXRB', 'RXRG',
+    'SHH', 'SKP2', 'SLC2A1', 'SMAD2', 'SMAD3', 'SMAD4', 'SMO', 'SOS1', 'SOS2', 'SPI1', 'STAT1', 'STAT3', 'STAT5A', 'STAT5B', 'STK36',
+    'STK4', 'SUFU', 'TCEB1', 'TCEB2', 'TCF7', 'TCF7L1', 'TCF7L2', 'TFG', 'TGFA', 'TGFB1', 'TGFB2', 'TGFB3', 'TGFBR1', 'TGFBR2', 'TP53',
+    'TPM3', 'TPR', 'TRAF1', 'TRAF2', 'TRAF3', 'TRAF4', 'TRAF5', 'TRAF6', 'VEGFA', 'VEGFB', 'VEGFC', 'VHL', 'WNT1', 'WNT10A', 'WNT10B',
+    'WNT11', 'WNT16', 'WNT2', 'WNT2B', 'WNT3', 'WNT3A', 'WNT4', 'WNT5A', 'WNT5B', 'WNT6', 'WNT7A', 'WNT7B', 'WNT8A', 'WNT8B', 'WNT9A',
+    'WNT9B', 'XIAP', 'ZBTB16'
+          ]})
           resolve(result);
         });
       });
     });
   }
-  createCustomGeneset(database: string, geneset: GeneSet): Promise<any>{
+  createCustomGeneset(database: string, geneset: GeneSet): Promise<any> {
     return new Promise((resolve, reject) => {
       // this.http
       // .get(DataService.API_PATH +
@@ -354,7 +381,7 @@ export class DataService {
       // z_lookup_genemap
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
-        v.table('genesets').add(geneset).then(v => { 
+        v.table('genesets').add(geneset).then(v => {
           resolve(v);
         });
       });
@@ -364,32 +391,32 @@ export class DataService {
     return new Promise((resolve, reject) => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
-        v.table('genesets').where('n').equalsIgnoreCase(geneset.n).delete().then(v => { 
+        v.table('genesets').where('n').equalsIgnoreCase(geneset.n).delete().then(v => {
           resolve(v);
         });
       });
     });
   }
-  getCustomCohorts(database: string): Promise<any>{
+  getCustomCohorts(database: string): Promise<any> {
     return new Promise((resolve, reject) => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
         v.table('cohorts').toArray().then(result => {
           const cohorts = result;
           // if (result[0] === undefined) { result[0] = []; }
-          cohorts.unshift({n:'All Patients', p: []});
+          cohorts.unshift({ n: 'All Patients', pids: [], sids:[] });
           resolve(cohorts);
         });
       });
     });
   }
-  createCustomCohort(database: string, cohort: Cohort): Promise<any>{
+  createCustomCohort(database: string, cohort: Cohort): Promise<any> {
     return new Promise((resolve, reject) => {
       const db = new Dexie('notitia-' + database);
       db.open().then(conn => {
         Promise.all(
-          cohort.conditions.map(condition => { 
-            if (condition.field.type === 'number') { 
+          cohort.conditions.map(condition => {
+            if (condition.field.type === 'number') {
               if (condition.min !== null && condition.max !== null) {
                 return conn.table('patient').where(condition.field.key).between(condition.min, condition.max).toArray();
               }
@@ -400,25 +427,33 @@ export class DataService {
             }
             return conn.table('patient').where(condition.field.key).equalsIgnoreCase(condition.value).toArray();
           })
-      ).then( conditions => { 
-          conditions.forEach( (patients, i) => { 
+        ).then(conditions => {
+          if (!cohort.n.trim().length) { 
+            const d = new Date();
+            cohort.n = d.toLocaleDateString + ' ' + d.toLocaleTimeString()
+          }
+          conditions.forEach((patients, i) => {
             cohort.conditions[i].pids = patients.map(v => v.p);
           });
-          const orGroups = cohort.conditions.reduce( (p, c) => { 
-            if (c.condition === 'where' || c.condition === 'and') { p.push([c]);
-            } else { p[p.length-1].push(c); }
+          const orGroups = cohort.conditions.reduce((p, c) => {
+            if (c.condition === 'where' || c.condition === 'and') {
+              p.push([c]);
+            } else { p[p.length - 1].push(c); }
             return p;
           }, []);
-          const andGroups = orGroups.map(group => group.reduce( (p, c) => { 
-            return Array.from(new Set([...p, ...c.pids])) }, []));
-          const pids = (andGroups.length === 1) ? andGroups[0].pids :
-            Array.from( andGroups.reduce( (p, c) => { const cSet = new Set(c);
-              return new Set([...p].filter( x => cSet.has(x))) }, andGroups.shift()) );
-            cohort.pids = pids;
+          const andGroups = orGroups.map(group => group.reduce((p, c) => {
+            return Array.from(new Set([...p, ...c.pids]))
+          }, []));
+          const pids = (andGroups.length === 1) ? andGroups[0] :
+            Array.from(andGroups.reduce((p, c) => {
+              const cSet = new Set(c);
+              return new Set([...p].filter(x => cSet.has(x)))
+            }, andGroups.shift()));
+          cohort.pids = pids;
           conn.table('patientSampleMap').toArray().then(ps => {
             const pids = new Set(cohort.pids);
             cohort.sids = ps.filter(v => pids.has(v.p)).map(v => v.s);
-          conn.table('cohorts').add(cohort).then(v => { 
+            conn.table('cohorts').add(cohort).then(v => {
               resolve(v);
             });
           });
@@ -430,7 +465,7 @@ export class DataService {
     return new Promise((resolve, reject) => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
-        v.table('cohorts').delete(cohort.n).then(v => { 
+        v.table('cohorts').where('n').equalsIgnoreCase(cohort.n).delete().then(v => {
           resolve(v);
         });
       });
