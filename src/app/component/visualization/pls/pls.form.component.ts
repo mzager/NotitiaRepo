@@ -133,6 +133,8 @@ export class PlsFormComponent {
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
+      patientFilter: [],
+      patientSelect: [],
       molecularTable: [],
       pointData: [],
       pointColor: [],
