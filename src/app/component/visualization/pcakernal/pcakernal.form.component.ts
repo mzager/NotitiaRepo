@@ -143,6 +143,8 @@ export class PcaKernalFormComponent extends AbstractScatterForm {
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
+      patientFilter: [],
+      patientSelect: [],
       table: [],
       pointColor: [],
       pointShape: [],

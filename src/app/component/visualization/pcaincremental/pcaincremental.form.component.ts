@@ -105,6 +105,8 @@ export class PcaIncrementalFormComponent extends AbstractScatterForm {
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
+      patientFilter: [],
+      patientSelect: [],
       table: [],
       pointColor: [],
       pointShape: [],

@@ -148,6 +148,8 @@ export class TsneFormComponent extends AbstractScatterForm  {
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
+      patientFilter: [],
+      patientSelect: [],
       pointData: [],
       pointColor: [],
       pointShape: [],
