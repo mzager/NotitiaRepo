@@ -160,8 +160,8 @@ export class VegaFactory {
             'title': {
                 'text': stat.name,
             },
-            'width': 265,
-            'height': 150,
+            'width': 300,
+            'height': 200,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
             'data': [{
@@ -328,7 +328,7 @@ export class VegaFactory {
                             'signal': 'signal_selected_myvalue'
                         },
                         'fillOpacity': {
-                            'value': 0.4
+                            'value': 0.2
                         },
                         'fontSize': {
                             'value': 10,
@@ -391,10 +391,10 @@ export class VegaFactory {
                     'legend': {
                         'update': {
                             'x': {
-                                'value': 130
+                                'value': 150
                             },
                             'y': {
-                                'value': 20
+                                'value': 0
                             }
                         }
                     }
