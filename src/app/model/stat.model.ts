@@ -160,8 +160,8 @@ export class VegaFactory {
             'title': {
                 'text': stat.name,
             },
-            'width': 265,
-            'height': 150,
+            'width': 300,
+            'height': 200,
             'padding': 0,
             'autosize': { 'type': 'fit', 'resize': false },
             'data': [{
@@ -328,7 +328,7 @@ export class VegaFactory {
                             'signal': 'signal_selected_myvalue'
                         },
                         'fillOpacity': {
-                            'value': 0.4
+                            'value': 0.2
                         },
                         'fontSize': {
                             'value': 10,
@@ -391,10 +391,10 @@ export class VegaFactory {
                     'legend': {
                         'update': {
                             'x': {
-                                'value': 130
+                                'value': 150
                             },
                             'y': {
-                                'value': 20
+                                'value': 0
                             }
                         }
                     }
@@ -1032,9 +1032,11 @@ export class StatFactory {
         // Sparse PCA Stats Array
         const stats = [
             // Single Stats
-            // new StatKeyValues('', ([
-            //    { mylabel: 'Iter:', myvalue: data.result.iter.toFixed(2) },
-            // ])),
+            new StatKeyValues('', ([
+               { mylabel: 'nIter:', myvalue: data.result.iter },
+               { mylabel: 'Components:', myvalue: data.result.components },
+               { mylabel: 'Error:', myvalue: data.result.error }
+            ])),
             // One Dimensional Stats
             // new StatOneD('Error', this.formatError(data.result.error)),
             // Two Dimensional Stats
@@ -1061,7 +1063,7 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('', ([
-                { mylabel: 'nIter:', myvalue: data.result.nIter.toString() },
+                { mylabel: 'nIter:', myvalue: data.result.nIter.toString() }
             ])),
             // One Dimensional Stats
             // new StatOneD('Error', this.formatError(data.result.error.splice(0, 3))),
@@ -1159,7 +1161,9 @@ export class StatFactory {
     private createFastIca(data: GraphData): Array<Stat> {
         // Fast Ica Stats Array
         const stats = [
-            // Single Stats
+            new StatKeyValues('', ([
+                { mylabel: 'nIter:', myvalue: data.result.nIter.toString() }
+            ]))
             // One Dimensional Stats
             // Two Dimensional Stats
         ];
