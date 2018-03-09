@@ -106,7 +106,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
         })
       });
     }
-
+  
     const topTierVisualization = this.visualizationOptions.find(v => v.value === value.visualization);
     if (topTierVisualization) {
       this.methodOption = null;
@@ -117,36 +117,15 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       this.visualizationOption = secondTierVisualization.value;
       this.methodOptions = secondTierVisualization.methodOptions;
       this.methodOption = value.visualization;
-      // this.visualizationOption =
-
-      // debugger;
     }
-
-    // debugger;
-    // if (visOption === undefined) {
-    //   // const vizOption = this.visualizationOptions.filter(v => v.methodOptions)
-    //   //   .filter( v => v.methodOptions.find(mo => mo.value == value.visualization ))[0];
-    //   //   debugger;
-    //   // this.visualizationOption = vizOption.value;
-    //   // this.methodOptions = vizOption.methodOptions;
-    //   // this.methodOption = value.visualization;
-
-    // } else {
-    //   this.visualizationOption = value.visualization;
-    //   this.methodOptions = [];
-    // }
   }
 
 
 
-<<<<<<< HEAD
-  visualizationOptions: Array<{ value: number, label: string }>;
-=======
   visualizationOptions: Array<any>
   visualizationOption: any;
   methodOptions: Array<any>;
   methodOption: any;
->>>>>>> abd1571874523c3e02a20a4a382aef7359b5a25c
 
   toggleClick(): void {
 
@@ -161,7 +140,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   helpClick(): void {
     this.help.emit(this.config);
   }
-
   onCohortChange($event: Event) {
 
   }
@@ -319,10 +297,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.configChange.emit(value);
   }
 
-
-
-
-
   ngAfterViewInit(): void { }
 
   ngOnDestroy(): void { }
@@ -347,29 +321,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       { value: VisualizationEnum.SURVIVAL, label: 'Survival' },
       { value: VisualizationEnum.TIMELINES, label: 'Timelines' },
       { value: VisualizationEnum.SPREADSHEET, label: 'Spreadsheet' },
-<<<<<<< HEAD
-           // Decomposition
-           { value: VisualizationEnum.DICTIONARY_LEARNING, label: 'Dictionary Learning' },
-           // { value: VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING, label: 'Dictionary Learning - Mini Batch ' },
-           { value: VisualizationEnum.FA, label: 'Factor Analysis' },
-           { value: VisualizationEnum.FAST_ICA, label: 'Fast ICA' },
-           { value: VisualizationEnum.LDA, label: 'Latent Dirichlet Allocation' },
-           { value: VisualizationEnum.NMF, label: 'Non-Negative Matrix Factorization' },
-           { value: VisualizationEnum.PCA, label: 'PCA' },
-           { value: VisualizationEnum.INCREMENTAL_PCA, label: 'PCA - Incremental' },
-           { value: VisualizationEnum.KERNAL_PCA, label: 'PCA - Kernel' },
-           { value: VisualizationEnum.SPARSE_PCA, label: 'PCA - Sparse' },
-           { value: VisualizationEnum.MINI_BATCH_SPARSE_PCA, label: 'PCA - Sparse - Mini Batch' },
-           { value: VisualizationEnum.TRUNCATED_SVD, label: 'Truncated SVD' },
-           // { value: VisualizationEnum.SPARSE_CODER, label: 'Sparse Coder'},
-           // Manifold learning
-           { value: VisualizationEnum.ISOMAP, label: 'Isomap' },
-           { value: VisualizationEnum.LOCALLY_LINEAR_EMBEDDING, label: 'Locally Linear Embedding' },
-           { value: VisualizationEnum.MDS, label: 'MultiDimensional Scaling' },
-           { value: VisualizationEnum.SPECTRAL_EMBEDDING, label: 'Spectral Embedding' },
-           { value: VisualizationEnum.TSNE, label: 'T-SNE' },
-
-=======
       { value: VisualizationEnum.DECOMPOSITION, label: 'Decomposition', methodOptions: [
           { value: VisualizationEnum.DICTIONARY_LEARNING, label: 'Dictionary Learning' },
           // { value: VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING, label: 'Dictionary Learning - Mini Batch ' },
@@ -397,21 +348,16 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       // Decomposition
 
 
-
       // Manifold learning
      
->>>>>>> abd1571874523c3e02a20a4a382aef7359b5a25c
 
       // Discriminant Analysis
       // { value: VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS, label: 'Linear Discriminat Analysis' },
       // { value: VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS, label: 'Quadratic Discriminant Analysis' },
-
       // Random Projection
       // Gaussian, Sparse
-
       // Cross Decomposition
       // CCA, PLSCanonical, PLSRegression
-
       // SVM
       // LinearSVC, LinearSVR, NuSVC, NuSVR, OneClassSvm, SVC, SVR
       // { value: VisualizationEnum.PLS, label: 'Partial Least Squares'},
@@ -420,8 +366,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       // { value: VisualizationEnum.DE, label: 'Gene Set Enrichmant '},
       // { value: VisualizationEnum.DE, label: 'Differential Expression '},
       // { value: VisualizationEnum.PARALLEL_COORDS, label: 'Parallel Coordinates'},
-
     ];
-
   }
 }

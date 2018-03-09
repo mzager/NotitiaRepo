@@ -87,8 +87,7 @@
     height: 70px;
     color: #fff !important;
     background: #fafafa;
-    border: 1px solid #eee; // -webkit-box-shadow: 0px 2px 4px #ddd;
-    // box-shadow: 0px 2px 4px #ddd;
+    border: 1px solid #eee;
     a {
         transform-origin: 50% 50%;
         transform: rotate(-90deg);
@@ -104,10 +103,6 @@
     span {
         transform: rotate(-90deg);
     }
-}
-
-.graphPanelCollapsedButton {
-    // right: -30px;
 }
 
 .leftPanel {
