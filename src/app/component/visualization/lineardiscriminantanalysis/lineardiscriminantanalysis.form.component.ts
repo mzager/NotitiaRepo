@@ -131,6 +131,8 @@ export class LinearDiscriminantAnalysisFormComponent extends AbstractScatterForm
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
+      patientFilter: [],
+      patientSelect: [],
       table: [],
       pointColor: [],
       pointShape: [],

@@ -139,6 +139,8 @@ export class SpectralEmbeddingFormComponent extends AbstractScatterForm  {
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
+      patientFilter: [],
+      patientSelect: [],
       table: [],
       pointColor: [],
       pointShape: [],
