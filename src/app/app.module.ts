@@ -96,15 +96,14 @@ import { NouisliderModule } from 'ng2-nouislider';
 import { SummaryComponent } from './component/workspace/data-panel/summary/summary.component';
 import { DendogramFormComponent } from './component/visualization/dendogram/dendogram.form.component';
 import { SettingsPanelComponent } from './component/workspace/settings-panel/settings-panel.component';
+import { LoaderComponent } from './component/workspace/loader/loader.component';
 @NgModule({
   declarations: [
     AppComponent,
     WorkspaceComponent,
     ApplicationBarComponent,
-    ToolBarComponent,
     FilePanelComponent,
     EdgePanelComponent,
-    ColorPanelComponent,
     LegendPanelComponent,
     GraphPanelComponent,
     GenesetPanelComponent,
@@ -112,7 +111,6 @@ import { SettingsPanelComponent } from './component/workspace/settings-panel/set
     DataPanelComponent,
     CohortPanelComponent,
     ChartComponent,
-    QueryPanelComponent,
     DictionaryLearningFormComponent,
     LdaFormComponent,
     NmfFormComponent,
@@ -157,12 +155,12 @@ import { SettingsPanelComponent } from './component/workspace/settings-panel/set
     HelpPanelComponent,
     SummaryComponent,
     ClusteringAlgorithmPanelComponent,
-    QueryBuilderComponent,
     LandingPanelComponent,
     AnalysisPanelComponent,
     SettingsPanelComponent,
     AboutPanelComponent,
-    CitationsPanelComponent
+    CitationsPanelComponent,
+    LoaderComponent
   ],
   entryComponents: [
   ],

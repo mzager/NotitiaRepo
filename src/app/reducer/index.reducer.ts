@@ -57,7 +57,6 @@ export function reducer(state: State, action: any) {
 export const getQueryState = (state: State) => state.query;
 export const getQueryData = createSelector(getQueryState, fromQuery.getQueryData);
 
-
 /**
  * Layout Reducer
  */
@@ -65,8 +64,8 @@ export const getLayoutState = (state: State) => state.layout;
 export const getLayoutGraphPanelAState = createSelector(getLayoutState, fromLayout.getGraphPanelAState);
 export const getLayoutGraphPanelBState = createSelector(getLayoutState, fromLayout.getGraphPanelBState);
 export const getLayoutModalPanelState = createSelector(getLayoutState, fromLayout.getModalPanelState);
+export const getLayoutLoaderState = createSelector( getLayoutState, fromLayout.getLoaderState);
 export const getWorkspaceConfig = createSelector( getLayoutState, (state: fromLayout.State) => state.workspaceConfig );
-
 
 /**
  * Graph Reducers
