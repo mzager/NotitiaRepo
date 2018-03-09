@@ -148,6 +148,8 @@ export class SomFormComponent {
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
+      patientFilter: [],
+      patientSelect: [],
       molecularTable: [],
       pointData: [],
       pointColor: [],

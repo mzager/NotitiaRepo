@@ -36,32 +36,76 @@ export class ComputeWorkerUtil {
     }
 
 
-    generateCacheKey(config: Object): string {
+    getDataMatrix(config: GraphConfig): Promise<any> {
+        return new Promise( (resolve, reject) => { 
+            this.openDatabaseData(config.database).then( connection => { 
+                const map = config.table.map.replace(/ /gi, '');
+                const tbl = config.table.tbl.replace(/ /gi, '');
+                Promise.all([
+                    (config.sampleFilter.length) ? 
+                        connection.table(map).where('s').startsWithAnyOfIgnoreCase(config.sampleFilter).toArray() :
+                        connection.table(map).toArray(),
+                    (config.markerFilter) ? 
+                        connection.table(tbl).where('m').anyOfIgnoreCase(config.markerFilter).toArray() :
+                        connection.table(tbl).toArray()
+                ]).then( results => { 
+                    resolve({ 
+                        samples: results[0].map(v => v.s),
+                        markers: results[1].map(v => v.m),
+                        data: (config.entity === EntityTypeEnum.GENE) ? 
+                            results[1].map( m => results[0].map(s => m.d[s.i] )) :
+                            results[0].map( s => results[1].map(m => m.d[s.i] ))
 
-        const keys = Object.keys(config).filter(v => {
-            switch (v) {
-                case 'dirtyFlag':
-                case 'visualization':
-                case 'graph':
-                case 'sampleSelect':
-                case 'markerSelect':
-                case 'pointColor':
-                case 'pointShape':
-                case 'pointSize':
-                case 'pointIntersect':
-                    return false;
-            }
-            return true;
+                    });
+                })
+            });
         });
-        const str = keys.reduce((p, c) => {
-            p += JSON.stringify(config[c]);
-            return p;
-        }, '');
-        const uuid = uuids(str);
-        return uuid;
     }
 
+
+    getPatientDataMap(config: GraphConfig, field: DataField): Promise<any> {
+        return new Promise( (resolve, reject) => { 
+            const tbl = field.tbl.replace(/ /gi, '');
+            this.openDatabaseData(config.database).then( connection => { 
+                debugger;
+                ((config.patientFilter.length) ? 
+                    connection.table(tbl).where('p').anyOfIgnoreCase(config.patientFilter).toArray() :
+                    connection.table(tbl).toArray())
+                    .then( patients => { 
+                        const values = patients.map(patient => ({ key: patient.p, value: patient[field.key] }));
+                        debugger;
+                    })
+            });
+        });
+    }
+
+    getDataMap(config: GraphConfig, field: DataField, matrix: any): Promise<any> {
+        
+         
+
+            // Bail if field == Undefined
+            switch (field.ctype){
+                case CollectionTypeEnum.UNDEFINED:
+                    return new Promise( (resolve, reject) => { resolve(); });
+                case CollectionTypeEnum.PATIENT:
+                    return this.getPatientDataMap(config, field);
+                default:
+                    return new Promise( (resolve, reject) => { resolve(); });
+            }
+            
+      
+    }
+
+    
+
+
+
+// ORIG
+
+
+
     processShapeColorSizeIntersect(config: GraphConfig, worker: DedicatedWorkerGlobalScope) {
+
 
         if ((config.dirtyFlag & DirtyEnum.COLOR) > 0) {
             worker.util.getColorMap(config.entity, config.markerFilter, config.sampleFilter, config.database, config.pointColor).then(
@@ -471,6 +515,7 @@ export class ComputeWorkerUtil {
         });
     }
 
+    
 
     getColorMap(entity: EntityTypeEnum, markers: Array<string>, samples: Array<string>, db: string, field: DataField): Promise<any> {
         return new Promise((resolve, reject) => {

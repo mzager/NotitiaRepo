@@ -134,6 +134,8 @@ export class DaFormComponent {
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
+      patientFilter: [],
+      patientSelect: [],
       molecularTable: [],
       pointData: [],
       pointColor: [],

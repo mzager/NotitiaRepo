@@ -151,6 +151,8 @@ export class IsoMapFormComponent extends AbstractScatterForm {
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
+      patientFilter: [],
+      patientSelect: [],
       table: [],
       pointColor: [],
       pointShape: [],

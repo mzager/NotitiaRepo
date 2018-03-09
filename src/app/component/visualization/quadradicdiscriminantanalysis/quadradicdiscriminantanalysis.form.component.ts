@@ -98,6 +98,8 @@ export class QuadradicDiscriminantAnalysisFormComponent extends AbstractScatterF
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
+      patientFilter: [],
+      patientSelect: [],
       table: [],
       pointColor: [],
       pointShape: [],

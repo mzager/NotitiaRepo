@@ -113,6 +113,8 @@ export class TruncatedSvdFormComponent extends AbstractScatterForm {
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
+      patientFilter: [],
+      patientSelect: [],
       table: [],
       pointColor: [],
       pointShape: [],

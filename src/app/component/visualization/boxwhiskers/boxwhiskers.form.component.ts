@@ -150,6 +150,8 @@ export class BoxWhiskersFormComponent {
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
+      patientFilter: [],
+      patientSelect: [],
       continuousVariable: [],
       categoricalVariable1: [],
       categoricalVariable2: [],

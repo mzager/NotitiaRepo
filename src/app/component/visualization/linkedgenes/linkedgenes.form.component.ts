@@ -98,6 +98,8 @@ export class LinkedGeneFormComponent {
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
+      patientFilter: [],
+      patientSelect: [],
       table: [],
       pointColor: [],
       pointShape: [],

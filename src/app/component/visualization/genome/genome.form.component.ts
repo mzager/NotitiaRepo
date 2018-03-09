@@ -100,6 +100,8 @@ export class GenomeFormComponent {
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
+      patientFilter: [],
+      patientSelect: [],
       table: [],
       pointColor: [],
       pointShape: [],
