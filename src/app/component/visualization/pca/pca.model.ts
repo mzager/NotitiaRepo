@@ -22,7 +22,7 @@ export class PcaConfigModel extends GraphConfig {
         this.label = 'PCA';
     }
 
-    n_components = 3;
+    n_components = 10;
     dimension = DimensionEnum.THREE_D;
     copy: Boolean = true;
     whiten: Boolean = false;
@@ -30,6 +30,9 @@ export class PcaConfigModel extends GraphConfig {
     tol = 0.0;
     iterated_power = 'auto';
     random_state = 'None';
+    pcx = 1;
+    pcy = 2;
+    pcz = 3;
 }
 
 
