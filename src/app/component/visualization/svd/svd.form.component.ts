@@ -167,6 +167,8 @@ export class SvdFormComponent {
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
+      patientFilter: [],
+      patientSelect: [],
       molecularTable: [],
       pointData: [],
       pointColor: [],

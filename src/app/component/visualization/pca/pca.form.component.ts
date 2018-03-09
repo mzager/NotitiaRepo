@@ -143,6 +143,8 @@ export class PcaFormComponent extends AbstractScatterForm {
           markerSelect: [],
           sampleFilter: [],
           sampleSelect: [],
+          patientFilter: [],
+          patientSelect: [],
           table: [],
           pointColor: [],
           pointShape: [],
@@ -160,7 +162,7 @@ export class PcaFormComponent extends AbstractScatterForm {
           pcy: [],
           pcz: []
     });
-    
+
     this.registerFormChange();
   }
 }

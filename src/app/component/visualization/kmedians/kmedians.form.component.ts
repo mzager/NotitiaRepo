@@ -140,6 +140,8 @@ export class KmedianFormComponent {
       markerSelect: [],
       sampleFilter: [],
       sampleSelect: [],
+      patientFilter: [],
+      patientSelect: [],
       molecularTable: [],
       pointData: [],
       pointColor: [],
