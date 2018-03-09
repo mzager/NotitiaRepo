@@ -86,11 +86,6 @@
     ],
     "citations": [
         {
-            "name": "Scikit-learn: Machine Learning in Python",
-            "desc": "Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.",
-            "url": "http://www.jmlr.org/papers/v12/pedregosa11a.html"
-        },
-        {
             "name": "For n_components == ‘mle’",
             "desc": "This class uses the method of Thomas P. Minka: Automatic Choice of Dimensionality for PCA. NIPS 2000: 598-604",
             "url": "https://papers.nips.cc/paper/1853-automatic-choice-of-dimensionality-for-pca.pdf"
