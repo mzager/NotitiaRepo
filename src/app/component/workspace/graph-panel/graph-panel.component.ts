@@ -120,8 +120,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-
-
   visualizationOptions: Array<any>
   visualizationOption: any;
   methodOptions: Array<any>;
@@ -141,16 +139,20 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.help.emit(this.config);
   }
   onCohortChange($event: Event) {
+    debugger;
+    $event.target['value']
     const selected = this.cohorts.find(v => v.n === $event.target['value']);
     this.config.patientFilter = selected.pids;
     this.config.sampleFilter = selected.sids;
-    this.config.dirtyFlag = DirtyEnum.LAYOUT & DirtyEnum.COLOR & DirtyEnum.SHAPE & DirtyEnum.SIZE & DirtyEnum.INTERSECT;
+    this.config.dirtyFlag = DirtyEnum.LAYOUT;
     this.configChange.emit(this.config);
   }
   onGenesetChange($event: Event) {
+    debugger;
+    $event.target['value']
     const selected = this.genesets.find(v => v.n === $event.target['value']);
     this.config.markerFilter = selected.g;
-    this.config.dirtyFlag = DirtyEnum.LAYOUT & DirtyEnum.COLOR & DirtyEnum.SHAPE & DirtyEnum.SIZE & DirtyEnum.INTERSECT;
+    this.config.dirtyFlag = DirtyEnum.LAYOUT;
     this.configChange.emit(this.config);
   }
 

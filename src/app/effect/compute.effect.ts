@@ -1,3 +1,4 @@
+import { LoaderHideAction } from './../action/layout.action';
 import { UnsafeAction } from './../action/unsafe.action';
 import { boxwhiskersCompute } from './../component/visualization/boxwhiskers/boxwhiskers.compute';
 import { GraphData } from './../model/graph-data.model';
@@ -122,9 +123,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.fa(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new FaCompleteAction({ config: result.config, data: result.data }));
+        .mergeMap(result => {
+          return [(result === null) ? new NullDataAction() :
+            new FaCompleteAction({ config: result.config, data: result.data }),
+            new LoaderHideAction()];
         });
     });
 
@@ -133,9 +135,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.mds(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new MdsCompleteAction({ config: result.config, data: result.data }));
+        .mergeMap(result => {
+          return [(result === null) ? new NullDataAction() :
+            new MdsCompleteAction({ config: result.config, data: result.data }),
+            new LoaderHideAction()];
         });
     });
 
@@ -144,9 +147,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.miniBatchDictionaryLearning(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new MiniBatchDictionaryLearningCompleteAction({ config: result.config, data: result.data }));
+      .mergeMap(result => {
+        return [(result === null) ? new NullDataAction() :
+            new MiniBatchDictionaryLearningCompleteAction({ config: result.config, data: result.data }),
+            new LoaderHideAction()];
         });
     });
 
@@ -155,9 +159,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.miniBatchSparsePca(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new MiniBatchSparsePcaCompleteAction({ config: result.config, data: result.data }));
+      .mergeMap(result => {
+        return [(result === null) ? new NullDataAction() :
+            new MiniBatchSparsePcaCompleteAction({ config: result.config, data: result.data }),
+            new LoaderHideAction()];
         });
     });
 
@@ -166,9 +171,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.linearDiscriminantAnalysis(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new LinearDiscriminantAnalysisCompleteAction({ config: result.config, data: result.data }));
+      .mergeMap(result => {
+        return [(result === null) ? new NullDataAction() :
+            new LinearDiscriminantAnalysisCompleteAction({ config: result.config, data: result.data }),
+            new LoaderHideAction()];
         });
     });
     @Effect() loadQuadraticDiscriminantAnalysis: Observable<any> = this.actions$
@@ -176,9 +182,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.linearDiscriminantAnalysis(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new QuadraticDiscriminantAnalysisCompleteAction({ config: result.config, data: result.data }));
+      .mergeMap(result => {
+        return [(result === null) ? new NullDataAction() :
+            new QuadraticDiscriminantAnalysisCompleteAction({ config: result.config, data: result.data }),
+            new LoaderHideAction()];
         });
     });
 
@@ -187,9 +194,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.tsne(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new TsneCompleteAction({ config: result.config, data: result.data }));
+      .mergeMap(result => {
+        return [(result === null) ? new NullDataAction() :
+            new TsneCompleteAction({ config: result.config, data: result.data }),
+            new LoaderHideAction()];
         });
     });
 
@@ -198,9 +206,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.pca(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new PcaCompleteAction({ config: result.config, data: result.data }));
+      .mergeMap(result => {
+        return [(result === null) ? new NullDataAction() :
+            new PcaCompleteAction({ config: result.config, data: result.data }),
+            new LoaderHideAction()];
         });
     });
 
@@ -209,9 +218,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.pathways(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new PathwaysCompleteAction({ config: result.config, data: result.data }));
+      .mergeMap(result => {
+        return [(result === null) ? new NullDataAction() :
+            new PathwaysCompleteAction({ config: result.config, data: result.data }),
+            new LoaderHideAction()];
         });
     });
 
@@ -221,9 +231,10 @@ export class ComputeEffect {
     .switchMap(payload => {
       debugger
       return this.computeService.survival(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new SurvivalCompleteAction({ config: result.config, data: result.data }));
+      .mergeMap(result => {
+        return [(result === null) ? new NullDataAction() :
+            new SurvivalCompleteAction({ config: result.config, data: result.data }),
+            new LoaderHideAction()];
         });
     });
 
@@ -232,9 +243,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.pca(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new SomCompleteAction({ config: result.config, data: result.data }));
+      .mergeMap(result => {
+        return [(result === null) ? new NullDataAction() :
+            new SomCompleteAction({ config: result.config, data: result.data }),
+            new LoaderHideAction()];
         });
     });
 
@@ -243,9 +255,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.chromosome(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new ChromosomeCompleteAction({ config: result.config, data: result.data }));
+      .mergeMap(result => {
+        return [(result === null) ? new NullDataAction() :
+            new ChromosomeCompleteAction({ config: result.config, data: result.data }),
+            new LoaderHideAction()];
         });
     });
 
@@ -254,9 +267,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.genome(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new GenomeCompleteAction({ config: result.config, data: result.data }));
+      .mergeMap(result => {
+        return [(result === null) ? new NullDataAction() :
+            new GenomeCompleteAction({ config: result.config, data: result.data }),
+            new LoaderHideAction()];
         });
     });
 
@@ -265,9 +279,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.timelines(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new TimelinesCompleteAction({ config: result.config, data: result.data }));
+      .mergeMap(result => {
+        return [(result === null) ? new NullDataAction() :
+            new TimelinesCompleteAction({ config: result.config, data: result.data }),
+            new LoaderHideAction()];
         });
     });
 
@@ -276,9 +291,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.heatmap(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new HeatmapCompleteAction({ config: result.config, data: result.data }));
+      .mergeMap(result => {
+        return [(result === null) ? new NullDataAction() :
+            new HeatmapCompleteAction({ config: result.config, data: result.data }),
+            new LoaderHideAction()];
         });
     });
   
@@ -287,9 +303,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.dendogram(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new DendogramCompleteAction({ config: result.config, data: result.data }));
+      .mergeMap(result => {
+        return [(result === null) ? new NullDataAction() :
+            new DendogramCompleteAction({ config: result.config, data: result.data }),
+            new LoaderHideAction()];
         });
     });
 
@@ -298,9 +315,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.boxWhiskers(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new BoxWhiskersCompleteAction({ config: result.config, data: result.data }));
+      .mergeMap(result => {
+        return [(result === null) ? new NullDataAction() :
+            new BoxWhiskersCompleteAction({ config: result.config, data: result.data}),
+            new LoaderHideAction()];
         });
     });
 
@@ -309,9 +327,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.boxWhiskers(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new ParallelCoordsCompleteAction({ config: result.config, data: result.data }));
+      .mergeMap(result => {
+        return [(result === null) ? new NullDataAction() :
+            new ParallelCoordsCompleteAction({ config: result.config, data: result.data}),
+            new LoaderHideAction()];
         });
     });
 
@@ -320,9 +339,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.linkedGene(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new LinkedGeneCompleteAction({ config: result.config, data: result.data }));
+      .mergeMap(result => {
+        return [(result === null) ? new NullDataAction() :
+            new LinkedGeneCompleteAction({ config: result.config, data: result.data}),
+            new LoaderHideAction()];
         });
     });
 
@@ -331,9 +351,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.hic(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new HicCompleteAction({ config: result.config, data: result.data }));
+      .mergeMap(result => {
+        return [(result === null) ? new NullDataAction() :
+            new HicCompleteAction({ config: result.config, data: result.data }),
+            new LoaderHideAction()];
         });
     });
 
@@ -342,9 +363,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.dictionaryLearning(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new DictionaryLearningCompleteAction({ config: result.config, data: result.data }));
+      .mergeMap(result => {
+        return [(result === null) ? new NullDataAction() :
+            new DictionaryLearningCompleteAction({ config: result.config, data: result.data}),
+            new LoaderHideAction()];
         });
     });
 
@@ -353,9 +375,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.truncatedSvd(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new TruncatedSvdCompleteAction({ config: result.config, data: result.data }));
+      .mergeMap(result => {
+        return [(result === null) ? new NullDataAction() :
+            new TruncatedSvdCompleteAction({ config: result.config, data: result.data }),
+            new LoaderHideAction()];
         });
     });
 
@@ -364,9 +387,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.fastIca(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new FastIcaCompleteAction({ config: result.config, data: result.data }));
+      .mergeMap(result => {
+        return [(result === null) ? new NullDataAction() :
+            new FastIcaCompleteAction({ config: result.config, data: result.data}),
+            new LoaderHideAction()];
         });
     });
 
@@ -375,9 +399,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.lda(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new LdaCompleteAction({ config: result.config, data: result.data }));
+      .mergeMap(result => {
+        return [(result === null) ? new NullDataAction() :
+            new LdaCompleteAction({ config: result.config, data: result.data}),
+            new LoaderHideAction()];
         });
     });
 
@@ -386,9 +411,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.nmf(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new NmfCompleteAction({ config: result.config, data: result.data }));
+      .mergeMap(result => {
+        return [(result === null) ? new NullDataAction() :
+            new NmfCompleteAction({ config: result.config, data: result.data }),
+            new LoaderHideAction()];
         });
     });
 
@@ -397,9 +423,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.nmf(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new LocalLinearEmbeddingCompleteAction({ config: result.config, data: result.data }));
+        .mergeMap(result => {
+          return [(result === null) ? new NullDataAction() :
+            new LocalLinearEmbeddingCompleteAction({ config: result.config, data: result.data }),
+            new LoaderHideAction()];
         });
     });
 
@@ -408,9 +435,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.isoMap(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new IsoMapCompleteAction({ config: result.config, data: result.data }));
+        .mergeMap(result => {
+          return [(result === null) ? new NullDataAction() :
+            new IsoMapCompleteAction({ config: result.config, data: result.data }),
+            new LoaderHideAction()];
         });
     });
 
@@ -419,9 +447,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.spectralEmbedding(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new SpectralEmbeddingCompleteAction({ config: result.config, data: result.data }));
+        .mergeMap(result => {
+          return [(result === null) ? new NullDataAction() :
+            new SpectralEmbeddingCompleteAction({ config: result.config, data: result.data }),
+            new LoaderHideAction() ];
         });
     });
 
@@ -430,9 +459,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.pcaIncremental(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new PcaIncrementalCompleteAction({ config: result.config, data: result.data }));
+        .mergeMap(result => {
+          return [(result === null) ? new NullDataAction() :
+            new PcaIncrementalCompleteAction({ config: result.config, data: result.data }),
+            new LoaderHideAction()];
         });
     });
 
@@ -441,9 +471,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.pcaKernal(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new PcaKernalCompleteAction({ config: result.config, data: result.data }));
+        .mergeMap(result => {
+          return [(result === null) ? new NullDataAction() :
+            new PcaKernalCompleteAction({ config: result.config, data: result.data }),
+            new LoaderHideAction()];
         });
     });
 
@@ -452,9 +483,10 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService.pcaSparse(payload['config'])
-        .switchMap(result => {
-          return Observable.of((result === null) ? new NullDataAction() :
-            new PcaSparseCompleteAction({ config: result.config, data: result.data }));
+        .mergeMap(result => {
+          return [(result === null) ? new NullDataAction() :
+            new PcaSparseCompleteAction({ config: result.config, data: result.data }),
+            new LoaderHideAction()];
         });
     });
 
