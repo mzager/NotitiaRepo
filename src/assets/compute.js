@@ -20919,24 +20919,6 @@ var ComputeWorkerUtil = /** @class */ (function () {
             0x004d40, 0x1b5e20, 0x33691e, 0x827717, 0xf57f17, 0xff6f00, 0xe65100, 0xbf360c, 0x3e2723,
             0xf44336, 0xe91e63, 0x9c27b0, 0x673ab7, 0x3f51b5, 0x2196f3, 0x03a9f4, 0x00bcd4, 0x009688,
             0x4caf50, 0x8bc34a, 0xcddc39, 0xffeb3b, 0xffc107, 0xff9800, 0xff5722, 0x795548];
-        this.loadData = function (dataKey) {
-            return new Promise(function (resolve, reject) {
-                // // Only connect once
-                // if (this.pouchDB === null) {
-                //     this.pouchDB = new PouchDB['default']('Notitia', { adapter: 'idb' });
-                // }
-                // // If data key already in memory, return it...
-                // if (this.dataKey === dataKey) {
-                //     resolve(this.data);
-                //     return;
-                // }
-                // this.pouchDB.get(dataKey).then(v => {
-                //     this.dataKey = dataKey;
-                //     this.data = v;
-                //     resolve(v);
-                // });
-            });
-        };
         this.createScale = function (range, domain) {
             var domainMin = domain[0];
             var domainMax = domain[1];
@@ -20946,18 +20928,21 @@ var ComputeWorkerUtil = /** @class */ (function () {
                 return rangeMin + (rangeMax - rangeMin) * ((value - domainMin) / (domainMax - domainMin));
             };
         };
-        this.scale3d = function (data) {
+        this.scale3d = function (data, i0, i1, i2) {
+            if (i0 === void 0) { i0 = 0; }
+            if (i1 === void 0) { i1 = 1; }
+            if (i2 === void 0) { i2 = 2; }
             var scale = _this.createScale([-300, 300], data.reduce(function (p, c) {
-                p[0] = Math.min(p[0], c[0]);
-                p[0] = Math.min(p[0], c[1]);
-                p[0] = Math.min(p[0], c[2]);
-                p[1] = Math.max(p[1], c[0]);
-                p[1] = Math.max(p[1], c[1]);
-                p[1] = Math.max(p[1], c[2]);
+                p[0] = Math.min(p[0], c[i0]);
+                p[0] = Math.min(p[0], c[i1]);
+                p[0] = Math.min(p[0], c[i2]);
+                p[1] = Math.max(p[1], c[i0]);
+                p[1] = Math.max(p[1], c[i1]);
+                p[1] = Math.max(p[1], c[i2]);
                 return p;
             }, [Infinity, -Infinity]));
             // Only Scale First 3 Elements Needed For Rendering
-            return data.map(function (v) { return [scale(v[0]), scale(v[1]), scale(v[2])]; });
+            return data.map(function (v) { return [scale(v[i0]), scale(v[i1]), scale(v[i2])]; });
         };
     }
     ComputeWorkerUtil.prototype.generateCacheKey = function (config) {
@@ -59477,7 +59462,7 @@ exports.pcaCompute = function (config, worker) {
             ]).then(function (result) {
                 var psMap = result[0].reduce(function (p, c) { p[c.s] = c.p; return p; }, {});
                 var data = result[1];
-                var resultScaled = worker.util.scale3d(data.result);
+                var resultScaled = worker.util.scale3d(data.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
                 worker.postMessage({
                     config: config,
                     data: {

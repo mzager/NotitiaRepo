@@ -34,7 +34,7 @@ export const pcaCompute = (config: PcaConfigModel, worker: DedicatedWorkerGlobal
                 ]).then(result => {
                     const psMap = result[0].reduce((p, c) => { p[c.s] = c.p; return p; }, {});
                     const data = result[1];
-                    const resultScaled = worker.util.scale3d(data.result);
+                    const resultScaled = worker.util.scale3d(data.result, config.pcx-1, config.pcy-1, config.pcz-1);
                     worker.postMessage({
                         config: config,
                         data: {
