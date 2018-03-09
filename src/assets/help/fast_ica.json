@@ -1,7 +1,7 @@
 {
     "method": "Fast ICA",
     "summary": "Is an efficient and popular algorithm for independent component analysis, which is probably the most widely used algorithm for performing independent component analysis, a recently developed variant of factor analysis that is completely estimable unlike classical methods, and able to perform blind source separation",
-    "desc": "<span class='help-method'>FastICA: a fast algorithm for Independent Component Analysis.</span> ",
+    "desc": "<span class='help-method'></span>Is a fast algorithm for Independent Component Analysis. Independent component analysis separates a multivariate signal into additive subcomponents that are maximally independent. It is implemented in scikit-learn using the Fast ICA algorithm. Typically, ICA is not used for reducing dimensionality but for separating superimposed signals. Since the ICA model does not include a noise term, for the model to be correct, whitening must be applied. This can be done internally using the whiten argument or manually using one of the PCA variants. It is classically used to separate mixed signals (a problem known as blind source separation). ICA can also be used as yet another non linear decomposition that finds components with some sparsity",
     "urlparagraph":"Read more in the scikit-learn user guide.",
     "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FastICA.html#sklearn.decomposition.FastICA",
     "tutorial": [
