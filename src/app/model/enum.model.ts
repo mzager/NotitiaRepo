@@ -45,7 +45,8 @@ export const enum DirtyEnum {
     SHAPE = 8,
     INTERSECT = 16,
     OPTIONS = 32,
-    NO_COMPUTE = 64
+    NO_COMPUTE = 64,
+    ALL = LAYOUT & COLOR & SIZE & SHAPE & INTERSECT & OPTIONS
 }
 
 export class LogicalOperatorEnum {
@@ -208,8 +209,9 @@ export const enum StatRendererColumns {
     TWELVE = 12
 }
 export const enum VisualizationEnum {
-    DECOMPOSITION = 257,
-    MANIFOLDLEARNING = 258,
+    DECOMPOSITION = -1,
+    MANIFOLDLEARNING = -2,
+    SUPPORT_VECTOR_MACHINES = -3,
     NONE = 0,
     PCA = 1,
     PLS = 2,
@@ -252,7 +254,8 @@ export const enum VisualizationEnum {
     LINEAR_DISCRIMINANT_ANALYSIS = 137438953472,
     QUADRATIC_DISCRIMINANT_ANALYSIS = 274877906944,
     DENDOGRAM = 549755813888,
-    SPREADSHEET = 1099511627776
+    SPREADSHEET = 1099511627776,
+    SPARSE_CODER = 2199023255552
     
 
 }

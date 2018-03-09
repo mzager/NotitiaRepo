@@ -5,6 +5,8 @@ import { GraphPanelEnum, PanelEnum, SinglePanelEnum } from 'app/model/enum.model
 // Actions Consts
 export const GRAPH_PANEL_TOGGLE = '[LAYOUT] Graph Panel Toggle';
 export const MODAL_PANEL = '[LAYOUT] Modal Panel';
+export const LOADER_SHOW = '[LAYOUT] Loader Show';
+export const LOADER_HIDE = '[LAYOUT] Loader Hide';
 
 // Action Classes
 export class GraphPanelToggleAction implements Action {
@@ -17,8 +19,18 @@ export class ModalPanelAction implements Action {
     constructor(public payload: PanelEnum) { }
 }
 
+export class LoaderShowAction implements Action {
+    readonly type: string = LOADER_SHOW;
+    constructor() {}
+}
+
+export class LoaderHideAction implements Action {
+    readonly type: string = LOADER_HIDE;
+    constructor() {}
+}
+
 
 // Action Type
 export type Actions =
-   GraphPanelToggleAction | ModalPanelAction;
+   GraphPanelToggleAction | ModalPanelAction | LoaderShowAction | LoaderHideAction;
    

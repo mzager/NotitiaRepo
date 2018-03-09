@@ -32,7 +32,7 @@ import {
   TsneAction,
   } from './../../action/compute.action';
 import { ChromosomeConfigModel } from './../visualization/chromosome/chromosome.model';
-import { GraphPanelToggleAction, ModalPanelAction } from './../../action/layout.action';
+import { GraphPanelToggleAction, ModalPanelAction, LoaderHideAction, LoaderShowAction } from './../../action/layout.action';
 import { DataField } from 'app/model/data-field.model';
 import {
   DataLoadedAction,
@@ -94,6 +94,7 @@ export class WorkspaceComponent {
   // graphTool: Observable<GraphTool>;
   genesets: Observable<Array<any>>;
   cohorts: Observable<Array<any>>;
+  loader: Observable<boolean>;
   graphALegend: Observable<Array<Legend>>;
   graphBLegend: Observable<Array<Legend>>;
   graphAConfig: Observable<GraphConfig>;
@@ -126,7 +127,8 @@ export class WorkspaceComponent {
     this.cohorts = store.select(fromRoot.getCohorts);
     this.graphPanelATab = store.select(fromRoot.getLayoutGraphPanelAState);
     this.graphPanelBTab = store.select(fromRoot.getLayoutGraphPanelBState);
-    this.modalPanel = store.select(fromRoot.getLayoutModalPanelState)
+    this.modalPanel = store.select(fromRoot.getLayoutModalPanelState);
+    this.loader = store.select(fromRoot.getLayoutLoaderState);
     this.helpPanelConfig = store.select(fromRoot.getHelpConfigState);
     
     this.edgeConfig = store.select(fromRoot.getEdgesConfig);
@@ -153,13 +155,16 @@ export class WorkspaceComponent {
         break;
     }
   }
-  
+  uploadExcel(): void {
+    alert('upload a file');
+  }
   // fileOpen(value: DataTransfer) {
   //   this.store.dispatch(new data.DataLoadFromFileAction(value));
   // }
 
 
   graphPanelSetConfig(value: GraphConfig) {
+    this.store.dispatch( new LoaderShowAction() );
     switch (value.visualization) {
       case enums.VisualizationEnum.NONE:
         this.store.dispatch( new compute.NoneAction( { config: value as GraphConfig } ));
@@ -277,12 +282,9 @@ export class WorkspaceComponent {
   delCohort(value: {database: string, cohort: Cohort}): void { 
     this.store.dispatch( new DataDelCohortAction( value ) );
   }
-
-
   helpPanelToggle(config: GraphConfig): void { 
     this.store.dispatch( new HelpSetConfigAction(config) );
     this.store.dispatch( new ModalPanelAction(enums.PanelEnum.HELP) );
-    console.log('set');
   }
   splitScreenChange(value: boolean): void {
     const model = new WorkspaceConfigModel();
