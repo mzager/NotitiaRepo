@@ -1,0 +1,22 @@
+# An Ingress with 2 hosts and 3 endpoints
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+spec:
+  rules:
+  - host: opencpu.jennylou.info
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: ocpu
+          servicePort: 80
+  - host: python.jennylou.info
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: python
+          servicePort: 80
+          
