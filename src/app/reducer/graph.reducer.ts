@@ -1,3 +1,4 @@
+import { DataDecorator } from './../model/data-map.model';
 import { GraphData } from './../model/graph-data.model';
 import { Legend } from './../model/legend.model';
 import { UnsafeAction } from './../action/unsafe.action';
@@ -35,6 +36,7 @@ export interface State {
     dataCollection: DataCollection;
     visualizationType: e.VisualizationEnum;
     config: GraphConfig;
+    decorators: Array<DataDecorator>;
     depth: e.DepthEnum;
     visibility: e.VisibilityEnum;
     data: any;
@@ -47,6 +49,7 @@ const initialState: State = {
     depth: null,
     visibility: e.VisibilityEnum.HIDE,
     config: null,
+    decorators: [],
     data: null
 };
 
