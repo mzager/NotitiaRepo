@@ -43,6 +43,7 @@ export interface DictionaryLearningDataModel extends GraphData {
     sid: Array<string>;
     mid: Array<string>;
     pid: Array<string>;
+    
     components: any;
     error: any;
     nIter: any;
