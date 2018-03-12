@@ -1044,7 +1044,7 @@ export class StatFactory {
             // One Dimensional Stats
             // new StatOneD('Error', this.formatError(data.error)),
             // Two Dimensional Stats
-            new StatTwoD('PCA Loadings', this.formatPCALoadings(data.markerIds, data.components))
+            // new StatTwoD('PCA Loadings', this.formatPCALoadings(data.markerIds, data.components))
         ];
 
         return stats;

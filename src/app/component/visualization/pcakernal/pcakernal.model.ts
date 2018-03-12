@@ -51,3 +51,4 @@ export interface PcaKernalDataModel extends GraphData {
     X_transformed_fit_: any;
     X_fit_: any;
 }
+
