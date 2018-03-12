@@ -28,47 +28,47 @@ export const enum ColorEnum {
 
 export const enum GenomicEnum {
     CHROMOSOME = 0,
-    GENE = 1,
-    CENTROMERE = 2,
-    TELOMERE = 4,
-    CYTOBAND = 8,
-    P_ARM = 16,
-    Q_ARM = 32,
-    P_TELOMERE = 64,
-    Q_TELOMERE = 128
+    GENE = 1 << 0,
+    CENTROMERE = 1 << 1,
+    TELOMERE = 1 << 2,
+    CYTOBAND = 1 << 3,
+    P_ARM = 1 << 4,
+    Q_ARM = 1 << 5,
+    P_TELOMERE = 1 << 6,
+    Q_TELOMERE = 1 << 7
 }
 
 export const enum DirtyEnum {
-    LAYOUT = 1,
-    COLOR = 2,
-    SIZE = 4,
-    SHAPE = 8,
-    INTERSECT = 16,
-    OPTIONS = 32,
-    NO_COMPUTE = 64,
+    LAYOUT = 0,
+    COLOR = 1 << 0,
+    SIZE = 1 << 1,
+    SHAPE = 1 << 2,
+    INTERSECT = 1 << 3,
+    OPTIONS = 1 << 4,
+    NO_COMPUTE = 1 << 5,
     ALL = LAYOUT & COLOR & SIZE & SHAPE & INTERSECT & OPTIONS
 }
 
-export class LogicalOperatorEnum {
-    static readonly AND = 'AND';
-    static readonly OR = 'OR';
-}
-export class ConditionalOperatorEnum {
-    static readonly GT = '>';
-    static readonly LT = '<';
-    static readonly GTE = '>=';
-    static readonly LTE = '<=';
-    static readonly IN = 'In';
-    static readonly NOT = 'Not';
-}
+// export class LogicalOperatorEnum {
+//     static readonly AND = 'AND';
+//     static readonly OR = 'OR';
+// }
+// export class ConditionalOperatorEnum {
+//     static readonly GT = '>';
+//     static readonly LT = '<';
+//     static readonly GTE = '>=';
+//     static readonly LTE = '<=';
+//     static readonly IN = 'In';
+//     static readonly NOT = 'Not';
+// }
 
 export const enum ShapeEnum {
-    CIRCLE = 1,
-    SQUARE = 2,
-    TRIANGLE = 4,
-    CONE = 8,
-    BOX = 16,
-    NULL = 32
+    CIRCLE = 1 << 0,
+    SQUARE = 1 << 1,
+    TRIANGLE = 1 << 2,
+    CONE = 1 << 3,
+    BOX = 1 << 4,
+    NULL = 1 << 5
 }
 
 export const enum SizeEnum {
@@ -79,9 +79,9 @@ export const enum SizeEnum {
 }
 
 export const enum GraphEnum {
-    GRAPH_A = 1,
-    GRAPH_B = 2,
-    EDGES = 4
+    GRAPH_A = 1 << 0,
+    GRAPH_B = 1 << 1,
+    EDGES = 1 << 2
 }
 export class DistanceEnum {
     static readonly EUCLIDEAN = 'euclidean';
@@ -107,22 +107,22 @@ export class DiseaseEnum {
 
 export const enum CollectionTypeEnum {
     UNDEFINED = 0,
-    SAMPLE = 1,
-    PATIENT = 2,
-    CNV = 4,    // CNV_THD - CNV === Gistic + CNV_THD === GISTIC_THRESHOLD
-    GISTIC = 8,
-    GISTIC_THRESHOLD = 16,
-    MUTATION = 32,
-    MIRNA = 64,
-    MRNA = 128,
-    PROTEIN = 256,  // EXP - PROTEIN, MIRNA, RNA
-    METH = 512,
-    GENE_FAMILY = 1024,
-    GENE_TYPE = 2048,
-    HIC = 4096,
-    EVENT = 8192,
-    RNA = 16384,
-    TAD = 32768,
+    SAMPLE = 1 << 0,
+    PATIENT = 1 << 2,
+    CNV = 1 << 3,    // CNV_THD - CNV === Gistic + CNV_THD === GISTIC_THRESHOLD
+    GISTIC = 1 << 4,
+    GISTIC_THRESHOLD = 1 << 5,
+    MUTATION = 1 << 6,
+    MIRNA = 1 << 7,
+    MRNA = 1 << 8,
+    PROTEIN = 1 << 9,  // EXP - PROTEIN, MIRNA, RNA
+    METH = 1 << 10,
+    GENE_FAMILY = 1 << 11,
+    GENE_TYPE = 1 << 12,
+    HIC = 1 << 13,
+    EVENT = 1 << 14,
+    RNA = 1 << 15,
+    TAD = 1 << 16,
     // tslint:disable-next-line:no-bitwise
     EXP = CollectionTypeEnum.PROTEIN | CollectionTypeEnum.MIRNA | CollectionTypeEnum.MRNA,
     // tslint:disable-next-line:no-bitwise
@@ -194,10 +194,10 @@ export class ChartTypeEnum {
     static readonly SCATTER = 'Scatter';
 }
 export const enum StatTypeEnum {
-    ONE_D = 1,
-    TWO_D = 2,
-    SINGLE = 4,
-    MISC = 8
+    ONE_D = 1 << 0,
+    TWO_D = 1 << 1,
+    SINGLE = 1 << 2,
+    MISC = 1 << 3
 }
 export const enum StatRendererEnum {
     HTML = 1,
@@ -273,20 +273,20 @@ export const enum DepthEnum {
 }
 // Tools
 export const enum ToolEnum {
-    SELECT = 1,
-    MOVE = 2,
-    ROTATE = 4,
-    ZOOM = 8,
-    INSERT_ANNOTATION = 16
+    SELECT = 1 << 0,
+    MOVE = 1 << 1,
+    ROTATE = 1 << 2,
+    ZOOM = 1 << 3,
+    INSERT_ANNOTATION = 1 << 4
 }
 
 export const enum GraphActionEnum {
-    VISIBILITY_TOGGLE = 1,
-    DEPTH_TOGGLE = 2,
-    SAVE_COHORT = 4,
-    SET_COLOR = 8,
-    SET_SHAPE = 16,
-    SET_SIZE = 32
+    VISIBILITY_TOGGLE = 1 << 0,
+    DEPTH_TOGGLE = 1 << 1,
+    SAVE_COHORT = 1 << 2,
+    SET_COLOR = 1 << 3,
+    SET_SHAPE = 1 << 4,
+    SET_SIZE = 1 << 5
 }
 export class WorkspaceLayoutEnum {
     static readonly SINGLE = 'Single';
@@ -309,18 +309,18 @@ export class HClustDistanceEnum {
 }
 
 export const enum PanelEnum {
-    NONE = 1,
-    LANDING = 2,
-    DATA = 4,
-    ANALYSIS = 8,
-    COHORT = 16,
-    GENESET = 32,
-    COLOR = 64,
-    HELP = 128,
-    SETTINGS = 256,
-    ABOUT = 512,
-    CITATION = 1024,
-    DOCUMENTATION = 2048
+    NONE = 1 << 0,
+    LANDING = 1 << 1,
+    DATA = 1 << 2,
+    ANALYSIS = 1 << 3,
+    COHORT = 1 << 4,
+    GENESET = 1 << 5,
+    COLOR = 1 << 6,
+    HELP = 1 << 7,
+    SETTINGS = 1 << 8,
+    ABOUT = 1 << 9,
+    CITATION = 1 << 10,
+    DOCUMENTATION = 1 << 11
 }
 
 // Panels
@@ -331,6 +331,6 @@ export const enum SinglePanelEnum {
 
 export const enum GraphPanelEnum {
     NONE = 0,
-    GRAPH_A = 1,
-    GRAPH_B = 2
+    GRAPH_A = 1 << 0,
+    GRAPH_B = 1 << 1
 }

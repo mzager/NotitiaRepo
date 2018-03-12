@@ -1,3 +1,4 @@
+import { DataDecorator, DataDecoratorTypeEnum, DataDecoratorValue } from './../model/data-map.model';
 import { EdgeConfigModel } from './../component/visualization/edges/edges.model';
 import { interpolateRdBu, interpolateSpectral } from 'd3-scale-chromatic';
 import { DedicatedWorkerGlobalScope } from 'compute';
@@ -23,7 +24,7 @@ export class ComputeWorkerUtil {
     private sizes = [1, 2, 3, 4];
     private shapes = [ShapeEnum.CIRCLE, ShapeEnum.SQUARE, ShapeEnum.TRIANGLE, ShapeEnum.CONE];
 
-    public colors4 = [0x419268, 0xd044cc ,0x55a338, 0x754ad0, 0xc58528, 0x6885ce, 0xdd5031, 0x6a448f, 0x777d30, 0xc454a9,0xb17048,0xdd416c,0x97392b,0xc9759a];
+    public colors4 = [0x419268, 0xd044cc, 0x55a338, 0x754ad0, 0xc58528, 0x6885ce, 0xdd5031, 0x6a448f, 0x777d30, 0xc454a9, 0xb17048, 0xdd416c, 0x97392b, 0xc9759a];
     public colors3 = [0xf06292, 0xba68c8, 0x9575cd, 0x7986cb, 0x64b5f6, 0x80cbc4, 0xffcc80, 0xbcaaa4];
     public colors = [0xd50000, 0xaa00ff, 0x304ffe, 0x0091ea, 0x00bfa5, 0x64dd17, 0xffd600, 0xff6d00,
         0xff8a80, 0xea80fc, 0x8c9eff, 0x80d8ff, 0xa7ffeb, 0xccff90, 0xffff8d, 0xffd180];
@@ -35,26 +36,26 @@ export class ComputeWorkerUtil {
     constructor() {
     }
 
-
+    // Returns Data Matrix That Matches Filters + Sorted By Entity Type
     getDataMatrix(config: GraphConfig): Promise<any> {
-        return new Promise( (resolve, reject) => { 
-            this.openDatabaseData(config.database).then( connection => { 
+        return new Promise((resolve, reject) => {
+            this.openDatabaseData(config.database).then(connection => {
                 const map = config.table.map.replace(/ /gi, '');
                 const tbl = config.table.tbl.replace(/ /gi, '');
                 Promise.all([
-                    (config.sampleFilter.length) ? 
+                    (config.sampleFilter.length) ?
                         connection.table(map).where('s').startsWithAnyOfIgnoreCase(config.sampleFilter).toArray() :
                         connection.table(map).toArray(),
-                    (config.markerFilter) ? 
+                    (config.markerFilter) ?
                         connection.table(tbl).where('m').anyOfIgnoreCase(config.markerFilter).toArray() :
                         connection.table(tbl).toArray()
-                ]).then( results => { 
-                    resolve({ 
+                ]).then(results => {
+                    resolve({
                         samples: results[0].map(v => v.s),
                         markers: results[1].map(v => v.m),
-                        data: (config.entity === EntityTypeEnum.GENE) ? 
-                            results[1].map( m => results[0].map(s => m.d[s.i] )) :
-                            results[0].map( s => results[1].map(m => m.d[s.i] ))
+                        data: (config.entity === EntityTypeEnum.GENE) ?
+                            results[1].map(m => results[0].map(s => m.d[s.i])) :
+                            results[0].map(s => results[1].map(m => m.d[s.i]))
 
                     });
                 })
@@ -62,45 +63,82 @@ export class ComputeWorkerUtil {
         });
     }
 
+    // Add Sample Ids To A Map
+    applySampleIds(config: GraphConfig, values: Array<DataDecoratorValue>): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.getSamplePatientMap(config.database).then(result => {
+                const sampleMap = result.reduce((p, c) => { p[c.p] = c.s; return p; }, {});
+                values.map(v => v.sid = sampleMap[v.pid]);
+                resolve(values);
+            })
+        });
 
-    getPatientDataMap(config: GraphConfig, field: DataField): Promise<any> {
-        return new Promise( (resolve, reject) => { 
+    }
+
+    // Add Colors To A Map + Return Legend Item
+    applyColors(field: DataField, values: Array<DataDecoratorValue>): Legend {
+        let colorMap: any, legend: Legend;
+        switch (field.type) {
+            case DataTypeEnum.STRING:
+                colorMap = field.values.reduce((p, c, i) => {
+                    p[c] = this.colors[i];
+                    return p;
+                }, {});
+                values.forEach(value => { value.value = colorMap[value.value]; });
+                legend = new Legend();
+                legend.name = field.label;
+                legend.type = 'COLOR';
+                legend.display = 'DISCRETE';
+                legend.labels = Object.keys(colorMap);
+                legend.values = Object.keys(colorMap).map(key => colorMap[key]);
+                return legend;
+            case DataTypeEnum.NUMBER:
+                const scale = scaleSequential<number>(interpolateSpectral)
+                    .domain([field.values.min, field.values.max]);
+                values.forEach( value => { value.value = scale(value.value) });
+                legend = new Legend();
+                legend.name = field.label;
+                legend.type = 'COLOR';
+                legend.display = 'CONTINUOUS';
+                legend.labels = [field.values.min, field.values.max].map(val => Math.round(val).toString());
+                legend.values = [0xFF0000, 0xFF0000];
+                return legend;
+        }
+        return null;
+    }
+
+    // Process Patient Data Map
+    getDataDecoratorPatient(config: GraphConfig, field: DataField, type: DataDecoratorTypeEnum): Promise<DataDecorator> {
+        return new Promise((resolve, reject) => {
             const tbl = field.tbl.replace(/ /gi, '');
-            this.openDatabaseData(config.database).then( connection => { 
-                debugger;
-                ((config.patientFilter.length) ? 
-                    connection.table(tbl).where('p').anyOfIgnoreCase(config.patientFilter).toArray() :
-                    connection.table(tbl).toArray())
-                    .then( patients => { 
-                        const values = patients.map(patient => ({ key: patient.p, value: patient[field.key] }));
-                        debugger;
-                    })
+            this.openDatabaseData(config.database).then(connection => {
+                connection.table(tbl).toArray().then(patients => {
+                    const values = patients.map(patient => ({ pid: patient.p, sid: null, mid: null, key: patient[field.key], value: null }));
+                    const legend: Legend = this.applyColors(field, values);
+                    this.applySampleIds(config, values).then(() => {
+                        resolve( { type: type, values: values, field: field, legend: legend });
+                    });
+                });
             });
         });
     }
 
-    getDataMap(config: GraphConfig, field: DataField, matrix: any): Promise<any> {
-        
-         
-
-            // Bail if field == Undefined
-            switch (field.ctype){
-                case CollectionTypeEnum.UNDEFINED:
-                    return new Promise( (resolve, reject) => { resolve(); });
-                case CollectionTypeEnum.PATIENT:
-                    return this.getPatientDataMap(config, field);
-                default:
-                    return new Promise( (resolve, reject) => { resolve(); });
-            }
-            
-      
+    getDataDecorator(config: GraphConfig, field: DataField, type: DataDecoratorTypeEnum): Promise<DataDecorator> {
+        switch (field.ctype) {
+            // case CollectionTypeEnum.UNDEFINED:
+            //     return new Promise( (resolve, reject) => { resolve(); });
+            case CollectionTypeEnum.PATIENT:
+                return this.getDataDecoratorPatient(config, field, type);
+            default:
+                return new Promise((resolve, reject) => { resolve(); });
+        }
     }
 
-    
 
 
 
-// ORIG
+
+    // ORIG
 
 
 
@@ -515,7 +553,7 @@ export class ComputeWorkerUtil {
         });
     }
 
-    
+
 
     getColorMap(entity: EntityTypeEnum, markers: Array<string>, samples: Array<string>, db: string, field: DataField): Promise<any> {
         return new Promise((resolve, reject) => {
@@ -1035,7 +1073,7 @@ export class ComputeWorkerUtil {
         };
 
         return fetch('http://oncoscape-opencpu.sttrcancer.io/py', {
-        // return fetch('http://localhost:5000/py', {
+            // return fetch('http://localhost:5000/py', {
             headers: headers,
             method: 'POST',
             body: JSON.stringify(config)
