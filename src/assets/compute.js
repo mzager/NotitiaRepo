@@ -20944,6 +20944,7 @@ var ComputeWorkerUtil = /** @class */ (function () {
             return data.map(function (v) { return [scale(v[i0]), scale(v[i1]), scale(v[i2])]; });
         };
     }
+    // Returns Data Matrix That Matches Filters + Sorted By Entity Type
     ComputeWorkerUtil.prototype.getDataMatrix = function (config) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -20969,29 +20970,71 @@ var ComputeWorkerUtil = /** @class */ (function () {
             });
         });
     };
-    ComputeWorkerUtil.prototype.getPatientDataMap = function (config, field) {
+    // Add Sample Ids To A Map
+    ComputeWorkerUtil.prototype.applySampleIds = function (config, values) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.getSamplePatientMap(config.database).then(function (result) {
+                var sampleMap = result.reduce(function (p, c) { p[c.p] = c.s; return p; }, {});
+                values.map(function (v) { return v.sid = sampleMap[v.pid]; });
+                resolve(values);
+            });
+        });
+    };
+    // Add Colors To A Map + Return Legend Item
+    ComputeWorkerUtil.prototype.applyColors = function (field, values) {
+        var _this = this;
+        var colorMap, legend;
+        switch (field.type) {
+            case enum_model_1.DataTypeEnum.STRING:
+                colorMap = field.values.reduce(function (p, c, i) {
+                    p[c] = _this.colors[i];
+                    return p;
+                }, {});
+                values.forEach(function (value) { value.value = colorMap[value.value]; });
+                legend = new legend_model_1.Legend();
+                legend.name = field.label;
+                legend.type = 'COLOR';
+                legend.display = 'DISCRETE';
+                legend.labels = Object.keys(colorMap);
+                legend.values = Object.keys(colorMap).map(function (key) { return colorMap[key]; });
+                return legend;
+            case enum_model_1.DataTypeEnum.NUMBER:
+                var scale_1 = d3_scale_1.scaleSequential(d3_scale_chromatic_1.interpolateSpectral)
+                    .domain([field.values.min, field.values.max]);
+                values.forEach(function (value) { value.value = scale_1(value.value); });
+                legend = new legend_model_1.Legend();
+                legend.name = field.label;
+                legend.type = 'COLOR';
+                legend.display = 'CONTINUOUS';
+                legend.labels = [field.values.min, field.values.max].map(function (val) { return Math.round(val).toString(); });
+                legend.values = [0xFF0000, 0xFF0000];
+                return legend;
+        }
+        return null;
+    };
+    // Process Patient Data Map
+    ComputeWorkerUtil.prototype.getDataMapPatient = function (config, field, type) {
         var _this = this;
         return new Promise(function (resolve, reject) {
             var tbl = field.tbl.replace(/ /gi, '');
             _this.openDatabaseData(config.database).then(function (connection) {
-                debugger;
-                ((config.patientFilter.length) ?
-                    connection.table(tbl).where('p').anyOfIgnoreCase(config.patientFilter).toArray() :
-                    connection.table(tbl).toArray())
-                    .then(function (patients) {
-                    var values = patients.map(function (patient) { return ({ key: patient.p, value: patient[field.key] }); });
-                    debugger;
+                connection.table(tbl).toArray().then(function (patients) {
+                    var values = patients.map(function (patient) { return ({ pid: patient.p, sid: null, mid: null, key: patient[field.key], value: null }); });
+                    var legend = _this.applyColors(field, values);
+                    _this.applySampleIds(config, values).then(function () {
+                        resolve({ type: type, values: values, field: field, legend: legend });
+                    });
                 });
             });
         });
     };
-    ComputeWorkerUtil.prototype.getDataMap = function (config, field, matrix) {
-        // Bail if field == Undefined
+    ComputeWorkerUtil.prototype.getDataMap = function (config, field, type) {
         switch (field.ctype) {
-            case 0 /* UNDEFINED */:
-                return new Promise(function (resolve, reject) { resolve(); });
+            // case CollectionTypeEnum.UNDEFINED:
+            //     return new Promise( (resolve, reject) => { resolve(); });
             case 2 /* PATIENT */:
-                return this.getPatientDataMap(config, field);
+                return this.getDataMapPatient(config, field, type);
             default:
                 return new Promise(function (resolve, reject) { resolve(); });
         }
@@ -21627,12 +21670,12 @@ var ComputeWorkerUtil = /** @class */ (function () {
                             // Color Samples With Continuous Value
                         }
                         else if (field.type === 'NUMBER') {
-                            var scale_1 = d3_scale_1.scaleLinear()
+                            var scale_2 = d3_scale_1.scaleLinear()
                                 .domain([field.values.min, field.values.max])
                                 .range([0, 1]);
                             _this.dbData.table(field.tbl).toArray().then(function (row) {
                                 var colorMap = row.reduce(function (p, c) {
-                                    p[c.p] = d3_scale_chromatic_1.interpolateSpectral(scale_1(c[fieldKey_1]));
+                                    p[c.p] = d3_scale_chromatic_1.interpolateSpectral(scale_2(c[fieldKey_1]));
                                     return p;
                                 }, {});
                                 // Build Legend
@@ -21748,12 +21791,12 @@ var ComputeWorkerUtil = /** @class */ (function () {
                             // Color Samples With Continuous Value
                         }
                         else if (field.type === 'NUMBER') {
-                            var scale_2 = d3_scale_1.scaleLinear()
+                            var scale_3 = d3_scale_1.scaleLinear()
                                 .domain([field.values.min, field.values.max])
                                 .range([1, 3]);
                             _this.dbData.table(field.tbl).toArray().then(function (row) {
                                 var sizeMap = row.reduce(function (p, c) {
-                                    p[c.p] = Math.round(scale_2(c[fieldKey_2]));
+                                    p[c.p] = Math.round(scale_3(c[fieldKey_2]));
                                     return p;
                                 }, {});
                                 // Build Legend
@@ -25687,26 +25730,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Colors = [0x00FF00, 0xD50000, 0xC51162, 0xAA00FF, 0x6200EA, 0x304FFE, 0x2196F3, 0x0091EA,
     0x00B8D4, 0x00BFA5, 0x64DD17, 0xAEEA00, 0xFFD600, 0xFFAB00, 0xFF6D00, 0xDD2C00,
     0x5D4037, 0x455A64];
-var LogicalOperatorEnum = /** @class */ (function () {
-    function LogicalOperatorEnum() {
-    }
-    LogicalOperatorEnum.AND = 'AND';
-    LogicalOperatorEnum.OR = 'OR';
-    return LogicalOperatorEnum;
-}());
-exports.LogicalOperatorEnum = LogicalOperatorEnum;
-var ConditionalOperatorEnum = /** @class */ (function () {
-    function ConditionalOperatorEnum() {
-    }
-    ConditionalOperatorEnum.GT = '>';
-    ConditionalOperatorEnum.LT = '<';
-    ConditionalOperatorEnum.GTE = '>=';
-    ConditionalOperatorEnum.LTE = '<=';
-    ConditionalOperatorEnum.IN = 'In';
-    ConditionalOperatorEnum.NOT = 'Not';
-    return ConditionalOperatorEnum;
-}());
-exports.ConditionalOperatorEnum = ConditionalOperatorEnum;
 var DistanceEnum = /** @class */ (function () {
     function DistanceEnum() {
     }
@@ -59312,8 +59335,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.pcaCompute = function (config, worker) {
     worker.util.getDataMatrix(config).then(function (matrix) {
         Promise.all([
-            worker.util.getSamplePatientMap(config.database),
-            worker.util.getDataMap(config, config.pointColor, matrix),
+            worker.util.getDataMap(config, config.pointColor, 0 /* COLOR */),
+            worker.util.getDataMap(config, config.pointSize, 1 /* SIZE */),
+            worker.util.getDataMap(config, config.pointShape, 2 /* SHAPE */),
             worker.util
                 .fetchResult({
                 // added more than server is calling
@@ -59330,19 +59354,17 @@ exports.pcaCompute = function (config, worker) {
             })
         ])
             .then(function (result) {
-            debugger;
-            var psMap = result[0].reduce(function (p, c) { p[c.s] = c.p; return p; }, {});
-            var data = result[2];
+            var data = result[3];
             var resultScaled = worker.util.scale3d(data.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
             worker.postMessage({
                 config: config,
                 data: {
-                    legendItems: [],
+                    maps: [result[0], result[1], result[2]].filter(function (v) { return v; }),
                     result: data,
-                    resultScaled: resultScaled,
-                    patientIds: matrix.samples.map(function (v) { return psMap[v]; }),
-                    sampleIds: matrix.samples,
-                    markerIds: matrix.markers
+                    resultScaled: resultScaled
+                    // patientIds: matrix.samples.map(v => psMap[v]),
+                    // sampleIds: matrix.samples,
+                    // markerIds: matrix.markers
                 }
             });
             worker.postMessage('TERMINATE');
