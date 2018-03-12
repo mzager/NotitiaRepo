@@ -34,7 +34,7 @@ export class LocalLinearEmbeddingConfigModel extends GraphConfig {
         this.label = 'Local Linear Embedding';
     }
 
-    n_components = 3;
+    n_components = 10;
     dimension = DimensionEnum.THREE_D;
     n_neighbors = 5;
     eigen_solver = LocalLinearEmbeddingEigenSolver.AUTO;
@@ -44,6 +44,9 @@ export class LocalLinearEmbeddingConfigModel extends GraphConfig {
     tol = 1e-06;
     hessian_tol = 0.0001;
     modified_tol = 1e-12;
+    pcx = 1;
+    pcy = 2;
+    pcz = 3;
 }
 
 
@@ -53,6 +56,6 @@ export interface LocalLinearEmbeddingDataModel extends GraphData {
     sid: Array<string>;
     mid: Array<string>;
     pid: Array<string>;
-    
+
     reconstructionError: any;
 }

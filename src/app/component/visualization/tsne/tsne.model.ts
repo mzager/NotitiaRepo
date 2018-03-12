@@ -50,7 +50,7 @@ export class TsneConfigModel extends GraphConfig {
     }
 
     dimension = DimensionEnum.THREE_D;
-    n_components = 3;
+    n_components = 10;
     perplexity = 5;
     early_exaggeration = 5;
     learning_rate = 500;
@@ -59,6 +59,9 @@ export class TsneConfigModel extends GraphConfig {
     min_grad_norm = 1e-7;
     metric = TsneMetric.EUCLIDEAN;
     sk_method = TsneMethod.BARNES_HUT;
+    pcx = 1;
+    pcy = 2;
+    pcz = 3;
 }
 
 export interface TsneDataModel extends GraphData {
@@ -67,7 +70,7 @@ export interface TsneDataModel extends GraphData {
     sid: Array<string>;
     mid: Array<string>;
     pid: Array<string>;
-    
+
     embedding: any;
     klDivergence: any;
     nIter: any;

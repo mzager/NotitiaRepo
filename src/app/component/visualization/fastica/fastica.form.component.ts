@@ -32,13 +32,31 @@ import * as _ from 'lodash';
     </label>
   </div>
   <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Dimension</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='dimensionOptions'
-        formControlName='dimension'>
-          <option *ngFor='let options of dimensionOptions'>{{options}}</option>
-      </select>
-    </label>
+  <label class='center-block'><span class='form-label'>X Axis</span>
+    <select materialize='material_select'
+        [materializeSelectOptions]='PcOptions'
+        formControlName='pcx'>
+        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
+    </select>
+  </label>
+  </div>
+  <div class='form-group'>
+  <label class='center-block'><span class='form-label'>Y Axis</span>
+    <select materialize='material_select'
+        [materializeSelectOptions]='PcOptions'
+        formControlName='pcy'>
+        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
+    </select>
+  </label>
+  </div>
+  <div class='form-group'>
+  <label class='center-block'><span class='form-label'>Z Axis</span>
+    <select materialize='material_select'
+        [materializeSelectOptions]='PcOptions'
+        formControlName='pcz'>
+        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
+    </select>
+  </label>
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Algorithm</span>
@@ -107,8 +125,10 @@ export class FastIcaFormComponent extends AbstractScatterForm {
       patientFilter: [],
       patientSelect: [],
       dataOption: [],
-      
 
+      pcx: [],
+      pcy: [],
+      pcz: [],
       n_components: [],
       dimension: [],
       algorithm: [],

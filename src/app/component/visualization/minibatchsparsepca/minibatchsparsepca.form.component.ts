@@ -31,15 +31,6 @@ import { SvmCompleteAction } from '../../../action/compute.action';
       </select>
     </label>
   </div>
-   <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Dimension</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='dimensionOptions'
-        formControlName='dimension'>
-          <option *ngFor='let options of dimensionOptions'>{{options}}</option>
-      </select>
-    </label>
-  </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Method</span>
      <select materialize='material_select'
@@ -48,6 +39,33 @@ import { SvmCompleteAction } from '../../../action/compute.action';
         <option *ngFor='let options of MiniBatchSparsePcaMethodOpitions' [ngValue]='options'>{{options}}</option>
       </select>
     </label>
+  </div>
+  <div class='form-group'>
+  <label class='center-block'><span class='form-label'>X Axis</span>
+    <select materialize='material_select'
+        [materializeSelectOptions]='PcOptions'
+        formControlName='pcx'>
+        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
+    </select>
+  </label>
+  </div>
+  <div class='form-group'>
+  <label class='center-block'><span class='form-label'>Y Axis</span>
+    <select materialize='material_select'
+        [materializeSelectOptions]='PcOptions'
+        formControlName='pcy'>
+        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
+    </select>
+  </label>
+  </div>
+  <div class='form-group'>
+  <label class='center-block'><span class='form-label'>Z Axis</span>
+    <select materialize='material_select'
+        [materializeSelectOptions]='PcOptions'
+        formControlName='pcz'>
+        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
+    </select>
+  </label>
   </div>
   <div class='form-group'>
     <div class='switch'>
@@ -93,6 +111,9 @@ export class MiniBatchSparsePcaFormComponent extends AbstractScatterForm {
       patientSelect: [],
       table: [],
 
+      pcx: [],
+      pcy: [],
+      pcz: [],
       n_components: [],
       alpha: [],
       ridge_alpha: [],
