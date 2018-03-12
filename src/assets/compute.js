@@ -46403,43 +46403,30 @@ exports.linkedgeneCompute = function (config, worker) {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.pcaSparseCompute = function (config, worker) {
-    worker.util.processShapeColorSizeIntersect(config, worker);
-    if (config.dirtyFlag & 0 /* LAYOUT */) {
+    worker.util.getDataMatrix(config).then(function (matrix) {
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
-            .then(function (mtx) {
-            Promise.all([
-                worker.util.getSamplePatientMap(config.database),
-                worker.util
-                    .fetchResult({
-                    method: 'cluster_sk_pca_sparse',
-                    n_components: config.n_components,
-                    data: mtx.data,
-                    alpha: config.alpha,
-                    ridge_alpha: config.ridge_alpha,
-                    max_iter: config.max_iter,
-                    tol: config.tol,
-                    sk_method: config.sk_method
-                })
-            ]).then(function (result) {
-                var psMap = result[0].reduce(function (p, c) { p[c.s] = c.p; return p; }, {});
-                var data = result[1];
-                var resultScaled = worker.util.scale3d(data.result);
-                worker.postMessage({
-                    config: config,
-                    data: {
-                        legendItems: [],
-                        result: data,
-                        resultScaled: resultScaled,
-                        patientIds: mtx.samples.map(function (v) { return psMap[v]; }),
-                        sampleIds: mtx.samples,
-                        markerIds: mtx.markers
-                    }
-                });
-                worker.postMessage('TERMINATE');
+            .fetchResult({
+            method: 'cluster_sk_pca_sparse',
+            n_components: config.n_components,
+            data: matrix.data,
+            alpha: config.alpha,
+            ridge_alpha: config.ridge_alpha,
+            max_iter: config.max_iter,
+            tol: config.tol,
+            sk_method: config.sk_method
+        })
+            .then(function (result) {
+            result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+            result.sid = matrix.sid;
+            result.mid = matrix.mid;
+            result.pid = matrix.pid;
+            worker.postMessage({
+                config: config,
+                data: result
             });
+            worker.postMessage('TERMINATE');
         });
-    }
+    });
 };
 
 
@@ -46451,46 +46438,33 @@ exports.pcaSparseCompute = function (config, worker) {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.pcaKernalCompute = function (config, worker) {
-    worker.util.processShapeColorSizeIntersect(config, worker);
-    if (config.dirtyFlag & 0 /* LAYOUT */) {
+    worker.util.getDataMatrix(config).then(function (matrix) {
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
-            .then(function (mtx) {
-            Promise.all([
-                worker.util.getSamplePatientMap(config.database),
-                worker.util
-                    .fetchResult({
-                    method: 'cluster_sk_pca_kernal',
-                    n_components: config.n_components,
-                    data: mtx.data,
-                    kernel: config.kernel,
-                    degree: config.degree,
-                    coef0: config.coef0,
-                    alpha: config.alpha,
-                    fit_inverse_transform: config.fit_inverse_transform,
-                    eigen_solver: config.eigen_solver,
-                    tol: config.tol,
-                    remove_zero_eig: config.remove_zero_eig
-                })
-            ]).then(function (result) {
-                var psMap = result[0].reduce(function (p, c) { p[c.s] = c.p; return p; }, {});
-                var data = result[1];
-                var resultScaled = worker.util.scale3d(data.result);
-                worker.postMessage({
-                    config: config,
-                    data: {
-                        legendItems: [],
-                        result: data,
-                        resultScaled: resultScaled,
-                        patientIds: mtx.samples.map(function (v) { return psMap[v]; }),
-                        sampleIds: mtx.samples,
-                        markerIds: mtx.markers
-                    }
-                });
-                worker.postMessage('TERMINATE');
+            .fetchResult({
+            method: 'cluster_sk_pca_kernal',
+            n_components: config.n_components,
+            data: matrix.data,
+            kernel: config.kernel,
+            degree: config.degree,
+            coef0: config.coef0,
+            alpha: config.alpha,
+            fit_inverse_transform: config.fit_inverse_transform,
+            eigen_solver: config.eigen_solver,
+            tol: config.tol,
+            remove_zero_eig: config.remove_zero_eig
+        })
+            .then(function (result) {
+            result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+            result.sid = matrix.sid;
+            result.mid = matrix.mid;
+            result.pid = matrix.pid;
+            worker.postMessage({
+                config: config,
+                data: result
             });
+            worker.postMessage('TERMINATE');
         });
-    }
+    });
 };
 
 
@@ -46502,40 +46476,26 @@ exports.pcaKernalCompute = function (config, worker) {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.pcaIncrementalCompute = function (config, worker) {
-    worker.util.processShapeColorSizeIntersect(config, worker);
-    if (config.dirtyFlag & 0 /* LAYOUT */) {
+    worker.util.getDataMatrix(config).then(function (matrix) {
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
-            .then(function (mtx) {
-            Promise.all([
-                worker.util.getSamplePatientMap(config.database),
-                worker.util
-                    .fetchResult({
-                    method: 'cluster_sk_pca_incremental',
-                    n_components: config.n_components,
-                    data: mtx.data,
-                    whiten: config.whiten,
-                    batch_size: config.batch_size
-                })
-            ]).then(function (result) {
-                var psMap = result[0].reduce(function (p, c) { p[c.s] = c.p; return p; }, {});
-                var data = result[1];
-                var resultScaled = worker.util.scale3d(data.result);
-                worker.postMessage({
-                    config: config,
-                    data: {
-                        legendItems: [],
-                        result: data,
-                        resultScaled: resultScaled,
-                        patientIds: mtx.samples.map(function (v) { return psMap[v]; }),
-                        sampleIds: mtx.samples,
-                        markerIds: mtx.markers
-                    }
-                });
-                worker.postMessage('TERMINATE');
+            .fetchResult({
+            method: 'cluster_sk_pca_incremental',
+            n_components: config.n_components,
+            data: matrix.data,
+            whiten: config.whiten,
+            batch_size: config.batch_size
+        }).then(function (result) {
+            result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+            result.sid = matrix.sid;
+            result.mid = matrix.mid;
+            result.pid = matrix.pid;
+            worker.postMessage({
+                config: config,
+                data: result
             });
+            worker.postMessage('TERMINATE');
         });
-    }
+    });
 };
 
 
@@ -46797,42 +46757,29 @@ exports.fasticaCompute = function (config, worker) {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.truncatedSvdCompute = function (config, worker) {
-    worker.util.processShapeColorSizeIntersect(config, worker);
-    if (config.dirtyFlag & 0 /* LAYOUT */) {
+    worker.util.getDataMatrix(config).then(function (matrix) {
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
-            .then(function (mtx) {
-            Promise.all([
-                worker.util.getSamplePatientMap(config.database),
-                worker.util
-                    .fetchResult({
-                    // added more than server is calling
-                    method: 'cluster_sk_truncated_svd',
-                    n_components: config.n_components,
-                    algorithm: config.algorithm,
-                    tol: config.tol,
-                    data: mtx.data,
-                    n_iter: config.n_iter
-                })
-            ]).then(function (result) {
-                var psMap = result[0].reduce(function (p, c) { p[c.s] = c.p; return p; }, {});
-                var data = result[1];
-                var resultScaled = worker.util.scale3d(data.result);
-                worker.postMessage({
-                    config: config,
-                    data: {
-                        legendItems: [],
-                        result: data,
-                        resultScaled: resultScaled,
-                        patientIds: mtx.samples.map(function (v) { return psMap[v]; }),
-                        sampleIds: mtx.samples,
-                        markerIds: mtx.markers
-                    }
-                });
-                worker.postMessage('TERMINATE');
+            .fetchResult({
+            // added more than server is calling
+            method: 'cluster_sk_truncated_svd',
+            n_components: config.n_components,
+            algorithm: config.algorithm,
+            tol: config.tol,
+            data: matrix.data,
+            n_iter: config.n_iter
+        })
+            .then(function (result) {
+            result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+            result.sid = matrix.sid;
+            result.mid = matrix.mid;
+            result.pid = matrix.pid;
+            worker.postMessage({
+                config: config,
+                data: result
             });
+            worker.postMessage('TERMINATE');
         });
-    }
+    });
 };
 
 
@@ -59284,47 +59231,34 @@ exports.edgesCompute = function (config, worker) {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.tsneCompute = function (config, worker) {
-    worker.util.processShapeColorSizeIntersect(config, worker);
-    if (config.dirtyFlag & 0 /* LAYOUT */) {
+    worker.util.getDataMatrix(config).then(function (matrix) {
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
-            .then(function (mtx) {
-            Promise.all([
-                worker.util.getSamplePatientMap(config.database),
-                worker.util
-                    .fetchResult({
-                    method: 'manifold_sk_tsne',
-                    data: mtx.data,
-                    n_components: config.n_components,
-                    dimension: config.dimension,
-                    perplexity: config.perplexity,
-                    early_exaggeration: config.early_exaggeration,
-                    learning_rate: config.learning_rate,
-                    n_iter: config.n_iter,
-                    n_iter_without_progress: config.n_iter,
-                    min_grad_norm: config.min_grad_norm,
-                    metric: config.metric,
-                    sk_method: config.sk_method
-                })
-            ]).then(function (result) {
-                var psMap = result[0].reduce(function (p, c) { p[c.s] = c.p; return p; }, {});
-                var data = result[1];
-                var resultScaled = worker.util.scale3d(data.result);
-                worker.postMessage({
-                    config: config,
-                    data: {
-                        legendItems: [],
-                        result: data,
-                        resultScaled: resultScaled,
-                        patientIds: mtx.samples.map(function (v) { return psMap[v]; }),
-                        sampleIds: mtx.samples,
-                        markerIds: mtx.markers
-                    }
-                });
-                worker.postMessage('TERMINATE');
+            .fetchResult({
+            method: 'manifold_sk_tsne',
+            data: matrix.data,
+            n_components: config.n_components,
+            dimension: config.dimension,
+            perplexity: config.perplexity,
+            early_exaggeration: config.early_exaggeration,
+            learning_rate: config.learning_rate,
+            n_iter: config.n_iter,
+            n_iter_without_progress: config.n_iter,
+            min_grad_norm: config.min_grad_norm,
+            metric: config.metric,
+            sk_method: config.sk_method
+        })
+            .then(function (result) {
+            result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+            result.sid = matrix.sid;
+            result.mid = matrix.mid;
+            result.pid = matrix.pid;
+            worker.postMessage({
+                config: config,
+                data: result
             });
+            worker.postMessage('TERMINATE');
         });
-    }
+    });
 };
 
 
@@ -59361,54 +59295,6 @@ exports.pcaCompute = function (config, worker) {
             worker.postMessage('TERMINATE');
         });
     });
-    //     Promise.all([
-    //         worker.util.getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database,config.table.tbl, config.entity),
-    //         worker.util.getColorMap(config.entity, config.markerFilter, config.sampleFilter, config.database, config.pointColor),
-    //         worker.util.getSizeMap(config.entity, config.markerFilter, config.sampleFilter, config.database, config.pointSize),
-    //         worker.util.getShapeMap(config.entity, config.markerFilter, config.sampleFilter, config.database, config.pointShape)
-    //     ]).then(results => { 
-    // debugger;
-    //     })
-    // worker.util.processShapeColorSizeIntersect(config, worker);
-    // if (config.dirtyFlag & DirtyEnum.LAYOUT) {
-    //     worker.util
-    //         .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database,config.table.tbl, config.entity)
-    //         .then(mtx => {
-    //             Promise.all([
-    //                 worker.util.getSamplePatientMap(config.database),
-    //                 worker.util
-    //                     .fetchResult({
-    //                         // added more than server is calling
-    //                         method: 'cluster_sk_pca',
-    //                         data: mtx.data,
-    //                         n_components: config.n_components,
-    //                         dimension: config.dimension,
-    //                         random_state: config.random_state,
-    //                         tol: config.tol,
-    //                         svd_solver: config.svd_solver,
-    //                         whiten: config.whiten,
-    //                         copy: config.copy,
-    //                         iterated_power: config.iterated_power
-    //                     })
-    //             ]).then(result => {
-    //                 const psMap = result[0].reduce((p, c) => { p[c.s] = c.p; return p; }, {});
-    //                 const data = result[1];
-    // const resultScaled = worker.util.scale3d(data.result, config.pcx-1, config.pcy-1, config.pcz-1);
-    //                 worker.postMessage({
-    //                     config: config,
-    //                     data: {
-    //                         legendItems: [],
-    //                         result: data,
-    //                         resultScaled: resultScaled,
-    //                         patientIds: mtx.samples.map(v => psMap[v]),
-    //                         sampleIds: mtx.samples,
-    //                         markerIds: mtx.markers
-    //                     }
-    //                 });
-    //                 worker.postMessage('TERMINATE');
-    //             });
-    //         });
-    // }
 };
 
 
