@@ -1,3 +1,4 @@
+import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DataField, DataFieldFactory } from 'app/model/data-field.model';
@@ -17,7 +18,8 @@ export class DecoratorPanelComponent implements AfterViewInit, OnDestroy {
   shapeOptions: Array<DataField>;
   sizeOptions: Array<DataField>;
 
-  @Output() decoratorChange: EventEmitter<any> = new EventEmitter();
+  @Output() decoratorAdd: EventEmitter<DataDecorator> = new EventEmitter();
+  @Output() decoratorDel: EventEmitter<DataDecorator> = new EventEmitter();
 
   // public static GENE_SIGNATURE = 'Gene Signature';
   // public static CLUSTERING_ALGORITHM = 'Clustering Algorithm';
@@ -85,14 +87,47 @@ export class DecoratorPanelComponent implements AfterViewInit, OnDestroy {
     });
 
     this.form.valueChanges
-    .debounceTime(500)
-    .distinctUntilChanged()
-    .subscribe(data => {
-        const form = this.form;
+      .debounceTime(500)
+      .distinctUntilChanged()
+      .subscribe(data => {
+          const form = this.form;
+          const opts: Array<DataField> = [];
+          if (form.get('colorOption').dirty) { opts.push(form.get('colorOption').value); }
+          if (form.get('shapeOption').dirty) { opts.push(form.get('shapeOption').value); }
+          if (form.get('sizeOption').dirty)  { opts.push(form.get('sizeOption').value); }
 
-        form.markAsPristine();
-        this.decoratorChange.emit(data);
-    });
+          // opts.forEach( dataField => {
+          //   if (dataField.type === 'UNDEFINED') {
+          //     this.decoratorDel.emit(dataField)
+          //   }
+          // });
+          //   debugger;
+          //   if ()
+          //   this.decoratorAdd.emit({
+          //     type: DataDecoratorTypeEnum.COLOR,
+          //     values: null,
+          //     field: form.get('colorOption').value,
+          //     legend: null}
+          //   );
+          // }
+          // if (form.get('shapeOption').dirty) {
+          //   this.decoratorAdd.emit({
+          //     type: DataDecoratorTypeEnum.COLOR,
+          //     values: null,
+          //     field: form.get('colorOption').value,
+          //     legend: null}
+          //   );
+          // }
+          // if (form.get('sizeOption').dirty) {
+          //   this.decoratorAdd.emit({
+          //     type: DataDecoratorTypeEnum.COLOR,
+          //     values: null,
+          //     field: form.get('colorOption').value,
+          //     legend: null}
+          //   );
+          // }
+          form.markAsPristine();
+      });
 
   }
 }
