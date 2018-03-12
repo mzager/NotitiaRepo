@@ -40,12 +40,10 @@ export class LinearDiscriminantAnalysisConfigModel extends GraphConfig {
 export interface LinearDiscriminantAnalysisDataModel extends GraphData {
     result: any;
     resultScaled: Array<Array<number>>;
-    pointColor: Array<number>;
-    pointSize: Array<number>;
-    pointShape: Array<ShapeEnum>;
-    sampleIds: Array<string>;
-    markerIds: Array<string>;
-    patientIds: Array<string>;
+    sid: Array<string>;
+    mid: Array<string>;
+    pid: Array<string>;
+    
     coef: any;
     intercept: any;
     covariance: any;

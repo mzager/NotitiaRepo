@@ -80,25 +80,42 @@ export class ChartComponent implements AfterViewInit {
         workspaceConfig.subscribe( v => chartScene.workspaceConfig = v );
 
         const selectedGraphAConfig: Observable<GraphConfig> = this.store.select(fromRoot.getGraphAConfig);
-        const updateGraphA: Observable<any> = this.store
+        const updateDataGraphA: Observable<any> = this.store
           .select(fromRoot.getGraphAData)
           .withLatestFrom(selectedGraphAConfig)
           .filter( v => v[0] !== null);
-        updateGraphA.subscribe( v => {
+        updateDataGraphA.subscribe( v => {
           this.labelA = v[1].label;
           this.cdr.markForCheck();
-          return chartScene.update(GraphEnum.GRAPH_A, v[1], v[0]);
+          return chartScene.updateData(GraphEnum.GRAPH_A, v[1], v[0]);
         });
 
+        const updateDecoratorGraphA: Observable<any> = this.store
+          .select(fromRoot.getGraphADecorators)
+          .withLatestFrom(selectedGraphAConfig)
+          .filter( v => v[0] !== null);
+        updateDecoratorGraphA.subscribe( v => {
+          return chartScene.updateDecorators(GraphEnum.GRAPH_A, v[1], v[0]);
+        });
+
+
         const selectedGraphBConfig: Observable<GraphConfig> = this.store.select(fromRoot.getGraphBConfig);
-        const updateGraphB: Observable<any> = this.store
+        const updateDataGraphB: Observable<any> = this.store
           .select(fromRoot.getGraphBData)
           .withLatestFrom(selectedGraphBConfig)
           .filter( v => v[0] !== null);
-        updateGraphB.subscribe( v => {
+        updateDataGraphB.subscribe( v => {
           this.labelB = v[1].label;
           this.cdr.markForCheck();
-          return chartScene.update(GraphEnum.GRAPH_B, v[1], v[0]);
+          return chartScene.updateData(GraphEnum.GRAPH_B, v[1], v[0]);
+        });
+
+        const updateDecoratorGraphB: Observable<any> = this.store
+          .select(fromRoot.getGraphBDecorators)
+          .withLatestFrom(selectedGraphBConfig)
+          .filter( v => v[0] !== null);
+        updateDecoratorGraphB.subscribe( v => {
+          return chartScene.updateDecorators(GraphEnum.GRAPH_B, v[1], v[0]);
         });
 
 
@@ -108,7 +125,7 @@ export class ChartComponent implements AfterViewInit {
           .withLatestFrom(selectedEdgesConfig)
           .filter(v =>  (v[0] !== null) && (v[0] !== null) );
         updateEdges.subscribe( v => {
-          chartScene.update(GraphEnum.EDGES, v[1], v[0]);
+          chartScene.updateData(GraphEnum.EDGES, v[1], v[0]);
         });
     });
   }

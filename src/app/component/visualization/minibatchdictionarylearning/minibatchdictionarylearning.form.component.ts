@@ -33,38 +33,6 @@ import { SvmCompleteAction } from '../../../action/compute.action';
       </select>
     </label>
   </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Color</span>
-      <select materialize='material_select'
-          [compareWith]='byKey'
-          [materializeSelectOptions]='colorOptions'
-          formControlName='pointColor'>
-          <option *ngFor='let option of colorOptions'
-            [ngValue]='option'>{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Size</span>
-      <select materialize='material_select'
-          [compareWith]='byKey'
-          [materializeSelectOptions]='sizeOptions'
-          formControlName='pointSize'>
-          <option *ngFor='let option of sizeOptions'
-            [ngValue]='option'>{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Shape</span>
-      <select materialize='material_select'
-          [compareWith]='byKey'
-          [materializeSelectOptions]='colorOptions' formControlName='pointShape'>
-          <option *ngFor='let option of shapeOptions'
-            [ngValue]='option'>{{option.label}}</option>
-      </select>
-    </label>
-  </div>
    <div class='form-group'>
     <label class='center-block'><span class='form-label'>Dimension</span>
       <select materialize='material_select'
@@ -143,10 +111,7 @@ export class MiniBatchDictionaryLearningFormComponent extends AbstractScatterFor
       patientFilter: [],
       patientSelect: [],
       table: [],
-      pointColor: [],
-      pointShape: [],
-      pointSize: [],
-
+      
       n_components: [],
       dimension: [],
       alpha: [],

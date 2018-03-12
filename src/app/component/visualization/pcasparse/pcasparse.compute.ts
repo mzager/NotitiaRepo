@@ -7,42 +7,28 @@ declare var ML: any;
 
 export const pcaSparseCompute = (config: PcaSparseConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
-    worker.util.processShapeColorSizeIntersect(config, worker);
-
-    if (config.dirtyFlag & DirtyEnum.LAYOUT) {
+    worker.util.getDataMatrix(config).then(matrix => {
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
-            .then(mtx => {
-                Promise.all([
-                    worker.util.getSamplePatientMap(config.database),
-                    worker.util
-                        .fetchResult({
-                            method: 'cluster_sk_pca_sparse',
-                            n_components: config.n_components,
-                            data: mtx.data,
-                            alpha: config.alpha,
-                            ridge_alpha: config.ridge_alpha,
-                            max_iter: config.max_iter,
-                            tol: config.tol,
-                            sk_method: config.sk_method
-                        })
-                ]).then(result => {
-                        const psMap = result[0].reduce( (p, c) => { p[c.s] = c.p; return p; }, {});
-                        const data = result[1];
-                        const resultScaled = worker.util.scale3d(data.result);
-                        worker.postMessage({
-                            config: config,
-                            data: {
-                                legendItems: [],
-                                result: data,
-                                resultScaled: resultScaled,
-                                patientIds: mtx.samples.map ( v => psMap[v] ),
-                                sampleIds: mtx.samples,
-                                markerIds: mtx.markers
-                            }
-                        });
-                        worker.postMessage('TERMINATE');
-                    });
+            .fetchResult({
+                method: 'cluster_sk_pca_sparse',
+                n_components: config.n_components,
+                data: matrix.data,
+                alpha: config.alpha,
+                ridge_alpha: config.ridge_alpha,
+                max_iter: config.max_iter,
+                tol: config.tol,
+                sk_method: config.sk_method
+            })
+            .then(result => {
+                result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+                result.sid = matrix.sid;
+                result.mid = matrix.mid;
+                result.pid = matrix.pid
+                worker.postMessage({
+                    config: config,
+                    data: result
+                });
+                worker.postMessage('TERMINATE');
             });
-        }
-};
+    });
+}

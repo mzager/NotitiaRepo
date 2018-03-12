@@ -1,3 +1,4 @@
+import { DataDecorator } from './../../../model/data-map.model';
 import { linkedGeneComputeFn } from './linkedgenes.compute';
 import { ComputeWorkerUtil } from './../../../service/compute.worker.util';
 import { LinkedGeneConfigModel, LinkedGeneDataModel } from './linkedgenes.model';
@@ -92,8 +93,10 @@ export class LinkedGeneGraph implements ChartObjectInterface {
         this.enable(false);
         this.removeObjects();
     }
-
-    update(config: GraphConfig, data: any) {
+    updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
+        throw new Error("Method not implemented.");
+    }
+    updateData(config: GraphConfig, data: any) {
         linkedGeneComputeFn(config as LinkedGeneConfigModel).then(graphData => {
             this.graphData = graphData;
             this.config = config as LinkedGeneConfigModel;
