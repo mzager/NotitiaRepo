@@ -125,7 +125,7 @@ export class SvdFormComponent {
   }
 
   constructor(private fb: FormBuilder) {
-    
+
     this.form = this.fb.group({
       visualization: [],
       graph: [],
@@ -139,7 +139,7 @@ export class SvdFormComponent {
       patientSelect: [],
       molecularTable: [],
       pointData: [],
-   
+
       dimension: [],
       domain: 5,
       perpexity: 10, // *>1
