@@ -33,9 +33,6 @@ export class ComputeWorkerUtil {
         0xf44336, 0xe91e63, 0x9c27b0, 0x673ab7, 0x3f51b5, 0x2196f3, 0x03a9f4, 0x00bcd4, 0x009688,
         0x4caf50, 0x8bc34a, 0xcddc39, 0xffeb3b, 0xffc107, 0xff9800, 0xff5722, 0x795548];
 
-    constructor() {
-    }
-
     // Returns Data Matrix That Matches Filters + Sorted By Entity Type
     getDataMatrix(config: GraphConfig): Promise<any> {
         return new Promise((resolve, reject) => {
@@ -48,11 +45,14 @@ export class ComputeWorkerUtil {
                         connection.table(map).toArray(),
                     (config.markerFilter) ?
                         connection.table(tbl).where('m').anyOfIgnoreCase(config.markerFilter).toArray() :
-                        connection.table(tbl).toArray()
+                        connection.table(tbl).toArray(),
+                        this.getSamplePatientMap(config.database)
                 ]).then(results => {
+                    const psMap = results[2].reduce( (p, c) => { p[c.s] = c.p; return p; }, {})
                     resolve({
-                        samples: results[0].map(v => v.s),
-                        markers: results[1].map(v => v.m),
+                        sid: results[0].map(v => v.s),
+                        pid: results[0].map(v => psMap[v.s]),
+                        mid: results[1].map(v => v.m),
                         data: (config.entity === EntityTypeEnum.GENE) ?
                             results[1].map(m => results[0].map(s => m.d[s.i])) :
                             results[0].map(s => results[1].map(m => m.d[s.i]))

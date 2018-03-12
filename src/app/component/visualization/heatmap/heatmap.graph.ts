@@ -1,3 +1,4 @@
+import { DataDecorator } from './../../../model/data-map.model';
 import { NoneAction } from './../../../action/compute.action';
 import { HeatmapDataModel, HeatmapConfigModel } from './heatmap.model';
 import { EventEmitter, Output } from '@angular/core';
@@ -74,7 +75,10 @@ export class HeatmapGraph implements ChartObjectInterface {
         this.enable(false);
     }
 
-    update(config: GraphConfig, data: any) {
+    updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
+        throw new Error("Method not implemented.");
+    }
+    updateData(config: GraphConfig, data: any) {
         console.log("REDRAW");
         this.config = config as HeatmapConfigModel;
         this.data = data;

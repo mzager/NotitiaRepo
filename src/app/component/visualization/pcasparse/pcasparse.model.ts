@@ -32,11 +32,9 @@ export class PcaSparseConfigModel extends GraphConfig {
 export interface PcaSparseDataModel extends GraphData {
     result: Array<Array<number>>;
     resultScaled: Array<Array<number>>;
-    pointColor: Array<number>;
-    pointSize: Array<number>;
-    pointShape: Array<ShapeEnum>;
-    sampleIds: Array<string>;
-    markerIds: Array<string>;
+    sid: Array<string>;
+    mid: Array<string>;
+    pid: Array<string>;
     components: any;
     error: any;
     iter: any;

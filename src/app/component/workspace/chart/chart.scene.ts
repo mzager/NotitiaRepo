@@ -1,3 +1,4 @@
+import { DataDecorator } from './../../../model/data-map.model';
 import { DendogramGraph } from './../../visualization/dendogram/dendogram.graph';
 import { SurvivalGraph } from './../../visualization/survival/survival.graph';
 import { LinearDiscriminantAnalysisGraph } from './../../visualization/lineardiscriminantanalysis/lineardiscriminantanalysis';
@@ -299,7 +300,17 @@ export class ChartScene {
         }
     }
 
-    public update(graph: GraphEnum, config: GraphConfig, data: any) {
+    public updateDecorators(graph: GraphEnum, config: GraphConfig, decorators: Array<DataDecorator>): void {
+        const view = ( graph === GraphEnum.GRAPH_A ) ? this.views[0] :
+        ( graph === GraphEnum.GRAPH_B ) ? this.views[1] :
+        this.views[2];
+        if (view.chart !== null) {
+            view.chart.updateDecorator(config, decorators);
+            this.render();
+        }
+    }
+    
+    public updateData(graph: GraphEnum, config: GraphConfig, data: any): void {
 
         // let view: VisualizationView;
         // switch (graph) {
@@ -369,11 +380,11 @@ export class ChartScene {
         }
 
         // Edges
-        if (view.config.entity !== config.entity) {
-            if (this.views[2].chart != null) {
-                (this.views[2].chart as EdgesGraph).updateEdges = true;
-            }
-        }
+        // if (view.config.entity !== config.entity) {
+        //     if (this.views[2].chart != null) {
+        //         (this.views[2].chart as EdgesGraph).updateEdges = true;
+        //     }
+        // }
 
         if (view.config.visualization !== config.visualization) {
             view.config.visualization = config.visualization;
@@ -383,7 +394,7 @@ export class ChartScene {
             if (config.visualization === VisualizationEnum.EDGES) {
                 view.chart.onRequestRender.subscribe(this.render);
                 view.chart.onConfigEmit.subscribe(this.config);
-                view.chart.update(config, data);
+                view.chart.updateData(config, data);
                 this.render();
                 return;
             }
@@ -392,7 +403,7 @@ export class ChartScene {
             view.chart.onConfigEmit.subscribe(this.config);
         }
 
-        view.chart.update(config, data);
+        view.chart.updateData(config, data);
         this.render();
         try {
             this.views[0].chart.enable( true );
