@@ -32,6 +32,7 @@ export interface FaDataModel extends GraphData {
     sid: Array<string>;
     mid: Array<string>;
     pid: Array<string>;
+    
     loglike: any;
     noiseVariance: any;
     nIter: any;
