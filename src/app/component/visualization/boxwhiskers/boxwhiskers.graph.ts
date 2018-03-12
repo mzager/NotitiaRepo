@@ -1,3 +1,4 @@
+import { DataDecorator } from './../../../model/data-map.model';
 import { BoxWhiskersConfigModel, BoxWhiskersDataModel } from './boxwhiskers.model';
 import { DirtyEnum } from 'app/model/enum.model';
 // import { Tween, Easing } from 'es6-tween';
@@ -20,6 +21,7 @@ import * as THREE from 'three';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
 
 export class BoxWhisterksGraph implements ChartObjectInterface {
+
 
     // Emitters
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
@@ -78,7 +80,10 @@ export class BoxWhisterksGraph implements ChartObjectInterface {
     }
 
     // Focus On This
-    update(config: GraphConfig, data: any) {
+    updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
+        throw new Error("Method not implemented.");
+    }
+    updateData(config: GraphConfig, data: any) {
 
         // Save Config + Data Locally 
         this.config = config as BoxWhiskersConfigModel;

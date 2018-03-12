@@ -1,3 +1,4 @@
+import { DataDecorator } from './../../../model/data-map.model';
 import { ParallelCoordsDataModel, ParallelCoordsConfigModel } from './parallelcoords.model';
 import { DirtyEnum } from 'app/model/enum.model';
 // import { Tween, Easing } from 'es6-tween';
@@ -75,8 +76,10 @@ export class ParallelCoordsGraph implements ChartObjectInterface {
         this.enable(false);
         this.removeObjects();
     }
-
-    update(config: GraphConfig, data: any) {
+    updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
+        throw new Error("Method not implemented.");
+    }
+    updateData(config: GraphConfig, data: any) {
         this.config = config as ParallelCoordsConfigModel;
         this.data = data;
         if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {

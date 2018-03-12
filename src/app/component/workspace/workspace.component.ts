@@ -1,3 +1,4 @@
+import { DataDecorator } from './../../model/data-map.model';
 import { Cohort } from './../../model/cohort.model';
 import { GeneSet } from './../../model/gene-set.model';
 import { HelpSetConfigAction } from './../../action/help.action';
@@ -103,6 +104,7 @@ export class WorkspaceComponent {
   workspaceConfig: Observable<WorkspaceConfigModel>;
   graphAData: Observable<any>;
   graphBData: Observable<any>;
+  decorators: Observable<Array<DataDecorator>>;
   edgeConfig: Observable<GraphConfig>;
   edgeLegend: Observable<Array<Legend>>;
   

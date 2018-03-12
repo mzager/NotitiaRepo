@@ -1,3 +1,4 @@
+import { DataDecorator } from './../../../model/data-map.model';
 import { hicComputeFn } from './hic.compute';
 import { ComputeWorkerUtil } from './../../../service/compute.worker.util';
 import { HicConfigModel, HicDataModel } from './hic.model';
@@ -92,8 +93,10 @@ export class HicGraph implements ChartObjectInterface {
         this.enable(false);
         this.removeObjects();
     }
-
-    update(config: GraphConfig, data: any) {
+    updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
+        throw new Error("Method not implemented.");
+    }
+    updateData(config: GraphConfig, data: any) {
         this.config = config as HicConfigModel;
         this.data = data;
         if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {

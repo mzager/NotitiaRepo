@@ -1,3 +1,4 @@
+import { DataDecorator } from './../../../model/data-map.model';
 import { EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
 import { EventEmitter } from '@angular/core';
 import { OrbitControls } from 'three-orbitcontrols-ts';
@@ -32,7 +33,10 @@ export class DeGraph implements ChartObjectInterface {
     create(label: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         return this;
     }
-    update(config: GraphConfig, data: any) {
+    updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
+        throw new Error("Method not implemented.");
+    }
+    updateData(config: GraphConfig, data: any) {
     }
     preRender(views: Array<VisualizationView>, layout: WorkspaceLayoutEnum, renderer: THREE.WebGLRenderer) {
 
@@ -50,9 +54,6 @@ export class DeGraph implements ChartObjectInterface {
     }
     setData(data: DeDataModel): void {
         // this.layout = data.eigenvectorsScaled;
-        this.sizes = data.pointSize;
-        this.shapes = data.pointShape;
-        this.colors = data.pointColor;
         this.draw();
     }
     activate(events: ChartEvents, controls: OrbitControls): void {

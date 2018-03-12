@@ -1,3 +1,4 @@
+import { DataDecorator } from './../../../model/data-map.model';
 import { scaleLinear, scaleLog, InterpolatorFactory, scaleSequential, scaleQuantize, scaleQuantile } from 'd3-scale';
 import { interpolateRgb, interpolateHcl } from 'd3-interpolate';
 import { rgb } from 'd3-color';
@@ -66,8 +67,10 @@ export class TimelinesGraph implements ChartObjectInterface {
             }
         }
     }
-
-    update(config: GraphConfig, data: any) {
+    updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
+        throw new Error("Method not implemented.");
+    }
+    updateData(config: GraphConfig, data: any) {
         this.config = config as TimelinesConfigModel;
         this.data = data;
         this.removeObjects();
