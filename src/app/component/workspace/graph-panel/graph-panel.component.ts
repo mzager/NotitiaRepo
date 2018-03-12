@@ -341,7 +341,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
           { value: VisualizationEnum.INCREMENTAL_PCA, label: 'PCA - Incremental' },
           { value: VisualizationEnum.KERNAL_PCA, label: 'PCA - Kernel' },
           { value: VisualizationEnum.SPARSE_PCA, label: 'PCA - Sparse' },
-          // { value: VisualizationEnum.MINI_BATCH_SPARSE_PCA, label: 'PCA - Sparse - Mini Batch' },
+          { value: VisualizationEnum.MINI_BATCH_SPARSE_PCA, label: 'PCA - Sparse - Mini Batch' },
           { value: VisualizationEnum.SPARSE_CODER, label: 'Sparse Coder'},
           { value: VisualizationEnum.TRUNCATED_SVD, label: 'Truncated SVD' }
         ]

@@ -8,44 +8,30 @@ declare var ML: any;
 
 export const dictionaryLearningCompute = (config: DictionaryLearningConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
-        worker.util.processShapeColorSizeIntersect(config, worker);
-
-        if (config.dirtyFlag & DirtyEnum.LAYOUT) {
-            worker.util
-                .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
-                .then(mtx => {
-                    Promise.all([
-                        worker.util.getSamplePatientMap(config.database),
-                        worker.util
-                            .fetchResult({
-                                method: 'cluster_sk_dictionary_learning',
-                                data: mtx.data,
-                                n_components: config.n_components,
-                                dimension: config.dimension,
-                                alpha: config.alpha,
-                                max_iter: config.max_iter,
-                                tol: config.tol,
-                                fit_algorithm: config.fit_algorithm,
-                                transform_algorithm: config.transform_algorithm,
-                                split_sign: config.split_sign
-                            })
-                    ]).then(result => {
-                            const psMap = result[0].reduce( (p, c) => { p[c.s] = c.p; return p; }, {});
-                            const data = result[1];
-                            const resultScaled = worker.util.scale3d(data.result);
-                            worker.postMessage({
-                                config: config,
-                                data: {
-                                    legendItems: [],
-                                    result: data,
-                                    resultScaled: resultScaled,
-                                    patientIds: mtx.samples.map ( v => psMap[v] ),
-                                    sampleIds: mtx.samples,
-                                    markerIds: mtx.markers
-                                }
-                            });
-                            worker.postMessage('TERMINATE');
-                        });
+    worker.util.getDataMatrix(config).then(matrix => {
+        worker.util
+            .fetchResult({
+                method: 'cluster_sk_dictionary_learning',
+                data: matrix.data,
+                n_components: config.n_components,
+                dimension: config.dimension,
+                alpha: config.alpha,
+                max_iter: config.max_iter,
+                tol: config.tol,
+                fit_algorithm: config.fit_algorithm,
+                transform_algorithm: config.transform_algorithm,
+                split_sign: config.split_sign
+            })
+            .then(result => {
+                result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+                result.sid = matrix.sid;
+                result.mid = matrix.mid;
+                result.pid = matrix.pid
+                worker.postMessage({
+                    config: config,
+                    data: result
                 });
-            }
-    };
+                worker.postMessage('TERMINATE');
+            });
+    })
+};

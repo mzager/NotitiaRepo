@@ -40,6 +40,7 @@ export interface FastIcaDataModel extends GraphData {
     sid: Array<string>;
     mid: Array<string>;
     pid: Array<string>;
+    
     components: any;
     mixing: any;
     nIter: any;
