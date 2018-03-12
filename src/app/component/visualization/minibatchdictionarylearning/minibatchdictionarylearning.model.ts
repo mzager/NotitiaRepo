@@ -27,7 +27,7 @@ export class MiniBatchDictionaryLearningConfigModel extends GraphConfig {
     }
 
     dimension = DimensionEnum.THREE_D;
-    n_components = 3;
+    n_components = 10;
     alpha = 1;
     n_iter = 1000;
     fit_algorithm = MiniBatchDictionaryLearningFit.LARS;
@@ -35,6 +35,9 @@ export class MiniBatchDictionaryLearningConfigModel extends GraphConfig {
     shuffle = true;
     transform_algorithm = MiniBatchDictionaryTransform.OMP;
     split_sign = false;
+    pcx = 1;
+    pcy = 2;
+    pcz = 3;
 }
 
 
@@ -44,7 +47,7 @@ export interface MiniBatchDictionaryLearningDataModel extends GraphData {
     sid: Array<string>;
     mid: Array<string>;
     pid: Array<string>;
-    
+
     components: any;
     iter: any;
     inner_stats: any;

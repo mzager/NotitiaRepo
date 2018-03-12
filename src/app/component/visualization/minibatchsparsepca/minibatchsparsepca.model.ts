@@ -11,7 +11,7 @@ export class MiniBatchSparsePcaMethod {
 }
 
 export class MiniBatchSparsePcaConfigModel extends GraphConfig {
- 
+
     constructor() {
         super();
         this.entity = EntityTypeEnum.SAMPLE;
@@ -19,13 +19,16 @@ export class MiniBatchSparsePcaConfigModel extends GraphConfig {
         this.label = 'PCA Sparse Mini Batch';
     }
 
-    n_components = 3;
+    n_components = 10;
     alpha = 1;
     ridge_alpha = 0.01;
     n_iter = 10;
     batch_size = 3;
     shuffle = true;
     sk_method = MiniBatchSparsePcaMethod.LARS;
+    pcx = 1;
+    pcy = 2;
+    pcz = 3;
 }
 
 
@@ -35,6 +38,7 @@ export interface MiniBatchSparsePcaDataModel extends GraphData {
     sid: Array<string>;
     mid: Array<string>;
     pid: Array<string>;
+
     error: any;
     n_iter: any;
 }

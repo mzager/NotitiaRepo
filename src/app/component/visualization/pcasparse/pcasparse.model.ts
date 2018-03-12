@@ -19,13 +19,16 @@ export class PcaSparseConfigModel extends GraphConfig {
         this.label = 'PCA Sparse';
     }
 
-    n_components = 3;
+    n_components = 10;
     dimension = DimensionEnum.THREE_D;
     alpha = 1;
     ridge_alpha = 0.01;
     max_iter = 1000;
     tol = 1e-8;
     sk_method = 'cd';
+    pcx = 1;
+    pcy = 2;
+    pcz = 3;
 }
 
 
