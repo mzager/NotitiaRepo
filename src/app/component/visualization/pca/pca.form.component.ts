@@ -114,9 +114,6 @@ export class PcaFormComponent extends AbstractScatterForm {
           patientFilter: [],
           patientSelect: [],
           table: [],
-          pointColor: [],
-          pointShape: [],
-          pointSize: [],
 
           n_components: [],
           dimension: [],
