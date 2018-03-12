@@ -42,6 +42,7 @@ export interface SpectralEmbeddingDataModel extends GraphData {
     sid: Array<string>;
     mid: Array<string>;
     pid: Array<string>;
+    
     embedding: any;
     affinityMatrix: any;
 }
