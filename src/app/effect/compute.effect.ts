@@ -48,7 +48,10 @@ import {
   MiniBatchSparsePcaCompleteAction,
   LinearDiscriminantAnalysisCompleteAction,
   QuadraticDiscriminantAnalysisCompleteAction,
-  SurvivalCompleteAction
+  SurvivalCompleteAction,
+  DecoratorAddAction,
+  DecoratorDelAction,
+  DecoratorUpdateAction
 } from './../action/compute.action';
 import { ComputeService } from './../service/compute.service';
 import { DataService } from './../service/data.service';
@@ -489,6 +492,21 @@ export class ComputeEffect {
             new LoaderHideAction()];
         });
     });
+
+  // @Effect() decoratorAdd: Observable<any> = this.actions$
+  //   .ofType(compute.COMPUTE_DECORATOR_ADD)
+  //   .map((action: UnsafeAction) => action.payload)
+
+
+  // @Effect() decoratorDel: Observable<any> = this.actions$
+  //   .ofType(compute.COMPUTE_DECORATOR_ADD)
+  //   .map((action: UnsafeAction) => action.payload)
+  //   .switchMap(payload => {
+  //     return new LoaderHideAction();
+  //     //return new DecoratorUpdateAction(payload);
+  //   });
+
+  
 
 
 

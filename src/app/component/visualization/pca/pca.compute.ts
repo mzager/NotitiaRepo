@@ -3,7 +3,7 @@ import { Legend } from 'app/model/legend.model';
 import { PcaConfigModel, PcaDataModel } from './pca.model';
 import { DedicatedWorkerGlobalScope } from 'compute';
 import * as _ from 'lodash';
-import { DataMapTypeEnum } from '../../../model/data-map.model';
+import { DataDecoratorTypeEnum } from '../../../model/data-map.model';
 declare var ML: any;
 
 
@@ -11,9 +11,9 @@ export const pcaCompute = (config: PcaConfigModel, worker: DedicatedWorkerGlobal
 
     worker.util.getDataMatrix(config).then(matrix => {
         Promise.all([
-            worker.util.getDataMap(config, config.pointColor, DataMapTypeEnum.COLOR),
-            worker.util.getDataMap(config, config.pointSize, DataMapTypeEnum.SIZE),
-            worker.util.getDataMap(config, config.pointShape, DataMapTypeEnum.SHAPE),
+            worker.util.getDataDecorator(config, config.pointColor, DataDecoratorTypeEnum.COLOR),
+            worker.util.getDataDecorator(config, config.pointSize, DataDecoratorTypeEnum.SIZE),
+            worker.util.getDataDecorator(config, config.pointShape, DataDecoratorTypeEnum.SHAPE),
             worker.util
                 .fetchResult({
                     // added more than server is calling

@@ -1,3 +1,4 @@
+import { DataDecorator } from './../../../model/data-map.model';
 import { DataService } from 'app/service/data.service';
 import { DendogramConfigModel } from './../../visualization/dendogram/dendogram.model';
 import { SurvivalConfigModel } from './../../visualization/survival/survival.model';
@@ -68,6 +69,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Input() events: Array<{ type: string, subtype: string }>;
   @Input() genesets: Array<any>;
   @Input() cohorts: Array<any>;
+  @Input() decorators: Array<DataDecorator>;
 
   @Input() molecularData: Array<string>;
   @Input() clinicalFields: Array<DataField>;
