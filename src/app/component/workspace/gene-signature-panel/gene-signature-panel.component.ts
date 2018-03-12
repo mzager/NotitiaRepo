@@ -53,11 +53,9 @@ export class GeneSignaturePanelComponent implements AfterViewInit {
   constructor(private cd: ChangeDetectorRef, private fb: FormBuilder, private dataService: DataService) {
 
     this.dataService.getGeneSetCategories().toPromise().then(v => {
-      
     });
 
     this.form = this.fb.group({
-      
     });
 
     this.form.valueChanges
