@@ -103,13 +103,13 @@ export class ClusteringAlgorithmPanelComponent implements AfterViewInit {
       0x5D4037, 0x455A64];
     this.configA.dirtyFlag = DirtyEnum.COLOR;
 
-    this.graphAData.pointColor = this.graphAData.patientIds.reduce( (p, c, i) => { p[c] = colors[clusts[i]]; return p; }, {});
-    const action = new PcaIncrementalCompleteAction({
-        config: (this.configA as PcaIncrementalConfigModel),
-        data: (this.graphAData as PcaIncrementalDataModel)
-        });
+    // this.graphAData.pointColor = this.graphAData.patientIds.reduce( (p, c, i) => { p[c] = colors[clusts[i]]; return p; }, {});
+    // const action = new PcaIncrementalCompleteAction({
+    //     config: (this.configA as PcaIncrementalConfigModel),
+    //     data: (this.graphAData as PcaIncrementalDataModel)
+    //     });
 
-    this.store.dispatch( action );
+    // this.store.dispatch( action );
   }
 
   ngAfterViewInit(): void {

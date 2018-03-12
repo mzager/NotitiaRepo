@@ -13,10 +13,9 @@ export class DaConfigModel extends GraphConfig {
 }
 
 export interface DaDataModel extends GraphData {
-    legends: Array<Legend>;
-    pointColor: any;
-    pointSize: any;
-    pointShape: any;
-    sampleIds: Array<string>;
-    markerIds: Array<string>;
+    result: any;
+    resultScaled: Array<Array<number>>;
+    sid: Array<string>;
+    mid: Array<string>;
+    pid: Array<string>;
 }

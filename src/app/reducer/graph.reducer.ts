@@ -88,36 +88,7 @@ function processAction(action: UnsafeAction, state: State): State {
         case COMPUTE_PCA_INCREMENTAL_COMPLETE:
         case COMPUTE_PCA_KERNAL_COMPLETE:
         case COMPUTE_SURVIVAL_COMPLETE:
-            const data = action.payload.data as GraphData;
-            switch (action.payload.config.dirtyFlag) {
-                case DirtyEnum.LAYOUT:
-                    return Object.assign({}, state, {data: action.payload.data, config: action.payload.config});
-                case DirtyEnum.OPTIONS:
-                    return Object.assign({}, state, {data: Object.assign({}, state.data), config: action.payload.config});
-                // case DirtyEnum.COLOR:
-                //     return Object.assign({}, state, {config: action.payload.config,
-                //         data: Object.assign({}, state.data, {
-                //             legendItems: [...state.data.legendItems.filter( v => v.type !== 'COLOR' ), action.payload.data.legendColor],
-                //             pointColor: action.payload.data.pointColor
-                //         })
-                //     });
-                // case DirtyEnum.SHAPE:
-                //     return Object.assign({}, state, {config: action.payload.config,
-                //         data: Object.assign({}, state.data, {
-                //             legendItems: [...state.data.legendItems.filter( v => v.type !== 'SHAPE' ), action.payload.data.legendShape],
-                //             pointShape: action.payload.data.pointShape
-                //         })
-                //     });
-                // case DirtyEnum.SIZE:
-                //     return Object.assign({}, state, {config: action.payload.config,
-                //         data: Object.assign({}, state.data, {
-                //             legendItems: [...state.data.legendItems.filter( v => v.type !== 'SIZE' ), action.payload.data.legendSize],
-                //             pointSize: action.payload.data.pointSize
-                //         })
-                //     });
-            }
-            // return Object.assign({}, state, {data: action.payload.data, config: action.payload.config});
-            return state;
+            return Object.assign({}, state, {data: action.payload.data, config: action.payload.config});
 
         case graph.VISIBILITY_TOGGLE:
             return Object.assign({}, state, { visibility: action.payload.data});

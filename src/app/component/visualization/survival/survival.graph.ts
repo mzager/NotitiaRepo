@@ -1,3 +1,4 @@
+import { DataDecorator } from './../../../model/data-map.model';
 import { ChartUtil } from 'app/component/workspace/chart/chart.utils';
 import { ChartFactory } from './../../workspace/chart/chart.factory';
 import { SurvivalConfigModel, SurvivalDataModel } from './survival.model';
@@ -33,7 +34,10 @@ export class SurvivalGraph implements ChartObjectInterface {
         this.isEnabled = truthy;
         this.view.controls.enabled = this.isEnabled;
     }
-    update(config: GraphConfig, data: any) {
+    updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
+        throw new Error("Method not implemented.");
+    }
+    updateData(config: GraphConfig, data: any) {
         this.config = config as SurvivalConfigModel;
         this.data = data.result;
 

@@ -18,5 +18,9 @@ export class SomConfigModel extends GraphConfig {
 }
 
 export interface SomDataModel extends GraphData {
-    legends: Array<Legend>;
+    result: any;
+    resultScaled: Array<Array<number>>;
+    sid: Array<string>;
+    mid: Array<string>;
+    pid: Array<string>;
 }

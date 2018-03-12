@@ -108,15 +108,11 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       const data:  GraphData = {
-        legendItems: null,
         result: null,
         resultScaled: null,
-        pointColor: null,
-        pointSize: [],
-        pointShape: [],
-        sampleIds: [],
-        markerIds: [],
-        patientIds: []
+        sid: [],
+        mid: [],
+        pid: []
       };
       return Observable.of( new NoneCompleteAction({ config: payload['config'], data: data }) );
     });

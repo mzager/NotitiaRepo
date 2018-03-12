@@ -10,39 +10,27 @@ declare var ML: any;
 export const pcaCompute = (config: PcaConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
     worker.util.getDataMatrix(config).then(matrix => {
-        Promise.all([
-            worker.util.getDataDecorator(config, config.pointColor, DataDecoratorTypeEnum.COLOR),
-            worker.util.getDataDecorator(config, config.pointSize, DataDecoratorTypeEnum.SIZE),
-            worker.util.getDataDecorator(config, config.pointShape, DataDecoratorTypeEnum.SHAPE),
-            worker.util
-                .fetchResult({
-                    // added more than server is calling
-                    method: 'cluster_sk_pca',
-                    data: matrix.data,
-                    n_components: config.n_components,
-                    dimension: config.dimension,
-                    random_state: config.random_state,
-                    tol: config.tol,
-                    svd_solver: config.svd_solver,
-                    whiten: config.whiten,
-                    copy: config.copy,
-                    iterated_power: config.iterated_power
-                })
-        ])
-            .then(result => {
 
-                const data = result[3];
-                const resultScaled = worker.util.scale3d(data.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
+        worker.util
+            .fetchResult({
+                method: 'cluster_sk_pca',
+                data: matrix.data,
+                n_components: config.n_components,
+                dimension: config.dimension,
+                random_state: config.random_state,
+                tol: config.tol,
+                svd_solver: config.svd_solver,
+                whiten: config.whiten,
+                copy: config.copy,
+                iterated_power: config.iterated_power
+            }).then(result => {
+                result.resultScaled = worker.util.scale3d(result.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
+                result.sid = matrix.sid;
+                result.mid = matrix.mid;
+                result.pid = matrix.pid
                 worker.postMessage({
                     config: config,
-                    data: {
-                        maps: [result[0], result[1], result[2]].filter(v => v),
-                        result: data,
-                        resultScaled: resultScaled
-                        // patientIds: matrix.samples.map(v => psMap[v]),
-                        // sampleIds: matrix.samples,
-                        // markerIds: matrix.markers
-                    }
+                    data: result
                 });
                 worker.postMessage('TERMINATE');
             });

@@ -1,3 +1,4 @@
+import { DataDecorator } from './../../model/data-map.model';
 import { Subscription } from 'rxjs/Subscription';
 import { WorkspaceLayoutEnum } from './../../model/enum.model';
 import { VisualizationView } from './../../model/chart-view.model';
@@ -24,7 +25,10 @@ export class AbstractVisualization implements ChartObjectInterface {
     enable(truthy: Boolean) {
         throw new Error('Method not implemented.');
     }
-    update(config: GraphConfig, data: any) {
+    updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
+        throw new Error("Method not implemented.");
+    }
+    updateData(config: GraphConfig, data: any) {
         throw new Error('Method not implemented.');
     }
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
