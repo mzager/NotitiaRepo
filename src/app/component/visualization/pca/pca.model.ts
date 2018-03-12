@@ -5,7 +5,7 @@ import { DataFieldFactory, DataTable } from './../../../model/data-field.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DataField } from 'app/model/data-field.model';
 import { Component } from '@angular/core';
-import { DataMap } from '../../../model/data-map.model';
+import { DataDecorator } from '../../../model/data-map.model';
 
 export class PcaSvdSolver {
     public static AUTO = 'auto';
@@ -40,7 +40,7 @@ export class PcaConfigModel extends GraphConfig {
 export interface PcaDataModel extends GraphData {
     result: any;
     resultScaled: Array<Array<number>>;
-    maps: Array<DataMap>;
+    maps: Array<DataDecorator>;
     // pointColor: Array<number>;
     // pointSize: Array<number>;
     // pointShape: Array<ShapeEnum>;
