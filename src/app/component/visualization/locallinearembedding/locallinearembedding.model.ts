@@ -53,5 +53,6 @@ export interface LocalLinearEmbeddingDataModel extends GraphData {
     sid: Array<string>;
     mid: Array<string>;
     pid: Array<string>;
+    
     reconstructionError: any;
 }
