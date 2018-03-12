@@ -1,3 +1,4 @@
+import { DataDecorator } from './../../model/data-map.model';
 import { ChartUtil } from './../workspace/chart/chart.utils';
 import { GraphData } from './../../model/graph-data.model';
 import { ChartFactory } from './../workspace/chart/chart.factory';
@@ -53,10 +54,16 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.enable(false);
         this.removeObjects();
     }
-
-    update(config: GraphConfig, data: any) {
+    updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
+        throw new Error("Method not implemented.");
+    }
+    updateData(config: GraphConfig, data: any) {
         this.config = config as GraphConfig;
         this.data = data;
+        this.removeObjects();
+        this.addObjects(this.config.entity);
+        /*
+        
         if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {
             this.removeObjects();
             this.addObjects(this.config.entity);
@@ -96,6 +103,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
                 (mesh as THREE.Mesh).geometry = ChartFactory.getShape(shape);
             });
         }
+        */
     }
 
     enable(truthy: boolean) {
@@ -122,11 +130,11 @@ export class AbstractScatterVisualization extends AbstractVisualization {
             const userData = (type === EntityTypeEnum.GENE) ?
                 {
                     color: color,
-                    mid: this.data['markerIds'][i]
+                    mid: this.data['mid'][i]
                 } : {
                     color: color,
-                    pid: this.data['patientIds'][i],
-                    sid: this.data['sampleIds'][i]
+                    pid: this.data['pid'][i],
+                    sid: this.data['sid'][i]
                 };
             const mesh = ChartFactory.meshAllocate(
                 color,
@@ -134,8 +142,8 @@ export class AbstractScatterVisualization extends AbstractVisualization {
                 size,
                 new THREE.Vector3(
                     position[0],
-                    (this.config['dimension'] === DimensionEnum.ONE_D) ? 0 : position[1],
-                    (this.config['dimension'] !== DimensionEnum.THREE_D) ? 0 : position[2]
+                    position[1],
+                    position[2]
                 ), userData);
 
             this.meshes.push(mesh);

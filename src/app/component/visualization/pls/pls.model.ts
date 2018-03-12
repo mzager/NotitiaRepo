@@ -23,7 +23,9 @@ export class PlsConfigModel extends GraphConfig {
 }
 
 export interface PlsDataModel extends GraphData {
-    legends: Array<Legend>;
+    sid: Array<string>;
+    mid: Array<string>;
+    pid: Array<string>;
     scoresX: any;
     loadingsX: any;
     scoresY: any;
@@ -36,9 +38,5 @@ export interface PlsDataModel extends GraphData {
     meanX: any;
     meanY: any;
     explainedVariance: any;
-    pointColor: any;
-    pointSize: any;
-    pointShape: any;
-    sampleIds: Array<string>;
-    markerIds: Array<string>;
+    
 }

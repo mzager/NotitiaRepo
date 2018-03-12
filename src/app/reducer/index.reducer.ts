@@ -75,12 +75,14 @@ export const getGraphAVisibility = createSelector( getGraphAState, (state: fromG
 export const getGraphADepth = createSelector( getGraphAState, (state: fromGraph.State) => state.depth );
 export const getGraphAConfig = createSelector( getGraphAState, (state: fromGraph.State) => state.config );
 export const getGraphAData = createSelector( getGraphAState, (state: fromGraph.State) => state.data );
+export const getGraphADecorators = createSelector( getGraphAState, (state: fromGraph.State) => state.decorators);
 
 export const getGraphBState = (state: State) => state.graphB;
 export const getGraphBVisibility = createSelector( getGraphBState, (state: fromGraph.State) => state.visibility );
 export const getGraphBDepth = createSelector( getGraphBState, (state: fromGraph.State) => state.depth );
 export const getGraphBConfig = createSelector( getGraphBState, (state: fromGraph.State) => state.config );
 export const getGraphBData = createSelector( getGraphBState, (state: fromGraph.State) => state.data );
+export const getGraphBDecorators = createSelector( getGraphBState, (state: fromGraph.State) => state.decorators);
 
 // Edges Reducer
 export const getEdgesState = (state: State) => state.edges;

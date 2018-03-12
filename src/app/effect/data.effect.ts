@@ -186,13 +186,13 @@ export class DataEffect {
             // graphAConfig.graph = GraphEnum.GRAPH_A;
             // graphAConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
 
-            const graphBConfig = new PcaIncrementalConfigModel();
-            graphBConfig.graph = GraphEnum.GRAPH_A;
-            graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            // const graphBConfig = new PcaIncrementalConfigModel();
+            // graphBConfig.graph = GraphEnum.GRAPH_A;
+            // graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
-            // const pcaConfig = new PcaConfigModel();
-            // pcaConfig.graph = GraphEnum.GRAPH_A;
-            // pcaConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            const pcaConfig = new PcaConfigModel();
+            pcaConfig.graph = GraphEnum.GRAPH_A;
+            pcaConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
             const heatmapConfig = new HeatmapConfigModel();
             heatmapConfig.graph = GraphEnum.GRAPH_B;
@@ -203,7 +203,7 @@ export class DataEffect {
                 new DataUpdateGenesetsAction(args.genesets),
                 new WorkspaceConfigAction(workspaceConfig),
                 // new compute.LinkedGeneAction( { config: graphAConfig } ),
-                new compute.PcaIncrementalAction( { config: graphBConfig } ),
+                // new compute.PcaIncrementalAction( { config: graphBConfig } ),
                 // new compute.HicAction( { config: hicConfig }),
                 // new compute.BoxWhiskersAction( { config: boxWhiskersConfig } ),
                 // new compute.TimelinesAction( { config: timelinesConfigA}),
@@ -216,10 +216,8 @@ export class DataEffect {
                 // new compute.GenomeAction( { config: genomeConfig }),
                 // new compute.PcaIncrementalAction({ config: graphBConfig }),
                 // new GraphPanelToggleAction( GraphPanelEnum.GRAPH_A )
-                // new compute.PcaAction({ config: pcaConfig }),
+                new compute.PcaAction({ config: pcaConfig }),
                 new LoaderShowAction()
-
-
             ];
         });
 

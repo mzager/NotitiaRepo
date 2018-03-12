@@ -25,4 +25,6 @@ export interface ChromosomeDataModel extends GraphData {
     genes: any;
     links: any;
     result: any;
+
+    
 }

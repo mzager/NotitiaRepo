@@ -1,3 +1,4 @@
+import { DataDecorator } from './../../../model/data-map.model';
 import { element } from 'protractor';
 import { DirtyEnum } from 'app/model/enum.model';
 // import { Tween, Easing } from 'es6-tween';
@@ -110,7 +111,10 @@ export class ChromosomeGraph implements ChartObjectInterface {
         this.removeObjects();
     }
 
-    update(config: GraphConfig, data: any) {
+    updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
+        throw new Error("Method not implemented.");
+    }
+    updateData(config: GraphConfig, data: any) {
 
         this.config = config as ChromosomeConfigModel;
         this.data = data;

@@ -24,12 +24,9 @@ export class PcaIncrementalConfigModel extends GraphConfig {
 export interface PcaIncrementalDataModel extends GraphData {
     result: any;
     resultScaled: Array<Array<number>>;
-    pointColor: Array<number>;
-    pointSize: Array<number>;
-    pointShape: Array<ShapeEnum>;
-    sampleIds: Array<string>;
-    markerIds: Array<string>;
-    patientIds: Array<string>;
+    sid: Array<string>;
+    mid: Array<string>;
+    pid: Array<string>;
     components: any;
     explainedVariance: any;
     explainedVarianceRatio: any;
