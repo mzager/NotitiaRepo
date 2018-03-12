@@ -1,3 +1,4 @@
+import { DataDecorator } from './../../../model/data-map.model';
 import { SvdDataModel, SvdConfigModel } from './svd.model';
 import { EventEmitter, Output } from '@angular/core';
 
@@ -63,8 +64,10 @@ export class SvdGraph implements ChartObjectInterface {
         this.enable(false);
         this.removeObjects();
     }
-
-    update( config: GraphConfig, data: any) {
+    updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
+        throw new Error("Method not implemented.");
+    }
+    updateData( config: GraphConfig, data: any) {
         this.config = config as SvdConfigModel;
         this.data = data;
         this.removeObjects();
@@ -94,9 +97,6 @@ export class SvdGraph implements ChartObjectInterface {
 
         // const weightLength = this.data.loadingsScaled.length;
         // const layoutLength = this.data.eigenvectorsScaled.length;
-        const sizeLength = this.data.pointSize.length;
-        const shapeLength = this.data.pointShape.length;
-        const colorLength = this.data.pointColor.length;
 
         // if (this.config.showVectors) {
         //     const lineMaterial = new THREE.LineBasicMaterial({ color: 0x0091EA, linewidth: 2 });

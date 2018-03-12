@@ -1,3 +1,4 @@
+import { DataDecorator } from './../../../model/data-map.model';
 import { VisualizationView } from './../../../model/chart-view.model';
 import { ChartEvents } from './../../workspace/chart/chart.events';
 import { GraphConfig } from 'app/model/graph-config.model';
@@ -20,7 +21,10 @@ export class HistogramGraph implements ChartObjectInterface {
     enable(truthy: Boolean) {
 
     }
-    update(config: GraphConfig, data: any) {
+    updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
+        throw new Error("Method not implemented.");
+    }
+    updateData(config: GraphConfig, data: any) {
 
     }
     preRender(views: Array<VisualizationView>, layout: WorkspaceLayoutEnum, renderer: THREE.WebGLRenderer) {

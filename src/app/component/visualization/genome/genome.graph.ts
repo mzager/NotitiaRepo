@@ -1,3 +1,4 @@
+import { DataDecorator } from './../../../model/data-map.model';
 // import { Tween, Easing } from 'es6-tween';
 import { Colors, EntityTypeEnum, WorkspaceLayoutEnum, DirtyEnum, CollectionTypeEnum } from './../../../model/enum.model';
 import { OrbitControls } from 'three-orbitcontrols-ts';
@@ -86,8 +87,10 @@ export class GenomeGraph implements ChartObjectInterface {
         this.enable(false);
         this.removeObjects();
     }
-
-    update(config: GraphConfig, data: any) {
+    updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
+        throw new Error("Method not implemented.");
+    }
+    updateData(config: GraphConfig, data: any) {
         this.config = config as GenomeConfigModel;
         this.data = data;
         if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {

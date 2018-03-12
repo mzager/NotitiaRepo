@@ -17,9 +17,7 @@ export class EdgeConfigModel extends GraphConfig {
     isVisible = false;
     entityA: EntityTypeEnum = EntityTypeEnum.UNKNOWN;
     entityB: EntityTypeEnum = EntityTypeEnum.UNKNOWN;
-    pointColor: DataField = DataFieldFactory.getUndefined();
-    pointShape: DataField = DataFieldFactory.getUndefined();
-    pointSize: DataField = DataFieldFactory.getUndefined();
+    
     edgeOption = ['None'];
 }
 
@@ -27,13 +25,10 @@ export class EdgeDataModel implements GraphData {
     legendItems: Array<Legend>;
     result: any;
     resultScaled: number[][];
-    pointColor: number[];
-    pointSize: number[];
-    pointShape: ShapeEnum[];
     pointIntersect: Array<any>;
-    sampleIds: string[];
-    markerIds: string[];
-    patientIds: string[];
+    sid: string[];
+    mid: string[];
+    pid: string[];
     visible: Boolean = true;
 //     edges: [{
 //         value: any;

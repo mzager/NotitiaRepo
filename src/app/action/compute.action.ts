@@ -1,3 +1,4 @@
+import { DataDecorator } from './../model/data-map.model';
 import { DendogramConfigModel, DendogramDataModel } from './../component/visualization/dendogram/dendogram.model';
 import { MiniBatchSparsePcaConfigModel, MiniBatchSparsePcaDataModel } from 'app/component/visualization/minibatchsparsepca/minibatchsparsepca.model';
 import { MiniBatchDictionaryLearningConfigModel, MiniBatchDictionaryLearningDataModel } from 'app/component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
@@ -136,6 +137,9 @@ export const COMPUTE_GRAPH_SIZE = '[Compute] Graph Size';
 export const COMPUTE_GRAPH_SIZE_COMPLETE = '[Compute] Graph Size Complete';
 export const COMPUTE_GRAPH_SHAPE = '[Compute] Graph Shape';
 export const COMPUTE_GRAPH_SHAPE_COMPLETE = '[Compute] Graph Shape Complete';
+export const COMPUTE_DECORATOR_ADD = '[Compute] Decorator Add';
+export const COMPUTE_DECORATOR_DEL = '[Compute] Decorator Del';
+export const COMPUTE_DECORATOR_UPDATE = '[Compute] Decorator Update';
 export const SELECT_SAMPLES = '[Compute] Select Samples';
 export const SELECT_MARKERS = '[Compute] Select Markers';
 
@@ -160,6 +164,18 @@ export class EdgesAction implements Action {
 export class EdgesCompleteAction implements Action {
     readonly type: string = COMPUTE_EDGES_COMPLETE;
     constructor(public payload: { config: EdgeConfigModel, data: EdgeDataModel }) { }
+}
+export class DecoratorAddAction implements Action { 
+    readonly type: string = COMPUTE_DECORATOR_ADD;
+    constructor(public payload: { decorator: DataDecorator, decorators: Array<DataDecorator> }) {}
+}
+export class DecoratorDelAction implements Action { 
+    readonly type: string = COMPUTE_DECORATOR_DEL;
+    constructor(public payload: { decorator: DataDecorator, decorators: Array<DataDecorator> }) {}
+}
+export class DecoratorUpdateAction implements Action { 
+    readonly type: string = COMPUTE_DECORATOR_UPDATE;
+    constructor(public payload: { config: GraphConfig, decorators: Array<DataDecorator>}){}
 }
 export class NoneAction implements Action {
     readonly type: string = COMPUTE_NONE;
@@ -560,5 +576,6 @@ export type Actions =
     SampleSummaryAction | SampleSummaryCompleteAction |
     GraphColorAction | GraphShapeAction | GraphSizeAction |
     GraphColorCompleteAction | GraphShapeCompleteAction | GraphSizeCompleteAction |
+    DecoratorAddAction | DecoratorDelAction | 
     SelectSamplesAction | SelectMarkersAction;
  

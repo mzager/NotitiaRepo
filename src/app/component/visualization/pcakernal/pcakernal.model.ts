@@ -42,15 +42,13 @@ export class PcaKernalConfigModel extends GraphConfig {
 export interface PcaKernalDataModel extends GraphData {
     result: Array<Array<number>>;
     resultScaled: Array<Array<number>>;
-    pointColor: Array<number>;
-    pointSize: Array<number>;
-    pointShape: Array<ShapeEnum>;
-    sampleIds: Array<string>;
-    markerIds: Array<string>;
-    patientIds: Array<string>;
+    sid: Array<string>;
+    mid: Array<string>;
+    pid: Array<string>;
     lambdas: any;
     alphas: any;
     dualCoef: any;
     X_transformed_fit_: any;
     X_fit_: any;
 }
+

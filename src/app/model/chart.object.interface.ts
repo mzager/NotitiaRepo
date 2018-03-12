@@ -1,3 +1,4 @@
+import { DataDecorator } from './data-map.model';
 import { EntityTypeEnum, WorkspaceLayoutEnum } from './enum.model';
 import { GraphEnum } from 'app/model/enum.model';
 import { Subject } from 'rxjs/subject';
@@ -15,7 +16,8 @@ export interface ChartObjectInterface {
     onSelect: EventEmitter<{type: EntityTypeEnum, ids: Array<string>}>;
     onConfigEmit: EventEmitter<{type: GraphConfig}>;
     enable( truthy: Boolean );
-    update( config: GraphConfig, data: any);
+    updateDecorator( config: GraphConfig, decorators: Array<DataDecorator>);
+    updateData( config: GraphConfig, data: any);
     create( labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface;
     destroy();
     preRender(views: Array<VisualizationView>, layout: WorkspaceLayoutEnum, renderer: THREE.Renderer): void;

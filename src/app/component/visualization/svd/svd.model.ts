@@ -19,8 +19,11 @@ export class SvdConfigModel extends GraphConfig {
 }
 
 export interface SvdDataModel extends GraphData {
-    legends: Array<Legend>;
-    data: Array<any>;
+    result: any;
+    resultScaled: Array<Array<number>>;
+    sid: Array<string>;
+    mid: Array<string>;
+    pid: Array<string>;
     // eigenvectors: any;
     // eigenvectorsScaled: any;
     // eigenvalues: any;
@@ -29,9 +32,5 @@ export interface SvdDataModel extends GraphData {
     // explainedVariance: any;
     // cumulativeVariance: any;
     // standardDeviations: any;
-    pointColor: Array<number>;
-    pointSize: Array<number>;
-    pointShape: Array<ShapeEnum>;
-    sampleIds: Array<string>;
-    markerIds: Array<string>;
+    
 }

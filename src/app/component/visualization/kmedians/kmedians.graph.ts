@@ -1,3 +1,4 @@
+import { DataDecorator } from './../../../model/data-map.model';
 import { EventEmitter, Output } from '@angular/core';
 
 import { ChartUtil } from './../../workspace/chart/chart.utils';
@@ -66,8 +67,10 @@ export class KmedianGraph implements ChartObjectInterface {
     preRender(views: Array<VisualizationView>, layout: WorkspaceLayoutEnum, renderer: THREE.WebGLRenderer) {
 
     }
-
-    update( config: GraphConfig, data: any) {
+    updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
+        throw new Error("Method not implemented.");
+    }
+    updateData( config: GraphConfig, data: any) {
         this.config = config as KmedianConfigModel;
         this.data = data;
         this.removeObjects();

@@ -8,20 +8,12 @@ declare var ML: any;
 
 export const fasticaCompute = (config: FastIcaConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
-    worker.util.processShapeColorSizeIntersect(config, worker);
 
-    if (config.dirtyFlag & DirtyEnum.LAYOUT) {
-
+    worker.util.getDataMatrix(config).then(matrix => {
         worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
-            .then(mtx => {
-
-                Promise.all([
-                    worker.util.getSamplePatientMap(config.database),
-                    worker.util
-                        .fetchResult({
+            .fetchResult({
                             method: 'cluster_sk_fast_ica',
-                            data: mtx.data,
+                            data: matrix.data,
                             n_components: config.n_components,
                             dimension: config.dimension,
                             whiten: config.whiten,
@@ -29,24 +21,17 @@ export const fasticaCompute = (config: FastIcaConfigModel, worker: DedicatedWork
                             fun: config.fun,
                             tol: config.tol
                         })
-                ]).then(result => {
-                    const psMap = result[0].reduce((p, c) => { p[c.s] = c.p; return p; }, {});
-                    const data = result[1];
-                    const resultScaled = worker.util.scale3d(data.result);
-                    worker.postMessage({
-                        config: config,
-                        data: {
-                            legendItems: [],
-                            result: data,
-                            resultScaled: resultScaled,
-                            patientIds: mtx.samples.map(v => psMap[v]),
-                            sampleIds: mtx.samples,
-                            markerIds: mtx.markers
-                        }
-                    });
-                    worker.postMessage('TERMINATE');
-                });
-            });
-    }
-};
-
+                        .then(result => {
+                            result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+                            result.sid = matrix.sid;
+                            result.mid = matrix.mid;
+                            result.pid = matrix.pid
+                            worker.postMessage({
+                                config: config,
+                                data: result
+                            });
+                            worker.postMessage('TERMINATE');
+                        });
+                })
+            };   
+               

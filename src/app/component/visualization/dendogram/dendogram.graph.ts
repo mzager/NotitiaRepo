@@ -1,3 +1,4 @@
+import { DataDecorator } from './../../../model/data-map.model';
 import { DendogramDataModel, DendogramConfigModel } from './dendogram.model';
 import { NoneAction } from './../../../action/compute.action';
 import { EventEmitter, Output } from '@angular/core';
@@ -73,8 +74,10 @@ export class DendogramGraph implements ChartObjectInterface {
         this.removeObjects();
         this.enable(false);
     }
-
-    update(config: GraphConfig, data: any) {
+    updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
+        throw new Error("Method not implemented.");
+    }
+    updateData(config: GraphConfig, data: any) {
         debugger;
         console.log("REDRAW");
         this.config = config as DendogramConfigModel;
