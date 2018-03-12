@@ -18,15 +18,15 @@ export const miniBatchSparsePcaCompute = (config: MiniBatchSparsePcaConfigModel,
                 sk_method: config.sk_method
             })
             .then(result => {
-                result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+                result.resultScaled = worker.util.scale3d(result.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
                 result.sid = matrix.sid;
                 result.mid = matrix.mid;
-                result.pid = matrix.pid
+                result.pid = matrix.pid;
                 worker.postMessage({
                     config: config,
                     data: result
                 });
                 worker.postMessage('TERMINATE');
             });
-    })
+    });
 };

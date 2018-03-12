@@ -27,13 +27,17 @@ export class LinearDiscriminantAnalysisConfigModel extends GraphConfig {
         this.label = 'Linear Discriminant Analysis';
     }
 
-    n_components = 3;
+    n_components = 10;
     dimension = DimensionEnum.THREE_D;
     solver = LinearDiscriminantAnalysisSolver.SVD;
     shrinkage = LinearDiscriminantAnalysisShrinkage.NONE;
     // priors =
     store_covariance = false;
     tol = 1.0e-4;
+
+    pcx = 1;
+    pcy = 2;
+    pcz = 3;
 }
 
 
@@ -43,7 +47,7 @@ export interface LinearDiscriminantAnalysisDataModel extends GraphData {
     sid: Array<string>;
     mid: Array<string>;
     pid: Array<string>;
-    
+
     coef: any;
     intercept: any;
     covariance: any;

@@ -19,11 +19,14 @@ export class MdsConfigModel extends GraphConfig {
         this.label = 'Multidimensional Scaling';
     }
 
-    n_components = 3;
+    n_components = 10;
     dimension = DimensionEnum.THREE_D;
     metric: Boolean = true;
     eps = 1e-3;
     dissimilarity = MdsDissimilarity.ECULIDEAN;
+    pcx = 1;
+    pcy = 2;
+    pcz = 3;
 }
 
 
@@ -33,7 +36,7 @@ export interface MdsDataModel extends GraphData {
     sid: Array<string>;
     mid: Array<string>;
     pid: Array<string>;
-    
+
     embedding: any;
     stress: any;
 }

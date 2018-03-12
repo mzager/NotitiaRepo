@@ -23,10 +23,10 @@ export const pcaKernalCompute = (config: PcaKernalConfigModel, worker: Dedicated
                 remove_zero_eig: config.remove_zero_eig
             })
             .then(result => {
-                result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+                result.resultScaled = worker.util.scale3d(result.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
                 result.sid = matrix.sid;
                 result.mid = matrix.mid;
-                result.pid = matrix.pid
+                result.pid = matrix.pid;
                 worker.postMessage({
                     config: config,
                     data: result
@@ -34,4 +34,5 @@ export const pcaKernalCompute = (config: PcaKernalConfigModel, worker: Dedicated
                 worker.postMessage('TERMINATE');
             });
     });
-}
+};
+

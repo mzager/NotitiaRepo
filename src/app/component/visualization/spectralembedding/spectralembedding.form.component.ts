@@ -1,4 +1,4 @@
-import { SpectralEmbeddingConfigModel, SpectralEmbeddingAffinity, SpectralEmbeddingDataModel, 
+import { SpectralEmbeddingConfigModel, SpectralEmbeddingAffinity, SpectralEmbeddingDataModel,
   SpectralEmbeddingEigenSolver } from './spectralembedding.model';
 import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
 import { DimensionEnum, EntityTypeEnum, CollectionTypeEnum } from './../../../model/enum.model';
@@ -31,14 +31,32 @@ import * as _ from 'lodash';
       </select>
     </label>
   </div>
-   <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Dimension</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='dimensionOptions'
-        formControlName='dimension'>
-          <option *ngFor='let options of dimensionOptions'>{{options}}</option>
-      </select>
-    </label>
+  <div class='form-group'>
+  <label class='center-block'><span class='form-label'>X Axis</span>
+    <select materialize='material_select'
+        [materializeSelectOptions]='PcOptions'
+        formControlName='pcx'>
+        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
+    </select>
+  </label>
+  </div>
+  <div class='form-group'>
+  <label class='center-block'><span class='form-label'>Y Axis</span>
+    <select materialize='material_select'
+        [materializeSelectOptions]='PcOptions'
+        formControlName='pcy'>
+        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
+    </select>
+  </label>
+  </div>
+  <div class='form-group'>
+  <label class='center-block'><span class='form-label'>Z Axis</span>
+    <select materialize='material_select'
+        [materializeSelectOptions]='PcOptions'
+        formControlName='pcz'>
+        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
+    </select>
+  </label>
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Eigen Solver</span>
@@ -111,6 +129,9 @@ export class SpectralEmbeddingFormComponent extends AbstractScatterForm  {
       patientSelect: [],
       table: [],
 
+      pcx: [],
+      pcy: [],
+      pcz: [],
 
       n_components: [],
       dimension: [],

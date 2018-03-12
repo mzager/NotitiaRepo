@@ -46416,7 +46416,7 @@ exports.pcaSparseCompute = function (config, worker) {
             sk_method: config.sk_method
         })
             .then(function (result) {
-            result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+            result.resultScaled = worker.util.scale3d(result.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
             result.sid = matrix.sid;
             result.mid = matrix.mid;
             result.pid = matrix.pid;
@@ -46454,7 +46454,7 @@ exports.pcaKernalCompute = function (config, worker) {
             remove_zero_eig: config.remove_zero_eig
         })
             .then(function (result) {
-            result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+            result.resultScaled = worker.util.scale3d(result.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
             result.sid = matrix.sid;
             result.mid = matrix.mid;
             result.pid = matrix.pid;
@@ -46485,7 +46485,7 @@ exports.pcaIncrementalCompute = function (config, worker) {
             whiten: config.whiten,
             batch_size: config.batch_size
         }).then(function (result) {
-            result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+            result.resultScaled = worker.util.scale3d(result.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
             result.sid = matrix.sid;
             result.mid = matrix.mid;
             result.pid = matrix.pid;
@@ -46522,7 +46522,7 @@ exports.isoMapCompute = function (config, worker) {
             neighbors_algorithm: config.neighbors_algorithm
         })
             .then(function (result) {
-            result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+            result.resultScaled = worker.util.scale3d(result.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
             result.sid = matrix.sid;
             result.mid = matrix.mid;
             result.pid = matrix.pid;
@@ -46558,7 +46558,7 @@ exports.spectralEmbeddingCompute = function (config, worker) {
             affinity: config.affinity
         })
             .then(function (result) {
-            result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+            result.resultScaled = worker.util.scale3d(result.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
             result.sid = matrix.sid;
             result.mid = matrix.mid;
             result.pid = matrix.pid;
@@ -46598,7 +46598,7 @@ exports.localLinearEmbeddingCompute = function (config, worker) {
             tol: config.tol,
         })
             .then(function (result) {
-            result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+            result.resultScaled = worker.util.scale3d(result.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
             result.sid = matrix.sid;
             result.mid = matrix.mid;
             result.pid = matrix.pid;
@@ -46635,7 +46635,7 @@ exports.dictionaryLearningCompute = function (config, worker) {
             split_sign: config.split_sign
         })
             .then(function (result) {
-            result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+            result.resultScaled = worker.util.scale3d(result.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
             result.sid = matrix.sid;
             result.mid = matrix.mid;
             result.pid = matrix.pid;
@@ -46670,7 +46670,7 @@ exports.fasticaCompute = function (config, worker) {
             tol: config.tol
         })
             .then(function (result) {
-            result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+            result.resultScaled = worker.util.scale3d(result.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
             result.sid = matrix.sid;
             result.mid = matrix.mid;
             result.pid = matrix.pid;
@@ -46704,7 +46704,7 @@ exports.truncatedSvdCompute = function (config, worker) {
             n_iter: config.n_iter
         })
             .then(function (result) {
-            result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+            result.resultScaled = worker.util.scale3d(result.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
             result.sid = matrix.sid;
             result.mid = matrix.mid;
             result.pid = matrix.pid;
@@ -46740,7 +46740,7 @@ exports.ldaCompute = function (config, worker) {
             mean_change_tol: config.mean_change_tol
         })
             .then(function (result) {
-            result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+            result.resultScaled = worker.util.scale3d(result.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
             result.sid = matrix.sid;
             result.mid = matrix.mid;
             result.pid = matrix.pid;
@@ -46775,7 +46775,7 @@ exports.nmfCompute = function (config, worker) {
             tol: config.tol
         })
             .then(function (result) {
-            result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+            result.resultScaled = worker.util.scale3d(result.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
             result.sid = matrix.sid;
             result.mid = matrix.mid;
             result.pid = matrix.pid;
@@ -46808,7 +46808,7 @@ exports.faCompute = function (config, worker) {
             svd_method: config.svd_method
         })
             .then(function (result) {
-            result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+            result.resultScaled = worker.util.scale3d(result.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
             result.sid = matrix.sid;
             result.mid = matrix.mid;
             result.pid = matrix.pid;
@@ -59130,7 +59130,7 @@ exports.tsneCompute = function (config, worker) {
             sk_method: config.sk_method
         })
             .then(function (result) {
-            result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+            result.resultScaled = worker.util.scale3d(result.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
             result.sid = matrix.sid;
             result.mid = matrix.mid;
             result.pid = matrix.pid;
@@ -59317,7 +59317,7 @@ exports.miniBatchSparsePcaCompute = function (config, worker) {
             sk_method: config.sk_method
         })
             .then(function (result) {
-            result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+            result.resultScaled = worker.util.scale3d(result.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
             result.sid = matrix.sid;
             result.mid = matrix.mid;
             result.pid = matrix.pid;
@@ -59354,7 +59354,7 @@ exports.linearDiscriminantAnalysisCompute = function (config, worker) {
             tol: config.tol
         })
             .then(function (result) {
-            result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+            result.resultScaled = worker.util.scale3d(result.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
             result.sid = matrix.sid;
             result.mid = matrix.mid;
             result.pid = matrix.pid;
@@ -59392,7 +59392,7 @@ exports.miniBatchDictionaryLearningCompute = function (config, worker) {
             split_sign: config.split_sign
         })
             .then(function (result) {
-            result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
+            result.resultScaled = worker.util.scale3d(result.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
             result.sid = matrix.sid;
             result.mid = matrix.mid;
             result.pid = matrix.pid;
