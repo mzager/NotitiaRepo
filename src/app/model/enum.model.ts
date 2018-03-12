@@ -256,8 +256,6 @@ export const enum VisualizationEnum {
     DENDOGRAM = 549755813888,
     SPREADSHEET = 1099511627776,
     SPARSE_CODER = 2199023255552
-    
-
 }
 
 

@@ -3,8 +3,10 @@ import { DataService } from 'app/service/data.service';
 import { DendogramConfigModel } from './../../visualization/dendogram/dendogram.model';
 import { SurvivalConfigModel } from './../../visualization/survival/survival.model';
 import { ModalService } from './../../../service/modal-service';
+// tslint:disable-next-line:max-line-length
 import { QuadradicDiscriminantAnalysisConfigModel } from './../../visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
 import { LinearDiscriminantAnalysisConfigModel } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
+// tslint:disable-next-line:max-line-length
 import { MiniBatchDictionaryLearningConfigModel } from './../../visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
 import { MiniBatchSparsePcaConfigModel } from './../../visualization/minibatchsparsepca/minibatchsparsepca.model';
 import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
@@ -105,24 +107,27 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
         this.cd.markForCheck();
         requestAnimationFrame(() => {
           this.cd.markForCheck();
-        })
+        });
       });
     }
-  
+
     const topTierVisualization = this.visualizationOptions.find(v => v.value === value.visualization);
     if (topTierVisualization) {
       this.methodOption = null;
       this.methodOptions = [];
       this.visualizationOption = value.visualization;
     } else {
-      const secondTierVisualization = this.visualizationOptions.filter(v => v.methodOptions).filter(v => v.methodOptions.find( w => w.value === value.visualization))[0];
+      const secondTierVisualization = this.visualizationOptions
+        .filter(v => v.methodOptions)
+        .filter(v => v.methodOptions
+        .find( w => w.value === value.visualization))[0];
       this.visualizationOption = secondTierVisualization.value;
       this.methodOptions = secondTierVisualization.methodOptions;
       this.methodOption = value.visualization;
     }
   }
 
-  visualizationOptions: Array<any>
+  visualizationOptions: Array<any>;
   visualizationOption: any;
   methodOptions: Array<any>;
   methodOption: any;
@@ -141,8 +146,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.help.emit(this.config);
   }
   onCohortChange($event: Event) {
-    debugger;
-    $event.target['value']
     const selected = this.cohorts.find(v => v.n === $event.target['value']);
     this.config.patientFilter = selected.pids;
     this.config.sampleFilter = selected.sids;
@@ -150,8 +153,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.configChange.emit(this.config);
   }
   onGenesetChange($event: Event) {
-    debugger;
-    $event.target['value']
     const selected = this.genesets.find(v => v.n === $event.target['value']);
     this.config.markerFilter = selected.g;
     this.config.dirtyFlag = DirtyEnum.LAYOUT;
@@ -166,13 +167,12 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  setVisualization(visualizationEnumValue): void 
-  {
+  setVisualization(visualizationEnumValue): void {
     let gc: GraphConfig;
     switch (visualizationEnumValue) {
       case VisualizationEnum.DECOMPOSITION:
       case VisualizationEnum.MANIFOLDLEARNING:
-        this.setVisualization(this.visualizationOptions.find(v => v.value == visualizationEnumValue).methodOptions[0].value);
+        this.setVisualization(this.visualizationOptions.find(v => v.value === visualizationEnumValue).methodOptions[0].value);
         return;
       case VisualizationEnum.TIMELINES:
         gc = new TimelinesConfigModel();
@@ -356,21 +356,19 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       // { value: VisualizationEnum.DECOMPOSITION, label: 'Cross Decomposition', methodOptions: [
 //    {
 //         value: VisualizationEnum.SUPPORT_VECTOR_MACHINES, label: 'Support Vector Machines', methodOptions: [
-          
 // svm.LinearSVC([penalty, loss, dual, tol, C, …])	Linear Support Vector Classification.
 // svm.LinearSVR([epsilon, tol, C, loss, …])	Linear Support Vector Regression.
 // svm.NuSVC([nu, kernel, degree, gamma, …])	Nu-Support Vector Classification.
 // svm.NuSVR([nu, C, kernel, degree, gamma, …])	Nu Support Vector Regression.
 // svm.OneClassSVM([kernel, degree, gamma, …])	Unsupervised Outlier Detection.
 // svm.SVC([C, kernel, degree, gamma, coef0, …])	C-Support Vector Classification.
-// svm.SVR([kernel, degree, gamma, coef0, tol, …])	Epsilon-Support Vector Regression. 
+// svm.SVR([kernel, degree, gamma, coef0, tol, …])	Epsilon-Support Vector Regression.
 //         ]
 //       }
       // Decomposition
 
 
       // Manifold learning
-     
 
       // Discriminant Analysis
       // { value: VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS, label: 'Linear Discriminat Analysis' },

@@ -5,6 +5,7 @@ import { HelpSetConfigAction } from './../../action/help.action';
 import { SurvivalConfigModel } from './../visualization/survival/survival.model';
 import { DendogramConfigModel } from './../visualization/dendogram/dendogram.model';
 import { MiniBatchSparsePcaConfigModel } from 'app/component/visualization/minibatchsparsepca/minibatchsparsepca.model';
+// tslint:disable-next-line:max-line-length
 import { MiniBatchDictionaryLearningConfigModel } from 'app/component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
 import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
 import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
@@ -78,6 +79,7 @@ import { TruncatedSvdConfigModel } from './../visualization/truncatedsvd/truncat
 import { TsneConfigModel } from './../visualization/tsne/tsne.model';
 import { VisibilityToggleAction, VisualizationSetAction, WorkspaceConfigAction } from './../../action/graph.action';
 import { WorkspaceConfigModel } from './../../model/workspace.model';
+// tslint:disable-next-line:max-line-length
 import { LinearDiscriminantAnalysisConfigModel } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
 import { QuadradicDiscriminantAnalysisConfigModel } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
 
@@ -107,13 +109,13 @@ export class WorkspaceComponent {
   decorators: Observable<Array<DataDecorator>>;
   edgeConfig: Observable<GraphConfig>;
   edgeLegend: Observable<Array<Legend>>;
-  
+
   graphPanelATab: Observable<enums.GraphPanelEnum>;
   graphPanelBTab: Observable<enums.GraphPanelEnum>;
   genesetPanelTab: Observable<enums.SinglePanelEnum>;
   modalPanel: Observable<enums.PanelEnum>;
   modalPanelNumber: number;
-  
+
   selectedTool: Observable<enums.ToolEnum>;
   selectedGraph: Observable<enums.GraphEnum>;
   fields: Observable<Array<DataField>>;
@@ -124,7 +126,7 @@ export class WorkspaceComponent {
   _selectedGraph: enums.GraphEnum; // This is super wrong
 
   constructor(private store: Store<fromRoot.State>) {
-    
+
     this.genesets = store.select(fromRoot.getGenesets);
     this.cohorts = store.select(fromRoot.getCohorts);
     this.graphPanelATab = store.select(fromRoot.getLayoutGraphPanelAState);
@@ -132,7 +134,7 @@ export class WorkspaceComponent {
     this.modalPanel = store.select(fromRoot.getLayoutModalPanelState);
     this.loader = store.select(fromRoot.getLayoutLoaderState);
     this.helpPanelConfig = store.select(fromRoot.getHelpConfigState);
-    
+
     this.edgeConfig = store.select(fromRoot.getEdgesConfig);
     this.graphAConfig = store.select(fromRoot.getGraphAConfig);
     this.graphBConfig = store.select(fromRoot.getGraphBConfig);
@@ -163,7 +165,6 @@ export class WorkspaceComponent {
   // fileOpen(value: DataTransfer) {
   //   this.store.dispatch(new data.DataLoadFromFileAction(value));
   // }
-
 
   graphPanelSetConfig(value: GraphConfig) {
     this.store.dispatch( new LoaderShowAction() );
@@ -278,13 +279,13 @@ export class WorkspaceComponent {
     this.store.dispatch( new DataDelGenesetAction(value) );
   }
 
-  addCohort(value: {database: string, cohort: Cohort}): void { 
+  addCohort(value: {database: string, cohort: Cohort}): void {
     this.store.dispatch( new DataAddCohortAction( value ) );
   }
-  delCohort(value: {database: string, cohort: Cohort}): void { 
+  delCohort(value: {database: string, cohort: Cohort}): void {
     this.store.dispatch( new DataDelCohortAction( value ) );
   }
-  helpPanelToggle(config: GraphConfig): void { 
+  helpPanelToggle(config: GraphConfig): void {
     this.store.dispatch( new HelpSetConfigAction(config) );
     this.store.dispatch( new ModalPanelAction(enums.PanelEnum.HELP) );
   }
@@ -294,7 +295,7 @@ export class WorkspaceComponent {
     this.store.dispatch( new WorkspaceConfigAction( model ) );
     this.store.dispatch( new GraphPanelToggleAction( enums.GraphPanelEnum.GRAPH_B ) );
   }
-  setModalPanel(value: enums.PanelEnum): void{ 
+  setModalPanel(value: enums.PanelEnum): void {
     this.store.dispatch( new ModalPanelAction(value) );
   }
   workspacePanelSetConfig(value: WorkspaceConfigModel) {

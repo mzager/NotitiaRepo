@@ -1,3 +1,4 @@
+import { DecoratorPanelComponent } from './component/workspace/decorator-panel/decorator-panel.component';
 import { CitationsPanelComponent } from './component/workspace/citations-panel/citations-panel.component';
 import { AboutPanelComponent } from './component/workspace/about-panel/about-panel.component';
 import { AnalysisPanelComponent } from './component/workspace/analysis-panel/analysis-panel.component';
@@ -86,8 +87,11 @@ import { TruncatedSvdFormComponent } from './component/visualization/truncatedsv
 import { TsneFormComponent } from './component/visualization/tsne/tsne.form.component';
 import { WorkbookService } from './service/workbook.service';
 import { WorkspaceComponent } from 'app/component/workspace/workspace.component';
+// tslint:disable-next-line:max-line-length
 import { QuadradicDiscriminantAnalysisFormComponent } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.form.component';
+// tslint:disable-next-line:max-line-length
 import { LinearDiscriminantAnalysisFormComponent } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.form.component';
+// tslint:disable-next-line:max-line-length
 import { MiniBatchDictionaryLearningFormComponent } from 'app/component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.form.component';
 import { QueryBuilderComponent } from 'app/component/workspace/query-panel/query-builder/query-builder.component';
 import { ModalService } from 'app/service/modal-service';
@@ -160,7 +164,8 @@ import { LoaderComponent } from './component/workspace/loader/loader.component';
     SettingsPanelComponent,
     AboutPanelComponent,
     CitationsPanelComponent,
-    LoaderComponent
+    LoaderComponent,
+    DecoratorPanelComponent
   ],
   entryComponents: [
   ],
