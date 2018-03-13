@@ -95,6 +95,9 @@
     .file-link {
         font-size: 1.2rem;
     }
+    .file-image:hover {
+        color: #039be5;
+    }
    
     .file-datasets {
         border: 0px solid #EEE;
@@ -110,10 +113,10 @@
     .file-cohort-field {
         width: 33%;
     }
-
-    .file-img-container {
-        height: 60vh;
-        overflow-y: scroll;
-    }
+    // maybe add back at some point, when more datasets
+    // .file-img-container {
+    //     height: 60vh;
+    //     overflow-y: scroll;
+    // }
 }
 
