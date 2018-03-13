@@ -47,9 +47,6 @@ export const genomeCompute = (config: GenomeConfigModel, worker: DedicatedWorker
         'stalk': 0x26A69A
     };
 
-  
-    
-
     // const ct = [
     //     { 'chr': '1', 'P': 0, 'C': 124300000, 'Q': 247249719 },
     //     { 'chr': '2', 'P': 0, 'C': 93300000, 'Q': 242951149 },

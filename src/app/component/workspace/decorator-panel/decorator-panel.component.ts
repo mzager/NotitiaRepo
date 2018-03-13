@@ -1,55 +1,9 @@
-import { AbstractScatterForm } from './../../visualization/visualization.abstract.scatter.form';
-import { DataDecorator } from './../../../model/data-map.model';
-import { DataService } from 'app/service/data.service';
-import { DendogramConfigModel } from './../../visualization/dendogram/dendogram.model';
-import { SurvivalConfigModel } from './../../visualization/survival/survival.model';
-import { ModalService } from './../../../service/modal-service';
-import { QuadradicDiscriminantAnalysisConfigModel } from './../../visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
-import { LinearDiscriminantAnalysisConfigModel } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
-import { MiniBatchDictionaryLearningConfigModel } from './../../visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
-import { MiniBatchSparsePcaConfigModel } from './../../visualization/minibatchsparsepca/minibatchsparsepca.model';
-import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
-import { HicConfigModel } from './../../visualization/hic/hic.model';
-import { ParallelCoordsConfigModel } from './../../visualization/parallelcoords/parallelcoords.model';
-import { BoxWhiskersConfigModel } from './../../visualization/boxwhiskers/boxwhiskers.model';
-import { GenomeConfigModel } from './../../visualization/genome/genome.model';
-import { LinkedGeneConfigModel } from './../../visualization/linkedgenes/linkedgenes.model';
-import { PlsAction } from './../../../action/compute.action';
-import { DataTable } from './../../../model/data-field.model';
-import { PcaSparseConfigModel } from './../../visualization/pcasparse/pcasparse.model';
-import { PcaKernalConfigModel } from './../../visualization/pcakernal/pcakernal.model';
-import { PcaIncrementalConfigModel } from './../../visualization/pcaincremental/pcaincremental.model';
-import { SpectralEmbeddingConfigModel } from './../../visualization/spectralembedding/spectralembedding.model';
-import { LocalLinearEmbeddingConfigModel } from './../../visualization/locallinearembedding/locallinearembedding.model';
-import { IsoMapConfigModel } from './../../visualization/isomap/isomap.model';
-import { TruncatedSvdConfigModel } from './../../visualization/truncatedsvd/truncatedsvd.model';
-import { DictionaryLearningConfigModel } from './../../visualization/dictionarylearning/dictionarylearning.model';
-import { FastIcaConfigModel } from './../../visualization/fastica/fastica.model';
-import { NmfConfigModel } from './../../visualization/nmf/nmf.model';
-import { LdaConfigModel } from './../../visualization/lda/lda.model';
-import { FaConfigModel } from './../../visualization/fa/fa.model';
-import { MdsConfigModel } from './../../visualization/mds/mds.model';
-import { DeConfigModel } from './../../visualization/de/de.model';
-import { DaConfigModel } from './../../visualization/da/da.model';
-import { SomConfigModel } from './../../visualization/som/som.model';
-import { HeatmapConfigModel } from './../../visualization/heatmap/heatmap.model';
-import { TsneConfigModel } from './../../visualization/tsne/tsne.model';
-import { PlsConfigModel } from './../../visualization/pls/pls.model';
-import { PcaConfigModel } from './../../visualization/pca/pca.model';
-import { ChromosomeConfigModel } from './../../visualization/chromosome/chromosome.model';
+import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { EntityTypeEnum, DataTypeEnum } from './../../../model/enum.model';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { DataField, DataFieldFactory } from 'app/model/data-field.model';
-import {
-  Component, Input, Output, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy,
-  EventEmitter, AfterViewInit, OnInit, ViewChild, ElementRef
-} from '@angular/core';
-import { VisualizationEnum, GraphEnum, DirtyEnum, CollectionTypeEnum } from 'app/model/enum.model';
-import { Legend } from 'app/model/legend.model';
-import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
-import { GraphData } from 'app/model/graph-data.model';
-import { Subscription } from 'rxjs/Subscription';
-declare var $: any;
+import { AfterViewInit, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Component, ChangeDetectionStrategy, Input, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-workspace-decorator-panel',
@@ -58,52 +12,122 @@ declare var $: any;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DecoratorPanelComponent implements AfterViewInit, OnDestroy {
+
+  form: FormGroup;
   colorOptions: Array<DataField>;
   shapeOptions: Array<DataField>;
   sizeOptions: Array<DataField>;
-  ngOnDestroy(): void {
-    throw new Error("Method not implemented.");
-  }
-  ngAfterViewInit(): void {
-    throw new Error("Method not implemented.");
-  }
 
-  public static GENE_SIGNATURE = 'Gene Signature';
-  public static CLUSTERING_ALGORITHM = 'Clustering Algorithm';
+  @Output() decoratorAdd: EventEmitter<DataDecorator> = new EventEmitter();
+  @Output() decoratorDel: EventEmitter<DataDecorator> = new EventEmitter();
+
+  // public static GENE_SIGNATURE = 'Gene Signature';
+  // public static CLUSTERING_ALGORITHM = 'Clustering Algorithm';
+  @Input() config: GraphConfig;
   @Input() set fields(fields: Array<DataField>) {
-    if (fields.length === 0) { return; }
-    const defaultDataField: DataField = DataFieldFactory.getUndefined();
-
-    // Gene Signature Color
-    const signatureField = DataFieldFactory.getUndefined();
-    signatureField.ctype = CollectionTypeEnum.UNDEFINED;
-    signatureField.type = DataTypeEnum.FUNCTION;
-    signatureField.label = DecoratorPanelComponent.GENE_SIGNATURE;
-
-    // Clustering Algorithm Color
-    const clusterField = DataFieldFactory.getUndefined();
-    clusterField.ctype = CollectionTypeEnum.UNDEFINED;
-    clusterField.type = DataTypeEnum.FUNCTION;
-    clusterField.label = DecoratorPanelComponent.CLUSTERING_ALGORITHM;
-
-    const colorOptions = DataFieldFactory.getColorFields(fields);
-    colorOptions.push(...[signatureField, clusterField]);
-
-    this.colorOptions = colorOptions;
+    this.colorOptions = DataFieldFactory.getColorFields(fields);
     this.shapeOptions = DataFieldFactory.getShapeFields(fields);
     this.sizeOptions = DataFieldFactory.getSizeFields(fields);
-}
-//   if (form.get('pointColor').dirty) {
-//     const pointColor = form.getRawValue().pointColor.label;
-//     if (pointColor === AbstractScatterForm.CLUSTERING_ALGORITHM) {
-//         this.selectClusteringAlgorithm.emit(data);
-//         return;
-//     }
-//     if (pointColor === AbstractScatterForm.GENE_SIGNATURE) {
-//         this.selectGeneSignature.emit(data);
-//         return;
-//     }
-//     dirty |= DirtyEnum.COLOR; }
-// if (form.get('pointShape').dirty) { dirty |= DirtyEnum.SHAPE; }
-// if (form.get('pointSize').dirty) { dirty |= DirtyEnum.SIZE; }
+
+    //     if (fields.length === 0) { return; }
+    //     const defaultDataField: DataField = DataFieldFactory.getUndefined();
+
+    //     // Gene Signature Color
+    //     const signatureField = DataFieldFactory.getUndefined();
+    //     signatureField.ctype = CollectionTypeEnum.UNDEFINED;
+    //     signatureField.type = DataTypeEnum.FUNCTION;
+    //     signatureField.label = DecoratorPanelComponent.GENE_SIGNATURE;
+
+    //     // Clustering Algorithm Color
+    //     const clusterField = DataFieldFactory.getUndefined();
+    //     clusterField.ctype = CollectionTypeEnum.UNDEFINED;
+    //     clusterField.type = DataTypeEnum.FUNCTION;
+    //     clusterField.label = DecoratorPanelComponent.CLUSTERING_ALGORITHM;
+
+    //     const colorOptions = DataFieldFactory.getColorFields(fields);
+    //     colorOptions.push(...[signatureField, clusterField]);
+
+    //     this.colorOptions = colorOptions;
+    //     this.shapeOptions = DataFieldFactory.getShapeFields(fields);
+    //     this.sizeOptions = DataFieldFactory.getSizeFields(fields);
+    // }
+    //   if (form.get('pointColor').dirty) {
+    //     const pointColor = form.getRawValue().pointColor.label;
+    //     if (pointColor === AbstractScatterForm.CLUSTERING_ALGORITHM) {
+    //         this.selectClusteringAlgorithm.emit(data);
+    //         return;
+    //     }
+    //     if (pointColor === AbstractScatterForm.GENE_SIGNATURE) {
+    //         this.selectGeneSignature.emit(data);
+    //         return;
+    //     }
+    //     dirty |= DirtyEnum.COLOR; }
+    // if (form.get('pointShape').dirty) { dirty |= DirtyEnum.SHAPE; }
+    // if (form.get('pointSize').dirty) { dirty |= DirtyEnum.SIZE; }
+  }
+
+  byKey(p1: DataField, p2: DataField) {
+    if (p2 === null) { return false; }
+    return p1.key === p2.key;
+  }
+
+  ngOnDestroy(): void {
+    // throw new Error('Method not implemented.');
+  }
+
+  ngAfterViewInit(): void {
+    // throw new Error('Method not implemented.');
+  }
+  constructor(private fb: FormBuilder, private cd: ChangeDetectorRef) {
+
+    this.form = this.fb.group({
+      colorOption: [],
+      shapeOption: [],
+      sizeOption: []
+    });
+
+    this.form.valueChanges
+      .debounceTime(500)
+      .distinctUntilChanged()
+      .subscribe(data => {
+          const form = this.form;
+          const opts: Array<DataField> = [];
+          if (form.get('colorOption').dirty) { opts.push(form.get('colorOption').value); }
+          if (form.get('shapeOption').dirty) { opts.push(form.get('shapeOption').value); }
+          if (form.get('sizeOption').dirty)  { opts.push(form.get('sizeOption').value); }
+
+          // opts.forEach( dataField => {
+          //   if (dataField.type === 'UNDEFINED') {
+          //     this.decoratorDel.emit(dataField)
+          //   }
+          // });
+          //   debugger;
+          //   if ()
+          //   this.decoratorAdd.emit({
+          //     type: DataDecoratorTypeEnum.COLOR,
+          //     values: null,
+          //     field: form.get('colorOption').value,
+          //     legend: null}
+          //   );
+          // }
+          // if (form.get('shapeOption').dirty) {
+          //   this.decoratorAdd.emit({
+          //     type: DataDecoratorTypeEnum.COLOR,
+          //     values: null,
+          //     field: form.get('colorOption').value,
+          //     legend: null}
+          //   );
+          // }
+          // if (form.get('sizeOption').dirty) {
+          //   this.decoratorAdd.emit({
+          //     type: DataDecoratorTypeEnum.COLOR,
+          //     values: null,
+          //     field: form.get('colorOption').value,
+          //     legend: null}
+          //   );
+          // }
+          form.markAsPristine();
+      });
+
+  }
 }

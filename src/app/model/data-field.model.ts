@@ -19,7 +19,6 @@ export class DataFieldFactory {
               return true;
           }
         })];
-        //, DataFieldFactory.getGeneFamily(), DataFieldFactory.getGeneType(), DataFieldFactory.getHicType()];
       case EntityTypeEnum.GENE:
       const  g = {
         key: 'Gistic',

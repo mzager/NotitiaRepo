@@ -24,7 +24,7 @@
     
                 <div class='form-group'>
                     <label class='center-block'>
-                        <span class='form-label'>Visualization</span>
+                        <span class='form-label'>Analysis</span>
                         <select materialize='material_select' [ngModel]='visualizationOption' (change)='onVisualizationChange($event)' [materializeSelectOptions]='visualizationOptions'>
                             <option *ngFor='let option of visualizationOptions' [value]='option.value' [selected]='config.visualization'>{{option.label}}</option>
                         </select>
@@ -60,7 +60,7 @@
                 </div>
                 
                 <div *ngIf='config'>
-    
+                    <app-workspace-decorator-panel [config]='config' [fields]='fields'></app-workspace-decorator-panel>
                     <app-pathways-form *ngIf='config && config.visualization === 256' (configChange)='graphPanelSetConfig($event)' [fields]='fields'
                         [config]='config'></app-pathways-form>
                     <app-timelines-form *ngIf='config && config.visualization === 128' (configChange)='graphPanelSetConfig($event)' [fields]='fields'
@@ -118,7 +118,9 @@
                         (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)' (selectGeneSignature)='graphPanelSelecteGeneSignature($event)'
                         [config]='config' [tables]='tables' [fields]='fields'></app-spectralembedding-form>
                 </div>
+                
             </div>
+            
             <div class='graphPanelHeader'>Legend</div>
             <div style='padding:10px; overflow-y: scroll; overflow-x: hidden; padding-bottom: 30px;'>
                 <app-workspace-legend-panel *ngIf='data && data.legendItems' [legends]='data.legendItems'></app-workspace-legend-panel>
