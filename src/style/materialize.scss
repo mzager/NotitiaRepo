@@ -83,10 +83,19 @@ body {
 html {
     color: #666666;
     font-size: 80%;
+    overflow: scroll;
+    overflow-x: hidden;
 }
 p {
     color: #666666;
 }
+
+//hidden scrollbar 
+::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+
 
 .form-group{
     margin-top:3px;
