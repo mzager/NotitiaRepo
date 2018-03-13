@@ -1,26 +1,29 @@
-<div>
-        <a href='#' class='modalClose' (click)='closeClick()'></a>
-        <h1 style='font-size: 3rem; font-weight: 300; margin-bottom: 10px; letter-spacing: 3px;'>Data Sets</h1>
-        <h2>Select from public data sets, or visualize your own
-                <a href='https://www.youtube.com/embed/XQu8TTBmGhA' target='_blank'>
-                        <i class='small material-icons modalWatchVideoIcon'>ondemand_video</i>Watch Tutorial</a>
-        </h2>
-        <div class='row'>
-                <!-- My Cohorts -->
-                <div class='col s3' style='border: 0px solid #EEE; border-right-width: 1px;padding-left: 0px;padding-right: 30px;'>
-                        <span class='cohortHeader'>My Datasets</span>
-                        <div class='fileLink' (click)='uploadExcelClick()'>
-                                <img class='fileImage' src='./assets/logo-excel.png'>Upload an Excel File</div>
-                        <div class='fileLink' (click)='uploadHubClick()'>
-                                <img class='fileImage' src='./assets/logo-cloud.png'>Upload to Data Hub</div>
+<div class="file-modal-panel">
+        <div class="row">
+                <a href='#' class='modalClose' (click)='closeClick()'></a>
+                <div class="col s12">
+                        <h1 class='file-h1'>Data Sets</h1>
+
+                        <h2 class='file-h2'>Select from public data sets, or visualize your own
+                                <a href='https://www.youtube.com/embed/XQu8TTBmGhA' target='_blank'>
+                                        <i class='small material-icons modalWatchVideoIcon'>ondemand_video</i>Watch Tutorial</a>
+                        </h2>
                 </div>
-                <div class='col s9' style='padding-left:30px;padding-right:30px;'>
-                        <span class='cohortHeader' style='padding-bottom:20px;'>Public Data Sets</span>
-                        <div style='height:60vh;overflow-y:scroll;'>
-                                <div style='width:33%; display: inline-block; text-overflow: ellipsis; overflow: hidden; height: 25px;' class='cohortField'
-                                        *ngFor='let dataset of datasets; let i = index' (click)='this.loadTcga.emit(dataset)'>
-                                        <img class='fileImage' src='./assets/disease/img{{dataset.img}}'>
-                                        <div class='fileLink'>{{dataset.name}}</div>
+        </div>
+        <div class='row'>
+                <div class='col s12 l3 file-datasets '>
+                        <span class='file-cohort-header'>My Datasets</span>
+                        <div class='file-link ' (click)='uploadExcelClick()'>
+                                <img class='file-image' src='./assets/logo-excel.png'>Upload an Excel File</div>
+                        <div class='file-link ' (click)='uploadHubClick()'>
+                                <img class='file-image' src='./assets/logo-cloud.png'>Upload to Data Hub</div>
+                </div>
+                <div class='col s12 l9 file-public-datasets'>
+                        <span class='file-cohort-header'>Public Data Sets</span>
+                        <div class='file-img-container'>
+                                <div class='file-cohort-field' *ngFor='let dataset of datasets; let i = index' (click)='this.loadTcga.emit(dataset)'>
+                                        <img class='file-image' src='./assets/disease/img{{dataset.img}}'>
+                                        <div class='file-link '>{{dataset.name}}</div>
                                 </div>
                         </div>
                 </div>
