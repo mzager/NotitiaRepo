@@ -33,5 +33,5 @@ export const pcaCompute = (config: PcaConfigModel, worker: DedicatedWorkerGlobal
                 });
                 worker.postMessage('TERMINATE');
             });
-    });
+    })
 };
