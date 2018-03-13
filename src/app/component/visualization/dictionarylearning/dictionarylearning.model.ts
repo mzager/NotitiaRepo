@@ -27,7 +27,7 @@ export class DictionaryLearningConfigModel extends GraphConfig {
         this.label = 'Dictionary Learning';
     }
 
-    n_components = 3;
+    n_components = 10;
     dimension = DimensionEnum.THREE_D;
     alpha = 1;
     max_iter = 1000;
@@ -35,6 +35,9 @@ export class DictionaryLearningConfigModel extends GraphConfig {
     fit_algorithm = DictionaryLearningFitAlgorithm.CD;
     transform_algorithm = DictionaryLearningTransformAlgorithm.OMP;
     split_sign: Boolean = false;
+    pcx = 1;
+    pcy = 2;
+    pcz = 3;
 }
 
 export interface DictionaryLearningDataModel extends GraphData {
@@ -43,7 +46,7 @@ export interface DictionaryLearningDataModel extends GraphData {
     sid: Array<string>;
     mid: Array<string>;
     pid: Array<string>;
-    
+
     components: any;
     error: any;
     nIter: any;

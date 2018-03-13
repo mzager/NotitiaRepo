@@ -19,12 +19,12 @@ export const mdsCompute = (config: MdsConfigModel, worker: DedicatedWorkerGlobal
                 result.resultScaled = worker.util.scale3d(result.result, 0, 1, 2);
                 result.sid = matrix.sid;
                 result.mid = matrix.mid;
-                result.pid = matrix.pid
+                result.pid = matrix.pid;
                 worker.postMessage({
                     config: config,
                     data: result
                 });
                 worker.postMessage('TERMINATE');
             });
-    })
+    });
 };

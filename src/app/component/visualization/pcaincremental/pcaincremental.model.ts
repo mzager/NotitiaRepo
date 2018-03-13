@@ -14,11 +14,14 @@ export class PcaIncrementalConfigModel extends GraphConfig {
         this.label = 'PCA Incremental';
     }
 
-    n_components = 3;
+    n_components = 10;
     dimension = DimensionEnum.THREE_D;
     whiten: Boolean = false;
     copy: Boolean = true;
     batch_size: 'None';
+    pcx = 1;
+    pcy = 2;
+    pcz = 3;
 }
 
 export interface PcaIncrementalDataModel extends GraphData {
@@ -27,6 +30,7 @@ export interface PcaIncrementalDataModel extends GraphData {
     sid: Array<string>;
     mid: Array<string>;
     pid: Array<string>;
+
     components: any;
     explainedVariance: any;
     explainedVarianceRatio: any;

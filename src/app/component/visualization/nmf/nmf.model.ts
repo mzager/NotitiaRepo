@@ -30,12 +30,15 @@ export class NmfConfigModel extends GraphConfig {
         this.label = 'Non-Negative Matrix Factorization';
     }
 
-    n_components = 3;
+    n_components = 10;
     dimension = DimensionEnum.THREE_D;
     init = NmfInit.RANDOM;
     solver = NmfSolver.CD;
     beta_loss = NmfBetaLoss.FROBENIUS;
     tol = 1e-4;
+    pcx = 1;
+    pcy = 2;
+    pcz = 3;
 }
 
 

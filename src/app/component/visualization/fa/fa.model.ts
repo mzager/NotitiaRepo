@@ -20,9 +20,12 @@ export class FaConfigModel extends GraphConfig {
     }
 
     dimension = DimensionEnum.THREE_D;
-    n_components = 3;
+    n_components = 10;
     svd_method = FaSvdMethod.RANDOMIZED;
     tol = 0.01;
+    pcx = 1;
+    pcy = 2;
+    pcz = 3;
 }
 
 
@@ -32,7 +35,7 @@ export interface FaDataModel extends GraphData {
     sid: Array<string>;
     mid: Array<string>;
     pid: Array<string>;
-    
+
     loglike: any;
     noiseVariance: any;
     nIter: any;

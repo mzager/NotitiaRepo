@@ -33,13 +33,16 @@ export class IsoMapConfigModel extends GraphConfig {
         this.label = 'ISOMAP';
     }
 
-    n_components = 3;
+    n_components = 10;
     dimension = DimensionEnum.THREE_D;
     tol = 0;
     n_neighbors = 5;
     eigen_solver = IsoMapEigenSolver.AUTO;
     path_method = IsoMapPathMethod.AUTO;
     neighbors_algorithm = IsoMapNeighborsAlgorithm.AUTO;
+    pcx = 1;
+    pcy = 2;
+    pcz = 3;
 }
 
 
@@ -49,6 +52,6 @@ export interface IsoMapDataModel extends GraphData {
     sid: Array<string>;
     mid: Array<string>;
     pid: Array<string>;
-    
+
     embedding: any;
 }

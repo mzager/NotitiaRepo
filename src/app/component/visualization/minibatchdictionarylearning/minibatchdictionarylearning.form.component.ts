@@ -33,14 +33,32 @@ import { SvmCompleteAction } from '../../../action/compute.action';
       </select>
     </label>
   </div>
-   <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Dimension</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='dimensionOptions'
-        formControlName='dimension'>
-          <option *ngFor='let options of dimensionOptions'>{{options}}</option>
-      </select>
-    </label>
+  <div class='form-group'>
+  <label class='center-block'><span class='form-label'>X Axis</span>
+    <select materialize='material_select'
+        [materializeSelectOptions]='PcOptions'
+        formControlName='pcx'>
+        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
+    </select>
+  </label>
+  </div>
+  <div class='form-group'>
+  <label class='center-block'><span class='form-label'>Y Axis</span>
+    <select materialize='material_select'
+        [materializeSelectOptions]='PcOptions'
+        formControlName='pcy'>
+        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
+    </select>
+  </label>
+  </div>
+  <div class='form-group'>
+  <label class='center-block'><span class='form-label'>Z Axis</span>
+    <select materialize='material_select'
+        [materializeSelectOptions]='PcOptions'
+        formControlName='pcz'>
+        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
+    </select>
+  </label>
   </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Fit Algorithm</span>
@@ -111,7 +129,10 @@ export class MiniBatchDictionaryLearningFormComponent extends AbstractScatterFor
       patientFilter: [],
       patientSelect: [],
       table: [],
-      
+
+      pcx: [],
+      pcy: [],
+      pcz: [],
       n_components: [],
       dimension: [],
       alpha: [],

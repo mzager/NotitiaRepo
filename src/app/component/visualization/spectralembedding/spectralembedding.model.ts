@@ -28,12 +28,15 @@ export class SpectralEmbeddingConfigModel extends GraphConfig {
         this.label = 'Spectral Embedding';
     }
 
-    n_components = 3;
+    n_components = 10;
     dimension = DimensionEnum.THREE_D;
     eigen_solver = SpectralEmbeddingEigenSolver.NONE;
     n_neighbors = 3;
     gamma = 'None';
     affinity = SpectralEmbeddingAffinity.NEAREST_NEIGHBORS;
+    pcx = 1;
+    pcy = 2;
+    pcz = 3;
 }
 
 export interface SpectralEmbeddingDataModel extends GraphData {
@@ -42,7 +45,7 @@ export interface SpectralEmbeddingDataModel extends GraphData {
     sid: Array<string>;
     mid: Array<string>;
     pid: Array<string>;
-    
+
     embedding: any;
     affinityMatrix: any;
 }

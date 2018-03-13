@@ -88,8 +88,6 @@ export class PcaFormComponent extends AbstractScatterForm {
     PcaSvdSolver.FULL
   ];
 
-  PcOptions = [1,2,3,4,5,6,7,8,9,10];
-
   @Input() set config(v: PcaConfigModel) {
     if (v === null) { return; }
     if (this.form.value.visualization === null) {
