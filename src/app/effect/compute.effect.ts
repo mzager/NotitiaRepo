@@ -228,7 +228,6 @@ export class ComputeEffect {
     .ofType(compute.COMPUTE_SURVIVAL)
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      debugger
       return this.computeService.survival(payload['config'])
       .mergeMap(result => {
         return [(result === null) ? new NullDataAction() :
@@ -296,7 +295,7 @@ export class ComputeEffect {
             new LoaderHideAction()];
         });
     });
-  
+
   @Effect() loadDendogram: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_DENDOGRAM)
     .map((action: UnsafeAction) => action.payload)
@@ -501,10 +500,6 @@ export class ComputeEffect {
   //     return new LoaderHideAction();
   //     //return new DecoratorUpdateAction(payload);
   //   });
-
-  
-
-
 
   // visualizationToComputeAction(config: any): Action {
   //   switch (config.visualization) {

@@ -26,7 +26,7 @@ export class PcaKernalConfigModel extends GraphConfig {
         this.visualization = VisualizationEnum.KERNAL_PCA;
         this.label = 'PCA Kernal';
     }
-    n_components = 3;
+    n_components = 10;
     dimension = DimensionEnum.THREE_D;
     kernel = PcaKernalMethods.LINEAR;
     degree = 3;
@@ -36,6 +36,9 @@ export class PcaKernalConfigModel extends GraphConfig {
     eigen_solver = PcaKernalEigenSolver.AUTO;
     tol = 0;
     remove_zero_eig = false;
+    pcx = 1;
+    pcy = 2;
+    pcz = 3;
 }
 
 
