@@ -319,7 +319,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.cid = Math.random().toString(36).replace(/[^a-z]+/g, '');
     this.methodOptions = [];
     this.visualizationOptions = [
-      { value: VisualizationEnum.BOX_WHISKERS, label: 'Box Whiskers' },
+      { value: VisualizationEnum.BOX_WHISKERS, label: 'Box + Whisker' },
       { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
       { value: VisualizationEnum.HIC, label: 'Force Directed Graph' },
       { value: VisualizationEnum.GENOME, label: 'Genome' },
@@ -349,7 +349,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       { value: VisualizationEnum.MANIFOLDLEARNING, label: 'Manifold Learning', methodOptions: [
         { value: VisualizationEnum.ISOMAP, label: 'Isomap' },
         { value: VisualizationEnum.LOCALLY_LINEAR_EMBEDDING, label: 'Locally Linear Embedding' },
-        { value: VisualizationEnum.MDS, label: 'Multi-Dimensional Scaling' },
+        { value: VisualizationEnum.MDS, label: 'MDS' },
         { value: VisualizationEnum.SPECTRAL_EMBEDDING, label: 'Spectral Embedding' },
         { value: VisualizationEnum.TSNE, label: 'T-SNE' }
       ] },
