@@ -90,10 +90,14 @@ p {
     color: #666666;
 }
 
-//hidden scrollbar 
+//hidden  scrollbar 
 ::-webkit-scrollbar {
     width: 0px;  /* remove scrollbar space */
     background: transparent;  /* optional: just make scrollbar invisible */
+}
+//firefox
+@-moz-document url-prefix() {
+    html,body{overflow: hidden !important;}
 }
 
 
