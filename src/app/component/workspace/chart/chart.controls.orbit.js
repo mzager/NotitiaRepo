@@ -1,3 +1,4 @@
+alert('hi');
 var THREE = require('three')
 	var OrbitControls = ( object, domElement ) => {
 

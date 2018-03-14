@@ -15,5 +15,5 @@ export class Legend {
 // }
 // export interface DiscreteLegendItem extends LegendItem{
 //   labels: Array<string>;
-//   values: 
+//   values:
 // }
