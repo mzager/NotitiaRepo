@@ -4,7 +4,7 @@ import { ColorEnum, DirtyEnum } from 'app/model/enum.model';
 import { ChromosomeConfigModel } from './chromosome.model';
 import * as util from 'app/service/compute.worker.util';
 import { scaleLinear, scaleQuantize, scaleQuantile, scaleOrdinal, scaleThreshold } from 'd3-scale';
-import { scaleSequential, schemeRdBu, interpolateRdBu } from 'd3-scale-chromatic';
+import { schemeRdBu, interpolateRdBu } from 'd3-scale-chromatic';
 import * as _ from 'lodash';
 import * as d3Interpolate from 'd3-interpolate';
 import * as d3Scale from 'd3-scale';
@@ -90,7 +90,6 @@ export const chromosomeCompute = (config: ChromosomeConfigModel, worker: Dedicat
             //     worker.util.getMolecularGeneValues(genes, {tbl: 'rna'})
 
             // ]).then(v => {
-                
             });
     }
 };
