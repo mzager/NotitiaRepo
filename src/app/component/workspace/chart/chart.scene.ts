@@ -56,7 +56,8 @@ import { GraphTool } from 'app/model/graph-tool.model';
 import { PcaGraph } from './../../visualization/pca/pca.graph';
 import { Subscription } from 'rxjs/Subscription';
 import { OrbitControls } from 'three-orbitcontrols-ts';
-import { WebGLRenderer, PerspectiveCamera, HemisphereLight, Vector3, AmbientLight, OrthographicCamera, Camera, Scene, Vector2 } from 'three';
+import { WebGLRenderer, PerspectiveCamera, HemisphereLight, Vector3,
+    AmbientLight, OrthographicCamera, Camera, Scene, Vector2 } from 'three';
 import { EffectComposer, GlitchPass, RenderPass } from 'postprocessing';
 
 
@@ -115,6 +116,7 @@ export class ChartScene {
         this.renderer.autoClear = false;
         this.renderer.localClippingEnabled = true;
         this.composer = new EffectComposer(this.renderer);
+        this.composer.setSize(dimension.width, dimension.height);
         this.container.appendChild(this.renderer.domElement);
 
         this.views = [{
@@ -174,8 +176,11 @@ export class ChartScene {
 
             // Lighting
             view.scene.add( new HemisphereLight( 0xBBBBBB, 0xFFFFFF, 1 ) );
-            // const renderPass = new RenderPass(view.scene, view.camera);
-            // this.composer.addPass(renderPass);
+            // if (i===1) {
+            //     const renderPass = new RenderPass(view.scene, view.camera);
+            //     renderPass.renderToScreen = true;
+            //     this.composer.addPass(renderPass);
+            // }
 
             return view;
         });
@@ -219,6 +224,9 @@ export class ChartScene {
         } catch (e) {
             console.log('resolve init');
         }
+
+        // const c = this.composer;
+        // c.render();
     }
 
     private onResize() {
@@ -288,15 +296,14 @@ export class ChartScene {
     }
 
     public updateDecorators(graph: GraphEnum, config: GraphConfig, decorators: Array<DataDecorator>): void {
+        const view = ( graph === GraphEnum.GRAPH_A ) ? this.views[0] :
+        ( graph === GraphEnum.GRAPH_B ) ? this.views[1] :
+        this.views[2];
+        if (view.chart !== null) {
+            view.chart.updateDecorator(config, decorators);
+            this.render();
+        }
     }
-    //     const view = ( graph === GraphEnum.GRAPH_A ) ? this.views[0] :
-    //     ( graph === GraphEnum.GRAPH_B ) ? this.views[1] :
-    //     this.views[2];
-    //     if (view.chart !== null) {
-    //         view.chart.updateDecorator(config, decorators);
-    //         this.render();
-    //     }
-    // }
 
     public updateData(graph: GraphEnum, config: GraphConfig, data: any): void {
         let view: VisualizationView;
@@ -320,6 +327,11 @@ export class ChartScene {
                         view.chart.onRequestRender.unsubscribe();
                         view.chart.onConfigEmit.unsubscribe();
                         view.chart.destroy();
+                        const camera = view.camera as PerspectiveCamera;
+                        camera.aspect = view.viewport.width / view.viewport.height;
+                        camera.updateProjectionMatrix();
+                        camera.position.set(0, 0, 1000);
+                        camera.lookAt(new Vector3(0, 0, 0));
                     }
                     view.chart = this.getChartObject(config.visualization).create(
                         (config.graph === GraphEnum.GRAPH_A) ? this.labelsA : this.labelsB,

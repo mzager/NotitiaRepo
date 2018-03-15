@@ -1,0 +1,62 @@
+Matrix Decomposition
+3D scatter plots combined with 13 fully customizable methods present the inherent spacial structure of high dimensional datasets.
+Select from 5 variants of PCA, Factor Analysis, LDA, SVD and more.
+
+Manifold Learning
+3D scatter plots combined with 5 fully customizable methods non-linear dimension reduction.
+Select from T-SNE, MDS, Isomap, Local Linear and Spectral Embedding.
+
+Genome
+Indentify chromosomal regions of interest by projecting your data onto a visual representation of the genome.
+Overlay CNV, Gistic or expression data along with Topically Alligned Domains, Cytobands.  
+Select from thousands of curated gensets or create your own.
+
+Chromosome
+
+Pathways
+Overlay your data on over 12,000 pathways extracted from Reactome and ...
+
+Timelines
+Visualize clincial timelines
+
+
+tools enable the discovery of inherent spacial structure of high dimensional datasets.
+To discover 
+
+3D scatter plots and 13 algo
+Present the structure that may be inherent in a given high dimensional dataset.  
+
+
+Read More: https://epubs.siam.org/doi/abs/10.1137/S0036144598340483
+13
+
+Clustering Methods (18)
+Explore high-dimensional data sets with one of the18 different Sci-kit learn manifold or matrix decomposition learning methods.
+ 
+Genome
+Interactive visualization of the 23 pairs of chromosomes, search genes and link mutations to patient populations
+ 
+Pathways
+Visualize a series of pathways among molecular interactions
+ 
+Timelines
+View clinical charts linearly and arrange by relevant events
+ 
+Survival
+View survival of saved cohorts and compare Kaplan Meier curves
+ 
+Box + Whisker
+Summarize a sets of data measured on an interval scale.
+ 
+Chromosome view
+Explore genes and genetic mutations on individual chromosomes
+ 
+Edges
+Add a second workspace and connect samples or genes populations using edges
+ 
+Heatmap
+Flat hierarchical clustering
+ 
+ 
+Clinical Table?
+Force directed graph?

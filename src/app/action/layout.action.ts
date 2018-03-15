@@ -33,4 +33,3 @@ export class LoaderHideAction implements Action {
 // Action Type
 export type Actions =
    GraphPanelToggleAction | ModalPanelAction | LoaderShowAction | LoaderHideAction;
-   

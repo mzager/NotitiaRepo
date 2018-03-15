@@ -32,7 +32,7 @@ import {
   PcaAction,
   SelectMarkersAction,
   TsneAction,
-  } from './../../action/compute.action';
+} from './../../action/compute.action';
 import { ChromosomeConfigModel } from './../visualization/chromosome/chromosome.model';
 import { GraphPanelToggleAction, ModalPanelAction, LoaderHideAction, LoaderShowAction } from './../../action/layout.action';
 import { DataField } from 'app/model/data-field.model';
@@ -47,7 +47,7 @@ import {
   DataDelGenesetAction,
   DataAddCohortAction,
   DataDelCohortAction
-  } from './../../action/data.action';
+} from './../../action/data.action';
 import { DataTable } from './../../model/data-field.model';
 import { DictionaryLearningConfigModel } from './../visualization/dictionarylearning/dictionarylearning.model';
 import { EdgeConfigModel } from './../visualization/edges/edges.model';
@@ -58,7 +58,7 @@ import {
   getFields,
   getGraphAConfig,
   getQueryData
-  } from './../../reducer/index.reducer';
+} from './../../reducer/index.reducer';
 import { GraphConfig } from './../../model/graph-config.model';
 import { GraphTool } from 'app/model/graph-tool.model';
 import { HeatmapConfigModel } from './../visualization/heatmap/heatmap.model';
@@ -77,7 +77,10 @@ import { SomConfigModel } from './../visualization/som/som.model';
 import { SpectralEmbeddingConfigModel } from './../visualization/spectralembedding/spectralembedding.model';
 import { TruncatedSvdConfigModel } from './../visualization/truncatedsvd/truncatedsvd.model';
 import { TsneConfigModel } from './../visualization/tsne/tsne.model';
-import { VisibilityToggleAction, VisualizationSetAction, WorkspaceConfigAction } from './../../action/graph.action';
+import {
+  VisibilityToggleAction, VisualizationSetAction,
+  WorkspaceConfigAction, DataDecoratorCreateAction, DataDecoratorDelAction
+} from './../../action/graph.action';
 import { WorkspaceConfigModel } from './../../model/workspace.model';
 // tslint:disable-next-line:max-line-length
 import { LinearDiscriminantAnalysisConfigModel } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
@@ -120,7 +123,7 @@ export class WorkspaceComponent {
   selectedGraph: Observable<enums.GraphEnum>;
   fields: Observable<Array<DataField>>;
   tables: Observable<Array<DataTable>>;
-  events: Observable<Array<{type: string, subtype: string}>>;
+  events: Observable<Array<{ type: string, subtype: string }>>;
   queryData: Observable<any>;
 
   _selectedGraph: enums.GraphEnum; // This is super wrong
@@ -146,16 +149,15 @@ export class WorkspaceComponent {
     this.fields = store.select(fromRoot.getFields);
     this.events = store.select(fromRoot.getEvents);
     this.queryData = store.select(fromRoot.getQueryData);
-    // this.store.dispatch( new DataLoadFromDexieAction('gbm') );
   }
 
-  select(selection: {type: EntityTypeEnum, ids: Array<string>}): void {
+  select(selection: { type: EntityTypeEnum, ids: Array<string> }): void {
     switch (selection.type) {
       case EntityTypeEnum.SAMPLE:
-        this.store.dispatch(new compute.SelectSamplesAction({samples: selection.ids}));
+        this.store.dispatch(new compute.SelectSamplesAction({ samples: selection.ids }));
         break;
       case EntityTypeEnum.GENE:
-        this.store.dispatch(new compute.SelectMarkersAction({markers: selection.ids}));
+        this.store.dispatch(new compute.SelectMarkersAction({ markers: selection.ids }));
         break;
     }
   }
@@ -167,142 +169,147 @@ export class WorkspaceComponent {
   // }
 
   graphPanelSetConfig(value: GraphConfig) {
-    this.store.dispatch( new LoaderShowAction() );
+    this.store.dispatch(new LoaderShowAction());
     switch (value.visualization) {
       case enums.VisualizationEnum.NONE:
-        this.store.dispatch( new compute.NoneAction( { config: value as GraphConfig } ));
+        this.store.dispatch(new compute.NoneAction({ config: value as GraphConfig }));
         break;
       case enums.VisualizationEnum.EDGES:
-        this.store.dispatch( new compute.EdgesAction( { config: value as EdgeConfigModel} ));
+        this.store.dispatch(new compute.EdgesAction({ config: value as EdgeConfigModel }));
         break;
       case enums.VisualizationEnum.PCA:
-        this.store.dispatch( new compute.PcaAction( { config: value as PcaConfigModel} ));
+        this.store.dispatch(new compute.PcaAction({ config: value as PcaConfigModel }));
         break;
       case enums.VisualizationEnum.PATHWAYS:
-        this.store.dispatch( new compute.PathwaysAction( { config: value as PathwaysConfigModel} ));
+        this.store.dispatch(new compute.PathwaysAction({ config: value as PathwaysConfigModel }));
         break;
       case enums.VisualizationEnum.CHROMOSOME:
-        this.store.dispatch( new compute.ChromosomeAction( { config: value as ChromosomeConfigModel} ));
+        this.store.dispatch(new compute.ChromosomeAction({ config: value as ChromosomeConfigModel }));
         break;
       case enums.VisualizationEnum.GENOME:
-        this.store.dispatch( new compute.GenomeAction( { config: value as GenomeConfigModel} ));
+        this.store.dispatch(new compute.GenomeAction({ config: value as GenomeConfigModel }));
         break;
       case enums.VisualizationEnum.TSNE:
-        this.store.dispatch( new compute.TsneAction( { config: value as TsneConfigModel} ));
+        this.store.dispatch(new compute.TsneAction({ config: value as TsneConfigModel }));
         break;
       case enums.VisualizationEnum.TIMELINES:
-        this.store.dispatch( new compute.TimelinesAction( { config: value as TimelinesConfigModel }));
+        this.store.dispatch(new compute.TimelinesAction({ config: value as TimelinesConfigModel }));
         break;
       case enums.VisualizationEnum.HEATMAP:
-        this.store.dispatch( new compute.HeatmapAction( { config: value as HeatmapConfigModel} ));
+        this.store.dispatch(new compute.HeatmapAction({ config: value as HeatmapConfigModel }));
         break;
       case enums.VisualizationEnum.DENDOGRAM:
-        this.store.dispatch( new compute.DendogramAction( { config: value as DendogramConfigModel} ));
+        this.store.dispatch(new compute.DendogramAction({ config: value as DendogramConfigModel }));
         break;
       case enums.VisualizationEnum.PARALLEL_COORDS:
-        this.store.dispatch( new compute.ParallelCoordsAction( { config: value as ParallelCoordsConfigModel} ));
+        this.store.dispatch(new compute.ParallelCoordsAction({ config: value as ParallelCoordsConfigModel }));
         break;
       case enums.VisualizationEnum.BOX_WHISKERS:
-        this.store.dispatch( new compute.BoxWhiskersAction( { config: value as BoxWhiskersConfigModel} ));
+        this.store.dispatch(new compute.BoxWhiskersAction({ config: value as BoxWhiskersConfigModel }));
         break;
       case enums.VisualizationEnum.LINKED_GENE:
-        this.store.dispatch( new compute.LinkedGeneAction( { config: value as LinkedGeneConfigModel} ));
+        this.store.dispatch(new compute.LinkedGeneAction({ config: value as LinkedGeneConfigModel }));
         break;
       case enums.VisualizationEnum.HIC:
-        this.store.dispatch( new compute.HicAction( { config: value as HicConfigModel} ));
+        this.store.dispatch(new compute.HicAction({ config: value as HicConfigModel }));
         break;
       case enums.VisualizationEnum.SOM:
-        this.store.dispatch( new compute.SomAction( { config: value as SomConfigModel} ));
+        this.store.dispatch(new compute.SomAction({ config: value as SomConfigModel }));
         break;
       case enums.VisualizationEnum.MDS:
-        this.store.dispatch( new compute.MdsAction( { config: value as MdsConfigModel} ));
+        this.store.dispatch(new compute.MdsAction({ config: value as MdsConfigModel }));
         break;
       case enums.VisualizationEnum.FA:
-        this.store.dispatch( new compute.FaAction( { config: value as FaConfigModel} ));
+        this.store.dispatch(new compute.FaAction({ config: value as FaConfigModel }));
         break;
       case enums.VisualizationEnum.LDA:
-        this.store.dispatch( new compute.LdaAction( { config: value as LdaConfigModel} ));
+        this.store.dispatch(new compute.LdaAction({ config: value as LdaConfigModel }));
         break;
       case enums.VisualizationEnum.FAST_ICA:
-        this.store.dispatch( new compute.FastIcaAction( { config: value as FastIcaConfigModel} ));
+        this.store.dispatch(new compute.FastIcaAction({ config: value as FastIcaConfigModel }));
         break;
       case enums.VisualizationEnum.DICTIONARY_LEARNING:
-        this.store.dispatch( new compute.DictionaryLearningAction( { config: value as DictionaryLearningConfigModel} ));
+        this.store.dispatch(new compute.DictionaryLearningAction({ config: value as DictionaryLearningConfigModel }));
         break;
       case enums.VisualizationEnum.NMF:
-        this.store.dispatch( new compute.NmfAction( { config: value as NmfConfigModel} ));
+        this.store.dispatch(new compute.NmfAction({ config: value as NmfConfigModel }));
         break;
       case enums.VisualizationEnum.TRUNCATED_SVD:
-        this.store.dispatch( new compute.TruncatedSvdAction( { config: value as TruncatedSvdConfigModel} ));
+        this.store.dispatch(new compute.TruncatedSvdAction({ config: value as TruncatedSvdConfigModel }));
         break;
       case enums.VisualizationEnum.ISOMAP:
-        this.store.dispatch( new compute.IsoMapAction( { config: value as IsoMapConfigModel} ));
+        this.store.dispatch(new compute.IsoMapAction({ config: value as IsoMapConfigModel }));
         break;
       case enums.VisualizationEnum.LOCALLY_LINEAR_EMBEDDING:
-        this.store.dispatch( new compute.LocalLinearEmbeddingAction( { config: value as LocalLinearEmbeddingConfigModel} ));
+        this.store.dispatch(new compute.LocalLinearEmbeddingAction({ config: value as LocalLinearEmbeddingConfigModel }));
         break;
       case enums.VisualizationEnum.SPECTRAL_EMBEDDING:
-        this.store.dispatch( new compute.SpectralEmbeddingAction( { config: value as SpectralEmbeddingConfigModel} ));
+        this.store.dispatch(new compute.SpectralEmbeddingAction({ config: value as SpectralEmbeddingConfigModel }));
         break;
       case enums.VisualizationEnum.INCREMENTAL_PCA:
-        this.store.dispatch( new compute.PcaIncrementalAction( { config: value as PcaIncrementalConfigModel} ));
+        this.store.dispatch(new compute.PcaIncrementalAction({ config: value as PcaIncrementalConfigModel }));
         break;
       case enums.VisualizationEnum.KERNAL_PCA:
-        this.store.dispatch( new compute.PcaKernalAction( { config: value as PcaKernalConfigModel} ));
+        this.store.dispatch(new compute.PcaKernalAction({ config: value as PcaKernalConfigModel }));
         break;
       case enums.VisualizationEnum.SPARSE_PCA:
-        this.store.dispatch( new compute.PcaSparseAction( { config: value as PcaSparseConfigModel} ));
+        this.store.dispatch(new compute.PcaSparseAction({ config: value as PcaSparseConfigModel }));
         break;
       case enums.VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING:
-        this.store.dispatch( new compute.MiniBatchDictionaryLearningAction( { config: value as MiniBatchDictionaryLearningConfigModel} ));
+        this.store.dispatch(new compute.MiniBatchDictionaryLearningAction({ config: value as MiniBatchDictionaryLearningConfigModel }));
         break;
       case enums.VisualizationEnum.MINI_BATCH_SPARSE_PCA:
-        this.store.dispatch( new compute.MiniBatchSparsePcaAction( { config: value as MiniBatchSparsePcaConfigModel} ));
+        this.store.dispatch(new compute.MiniBatchSparsePcaAction({ config: value as MiniBatchSparsePcaConfigModel }));
         break;
       case enums.VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS:
-        this.store.dispatch( new compute.LinearDiscriminantAnalysisAction( { config: value as LinearDiscriminantAnalysisConfigModel} ));
+        this.store.dispatch(new compute.LinearDiscriminantAnalysisAction({ config: value as LinearDiscriminantAnalysisConfigModel }));
         break;
       case enums.VisualizationEnum.SURVIVAL:
-        this.store.dispatch( new compute.SurvivalAction( { config: value as SurvivalConfigModel } ));
+        this.store.dispatch(new compute.SurvivalAction({ config: value as SurvivalConfigModel }));
         break;
       case enums.VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS:
-        this.store.dispatch( new compute.QuadraticDiscriminantAnalysisAction(
-            { config: value as QuadradicDiscriminantAnalysisConfigModel} ));
+        this.store.dispatch(new compute.QuadraticDiscriminantAnalysisAction(
+          { config: value as QuadradicDiscriminantAnalysisConfigModel }));
         break;
     }
   }
 
-  addGeneset(value: {database: string, geneset: GeneSet}): void {
-     this.store.dispatch( new DataAddGenesetAction(value) );
+  graphPanelAddDecorator(e: {config: GraphConfig, decorator: DataDecorator}): void {
+    this.store.dispatch(new DataDecoratorCreateAction({ config: e.config, decorator: e.decorator }));
   }
-  delGeneset(value: {database: string, geneset: GeneSet}): void {
-    this.store.dispatch( new DataDelGenesetAction(value) );
+  graphPanelDelDecorator(e: {config: GraphConfig, decorator: DataDecorator}): void {
+    this.store.dispatch(new DataDecoratorDelAction({ config: e.config, decorator: e.decorator }));
   }
-
-  addCohort(value: {database: string, cohort: Cohort}): void {
-    this.store.dispatch( new DataAddCohortAction( value ) );
+  addGeneset(value: { database: string, geneset: GeneSet }): void {
+    this.store.dispatch(new DataAddGenesetAction(value));
   }
-  delCohort(value: {database: string, cohort: Cohort}): void {
-    this.store.dispatch( new DataDelCohortAction( value ) );
+  delGeneset(value: { database: string, geneset: GeneSet }): void {
+    this.store.dispatch(new DataDelGenesetAction(value));
+  }
+  addCohort(value: { database: string, cohort: Cohort }): void {
+    this.store.dispatch(new DataAddCohortAction(value));
+  }
+  delCohort(value: { database: string, cohort: Cohort }): void {
+    this.store.dispatch(new DataDelCohortAction(value));
   }
   helpPanelToggle(config: GraphConfig): void {
-    this.store.dispatch( new HelpSetConfigAction(config) );
-    this.store.dispatch( new ModalPanelAction(enums.PanelEnum.HELP) );
+    this.store.dispatch(new HelpSetConfigAction(config));
+    this.store.dispatch(new ModalPanelAction(enums.PanelEnum.HELP));
   }
   splitScreenChange(value: boolean): void {
     const model = new WorkspaceConfigModel();
     model.layout = (value) ? enums.WorkspaceLayoutEnum.HORIZONTAL : enums.WorkspaceLayoutEnum.SINGLE;
-    this.store.dispatch( new WorkspaceConfigAction( model ) );
-    this.store.dispatch( new GraphPanelToggleAction( enums.GraphPanelEnum.GRAPH_B ) );
+    this.store.dispatch(new WorkspaceConfigAction(model));
+    this.store.dispatch(new GraphPanelToggleAction(enums.GraphPanelEnum.GRAPH_B));
   }
   setModalPanel(value: enums.PanelEnum): void {
-    this.store.dispatch( new ModalPanelAction(value) );
+    this.store.dispatch(new ModalPanelAction(value));
   }
   workspacePanelSetConfig(value: WorkspaceConfigModel) {
-    this.store.dispatch( new WorkspaceConfigAction( value ));
+    this.store.dispatch(new WorkspaceConfigAction(value));
   }
   fileLoadTcga(value: string) {
     this.store.dispatch(new data.DataLoadFromTcga(value));
-    this.store.dispatch( new ModalPanelAction(enums.PanelEnum.NONE) );
+    this.store.dispatch(new ModalPanelAction(enums.PanelEnum.NONE));
   }
 }
