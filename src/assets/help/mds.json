@@ -1,5 +1,5 @@
 {
-    "method": "Multidimensional Scaling",
+    "method": "MDS",
     "summary": "Multidimensional scaling (MDS) is a means of visualizing the level of similarity of individual cases of a dataset.  It refers to a set of related ordination techniques used in information visualization, in particular to display the information contained in a distance matrix",
     "desc": "<span class='help-method'>Multidimensional scaling</span>. ",
     "urlparagraph":"Read more in the scikit-learn user guide.",
