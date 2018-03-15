@@ -27,7 +27,7 @@ export const genomeCompute = (config: GenomeConfigModel, worker: DedicatedWorker
     };
 
 
-    const ct38 = [ { chr: '1', P: 0, C: 123400000, Q: 248956422 },
+    const ct38 = [{ chr: '1', P: 0, C: 123400000, Q: 248956422 },
     { chr: '2', P: 0, C: 93900000, Q: 242193529 },
     { chr: '3', P: 0, C: 90900000, Q: 198295559 },
     { chr: '4', P: 0, C: 50000000, Q: 190214555 },
@@ -50,7 +50,7 @@ export const genomeCompute = (config: GenomeConfigModel, worker: DedicatedWorker
     { chr: '21', P: 0, C: 12000000, Q: 46709983 },
     { chr: '22', P: 0, C: 15000000, Q: 50818468 },
     { chr: 'X', P: 0, C: 61000000, Q: 156040895 },
-    { chr: 'Y', P: 0, C: 10400000, Q: 57227415 } ];
+    { chr: 'Y', P: 0, C: 10400000, Q: 57227415 }];
 
 
     const ct19 = [
@@ -90,77 +90,71 @@ export const genomeCompute = (config: GenomeConfigModel, worker: DedicatedWorker
     scaleChromosome.domain([0, 24]);
     scaleChromosome.range([0, 300]);
 
-    worker.util.processShapeColorSizeIntersect(config, worker);
-    if (config.dirtyFlag & DirtyEnum.LAYOUT) {
-        worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
-            .then(mtx => {
-                worker.util.getGenomePositions(config.alignment).then(result => {
-                    result[0] = result[0]
-                        .filter(v => v[0] !== '')
-                        .map(v => {
-                        return {
-                            arm: v[3].substr(0, 1).toUpperCase(),
-                            chr: v[0],
-                            s: v[1],
-                            e: v[2],
-                            tag: v[4],
-                            subband: v[3].substring(1)
-                        };
-                    });
-
-                    const genes = _.groupBy(result[1]
-                        .filter(v => mtx.markers.indexOf(v[0]) !== -1)
-                        .map(v => ({
-                            gene: v[0], chr: v[1],
-                            tss: scaleGene(v[3]), s: scaleGene(v[4]), e: scaleGene(v[5]),
-                            strand: v[6], type: v[7], color: 0x039BE5,
-                            arm: v[2].substr(0, 1).toUpperCase(),
-                            band: v[2].substring(1) })), 'chr');
-
-                    const chromoObj = _.groupBy(result[0], 'chr');
-                    const bands = Object.keys(chromoObj)
-                        .map(v => chromoObj[v])
-                        .map(v => v.sort((a, b) => a.s - b.s))
-                        .map(v =>
-                            v.map((w, i) => {
-                                w.z = w.e;
-                                w.c = bandColors[w.tag];
-                                w.s = scaleGene(w.s);
-                                w.e = scaleGene(w.e);
-                                w.l = w.e - w.s;
-                                return w;
-                            })
-                        );
-                    const ct = ct19;
-                    const d = {
-                        legendItems: [],
-                        genes: genes,
-                        bands: bands,
-                        tads: [],
-                        chromo: ct.map(v => { v.C = scaleGene(v.C); v.Q = scaleGene(v.Q); return v; })
-                    };
-                    if (config.showTads) {
-                        worker.util.getTads().then( tads => {
-                            tads.forEach(tad => {
-                                tad.s = scaleGene(tad.s);
-                                tad.e = scaleGene(tad.e);
-                            });
-                            d.tads = tads;
-                            worker.postMessage({
-                                config: config,
-                                data: d
-                            });
-                            worker.postMessage('TERMINATE');
-                        });
-                    } else {
-                        worker.postMessage({
-                            config: config,
-                            data: d
-                        });
-                        worker.postMessage('TERMINATE');
-                    }
-                });
+    worker.util.getGenomePositions(config.alignment).then(result => {
+        result[0] = result[0]
+            .filter(v => v[0] !== '')
+            .map(v => {
+                return {
+                    arm: v[3].substr(0, 1).toUpperCase(),
+                    chr: v[0],
+                    s: v[1],
+                    e: v[2],
+                    tag: v[4],
+                    subband: v[3].substring(1)
+                };
             });
-    }
+
+        const genes = _.groupBy(result[1]
+            .filter(v => config.markerFilter.indexOf(v[0]) !== -1)
+            .map(v => ({
+                gene: v[0], chr: v[1],
+                tss: scaleGene(v[3]), s: scaleGene(v[4]), e: scaleGene(v[5]),
+                strand: v[6], type: v[7], color: 0x039BE5,
+                arm: v[2].substr(0, 1).toUpperCase(),
+                band: v[2].substring(1)
+            })), 'chr');
+
+        const chromoObj = _.groupBy(result[0], 'chr');
+        const bands = Object.keys(chromoObj)
+            .map(v => chromoObj[v])
+            .map(v => v.sort((a, b) => a.s - b.s))
+            .map(v =>
+                v.map((w, i) => {
+                    w.z = w.e;
+                    w.c = bandColors[w.tag];
+                    w.s = scaleGene(w.s);
+                    w.e = scaleGene(w.e);
+                    w.l = w.e - w.s;
+                    return w;
+                })
+            );
+        const ct = ct19;
+        const d = {
+            legendItems: [],
+            genes: genes,
+            bands: bands,
+            tads: [],
+            chromo: ct.map(v => { v.C = scaleGene(v.C); v.Q = scaleGene(v.Q); return v; })
+        };
+        if (config.showTads) {
+            worker.util.getTads().then(tads => {
+                tads.forEach(tad => {
+                    tad.s = scaleGene(tad.s);
+                    tad.e = scaleGene(tad.e);
+                });
+                d.tads = tads;
+                worker.postMessage({
+                    config: config,
+                    data: d
+                });
+                worker.postMessage('TERMINATE');
+            });
+        } else {
+            worker.postMessage({
+                config: config,
+                data: d
+            });
+            worker.postMessage('TERMINATE');
+        }
+    });
 };

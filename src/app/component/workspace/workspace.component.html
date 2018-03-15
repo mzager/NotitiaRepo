@@ -6,6 +6,7 @@
         [title]='"Graph A"' [events]='events | async' [tables]='tables | async' [fields]='fields | async' [clinicalFields]='clinicalFields | async'
         [genesets]='genesets | async' [cohorts]='cohorts | async'
         [decorators]='decorators | async'
+        (decoratorAdd)='graphPanelAddDecorator($event)' (decoratorDel)='graphPanelDelDecorator($event)'
         [molecularData]='molecularData | async' [config]='graphAConfig | async' [data]='graphAData | async' (hide)='graphPanelToggle(1)'
         (help)='helpPanelToggle($event)' (configChange)='graphPanelSetConfig($event)' (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
         (selectGeneSignature)='graphPanelSelectGeneSignature($event)' (selectGeneset)='genesetPanelToggle($event)' (selectCohort)='queryPanelToggle($event)'></app-workspace-graph-panel>
@@ -14,6 +15,7 @@
         [title]='"Graph B"' [events]='events | async' [tables]='tables | async' [fields]='fields | async' [clinicalFields]='clinicalFields | async'
         [genesets]='genesets | async' [cohorts]='cohorts | async'
         [decorators]='decorators | async'
+        (decoratorAdd)='graphPanelAddDecorator($event)' (decoratorDel)='graphPanelDelDecorator($event)'
         [molecularData]='molecularData | async' [config]='graphBConfig | async' [data]='graphBData | async' (hide)='graphPanelToggle(2)'
         (help)='helpPanelToggle($event)' (configChange)='graphPanelSetConfig($event)' (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
         (selectGeneSignature)='graphPanelSelectGeneSignature($event)' (selectGeneset)='genesetPanelToggle($event)' (selectCohort)='queryPanelToggle($event)'></app-workspace-graph-panel>
