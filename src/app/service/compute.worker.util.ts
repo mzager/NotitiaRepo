@@ -115,7 +115,7 @@ export class ComputeWorkerUtil {
             this.openDatabaseData(config.database).then(connection => {
                 connection.table(tbl).toArray().then(patients => {
                     const values = patients.map(patient =>
-                        ({ pid: patient.p, sid: null, mid: null, key: patient[field.key], value: null }));
+                        ({ pid: patient.p, sid: null, mid: null, key: EntityTypeEnum.PATIENT , value: null, label: patient[field.key]}));
                     const legend: Legend = this.applyColors(field, values);
                     this.applySampleIds(config, values).then(() => {
                         resolve( { type: type, values: values, field: field, legend: legend });
@@ -135,9 +135,6 @@ export class ComputeWorkerUtil {
                 return new Promise((resolve, reject) => { resolve(); });
         }
     }
-
-
-
 
 
     // ORIG
@@ -1073,7 +1070,7 @@ export class ComputeWorkerUtil {
 
         return fetch('http://oncoscape-opencpu.sttrcancer.io/py', {
         // return fetch('http://python.os.sttrcancer.io/py', {
-            // python.os.sttrcancer.io/py 
+            // python.os.sttrcancer.io/py
             // return fetch('http://localhost:5000/py', {
             headers: headers,
             method: 'POST',
