@@ -40,7 +40,7 @@ spec:
           #- name: SERVER_BASEPATH
           #  value: /api/v1/proxy/namespaces/kube-system/services/kibana-logging
           - name: XPACK_MONITORING_ENABLED
-            value: "false"
+            value: "true"
           - name: XPACK_SECURITY_ENABLED
             value: "false"
         ports:
