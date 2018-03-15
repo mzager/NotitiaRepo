@@ -7,12 +7,14 @@ export interface DataDecoratorValue {
     sid: string;
     mid: string;
     key: any;
-    value: number;
+    value: any;
 }
 export const enum DataDecoratorTypeEnum {
     COLOR = 0,
     SIZE = 1 << 0,
     SHAPE = 1 << 1,
+    TOOLTIP = 1 << 2,
+    SELECT = 1 << 3
 }
 export interface DataDecorator {
     type: DataDecoratorTypeEnum;
