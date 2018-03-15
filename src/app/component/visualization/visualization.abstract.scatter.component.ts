@@ -58,8 +58,9 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.removeObjects();
     }
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        debugger;
-        
+        if (config.entity === EntityTypeEnum.PATIENT) {
+
+        }
     }
     updateData(config: GraphConfig, data: any) {
         this.config = config as GraphConfig;
