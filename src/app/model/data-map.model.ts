@@ -1,5 +1,6 @@
 import { Legend } from 'app/model/legend.model';
 import { DataField } from 'app/model/data-field.model';
+import { EntityTypeEnum } from './enum.model';
 
 
 export interface DataDecoratorValue {
@@ -8,6 +9,7 @@ export interface DataDecoratorValue {
     mid: string;
     key: any;
     value: any;
+    label: string;
 }
 export const enum DataDecoratorTypeEnum {
     COLOR = 0,
@@ -18,7 +20,7 @@ export const enum DataDecoratorTypeEnum {
 }
 export interface DataDecorator {
     type: DataDecoratorTypeEnum;
-    values: Object;
+    values: Array<DataDecoratorValue>;
     field: DataField;
     legend: Legend;
 }

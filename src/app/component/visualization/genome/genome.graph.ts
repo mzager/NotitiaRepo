@@ -88,29 +88,29 @@ export class GenomeGraph implements ChartObjectInterface {
         this.removeObjects();
     }
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        throw new Error("Method not implemented.");
+        throw new Error('Method not implemented.');
     }
     updateData(config: GraphConfig, data: any) {
         this.config = config as GenomeConfigModel;
         this.data = data;
-        if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {
-            this.removeObjects();
-            this.addObjects();
-        }
-        if (this.config.dirtyFlag & DirtyEnum.COLOR) {
-            const objMap = data.pointColor;
 
-            this.meshes.forEach(mesh => {
-                const color = objMap[mesh.userData.mid];
-               mesh.material = ChartFactory.getColorPhong(color); 
-                mesh.userData.color = color;
-            });
-            this.lines.forEach(line => {
-                const color = objMap[line.userData.mid];
-                line.material = new THREE.LineBasicMaterial({color: color});
-                line.userData.color = color;
-            });
-        }
+        this.removeObjects();
+        this.addObjects();
+
+        // if (this.config.dirtyFlag & DirtyEnum.COLOR) {
+        //     const objMap = data.pointColor;
+
+        //     this.meshes.forEach(mesh => {
+        //         const color = objMap[mesh.userData.mid];
+        //        mesh.material = ChartFactory.getColorPhong(color);
+        //         mesh.userData.color = color;
+        //     });
+        //     this.lines.forEach(line => {
+        //         const color = objMap[line.userData.mid];
+        //         line.material = new THREE.LineBasicMaterial({color: color});
+        //         line.userData.color = color;
+        //     });
+        // }
     }
 
     enable(truthy: boolean) {
@@ -189,7 +189,7 @@ export class GenomeGraph implements ChartObjectInterface {
                 const mesh: THREE.Mesh = new THREE.Mesh(geometry, material);
                 mesh.userData.type = GenomicEnum.CYTOBAND;
                 mesh.position.set(0, (yPos + (band.l / 2)) - centro, 0);
-                mesh.userData.tip = band.chr + band.arm.toLowerCase() + 
+                mesh.userData.tip = band.chr + band.arm.toLowerCase() +
                     ((band.subband) ? '.' + band.subband : '') + ' | ' + band.tag.replace('neg', '-').replace('pos', '+');
                 this.arms[i + band.arm].add(mesh);
                 yPos += band.l;
@@ -204,8 +204,8 @@ export class GenomeGraph implements ChartObjectInterface {
                 const xPos = (chromoIndex - 1) * chromoMultiplier - chromoOffset;
                 const centro = this.data.chromo[chromoIndex - 1].C;
                 const q = this.data.chromo[chromoIndex].Q;
-                const line = ChartFactory.lineAllocateCurve( //0xCCCCCC,
-                    0x9c27b0, //0x039BE5,
+                const line = ChartFactory.lineAllocateCurve(
+                    0x9c27b0,
                     new THREE.Vector2(xPos, tad.s -  centro),
                     new THREE.Vector2(xPos, tad.e -  centro),
                     new THREE.Vector2(
@@ -239,7 +239,7 @@ export class GenomeGraph implements ChartObjectInterface {
                         new THREE.Vector3( -2, 0, 0 ),
                         new THREE.Vector3( 0, 0, 0 )
                     );
-                    const line = new THREE.Line(lineGeom, lineMat);                    
+                    const line = new THREE.Line(lineGeom, lineMat);
                     line.userData.mid = gene.gene.toUpperCase();
                     line.userData.tip = gene.gene;
                     this.lines.push(line);
