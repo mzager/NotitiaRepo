@@ -58,7 +58,8 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.removeObjects();
     }
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        throw new Error('Method not implemented.');
+        debugger;
+        
     }
     updateData(config: GraphConfig, data: any) {
         this.config = config as GraphConfig;

@@ -60,7 +60,12 @@
                 </div>
                 
                 <div *ngIf='config'>
-                    <app-workspace-decorator-panel [config]='config' [fields]='fields'></app-workspace-decorator-panel>
+                    <app-workspace-decorator-panel 
+                        [decorators]='decorators | async'
+                        (decoratorAdd)='onDecoratorAdd($event)'
+                        (decoratorDel)='onDecoratorDel($event)'
+                        [config]='config' [fields]='fields'
+                    ></app-workspace-decorator-panel>
                     <app-pathways-form *ngIf='config && config.visualization === 256' (configChange)='graphPanelSetConfig($event)' [fields]='fields'
                         [config]='config'></app-pathways-form>
                     <app-timelines-form *ngIf='config && config.visualization === 128' (configChange)='graphPanelSetConfig($event)' [fields]='fields'
