@@ -708,6 +708,10 @@ CORS(app)
 def hello():
     return "Hello World!"
 
+@app.route('/loaderio-0eee16638c75d153d8fe2f0021281756/')
+def load_test():
+    return "loaderio-0eee16638c75d153d8fe2f0021281756"
+    
 @app.route('/py', methods=['GET', 'POST'])
 def main():
     """ Gateway """
