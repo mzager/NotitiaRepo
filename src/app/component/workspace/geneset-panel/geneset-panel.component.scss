@@ -1,49 +1,94 @@
+// Responsive Mobile First
+// Selectors and styles affecting screens SMALLER THAN 767px (Phones) 
+.geneset-modal-panel {
+    padding: 20px;
+    background: #FFF;
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    overflow: scroll;
+}
 
-.cohortMyRow { 
+.modalClose {
+    height: 115px;
+    width: 50px;
+    position: fixed;
+    right: 15px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    line-height: 50px;
+    display: inline-block;
+}
 
+.geneset-h1 {
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 10px;
+    letter-spacing: 3px;
+    margin-top: 47px;
+    padding-bottom: 18px;
+}
+
+.geneset-h2 {
+    font-size: 1rem;
+    line-height: 150%;
+    font-weight: 300;
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+
+.geneset-link {
+    line-height: 30px;
+    font-weight: 300;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.geneset-public-datasets {
+    padding-left: 10px;
+    padding-right: 0px;
+    padding-top: 30px;
+}
+
+.geneset-my-row {
     position: relative;
     line-height: 30px;
     font-weight: 300;
     font-size: 1rem;
     cursor: pointer;
-    .cohortMyRowDelete {
-        transform: translateY(6px);
-    }
-    span {
-        text-transform: capitalize;
-    }
 }
-// .cohortMyRow:hover { 
-//     .cohortMyRowDelete {
-//         opacity: 1;
-        
-//     }
 
-    
-// }
+.geneset-my-row-delete {
+    transform: translateY(6px);
+}
 
-.cohortMyRowDelete {
+.geneset-my-name:hover {
     color: #029BE5;
 }
 
-.cohortField {
-    // background: #f3f3f3;
+.geneset-my-row-delete {
+    color: #029BE5;
+}
+
+.geneset-field {
     position: relative;
     margin-top: 1px;
-    label {
-        display: inline-block;
-        width: 75px;
-        height: 40px;
-        line-height: 40px;
-        text-align: center;
-        text-transform: uppercase;
-        font-weight: 700;
-    }
-    input { 
-        background: #FFF;
-    }
 }
-.cohortFieldLabel {
+
+.geneset-label {
+    display: inline-block;
+    width: 10px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.geneset-field-label {
     display: inline-block;
     width: 75px;
     height: 40px;
@@ -52,138 +97,126 @@
     text-transform: uppercase;
     font-weight: 700;
 }
-.cohortFieldOr {
-    margin-left: 25px;
-    margin-top: 1px;
-    label {
-        width: 50px;
-    }
-}
-.cohortFieldButtons {
-    display: none;
-    position: absolute;
-    right: 0px;
-    top: 7px;
-    padding-right:10px;
-    color: #039be5;
-}
-.cohortField:hover {
-    color: #029BE5;
-    .cohortFieldButtons {
-        display: inline-block;
-    }
-}
-.cohortFieldDropdown {
-    width: 125px;
+
+.geneset-field-dropdown {
+    width: 250px;
     display: inline-block;
     margin-left: 0px;
     margin-right: 10px;
+    margin-bottom: 10px;
 }
-.cohortBtn {
-    border: solid 0px #EEEEEE;
-    border-bottom-width: 1px;
-}
-.cohortMyRow { 
 
-    position: relative;
-    line-height: 30px;
+.geneset-results {
     font-weight: 300;
-    font-size: 1rem;
-    cursor: pointer;
-    .cohortMyRowDelete {
-    //     opacity: 1;
-        transform: translateY(6px);
-    //     transition: opacity .6s;
-    }
-    // span {
-    //     position: absolute;
-    //     top: 3px;
-    //     left: 0px;
-    // }
+    padding-top: 5px;
 }
-// .cohortMyRow:hover { 
-//     .cohortMyRowDelete {
-//         opacity: 1;
-        
-//     }
 
-    
-// }
-
-.cohortMyRowDelete {
+.geneset-results:hover {
     color: #029BE5;
 }
 
-.cohortField {
-    // background: #f3f3f3;
-    position: relative;
-    margin-top: 1px;
-    label {
+.geneset-icon {
+    color: #029BE5;
+    padding-right: 10px;
+    padding-left: 0px;
+}
+
+.geneset-des {
+    display: inline-block;
+    margin-bottom: 10px;
+    padding-left: 5px;
+    color: #029BE5;
+}
+
+
+
+@media (min-width: 767px) {
+    /* Selectors and styles affecting screens WIDER THAN 979px (Desktop) */
+    .geneset-modal-panel {
+        padding: 60px;
+    }
+    .modalClose {
+        height: 50px;
+        right: 60px;
+    }
+    .geneset-h1 {
+        font-size: 3rem;
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+    }
+    .geneset-h2 {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+    }
+    .geneset-sets {
+        border: 0px solid #EEE;
+        border-right-width: 1px;
+        padding-left: 10px;
+        padding-right: 30px;
+    }
+
+    .geneset-link {
+        font-size: 1.2rem;
+    }
+    .geneset-public-datasets {
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-top: 0px;
+    }
+    .geneset-box {
+        position: relative;
+    }
+    .geneset-textarea {
+        padding: 5px;
+        height: 40vh;
+        overflow-y: scroll;
+        display: inline-block;
+        width: 80%;
+        position: absolute;
+        left: 80px;
+        top: 5px;
+        border-color: #EEE;
+    }
+    .geneset-save {
+        border-radius: 20px;
+        border: 2px solid #039be5;
         display: inline-block;
         width: 75px;
+        height: 40px;
+        line-height: 36px;
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+    .geneset-datasets {
+        border: 0px solid #EEE;
+        border-right-width: 1px;
+        padding-left: 10px;
+        padding-right: 30px;
+    }
+    .geneset-dropdown {
+        border: 0px solid #EEE;
+        border-right-width: 1px;
+        padding-left: 10px;
+        padding-right: 30px;
+    }
+    .geneset-label {
+        display: inline-block;
+        width: 55px;
         height: 40px;
         line-height: 40px;
         text-align: center;
         text-transform: uppercase;
         font-weight: 700;
     }
-    input { 
-        background: #FFF;
+    .geneset-des {
+ 
+        color: #666666;
     }
-}
-.cohortFieldLabel {
-    display: inline-block;
-    width: 75px;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: 700;
-}
-.cohortFieldOr {
-    margin-left: 25px;
-    margin-top: 1px;
-    label {
-        width: 50px;
-    }
-}
-.cohortFieldButtons {
-    display: none;
-    position: absolute;
-    right: 0px;
-    top: 7px;
-    padding-right:10px;
-    color: #039be5;
-}
-.cohortField:hover {
-    color: #029BE5;
-    .cohortFieldButtons {
+    .geneset-field-dropdown {
+        width: 250px;
         display: inline-block;
-    }
-}
-.cohortFieldDropdown {
-    width: 125px;
-    display: inline-block;
-    margin-left: 0px;
-    margin-right: 10px;
-}
-.cohortBtn {
-    border: solid 0px #EEEEEE;
-    border-bottom-width: 1px;
-    color:#029BE5;
-    background: #FFFFFF;
-    box-shadow: none;
-}
-.genesetResult { 
-    font-weight: 300;
-    i {
-    color: #029BE5;
-    padding-right:  10px;
-    padding-left: 40px;
-    }
-    div { 
-        display: inline-block;
-        margin-bottom: 10px;
-        padding-left: 5px;
+        margin-left: 0px;
+        margin-right: 10px;
     }
 }

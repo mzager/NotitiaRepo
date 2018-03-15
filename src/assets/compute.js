@@ -21025,7 +21025,7 @@ var ComputeWorkerUtil = /** @class */ (function () {
             _this.openDatabaseData(config.database).then(function (connection) {
                 connection.table(tbl).toArray().then(function (patients) {
                     var values = patients.map(function (patient) {
-                        return ({ pid: patient.p, sid: null, mid: null, key: patient[field.key], value: null });
+                        return ({ pid: patient.p, sid: null, mid: null, key: enum_model_1.EntityTypeEnum.PATIENT, value: null, label: patient[field.key] });
                     });
                     var legend = _this.applyColors(field, values);
                     _this.applySampleIds(config, values).then(function () {
@@ -21921,7 +21921,7 @@ var ComputeWorkerUtil = /** @class */ (function () {
         };
         return fetch('http://oncoscape-opencpu.sttrcancer.io/py', {
             // return fetch('http://python.os.sttrcancer.io/py', {
-            // python.os.sttrcancer.io/py 
+            // python.os.sttrcancer.io/py
             // return fetch('http://localhost:5000/py', {
             headers: headers,
             method: 'POST',

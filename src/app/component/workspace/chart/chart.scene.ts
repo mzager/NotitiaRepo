@@ -58,7 +58,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { OrbitControls } from 'three-orbitcontrols-ts';
 import { WebGLRenderer, PerspectiveCamera, HemisphereLight, Vector3,
     AmbientLight, OrthographicCamera, Camera, Scene, Vector2 } from 'three';
-import { EffectComposer, GlitchPass, RenderPass } from 'postprocessing';
+
 
 
 
@@ -79,7 +79,7 @@ export class ChartScene {
     private container: HTMLElement;
     private events: ChartEvents;
     public renderer: WebGLRenderer;
-    public composer: EffectComposer;
+    // public composer: EffectComposer;
     private views: Array<VisualizationView>;
     // private edges: EdgesGraph;
     private centerLine: Line;
@@ -115,8 +115,8 @@ export class ChartScene {
         this.renderer.setClearColor(0xffffff, 1);
         this.renderer.autoClear = false;
         this.renderer.localClippingEnabled = true;
-        this.composer = new EffectComposer(this.renderer);
-        this.composer.setSize(dimension.width, dimension.height);
+        // this.composer = new EffectComposer(this.renderer);
+        // this.composer.setSize(dimension.width, dimension.height);
         this.container.appendChild(this.renderer.domElement);
 
         this.views = [{
@@ -232,7 +232,7 @@ export class ChartScene {
     private onResize() {
         const dimension: ClientRect = this.container.getBoundingClientRect();
         this.renderer.setSize(dimension.width, dimension.height);
-        this.composer.setSize(dimension.width, dimension.height);
+        // this.composer.setSize(dimension.width, dimension.height);
         this.views.forEach( (view, i) => {
 
             // This is the edges
