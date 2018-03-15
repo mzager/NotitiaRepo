@@ -8,5 +8,5 @@ spec:
     kind: Deployment
     name: deployment-notitia-ocpu
   minReplicas: 1
-  maxReplicas: 5
-  targetCPUUtilizationPercentage: 10
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 90
