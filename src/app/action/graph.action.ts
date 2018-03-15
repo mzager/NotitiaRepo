@@ -1,3 +1,5 @@
+import { GraphConfig } from './../model/graph-config.model';
+import { DataDecorator } from './../model/data-map.model';
 import { WorkspaceConfigModel } from './../model/workspace.model';
 import { PcaConfigModel, PcaDataModel } from './../component/visualization/pca/pca.model';
 import { COMPUTE_PCA_COMPLETE } from './compute.action';
@@ -14,6 +16,9 @@ export const DEPTH_TOGGLE = '[GRAPH] Depth Toggle';
 export const SAVE_COHORT = '[GRAPH] Save Cohort';
 export const INSERT_ANNOTATION = '[GRAPH] Insert Annotation';
 export const VISUALIZATION_COMPLETE = '[GRAPH] Visualization Complete';
+export const DATA_DECORATOR_ADD = '[GRAPH] Data Decorator Add';
+export const DATA_DECORATOR_DEL = '[GRAPH] Data Decorator Remove';
+export const DATA_DECORATOR_CREATE = '[GRAPH] Data Decorator Create';
 
 // Action Classes
 export class WorkspaceConfigAction implements Action {
@@ -40,9 +45,22 @@ export class VisualizationCompleteAction implements Action {
     readonly type: string = VISUALIZATION_COMPLETE;
     constructor(public payload: {graph: GraphEnum, visualization: GraphEnum, data: any} ) { }
 }
+export class DataDecoratorCreateAction implements Action {
+    readonly type: string = DATA_DECORATOR_CREATE;
+    constructor(public payload: {config: GraphConfig, decorator: DataDecorator} ) { }
+}
+export class DataDecoratorDelAction implements Action {
+    readonly type: string = DATA_DECORATOR_DEL;
+    constructor(public payload: {config: GraphConfig, decorator: DataDecorator} ) { }
+}
+export class DataDecoratorAddAction implements Action {
+    readonly type: string = DATA_DECORATOR_ADD;
+    constructor(public payload: {config: GraphConfig, decorator: DataDecorator} ) { }
+}
 
 // Action Type
 export type Actions =
    DataSetAction | VisualizationSetAction |
    VisibilityToggleAction | DepthToggleAction |
-   VisualizationCompleteAction;
+   VisualizationCompleteAction |
+   DataDecoratorCreateAction | DataDecoratorDelAction | DataDecoratorAddAction;

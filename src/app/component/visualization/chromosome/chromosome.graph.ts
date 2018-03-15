@@ -112,7 +112,7 @@ export class ChromosomeGraph implements ChartObjectInterface {
     }
 
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        throw new Error("Method not implemented.");
+        throw new Error('Method not implemented.');
     }
     updateData(config: GraphConfig, data: any) {
 
@@ -157,9 +157,8 @@ export class ChromosomeGraph implements ChartObjectInterface {
             this.sMouseMove.unsubscribe();
         }
     }
-    preRender(views: Array<VisualizationView>, layout: WorkspaceLayoutEnum, renderer: THREE.WebGLRenderer) {
 
-    }
+    preRender(views: Array<VisualizationView>, layout: WorkspaceLayoutEnum, renderer: THREE.WebGLRenderer) { }
 
     //#region bar
     armsCompute(genes: Array<any>, chromosome: any): any {

@@ -152,11 +152,7 @@ export class ComputeService {
             if (worker === this.workerB) { this.workerB = null; }
             if (worker === this.workerE) { this.workerE = null; }
         } else {
-            // try {
-                this.getSubjectByVisualization(v.data.config.visualization).next(v.data);
-            // } catch (e) {
-            //     debugger;
-            // }
+            this.getSubjectByVisualization(v.data.config.visualization).next(v.data);
         }
     }
     execute(config: GraphConfig, subject: Subject<any>): Observable<any> {

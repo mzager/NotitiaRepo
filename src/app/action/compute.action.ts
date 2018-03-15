@@ -1,8 +1,9 @@
 import { DataDecorator } from './../model/data-map.model';
 import { DendogramConfigModel, DendogramDataModel } from './../component/visualization/dendogram/dendogram.model';
-import { MiniBatchSparsePcaConfigModel, MiniBatchSparsePcaDataModel } from 'app/component/visualization/minibatchsparsepca/minibatchsparsepca.model';
-import { MiniBatchDictionaryLearningConfigModel, MiniBatchDictionaryLearningDataModel } from 'app/component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
-import { LinearDiscriminantAnalysisConfigModel, LinearDiscriminantAnalysisDataModel } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
+import {
+    MiniBatchSparsePcaConfigModel,
+    MiniBatchSparsePcaDataModel
+} from 'app/component/visualization/minibatchsparsepca/minibatchsparsepca.model';
 import { HicConfigModel, HicDataModel } from './../component/visualization/hic/hic.model';
 import { BoxWhiskersDataModel, BoxWhiskersConfigModel } from './../component/visualization/boxwhiskers/boxwhiskers.model';
 import { ParallelCoordsConfigModel, ParallelCoordsDataModel } from './../component/visualization/parallelcoords/parallelcoords.model';
@@ -11,12 +12,6 @@ import { LinkedGeneConfigModel, LinkedGeneDataModel } from './../component/visua
 import { GraphData } from './../model/graph-data.model';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { PcaSparseConfigModel, PcaSparseDataModel } from './../component/visualization/pcasparse/pcasparse.model';
-import {
-    SpectralEmbeddingDataModel, SpectralEmbeddingConfigModel
-} from './../component/visualization/spectralembedding/spectralembedding.model';
-import {
-    LocalLinearEmbeddingConfigModel, LocalLinearEmbeddingDataModel
-} from './../component/visualization/locallinearembedding/locallinearembedding.model';
 import { IsoMapConfigModel, IsoMapDataModel } from './../component/visualization/isomap/isomap.model';
 import { PcaKernalConfigModel, PcaKernalDataModel } from './../component/visualization/pcakernal/pcakernal.model';
 import { PcaIncrementalConfigModel, PcaIncrementalDataModel } from './../component/visualization/pcaincremental/pcaincremental.model';
@@ -24,9 +19,6 @@ import { TruncatedSvdConfigModel, TruncatedSvdDataModel } from './../component/v
 import { NmfConfigModel, NmfDataModel } from './../component/visualization/nmf/nmf.model';
 import { LdaConfigModel, LdaDataModel } from './../component/visualization/lda/lda.model';
 import { FastIcaConfigModel, FastIcaDataModel } from './../component/visualization/fastica/fastica.model';
-import {
-    DictionaryLearningConfigModel, DictionaryLearningDataModel
-} from './../component/visualization/dictionarylearning/dictionarylearning.model';
 import { FaConfigModel, FaDataModel } from './../component/visualization/fa/fa.model';
 import { MdsConfigModel, MdsDataModel } from './../component/visualization/mds/mds.model';
 import { DeConfigModel, DeDataModel } from './../component/visualization/de/de.model';
@@ -44,7 +36,30 @@ import { ChromosomeConfigModel, ChromosomeDataModel } from './../component/visua
 import { PcaConfigModel, PcaDataModel } from './../component/visualization/pca/pca.model';
 import { GraphEnum } from 'app/model/enum.model';
 import { Action } from '@ngrx/store';
-import { QuadradicDiscriminantAnalysisConfigModel, QuadradicDiscriminantAnalysisDataModel } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
+import {
+    SpectralEmbeddingDataModel,
+    SpectralEmbeddingConfigModel
+} from './../component/visualization/spectralembedding/spectralembedding.model';
+import {
+    LocalLinearEmbeddingConfigModel,
+    LocalLinearEmbeddingDataModel
+} from './../component/visualization/locallinearembedding/locallinearembedding.model';
+import {
+    DictionaryLearningConfigModel,
+    DictionaryLearningDataModel
+} from './../component/visualization/dictionarylearning/dictionarylearning.model';
+import {
+    QuadradicDiscriminantAnalysisConfigModel,
+    QuadradicDiscriminantAnalysisDataModel
+} from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
+import {
+    MiniBatchDictionaryLearningConfigModel,
+    MiniBatchDictionaryLearningDataModel
+} from 'app/component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
+import {
+    LinearDiscriminantAnalysisConfigModel,
+    LinearDiscriminantAnalysisDataModel
+} from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
 
 // Action Constants
 export const COMPUTE_LOAD_DATA = '[Compute] Load Data';
@@ -165,17 +180,17 @@ export class EdgesCompleteAction implements Action {
     readonly type: string = COMPUTE_EDGES_COMPLETE;
     constructor(public payload: { config: EdgeConfigModel, data: EdgeDataModel }) { }
 }
-export class DecoratorAddAction implements Action { 
+export class DecoratorAddAction implements Action {
     readonly type: string = COMPUTE_DECORATOR_ADD;
-    constructor(public payload: { decorator: DataDecorator, decorators: Array<DataDecorator> }) {}
+    constructor(public payload: { decorator: DataDecorator, decorators: Array<DataDecorator> }) { }
 }
-export class DecoratorDelAction implements Action { 
+export class DecoratorDelAction implements Action {
     readonly type: string = COMPUTE_DECORATOR_DEL;
-    constructor(public payload: { decorator: DataDecorator, decorators: Array<DataDecorator> }) {}
+    constructor(public payload: { decorator: DataDecorator, decorators: Array<DataDecorator> }) { }
 }
-export class DecoratorUpdateAction implements Action { 
+export class DecoratorUpdateAction implements Action {
     readonly type: string = COMPUTE_DECORATOR_UPDATE;
-    constructor(public payload: { config: GraphConfig, decorators: Array<DataDecorator>}){}
+    constructor(public payload: { config: GraphConfig, decorators: Array<DataDecorator> }) { }
 }
 export class NoneAction implements Action {
     readonly type: string = COMPUTE_NONE;
@@ -576,6 +591,5 @@ export type Actions =
     SampleSummaryAction | SampleSummaryCompleteAction |
     GraphColorAction | GraphShapeAction | GraphSizeAction |
     GraphColorCompleteAction | GraphShapeCompleteAction | GraphSizeCompleteAction |
-    DecoratorAddAction | DecoratorDelAction | 
+    DecoratorAddAction | DecoratorDelAction |
     SelectSamplesAction | SelectMarkersAction;
- 

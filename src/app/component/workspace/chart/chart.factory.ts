@@ -7,10 +7,10 @@ import { GraphEnum, ShapeEnum, SizeEnum } from 'app/model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import * as THREE from 'three';
 import { Vector3, Vector2, Shading, SmoothShading } from 'three';
-
+import * as scale from 'd3-scale';
+import { schemeRdBu, interpolateRdBu, interpolateSpectral } from 'd3-scale-chromatic';
 export class ChartFactory {
 
-    // Pools
     private static meshPool: Array<THREE.Mesh> = [];
     private static linePool: Array<THREE.Line> = [];
     public static shader = {
@@ -31,7 +31,42 @@ export class ChartFactory {
         }
     };
 
-    public static getMesh(id: string, idType: EntityTypeEnum, decorators: Array<DataDecorator>, 
+    public static sizes = [SizeEnum.S, SizeEnum.M, SizeEnum.L, SizeEnum.XL];
+    public static shapes = [ShapeEnum.CIRCLE, ShapeEnum.BOX, ShapeEnum.SQUARE, ShapeEnum.CONE];
+    public static colors = [0xb71c1c, 0x880e4f, 0x4a148c, 0x311b92, 0x1a237e, 0x0d47a1, 0x01579b, 0x006064,
+        0x004d40, 0x1b5e20, 0x33691e, 0x827717, 0xf57f17, 0xff6f00, 0xe65100, 0xbf360c, 0x3e2723,
+        0xf44336, 0xe91e63, 0x9c27b0, 0x673ab7, 0x3f51b5, 0x2196f3, 0x03a9f4, 0x00bcd4, 0x009688,
+        0x4caf50, 0x8bc34a, 0xcddc39, 0xffeb3b, 0xffc107, 0xff9800, 0xff5722, 0x795548];
+
+    public static getScaleSizeOrdinal(values: Array<string>): Function {
+        const len = values.length;
+        return scale.scaleOrdinal().domain(values).range(ChartFactory.sizes.filter( (v, i) => i < len) );
+    }
+    public static getScaleSizeLinear(min: number, max: number): Function {
+        return scale.scaleLinear().domain([1, 4]);
+    }
+    public static getScaleShapeOrdinal(values: Array<string>): Function {
+        const len = values.length;
+        return scale.scaleOrdinal().domain(values).range(ChartFactory.shapes.filter( (v, i) => i < len) );
+    }
+    public static getScaleColorOrdinal(values: Array<string>): Function {
+        const len = values.length;
+        return scale.scaleOrdinal().domain(values).range(ChartFactory.colors.filter( (v, i) => i < len) );
+    }
+
+    // The most cleaver functon in oncoscape
+    public static getScaleColorLinear(min: number, max: number): Function {
+        const scaleFn = scale.scaleSequential<string>(interpolateSpectral).domain([min, max]);
+        return (input) => {
+            const v = scaleFn(input);
+            const c = v.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+            // tslint:disable-next-line:radix
+            return parseInt('0x' + ( parseInt(c[1]) << 16 | parseInt(c[2]) << 8 | parseInt(c[3]) ).toString(16).toUpperCase());
+        };
+    }
+
+    // Pools
+    public static getMesh(id: string, idType: EntityTypeEnum, decorators: Array<DataDecorator>,
         objVector: Vector3, cameraVector: Vector3): THREE.Group {
         const group = new THREE.Group();
         group.position.set(objVector.x, objVector.y, objVector.z);

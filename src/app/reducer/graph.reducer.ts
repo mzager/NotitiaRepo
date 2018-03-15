@@ -1,3 +1,4 @@
+import { DATA_DECORATOR_DEL } from './../action/graph.action';
 import { DataDecorator } from './../model/data-map.model';
 import { GraphData } from './../model/graph-data.model';
 import { Legend } from './../model/legend.model';
@@ -10,7 +11,8 @@ import * as e from 'app/model/enum.model';
 import * as graph from 'app/action/graph.action';
 import * as compute from 'app/action/compute.action';
 import { DirtyEnum } from 'app/model/enum.model';
-import { COMPUTE_CHROMOSOME, COMPUTE_CHROMOSOME_COMPLETE, COMPUTE_PCA_COMPLETE,
+import {
+    COMPUTE_CHROMOSOME, COMPUTE_CHROMOSOME_COMPLETE, COMPUTE_PCA_COMPLETE,
     COMPUTE_TIMELINES, COMPUTE_DECORATOR_ADD, COMPUTE_DECORATOR_DEL, COMPUTE_DECORATOR_UPDATE,
     COMPUTE_GRAPH_COLOR, COMPUTE_GRAPH_SHAPE, COMPUTE_GRAPH_SIZE,
     COMPUTE_GRAPH_SHAPE_COMPLETE, COMPUTE_GRAPH_SIZE_COMPLETE,
@@ -25,7 +27,8 @@ import { COMPUTE_CHROMOSOME, COMPUTE_CHROMOSOME_COMPLETE, COMPUTE_PCA_COMPLETE,
     COMPUTE_PCA_KERNAL_COMPLETE, COMPUTE_PCA_SPARSE_COMPLETE, COMPUTE_LINKED_GENE_COMPLETE,
     COMPUTE_NONE_COMPLETE, COMPUTE_BOX_WHISKERS_COMPLETE, COMPUTE_PARALLEL_COORDS_COMPLETE,
     COMPUTE_HIC_COMPLETE, COMPUTE_PATHWAYS_COMPLETE, COMPUTE_SURVIVAL_COMPLETE,
-    COMPUTE_TIMELINES_COMPLETE} from './../action/compute.action';
+    COMPUTE_TIMELINES_COMPLETE
+} from './../action/compute.action';
 import { DataCollection } from './../model/data-collection.model';
 import { DataField } from 'app/model/data-field.model';
 import { DataSet } from './../model/data-set.model';
@@ -55,8 +58,6 @@ const initialState: State = {
 
 function processAction(action: UnsafeAction, state: State): State {
     switch (action.type) {
-        case COMPUTE_DECORATOR_UPDATE:
-            return Object.assign({}, state, { decorators: (action as compute.DecoratorUpdateAction).payload.decorators});
         case COMPUTE_NONE_COMPLETE:
         case COMPUTE_PATHWAYS_COMPLETE:
         case COMPUTE_TIMELINES_COMPLETE:
@@ -88,30 +89,38 @@ function processAction(action: UnsafeAction, state: State): State {
         case COMPUTE_PCA_INCREMENTAL_COMPLETE:
         case COMPUTE_PCA_KERNAL_COMPLETE:
         case COMPUTE_SURVIVAL_COMPLETE:
-            return Object.assign({}, state, {data: action.payload.data, config: action.payload.config});
-
+            return Object.assign({}, state, { data: action.payload.data, config: action.payload.config });
+        case COMPUTE_DECORATOR_UPDATE:
+            return Object.assign({}, state, { decorators: (action as compute.DecoratorUpdateAction).payload.decorators });
         case graph.VISIBILITY_TOGGLE:
-            return Object.assign({}, state, { visibility: action.payload.data});
+            return Object.assign({}, state, { visibility: action.payload.data });
         case graph.DEPTH_TOGGLE:
-            return Object.assign({}, state, { depth: action.payload.data});
+            return Object.assign({}, state, { depth: action.payload.data });
         case graph.VISUALIZATION_TYPE_SET:
             return Object.assign({}, state, { visualization: action.payload.data });
         case graph.VISUALIZATION_COMPLETE:
             return Object.assign({}, state, { chartObject: action.payload.data });
+        case graph.DATA_DECORATOR_ADD:
+            const decorator = action.payload.decorator;
+            const decorators = state.decorators.filter(v => v.type !== decorator.type);
+            decorators.push(decorator);
+            return Object.assign({}, state, { decorators: decorators });
+        case graph.DATA_DECORATOR_DEL:
+            return Object.assign({}, state, { decorators: state.decorators.filter(v => v.type !== action.payload.decorator.type) });
         default:
             return state;
     }
 }
 export function graphReducerA(state = initialState, action: UnsafeAction): State {
-        if (action.payload === undefined) { return state; }
-        if (action.payload.config === undefined ) { return state; }
-        if (action.payload.config.graph !== e.GraphEnum.GRAPH_A) { return state; }
-       return processAction(action, state);
+    if (action.payload === undefined) { return state; }
+    if (action.payload.config === undefined) { return state; }
+    if (action.payload.config.graph !== e.GraphEnum.GRAPH_A) { return state; }
+    return processAction(action, state);
 }
 
 export function graphReducerB(state = initialState, action: UnsafeAction): State {
     if (action.payload === undefined) { return state; }
-    if (action.payload.config === undefined ) { return state; }
+    if (action.payload.config === undefined) { return state; }
     if (action.payload.config.graph !== e.GraphEnum.GRAPH_B) { return state; }
     return processAction(action, state);
 }
