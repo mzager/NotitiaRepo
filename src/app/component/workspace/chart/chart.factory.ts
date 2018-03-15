@@ -1,3 +1,5 @@
+import { EntityTypeEnum } from './../../../model/enum.model';
+import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
 import { MeshLine, MeshLineMaterial } from 'three.meshline';
 import { Injectable } from '@angular/core';
 import memoize from 'memoize-decorator';
@@ -11,6 +13,59 @@ export class ChartFactory {
     // Pools
     private static meshPool: Array<THREE.Mesh> = [];
     private static linePool: Array<THREE.Line> = [];
+    public static shader = {
+        'outline': {
+            'vertex_shader': [
+                'uniform float offset;',
+                'void main() {',
+                'vec4 pos = modelViewMatrix * vec4( position + normal * offset, 1.0 );',
+                'gl_Position = projectionMatrix * pos;',
+                '}'
+            ].join('\n'),
+
+            fragment_shader: [
+                'void main(){',
+                'gl_FragColor = vec4( 1.0, 0.0, 0.0, 1.0 );',
+                '}'
+            ].join('\n')
+        }
+    };
+
+    public static getMesh(id: string, idType: EntityTypeEnum, decorators: Array<DataDecorator>, 
+        objVector: Vector3, cameraVector: Vector3): THREE.Group {
+        const group = new THREE.Group();
+        group.position.set(objVector.x, objVector.y, objVector.z);
+        // const selectDecorator = decorators.filter(v => v.type === DataDecoratorTypeEnum.SELECT);
+        // const shapeDecorator = decorators.filter(v => v.type === DataDecoratorTypeEnum.SHAPE);
+        // const sizeDecorator = decorators.filter(v => v.type === DataDecoratorTypeEnum.SIZE);
+        // const tipDecorator = decorators.filter(v => v.type === DataDecoratorTypeEnum.TOOLTIP);
+
+        const shape = this.getShape(ShapeEnum.CIRCLE);
+        const point = new THREE.Mesh(shape, this.getColorPhong(0x039be5));
+        // const outline = new THREE.Mesh(shape, this.getOutlineShader(cameraVector, 0xFF0000));
+        // outline.material.depthWrite = false;
+        // outline.quaternion.set(point.quaternion.x, point.quaternion.y, point.quaternion.z, point.quaternion.w);
+        group.add(point);
+        // group.add(outline);
+        return group;
+    }
+
+    public static getOutlineMaterial(): THREE.ShaderMaterial {
+        const uniforms = {
+            offset: {
+                type: 'f',
+                value: 1
+            }
+        };
+        const outShader = ChartFactory.shader.outline;
+        return new THREE.ShaderMaterial({
+            uniforms: uniforms,
+            vertexShader: outShader.vertex_shader,
+            fragmentShader: outShader.fragment_shader,
+        });
+    }
+
+    // --------------------- Old ------------------------ //
 
     // Mesh Pool
     public static meshRelease(mesh: THREE.Mesh): void {
@@ -41,23 +96,23 @@ export class ChartFactory {
         const path = new THREE.Path(curve.getPoints(50));
 
         const pts = path.getPoints();
-        
-        const geometry = new THREE.BufferGeometry().setFromPoints( pts );
-        
+
+        const geometry = new THREE.BufferGeometry().setFromPoints(pts);
+
         line.geometry = geometry;
         // line.geometry = path.createPointsGeometry(50);
         return line;
     }
 
-    public static meshLineAllocate( color: number, pt1: THREE.Vector2, pt2: THREE.Vector2, camera: any, data?: any): MeshLine {
+    public static meshLineAllocate(color: number, pt1: THREE.Vector2, pt2: THREE.Vector2, camera: any, data?: any): MeshLine {
         const geometry = new THREE.Geometry();
-        geometry.vertices.push( new THREE.Vector3(pt1.x, pt1.y, 0) );
-        geometry.vertices.push( new THREE.Vector3(pt2.x, pt2.y, 0) );
+        geometry.vertices.push(new THREE.Vector3(pt1.x, pt1.y, 0));
+        geometry.vertices.push(new THREE.Vector3(pt2.x, pt2.y, 0));
         const line = new MeshLine();
         line.setGeometry(geometry);
-        const material =  new MeshLineMaterial({
+        const material = new MeshLineMaterial({
             useMap: false,
-            color: new THREE.Color( color ),
+            color: new THREE.Color(color),
             opacity: 1,
             // resolution: resolution,
             // sizeAttenuation: !false,
@@ -65,14 +120,14 @@ export class ChartFactory {
             near: camera.near,
             far: camera.far
         });
-        return new THREE.Mesh( line.geometry, material);
+        return new THREE.Mesh(line.geometry, material);
     }
     public static linesAllocate(color: number, pts: Array<THREE.Vector2>, data: any): THREE.Line {
         const line = new THREE.Line();
         line.material = this.getLineColor(color);
         line.userData = data;
         const geometry = new THREE.Geometry();
-        geometry.vertices.push( ...pts.map( v => new THREE.Vector3(v.x, v.y, 0) ) );
+        geometry.vertices.push(...pts.map(v => new THREE.Vector3(v.x, v.y, 0)));
         line.geometry = geometry;
         return line;
     }
@@ -81,8 +136,8 @@ export class ChartFactory {
         line.material = this.getLineColor(color);
         line.userData = data;
         const geometry = new THREE.Geometry();
-        geometry.vertices.push( new THREE.Vector3(pt1.x, pt1.y, 0) );
-        geometry.vertices.push( new THREE.Vector3(pt2.x, pt2.y, 0) );
+        geometry.vertices.push(new THREE.Vector3(pt1.x, pt1.y, 0));
+        geometry.vertices.push(new THREE.Vector3(pt2.x, pt2.y, 0));
         line.geometry = geometry;
         return line;
     }
@@ -90,12 +145,12 @@ export class ChartFactory {
         this.linePool.length = 0;
     }
 
-    //@memoize()
+    // @memoize()
     public static getLineColor(color: number): THREE.LineBasicMaterial {
         return new THREE.LineBasicMaterial({ color: color });
     }
 
-    //@memoize()
+    // @memoize()
     public static getColorMetal(color: number): THREE.Material {
         return new THREE.MeshStandardMaterial(
             {
@@ -108,7 +163,8 @@ export class ChartFactory {
         //     metalness: 0.5, roughness: .5, shading: THREE.SmoothShading});
     }
 
-    //@memoize()
+
+    // @memoize()
     public static getOutlineShader(cameraPosition: Vector3, color: number = 0xff0000): THREE.ShaderMaterial {
         // const shader = {
         //     'outline' : {
@@ -139,10 +195,10 @@ export class ChartFactory {
                     'varying float intensity;',
                     'void main() ',
                     '{',
-                        'vec3 vNormal = normalize( normalMatrix * normal );',
-                        'vec3 vNormel = normalize( normalMatrix * viewVector );',
-                        'intensity = pow( c - dot(vNormal, vNormel), p );',
-                        'gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );',
+                    'vec3 vNormal = normalize( normalMatrix * normal );',
+                    'vec3 vNormel = normalize( normalMatrix * viewVector );',
+                    'intensity = pow( c - dot(vNormal, vNormel), p );',
+                    'gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );',
                     '}'
                 ].join('\n'),
                 'fragment_shader': [
@@ -150,17 +206,17 @@ export class ChartFactory {
                     'varying float intensity;',
                     'void main() ',
                     '{',
-                        'vec3 glow = glowColor * intensity;',
-                        'gl_FragColor = vec4( glow, 1.0 );',
+                    'vec3 glow = glowColor * intensity;',
+                    'gl_FragColor = vec4( glow, 1.0 );',
                     '}'
                 ].join('\n')
             }
         };
         const uniforms = {
             'c': { type: 'f', value: 1.0 },
-			'p': { type: 'f', value: 1.4 },
+            'p': { type: 'f', value: 1.4 },
             glowColor: { type: 'c', value: new THREE.Color(color) },
-            viewVector: { type: 'v3', value: cameraPosition}
+            viewVector: { type: 'v3', value: cameraPosition }
         };
 
         return new THREE.ShaderMaterial({
@@ -173,19 +229,19 @@ export class ChartFactory {
         });
     }
 
-    //@memoize()
+    // @memoize()
     public static getColor(color: number): THREE.Color {
         return new THREE.Color(color);
     }
-    //@memoize()
+    // @memoize()
     public static getColorBasic(color: number): THREE.Material {
         return new THREE.MeshBasicMaterial({
             color: color,
             side: THREE.DoubleSide
-            });
+        });
     }
 
-    //@memoize()
+    // @memoize()
     public static getColorPhong(color: number): THREE.Material {
         return new THREE.MeshStandardMaterial(
             {
@@ -204,7 +260,7 @@ export class ChartFactory {
         // return rv;
     }
 
-    //@memoize()
+    // @memoize()
     public static getShape(shape: ShapeEnum): THREE.Geometry {
         switch (shape) {
             case ShapeEnum.BOX:
