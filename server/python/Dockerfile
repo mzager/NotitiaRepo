@@ -4,7 +4,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Basics
 RUN apt-get -y update && \
-    # apt-get -y upgrade && \
+    apt-get -y upgrade && \
     apt-get install -y git nano
 
 # Python
@@ -19,7 +19,7 @@ RUN apt-get install -y software-properties-common && \
     pip3 install -U flask-cors && \
     git clone https://github.com/canaantt/Python
     # dockgit clone https://github.com/mzager/Python
-    
+COPY static/loaderio-0eee16638c75d153d8fe2f0021281756.txt /Python/loaderio-0eee16638c75d153d8fe2f0021281756.txt  
 # Start
-EXPOSE 5000
+EXPOSE 80
 CMD ["python3", "Python/api.py"]
