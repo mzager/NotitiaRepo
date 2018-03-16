@@ -1,13 +1,13 @@
+import { EntityTypeEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import { DataField } from 'app/model/data-field.model';
-import { EntityTypeEnum } from './enum.model';
 
 
 export interface DataDecoratorValue {
     pid: string;
     sid: string;
     mid: string;
-    key: any;
+    key: EntityTypeEnum;
     value: any;
     label: string;
 }

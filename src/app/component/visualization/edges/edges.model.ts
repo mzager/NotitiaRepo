@@ -17,7 +17,6 @@ export class EdgeConfigModel extends GraphConfig {
     isVisible = false;
     entityA: EntityTypeEnum = EntityTypeEnum.UNKNOWN;
     entityB: EntityTypeEnum = EntityTypeEnum.UNKNOWN;
-    
     edgeOption = ['None'];
 }
 

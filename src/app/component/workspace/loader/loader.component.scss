@@ -1,3 +1,56 @@
+.glass {
+  position: relative;
+  padding: 10px 0;
+  border-bottom: 1px solid;
+  border-bottom-color: #FFF;
+  border-bottom-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.9);
+  height: 100vh;
+}
+
+.glass::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  content: "";
+  filter: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20version%3D%221.1%22%3E%3Cdefs%3E%3Cfilter%20id%3D%22blur%22%3E%3CfeGaussianBlur%20stdDeviation%3D%225%22%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3C%2Fsvg%3E#blur");
+  -webkit-filter: blur(5px);
+  filter: blur(5px);
+}
+
+.glass .legacy-ie-fix {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=20)";
+}
+
+.glass{
+  position: relative;
+  margin: 0;
+  color: #fff;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 180px;
+  font-weight: normal;
+  font-family: "Megrim", sans-serif;
+  line-height: 1;
+  text-align: center;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=50)";
+}
+
+@media only screen {
+  .glass{
+    -ms-filter: "none";
+  }
+}
+
 .loader {
     z-index: 999999999999;
     position: fixed;
@@ -8,20 +61,23 @@
 }
 
 .loader-background {
-    background: #FFF;
-    opacity: .9;
+    background: #FFFFFF;
+    opacity: .8;
     width:100%;
-    height: 100vh;
+    height: 200vh;
     position: fixed;
-    top: 0;
+    top: -20px;
     left: 0;
     width: 100%;
     height: 100%;
+    -webkit-filter: blur(5px);
+    filter: blur(5px);
 }
 
 
-$animation-duration: 1.8s;
-
+$animation-duration: 6.8s;
+$box-p1: 3px;
+$box-p2: 3px;
 .loader-animation {
     display: block;
     position: relative;
@@ -31,23 +87,25 @@ $animation-duration: 1.8s;
     height: 300px;
     margin: -150px 0 0 -150px;
     border-radius: 50%;
-    border: 30px solid transparent;
+    border: 3px solid transparent;
     border-top-color: #029BE5;
     -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
+    // box-shadow: $box-p1 $box-p2 #029BE5;
 }
 .loader-animation:before {
     content: "";
     position: absolute;
-    top: 5px;
-    left: 5px;
-    right: 5px;
-    bottom: 5px;
+    top: 30px;
+    left: 30px;
+    right: 30px;
+    bottom: 30px;
     border-radius: 50%;
     border: 3px solid transparent;
     border-top-color: #72c4f0;
     -webkit-animation: spin 3s linear infinite;
     animation: spin 3s linear infinite;
+    // box-shadow: $box-p1 $box-p2 #72c4f0;
 }
 .loader-animation:after {
     content: "";
@@ -61,6 +119,7 @@ $animation-duration: 1.8s;
     border-top-color: #b3e6fc;
     -webkit-animation: spin 1.5s linear infinite;
     animation: spin 1.5s linear infinite;
+    // box-shadow: $box-p1 $box-p2 #b3e6fc;
 }
 @-webkit-keyframes spin {
     0%   {

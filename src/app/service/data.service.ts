@@ -28,7 +28,14 @@ export class DataService {
   createDataDecorator(config: GraphConfig, decorator: DataDecorator): Observable<DataDecorator> {
     return Observable.fromPromise(new Promise((resolve, reject) => {
       new Dexie('notitia-' + config.database).open().then(db => {
-        db.table(decorator.field.tbl).toArray().then(items => {
+        Promise.all([
+          db.table(decorator.field.tbl).toArray(),
+          db.table('patientSampleMap').toArray()
+        ])
+        .then(results => {
+          const items = results[0];
+          const psMap = results[1].reduce( (p, c) => { p[c.p] = c.s; return p; }, {});
+
           let scale: Function;
           // let legend: Legend;
           switch (decorator.type) {
@@ -38,7 +45,7 @@ export class DataService {
                 ChartFactory.getScaleColorLinear(decorator.field.values.min, decorator.field.values.max);
               decorator.values = items.map(v => ({
                 pid: v.p,
-                sid: null,
+                sid: psMap[v.p],
                 mid: null,
                 key: EntityTypeEnum.PATIENT,
                 label: v[decorator.field.key],
@@ -47,10 +54,10 @@ export class DataService {
               resolve(decorator);
               break;
             case DataDecoratorTypeEnum.SHAPE:
-              ChartFactory.getScaleShapeOrdinal(decorator.field.values);
+              scale = ChartFactory.getScaleShapeOrdinal(decorator.field.values);
               decorator.values = items.map(v => ({
                 pid: v.p,
-                sid: null,
+                sid: psMap[v.p],
                 mid: null,
                 key: EntityTypeEnum.PATIENT,
                 label: v[decorator.field.key],
@@ -64,7 +71,7 @@ export class DataService {
                 ChartFactory.getScaleSizeLinear(decorator.field.values.min, decorator.field.values.max);
               decorator.values = items.map(v => ({
                 pid: v.p,
-                sid: null,
+                sid: psMap[v.p],
                 mid: null,
                 key: EntityTypeEnum.PATIENT,
                 label: v[decorator.field.key],

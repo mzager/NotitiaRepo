@@ -75,11 +75,8 @@ export class DendogramGraph implements ChartObjectInterface {
         this.enable(false);
     }
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        throw new Error("Method not implemented.");
     }
     updateData(config: GraphConfig, data: any) {
-        debugger;
-        console.log("REDRAW");
         this.config = config as DendogramConfigModel;
         this.data = data;
         this.removeObjects();
@@ -154,7 +151,6 @@ export class DendogramGraph implements ChartObjectInterface {
         this.group.add(this.points);
 
         this.drawDendogram(this.data.result, false);
-        
         this.onRequestRender.next();
     }
 
