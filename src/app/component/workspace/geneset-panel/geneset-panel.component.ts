@@ -50,7 +50,7 @@ declare var $: any;
             <span>Select / Build a Gene Set</span>
             <!-- From -->
             <div class='geneset-field'>
-                <label class='geneset-label hide-on-small-only'>From</label>
+                <label class='geneset-label '>From</label>
                 <select class='geneset-field-dropdown browser-default' materialize='material_select'
                     (change)='setBuildType($event)'>
                     <option value='CURATED'>Curated Gene Set</option>
