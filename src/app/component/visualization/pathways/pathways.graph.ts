@@ -74,12 +74,8 @@ export class PathwaysGraph implements ChartObjectInterface {
     updateData(config: GraphConfig, data: any) {
         this.config = config as PathwaysConfigModel;
         this.data = data;
-
-        if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {
-            this.removeObjects();
-            this.addObjects();
-        }
-
+        this.removeObjects();
+        this.addObjects();
         this.onRequestRender.next();
     }
 

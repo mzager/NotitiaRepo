@@ -3,7 +3,7 @@ import { ColorEnum, DirtyEnum } from 'app/model/enum.model';
 import { GenomeConfigModel } from './genome.model';
 import * as util from 'app/service/compute.worker.util';
 import { scaleLinear, scaleQuantize, scaleQuantile, scaleOrdinal, scaleThreshold } from 'd3-scale';
-import { scaleSequential, schemeRdBu, interpolateRdBu } from 'd3-scale-chromatic';
+import { schemeRdBu, interpolateRdBu } from 'd3-scale-chromatic';
 import * as _ from 'lodash';
 import * as d3Interpolate from 'd3-interpolate';
 import * as d3Scale from 'd3-scale';
@@ -14,27 +14,6 @@ import { DedicatedWorkerGlobalScope } from 'compute';
 
 export const genomeCompute = (config: GenomeConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
-    // const bandColors = {
-    //     'gneg': 0xf1f1f1,
-    //     'gpos25': 0xededed,
-    //     'gpos50': 0xe9e9e9,
-    //     'gpos75': 0xe4e4e4,
-    //     'gpos100': 0xe0e0e0,
-    //     'acen': 0xdbdbdb,
-    //     'gvar': 0xd7d7d7,
-    //     'stalk': 0xd3d3d3
-    // };
-
-    // const bandColors = {
-    //     'gneg': 0xEEEEEE,
-    //     'gpos25': 0xDDDDDD,
-    //     'gpos50': 0xCCCCCC,
-    //     'gpos75': 0xBBBBBB,
-    //     'gpos100': 0xAAAAAA,
-    //     'acen': 0xdbdbdb,
-    //     'gvar': 0x999999,
-    //     'stalk': 0x888888
-    // };
 
     const bandColors = {
         'gneg': 0xEC407A,
@@ -47,33 +26,8 @@ export const genomeCompute = (config: GenomeConfigModel, worker: DedicatedWorker
         'stalk': 0x26A69A
     };
 
-    // const ct = [
-    //     { 'chr': '1', 'P': 0, 'C': 124300000, 'Q': 247249719 },
-    //     { 'chr': '2', 'P': 0, 'C': 93300000, 'Q': 242951149 },
-    //     { 'chr': '3', 'P': 0, 'C': 91700000, 'Q': 199501827 },
-    //     { 'chr': '4', 'P': 0, 'C': 50700000, 'Q': 191273063 },
-    //     { 'chr': '5', 'P': 0, 'C': 47700000, 'Q': 180857866 },
-    //     { 'chr': '6', 'P': 0, 'C': 60500000, 'Q': 170899992 },
-    //     { 'chr': '7', 'P': 0, 'C': 59100000, 'Q': 158821424 },
-    //     { 'chr': '8', 'P': 0, 'C': 45200000, 'Q': 146274826 },
-    //     { 'chr': '9', 'P': 0, 'C': 51800000, 'Q': 140273252 },
-    //     { 'chr': '10', 'P': 0, 'C': 40300000, 'Q': 135374737 },
-    //     { 'chr': '11', 'P': 0, 'C': 52900000, 'Q': 134452384 },
-    //     { 'chr': '12', 'P': 0, 'C': 35400000, 'Q': 132349534 },
-    //     { 'chr': '13', 'P': 0, 'C': 16000000, 'Q': 114142980 },
-    //     { 'chr': '14', 'P': 0, 'C': 15600000, 'Q': 106368585 },
-    //     { 'chr': '15', 'P': 0, 'C': 17000000, 'Q': 100338915 },
-    //     { 'chr': '16', 'P': 0, 'C': 38200000, 'Q': 88827254 },
-    //     { 'chr': '17', 'P': 0, 'C': 22200000, 'Q': 78774742 },
-    //     { 'chr': '18', 'P': 0, 'C': 16100000, 'Q': 76117153 },
-    //     { 'chr': '19', 'P': 0, 'C': 28500000, 'Q': 63811651 },
-    //     { 'chr': '20', 'P': 0, 'C': 27100000, 'Q': 62435964 },
-    //     { 'chr': '21', 'P': 0, 'C': 12300000, 'Q': 46944323 },
-    //     { 'chr': '22', 'P': 0, 'C': 11800000, 'Q': 49691432 },
-    //     { 'chr': 'X', 'P': 0, 'C': 59500000, 'Q': 154913754 },
-    //     { 'chr': 'Y', 'P': 0, 'C': 11300000, 'Q': 57772954 }];
 
-    const ct38 = [ { chr: '1', P: 0, C: 123400000, Q: 248956422 },
+    const ct38 = [{ chr: '1', P: 0, C: 123400000, Q: 248956422 },
     { chr: '2', P: 0, C: 93900000, Q: 242193529 },
     { chr: '3', P: 0, C: 90900000, Q: 198295559 },
     { chr: '4', P: 0, C: 50000000, Q: 190214555 },
@@ -96,7 +50,7 @@ export const genomeCompute = (config: GenomeConfigModel, worker: DedicatedWorker
     { chr: '21', P: 0, C: 12000000, Q: 46709983 },
     { chr: '22', P: 0, C: 15000000, Q: 50818468 },
     { chr: 'X', P: 0, C: 61000000, Q: 156040895 },
-    { chr: 'Y', P: 0, C: 10400000, Q: 57227415 } ];
+    { chr: 'Y', P: 0, C: 10400000, Q: 57227415 }];
 
 
     const ct19 = [
@@ -136,77 +90,71 @@ export const genomeCompute = (config: GenomeConfigModel, worker: DedicatedWorker
     scaleChromosome.domain([0, 24]);
     scaleChromosome.range([0, 300]);
 
-    worker.util.processShapeColorSizeIntersect(config, worker);
-    if (config.dirtyFlag & DirtyEnum.LAYOUT) {
-        worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
-            .then(mtx => {
-                worker.util.getGenomePositions(config.alignment).then(result => {
-                    result[0] = result[0]
-                        .filter(v => v[0] !== '')
-                        .map(v => {
-                        return {
-                            arm: v[3].substr(0, 1).toUpperCase(),
-                            chr: v[0],
-                            s: v[1],
-                            e: v[2],
-                            tag: v[4],
-                            subband: v[3].substring(1)
-                        };
-                    });
-
-                    const genes = _.groupBy(result[1]
-                        .filter(v => mtx.markers.indexOf(v[0]) !== -1)
-                        .map(v => ({
-                            gene: v[0], chr: v[1],
-                            tss: scaleGene(v[3]), s: scaleGene(v[4]), e: scaleGene(v[5]),
-                            strand: v[6], type: v[7], color: 0x039BE5,
-                            arm: v[2].substr(0, 1).toUpperCase(),
-                            band: v[2].substring(1) })), 'chr');
-
-                    const chromoObj = _.groupBy(result[0], 'chr');
-                    const bands = Object.keys(chromoObj)
-                        .map(v => chromoObj[v])
-                        .map(v => v.sort((a, b) => a.s - b.s))
-                        .map(v =>
-                            v.map((w, i) => {
-                                w.z = w.e;
-                                w.c = bandColors[w.tag];
-                                w.s = scaleGene(w.s);
-                                w.e = scaleGene(w.e);
-                                w.l = w.e - w.s;
-                                return w;
-                            })
-                        );
-                    const ct = ct19;
-                    const d = {
-                        legendItems: [],
-                        genes: genes,
-                        bands: bands,
-                        tads: [],
-                        chromo: ct.map(v => { v.C = scaleGene(v.C); v.Q = scaleGene(v.Q); return v; })
-                    };
-                    if (config.showTads) {
-                        worker.util.getTads().then( tads => {
-                            tads.forEach(tad => {
-                                tad.s = scaleGene(tad.s);
-                                tad.e = scaleGene(tad.e);
-                            });
-                            d.tads = tads;
-                            worker.postMessage({
-                                config: config,
-                                data: d
-                            });
-                            worker.postMessage('TERMINATE');
-                        });
-                    } else {
-                        worker.postMessage({
-                            config: config,
-                            data: d
-                        });
-                        worker.postMessage('TERMINATE');
-                    }
-                });
+    worker.util.getGenomePositions(config.alignment).then(result => {
+        result[0] = result[0]
+            .filter(v => v[0] !== '')
+            .map(v => {
+                return {
+                    arm: v[3].substr(0, 1).toUpperCase(),
+                    chr: v[0],
+                    s: v[1],
+                    e: v[2],
+                    tag: v[4],
+                    subband: v[3].substring(1)
+                };
             });
-    }
+
+        const genes = _.groupBy(result[1]
+            .filter(v => config.markerFilter.indexOf(v[0]) !== -1)
+            .map(v => ({
+                gene: v[0], chr: v[1],
+                tss: scaleGene(v[3]), s: scaleGene(v[4]), e: scaleGene(v[5]),
+                strand: v[6], type: v[7], color: 0x039BE5,
+                arm: v[2].substr(0, 1).toUpperCase(),
+                band: v[2].substring(1)
+            })), 'chr');
+
+        const chromoObj = _.groupBy(result[0], 'chr');
+        const bands = Object.keys(chromoObj)
+            .map(v => chromoObj[v])
+            .map(v => v.sort((a, b) => a.s - b.s))
+            .map(v =>
+                v.map((w, i) => {
+                    w.z = w.e;
+                    w.c = bandColors[w.tag];
+                    w.s = scaleGene(w.s);
+                    w.e = scaleGene(w.e);
+                    w.l = w.e - w.s;
+                    return w;
+                })
+            );
+        const ct = ct19;
+        const d = {
+            legendItems: [],
+            genes: genes,
+            bands: bands,
+            tads: [],
+            chromo: ct.map(v => { v.C = scaleGene(v.C); v.Q = scaleGene(v.Q); return v; })
+        };
+        if (config.showTads) {
+            worker.util.getTads().then(tads => {
+                tads.forEach(tad => {
+                    tad.s = scaleGene(tad.s);
+                    tad.e = scaleGene(tad.e);
+                });
+                d.tads = tads;
+                worker.postMessage({
+                    config: config,
+                    data: d
+                });
+                worker.postMessage('TERMINATE');
+            });
+        } else {
+            worker.postMessage({
+                config: config,
+                data: d
+            });
+            worker.postMessage('TERMINATE');
+        }
+    });
 };

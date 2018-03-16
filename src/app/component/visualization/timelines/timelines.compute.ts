@@ -85,7 +85,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
 
             // Associate Bar + Color To Event
             eventData = eventData.map(v => {
-                return Object.assign(v, { 'color': colorMap[v.subtype] });//, 'bar': barMap[v.subtype] });
+                return Object.assign(v, { 'color': colorMap[v.subtype] });
             });
 
             // Build Legend
@@ -95,7 +95,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 rv.type = 'COLOR';
                 rv.display = 'DISCRETE';
                 rv.labels = v.events;
-                rv.values = rv.labels.map(v => colorMap[v]);
+                rv.values = rv.labels.map(w => colorMap[w]);
                 return rv;
             });
 
@@ -157,7 +157,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
 
                     legends = legends.concat(attrs.attrs.map(attr => {
                         if (attr.hasOwnProperty('min')) {
-                            const scale = scaleSequential<number>(interpolateSpectral).domain([attr.min, attr.max]);
+                            const scale = scaleSequential<string>(interpolateSpectral).domain([attr.min, attr.max]);
                             const legend: Legend = new Legend();
                             legend.name = 'HEATMAP // ' + attr.prop.replace(/_/gi, ' ');
                             legend.type = 'COLOR';
@@ -172,7 +172,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                                 return p;
                             }, {});
                             const legend: Legend = new Legend();
-                            legend.name = 'HEATMAP // ' + attr.prop.replace(/_/gi, ' ').toUpperCase();;
+                            legend.name = 'HEATMAP // ' + attr.prop.replace(/_/gi, ' ').toUpperCase();
                             legend.type = 'COLOR';
                             legend.display = 'DISCRETE';
                             legend.labels = Object.keys(cm);

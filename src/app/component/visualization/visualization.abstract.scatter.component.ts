@@ -19,6 +19,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     // Chart Elements
     private data: GraphData;
     public config: GraphConfig;
+    private decorators: Array<DataDecorator>;
 
     // Objects
     private lines: Array<THREE.Line>;
@@ -34,7 +35,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     // Private Subscriptions
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         super.create(labels, events, view);
-   
+
         this.tooltips = <HTMLDivElement>(document.createElement('div'));
         this.tooltips.className = 'graph-tooltip';
         this.labels.appendChild( this.tooltips );
@@ -47,6 +48,8 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.controls = new DragSelectionControl();
         this.controls.create(events, view, this.meshes, this.onRequestRender, this.onSelect);
         this.view.controls.enableRotate = true;
+
+        this.decorators = [];
         return this;
     }
 
@@ -55,7 +58,9 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.removeObjects();
     }
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        throw new Error("Method not implemented.");
+        if (config.entity === EntityTypeEnum.PATIENT) {
+
+        }
     }
     updateData(config: GraphConfig, data: any) {
         this.config = config as GraphConfig;
@@ -63,7 +68,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.removeObjects();
         this.addObjects(this.config.entity);
         /*
-        
         if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {
             this.removeObjects();
             this.addObjects(this.config.entity);
@@ -120,35 +124,46 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     }
 
     addObjects(type: EntityTypeEnum) {
-        const weightLength = this.data['resultScaled'].length;
-        const layoutLength = this.data['resultScaled'].length;
-        for (let i = 0; i < layoutLength; i++) {
-            const position = this.data['resultScaled'][i];
-            const color = 0x039be5;
-            const shape = ShapeEnum.CIRCLE;
-            const size = 1;
-            const userData = (type === EntityTypeEnum.GENE) ?
-                {
-                    color: color,
-                    mid: this.data['mid'][i]
-                } : {
-                    color: color,
-                    pid: this.data['pid'][i],
-                    sid: this.data['sid'][i]
-                };
-            const mesh = ChartFactory.meshAllocate(
-                color,
-                shape,
-                size,
-                new THREE.Vector3(
-                    position[0],
-                    position[1],
-                    position[2]
-                ), userData);
+        const propertyId = (this.config.entity === EntityTypeEnum.GENE) ? 'mid' : 'sid';
+        const objectIds = this.data[propertyId];
+        this.data.resultScaled.forEach( (point, index) => {
+            const group = ChartFactory.getMesh(
+                objectIds[index], this.config.entity, this.decorators,
+                new THREE.Vector3(...point),
+                this.view.camera.position);
+            this.meshes.push(group);
+            this.view.scene.add(group);
+        });
 
-            this.meshes.push(mesh);
-            this.view.scene.add(mesh);
-        }
+        // const weightLength = this.data['resultScaled'].length;
+        // const layoutLength = this.data['resultScaled'].length;
+        // for (let i = 0; i < layoutLength; i++) {
+        //     const position = this.data['resultScaled'][i];
+        //     const color = 0x039be5;
+        //     const shape = ShapeEnum.CIRCLE;
+        //     const size = 1;
+        //     const userData = (type === EntityTypeEnum.GENE) ?
+        //         {
+        //             color: color,
+        //             mid: this.data['mid'][i]
+        //         } : {
+        //             color: color,
+        //             pid: this.data['pid'][i],
+        //             sid: this.data['sid'][i]
+        //         };
+        //     const mesh = ChartFactory.meshAllocate(
+        //         color,
+        //         shape,
+        //         size,
+        //         new THREE.Vector3(
+        //             position[0],
+        //             position[1],
+        //             position[2]
+        //         ), userData);
+        //     // mesh.material = ChartFactory.getOutlineMaterial();
+        //     this.meshes.push(mesh);
+        //     this.view.scene.add(mesh);
+        // }
     }
 
     removeObjects() {
