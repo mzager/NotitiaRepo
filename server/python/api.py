@@ -1,3 +1,4 @@
+import os.path
 # from eve import Eve
 from flask import Flask
 from flask_cors import CORS
@@ -8,6 +9,7 @@ import base64
 from flask import request
 from flask import jsonify
 from flask import Response
+from flask import send_from_directory
 
 from sklearn.manifold import MDS
 from sklearn.manifold import TSNE
@@ -710,12 +712,10 @@ CORS(app)
 def hello():
     return "Hello World!"
 
-
 @app.route('/test')
 def test():
-    src = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'test.html')
-    return open(src).read()
-
+   src = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'loaderio-0eee16638c75d153d8fe2f0021281756.txt')
+   return open(src).read()
 
 @app.route('/py', methods=['GET', 'POST'])
 def main():

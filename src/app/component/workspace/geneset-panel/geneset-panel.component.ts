@@ -23,88 +23,94 @@ declare var $: any;
     template:
         `
 <!-- Card -->
-<div>
-    <a href='#' class='modalClose' (click)='closeClick()'></a>
-    <h1 style = 'font-size: 3rem; font-weight: 300; margin-bottom: 10px; letter-spacing: 3px;'>Gene Sets</h1>
-    <h2>Select from thousands of curated gene sets, or build your own <a href='https://www.youtube.com/embed/XQu8TTBmGhA' target='_blank'><i class='small material-icons modalWatchVideoIcon'>ondemand_video</i>Watch Tutorial</a></h2>
+<div class="geneset-modal-panel">
+        <div class="row">
+                <a href='#' class='modalClose' (click)='closeClick()'></a>
+                <div class="col s12">
+                        <h1 class='geneset-h1'>Gene Sets</h1>
 
+                        <h2 class='geneset-h2'>Select from thousands of curated gene sets, or build your own
+                                <a href='https://www.youtube.com/embed/XQu8TTBmGhA' target='_blank'>
+                                        <i class='small material-icons modalWatchVideoIcon'>ondemand_video</i>Watch Tutorial</a>
+                        </h2>
+                </div>
+        </div>
     <div class='row'>
         <!-- My Cohorts -->
-        <div class='col s3' style='border: 0px solid #EEE; border-right-width: 1px;padding-left: 0px;padding-right: 30px;'>
-            <span class='cohortHeader'>My Genesets</span>
+        <div class='col s12 l3 geneset-dropdown'>
+            <span>My Genesets</span>
             <div *ngFor='let myGeneset of genesets' (click)='geneSetDel(myGeneset)'>
-                <div class='cohortMyRow'>
-                    <i class='material-icons cohortMyRowDelete'>remove_circle_outline</i>
-                    <span class='cohortMyRowname'>{{myGeneset.n}}</span>
-                </div>    
+                <div class='geneset-my-row'>
+                    <i class='material-icons geneset-my-row-delete'>remove_circle_outline</i>
+                    <span class='geneset-my-name'>{{myGeneset.n}}</span>
+                </div>
             </div>
         </div>
-        <div class='col s9' style='padding-left:30px;padding-right:30px;'>
-            <span class='cohortHeader' style='padding-bottom:20px;'>Select / Build a Gene Set</span>
-
+        <div class='col s12 l9 geneset-public-datasets'>
+            <span>Select / Build a Gene Set</span>
             <!-- From -->
-            <div class='cohortField'>
-                <label>From</label>
-                <select class='cohortFieldDropdown browser-default' materialize='material_select'
+            <div class='geneset-field'>
+                <label class='geneset-label hide-on-small-only'>From</label>
+                <select class='geneset-field-dropdown browser-default' materialize='material_select'
                     (change)='setBuildType($event)'>
                     <option value='CURATED'>Curated Gene Set</option>
                     <option value='CUSTOM'>List of Genes</option>
                     <option value='CONDITIONAL'>Criteria</option>
                 </select>
                 <select *ngIf='buildType === "CURATED"'
-                    class='cohortFieldDropdown browser-default' materialize='material_select' 
+                    class='geneset-field-dropdown browser-default' materialize='material_select'
                     (change)='genesetCategoryChange($event.target.value)'>
                     <option  *ngFor='let option of genesetCategories'>{{option.n}}</option>
                 </select>
             </div>
-
             <!-- Curated -->
             <span *ngIf='buildType === "CURATED"'>
-                <div class='cohortField' >
-                    <label>Where</label>
-                    <input type='text' placeholder='Gene Set Contains'
+                <div class='geneset-field'>
+                    <label class='geneset-label hide-on-small-only'>Where</label>
+                    <!--inline to overide host:deep-->
+                    <input style='margin-bottom: 5px;border-color: #EEE;width: 293px; padding-left: 6px;'
+                    type='text' placeholder='Gene Set Contains e.g. IDH1, BRCA1'
                     (keyup)='$genesetFilter.next($event.target.value)'
                     ng-model='genesetFilter'
-                    style='margin-bottom:5px;border-color:#EEE;width:293px;padding-left: 6px;'>
+                    >
                 </div>
-                <div>                  
-                    <div class='cohortField genesetResult' *ngFor='let option of genesetOptionsFilter'
-                        (click)='geneSetAdd(option)'>
-                        <i class='material-icons'>add_circle_outline</i>
-                        <div>
+                <div>
+                    <div *ngFor='let option of genesetOptionsFilter'
+                        (click)='geneSetAdd(option)'class='geneset-results' >
+                       
+                        <i class='material-icons geneset-icon hide-on-small-only'>add_circle_outline</i>
+                        <div class='geneset-des'>
                             {{option.name}}<br />
                             {{option.summary}}
                         </div>
                     </div>
                 </div>
             </span>
-        
             <!-- Custom -->
             <span *ngIf='buildType === "CUSTOM"'>
-                <div class='cohortField'>
-                    <label for='genesetName'>Create</label>
-                    <input id='genesetName' [(ngModel)]='customName' type='text' placeholder='Enter Gene Set Name'
-                    style='margin-bottom:5px;border-color:#EEE;width:293px;padding-left: 6px;'>
+                <div class='geneset-field'>
+                    <label class='geneset-label' for='genesetName'>Create</label>
+                    <!--inline to overide host:deep-->
+                    <input style='margin-bottom: 5px;border-color: #EEE;width: 293px; padding-left: 6px;'
+                    id='genesetName' [(ngModel)]='customName' type='text' placeholder='Enter Gene Set Name'>
                 </div>
-                <div style='position:relative;'>
-                    <label class='cohortFieldLabel'>Genes</label>
+                <div class='geneset-box'>
+                    <label class='geneset-label '>Genes</label>
                     <textarea type='text' [(ngModel)]='customGenes' placeholder='Enter a comma seperated list of gene names'
-                        style='padding:5px;height:40vh;overflow-y:scroll;display: inline-block;
-                        width:80%;position: absolute;left: 80px;top: 5px; border-color:#EEE;'></textarea>
+                        class='geneset-textarea'></textarea>
                 </div>
-                <div>
-                    <a class='cohortFieldLabel' 
-                    style='border: 2px solid #039be5' href='#' (click)='onCustomSave()'>Save</a>
-                </div>
+        <div>
+                    <a class='geneset-field-label'
+                    class='geneset-save' href='#' (click)='onCustomSave()'>Save</a>
+                    </div>
             </span>
-
             <!-- Conditional -->
             <span *ngIf='buildType === "CONDITIONAL"'>
                 Above Expression...<br />
                 With Mutation... <br />
                 By Quartile... <br />
                 etc...
-            </span>          
+            </span>
         </div>
     </div>
 </div>`,

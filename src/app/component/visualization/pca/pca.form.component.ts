@@ -68,10 +68,9 @@ import * as _ from 'lodash';
   </div>
   <div class='form-group'>
     <div class='switch'>
-      <label>
+    <label class='center-block'><span class='form-label'>Whiten</span>
         <input type='checkbox' formControlName='whiten'>
-          <span class='lever'></span>
-            Whiten
+            <span class='lever'></span>
       </label>
     </div>
   </div>
