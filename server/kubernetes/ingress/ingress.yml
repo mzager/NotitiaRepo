@@ -5,14 +5,14 @@ metadata:
   name: nginx-ingress
 spec:
   rules:
-  - host: opencpu.jennylou.info
+  - host: opencpu.os.sttrcancer.io
     http:
       paths:
       - path: /
         backend:
           serviceName: ocpu
           servicePort: 80
-  - host: python.jennylou.info
+  - host: python.os.sttrcancer.io
     http:
       paths:
       - path: /

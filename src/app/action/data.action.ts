@@ -83,6 +83,6 @@ export class DataLoadIlluminaVcfAction implements UnsafeAction {
 // Action Type
 export type Actions =
     DataLoadFromFileAction | DataLoadFromDexieAction |
-    DataLoadedAction | DataLoadIlluminaVcfAction | DataLoadFromTcga | 
-    DataAddGenesetAction | DataDelGenesetAction | DataUpdateGenesetsAction | 
+    DataLoadedAction | DataLoadIlluminaVcfAction | DataLoadFromTcga |
+    DataAddGenesetAction | DataDelGenesetAction | DataUpdateGenesetsAction |
     DataAddCohortAction | DataDelCohortAction | DataUpdateCohortsAction | DataQueryCohortAction;

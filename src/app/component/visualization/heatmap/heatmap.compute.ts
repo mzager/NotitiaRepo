@@ -5,7 +5,7 @@ import { DimensionEnum, HClustMethodEnum, HClustDistanceEnum } from './../../../
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Rx';
 import { Legend } from 'app/model/legend.model';
-import { scaleSequential, schemeRdBu, interpolateRdBu, interpolateSpectral } from 'd3-scale-chromatic';
+import { schemeRdBu, interpolateRdBu, interpolateSpectral } from 'd3-scale-chromatic';
 import * as d3Interpolate from 'd3-interpolate';
 import * as d3Scale from 'd3-scale';
 import * as d3Color from 'd3-color';
@@ -14,59 +14,52 @@ import * as _ from 'lodash';
 import { interpolateViridis } from 'd3';
 
 export const heatmapCompute = (config: HeatmapConfigModel, worker: DedicatedWorkerGlobalScope): void => {
+    worker.util.getDataMatrix(config).then(matrix => {
+        Promise.all([
+            worker.util
+                .fetchResult({
+                    data: matrix.data,
+                    transpose: 0,
+                    method: 'cluster_sp_agglomerative',
+                    n_clusters: -1,
+                    sp_metric: config.dist,
+                    sp_method: config.method,
+                    sp_ordering: config.order ? -1 : 1
+                }),
+            worker.util
+                .fetchResult({
+                    data: matrix.data,
+                    transpose: 1,
+                    method: 'cluster_sp_agglomerative',
+                    n_clusters: -1,
+                    sp_metric: config.dist,
+                    sp_method: config.method,
+                    sp_ordering: config.order  ? -1 : 1
+                })
+        ]).then(result => {
 
-    if (config.dirtyFlag & DirtyEnum.LAYOUT) {
-        worker.util
-            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
-            .then(mtx => {
+             const minMax = matrix.data.reduce((p, c) => {
+                p[0] = Math.min(p[0], ...c);
+                p[1] = Math.max(p[1], ...c);
+                return p;
+            }, [Infinity, -Infinity]); // Min Max
 
-                Promise.all([
-                    worker.util.getSamplePatientMap(config.database),
-                    worker.util
-                        .fetchResult({
-                            data: mtx.data,
-                            transpose: 0,
-                            method: 'cluster_sp_agglomerative',
-                            n_clusters: -1,
-                            sp_metric: config.dist,
-                            sp_method: config.method,
-                            sp_ordering: config.order ? -1 : 1
-                        }),
-                    worker.util
-                        .fetchResult({
-                            data: mtx.data,
-                            transpose: 1,
-                            method: 'cluster_sp_agglomerative',
-                            n_clusters: -1,
-                            sp_metric: config.dist,
-                            sp_method: config.method,
-                            sp_ordering: config.order  ? -1 : 1
-                        })
-                ]).then(result => {
+            const color = d3Scale.scaleSequential(interpolateViridis).domain(minMax);
+            let colors = matrix.data.map(row => row.map(cell => color(cell)));
+            colors = result[0].order.map(v => result[1].order.map(w => colors[v][w]));
 
-                    // // const matrix = mtx.data;
-                    const minMax = mtx.data.reduce((p, c) => {
-                        p[0] = Math.min(p[0], ...c);
-                        p[1] = Math.max(p[1], ...c);
-                        return p;
-                    }, [Infinity, -Infinity]); // Min Max
-
-                    const color = d3Scale.scaleSequential(interpolateViridis).domain(minMax);
-                    let colors = mtx.data.map(row => row.map(cell => color(cell)));
-                    colors = result[1].order.map(v => result[2].order.map(w => colors[v][w]));
-
-                    worker.postMessage({
-                        config: config,
-                        data: {
-                            map: result[0],
-                            colors: colors,
-                            range: minMax,
-                            x: result[1],
-                            y: result[2]
-                        }
-                    });
-                    worker.postMessage('TERMINATE');
-                });
+            worker.postMessage({
+                config: config,
+                data: {
+                    matrix: matrix,
+                    colors: colors,
+                    range: minMax,
+                    x: result[0],
+                    y: result[1]
+                }
             });
-    }
+
+            worker.postMessage('TERMINATE');
+        });
+    });
 };

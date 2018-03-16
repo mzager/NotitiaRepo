@@ -3,7 +3,7 @@ import { Legend } from 'app/model/legend.model';
 import { ColorEnum, DirtyEnum, CollectionTypeEnum } from 'app/model/enum.model';
 import * as util from 'app/service/compute.worker.util';
 import { scaleLinear, scaleQuantize, scaleQuantile, scaleOrdinal, scaleThreshold } from 'd3-scale';
-import { scaleSequential, schemeRdBu, interpolateRdBu } from 'd3-scale-chromatic';
+import { schemeRdBu, interpolateRdBu } from 'd3-scale-chromatic';
 import * as _ from 'lodash';
 import * as d3Interpolate from 'd3-interpolate';
 import * as d3Scale from 'd3-scale';
@@ -26,14 +26,12 @@ export const boxwhiskersCompute = (config: BoxWhiskersConfigModel, worker: Dedic
                 worker.util
                     .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
                     .then(mtx => {
-                        debugger;
                         worker.postMessage('TERMINATE');
                     });
             }
             if (config.continuousVariable.ctype & CollectionTypeEnum.PATIENT) {
                 worker.util.getPatientData(config.sampleFilter, config.database, config.continuousVariable.tbl)
                     .then(data => {
-                        debugger;
                     });
             }
         } else {
@@ -73,10 +71,5 @@ export const boxwhiskersCompute = (config: BoxWhiskersConfigModel, worker: Dedic
                 });
             });
         }
-        
-        // // worker.util
-        // //     .getPatientData
-
-       
     }
 };
