@@ -6,7 +6,7 @@ import memoize from 'memoize-decorator';
 import { GraphEnum, ShapeEnum, SizeEnum } from 'app/model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import * as THREE from 'three';
-import { Vector3, Vector2, Shading, SmoothShading } from 'three';
+import { Vector3, Vector2, Shading, SmoothShading, Geometry } from 'three';
 import * as scale from 'd3-scale';
 import { schemeRdBu, interpolateRdBu, interpolateSpectral } from 'd3-scale-chromatic';
 export class ChartFactory {
@@ -40,18 +40,18 @@ export class ChartFactory {
 
     public static getScaleSizeOrdinal(values: Array<string>): Function {
         const len = values.length;
-        return scale.scaleOrdinal().domain(values).range(ChartFactory.sizes.filter( (v, i) => i < len) );
+        return scale.scaleOrdinal().domain(values).range(ChartFactory.sizes.filter((v, i) => i < len));
     }
     public static getScaleSizeLinear(min: number, max: number): Function {
-        return scale.scaleLinear().domain([1, 4]);
+        return scale.scaleLinear().domain([min, max]).range([1, 3]).clamp(true);
     }
     public static getScaleShapeOrdinal(values: Array<string>): Function {
         const len = values.length;
-        return scale.scaleOrdinal().domain(values).range(ChartFactory.shapes.filter( (v, i) => i < len) );
+        return scale.scaleOrdinal().domain(values).range(ChartFactory.shapes.filter((v, i) => i < len));
     }
     public static getScaleColorOrdinal(values: Array<string>): Function {
         const len = values.length;
-        return scale.scaleOrdinal().domain(values).range(ChartFactory.colors.filter( (v, i) => i < len) );
+        return scale.scaleOrdinal().domain(values).range(ChartFactory.colors.filter((v, i) => i < len));
     }
 
     // The most cleaver functon in oncoscape
@@ -61,28 +61,66 @@ export class ChartFactory {
             const v = scaleFn(input);
             const c = v.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
             // tslint:disable-next-line:radix
-            return parseInt('0x' + ( parseInt(c[1]) << 16 | parseInt(c[2]) << 8 | parseInt(c[3]) ).toString(16).toUpperCase());
+            return parseInt('0x' + (parseInt(c[1]) << 16 | parseInt(c[2]) << 8 | parseInt(c[3])).toString(16).toUpperCase());
         };
     }
 
     // Pools
-    public static getMesh(id: string, idType: EntityTypeEnum, decorators: Array<DataDecorator>,
-        objVector: Vector3, cameraVector: Vector3): THREE.Group {
+    public static createDataGroup(id: string, idType: EntityTypeEnum, position: Vector3): THREE.Group {
         const group = new THREE.Group();
-        group.position.set(objVector.x, objVector.y, objVector.z);
-        // const selectDecorator = decorators.filter(v => v.type === DataDecoratorTypeEnum.SELECT);
-        // const shapeDecorator = decorators.filter(v => v.type === DataDecoratorTypeEnum.SHAPE);
-        // const sizeDecorator = decorators.filter(v => v.type === DataDecoratorTypeEnum.SIZE);
-        // const tipDecorator = decorators.filter(v => v.type === DataDecoratorTypeEnum.TOOLTIP);
-
-        const shape = this.getShape(ShapeEnum.CIRCLE);
-        const point = new THREE.Mesh(shape, this.getColorPhong(0x039be5));
-        // const outline = new THREE.Mesh(shape, this.getOutlineShader(cameraVector, 0xFF0000));
-        // outline.material.depthWrite = false;
-        // outline.quaternion.set(point.quaternion.x, point.quaternion.y, point.quaternion.z, point.quaternion.w);
-        group.add(point);
-        // group.add(outline);
+        group.position.set(position.x, position.y, position.z);
+        group.userData.id = id;
+        group.userData.idType = idType;
+        group.userData.tooltip = 'ID: ' + id;
         return group;
+    }
+    public static decorateDataGroups(groups: Array<THREE.Group>, decorators: Array<DataDecorator>): void {
+
+        // Retrieve Id
+        if (groups.length === 0) { return; }
+        const idType = groups[0].userData.idType;
+        const idProperty = (idType === EntityTypeEnum.PATIENT) ? 'pid' :
+            (idType === EntityTypeEnum.SAMPLE) ? 'sid' : 'mid';
+
+        // Decorators
+        const shapeDecorator = decorators.filter(decorator => decorator.type === DataDecoratorTypeEnum.SHAPE);
+        const colorDecorator = decorators.filter(decorator => decorator.type === DataDecoratorTypeEnum.COLOR);
+        const sizeDecorator = decorators.filter(decorator => decorator.type === DataDecoratorTypeEnum.SIZE);
+        const selectDecorator = decorators.filter(decorator => decorator.type === DataDecoratorTypeEnum.SELECT);
+        const tooltipDecorator = decorators.filter(decorator => decorator.type === DataDecoratorTypeEnum.TOOLTIP);
+
+        // Maps
+        const shapeMap = (!shapeDecorator.length) ? null : shapeDecorator[0].values.reduce((p, c) => {
+            p[c[idProperty]] = c.value;
+            return p;
+        }, {});
+        const colorMap = (!colorDecorator.length) ? null : colorDecorator[0].values.reduce((p, c) => {
+            p[c[idProperty]] = c.value;
+            return p;
+        }, {});
+        const sizeMap = (!sizeDecorator.length) ? null : sizeDecorator[0].values.reduce((p, c) => {
+            p[c[idProperty]] = c.value;
+            return p;
+        }, {});
+
+        groups.forEach(group => {
+            while (group.children.length) {
+                group.remove(group.children[0]);
+            }
+            const id = group.userData.id;
+            const shape = this.getShape((shapeMap) ? shapeMap[id] : ShapeEnum.CIRCLE);
+            const color = (colorMap) ? colorMap[id] : 0x039be5;
+            const material = this.getColorPhong(color);
+            material.opacity = 0.8;
+            material.transparent = true;
+            const scale = (sizeMap) ? sizeMap[id] : 1;
+            shape.scale(scale, scale, scale);
+            const mesh: THREE.Mesh = new THREE.Mesh(shape, material);
+            mesh.userData.tooltip = id;
+            mesh.userData.color = color;
+            group.add(mesh);
+        });
+
     }
 
     public static getOutlineMaterial(): THREE.ShaderMaterial {
@@ -278,6 +316,23 @@ export class ChartFactory {
 
     // @memoize()
     public static getColorPhong(color: number): THREE.Material {
+        return new THREE.MeshStandardMaterial(
+            {
+                color: color,
+                roughness: 0.0,
+                metalness: 0.02,
+                emissive: new THREE.Color(0x000000)
+                // color: color, emissive: new THREE.Color(0x000000),
+                // metalness: 0.2, roughness: .5, shading: THREE.SmoothShading
+            });
+
+        // const rv = new THREE.MeshPhongMaterial({
+        //     specular: 0xAAAAAA, shininess: .5
+        // });
+        // rv.color.set( new THREE.Color( color ) );
+        // return rv;
+    }
+    public static getColorHighlight(color: number): THREE.Material {
         return new THREE.MeshStandardMaterial(
             {
                 color: color,

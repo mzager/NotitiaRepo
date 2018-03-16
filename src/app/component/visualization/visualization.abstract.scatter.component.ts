@@ -1,3 +1,4 @@
+import * as scale from 'd3-scale';
 import { DataDecorator } from './../../model/data-map.model';
 import { ChartUtil } from './../workspace/chart/chart.utils';
 import { GraphData } from './../../model/graph-data.model';
@@ -9,11 +10,11 @@ import { Subscription } from 'rxjs/Subscription';
 import { WorkspaceLayoutEnum, DimensionEnum, CollectionTypeEnum } from './../../model/enum.model';
 import { VisualizationView } from './../../model/chart-view.model';
 import { ChartEvent, ChartEvents } from './../workspace/chart/chart.events';
-import { EventEmitter } from '@angular/core';
+import { EventEmitter, HostListener } from '@angular/core';
 import { GraphEnum, EntityTypeEnum, DirtyEnum, ShapeEnum, VisualizationEnum } from 'app/model/enum.model';
 import { ChartObjectInterface } from './../../model/chart.object.interface';
 import * as THREE from 'three';
-import { CircleGeometry } from 'three';
+import { CircleGeometry, SphereGeometry, Vector2, MeshPhongMaterial } from 'three';
 export class AbstractScatterVisualization extends AbstractVisualization {
 
     // Chart Elements
@@ -23,7 +24,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
 
     // Objects
     private lines: Array<THREE.Line>;
-    private controls: DragSelectionControl;
+    // private controls: DragSelectionControl;
     private overlay: HTMLElement;
     private tooltips: HTMLElement;
 
@@ -31,6 +32,12 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     private sMouseMove: Subscription;
     private sMouseDown: Subscription;
     private sMouseUp: Subscription;
+    private mouseMode: 'CONTROL' | 'SELECTION' = 'CONTROL';
+    private points: Array<THREE.Object3D>;
+    private selectionMesh: THREE.Mesh;
+    private selectionOrigin2d: Vector2;
+    private selectionScale: scale.ScaleLinear<number, number>;
+    private shiftDown: Boolean;
 
     // Private Subscriptions
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
@@ -44,9 +51,10 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.overlay.className = 'graph-overlay';
         this.labels.appendChild( this.overlay );
         this.meshes = [];
+        this.points = [];
         this.lines = [];
-        this.controls = new DragSelectionControl();
-        this.controls.create(events, view, this.meshes, this.onRequestRender, this.onSelect);
+        // this.controls = new DragSelectionControl();
+        // this.controls.create(events, view, this.meshes, this.onRequestRender, this.onSelect);
         this.view.controls.enableRotate = true;
 
         this.decorators = [];
@@ -58,67 +66,31 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.removeObjects();
     }
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        if (config.entity === EntityTypeEnum.PATIENT) {
-
-        }
+        this.decorators = decorators;
+        ChartFactory.decorateDataGroups(this.meshes, this.decorators);
+        this.points = this.meshes.map(v => v.children[0]);
     }
+
     updateData(config: GraphConfig, data: any) {
         this.config = config as GraphConfig;
         this.data = data;
         this.removeObjects();
         this.addObjects(this.config.entity);
-        /*
-        if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {
-            this.removeObjects();
-            this.addObjects(this.config.entity);
-        }
-
-        if (this.config.dirtyFlag & DirtyEnum.COLOR) {
-            const idProperty = (config.entity === EntityTypeEnum.GENE) ? 'mid' :
-                (this.config.pointColor.ctype & CollectionTypeEnum.MOLECULAR) ? 'sid' : 'pid';
-            const objMap = data.pointColor;
-            this.meshes.forEach(mesh => {
-                const color = objMap[mesh.userData[idProperty]];
-                (mesh as THREE.Mesh).material = ChartFactory.getColorPhong(color);
-                mesh.userData.color = color;
-            });
-        }
-
-        if (this.config.dirtyFlag & DirtyEnum.SIZE) {
-            const idProperty = (config.entity === EntityTypeEnum.GENE) ? 'mid' :
-                (this.config.pointColor.ctype & CollectionTypeEnum.MOLECULAR) ? 'sid' : 'pid';
-            const objMap = data.pointSize;
-            this.meshes.forEach(mesh => {
-                const size = objMap[mesh.userData[idProperty]] as number;
-                mesh.scale.set(size, size, size);
-            });
-        }
-
-        if (this.config.dirtyFlag & DirtyEnum.SHAPE) {
-            const idProperty = (config.entity === EntityTypeEnum.GENE) ? 'mid' :
-                (this.config.pointColor.ctype & CollectionTypeEnum.MOLECULAR) ? 'sid' : 'pid';
-
-            this.meshes.forEach(mesh => {
-                const objMap = data.pointShape;
-                let shape = objMap[mesh.userData[idProperty]] as number;
-                console.log(shape);
-                if (shape === undefined) { shape = 1; }
-                const cf = ChartFactory;
-                (mesh as THREE.Mesh).geometry = ChartFactory.getShape(shape);
-            });
-        }
-        */
     }
 
     enable(truthy: boolean) {
         if (this.isEnabled === truthy) { return; }
         this.isEnabled = truthy;
         this.view.controls.enabled = this.isEnabled;
-        this.controls.enabled = this.isEnabled;
+        // this.controls.enabled = this.isEnabled;
         if (truthy) {
             this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
+            this.sMouseDown = this.events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
+            this.sMouseUp = this.events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
         } else {
             this.sMouseMove.unsubscribe();
+            this.sMouseDown.unsubscribe();
+            this.sMouseUp.unsubscribe();
             this.tooltips.innerHTML = '';
         }
     }
@@ -127,43 +99,14 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         const propertyId = (this.config.entity === EntityTypeEnum.GENE) ? 'mid' : 'sid';
         const objectIds = this.data[propertyId];
         this.data.resultScaled.forEach( (point, index) => {
-            const group = ChartFactory.getMesh(
-                objectIds[index], this.config.entity, this.decorators,
-                new THREE.Vector3(...point),
-                this.view.camera.position);
+            const group = ChartFactory.createDataGroup(
+                objectIds[index], this.config.entity, new THREE.Vector3(...point));
             this.meshes.push(group);
             this.view.scene.add(group);
         });
 
-        // const weightLength = this.data['resultScaled'].length;
-        // const layoutLength = this.data['resultScaled'].length;
-        // for (let i = 0; i < layoutLength; i++) {
-        //     const position = this.data['resultScaled'][i];
-        //     const color = 0x039be5;
-        //     const shape = ShapeEnum.CIRCLE;
-        //     const size = 1;
-        //     const userData = (type === EntityTypeEnum.GENE) ?
-        //         {
-        //             color: color,
-        //             mid: this.data['mid'][i]
-        //         } : {
-        //             color: color,
-        //             pid: this.data['pid'][i],
-        //             sid: this.data['sid'][i]
-        //         };
-        //     const mesh = ChartFactory.meshAllocate(
-        //         color,
-        //         shape,
-        //         size,
-        //         new THREE.Vector3(
-        //             position[0],
-        //             position[1],
-        //             position[2]
-        //         ), userData);
-        //     // mesh.material = ChartFactory.getOutlineMaterial();
-        //     this.meshes.push(mesh);
-        //     this.view.scene.add(mesh);
-        // }
+        ChartFactory.decorateDataGroups(this.meshes, this.decorators);
+        this.points = this.meshes.map(v => v.children[0]);
     }
 
     removeObjects() {
@@ -177,10 +120,71 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.lines.length = 0;
     }
 
+    private onMouseDown(e: ChartEvent): void {
+        const hit = ChartUtil.getIntersects(this.view, e.mouse, this.points);
+        if (hit.length > 0) {
+
+            this.mouseMode = 'SELECTION';
+            this.view.controls.enabled = false;
+            const target: THREE.Vector3 = hit[0].object.parent.position.clone();
+            const event: MouseEvent = e.event as MouseEvent;
+            const geometry = new THREE.SphereGeometry(3, 30, 30);
+            const material = new THREE.MeshPhongMaterial({color: 0x029BE5, opacity: 0.1, transparent: true});
+
+            // const material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
+            // const geometry = new THREE.CircleGeometry( 3, 64 );
+            // geometry.vertices.shift();
+            this.selectionMesh = new THREE.Mesh(geometry, material);
+            this.selectionMesh.position.set(target.x, target.y, target.z);
+            this.selectionOrigin2d = new Vector2(event.clientX, event.clientY);
+            this.selectionScale = scale.scaleLinear();
+            this.selectionScale.range([1, 1000]);
+            this.selectionScale.domain([0, this.view.viewport.width]);
+            this.view.scene.add(this.selectionMesh);
+            this.onRequestRender.emit( this.config.graph );
+        }
+    }
+
+    private onMouseUp(e: ChartEvent): void {
+
+        this.mouseMode = 'CONTROL';
+        this.view.controls.enabled = true;
+        this.view.scene.remove(this.selectionMesh);
+        this.onRequestRender.emit( this.config.graph );
+    }
 
     private onMouseMove(e: ChartEvent): void {
-        const hit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
+        // Selection
+        if (this.mouseMode === 'SELECTION') {
+            const event: MouseEvent = e.event as MouseEvent;
+            const mousePos = new Vector2(event.clientX, event.clientY);
+            const delta = mousePos.distanceTo(this.selectionOrigin2d);
+            const scale = this.selectionScale(delta);
+            this.selectionMesh.scale.set(scale, scale, scale);
 
+            const radius = this.selectionMesh.geometry.boundingSphere.radius * this.selectionMesh.scale.x;
+            const position = this.selectionMesh.position;
+            this.meshes
+                // .filter(v => v.type === 'Mesh')
+                .forEach(o3d => {
+                    const mesh = o3d.children[0] as THREE.Mesh;
+                    const material: THREE.MeshPhongMaterial = mesh.material as THREE.MeshPhongMaterial;
+                    if (o3d.position.distanceTo(position) < radius) {
+                        material.color.set(0x000000);
+                        material.transparent = false;
+                    } else {
+                        if (!this.shiftDown) {
+                            material.color.set(mesh.userData.color);
+                            material.transparent = true;
+                            material.opacity = 0.7;
+                        }
+                    }
+                });
+            this.onRequestRender.emit( this.config.graph );
+            return;
+        }
+        // Hit Test
+        const hit = ChartUtil.getIntersects(this.view, e.mouse, this.points);
         if (hit.length > 0) {
 
             if (hit[0].object.userData === undefined) {
@@ -192,7 +196,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
                 '3px;z-index:9999;position:absolute;left:' +
                 xPos + 'px;top:' +
                 yPos + 'px;">' +
-                hit[0].object.userData.sid + '</div>';
+                hit[0].object.userData.tooltip + '</div>';
             return;
         }
         this.tooltips.innerHTML = '';

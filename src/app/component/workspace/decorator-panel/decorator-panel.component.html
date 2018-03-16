@@ -18,7 +18,7 @@
   <div class='form-group'>
     <label class='center-block'>
       <span class='form-label'>Shape</span>
-      <select materialize='material_select' [compareWith]='byKey' [materializeSelectOptions]='colorOptions' formControlName='shapeOption'>
+      <select materialize='material_select' [compareWith]='byKey' [materializeSelectOptions]='shapeOptions' formControlName='shapeOption'>
         <option *ngFor='let option of shapeOptions' [ngValue]='option'>{{option.label}}</option>
       </select>
     </label>

@@ -2,6 +2,7 @@
 from flask import Flask
 from flask_cors import CORS
 
+import os.path
 import json
 import base64
 from flask import request
@@ -50,6 +51,7 @@ from lifelines import KaplanMeierFitter
 from lifelines import NelsonAalenFitter
 from lifelines import CoxPHFitter
 from lifelines import AalenAdditiveFitter
+
 
 
 def httpWrapper(content):
@@ -707,6 +709,13 @@ CORS(app)
 @app.route('/')
 def hello():
     return "Hello World!"
+
+
+@app.route('/test')
+def test():
+    src = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'test.html')
+    return open(src).read()
+
 
 @app.route('/py', methods=['GET', 'POST'])
 def main():
