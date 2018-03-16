@@ -94,7 +94,7 @@ export class LinkedGeneGraph implements ChartObjectInterface {
         this.removeObjects();
     }
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        throw new Error("Method not implemented.");
+        // throw new Error("Method not implemented.");
     }
     updateData(config: GraphConfig, data: any) {
         linkedGeneComputeFn(config as LinkedGeneConfigModel).then(graphData => {

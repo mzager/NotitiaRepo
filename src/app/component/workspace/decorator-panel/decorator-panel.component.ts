@@ -97,34 +97,36 @@ export class DecoratorPanelComponent implements AfterViewInit, OnDestroy {
       .debounceTime(500)
       .distinctUntilChanged()
       .subscribe(data => {
-          const form = this.form;
-          const opts: Array<DataField> = [];
-          let value;
+        const form = this.form;
+        const opts: Array<DataField> = [];
+        let value;
 
-          if (form.get('colorOption').dirty) {
-            value = form.get('colorOption').value;
-            if (value.key === 'None') {
-              this.decoratorDel.emit({ type: DataDecoratorTypeEnum.COLOR, values: null, field: null, legend: null });
-            } else {
-              this.decoratorAdd.emit({ type: DataDecoratorTypeEnum.COLOR, field: value, legend: null, values: null});
-            }
+        if (form.get('colorOption').dirty) {
+          value = form.get('colorOption').value;
+          if (value.key === 'None') {
+            this.decoratorDel.emit({ type: DataDecoratorTypeEnum.COLOR, values: null, field: null, legend: null });
+          } else {
+            this.decoratorAdd.emit({ type: DataDecoratorTypeEnum.COLOR, field: value, legend: null, values: null });
           }
-          if (form.get('shapeOption').dirty) {
-            if (value.key === 'None') {
-              this.decoratorDel.emit({ type: DataDecoratorTypeEnum.SHAPE, values: null, field: null, legend: null });
-            } else {
-              this.decoratorAdd.emit({ type: DataDecoratorTypeEnum.SHAPE, field: value, legend: null, values: null});
-            }
-           }
-          if (form.get('sizeOption').dirty)  {
-            if (value.key === 'None') {
-              this.decoratorDel.emit({ type: DataDecoratorTypeEnum.SIZE, values: null, field: null, legend: null });
-            } else {
-              this.decoratorAdd.emit({ type: DataDecoratorTypeEnum.SIZE, field: value, legend: null, values: null});
-            }
+        }
+        if (form.get('shapeOption').dirty) {
+          value = form.get('shapeOption').value;
+          if (value.key === 'None') {
+            this.decoratorDel.emit({ type: DataDecoratorTypeEnum.SHAPE, values: null, field: null, legend: null });
+          } else {
+            this.decoratorAdd.emit({ type: DataDecoratorTypeEnum.SHAPE, field: value, legend: null, values: null });
           }
+        }
+        if (form.get('sizeOption').dirty) {
+          value = form.get('sizeOption').value;
+          if (value.key === 'None') {
+            this.decoratorDel.emit({ type: DataDecoratorTypeEnum.SIZE, values: null, field: null, legend: null });
+          } else {
+            this.decoratorAdd.emit({ type: DataDecoratorTypeEnum.SIZE, field: value, legend: null, values: null });
+          }
+        }
 
-          form.markAsPristine();
+        form.markAsPristine();
       });
 
   }

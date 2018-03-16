@@ -26,7 +26,7 @@ export class AbstractVisualization implements ChartObjectInterface {
         throw new Error('Method not implemented.');
     }
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        throw new Error("Method not implemented.");
+        throw new Error('Method not implemented.');
     }
     updateData(config: GraphConfig, data: any) {
         throw new Error('Method not implemented.');

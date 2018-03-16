@@ -1,6 +1,3 @@
-import { Line } from 'three';
-
-
 // tslint:disable-next-line:max-line-length
 import { QuadradicDiscriminantAnalysisGraph } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis';
 import { DataDecorator } from './../../../model/data-map.model';
@@ -56,9 +53,10 @@ import { GraphTool } from 'app/model/graph-tool.model';
 import { PcaGraph } from './../../visualization/pca/pca.graph';
 import { Subscription } from 'rxjs/Subscription';
 import { OrbitControls } from 'three-orbitcontrols-ts';
-import { WebGLRenderer, PerspectiveCamera, HemisphereLight, Vector3,
+import { WebGLRenderer, PerspectiveCamera, HemisphereLight, Vector3, Line,
     AmbientLight, OrthographicCamera, Camera, Scene, Vector2 } from 'three';
-import { EffectComposer, GlitchPass, RenderPass } from 'postprocessing';
+// import { EffectComposer, GlitchPass, RenderPass } from 'postprocessing';
+import { EffectComposer, RenderPass } from 'postprocessing';
 
 
 
@@ -79,7 +77,6 @@ export class ChartScene {
     private container: HTMLElement;
     private events: ChartEvents;
     public renderer: WebGLRenderer;
-    public composer: EffectComposer;
     private views: Array<VisualizationView>;
     // private edges: EdgesGraph;
     private centerLine: Line;
@@ -115,8 +112,6 @@ export class ChartScene {
         this.renderer.setClearColor(0xffffff, 1);
         this.renderer.autoClear = false;
         this.renderer.localClippingEnabled = true;
-        this.composer = new EffectComposer(this.renderer);
-        this.composer.setSize(dimension.width, dimension.height);
         this.container.appendChild(this.renderer.domElement);
 
         this.views = [{
@@ -175,12 +170,7 @@ export class ChartScene {
             view.controls.addEventListener( 'change', this.render );
 
             // Lighting
-            view.scene.add( new HemisphereLight( 0xBBBBBB, 0xFFFFFF, 1 ) );
-            // if (i===1) {
-            //     const renderPass = new RenderPass(view.scene, view.camera);
-            //     renderPass.renderToScreen = true;
-            //     this.composer.addPass(renderPass);
-            // }
+            view.scene.add( new HemisphereLight( 0x999999, 0xFFFFFF, 1 ) );
 
             return view;
         });
@@ -232,7 +222,6 @@ export class ChartScene {
     private onResize() {
         const dimension: ClientRect = this.container.getBoundingClientRect();
         this.renderer.setSize(dimension.width, dimension.height);
-        this.composer.setSize(dimension.width, dimension.height);
         this.views.forEach( (view, i) => {
 
             // This is the edges
@@ -339,10 +328,22 @@ export class ChartScene {
 
                     view.chart.onRequestRender.subscribe(this.render);
                     view.chart.onConfigEmit.subscribe(this.config);
+
+
                     view.chart.enable(true);
                     try {
                     ((graph === GraphEnum.GRAPH_A) ? this.views[1] : this.views[0]).chart.enable(false);
                     } catch (e) {}
+
+                    if (this.workspace.layout === WorkspaceLayoutEnum.SINGLE) {
+                        try {
+                            this.views[0].chart.enable(true);
+                        } catch (e) {}
+                        try {
+                            this.views[1].chart.enable(false);
+                        } catch (e) {}
+
+                    }
                 }
                 break;
         }
