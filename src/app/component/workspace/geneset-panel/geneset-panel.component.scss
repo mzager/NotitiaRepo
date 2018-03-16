@@ -79,21 +79,21 @@
 }
 
 .geneset-label {
-    display: inline-block;
+    // display: inline-block;
     width: 10px;
     height: 40px;
     line-height: 40px;
-    text-align: center;
+    // text-align: center;
     text-transform: uppercase;
     font-weight: 700;
 }
 
 .geneset-field-label {
-    display: inline-block;
+    // display: inline-block;
     width: 75px;
     height: 40px;
     line-height: 40px;
-    text-align: center;
+    // text-align: center;
     text-transform: uppercase;
     font-weight: 700;
 }
@@ -127,12 +127,38 @@
     padding-left: 5px;
     color: #029BE5;
 }
-input:not([type]), input[type=text], input[type=password], input[type=email], input[type=url], input[type=time], input[type=date], input[type=datetime], input[type=datetime-local], input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea {
+
+input:not([type]),
+input[type=text],
+input[type=search],
+textarea.materialize-textarea {
     border-bottom: 1px solid #eee;
-    width: 515px;
+    width: 260px;
 }
 
+textarea.materialize-textarea {
+    height: 7rem;
+}
 
+.geneset-save {
+    border-radius: 20px;
+    border: 1px solid #039be5;
+    // display: inline-block;
+    width: 75px;
+    height: 40px;
+    line-height: 36px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
+    float: right;
+    margin-top: 10px;
+}
+
+textarea {
+    width: 100%;
+    height: 7rem;
+    background-color: transparent;
+}
 
 @media (min-width: 767px) {
     /* Selectors and styles affecting screens WIDER THAN 979px (Desktop) */
@@ -158,7 +184,6 @@ input:not([type]), input[type=text], input[type=password], input[type=email], in
         padding-left: 10px;
         padding-right: 30px;
     }
-
     .geneset-link {
         font-size: 1.2rem;
     }
@@ -181,17 +206,6 @@ input:not([type]), input[type=text], input[type=password], input[type=email], in
         top: 5px;
         border-color: #EEE;
     }
-    .geneset-save {
-        border-radius: 20px;
-        border: 2px solid #039be5;
-        display: inline-block;
-        width: 75px;
-        height: 40px;
-        line-height: 36px;
-        text-align: center;
-        text-transform: uppercase;
-        font-weight: 700;
-    }
     .geneset-datasets {
         border: 0px solid #EEE;
         border-right-width: 1px;
@@ -205,16 +219,15 @@ input:not([type]), input[type=text], input[type=password], input[type=email], in
         padding-right: 30px;
     }
     .geneset-label {
-        display: inline-block;
+        // display: inline-block;
         width: 55px;
         height: 40px;
         line-height: 40px;
-        text-align: center;
+        // text-align: center;
         text-transform: uppercase;
         font-weight: 700;
     }
     .geneset-des {
- 
         color: #666666;
     }
     .geneset-field-dropdown {
@@ -222,5 +235,24 @@ input:not([type]), input[type=text], input[type=password], input[type=email], in
         display: inline-block;
         margin-left: 0px;
         margin-right: 10px;
+    }
+    input:not([type]),
+    input[type=text],
+    input[type=search],
+    textarea.materialize-textarea {
+        border-bottom: 1px solid #eee;
+        width: 515px;
+    }
+    textarea {
+        height: 2rem;
+    }
+    .geneset-save {
+        border: 2px solid #039be5;
+        display: inline-block;
+        width: 75px;
+        height: 40px;
+        line-height: 36px;
+        float: none;
+        margin-top: 0;
     }
 }
