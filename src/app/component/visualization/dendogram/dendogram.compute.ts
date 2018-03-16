@@ -5,7 +5,7 @@ import { DimensionEnum, HClustMethodEnum, HClustDistanceEnum } from './../../../
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Rx';
 import { Legend } from 'app/model/legend.model';
-import { scaleSequential, schemeRdBu, interpolateRdBu, interpolateSpectral } from 'd3-scale-chromatic';
+import { schemeRdBu, interpolateRdBu, interpolateSpectral } from 'd3-scale-chromatic';
 import * as d3Interpolate from 'd3-interpolate';
 import * as d3Scale from 'd3-scale';
 import * as d3Color from 'd3-color';

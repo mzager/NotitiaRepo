@@ -1,3 +1,5 @@
+import { DataDecoratorCreateAction, DataDecoratorAddAction, DATA_DECORATOR_CREATE } from './../action/graph.action';
+import { ChartUtil } from './../component/workspace/chart/chart.utils';
 import { LoaderHideAction } from './../action/layout.action';
 import { UnsafeAction } from './../action/unsafe.action';
 import { boxwhiskersCompute } from './../component/visualization/boxwhiskers/boxwhiskers.compute';
@@ -7,6 +9,7 @@ import { edgesCompute } from './../component/visualization/edges/edges.compute';
 import { State } from './../reducer/index.reducer';
 import * as compute from 'app/action/compute.action';
 import * as data from 'app/action/data.action';
+import * as graph from 'app/action/graph.action';
 import * as moment from 'moment';
 import { Action, Store } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
@@ -488,6 +491,18 @@ export class ComputeEffect {
         });
     });
 
+
+  @Effect() addDataDecorator: Observable<any> = this.actions$
+    .ofType(graph.DATA_DECORATOR_CREATE)
+    .map((action: DataDecoratorCreateAction) => action.payload)
+    .switchMap(payload => {
+      return this.dataService.createDataDecorator(payload.config, payload.decorator).mergeMap(result => {
+        return [
+          new DataDecoratorAddAction({ config: payload.config, decorator: result }),
+          new LoaderHideAction()];
+      });
+    });
+
   // @Effect() decoratorAdd: Observable<any> = this.actions$
   //   .ofType(compute.COMPUTE_DECORATOR_ADD)
   //   .map((action: UnsafeAction) => action.payload)
@@ -515,6 +530,7 @@ export class ComputeEffect {
   constructor(
     private actions$: Actions,
     private store$: Store<State>,
-    private computeService: ComputeService
+    private computeService: ComputeService,
+    private dataService: DataService
   ) { }
 }

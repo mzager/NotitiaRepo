@@ -84,6 +84,8 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Output() selectGeneSignature: EventEmitter<GraphConfig> = new EventEmitter();
   @Output() selectGeneset: EventEmitter<any> = new EventEmitter();
   @Output() selectCohort: EventEmitter<any> = new EventEmitter();
+  @Output() decoratorAdd: EventEmitter<{config: GraphConfig, decorator: DataDecorator}> = new EventEmitter();
+  @Output() decoratorDel: EventEmitter<{config: GraphConfig, decorator: DataDecorator}> = new EventEmitter();
 
 
   methodName = '';
@@ -167,6 +169,13 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  onDecoratorAdd(decorator: DataDecorator) {
+    this.decoratorAdd.emit({config: this.config, decorator: decorator});
+  }
+
+  onDecoratorDel(decorator: DataDecorator) {
+    this.decoratorAdd.emit({config: this.config, decorator: decorator});
+  }
   setVisualization(visualizationEnumValue): void {
     let gc: GraphConfig;
     switch (visualizationEnumValue) {

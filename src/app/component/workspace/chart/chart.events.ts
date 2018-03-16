@@ -34,7 +34,7 @@ export class ChartEvents {
     private container: HTMLElement;
     public workspaceConfig: WorkspaceConfigModel;
 
-    onResize(e: any):void{
+    onResize(e: any): void{
         this.dimensions = this.container.getBoundingClientRect();
     }
 

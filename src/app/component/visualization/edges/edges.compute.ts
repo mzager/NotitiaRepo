@@ -1,6 +1,6 @@
 import { DirtyEnum, EntityTypeEnum } from './../../../model/enum.model';
 import { ChartUtil } from './../../workspace/chart/chart.utils';
-import { scaleSequential, interpolateRdBu, interpolateSpectral } from 'd3-scale-chromatic';
+import { interpolateRdBu, interpolateSpectral } from 'd3-scale-chromatic';
 import { scaleLinear } from 'd3-scale';
 import * as d3Scale from 'd3-scale';
 import * as d3Color from 'd3-color';
@@ -89,28 +89,26 @@ export const edgesCompute = (config: EdgeConfigModel, worker: DedicatedWorkerGlo
         getPatientsPatients(cfg: EdgeConfigModel): Promise<any> {
             return new Promise( (resolve, reject) => {
                 if (this.edgeOptions === 'None') { resolve([]); return; }
-                worker.util.openDatabaseData(config.database).then( db => { 
+                worker.util.openDatabaseData(config.database).then( db => {
                 });
             });
         },
         getPatientsSamples(cfg: EdgeConfigModel): Promise<any> {
             return new Promise( (resolve, reject) => {
                 if (this.edgeOptions === 'None') { resolve([]); return; }
-                worker.util.openDatabaseData(config.database).then( db => { 
+                worker.util.openDatabaseData(config.database).then( db => {
                 });
             });
         },
         getSamplesSamples(cfg: EdgeConfigModel): Promise<any> {
             return new Promise( (resolve, reject) => {
                 if (this.edgeOptions === 'None') { resolve([]); return; }
-                worker.util.openDatabaseData(config.database).then( db => { 
+                worker.util.openDatabaseData(config.database).then( db => {
                 });
             });
         }
     };
-    // var t = egdes['get' + [config.entityA, config.entityB];
-    // debugger;
-    
+
     edges['get' + [config.entityA, config.entityB].sort().join('')](config);
 
     // if (config.entityA === EntityTypeEnum.SAMPLE && config.entityB === EntityTypeEnum.SAMPLE) {
