@@ -50,7 +50,7 @@ declare var $: any;
             <span>Select / Build a Gene Set</span>
             <!-- From -->
             <div class='geneset-field'>
-                <label class='geneset-label '>From</label>
+                <label class='geneset-label hide-on-med-and-down'>From</label>
                 <select class='geneset-field-dropdown browser-default' materialize='material_select'
                     (change)='setBuildType($event)'>
                     <option value='CURATED'>Curated Gene Set</option>
@@ -66,7 +66,7 @@ declare var $: any;
             <!-- Curated -->
             <span *ngIf='buildType === "CURATED"'>
                 <div class='geneset-field'>
-                    <label class='geneset-label hide-on-small-only'>Where</label>
+                    <label class='geneset-label hide-on-med-and-down'>Where</label>
                     <!--inline to overide host:deep-->
                     <input
                     type='text' placeholder='Gene Set Contains e.g. IDH1, BRCA1'
@@ -90,8 +90,7 @@ declare var $: any;
                 <div class='geneset-field'>
                     <label class='geneset-label' for='genesetName'>Create</label>
                     <!--inline to overide host:deep-->
-                    <input style='margin-bottom: 5px;border-color: #EEE;width: 293px; padding-left: 6px;'
-                    id='genesetName' [(ngModel)]='customName' type='text' placeholder='Enter Gene Set Name'>
+                    <input id='genesetName' [(ngModel)]='customName' type='text' placeholder='Enter Gene Set Name'>
                 </div>
                 <div class='geneset-box'>
                     <label class='geneset-label '>Genes</label>
@@ -100,7 +99,7 @@ declare var $: any;
                 </div>
         <div>
                     <a class='geneset-field-label'
-                    class='geneset-save' href='#' (click)='onCustomSave()'>Save</a>
+                    class='geneset-label' href='#' (click)='onCustomSave()'>Save</a>
                     </div>
             </span>
             <!-- Conditional -->
