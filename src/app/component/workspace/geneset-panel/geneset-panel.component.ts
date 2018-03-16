@@ -68,7 +68,7 @@ declare var $: any;
                 <div class='geneset-field'>
                     <label class='geneset-label hide-on-small-only'>Where</label>
                     <!--inline to overide host:deep-->
-                    <input style='margin-bottom: 5px;border-color: #EEE;width: 293px; padding-left: 6px;'
+                    <input
                     type='text' placeholder='Gene Set Contains e.g. IDH1, BRCA1'
                     (keyup)='$genesetFilter.next($event.target.value)'
                     ng-model='genesetFilter'
@@ -77,7 +77,6 @@ declare var $: any;
                 <div>
                     <div *ngFor='let option of genesetOptionsFilter'
                         (click)='geneSetAdd(option)'class='geneset-results' >
-                       
                         <i class='material-icons geneset-icon hide-on-small-only'>add_circle_outline</i>
                         <div class='geneset-des'>
                             {{option.name}}<br />
