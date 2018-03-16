@@ -32,6 +32,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     private sMouseMove: Subscription;
     private sMouseDown: Subscription;
     private sMouseUp: Subscription;
+    private sKeyPress: Subscription;
     private mouseMode: 'CONTROL' | 'SELECTION' = 'CONTROL';
     private points: Array<THREE.Object3D>;
     private selectionMesh: THREE.Mesh;
@@ -87,10 +88,12 @@ export class AbstractScatterVisualization extends AbstractVisualization {
             this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
             this.sMouseDown = this.events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
             this.sMouseUp = this.events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
+            this.sKeyPress = this.events.keyPress.subscribe(this.onKeyPress.bind(this));
         } else {
             this.sMouseMove.unsubscribe();
             this.sMouseDown.unsubscribe();
             this.sMouseUp.unsubscribe();
+            this.sKeyPress.unsubscribe();
             this.tooltips.innerHTML = '';
         }
     }
@@ -120,20 +123,20 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.lines.length = 0;
     }
 
+    private onKeyPress(e: KeyboardEvent): void {
+        console.log(e.shiftKey);
+        this.shiftDown = e.shiftKey;
+    }
     private onMouseDown(e: ChartEvent): void {
+        console.log('down');
         const hit = ChartUtil.getIntersects(this.view, e.mouse, this.points);
         if (hit.length > 0) {
-
             this.mouseMode = 'SELECTION';
             this.view.controls.enabled = false;
             const target: THREE.Vector3 = hit[0].object.parent.position.clone();
             const event: MouseEvent = e.event as MouseEvent;
             const geometry = new THREE.SphereGeometry(3, 30, 30);
             const material = new THREE.MeshPhongMaterial({color: 0x029BE5, opacity: 0.1, transparent: true});
-
-            // const material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
-            // const geometry = new THREE.CircleGeometry( 3, 64 );
-            // geometry.vertices.shift();
             this.selectionMesh = new THREE.Mesh(geometry, material);
             this.selectionMesh.position.set(target.x, target.y, target.z);
             this.selectionOrigin2d = new Vector2(event.clientX, event.clientY);
@@ -146,11 +149,12 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     }
 
     private onMouseUp(e: ChartEvent): void {
-
         this.mouseMode = 'CONTROL';
         this.view.controls.enabled = true;
-        this.view.scene.remove(this.selectionMesh);
-        this.onRequestRender.emit( this.config.graph );
+        if (!this.shiftDown) {
+            this.view.scene.remove(this.selectionMesh);
+            this.onRequestRender.emit( this.config.graph );
+        }
     }
 
     private onMouseMove(e: ChartEvent): void {
@@ -165,7 +169,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
             const radius = this.selectionMesh.geometry.boundingSphere.radius * this.selectionMesh.scale.x;
             const position = this.selectionMesh.position;
             this.meshes
-                // .filter(v => v.type === 'Mesh')
                 .forEach(o3d => {
                     const mesh = o3d.children[0] as THREE.Mesh;
                     const material: THREE.MeshPhongMaterial = mesh.material as THREE.MeshPhongMaterial;
@@ -173,11 +176,9 @@ export class AbstractScatterVisualization extends AbstractVisualization {
                         material.color.set(0x000000);
                         material.transparent = false;
                     } else {
-                        if (!this.shiftDown) {
-                            material.color.set(mesh.userData.color);
-                            material.transparent = true;
-                            material.opacity = 0.7;
-                        }
+                        material.color.set(mesh.userData.color);
+                        material.transparent = true;
+                        material.opacity = 0.7;
                     }
                 });
             this.onRequestRender.emit( this.config.graph );
