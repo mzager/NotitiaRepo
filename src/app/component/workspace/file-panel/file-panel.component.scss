@@ -47,14 +47,14 @@
     cursor: pointer;
 }
 
-.file-image:hover {
-    color: #039be5;
-}
-
 .file-image {
     height: 30px;
     float: left;
     padding-right: 10px;
+}
+
+.file-link:hover {
+    color: #039be5;
 }
 
 .file-public-datasets {
@@ -96,7 +96,6 @@
     .file-link {
         font-size: 1.2rem;
     }
-   
     .file-datasets {
         border: 0px solid #EEE;
         border-right-width: 1px;
@@ -110,11 +109,11 @@
     }
     .file-cohort-field {
         width: 33%;
-    }
-
-    .file-img-container {
-        height: 60vh;
-        overflow-y: scroll;
-    }
+    } 
+    
+    // maybe add back at some point, when more datasets
+    // .file-img-container {
+    //     height: 60vh;
+    //     overflow-y: scroll;
+    // }
 }
-
