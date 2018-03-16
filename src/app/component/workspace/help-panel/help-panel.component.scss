@@ -1,13 +1,50 @@
+// Responsive Mobile First
+
+/* Selectors and styles affecting screens SMALLER THAN 767px (Phones) */
+
+.help-modal-panel {
+    padding: 20px;
+    background: #FFF;
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    overflow: scroll;
+}
+.modalClose {
+    height: 115px;
+    width: 50px;
+    position: fixed;
+    right: 15px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    line-height: 50px;
+    display: inline-block;
+}
+
 .tabs .tab a {
     padding: 0px;
     font-size: 1rem;
 }
 
-.help-title {
-    font-size: 3rem;
+.help-h1 {
+    font-size: 2rem;
     font-weight: 300;
     margin-bottom: 10px;
+    letter-spacing: 3px;
+    margin-top: 47px;
+    padding-bottom: 18px;
 }
+.file-h2 {
+    font-size: 1rem;
+    line-height: 150%;
+    font-weight: 300;
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+
 
 .btn-config {
     background-color: rgba(255, 255, 255, 0.9);
@@ -51,4 +88,26 @@
     font-size: 1.2rem;
     margin-top: 10px;
     margin-bottom: 0px;
+}
+.file-span {
+    font-size: 1.2rem;
+}
+
+@media (min-width: 979px) {
+    .help-modal-panel {
+        padding: 60px;
+    }
+    .modalClose {
+        height: 50px;
+        right: 60px;
+    }
+    .help-h1 {
+        font-size: 3rem;
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+    }
+    .help-h2 {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+    }
 }
