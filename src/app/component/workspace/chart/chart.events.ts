@@ -23,18 +23,24 @@ export class ChartEvents {
     public chartMouseMove: Observable<ChartEvent>;
     public chartMouseDown: Observable<ChartEvent>;
     public chartMouseUp: Observable<ChartEvent>;
+    public chartKeyPress: Observable<KeyboardEvent>;
+
     public isMouseDown: Boolean;
 
     public mouseUp: Observable<MouseEvent>;
     public mouseMove: Observable<MouseEvent>;
     public mouseDown: Observable<MouseEvent>;
+    public keyPress: Observable<KeyboardEvent>;
     private mouse: { x: number, y: number, xs: number, ys: number };
     public chart: GraphEnum;
 
     private container: HTMLElement;
     public workspaceConfig: WorkspaceConfigModel;
 
-    onResize(e: any): void{
+    onKeyPress(e: any): void { 
+        console.log('KEY PRESS');
+    }
+    onResize(e: any): void {
         this.dimensions = this.container.getBoundingClientRect();
     }
 
@@ -44,12 +50,14 @@ export class ChartEvents {
         this.mouse = { x: 0, y: 0, xs: 0, ys: 0 };
         this.dimensions = container.getBoundingClientRect();
 
-        window.addEventListener('resize', this.onResize.bind(this))
+        window.addEventListener('resize', this.onResize.bind(this));
 
         // Low Level Dom Events
         this.mouseUp = Observable.fromEvent(container, 'mouseup');
         this.mouseMove = Observable.fromEvent(container, 'mousemove');
         this.mouseDown = Observable.fromEvent(container, 'mousedown');
+        this.keyPress = Observable.fromEvent(window, 'keypress');
+
 
         // Higher Order Chart Events
         this.chartMouseUp = this.mouseUp.map(e => new ChartEvent(e, this.mouse, this.chart));
