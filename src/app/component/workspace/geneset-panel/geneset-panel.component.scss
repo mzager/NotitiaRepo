@@ -1,5 +1,5 @@
 // Responsive Mobile First
-// Selectors and styles affecting screens SMALLER THAN 767px (Phones) 
+// Selectors and styles affecting screens SMALLER THAN 360px (smallPhones) 
 .geneset-modal-panel {
     padding: 20px;
     background: #FFF;
@@ -73,29 +73,41 @@
     color: #029BE5;
 }
 
-.geneset-field {
+.geneset-from-field {
     position: relative;
     margin-top: 1px;
 }
 
-.geneset-label {
-    // display: inline-block;
-    width: 10px;
-    height: 40px;
-    line-height: 40px;
-    // text-align: center;
-    text-transform: uppercase;
-    font-weight: 700;
+.geneset-where-field {
+    position: relative;
+    margin-top: 1px;
 }
 
-.geneset-field-label {
-    // display: inline-block;
+.geneset-from-label {
     width: 75px;
     height: 40px;
     line-height: 40px;
-    // text-align: center;
     text-transform: uppercase;
     font-weight: 700;
+    margin-left: 0px;
+}
+
+.geneset-where-label {
+    width: 75px;
+    height: 40px;
+    line-height: 40px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-left: 0px;
+}
+
+.geneset-gene-label {
+    width: 75px;
+    height: 40px;
+    line-height: 40px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-left: 0px;
 }
 
 .geneset-field-dropdown {
@@ -133,17 +145,12 @@ input[type=text],
 input[type=search],
 textarea.materialize-textarea {
     border-bottom: 1px solid #eee;
-    width: 260px;
-}
-
-textarea.materialize-textarea {
-    height: 7rem;
+    width: 250px;
 }
 
 .geneset-save {
     border-radius: 20px;
-    border: 1px solid #039be5;
-    // display: inline-block;
+    border: 2px solid #039be5; // display: inline-block;
     width: 75px;
     height: 40px;
     line-height: 36px;
@@ -158,10 +165,82 @@ textarea {
     width: 100%;
     height: 7rem;
     background-color: transparent;
+    border-color: #eee;
+}
+
+.geneset-from-dropdown {
+    width: 250px;
+    display: inline-block;
+    margin-right: 10px;
+    padding-left: 0px;
+}
+
+.geneset-categories-dropdown {
+    width: 250px;
+    display: inline-block;
+    margin-right: 10px;
+    padding-left: 0px;
+}
+
+@media (min-width: 370px) {
+    /* Selectors and styles affecting screens WIDER THAN 370px (phone) */
+    .geneset-from-label {
+        margin-right: 10px;
+    }
+    .geneset-where-label {
+        // display: inline-block;
+        margin-right: 10px;
+    }
+    textarea {
+        width: 100%;
+        height: 10rem;
+        background-color: transparent;
+        border-color: #eee;
+    }
+}
+
+@media (min-width: 410px) {
+    /* Selectors and styles affecting screens WIDER THAN 410px (phone) */
+    .geneset-from-label {
+        margin-right: 50px;
+    }
+    .geneset-where-label {
+        margin-right: 50px;
+    }
+    .geneset-icon {
+        margin-left: 0px;
+    }
+}
+
+@media (min-width: 601px) {
+    /* Selectors and styles affecting screens WIDER THAN 601px (takes icon out and turns des blue) */
+    .geneset-des {
+        color: #666666;
+    }
 }
 
 @media (min-width: 767px) {
-    /* Selectors and styles affecting screens WIDER THAN 979px (Desktop) */
+    /* Selectors and styles affecting screens WIDER THAN 767px (tablets) */
+    .geneset-modal-panel {
+        padding: 40px;
+    }
+    .geneset-h1 {
+        font-size: 3rem;
+    }
+    .geneset-des {
+        margin-left: 0px;
+    }
+}
+
+@media (min-width: 1100px) {
+    /* Selectors and styles affecting screens WIDER THAN 1100px (Largetablets) */
+    .geneset-modal-panel {
+        padding: 40px;
+    }
+}
+
+@media (min-width: 1200px) {
+    /* Selectors and styles affecting screens WIDER THAN 1200px (Desktop) */
     .geneset-modal-panel {
         padding: 60px;
     }
@@ -202,7 +281,7 @@ textarea {
         display: inline-block;
         width: 80%;
         position: absolute;
-        left: 80px;
+        left: 75px;
         top: 5px;
         border-color: #EEE;
     }
@@ -212,47 +291,47 @@ textarea {
         padding-left: 10px;
         padding-right: 30px;
     }
-    .geneset-dropdown {
+    .geneset-my-list {
         border: 0px solid #EEE;
         border-right-width: 1px;
         padding-left: 10px;
         padding-right: 30px;
     }
-    .geneset-label {
-        // display: inline-block;
+    .geneset-from-label {
         width: 55px;
         height: 40px;
-        line-height: 40px;
-        // text-align: center;
-        text-transform: uppercase;
-        font-weight: 700;
+        margin-right: 25px;
+    }
+    .geneset-where-label {
+        width: 55px;
+        height: 40px;
+        margin-right: 17px;
     }
     .geneset-des {
-        color: #666666;
+        margin-left: 25px;
     }
-    .geneset-field-dropdown {
-        width: 250px;
-        display: inline-block;
+    .geneset-from-dropdown {
         margin-left: 0px;
-        margin-right: 10px;
+    }
+    .geneset-categories-dropdown {
+        margin-left: 0px;
     }
     input:not([type]),
     input[type=text],
     input[type=search],
     textarea.materialize-textarea {
-        border-bottom: 1px solid #eee;
         width: 515px;
     }
-    textarea {
-        height: 2rem;
+    .geneset-button {
+        padding-left: 5px;
+        margin-top: 17px;
     }
     .geneset-save {
-        border: 2px solid #039be5;
-        display: inline-block;
-        width: 75px;
-        height: 40px;
-        line-height: 36px;
         float: none;
         margin-top: 0;
+        padding: 10px;
+    }
+    .geneset-icon {
+        margin-left: 10px;
     }
 }
