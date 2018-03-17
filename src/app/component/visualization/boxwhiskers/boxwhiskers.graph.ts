@@ -25,12 +25,12 @@ export class BoxWhisterksGraph implements ChartObjectInterface {
 
     // Emitters
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
-    public onConfigEmit: EventEmitter<{type: GraphConfig}> = new EventEmitter<{ type: GraphConfig }>();
+    public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{ type: GraphConfig }>();
     public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
         new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
 
-    private overMaterial = new THREE.LineBasicMaterial( { color: 0x039BE5 }) ;
-    private outMaterial = new THREE.LineBasicMaterial( { color: 0xDDDDDD }) ;
+    private overMaterial = new THREE.LineBasicMaterial({ color: 0x039BE5 });
+    private outMaterial = new THREE.LineBasicMaterial({ color: 0xDDDDDD });
 
 
     // Chart Elements
@@ -67,10 +67,10 @@ export class BoxWhisterksGraph implements ChartObjectInterface {
         this.geneLines = [];
         this.chords = [];
         this.view.controls.enableRotate = true;
-        
+
         this.group = new THREE.Group();
         this.view.scene.add(this.group);
-        this.lineMaterial = new THREE.LineBasicMaterial( { color: 0x039BE5 });
+        this.lineMaterial = new THREE.LineBasicMaterial({ color: 0x039BE5 });
         return this;
     }
 
@@ -81,15 +81,14 @@ export class BoxWhisterksGraph implements ChartObjectInterface {
 
     // Focus On This
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        throw new Error("Method not implemented.");
+        throw new Error('Method not implemented.');
     }
     updateData(config: GraphConfig, data: any) {
 
-        // Save Config + Data Locally 
+        // Save Config + Data Locally
         this.config = config as BoxWhiskersConfigModel;
         this.data = data;
 
-        
         if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {
             this.removeObjects();
             this.addObjects();
@@ -97,20 +96,20 @@ export class BoxWhisterksGraph implements ChartObjectInterface {
         if (this.config.dirtyFlag & DirtyEnum.COLOR) {
 
             const lines = this.geneLines;
-            this.meshes.forEach( v => {
+            this.meshes.forEach(v => {
                 if (data.pointColor.hasOwnProperty(v.userData.gene)) {
                     const color = data.pointColor[v.userData.gene];
-                    (v as THREE.Mesh).material = new THREE.MeshBasicMaterial( {color: color } );
+                    (v as THREE.Mesh).material = new THREE.MeshBasicMaterial({ color: color });
                 } else {
-                    (v as THREE.Mesh).material = new THREE.MeshBasicMaterial( {color: 0xDDDDDD } );
+                    (v as THREE.Mesh).material = new THREE.MeshBasicMaterial({ color: 0xDDDDDD });
                 }
             });
-            lines.forEach( v => {
+            lines.forEach(v => {
                 if (data.pointColor.hasOwnProperty(v.userData.gene)) {
                     const color = data.pointColor[v.userData.gene];
-                    (v as THREE.Line).material = new THREE.LineBasicMaterial( { color: color });
+                    (v as THREE.Line).material = new THREE.LineBasicMaterial({ color: color });
                 } else {
-                    (v as THREE.Line).material = new THREE.LineBasicMaterial( { color: 0xDDDDDD });
+                    (v as THREE.Line).material = new THREE.LineBasicMaterial({ color: 0xDDDDDD });
                 }
             });
             this.onRequestRender.next();
@@ -144,27 +143,27 @@ export class BoxWhisterksGraph implements ChartObjectInterface {
         scale.domain([this.data.min, this.data.max]);
         scale.range([0, w]);
 
-        this.data.result.forEach( (datum, i) => {
+        this.data.result.forEach((datum, i) => {
 
             const y = i * 7;
             const q1 = scale(datum.quartiles[0]);
             const q2 = scale(datum.quartiles[2]);
-            const m  = scale(datum.quartiles[1]);
-            
+            const m = scale(datum.quartiles[1]);
+
 
             // if (this.config.scatter){
-                
-            // }else{
-                // Mesh = Geometry (shape) + Material (color)
-                // Mesh Is Like A Div + Get's added to the scene or parent "div"
-                const boxGeometry = new THREE.PlaneGeometry( q2 - q1, 5);
-                const boxMaterial = ChartFactory.getColorBasic(0x039BE5);
-                const box = new THREE.Mesh(boxGeometry, boxMaterial);
-                box.position.setX( m  );
-                box.position.setY( y );
-            
 
-            const circle = ChartFactory.meshAllocate(0xFF000, ShapeEnum.CIRCLE, 2, new THREE.Vector3(m, y, 0),{});
+            // }else{
+            // Mesh = Geometry (shape) + Material (color)
+            // Mesh Is Like A Div + Get's added to the scene or parent "div"
+            const boxGeometry = new THREE.PlaneGeometry(q2 - q1, 5);
+            const boxMaterial = ChartFactory.getColorBasic(0x039BE5);
+            const box = new THREE.Mesh(boxGeometry, boxMaterial);
+            box.position.setX(m);
+            box.position.setY(y);
+
+
+            const circle = ChartFactory.meshAllocate(0xFF000, ShapeEnum.CIRCLE, 2, new THREE.Vector3(m, y, 0), {});
             this.group.add(circle);
 
             // Group is like a parent div - add all child objects to it
@@ -179,37 +178,37 @@ export class BoxWhisterksGraph implements ChartObjectInterface {
             // median
             lineGeometry = new THREE.Geometry();
             lineGeometry.vertices.push(
-                new THREE.Vector3( scale(datum.median), y - 3, 1 ),
-                new THREE.Vector3( scale(datum.median), y + 3, 1 )
+                new THREE.Vector3(scale(datum.median), y - 3, 1),
+                new THREE.Vector3(scale(datum.median), y + 3, 1)
             );
-            line = new THREE.Line( lineGeometry, lineMaterialWhite );
+            line = new THREE.Line(lineGeometry, lineMaterialWhite);
             this.group.add(line);
 
             // min
             lineGeometry = new THREE.Geometry();
             lineGeometry.vertices.push(
-                new THREE.Vector3( scale(datum.min), y - 2, 0 ),
-                new THREE.Vector3( scale(datum.min), y + 2, 0 )
+                new THREE.Vector3(scale(datum.min), y - 2, 0),
+                new THREE.Vector3(scale(datum.min), y + 2, 0)
             );
-            line = new THREE.Line( lineGeometry, lineMaterialBlue );
+            line = new THREE.Line(lineGeometry, lineMaterialBlue);
             this.group.add(line);
 
             // max
             lineGeometry = new THREE.Geometry();
             lineGeometry.vertices.push(
-                new THREE.Vector3( scale(datum.max), y - 2, 0 ),
-                new THREE.Vector3( scale(datum.max), y + 2, 0 )
+                new THREE.Vector3(scale(datum.max), y - 2, 0),
+                new THREE.Vector3(scale(datum.max), y + 2, 0)
             );
-            line = new THREE.Line( lineGeometry, lineMaterialBlue );
+            line = new THREE.Line(lineGeometry, lineMaterialBlue);
             this.group.add(line);
 
             // Horiz
             lineGeometry = new THREE.Geometry();
             lineGeometry.vertices.push(
-                new THREE.Vector3( scale(datum.min), y, 0 ),
-                new THREE.Vector3( scale(datum.max), y, 0 )
+                new THREE.Vector3(scale(datum.min), y, 0),
+                new THREE.Vector3(scale(datum.max), y, 0)
             );
-            line = new THREE.Line( lineGeometry, lineMaterialBlue );
+            line = new THREE.Line(lineGeometry, lineMaterialBlue);
             this.group.add(line);
 
         });

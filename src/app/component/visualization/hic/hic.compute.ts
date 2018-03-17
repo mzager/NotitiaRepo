@@ -18,14 +18,14 @@ import * as d3_force from 'd3-force-3d';
 import graph from 'ngraph.graph';
 
 export const hicComputeFn = (config: HicConfigModel): Promise<any> => {
-    return new Promise( (resolve, reject) => {
+    return new Promise((resolve, reject) => {
         const util: ComputeWorkerUtil = new ComputeWorkerUtil();
 
-        util.getGeneLinkInfoByGenes(config.markerFilter).then( result => {
+        util.getGeneLinkInfoByGenes(config.markerFilter).then(result => {
 
-            let nodes = Array.from( new Set( result.map( v => v.target ).concat( result.map( v => v.source) )));
+            let nodes = Array.from(new Set(result.map(v => v.target).concat(result.map(v => v.source))));
 
-            const geneDataMap = result.reduce( (p, c) => {
+            const geneDataMap = result.reduce((p, c) => {
                 p[c.source] = c.sourceData;
                 p[c.target] = c.targetData;
                 return p;
@@ -33,29 +33,29 @@ export const hicComputeFn = (config: HicConfigModel): Promise<any> => {
 
             // Color Scale
             const color = d3Scale.scaleSequential(interpolateGnBu).domain(
-                result.reduce( (p, c) => {
+                result.reduce((p, c) => {
                     p[0] = Math.min(p[0], c.tension);
                     p[1] = Math.max(p[1], c.tension);
                     return p;
                 }, [Infinity, -Infinity])
             );
 
-            const links = result.map( v => {
+            const links = result.map(v => {
                 v.source = nodes.indexOf(v.source);
                 v.target = nodes.indexOf(v.target);
-                v.color  = color(v.tension);
+                v.color = color(v.tension);
                 return v;
             });
 
-            nodes = nodes.map( v => ({ gene: v, data: geneDataMap[ v.toString() ] }) );
+            nodes = nodes.map(v => ({ gene: v, data: geneDataMap[v.toString()] }));
 
             const g = d3_force.forceSimulation()
                 .numDimensions(
                     (config.dimensions === DimensionEnum.THREE_D) ? 3 :
-                    (config.dimensions === DimensionEnum.TWO_D) ? 2 : 1)
+                        (config.dimensions === DimensionEnum.TWO_D) ? 2 : 1)
                 .nodes(nodes)
                 .force('link', d3_force.forceLink().distance(link => link.tension).links(links))
-                .force('charge', d3_force.forceManyBody().strength( link => -100 ) )
+                .force('charge', d3_force.forceManyBody().strength(link => -100))
                 .force('center', d3_force.forceCenter())
                 .stop();
 

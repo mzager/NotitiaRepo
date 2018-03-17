@@ -34,11 +34,11 @@ export const heatmapCompute = (config: HeatmapConfigModel, worker: DedicatedWork
                     n_clusters: -1,
                     sp_metric: config.dist,
                     sp_method: config.method,
-                    sp_ordering: config.order  ? -1 : 1
+                    sp_ordering: config.order ? -1 : 1
                 })
         ]).then(result => {
 
-             const minMax = matrix.data.reduce((p, c) => {
+            const minMax = matrix.data.reduce((p, c) => {
                 p[0] = Math.min(p[0], ...c);
                 p[1] = Math.max(p[1], ...c);
                 return p;

@@ -1,5 +1,5 @@
 
-import { FaConfigModel, FaSvdMethod} from './fa.model';
+import { FaConfigModel, FaSvdMethod } from './fa.model';
 import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
 import { DimensionEnum, EntityTypeEnum, CollectionTypeEnum } from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
@@ -52,7 +52,7 @@ import * as _ from 'lodash';
 </form>
   `
 })
-export class FaFormComponent extends  AbstractScatterForm {
+export class FaFormComponent extends AbstractScatterForm {
 
   @Input() set config(v: FaConfigModel) {
     if (v === null) { return; }

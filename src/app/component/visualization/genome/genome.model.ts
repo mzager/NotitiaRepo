@@ -26,7 +26,7 @@ export interface GenomeDataModel extends GraphData {
     genes: any;
     tads: any;
     bands: any;
-    chromo: Array<{'chr': string, 'P': number, 'C': number, 'Q': number}>;
+    chromo: Array<{ 'chr': string, 'P': number, 'C': number, 'Q': number }>;
     showAllGenes: Boolean;
     showBands: Boolean;
     allowRotation: Boolean;

@@ -17,14 +17,12 @@ export class ChromosomeConfigModel extends GraphConfig {
     chromosome = '5';
     layoutOption = 'Circle';
     spacingOption = 'Linear';
-    geneOption = {label: 'All Genes', key: 'all'};
-    chordOption = {label: 'None', key: 'none'};
+    geneOption = { label: 'All Genes', key: 'all' };
+    chordOption = { label: 'None', key: 'none' };
 }
 
 export interface ChromosomeDataModel extends GraphData {
     genes: any;
     links: any;
     result: any;
-
-    
 }

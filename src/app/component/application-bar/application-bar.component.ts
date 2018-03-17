@@ -9,7 +9,6 @@ import { Legend } from 'app/model/legend.model';
 import * as XLSX from 'xlsx';
 import * as downloadjs from 'downloadjs';
 import { ChartScene } from 'app/component/workspace/chart/chart.scene';
-// import { SVGRenderer } from 'three.js-svg-renderer';
 declare var $: any;
 
 @Component({
@@ -20,7 +19,7 @@ declare var $: any;
 })
 export class ApplicationBarComponent implements OnInit, OnDestroy {
 
-  // TODO:  COME BACK AND CLEAN OUT  
+  // TODO:  COME BACK AND CLEAN OUT
   @Output() splitScreenChange = new EventEmitter<boolean>();
   @Output() showModalPanel = new EventEmitter<PanelEnum>();
   // @Output() graphPanelToggle = new EventEmitter<GraphPanelEnum>();
@@ -55,13 +54,13 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   constructor() {
     this.filesSubject = new Subject();
   }
-  viewPanel(panel: PanelEnum) : void { 
+  viewPanel(panel: PanelEnum): void {
     this.showModalPanel.emit(panel);
   }
-  onSplitScreenChange(e:any): void { 
+  onSplitScreenChange(e: any): void {
     this.splitScreenChange.next(e.target.checked);
   }
-  toggleBackgroundColor(): void  {
+  toggleBackgroundColor(): void {
     this.color = (this.color === 0x000000) ? 0xFFFFFF : 0x000000;
     ChartScene.instance.renderer.setClearColor(this.color, 1);
     ChartScene.instance.render();
@@ -73,7 +72,7 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   print() {
     window.print();
   }
-  
+
   exportImage() {
     const jpg = $('canvas')[0].toDataURL('image/jpeg', 1);
     downloadjs(jpg, 'test.jpg', 'image/jpeg');

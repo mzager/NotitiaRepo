@@ -118,6 +118,7 @@ export class ChartFactory {
             const mesh: THREE.Mesh = new THREE.Mesh(shape, material);
             mesh.userData.tooltip = id;
             mesh.userData.color = color;
+            mesh.userData.selectionLocked = false;
             group.add(mesh);
         });
 

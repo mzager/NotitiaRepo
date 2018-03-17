@@ -7,7 +7,6 @@ import { GraphEnum, VisualizationEnum } from 'app/model/enum.model';
 import { Legend } from './../../../model/legend.model';
 
 export class DaConfigModel extends GraphConfig {
-    
     dimension: DimensionEnum = DimensionEnum.THREE_D;
     domain: Array<number> = [-500, 500];
 }
