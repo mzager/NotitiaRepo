@@ -1,5 +1,7 @@
-import { DictionaryLearningConfigModel, DictionaryLearningFitAlgorithm,
-  DictionaryLearningTransformAlgorithm } from './dictionarylearning.model';
+import {
+  DictionaryLearningConfigModel, DictionaryLearningFitAlgorithm,
+  DictionaryLearningTransformAlgorithm
+} from './dictionarylearning.model';
 import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
 import { DimensionEnum, EntityTypeEnum } from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';

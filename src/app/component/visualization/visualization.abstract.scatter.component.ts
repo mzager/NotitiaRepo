@@ -1,3 +1,4 @@
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import * as scale from 'd3-scale';
 import { DataDecorator } from './../../model/data-map.model';
 import { ChartUtil } from './../workspace/chart/chart.utils';
@@ -10,7 +11,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { WorkspaceLayoutEnum, DimensionEnum, CollectionTypeEnum } from './../../model/enum.model';
 import { VisualizationView } from './../../model/chart-view.model';
 import { ChartEvent, ChartEvents } from './../workspace/chart/chart.events';
-import { EventEmitter, HostListener } from '@angular/core';
+import { EventEmitter, HostListener, ViewContainerRef } from '@angular/core';
 import { GraphEnum, EntityTypeEnum, DirtyEnum, ShapeEnum, VisualizationEnum } from 'app/model/enum.model';
 import { ChartObjectInterface } from './../../model/chart.object.interface';
 import * as THREE from 'three';
@@ -32,13 +33,12 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     private sMouseMove: Subscription;
     private sMouseDown: Subscription;
     private sMouseUp: Subscription;
-    private sKeyPress: Subscription;
     private mouseMode: 'CONTROL' | 'SELECTION' = 'CONTROL';
     private points: Array<THREE.Object3D>;
+    private selectionMeshes: Array<THREE.Mesh>;
     private selectionMesh: THREE.Mesh;
     private selectionOrigin2d: Vector2;
     private selectionScale: scale.ScaleLinear<number, number>;
-    private shiftDown: Boolean;
 
     // Private Subscriptions
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
@@ -46,16 +46,15 @@ export class AbstractScatterVisualization extends AbstractVisualization {
 
         this.tooltips = <HTMLDivElement>(document.createElement('div'));
         this.tooltips.className = 'graph-tooltip';
-        this.labels.appendChild( this.tooltips );
+        this.labels.appendChild(this.tooltips);
 
         this.overlay = <HTMLDivElement>(document.createElement('div'));
         this.overlay.className = 'graph-overlay';
-        this.labels.appendChild( this.overlay );
+        this.labels.appendChild(this.overlay);
+        this.selectionMeshes = [];
         this.meshes = [];
         this.points = [];
         this.lines = [];
-        // this.controls = new DragSelectionControl();
-        // this.controls.create(events, view, this.meshes, this.onRequestRender, this.onSelect);
         this.view.controls.enableRotate = true;
 
         this.decorators = [];
@@ -88,12 +87,10 @@ export class AbstractScatterVisualization extends AbstractVisualization {
             this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
             this.sMouseDown = this.events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
             this.sMouseUp = this.events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
-            this.sKeyPress = this.events.keyPress.subscribe(this.onKeyPress.bind(this));
         } else {
             this.sMouseMove.unsubscribe();
             this.sMouseDown.unsubscribe();
             this.sMouseUp.unsubscribe();
-            this.sKeyPress.unsubscribe();
             this.tooltips.innerHTML = '';
         }
     }
@@ -101,7 +98,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     addObjects(type: EntityTypeEnum) {
         const propertyId = (this.config.entity === EntityTypeEnum.GENE) ? 'mid' : 'sid';
         const objectIds = this.data[propertyId];
-        this.data.resultScaled.forEach( (point, index) => {
+        this.data.resultScaled.forEach((point, index) => {
             const group = ChartFactory.createDataGroup(
                 objectIds[index], this.config.entity, new THREE.Vector3(...point));
             this.meshes.push(group);
@@ -123,37 +120,51 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.lines.length = 0;
     }
 
-    private onKeyPress(e: KeyboardEvent): void {
-        console.log(e.shiftKey);
-        this.shiftDown = e.shiftKey;
-    }
     private onMouseDown(e: ChartEvent): void {
-        console.log('down');
         const hit = ChartUtil.getIntersects(this.view, e.mouse, this.points);
         if (hit.length > 0) {
+            this.tooltips.innerHTML = '';
             this.mouseMode = 'SELECTION';
             this.view.controls.enabled = false;
             const target: THREE.Vector3 = hit[0].object.parent.position.clone();
             const event: MouseEvent = e.event as MouseEvent;
             const geometry = new THREE.SphereGeometry(3, 30, 30);
-            const material = new THREE.MeshPhongMaterial({color: 0x029BE5, opacity: 0.1, transparent: true});
+            const material = new THREE.MeshPhongMaterial({ color: 0x029BE5, opacity: 0.1, transparent: true });
             this.selectionMesh = new THREE.Mesh(geometry, material);
             this.selectionMesh.position.set(target.x, target.y, target.z);
+            this.selectionMeshes.push(this.selectionMesh);
             this.selectionOrigin2d = new Vector2(event.clientX, event.clientY);
             this.selectionScale = scale.scaleLinear();
-            this.selectionScale.range([1, 1000]);
+            this.selectionScale.range([1, 200]);
             this.selectionScale.domain([0, this.view.viewport.width]);
             this.view.scene.add(this.selectionMesh);
-            this.onRequestRender.emit( this.config.graph );
+            this.onRequestRender.emit(this.config.graph);
         }
     }
 
     private onMouseUp(e: ChartEvent): void {
         this.mouseMode = 'CONTROL';
         this.view.controls.enabled = true;
-        if (!this.shiftDown) {
-            this.view.scene.remove(this.selectionMesh);
-            this.onRequestRender.emit( this.config.graph );
+        if (!(e.event as MouseEvent).shiftKey) {
+            this.selectionMeshes.forEach(mesh => this.view.scene.remove(mesh));
+            this.onRequestRender.emit(this.config.graph);
+            this.meshes
+                .forEach(o3d => {
+                    const mesh = o3d.children[0] as THREE.Mesh;
+                    mesh.userData.selectionLocked = false;
+                });
+        } else {
+
+            const radius = this.selectionMesh.geometry.boundingSphere.radius * this.selectionMesh.scale.x;
+            const position = this.selectionMesh.position;
+            this.meshes
+                .forEach(o3d => {
+                    const mesh = o3d.children[0] as THREE.Mesh;
+                    const material: THREE.MeshPhongMaterial = mesh.material as THREE.MeshPhongMaterial;
+                    if (o3d.position.distanceTo(position) < radius) {
+                        mesh.userData.selectionLocked = true;
+                    }
+                });
         }
     }
 
@@ -176,12 +187,14 @@ export class AbstractScatterVisualization extends AbstractVisualization {
                         material.color.set(0x000000);
                         material.transparent = false;
                     } else {
-                        material.color.set(mesh.userData.color);
-                        material.transparent = true;
-                        material.opacity = 0.7;
+                        if (!mesh.userData.selectionLocked) {
+                            material.color.set(mesh.userData.color);
+                            material.transparent = true;
+                            material.opacity = 0.7;
+                        }
                     }
                 });
-            this.onRequestRender.emit( this.config.graph );
+            this.onRequestRender.emit(this.config.graph);
             return;
         }
         // Hit Test
@@ -201,6 +214,12 @@ export class AbstractScatterVisualization extends AbstractVisualization {
             return;
         }
         this.tooltips.innerHTML = '';
+    }
+    constructor() {
+        super();
+        // this.toastr.setRootViewContainerRef(vcr);
+        // this.toastr.success('You are awesome!', 'Success!');
+
     }
 
 

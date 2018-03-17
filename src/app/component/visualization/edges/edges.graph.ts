@@ -17,18 +17,16 @@ export class EdgesGraph implements ChartObjectInterface {
 
     // Emitters
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
-    public onConfigEmit: EventEmitter<{type: GraphConfig}> = new EventEmitter<{ type: GraphConfig }>();
+    public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{ type: GraphConfig }>();
     public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
         new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
 
     // Chart Elements
     private data: EdgeDataModel;
     private config: EdgeConfigModel;
-
     private labels: HTMLElement;
     private events: ChartEvents;
     private view: VisualizationView;
-
 
     public meshes: Array<THREE.Mesh>;
     public lines: Array<THREE.Line> = [];
@@ -37,13 +35,13 @@ export class EdgesGraph implements ChartObjectInterface {
     public updateEdges: Boolean = false;
     private edges: Array<any>;
     private commonKeys: any;
-    private patientSampleMap: {s: string, p: string};
+    private patientSampleMap: { s: string, p: string };
 
     enable(truthy: Boolean) {
         throw new Error('Method not implemented.');
     }
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        throw new Error("Method not implemented.");
+        throw new Error('Method not implemented.');
     }
     updateData(config: GraphConfig, data: any) {
         this.config = config as EdgeConfigModel;
@@ -65,32 +63,34 @@ export class EdgesGraph implements ChartObjectInterface {
             if (screenPosition !== null) {
                 p[c.userData[aId]] = { mesh: c, screenPosition: screenPosition };
             }
-            return p; }, {});
+            return p;
+        }, {});
 
         const bMap = views[1].chart.meshes.reduce((p, c) => {
             const screenPosition = ChartUtil.objectToScreen(c, views[1], layout);
             if (screenPosition !== null) {
                 p[c.userData[bId]] = { mesh: c, screenPosition: screenPosition };
             }
-            return p; }, {});
+            return p;
+        }, {});
 
 
         let edges = [];
-        const visibleEdges = this.data.result.filter( edge => (aMap.hasOwnProperty(edge.a) && bMap.hasOwnProperty(edge.b)) );
+        const visibleEdges = this.data.result.filter(edge => (aMap.hasOwnProperty(edge.a) && bMap.hasOwnProperty(edge.b)));
         if (visibleEdges.length < 10000) {
-            edges = visibleEdges.map( edge => {
+            edges = visibleEdges.map(edge => {
                 const aPoint = aMap[edge.a];
                 const bPoint = bMap[edge.b];
                 if (edge.i === null) {
                     return ChartFactory.lineAllocate(edge.c, aPoint.screenPosition, bPoint.screenPosition);
                 } else {
-                     const yDelta = this.view.viewport.height / 7;
-                     const yOffset = this.view.viewport.height * 0.5;
+                    const yDelta = this.view.viewport.height / 7;
+                    const yOffset = this.view.viewport.height * 0.5;
 
-                    return ChartFactory.lineAllocateCurve(edge.c, aPoint.screenPosition, bPoint.screenPosition, 
-                        new THREE.Vector2( 0, (edge.i * yDelta) - yOffset ) );
+                    return ChartFactory.lineAllocateCurve(edge.c, aPoint.screenPosition, bPoint.screenPosition,
+                        new THREE.Vector2(0, (edge.i * yDelta) - yOffset));
                 }
-            }).forEach( edge => this.view.scene.add(edge) );
+            }).forEach(edge => this.view.scene.add(edge));
             console.log('good number');
         } else {
             console.log('too many edges');
@@ -104,8 +104,7 @@ export class EdgesGraph implements ChartObjectInterface {
         //         } else {
         //              const yDelta = this.view.viewport.height / 7;
         //              const yOffset = this.view.viewport.height * 0.5;
-
-        //             return ChartFactory.lineAllocateCurve(edge.c, aPoint.screenPosition, bPoint.screenPosition, 
+        //             return ChartFactory.lineAllocateCurve(edge.c, aPoint.screenPosition, bPoint.screenPosition,
         //                 new THREE.Vector2( 0, (edge.i * yDelta) - yOffset ) );
         //         }
         //     }
@@ -114,7 +113,7 @@ export class EdgesGraph implements ChartObjectInterface {
         // .forEach( edge => this.view.scene.add(edge) );
 
         // Center Line
-        this.view.scene.add(ChartFactory.lineAllocate(0x039BE5, new THREE.Vector2(0, -1000), new THREE.Vector2(0, 1000) ));
+        this.view.scene.add(ChartFactory.lineAllocate(0x039BE5, new THREE.Vector2(0, -1000), new THREE.Vector2(0, 1000)));
 
         renderer.clear();
         views.forEach((view) => {

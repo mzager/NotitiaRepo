@@ -12,35 +12,35 @@ import * as _ from 'lodash';
 export const edgesCompute = (config: EdgeConfigModel, worker: DedicatedWorkerGlobalScope): void => {
     const edges = {
         getEventsEvents(cfg: EdgeConfigModel): Promise<any> {
-            return new Promise( (resolve, reject) => {
+            return new Promise((resolve, reject) => {
                 if (this.edgeOptions === 'None') { resolve([]); return; }
-                worker.util.openDatabaseData(config.database).then( db => {
+                worker.util.openDatabaseData(config.database).then(db => {
                 });
             });
         },
         getEventsGenes(cfg: EdgeConfigModel): Promise<any> {
-            return new Promise( (resolve, reject) => {
+            return new Promise((resolve, reject) => {
                 if (this.edgeOptions === 'None') { resolve([]); return; }
-                worker.util.openDatabaseData(config.database).then( db => {
+                worker.util.openDatabaseData(config.database).then(db => {
                 });
             });
         },
         getEventsPatients(cfg: EdgeConfigModel): Promise<any> {
-            return new Promise( (resolve, reject) => {
+            return new Promise((resolve, reject) => {
                 if (this.edgeOptions === 'None') { resolve([]); return; }
-                worker.util.openDatabaseData(config.database).then( db => {
+                worker.util.openDatabaseData(config.database).then(db => {
                 });
             });
         },
         getEventsSamples(cfg: EdgeConfigModel): Promise<any> {
-            return new Promise( (resolve, reject) => {
+            return new Promise((resolve, reject) => {
                 if (this.edgeOptions === 'None') { resolve([]); return; }
-                worker.util.openDatabaseData(config.database).then( db => {
+                worker.util.openDatabaseData(config.database).then(db => {
                 });
             });
         },
         getGenesGenes(cfg: EdgeConfigModel): Promise<any> {
-            return new Promise( (resolve, reject) => {
+            return new Promise((resolve, reject) => {
                 if (this.edgeOptions === 'None') { resolve([]); return; }
                 // worker.util.openDatabaseData(config.database).then( db => {
                 //     const edges = result.map( gene => ({
@@ -53,21 +53,21 @@ export const edgesCompute = (config: EdgeConfigModel, worker: DedicatedWorkerGlo
             });
         },
         getGenesPatients(cfg: EdgeConfigModel): Promise<any> {
-            return new Promise( (resolve, reject) => {
+            return new Promise((resolve, reject) => {
                 if (this.edgeOptions === 'None') { resolve([]); return; }
-                worker.util.openDatabaseData(config.database).then( db => {
+                worker.util.openDatabaseData(config.database).then(db => {
                 });
             });
         },
         getGenesSamples(cfg: EdgeConfigModel): Promise<any> {
-            return new Promise( (resolve, reject) => {
+            return new Promise((resolve, reject) => {
                 if (this.edgeOptions === 'None') { resolve([]); return; }
                 const colors = [0xab47bc, 0xffca28, 0x5c6bc0, 0x26c6da, 0x66bb6a, 0xffca28];
-                const colorMap = cfg.edgeOption.reduce( (p, c, i) => {
+                const colorMap = cfg.edgeOption.reduce((p, c, i) => {
                     p[c] = colors[i];
                     return p;
                 }, {});
-                worker.util.openDatabaseData(cfg.database).then( db => {
+                worker.util.openDatabaseData(cfg.database).then(db => {
                     db.table('mut').where('t').anyOfIgnoreCase(cfg.edgeOption).toArray().then(result => {
                         const data = result.map(v => ({
                             a: v.s,
@@ -87,23 +87,23 @@ export const edgesCompute = (config: EdgeConfigModel, worker: DedicatedWorkerGlo
             });
         },
         getPatientsPatients(cfg: EdgeConfigModel): Promise<any> {
-            return new Promise( (resolve, reject) => {
+            return new Promise((resolve, reject) => {
                 if (this.edgeOptions === 'None') { resolve([]); return; }
-                worker.util.openDatabaseData(config.database).then( db => {
+                worker.util.openDatabaseData(config.database).then(db => {
                 });
             });
         },
         getPatientsSamples(cfg: EdgeConfigModel): Promise<any> {
-            return new Promise( (resolve, reject) => {
+            return new Promise((resolve, reject) => {
                 if (this.edgeOptions === 'None') { resolve([]); return; }
-                worker.util.openDatabaseData(config.database).then( db => {
+                worker.util.openDatabaseData(config.database).then(db => {
                 });
             });
         },
         getSamplesSamples(cfg: EdgeConfigModel): Promise<any> {
-            return new Promise( (resolve, reject) => {
+            return new Promise((resolve, reject) => {
                 if (this.edgeOptions === 'None') { resolve([]); return; }
-                worker.util.openDatabaseData(config.database).then( db => {
+                worker.util.openDatabaseData(config.database).then(db => {
                 });
             });
         }

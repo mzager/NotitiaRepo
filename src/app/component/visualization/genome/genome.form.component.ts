@@ -60,9 +60,9 @@ export class GenomeFormComponent {
     if (fields === null) { return; }
     if (fields.length === 0) { return; }
     const defaultDataField: DataField = DataFieldFactory.getUndefined();
-    this.colorOptions = DataFieldFactory.getColorFields(fields, EntityTypeEnum.GENE).filter( v => v.ctype !== undefined );
-    this.shapeOptions = DataFieldFactory.getShapeFields(fields, EntityTypeEnum.GENE).filter( v => v.ctype !== undefined );
-    this.sizeOptions = DataFieldFactory.getSizeFields(fields, EntityTypeEnum.GENE).filter( v => v.ctype !== undefined );
+    this.colorOptions = DataFieldFactory.getColorFields(fields, EntityTypeEnum.GENE).filter(v => v.ctype !== undefined);
+    this.shapeOptions = DataFieldFactory.getShapeFields(fields, EntityTypeEnum.GENE).filter(v => v.ctype !== undefined);
+    this.sizeOptions = DataFieldFactory.getSizeFields(fields, EntityTypeEnum.GENE).filter(v => v.ctype !== undefined);
   }
 
   @Input() set config(v: GenomeConfigModel) {

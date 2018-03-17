@@ -8,7 +8,6 @@ declare var ML: any;
 
 export const fasticaCompute = (config: FastIcaConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
-
     worker.util.getDataMatrix(config).then(matrix => {
         worker.util
             .fetchResult({

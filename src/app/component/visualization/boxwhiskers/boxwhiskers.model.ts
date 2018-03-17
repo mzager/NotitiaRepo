@@ -27,5 +27,4 @@ export class BoxWhiskersConfigModel extends GraphConfig {
 export interface BoxWhiskersDataModel extends GraphData {
     min: number;
     max: number;
-    
 }

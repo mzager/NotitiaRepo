@@ -8,51 +8,42 @@ export class ChartUtil {
 
     private static raycaster: THREE.Raycaster = new THREE.Raycaster();
 
-    public static fitCameraToObject( camera, object: Box3, offset, controls ) {
+    public static fitCameraToObject(camera, object: Box3, offset, controls) {
 
         offset = offset || 1.25;
-    
-        const boundingBox = object; //new THREE.Box3();
-    debugger
+
+        const boundingBox = object;
         // get bounding box of object - this will be used to setup controls and camera
         // boundingBox.setFromObject( object );
-    
+
         const center = boundingBox.getCenter();
-    
+
         const size = boundingBox.getSize();
-    
+
         // get the max side of the bounding box (fits to width OR height as needed )
-        const maxDim = Math.max( size.x, size.y, size.z );
-        const fov = camera.fov * ( Math.PI / 180 );
-        let cameraZ = Math.abs( maxDim / 4 * Math.tan( fov * 2 ) );
-    
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const fov = camera.fov * (Math.PI / 180);
+        let cameraZ = Math.abs(maxDim / 4 * Math.tan(fov * 2));
+
         cameraZ *= offset; // zoom out a little so that objects don't fill the screen
-    
+
         camera.position.z = cameraZ;
-    
+
         const minZ = boundingBox.min.z;
-        const cameraToFarEdge = ( minZ < 0 ) ? -minZ + cameraZ : cameraZ - minZ;
-    
+        const cameraToFarEdge = (minZ < 0) ? -minZ + cameraZ : cameraZ - minZ;
+
         camera.far = cameraToFarEdge * 3;
         camera.updateProjectionMatrix();
-    
-        if ( controls ) {
-    
-          // set camera to rotate around center of loaded object
-          controls.target = center;
-    
-          // prevent camera from zooming out far enough to create far plane cutoff
-          controls.maxDistance = cameraToFarEdge * 2;
-    
-        //   controls.saveState();
-    
+        if (controls) {
+            // set camera to rotate around center of loaded object
+            controls.target = center;
+            // prevent camera from zooming out far enough to create far plane cutoff
+            controls.maxDistance = cameraToFarEdge * 2;
+            //   controls.saveState();
         } else {
-    
-            camera.lookAt( center )
-    
-       }
+            camera.lookAt(center);
+        }
     }
-    
     public static objectToScreen(obj: THREE.Object3D, view: VisualizationView, layout: WorkspaceLayoutEnum): THREE.Vector2 {
 
         const vector = new THREE.Vector3();
@@ -67,13 +58,13 @@ export class ChartUtil {
         const halfHeight = view.viewport.height * 0.5;
         if (layout === WorkspaceLayoutEnum.VERTICAL) {
             return new THREE.Vector2(
-                ( vector.x * halfWidth ),
-                ( vector.y * halfHeight ) + ((view.viewport.y > 0) ? -halfHeight : halfHeight)
+                (vector.x * halfWidth),
+                (vector.y * halfHeight) + ((view.viewport.y > 0) ? -halfHeight : halfHeight)
             );
         } else if (layout === WorkspaceLayoutEnum.HORIZONTAL) {
             return new THREE.Vector2(
-                ( vector.x * halfWidth ) + (( view.viewport.x > 0) ? halfWidth : -halfWidth),
-                ( vector.y * halfHeight )
+                (vector.x * halfWidth) + ((view.viewport.x > 0) ? halfWidth : -halfWidth),
+                (vector.y * halfHeight)
             );
         }
     }
@@ -94,8 +85,8 @@ export class ChartUtil {
 
         const vector = object.position.clone();
         vector.project(camera);
-        vector.x = Math.round( (vector.x + 1) * width / 2);
-        vector.y = Math.round( (-vector.y + 1) * height / 2);
+        vector.x = Math.round((vector.x + 1) * width / 2);
+        vector.y = Math.round((-vector.y + 1) * height / 2);
         vector.z = 0;
         if (chart === GraphEnum.GRAPH_B) {
             vector.x += width;
@@ -115,16 +106,16 @@ export class ChartUtil {
         if (parent === null) {
             parent = view.scene;
         }
-        return parent.children.filter( o => o.type === 'Mesh' ).filter( o => frustum.intersectsObject(o) );
+        return parent.children.filter(o => o.type === 'Mesh').filter(o => frustum.intersectsObject(o));
     }
 
-    public static getIntersects(view: VisualizationView, pos: {x: number, y: number, xs: number, ys: number},
+    public static getIntersects(view: VisualizationView, pos: { x: number, y: number, xs: number, ys: number },
         objects: Array<THREE.Object3D>): Array<THREE.Intersection> {
         this.raycaster.setFromCamera(pos, view.camera);
-        return this.raycaster.intersectObjects( objects, false );
+        return this.raycaster.intersectObjects(objects, false);
     }
 
 
-    private constructor() {}
+    private constructor() { }
 
 }
