@@ -26,7 +26,7 @@ export class GenomeGraph implements ChartObjectInterface {
 
     // Emitters
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
-    public onConfigEmit: EventEmitter<{type: GraphConfig}> = new EventEmitter<{ type: GraphConfig }>();
+    public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{ type: GraphConfig }>();
     public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
         new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
 
@@ -58,17 +58,17 @@ export class GenomeGraph implements ChartObjectInterface {
 
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         view.camera.position.set(0, 0, 1000);
-        view.camera.rotation.setFromVector3( new THREE.Vector3(0, 0, 0) );
+        view.camera.rotation.setFromVector3(new THREE.Vector3(0, 0, 0));
         this.labels = labels;
         this.labels.innerText = '';
 
         this.tooltips = <HTMLDivElement>(document.createElement('div'));
         this.tooltips.className = 'graph-tooltip';
-        this.labels.appendChild( this.tooltips );
+        this.labels.appendChild(this.tooltips);
 
         this.overlay = <HTMLDivElement>(document.createElement('div'));
         this.overlay.className = 'graph-overlay';
-        this.labels.appendChild( this.overlay );
+        this.labels.appendChild(this.overlay);
         this.events = events;
         this.view = view;
         this.isEnabled = false;
@@ -134,7 +134,7 @@ export class GenomeGraph implements ChartObjectInterface {
         const chromoOffset = 12 * chromoMultiplier;
 
         this.arms = {};
-        this.chromosomes  = {};
+        this.chromosomes = {};
         for (let i = 0; i < this.data.chromo.length; i++) {
             this.chromosomes[i] = new THREE.Group();
             (this.chromosomes[i] as THREE.Group).userData.chromosome = i;
@@ -206,8 +206,8 @@ export class GenomeGraph implements ChartObjectInterface {
                 const q = this.data.chromo[chromoIndex].Q;
                 const line = ChartFactory.lineAllocateCurve(
                     0x9c27b0,
-                    new THREE.Vector2(xPos, tad.s -  centro),
-                    new THREE.Vector2(xPos, tad.e -  centro),
+                    new THREE.Vector2(xPos, tad.s - centro),
+                    new THREE.Vector2(xPos, tad.e - centro),
                     new THREE.Vector2(
                         xPos + (chromoMultiplier * 0.2),
                         (Math.abs(tad.e - tad.s) * 0.5) + tad.s - centro
@@ -233,11 +233,11 @@ export class GenomeGraph implements ChartObjectInterface {
                     group.position.z = 0;
                     this.groups.push(group);
 
-                    const lineMat = new THREE.LineBasicMaterial({color: gene.color});
+                    const lineMat = new THREE.LineBasicMaterial({ color: gene.color });
                     const lineGeom = new THREE.Geometry();
                     lineGeom.vertices.push(
-                        new THREE.Vector3( -2, 0, 0 ),
-                        new THREE.Vector3( 0, 0, 0 )
+                        new THREE.Vector3(-2, 0, 0),
+                        new THREE.Vector3(0, 0, 0)
                     );
                     const line = new THREE.Line(lineGeom, lineMat);
                     line.userData.mid = gene.gene.toUpperCase();
@@ -254,17 +254,17 @@ export class GenomeGraph implements ChartObjectInterface {
                     this.meshes.push(mesh);
                     group.add(mesh);
 
-                    this.arms[ (chromoIndex - 1) + gene.arm].add(group);
+                    this.arms[(chromoIndex - 1) + gene.arm].add(group);
                 });
         });
         this.view.scene.add(this.group);
     }
 
     removeObjects() {
-        this.tads.forEach( tad => {
+        this.tads.forEach(tad => {
             this.view.scene.remove(tad);
         });
-        this.groups.forEach( group => {
+        this.groups.forEach(group => {
             this.view.scene.remove(group);
         });
         this.tads = [];
@@ -289,7 +289,7 @@ export class GenomeGraph implements ChartObjectInterface {
                     chromosomeConfig.dirtyFlag = DirtyEnum.LAYOUT;
                     console.log('TODO: Should not takeover table definition and preserve if possible origional chromo options');
                     chromosomeConfig.table = this.config.table;
-                    this.onConfigEmit.next({type: chromosomeConfig as GraphConfig});
+                    this.onConfigEmit.next({ type: chromosomeConfig as GraphConfig });
                     break;
                 // case GenomicEnum.P_TELOMERE:
                 //     debugger;
@@ -299,7 +299,7 @@ export class GenomeGraph implements ChartObjectInterface {
         }
     }
     private onMouseMove(e: ChartEvent): void {
-       this.showLabels(e);
+        this.showLabels(e);
     }
 
     showLabels(e: ChartEvent) {

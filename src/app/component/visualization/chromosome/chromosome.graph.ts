@@ -26,10 +26,10 @@ export class ChromosomeGraph implements ChartObjectInterface {
 
     // Emitters
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
-    public onConfigEmit: EventEmitter<{type: GraphConfig}> = new EventEmitter<{ type: GraphConfig }>();
+    public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{ type: GraphConfig }>();
     public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
         new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
-        
+
     private colorMap = {
         'protein_coding': 0x039BE5,
         'lincRNA': 0x4A148C,
@@ -89,11 +89,11 @@ export class ChromosomeGraph implements ChartObjectInterface {
 
         this.tooltips = <HTMLDivElement>(document.createElement('div'));
         this.tooltips.className = 'graph-tooltip';
-        this.labels.appendChild( this.tooltips );
+        this.labels.appendChild(this.tooltips);
 
         this.overlay = <HTMLDivElement>(document.createElement('div'));
         this.overlay.className = 'graph-overlay';
-        this.labels.appendChild( this.overlay );
+        this.labels.appendChild(this.overlay);
         this.events = events;
         this.view = view;
         this.isEnabled = false;
@@ -205,10 +205,10 @@ export class ChromosomeGraph implements ChartObjectInterface {
         let chords = null;
         if (this.data.result.chords !== null) {
 
-            const lookup = arms.P.reduce( (p, c) => { p[c.gene] = c.pos; return p; }, 
-                arms.Q.reduce( (p, c) => { p[c.gene] = c.pos; return p; }, {})
+            const lookup = arms.P.reduce((p, c) => { p[c.gene] = c.pos; return p; },
+                arms.Q.reduce((p, c) => { p[c.gene] = c.pos; return p; }, {})
             );
-  
+
             chords = this.data.result.chords.map(v => {
                 return {
                     source: lookup[v.source],
@@ -266,7 +266,7 @@ export class ChromosomeGraph implements ChartObjectInterface {
                     new THREE.Vector2(16, chord.source * 2),
                     new THREE.Vector2(16, chord.target * 2),
                     new THREE.Vector2(
-                        30 + (Math.abs( chord.source * 2 - chord.target * 2) * 0.6),
+                        30 + (Math.abs(chord.source * 2 - chord.target * 2) * 0.6),
                         ((chord.source * 2 + chord.target * 2) / 2)
                     )
                 );

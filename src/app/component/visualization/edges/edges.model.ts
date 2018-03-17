@@ -29,10 +29,10 @@ export class EdgeDataModel implements GraphData {
     mid: string[];
     pid: string[];
     visible: Boolean = true;
-//     edges: [{
-//         value: any;
-//         marker: Array<string>;
-//         sample: Array<string>;
-//         color: number;
-//    }];
+    //     edges: [{
+    //         value: any;
+    //         marker: Array<string>;
+    //         sample: Array<string>;
+    //         color: number;
+    //    }];
 }

@@ -120,7 +120,7 @@ export class EdgesFormComponent {
         const form = this.form;
         data.graph = GraphEnum.EDGES;
         // if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
-        // if (form.get('pointIntersect').dirty) { dirty |= DirtyEnum.INTERSECT; 
+        // if (form.get('pointIntersect').dirty) { dirty |= DirtyEnum.INTERSECT;
         if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
         form.markAsPristine();
         data.dirtyFlag = dirty;
@@ -128,15 +128,15 @@ export class EdgesFormComponent {
         this.configChange.emit(data);
       });
 
-      this.$latest = Observable.combineLatest([
-          this.$tables,
-          this.$fields,
-          this.$config,
-          this.$graphAConfig,
-          this.$graphBConfig
-        ]);
+    this.$latest = Observable.combineLatest([
+      this.$tables,
+      this.$fields,
+      this.$config,
+      this.$graphAConfig,
+      this.$graphBConfig
+    ]);
 
-      this.$latest.subscribe( this.update.bind(this) );
+    this.$latest.subscribe(this.update.bind(this));
   }
 
   update(v: any): void {
@@ -170,7 +170,7 @@ export class EdgesFormComponent {
   }
   setGenesGenes(): void {
     this.edgeOptions = ['None', 'Genes'];
-    
+
   }
   setGenesPatients(): void {
     this.edgeOptions = ['None', ...this.mutationOptions];

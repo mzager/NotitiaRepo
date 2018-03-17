@@ -76,10 +76,10 @@ export class HeatmapGraph implements ChartObjectInterface {
     }
 
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        throw new Error("Method not implemented.");
+        throw new Error('Method not implemented.');
     }
     updateData(config: GraphConfig, data: any) {
-        console.log("REDRAW");
+        console.log('REDRAW');
         this.config = config as HeatmapConfigModel;
         this.data = data;
         this.removeObjects();
@@ -107,26 +107,26 @@ export class HeatmapGraph implements ChartObjectInterface {
 
         if (horizontal) {
             dendrogram.rotateZ(Math.PI * 0.5);
-            for (let n = 0 ; n < result.dendo.icoord.length; n += 1) {
+            for (let n = 0; n < result.dendo.icoord.length; n += 1) {
                 const x = result.dendo.icoord[n];
                 const y = result.dendo.dcoord[n];
-                dendrogram.add( ChartFactory.linesAllocate(0x029BE5, [
-                    new Vector2( x[0] * .2 - 1, y[0] + 1),
-                    new Vector2( x[1] * .2 - 1, y[1] + 1),
-                    new Vector2( x[2] * .2 - 1, y[2] + 1),
-                    new Vector2( x[3] * .2 - 1, y[3] + 1),
-                    ], {}));
+                dendrogram.add(ChartFactory.linesAllocate(0x029BE5, [
+                    new Vector2(x[0] * .2 - 1, y[0] + 1),
+                    new Vector2(x[1] * .2 - 1, y[1] + 1),
+                    new Vector2(x[2] * .2 - 1, y[2] + 1),
+                    new Vector2(x[3] * .2 - 1, y[3] + 1),
+                ], {}));
             }
         } else {
-            for (let n = 0 ; n < result.dendo.icoord.length; n += 1) {
+            for (let n = 0; n < result.dendo.icoord.length; n += 1) {
                 const x = result.dendo.icoord[n];
                 const y = result.dendo.dcoord[n];
-                dendrogram.add( ChartFactory.linesAllocate(0x029BE5, [
-                    new Vector2( x[0] * .2 - 1, -y[0] - 1),
-                    new Vector2( x[1] * .2 - 1, -y[1] - 1),
-                    new Vector2( x[2] * .2 - 1, -y[2] - 1),
-                    new Vector2( x[3] * .2 - 1, -y[3] - 1),
-                    ], {}));
+                dendrogram.add(ChartFactory.linesAllocate(0x029BE5, [
+                    new Vector2(x[0] * .2 - 1, -y[0] - 1),
+                    new Vector2(x[1] * .2 - 1, -y[1] - 1),
+                    new Vector2(x[2] * .2 - 1, -y[2] - 1),
+                    new Vector2(x[3] * .2 - 1, -y[3] - 1),
+                ], {}));
             }
         }
     }
@@ -153,7 +153,7 @@ export class HeatmapGraph implements ChartObjectInterface {
         this.points = new THREE.Points(geometry, material);
         this.group.add(this.points);
 
-        this.drawDendogram(this.data.y, true);//, this.data.colors[0].length);
+        this.drawDendogram(this.data.y, true);
         this.drawDendogram(this.data.x, false);
         this.onRequestRender.next();
     }
