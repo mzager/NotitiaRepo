@@ -80,16 +80,16 @@ export class WorkbookService {
                             // const found = missingGeneMap.filter(gene => gene.altName !== undefined).map(gene => {
                             //     gene.altName = gene.altName.hugo; return gene;
                             // });
-                        try {
-                            rv.samples = Object.keys(rv.data[0]).filter(keys => keys !== 'HUGO');
-                            rv.markers = rv.data.map(marker => marker['HUGO']);
-                            rv.data = rv.samples.map(keys => {
-                                return rv.data.map(x => {
-                                    const n = Number(x[keys]);
-                                    return (isNaN(n) ? 1 : n);
+                            try {
+                                rv.samples = Object.keys(rv.data[0]).filter(keys => keys !== 'HUGO');
+                                rv.markers = rv.data.map(marker => marker['HUGO']);
+                                rv.data = rv.samples.map(keys => {
+                                    return rv.data.map(x => {
+                                        const n = Number(x[keys]);
+                                        return (isNaN(n) ? 1 : n);
+                                    });
                                 });
-                            });
-                        }catch ( e ) {}
+                            } catch (e) { }
                             // Transpose
                             rv.data = _.zip.apply(_, rv.data);
                             return rv;
@@ -179,18 +179,32 @@ export class WorkbookService {
                                 p[c['PatientID']].push({
                                     'start': toDate(c['StartDate']),
                                     'end': toDate(c['EndDate']),
-                                    'string': Object.keys(c).filter(key => (key.toLowerCase().indexOf('-string') > 0) )
-                                        .map(key => { return {
-                                            key: key.toLowerCase().replace('-string', ''), value: c[key].toLowerCase() }; }),
-                                    'date': Object.keys(c).filter(key => (key.toLowerCase().indexOf('date') > 0) )
-                                        .map(key => { return {
-                                            key: key.toLowerCase().replace('-date', ''), value: toDate(c[key]) }; }),
-                                    'number': Object.keys(c).filter(key => (key.toLowerCase().indexOf('-number') > 0) )
-                                        .map(key => { return { key:
-                                            key.toLowerCase().replace('-number', ''), value: Number(c[key]) }; }),
-                                    'boolean': Object.keys(c).filter(key => (key.toLowerCase().indexOf('-boolean') > 0) )
-                                        .map(key => { return { key:
-                                            key.toLowerCase().replace('-boolean', ''), value: toBool(c[key]) }; }),
+                                    'string': Object.keys(c).filter(key => (key.toLowerCase().indexOf('-string') > 0))
+                                        .map(key => {
+                                            return {
+                                                key: key.toLowerCase().replace('-string', ''), value: c[key].toLowerCase()
+                                            };
+                                        }),
+                                    'date': Object.keys(c).filter(key => (key.toLowerCase().indexOf('date') > 0))
+                                        .map(key => {
+                                            return {
+                                                key: key.toLowerCase().replace('-date', ''), value: toDate(c[key])
+                                            };
+                                        }),
+                                    'number': Object.keys(c).filter(key => (key.toLowerCase().indexOf('-number') > 0))
+                                        .map(key => {
+                                            return {
+                                                key:
+                                                    key.toLowerCase().replace('-number', ''), value: Number(c[key])
+                                            };
+                                        }),
+                                    'boolean': Object.keys(c).filter(key => (key.toLowerCase().indexOf('-boolean') > 0))
+                                        .map(key => {
+                                            return {
+                                                key:
+                                                    key.toLowerCase().replace('-boolean', ''), value: toBool(c[key])
+                                            };
+                                        }),
                                 });
                                 return p;
                             }, {});
