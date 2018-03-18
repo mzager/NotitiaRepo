@@ -105,7 +105,7 @@ export class TimelinesFormComponent implements OnDestroy {
 
   public rv = [0, 100];
   public styleOptions = [TimelinesStyle.NONE, TimelinesStyle.ARCS,
-    TimelinesStyle.TICKS, TimelinesStyle.SYMBOLS];
+  TimelinesStyle.TICKS, TimelinesStyle.SYMBOLS];
   public eventGroups = [];
   public eventTypes = {};
   public patientAttributes = [];
@@ -114,7 +114,7 @@ export class TimelinesFormComponent implements OnDestroy {
   public sortOptions = [];
   public groupOptions = [];
   public $fields: Subject<Array<DataField>> = new Subject();
-  public $events: Subject<Array<{type: string, subtype: string}>> = new Subject();
+  public $events: Subject<Array<{ type: string, subtype: string }>> = new Subject();
   public $options: Subscription;
 
 
@@ -126,12 +126,12 @@ export class TimelinesFormComponent implements OnDestroy {
     this.$fields.next(fields);
   }
 
-  @Input() set events(events: Array<{type: string, subtype: string}>) {
+  @Input() set events(events: Array<{ type: string, subtype: string }>) {
     if (events === null) { return; }
-    if (events.length === 0) { return ; }
+    if (events.length === 0) { return; }
     const groups = _.groupBy(events, 'type');
     const control = <FormArray>this.form.controls['bars'];
-    Object.keys(groups).forEach( group => {
+    Object.keys(groups).forEach(group => {
       const fg = this.fb.group({
         label: [group],
         style: [TimelinesStyle.TICKS],
@@ -145,7 +145,7 @@ export class TimelinesFormComponent implements OnDestroy {
     this.ctrls = control.controls;
     this.eventTypes = groups;
     this.eventGroups = Object.keys(groups).map(lbl => ({
-      label: lbl, events: groups[lbl].map(evt => ({label: evt.subtype}))
+      label: lbl, events: groups[lbl].map(evt => ({ label: evt.subtype }))
     }));
     this.$events.next(this.eventGroups);
   }
@@ -160,7 +160,7 @@ export class TimelinesFormComponent implements OnDestroy {
   form: FormGroup;
 
   rangeChange(): void {
-    this.form.patchValue({range: this.rv}, {onlySelf: true, emitEvent: true});
+    this.form.patchValue({ range: this.rv }, { onlySelf: true, emitEvent: true });
   }
 
   setOptions(options: any): void {
@@ -169,15 +169,15 @@ export class TimelinesFormComponent implements OnDestroy {
     options[0].filter(w => w.type === 'NUMBER');
     const sort = options[1].map(v => ({
       label: v.label,
-      items: v.events.map(w => ({label: w.label, type: 'event'}))
+      items: v.events.map(w => ({ label: w.label, type: 'event' }))
     }));
     sort.unshift({
       label: 'Patient',
-      items: [{label: 'None'}].concat(options[0].filter(w => w.type === 'NUMBER').map(w => Object.assign(w, {type: 'patient'})))
+      items: [{ label: 'None' }].concat(options[0].filter(w => w.type === 'NUMBER').map(w => Object.assign(w, { type: 'patient' })))
     });
     const group = [{
       label: 'Patient',
-      items: [{label: 'None'}].concat(options[0].filter(w => w.type === 'STRING').map(w => Object.assign(w, {type: 'patient'})))
+      items: [{ label: 'None' }].concat(options[0].filter(w => w.type === 'STRING').map(w => Object.assign(w, { type: 'patient' })))
     }];
     this.sortOptions = sort;
     this.groupOptions = group;
@@ -236,7 +236,7 @@ export class TimelinesFormComponent implements OnDestroy {
         this.configChange.emit(data);
       });
 
-      this.$options = Observable.combineLatest(this.$fields, this.$events).subscribe( this.setOptions.bind(this) );
+    this.$options = Observable.combineLatest(this.$fields, this.$events).subscribe(this.setOptions.bind(this));
 
   }
 }

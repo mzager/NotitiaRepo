@@ -7,7 +7,7 @@ export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWo
         .then(result => {
 
             const p = result.map(v => v.p);
-            const e = result.map(v => (v.vital_status === 'dead') ? 1 : 0 );
+            const e = result.map(v => (v.vital_status === 'dead') ? 1 : 0);
             const t = result.map(v => (v.vital_status === 'dead') ?
                 v.days_to_death : v.days_to_last_follow_up)
                 .map(v => (v === null) ? 0 : v);
@@ -16,19 +16,19 @@ export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWo
                 method: 'survival_ll_kaplan_meier',
                 times: t,
                 events: e
-            }).then( (survivalResult) => {
+            }).then((survivalResult) => {
 
-                const result = Object.keys(survivalResult.result.KM_estimate)
+                const results = Object.keys(survivalResult.result.KM_estimate)
                     .map(v => [parseFloat(v), survivalResult.result.KM_estimate[v]])
-                    .sort( (a,b) => a[0]-b[0])
+                    .sort((a, b) => a[0] - b[0]);
 
                 const upper = Object.keys(survivalResult.confidence['KM_estimate_upper_0.95'])
                     .map(v => [parseFloat(v), survivalResult.confidence['KM_estimate_upper_0.95'][v]])
-                    .sort( (a,b) => a[0]-b[0]);
+                    .sort((a, b) => a[0] - b[0]);
 
                 const lower = Object.keys(survivalResult.confidence['KM_estimate_lower_0.95'])
                     .map(v => [parseFloat(v), survivalResult.confidence['KM_estimate_lower_0.95'][v]])
-                    .sort( (a,b) => a[0]-b[0]);
+                    .sort((a, b) => a[0] - b[0]);
 
                 const range = [result[0][0], result[result.length - 1][0]];
                 worker.postMessage({
@@ -39,7 +39,7 @@ export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWo
                             cohorts: [
                                 {
                                     name: 'All',
-                                    result: result,
+                                    result: results,
                                     confidence: {
                                         upper: upper,
                                         lower: lower

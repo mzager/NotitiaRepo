@@ -91,8 +91,8 @@ import * as _ from 'lodash';
 })
 export class PlsFormComponent {
 
-  @Input() set molecularData(tables: Array<string>){
-    this.dataOptions = tables.map( v => ({key: v, label: _.startCase(_.toLower(v))}));
+  @Input() set molecularData(tables: Array<string>) {
+    this.dataOptions = tables.map(v => ({ key: v, label: _.startCase(_.toLower(v)) }));
   }
 
   @Input() set clinicalFields(fields: Array<DataField>) {
@@ -105,7 +105,7 @@ export class PlsFormComponent {
 
   @Input() set config(v: PlsConfigModel) {
     if (v === null) { return; }
-    this.form.patchValue(v, {emitEvent : false});
+    this.form.patchValue(v, { emitEvent: false });
   }
 
   @Output() configChange = new EventEmitter<GraphConfig>();
@@ -114,7 +114,7 @@ export class PlsFormComponent {
   colorOptions: Array<DataField>;
   shapeOptions: Array<DataField>;
   sizeOptions: Array<DataField>;
-  dataOptions: Array<{key: string, label: string}>;
+  dataOptions: Array<{ key: string, label: string }>;
   dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D, DimensionEnum.ONE_D];
 
   byKey(p1: DataField, p2: DataField) {

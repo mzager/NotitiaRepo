@@ -18,7 +18,9 @@ declare var $: any;
   template: `<div>
   <a href='#' class='modalClose' (click)='closeClick()'></a>
   <h1 style = 'font-size: 3rem; font-weight: 300; margin-bottom: 10px; letter-spacing: 3px;'>Cohorts</h1>
-  <h2>Create, Manage and Apply custom cohorts to your visualizations <a href='https://www.youtube.com/embed/XQu8TTBmGhA' target='_blank'><i class='small material-icons modalWatchVideoIcon'>ondemand_video</i>Watch Tutorial</a></h2>
+  <h2>Create, Manage and Apply custom cohorts to your visualizations
+   <a href='https://www.youtube.com/embed/XQu8TTBmGhA' target='_blank'>
+   <i class='small material-icons modalWatchVideoIcon'>ondemand_video</i>Watch Tutorial</a></h2>
   <div class='row'>
     <!-- My Cohorts -->
     <div class='col s3' style='border: 0px solid #EEE; border-right-width: 1px;padding-left: 0px;padding-right: 30px;'>
@@ -59,7 +61,7 @@ declare var $: any;
         <div class='cohortFieldButtons'>
           <a href='#' (click)='fieldAnd(condition)'>And</a> |
           <a href='#' (click)='fieldOr(condition)'>Or</a>
-          <span *ngIf='condition.condition !== "where"'> | 
+          <span *ngIf='condition.condition !== "where"'> |
             <a href='#' (click)='fieldDel(condition)'>Remove</a>
           </span>
         </div>
@@ -84,24 +86,30 @@ export class CohortPanelComponent implements AfterViewInit {
   @Output() queryCohort: EventEmitter<{ database: string, cohort: Cohort }> = new EventEmitter();
   @Output() hide: EventEmitter<any> = new EventEmitter();
 
-  //{ name: string, type: 'number' | 'category', options?: Array<{ name: string, value?: string, min?: number, max?: number }> }
   fields: Array<CohortField>;
   defaultCondition: CohortCondition;
   activeCohort: Cohort;
-  
+
   private _config: GraphConfig;
-  get config():GraphConfig { return this._config; }
+  get config(): GraphConfig { return this._config; }
   @Input() set config(config: GraphConfig) {
-    if (config === null) return;
+    if (config === null) { return; }
     this._config = config;
     this.dataService.getQueryBuilderConfig(config.database).then(result => {
       const fields = result.fields;
-      this.fields = Object.keys(fields).map( key => (fields[key].type === 'number') ? 
-          { key: key, name: fields[key].name, type: fields[key].type } : 
-          { key: key, name: fields[key].name, type: fields[key].type, options: fields[key].options }
+      this.fields = Object.keys(fields).map(key => (fields[key].type === 'number') ?
+        { key: key, name: fields[key].name, type: fields[key].type } :
+        { key: key, name: fields[key].name, type: fields[key].type, options: fields[key].options }
       );
       const field = this.fields[0];
-      this.defaultCondition = { field: field, pids: [], condition: 'where', min: null, max: null, value: (field.type==='category') ? field.options[0] : null };
+      this.defaultCondition = {
+        field: field,
+        pids: [],
+        condition: 'where',
+        min: null,
+        max: null,
+        value: (field.type === 'category') ? field.options[0] : null
+      };
       this.resetForm();
     });
   }
@@ -112,18 +120,18 @@ export class CohortPanelComponent implements AfterViewInit {
     this.hide.emit();
   }
 
-  isValid(): boolean { 
+  isValid(): boolean {
     return true;
   }
 
-  saveClick() { 
-    if (!this.isValid()) { 
+  saveClick() {
+    if (!this.isValid()) {
       return;
     }
-    this.addCohort.emit({cohort: this.activeCohort, database: this.config.database});
+    this.addCohort.emit({ cohort: this.activeCohort, database: this.config.database });
   }
-  deleteClick(cohort: Cohort):void { 
-    this.delCohort.emit({database: this.config.database, cohort: cohort});
+  deleteClick(cohort: Cohort): void {
+    this.delCohort.emit({ database: this.config.database, cohort: cohort });
   }
   resetForm(): void {
     this.activeCohort.n = '';

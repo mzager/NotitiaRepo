@@ -24,12 +24,11 @@ export class ParallelCoordsGraph implements ChartObjectInterface {
 
     // Emitters
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
-    public onConfigEmit: EventEmitter<{type: GraphConfig}> = new EventEmitter<{ type: GraphConfig }>();
+    public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{ type: GraphConfig }>();
     public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
         new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
-        
-    private overMaterial = new THREE.LineBasicMaterial( { color: 0x039BE5 }) ;
-    private outMaterial = new THREE.LineBasicMaterial( { color: 0xDDDDDD }) ;
+    private overMaterial = new THREE.LineBasicMaterial({ color: 0x039BE5 });
+    private outMaterial = new THREE.LineBasicMaterial({ color: 0xDDDDDD });
 
 
     // Chart Elements
@@ -68,7 +67,7 @@ export class ParallelCoordsGraph implements ChartObjectInterface {
         this.view.controls.enableRotate = true;
         this.group = new THREE.Group();
         this.view.scene.add(this.group);
-        this.lineMaterial = new THREE.LineBasicMaterial( { color: 0x039BE5 });
+        this.lineMaterial = new THREE.LineBasicMaterial({ color: 0x039BE5 });
         return this;
     }
 
@@ -77,7 +76,7 @@ export class ParallelCoordsGraph implements ChartObjectInterface {
         this.removeObjects();
     }
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        throw new Error("Method not implemented.");
+        throw new Error('Method not implemented.');
     }
     updateData(config: GraphConfig, data: any) {
         this.config = config as ParallelCoordsConfigModel;
@@ -89,20 +88,20 @@ export class ParallelCoordsGraph implements ChartObjectInterface {
         if (this.config.dirtyFlag & DirtyEnum.COLOR) {
 
             const lines = this.geneLines;
-            this.meshes.forEach( v => {
+            this.meshes.forEach(v => {
                 if (data.pointColor.hasOwnProperty(v.userData.gene)) {
                     const color = data.pointColor[v.userData.gene];
-                    (v as THREE.Mesh).material = new THREE.MeshBasicMaterial( {color: color } );
+                    (v as THREE.Mesh).material = new THREE.MeshBasicMaterial({ color: color });
                 } else {
-                    (v as THREE.Mesh).material = new THREE.MeshBasicMaterial( {color: 0xDDDDDD } );
+                    (v as THREE.Mesh).material = new THREE.MeshBasicMaterial({ color: 0xDDDDDD });
                 }
             });
-            lines.forEach( v => {
+            lines.forEach(v => {
                 if (data.pointColor.hasOwnProperty(v.userData.gene)) {
                     const color = data.pointColor[v.userData.gene];
-                    (v as THREE.Line).material = new THREE.LineBasicMaterial( { color: color });
+                    (v as THREE.Line).material = new THREE.LineBasicMaterial({ color: color });
                 } else {
-                    (v as THREE.Line).material = new THREE.LineBasicMaterial( { color: 0xDDDDDD });
+                    (v as THREE.Line).material = new THREE.LineBasicMaterial({ color: 0xDDDDDD });
                 }
             });
             this.onRequestRender.next();
@@ -137,25 +136,25 @@ export class ParallelCoordsGraph implements ChartObjectInterface {
             // (mesh.geometry as Rect)
 
             const geometry = new THREE.Geometry();
-            geometry.vertices.push( new THREE.Vector3(gene.sPos.x, gene.sPos.y, 0) );
-            geometry.vertices.push( new THREE.Vector3(gene.ePos.x, gene.ePos.y, 0) );
+            geometry.vertices.push(new THREE.Vector3(gene.sPos.x, gene.sPos.y, 0));
+            geometry.vertices.push(new THREE.Vector3(gene.ePos.x, gene.ePos.y, 0));
 
-            const geo = new THREE.BoxGeometry( 1, 1, 1);
-            const mat = new THREE.MeshBasicMaterial( {color: 0x039BE5 } );
+            const geo = new THREE.BoxGeometry(1, 1, 1);
+            const mat = new THREE.MeshBasicMaterial({ color: 0x039BE5 });
             const mesh = new THREE.Mesh(geo, mat);
             mesh.userData = gene;
             mesh.position.x = gene.sPos.x;
             mesh.position.y = gene.sPos.y;
 
-            const geneLine = new THREE.Line( geometry, this.lineMaterial );
+            const geneLine = new THREE.Line(geometry, this.lineMaterial);
             geneLine.userData = gene;
             this.meshes.push(mesh);
             this.geneLines.push(geneLine);
-            this.group.add( geneLine );
-            this.group.add( mesh );
+            this.group.add(geneLine);
+            this.group.add(mesh);
         });
 
-       links.forEach( (link, i) => {
+        links.forEach((link, i) => {
 
             // Adjust Height According To Size - So the tall ones project out both from the ring and also from the center
             // const curve = new THREE.CatmullRomCurve3( [
@@ -164,7 +163,7 @@ export class ParallelCoordsGraph implements ChartObjectInterface {
             //     new THREE.Vector3( link.tPos.x, link.tPos.y, 0 ),
             // ] );
             // curve.type = 'catmullrom';
-            //curve.tension = 0.9; //link.tension; // * 0.1; //0.9;
+            // curve.tension = 0.9; //link.tension; // * 0.1; //0.9;
 
             // const curve = new THREE.CubicBezierCurve3(
             //     new THREE.Vector3( link.sPos.x, link.sPos.y, 0 ),
@@ -179,28 +178,28 @@ export class ParallelCoordsGraph implements ChartObjectInterface {
             // );
 
             let curve = new THREE.QuadraticBezierCurve3(
-                new THREE.Vector3( link.sPos.x, link.sPos.y, 0 ),
-                new THREE.Vector3( 0, 0, 100 ),
-                new THREE.Vector3( link.tPos.x, link.tPos.y, 0 ),
+                new THREE.Vector3(link.sPos.x, link.sPos.y, 0),
+                new THREE.Vector3(0, 0, 100),
+                new THREE.Vector3(link.tPos.x, link.tPos.y, 0),
             );
 
             const geometry = new THREE.Geometry();
-            link.overGeometry = geometry.vertices = curve.getPoints( 50 );
+            link.overGeometry = geometry.vertices = curve.getPoints(50);
 
             curve = new THREE.QuadraticBezierCurve3(
-                new THREE.Vector3( link.sPos.x, link.sPos.y, 0 ),
-                new THREE.Vector3( 0, 0, 0 ),
-                new THREE.Vector3( link.tPos.x, link.tPos.y, 0 ),
+                new THREE.Vector3(link.sPos.x, link.sPos.y, 0),
+                new THREE.Vector3(0, 0, 0),
+                new THREE.Vector3(link.tPos.x, link.tPos.y, 0),
             );
-            link.outGeometry = geometry.vertices = curve.getPoints( 50 );
+            link.outGeometry = geometry.vertices = curve.getPoints(50);
 
 
-            const line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: 0xDDDDDD }) );
+            const line = new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: 0xDDDDDD }));
             line.userData = link;
-            
+
             this.chords.push(line);
-            this.group.add( line );
-       });
+            this.group.add(line);
+        });
 
     }
 
@@ -218,12 +217,12 @@ export class ParallelCoordsGraph implements ChartObjectInterface {
         if (intersects.length > 0) {
 
             const gene = intersects[0].object.userData.gene;
-            this.chords.forEach( v => {
-                if ( (gene === v.userData.source) || (gene === v.userData.target) ) {
+            this.chords.forEach(v => {
+                if ((gene === v.userData.source) || (gene === v.userData.target)) {
                     v.material = this.overMaterial;
                     (v.geometry as THREE.Geometry).vertices = v.userData.overGeometry;
                     (v.geometry as THREE.Geometry).verticesNeedUpdate = true;
-                }else {
+                } else {
                     v.material = this.outMaterial;
                     (v.geometry as THREE.Geometry).vertices = v.userData.outGeometry;
                     (v.geometry as THREE.Geometry).verticesNeedUpdate = true;

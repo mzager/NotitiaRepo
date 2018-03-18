@@ -13,7 +13,6 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 <form [formGroup]='form' novalidate>
-
 </form>
   `
 })
@@ -28,8 +27,7 @@ export class SurvivalFormComponent implements OnDestroy {
 
   @Output() configChange = new EventEmitter<GraphConfig>();
 
- 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void { }
 
   constructor(private fb: FormBuilder) {
 

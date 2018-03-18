@@ -9,10 +9,10 @@ import { Injectable, EventEmitter, Output } from '@angular/core';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
 
 export class HistogramGraph implements ChartObjectInterface {
-    
+
     // Emitters
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
-    public onConfigEmit: EventEmitter<{type: GraphConfig}> = new EventEmitter<{ type: GraphConfig }>();
+    public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{ type: GraphConfig }>();
     public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
         new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
 
@@ -22,7 +22,7 @@ export class HistogramGraph implements ChartObjectInterface {
 
     }
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        throw new Error("Method not implemented.");
+        throw new Error('Method not implemented.');
     }
     updateData(config: GraphConfig, data: any) {
 

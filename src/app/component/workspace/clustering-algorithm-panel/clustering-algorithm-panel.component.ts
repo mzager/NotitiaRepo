@@ -97,7 +97,7 @@ export class ClusteringAlgorithmPanelComponent implements AfterViewInit {
     const kmeans = ML.Clust.kmeans(data, this.form.getRawValue().nClusters);
     const clusts = kmeans.clusters;
 
-    const colors =  [0x039BE5, 0x4A148C, 0x880E4F, 0x0D47A1, 0x00B8D4,
+    const colors = [0x039BE5, 0x4A148C, 0x880E4F, 0x0D47A1, 0x00B8D4,
       0xAA00FF, 0x6200EA, 0x304FFE, 0x2196F3, 0x0091EA,
       0x00B8D4, 0x00BFA5, 0x64DD17, 0xAEEA00, 0xFFD600, 0xFFAB00, 0xFF6D00, 0xDD2C00,
       0x5D4037, 0x455A64];

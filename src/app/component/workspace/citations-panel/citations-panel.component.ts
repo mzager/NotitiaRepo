@@ -24,8 +24,6 @@ declare var $: any;
     <h1>Citations</h1>
     <h2>Lorum Ipsum</h2>
 
-  
-
     <!--
     <br /> Once selected, your cohort will appear in the geneset dropdown of the settings panel. </h2>
     -->
@@ -34,15 +32,11 @@ declare var $: any;
 })
 export class CitationsPanelComponent implements AfterViewInit, OnDestroy {
 
- 
     // Attributes
     @Output() hide = new EventEmitter<any>();
-    
 
     ngOnDestroy(): void { }
-    ngAfterViewInit(): void {}
+    ngAfterViewInit(): void { }
     constructor(private cd: ChangeDetectorRef, private dataService: DataService, public ms: ModalService) {
     }
-
-
 }
