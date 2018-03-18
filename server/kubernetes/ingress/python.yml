@@ -12,6 +12,13 @@ spec:
       containers:
       - name: notitia-python
         image: canaantt/notitia-python:v2
+        resources:
+          limits:
+            cpu: "100"
+            memroy: "250Mi"
+          requests:
+            cpu: "100"
+            memory: "250Mi"
         ports:
         - name: python-port
           containerPort: 80
