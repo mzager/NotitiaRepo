@@ -70,22 +70,22 @@ export class ChartControls {
         this.mouseDown = Observable.fromEvent(container, 'mousedown');
         this.keyDown = Observable.fromEvent(document, 'keydown');
         this.keyUp = Observable.fromEvent(document, 'keyup');
-        this.mouseDrag = this.mouseDown.filter( (e => {
+        this.mouseDrag = this.mouseDown.filter((e => {
             return true;
         }).bind(this))
-            .map( e => this.mouseMove.takeUntil(this.mouseUp) ).concatAll();
+            .map(e => this.mouseMove.takeUntil(this.mouseUp)).concatAll();
 
         // Branch Events Based on Tool Selected
         this.toolDrag = this.mouseDrag.withLatestFrom(this.tool)
-            .filter( (v: any, i: number) => (v[1] === ToolEnum.MOVE)).map(v => v[0]);
+            .filter((v: any, i: number) => (v[1] === ToolEnum.MOVE)).map(v => v[0]);
         this.toolZoom = this.mouseDrag.withLatestFrom(this.tool)
-            .filter( (v: any, i: number) => (v[1] === ToolEnum.ZOOM)).map(v => v[0]);
+            .filter((v: any, i: number) => (v[1] === ToolEnum.ZOOM)).map(v => v[0]);
         this.toolSelect = this.mouseDrag.withLatestFrom(this.tool)
-            .filter( (v: any, i: number) => (v[1] === ToolEnum.SELECT)).map(v => v[0]);
+            .filter((v: any, i: number) => (v[1] === ToolEnum.SELECT)).map(v => v[0]);
         this.toolRotate = this.mouseDrag.withLatestFrom(this.tool)
-            .filter( (v: any, i: number) => (v[1] === ToolEnum.ROTATE)).map(v => v[0]);
+            .filter((v: any, i: number) => (v[1] === ToolEnum.ROTATE)).map(v => v[0]);
 
-        this.toolDrag.subscribe( (e: MouseEvent) => {
+        this.toolDrag.subscribe((e: MouseEvent) => {
             // this.mouse.x = ( (e.clientX - this.rect.left) / this.rect.width ) * 2 - 1;
             // this.mouse.y = - ( (e.clientY - this.rect.top) / this.rect.height ) * 2 + 1;
             // this.raycaster.setFromCamera( this.mouse, this.camera );
@@ -96,17 +96,17 @@ export class ChartControls {
             // this.render.next();
         });
 
-        this.toolRotate.subscribe( (e: MouseEvent) => {
-            //this.target.rotateY( e.movementX * -0.01 );
-            //this.target.rotateX( e.movementY * -0.01 );
+        this.toolRotate.subscribe((e: MouseEvent) => {
+            // this.target.rotateY( e.movementX * -0.01 );
+            // this.target.rotateX( e.movementY * -0.01 );
             // let rotWorldMatrix = new THREE.Matrix4();
             // rotWorldMatrix.makeRotationAxis(new THREE.Vector3(1, 0, 0).normalize(), e.movementX * 0.01);
             // rotWorldMatrix = rotWorldMatrix.multiply(this.selected.matrix);
             // this.selected.matrix = rotWorldMatrix;
             // this.selected.parent.rotation.setFromRotationMatrix(this.selected.matrix, this.selected.rotation.order);
-            //this.render.next();
+            // this.render.next();
         });
-        this.toolZoom.subscribe( (e: MouseEvent) => {
+        this.toolZoom.subscribe((e: MouseEvent) => {
         });
 
     }

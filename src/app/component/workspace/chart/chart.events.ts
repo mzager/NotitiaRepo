@@ -37,7 +37,7 @@ export class ChartEvents {
     private container: HTMLElement;
     public workspaceConfig: WorkspaceConfigModel;
 
-    onKeyPress(e: any): void { 
+    onKeyPress(e: any): void {
         console.log('KEY PRESS');
     }
     onResize(e: any): void {

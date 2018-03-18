@@ -44,7 +44,7 @@ export class DragSelectionControl {
     }
 
     public create(events: ChartEvents, view: VisualizationView, meshes: Array<THREE.Object3D>,
-        onRequestRender: EventEmitter<GraphEnum>, onSelect: EventEmitter<{ type: EntityTypeEnum; ids: string[]; }> ): void {
+        onRequestRender: EventEmitter<GraphEnum>, onSelect: EventEmitter<{ type: EntityTypeEnum; ids: string[]; }>): void {
         // this._enabled = false;
         // this.view = view;
         // this.meshes = meshes;
@@ -103,14 +103,14 @@ export class DragSelectionControl {
             });
 
             const selected = samples
-                .filter(v => v.position.distanceTo(position) < radius );
+                .filter(v => v.position.distanceTo(position) < radius);
 
             const ids = selected
-                .map( v => v.userData.id);
+                .map(v => v.userData.id);
 
             this.view.scene.remove(this.selector);
             this.view.controls.enabled = true;
-            this.onSelect.next({type: EntityTypeEnum.SAMPLE, ids: ids});
+            this.onSelect.next({ type: EntityTypeEnum.SAMPLE, ids: ids });
             this.onRequestRender.next();
         }
     }

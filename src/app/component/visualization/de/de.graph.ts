@@ -16,7 +16,7 @@ export class DeGraph implements ChartObjectInterface {
 
     // Emitters
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
-    public onConfigEmit: EventEmitter<{type: GraphConfig}> = new EventEmitter<{ type: GraphConfig }>();
+    public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{ type: GraphConfig }>();
     public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
         new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
 
@@ -34,7 +34,7 @@ export class DeGraph implements ChartObjectInterface {
         return this;
     }
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        throw new Error("Method not implemented.");
+        throw new Error('Method not implemented.');
     }
     updateData(config: GraphConfig, data: any) {
     }
@@ -66,13 +66,13 @@ export class DeGraph implements ChartObjectInterface {
 
     }
     destroy() {
-        this.meshes.forEach(v => this.container.remove(v) );
+        this.meshes.forEach(v => this.container.remove(v));
         this.meshes.length = 0;
     }
 
     // @Memoize()
     private colorFactory(color): THREE.Material {
-        const rv =  new THREE.MeshPhongMaterial( {color: color, specular: color, shininess: 100} );
+        const rv = new THREE.MeshPhongMaterial({ color: color, specular: color, shininess: 100 });
         return rv;
     }
     private shapeFactory(shape): THREE.Geometry {
@@ -113,7 +113,7 @@ export class DeGraph implements ChartObjectInterface {
     }
 
     // Lifecycle Methods
-    constructor() {}
+    constructor() { }
     // constructor() {
     //     this.sizes = [];
     //     this.shapes = [];

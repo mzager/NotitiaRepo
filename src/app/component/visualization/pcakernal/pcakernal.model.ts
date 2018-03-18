@@ -41,7 +41,6 @@ export class PcaKernalConfigModel extends GraphConfig {
     pcz = 3;
 }
 
-
 export interface PcaKernalDataModel extends GraphData {
     result: Array<Array<number>>;
     resultScaled: Array<Array<number>>;

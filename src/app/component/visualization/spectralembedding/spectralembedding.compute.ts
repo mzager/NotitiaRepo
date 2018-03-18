@@ -35,4 +35,3 @@ export const spectralEmbeddingCompute = (config: SpectralEmbeddingConfigModel, w
             });
     });
 };
-

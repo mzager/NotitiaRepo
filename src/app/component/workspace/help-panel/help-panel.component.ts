@@ -60,10 +60,10 @@ export class HelpPanelComponent implements AfterViewInit, OnDestroy {
   desc = '';
   url = '';
   urlparagraph = '';
-  attrs: Array < { name: string, type: string, desc: string } > = [];
-  params: Array < { name: string, type: string, desc: string } > = [];
-  citations: Array < { name: string, desc: string, url: string } > = [];
-  tutorial: Array < { desc: string, url: string} > = [];
+  attrs: Array<{ name: string, type: string, desc: string }> = [];
+  params: Array<{ name: string, type: string, desc: string }> = [];
+  citations: Array<{ name: string, desc: string, url: string }> = [];
+  tutorial: Array<{ desc: string, url: string }> = [];
 
 
   @Input() set config(config: GraphConfig) {

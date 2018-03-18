@@ -103,7 +103,7 @@ export class PcaIncrementalFormComponent extends AbstractScatterForm {
       whiten: [],
       batch_size: [],
       copy: []
-    } );
+    });
 
     this.registerFormChange();
   }

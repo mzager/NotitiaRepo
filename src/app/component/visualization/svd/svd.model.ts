@@ -32,5 +32,4 @@ export interface SvdDataModel extends GraphData {
     // explainedVariance: any;
     // cumulativeVariance: any;
     // standardDeviations: any;
-    
 }

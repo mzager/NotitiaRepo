@@ -94,9 +94,6 @@ export class ChartUtil {
         return vector;
     }
 
-
-
-
     public static getVisibleMeshes(view: VisualizationView, parent: THREE.Group = null): Array<THREE.Object3D> {
         const frustum = new THREE.Frustum();
         const cameraViewProjectionMatrix = new THREE.Matrix4();

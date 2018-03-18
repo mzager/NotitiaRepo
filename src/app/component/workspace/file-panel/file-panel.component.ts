@@ -2,8 +2,10 @@ import { INSERT_ANNOTATION } from './../../../action/graph.action';
 import { StatsInterface } from './../../../model/stats.interface';
 import { FormBuilder } from '@angular/forms';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { Component, ComponentFactoryResolver, Input, Output, ViewContainerRef,
-  ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component, ComponentFactoryResolver, Input, Output, ViewContainerRef,
+  ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild
+} from '@angular/core';
 import { Legend } from 'app/model/legend.model';
 
 
@@ -54,7 +56,7 @@ export class FilePanelComponent {
     { 'name': 'Uterine carcinosarcoma', 'disease': 'ucs', 'img': 'DSuterine.png' },
     { 'name': 'Uveal melanoma', 'disease': 'uvm', 'img': 'DSeye.png' }
     // { 'name': 'AML Krakow', 'disease': 'ek', 'img': 'DSblood.png' }
-  ].sort( (a, b) => a.img.toUpperCase() < b.img.toUpperCase() ? -1 : 1 );
+  ].sort((a, b) => a.img.toUpperCase() < b.img.toUpperCase() ? -1 : 1);
 
   uploadExcelClick(): void {
     this.uploadExcel.emit();
@@ -63,7 +65,7 @@ export class FilePanelComponent {
   uploadHubClick(): void {
     window.location.href = 'https://dev.oncoscape.sttrcancer.io/upload/#/landing';
   }
-  closeClick(): void { 
+  closeClick(): void {
     this.hide.emit();
   }
   constructor() {

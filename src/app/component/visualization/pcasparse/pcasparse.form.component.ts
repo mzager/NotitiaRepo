@@ -67,7 +67,6 @@ import * as _ from 'lodash';
       </select>
     </label>
   </div>
-
 </form>
   `
 })

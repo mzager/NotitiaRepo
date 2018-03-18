@@ -22,7 +22,7 @@ export class KmeansGraph implements ChartObjectInterface {
 
     // Emitters
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
-    public onConfigEmit: EventEmitter<{type: GraphConfig}> = new EventEmitter<{ type: GraphConfig }>();
+    public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{ type: GraphConfig }>();
     public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
         new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
 
@@ -68,9 +68,9 @@ export class KmeansGraph implements ChartObjectInterface {
 
     }
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        throw new Error("Method not implemented.");
+        throw new Error('Method not implemented.');
     }
-    updateData( config: GraphConfig, data: any) {
+    updateData(config: GraphConfig, data: any) {
         this.config = config as KmeansConfigModel;
         this.data = data;
         this.removeObjects();
@@ -144,12 +144,12 @@ export class KmeansGraph implements ChartObjectInterface {
             });
 
             const selected = samples
-                .filter(v => v.position.distanceTo(position) < radius );
+                .filter(v => v.position.distanceTo(position) < radius);
 
             const ids = selected
-                .map( v => v.userData.id);
+                .map(v => v.userData.id);
 
-            this.onSelect.next({type: EntityTypeEnum.SAMPLE, ids: ids});
+            this.onSelect.next({ type: EntityTypeEnum.SAMPLE, ids: ids });
             this.view.scene.remove(this.selector);
             this.view.controls.enabled = true;
             this.onRequestRender.next();

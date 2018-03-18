@@ -69,7 +69,7 @@ export class PathwaysGraph implements ChartObjectInterface {
         this.removeObjects();
     }
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        throw new Error("Method not implemented.");
+        throw new Error('Method not implemented.');
     }
     updateData(config: GraphConfig, data: any) {
         this.config = config as PathwaysConfigModel;
@@ -132,7 +132,7 @@ export class PathwaysGraph implements ChartObjectInterface {
                 if (w === 0 || h === 0) { return null; }
                 const label = (node.label) ? node.label[0].text : '';
                 // if (node.hasOwnProperty('glyph')) { this.processBranch(node.glyph); }
-                return { shape: PathwaysFactory.createNode(node.class, w, h, x, y), color: node.color, label: label};
+                return { shape: PathwaysFactory.createNode(node.class, w, h, x, y), color: node.color, label: label };
             }).filter(v => v);
 
         this.meshes = shapes.map(shape => {

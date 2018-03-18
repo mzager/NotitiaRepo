@@ -68,7 +68,7 @@ export class TimelinesGraph implements ChartObjectInterface {
         }
     }
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        throw new Error("Method not implemented.");
+        throw new Error('Method not implemented.');
     }
     updateData(config: GraphConfig, data: any) {
         this.config = config as TimelinesConfigModel;
@@ -101,7 +101,7 @@ export class TimelinesGraph implements ChartObjectInterface {
         this.patients = [];
         this.attrs = new THREE.Group();
         this.lines = new THREE.Group();
-        
+
         this.view.controls.enableRotate = false;
         this.view.controls.reset();
         this.view.controls.maxZoom = 1;
@@ -120,11 +120,11 @@ export class TimelinesGraph implements ChartObjectInterface {
         const e = scale(event.end);
         const w = Math.round(e - s);
         const mesh = new THREE.Mesh(
-            new THREE.PlaneGeometry( (w < 1) ? 1 : w, barHeight * 0.3 ),
+            new THREE.PlaneGeometry((w < 1) ? 1 : w, barHeight * 0.3),
             ChartFactory.getColorPhong(event.color)
         );
         const yPos = (rowHeight - (bar * barHeight)) - 2;
-        mesh.position.set(s + (w * 0.5), yPos , 0);
+        mesh.position.set(s + (w * 0.5), yPos, 0);
         mesh.userData = event;
         group.add(mesh);
         this.meshes.push(mesh);
@@ -138,8 +138,8 @@ export class TimelinesGraph implements ChartObjectInterface {
             const c = (Math.abs(e - s) * 0.5) + Math.min(e, s);
             const yPos = (rowHeight - (bar * barHeight)) - 2;
             const mesh = ChartFactory.lineAllocateCurve(event.color,
-                new THREE.Vector2(s, yPos - 2 ),
-                new THREE.Vector2(e, yPos - 2 ),
+                new THREE.Vector2(s, yPos - 2),
+                new THREE.Vector2(e, yPos - 2),
                 new THREE.Vector2(c, yPos + 2)
             );
             // mesh.material =  new MeshLineMaterial({
@@ -152,7 +152,7 @@ export class TimelinesGraph implements ChartObjectInterface {
         } else {
             const s = scale(event.start);
             const yPos = (rowHeight - (bar * barHeight)) - 2;
-            const mesh = ChartFactory.lineAllocate(event.color, new Vector2(s, yPos - 2), new Vector2(s, yPos + 2))
+            const mesh = ChartFactory.lineAllocate(event.color, new Vector2(s, yPos - 2), new Vector2(s, yPos + 2));
             mesh.userData = event;
             group.add(mesh);
             this.meshes.push(mesh);
@@ -177,9 +177,9 @@ export class TimelinesGraph implements ChartObjectInterface {
 
         if (event.start !== event.end) {
             const triangleGeometry = new THREE.Geometry();
-            triangleGeometry.vertices.push(new THREE.Vector3( 0.0,  1.8,  0.0));
+            triangleGeometry.vertices.push(new THREE.Vector3(0.0, 1.8, 0.0));
             triangleGeometry.vertices.push(new THREE.Vector3(-1.8, -1.8, 0.0));
-            triangleGeometry.vertices.push(new THREE.Vector3( 1.8, -1.8, 0.0));
+            triangleGeometry.vertices.push(new THREE.Vector3(1.8, -1.8, 0.0));
             triangleGeometry.faces.push(new THREE.Face3(0, 1, 2));
             const triangle = new THREE.Mesh(triangleGeometry, ChartFactory.getColorBasic(event.color));
             triangle.userData = event;
@@ -190,22 +190,25 @@ export class TimelinesGraph implements ChartObjectInterface {
     }
     addAttrs(rowHeight, rowCount, pidMap): void {
         const d = this.data;
-        this.data.result.attrs.pids.forEach( (pid, pidIndex) => {
+        this.data.result.attrs.pids.forEach((pid, pidIndex) => {
             const rowIndex = pidMap[pid];
             const yPos = (rowHeight * rowIndex) - (rowHeight * -0.5);
-            this.data.result.attrs.attrs.forEach( (attr, attrIndex) => {
+            this.data.result.attrs.attrs.forEach((attr, attrIndex) => {
                 const value = attr.values[pidIndex].label;
                 const color = attr.values[pidIndex].color;
                 const xPos = -500 - (attrIndex * rowHeight);
                 const mesh = new THREE.Mesh(
-                    new THREE.PlaneGeometry( rowHeight - 2, rowHeight - 2 ),
+                    new THREE.PlaneGeometry(rowHeight - 2, rowHeight - 2),
                     ChartFactory.getColorPhong(color)
                 );
-                mesh.position.set(xPos - (rowHeight * 0.5) - 1, yPos , 10);
-                mesh.userData = { data : {
-                    type: 'attr',
-                    field: attr.prop.replace(/_/gi, ' '),
-                    value: (value !== null) ? value.toString() : 'NA' } };
+                mesh.position.set(xPos - (rowHeight * 0.5) - 1, yPos, 10);
+                mesh.userData = {
+                    data: {
+                        type: 'attr',
+                        field: attr.prop.replace(/_/gi, ' '),
+                        value: (value !== null) ? value.toString() : 'NA'
+                    }
+                };
                 this.attrs.add(mesh);
                 this.meshes.push(mesh);
             });
@@ -253,8 +256,8 @@ export class TimelinesGraph implements ChartObjectInterface {
         let pts: Array<any> = this.data.result.patients;
         pts = Object.keys(pts).map(v => pts[v]);
 
-        const barHeight = 4; //bars.reduce( (p,c) => p = Math.max(p, c.row), -Infinity) + 1;
-        const barLayout = bars.filter(v => v.style  !== 'None').sort( (a, b) => a.z - b.z).sort( (a, b) => a.row - b.row);
+        const barHeight = 4; // bars.reduce( (p,c) => p = Math.max(p, c.row), -Infinity) + 1;
+        const barLayout = bars.filter(v => v.style !== 'None').sort((a, b) => a.z - b.z).sort((a, b) => a.row - b.row);
         let track = -1;
         let lastRow = -1;
         for (let i = 0; i < barLayout.length; i++) {
@@ -295,14 +298,14 @@ export class TimelinesGraph implements ChartObjectInterface {
 
         // Patients + PID MAP
         const pidMap: any = {};
-        pts.forEach( (patient, i) => {
+        pts.forEach((patient, i) => {
             pidMap[patient[0].p] = i;
             const group = new THREE.Group();
             this.patients.push(group);
             this.view.scene.add(group);
             group.position.setY(i * rowHeight);
-            barLayout.forEach( bl => {
-                const barEvents = patient.filter( p => p.type === bl.label);
+            barLayout.forEach(bl => {
+                const barEvents = patient.filter(p => p.type === bl.label);
                 barEvents.forEach(event => {
                     event.data.type = 'event';
                     event.data.id = patient[0].p;
@@ -330,9 +333,9 @@ export class TimelinesGraph implements ChartObjectInterface {
 
         // Reset Controls
         this.view.controls.reset();
-        requestAnimationFrame( () => {
+        requestAnimationFrame(() => {
             console.log(rowHeight * rowCount);
-            this.view.controls.pan(0, (rowHeight * rowCount) );
+            this.view.controls.pan(0, (rowHeight * rowCount));
             this.view.controls.dollyOut(3);
             this.view.controls.update();
         });
@@ -370,8 +373,8 @@ export class TimelinesGraph implements ChartObjectInterface {
                         }
                         return p;
                     }, '<span style="font-weight:700;font-size:1rem;color:#FFF;">' + hit[0].object.userData.subtype + '</span><br />');
-                    this.tooltips.innerHTML = '<div style="width:auto;background:rgba(0,0,0,.8);font-size:.9rem;color:#DDD;padding:5px;border-radius:' +
-                        '3px;z-index:9999;position:absolute;left:' +
+                    this.tooltips.innerHTML = '<div style="width:auto;background:rgba(0,0,0,.8);font-size:.9rem;color:#DDD;' +
+                        'padding:5px;border-radius:3px;z-index:9999;position:absolute;left:' +
                         xPos + 'px;top:' +
                         yPos + 'px;">' +
                         tip + '</div>';
@@ -379,10 +382,10 @@ export class TimelinesGraph implements ChartObjectInterface {
                 if (data.type === 'attr') {
                     const tip = data.field + ': ' + data.value;
                     this.tooltips.innerHTML = '<div style="width:auto;background:rgba(255,255,255,.8);color:#000;' +
-                    'padding:5px;border-radius:3px;z-index:9999;position:absolute;left:' +
-                    xPos + 'px;top:' +
-                    yPos + 'px;">' +
-                    tip + '</div>';
+                        'padding:5px;border-radius:3px;z-index:9999;position:absolute;left:' +
+                        xPos + 'px;top:' +
+                        yPos + 'px;">' +
+                        tip + '</div>';
                 }
             } catch (e) {
                 console.log(e);
