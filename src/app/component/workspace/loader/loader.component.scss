@@ -91,7 +91,6 @@ $box-p2: 3px;
     border-top-color: #029BE5;
     -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
-    // box-shadow: $box-p1 $box-p2 #029BE5;
 }
 .loader-animation:before {
     content: "";
@@ -105,7 +104,6 @@ $box-p2: 3px;
     border-top-color: #72c4f0;
     -webkit-animation: spin 3s linear infinite;
     animation: spin 3s linear infinite;
-    // box-shadow: $box-p1 $box-p2 #72c4f0;
 }
 .loader-animation:after {
     content: "";
