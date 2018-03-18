@@ -14,9 +14,9 @@ export interface State {
 }
 
 const initialState: State = {
-    selectedTool : e.ToolEnum.MOVE,
-    selectedGraph : e.GraphEnum.GRAPH_A,
-    selectedConfig : null
+    selectedTool: e.ToolEnum.MOVE,
+    selectedGraph: e.GraphEnum.GRAPH_A,
+    selectedConfig: null
 };
 
 export function reducer(state = initialState, action: UnsafeAction): State {

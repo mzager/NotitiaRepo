@@ -12,7 +12,7 @@ export interface State {
     tables: Array<DataTable>;
     genesets: Array<any>;
     cohorts: Array<any>;
-    events: Array<{type: string, subtype: string}>;
+    events: Array<{ type: string, subtype: string }>;
 }
 
 const initialState: State = {
@@ -32,10 +32,10 @@ export function reducer(state = initialState, action: Action): State {
             return Object.assign({}, state, { dataset: dla.dataset, fields: dla.fields, tables: dla.tables, events: dla.events });
         case data.DATA_UPDATE_COHORTS:
             const duc: DataUpdateCohortsAction = action as DataUpdateCohortsAction;
-            return Object.assign({}, state, {cohorts: duc.payload});
+            return Object.assign({}, state, { cohorts: duc.payload });
         case data.DATA_UPDATE_GENESETS:
             const dug: DataUpdateCohortsAction = action as DataUpdateCohortsAction;
-            return Object.assign({}, state, {genesets: dug.payload});
+            return Object.assign({}, state, { genesets: dug.payload });
         default:
             return state;
     }
