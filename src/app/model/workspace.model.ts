@@ -1,5 +1,5 @@
 import { WorkspaceLayoutEnum } from './enum.model';
 
 export class WorkspaceConfigModel {
-   layout: WorkspaceLayoutEnum = WorkspaceLayoutEnum.SINGLE;
+    layout: WorkspaceLayoutEnum = WorkspaceLayoutEnum.SINGLE;
 }

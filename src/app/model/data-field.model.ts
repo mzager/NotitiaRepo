@@ -20,17 +20,17 @@ export class DataFieldFactory {
           }
         })];
       case EntityTypeEnum.GENE:
-      const  g = {
-        key: 'Gistic',
-        label: 'Gistic',
-        type: DataTypeEnum.NUMBER,
-        tbl: 'Gistic',
-        values: null,
-        ctype: CollectionTypeEnum.MOLECULAR
-      };
+        const g = {
+          key: 'Gistic',
+          label: 'Gistic',
+          type: DataTypeEnum.NUMBER,
+          tbl: 'Gistic',
+          values: null,
+          ctype: CollectionTypeEnum.MOLECULAR
+        };
         return [DataFieldFactory.defaultDataField, DataFieldFactory.getGeneFamily(),
-          DataFieldFactory.getGeneType(), DataFieldFactory.getHicType(),
-          DataFieldFactory.getTadType()];
+        DataFieldFactory.getGeneType(), DataFieldFactory.getHicType(),
+        DataFieldFactory.getTadType()];
 
     }
     return null;
@@ -123,13 +123,6 @@ export class DataFieldFactory {
       ctype: CollectionTypeEnum.UNDEFINED
     };
   }
-  // public static create(key: string, label: string, type: DataTypeEnum = DataTypeEnum.UNDEFINED, data: any = null): DataField {
-  //   return {
-  //     key: key,
-  //     label: label,
-  //     type: type
-  //   };
-  // }
 }
 
 export interface DataTable {

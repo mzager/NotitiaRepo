@@ -63,9 +63,6 @@ export class DataEffect {
         .ofType(data.DATA_LOAD_FROM_TCGA)
         .map((action: UnsafeAction) => action.payload)
         .switchMap((args) => {
-            // TODO: Move Into Config
-            // args.manifest = 'https://canaantt-test.s3.amazonaws.com/5a7e7be1a5a1b333f4e9989b_manifest_json.gz?AWSAccessKeyId=AKIAIKDBEKXIPN4XUFTA&Expires=1534025109&Signature=9xOf6j6LAQ4MvNg63B5bO%2B2n9vA%3D';
-            //'https://canaantt-test.s3.amazonaws.com/5a7e7be1a5a1b333f4e9989b_manifest_json.gz?AWSAccessKeyId=AKIAIKDBEKXIPN4XUFTA&Expires=1533864341&Signature=nboSjgz99Qs3IUsgCx%2BTs06aYo0%3D'
             args['manifest'] = 'https://s3-us-west-2.amazonaws.com/notitia/tcga/tcga_' + args['disease'] + '_manifest.json.gz';
             return this.datasetService.load(args);
         }).
@@ -88,8 +85,8 @@ export class DataEffect {
             ]));
         })
         .switchMap((args) => {
-            if (args[1] === undefined) { args[1] = [] }
-            if (args[2] === undefined) { args[2] = [] }
+            if (args[1] === undefined) { args[1] = []; }
+            if (args[2] === undefined) { args[2] = []; }
             return Observable.of(
                 new DataLoadedAction(args[0].name, args[0].tables, args[0].fields, args[0].events,
                     args[1], args[2]));
@@ -101,8 +98,8 @@ export class DataEffect {
             return Observable.fromPromise(this.dataService.createCustomCohort(args.payload.database, args.payload.cohort)
                 .then(v => this.dataService.getCustomCohorts(args.payload.database)));
         }).switchMap((args: any) => {
-             return Observable.of(new DataUpdateCohortsAction(args))
-        })
+            return Observable.of(new DataUpdateCohortsAction(args));
+        });
 
     @Effect() delCohort: Observable<Action> = this.actions$
         .ofType(data.DATA_DEL_COHORT)
@@ -110,7 +107,7 @@ export class DataEffect {
             return Observable.fromPromise(
                 this.dataService.deleteCustomCohort(args.payload.database, args.payload.cohort)
                     .then(v => this.dataService.getCustomCohorts(args.payload.database)));
-        }).switchMap((args: any) => { 
+        }).switchMap((args: any) => {
             return Observable.of(new DataUpdateCohortsAction(args));
         });
 
@@ -188,11 +185,11 @@ export class DataEffect {
 
             const graphBConfig = new PcaIncrementalConfigModel();
             graphBConfig.graph = GraphEnum.GRAPH_B;
-            graphBConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            graphBConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
 
             const pcaConfig = new PcaConfigModel();
             pcaConfig.graph = GraphEnum.GRAPH_A;
-            pcaConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            pcaConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
 
             // const heatmapConfig = new HeatmapConfigModel();
             // heatmapConfig.graph = GraphEnum.GRAPH_B;
