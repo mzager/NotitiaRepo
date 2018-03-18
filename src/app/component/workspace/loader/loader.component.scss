@@ -29,7 +29,6 @@
   width: 100%;
   height: 100%;
   background-color: #fff;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=20)";
 }
 
 .glass{
@@ -42,13 +41,6 @@
   font-family: "Megrim", sans-serif;
   line-height: 1;
   text-align: center;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=50)";
-}
-
-@media only screen {
-  .glass{
-    -ms-filter: "none";
-  }
 }
 
 .loader {
