@@ -1,8 +1,9 @@
+// tslint:disable-next-line:max-line-length
+import { MiniBatchDictionaryLearningConfigModel } from './../component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
+import { LinearDiscriminantAnalysisConfigModel } from './../component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
 import { DendogramConfigModel } from './../component/visualization/dendogram/dendogram.model';
 import { SurvivalConfigModel } from './../component/visualization/survival/survival.model';
-import { MiniBatchDictionaryLearningConfigModel } from './../component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
 import { miniBatchSparsePcaCompute } from './../component/visualization/minibatchsparsepca/minibatchsparsepca.compute';
-import { LinearDiscriminantAnalysisConfigModel } from './../component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
 import { COMPUTE_MINI_BATCH_SPARSE_PCA } from './../action/compute.action';
 import { graph } from 'ngraph.graph';
 import { HicConfigModel } from './../component/visualization/hic/hic.model';
@@ -111,44 +112,44 @@ export class ComputeService {
     getSubjectByVisualization(v: VisualizationEnum): Subject<any> {
         return (v === VisualizationEnum.BOX_WHISKERS) ? this.boxWhiskers$ :
             (v === VisualizationEnum.PATHWAYS) ? this.pathways$ :
-            (v === VisualizationEnum.ISOMAP) ? this.isoMap$ :
-            (v === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? this.localLinearEmbedding$ :
-            (v === VisualizationEnum.INCREMENTAL_PCA) ? this.pcaIncremental$ :
-            (v === VisualizationEnum.KERNAL_PCA) ? this.pcaKernal$ :
-            (v === VisualizationEnum.SPARSE_PCA) ? this.pcaSparse$ :
-            (v === VisualizationEnum.FAST_ICA) ? this.fastIca$ :
-            (v === VisualizationEnum.TIMELINES) ? this.timelines$ :
-            (v === VisualizationEnum.SPECTRAL_EMBEDDING) ? this.spectralEmbedding$ :
-            (v === VisualizationEnum.TRUNCATED_SVD) ? this.truncatedSvd$ :
-            (v === VisualizationEnum.DICTIONARY_LEARNING) ? this.dictionaryLearning$ :
-            (v === VisualizationEnum.LDA) ? this.lda$ :
-            (v === VisualizationEnum.NMF) ? this.nmf$ :
-            (v === VisualizationEnum.FA) ? this.fa$ :
-            (v === VisualizationEnum.MDS) ? this.mds$ :
-            (v === VisualizationEnum.PCA) ? this.pca$ :
-            (v === VisualizationEnum.SOM) ? this.som$ :
-            (v === VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS) ? this.quadradicDiscriminantAnalysis$ :
-            (v === VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS) ? this.linearDiscriminantAnalysis$ :
-            (v === VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING) ? this.miniBatchDictionaryLearning$ :
-            (v === VisualizationEnum.MINI_BATCH_SPARSE_PCA) ? this.miniBatchSparsePca$ :
-            (v === VisualizationEnum.CHROMOSOME) ? this.chromosome$ :
-            (v === VisualizationEnum.GENOME) ? this.genome$ :
-            (v === VisualizationEnum.TSNE) ? this.tsne$ :
-            (v === VisualizationEnum.HEATMAP) ? this.heatmap$ :
-            (v === VisualizationEnum.DENDOGRAM) ? this.dendogram$ : 
-            (v === VisualizationEnum.PARALLEL_COORDS) ? this.parallelCoords$ :
-            (v === VisualizationEnum.LINKED_GENE) ? this.linkedGene$ :
-            (v === VisualizationEnum.HIC) ? this.hic$ :
-            (v === VisualizationEnum.SURVIVAL) ? this.survival$ :
-            (v === VisualizationEnum.EDGES) ? this.edges$ :
-            null;
+                (v === VisualizationEnum.ISOMAP) ? this.isoMap$ :
+                    (v === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING) ? this.localLinearEmbedding$ :
+                        (v === VisualizationEnum.INCREMENTAL_PCA) ? this.pcaIncremental$ :
+                            (v === VisualizationEnum.KERNAL_PCA) ? this.pcaKernal$ :
+                                (v === VisualizationEnum.SPARSE_PCA) ? this.pcaSparse$ :
+                                    (v === VisualizationEnum.FAST_ICA) ? this.fastIca$ :
+                                        (v === VisualizationEnum.TIMELINES) ? this.timelines$ :
+                                            (v === VisualizationEnum.SPECTRAL_EMBEDDING) ? this.spectralEmbedding$ :
+                                                (v === VisualizationEnum.TRUNCATED_SVD) ? this.truncatedSvd$ :
+                                                    (v === VisualizationEnum.DICTIONARY_LEARNING) ? this.dictionaryLearning$ :
+                                                        (v === VisualizationEnum.LDA) ? this.lda$ :
+                                                            (v === VisualizationEnum.NMF) ? this.nmf$ :
+                                                                (v === VisualizationEnum.FA) ? this.fa$ :
+                                                                    (v === VisualizationEnum.MDS) ? this.mds$ :
+                                                                        (v === VisualizationEnum.PCA) ? this.pca$ :
+                                                                            (v === VisualizationEnum.SOM) ? this.som$ :
+                                                                                (v === VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS) ? this.quadradicDiscriminantAnalysis$ :
+                                                                                    (v === VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS) ? this.linearDiscriminantAnalysis$ :
+                                                                                        (v === VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING) ? this.miniBatchDictionaryLearning$ :
+                                                                                            (v === VisualizationEnum.MINI_BATCH_SPARSE_PCA) ? this.miniBatchSparsePca$ :
+                                                                                                (v === VisualizationEnum.CHROMOSOME) ? this.chromosome$ :
+                                                                                                    (v === VisualizationEnum.GENOME) ? this.genome$ :
+                                                                                                        (v === VisualizationEnum.TSNE) ? this.tsne$ :
+                                                                                                            (v === VisualizationEnum.HEATMAP) ? this.heatmap$ :
+                                                                                                                (v === VisualizationEnum.DENDOGRAM) ? this.dendogram$ :
+                                                                                                                    (v === VisualizationEnum.PARALLEL_COORDS) ? this.parallelCoords$ :
+                                                                                                                        (v === VisualizationEnum.LINKED_GENE) ? this.linkedGene$ :
+                                                                                                                            (v === VisualizationEnum.HIC) ? this.hic$ :
+                                                                                                                                (v === VisualizationEnum.SURVIVAL) ? this.survival$ :
+                                                                                                                                    (v === VisualizationEnum.EDGES) ? this.edges$ :
+                                                                                                                                        null;
     }
     onMessage(v) {
         if (v.data === 'TERMINATE') {
             const worker = v.target as Worker;
             worker.removeEventListener('message', this.onMessage);
             worker.terminate();
-            if (worker === this.workerA) { this.workerA = null; console.log("WORKER A DEAD"); }
+            if (worker === this.workerA) { this.workerA = null; }
             if (worker === this.workerB) { this.workerB = null; }
             if (worker === this.workerE) { this.workerE = null; }
         } else {
@@ -163,7 +164,7 @@ export class ComputeService {
         //     return;
         // }
 
-        switch (config.graph ) {
+        switch (config.graph) {
             case GraphEnum.GRAPH_A:
                 if (this.workerA !== null) {
                     this.workerA.removeEventListener('message', this.onMessage);
@@ -172,7 +173,7 @@ export class ComputeService {
                 }
                 this.workerA = new Worker('assets/compute.js');
                 this.workerA.addEventListener('message', this.onMessage.bind(this));
-                this.workerA.postMessage( config );
+                this.workerA.postMessage(config);
                 break;
 
             case GraphEnum.GRAPH_B:
@@ -183,7 +184,7 @@ export class ComputeService {
                 }
                 this.workerB = new Worker('assets/compute.js');
                 this.workerB.addEventListener('message', this.onMessage.bind(this));
-                this.workerB.postMessage( config );
+                this.workerB.postMessage(config);
                 break;
 
             case GraphEnum.EDGES:
@@ -194,7 +195,7 @@ export class ComputeService {
                 }
                 this.workerE = new Worker('assets/compute.js');
                 this.workerE.addEventListener('message', this.onMessage.bind(this));
-                this.workerE.postMessage( config );
+                this.workerE.postMessage(config);
                 break;
         }
         return subject;

@@ -1,3 +1,4 @@
+import 'rxjs/add/operator/map';
 import { ChartFactory } from './../component/workspace/chart/chart.factory';
 import { DataDecorator, DataDecoratorTypeEnum } from './../model/data-map.model';
 import { GeneSet } from './../model/gene-set.model';
@@ -7,7 +8,6 @@ import { VisualizationEnum, EntityTypeEnum } from 'app/model/enum.model';
 import { DataFieldFactory } from 'app/model/data-field.model';
 import { DataField } from './../model/data-field.model';
 import { DataCollection } from './../model/data-collection.model';
-import 'rxjs/add/operator/map';
 import { Injectable } from '@angular/core';
 import { HttpClient } from './http.client';
 import { Observable } from 'rxjs/Observable';
@@ -32,59 +32,59 @@ export class DataService {
           db.table(decorator.field.tbl).toArray(),
           db.table('patientSampleMap').toArray()
         ])
-        .then(results => {
-          const items = results[0];
-          const psMap = results[1].reduce( (p, c) => { p[c.p] = c.s; return p; }, {});
+          .then(results => {
+            const items = results[0];
+            const psMap = results[1].reduce((p, c) => { p[c.p] = c.s; return p; }, {});
 
-          let scale: Function;
-          // let legend: Legend;
-          switch (decorator.type) {
-            case DataDecoratorTypeEnum.COLOR:
-              scale = (decorator.field.type === 'STRING') ?
-                ChartFactory.getScaleColorOrdinal(decorator.field.values) :
-                ChartFactory.getScaleColorLinear(decorator.field.values.min, decorator.field.values.max);
-              decorator.values = items.map(v => ({
-                pid: v.p,
-                sid: psMap[v.p],
-                mid: null,
-                key: EntityTypeEnum.PATIENT,
-                label: v[decorator.field.key],
-                value: scale(v[decorator.field.key])
-              }));
-              resolve(decorator);
-              break;
-            case DataDecoratorTypeEnum.SHAPE:
-              scale = ChartFactory.getScaleShapeOrdinal(decorator.field.values);
-              decorator.values = items.map(v => ({
-                pid: v.p,
-                sid: psMap[v.p],
-                mid: null,
-                key: EntityTypeEnum.PATIENT,
-                label: v[decorator.field.key],
-                value: scale(v[decorator.field.key])
-              }));
-              resolve(decorator);
-              break;
-            case DataDecoratorTypeEnum.SIZE:
-              scale = (decorator.field.type === 'STRING') ?
-                ChartFactory.getScaleSizeOrdinal(decorator.field.values) :
-                ChartFactory.getScaleSizeLinear(decorator.field.values.min, decorator.field.values.max);
-              decorator.values = items.map(v => ({
-                pid: v.p,
-                sid: psMap[v.p],
-                mid: null,
-                key: EntityTypeEnum.PATIENT,
-                label: v[decorator.field.key],
-                value: scale(v[decorator.field.key])
-              }));
-              resolve(decorator);
-              break;
-            case DataDecoratorTypeEnum.TOOLTIP:
-              break;
-            case DataDecoratorTypeEnum.SELECT:
-              break;
-          }
-        });
+            let scale: Function;
+            // let legend: Legend;
+            switch (decorator.type) {
+              case DataDecoratorTypeEnum.COLOR:
+                scale = (decorator.field.type === 'STRING') ?
+                  ChartFactory.getScaleColorOrdinal(decorator.field.values) :
+                  ChartFactory.getScaleColorLinear(decorator.field.values.min, decorator.field.values.max);
+                decorator.values = items.map(v => ({
+                  pid: v.p,
+                  sid: psMap[v.p],
+                  mid: null,
+                  key: EntityTypeEnum.PATIENT,
+                  label: v[decorator.field.key],
+                  value: scale(v[decorator.field.key])
+                }));
+                resolve(decorator);
+                break;
+              case DataDecoratorTypeEnum.SHAPE:
+                scale = ChartFactory.getScaleShapeOrdinal(decorator.field.values);
+                decorator.values = items.map(v => ({
+                  pid: v.p,
+                  sid: psMap[v.p],
+                  mid: null,
+                  key: EntityTypeEnum.PATIENT,
+                  label: v[decorator.field.key],
+                  value: scale(v[decorator.field.key])
+                }));
+                resolve(decorator);
+                break;
+              case DataDecoratorTypeEnum.SIZE:
+                scale = (decorator.field.type === 'STRING') ?
+                  ChartFactory.getScaleSizeOrdinal(decorator.field.values) :
+                  ChartFactory.getScaleSizeLinear(decorator.field.values.min, decorator.field.values.max);
+                decorator.values = items.map(v => ({
+                  pid: v.p,
+                  sid: psMap[v.p],
+                  mid: null,
+                  key: EntityTypeEnum.PATIENT,
+                  label: v[decorator.field.key],
+                  value: scale(v[decorator.field.key])
+                }));
+                resolve(decorator);
+                break;
+              case DataDecoratorTypeEnum.TOOLTIP:
+                break;
+              case DataDecoratorTypeEnum.SELECT:
+                break;
+            }
+          });
       });
     }));
   }

@@ -22,7 +22,6 @@ export class DatasetService {
 
   public getDataset(dataset: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      //Dexie.exists('notitia-dataset').then(exists => {
       Dexie.exists('notitia-' + dataset).then(exists => {
         if (exists) {
           DatasetService.db = new Dexie('notitia-' + dataset);
@@ -78,7 +77,7 @@ export class DatasetService {
             db.version(1).stores(response.schema);
 
             // Patient Meta Data
-            const fields = Object.keys(response.fields).map( v => ({
+            const fields = Object.keys(response.fields).map(v => ({
               ctype: 2,
               key: v,
               label: v.replace(/_/gi, ' '),
@@ -87,23 +86,23 @@ export class DatasetService {
               values: response.fields[v]
             }));
 
-            const events = Object.keys(response.events).map( key => ({type: response.events[key], subtype: key}) );
+            const events = Object.keys(response.events).map(key => ({ type: response.events[key], subtype: key }));
 
             const tbls = response.files.map(v => {
               const dt = v.dataType.toLowerCase();
               return (dt === 'clinical') ?
-                  {tbl: 'patient', map: 'patientMap', label: 'Patient', ctype: CollectionTypeEnum.PATIENT} :
+                { tbl: 'patient', map: 'patientMap', label: 'Patient', ctype: CollectionTypeEnum.PATIENT } :
                 (dt === 'events') ?
-                  {tbl: v.name, map: v.name + 'Map', label: v.name, ctype: CollectionTypeEnum.EVENT} :
-                (dt === 'gistic') ?
-                  {tbl: v.name, map: v.name + 'Map', label: v.name, ctype: CollectionTypeEnum.GISTIC} :
-                (dt === 'gistic_threshold') ?
-                  {tbl: v.name, map: v.name + 'Map', label: v.name, ctype: CollectionTypeEnum.GISTIC_THRESHOLD} :
-                (dt === 'mut') ?
-                  {tbl: v.name, map: v.name + 'Map', label: v.name, ctype: CollectionTypeEnum.MUTATION} :
-                (dt === 'rna') ?
-                  {tbl: v.name, map: v.name + 'Map', label: v.name, ctype: CollectionTypeEnum.RNA} :
-                  null;
+                  { tbl: v.name, map: v.name + 'Map', label: v.name, ctype: CollectionTypeEnum.EVENT } :
+                  (dt === 'gistic') ?
+                    { tbl: v.name, map: v.name + 'Map', label: v.name, ctype: CollectionTypeEnum.GISTIC } :
+                    (dt === 'gistic_threshold') ?
+                      { tbl: v.name, map: v.name + 'Map', label: v.name, ctype: CollectionTypeEnum.GISTIC_THRESHOLD } :
+                      (dt === 'mut') ?
+                        { tbl: v.name, map: v.name + 'Map', label: v.name, ctype: CollectionTypeEnum.MUTATION } :
+                        (dt === 'rna') ?
+                          { tbl: v.name, map: v.name + 'Map', label: v.name, ctype: CollectionTypeEnum.RNA } :
+                          null;
             }).filter(v => v);
 
             const dataset = {

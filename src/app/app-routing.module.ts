@@ -22,4 +22,4 @@ import { WorkspaceComponent } from 'app/component/workspace/workspace.component'
     RouterModule
   ]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
