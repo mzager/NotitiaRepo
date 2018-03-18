@@ -15,7 +15,7 @@ export class NcbiService {
     return this.http
       .post(this.API_PATH + 'lookup/symbol/homo_sapiens', genes)
       .map(res => {
-          return res.json();
+        return res.json();
       });
   }
 }

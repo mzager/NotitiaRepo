@@ -13,14 +13,14 @@ export class FontFactory {
     private _material: THREE.MeshBasicMaterial;
 
     public static getInstance(): Promise<FontFactory> {
-        return new Promise( (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             if (FontFactory._instance != null) {
                 resolve(FontFactory._instance);
-            }else {
+            } else {
                 FontFactory._instance = new FontFactory();
-                Promise.all( [ FontFactory._instance.loadFont(), FontFactory._instance.loadTexture() ])
-                    .then( () => { resolve(FontFactory._instance); }
-                );
+                Promise.all([FontFactory._instance.loadFont(), FontFactory._instance.loadTexture()])
+                    .then(() => { resolve(FontFactory._instance); }
+                    );
             }
         });
     }
@@ -31,7 +31,7 @@ export class FontFactory {
 
     createFontMesh(width: number, align: string, copy: string): THREE.Mesh {
         return new THREE.Mesh(
-            this.createFontGeometry( width, align, copy),
+            this.createFontGeometry(width, align, copy),
             this.material
         );
     }
@@ -47,7 +47,7 @@ export class FontFactory {
     }
 
     private loadFont(): Promise<null> {
-        return new Promise( (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             loadFont('assets/fonts/Lato-Regular-32.fnt', ((err, font) => {
                 this._font = font;
                 resolve();
@@ -56,7 +56,7 @@ export class FontFactory {
     }
 
     private loadTexture(): Promise<null> {
-        return new Promise( (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const textureLoader = new THREE.TextureLoader();
             textureLoader.load('assets/fonts/lato.png', ((texture) => {
                 this._texture = texture;

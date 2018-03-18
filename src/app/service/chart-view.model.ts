@@ -3,13 +3,13 @@ import { VisualizationView } from './chart-view.model';
 import { VisualizationEnum } from 'app/model/enum.model';
 import { OrbitControls } from 'three-orbitcontrols-ts';
 
- /**
- * Represents A Chart View
- */
+/**
+* Represents A Chart View
+*/
 export interface VisualizationView {
   controls: OrbitControls;
-  config: {visualization: VisualizationEnum};
-  viewport: {x: number, y: number, width: number, height: number};
+  config: { visualization: VisualizationEnum };
+  viewport: { x: number, y: number, width: number, height: number };
   camera: THREE.Camera;
   scene: THREE.Scene;
   chart: ChartObjectInterface;
