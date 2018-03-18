@@ -7,7 +7,7 @@ import { VisualizationEnum, ShapeEnum, GraphEnum, DimensionEnum, DistanceEnum } 
 import { DataField } from 'app/model/data-field.model';
 
 export class SomConfigModel extends GraphConfig {
-    
+
     dimension: DimensionEnum = DimensionEnum.THREE_D;
     tau = 0.02;
     iterations = 1;

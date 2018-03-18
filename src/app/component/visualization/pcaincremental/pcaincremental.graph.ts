@@ -1,3 +1,3 @@
 import { AbstractScatterVisualization } from './../visualization.abstract.scatter.component';
-export class PcaIncrementalGraph  extends AbstractScatterVisualization {
+export class PcaIncrementalGraph extends AbstractScatterVisualization {
 }

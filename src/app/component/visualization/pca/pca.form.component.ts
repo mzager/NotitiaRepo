@@ -98,31 +98,31 @@ export class PcaFormComponent extends AbstractScatterForm {
 
     super();
 
-        this.form = this.fb.group({
-          dirtyFlag: [0],
-          visualization: [],
-          graph: [],
-          database: [],
-          entity: [],
-          markerFilter: [],
-          markerSelect: [],
-          sampleFilter: [],
-          sampleSelect: [],
-          patientFilter: [],
-          patientSelect: [],
-          table: [],
+    this.form = this.fb.group({
+      dirtyFlag: [0],
+      visualization: [],
+      graph: [],
+      database: [],
+      entity: [],
+      markerFilter: [],
+      markerSelect: [],
+      sampleFilter: [],
+      sampleSelect: [],
+      patientFilter: [],
+      patientSelect: [],
+      table: [],
 
-          n_components: [],
-          dimension: [],
-          svd_solver: [],
-          tol: [],
-          whiten: [],
-          copy: [],
-          iterated_power: [],
-          random_state: [],
-          pcx: [],
-          pcy: [],
-          pcz: []
+      n_components: [],
+      dimension: [],
+      svd_solver: [],
+      tol: [],
+      whiten: [],
+      copy: [],
+      iterated_power: [],
+      random_state: [],
+      pcx: [],
+      pcy: [],
+      pcz: []
     });
 
     this.registerFormChange();

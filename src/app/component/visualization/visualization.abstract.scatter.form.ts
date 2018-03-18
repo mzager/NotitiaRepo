@@ -9,7 +9,7 @@ import { DataFieldFactory } from 'app/model/data-field.model';
 export class AbstractScatterForm {
 
     PcOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    
+
     @Input() fields: Array<DataField>;
     @Input() set tables(tables: Array<DataTable>) {
         this.dataOptions = tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0));
@@ -31,7 +31,7 @@ export class AbstractScatterForm {
 
     registerFormChange(): void {
         // Update When Form Changes
-        
+
         this.form.valueChanges
             .debounceTime(500)
             .distinctUntilChanged()
@@ -43,5 +43,5 @@ export class AbstractScatterForm {
                 this.configChange.emit(data);
             });
     }
-    constructor() {}
+    constructor() { }
 }

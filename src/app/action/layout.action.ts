@@ -21,15 +21,15 @@ export class ModalPanelAction implements Action {
 
 export class LoaderShowAction implements Action {
     readonly type: string = LOADER_SHOW;
-    constructor() {}
+    constructor() { }
 }
 
 export class LoaderHideAction implements Action {
     readonly type: string = LOADER_HIDE;
-    constructor() {}
+    constructor() { }
 }
 
 
 // Action Type
 export type Actions =
-   GraphPanelToggleAction | ModalPanelAction | LoaderShowAction | LoaderHideAction;
+    GraphPanelToggleAction | ModalPanelAction | LoaderShowAction | LoaderHideAction;

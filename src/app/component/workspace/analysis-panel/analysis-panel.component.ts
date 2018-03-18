@@ -1,5 +1,7 @@
-import { Component, Input, Output, ChangeDetectionStrategy,
-  EventEmitter, AfterViewInit, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component, Input, Output, ChangeDetectionStrategy,
+  EventEmitter, AfterViewInit, OnInit, ViewChild, ElementRef
+} from '@angular/core';
 
 @Component({
   selector: 'app-workspace-analysis-panel',
@@ -7,8 +9,7 @@ import { Component, Input, Output, ChangeDetectionStrategy,
   styleUrls: ['./analysis-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AnalysisPanelComponent implements AfterViewInit  {
-
+export class AnalysisPanelComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
   }

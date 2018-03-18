@@ -1,5 +1,7 @@
-import { SpectralEmbeddingConfigModel, SpectralEmbeddingAffinity, SpectralEmbeddingDataModel,
-  SpectralEmbeddingEigenSolver } from './spectralembedding.model';
+import {
+  SpectralEmbeddingConfigModel, SpectralEmbeddingAffinity, SpectralEmbeddingDataModel,
+  SpectralEmbeddingEigenSolver
+} from './spectralembedding.model';
 import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
 import { DimensionEnum, EntityTypeEnum, CollectionTypeEnum } from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
@@ -87,7 +89,7 @@ import * as _ from 'lodash';
 </form>
   `
 })
-export class SpectralEmbeddingFormComponent extends AbstractScatterForm  {
+export class SpectralEmbeddingFormComponent extends AbstractScatterForm {
 
 
   @Input() set config(v: SpectralEmbeddingConfigModel) {

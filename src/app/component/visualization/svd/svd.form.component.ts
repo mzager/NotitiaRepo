@@ -116,8 +116,8 @@ export class SvdFormComponent {
   sizeOptions: Array<DataField>;
   dataOptions: Array<{ key: string, label: string }>;
   dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D, DimensionEnum.ONE_D];
-  distanceOptions = [ DistanceEnum.EUCLIDEAN, DistanceEnum.MANHATTAN, DistanceEnum.JACCARD, DistanceEnum.DICE];
-  densityOptions = [ DenseSparseEnum.DENSE, DenseSparseEnum.SPARSE ];
+  distanceOptions = [DistanceEnum.EUCLIDEAN, DistanceEnum.MANHATTAN, DistanceEnum.JACCARD, DistanceEnum.DICE];
+  densityOptions = [DenseSparseEnum.DENSE, DenseSparseEnum.SPARSE];
 
   byKey(p1: DataField, p2: DataField) {
     if (p2 === null) { return false; }

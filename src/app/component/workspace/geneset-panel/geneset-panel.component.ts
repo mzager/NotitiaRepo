@@ -92,7 +92,10 @@ declare var $: any;
                 </div>
                 <div class='col s12 geneset-box'>
                     <label class='geneset-gene-label'>Genes</label>
-                    <textarea class='geneset-textarea'type='text' [(ngModel)]='customGenes' placeholder='Enter a comma seperated list of gene names'></textarea>
+                    <textarea class='geneset-textarea'type='text'
+                        [(ngModel)]='customGenes'
+                        placeholder='Enter a comma seperated list of gene names'>
+                    </textarea>
                 </div>
                 <div class=' col s12 geneset-button'>
                     <a class='geneset-save' href='#' (click)='onCustomSave()'>Save</a>
@@ -164,7 +167,7 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
             alert('name or genes empty.. better validation coming.');
             return;
         }
-        this.addGeneset.emit({ database: this.config.database, geneset: { n: name, g: genes } })
+        this.addGeneset.emit({ database: this.config.database, geneset: { n: name, g: genes } });
     }
 
     onGenesetFilterChange(criteria: string): void {
@@ -183,7 +186,10 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
     }
 
     geneSetAdd(v: any): void {
-        this.addGeneset.emit({ database: this.config.database, geneset: { n: v.name.toLowerCase(), g: v.genes.map(v => v.toUpperCase()) } })
+        this.addGeneset.emit({
+            database: this.config.database,
+            geneset: { n: v.name.toLowerCase(), g: v.genes.map(w => w.toUpperCase()) }
+        });
     }
 
 
@@ -211,6 +217,4 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
         this.$genesetFilter.debounceTime(300).distinctUntilChanged().subscribe(this.onGenesetFilterChange.bind(this));
 
     }
-
-
 }

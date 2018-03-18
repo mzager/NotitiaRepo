@@ -8,9 +8,11 @@ import { StatsInterface } from './../../../model/stats.interface';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { GraphData } from './../../../model/graph-data.model';
-import { Component, ComponentFactoryResolver, Input, Output, ViewContainerRef,
+import {
+  Component, ComponentFactoryResolver, Input, Output, ViewContainerRef,
   ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild,
-  OnDestroy, ChangeDetectorRef } from '@angular/core';
+  OnDestroy, ChangeDetectorRef
+} from '@angular/core';
 import { GraphEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import { Subscription } from 'rxjs/Subscription';
@@ -45,7 +47,7 @@ export class EdgePanelComponent implements AfterViewInit, OnDestroy {
     this.form = this.fb.group({
       layout: value.layout,
     });
-      // Update When Form Changes
+    // Update When Form Changes
     this.form.valueChanges
       .debounceTime(200)
       .distinctUntilChanged()

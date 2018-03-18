@@ -1,5 +1,7 @@
-import { Component, Input, Output, ChangeDetectionStrategy,
-  EventEmitter, AfterViewInit, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component, Input, Output, ChangeDetectionStrategy,
+  EventEmitter, AfterViewInit, OnInit, ViewChild, ElementRef
+} from '@angular/core';
 
 @Component({
   selector: 'app-workspace-landing-panel',
@@ -7,7 +9,7 @@ import { Component, Input, Output, ChangeDetectionStrategy,
   styleUrls: ['./landing-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LandingPanelComponent implements AfterViewInit  {
+export class LandingPanelComponent implements AfterViewInit {
 
   @Output() onGetStarted: EventEmitter<any> = new EventEmitter();
 
@@ -15,7 +17,7 @@ export class LandingPanelComponent implements AfterViewInit  {
   }
 
   getStartedClick(): void {
-     this.onGetStarted.next();
+    this.onGetStarted.next();
   }
 
 }

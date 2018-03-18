@@ -61,7 +61,7 @@ import * as _ from 'lodash';
 })
 export class HistogramFormComponent {
 
-  @Input() set molecularData(tables: Array<string>){
+  @Input() set molecularData(tables: Array<string>) {
     this.dataOptions = tables;
     this.colorOptions = [
       DataFieldFactory.getUndefined(),
@@ -71,8 +71,8 @@ export class HistogramFormComponent {
 
     this.sizeOptions = this.colorOptions;
 
-     // Init Form
-     this.form = this.fb.group({
+    // Init Form
+    this.form = this.fb.group({
       visualization: [],
       graph: [],
       database: [],
@@ -98,7 +98,7 @@ export class HistogramFormComponent {
 
   @Input() set config(v: HistogramConfigModel) {
     if (v === null) { return; }
-    this.form.patchValue(v, {emitEvent : false});
+    this.form.patchValue(v, { emitEvent: false });
   }
 
   @Output() configChange = new EventEmitter<GraphConfig>();

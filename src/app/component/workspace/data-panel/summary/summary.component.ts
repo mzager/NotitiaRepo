@@ -14,16 +14,15 @@ declare var vegaTooltip: any;
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
  <div>
- 
- <div #container></div>
+  <div #container></div>
  </div>
   `
 })
 export class SummaryComponent {
 
   @ViewChild('container') container: ElementRef;
-  
-  statFactory:StatFactory;
+
+  statFactory: StatFactory;
   private _config: GraphConfig;
 
   // @Input() set tables(tables: Array<DataTable>) {
@@ -37,18 +36,17 @@ export class SummaryComponent {
     // this.statFactory.getPopulationStats(this._config, this.dataService).then(this.populationStatsLoaded);
   }
 
-  populationStatsLoaded(v:any):void {
-    debugger;
+  populationStatsLoaded(v: any): void {
   }
 
 
-  datasetInfoLoaded(v:any):void {
-     debugger;
+  datasetInfoLoaded(v: any): void {
+
   }
 
   constructor(public dataService: DataService) {
     this.statFactory = StatFactory.getInstance();
   }
 
-  
+
 }

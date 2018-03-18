@@ -14,15 +14,15 @@ import * as JStat from 'jstat';
 import { DedicatedWorkerGlobalScope } from 'compute';
 
 export const linkedGeneComputeFn = (config: LinkedGeneConfigModel): Promise<any> => {
-    return new Promise( (resolve, reject) => {
+    return new Promise((resolve, reject) => {
         const util: ComputeWorkerUtil = new ComputeWorkerUtil();
-        util.getGeneLinkInfo().then( data => {
+        util.getGeneLinkInfo().then(data => {
             const nodes1 = data[0].map(v => v.source);  // 8869
             const nodes2 = data[0].map(v => v.target);  // 8940
             const setU = new Set(nodes1.concat(nodes2));
             const genes = Array.from(setU);
-            const geneMap = data[1].reduce( (p, c) => { p[c.gene] = c; return p; }, {});
-            const geneData = genes.map( g => geneMap[ g.toString() ] );
+            const geneMap = data[1].reduce((p, c) => { p[c.gene] = c; return p; }, {});
+            const geneData = genes.map(g => geneMap[g.toString()]);
             resolve({
                 nodes: genes,
                 nodeData: geneData,

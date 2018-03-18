@@ -14,7 +14,6 @@ export enum PlsDisplayEnum {
 }
 
 export class PlsConfigModel extends GraphConfig {
-  
     dimension: DimensionEnum = DimensionEnum.THREE_D;
     domain: Array<number> = [-500, 500];
     showVectors: Boolean = false;
@@ -38,5 +37,4 @@ export interface PlsDataModel extends GraphData {
     meanX: any;
     meanY: any;
     explainedVariance: any;
-    
 }

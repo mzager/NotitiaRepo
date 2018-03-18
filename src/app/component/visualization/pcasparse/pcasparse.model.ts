@@ -31,7 +31,6 @@ export class PcaSparseConfigModel extends GraphConfig {
     pcz = 3;
 }
 
-
 export interface PcaSparseDataModel extends GraphData {
     result: Array<Array<number>>;
     resultScaled: Array<Array<number>>;

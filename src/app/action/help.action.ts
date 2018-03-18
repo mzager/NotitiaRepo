@@ -13,5 +13,4 @@ export class HelpSetConfigAction implements Action {
 
 // Action Type
 export type Actions =
-   HelpSetConfigAction;
-   
+    HelpSetConfigAction;

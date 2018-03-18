@@ -10,7 +10,10 @@ import { GraphEnum } from 'app/model/enum.model';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
-import { Vector2, Shape, ShapeGeometry, MeshPhongMaterial, Mesh, DoubleSide, Line, LineBasicMaterial, BufferGeometry, Vector3, Group } from 'three';
+import {
+    Vector2, Shape, ShapeGeometry, MeshPhongMaterial, Mesh, DoubleSide,
+    Line, LineBasicMaterial, BufferGeometry, Vector3, Group
+} from 'three';
 import { MeshText2D, textAlign } from 'three-text2d';
 
 export class SurvivalGraph implements ChartObjectInterface {
@@ -35,7 +38,7 @@ export class SurvivalGraph implements ChartObjectInterface {
         this.view.controls.enabled = this.isEnabled;
     }
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        throw new Error("Method not implemented.");
+        throw new Error('Method not implemented.');
     }
     updateData(config: GraphConfig, data: any) {
         this.config = config as SurvivalConfigModel;
@@ -58,17 +61,18 @@ export class SurvivalGraph implements ChartObjectInterface {
         for (let y = -500; y <= 500; y += 100) {
             const line = ChartFactory.lineAllocate(0xDDDDDD, new Vector2(-500, y), new Vector2(500, y));
             this.grid.add(line);
-            const text = new MeshText2D(percent.toString(), { align: textAlign.right, font: '12px Ariel', fillStyle: '#666666', antialias: true });
+            const text = new MeshText2D(percent.toString(),
+                { align: textAlign.right, font: '12px Ariel', fillStyle: '#666666', antialias: true });
             text.position.setX(-506);
             text.position.setY(y + 6);
             this.grid.add(text);
-            percent +=  10;
+            percent += 10;
         }
-        
-        // ChartUtil.fitCameraToObject(this.view.camera, 
+
+        // ChartUtil.fitCameraToObject(this.view.camera,
         //     new THREE.Box3(new Vector3(-1500, -1500, -1500), new Vector3(1500,1500,1500))
         //         , 1, this.view.controls);
-        
+
     }
 
     addObjects(): void {
@@ -78,29 +82,29 @@ export class SurvivalGraph implements ChartObjectInterface {
         }
 
         const cohort = this.data.cohorts[0];
-        
+
         const xScale = scaleLinear().range([-500, 500]).domain(cohort.timeRange);
         const yScale = scaleLinear().range([-500, 500]).domain([0, 1]);
         let pts: Array<Vector2>;
 
         const shape = new Shape();
         shape.autoClose = false;
-        shape.moveTo( -500, -500 );
-        cohort.confidence.lower.forEach(pt => { 
-            shape.lineTo(xScale(pt[0]), yScale(pt[1]))
+        shape.moveTo(-500, -500);
+        cohort.confidence.lower.forEach(pt => {
+            shape.lineTo(xScale(pt[0]), yScale(pt[1]));
         });
-        cohort.confidence.upper.reverse().forEach(pt => { 
-            shape.lineTo(xScale(pt[0]), yScale(pt[1]))
+        cohort.confidence.upper.reverse().forEach(pt => {
+            shape.lineTo(xScale(pt[0]), yScale(pt[1]));
         });
 
 
         const geometry = new ShapeGeometry(shape);
-        const material = new MeshPhongMaterial( { color: 0xbbdefb } );
+        const material = new MeshPhongMaterial({ color: 0xbbdefb });
         material.opacity = 0.5;
         material.transparent = true;
-        const mesh = new Mesh( geometry, material);
-        this.curves.add( mesh );
-				
+        const mesh = new Mesh(geometry, material);
+        this.curves.add(mesh);
+
 
         // pts = cohort.confidence.upper.map(v => new Vector2(xScale(v[0]), yScale(v[1])));
         // this.curves.add(ChartFactory.linesAllocate(0x2196f3, pts, {}));
@@ -113,7 +117,7 @@ export class SurvivalGraph implements ChartObjectInterface {
 
         // shape.autoClose = true;
         // const geometry = new ShapeBufferGeometry( shape );
-		// const mesh = new Mesh( geometry, new MeshPhongMaterial( { color: 0xFF0000, side: DoubleSide } ) );
+        // const mesh = new Mesh( geometry, new MeshPhongMaterial( { color: 0xFF0000, side: DoubleSide } ) );
 
     }
     preRender(views: Array<VisualizationView>, layout: WorkspaceLayoutEnum, renderer: THREE.WebGLRenderer) {
@@ -136,4 +140,3 @@ export class SurvivalGraph implements ChartObjectInterface {
 
     constructor() { }
 }
-;

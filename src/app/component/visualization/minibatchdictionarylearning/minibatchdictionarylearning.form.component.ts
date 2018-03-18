@@ -1,6 +1,6 @@
 import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
 // tslint:disable-next-line:max-line-length
-import { MiniBatchDictionaryLearningConfigModel, MiniBatchDictionaryLearningFit, MiniBatchDictionaryTransform  } from './minibatchdictionarylearning.model';
+import { MiniBatchDictionaryLearningConfigModel, MiniBatchDictionaryLearningFit, MiniBatchDictionaryTransform } from './minibatchdictionarylearning.model';
 import { DimensionEnum, EntityTypeEnum, CollectionTypeEnum } from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DataTypeEnum, DirtyEnum } from 'app/model/enum.model';

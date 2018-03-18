@@ -30,7 +30,7 @@ declare var $: any;
 
     <h1>Credits</h1>
     <h2>Lorum Ipsum</h2>
-  
+
     <h1>Special Thanks</h1>
     <h2>Lorum Ipsum</h2>
 
@@ -45,17 +45,15 @@ declare var $: any;
 })
 export class AboutPanelComponent implements AfterViewInit, OnDestroy {
 
- 
+
     // Attributes
     @Output() hide = new EventEmitter<any>();
     closeClick(): void {
-         this.hide.emit();
+        this.hide.emit();
     }
 
     ngOnDestroy(): void { }
-    ngAfterViewInit(): void {}
+    ngAfterViewInit(): void { }
     constructor(private cd: ChangeDetectorRef, private dataService: DataService, public ms: ModalService) {
     }
-
-
 }
