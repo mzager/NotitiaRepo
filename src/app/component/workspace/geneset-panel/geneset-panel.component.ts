@@ -38,7 +38,7 @@ declare var $: any;
     <div class='row'>
         <!-- My Cohorts -->
         <div class='col s12 l3 geneset-my-list'>
-            <span class="geneset-my-span">My Genesets</span>
+            <span>My Genesets</span>
             <div *ngFor='let myGeneset of genesets' (click)='geneSetDel(myGeneset)'>
                 <div class='geneset-my-row'>
                     <i class='material-icons geneset-my-row-delete'>remove_circle_outline</i>
