@@ -15,16 +15,19 @@ declare var $: any;
 @Component({
   selector: 'app-workspace-cohort-panel',
   styleUrls: ['./cohort-panel.component.scss'],
-  template: `<div>
-  <a href='#' class='modalClose' (click)='closeClick()'></a>
-  <h1 style = 'font-size: 3rem; font-weight: 300; margin-bottom: 10px; letter-spacing: 3px;'>Cohorts</h1>
-  <h2>Create, Manage and Apply custom cohorts to your visualizations
-   <a href='https://www.youtube.com/embed/XQu8TTBmGhA' target='_blank'>
-   <i class='small material-icons modalWatchVideoIcon'>ondemand_video</i>Watch Tutorial</a></h2>
+  template: `
+  <div class ='cohort-modal-panel'>
+    <div class='row'>
+      <a href='#' class='modalClose' (click)='closeClick()'></a>
+        <h1 class = 'chort-h1'>Cohorts</h1>
+        <h2 class='cohort-h2'>Create, Manage and Apply custom cohorts to your visualizations
+          <a href='https://www.youtube.com/embed/XQu8TTBmGhA' target='_blank'>
+          <i class='small material-icons modalWatchVideoIcon'>ondemand_video</i>Watch Tutorial</a></h2>
+   </div>
   <div class='row'>
     <!-- My Cohorts -->
-    <div class='col s3' style='border: 0px solid #EEE; border-right-width: 1px;padding-left: 0px;padding-right: 30px;'>
-      <span class='cohortHeader'>My Cohorts</span>
+    <div class='col s12 l3 cohort-my-list'>
+      <span >My Cohorts</span>
       <div *ngFor='let myCohort of cohorts'>
       <div class='cohortMyRow' (click)='deleteClick(myCohort)'>
         <i class='material-icons cohortMyRowDelete'>remove_circle_outline</i>
@@ -32,8 +35,8 @@ declare var $: any;
       </div>
       </div>
     </div>
-    <div class='col s9' style='padding-left:30px;padding-right:30px;'>
-      <span class='cohortHeader' style='padding-bottom:20px;'>Build A Cohort</span>
+    <div class='col s12 l9' style='padding-left:30px;padding-right:30px;'>
+      <span  style='padding-bottom:20px;'>Build A Cohort</span>
       <div class='cohortField'>
         <label for='cohortName'>Create</label>
         <input id='cohortName' type='text' placeholder='Enter Cohort Name' [(ngModel)]='activeCohort.n'
