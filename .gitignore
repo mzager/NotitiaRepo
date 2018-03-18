@@ -33,6 +33,7 @@
 npm-debug.log
 testem.log
 /typings
+/server/python/load_testing/
 
 # e2e
 /e2e/*.js
