@@ -9,8 +9,8 @@ import * as data from 'app/action/data.action';
 import { Action } from '@ngrx/store';
 
 export interface State {
-   config: GraphConfig;
-   data: EdgeDataModel;
+    config: GraphConfig;
+    data: EdgeDataModel;
 }
 
 const initialState: State = {
