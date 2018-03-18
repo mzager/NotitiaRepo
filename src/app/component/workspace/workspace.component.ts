@@ -56,8 +56,7 @@ import { FaConfigModel } from './../visualization/fa/fa.model';
 import { FastIcaConfigModel } from './../visualization/fastica/fastica.model';
 import {
   getFields,
-  getGraphAConfig,
-  getQueryData
+  getGraphAConfig
 } from './../../reducer/index.reducer';
 import { GraphConfig } from './../../model/graph-config.model';
 import { GraphTool } from 'app/model/graph-tool.model';
@@ -148,7 +147,6 @@ export class WorkspaceComponent {
     this.tables = store.select(fromRoot.getTables);
     this.fields = store.select(fromRoot.getFields);
     this.events = store.select(fromRoot.getEvents);
-    this.queryData = store.select(fromRoot.getQueryData);
   }
 
   select(selection: { type: EntityTypeEnum, ids: Array<string> }): void {
@@ -274,10 +272,10 @@ export class WorkspaceComponent {
     }
   }
 
-  graphPanelAddDecorator(e: {config: GraphConfig, decorator: DataDecorator}): void {
+  graphPanelAddDecorator(e: { config: GraphConfig, decorator: DataDecorator }): void {
     this.store.dispatch(new DataDecoratorCreateAction({ config: e.config, decorator: e.decorator }));
   }
-  graphPanelDelDecorator(e: {config: GraphConfig, decorator: DataDecorator}): void {
+  graphPanelDelDecorator(e: { config: GraphConfig, decorator: DataDecorator }): void {
     this.store.dispatch(new DataDecoratorDelAction({ config: e.config, decorator: e.decorator }));
   }
   addGeneset(value: { database: string, geneset: GeneSet }): void {
