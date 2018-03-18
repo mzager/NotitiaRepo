@@ -7,7 +7,7 @@ import {
     selector: 'app-workspace-loader',
     styleUrls: ['./loader.component.scss'],
     template:
-`<div class='loader'>
+        `<div class='loader'>
     <div class='loader-background'></div>
     <div class='loader-animation'></div>
 </div>`,
@@ -16,13 +16,11 @@ import {
 export class LoaderComponent implements AfterViewInit, OnDestroy {
 
     @Input() set visbibility(value: boolean) {
-        
+
     }
 
     ngOnDestroy(): void { }
-    ngAfterViewInit(): void {}
+    ngAfterViewInit(): void { }
     constructor() {
     }
-
-
 }
