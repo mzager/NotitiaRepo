@@ -3,8 +3,10 @@ import { COMPUTE_QUADRATIC_DISCRIMINANT_ANALYSIS } from './../action/compute.act
 import { DataService } from 'app/service/data.service';
 import { GraphConfig } from './graph-config.model';
 import { GraphData } from './graph-data.model';
-import { VisualizationEnum, StatTypeEnum, ChartTypeEnum, StatRendererEnum, StatRendererColumns, GraphEnum,
-    Colors } from 'app/model/enum.model';
+import {
+    VisualizationEnum, StatTypeEnum, ChartTypeEnum, StatRendererEnum, StatRendererColumns, GraphEnum,
+    Colors
+} from 'app/model/enum.model';
 import * as data from 'app/action/data.action';
 import { multicast } from 'rxjs/operator/multicast';
 import { single } from 'rxjs/operator/single';
@@ -115,7 +117,7 @@ export class VegaFactory {
     private constructor() {
         // vega.scheme('notitia', ['#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4']);
         // vega.scheme('notitia', ['#ff4081', '#e040fb', '#7c4dff', '#536dfe', '#448aff', '#40c4ff']);
-         vega.scheme('notitia', ['#b3e5fc', '#81d4fa', '#4fc3f7', '#29b6f6', '#03a9f4', '#039be5']);
+        vega.scheme('notitia', ['#b3e5fc', '#81d4fa', '#4fc3f7', '#29b6f6', '#03a9f4', '#039be5']);
 
     }
 
@@ -294,7 +296,7 @@ export class VegaFactory {
                             'value': 38
                         },
                         'outerRadius': {
-                            'value' : 58
+                            'value': 58
                         },
                         'cornerRadius': {
                             'value': 0
@@ -389,7 +391,7 @@ export class VegaFactory {
                         },
                         'hover': {
                             'fillOpacity': {
-                                'value':  0.7
+                                'value': 0.7
                             }
                         }
                     },
@@ -468,7 +470,7 @@ export class VegaFactory {
             ],
 
             'axes': [
-            {
+                {
                     'orient': 'bottom',
                     'scale': 'xscale',
 
@@ -528,15 +530,15 @@ export class VegaFactory {
                             'align': { 'value': 'center' },
                             'baseline': { 'value': 'bottom' },
                             'fill': { 'value': '#666666' },
-                            'font': { 'value': 'Lato'},
+                            'font': { 'value': 'Lato' },
                             'fontSize': { 'value': 10 },
                         },
                         'update': {
                             'x': { 'scale': 'xscale', 'signal': 'tooltip.mylabel', 'band': 0.5 },
                             'y': { 'scale': 'yscale', 'signal': 'tooltip.myvalue', 'offset': -6 },
                             'text': { 'signal': 'tooltip.myvalue' },
-                            'fontSize': {'value': 10},
-                            'font': { 'value': 'Lato'},
+                            'fontSize': { 'value': 10 },
+                            'font': { 'value': 'Lato' },
                             'fillOpacity': [
                                 { 'test': 'datum === tooltip', 'value': 0 },
                                 { 'value': 1 }
@@ -902,41 +904,47 @@ export class StatFactory {
 
     private constructor() { }
 
-    public getPopulationStats( config: GraphConfig, dataService: DataService): Promise<Array<Stat>> {
+    public getPopulationStats(config: GraphConfig, dataService: DataService): Promise<Array<Stat>> {
 
         if (config === undefined) {
-            return new Promise( (resolve, reject) => { resolve([]); });
+            return new Promise((resolve, reject) => { resolve([]); });
         }
-        return new Promise( (resolve, reject) => {
+        return new Promise((resolve, reject) => {
 
             const stats = [];
             if (config.markerFilter !== null) {
                 try {
-                stats.push({ mylabel: 'Genes: ', myvalue: ((config.markerFilter.length === 0) ?
-                    'All' : config.markerFilter.length.toString()) });
-                } catch (e) {}
+                    stats.push({
+                        mylabel: 'Genes: ', myvalue: ((config.markerFilter.length === 0) ?
+                            'All' : config.markerFilter.length.toString())
+                    });
+                } catch (e) { }
             }
             if (config.patientFilter !== null) {
                 try {
-                stats.push({ mylabel: 'Patients: ', myvalue: ((config.patientFilter.length === 0) ?
-                    'All' : config.patientFilter.length.toString()) });
-                } catch (e) {}
+                    stats.push({
+                        mylabel: 'Patients: ', myvalue: ((config.patientFilter.length === 0) ?
+                            'All' : config.patientFilter.length.toString())
+                    });
+                } catch (e) { }
             }
             if (config.sampleFilter !== null) {
                 try {
-                stats.push({ mylabel: 'Samples: ', myvalue: ((config.sampleFilter.length === 0) ?
-                    'All' : config.sampleFilter.length.toString()) });
-                } catch (e) {}
+                    stats.push({
+                        mylabel: 'Samples: ', myvalue: ((config.sampleFilter.length === 0) ?
+                            'All' : config.sampleFilter.length.toString())
+                    });
+                } catch (e) { }
             }
 
             const keyValues = new StatKeyValues('', stats);
 
-            dataService.getPatientStats(config.database, config.patientFilter).then( result => {
-                result = result.map( v => {
-                    const stat = new StatOneD(v.name, v.stat.map( v => ({
+            dataService.getPatientStats(config.database, config.patientFilter).then(result => {
+                result = result.map(v => {
+                    const stat = new StatOneD(v.name, v.stat.map(v => ({
                         mylabel: v.label, myvalue: v.value
                     })));
-                    if ( (v.type === 'number') || (v.type === 'category' && v.stat.length >= 7) ) {
+                    if ((v.type === 'number') || (v.type === 'category' && v.stat.length >= 7)) {
                         // Transform Into Histogram From pie
                         stat.charts.reverse();
                     }
@@ -1038,9 +1046,9 @@ export class StatFactory {
         const stats = [
             // Single Stats
             new StatKeyValues('', ([
-               { mylabel: 'nIter:', myvalue: data.iter },
-               { mylabel: 'Components:', myvalue: data.components },
-               { mylabel: 'Error:', myvalue: data.error }
+                { mylabel: 'nIter:', myvalue: data.iter },
+                { mylabel: 'Components:', myvalue: data.components },
+                { mylabel: 'Error:', myvalue: data.error }
             ])),
             // One Dimensional Stats
             // new StatOneD('Error', this.formatError(data.error)),
@@ -1207,12 +1215,12 @@ export class StatFactory {
     // One D Recycled Data Formulas
     // Principle Components- HACK, HACK - rounding MATH.ROUND
     formatPrincipleComponents(data: Array<number>): Array<{ mylabel: string, myvalue: number, color?: number }> {
-        const rv = data.map((v, i) => ({ mylabel: 'PC' + (i + 1), myvalue: (Math.round( v * 100 ) / 100)  }));
-        rv.push( {mylabel: 'Other', myvalue: rv.reduce( (p, c) => { p -= c.myvalue ; return (Math.round( p * 100 ) / 100); }, 100 )});
+        const rv = data.map((v, i) => ({ mylabel: 'PC' + (i + 1), myvalue: (Math.round(v * 100) / 100) }));
+        rv.push({ mylabel: 'Other', myvalue: rv.reduce((p, c) => { p -= c.myvalue; return (Math.round(p * 100) / 100); }, 100) });
         return rv;
     }
 
-        // hummmmm. go back an look at these, do we need them?
+    // hummmmm. go back an look at these, do we need them?
     // formatError(data: Array<number>): Array<{ mylabel: string, myvalue: number, color?: number }> {
     //     const error = data.map((v, i) => ({ mylabel: 'Error' + (i + 1), myvalue: Math.round(v * 1e2) / 1e2 }));
     //     return error.filter((v, i) => i < 10);
@@ -1236,9 +1244,9 @@ export class StatFactory {
     // Two D Recycled Data Formulas
     formatPCALoadings(markers: Array<string>, data: Array<Array<number>>): Array<{ mylabel: string, myvalue: number, color?: number }> {
         // Map Data To Marker Names
-        const r = markers.map( (v, i) => ({ marker: v, pc1: data[0][i], pc2: data[1][i], pc3: data[2][i] }))
-            .sort( (a, b) =>  (b.pc1 - a.pc1) )
-            .map(v => ({mylabel: v.marker, myvalue: Math.round(v.pc1 * 1e2) / 1e2}) ).splice(0, 11);
+        const r = markers.map((v, i) => ({ marker: v, pc1: data[0][i], pc2: data[1][i], pc3: data[2][i] }))
+            .sort((a, b) => (b.pc1 - a.pc1))
+            .map(v => ({ mylabel: v.marker, myvalue: Math.round(v.pc1 * 1e2) / 1e2 })).splice(0, 11);
         // const o = data[0].sort((a, b) => b - a).splice(0, 20).map((v, i) => ({ mylabel: markers[i], myvalue: Math.round(v * 1e2) / 1e2 }));
         // debugger;
         return r;

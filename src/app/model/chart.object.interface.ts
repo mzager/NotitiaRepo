@@ -13,12 +13,12 @@ import * as THREE from 'three';
 export interface ChartObjectInterface {
     meshes: Array<THREE.Object3D>;
     onRequestRender: EventEmitter<GraphEnum>;
-    onSelect: EventEmitter<{type: EntityTypeEnum, ids: Array<string>}>;
-    onConfigEmit: EventEmitter<{type: GraphConfig}>;
-    enable( truthy: Boolean );
-    updateDecorator( config: GraphConfig, decorators: Array<DataDecorator>);
-    updateData( config: GraphConfig, data: any);
-    create( labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface;
+    onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>;
+    onConfigEmit: EventEmitter<{ type: GraphConfig }>;
+    enable(truthy: Boolean);
+    updateDecorator(config: GraphConfig, decorators: Array<DataDecorator>);
+    updateData(config: GraphConfig, data: any);
+    create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface;
     destroy();
     preRender(views: Array<VisualizationView>, layout: WorkspaceLayoutEnum, renderer: THREE.Renderer): void;
 }
