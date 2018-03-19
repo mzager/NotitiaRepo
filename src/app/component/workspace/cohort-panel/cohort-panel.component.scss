@@ -1,6 +1,6 @@
 // Responsive Mobile First
 
-/* Selectors and styles affecting screens SMALLER THAN 767px (Phones) */
+/* Selectors and styles affecting screens SMALLER THAN 410px (smallPhones) */
 
 .cohort-modal-panel {
     padding: 20px;
@@ -42,6 +42,141 @@
     margin-bottom: 10px;
 }
 
+.cohort-my-list {
+    border-right-width: 1px;
+    padding-left: 10px;
+    padding-right: 30px;
+}
+
+.cohort-button {
+    padding-left: 5px;
+    margin-top: 17px;
+}
+
+.cohort-save {
+    border-radius: 20px;
+    border: 2px solid #039be5;
+    width: 75px;
+    height: 40px;
+    line-height: 36px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.cohort-myRow {
+    position: relative;
+    line-height: 30px;
+    font-weight: 300;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.cohort-myRow-delete {
+    color: #029BE5;
+    transform: translateY(6px);
+}
+
+.cohort-container {
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 10px;
+}
+
+.cohort-field {
+    position: relative;
+    margin-top: 1px;
+    label {
+        display: inline-block;
+        width: 75px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: 700;
+        margin-right: 20px;
+    }
+    input {
+        background: #FFF;
+        width: 230px;
+        margin-bottom: 5px;
+        border-color: #EEE;
+        padding-left: 6px;
+        margin-left: 10px;
+    }
+}
+
+.cohort-field-buttons {
+    display: none;
+    color: #039be5;
+    a {
+        padding-left: 10px;
+        padding-right: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+}
+
+.cohort-field:hover {
+    color: #029BE5;
+    .cohort-field-buttons {
+        display: inline-block;
+    }
+}
+
+.cohort-field {
+    .cohort-field-dropdown {
+        width: 230px;
+        display: inline-block;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
+
+.cohort-field-or {
+    margin-left: 25px;
+    margin-top: 1px;
+    label {
+        width: 50px;
+    }
+}
+
+.cohort-span {
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+@media (min-width: 410px) {
+    /* Selectors and styles affecting screens WIDER THAN 410px (phones) */
+    .cohort-field {
+        input {
+            width: 260px;
+        }
+    }
+    .cohort-field-dropdown {
+        width: 260px;
+    }
+    .cohort-minMax {
+        input {
+            margin-left: 10px;
+        }
+    }
+}
+
+@media (min-width: 767px) {
+    /* Selectors and styles affecting screens WIDER THAN 768px (tablets) */
+    .cohort-modal-panel {
+        padding: 40px;
+    }
+    .cohort-h1 {
+        font-size: 3rem;
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+    }
+}
+
 @media (min-width: 1200px) {
     /* Selectors and styles affecting screens WIDER THAN 1200px (Desktop) */
     .cohort-modal-panel {
@@ -50,11 +185,6 @@
     .modalClose {
         height: 50px;
         right: 60px;
-    }
-    .cohort-h1 {
-        font-size: 3rem;
-        margin-bottom: 0px;
-        padding-bottom: 0px;
     }
     .cohort-h2 {
         font-size: 1.2rem;
@@ -66,195 +196,80 @@
         padding-left: 10px;
         padding-right: 30px;
     }
-}
-
-.cohortMyRow {
-    position: relative;
-    line-height: 30px;
-    font-weight: 300;
-    font-size: 1rem;
-    cursor: pointer;
-    .cohortMyRowDelete {
+    .cohort-button {
+        padding-left: 5px;
+        margin-top: 17px;
+    }
+    .cohort-save {
+        border-radius: 20px;
+        border: 2px solid #039be5;
+        width: 55px;
+        height: 40px;
+        line-height: 36px;
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: 700;
+        display: inline-block;
+        margin-left: 10px;
+    }
+    .cohort-myRow {
+        position: relative;
+        line-height: 30px;
+        font-weight: 300;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+    .cohort-myRow-delete {
+        color: #029BE5;
         transform: translateY(6px);
     }
-}
-
-.cohortMyRowDelete {
-    color: #029BE5;
-}
-
-.cohortField {
-    // background: #f3f3f3;
-    position: relative;
-    margin-top: 1px;
-    label {
-        display: inline-block;
-        width: 75px;
-        height: 40px;
-        line-height: 40px;
-        text-align: center;
-        text-transform: uppercase;
-        font-weight: 700;
+    .cohort-container {
+        padding-left: 30px;
+        padding-right: 30px;
     }
-    input {
-        background: #FFF;
+    .cohort-field {
+        position: relative;
+        margin-top: 1px;
+        label {
+            display: inline-block;
+            width: 75px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+        input {
+            background: #FFF;
+        }
     }
-}
-
-.cohortFieldLabel {
-    display: inline-block;
-    width: 75px;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: 700;
-}
-
-.cohortFieldOr {
-    margin-left: 25px;
-    margin-top: 1px;
-    label {
-        width: 50px;
+    .cohort-field-buttons {
+        display: none;
+        color: #039be5;
+        a {
+            padding-left: 10px;
+            padding-right: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
     }
-}
-
-.cohortFieldButtons {
-    display: none;
-    color: #039be5;
-    a {
-        padding-left: 10px;
-        padding-right: 10px;
-        font-weight: 700;
-        text-transform: uppercase;
-    }
-}
-
-.cohortField:hover {
-    color: #029BE5;
-    .cohortFieldButtons {
-        display: inline-block;
-    }
-}
-
-.cohortFieldDropdown {
-    width: 125px;
-    display: inline-block;
-    margin-left: 0px;
-    margin-right: 10px;
-}
-
-.cohortBtn {
-    border: solid 0px #EEEEEE;
-    border-bottom-width: 1px;
-}
-
-.cohortMyRow {
-    position: relative;
-    line-height: 30px;
-    font-weight: 300;
-    font-size: 1rem;
-    cursor: pointer;
-    .cohortMyRowDelete {
-        //     opacity: 1;
-        transform: translateY(6px); //     transition: opacity .6s;
-    } // span {
-    //     position: absolute;
-    //     top: 3px;
-    //     left: 0px;
-    // }
-}
-
-// .cohortMyRow:hover { 
-//     .cohortMyRowDelete {
-//         opacity: 1;
-//     }
-// }
-.cohortMyRowDelete {
-    color: #029BE5;
-}
-
-.cohortField {
-    // background: #f3f3f3;
-    position: relative;
-    margin-top: 1px;
-    label {
-        display: inline-block;
-        width: 75px;
-        height: 40px;
-        line-height: 40px;
-        text-align: center;
-        text-transform: uppercase;
-        font-weight: 700;
-    }
-    input {
-        background: #FFF;
-    }
-}
-
-.cohortFieldLabel {
-    display: inline-block;
-    width: 75px;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: 700;
-}
-
-.cohortFieldOr {
-    margin-left: 25px;
-    margin-top: 1px;
-    label {
-        width: 50px;
-    }
-}
-
-.cohortField:hover {
-    color: #029BE5;
-    .cohortFieldButtons {
-        display: inline-block;
-    }
-}
-
-.cohortFieldDropdown {
-    width: 125px;
-    display: inline-block;
-    margin-left: 0px;
-    margin-right: 10px;
-}
-
-.cohortBtn {
-    font-weight: 400;
-    text-transform: uppercase;
-    color: #029BE5;
-    background: #FFFFFF;
-    box-shadow: none;
-}
-
-.genesetResult {
-    font-weight: 300;
-    i {
+    .cohort-field:hover {
         color: #029BE5;
-        padding-right: 10px;
-        padding-left: 40px;
+        .cohort-field-buttons {
+            display: inline-block;
+        }
     }
-    div {
+    .cohort-field-dropdown {
+        width: 125px;
         display: inline-block;
-        margin-bottom: 10px;
-        padding-left: 5px;
+        margin-left: 0px;
+        margin-right: 10px;
     }
-}
-
-.genesetResult {
-    font-weight: 300;
-    i {
-        color: #029BE5;
-        padding-right: 10px;
-    }
-    div {
-        display: inline-block;
-        margin-bottom: 10px;
-        padding-left: 25px;
+    .cohort-field-or {
+        margin-left: 25px;
+        margin-top: 1px;
+        label {
+            width: 50px;
+        }
     }
 }
