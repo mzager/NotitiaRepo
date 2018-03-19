@@ -15,6 +15,7 @@ import Dexie from 'dexie';
 import * as _ from 'lodash';
 import * as JStat from 'jstat';
 import { QueryBuilderConfig } from 'app/component/workspace/query-panel/query-builder/query-builder.interfaces';
+import { Legend } from '../model/legend.model';
 
 
 @Injectable()
@@ -39,6 +40,7 @@ export class DataService {
             let scale: Function;
             // let legend: Legend;
             switch (decorator.type) {
+
               case DataDecoratorTypeEnum.COLOR:
                 scale = (decorator.field.type === 'STRING') ?
                   ChartFactory.getScaleColorOrdinal(decorator.field.values) :
@@ -51,10 +53,28 @@ export class DataService {
                   label: v[decorator.field.key],
                   value: scale(v[decorator.field.key])
                 }));
+                decorator.legend = new Legend();
+                decorator.legend.type = 'COLOR';
+                decorator.legend.display = 'DISCRETE';
+                decorator.legend.name = (config.entity === EntityTypeEnum.SAMPLE) ? 'Sample Color' :
+                  (config.entity === EntityTypeEnum.GENE) ? 'Gene Color' : 'Patient Color';
+                if (decorator.field.type === 'STRING') {
+                  decorator.legend.labels = scale['domain']();
+                  decorator.legend.values = scale['range']();
+                } else {
+                  decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v).join(' - '));
+                  decorator.legend.values = scale['range']();
+                  // decorator.legend.labels = [decorator.field.values.min, decorator.field.values.max];
+                  // decorator.legend.values = [decorator.field.values.min, decorator.field.values.max];
+                  // decorator.legend.display = 'CONTINUOUS';
+                }
                 resolve(decorator);
                 break;
+
               case DataDecoratorTypeEnum.SHAPE:
-                scale = ChartFactory.getScaleShapeOrdinal(decorator.field.values);
+                scale = (decorator.field.type === 'STRING') ?
+                  ChartFactory.getScaleShapeOrdinal(decorator.field.values) :
+                  ChartFactory.getScaleShapeLinear(decorator.field.values.min, decorator.field.values.max);
                 decorator.values = items.map(v => ({
                   pid: v.p,
                   sid: psMap[v.p],
@@ -63,8 +83,21 @@ export class DataService {
                   label: v[decorator.field.key],
                   value: scale(v[decorator.field.key])
                 }));
+                decorator.legend = new Legend();
+                decorator.legend.type = 'SHAPE';
+                decorator.legend.display = 'DISCRETE';
+                decorator.legend.name = (config.entity === EntityTypeEnum.SAMPLE) ? 'Sample Shape' :
+                  (config.entity === EntityTypeEnum.GENE) ? 'Gene Shape' : 'Patient Shape';
+                if (decorator.field.type === 'STRING') {
+                  decorator.legend.labels = scale['domain']();
+                  decorator.legend.values = scale['range']();
+                } else {
+                  decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v).join(' - '));
+                  decorator.legend.values = scale['range']();
+                }
                 resolve(decorator);
                 break;
+
               case DataDecoratorTypeEnum.SIZE:
                 scale = (decorator.field.type === 'STRING') ?
                   ChartFactory.getScaleSizeOrdinal(decorator.field.values) :
@@ -79,6 +112,7 @@ export class DataService {
                 }));
                 resolve(decorator);
                 break;
+
               case DataDecoratorTypeEnum.TOOLTIP:
                 break;
               case DataDecoratorTypeEnum.SELECT:

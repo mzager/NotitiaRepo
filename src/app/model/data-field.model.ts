@@ -53,7 +53,7 @@ export class DataFieldFactory {
         case DataTypeEnum.STRING:
           return (v.values.length <= 8);
         case DataTypeEnum.NUMBER:
-          return false;
+          return true;
       }
     })];
   }

@@ -63,7 +63,7 @@
             </div>
 
             <div *ngIf='config'>
-                <app-workspace-decorator-panel [decorators]='decorators | async' (decoratorAdd)='onDecoratorAdd($event)' (decoratorDel)='onDecoratorDel($event)'
+                <app-workspace-decorator-panel [decorators]='decorators' (decoratorAdd)='onDecoratorAdd($event)' (decoratorDel)='onDecoratorDel($event)'
                     [config]='config' [fields]='fields'></app-workspace-decorator-panel>
                 <app-pathways-form *ngIf='config && config.visualization === 256' (configChange)='graphPanelSetConfig($event)' [fields]='fields'
                     [config]='config'></app-pathways-form>
@@ -127,7 +127,7 @@
 
         <div class='graphPanelHeader'>Legend</div>
         <div style='padding:10px; overflow-y: scroll; overflow-x: hidden; padding-bottom: 30px;'>
-            <app-workspace-legend-panel *ngIf='data && data.legendItems' [legends]='data.legendItems'></app-workspace-legend-panel>
+            <app-workspace-legend-panel *ngFor='let decorator of decorators' [decorator]='decorator'></app-workspace-legend-panel>
             <app-workspace-stat-panel [config]='config' [graphData]='data'></app-workspace-stat-panel>
         </div>
     </div>
