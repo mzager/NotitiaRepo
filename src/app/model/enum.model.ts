@@ -61,6 +61,16 @@ export const enum DirtyEnum {
 //     static readonly IN = 'In';
 //     static readonly NOT = 'Not';
 // }
+export class SpriteMaterialEnum {
+    static readonly BLAST = 'blast';
+    static readonly BLOB = 'blob';
+    static readonly CIRCLE = 'circle';
+    static readonly DIAMOND = 'diamond';
+    static readonly POLYGON = 'polygon';
+    static readonly SQUARE = 'square';
+    static readonly STAR = 'star';
+    static readonly TRIANGLE = 'triangle';
+}
 
 export const enum ShapeEnum {
     CIRCLE = 1 << 0,
