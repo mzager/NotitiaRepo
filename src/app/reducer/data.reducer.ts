@@ -1,4 +1,7 @@
-import { DataLoadedAction, DATA_UPDATE_COHORTS, DataUpdateCohortsAction, DATA_UPDATE_GENESETS } from './../action/data.action';
+import {
+    DataLoadedAction, DATA_UPDATE_COHORTS, DataUpdateCohortsAction,
+    DATA_UPDATE_GENESETS, DataUpdateGenesetsAction
+} from './../action/data.action';
 import { DataChromosome } from './../model/data-chromosome.model';
 import { DataField, DataTable } from './../model/data-field.model';
 import * as e from 'app/model/enum.model';
@@ -34,7 +37,7 @@ export function reducer(state = initialState, action: Action): State {
             const duc: DataUpdateCohortsAction = action as DataUpdateCohortsAction;
             return Object.assign({}, state, { cohorts: duc.payload });
         case data.DATA_UPDATE_GENESETS:
-            const dug: DataUpdateCohortsAction = action as DataUpdateCohortsAction;
+            const dug: DataUpdateGenesetsAction = action as DataUpdateGenesetsAction;
             return Object.assign({}, state, { genesets: dug.payload });
         default:
             return state;

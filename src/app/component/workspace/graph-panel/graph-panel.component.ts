@@ -69,9 +69,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Input() tables: Array<DataTable>;
   @Input() fields: Array<DataField>;
   @Input() events: Array<{ type: string, subtype: string }>;
-  @Input() genesets: Array<any>;
-  @Input() cohorts: Array<any>;
-  @Input() decorators: Array<DataDecorator>;
 
   @Input() molecularData: Array<string>;
   @Input() clinicalFields: Array<DataField>;
@@ -84,12 +81,42 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Output() selectGeneSignature: EventEmitter<GraphConfig> = new EventEmitter();
   @Output() selectGeneset: EventEmitter<any> = new EventEmitter();
   @Output() selectCohort: EventEmitter<any> = new EventEmitter();
-  @Output() decoratorAdd: EventEmitter<{config: GraphConfig, decorator: DataDecorator}> = new EventEmitter();
-  @Output() decoratorDel: EventEmitter<{config: GraphConfig, decorator: DataDecorator}> = new EventEmitter();
+  @Output() decoratorAdd: EventEmitter<{ config: GraphConfig, decorator: DataDecorator }> = new EventEmitter();
+  @Output() decoratorDel: EventEmitter<{ config: GraphConfig, decorator: DataDecorator }> = new EventEmitter();
 
 
   methodName = '';
   methodSummary = '';
+
+  _decorators: Array<DataDecorator>;
+  get decorators(): Array<DataDecorator> {
+    return this._decorators;
+  }
+  @Input() set decorators(value: Array<DataDecorator>) {
+    this._decorators = value;
+    requestAnimationFrame(() => {
+      this.cd.markForCheck();
+    });
+  }
+
+
+  public _genesets: Array<any>;
+  public get genesets(): Array<any> { return this._genesets; }
+  @Input() public set genesets(value: Array<any>) {
+    this._genesets = value;
+    requestAnimationFrame(() => {
+      this.cd.markForCheck();
+    });
+  }
+
+  _cohorts: Array<any>;
+  public get cohorts(): Array<any> { return this._cohorts; }
+  @Input() public set cohorts(value: Array<any>) {
+    this._cohorts = value;
+    requestAnimationFrame(() => {
+      this.cd.markForCheck();
+    });
+  }
 
   private _config: GraphConfig = null;
   get config(): GraphConfig { return this._config; }
@@ -106,7 +133,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       this.dataService.getHelpInfo(value).then(v => {
         this.methodName = v.method;
         this.methodSummary = v.summary;
-        this.cd.markForCheck();
         requestAnimationFrame(() => {
           this.cd.markForCheck();
         });
@@ -122,7 +148,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       const secondTierVisualization = this.visualizationOptions
         .filter(v => v.methodOptions)
         .filter(v => v.methodOptions
-        .find( w => w.value === value.visualization))[0];
+          .find(w => w.value === value.visualization))[0];
       this.visualizationOption = secondTierVisualization.value;
       this.methodOptions = secondTierVisualization.methodOptions;
       this.methodOption = value.visualization;
@@ -170,11 +196,11 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   }
 
   onDecoratorAdd(decorator: DataDecorator) {
-    this.decoratorAdd.emit({config: this.config, decorator: decorator});
+    this.decoratorAdd.emit({ config: this.config, decorator: decorator });
   }
 
   onDecoratorDel(decorator: DataDecorator) {
-    this.decoratorAdd.emit({config: this.config, decorator: decorator});
+    this.decoratorAdd.emit({ config: this.config, decorator: decorator });
   }
   setVisualization(visualizationEnumValue): void {
     let gc: GraphConfig;
@@ -339,7 +365,8 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       { value: VisualizationEnum.SURVIVAL, label: 'Survival' },
       { value: VisualizationEnum.TIMELINES, label: 'Timelines' },
       { value: VisualizationEnum.SPREADSHEET, label: 'Spreadsheet' },
-      { value: VisualizationEnum.DECOMPOSITION, label: 'Matrix Decomposition', methodOptions: [
+      {
+        value: VisualizationEnum.DECOMPOSITION, label: 'Matrix Decomposition', methodOptions: [
           { value: VisualizationEnum.DICTIONARY_LEARNING, label: 'Dictionary Learning' },
           { value: VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING, label: 'Dictionary Learning - Mini Batch ' },
           { value: VisualizationEnum.FA, label: 'Factor Analysis' },
@@ -351,29 +378,31 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
           { value: VisualizationEnum.KERNAL_PCA, label: 'PCA - Kernel' },
           { value: VisualizationEnum.SPARSE_PCA, label: 'PCA - Sparse' },
           { value: VisualizationEnum.MINI_BATCH_SPARSE_PCA, label: 'PCA - Sparse - Mini Batch' },
-          { value: VisualizationEnum.SPARSE_CODER, label: 'Sparse Coder'},
+          { value: VisualizationEnum.SPARSE_CODER, label: 'Sparse Coder' },
           { value: VisualizationEnum.TRUNCATED_SVD, label: 'Truncated SVD' }
         ]
       },
-      { value: VisualizationEnum.MANIFOLDLEARNING, label: 'Manifold Learning', methodOptions: [
-        { value: VisualizationEnum.ISOMAP, label: 'Isomap' },
-        { value: VisualizationEnum.LOCALLY_LINEAR_EMBEDDING, label: 'Locally Linear Embedding' },
-        { value: VisualizationEnum.MDS, label: 'MDS' },
-        { value: VisualizationEnum.SPECTRAL_EMBEDDING, label: 'Spectral Embedding' },
-        { value: VisualizationEnum.TSNE, label: 'T-SNE' }
-      ] },
+      {
+        value: VisualizationEnum.MANIFOLDLEARNING, label: 'Manifold Learning', methodOptions: [
+          { value: VisualizationEnum.ISOMAP, label: 'Isomap' },
+          { value: VisualizationEnum.LOCALLY_LINEAR_EMBEDDING, label: 'Locally Linear Embedding' },
+          { value: VisualizationEnum.MDS, label: 'MDS' },
+          { value: VisualizationEnum.SPECTRAL_EMBEDDING, label: 'Spectral Embedding' },
+          { value: VisualizationEnum.TSNE, label: 'T-SNE' }
+        ]
+      },
       // { value: VisualizationEnum.DECOMPOSITION, label: 'Cross Decomposition', methodOptions: [
-//    {
-//         value: VisualizationEnum.SUPPORT_VECTOR_MACHINES, label: 'Support Vector Machines', methodOptions: [
-// svm.LinearSVC([penalty, loss, dual, tol, C, …])	Linear Support Vector Classification.
-// svm.LinearSVR([epsilon, tol, C, loss, …])	Linear Support Vector Regression.
-// svm.NuSVC([nu, kernel, degree, gamma, …])	Nu-Support Vector Classification.
-// svm.NuSVR([nu, C, kernel, degree, gamma, …])	Nu Support Vector Regression.
-// svm.OneClassSVM([kernel, degree, gamma, …])	Unsupervised Outlier Detection.
-// svm.SVC([C, kernel, degree, gamma, coef0, …])	C-Support Vector Classification.
-// svm.SVR([kernel, degree, gamma, coef0, tol, …])	Epsilon-Support Vector Regression.
-//         ]
-//       }
+      //    {
+      //         value: VisualizationEnum.SUPPORT_VECTOR_MACHINES, label: 'Support Vector Machines', methodOptions: [
+      // svm.LinearSVC([penalty, loss, dual, tol, C, …])	Linear Support Vector Classification.
+      // svm.LinearSVR([epsilon, tol, C, loss, …])	Linear Support Vector Regression.
+      // svm.NuSVC([nu, kernel, degree, gamma, …])	Nu-Support Vector Classification.
+      // svm.NuSVR([nu, C, kernel, degree, gamma, …])	Nu Support Vector Regression.
+      // svm.OneClassSVM([kernel, degree, gamma, …])	Unsupervised Outlier Detection.
+      // svm.SVC([C, kernel, degree, gamma, coef0, …])	C-Support Vector Classification.
+      // svm.SVR([kernel, degree, gamma, coef0, tol, …])	Epsilon-Support Vector Regression.
+      //         ]
+      //       }
       // Decomposition
 
 
