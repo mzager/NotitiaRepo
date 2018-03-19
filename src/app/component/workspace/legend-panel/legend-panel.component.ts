@@ -37,7 +37,7 @@ export class LegendPanelComponent implements AfterViewInit {
         console.log("CHECK FOR NULLS");
         this.items = this.legend.labels.map((v, i) => ({
           label: v,
-          value: (this.decorator.field.type === DataTypeEnum.STRING) ? ('#' + this.legend.values[i].toString(16)) : this.legend.values[i]
+          value: (this.decorator.field.type === DataTypeEnum.STRING) ? ('#' + (this.legend.values[i]).toString(16)) : this.legend.values[i]
         }));
         break;
       case 'SHAPE':
