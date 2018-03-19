@@ -51,7 +51,7 @@ export class DataFieldFactory {
     return [DataFieldFactory.defaultDataField, ...clinicalFields.filter(v => {
       switch (v.type) {
         case DataTypeEnum.STRING:
-          return (v.values.length <= 4);
+          return (v.values.length <= 8);
         case DataTypeEnum.NUMBER:
           return false;
       }

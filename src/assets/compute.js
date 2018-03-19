@@ -20910,6 +20910,8 @@ var ComputeWorkerUtil = /** @class */ (function () {
         this.dbLookup = null;
         this.sizes = [1, 2, 3, 4];
         this.shapes = [1 /* CIRCLE */, 2 /* SQUARE */, 4 /* TRIANGLE */, 8 /* CONE */];
+        this.sprites = [enum_model_1.SpriteMaterialEnum.BLAST, enum_model_1.SpriteMaterialEnum.BLOB, enum_model_1.SpriteMaterialEnum.CIRCLE, enum_model_1.SpriteMaterialEnum.DIAMOND,
+            enum_model_1.SpriteMaterialEnum.POLYGON, enum_model_1.SpriteMaterialEnum.SQUARE, enum_model_1.SpriteMaterialEnum.STAR, enum_model_1.SpriteMaterialEnum.TRIANGLE];
         this.colors4 = [0x419268, 0xd044cc, 0x55a338, 0x754ad0, 0xc58528, 0x6885ce, 0xdd5031, 0x6a448f,
             0x777d30, 0xc454a9, 0xb17048, 0xdd416c, 0x97392b, 0xc9759a];
         this.colors3 = [0xf06292, 0xba68c8, 0x9575cd, 0x7986cb, 0x64b5f6, 0x80cbc4, 0xffcc80, 0xbcaaa4];
@@ -21857,7 +21859,7 @@ var ComputeWorkerUtil = /** @class */ (function () {
                 var fieldKey = field.key;
                 if (field.type === 'STRING') {
                     var cm_3 = field.values.reduce(function (p, c, i) {
-                        p[c] = _this.shapes[i];
+                        p[c] = _this.sprites[i];
                         return p;
                     }, {});
                     _this.dbData.table(field.tbl).toArray().then(function (row) {
@@ -25743,6 +25745,32 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Colors = [0x00FF00, 0xD50000, 0xC51162, 0xAA00FF, 0x6200EA, 0x304FFE, 0x2196F3, 0x0091EA,
     0x00B8D4, 0x00BFA5, 0x64DD17, 0xAEEA00, 0xFFD600, 0xFFAB00, 0xFF6D00, 0xDD2C00,
     0x5D4037, 0x455A64];
+// export class LogicalOperatorEnum {
+//     static readonly AND = 'AND';
+//     static readonly OR = 'OR';
+// }
+// export class ConditionalOperatorEnum {
+//     static readonly GT = '>';
+//     static readonly LT = '<';
+//     static readonly GTE = '>=';
+//     static readonly LTE = '<=';
+//     static readonly IN = 'In';
+//     static readonly NOT = 'Not';
+// }
+var SpriteMaterialEnum = /** @class */ (function () {
+    function SpriteMaterialEnum() {
+    }
+    SpriteMaterialEnum.BLAST = 'blast';
+    SpriteMaterialEnum.BLOB = 'blob';
+    SpriteMaterialEnum.CIRCLE = 'circle';
+    SpriteMaterialEnum.DIAMOND = 'diamond';
+    SpriteMaterialEnum.POLYGON = 'polygon';
+    SpriteMaterialEnum.SQUARE = 'square';
+    SpriteMaterialEnum.STAR = 'star';
+    SpriteMaterialEnum.TRIANGLE = 'triangle';
+    return SpriteMaterialEnum;
+}());
+exports.SpriteMaterialEnum = SpriteMaterialEnum;
 var DistanceEnum = /** @class */ (function () {
     function DistanceEnum() {
     }
@@ -30151,7 +30179,7 @@ exports.survivalCompute = function (config, worker) {
             times: t,
             events: e
         }).then(function (survivalResult) {
-            var result = Object.keys(survivalResult.result.KM_estimate)
+            var results = Object.keys(survivalResult.result.KM_estimate)
                 .map(function (v) { return [parseFloat(v), survivalResult.result.KM_estimate[v]]; })
                 .sort(function (a, b) { return a[0] - b[0]; });
             var upper = Object.keys(survivalResult.confidence['KM_estimate_upper_0.95'])
@@ -30169,7 +30197,7 @@ exports.survivalCompute = function (config, worker) {
                         cohorts: [
                             {
                                 name: 'All',
-                                result: result,
+                                result: results,
                                 confidence: {
                                     upper: upper,
                                     lower: lower

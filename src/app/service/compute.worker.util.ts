@@ -7,7 +7,7 @@ import { interpolateRgb, interpolateHcl } from 'd3-interpolate';
 import { rgb } from 'd3-color';
 import { GraphConfig } from './../model/graph-config.model';
 import { Legend } from './../model/legend.model';
-import { DataTypeEnum, ShapeEnum, EntityTypeEnum, CollectionTypeEnum, DirtyEnum } from './../model/enum.model';
+import { DataTypeEnum, ShapeEnum, EntityTypeEnum, CollectionTypeEnum, DirtyEnum, SpriteMaterialEnum } from './../model/enum.model';
 import { DataField } from './../model/data-field.model';
 import * as _ from 'lodash';
 import Dexie from 'dexie';
@@ -23,6 +23,8 @@ export class ComputeWorkerUtil {
 
     private sizes = [1, 2, 3, 4];
     private shapes = [ShapeEnum.CIRCLE, ShapeEnum.SQUARE, ShapeEnum.TRIANGLE, ShapeEnum.CONE];
+    private sprites = [SpriteMaterialEnum.BLAST, SpriteMaterialEnum.BLOB, SpriteMaterialEnum.CIRCLE, SpriteMaterialEnum.DIAMOND,
+    SpriteMaterialEnum.POLYGON, SpriteMaterialEnum.SQUARE, SpriteMaterialEnum.STAR, SpriteMaterialEnum.TRIANGLE];
 
     public colors4 = [0x419268, 0xd044cc, 0x55a338, 0x754ad0, 0xc58528, 0x6885ce, 0xdd5031, 0x6a448f,
         0x777d30, 0xc454a9, 0xb17048, 0xdd416c, 0x97392b, 0xc9759a];
@@ -1000,7 +1002,7 @@ export class ComputeWorkerUtil {
                 const fieldKey = field.key;
                 if (field.type === 'STRING') {
                     const cm = field.values.reduce((p, c, i) => {
-                        p[c] = this.shapes[i];
+                        p[c] = this.sprites[i];
                         return p;
                     }, {});
                     this.dbData.table(field.tbl).toArray().then(row => {
