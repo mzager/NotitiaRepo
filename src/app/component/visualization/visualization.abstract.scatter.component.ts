@@ -96,6 +96,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     }
 
     addObjects(type: EntityTypeEnum) {
+
         const propertyId = (this.config.entity === EntityTypeEnum.GENE) ? 'mid' : 'sid';
         const objectIds = this.data[propertyId];
         this.data.resultScaled.forEach((point, index) => {
@@ -129,7 +130,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
             const target: THREE.Vector3 = hit[0].object.parent.position.clone();
             const event: MouseEvent = e.event as MouseEvent;
             const geometry = new THREE.SphereGeometry(3, 30, 30);
-            const material = new THREE.MeshPhongMaterial({ color: 0x029BE5, opacity: 0.1, transparent: true });
+            const material = new THREE.MeshPhongMaterial({ color: 0x029BE5, opacity: 0.1, transparent: true, depthWrite: false });
             this.selectionMesh = new THREE.Mesh(geometry, material);
             this.selectionMesh.position.set(target.x, target.y, target.z);
             this.selectionMeshes.push(this.selectionMesh);
