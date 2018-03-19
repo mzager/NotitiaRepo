@@ -62,7 +62,7 @@ export class DataService {
                   decorator.legend.labels = scale['domain']();
                   decorator.legend.values = scale['range']();
                 } else {
-                  decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v).join(' - '));
+                  decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v).map(w => Math.round(w)).join(' - '));
                   decorator.legend.values = scale['range']();
                   // decorator.legend.labels = [decorator.field.values.min, decorator.field.values.max];
                   // decorator.legend.values = [decorator.field.values.min, decorator.field.values.max];

@@ -1,5 +1,5 @@
 <div class='legend'>
-    <div>{{legend.name}}</div>
+    <div class='legendHeader'>{{legend.name}}</div>
     <div [ngSwitch]="decorator.type">
         <!-- Color -->
         <div *ngSwitchCase="0">
@@ -12,8 +12,6 @@
                 </div>
             </div>
         </div>
-        <!-- Size -->
-        <div *ngSwitchCase="1"></div>
         <!-- Shape -->
         <div *ngSwitchCase="2">
             <div *ngFor='let item of items' class='legendItem'>
@@ -24,5 +22,5 @@
                 </div>
             </div>
         </div>
-
     </div>
+</div>
