@@ -56,8 +56,8 @@ export class DataService {
                 decorator.legend = new Legend();
                 decorator.legend.type = 'COLOR';
                 decorator.legend.display = 'DISCRETE';
-                decorator.legend.name = (config.entity === EntityTypeEnum.SAMPLE) ? 'Sample Color' :
-                  (config.entity === EntityTypeEnum.GENE) ? 'Gene Color' : 'Patient Color';
+                decorator.legend.name = (config.entity === EntityTypeEnum.SAMPLE) ? 'Sample ' + decorator.field.label :
+                  (config.entity === EntityTypeEnum.GENE) ? 'Gene ' + decorator.field.label : 'Patient ' + decorator.field.label;
                 if (decorator.field.type === 'STRING') {
                   decorator.legend.labels = scale['domain']();
                   decorator.legend.values = scale['range']();
@@ -86,8 +86,8 @@ export class DataService {
                 decorator.legend = new Legend();
                 decorator.legend.type = 'SHAPE';
                 decorator.legend.display = 'DISCRETE';
-                decorator.legend.name = (config.entity === EntityTypeEnum.SAMPLE) ? 'Sample Shape' :
-                  (config.entity === EntityTypeEnum.GENE) ? 'Gene Shape' : 'Patient Shape';
+                decorator.legend.name = (config.entity === EntityTypeEnum.SAMPLE) ? 'Sample ' + decorator.field.label :
+                  (config.entity === EntityTypeEnum.GENE) ? 'Gene ' + decorator.field.label : 'Patient ' + decorator.field.label;
                 if (decorator.field.type === 'STRING') {
                   decorator.legend.labels = scale['domain']();
                   decorator.legend.values = scale['range']();
