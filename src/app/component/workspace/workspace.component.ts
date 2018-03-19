@@ -108,7 +108,8 @@ export class WorkspaceComponent {
   workspaceConfig: Observable<WorkspaceConfigModel>;
   graphAData: Observable<any>;
   graphBData: Observable<any>;
-  decorators: Observable<Array<DataDecorator>>;
+  graphADecorators: Observable<Array<DataDecorator>>;
+  graphBDecorators: Observable<Array<DataDecorator>>;
   edgeConfig: Observable<GraphConfig>;
   edgeLegend: Observable<Array<Legend>>;
 
@@ -144,6 +145,10 @@ export class WorkspaceComponent {
 
     this.graphAData = store.select(fromRoot.getGraphAData);
     this.graphBData = store.select(fromRoot.getGraphBData);
+
+    this.graphADecorators = store.select(fromRoot.getGraphADecorators);
+    this.graphBDecorators = store.select(fromRoot.getGraphBDecorators);
+
     this.tables = store.select(fromRoot.getTables);
     this.fields = store.select(fromRoot.getFields);
     this.events = store.select(fromRoot.getEvents);
