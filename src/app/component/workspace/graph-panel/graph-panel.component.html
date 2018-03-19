@@ -46,7 +46,7 @@
             <div class='form-group'>
                 <label class='center-block'>
                     <span class='form-label'>Gene Set</span>
-                    <select materialize='material_select' (change)='onGenesetChange($event)'>
+                    <select materialize='material_select' (change)='onGenesetChange($event)' [materializeSelectOptions]='genesets'>
                         <option *ngFor='let option of genesets' [value]='option.n'>{{option.n}}</option>
                     </select>
 
@@ -56,7 +56,7 @@
             <div class='form-group'>
                 <label class='center-block'>
                     <span class='form-label'>Cohort</span>
-                    <select materialize='material_select' (change)='onCohortChange($event)'>
+                    <select materialize='material_select' (change)='onCohortChange($event)' [materializeSelectOptions]='cohorts'>
                         <option *ngFor='let option of cohorts' [value]='option.n'>{{option.n}}</option>
                     </select>
                 </label>
