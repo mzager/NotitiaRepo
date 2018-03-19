@@ -23,9 +23,6 @@ declare var $: any;
 })
 export class LegendPanelComponent implements AfterViewInit {
 
-  // // Components
-  // @ViewChild('legend') private elLegend: ElementRef;
-
   public legend: Legend;
   public items: Array<{ label: string, value: string }>;
 
@@ -37,9 +34,10 @@ export class LegendPanelComponent implements AfterViewInit {
 
     switch (this.legend.type) {
       case 'COLOR':
+        console.log("CHECK FOR NULLS");
         this.items = this.legend.labels.map((v, i) => ({
           label: v,
-          value: (this.decorator.field.type === DataTypeEnum.NUMBER) ? ('#' + this.legend.values[i].toString(16)) : this.legend.values[i]
+          value: (this.decorator.field.type === DataTypeEnum.STRING) ? ('#' + this.legend.values[i].toString(16)) : this.legend.values[i]
         }));
         break;
       case 'SHAPE':
@@ -50,19 +48,14 @@ export class LegendPanelComponent implements AfterViewInit {
     }
 
     this.cd.markForCheck();
-
   }
 
 
   public select(): void {
-    alert('select');
   }
 
   public deselect(): void {
-
   }
-
-
 
   ngAfterViewInit(): void {
 

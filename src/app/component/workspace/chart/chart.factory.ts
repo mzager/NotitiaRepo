@@ -34,7 +34,7 @@ export class ChartFactory {
     public static sizes = [SizeEnum.S, SizeEnum.M, SizeEnum.L, SizeEnum.XL];
     public static shapes = [ShapeEnum.CIRCLE, ShapeEnum.BOX, ShapeEnum.SQUARE, ShapeEnum.CONE];
     public static colors = [
-        0xe53935, 0xd81b60, 0x8e24aa, 0x5e35b1, 0x3949ab, 0x1e88e5, 0x039be5, 0x00acc1, 0x00897b, 0x43a047
+        0xd81b60, 0x3949ab, 0x43a047, 0xffb300, 0x6d4c41, 0xf44336, 0x9c27b0, 0x2196f3
     ];
 
     public static colorsContinuous = [
@@ -60,7 +60,7 @@ export class ChartFactory {
 
     public static getScaleSizeOrdinal(values: Array<string>): Function {
         const len = values.length;
-        return scale.scaleOrdinal().domain(values).range(ChartFactory.sizes.filter((v, i) => i < len));
+        return scale.scaleOrdinal().domain(values).range(ChartFactory.sizes.splice(0, values.length));
     }
 
     public static getScaleSizeLinear(min: number, max: number): Function {
@@ -68,7 +68,7 @@ export class ChartFactory {
     }
     public static getScaleShapeOrdinal(values: Array<string>): Function {
         const len = values.length;
-        return scale.scaleOrdinal().domain(values).range(ChartFactory.sprites.filter((v, i) => i < len));
+        return scale.scaleOrdinal().domain(values).range(ChartFactory.sprites.splice(0, values.length));
     }
     public static getScaleShapeLinear(min: number, max: number): Function {
         return scale.scaleQuantize<string>().domain([min, max])
@@ -76,7 +76,7 @@ export class ChartFactory {
     }
     public static getScaleColorOrdinal(values: Array<string>): Function {
         const len = values.length;
-        return scale.scaleOrdinal().domain(values).range(ChartFactory.colors.filter((v, i) => i < len));
+        return scale.scaleOrdinal().domain(values).range(ChartFactory.colors.splice(0, values.length));
     }
     public static getScaleColorLinear(min: number, max: number): Function {
         return scale.scaleQuantize<string>().domain([min, max])

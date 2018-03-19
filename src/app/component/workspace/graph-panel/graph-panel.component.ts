@@ -69,9 +69,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Input() tables: Array<DataTable>;
   @Input() fields: Array<DataField>;
   @Input() events: Array<{ type: string, subtype: string }>;
-  @Input() genesets: Array<any>;
-  @Input() cohorts: Array<any>;
-
 
   @Input() molecularData: Array<string>;
   @Input() clinicalFields: Array<DataField>;
@@ -97,7 +94,25 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   }
   @Input() set decorators(value: Array<DataDecorator>) {
     this._decorators = value;
-    // this.cd.markForCheck();
+    requestAnimationFrame(() => {
+      this.cd.markForCheck();
+    });
+  }
+
+
+  public _genesets: Array<any>;
+  public get genesets(): Array<any> { return this._genesets; }
+  @Input() public set genesets(value: Array<any>) {
+    this._genesets = value;
+    requestAnimationFrame(() => {
+      this.cd.markForCheck();
+    });
+  }
+
+  _cohorts: Array<any>;
+  public get cohorts(): Array<any> { return this._cohorts; }
+  @Input() public set cohorts(value: Array<any>) {
+    this._cohorts = value;
     requestAnimationFrame(() => {
       this.cd.markForCheck();
     });
@@ -118,7 +133,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       this.dataService.getHelpInfo(value).then(v => {
         this.methodName = v.method;
         this.methodSummary = v.summary;
-        // this.cd.markForCheck();
         requestAnimationFrame(() => {
           this.cd.markForCheck();
         });
