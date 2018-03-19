@@ -1,8 +1,44 @@
-.legend-header {
-    font-weight: 500;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    margin: 0px;
-    padding: 0px;
+// .legend-header {
+//     font-weight: 500;
+//     font-size: 10px;
+//     text-transform: uppercase;
+//     letter-spacing: 3px;
+//     margin: 0px;
+//     padding: 0px;
+// }
+.legend {
+    padding-bottom: 10px;
+}
+.legendItem { 
+    position: relative;
+    padding-left: 30px;
+    width :100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 20px;
+    padding-bottom:2px;
+    padding-top: 2px;
+}   
+
+.swatch {
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    left: 0px;
+}
+
+.swatchButtons {
+    padding: 0px 0px 0px 10px;
+    display: none;
+    background: #FFF;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+.legendItem:hover { 
+    .swatchButtons {
+        display: block;
+    }
 }

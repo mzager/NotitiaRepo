@@ -33,10 +33,17 @@ export class ChartFactory {
 
     public static sizes = [SizeEnum.S, SizeEnum.M, SizeEnum.L, SizeEnum.XL];
     public static shapes = [ShapeEnum.CIRCLE, ShapeEnum.BOX, ShapeEnum.SQUARE, ShapeEnum.CONE];
-    public static colors = [0xb71c1c, 0x880e4f, 0x4a148c, 0x311b92, 0x1a237e, 0x0d47a1, 0x01579b, 0x006064,
-        0x004d40, 0x1b5e20, 0x33691e, 0x827717, 0xf57f17, 0xff6f00, 0xe65100, 0xbf360c, 0x3e2723,
-        0xf44336, 0xe91e63, 0x9c27b0, 0x673ab7, 0x3f51b5, 0x2196f3, 0x03a9f4, 0x00bcd4, 0x009688,
-        0x4caf50, 0x8bc34a, 0xcddc39, 0xffeb3b, 0xffc107, 0xff9800, 0xff5722, 0x795548];
+    public static colors = [
+        0xe53935, 0xd81b60, 0x8e24aa, 0x5e35b1, 0x3949ab, 0x1e88e5, 0x039be5, 0x00acc1, 0x00897b, 0x43a047
+    ];
+
+    public static colorsContinuous = [
+        '#e53935', '#d81b60', '#8e24aa', '#5e35b1', '#3949ab', '#1e88e5', '#039be5', '#00acc1', '#00897b', '#43a047'
+    ];
+    // public static colors = [0xb71c1c, 0x880e4f, 0x4a148c, 0x311b92, 0x1a237e, 0x0d47a1, 0x01579b, 0x006064,
+    //     0x004d40, 0x1b5e20, 0x33691e, 0x827717, 0xf57f17, 0xff6f00, 0xe65100, 0xbf360c, 0x3e2723,
+    //     0xf44336, 0xe91e63, 0x9c27b0, 0x673ab7, 0x3f51b5, 0x2196f3, 0x03a9f4, 0x00bcd4, 0x009688,
+    //     0x4caf50, 0x8bc34a, 0xcddc39, 0xffeb3b, 0xffc107, 0xff9800, 0xff5722, 0x795548];
     private static sprites = [SpriteMaterialEnum.BLOB, SpriteMaterialEnum.CIRCLE, SpriteMaterialEnum.DIAMOND,
     SpriteMaterialEnum.POLYGON, SpriteMaterialEnum.SQUARE, SpriteMaterialEnum.STAR, SpriteMaterialEnum.TRIANGLE, SpriteMaterialEnum.BLAST];
 
@@ -55,6 +62,7 @@ export class ChartFactory {
         const len = values.length;
         return scale.scaleOrdinal().domain(values).range(ChartFactory.sizes.filter((v, i) => i < len));
     }
+
     public static getScaleSizeLinear(min: number, max: number): Function {
         return scale.scaleLinear().domain([min, max]).range([1, 3]).clamp(true);
     }
@@ -62,20 +70,24 @@ export class ChartFactory {
         const len = values.length;
         return scale.scaleOrdinal().domain(values).range(ChartFactory.sprites.filter((v, i) => i < len));
     }
+    public static getScaleShapeLinear(min: number, max: number): Function {
+        return scale.scaleQuantize<string>().domain([min, max])
+            .range(['blast', 'blob', 'circle', 'diamond', 'polygon', 'square', 'star', 'triangle']);
+    }
     public static getScaleColorOrdinal(values: Array<string>): Function {
         const len = values.length;
         return scale.scaleOrdinal().domain(values).range(ChartFactory.colors.filter((v, i) => i < len));
     }
-
-    // The most cleaver functon in oncoscape
     public static getScaleColorLinear(min: number, max: number): Function {
-        const scaleFn = scale.scaleSequential<string>(interpolateSpectral).domain([min, max]);
-        return (input) => {
-            const v = scaleFn(input);
-            const c = v.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
-            // tslint:disable-next-line:radix
-            return parseInt('0x' + (parseInt(c[1]) << 16 | parseInt(c[2]) << 8 | parseInt(c[3])).toString(16).toUpperCase());
-        };
+        return scale.scaleQuantize<string>().domain([min, max])
+            .range(ChartFactory.colorsContinuous);
+        // const scaleFn = scale.scaleSequential<string>(interpolateSpectral).domain([min, max]);
+        // return (input) => {
+        //     const v = scaleFn(input);
+        //     const c = v.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+        //     // tslint:disable-next-line:radix
+        //     return parseInt('#' + (parseInt(c[1]) << 16 | parseInt(c[2]) << 8 | parseInt(c[3])).toString(16).toUpperCase());
+        // };
     }
 
     // Pools

@@ -1,5 +1,28 @@
-<div>
-    <div style='max-height: 450px; overflow-y: auto;'>
-        <div #legend></div>
+<div class='legend'>
+    <div>{{legend.name}}</div>
+    <div [ngSwitch]="decorator.type">
+        <!-- Color -->
+        <div *ngSwitchCase="0">
+            <div *ngFor='let item of items' class='legendItem'>
+                <div class='swatch' [style.background-color]='item.value'></div>
+                {{item.label}}
+                <div class='swatchButtons'>
+                    <a href='#' (click)='select()' class=''>Select</a> |
+                    <a href='#' (click)='deselect()' class=''>Deselect</a>
+                </div>
+            </div>
+        </div>
+        <!-- Size -->
+        <div *ngSwitchCase="1"></div>
+        <!-- Shape -->
+        <div *ngSwitchCase="2">
+            <div *ngFor='let item of items' class='legendItem'>
+                <img class='swatch' src='{{item.value}}'> {{item.label}}
+                <div class='swatchButtons'>
+                    <a href='#' (click)='select()' class=''>Select</a> |
+                    <a href='#' (click)='deselect()' class=''>Deselect</a>
+                </div>
+            </div>
+        </div>
+
     </div>
-</div>
