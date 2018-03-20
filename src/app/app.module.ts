@@ -1,3 +1,4 @@
+import { DashboardPanelComponent } from './component/workspace/dashboard-panel/dashboard-panel.component';
 import { DecoratorPanelComponent } from './component/workspace/decorator-panel/decorator-panel.component';
 import { CitationsPanelComponent } from './component/workspace/citations-panel/citations-panel.component';
 import { AboutPanelComponent } from './component/workspace/about-panel/about-panel.component';
@@ -165,7 +166,8 @@ import { LoaderComponent } from './component/workspace/loader/loader.component';
     AboutPanelComponent,
     CitationsPanelComponent,
     LoaderComponent,
-    DecoratorPanelComponent
+    DecoratorPanelComponent,
+    DashboardPanelComponent
   ],
   entryComponents: [
   ],
@@ -182,7 +184,7 @@ import { LoaderComponent } from './component/workspace/loader/loader.component';
     ReactiveFormsModule,
     AngularDraggableModule,
     EffectsModule.forRoot([DataEffect, ComputeEffect, SelectEffect]),
-    StoreModule.forRoot( reducers ),
+    StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({
       maxAge: 25 //  Retains last 25 states
     }),

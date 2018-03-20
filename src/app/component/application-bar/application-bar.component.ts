@@ -21,7 +21,8 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
 
   // TODO:  COME BACK AND CLEAN OUT
   @Output() splitScreenChange = new EventEmitter<boolean>();
-  @Output() showModalPanel = new EventEmitter<PanelEnum>();
+  @Output() showPanel = new EventEmitter<PanelEnum>();
+
   // @Output() graphPanelToggle = new EventEmitter<GraphPanelEnum>();
   // @Output() genesetPanelToggle = new EventEmitter();
   // @Output() toolPanelToggle = new EventEmitter();
@@ -48,6 +49,7 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
       case 'c': this.viewPanel(PanelEnum.COHORT); break;
       case 'p': this.exportImage(); break;
       case 'i': this.toggleBackgroundColor(); break;
+      case 'd': this.viewPanel(PanelEnum.DASHBOARD); break;
     }
   }
 
@@ -55,7 +57,7 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
     this.filesSubject = new Subject();
   }
   viewPanel(panel: PanelEnum): void {
-    this.showModalPanel.emit(panel);
+    this.showPanel.emit(panel);
   }
   onSplitScreenChange(e: any): void {
     this.splitScreenChange.next(e.target.checked);

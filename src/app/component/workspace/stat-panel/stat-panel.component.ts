@@ -32,7 +32,7 @@ declare var vegaTooltip: any;
 })
 export class StatPanelComponent implements AfterViewInit, OnDestroy {
 
-  @ViewChild('chartContainer', { read: ViewContainerRef }) chartContainer: ViewContainerRef;
+  // @ViewChild('chartContainer', { read: ViewContainerRef }) chartContainer: ViewContainerRef;
 
   container: any;
   chartStats: Array<Stat> = [];
