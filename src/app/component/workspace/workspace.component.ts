@@ -305,7 +305,7 @@ export class WorkspaceComponent {
     this.store.dispatch(new WorkspaceConfigAction(model));
     this.store.dispatch(new GraphPanelToggleAction(enums.GraphPanelEnum.GRAPH_B));
   }
-  setModalPanel(value: enums.PanelEnum): void {
+  setPanel(value: enums.PanelEnum): void {
     this.store.dispatch(new ModalPanelAction(value));
   }
   workspacePanelSetConfig(value: WorkspaceConfigModel) {

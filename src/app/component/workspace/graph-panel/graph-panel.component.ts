@@ -39,7 +39,7 @@ import { PlsConfigModel } from './../../visualization/pls/pls.model';
 import { PcaConfigModel } from './../../visualization/pca/pca.model';
 import { ChromosomeConfigModel } from './../../visualization/chromosome/chromosome.model';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { EntityTypeEnum } from './../../../model/enum.model';
+import { EntityTypeEnum, GraphPanelEnum } from './../../../model/enum.model';
 import { DataField } from 'app/model/data-field.model';
 import {
   Component, Input, Output, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy,
@@ -76,6 +76,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Input() data: GraphData;
   @Output() hide: EventEmitter<any> = new EventEmitter();
   @Output() help: EventEmitter<GraphConfig> = new EventEmitter();
+  @Output() showPanel: EventEmitter<GraphPanelEnum> = new EventEmitter();
   @Output() configChange: EventEmitter<GraphConfig> = new EventEmitter();
   @Output() selectClusteringAlgorithm: EventEmitter<GraphConfig> = new EventEmitter();
   @Output() selectGeneSignature: EventEmitter<GraphConfig> = new EventEmitter();
@@ -103,6 +104,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   public _genesets: Array<any>;
   public get genesets(): Array<any> { return this._genesets; }
   @Input() public set genesets(value: Array<any>) {
+    value.push({ n: 'Manage Gene Sets', g: [] });
     this._genesets = value;
     requestAnimationFrame(() => {
       this.cd.markForCheck();
@@ -112,6 +114,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   _cohorts: Array<any>;
   public get cohorts(): Array<any> { return this._cohorts; }
   @Input() public set cohorts(value: Array<any>) {
+    value.push({ n: 'Manage Cohorts', pids: [], sids: [] });
     this._cohorts = value;
     requestAnimationFrame(() => {
       this.cd.markForCheck();
@@ -175,6 +178,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   }
   onCohortChange($event: Event) {
     const selected = this.cohorts.find(v => v.n === $event.target['value']);
+    if (selected.n === 'Manage Cohorts') {
+
+    }
     this.config.patientFilter = selected.pids;
     this.config.sampleFilter = selected.sids;
     this.config.dirtyFlag = DirtyEnum.LAYOUT;
@@ -182,6 +188,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   }
   onGenesetChange($event: Event) {
     const selected = this.genesets.find(v => v.n === $event.target['value']);
+    if (selected.n === 'Manage Gene Sets') {
+      debugger;
+    }
     this.config.markerFilter = selected.g;
     this.config.dirtyFlag = DirtyEnum.LAYOUT;
     this.configChange.emit(this.config);
