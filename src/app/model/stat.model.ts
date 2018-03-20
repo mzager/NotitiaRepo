@@ -906,12 +906,15 @@ export class StatFactory {
 
     public getPopulationStats(config: GraphConfig, dataService: DataService): Promise<Array<Stat>> {
 
+        // If No Config Bail
         if (config === undefined) {
             return new Promise((resolve, reject) => { resolve([]); });
         }
         return new Promise((resolve, reject) => {
 
             const stats = [];
+
+            // Pull Stats Directly From Configuration... No need to query database
             if (config.markerFilter !== null) {
                 try {
                     stats.push({
@@ -920,6 +923,7 @@ export class StatFactory {
                     });
                 } catch (e) { }
             }
+            // Pull Stats Directly From Configuration... No need to query database
             if (config.patientFilter !== null) {
                 try {
                     stats.push({
@@ -928,6 +932,7 @@ export class StatFactory {
                     });
                 } catch (e) { }
             }
+            // Pull Stats Directly From Configuration... No need to query database
             if (config.sampleFilter !== null) {
                 try {
                     stats.push({
@@ -936,21 +941,30 @@ export class StatFactory {
                     });
                 } catch (e) { }
             }
-
+            // Create Container To To Store Stat Key Values
             const keyValues = new StatKeyValues('', stats);
 
-            dataService.getPatientStats(config.database, config.patientFilter).then(result => {
-                result = result.map(v => {
-                    const stat = new StatOneD(v.name, v.stat.map(v => ({
-                        mylabel: v.label, myvalue: v.value
-                    })));
-                    if ((v.type === 'number') || (v.type === 'category' && v.stat.length >= 7)) {
-                        // Transform Into Histogram From pie
-                        stat.charts.reverse();
-                    }
-                    return stat;
+            // Query Database To Get More Stats
+            Promise.all([
+                dataService.getPatientStats(config.database, []),
+                dataService.getPatientStats(config.database, config.patientFilter)
+            ]).then(results => {
+
+                const bothResults: Array<any> = results.map(result => {
+                    return result.map(v => {
+                        const stat = new StatOneD(v.name, v.stat.map(w => ({
+                            mylabel: w.label, myvalue: w.value
+                        })));
+                        if ((v.type === 'number') || (v.type === 'category' && v.stat.length >= 7)) {
+                            // Transform Into Histogram From pie
+                            stat.charts.reverse();
+                        }
+                        return stat;
+                    });
                 });
+                const result = bothResults[0].concat(bothResults[1]);
                 result.unshift(keyValues);
+
                 resolve(result);
             });
         });

@@ -33,18 +33,30 @@ export class LegendPanelComponent implements AfterViewInit {
     this.legend = this._decorator.legend;
 
     switch (this.legend.type) {
+
       case 'COLOR':
-        console.log("CHECK FOR NULLS");
-        this.items = this.legend.labels.map((v, i) => ({
-          label: v,
-          value: (this.decorator.field.type === DataTypeEnum.STRING) ? ('#' + (this.legend.values[i]).toString(16)) : this.legend.values[i]
-        }));
+        this.items = this.legend.labels.map((v, i) => {
+          let color = this.legend.values[i];
+          if (color === undefined) {
+            color = '#333333';
+          } else {
+            color = (this.decorator.field.type === DataTypeEnum.STRING) ?
+              ('#' + (this.legend.values[i]).toString(16)) : this.legend.values[i];
+          }
+          return {
+            label: v,
+            value: color
+          };
+        });
         break;
+
       case 'SHAPE':
         this.items = this.legend.labels.map((v, i) => ({
           label: v,
           value: './assets/shapes/shape-' + this.legend.values[i] + '-solid-legend.png'
         }));
+        break;
+
     }
 
     this.cd.markForCheck();

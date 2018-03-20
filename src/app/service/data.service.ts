@@ -305,6 +305,7 @@ export class DataService {
 
     return new Promise((resolve, reject) => {
 
+      // This builds a "sql" query
       this.getQueryBuilderConfig(database).then(config => {
 
         // Pull field Meta Data
