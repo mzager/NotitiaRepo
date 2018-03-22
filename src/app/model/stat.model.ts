@@ -918,8 +918,16 @@ export class StatFactory {
             if (config.markerFilter !== null) {
                 try {
                     stats.push({
-                        mylabel: 'Genes: ', myvalue: ((config.markerFilter.length === 0) ?
+                        mylabel: 'Total Genes: ', myvalue: ((config.markerFilter.length === 0) ?
                             'All' : config.markerFilter.length.toString())
+                    });
+                } catch (e) { }
+            }
+            if (config.markerFilter !== null) {
+                try {
+                    stats.push({
+                        mylabel: 'Genes: ', myvalue: ((config.markerFilter.length === 0) ?
+                            'All' : config.markerFilter)
                     });
                 } catch (e) { }
             }
@@ -947,7 +955,8 @@ export class StatFactory {
             // Query Database To Get More Stats
             Promise.all([
                 dataService.getPatientStats(config.database, []),
-                dataService.getPatientStats(config.database, config.patientFilter)
+                dataService.getPatientStats(config.database, config.patientFilter),
+
             ]).then(results => {
 
                 const bothResults: Array<any> = results.map(result => {
@@ -966,9 +975,12 @@ export class StatFactory {
                 result.unshift(keyValues);
 
                 resolve(result);
+
+
             });
         });
     }
+
 
     // Public Interface + Takes The Visualization Type and figures which to call
     public getStatObjects(data: any, config: GraphConfig): Array<Stat> {
