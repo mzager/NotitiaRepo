@@ -78,7 +78,7 @@ export class DatasetService {
 
             // Patient Meta Data
             const fields = Object.keys(response.fields).map(v => ({
-              ctype: 2,
+              ctype: CollectionTypeEnum.PATIENT,
               key: v,
               label: v.replace(/_/gi, ' '),
               tbl: 'patient',
@@ -104,7 +104,6 @@ export class DatasetService {
                           { tbl: v.name, map: v.name + 'Map', label: v.name, ctype: CollectionTypeEnum.RNA } :
                           null;
             }).filter(v => v);
-
             const dataset = {
               name: manifest.disease,
               events: events,

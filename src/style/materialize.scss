@@ -115,6 +115,11 @@ p.range-field {
 
 .select-dropdown {
     text-transform: capitalize !important;
+    li {
+        span {
+            text-transform: capitalize !important;
+        }
+    }
 }
 
 .select-wrapper input.select-dropdown {

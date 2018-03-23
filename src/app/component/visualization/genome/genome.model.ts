@@ -18,16 +18,18 @@ export class GenomeConfigModel extends GraphConfig {
     chromosomeOption = 'Cytobands';
     layoutOption = 'Circle';
     spacingOption = 'Optimized';
-    showTads = true;
+    showTads = false;
 }
 
 export interface GenomeDataModel extends GraphData {
     legends: Array<Legend>;
     genes: any;
-    tads: any;
-    bands: any;
-    chromo: Array<{ 'chr': string, 'P': number, 'C': number, 'Q': number }>;
-    showAllGenes: Boolean;
+    tads: Array<any>;
+    bands: Array<Array<{ arm: string, c: number, chr: string, e: number, l: number, s: number, subband: string, tag: string, z: number }>>;
+    chromo: Array<{ chr: string, P: number, C: number, Q: number }>;
     showBands: Boolean;
     allowRotation: Boolean;
 }
+
+
+
