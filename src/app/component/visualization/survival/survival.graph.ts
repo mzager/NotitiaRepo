@@ -25,6 +25,7 @@ export class SurvivalGraph implements ChartObjectInterface {
         new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
 
     public meshes: Array<THREE.Mesh>;
+    public decorators: DataDecorator[];
     config: SurvivalConfigModel;
     data: SurvivalDataModel;
     private view: VisualizationView;

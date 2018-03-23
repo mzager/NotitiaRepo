@@ -1,6 +1,6 @@
 import { EntityTypeEnum } from 'app/model/enum.model';
 import { CollectionTypeEnum, DataTypeEnum } from './enum.model';
-import { DataField } from './data-field.model';
+import { DataField, DataTable } from './data-field.model';
 
 /**
 * Represents A Field In A DataSet
@@ -8,35 +8,42 @@ import { DataField } from './data-field.model';
 export class DataFieldFactory {
 
   public static defaultDataField: DataField = DataFieldFactory.getUndefined();
-  public static getColorFields(clinicalFields: Array<DataField>, entity: EntityTypeEnum = EntityTypeEnum.SAMPLE): Array<DataField> {
-    switch (entity) {
-      case EntityTypeEnum.SAMPLE:
-        return [DataFieldFactory.defaultDataField, ...clinicalFields.filter(v => {
-          switch (v.type) {
-            case DataTypeEnum.STRING:
-              return (v.values.length <= 10);
-            case DataTypeEnum.NUMBER:
-              return true;
-          }
-        })];
-      case EntityTypeEnum.GENE:
-        const g = {
-          key: 'Gistic',
-          label: 'Gistic',
-          type: DataTypeEnum.NUMBER,
-          tbl: 'Gistic',
-          values: null,
-          ctype: CollectionTypeEnum.MOLECULAR
-        };
-        return [DataFieldFactory.defaultDataField, DataFieldFactory.getGeneFamily(),
-        DataFieldFactory.getGeneType(), DataFieldFactory.getHicType(),
-        DataFieldFactory.getTadType()];
+  public static getMolecularShapeFields(tables: Array<DataTable>): Array<DataField> {
+    return DataFieldFactory.getMolecularColorFields(tables);
+  }
+  public static getMolecularSizeFields(tables: Array<DataTable>): Array<DataField> {
+    return DataFieldFactory.getMolecularColorFields(tables);
+  }
+  public static getMolecularColorFields(tables: Array<DataTable>): Array<DataField> {
 
-    }
-    return null;
+
+    const fields = tables.filter(tbl => tbl.ctype & CollectionTypeEnum.MOLEC_DATA_FIELD_TABLES).map(tbl => ({
+      key: 'avg',
+      label: tbl.label + ' (Avg)',
+      type: DataTypeEnum.NUMBER,
+      tbl: tbl.tbl,
+      values: null,
+      ctype: tbl.ctype
+    }));
+
+    return [DataFieldFactory.defaultDataField, DataFieldFactory.getGeneFamily(),
+    DataFieldFactory.getGeneType(), DataFieldFactory.getHicType(),
+    DataFieldFactory.getTadType()].concat(...fields);
+  }
+  public static getSampleColorFields(clinicalFields: Array<DataField>, entity: EntityTypeEnum = EntityTypeEnum.SAMPLE): Array<DataField> {
+
+    return [DataFieldFactory.defaultDataField, ...clinicalFields.filter(v => {
+      switch (v.type) {
+        case DataTypeEnum.STRING:
+          return (v.values.length <= 10);
+        case DataTypeEnum.NUMBER:
+          return true;
+      }
+    })];
+
   }
 
-  public static getSizeFields(clinicalFields: Array<DataField>, entity: EntityTypeEnum = EntityTypeEnum.SAMPLE): Array<DataField> {
+  public static getSampleSizeFields(clinicalFields: Array<DataField>, entity: EntityTypeEnum = EntityTypeEnum.SAMPLE): Array<DataField> {
     return [DataFieldFactory.defaultDataField, ...clinicalFields.filter(v => {
       switch (v.type) {
         case DataTypeEnum.STRING:
@@ -47,7 +54,7 @@ export class DataFieldFactory {
     })];
   }
 
-  public static getShapeFields(clinicalFields: Array<DataField>, entity: EntityTypeEnum = EntityTypeEnum.SAMPLE): Array<DataField> {
+  public static getSampleShapeFields(clinicalFields: Array<DataField>, entity: EntityTypeEnum = EntityTypeEnum.SAMPLE): Array<DataField> {
     return [DataFieldFactory.defaultDataField, ...clinicalFields.filter(v => {
       switch (v.type) {
         case DataTypeEnum.STRING:
@@ -67,7 +74,7 @@ export class DataFieldFactory {
   }
 
   public static getIntersectFields(clinicalFields: Array<DataField>): Array<DataField> {
-    return DataFieldFactory.getShapeFields(clinicalFields);
+    return DataFieldFactory.getSampleShapeFields(clinicalFields);
   }
 
   public static getGeneFamily(): DataField {

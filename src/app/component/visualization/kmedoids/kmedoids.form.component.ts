@@ -92,9 +92,9 @@ import * as _ from 'lodash';
 })
 export class KmedoidFormComponent {
 
-  @Input() set molecularData(tables: Array<string>){
-    this.dataOptions = tables.map( v => {
-      const rv = {key: v, label: _.startCase(_.toLower(v))};
+  @Input() set molecularData(tables: Array<string>) {
+    this.dataOptions = tables.map(v => {
+      const rv = { key: v, label: _.startCase(_.toLower(v)) };
       return rv;
     });
   }
@@ -103,15 +103,15 @@ export class KmedoidFormComponent {
 
     if (fields.length === 0) { return; }
     const defaultDataField: DataField = DataFieldFactory.getUndefined();
-    this.colorOptions = DataFieldFactory.getColorFields(fields);
-    this.shapeOptions = DataFieldFactory.getShapeFields(fields);
-    this.sizeOptions = DataFieldFactory.getShapeFields(fields);
+    this.colorOptions = DataFieldFactory.getSampleColorFields(fields);
+    this.shapeOptions = DataFieldFactory.getSampleShapeFields(fields);
+    this.sizeOptions = DataFieldFactory.getSampleShapeFields(fields);
   }
 
   @Input() set config(v: KmedoidConfigModel) {
     if (v === null) { return; }
     if (this.form.value.visualization === null) {
-      this.form.patchValue(v, {emitEvent : false});
+      this.form.patchValue(v, { emitEvent: false });
     }
   }
 
@@ -121,7 +121,7 @@ export class KmedoidFormComponent {
   colorOptions: Array<DataField>;
   shapeOptions: Array<DataField>;
   sizeOptions: Array<DataField>;
-  dataOptions: Array<{key: string, label: string}>;
+  dataOptions: Array<{ key: string, label: string }>;
   dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D, DimensionEnum.ONE_D];
 
   byKey(p1: DataField, p2: DataField) {

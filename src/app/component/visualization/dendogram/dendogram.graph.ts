@@ -46,7 +46,8 @@ export class DendogramGraph implements ChartObjectInterface {
         vertexColors: THREE.VertexColors
     });
 
-    meshes: THREE.Object3D[];
+    public meshes: THREE.Object3D[];
+    public decorators: DataDecorator[];
     private points: THREE.Points;
     private group: THREE.Group;
 

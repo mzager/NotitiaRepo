@@ -18,21 +18,8 @@ import * as THREE from 'three';
 import { CircleGeometry, SphereGeometry, Vector2, MeshPhongMaterial } from 'three';
 export class AbstractScatterVisualization extends AbstractVisualization {
 
-    // Chart Elements
-    private data: GraphData;
-    public config: GraphConfig;
-    private decorators: Array<DataDecorator>;
-
     // Objects
     private lines: Array<THREE.Line>;
-    // private controls: DragSelectionControl;
-    private overlay: HTMLElement;
-    private tooltips: HTMLElement;
-
-    // Private Subscriptions
-    private sMouseMove: Subscription;
-    private sMouseDown: Subscription;
-    private sMouseUp: Subscription;
     private mouseMode: 'CONTROL' | 'SELECTION' = 'CONTROL';
     private points: Array<THREE.Object3D>;
     private selectionMeshes: Array<THREE.Mesh>;
@@ -40,63 +27,37 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     private selectionOrigin2d: Vector2;
     private selectionScale: scale.ScaleLinear<number, number>;
 
+
     // Private Subscriptions
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         super.create(labels, events, view);
-
-        this.tooltips = <HTMLDivElement>(document.createElement('div'));
-        this.tooltips.className = 'graph-tooltip';
-        this.labels.appendChild(this.tooltips);
-
-        this.overlay = <HTMLDivElement>(document.createElement('div'));
-        this.overlay.className = 'graph-overlay';
-        this.labels.appendChild(this.overlay);
         this.selectionMeshes = [];
         this.meshes = [];
         this.points = [];
         this.lines = [];
-        this.view.controls.enableRotate = true;
-
-        this.decorators = [];
         return this;
     }
 
     destroy() {
-        this.enable(false);
+        super.destroy();
         this.removeObjects();
     }
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        this.decorators = decorators;
+        super.updateDecorator(config, decorators);
         ChartFactory.decorateDataGroups(this.meshes, this.decorators);
-        this.points = this.meshes.map(v => v.children[0]);
     }
 
     updateData(config: GraphConfig, data: any) {
-        this.config = config as GraphConfig;
-        this.data = data;
+        super.updateData(config, data);
         this.removeObjects();
         this.addObjects(this.config.entity);
     }
 
     enable(truthy: boolean) {
-        if (this.isEnabled === truthy) { return; }
-        this.isEnabled = truthy;
-        this.view.controls.enabled = this.isEnabled;
-        // this.controls.enabled = this.isEnabled;
-        if (truthy) {
-            this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
-            this.sMouseDown = this.events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
-            this.sMouseUp = this.events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
-        } else {
-            this.sMouseMove.unsubscribe();
-            this.sMouseDown.unsubscribe();
-            this.sMouseUp.unsubscribe();
-            this.tooltips.innerHTML = '';
-        }
+        super.enable(truthy);
     }
 
     addObjects(type: EntityTypeEnum) {
-
         const propertyId = (this.config.entity === EntityTypeEnum.GENE) ? 'mid' : 'sid';
         const objectIds = this.data[propertyId];
         this.data.resultScaled.forEach((point, index) => {
@@ -105,23 +66,19 @@ export class AbstractScatterVisualization extends AbstractVisualization {
             this.meshes.push(group);
             this.view.scene.add(group);
         });
-
         ChartFactory.decorateDataGroups(this.meshes, this.decorators);
         this.points = this.meshes.map(v => v.children[0]);
     }
 
     removeObjects() {
-        this.meshes.forEach(v => {
-            ChartFactory.meshRelease(v as THREE.Mesh);
-            this.view.scene.remove(v);
-
-        });
+        this.meshes.forEach(v => { this.view.scene.remove(v); });
+        this.selectionMeshes.forEach(mesh => this.view.scene.remove(mesh));
         this.meshes.length = 0;
         this.lines.forEach(v => this.view.scene.remove(v));
         this.lines.length = 0;
     }
 
-    private onMouseDown(e: ChartEvent): void {
+    onMouseDown(e: ChartEvent): void {
         const hit = ChartUtil.getIntersects(this.view, e.mouse, this.points);
         if (hit.length > 0) {
             this.tooltips.innerHTML = '';
@@ -143,7 +100,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         }
     }
 
-    private onMouseUp(e: ChartEvent): void {
+    onMouseUp(e: ChartEvent): void {
         this.mouseMode = 'CONTROL';
         this.view.controls.enabled = true;
         if (!(e.event as MouseEvent).shiftKey) {
@@ -155,7 +112,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
                     mesh.userData.selectionLocked = false;
                 });
         } else {
-
             const radius = this.selectionMesh.geometry.boundingSphere.radius * this.selectionMesh.scale.x;
             const position = this.selectionMesh.position;
             this.meshes
@@ -169,7 +125,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         }
     }
 
-    private onMouseMove(e: ChartEvent): void {
+    onMouseMove(e: ChartEvent): void {
         // Selection
         if (this.mouseMode === 'SELECTION') {
             const event: MouseEvent = e.event as MouseEvent;
@@ -218,9 +174,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     }
     constructor() {
         super();
-        // this.toastr.setRootViewContainerRef(vcr);
-        // this.toastr.success('You are awesome!', 'Success!');
-
     }
 
 

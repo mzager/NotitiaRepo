@@ -4,7 +4,7 @@ import { DataDecorator, DataDecoratorTypeEnum } from './../model/data-map.model'
 import { GeneSet } from './../model/gene-set.model';
 import { Cohort } from './../model/cohort.model';
 import { GraphConfig } from 'app/model/graph-config.model';
-import { VisualizationEnum, EntityTypeEnum } from 'app/model/enum.model';
+import { VisualizationEnum, EntityTypeEnum, CollectionTypeEnum } from 'app/model/enum.model';
 import { DataFieldFactory } from 'app/model/data-field.model';
 import { DataField } from './../model/data-field.model';
 import { DataCollection } from './../model/data-collection.model';
@@ -25,8 +25,63 @@ export class DataService {
   public static instance: DataService;
 
   public static API_PATH = 'https://dev.oncoscape.sttrcancer.io/api/';
+  private createMolecularDataDecorator(config: GraphConfig, decorator: DataDecorator): Observable<DataDecorator> {
+    return Observable.fromPromise(new Promise((resolve, reject) => {
+      new Dexie('notitia-' + config.database).open().then(db => {
+        db.table(decorator.field.tbl.replace(/\s/gi, '')).toArray().then(results => {
+          // const values = results.reduce((p, c) => { p[c.m] = c.mean; return p; }, {});
+          const minMax = results.reduce((p, c) => {
+            p[0] = Math.min(p[0], c.mean);
+            p[1] = Math.max(p[1], c.mean);
+            return p;
+          }, [Infinity, -Infinity]);
+          let scale;
+          switch (decorator.type) {
+            case DataDecoratorTypeEnum.COLOR:
+              scale = ChartFactory.getScaleColorLinear(minMax[0], minMax[1]);
+              decorator.values = results.map(v => ({
+                pid: null,
+                sid: null,
+                mid: v.m,
+                key: EntityTypeEnum.GENE,
+                label: v.mean,
+                value: scale(v.mean)
+              }));
 
-  createDataDecorator(config: GraphConfig, decorator: DataDecorator): Observable<DataDecorator> {
+              decorator.legend = new Legend();
+              decorator.legend.type = 'COLOR';
+              decorator.legend.display = 'DISCRETE';
+              decorator.legend.name = 'Gene ' + decorator.field.label;
+              decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v).map(w => Math.round(w)).join(' to '));
+              decorator.legend.values = scale['range']();
+              break;
+
+            case DataDecoratorTypeEnum.SHAPE:
+              scale = ChartFactory.getScaleShapeLinear(minMax[0], minMax[1]);
+              decorator.values = results.map(v => ({
+                pid: null,
+                sid: null,
+                mid: v.m,
+                key: EntityTypeEnum.GENE,
+                label: v.mean,
+                value: scale(v.mean)
+              }));
+
+              decorator.legend = new Legend();
+              decorator.legend.type = 'SHAPE';
+              decorator.legend.display = 'DISCRETE';
+              decorator.legend.name = 'Gene ' + decorator.field.label;
+              decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v).map(w => Math.round(w)).join(' to '));
+              decorator.legend.values = scale['range']();
+
+              break;
+          }
+          resolve(decorator);
+        });
+      });
+    }));
+  }
+  private createSampleDataDecorator(config: GraphConfig, decorator: DataDecorator): Observable<DataDecorator> {
     return Observable.fromPromise(new Promise((resolve, reject) => {
       new Dexie('notitia-' + config.database).open().then(db => {
         Promise.all([
@@ -62,7 +117,7 @@ export class DataService {
                   decorator.legend.labels = scale['domain']();
                   decorator.legend.values = scale['range']();
                 } else {
-                  decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v).map(w => Math.round(w)).join(' - '));
+                  decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v).map(w => Math.round(w)).join(' to '));
                   decorator.legend.values = scale['range']();
                   // decorator.legend.labels = [decorator.field.values.min, decorator.field.values.max];
                   // decorator.legend.values = [decorator.field.values.min, decorator.field.values.max];
@@ -121,6 +176,14 @@ export class DataService {
           });
       });
     }));
+  }
+  createDataDecorator(config: GraphConfig, decorator: DataDecorator): Observable<DataDecorator> {
+    if (decorator.field.ctype & CollectionTypeEnum.MOLEC_DATA_FIELD_TABLES) {
+      return this.createMolecularDataDecorator(config, decorator);
+    }
+    return this.createSampleDataDecorator(config, decorator);
+
+
   }
 
   getGeneMap(): Observable<any> {
