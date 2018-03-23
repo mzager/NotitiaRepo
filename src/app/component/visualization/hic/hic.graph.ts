@@ -62,6 +62,7 @@ export class HicGraph implements ChartObjectInterface {
 
     // Objects
     public meshes: Array<THREE.Mesh>;
+    public decorators: DataDecorator[];
     public lines: Array<THREE.Line>;
     public chromosomeMesh: THREE.Mesh;
     private graphData: any;

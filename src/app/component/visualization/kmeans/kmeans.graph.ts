@@ -36,6 +36,7 @@ export class KmeansGraph implements ChartObjectInterface {
 
     // Objects
     public meshes: Array<THREE.Mesh>;
+    public decorators: DataDecorator[];
     private lines: Array<THREE.Line>;
     private selector: THREE.Mesh;
     private selectorOrigin: { x: number, y: number };

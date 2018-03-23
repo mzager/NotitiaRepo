@@ -330,9 +330,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     gc.sampleSelect = prevConfig.sampleSelect;
     gc.markerSelect = prevConfig.markerSelect;
     gc.patientSelect = prevConfig.patientSelect;
-    gc.pointColor = prevConfig.pointColor;
-    gc.pointShape = prevConfig.pointShape;
-    gc.pointSize = prevConfig.pointSize;
+    // gc.pointColor = prevConfig.pointColor;
+    // gc.pointShape = prevConfig.pointShape;
+    // gc.pointSize = prevConfig.pointSize;
     gc.graph = (this.title === 'Graph A') ? GraphEnum.GRAPH_A : GraphEnum.GRAPH_B;
     this.configChange.emit(gc);
   }

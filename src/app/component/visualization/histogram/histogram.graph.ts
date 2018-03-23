@@ -17,6 +17,7 @@ export class HistogramGraph implements ChartObjectInterface {
         new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
 
     public meshes: Array<THREE.Mesh>;
+    public decorators: DataDecorator[];
 
     enable(truthy: Boolean) {
 

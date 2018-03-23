@@ -46,6 +46,7 @@ export class TimelinesGraph implements ChartObjectInterface {
     public attrs: THREE.Group;
     public lines: THREE.Group;
     public meshes: Array<THREE.Object3D>;
+    public decorators: DataDecorator[];
     public clipPlanes: Array<THREE.Object3D> = [];
     public database: string;
 
