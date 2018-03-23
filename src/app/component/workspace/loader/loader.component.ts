@@ -51,6 +51,15 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
             { q: 'Once you stop learning, you start dying.', a: 'Albert Einstein' },
             { q: 'Our technology has exceeded our humanity.', a: 'Albert Einstein' },
             { q: 'I have no special talent. I am only passionately curious', a: 'Albert Einstein' },
+            { q: 'Science is a way of thinking much more than it is a body of knowledge.', a: 'Carl Sagam' },
+            { q: 'Absence of evidence is not evidence of absence.', a: 'Carl Sagam' },
+            { q: 'The universe is not required to be in perfect harmony with human ambition.', a: 'Cark Sagam' },
+            { q: 'The dangers of not thinking clearly are much greater now than ever before.', a: 'Carl Sagam' },
+            { q: 'Errors using inadequate data are much less than those using no data at all.', a: 'Charles Babbage' },
+            { q: 'Perhaps it would be better for science, that all criticism should be avowed.', a: 'Charles Babbage' },
+            { q: 'We\'re entering a new world in which data may be more important than software.', a: 'Tim O\'Reilly' },
+            { q: 'An invention has to make sense in the world it finishes in, not in the world it started.', a: 'Tim O\'Reilly' },
+            { q: 'Data is a precious thing and will last longer than the systems themselves.', a: 'Tim Berners-Lee' }
         ];
         const i = Math.floor(Math.random() * ((this.quotes.length)));
         this.quote = this.quotes[i];
