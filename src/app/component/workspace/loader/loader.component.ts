@@ -43,9 +43,16 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
             { q: 'I think computer viruses should count as life.', a: 'Stephen Hawking' },
             { q: 'There could be shadow galaxies, shadow stars, and even shadow people.', a: 'Stephen Hawking' },
             { q: 'I was not a good student. I was too busy enjoying myself.', a: 'Stephen Hawking' },
-            { q: 'If you torture the data long enough, it will confess t o anything', a: 'Ronald Coase' },
-            { q: 'Nothing cannot exist forever.', a: 'Stephen Hawking' }
+            { q: 'If you torture the data long enough, it will confess to anything', a: 'Ronald Coase' },
+            { q: 'Nothing cannot exist forever.', a: 'Stephen Hawking' },
+            { q: 'Imagination is more important than knowledge.', a: 'Albert Einstein' },
+            { q: 'Not everything that can be counted counts.', a: 'Albert Einstein' },
+            { q: 'Curiosity has its own reason for existing.', a: 'Albert Einstein' },
+            { q: 'Once you stop learning, you start dying.', a: 'Albert Einstein' },
+            { q: 'Our technology has exceeded our humanity.', a: 'Albert Einstein' },
+            { q: 'I have no special talent. I am only passionately curious', a: 'Albert Einstein' },
         ];
-        this.quote = this.quotes[Math.floor(Math.random() * this.quotes.length) + 1];
+        const i = Math.floor(Math.random() * ((this.quotes.length)));
+        this.quote = this.quotes[i];
     }
 }
