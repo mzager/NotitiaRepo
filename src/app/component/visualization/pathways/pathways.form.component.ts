@@ -35,7 +35,7 @@ export class PathwaysFormComponent {
     if (fields === null) { return; }
     if (fields.length === 0) { return; }
     const defaultDataField: DataField = DataFieldFactory.getUndefined();
-    this.colorOptions = DataFieldFactory.getColorFields(fields);
+    this.colorOptions = DataFieldFactory.getSampleColorFields(fields);
   }
 
   @Input() set config(v: PathwaysConfigModel) {

@@ -10,6 +10,13 @@ import {
         `<div class='loader'>
     <div class='loader-background'></div>
     <div class='loader-animation'></div>
+    <!--
+    <div class='loader-copy-container'>
+        <div class='loader-copy'>
+            &#39;If you torture the data long enough, it will confess to anything&#39;
+        </div>
+    </div>
+    -->
 </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

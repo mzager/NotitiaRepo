@@ -49,6 +49,7 @@
                     <select materialize='material_select' (change)='onGenesetChange($event)' [materializeSelectOptions]='genesets'>
                         <option *ngFor='let option of genesets' [value]='option.n'>{{option.n}}</option>
                     </select>
+                    <i class="tiny material-icons" (click)='showPanel.emit(32);' style='cursor:pointer; color:#029BE5; position: relative;left: 20px;top: 1px;'>settings</i>
 
                 </label>
             </div>
@@ -59,12 +60,13 @@
                     <select materialize='material_select' (change)='onCohortChange($event)' [materializeSelectOptions]='cohorts'>
                         <option *ngFor='let option of cohorts' [value]='option.n'>{{option.n}}</option>
                     </select>
+                    <i class="tiny material-icons" (click)='showPanel.emit(16);' style='cursor:pointer; color:#029BE5; position: relative;left: 20px;top: 1px;'>settings</i>
                 </label>
             </div>
 
             <div *ngIf='config'>
                 <app-workspace-decorator-panel [decorators]='decorators' (decoratorAdd)='onDecoratorAdd($event)' (decoratorDel)='onDecoratorDel($event)'
-                    [config]='config' [fields]='fields'></app-workspace-decorator-panel>
+                    [config]='config' [fields]='fields' [tables]='tables'></app-workspace-decorator-panel>
                 <app-pathways-form *ngIf='config && config.visualization === 256' (configChange)='graphPanelSetConfig($event)' [fields]='fields'
                     [config]='config'></app-pathways-form>
                 <app-timelines-form *ngIf='config && config.visualization === 128' (configChange)='graphPanelSetConfig($event)' [fields]='fields'

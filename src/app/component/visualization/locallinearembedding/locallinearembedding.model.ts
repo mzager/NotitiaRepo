@@ -25,7 +25,6 @@ export class LocalLinearEmbeddingNeighborsAlgorithm {
     public static BALL_TREE = 'ball_tree';
 }
 
-
 export class LocalLinearEmbeddingConfigModel extends GraphConfig {
     constructor() {
         super();

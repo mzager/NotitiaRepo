@@ -1,3 +1,6 @@
+import { Observable } from 'rxjs/Rx';
+import { CollectionTypeEnum, EntityTypeEnum } from 'app/model/enum.model';
+import { DataTable } from './../../../model/data-field.model';
 import { DataTypeEnum } from './../../../model/enum.model';
 import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
 import { GraphConfig } from './../../../model/graph-config.model';
@@ -14,22 +17,47 @@ import { Component, ChangeDetectionStrategy, Input, EventEmitter, Output, Change
 })
 export class DecoratorPanelComponent implements AfterViewInit, OnDestroy {
 
-  form: FormGroup;
-  colorOptions: Array<DataField>;
-  shapeOptions: Array<DataField>;
-  sizeOptions: Array<DataField>;
+  public clinicalColorOptions: Array<DataField>;
+  public clinicalShapeOptions: Array<DataField>;
+  public clinicalSizeOptions: Array<DataField>;
+  public molecularColorOptions: Array<DataField>;
+  public molecularShapeOptions: Array<DataField>;
+  public molecularSizeOptions: Array<DataField>;
+  public colorOptions: Array<DataField>;
+  public shapeOptions: Array<DataField>;
+  public sizeOptions: Array<DataField>;
+  public form: FormGroup;
+
+
 
   @Output() decoratorAdd: EventEmitter<DataDecorator> = new EventEmitter();
   @Output() decoratorDel: EventEmitter<DataDecorator> = new EventEmitter();
 
+
   // public static GENE_SIGNATURE = 'Gene Signature';
   // public static CLUSTERING_ALGORITHM = 'Clustering Algorithm';
-  @Input() config: GraphConfig;
+  private _config: GraphConfig;
+  public get config(): GraphConfig { return this._config; }
+  @Input() public set config(config: GraphConfig) {
+    if (!this._config) {
+      this._config = config;
+      this.updateFields();
+    } else if (this._config.entity !== config.entity) {
+      this._config = config;
+      this.updateFields();
+    }
+  }
+  @Input() set tables(tables: Array<DataTable>) {
+    this.molecularColorOptions = DataFieldFactory.getMolecularColorFields(tables);
+    this.molecularShapeOptions = DataFieldFactory.getMolecularShapeFields(tables);
+    this.molecularSizeOptions = DataFieldFactory.getMolecularSizeFields(tables);
+    this.updateFields();
+  }
   @Input() set fields(fields: Array<DataField>) {
-    this.colorOptions = DataFieldFactory.getColorFields(fields);
-    this.shapeOptions = DataFieldFactory.getShapeFields(fields);
-    this.sizeOptions = DataFieldFactory.getSizeFields(fields);
-
+    this.clinicalColorOptions = DataFieldFactory.getSampleColorFields(fields);
+    this.clinicalShapeOptions = DataFieldFactory.getSampleShapeFields(fields);
+    this.clinicalSizeOptions = DataFieldFactory.getSampleSizeFields(fields);
+    this.updateFields();
     //     if (fields.length === 0) { return; }
     //     const defaultDataField: DataField = DataFieldFactory.getUndefined();
 
@@ -76,6 +104,20 @@ export class DecoratorPanelComponent implements AfterViewInit, OnDestroy {
   byKey(p1: DataField, p2: DataField) {
     if (p2 === null) { return false; }
     return p1.key === p2.key;
+  }
+
+  updateFields(): void {
+    if (!this._config || !this.molecularColorOptions || !this.clinicalColorOptions) { return; }
+    if (this.config.entity === EntityTypeEnum.GENE) {
+      this.colorOptions = this.molecularColorOptions;
+      this.shapeOptions = this.molecularShapeOptions;
+      this.sizeOptions = this.molecularSizeOptions;
+    } else {
+      this.colorOptions = this.clinicalColorOptions;
+      this.shapeOptions = this.clinicalShapeOptions;
+      this.sizeOptions = this.clinicalSizeOptions;
+    }
+    this.cd.markForCheck();
   }
 
   ngOnDestroy(): void {
