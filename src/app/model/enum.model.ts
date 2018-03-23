@@ -135,6 +135,9 @@ export const enum CollectionTypeEnum {
     TAD = 1 << 16,
     // tslint:disable-next-line:no-bitwise
     EXP = CollectionTypeEnum.PROTEIN | CollectionTypeEnum.MIRNA | CollectionTypeEnum.MRNA,
+    // Molec Data Field Tables (use to determine the color options and decorators)
+    MOLEC_DATA_FIELD_TABLES = CollectionTypeEnum.RNA | CollectionTypeEnum.MRNA |
+    CollectionTypeEnum.GISTIC | CollectionTypeEnum.GISTIC_THRESHOLD,
     // tslint:disable-next-line:no-bitwise
     MOLECULAR = CollectionTypeEnum.CNV | CollectionTypeEnum.GISTIC |
     CollectionTypeEnum.GISTIC_THRESHOLD | CollectionTypeEnum.MUTATION | CollectionTypeEnum.MIRNA |

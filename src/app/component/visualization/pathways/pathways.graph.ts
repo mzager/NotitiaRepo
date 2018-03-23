@@ -35,6 +35,7 @@ export class PathwaysGraph implements ChartObjectInterface {
 
     // Objects
     public meshes: Array<THREE.Mesh>;
+    public decorators: DataDecorator[];
     public lines: Array<THREE.Object3D>;
 
     // Private Subscriptions

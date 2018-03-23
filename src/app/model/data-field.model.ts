@@ -16,8 +16,8 @@ export class DataFieldFactory {
   }
   public static getMolecularColorFields(tables: Array<DataTable>): Array<DataField> {
 
-    const rangeTables = CollectionTypeEnum.RNA | CollectionTypeEnum.MRNA | CollectionTypeEnum.GISTIC | CollectionTypeEnum.GISTIC_THRESHOLD;
-    const fields = tables.filter(tbl => tbl.ctype & rangeTables).map(tbl => ({
+
+    const fields = tables.filter(tbl => tbl.ctype & CollectionTypeEnum.MOLEC_DATA_FIELD_TABLES).map(tbl => ({
       key: 'avg',
       label: tbl.label + ' (Avg)',
       type: DataTypeEnum.NUMBER,

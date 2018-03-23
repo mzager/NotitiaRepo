@@ -27,6 +27,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     private selectionOrigin2d: Vector2;
     private selectionScale: scale.ScaleLinear<number, number>;
 
+
     // Private Subscriptions
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         super.create(labels, events, view);
@@ -34,7 +35,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.meshes = [];
         this.points = [];
         this.lines = [];
-        this.view.controls.enableRotate = true;
         return this;
     }
 
@@ -45,7 +45,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
         super.updateDecorator(config, decorators);
         ChartFactory.decorateDataGroups(this.meshes, this.decorators);
-        this.points = this.meshes.map(v => v.children[0]);
     }
 
     updateData(config: GraphConfig, data: any) {

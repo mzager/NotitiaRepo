@@ -29,6 +29,7 @@ export class EdgesGraph implements ChartObjectInterface {
     private view: VisualizationView;
 
     public meshes: Array<THREE.Mesh>;
+    public decorators: DataDecorator[];
     public lines: Array<THREE.Line> = [];
     private drawEdgesDebounce: Function;
     private toastsManager: ToastsManager;

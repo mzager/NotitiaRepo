@@ -89,5 +89,5 @@ export const chromosomeCompute = (config: ChromosomeConfigModel, worker: Dedicat
 
         // ]).then(v => {
     });
-}
 };
+
