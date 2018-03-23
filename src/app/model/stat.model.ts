@@ -81,7 +81,7 @@ export class StatOneD implements Stat {
         this.name = name;
         this.data = data;
         this.renderer = StatRendererEnum.VEGA;
-        this.columns = StatRendererColumns.TWELVE;
+        this.columns = StatRendererColumns.SIX;
     }
 }
 
@@ -927,7 +927,7 @@ export class StatFactory {
             if (config.markerFilter !== null) {
                 try {
                     stats.push({
-                        mylabel: 'Total Dataset Genes: ', myvalue: ((config.markerFilter.length === 0) ?
+                        mylabel: 'Selected Geneset: ', myvalue: ((config.markerFilter.length === 0) ?
                             'All' : config.markerFilter.length.toString())
                     });
                 } catch (e) { }
@@ -935,7 +935,7 @@ export class StatFactory {
             if (config.markerFilter !== null) {
                 try {
                     stats.push({
-                        mylabel: 'Listed Dataset Genes: ', myvalue: ((config.markerFilter.length === 0) ?
+                        mylabel: 'Selected Genes: ', myvalue: ((config.markerFilter.length === 0) ?
                             'All' : config.markerFilter)
                     });
                 } catch (e) { }
@@ -944,7 +944,7 @@ export class StatFactory {
             if (config.patientFilter !== null) {
                 try {
                     stats.push({
-                        mylabel: 'Patients: ', myvalue: ((config.patientFilter.length === 0) ?
+                        mylabel: 'Filtered Patients: ', myvalue: ((config.patientFilter.length === 0) ?
                             'All' : config.patientFilter.length.toString())
                     });
                 } catch (e) { }
@@ -953,7 +953,7 @@ export class StatFactory {
             if (config.sampleFilter !== null) {
                 try {
                     stats.push({
-                        mylabel: 'Samples: ', myvalue: ((config.sampleFilter.length === 0) ?
+                        mylabel: 'Filtered Samples: ', myvalue: ((config.sampleFilter.length === 0) ?
                             'All' : config.sampleFilter.length.toString())
                     });
                 } catch (e) { }
@@ -980,7 +980,7 @@ export class StatFactory {
                         return stat;
                     });
                 });
-                const result = bothResults[0].concat(bothResults[1]);
+                const result = bothResults[1];
                 result.unshift(keyValues);
 
                 resolve(result);
