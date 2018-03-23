@@ -115,7 +115,7 @@ export class BoxWhiskersFormComponent {
     this.categoricalOptions = DataFieldFactory.getCategoricalFields(fields);
     this.continuousOptions.unshift(defaultDataField);
     this.categoricalOptions.unshift(defaultDataField);
-    this.colorOptions = DataFieldFactory.getColorFields(fields);
+    this.colorOptions = DataFieldFactory.getSampleColorFields(fields);
   }
 
   @Input() set config(v: BoxWhiskersConfigModel) {

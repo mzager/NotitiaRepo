@@ -61,35 +61,33 @@ export const chromosomeCompute = (config: ChromosomeConfigModel, worker: Dedicat
         worker.postMessage('TERMINATE');
     };
 
-    worker.util.processShapeColorSizeIntersect(config, worker);
 
-    if (config.dirtyFlag & DirtyEnum.LAYOUT) {
 
-        worker.util.getChromosomeInfo(config.chromosome, []).then(result => {
+    worker.util.getChromosomeInfo(config.chromosome, []).then(result => {
 
-            // const mf = new Set(config.markerFilter);
-            const chromo = ct.find(v => v.chr === config.chromosome);
-            if (config.geneOption.key !== 'all') {
-                const gType = config.geneOption.key;
-                result = result.filter(v => v.type === gType);
-            }
+        // const mf = new Set(config.markerFilter);
+        const chromo = ct.find(v => v.chr === config.chromosome);
+        if (config.geneOption.key !== 'all') {
+            const gType = config.geneOption.key;
+            result = result.filter(v => v.type === gType);
+        }
 
-            const genes = result.map(v => v.gene);
+        const genes = result.map(v => v.gene);
 
-            if (config.chordOption.key === 'none') {
-                sendResult(result, chromo, null);
-            } else {
-                worker.util.getGeneLinkInfoByGenes(config.markerFilter).then(chords => {
-                    chords.map(chord => ({ source: chord.source, target: chord.target, tension: chord.tension }));
-                    sendResult(result, chromo, chords);
-                });
-            }
-            // Promise.all([
-            //     // worker.util.getMolecularGeneValues(genes, {tbl: 'gistic'}),
-            //     // worker.util.getMolecularGeneValues(genes, {tbl: 'mut'}),
-            //     worker.util.getMolecularGeneValues(genes, {tbl: 'rna'})
+        if (config.chordOption.key === 'none') {
+            sendResult(result, chromo, null);
+        } else {
+            worker.util.getGeneLinkInfoByGenes(config.markerFilter).then(chords => {
+                chords.map(chord => ({ source: chord.source, target: chord.target, tension: chord.tension }));
+                sendResult(result, chromo, chords);
+            });
+        }
+        // Promise.all([
+        //     // worker.util.getMolecularGeneValues(genes, {tbl: 'gistic'}),
+        //     // worker.util.getMolecularGeneValues(genes, {tbl: 'mut'}),
+        //     worker.util.getMolecularGeneValues(genes, {tbl: 'rna'})
 
-            // ]).then(v => {
-        });
-    }
+        // ]).then(v => {
+    });
 };
+

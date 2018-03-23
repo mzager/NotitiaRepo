@@ -42,6 +42,7 @@ export class BoxWhisterksGraph implements ChartObjectInterface {
     private isEnabled: boolean;
 
     // Objects
+    public decorators: DataDecorator[];
     public meshes: Array<THREE.Mesh>;
     private arms: any;
     private chromosomes: any;
