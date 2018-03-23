@@ -24,22 +24,18 @@ export class AbstractScatterForm {
     dataOptions: Array<DataTable>;
     dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D, DimensionEnum.ONE_D];
 
-    byKey(p1: DataField, p2: DataField) {
+    public byKey(p1: DataField, p2: DataField) {
         if (p2 === null) { return false; }
         return p1.key === p2.key;
     }
 
     registerFormChange(): void {
-        // Update When Form Changes
-
         this.form.valueChanges
             .debounceTime(500)
             .distinctUntilChanged()
             .subscribe(data => {
                 const form = this.form;
-                // if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
                 form.markAsPristine();
-                // data.dirtyFlag = dirty;
                 this.configChange.emit(data);
             });
     }

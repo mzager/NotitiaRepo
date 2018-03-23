@@ -68,6 +68,7 @@ export class ChromosomeGraph implements ChartObjectInterface {
 
     // Objects
     public meshes: Array<THREE.Mesh>;
+    public decorators: DataDecorator[];
     private arms: any;
     private chromosomes: any;
     private selector: THREE.Mesh;

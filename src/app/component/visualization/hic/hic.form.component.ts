@@ -85,9 +85,9 @@ export class HicFormComponent {
     if (fields === null) { return; }
     if (fields.length === 0) { return; }
     const defaultDataField: DataField = DataFieldFactory.getUndefined();
-    this.colorOptions = DataFieldFactory.getColorFields(fields, EntityTypeEnum.GENE);
-    this.shapeOptions = DataFieldFactory.getShapeFields(fields, EntityTypeEnum.GENE);
-    this.sizeOptions = DataFieldFactory.getSizeFields(fields, EntityTypeEnum.GENE);
+    this.colorOptions = DataFieldFactory.getSampleColorFields(fields, EntityTypeEnum.GENE);
+    this.shapeOptions = DataFieldFactory.getSampleShapeFields(fields, EntityTypeEnum.GENE);
+    this.sizeOptions = DataFieldFactory.getSampleSizeFields(fields, EntityTypeEnum.GENE);
   }
 
   @Input() set tables(tables: Array<DataTable>) {

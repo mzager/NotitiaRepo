@@ -27,7 +27,7 @@ export class LinkedGeneGraph implements ChartObjectInterface {
 
     // Emitters
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
-    public onConfigEmit: EventEmitter<{type: GraphConfig}> = new EventEmitter<{ type: GraphConfig }>();
+    public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{ type: GraphConfig }>();
     public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
         new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
 
@@ -43,6 +43,7 @@ export class LinkedGeneGraph implements ChartObjectInterface {
 
     // Objects
     public meshes: Array<THREE.Mesh>;
+    public decorators: DataDecorator[];
     public lines: Array<THREE.Line>;
     private graphData: any;
     private colors = [0xb71c1c, 0x880e4f, 0x4a148c, 0x311b92, 0x1a237e, 0x0d47a1, 0x01579b, 0x006064,
@@ -119,15 +120,15 @@ export class LinkedGeneGraph implements ChartObjectInterface {
 
         const _graph = graph();
 
-        this.graphData.nodes.forEach( (v, i ) => { _graph.addNode(v, this.graphData.nodeData[i]); } );
-        this.graphData.edges.forEach( v => _graph.addLink( v.source, v.target ));
+        this.graphData.nodes.forEach((v, i) => { _graph.addNode(v, this.graphData.nodeData[i]); });
+        this.graphData.edges.forEach(v => _graph.addLink(v.source, v.target));
 
         const _layout = forcelayout3d(_graph);
         for (let i = 0; i < 200; i++) {
-             _layout.step();
+            _layout.step();
         }
 
-        _graph.forEachNode( node => {
+        _graph.forEachNode(node => {
 
             let color = 0x000000;
             try {
@@ -143,9 +144,9 @@ export class LinkedGeneGraph implements ChartObjectInterface {
             mesh.position.z = position.z;
             this.meshes.push(mesh);
             this.view.scene.add(mesh);
-        } );
+        });
 
-        _graph.forEachLink( link => {
+        _graph.forEachLink(link => {
             const line = this.createLinkUI(link);
             const position = _layout.getLinkPosition(link.id);
             const from = position.from;

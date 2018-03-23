@@ -80,9 +80,9 @@ export class ChromosomeFormComponent {
     if (fields === null) { return; }
     if (fields.length === 0) { return; }
     const defaultDataField: DataField = DataFieldFactory.getUndefined();
-    this.colorOptions = DataFieldFactory.getColorFields(fields, EntityTypeEnum.GENE);
-    this.shapeOptions = DataFieldFactory.getShapeFields(fields, EntityTypeEnum.GENE);
-    this.sizeOptions = DataFieldFactory.getSizeFields(fields, EntityTypeEnum.GENE);
+    this.colorOptions = DataFieldFactory.getSampleColorFields(fields, EntityTypeEnum.GENE);
+    this.shapeOptions = DataFieldFactory.getSampleShapeFields(fields, EntityTypeEnum.GENE);
+    this.sizeOptions = DataFieldFactory.getSampleSizeFields(fields, EntityTypeEnum.GENE);
   }
 
   @Input() set config(v: ChromosomeConfigModel) {
@@ -100,35 +100,35 @@ export class ChromosomeFormComponent {
   layoutOptions = ['Circle', 'Line'];
   spacingOptions = ['Translational Start Site', 'Linear'];
   chromosomeOptions = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
-  '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', 'X', 'Y'];
+    '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', 'X', 'Y'];
   chordOptions = [
-    {label: 'None', key: 'none'},
-    {label: 'Hi-C', key: 'hic'}
+    { label: 'None', key: 'none' },
+    { label: 'Hi-C', key: 'hic' }
   ];
 
   geneOptions = [
-    {label: 'All Genes', key: 'all'},
-    {label: 'Protein Coding', key: 'protein_coding'},
-    {label: 'LincRNA', key: 'lincRNA'},
-    {label: 'miRNA', key: 'miRNA'},
-    {label: 'Misc RNA', key: 'misc_RNA'},
-    {label: 'rRNA', key: 'rRNA'},
-    {label: 'snRNA', key: 'snRNA'},
-    {label: 'snoRNA', key: 'snoRNA'},
-    {label: 'vaultRNA', key: 'vaultRNA'},
-    {label: 'Antisense', key: 'antisense'},
-    {label: 'TEC', key: 'TEC'},
-    {label: 'Unprocessed Pseudo', key: 'unprocessed_pseudogene'},
-    {label: 'Unprocessed Pseudo T', key: 'transcribed_unprocessed_pseudogene'},
-    {label: 'Processed Pseudo', key: 'processed_pseudogene'},
-    {label: 'Processed Pseudo T', key: 'transcribed_processed_pseudogene'},
-    {label: 'Unitary Pseduo', key: 'unitary_pseudogene'},
-    {label: 'Processed Transcript', key: 'processed_transcript'},
-    {label: 'Sense Intronic', key: 'sense_intronic'},
-    {label: 'Sense Overlapping', key: 'sense_overlapping'},
-    {label: 'Unitary Pseudo', key: 'unitary_pseudogene'},
-    {label: 'Unitary Pseudo T', key: 'transcribed_unitary_pseudogene'}
-];
+    { label: 'All Genes', key: 'all' },
+    { label: 'Protein Coding', key: 'protein_coding' },
+    { label: 'LincRNA', key: 'lincRNA' },
+    { label: 'miRNA', key: 'miRNA' },
+    { label: 'Misc RNA', key: 'misc_RNA' },
+    { label: 'rRNA', key: 'rRNA' },
+    { label: 'snRNA', key: 'snRNA' },
+    { label: 'snoRNA', key: 'snoRNA' },
+    { label: 'vaultRNA', key: 'vaultRNA' },
+    { label: 'Antisense', key: 'antisense' },
+    { label: 'TEC', key: 'TEC' },
+    { label: 'Unprocessed Pseudo', key: 'unprocessed_pseudogene' },
+    { label: 'Unprocessed Pseudo T', key: 'transcribed_unprocessed_pseudogene' },
+    { label: 'Processed Pseudo', key: 'processed_pseudogene' },
+    { label: 'Processed Pseudo T', key: 'transcribed_processed_pseudogene' },
+    { label: 'Unitary Pseduo', key: 'unitary_pseudogene' },
+    { label: 'Processed Transcript', key: 'processed_transcript' },
+    { label: 'Sense Intronic', key: 'sense_intronic' },
+    { label: 'Sense Overlapping', key: 'sense_overlapping' },
+    { label: 'Unitary Pseudo', key: 'unitary_pseudogene' },
+    { label: 'Unitary Pseudo T', key: 'transcribed_unitary_pseudogene' }
+  ];
 
   byKey(p1: DataField, p2: DataField) {
     if (p2 === null) { return false; }

@@ -104,7 +104,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   public _genesets: Array<any>;
   public get genesets(): Array<any> { return this._genesets; }
   @Input() public set genesets(value: Array<any>) {
-    value.push({ n: 'Manage Gene Sets', g: [] });
+    // value.push({ n: 'Manage Gene Sets', g: [] });
     this._genesets = value;
     requestAnimationFrame(() => {
       this.cd.markForCheck();
@@ -114,7 +114,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   _cohorts: Array<any>;
   public get cohorts(): Array<any> { return this._cohorts; }
   @Input() public set cohorts(value: Array<any>) {
-    value.push({ n: 'Manage Cohorts', pids: [], sids: [] });
+    // value.push({ n: 'Manage Cohorts', pids: [], sids: [] });
     this._cohorts = value;
     requestAnimationFrame(() => {
       this.cd.markForCheck();
@@ -124,6 +124,8 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   private _config: GraphConfig = null;
   get config(): GraphConfig { return this._config; }
   @Input() set config(value: GraphConfig) {
+
+
     let updateHelp = false;
     if (value === null) { return; }
     if (this._config === null) {
@@ -131,6 +133,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     } else if (this._config.visualization !== value.visualization) {
       updateHelp = true;
     }
+
     this._config = value;
     if (updateHelp) {
       this.dataService.getHelpInfo(value).then(v => {
@@ -178,9 +181,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   }
   onCohortChange($event: Event) {
     const selected = this.cohorts.find(v => v.n === $event.target['value']);
-    if (selected.n === 'Manage Cohorts') {
-
-    }
     this.config.patientFilter = selected.pids;
     this.config.sampleFilter = selected.sids;
     this.config.dirtyFlag = DirtyEnum.LAYOUT;
@@ -188,9 +188,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   }
   onGenesetChange($event: Event) {
     const selected = this.genesets.find(v => v.n === $event.target['value']);
-    if (selected.n === 'Manage Gene Sets') {
-      debugger;
-    }
     this.config.markerFilter = selected.g;
     this.config.dirtyFlag = DirtyEnum.LAYOUT;
     this.configChange.emit(this.config);
@@ -333,9 +330,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     gc.sampleSelect = prevConfig.sampleSelect;
     gc.markerSelect = prevConfig.markerSelect;
     gc.patientSelect = prevConfig.patientSelect;
-    gc.pointColor = prevConfig.pointColor;
-    gc.pointShape = prevConfig.pointShape;
-    gc.pointSize = prevConfig.pointSize;
+    // gc.pointColor = prevConfig.pointColor;
+    // gc.pointShape = prevConfig.pointShape;
+    // gc.pointSize = prevConfig.pointSize;
     gc.graph = (this.title === 'Graph A') ? GraphEnum.GRAPH_A : GraphEnum.GRAPH_B;
     this.configChange.emit(gc);
   }

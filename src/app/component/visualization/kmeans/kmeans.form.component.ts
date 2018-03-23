@@ -103,9 +103,9 @@ export class KMeansFormComponent {
 
     if (fields.length === 0) { return; }
     const defaultDataField: DataField = DataFieldFactory.getUndefined();
-    this.colorOptions = DataFieldFactory.getColorFields(fields);
-    this.shapeOptions = DataFieldFactory.getShapeFields(fields);
-    this.sizeOptions = DataFieldFactory.getShapeFields(fields);
+    this.colorOptions = DataFieldFactory.getSampleColorFields(fields);
+    this.shapeOptions = DataFieldFactory.getSampleShapeFields(fields);
+    this.sizeOptions = DataFieldFactory.getSampleShapeFields(fields);
   }
 
   @Input() set config(v: KmeansConfigModel) {

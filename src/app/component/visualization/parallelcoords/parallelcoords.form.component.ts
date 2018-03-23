@@ -44,8 +44,8 @@ export class ParallelCoordsFormComponent {
     if (fields.length === 0) { return; }
     const defaultDataField: DataField = DataFieldFactory.getUndefined();
 
-    this.colorOptions = DataFieldFactory.getColorFields(fields);
-    this.shapeOptions = DataFieldFactory.getShapeFields(fields);
+    this.colorOptions = DataFieldFactory.getSampleColorFields(fields);
+    this.shapeOptions = DataFieldFactory.getSampleShapeFields(fields);
   }
 
   @Input() set config(v: ParallelCoordsConfigModel) {

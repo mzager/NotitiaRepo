@@ -98,9 +98,9 @@ export class PlsFormComponent {
   @Input() set clinicalFields(fields: Array<DataField>) {
     if (fields.length === 0) { return; }
     const defaultDataField: DataField = DataFieldFactory.getUndefined();
-    this.colorOptions = DataFieldFactory.getColorFields(fields);
-    this.shapeOptions = DataFieldFactory.getShapeFields(fields);
-    this.sizeOptions = DataFieldFactory.getSizeFields(fields);
+    this.colorOptions = DataFieldFactory.getSampleColorFields(fields);
+    this.shapeOptions = DataFieldFactory.getSampleShapeFields(fields);
+    this.sizeOptions = DataFieldFactory.getSampleSizeFields(fields);
   }
 
   @Input() set config(v: PlsConfigModel) {

@@ -6,9 +6,11 @@ import memoize from 'memoize-decorator';
 import { GraphEnum, ShapeEnum, SizeEnum } from 'app/model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import * as THREE from 'three';
-import { Vector3, Vector2, Shading, SmoothShading, Geometry } from 'three';
+import { Vector3, Vector2, Shading, SmoothShading, Geometry, Mesh } from 'three';
 import * as scale from 'd3-scale';
 import { schemeRdBu, interpolateRdBu, interpolateSpectral } from 'd3-scale-chromatic';
+export type DataDecoatorRenderer = (group: THREE.Group, mesh: THREE.Sprite, decorators: Array<DataDecorator>,
+    index: number, count: number) => void;
 export class ChartFactory {
 
     private static meshPool: Array<THREE.Mesh> = [];
@@ -44,8 +46,8 @@ export class ChartFactory {
     //     0x004d40, 0x1b5e20, 0x33691e, 0x827717, 0xf57f17, 0xff6f00, 0xe65100, 0xbf360c, 0x3e2723,
     //     0xf44336, 0xe91e63, 0x9c27b0, 0x673ab7, 0x3f51b5, 0x2196f3, 0x03a9f4, 0x00bcd4, 0x009688,
     //     0x4caf50, 0x8bc34a, 0xcddc39, 0xffeb3b, 0xffc107, 0xff9800, 0xff5722, 0x795548];
-    private static sprites = [SpriteMaterialEnum.BLOB, SpriteMaterialEnum.CIRCLE, SpriteMaterialEnum.DIAMOND,
-    SpriteMaterialEnum.POLYGON, SpriteMaterialEnum.SQUARE, SpriteMaterialEnum.STAR, SpriteMaterialEnum.TRIANGLE, SpriteMaterialEnum.BLAST];
+    private static sprites = [SpriteMaterialEnum.CIRCLE, SpriteMaterialEnum.TRIANGLE, SpriteMaterialEnum.DIAMOND,
+    SpriteMaterialEnum.POLYGON, SpriteMaterialEnum.SQUARE, SpriteMaterialEnum.STAR, SpriteMaterialEnum.BLAST, SpriteMaterialEnum.BLOB];
 
     public static textures = {
         blast: new THREE.TextureLoader().load('assets/shapes/shape-blast-solid.png'),
@@ -99,7 +101,8 @@ export class ChartFactory {
         group.userData.tooltip = 'ID: ' + id;
         return group;
     }
-    public static decorateDataGroups(groups: Array<THREE.Group>, decorators: Array<DataDecorator>): void {
+    public static decorateDataGroups(groups: Array<THREE.Group>, decorators: Array<DataDecorator>,
+        renderer: DataDecoatorRenderer = null): void {
 
         // Retrieve Id
         if (groups.length === 0) { return; }
@@ -127,10 +130,8 @@ export class ChartFactory {
             p[c[idProperty]] = c.value;
             return p;
         }, {});
-
-
-
-        groups.forEach(group => {
+        const count = groups.length;
+        groups.forEach((group, i) => {
             while (group.children.length) {
                 group.remove(group.children[0]);
             }
@@ -146,6 +147,9 @@ export class ChartFactory {
             mesh.userData.tooltip = id;
             mesh.userData.color = color;
             mesh.userData.selectionLocked = false;
+            if (renderer) {
+                renderer(group, mesh, decorators, i, count);
+            }
             group.add(mesh);
         });
 
