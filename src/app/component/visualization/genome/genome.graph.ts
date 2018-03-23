@@ -13,7 +13,7 @@ import { VisualizationView } from './../../../model/chart-view.model';
 import { FontFactory } from './../../../service/font.factory';
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { ShapeEnum, ColorEnum, GraphEnum, GenomicEnum } from 'app/model/enum.model';
-import { ChartFactory } from './../../workspace/chart/chart.factory';
+import { ChartFactory, DataDecoatorRenderer } from './../../workspace/chart/chart.factory';
 import { GenomeConfigModel, GenomeDataModel } from './genome.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import * as scale from 'd3-scale';
@@ -31,7 +31,11 @@ export class GenomeGraph extends AbstractVisualization {
     private points: Array<THREE.Object3D>;
     public tads: Array<THREE.Object3D> = [];
     public chromosomes: Array<THREE.Object3D> = [];
-
+    public renderer: DataDecoatorRenderer = (group: THREE.Group, mesh: THREE.Sprite, decorators: Array<DataDecorator>,
+        i: number, count: number): void => {
+        // const offset = 1 + (1 * (i % 5));
+        mesh.position.setX(-10);
+    }
 
     chromosomeToNumber(chromosome: string, x: boolean = true): number {
         let rv = parseInt(chromosome, 10);
@@ -41,6 +45,7 @@ export class GenomeGraph extends AbstractVisualization {
 
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
         super.updateDecorator(config, decorators);
+        ChartFactory.decorateDataGroups(this.meshes, this.decorators, this.renderer);
     }
     updateData(config: GraphConfig, data: any) {
         super.updateData(config, data);
@@ -149,7 +154,7 @@ export class GenomeGraph extends AbstractVisualization {
                 this.view.scene.add(group);
             });
         });
-        ChartFactory.decorateDataGroups(this.meshes, this.decorators);
+        ChartFactory.decorateDataGroups(this.meshes, this.decorators, this.renderer);
         this.points = this.meshes.map(v => v.children[0]);
     }
     removeChromosomes() {

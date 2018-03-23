@@ -23,6 +23,7 @@ export class DaGraph implements ChartObjectInterface {
 
     // Private Members
     public meshes: Array<THREE.Mesh>;
+    public decorators: DataDecorator[];
     private container: THREE.Object3D;
     private layout: any;
     private sizes: Array<any>;
