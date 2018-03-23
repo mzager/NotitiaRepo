@@ -331,7 +331,9 @@ export class ChartScene {
                     view.chart = this.getChartObject(config.visualization).create(
                         (config.graph === GraphEnum.GRAPH_A) ? this.labelsA : this.labelsB,
                         this.events, view);
-                    if (!entityChanged) { view.chart.decorators = decorators; }
+                    if (!entityChanged) {
+                        view.chart.decorators = decorators;
+                    } else { view.chart.decorators = []; }
                     view.chart.onRequestRender.subscribe(this.render);
                     view.chart.onConfigEmit.subscribe(this.config);
 
