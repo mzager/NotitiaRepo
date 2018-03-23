@@ -48,10 +48,11 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
 
     drawStats(): void {
 
+        // Return Stat Objects That Get Drawn To Screen
         this.statFactory.getPopulationStats(this.config, this.dataService).then(stats => {
-
             stats.forEach((stat, i) => {
 
+                // Create A Div For Each Stat
                 const div = this.container.append('<div id="cc' + i.toString() +
                     '" class="statItemContainer" style="padding-bottom:20px;"></div>');
 
@@ -74,9 +75,7 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
                 }
             });
         });
-
     }
-
 
     closeClick(): void {
         this.hide.emit();

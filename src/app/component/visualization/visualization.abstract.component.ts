@@ -1,3 +1,5 @@
+import { GraphData } from 'app/model/graph-data.model';
+import { DataField } from './../../model/data-field.model';
 import { DataDecorator } from './../../model/data-map.model';
 import { Subscription } from 'rxjs/Subscription';
 import { WorkspaceLayoutEnum } from './../../model/enum.model';
@@ -16,33 +18,72 @@ export class AbstractVisualization implements ChartObjectInterface {
         new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
 
     // Common Objects
-    labels: HTMLElement;
-    events: ChartEvents;
-    view: VisualizationView;
-    isEnabled: boolean;
-    meshes: THREE.Object3D[];
+    public data: GraphData;
+    public config: GraphConfig;
+    public decorators: Array<DataDecorator>;
+    public sMouseMove: Subscription;
+    public sMouseDown: Subscription;
+    public sMouseUp: Subscription;
+    public overlay: HTMLElement;
+    public tooltips: HTMLElement;
+    public labels: HTMLElement;
+    public events: ChartEvents;
+    public view: VisualizationView;
+    public isEnabled: boolean;
+    public meshes: THREE.Object3D[];
 
-    enable(truthy: Boolean) {
-        throw new Error('Method not implemented.');
+    enable(truthy: boolean) {
+        if (this.isEnabled === truthy) { return; }
+        this.isEnabled = truthy;
+        this.view.controls.enabled = this.isEnabled;
+        if (truthy) {
+            this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
+            this.sMouseDown = this.events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
+            this.sMouseUp = this.events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
+        } else {
+            this.sMouseMove.unsubscribe();
+            this.sMouseDown.unsubscribe();
+            this.sMouseUp.unsubscribe();
+            this.tooltips.innerHTML = '';
+        }
     }
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        throw new Error('Method not implemented.');
+        this.decorators = decorators;
     }
     updateData(config: GraphConfig, data: any) {
-        throw new Error('Method not implemented.');
+        this.config = config as GraphConfig;
+        this.data = data;
     }
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
+
         this.labels = labels;
         this.labels.innerText = '';
         this.events = events;
         this.view = view;
         this.isEnabled = false;
         this.meshes = [];
+        this.decorators = [];
+
+        this.tooltips = <HTMLDivElement>(document.createElement('div'));
+        this.tooltips.className = 'graph-tooltip';
+        this.labels.appendChild(this.tooltips);
+
+        this.overlay = <HTMLDivElement>(document.createElement('div'));
+        this.overlay.className = 'graph-overlay';
+        this.labels.appendChild(this.overlay);
+
         return this;
     }
     destroy() {
-        throw new Error('Method not implemented.');
+        this.sMouseDown.unsubscribe();
+        this.sMouseMove.unsubscribe();
+        this.sMouseUp.unsubscribe();
+        this.enable(false);
     }
     preRender(views: VisualizationView[], layout: WorkspaceLayoutEnum, renderer: THREE.Renderer): void { }
+
+    onMouseDown(e: ChartEvent): void { }
+    onMouseUp(e: ChartEvent): void { }
+    onMouseMove(e: ChartEvent): void { }
 
 }
