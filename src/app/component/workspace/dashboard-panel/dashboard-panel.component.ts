@@ -24,7 +24,7 @@ declare var vegaTooltip: any;
     template:
         `<div>
     <a href='#' class='modalClose' (click)='closeClick()'></a>
-    <h1> Stats </h1>
+    <h1> Filtered Stats </h1>
     <div #chartContainer></div>
 </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush
