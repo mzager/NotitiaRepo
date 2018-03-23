@@ -915,10 +915,19 @@ export class StatFactory {
             const stats = [];
 
             // Pull Stats Directly From Configuration... No need to query database
+            if (config.database !== null) {
+                try {
+                    stats.push({
+                        mylabel: 'Dataset: ', myvalue: ((config.database))
+                    });
+                } catch (e) { }
+            }
+
+            // Pull Stats Directly From Configuration... No need to query database
             if (config.markerFilter !== null) {
                 try {
                     stats.push({
-                        mylabel: 'Total Genes: ', myvalue: ((config.markerFilter.length === 0) ?
+                        mylabel: 'Total Dataset Genes: ', myvalue: ((config.markerFilter.length === 0) ?
                             'All' : config.markerFilter.length.toString())
                     });
                 } catch (e) { }
@@ -926,7 +935,7 @@ export class StatFactory {
             if (config.markerFilter !== null) {
                 try {
                     stats.push({
-                        mylabel: 'Genes: ', myvalue: ((config.markerFilter.length === 0) ?
+                        mylabel: 'Listed Dataset Genes: ', myvalue: ((config.markerFilter.length === 0) ?
                             'All' : config.markerFilter)
                     });
                 } catch (e) { }
@@ -958,7 +967,7 @@ export class StatFactory {
                 dataService.getPatientStats(config.database, config.patientFilter),
 
             ]).then(results => {
-
+                // debugger;
                 const bothResults: Array<any> = results.map(result => {
                     return result.map(v => {
                         const stat = new StatOneD(v.name, v.stat.map(w => ({
