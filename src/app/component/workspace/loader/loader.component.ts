@@ -53,7 +53,7 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
             { q: 'I have no special talent - I am only passionately curious', a: 'Albert Einstein' },
             { q: 'Science is a way of thinking much more than it is a body of knowledge', a: 'Carl Sagan' },
             { q: 'Absence of evidence is not evidence of absence', a: 'Carl Sagan' },
-            { q: 'The universe is not required to be in perfect harmony with human ambition', a: 'Cark Sagan' },
+            { q: 'The universe is not required to be in perfect harmony with human ambition', a: 'Carl Sagan' },
             { q: 'The dangers of not thinking clearly are much greater now than ever before', a: 'Carl Sagan' },
             { q: 'Errors using inadequate data are much less than those using no data at all', a: 'Charles Babbage' },
             { q: 'Perhaps it would be better for science, that all criticism should be avowed', a: 'Charles Babbage' },

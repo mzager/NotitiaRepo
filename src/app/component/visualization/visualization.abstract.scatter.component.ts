@@ -55,6 +55,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
 
     enable(truthy: boolean) {
         super.enable(truthy);
+        this.view.controls.enableRotate = true;
     }
 
     addObjects(type: EntityTypeEnum) {
