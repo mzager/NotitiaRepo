@@ -327,6 +327,7 @@ export class ChartScene {
                         camera.updateProjectionMatrix();
                         camera.position.set(0, 0, 1000);
                         camera.lookAt(new Vector3(0, 0, 0));
+
                     }
                     view.chart = this.getChartObject(config.visualization).create(
                         (config.graph === GraphEnum.GRAPH_A) ? this.labelsA : this.labelsB,
@@ -337,7 +338,7 @@ export class ChartScene {
                     view.chart.onRequestRender.subscribe(this.render);
                     view.chart.onConfigEmit.subscribe(this.config);
 
-
+                    view.controls.enableRotate = false;
                     view.chart.enable(true);
                     try {
                         ((graph === GraphEnum.GRAPH_A) ? this.views[1] : this.views[0]).chart.enable(false);

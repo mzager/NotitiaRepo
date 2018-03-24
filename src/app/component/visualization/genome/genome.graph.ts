@@ -33,8 +33,17 @@ export class GenomeGraph extends AbstractVisualization {
     public chromosomes: Array<THREE.Object3D> = [];
     public renderer: DataDecoatorRenderer = (group: THREE.Group, mesh: THREE.Sprite, decorators: Array<DataDecorator>,
         i: number, count: number): void => {
-        // const offset = 1 + (1 * (i % 5));
-        mesh.position.setX(-10);
+        // const xPos = - ((i % 5) + 2);
+        mesh.position.setX(-2);
+        const lineMat = new THREE.LineBasicMaterial({ color: mesh.material.color.getHex() });
+        const lineGeom = new THREE.Geometry();
+        lineGeom.vertices.push(
+            new THREE.Vector3(-2, 0, 0),
+            new THREE.Vector3(0, 0, 0)
+        );
+        const line = new THREE.Line(lineGeom, lineMat);
+        group.add(line);
+
     }
 
     chromosomeToNumber(chromosome: string, x: boolean = true): number {
@@ -166,7 +175,7 @@ export class GenomeGraph extends AbstractVisualization {
         this.tads = [];
     }
     removeGenes() {
-
+        this.view.scene.remove(...this.meshes);
     }
     constructor() {
         super();
