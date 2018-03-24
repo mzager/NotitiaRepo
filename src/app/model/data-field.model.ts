@@ -16,15 +16,17 @@ export class DataFieldFactory {
   }
   public static getMolecularColorFields(tables: Array<DataTable>): Array<DataField> {
 
-
-    const fields = tables.filter(tbl => tbl.ctype & CollectionTypeEnum.MOLEC_DATA_FIELD_TABLES).map(tbl => ({
-      key: 'avg',
-      label: tbl.label + ' (Avg)',
-      type: DataTypeEnum.NUMBER,
-      tbl: tbl.tbl,
-      values: null,
-      ctype: tbl.ctype
-    }));
+    const tablesMolec = tables.filter(tbl => tbl.ctype & CollectionTypeEnum.MOLEC_DATA_FIELD_TABLES);
+    const fields = ['mean', 'min', 'max'].reduce((prev, metric) => prev.concat(...tablesMolec.map(tbl => (
+      {
+        key: metric,
+        label: tbl.label + ' (' + metric + ')',
+        type: DataTypeEnum.NUMBER,
+        tbl: tbl.tbl,
+        values: null,
+        ctype: tbl.ctype
+      }
+    ))), []);
 
     return [DataFieldFactory.defaultDataField, DataFieldFactory.getGeneFamily(),
     DataFieldFactory.getGeneType(), DataFieldFactory.getHicType(),
