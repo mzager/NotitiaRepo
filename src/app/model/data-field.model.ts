@@ -20,7 +20,7 @@ export class DataFieldFactory {
     const fields = ['mean', 'min', 'max'].reduce((prev, metric) => prev.concat(...tablesMolec.map(tbl => (
       {
         key: metric,
-        label: tbl.label + ' (' + metric + ')',
+        label: metric + ' ' + tbl.label,
         type: DataTypeEnum.NUMBER,
         tbl: tbl.tbl,
         values: null,
