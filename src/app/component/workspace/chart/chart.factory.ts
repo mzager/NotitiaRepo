@@ -130,8 +130,9 @@ export class ChartFactory {
             const spriteMaterial = ChartFactory.getSpriteMaterial((shapeMap) ? shapeMap[id] : ShapeEnum.CIRCLE, color);
             spriteMaterial.opacity = 0.8;
             // const scale = ((sizeMap) ? sizeMap[id] : 1) * 2;
+            const scale = 3;
             const mesh: THREE.Sprite = new THREE.Sprite(spriteMaterial);
-            // mesh.scale.set(scale, scale, scale);
+            mesh.scale.set(scale, scale, scale);
             mesh.userData.tooltip = id;
             mesh.userData.color = color;
             mesh.userData.selectionLocked = false;
@@ -237,6 +238,10 @@ export class ChartFactory {
     @memoize
     public static getLineColor(color: number): THREE.LineBasicMaterial {
         return new THREE.LineBasicMaterial({ color: color });
+    }
+    @memoize
+    public static getMeshLine(color: number, lineWidth: number = 2): MeshLineMaterial {
+        return new MeshLineMaterial({ color: new THREE.Color(color), lineWidth: lineWidth });
     }
 
     @memoize
