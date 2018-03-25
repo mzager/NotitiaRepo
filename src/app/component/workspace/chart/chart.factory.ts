@@ -9,10 +9,11 @@ import * as THREE from 'three';
 import { Vector3, Vector2, Shading, SmoothShading, Geometry, Mesh } from 'three';
 import * as scale from 'd3-scale';
 import { schemeRdBu, interpolateRdBu, interpolateSpectral } from 'd3-scale-chromatic';
+
 export type DataDecoatorRenderer = (group: THREE.Group, mesh: THREE.Sprite, decorators: Array<DataDecorator>,
     index: number, count: number) => void;
-export class ChartFactory {
 
+export class ChartFactory {
     private static meshPool: Array<THREE.Mesh> = [];
     private static linePool: Array<THREE.Line> = [];
     public static shader = {
@@ -32,20 +33,14 @@ export class ChartFactory {
             ].join('\n')
         }
     };
-
     public static sizes = [SizeEnum.S, SizeEnum.M, SizeEnum.L, SizeEnum.XL];
     public static shapes = [ShapeEnum.CIRCLE, ShapeEnum.BOX, ShapeEnum.SQUARE, ShapeEnum.CONE];
     public static colors = [
         0xd81b60, 0x3949ab, 0x43a047, 0xffb300, 0x6d4c41, 0xf44336, 0x9c27b0, 0x2196f3
     ];
-
     public static colorsContinuous = [
         '#e53935', '#d81b60', '#8e24aa', '#5e35b1', '#3949ab', '#1e88e5', '#039be5', '#00acc1', '#00897b', '#43a047'
     ];
-    // public static colors = [0xb71c1c, 0x880e4f, 0x4a148c, 0x311b92, 0x1a237e, 0x0d47a1, 0x01579b, 0x006064,
-    //     0x004d40, 0x1b5e20, 0x33691e, 0x827717, 0xf57f17, 0xff6f00, 0xe65100, 0xbf360c, 0x3e2723,
-    //     0xf44336, 0xe91e63, 0x9c27b0, 0x673ab7, 0x3f51b5, 0x2196f3, 0x03a9f4, 0x00bcd4, 0x009688,
-    //     0x4caf50, 0x8bc34a, 0xcddc39, 0xffeb3b, 0xffc107, 0xff9800, 0xff5722, 0x795548];
     private static sprites = [SpriteMaterialEnum.CIRCLE, SpriteMaterialEnum.TRIANGLE, SpriteMaterialEnum.DIAMOND,
     SpriteMaterialEnum.POLYGON, SpriteMaterialEnum.SQUARE, SpriteMaterialEnum.STAR, SpriteMaterialEnum.BLAST, SpriteMaterialEnum.BLOB];
 
@@ -83,13 +78,6 @@ export class ChartFactory {
     public static getScaleColorLinear(min: number, max: number): Function {
         return scale.scaleQuantize<string>().domain([min, max])
             .range(ChartFactory.colorsContinuous);
-        // const scaleFn = scale.scaleSequential<string>(interpolateSpectral).domain([min, max]);
-        // return (input) => {
-        //     const v = scaleFn(input);
-        //     const c = v.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
-        //     // tslint:disable-next-line:radix
-        //     return parseInt('#' + (parseInt(c[1]) << 16 | parseInt(c[2]) << 8 | parseInt(c[3])).toString(16).toUpperCase());
-        // };
     }
 
     // Pools
@@ -126,10 +114,10 @@ export class ChartFactory {
             p[c[idProperty]] = c.value;
             return p;
         }, {});
-        const sizeMap = (!sizeDecorator.length) ? null : sizeDecorator[0].values.reduce((p, c) => {
-            p[c[idProperty]] = c.value;
-            return p;
-        }, {});
+        // const sizeMap = (!sizeDecorator.length) ? null : sizeDecorator[0].values.reduce((p, c) => {
+        //     p[c[idProperty]] = c.value;
+        //     return p;
+        // }, {});
         const count = groups.length;
         groups.forEach((group, i) => {
             while (group.children.length) {
@@ -141,9 +129,9 @@ export class ChartFactory {
 
             const spriteMaterial = ChartFactory.getSpriteMaterial((shapeMap) ? shapeMap[id] : ShapeEnum.CIRCLE, color);
             spriteMaterial.opacity = 0.8;
-            const scale = ((sizeMap) ? sizeMap[id] : 1) * 2;
+            // const scale = ((sizeMap) ? sizeMap[id] : 1) * 2;
             const mesh: THREE.Sprite = new THREE.Sprite(spriteMaterial);
-            mesh.scale.set(scale, scale, scale);
+            // mesh.scale.set(scale, scale, scale);
             mesh.userData.tooltip = id;
             mesh.userData.color = color;
             mesh.userData.selectionLocked = false;
@@ -199,13 +187,9 @@ export class ChartFactory {
         line.material = this.getLineColor(color);
         const curve = new THREE.SplineCurve([pt1, pt3, pt2]);
         const path = new THREE.Path(curve.getPoints(50));
-
         const pts = path.getPoints();
-
         const geometry = new THREE.BufferGeometry().setFromPoints(pts);
-
         line.geometry = geometry;
-        // line.geometry = path.createPointsGeometry(50);
         return line;
     }
 
@@ -250,47 +234,22 @@ export class ChartFactory {
         this.linePool.length = 0;
     }
 
-    // @memoize()
+    @memoize
     public static getLineColor(color: number): THREE.LineBasicMaterial {
         return new THREE.LineBasicMaterial({ color: color });
     }
 
-    // @memoize()
+    @memoize
     public static getColorMetal(color: number): THREE.Material {
-        return new THREE.MeshStandardMaterial(
-            {
-                color: color, emissive: new THREE.Color(0x000000),
-                metalness: 0.2, roughness: .5
-            });
-
-        // return new THREE.MeshStandardMaterial(
-        //     {color: color, emissive: new THREE.Color(0x000000),
-        //     metalness: 0.5, roughness: .5, shading: THREE.SmoothShading});
+        return new THREE.MeshStandardMaterial({
+            color: color, emissive: new THREE.Color(0x000000),
+            metalness: 0.2, roughness: .5
+        });
     }
 
 
-    // @memoize()
+
     public static getOutlineShader(cameraPosition: Vector3, color: number = 0xff0000): THREE.ShaderMaterial {
-        // const shader = {
-        //     'outline' : {
-        //         'vertex_shader': [
-        //             'uniform float offset;',
-        //             'void main() {',
-        //             'vec4 pos = modelViewMatrix * vec4( position + normal * offset, 1.0 );',
-        //             'gl_Position = projectionMatrix * pos;',
-        //             '}'
-        //         ].join('\n'),
-        //         'fragment_shader': [ 'void main(){',
-        //         'gl_FragColor = vec4( 1.0, 0.0, 0.0, 1.0 );',
-        //     '}'].join('\n')
-        //     }
-        // };
-        // const uniforms = {
-        //     'offset': {
-        //         'type': 'f',
-        //         'value': 1
-        //     }
-        // };
         const shader = {
             'glow': {
                 'vertex_shader': [
@@ -334,11 +293,12 @@ export class ChartFactory {
         });
     }
 
-    // @memoize()
+    @memoize
     public static getColor(color: number): THREE.Color {
         return new THREE.Color(color);
     }
-    // @memoize()
+
+    @memoize
     public static getColorBasic(color: number): THREE.Material {
         return new THREE.MeshBasicMaterial({
             color: color,
@@ -346,7 +306,7 @@ export class ChartFactory {
         });
     }
 
-    // @memoize()
+    @memoize
     public static getColorPhong(color: number): THREE.Material {
         return new THREE.MeshStandardMaterial(
             {
@@ -357,34 +317,12 @@ export class ChartFactory {
                 // color: color, emissive: new THREE.Color(0x000000),
                 // metalness: 0.2, roughness: .5, shading: THREE.SmoothShading
             });
-
-        // const rv = new THREE.MeshPhongMaterial({
-        //     specular: 0xAAAAAA, shininess: .5
-        // });
-        // rv.color.set( new THREE.Color( color ) );
-        // return rv;
-    }
-    public static getColorHighlight(color: number): THREE.Material {
-        return new THREE.MeshStandardMaterial(
-            {
-                color: color,
-                roughness: 0.0,
-                metalness: 0.02,
-                emissive: new THREE.Color(0x000000)
-                // color: color, emissive: new THREE.Color(0x000000),
-                // metalness: 0.2, roughness: .5, shading: THREE.SmoothShading
-            });
-
-        // const rv = new THREE.MeshPhongMaterial({
-        //     specular: 0xAAAAAA, shininess: .5
-        // });
-        // rv.color.set( new THREE.Color( color ) );
-        // return rv;
     }
 
 
+    @memoize
     public static getSpriteMaterial(shape: SpriteMaterialEnum, color: number): THREE.SpriteMaterial {
-        console.log(shape);
+        // console.log(shape);
         switch (shape) {
             case SpriteMaterialEnum.BLAST:
                 return new THREE.SpriteMaterial({ map: ChartFactory.textures.blast, color: color });
@@ -405,7 +343,8 @@ export class ChartFactory {
         }
         return new THREE.SpriteMaterial({ map: ChartFactory.textures.circle, color: color });
     }
-    // @memoize()
+
+    @memoize
     public static getShape(shape: ShapeEnum): THREE.Geometry {
         switch (shape) {
             case ShapeEnum.BOX:

@@ -8,16 +8,13 @@
 
     <div #panel class="graphPanelExpanded">
 
-        <div class='graphPanelHeader' style="padding-top: 5px;">{{methodName}}</div>
+        <div class='graphPanelHeader' style="padding-top: 5px;">{{methodName}}
+            <i (click)='toggleBackgroundClick()' class="material-icons tiny" style='position:absolute; right: 3px;top:15px; color:#029BE5; cursor: pointer;'>brightness_medium</i>
+        </div>
         <p style='padding:10px; margin:0px;'>{{methodSummary}}</p>
         <p style="margin-left: 10px; margin-top: 0px;">
             <a (click)='helpClick()' href='#'>Read More</a>
         </p>
-        <!-- <i class='material-icons tiny' style='top:2px;position:relative'>info_outline</i>  -->
-        <!-- &nbsp;&nbsp;
-                <a (click)='helpClick()' href='#'><i class='material-icons tiny' style='top:2px;position:relative'>play_circle_outline</i> Watch Video</a> -->
-        <!-- <app-workspace-help-panel [config]='config' [graphData]='data'></app-workspace-help-panel> -->
-
 
         <div class='graphPanelHeader'>Settings</div>
 

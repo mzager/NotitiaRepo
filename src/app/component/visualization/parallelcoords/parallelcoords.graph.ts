@@ -231,7 +231,6 @@ export class ParallelCoordsGraph implements ChartObjectInterface {
                 }
             });
             this.onRequestRender.emit();
-            console.log(gene);
         }
     }
 

@@ -68,7 +68,7 @@ declare var noUiSlider;
         text-align:left;width:100%;font-weight:700;padding:10px 0px 0px 0px;font-size:.9rem;'>
           {{ctrls[i].get('label').value}} Events</span>
           <div class='form-group'>
-            <label class='center-block'><span class='form-label'>Display</span>
+            <label class='center-block'><span class='form-label'>Visualize</span>
               <select materialize='material_select' formControlName='style'>
                 <option *ngFor='let style of styleOptions'
                   [ngValue]='style'>{{style}}</option>
@@ -227,7 +227,7 @@ export class TimelinesFormComponent implements OnDestroy {
       .subscribe(data => {
         let dirty = 0;
         const form = this.form;
-        console.dir(form);
+
         // if (form.get('timescale').dirty) { dirty |= DirtyEnum.OPTIONS; }
         // if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
         if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }

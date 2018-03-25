@@ -116,8 +116,6 @@ export const linkedgeneCompute = (config: LinkedGeneConfigModel, worker: Dedicat
                             })
                         );
 
-                    console.dir(genes);
-                    console.dir(bands);
                     const d = {
                         legendItems: [],
                         genes: genes,

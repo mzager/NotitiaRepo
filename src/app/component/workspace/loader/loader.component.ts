@@ -59,7 +59,14 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
             { q: 'Perhaps it would be better for science, that all criticism should be avowed', a: 'Charles Babbage' },
             { q: 'We\'re entering a new world in which data may be more important than software', a: 'Tim O\'Reilly' },
             { q: 'An invention has to make sense in the world it finishes in, not in the world it started', a: 'Tim O\'Reilly' },
-            { q: 'Data is a precious thing and will last longer than the systems themselves', a: 'Tim Berners-Lee' }
+            { q: 'Data is a precious thing and will last longer than the systems themselves', a: 'Tim Berners-Lee' },
+            { q: 'The science of today is the technology of tomorrow', a: 'Edward Teller' },
+            { q: 'Evolution is the fundamental idea in all of life science - in all of biology', a: 'Bill Nye' },
+            { q: 'Biology has at least 50 more interesting years', a: 'James D. Watson' },
+            { q: 'DNA - is technology. It is coding. It is physical coding, but still code.', a: 'Ryan Bethencourt' },
+            // { q: 'Biology is the least of what makes someone a mother', a: 'Oprah Winfrey' },
+            { q: 'Lies damn lies and statistics', a: 'Mark Twain' },
+            { q: 'Biology is now accelerating at a pace faster than Moore\'s Law.', a: 'Arvind Gupta' }
         ];
         const i = Math.floor(Math.random() * ((this.quotes.length)));
         this.quote = this.quotes[i];
