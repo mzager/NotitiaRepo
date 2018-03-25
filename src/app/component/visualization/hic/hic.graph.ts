@@ -89,7 +89,7 @@ export class HicGraph implements ChartObjectInterface {
         this.isEnabled = false;
         this.meshes = [];
         this.lines = [];
-        this.view.controls.enableRotate = true;
+
         return this;
     }
 
@@ -98,79 +98,68 @@ export class HicGraph implements ChartObjectInterface {
         this.removeObjects();
     }
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        throw new Error('Method not implemented.');
+        // throw new Error('Method not implemented.');
     }
     updateData(config: GraphConfig, data: any) {
+
         this.config = config as HicConfigModel;
         this.data = data;
-        if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {
-            this.removeObjects();
-            this.addObjects();
-        }
-        if (this.config.dirtyFlag & DirtyEnum.COLOR) {
-            const idProperty = (config.entity === EntityTypeEnum.GENE) ? 'mid' :
-                (this.config.pointColor.ctype & CollectionTypeEnum.MOLECULAR) ? 'sid' : 'pid';
-            const objMap = data.pointColor;
-            this.meshes.forEach(mesh => {
-                const color = objMap[mesh.userData[idProperty]];
-                (mesh as THREE.Mesh).material = ChartFactory.getColorPhong(color);
 
-                mesh.userData.color = color;
+        this.removeObjects();
+        this.addObjects();
+
+        // Remove Objects
+        this.overlay.innerHTML = '';
+        if (this.chromosomeMesh !== null) {
+            this.view.scene.remove(this.chromosomeMesh);
+            this.chromosomeMesh = null;
+        }
+        for (let i = 0; i < this.lines.length; i++) {
+            this.view.scene.remove(this.lines[i]);
+        }
+
+        // Add Objects
+        if (this.config.showLinks) {
+            this.data.edges.forEach(edge => {
+                const linkGeometry = new THREE.Geometry();
+                linkGeometry.vertices.push(new THREE.Vector3(edge.source.x, edge.source.y, edge.source.z));
+                linkGeometry.vertices.push(new THREE.Vector3(edge.target.x, edge.target.y, edge.target.z));
+                const linkMaterial = new THREE.LineBasicMaterial({ color: edge.color });
+                const line = new THREE.Line(linkGeometry, linkMaterial);
+                this.lines.push(line);
+                this.view.scene.add(line);
             });
         }
-        if (this.config.dirtyFlag & DirtyEnum.OPTIONS | DirtyEnum.LAYOUT) {
-
-            // Remove Objects
-            this.overlay.innerHTML = '';
-            if (this.chromosomeMesh !== null) {
-                this.view.scene.remove(this.chromosomeMesh);
-                this.chromosomeMesh = null;
-            }
-            for (let i = 0; i < this.lines.length; i++) {
-                this.view.scene.remove(this.lines[i]);
-            }
-
-            // Add Objects
-            if (this.config.showLinks) {
-                this.data.edges.forEach(edge => {
-                    const linkGeometry = new THREE.Geometry();
-                    linkGeometry.vertices.push(new THREE.Vector3(edge.source.x, edge.source.y, edge.source.z));
-                    linkGeometry.vertices.push(new THREE.Vector3(edge.target.x, edge.target.y, edge.target.z));
-                    const linkMaterial = new THREE.LineBasicMaterial({ color: edge.color });
-                    const line = new THREE.Line(linkGeometry, linkMaterial);
-                    this.lines.push(line);
-                    this.view.scene.add(line);
-                });
-            }
-            if (this.chromosomeMesh !== null) {
-                this.view.scene.remove(this.chromosomeMesh);
-                this.chromosomeMesh = null;
-            }
-            if (this.config.showChromosome) {
-                const geneLocations = this.data.nodes.filter(v => v.data)    // Filter Out genes That Don't Have Chromosome Info
-                    .sort((a, b) => ((a.data.tss <= b.data.tss) ? -1 : 1)) // Sort Genes By Location On Chromosome
-                    .map(node => new THREE.Vector3(node.x, node.y, node.z));
-                this.chromosomeCurve = new THREE.CatmullRomCurve3(geneLocations);
-                this.chromosomeCurve['type'] = 'chordal';
-                this.chromosomePath = new THREE.CurvePath();
-                this.chromosomePath.add(this.chromosomeCurve);
-
-                this.chromosomeGeometry = this.chromosomePath.createPointsGeometry(1000);
-                this.chromosomeLine = new MeshLine();
-                this.chromosomeLine.setGeometry(this.chromosomeGeometry);
-                const mat = new MeshLineMaterial({
-                    color: new THREE.Color(0x90caf9),
-                    lineWidth: 2,
-                });
-                this.chromosomeMesh = new THREE.Mesh(this.chromosomeLine.geometry, mat); // this syntax could definitely be improved!
-                this.chromosomeMesh.frustumCulled = false;
-                this.view.scene.add(this.chromosomeMesh);
-            }
+        if (this.chromosomeMesh !== null) {
+            this.view.scene.remove(this.chromosomeMesh);
+            this.chromosomeMesh = null;
         }
+        if (this.config.showChromosome) {
+            const geneLocations = this.data.nodes.filter(v => v.data)    // Filter Out genes That Don't Have Chromosome Info
+                .sort((a, b) => ((a.data.tss <= b.data.tss) ? -1 : 1)) // Sort Genes By Location On Chromosome
+                .map(node => new THREE.Vector3(node.x, node.y, node.z));
+            this.chromosomeCurve = new THREE.CatmullRomCurve3(geneLocations);
+            this.chromosomeCurve['type'] = 'chordal';
+            this.chromosomePath = new THREE.CurvePath();
+            this.chromosomePath.add(this.chromosomeCurve);
+
+            this.chromosomeGeometry = this.chromosomePath.createPointsGeometry(1000);
+            this.chromosomeLine = new MeshLine();
+            this.chromosomeLine.setGeometry(this.chromosomeGeometry);
+            const mat = new MeshLineMaterial({
+                color: new THREE.Color(0x90caf9),
+                lineWidth: 2,
+            });
+            this.chromosomeMesh = new THREE.Mesh(this.chromosomeLine.geometry, mat); // this syntax could definitely be improved!
+            this.chromosomeMesh.frustumCulled = false;
+            this.view.scene.add(this.chromosomeMesh);
+        }
+
     }
 
     enable(truthy: boolean) {
         if (this.isEnabled === truthy) { return; }
+        this.view.controls.enableRotate = true;
         this.isEnabled = truthy;
         this.view.controls.enabled = this.isEnabled;
         if (truthy) {

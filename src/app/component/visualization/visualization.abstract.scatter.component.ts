@@ -1,5 +1,6 @@
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import * as scale from 'd3-scale';
+import * as TWEEN from 'tween.js';
 import { DataDecorator } from './../../model/data-map.model';
 import { ChartUtil } from './../workspace/chart/chart.utils';
 import { GraphData } from './../../model/graph-data.model';
@@ -68,7 +69,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
             this.view.scene.add(group);
         });
         ChartFactory.decorateDataGroups(this.meshes, this.decorators);
-        this.points = this.meshes.map(v => v.children[0]);
     }
 
     removeObjects() {

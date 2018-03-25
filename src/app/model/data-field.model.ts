@@ -17,7 +17,7 @@ export class DataFieldFactory {
   public static getMolecularColorFields(tables: Array<DataTable>): Array<DataField> {
 
     const tablesMolec = tables.filter(tbl => tbl.ctype & CollectionTypeEnum.MOLEC_DATA_FIELD_TABLES);
-    const fields = ['mean', 'min', 'max'].reduce((prev, metric) => prev.concat(...tablesMolec.map(tbl => (
+    const fields = ['Mean', 'Minimum', 'Maximum'].reduce((prev, metric) => prev.concat(...tablesMolec.map(tbl => (
       {
         key: metric,
         label: metric + ' ' + tbl.label,

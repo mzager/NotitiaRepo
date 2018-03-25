@@ -33808,23 +33808,23 @@ exports.hicComputeFn = function (config) {
     });
 };
 exports.hicCompute = function (config, worker) {
-    worker.util.processShapeColorSizeIntersect(config, worker);
-    if (config.dirtyFlag & 16 /* OPTIONS */) {
+    // worker.util.processShapeColorSizeIntersect(config, worker);
+    // if (config.dirtyFlag & DirtyEnum.OPTIONS) {
+    //     worker.postMessage({
+    //         config: config,
+    //         data: {}
+    //     });
+    //     worker.postMessage('TERMINATE');
+    // }
+    // if (config.dirtyFlag & DirtyEnum.LAYOUT) {
+    exports.hicComputeFn(config).then(function (result) {
         worker.postMessage({
             config: config,
-            data: {}
+            data: result
         });
         worker.postMessage('TERMINATE');
-    }
-    if (config.dirtyFlag & 0 /* LAYOUT */) {
-        exports.hicComputeFn(config).then(function (result) {
-            worker.postMessage({
-                config: config,
-                data: result
-            });
-            worker.postMessage('TERMINATE');
-        });
-    }
+    });
+    // }
 };
 
 
@@ -46017,7 +46017,8 @@ exports.genomeCompute = function (config, worker) {
         'gvar': 0x26C6DA,
         'stalk': 0x26A69A
     };
-    var ct38 = [{ chr: '1', P: 0, C: 123400000, Q: 248956422 },
+    var ct38 = [
+        { chr: '1', P: 0, C: 123400000, Q: 248956422 },
         { chr: '2', P: 0, C: 93900000, Q: 242193529 },
         { chr: '3', P: 0, C: 90900000, Q: 198295559 },
         { chr: '4', P: 0, C: 50000000, Q: 190214555 },
@@ -46040,7 +46041,8 @@ exports.genomeCompute = function (config, worker) {
         { chr: '21', P: 0, C: 12000000, Q: 46709983 },
         { chr: '22', P: 0, C: 15000000, Q: 50818468 },
         { chr: 'X', P: 0, C: 61000000, Q: 156040895 },
-        { chr: 'Y', P: 0, C: 10400000, Q: 57227415 }];
+        { chr: 'Y', P: 0, C: 10400000, Q: 57227415 }
+    ];
     var ct19 = [
         { chr: '1', P: 0, C: 125000000, Q: 249250621 },
         { chr: '2', P: 0, C: 93300000, Q: 243199373 },
@@ -46245,8 +46247,6 @@ exports.linkedgeneCompute = function (config, worker) {
                         return w;
                     });
                 });
-                console.dir(genes);
-                console.dir(bands);
                 var d = {
                     legendItems: [],
                     genes: genes,
@@ -59206,32 +59206,29 @@ exports.chromosomeCompute = function (config, worker) {
         });
         worker.postMessage('TERMINATE');
     };
-    worker.util.processShapeColorSizeIntersect(config, worker);
-    if (config.dirtyFlag & 0 /* LAYOUT */) {
-        worker.util.getChromosomeInfo(config.chromosome, []).then(function (result) {
-            // const mf = new Set(config.markerFilter);
-            var chromo = ct.find(function (v) { return v.chr === config.chromosome; });
-            if (config.geneOption.key !== 'all') {
-                var gType_1 = config.geneOption.key;
-                result = result.filter(function (v) { return v.type === gType_1; });
-            }
-            var genes = result.map(function (v) { return v.gene; });
-            if (config.chordOption.key === 'none') {
-                sendResult(result, chromo, null);
-            }
-            else {
-                worker.util.getGeneLinkInfoByGenes(config.markerFilter).then(function (chords) {
-                    chords.map(function (chord) { return ({ source: chord.source, target: chord.target, tension: chord.tension }); });
-                    sendResult(result, chromo, chords);
-                });
-            }
-            // Promise.all([
-            //     // worker.util.getMolecularGeneValues(genes, {tbl: 'gistic'}),
-            //     // worker.util.getMolecularGeneValues(genes, {tbl: 'mut'}),
-            //     worker.util.getMolecularGeneValues(genes, {tbl: 'rna'})
-            // ]).then(v => {
-        });
-    }
+    worker.util.getChromosomeInfo(config.chromosome, []).then(function (result) {
+        // const mf = new Set(config.markerFilter);
+        var chromo = ct.find(function (v) { return v.chr === config.chromosome; });
+        if (config.geneOption.key !== 'all') {
+            var gType_1 = config.geneOption.key;
+            result = result.filter(function (v) { return v.type === gType_1; });
+        }
+        var genes = result.map(function (v) { return v.gene; });
+        if (config.chordOption.key === 'none') {
+            sendResult(result, chromo, null);
+        }
+        else {
+            worker.util.getGeneLinkInfoByGenes(config.markerFilter).then(function (chords) {
+                chords.map(function (chord) { return ({ source: chord.source, target: chord.target, tension: chord.tension }); });
+                sendResult(result, chromo, chords);
+            });
+        }
+        // Promise.all([
+        //     // worker.util.getMolecularGeneValues(genes, {tbl: 'gistic'}),
+        //     // worker.util.getMolecularGeneValues(genes, {tbl: 'mut'}),
+        //     worker.util.getMolecularGeneValues(genes, {tbl: 'rna'})
+        // ]).then(v => {
+    });
 };
 
 

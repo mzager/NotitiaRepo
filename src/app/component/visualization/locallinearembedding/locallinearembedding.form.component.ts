@@ -1,5 +1,7 @@
-import { LocalLinearEmbeddingConfigModel, LocalLinearEmbeddingMethod, LocalLinearEmbeddingEigenSolver,
-  LocalLinearEmbeddingNeighborsAlgorithm, LocalLinearEmbeddingDataModel } from './locallinearembedding.model';
+import {
+  LocalLinearEmbeddingConfigModel, LocalLinearEmbeddingMethod, LocalLinearEmbeddingEigenSolver,
+  LocalLinearEmbeddingNeighborsAlgorithm, LocalLinearEmbeddingDataModel
+} from './locallinearembedding.model';
 import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
 import { DimensionEnum, EntityTypeEnum, CollectionTypeEnum } from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
@@ -25,7 +27,7 @@ import * as _ from 'lodash';
     </label>
 </div>
   <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Display</span>
+    <label class='center-block'><span class='form-label'>Visualize</span>
       <select materialize='material_select'
           formControlName='entity'>
           <option *ngFor='let option of displayOptions'>{{option}}</option>
