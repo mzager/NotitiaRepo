@@ -18,8 +18,8 @@ export class AbstractVisualization implements ChartObjectInterface {
         new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
 
     // Common Objects
-    public data: GraphData;
-    public config: GraphConfig;
+    public _data: GraphData;
+    public _config: GraphConfig;
     public decorators: Array<DataDecorator>;
     public sMouseMove: Subscription;
     public sMouseDown: Subscription;
@@ -51,8 +51,8 @@ export class AbstractVisualization implements ChartObjectInterface {
         this.decorators = decorators;
     }
     updateData(config: GraphConfig, data: any) {
-        this.config = config as GraphConfig;
-        this.data = data;
+        this._config = config as GraphConfig;
+        this._data = data;
     }
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
 

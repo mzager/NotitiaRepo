@@ -19,6 +19,11 @@ import * as THREE from 'three';
 import { CircleGeometry, SphereGeometry, Vector2, MeshPhongMaterial } from 'three';
 export class AbstractScatterVisualization extends AbstractVisualization {
 
+    public set data(data: GraphData) { this._data = data; }
+    public get data(): GraphData { return this._data; }
+    public set config(config: GraphConfig) { this._config = config; }
+    public get config(): GraphConfig { return this._config; }
+
     // Objects
     private lines: Array<THREE.Line>;
     private mouseMode: 'CONTROL' | 'SELECTION' = 'CONTROL';
@@ -51,7 +56,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     updateData(config: GraphConfig, data: any) {
         super.updateData(config, data);
         this.removeObjects();
-        this.addObjects(this.config.entity);
+        this.addObjects(this._config.entity);
     }
 
     enable(truthy: boolean) {
@@ -60,11 +65,11 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     }
 
     addObjects(type: EntityTypeEnum) {
-        const propertyId = (this.config.entity === EntityTypeEnum.GENE) ? 'mid' : 'sid';
-        const objectIds = this.data[propertyId];
-        this.data.resultScaled.forEach((point, index) => {
+        const propertyId = (this._config.entity === EntityTypeEnum.GENE) ? 'mid' : 'sid';
+        const objectIds = this._data[propertyId];
+        this._data.resultScaled.forEach((point, index) => {
             const group = ChartFactory.createDataGroup(
-                objectIds[index], this.config.entity, new THREE.Vector3(...point));
+                objectIds[index], this._config.entity, new THREE.Vector3(...point));
             this.meshes.push(group);
             this.view.scene.add(group);
         });
@@ -72,10 +77,11 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     }
 
     removeObjects() {
-        this.meshes.forEach(v => { this.view.scene.remove(v); });
-        this.selectionMeshes.forEach(mesh => this.view.scene.remove(mesh));
+        this.view.scene.remove(...this.selectionMeshes);
+        this.view.scene.remove(...this.meshes);
+        this.view.scene.remove(...this.lines);
+        this.selectionMeshes.length = 0;
         this.meshes.length = 0;
-        this.lines.forEach(v => this.view.scene.remove(v));
         this.lines.length = 0;
     }
 
@@ -97,7 +103,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
             this.selectionScale.range([1, 200]);
             this.selectionScale.domain([0, this.view.viewport.width]);
             this.view.scene.add(this.selectionMesh);
-            this.onRequestRender.emit(this.config.graph);
+            this.onRequestRender.emit(this._config.graph);
         }
     }
 
@@ -106,7 +112,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.view.controls.enabled = true;
         if (!(e.event as MouseEvent).shiftKey) {
             this.selectionMeshes.forEach(mesh => this.view.scene.remove(mesh));
-            this.onRequestRender.emit(this.config.graph);
+            this.onRequestRender.emit(this._config.graph);
             this.meshes
                 .forEach(o3d => {
                     const mesh = o3d.children[0] as THREE.Mesh;
@@ -152,7 +158,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
                         }
                     }
                 });
-            this.onRequestRender.emit(this.config.graph);
+            this.onRequestRender.emit(this._config.graph);
             return;
         }
         // Hit Test

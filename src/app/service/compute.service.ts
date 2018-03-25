@@ -1,4 +1,4 @@
-// tslint:disable-next-line:max-line-length
+// tslint:disable:max-line-length
 import { MiniBatchDictionaryLearningConfigModel } from './../component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
 import { LinearDiscriminantAnalysisConfigModel } from './../component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
 import { DendogramConfigModel } from './../component/visualization/dendogram/dendogram.model';
@@ -107,8 +107,6 @@ export class ComputeService {
     private workerB: Worker = null;    // Graph B
     private workerE: Worker = null;    // Edges
 
-
-
     getSubjectByVisualization(v: VisualizationEnum): Subject<any> {
         return (v === VisualizationEnum.BOX_WHISKERS) ? this.boxWhiskers$ :
             (v === VisualizationEnum.PATHWAYS) ? this.pathways$ :
@@ -159,11 +157,6 @@ export class ComputeService {
     execute(config: GraphConfig, subject: Subject<any>): Observable<any> {
 
         // If user requests no computation, just pass the config through
-        // if (config.dirtyFlag & DirtyEnum.NO_COMPUTE) {
-        //     this.getSubjectByVisualization(config.visualization).next({config: config, data: {}});
-        //     return;
-        // }
-
         switch (config.graph) {
             case GraphEnum.GRAPH_A:
                 if (this.workerA !== null) {
