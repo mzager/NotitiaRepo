@@ -87,8 +87,7 @@
                     [config]='config' [tables]='tables' [fields]='fields'></app-parallelcoords-form>
                 <app-linked-gene-form *ngIf='config && config.visualization === 1073741824' (configChange)='graphPanelSetConfig($event)'
                     [config]='config'></app-linked-gene-form>
-                <app-hic-form *ngIf='config && config.visualization === 17179869184' (configChange)='graphPanelSetConfig($event)' [config]='config'
-                    [tables]='tables' [fields]='fields'></app-hic-form>
+                <app-hic-form *ngIf='config && config.visualization === 17179869184' (configChange)='graphPanelSetConfig($event)' [config]='config'></app-hic-form>
                 <app-som-form *ngIf='config && config.visualization === 4096' (configChange)='graphPanelSetConfig($event)' [config]='config'
                     [molecularData]='molecularData' [clinicalFields]='clinicalFields'></app-som-form>
                 <app-mds-form *ngIf='config && config.visualization === 8192' (configChange)='graphPanelSetConfig($event)' (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
