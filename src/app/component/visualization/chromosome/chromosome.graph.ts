@@ -398,7 +398,6 @@ export class ChromosomeGraph implements ChartObjectInterface {
                 const y1 = chord.source.y * 135;
                 const y2 = chord.target.y * 135;
                 const dist = Math.sqrt(x1 * x2 + y1 * y2);
-                console.log(dist);
                 line = ChartFactory.lineAllocateCurve(0x039BE5,
                     new THREE.Vector2(x1, y1),
                     new THREE.Vector2(x2, y2),
@@ -442,7 +441,6 @@ export class ChromosomeGraph implements ChartObjectInterface {
     showLabels(e: ChartEvent) {
 
         const numItems = (this.view.viewport.height / 10);
-        console.log(numItems);
         const centerLine = ChartUtil.projectToScreen(this.config.graph, this.centerLine, this.view.camera,
             this.view.viewport.width, this.view.viewport.height).x - 310;
 

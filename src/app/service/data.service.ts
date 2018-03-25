@@ -26,13 +26,73 @@ export class DataService {
 
   public static API_PATH = 'https://dev.oncoscape.sttrcancer.io/api/';
   private createMolecularDataDecorator(config: GraphConfig, decorator: DataDecorator): Observable<DataDecorator> {
+
+
+    if (decorator.field.ctype === CollectionTypeEnum.GENE_TYPE) {
+      return Observable.fromPromise(new Promise((resolve, reject) => {
+        new Dexie('notitia').open().then(db => {
+          db.table('genecoords').toArray().then(results => {
+
+            const biotypeCat = {
+              'Protein Coding': ['protein_coding', 'polymorphic_pseudogene', 'IG_V_gene', 'TR_V_gene', 'TR_C_gene', 'TR_J_gene',
+                'TR_D_gene', 'IG_C_gene', 'IG_D_gene', 'IG_J_gene'],
+              'Pseudogene': ['IG_V_pseudogene', 'transcribed_unprocessed_pseudogene', 'processed_pseudogene',
+                'unprocessed_pseudogene', 'transcribed_processed_pseudogene', 'unitary_pseudogene', 'IG_pseudogene',
+                'IG_C_pseudogene', 'IG_J_pseudogene', 'TR_J_pseudogene', 'TR_V_pseudogene', 'transcribed_unitary_pseudogene'],
+              'Long Noncoding': ['antisense', 'sense_intronic', 'lincRNA', 'sense_overlapping', 'processed_transcript',
+                '3prime_overlapping_ncRNA', 'non_coding'],
+              'Short Noncoding': ['rRna', 'misc_RNA', 'pseudogene', 'snoRNA', 'scRNA', 'miRNA', 'snRNA', 'sRNA', 'ribozyme',
+                'scaRNA', 'vaultRNA'],
+              'Other': ['TEC', 'bidirectional_promoter_lncRNA', 'macro_lncRNA']
+            };
+
+            const biotypeMap = Object.keys(biotypeCat).reduce((p, c) => {
+              p = Object.assign(p, biotypeCat[c].reduce((p2, c2) => {
+                p2[c2.toLowerCase()] = c;
+                return p2;
+              }, {}));
+              return p;
+            }, {});
+
+            const bioTypes: Array<string> = Array.from(results.reduce((p, c) => {
+              p.add(c.type.toLowerCase());
+              return p;
+            }, new Set()));
+
+            const scale = (decorator.type === DataDecoratorTypeEnum.SHAPE) ?
+              ChartFactory.getScaleShapeOrdinal(Object.keys(biotypeCat)) :
+              ChartFactory.getScaleColorOrdinal(Object.keys(biotypeCat));
+
+            decorator.values = results.map(v => ({
+              pid: null,
+              sid: null,
+              mid: v.gene,
+              key: EntityTypeEnum.GENE,
+              label: biotypeMap[v.type],
+              value: scale(biotypeMap[v.type])
+            })).filter(v => v.label);
+
+            decorator.legend = new Legend();
+            decorator.legend.type = (decorator.type === DataDecoratorTypeEnum.SHAPE) ? 'SHAPE' : 'COLOR';
+            decorator.legend.display = 'DISCRETE';
+            decorator.legend.labels = scale['domain']();
+            decorator.legend.values = decorator.legend.values = scale['range']();
+            if (decorator.type === DataDecoratorTypeEnum.COLOR) {
+              decorator.legend.values = decorator.legend.values.map(v => '#' + v.toString(16));
+            }
+            resolve(decorator);
+          });
+        });
+      }));
+    }
     return Observable.fromPromise(new Promise((resolve, reject) => {
+
       new Dexie('notitia-' + config.database).open().then(db => {
         db.table(decorator.field.tbl.replace(/\s/gi, '')).toArray().then(results => {
-          // const values = results.reduce((p, c) => { p[c.m] = c.mean; return p; }, {});
+          const prop = (decorator.field.key === 'Minimum') ? 'min' : (decorator.field.key === 'Maximum') ? 'max' : 'mean';
           const minMax = results.reduce((p, c) => {
-            p[0] = Math.min(p[0], c.mean);
-            p[1] = Math.max(p[1], c.mean);
+            p[0] = Math.min(p[0], c[prop]);
+            p[1] = Math.max(p[1], c[prop]);
             return p;
           }, [Infinity, -Infinity]);
           let scale;
@@ -44,8 +104,8 @@ export class DataService {
                 sid: null,
                 mid: v.m,
                 key: EntityTypeEnum.GENE,
-                label: v.mean,
-                value: scale(v.mean)
+                label: v[prop],
+                value: scale(v[prop])
               }));
 
               decorator.legend = new Legend();
@@ -63,8 +123,8 @@ export class DataService {
                 sid: null,
                 mid: v.m,
                 key: EntityTypeEnum.GENE,
-                label: v.mean,
-                value: scale(v.mean)
+                label: v[prop],
+                value: scale(v[prop])
               }));
 
               decorator.legend = new Legend();
@@ -73,7 +133,6 @@ export class DataService {
               decorator.legend.name = 'Gene ' + decorator.field.label;
               decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v).map(w => Math.round(w)).join(' to '));
               decorator.legend.values = scale['range']();
-
               break;
           }
           resolve(decorator);
@@ -119,9 +178,6 @@ export class DataService {
                 } else {
                   decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v).map(w => Math.round(w)).join(' to '));
                   decorator.legend.values = scale['range']();
-                  // decorator.legend.labels = [decorator.field.values.min, decorator.field.values.max];
-                  // decorator.legend.values = [decorator.field.values.min, decorator.field.values.max];
-                  // decorator.legend.display = 'CONTINUOUS';
                 }
                 resolve(decorator);
                 break;
@@ -178,6 +234,7 @@ export class DataService {
     }));
   }
   createDataDecorator(config: GraphConfig, decorator: DataDecorator): Observable<DataDecorator> {
+
     if (decorator.field.ctype & CollectionTypeEnum.MOLEC_DATA_FIELD_TABLES) {
       return this.createMolecularDataDecorator(config, decorator);
     }
@@ -546,14 +603,6 @@ export class DataService {
   }
   createCustomGeneset(database: string, geneset: GeneSet): Promise<any> {
     return new Promise((resolve, reject) => {
-      // this.http
-      // .get(DataService.API_PATH +
-      //   'z_lookup_geneset/%7B%22$fields%22:[%22name%22,%22hugo%22,%22summary%22],%20%22$query%22:%7B%22' +
-      //   field + '%22:%22' +
-      //   categoryCode +
-      //   '%22%7D%20%7D')
-      // .map(res => res.json())
-      // z_lookup_genemap
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
         v.table('genesets').add(geneset).then(w => {

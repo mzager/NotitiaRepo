@@ -80,7 +80,6 @@ export class HeatmapGraph implements ChartObjectInterface {
         throw new Error('Method not implemented.');
     }
     updateData(config: GraphConfig, data: any) {
-        console.log('REDRAW');
         this.config = config as HeatmapConfigModel;
         this.data = data;
         this.removeObjects();
