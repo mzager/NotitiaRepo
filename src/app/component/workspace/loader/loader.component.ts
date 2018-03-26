@@ -53,13 +53,20 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
             { q: 'I have no special talent - I am only passionately curious', a: 'Albert Einstein' },
             { q: 'Science is a way of thinking much more than it is a body of knowledge', a: 'Carl Sagan' },
             { q: 'Absence of evidence is not evidence of absence', a: 'Carl Sagan' },
-            { q: 'The universe is not required to be in perfect harmony with human ambition', a: 'Cark Sagan' },
+            { q: 'The universe is not required to be in perfect harmony with human ambition', a: 'Carl Sagan' },
             { q: 'The dangers of not thinking clearly are much greater now than ever before', a: 'Carl Sagan' },
             { q: 'Errors using inadequate data are much less than those using no data at all', a: 'Charles Babbage' },
             { q: 'Perhaps it would be better for science, that all criticism should be avowed', a: 'Charles Babbage' },
             { q: 'We\'re entering a new world in which data may be more important than software', a: 'Tim O\'Reilly' },
             { q: 'An invention has to make sense in the world it finishes in, not in the world it started', a: 'Tim O\'Reilly' },
-            { q: 'Data is a precious thing and will last longer than the systems themselves', a: 'Tim Berners-Lee' }
+            { q: 'Data is a precious thing and will last longer than the systems themselves', a: 'Tim Berners-Lee' },
+            { q: 'The science of today is the technology of tomorrow', a: 'Edward Teller' },
+            { q: 'Evolution is the fundamental idea in all of life science - in all of biology', a: 'Bill Nye' },
+            { q: 'Biology has at least 50 more interesting years', a: 'James D. Watson' },
+            { q: 'DNA - is technology. It is coding. It is physical coding, but still code.', a: 'Ryan Bethencourt' },
+            // { q: 'Biology is the least of what makes someone a mother', a: 'Oprah Winfrey' },
+            { q: 'Lies damn lies and statistics', a: 'Mark Twain' },
+            { q: 'Biology is now accelerating at a pace faster than Moore\'s Law.', a: 'Arvind Gupta' }
         ];
         const i = Math.floor(Math.random() * ((this.quotes.length)));
         this.quote = this.quotes[i];

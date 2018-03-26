@@ -63,8 +63,8 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
     this.splitScreenChange.next(e.target.checked);
   }
   toggleBackgroundColor(): void {
-    this.color = (this.color === 0x000000) ? 0xFFFFFF : 0x000000;
-    ChartScene.instance.renderer.setClearColor(this.color, 1);
+    const isBlack = ChartScene.instance.renderer.getClearColor().r === 0;
+    ChartScene.instance.renderer.setClearColor(isBlack ? 0xFFFFFF : 0x000000, 1);
     ChartScene.instance.render();
   }
 

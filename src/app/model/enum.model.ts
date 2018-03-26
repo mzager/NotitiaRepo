@@ -137,7 +137,8 @@ export const enum CollectionTypeEnum {
     EXP = CollectionTypeEnum.PROTEIN | CollectionTypeEnum.MIRNA | CollectionTypeEnum.MRNA,
     // Molec Data Field Tables (use to determine the color options and decorators)
     MOLEC_DATA_FIELD_TABLES = CollectionTypeEnum.RNA | CollectionTypeEnum.MRNA |
-    CollectionTypeEnum.GISTIC | CollectionTypeEnum.GISTIC_THRESHOLD,
+    CollectionTypeEnum.GISTIC | CollectionTypeEnum.GISTIC_THRESHOLD |
+    CollectionTypeEnum.GENE_TYPE,
     // tslint:disable-next-line:no-bitwise
     MOLECULAR = CollectionTypeEnum.CNV | CollectionTypeEnum.GISTIC |
     CollectionTypeEnum.GISTIC_THRESHOLD | CollectionTypeEnum.MUTATION | CollectionTypeEnum.MIRNA |

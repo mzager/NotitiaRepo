@@ -24,7 +24,7 @@ import { SvmCompleteAction } from '../../../action/compute.action';
     </label>
   </div>
   <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Display</span>
+    <label class='center-block'><span class='form-label'>Visualize</span>
       <select materialize='material_select'
           formControlName='entity'>
           <option *ngFor='let option of displayOptions'>{{option}}</option>
