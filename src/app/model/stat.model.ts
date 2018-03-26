@@ -81,7 +81,7 @@ export class StatOneD implements Stat {
         this.name = name;
         this.data = data;
         this.renderer = StatRendererEnum.VEGA;
-        this.columns = StatRendererColumns.TWELVE;
+        this.columns = StatRendererColumns.SIX;
     }
 }
 
@@ -915,11 +915,28 @@ export class StatFactory {
             const stats = [];
 
             // Pull Stats Directly From Configuration... No need to query database
+            if (config.database !== null) {
+                try {
+                    stats.push({
+                        mylabel: 'Dataset: ', myvalue: ((config.database))
+                    });
+                } catch (e) { }
+            }
+
+            // Pull Stats Directly From Configuration... No need to query database
             if (config.markerFilter !== null) {
                 try {
                     stats.push({
-                        mylabel: 'Genes: ', myvalue: ((config.markerFilter.length === 0) ?
+                        mylabel: 'Selected Geneset: ', myvalue: ((config.markerFilter.length === 0) ?
                             'All' : config.markerFilter.length.toString())
+                    });
+                } catch (e) { }
+            }
+            if (config.markerFilter !== null) {
+                try {
+                    stats.push({
+                        mylabel: 'Selected Genes: ', myvalue: ((config.markerFilter.length === 0) ?
+                            'All' : config.markerFilter)
                     });
                 } catch (e) { }
             }
@@ -927,7 +944,7 @@ export class StatFactory {
             if (config.patientFilter !== null) {
                 try {
                     stats.push({
-                        mylabel: 'Patients: ', myvalue: ((config.patientFilter.length === 0) ?
+                        mylabel: 'Filtered Patients: ', myvalue: ((config.patientFilter.length === 0) ?
                             'All' : config.patientFilter.length.toString())
                     });
                 } catch (e) { }
@@ -936,7 +953,7 @@ export class StatFactory {
             if (config.sampleFilter !== null) {
                 try {
                     stats.push({
-                        mylabel: 'Samples: ', myvalue: ((config.sampleFilter.length === 0) ?
+                        mylabel: 'Filtered Samples: ', myvalue: ((config.sampleFilter.length === 0) ?
                             'All' : config.sampleFilter.length.toString())
                     });
                 } catch (e) { }
@@ -947,9 +964,10 @@ export class StatFactory {
             // Query Database To Get More Stats
             Promise.all([
                 dataService.getPatientStats(config.database, []),
-                dataService.getPatientStats(config.database, config.patientFilter)
-            ]).then(results => {
+                dataService.getPatientStats(config.database, config.patientFilter),
 
+            ]).then(results => {
+                // debugger;
                 const bothResults: Array<any> = results.map(result => {
                     return result.map(v => {
                         const stat = new StatOneD(v.name, v.stat.map(w => ({
@@ -962,13 +980,16 @@ export class StatFactory {
                         return stat;
                     });
                 });
-                const result = bothResults[0].concat(bothResults[1]);
+                const result = bothResults[1];
                 result.unshift(keyValues);
 
                 resolve(result);
+
+
             });
         });
     }
+
 
     // Public Interface + Takes The Visualization Type and figures which to call
     public getStatObjects(data: any, config: GraphConfig): Array<Stat> {

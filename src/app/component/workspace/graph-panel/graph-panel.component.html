@@ -9,9 +9,9 @@
     <div #panel class="graphPanelExpanded">
 
         <div class='graphPanelHeader' style="padding-top: 5px;">{{methodName}}
-            <i (click)='toggleBackgroundClick()' class="material-icons tiny" style='position:absolute; right: 3px;top:15px; color:#029BE5; cursor: pointer;'>brightness_medium</i>
+
         </div>
-        <p style='padding:10px; margin:0px;'>{{methodSummary}}</p>
+        <p style='padding:10px; margin:0px; width: 90%;'>{{methodSummary}}</p>
         <p style="margin-left: 10px; margin-top: 0px;">
             <a (click)='helpClick()' href='#'>Read More</a>
         </p>
@@ -46,7 +46,7 @@
                     <select materialize='material_select' (change)='onGenesetChange($event)' [materializeSelectOptions]='genesets'>
                         <option *ngFor='let option of genesets' [value]='option.n'>{{option.n}}</option>
                     </select>
-                    <i class="tiny material-icons" (click)='showPanel.emit(32);' style='cursor:pointer; color:#029BE5; position: relative;left: 20px;top: 1px;'>settings</i>
+                    <i class="tiny material-icons" (click)='showPanel.emit(32);' style='cursor:pointer; color:#029BE5; position: relative;left: 40px;top: 1px;'>add</i>
 
                 </label>
             </div>
@@ -57,7 +57,7 @@
                     <select materialize='material_select' (change)='onCohortChange($event)' [materializeSelectOptions]='cohorts'>
                         <option *ngFor='let option of cohorts' [value]='option.n'>{{option.n}}</option>
                     </select>
-                    <i class="tiny material-icons" (click)='showPanel.emit(16);' style='cursor:pointer; color:#029BE5; position: relative;left: 20px;top: 1px;'>settings</i>
+                    <i class="tiny material-icons" (click)='showPanel.emit(16);' style='cursor:pointer; color:#029BE5; position: relative;left: 40px;top: 1px;'>add</i>
                 </label>
             </div>
 
