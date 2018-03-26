@@ -33808,15 +33808,6 @@ exports.hicComputeFn = function (config) {
     });
 };
 exports.hicCompute = function (config, worker) {
-    // worker.util.processShapeColorSizeIntersect(config, worker);
-    // if (config.dirtyFlag & DirtyEnum.OPTIONS) {
-    //     worker.postMessage({
-    //         config: config,
-    //         data: {}
-    //     });
-    //     worker.postMessage('TERMINATE');
-    // }
-    // if (config.dirtyFlag & DirtyEnum.LAYOUT) {
     exports.hicComputeFn(config).then(function (result) {
         worker.postMessage({
             config: config,
@@ -33824,7 +33815,6 @@ exports.hicCompute = function (config, worker) {
         });
         worker.postMessage('TERMINATE');
     });
-    // }
 };
 
 
@@ -59207,22 +59197,31 @@ exports.chromosomeCompute = function (config, worker) {
         worker.postMessage('TERMINATE');
     };
     worker.util.getChromosomeInfo(config.chromosome, []).then(function (result) {
-        // const mf = new Set(config.markerFilter);
         var chromo = ct.find(function (v) { return v.chr === config.chromosome; });
-        if (config.geneOption.key !== 'all') {
-            var gType_1 = config.geneOption.key;
-            result = result.filter(function (v) { return v.type === gType_1; });
-        }
         var genes = result.map(function (v) { return v.gene; });
-        if (config.chordOption.key === 'none') {
-            sendResult(result, chromo, null);
-        }
-        else {
-            worker.util.getGeneLinkInfoByGenes(config.markerFilter).then(function (chords) {
-                chords.map(function (chord) { return ({ source: chord.source, target: chord.target, tension: chord.tension }); });
-                sendResult(result, chromo, chords);
+        worker.util.getMolecularGeneValues(genes, { tbl: config.table.tbl.replace(/\s/g, '') }, config.database).then(function (values) {
+            worker.postMessage({
+                config: config,
+                data: {
+                    values: values,
+                    chromo: chromo,
+                    genes: result
+                }
             });
-        }
+        });
+        // if (config.geneOption.key !== 'all') {
+        //     const gType = config.geneOption.key;
+        //     result = result.filter(v => v.type === gType);
+        // }
+        // const genes = result.map(v => v.gene);
+        // if (config.chordOption.key === 'none') {
+        //     sendResult(result, chromo, null);
+        // } else {
+        //     worker.util.getGeneLinkInfoByGenes(config.markerFilter).then(chords => {
+        //         chords.map(chord => ({ source: chord.source, target: chord.target, tension: chord.tension }));
+        //         sendResult(result, chromo, chords);
+        //     });
+        // }
         // Promise.all([
         //     // worker.util.getMolecularGeneValues(genes, {tbl: 'gistic'}),
         //     // worker.util.getMolecularGeneValues(genes, {tbl: 'mut'}),

@@ -1,3 +1,343 @@
+import { GraphEnum, WorkspaceLayoutEnum } from 'app/model/enum.model';
+import { EventEmitter } from '@angular/core';
+import { DataDecorator } from './../../../model/data-map.model';
+import { EntityTypeEnum } from './../../../model/enum.model';
+import { ChartFactory, DataDecoatorRenderer } from './../../workspace/chart/chart.factory';
+import { GraphConfig } from 'app/model/graph-config.model';
+import { ChartObjectInterface } from './../../../model/chart.object.interface';
+import { VisualizationView } from './../../../model/chart-view.model';
+import { ChartEvent, ChartEvents } from './../../workspace/chart/chart.events';
+import { AbstractVisualization } from './../visualization.abstract.component';
+import * as THREE from 'three';
+import { ChromosomeDataModel, ChromosomeConfigModel } from './chromosome.model';
+import { scaleLinear, scaleOrdinal } from 'd3-scale';
+import { arc } from 'd3-shape';
+// import { ArcCurve, RingBufferGeometry, RingGeometry } from 'three';
+export class ChromosomeGraph extends AbstractVisualization {
+
+    public set data(data: ChromosomeDataModel) { this._data = data; }
+    public get data(): ChromosomeDataModel { return this._data as ChromosomeDataModel; }
+    public set config(config: ChromosomeConfigModel) { this._config = config; }
+    public get config(): ChromosomeConfigModel { return this._config as ChromosomeConfigModel; }
+
+    public renderer: DataDecoatorRenderer = (group: THREE.Group, mesh: THREE.Sprite, decorators: Array<DataDecorator>,
+        i: number, count: number): void => {
+
+        const circumference = 2 * Math.PI * (count * 0.5);
+
+
+
+        // console.log(circumference + ":::");
+        // const slice = new THREE.Shape();
+        // slice =
+        //     count * 0.5;
+
+        // debugger;
+
+        // mesh.position.setX(-2);
+        // const lineMat = new THREE.LineBasicMaterial({ color: 0x0000FF });
+
+        // const lineGeom = new THREE.Geometry();
+
+        // lineGeom.vertices.push(
+        //     new THREE.Vector3(500, 0, 0),
+        //     new THREE.Vector3(0, 0, 0)
+        // );
+        // const line = new THREE.Line(lineGeom, lineMat);
+        // group.add(line);
+
+        mesh.position.setX(-2);
+        const lineMat = new THREE.LineBasicMaterial({ color: mesh.material.color.getHex() });
+        const lineGeom = new THREE.Geometry();
+        lineGeom.vertices.push(
+            group.position,
+            new THREE.Vector3(0, 0, 0)
+        );
+        const line = new THREE.Line(lineGeom, lineMat);
+        group.add(line);
+    }
+
+
+    // Create - Initialize Mesh Arrays
+    create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
+        super.create(labels, events, view);
+        this.meshes = [];
+        return this;
+    }
+
+    destroy() {
+        super.destroy();
+        this.removeObjects();
+    }
+
+    updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
+        super.updateDecorator(config, decorators);
+        ChartFactory.decorateDataGroups(this.meshes, this.decorators, this.renderer);
+    }
+
+    updateData(config: GraphConfig, data: any) {
+        super.updateData(config, data);
+        this.removeObjects();
+        this.addObjects(this.config.entity);
+    }
+
+    enable(truthy: boolean) {
+        super.enable(truthy);
+        this.view.controls.enableRotate = true;
+    }
+
+
+    addObjects(type: EntityTypeEnum): void {
+        if (this.config.layoutOption === 'Line') {
+            this.addObjectsLinear(type);
+        } else {
+            this.addObjectsCircular(type);
+        }
+        ChartFactory.decorateDataGroups(this.meshes, this.decorators);
+    }
+    addObjectsLinear(type: EntityTypeEnum): void {
+        const propertyId = (this.config.entity === EntityTypeEnum.GENE) ? 'mid' : 'sid';
+        const objectIds = this.data[propertyId];
+
+        // this.data.nodes.forEach((node, index) => {
+        //     const group = ChartFactory.createDataGroup(
+        //         objectIds[index], this.config.entity, new THREE.Vector3(node.x, node.y, node.z));
+        //     this.meshes.push(group);
+        //     this.view.scene.add(group);
+        // });
+    }
+    circleCompute(genes: Array<any>, chromosome: any): any {
+
+        // const mf = new Set(this.config.markerFilter);
+        // let processedGenes, centro, telem;
+
+
+        // if (this.config.spacingOption === 'Linear') {
+
+        //     const scaleGene = scaleLinear();
+        //     scaleGene.domain([0, genes.length]);
+        //     scaleGene.range([0, 365]);
+
+        //     processedGenes = genes.sort((a, b) => (b.tss - a.tss)).map((v, i) => {
+        //         const angle = scaleGene(i) * Math.PI / 180;
+        //         return Object.assign(v, {
+        //             inSet: mf.has(v.gene),
+        //             sPos: { x: Math.cos(angle), y: Math.sin(angle) },
+        //             ePos: { x: Math.cos(angle), y: Math.sin(angle) }
+        //         });
+        //     });
+
+        //     const tele = processedGenes.findIndex(v => v.arm === 'P');
+
+        //     centro = {
+        //         x: Math.cos(0),
+        //         y: Math.sin(0)
+        //     };
+
+        //     telem = {
+        //         x: Math.cos(scaleGene(tele)),
+        //         y: Math.sin(scaleGene(tele))
+        //     };
+
+        // } else {
+        //     const scaleGene = scaleLinear();
+        //     scaleGene.domain([0, chromosome.Q]);
+        //     scaleGene.range([0, 365]);
+
+        //     processedGenes = genes.map((v, i) => {
+        //         const angle = scaleGene(v.tss) * Math.PI / 180;
+        //         return Object.assign(v, {
+        //             inSet: mf.has(v.gene),
+        //             sPos: { x: Math.cos(angle), y: Math.sin(angle) },
+        //             ePos: { x: Math.cos(angle), y: Math.sin(angle) }
+        //         });
+        //     });
+
+        //     const centroAngle = scaleGene(chromosome.C) * Math.PI / 180;
+        //     centro = {
+        //         x: Math.cos(centroAngle),
+        //         y: Math.sin(centroAngle)
+        //     };
+        //     const telemAngle = scaleGene(chromosome.P) * Math.PI / 180;
+        //     telem = {
+        //         x: Math.cos(telemAngle),
+        //         y: Math.sin(telemAngle)
+        //     };
+        // }
+
+        // let chords = null;
+        // if (this.data.result.chords !== null) {
+        //     const lookup = processedGenes.reduce((p, c) => {
+        //         p[c.gene] = c.sPos;
+        //         return p;
+        //     }, {});
+        //     chords = this.data.result.chords.map(v => {
+        //         return {
+        //             source: lookup[v.source],
+        //             target: lookup[v.target]
+        //         };
+        //     }).filter(v => (v.source && v.target));
+
+        // }
+
+        // return {
+        //     genes: processedGenes,
+        //     chords: chords,
+        //     centro: centro,
+        //     telem: telem
+        // };
+    }
+    circleAddObjects() {
+
+        // const result = this.circleCompute(this.data.result.genes, this.data.result.chromosome);
+
+        // let line;
+
+        // let mesh = ChartFactory.meshAllocate(0x039BE5, ShapeEnum.CIRCLE, 1.5,
+        //     new Vector3(result.centro.x * 145, result.centro.y * 145, 0), {});
+        // this.meshes.push(mesh);
+        // this.group.add(mesh);
+
+        // mesh = ChartFactory.meshAllocate(0x039BE5, ShapeEnum.CIRCLE, 1.5,
+        //     new Vector3(result.telem.x * 145, result.telem.y * 145, 0), {});
+        // this.meshes.push(mesh);
+        // this.group.add(mesh);
+
+        // result.genes.forEach(gene => {
+        //     line = ChartFactory.lineAllocate(this.colorMap[gene.type],
+        //         new THREE.Vector2(gene.sPos.x * (gene.inSet ? 145 : 150), gene.sPos.y * (gene.inSet ? 145 : 150)),
+        //         new THREE.Vector2(gene.ePos.x * (gene.inSet ? 135 : 140), gene.ePos.y * (gene.inSet ? 135 : 140)),
+        //         gene);
+        //     this.meshes.push(line);
+        //     this.group.add(line);
+
+        // });
+
+        // if (result.chords !== null) {
+        //     result.chords.forEach(chord => {
+        //         const x1 = chord.source.x * 135;
+        //         const x2 = chord.target.x * 135;
+        //         const y1 = chord.source.y * 135;
+        //         const y2 = chord.target.y * 135;
+        //         const dist = Math.sqrt(x1 * x2 + y1 * y2);
+        //         line = ChartFactory.lineAllocateCurve(0x039BE5,
+        //             new THREE.Vector2(x1, y1),
+        //             new THREE.Vector2(x2, y2),
+        //             new THREE.Vector2(
+        //                 ((chord.source.x + chord.target.x) / 2) * 120,
+        //                 ((chord.source.y + chord.target.y) / 2) * 120
+        //             )
+        //         );
+        //         this.meshes.push(line);
+        //         this.group.add(line);
+        //     });
+        // }
+    }
+    addObjectsCircular(type: EntityTypeEnum): void {
+
+        let scale = scaleLinear();
+        scale.range([0, 365]);
+        let geneData, tele, centro, telem;
+        const mf = new Set(this.config.markerFilter);
+        // if (this.config.spacingOption === 'Linear') {
+        scale = scaleLinear();
+        scale.domain([0, this.data.genes.length]);
+        scale.range([0, 365]);
+        geneData = this.data.genes.sort((a, b) => (b.tss - a.tss)).map((v, i) => {
+            const angle = scale(i) * Math.PI / 180;
+            return Object.assign(v, {
+                inSet: mf.has(v.gene),
+                sPos: { x: Math.cos(angle), y: Math.sin(angle), a: angle },
+                ePos: { x: Math.cos(angle), y: Math.sin(angle), a: angle }
+            });
+        });
+        tele = geneData.findIndex(v => v.arm === 'P');
+        centro = { x: Math.cos(0), y: Math.sin(0) };
+        telem = { x: Math.cos(scale(tele)), y: Math.sin(scale(tele)) };
+
+        // //const geometry = new RingBufferGeometry(300, 301, 500);
+        // const geometry = new RingGeometry(300, 301, 500);
+        // for (let i = 0; i < geometry.vertices.length; i += 2) {
+        //     geometry.colors[i] = new THREE.Color(Math.random(), Math.random(), Math.random());
+        //     geometry.colors[i + 1] = geometry.colors[i];
+        // }
+
+        // const material = new THREE.LineBasicMaterial({
+        //     color: 0xffffff,
+        //     vertexColors: THREE.VertexColors
+        // });
+
+
+        // const line = new THREE.LineSegments(geometry, material);
+        // this.view.scene.add(line);
+
+        // } else {
+        // const scaleGene = scaleLinear();
+        // scaleGene.domain([0, chromosome.Q]);
+
+        // processedGenes = genes.map((v, i) => {
+        //     const angle = scaleGene(v.tss) * Math.PI / 180;
+        //     return Object.assign(v, {
+        //         inSet: mf.has(v.gene),
+        //         sPos: { x: Math.cos(angle), y: Math.sin(angle) },
+        //         ePos: { x: Math.cos(angle), y: Math.sin(angle) }
+        //     });
+        // });
+
+        // const centroAngle = scaleGene(chromosome.C) * Math.PI / 180;
+        // centro = {
+        //     x: Math.cos(centroAngle),
+        //     y: Math.sin(centroAngle)
+        // };
+        // const telemAngle = scaleGene(chromosome.P) * Math.PI / 180;
+        // telem = {
+        //     x: Math.cos(telemAngle),
+        //     y: Math.sin(telemAngle)
+        // };
+        // }
+
+        const l = geneData.length * 0.5;
+        geneData.forEach(gene => {
+            const group = ChartFactory.createDataGroup(
+                gene.gene, EntityTypeEnum.GENE, new THREE.Vector3(gene.sPos.x * l, gene.sPos.y * l, 0));
+            group.userData.pos = gene.pos;
+
+            this.createArc(100, 500, geneData.length);
+            this.view.scene.add(group);
+            this.meshes.push(group);
+        });
+        this.view.camera.position.setZ(l * 6);
+        // ChartFactory.decorateDataGroups(this.meshes, this.decorators, this.renderer);
+    }
+
+    createArc(innerRadius: number, outerRadius: number, slices: number): THREE.Shape {
+
+        const rad = (360 / slices) * (Math.PI / 180);
+
+        const a = arc()
+            .innerRadius(innerRadius)
+            .outerRadius(outerRadius);
+
+        const b = a.startAngle(0);
+        const c = a.endAngle(rad);
+
+        debugger;
+        // const arc = new THREE.Shape();
+        // arc.c
+        // return arc;
+    }
+
+    removeObjects(): void {
+        this.view.scene.remove(...this.meshes);
+        this.meshes.length = 0;
+    }
+
+    onMouseDown(e: ChartEvent): void { }
+    onMouseUp(e: ChartEvent): void { }
+    onMouseMove(e: ChartEvent): void { }
+}
+
+/*
 import { DataDecorator } from './../../../model/data-map.model';
 import { element } from 'protractor';
 import { DirtyEnum } from 'app/model/enum.model';
@@ -481,3 +821,4 @@ export class ChromosomeGraph implements ChartObjectInterface {
     constructor() { }
 
 }
+*/
