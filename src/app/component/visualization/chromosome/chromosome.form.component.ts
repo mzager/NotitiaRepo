@@ -11,6 +11,15 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 <form [formGroup]='form' novalidate>
+<div class='form-group'>
+    <label class='center-block'><span class='form-label'>Data</span>
+      <select materialize='material_select'
+        [compareWith]='byKey'
+        formControlName='table'>
+        <option *ngFor='let option of dataOptions'>{{option.label}}</option>
+      </select>
+    </label>
+  </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Chromosomes</span>
       <select materialize='material_select'
@@ -74,6 +83,10 @@ export class ChromosomeFormComponent {
     this.shapeOptions = DataFieldFactory.getSampleShapeFields(fields, EntityTypeEnum.GENE);
     this.sizeOptions = DataFieldFactory.getSampleSizeFields(fields, EntityTypeEnum.GENE);
   }
+  @Input() set tables(tables: Array<DataTable>) {
+    this.dataOptions = tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0));
+  }
+
 
   @Input() set config(v: ChromosomeConfigModel) {
     if (v === null) { return; }
@@ -86,6 +99,7 @@ export class ChromosomeFormComponent {
   colorOptions: Array<DataField>;
   shapeOptions: Array<DataField>;
   sizeOptions: Array<DataField>;
+  dataOptions: Array<DataTable>;
   dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D];
   layoutOptions = ['Circle', 'Line'];
   spacingOptions = ['Translational Start Site', 'Linear'];

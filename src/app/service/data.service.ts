@@ -24,6 +24,10 @@ export class DataService {
   public static db: Dexie;
   public static instance: DataService;
 
+  // tslint:disable-next-line:max-line-length
+  public static biotypeMap = { 'protein_coding': 'Protein Coding', 'polymorphic_pseudogene': 'Protein Coding', 'ig_v_gene': 'Protein Coding', 'tr_v_gene': 'Protein Coding', 'tr_c_gene': 'Protein Coding', 'tr_j_gene': 'Protein Coding', 'tr_d_gene': 'Protein Coding', 'ig_c_gene': 'Protein Coding', 'ig_d_gene': 'Protein Coding', 'ig_j_gene': 'Protein Coding', 'ig_v_pseudogene': 'Pseudogene', 'transcribed_unprocessed_pseudogene': 'Pseudogene', 'processed_pseudogene': 'Pseudogene', 'unprocessed_pseudogene': 'Pseudogene', 'transcribed_processed_pseudogene': 'Pseudogene', 'unitary_pseudogene': 'Pseudogene', 'ig_pseudogene': 'Pseudogene', 'ig_c_pseudogene': 'Pseudogene', 'ig_j_pseudogene': 'Pseudogene', 'tr_j_pseudogene': 'Pseudogene', 'tr_v_pseudogene': 'Pseudogene', 'transcribed_unitary_pseudogene': 'Pseudogene', 'antisense': 'Long Noncoding', 'sense_intronic': 'Long Noncoding', 'lincrna': 'Long Noncoding', 'sense_overlapping': 'Long Noncoding', 'processed_transcript': 'Long Noncoding', '3prime_overlapping_ncrna': 'Long Noncoding', 'non_coding': 'Long Noncoding', 'rrna': 'Short Noncoding', 'misc_rna': 'Short Noncoding', 'pseudogene': 'Short Noncoding', 'snorna': 'Short Noncoding', 'scrna': 'Short Noncoding', 'mirna': 'Short Noncoding', 'snrna': 'Short Noncoding', 'srna': 'Short Noncoding', 'ribozyme': 'Short Noncoding', 'scarna': 'Short Noncoding', 'vaultrna': 'Short Noncoding', 'tec': 'Other', 'bidirectional_promoter_lncrna': 'Other', 'macro_lncrna': 'Other' };
+  public static biotypeCat = ['Protein Coding', 'Pseudogene', 'Long Noncoding', 'Short Noncoding', 'Other'];
+
   public static API_PATH = 'https://dev.oncoscape.sttrcancer.io/api/';
   private createMolecularDataDecorator(config: GraphConfig, decorator: DataDecorator): Observable<DataDecorator> {
 
@@ -33,26 +37,28 @@ export class DataService {
         new Dexie('notitia').open().then(db => {
           db.table('genecoords').toArray().then(results => {
 
-            const biotypeCat = {
-              'Protein Coding': ['protein_coding', 'polymorphic_pseudogene', 'IG_V_gene', 'TR_V_gene', 'TR_C_gene', 'TR_J_gene',
-                'TR_D_gene', 'IG_C_gene', 'IG_D_gene', 'IG_J_gene'],
-              'Pseudogene': ['IG_V_pseudogene', 'transcribed_unprocessed_pseudogene', 'processed_pseudogene',
-                'unprocessed_pseudogene', 'transcribed_processed_pseudogene', 'unitary_pseudogene', 'IG_pseudogene',
-                'IG_C_pseudogene', 'IG_J_pseudogene', 'TR_J_pseudogene', 'TR_V_pseudogene', 'transcribed_unitary_pseudogene'],
-              'Long Noncoding': ['antisense', 'sense_intronic', 'lincRNA', 'sense_overlapping', 'processed_transcript',
-                '3prime_overlapping_ncRNA', 'non_coding'],
-              'Short Noncoding': ['rRna', 'misc_RNA', 'pseudogene', 'snoRNA', 'scRNA', 'miRNA', 'snRNA', 'sRNA', 'ribozyme',
-                'scaRNA', 'vaultRNA'],
-              'Other': ['TEC', 'bidirectional_promoter_lncRNA', 'macro_lncRNA']
-            };
+            // const biotypeCat = {
+            //   'Protein Coding': ['protein_coding', 'polymorphic_pseudogene', 'IG_V_gene', 'TR_V_gene', 'TR_C_gene', 'TR_J_gene',
+            //     'TR_D_gene', 'IG_C_gene', 'IG_D_gene', 'IG_J_gene'],
+            //   'Pseudogene': ['IG_V_pseudogene', 'transcribed_unprocessed_pseudogene', 'processed_pseudogene',
+            //     'unprocessed_pseudogene', 'transcribed_processed_pseudogene', 'unitary_pseudogene', 'IG_pseudogene',
+            //     'IG_C_pseudogene', 'IG_J_pseudogene', 'TR_J_pseudogene', 'TR_V_pseudogene', 'transcribed_unitary_pseudogene'],
+            //   'Long Noncoding': ['antisense', 'sense_intronic', 'lincRNA', 'sense_overlapping', 'processed_transcript',
+            //     '3prime_overlapping_ncRNA', 'non_coding'],
+            //   'Short Noncoding': ['rRna', 'misc_RNA', 'pseudogene', 'snoRNA', 'scRNA', 'miRNA', 'snRNA', 'sRNA', 'ribozyme',
+            //     'scaRNA', 'vaultRNA'],
+            //   'Other': ['TEC', 'bidirectional_promoter_lncRNA', 'macro_lncRNA']
+            // };
 
-            const biotypeMap = Object.keys(biotypeCat).reduce((p, c) => {
-              p = Object.assign(p, biotypeCat[c].reduce((p2, c2) => {
-                p2[c2.toLowerCase()] = c;
-                return p2;
-              }, {}));
-              return p;
-            }, {});
+            // const biotypeMap = Object.keys(biotypeCat).reduce((p, c) => {
+            //   p = Object.assign(p, biotypeCat[c].reduce((p2, c2) => {
+            //     p2[c2.toLowerCase()] = c;
+            //     return p2;
+            //   }, {}));
+            //   return p;
+            // }, {});
+
+
 
             const bioTypes: Array<string> = Array.from(results.reduce((p, c) => {
               p.add(c.type.toLowerCase());
@@ -60,16 +66,16 @@ export class DataService {
             }, new Set()));
 
             const scale = (decorator.type === DataDecoratorTypeEnum.SHAPE) ?
-              ChartFactory.getScaleShapeOrdinal(Object.keys(biotypeCat)) :
-              ChartFactory.getScaleColorOrdinal(Object.keys(biotypeCat));
+              ChartFactory.getScaleShapeOrdinal(Object.keys(DataService.biotypeCat)) :
+              ChartFactory.getScaleColorOrdinal(Object.keys(DataService.biotypeCat));
 
             decorator.values = results.map(v => ({
               pid: null,
               sid: null,
               mid: v.gene,
               key: EntityTypeEnum.GENE,
-              label: biotypeMap[v.type],
-              value: scale(biotypeMap[v.type])
+              label: DataService.biotypeMap[v.type],
+              value: scale(DataService.biotypeMap[v.type])
             })).filter(v => v.label);
 
             decorator.legend = new Legend();

@@ -38,7 +38,6 @@ export class GenomeGraph extends AbstractVisualization {
     public chromosomes: Array<THREE.Object3D> = [];
     public renderer: DataDecoatorRenderer = (group: THREE.Group, mesh: THREE.Sprite, decorators: Array<DataDecorator>,
         i: number, count: number): void => {
-        // const xPos = - ((i % 5) + 2);
         mesh.position.setX(-2);
         const lineMat = new THREE.LineBasicMaterial({ color: mesh.material.color.getHex() });
         const lineGeom = new THREE.Geometry();
@@ -48,7 +47,6 @@ export class GenomeGraph extends AbstractVisualization {
         );
         const line = new THREE.Line(lineGeom, lineMat);
         group.add(line);
-
     }
 
     chromosomeToNumber(chromosome: string, x: boolean = true): number {

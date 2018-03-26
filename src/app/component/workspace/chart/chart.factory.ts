@@ -158,10 +158,6 @@ export class ChartFactory {
             fragmentShader: outShader.fragment_shader,
         });
     }
-    public static getShapeFromSvgPath(pathStr: string): THREE.ShapePath {
-
-
-    }
 
 
     // --------------------- Old ------------------------ //
