@@ -33808,15 +33808,6 @@ exports.hicComputeFn = function (config) {
     });
 };
 exports.hicCompute = function (config, worker) {
-    // worker.util.processShapeColorSizeIntersect(config, worker);
-    // if (config.dirtyFlag & DirtyEnum.OPTIONS) {
-    //     worker.postMessage({
-    //         config: config,
-    //         data: {}
-    //     });
-    //     worker.postMessage('TERMINATE');
-    // }
-    // if (config.dirtyFlag & DirtyEnum.LAYOUT) {
     exports.hicComputeFn(config).then(function (result) {
         worker.postMessage({
             config: config,
@@ -33824,7 +33815,6 @@ exports.hicCompute = function (config, worker) {
         });
         worker.postMessage('TERMINATE');
     });
-    // }
 };
 
 
