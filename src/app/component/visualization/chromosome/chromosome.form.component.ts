@@ -52,16 +52,6 @@ import * as _ from 'lodash';
     </label>
   </div>
   <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Gene Color</span>
-      <select materialize='material_select'
-          [compareWith]='byKey'
-          [materializeSelectOptions]='colorOptions'
-          formControlName='pointColor'>
-          <option *ngFor='let option of colorOptions' [ngValue]='option'>{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
   <label class='center-block'><span class='form-label'>Chords</span>
     <select materialize='material_select'
         [compareWith]='byKey'
@@ -151,9 +141,7 @@ export class ChromosomeFormComponent {
       patientFilter: [],
       patientSelect: [],
       table: [],
-      pointColor: [],
-      pointShape: [],
-      pointSize: [],
+
       dimension: [],
       chromosome: [],
       allowRotation: [],
@@ -168,14 +156,8 @@ export class ChromosomeFormComponent {
       .debounceTime(200)
       .distinctUntilChanged()
       .subscribe(data => {
-        let dirty = 0;
         const form = this.form;
-        if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
-        // if (form.get('pointShape').dirty) { dirty |= DirtyEnum.SHAPE; }
-        if (form.get('pointSize').dirty) { dirty |= DirtyEnum.SIZE; }
-        if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
         form.markAsPristine();
-        data.dirtyFlag = dirty;
         this.configChange.emit(data);
       });
   }

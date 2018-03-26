@@ -150,9 +150,9 @@ export class DataEffect {
             // genomeConfig.graph = GraphEnum.GRAPH_B;
             // genomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
 
-            // const chromosomeConfig = new ChromosomeConfigModel();
-            // chromosomeConfig.graph = GraphEnum.GRAPH_A;
-            // chromosomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            const chromosomeConfig = new ChromosomeConfigModel();
+            chromosomeConfig.graph = GraphEnum.GRAPH_A;
+            chromosomeConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
 
             // const boxWhiskersConfig = new BoxWhiskersConfigModel();
             // boxWhiskersConfig.graph = GraphEnum.GRAPH_A;
@@ -205,7 +205,7 @@ export class DataEffect {
                 // new compute.BoxWhiskersAction( { config: boxWhiskersConfig } ),
                 // new compute.TimelinesAction( { config: timelinesConfigA}),
                 // new compute.TimelinesAction( { config: timelinesConfigB})
-                //  new compute.ChromosomeAction( { config: chromosomeConfig } ),
+                new compute.ChromosomeAction({ config: chromosomeConfig }),
                 // new compute.HeatmapAction({ config: heatmapConfig }),
                 // new compute.SurvivalAction( { config: survivalConfig })
                 // new compute.ChromosomeAction( { config: chromosomeConfig } )
@@ -213,7 +213,7 @@ export class DataEffect {
                 // new compute.GenomeAction( { config: genomeConfig }),
                 new compute.PcaIncrementalAction({ config: graphBConfig }),
                 // new GraphPanelToggleAction( GraphPanelEnum.GRAPH_A )
-                new compute.PcaAction({ config: pcaConfig }),
+                // new compute.PcaAction({ config: pcaConfig }),
                 new LoaderShowAction()
             ];
         });
