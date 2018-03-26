@@ -1,3 +1,4 @@
+import { ChartScene } from './../chart/chart.scene';
 import { DataDecorator } from './../../../model/data-map.model';
 import { DataService } from 'app/service/data.service';
 import { DendogramConfigModel } from './../../visualization/dendogram/dendogram.model';
@@ -104,7 +105,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   public _genesets: Array<any>;
   public get genesets(): Array<any> { return this._genesets; }
   @Input() public set genesets(value: Array<any>) {
-    // value.push({ n: 'Manage Gene Sets', g: [] });
     this._genesets = value;
     requestAnimationFrame(() => {
       this.cd.markForCheck();
@@ -114,7 +114,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   _cohorts: Array<any>;
   public get cohorts(): Array<any> { return this._cohorts; }
   @Input() public set cohorts(value: Array<any>) {
-    // value.push({ n: 'Manage Cohorts', pids: [], sids: [] });
     this._cohorts = value;
     requestAnimationFrame(() => {
       this.cd.markForCheck();
@@ -166,6 +165,11 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   methodOptions: Array<any>;
   methodOption: any;
 
+  toggleBackgroundClick(): void {
+    const isBlack = ChartScene.instance.renderer.getClearColor().r === 0;
+    ChartScene.instance.renderer.setClearColor(isBlack ? 0xFFFFFF : 0x000000, 1);
+    ChartScene.instance.render();
+  }
   toggleClick(): void {
 
     if (this.panel.nativeElement.classList.contains('graphPanelCollapsed')) {
@@ -206,7 +210,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   }
 
   onDecoratorDel(decorator: DataDecorator) {
-    this.decoratorAdd.emit({ config: this.config, decorator: decorator });
+    this.decoratorDel.emit({ config: this.config, decorator: decorator });
   }
   setVisualization(visualizationEnumValue): void {
     let gc: GraphConfig;
@@ -330,9 +334,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     gc.sampleSelect = prevConfig.sampleSelect;
     gc.markerSelect = prevConfig.markerSelect;
     gc.patientSelect = prevConfig.patientSelect;
-    // gc.pointColor = prevConfig.pointColor;
-    // gc.pointShape = prevConfig.pointShape;
-    // gc.pointSize = prevConfig.pointSize;
     gc.graph = (this.title === 'Graph A') ? GraphEnum.GRAPH_A : GraphEnum.GRAPH_B;
     this.configChange.emit(gc);
   }

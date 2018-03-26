@@ -76,22 +76,11 @@ export const hicComputeFn = (config: HicConfigModel): Promise<any> => {
 
 
 export const hicCompute = (config: HicConfigModel, worker: DedicatedWorkerGlobalScope): void => {
-
-    worker.util.processShapeColorSizeIntersect(config, worker);
-    if (config.dirtyFlag & DirtyEnum.OPTIONS) {
+    hicComputeFn(config).then(result => {
         worker.postMessage({
             config: config,
-            data: {}
+            data: result
         });
         worker.postMessage('TERMINATE');
-    }
-    if (config.dirtyFlag & DirtyEnum.LAYOUT) {
-        hicComputeFn(config).then(result => {
-            worker.postMessage({
-                config: config,
-                data: result
-            });
-            worker.postMessage('TERMINATE');
-        });
-    }
+    });
 };
