@@ -335,7 +335,6 @@ export class TimelinesGraph implements ChartObjectInterface {
         // Reset Controls
         this.view.controls.reset();
         requestAnimationFrame(() => {
-            console.log(rowHeight * rowCount);
             this.view.controls.pan(0, (rowHeight * rowCount));
             this.view.controls.dollyOut(3);
             this.view.controls.update();
@@ -389,7 +388,7 @@ export class TimelinesGraph implements ChartObjectInterface {
                         tip + '</div>';
                 }
             } catch (e) {
-                console.log(e);
+
             }
 
             return;

@@ -27,14 +27,28 @@ import { Group, Vector3 } from 'three';
 
 export class GenomeGraph extends AbstractVisualization {
 
+    public set data(data: GenomeDataModel) { this._data = data; }
+    public get data(): GenomeDataModel { return this._data as GenomeDataModel; }
+    public set config(config: GenomeConfigModel) { this._config = config; }
+    public get config(): GenomeConfigModel { return this._config as GenomeConfigModel; }
+
     public meshes: THREE.Object3D[] = [];
     private points: Array<THREE.Object3D>;
     public tads: Array<THREE.Object3D> = [];
     public chromosomes: Array<THREE.Object3D> = [];
     public renderer: DataDecoatorRenderer = (group: THREE.Group, mesh: THREE.Sprite, decorators: Array<DataDecorator>,
         i: number, count: number): void => {
-        // const offset = 1 + (1 * (i % 5));
-        mesh.position.setX(-10);
+        // const xPos = - ((i % 5) + 2);
+        mesh.position.setX(-2);
+        const lineMat = new THREE.LineBasicMaterial({ color: mesh.material.color.getHex() });
+        const lineGeom = new THREE.Geometry();
+        lineGeom.vertices.push(
+            new THREE.Vector3(-2, 0, 0),
+            new THREE.Vector3(0, 0, 0)
+        );
+        const line = new THREE.Line(lineGeom, lineMat);
+        group.add(line);
+
     }
 
     chromosomeToNumber(chromosome: string, x: boolean = true): number {
@@ -67,15 +81,15 @@ export class GenomeGraph extends AbstractVisualization {
     }
     addObjects() {
         if (this.chromosomes.length === 0) { this.addChromosomes(); }
-        if ((this.config as GenomeConfigModel).showTads) { this.addTads(); }
+        if (this.config.showTads) { this.addTads(); }
         this.addGenes();
     }
     removeObjects() {
-        if (!(this.config as GenomeConfigModel).showTads) { this.removeTads(); }
+        if (!this.config.showTads) { this.removeTads(); }
         this.removeGenes();
     }
     addChromosomes() {
-        const data = this.data as GenomeDataModel;
+        const data = this.data;
         data.chromo.forEach(chromosome => {
             const xPos = this.chromosomeToNumber(chromosome.chr);
 
@@ -123,7 +137,7 @@ export class GenomeGraph extends AbstractVisualization {
         });
     }
     addTads() {
-        const data = this.data as GenomeDataModel;
+        const data = this.data;
         data.tads.forEach(tad => {
             const chr = this.chromosomeToNumber(tad.chr, false);
             const xPos = chr * 20;
@@ -142,7 +156,7 @@ export class GenomeGraph extends AbstractVisualization {
         });
     }
     addGenes() {
-        const data = this.data as GenomeDataModel;
+        const data = this.data;
         Object.keys(data.genes).forEach(chromosome => {
             const chr = this.chromosomeToNumber(chromosome, false);
             const xPos = chr * 20;
@@ -159,14 +173,15 @@ export class GenomeGraph extends AbstractVisualization {
     }
     removeChromosomes() {
         this.view.scene.remove(...this.chromosomes);
-        this.chromosomes = [];
+        this.chromosomes.length = 0;
     }
     removeTads() {
         this.view.scene.remove(...this.tads);
-        this.tads = [];
+        this.tads.length = 0;
     }
     removeGenes() {
-
+        this.view.scene.remove(...this.meshes);
+        this.meshes.length = 0;
     }
     constructor() {
         super();

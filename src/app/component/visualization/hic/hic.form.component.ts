@@ -12,16 +12,6 @@ import * as _ from 'lodash';
   template: `
 <form [formGroup]='form' novalidate>
   <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Gene Color</span>
-      <select materialize='material_select'
-          [compareWith]='byKey'
-          [materializeSelectOptions]='colorOptions'
-          formControlName='pointColor'>
-          <option *ngFor='let option of colorOptions' [ngValue]='option'>{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
     <label class='center-block'><span class='form-label'>Dimensions</span>
       <select materialize='material_select'
         [materializeSelectOptions]='dimensionOptions'
@@ -53,46 +43,6 @@ import * as _ from 'lodash';
 })
 export class HicFormComponent {
 
-  /*
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Gene(s)</span>
-      <input class='browser-default' formControlName='gene'>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Gene Size</span>
-       <select materialize='material_select'
-          [compareWith]='byKey'
-          [materializeSelectOptions]='sizeOptions'
-          formControlName='pointSize'>
-          <option *ngFor='let option of sizeOptions' [ngValue]='option'>{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Gene Shape</span>
-      <select materialize='material_select'
-          [compareWith]='byKey'
-          [materializeSelectOptions]='sizeOptions'
-          formControlName='pointShape'>
-          <option *ngFor='let option of shapeOptions' [ngValue]='option'>{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  */
-
-  @Input() set fields(fields: Array<DataField>) {
-    if (fields === null) { return; }
-    if (fields.length === 0) { return; }
-    const defaultDataField: DataField = DataFieldFactory.getUndefined();
-    this.colorOptions = DataFieldFactory.getSampleColorFields(fields, EntityTypeEnum.GENE);
-    this.shapeOptions = DataFieldFactory.getSampleShapeFields(fields, EntityTypeEnum.GENE);
-    this.sizeOptions = DataFieldFactory.getSampleSizeFields(fields, EntityTypeEnum.GENE);
-  }
-
-  @Input() set tables(tables: Array<DataTable>) {
-
-  }
 
   @Input() set config(v: HicConfigModel) {
     if (v === null) { return; }
@@ -102,9 +52,7 @@ export class HicFormComponent {
   @Output() configChange = new EventEmitter<GraphConfig>();
 
   form: FormGroup;
-  colorOptions: Array<DataField>;
-  shapeOptions: Array<DataField>;
-  sizeOptions: Array<DataField>;
+
   dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D, DimensionEnum.ONE_D];
 
   byKey(p1: DataField, p2: DataField) {
@@ -129,9 +77,6 @@ export class HicFormComponent {
       patientFilter: [],
       patientSelect: [],
       table: [],
-      pointColor: [],
-      pointShape: [],
-      pointSize: [],
 
       gene: [],
       dimensions: [],
@@ -146,18 +91,9 @@ export class HicFormComponent {
       .debounceTime(500)
       .distinctUntilChanged()
       .subscribe(data => {
-
-        let dirty = 0;
         const form = this.form;
-        if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
-        if (form.get('pointSize').dirty) { dirty |= DirtyEnum.SIZE; }
-        if (form.get('pointShape').dirty) { dirty |= DirtyEnum.SHAPE; }
-        if (form.get('showChromosome').dirty) { dirty |= DirtyEnum.OPTIONS; }
-        if (form.get('showLabels').dirty) { dirty |= DirtyEnum.OPTIONS; }
-        if (form.get('showLinks').dirty) { dirty |= DirtyEnum.OPTIONS; }
-        if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
         form.markAsPristine();
-        data.dirtyFlag = dirty;
+        data.dirtyFlag = DirtyEnum.NO_COMPUTE;
         this.configChange.emit(data);
       });
   }

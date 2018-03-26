@@ -327,6 +327,7 @@ export class ChartScene {
                         camera.updateProjectionMatrix();
                         camera.position.set(0, 0, 1000);
                         camera.lookAt(new Vector3(0, 0, 0));
+
                     }
                     view.chart = this.getChartObject(config.visualization).create(
                         (config.graph === GraphEnum.GRAPH_A) ? this.labelsA : this.labelsB,
@@ -336,8 +337,7 @@ export class ChartScene {
                     } else { view.chart.decorators = []; }
                     view.chart.onRequestRender.subscribe(this.render);
                     view.chart.onConfigEmit.subscribe(this.config);
-
-
+                    view.controls.enableRotate = false;
                     view.chart.enable(true);
                     try {
                         ((graph === GraphEnum.GRAPH_A) ? this.views[1] : this.views[0]).chart.enable(false);
@@ -359,106 +359,6 @@ export class ChartScene {
         this.render();
     }
 
-    //     // let view: VisualizationView;
-    //     // switch (graph) {
-    //     //     // case GraphEnum.EDGES:
-    //     //     //     view = this.views[2];
-    //     //     //     if (view.config.visualization !== config.visualization) {
-    //     //     //         if (view.chart !== null) { view.chart.destroy(); }
-    //     //     //         view.chart = this.getChartObject(config.visualization)
-    //     //     //             .create(this.labelsE, this.events, view);
-    //     //     //         view.chart.onRequestRender.subscribe(this.render);
-    //     //     //         view.chart.onConfigEmit.subscribe(this.config);
-    //     //     //         (view.chart as EdgesGraph).updateEdges = true;
-    //     //     //     }
-    //     //     //     break;
-    //     //     case GraphEnum.GRAPH_A:
-    //     //     case GraphEnum.GRAPH_B:
-    //     //         view = (graph === GraphEnum.GRAPH_A) ? this.views[0] : this.views[1];
-    //     //         debugger;
-    //     //         if (view.config.visualization !== config.visualization) {
-    //     //             if (view.chart !== null) { view.chart.destroy(); }
-    //     //             view.chart = this.getChartObject(config.visualization).create(
-    //     //                 (config.graph === GraphEnum.GRAPH_A) ? this.labelsA : this.labelsB, this.events, view);
-    //     //             view.controls.reset();
-    //     //             view.chart.onRequestRender.subscribe(this.render);
-    //     //             view.chart.onConfigEmit.subscribe(this.config);
-    //     //         } else {
-    //     //             view.chart.update(config, data);
-    //     //             this.render();
-    //     //         }
-    //     //         break;
-    //     // }
-
-    //     // // Set Controls
-    //     // switch (this.workspace.layout) {
-    //     //     case WorkspaceLayoutEnum.HORIZONTAL:
-    //     //     case WorkspaceLayoutEnum.VERTICAL:
-    //     //         // Add Logic for Mouse Position
-    //     //         this.views[0].controls.enabled = true;
-    //     //         break;
-    //     // }
-
-    //     // // Render Loop
-    //     // view.chart.update(config, data);
-    //     // this.render();
-
-    //     if (!this.views[0].controls.enabled && !this.views[1].controls.enabled) {
-    //         this.views[0].controls.enabled = true;
-    //     }
-
-    //     const ecm: EdgeConfigModel = config as EdgeConfigModel;
-
-    //     const view = ( graph === GraphEnum.GRAPH_A ) ? this.views[0] :
-    //                  ( graph === GraphEnum.GRAPH_B ) ? this.views[1] :
-    //                  this.views[2];
-
-    //     // If None
-    //     if (config.visualization === VisualizationEnum.NONE) {
-    //         if (view.chart !== null) {
-    //             view.chart.onRequestRender.unsubscribe();
-    //             view.chart.onConfigEmit.unsubscribe();
-    //             view.chart.destroy();
-    //         }
-    //         view.chart = null;
-    //         view.config = config;
-    //         this.onResize(); // Calls render once complete
-    //         return;
-    //     }
-
-    //     // Edges
-    //     // if (view.config.entity !== config.entity) {
-    //     //     if (this.views[2].chart != null) {
-    //     //         (this.views[2].chart as EdgesGraph).updateEdges = true;
-    //     //     }
-    //     // }
-
-    //     if (view.config.visualization !== config.visualization) {
-    //         view.config.visualization = config.visualization;
-    //         if (view.chart !== null) { view.chart.destroy(); }
-    //         view.chart = this.getChartObject(config.visualization).create(
-    //             (config.graph === GraphEnum.GRAPH_A) ? this.labelsA : this.labelsB, this.events, view);
-    //         if (config.visualization === VisualizationEnum.EDGES) {
-    //             view.chart.onRequestRender.subscribe(this.render);
-    //             view.chart.onConfigEmit.subscribe(this.config);
-    //             view.chart.updateData(config, data);
-    //             this.render();
-    //             return;
-    //         }
-    //         view.controls.reset();
-    //         view.chart.onRequestRender.subscribe(this.render);
-    //         view.chart.onConfigEmit.subscribe(this.config);
-    //     }
-
-    //     view.chart.updateData(config, data);
-    //     this.render();
-    //     try {
-    //         this.views[0].chart.enable( true );
-    //         this.views[1].chart.enable( false );
-    //     } catch ( e ) {
-
-    //     }
-    // }
 
     private getChartObject(visualization: VisualizationEnum): ChartObjectInterface {
         switch (visualization) {
