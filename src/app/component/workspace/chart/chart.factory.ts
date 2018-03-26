@@ -130,7 +130,7 @@ export class ChartFactory {
             const spriteMaterial = ChartFactory.getSpriteMaterial((shapeMap) ? shapeMap[id] : ShapeEnum.CIRCLE, color);
             spriteMaterial.opacity = 0.8;
             // const scale = ((sizeMap) ? sizeMap[id] : 1) * 2;
-            const scale = 3;
+            const scale = 2;
             const mesh: THREE.Sprite = new THREE.Sprite(spriteMaterial);
             mesh.scale.set(scale, scale, scale);
             mesh.userData.tooltip = id;
@@ -158,6 +158,11 @@ export class ChartFactory {
             fragmentShader: outShader.fragment_shader,
         });
     }
+    public static getShapeFromSvgPath(pathStr: string): THREE.ShapePath {
+
+
+    }
+
 
     // --------------------- Old ------------------------ //
 
