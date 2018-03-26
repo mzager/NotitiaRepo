@@ -1,4 +1,5 @@
-import { GraphEnum, WorkspaceLayoutEnum } from 'app/model/enum.model';
+import { DataService } from './../../../service/data.service';
+import { GraphEnum, WorkspaceLayoutEnum, SpriteMaterialEnum } from 'app/model/enum.model';
 import { EventEmitter } from '@angular/core';
 import { DataDecorator } from './../../../model/data-map.model';
 import { EntityTypeEnum } from './../../../model/enum.model';
@@ -12,18 +13,74 @@ import * as THREE from 'three';
 import { ChromosomeDataModel, ChromosomeConfigModel } from './chromosome.model';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
 import { arc } from 'd3-shape';
+import * as svgMesh3d from 'svg-mesh-3d';
+import * as complex from 'three-simplicial-complex';
+
+import { Geometry } from 'three';
+
+/*
+ const biotypeCat = {
+              'Protein Coding': ['protein_coding', 'polymorphic_pseudogene', 'IG_V_gene', 'TR_V_gene', 'TR_C_gene', 'TR_J_gene',
+                'TR_D_gene', 'IG_C_gene', 'IG_D_gene', 'IG_J_gene'],
+              'Pseudogene': ['IG_V_pseudogene', 'transcribed_unprocessed_pseudogene', 'processed_pseudogene',
+                'unprocessed_pseudogene', 'transcribed_processed_pseudogene', 'unitary_pseudogene', 'IG_pseudogene',
+                'IG_C_pseudogene', 'IG_J_pseudogene', 'TR_J_pseudogene', 'TR_V_pseudogene', 'transcribed_unitary_pseudogene'],
+              'Long Noncoding': ['antisense', 'sense_intronic', 'lincRNA', 'sense_overlapping', 'processed_transcript',
+                '3prime_overlapping_ncRNA', 'non_coding'],
+              'Short Noncoding': ['rRna', 'misc_RNA', 'pseudogene', 'snoRNA', 'scRNA', 'miRNA', 'snRNA', 'sRNA', 'ribozyme',
+                'scaRNA', 'vaultRNA'],
+              'Other': ['TEC', 'bidirectional_promoter_lncRNA', 'macro_lncRNA']
+            };
+
+            const biotypeMap = Object.keys(biotypeCat).reduce((p, c) => {
+              p = Object.assign(p, biotypeCat[c].reduce((p2, c2) => {
+                p2[c2.toLowerCase()] = c;
+                return p2;
+              }, {}));
+              return p;
+            }, {});
+
+            const bioTypes: Array<string> = Array.from(results.reduce((p, c) => {
+              p.add(c.type.toLowerCase());
+              return p;
+            }, new Set()));
+
+            const scale = (decorator.type === DataDecoratorTypeEnum.SHAPE) ?
+              ChartFactory.getScaleShapeOrdinal(Object.keys(biotypeCat)) :
+              ChartFactory.getScaleColorOrdinal(Object.keys(biotypeCat));
+              */
 // import { ArcCurve, RingBufferGeometry, RingGeometry } from 'three';
 export class ChromosomeGraph extends AbstractVisualization {
+
+    public geneTypeSprites: Array<THREE.Sprite> = [];
 
     public set data(data: ChromosomeDataModel) { this._data = data; }
     public get data(): ChromosomeDataModel { return this._data as ChromosomeDataModel; }
     public set config(config: ChromosomeConfigModel) { this._config = config; }
     public get config(): ChromosomeConfigModel { return this._config as ChromosomeConfigModel; }
 
+
+
+
+
     public renderer: DataDecoatorRenderer = (group: THREE.Group, mesh: THREE.Sprite, decorators: Array<DataDecorator>,
         i: number, count: number): void => {
 
-        const circumference = 2 * Math.PI * (count * 0.5);
+        // if (i === 1) {
+        //     const arcShape = new THREE.Shape();
+        //     arcShape.absarc(0.0, 0.0, 10.0, 10.0, 20.0, true);
+        //     const geometry = new THREE.ShapeBufferGeometry(arcShape);
+        //     const m = new THREE.Mesh(geometry, ChartFactory.getColorPhong(0x0000FF));
+        //     group.add(m);
+        // }
+
+
+        // arcShape.absarc(0, 0, 30, group.userData)
+        // arcShape.moveTo(50, 10);
+        // arcShape.absarc(10, 10, 40, 0, Math.PI * 2, false);
+
+
+        // const circumference = 2 * Math.PI * (count * 0.5);
 
 
 
@@ -46,9 +103,10 @@ export class ChromosomeGraph extends AbstractVisualization {
         // const line = new THREE.Line(lineGeom, lineMat);
         // group.add(line);
 
-        mesh.position.setX(-2);
+        // mesh.position.setX(-2);
         const lineMat = new THREE.LineBasicMaterial({ color: mesh.material.color.getHex() });
         const lineGeom = new THREE.Geometry();
+        // const pos = new THREE.Vector3(-group.position.x, -group.position.y, group.position.z);
         lineGeom.vertices.push(
             group.position,
             new THREE.Vector3(0, 0, 0)
@@ -98,141 +156,8 @@ export class ChromosomeGraph extends AbstractVisualization {
     addObjectsLinear(type: EntityTypeEnum): void {
         const propertyId = (this.config.entity === EntityTypeEnum.GENE) ? 'mid' : 'sid';
         const objectIds = this.data[propertyId];
-
-        // this.data.nodes.forEach((node, index) => {
-        //     const group = ChartFactory.createDataGroup(
-        //         objectIds[index], this.config.entity, new THREE.Vector3(node.x, node.y, node.z));
-        //     this.meshes.push(group);
-        //     this.view.scene.add(group);
-        // });
     }
-    circleCompute(genes: Array<any>, chromosome: any): any {
 
-        // const mf = new Set(this.config.markerFilter);
-        // let processedGenes, centro, telem;
-
-
-        // if (this.config.spacingOption === 'Linear') {
-
-        //     const scaleGene = scaleLinear();
-        //     scaleGene.domain([0, genes.length]);
-        //     scaleGene.range([0, 365]);
-
-        //     processedGenes = genes.sort((a, b) => (b.tss - a.tss)).map((v, i) => {
-        //         const angle = scaleGene(i) * Math.PI / 180;
-        //         return Object.assign(v, {
-        //             inSet: mf.has(v.gene),
-        //             sPos: { x: Math.cos(angle), y: Math.sin(angle) },
-        //             ePos: { x: Math.cos(angle), y: Math.sin(angle) }
-        //         });
-        //     });
-
-        //     const tele = processedGenes.findIndex(v => v.arm === 'P');
-
-        //     centro = {
-        //         x: Math.cos(0),
-        //         y: Math.sin(0)
-        //     };
-
-        //     telem = {
-        //         x: Math.cos(scaleGene(tele)),
-        //         y: Math.sin(scaleGene(tele))
-        //     };
-
-        // } else {
-        //     const scaleGene = scaleLinear();
-        //     scaleGene.domain([0, chromosome.Q]);
-        //     scaleGene.range([0, 365]);
-
-        //     processedGenes = genes.map((v, i) => {
-        //         const angle = scaleGene(v.tss) * Math.PI / 180;
-        //         return Object.assign(v, {
-        //             inSet: mf.has(v.gene),
-        //             sPos: { x: Math.cos(angle), y: Math.sin(angle) },
-        //             ePos: { x: Math.cos(angle), y: Math.sin(angle) }
-        //         });
-        //     });
-
-        //     const centroAngle = scaleGene(chromosome.C) * Math.PI / 180;
-        //     centro = {
-        //         x: Math.cos(centroAngle),
-        //         y: Math.sin(centroAngle)
-        //     };
-        //     const telemAngle = scaleGene(chromosome.P) * Math.PI / 180;
-        //     telem = {
-        //         x: Math.cos(telemAngle),
-        //         y: Math.sin(telemAngle)
-        //     };
-        // }
-
-        // let chords = null;
-        // if (this.data.result.chords !== null) {
-        //     const lookup = processedGenes.reduce((p, c) => {
-        //         p[c.gene] = c.sPos;
-        //         return p;
-        //     }, {});
-        //     chords = this.data.result.chords.map(v => {
-        //         return {
-        //             source: lookup[v.source],
-        //             target: lookup[v.target]
-        //         };
-        //     }).filter(v => (v.source && v.target));
-
-        // }
-
-        // return {
-        //     genes: processedGenes,
-        //     chords: chords,
-        //     centro: centro,
-        //     telem: telem
-        // };
-    }
-    circleAddObjects() {
-
-        // const result = this.circleCompute(this.data.result.genes, this.data.result.chromosome);
-
-        // let line;
-
-        // let mesh = ChartFactory.meshAllocate(0x039BE5, ShapeEnum.CIRCLE, 1.5,
-        //     new Vector3(result.centro.x * 145, result.centro.y * 145, 0), {});
-        // this.meshes.push(mesh);
-        // this.group.add(mesh);
-
-        // mesh = ChartFactory.meshAllocate(0x039BE5, ShapeEnum.CIRCLE, 1.5,
-        //     new Vector3(result.telem.x * 145, result.telem.y * 145, 0), {});
-        // this.meshes.push(mesh);
-        // this.group.add(mesh);
-
-        // result.genes.forEach(gene => {
-        //     line = ChartFactory.lineAllocate(this.colorMap[gene.type],
-        //         new THREE.Vector2(gene.sPos.x * (gene.inSet ? 145 : 150), gene.sPos.y * (gene.inSet ? 145 : 150)),
-        //         new THREE.Vector2(gene.ePos.x * (gene.inSet ? 135 : 140), gene.ePos.y * (gene.inSet ? 135 : 140)),
-        //         gene);
-        //     this.meshes.push(line);
-        //     this.group.add(line);
-
-        // });
-
-        // if (result.chords !== null) {
-        //     result.chords.forEach(chord => {
-        //         const x1 = chord.source.x * 135;
-        //         const x2 = chord.target.x * 135;
-        //         const y1 = chord.source.y * 135;
-        //         const y2 = chord.target.y * 135;
-        //         const dist = Math.sqrt(x1 * x2 + y1 * y2);
-        //         line = ChartFactory.lineAllocateCurve(0x039BE5,
-        //             new THREE.Vector2(x1, y1),
-        //             new THREE.Vector2(x2, y2),
-        //             new THREE.Vector2(
-        //                 ((chord.source.x + chord.target.x) / 2) * 120,
-        //                 ((chord.source.y + chord.target.y) / 2) * 120
-        //             )
-        //         );
-        //         this.meshes.push(line);
-        //         this.group.add(line);
-        //     });
-        // }
-    }
     addObjectsCircular(type: EntityTypeEnum): void {
 
         let scale = scaleLinear();
@@ -255,81 +180,35 @@ export class ChromosomeGraph extends AbstractVisualization {
         centro = { x: Math.cos(0), y: Math.sin(0) };
         telem = { x: Math.cos(scale(tele)), y: Math.sin(scale(tele)) };
 
-        // //const geometry = new RingBufferGeometry(300, 301, 500);
-        // const geometry = new RingGeometry(300, 301, 500);
-        // for (let i = 0; i < geometry.vertices.length; i += 2) {
-        //     geometry.colors[i] = new THREE.Color(Math.random(), Math.random(), Math.random());
-        //     geometry.colors[i + 1] = geometry.colors[i];
-        // }
-
-        // const material = new THREE.LineBasicMaterial({
-        //     color: 0xffffff,
-        //     vertexColors: THREE.VertexColors
-        // });
-
-
-        // const line = new THREE.LineSegments(geometry, material);
-        // this.view.scene.add(line);
-
-        // } else {
-        // const scaleGene = scaleLinear();
-        // scaleGene.domain([0, chromosome.Q]);
-
-        // processedGenes = genes.map((v, i) => {
-        //     const angle = scaleGene(v.tss) * Math.PI / 180;
-        //     return Object.assign(v, {
-        //         inSet: mf.has(v.gene),
-        //         sPos: { x: Math.cos(angle), y: Math.sin(angle) },
-        //         ePos: { x: Math.cos(angle), y: Math.sin(angle) }
-        //     });
-        // });
-
-        // const centroAngle = scaleGene(chromosome.C) * Math.PI / 180;
-        // centro = {
-        //     x: Math.cos(centroAngle),
-        //     y: Math.sin(centroAngle)
-        // };
-        // const telemAngle = scaleGene(chromosome.P) * Math.PI / 180;
-        // telem = {
-        //     x: Math.cos(telemAngle),
-        //     y: Math.sin(telemAngle)
-        // };
-        // }
-
         const l = geneData.length * 0.5;
-        geneData.forEach(gene => {
+        geneData.forEach((gene, i) => {
             const group = ChartFactory.createDataGroup(
                 gene.gene, EntityTypeEnum.GENE, new THREE.Vector3(gene.sPos.x * l, gene.sPos.y * l, 0));
-            group.userData.pos = gene.pos;
-
-            this.createArc(100, 500, geneData.length);
+            group.userData.pos = gene.sPos;
             this.view.scene.add(group);
             this.meshes.push(group);
         });
+
+        const colorScale = ChartFactory.getScaleColorOrdinal(Object.keys(DataService.biotypeCat));
+        const shapeScale = ChartFactory.getScaleShapeOrdinal(Object.keys(DataService.biotypeCat));
+
+        geneData.forEach((gene, i) => {
+            const materialSprite = ChartFactory.getSpriteMaterial(shapeScale(type), colorScale(gene.type));
+            const mesh: THREE.Sprite = new THREE.Sprite(materialSprite);
+            mesh.position.set(gene.sPos.x * (l + 5), gene.sPos.y * (l + 5), 0);
+            this.geneTypeSprites.push(mesh);
+            this.view.scene.add(mesh);
+        });
         this.view.camera.position.setZ(l * 6);
-        // ChartFactory.decorateDataGroups(this.meshes, this.decorators, this.renderer);
+        ChartFactory.decorateDataGroups(this.meshes, this.decorators, this.renderer);
     }
 
-    createArc(innerRadius: number, outerRadius: number, slices: number): THREE.Shape {
-
-        const rad = (360 / slices) * (Math.PI / 180);
-
-        const a = arc()
-            .innerRadius(innerRadius)
-            .outerRadius(outerRadius);
-
-        const b = a.startAngle(0);
-        const c = a.endAngle(rad);
-
-        debugger;
-        // const arc = new THREE.Shape();
-        // arc.c
-        // return arc;
-    }
 
     removeObjects(): void {
         this.view.scene.remove(...this.meshes);
+        this.view.scene.remove(...this.geneTypeSprites);
         this.meshes.length = 0;
+        this.geneTypeSprites.length = 0;
     }
 
     onMouseDown(e: ChartEvent): void { }

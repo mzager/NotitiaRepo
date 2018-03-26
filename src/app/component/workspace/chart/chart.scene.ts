@@ -110,7 +110,8 @@ export class ChartScene {
         this.container = container;
         this.renderer = new WebGLRenderer({ antialias: true, alpha: false, preserveDrawingBuffer: true });
         this.renderer.setSize(dimension.width, dimension.height);
-        this.renderer.setPixelRatio(window.devicePixelRatio);
+        // this.renderer.setPixelRatio(window.devicePixelRatio);
+        this.renderer.setPixelRatio(1);
         this.renderer.setClearColor(0xffffff, 1);
         this.renderer.autoClear = false;
         this.renderer.localClippingEnabled = true;
