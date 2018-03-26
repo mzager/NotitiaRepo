@@ -465,7 +465,6 @@ export class DataService {
               const stats = bins.map((v, j) => ({ label: Math.round(first + (j * binWidth)).toString(), value: v }));
               return Object.assign(f, { stat: stats });
             });
-
             resolve(num.concat(cat));
           });
         });
