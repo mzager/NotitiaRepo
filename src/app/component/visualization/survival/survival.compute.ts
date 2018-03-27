@@ -29,7 +29,7 @@ export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWo
                     .map(v => [parseFloat(v), survivalResult.confidence['KM_estimate_lower_0.95'][v]])
                     .sort((a, b) => a[0] - b[0]);
 
-                const range = [results[0][0], result[results.length - 1][0]];
+                const range = [results[0][0], results[results.length - 1][0]];
 
                 worker.postMessage({
                     config: config,
