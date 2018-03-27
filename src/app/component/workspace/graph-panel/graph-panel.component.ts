@@ -186,18 +186,13 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.help.emit(this.config);
   }
 
-
-  // if (document.getElementById('selectID').value == '1') {
-  //   document.getElementById('optionID').style.color = '#000';
-
   onCohortChange($event: Event) {
-    if ($event.target['selectedOptions'][0].text === 'Customize') {
-      debugger;
-      $event.target['selectedOptions'][0].text.fontcolor('#039be5');
+    if ($event.target['value'] === 'customize') {
       this.showPanel.emit(PanelEnum.COHORT);
       $event.preventDefault();
       return;
     }
+
     const selected = this.cohorts.find(v => v.n === $event.target['value']);
     this.config.patientFilter = selected.pids;
     this.config.sampleFilter = selected.sids;
@@ -205,7 +200,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.configChange.emit(this.config);
   }
   onGenesetChange($event: Event) {
-    if ($event.target['selectedOptions'][0].text === 'Customize') {
+    if ($event.target['value'] === 'customize') {
       this.showPanel.emit(PanelEnum.GENESET);
       $event.preventDefault();
       return;
