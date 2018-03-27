@@ -12,16 +12,6 @@ import * as _ from 'lodash';
   template: `
 <form [formGroup]='form' novalidate>
 <div class='form-group'>
-  <label class='center-block'><span class='form-label'>Continuous Variable</span>
-    <select materialize='material_select'
-        [compareWith]='byKey'
-        [materializeSelectOptions]='continuousOptions' formControlName='continuousVariable'>
-        <option *ngFor='let option of continuousOptions'
-          [ngValue]='option'>{{option.label}}</option>
-    </select>
-  </label>
-</div>
-<div class='form-group'>
 <label class='center-block'><span class='form-label'>Sort</span>
   <select materialize='material_select'
       [compareWith]='byKey'
@@ -32,6 +22,7 @@ import * as _ from 'lodash';
   </select>
 </label>
 </div>
+<!--
 <div class='form-group'>
   <div class='switch'>
     <label>
@@ -68,6 +59,7 @@ import * as _ from 'lodash';
     </label>
   </div>
 </div>
+-->
 </form>
   `
 })
