@@ -28513,7 +28513,7 @@ exports.survivalCompute = function (config, worker) {
             var lower = Object.keys(survivalResult.confidence['KM_estimate_lower_0.95'])
                 .map(function (v) { return [parseFloat(v), survivalResult.confidence['KM_estimate_lower_0.95'][v]]; })
                 .sort(function (a, b) { return a[0] - b[0]; });
-            var range = [results[0][0], result[results.length - 1][0]];
+            var range = [results[0][0], results[results.length - 1][0]];
             worker.postMessage({
                 config: config,
                 data: {
