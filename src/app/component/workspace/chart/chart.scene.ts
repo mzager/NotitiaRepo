@@ -1,3 +1,4 @@
+import { BoxWhiskersGraph } from './../../visualization/boxwhiskers/boxwhiskers.graph';
 // tslint:disable-next-line:max-line-length
 import { QuadradicDiscriminantAnalysisGraph } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis';
 import { DataDecorator } from './../../../model/data-map.model';
@@ -10,7 +11,6 @@ import { PathwaysGraph } from './../../visualization/pathways/pathways.graph';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { TimelinesGraph } from './../../visualization/timelines/timelines.graph';
 import { HicGraph } from './../../visualization/hic/hic.graph';
-import { BoxWhisterksGraph } from './../../visualization/boxwhiskers/boxwhiskers.graph';
 import { ParallelCoordsGraph } from './../../visualization/parallelcoords/parallelcoords.graph';
 import { GenomeGraph } from './../../visualization/genome/genome.graph';
 import * as TWEEN from 'tween.js';
@@ -109,8 +109,8 @@ export class ChartScene {
         const dimension: ClientRect = container.getBoundingClientRect();
         this.container = container;
         this.renderer = new WebGLRenderer({ antialias: true, alpha: false, preserveDrawingBuffer: true });
-        this.renderer.setSize(dimension.width, dimension.height);
-        // this.renderer.setPixelRatio(window.devicePixelRatio);
+        // this.renderer.setSize(dimension.width, dimension.height);
+        this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setPixelRatio(1);
         this.renderer.setClearColor(0xffffff, 1);
         this.renderer.autoClear = false;
@@ -377,7 +377,7 @@ export class ChartScene {
             case VisualizationEnum.LINKED_GENE: return new LinkedGeneGraph();
             case VisualizationEnum.HIC: return new HicGraph();
             case VisualizationEnum.PARALLEL_COORDS: return new ParallelCoordsGraph();
-            case VisualizationEnum.BOX_WHISKERS: return new BoxWhisterksGraph();
+            case VisualizationEnum.BOX_WHISKERS: return new BoxWhiskersGraph();
             case VisualizationEnum.SOM: return new SomGraph();
             case VisualizationEnum.TRUNCATED_SVD: return new TruncatedSvdGraph();
             case VisualizationEnum.FAST_ICA: return new FastIcaGraph();

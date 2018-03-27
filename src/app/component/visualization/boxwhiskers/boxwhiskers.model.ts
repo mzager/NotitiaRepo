@@ -8,7 +8,7 @@ export class BoxWhiskersConfigModel extends GraphConfig {
 
     constructor() {
         super();
-        this.entity = EntityTypeEnum.GENE;
+        this.entity = EntityTypeEnum.SAMPLE;
         this.visualization = VisualizationEnum.BOX_WHISKERS;
         this.label = 'Box & Whiskers';
     }
