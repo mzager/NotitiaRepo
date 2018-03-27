@@ -37,15 +37,15 @@ export let reducers = {
   spreadsheet: fromSpreadsheet.reducer
 };
 
-const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
+// const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
 const productionReducer: ActionReducer<State> = combineReducers(reducers);
 
 export function reducer(state: State, action: any) {
-  if (environment.production) {
-    return productionReducer(state, action);
-  } else {
-    return developmentReducer(state, action);
-  }
+  // if (environment.production) {
+  return productionReducer(state, action);
+  // } else {
+  //   return developmentReducer(state, action);
+  // }
 }
 
 /**

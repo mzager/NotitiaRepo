@@ -22,7 +22,7 @@ export class BoxWhiskersGraph extends AbstractVisualization {
     public get config(): BoxWhiskersConfigModel { return this._config as BoxWhiskersConfigModel; }
 
     public globalMeshes: Array<THREE.Object3D>;
-    public lines: Array<THREE.Line>;
+    public lines: Array<THREE.Line | THREE.Mesh>;
     public bars: Array<THREE.Mesh>;
     public entityWidth = 6;
 
@@ -94,7 +94,7 @@ export class BoxWhiskersGraph extends AbstractVisualization {
 
                 const xPos = xOffset + (this.entityWidth * index);
                 const group = ChartFactory.createDataGroup(
-                    objectIds[index], this.config.entity, new THREE.Vector3(xPos, median, 0));
+                    objectIds[index], this.config.entity, new THREE.Vector3(xPos, median, 0.02));
                 this.meshes.push(group);
                 this.view.scene.add(group);
 
@@ -116,15 +116,15 @@ export class BoxWhiskersGraph extends AbstractVisualization {
 
                 const q1Box = ChartFactory.planeAllocate(0x029BE5, this.entityWidth, q1Height, {});
                 q1Box.position.set(xPos, median - (q1Height * .5), 0);
-                q1Box.material.opacity = 0.8;
-                q1Box.material.transparent = true;
+                (q1Box.material as MeshPhongMaterial).opacity = 0.8;
+                (q1Box.material as MeshPhongMaterial).transparent = true;
                 this.bars.push(q1Box);
                 this.view.scene.add(q1Box);
 
                 const q2Box = ChartFactory.planeAllocate(0x029BE5, this.entityWidth, q2Height, {});
                 q2Box.position.set(xPos, median + (q2Height * .5), 0);
-                q2Box.material.opacity = 0.8;
-                q2Box.material.transparent = true;
+                (q2Box.material as MeshPhongMaterial).opacity = 0.8;
+                (q2Box.material as MeshPhongMaterial).transparent = true;
                 this.bars.push(q2Box);
                 this.view.scene.add(q2Box);
 
@@ -138,11 +138,11 @@ export class BoxWhiskersGraph extends AbstractVisualization {
         const chromosomeLine = new MeshLine();
         chromosomeLine.setGeometry(path.createPointsGeometry(this.data.result.length * 10));
         const chromosomeMesh = new THREE.Mesh(chromosomeLine.geometry,
-            ChartFactory.getMeshLine(0xffffff, 3));
-        chromosomeMesh.material.opacity = .5;
-        chromosomeMesh.material.transparent = true;
+            ChartFactory.getMeshLine(0xEEEEEE, 3));
+        (chromosomeMesh.material as MeshPhongMaterial).opacity = .5;
+        (chromosomeMesh.material as MeshPhongMaterial).transparent = true;
         chromosomeMesh.frustumCulled = false;
-        chromosomeMesh.position.setZ(1);
+        chromosomeMesh.position.setZ(0.01);
         this.lines.push(chromosomeMesh);
         this.view.scene.add(chromosomeMesh);
 
