@@ -44,9 +44,6 @@ export class SurvivalFormComponent implements OnDestroy {
       patientFilter: [],
       patientSelect: [],
       pointData: [],
-      pointColor: [],
-      pointShape: [],
-      pointSize: [],
 
       censorEvent: [],
       cohorts: []
