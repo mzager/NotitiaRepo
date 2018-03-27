@@ -11,6 +11,15 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 <form [formGroup]='form' novalidate>
+<div class='form-group'>
+    <label class='center-block'><span class='form-label'>Data</span>
+      <select materialize='material_select'
+        [compareWith]='byKey'
+        formControlName='table'>
+        <option *ngFor='let option of dataOptions'>{{option.label}}</option>
+      </select>
+    </label>
+  </div>
   <div class='form-group'>
     <label class='center-block'><span class='form-label'>Chromosomes</span>
       <select materialize='material_select'
@@ -52,16 +61,6 @@ import * as _ from 'lodash';
     </label>
   </div>
   <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Gene Color</span>
-      <select materialize='material_select'
-          [compareWith]='byKey'
-          [materializeSelectOptions]='colorOptions'
-          formControlName='pointColor'>
-          <option *ngFor='let option of colorOptions' [ngValue]='option'>{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
   <label class='center-block'><span class='form-label'>Chords</span>
     <select materialize='material_select'
         [compareWith]='byKey'
@@ -84,6 +83,10 @@ export class ChromosomeFormComponent {
     this.shapeOptions = DataFieldFactory.getSampleShapeFields(fields, EntityTypeEnum.GENE);
     this.sizeOptions = DataFieldFactory.getSampleSizeFields(fields, EntityTypeEnum.GENE);
   }
+  @Input() set tables(tables: Array<DataTable>) {
+    this.dataOptions = tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0));
+  }
+
 
   @Input() set config(v: ChromosomeConfigModel) {
     if (v === null) { return; }
@@ -96,6 +99,7 @@ export class ChromosomeFormComponent {
   colorOptions: Array<DataField>;
   shapeOptions: Array<DataField>;
   sizeOptions: Array<DataField>;
+  dataOptions: Array<DataTable>;
   dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D];
   layoutOptions = ['Circle', 'Line'];
   spacingOptions = ['Translational Start Site', 'Linear'];
@@ -151,9 +155,7 @@ export class ChromosomeFormComponent {
       patientFilter: [],
       patientSelect: [],
       table: [],
-      pointColor: [],
-      pointShape: [],
-      pointSize: [],
+
       dimension: [],
       chromosome: [],
       allowRotation: [],
@@ -168,14 +170,8 @@ export class ChromosomeFormComponent {
       .debounceTime(200)
       .distinctUntilChanged()
       .subscribe(data => {
-        let dirty = 0;
         const form = this.form;
-        if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
-        // if (form.get('pointShape').dirty) { dirty |= DirtyEnum.SHAPE; }
-        if (form.get('pointSize').dirty) { dirty |= DirtyEnum.SIZE; }
-        if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
         form.markAsPristine();
-        data.dirtyFlag = dirty;
         this.configChange.emit(data);
       });
   }

@@ -12,47 +12,6 @@ import * as _ from 'lodash';
   template: `
 <form [formGroup]='form' novalidate>
 <div class='form-group'>
-  <label class='center-block'><span class='form-label'>Continuous Variable</span>
-    <select materialize='material_select'
-        [compareWith]='byKey'
-        [materializeSelectOptions]='continuousOptions' formControlName='continuousVariable'>
-        <option *ngFor='let option of continuousOptions'
-          [ngValue]='option'>{{option.label}}</option>
-    </select>
-  </label>
-</div>
-<div class='form-group'>
-  <label class='center-block'><span class='form-label'>Categoricial Variable 1</span>
-    <select materialize='material_select'
-        [compareWith]='byKey'
-        [materializeSelectOptions]='categoricalOptions' formControlName='categoricalVariable1'>
-        <option *ngFor='let option of categoricalOptions'
-          [ngValue]='option'>{{option.label}}</option>
-    </select>
-  </label>
-</div>
-<div class='form-group'>
-  <label class='center-block'><span class='form-label'>Categoricial Variable 2</span>
-    <select materialize='material_select'
-        [compareWith]='byKey'
-        [materializeSelectOptions]='categoricalOptions' formControlName='categoricalVariable2'>
-        <option *ngFor='let option of categoricalOptions'
-          [ngValue]='option'>{{option.label}}</option>
-    </select>
-  </label>
-</div>
-<div class='form-group'>
-  <label class='center-block'><span class='form-label'>Color</span>
-    <select materialize='material_select'
-        [compareWith]='byKey'
-        [materializeSelectOptions]='colorOptions'
-        formControlName='pointColor'>
-        <option *ngFor='let option of colorOptions'
-          [ngValue]='option'>{{option.label}}</option>
-    </select>
-  </label>
-</div>
-<div class='form-group'>
 <label class='center-block'><span class='form-label'>Sort</span>
   <select materialize='material_select'
       [compareWith]='byKey'
@@ -63,6 +22,7 @@ import * as _ from 'lodash';
   </select>
 </label>
 </div>
+<!--
 <div class='form-group'>
   <div class='switch'>
     <label>
@@ -99,6 +59,7 @@ import * as _ from 'lodash';
     </label>
   </div>
 </div>
+-->
 </form>
   `
 })
@@ -170,8 +131,7 @@ export class BoxWhiskersFormComponent {
       .subscribe(data => {
         let dirty = 0;
         const form = this.form;
-        if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
-        if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
+        if (form.get('sort').dirty) { dirty |= DirtyEnum.NO_COMPUTE; }
         form.markAsPristine();
         data.dirtyFlag = dirty;
         this.configChange.emit(data);

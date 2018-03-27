@@ -72,7 +72,7 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
     // this.fileOpen.next(evt.target);
   }
   print() {
-    window.print();
+    // window.print();
   }
 
   exportImage() {
