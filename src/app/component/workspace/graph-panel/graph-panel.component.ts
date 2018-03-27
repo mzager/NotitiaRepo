@@ -40,7 +40,7 @@ import { PlsConfigModel } from './../../visualization/pls/pls.model';
 import { PcaConfigModel } from './../../visualization/pca/pca.model';
 import { ChromosomeConfigModel } from './../../visualization/chromosome/chromosome.model';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { EntityTypeEnum, GraphPanelEnum } from './../../../model/enum.model';
+import { EntityTypeEnum, GraphPanelEnum, PanelEnum } from './../../../model/enum.model';
 import { DataField } from 'app/model/data-field.model';
 import {
   Component, Input, Output, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy,
@@ -51,6 +51,7 @@ import { Legend } from 'app/model/legend.model';
 import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
 import { GraphData } from 'app/model/graph-data.model';
 import { Subscription } from 'rxjs/Subscription';
+import { Cohort } from '../../../model/cohort.model';
 declare var $: any;
 
 @Component({
@@ -77,7 +78,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Input() data: GraphData;
   @Output() hide: EventEmitter<any> = new EventEmitter();
   @Output() help: EventEmitter<GraphConfig> = new EventEmitter();
-  @Output() showPanel: EventEmitter<GraphPanelEnum> = new EventEmitter();
+  @Output() showPanel: EventEmitter<PanelEnum> = new EventEmitter();
   @Output() configChange: EventEmitter<GraphConfig> = new EventEmitter();
   @Output() selectClusteringAlgorithm: EventEmitter<GraphConfig> = new EventEmitter();
   @Output() selectGeneSignature: EventEmitter<GraphConfig> = new EventEmitter();
@@ -165,11 +166,12 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   methodOptions: Array<any>;
   methodOption: any;
 
-  toggleBackgroundClick(): void {
-    const isBlack = ChartScene.instance.renderer.getClearColor().r === 0;
-    ChartScene.instance.renderer.setClearColor(isBlack ? 0xFFFFFF : 0x000000, 1);
-    ChartScene.instance.render();
-  }
+  // moved to global
+  // toggleBackgroundClick(): void {
+  //   const isBlack = ChartScene.instance.renderer.getClearColor().r === 0;
+  //   ChartScene.instance.renderer.setClearColor(isBlack ? 0xFFFFFF : 0x000000, 1);
+  //   ChartScene.instance.render();
+  // }
   toggleClick(): void {
 
     if (this.panel.nativeElement.classList.contains('graphPanelCollapsed')) {
@@ -183,7 +185,18 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   helpClick(): void {
     this.help.emit(this.config);
   }
+
+
+  // if (document.getElementById('selectID').value == '1') {
+  //   document.getElementById('optionID').style.color = '#000';
+
   onCohortChange($event: Event) {
+    if ($event.target['value'] === 'add') {
+      this.showPanel.emit(PanelEnum.COHORT);
+      $event.preventDefault();
+      return;
+    }
+
     const selected = this.cohorts.find(v => v.n === $event.target['value']);
     this.config.patientFilter = selected.pids;
     this.config.sampleFilter = selected.sids;
@@ -191,6 +204,12 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.configChange.emit(this.config);
   }
   onGenesetChange($event: Event) {
+    if ($event.target['selectedOptions'][0].text === 'Customize') {
+      this.showPanel.emit(PanelEnum.GENESET);
+      $event.preventDefault();
+      return;
+    }
+
     const selected = this.genesets.find(v => v.n === $event.target['value']);
     this.config.markerFilter = selected.g;
     this.config.dirtyFlag = DirtyEnum.LAYOUT;
