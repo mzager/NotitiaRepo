@@ -16,7 +16,6 @@ import { GenomeGraph } from './../../visualization/genome/genome.graph';
 import * as TWEEN from 'tween.js';
 import { LinkedGeneGraph } from './../../visualization/linkedgenes/linkedgenes.graph';
 import { ChartFactory } from './chart.factory';
-import { element } from 'protractor';
 import { EdgeConfigModel } from './../../visualization/edges/edges.model';
 import { PcaIncrementalGraph } from './../../visualization/pcaincremental/pcaincremental.graph';
 import { PcaSparseGraph } from './../../visualization/pcasparse/pcasparse.graph';
@@ -111,7 +110,7 @@ export class ChartScene {
         this.renderer = new WebGLRenderer({ antialias: true, alpha: false, preserveDrawingBuffer: true });
         // this.renderer.setSize(dimension.width, dimension.height);
         this.renderer.setPixelRatio(window.devicePixelRatio);
-        this.renderer.setPixelRatio(1);
+        // this.renderer.setPixelRatio(1);
         this.renderer.setClearColor(0xffffff, 1);
         this.renderer.autoClear = false;
         this.renderer.localClippingEnabled = true;

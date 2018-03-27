@@ -5,19 +5,18 @@ export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWo
 
     worker.util.getPatientData([], config.database, 'patient')
         .then(result => {
-
-            const p = result.map(v => v.p);
             const e = result.map(v => (v.vital_status === 'dead') ? 1 : 0);
             const t = result.map(v => (v.vital_status === 'dead') ?
                 v.days_to_death : v.days_to_last_follow_up)
                 .map(v => (v === null) ? 0 : v);
-
+            const p = result.map((v, i) => ({ p: v.p, e: e[i], t: t[i] }));
             worker.util.fetchResult({
                 method: 'survival_ll_kaplan_meier',
                 times: t,
                 events: e
             }).then((survivalResult) => {
-
+                const ea = e;
+                const et = t;
                 const results = Object.keys(survivalResult.result.KM_estimate)
                     .map(v => [parseFloat(v), survivalResult.result.KM_estimate[v]])
                     .sort((a, b) => a[0] - b[0]);
@@ -30,7 +29,8 @@ export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWo
                     .map(v => [parseFloat(v), survivalResult.confidence['KM_estimate_lower_0.95'][v]])
                     .sort((a, b) => a[0] - b[0]);
 
-                const range = [result[0][0], result[result.length - 1][0]];
+                const range = [results[0][0], result[results.length - 1][0]];
+
                 worker.postMessage({
                     config: config,
                     data: {
@@ -45,7 +45,8 @@ export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWo
                                         lower: lower
                                     },
                                     median: survivalResult.median,
-                                    timeRange: range
+                                    timeRange: range,
+                                    p: p
                                 }
                             ]
                         }
@@ -53,6 +54,5 @@ export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWo
                 });
                 worker.postMessage('TERMINATE');
             });
-
         });
 };

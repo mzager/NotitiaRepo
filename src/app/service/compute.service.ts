@@ -157,6 +157,10 @@ export class ComputeService {
     execute(config: GraphConfig, subject: Subject<any>): Observable<any> {
 
         // If user requests no computation, just pass the config through
+        // if (config.dirtyFlag === DirtyEnum.NO_COMPUTE) {
+        //     this.getSubjectByVisualization(config.visualization).next(null);
+        // }
+
         switch (config.graph) {
             case GraphEnum.GRAPH_A:
                 if (this.workerA !== null) {
