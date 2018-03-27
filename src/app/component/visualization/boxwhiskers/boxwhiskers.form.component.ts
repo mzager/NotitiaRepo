@@ -131,8 +131,7 @@ export class BoxWhiskersFormComponent {
       .subscribe(data => {
         let dirty = 0;
         const form = this.form;
-        if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
-        if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
+        if (form.get('sort').dirty) { dirty |= DirtyEnum.NO_COMPUTE; }
         form.markAsPristine();
         data.dirtyFlag = dirty;
         this.configChange.emit(data);

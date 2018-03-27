@@ -193,7 +193,7 @@ export class ChartFactory {
         line.material = this.getLineColor(color);
         const curve = new THREE.SplineCurve([pt1, pt3, pt2]);
         const path = new THREE.Path(curve.getPoints(50));
-        const pts = path.getPoints();
+        const pts = path.getPoints().map(v => new Vector3(v.x, v.y, 0));
         const geometry = new THREE.BufferGeometry().setFromPoints(pts);
         line.geometry = geometry;
         return line;
