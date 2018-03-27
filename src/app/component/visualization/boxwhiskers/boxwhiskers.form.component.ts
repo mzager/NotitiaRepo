@@ -22,37 +22,6 @@ import * as _ from 'lodash';
   </label>
 </div>
 <div class='form-group'>
-  <label class='center-block'><span class='form-label'>Categoricial Variable 1</span>
-    <select materialize='material_select'
-        [compareWith]='byKey'
-        [materializeSelectOptions]='categoricalOptions' formControlName='categoricalVariable1'>
-        <option *ngFor='let option of categoricalOptions'
-          [ngValue]='option'>{{option.label}}</option>
-    </select>
-  </label>
-</div>
-<div class='form-group'>
-  <label class='center-block'><span class='form-label'>Categoricial Variable 2</span>
-    <select materialize='material_select'
-        [compareWith]='byKey'
-        [materializeSelectOptions]='categoricalOptions' formControlName='categoricalVariable2'>
-        <option *ngFor='let option of categoricalOptions'
-          [ngValue]='option'>{{option.label}}</option>
-    </select>
-  </label>
-</div>
-<div class='form-group'>
-  <label class='center-block'><span class='form-label'>Color</span>
-    <select materialize='material_select'
-        [compareWith]='byKey'
-        [materializeSelectOptions]='colorOptions'
-        formControlName='pointColor'>
-        <option *ngFor='let option of colorOptions'
-          [ngValue]='option'>{{option.label}}</option>
-    </select>
-  </label>
-</div>
-<div class='form-group'>
 <label class='center-block'><span class='form-label'>Sort</span>
   <select materialize='material_select'
       [compareWith]='byKey'

@@ -1068,8 +1068,8 @@ export class ComputeWorkerUtil {
             'Access-Control-Allow-Origin': '*'
         };
 
-        return fetch('http://oncoscape-opencpu.sttrcancer.io/py', {
-            // return fetch('http://python.os.sttrcancer.io/py', {
+        // return fetch('http://oncoscape-opencpu.sttrcancer.io/py', {
+            return fetch('https://python.os.sttrcancer.io/py', {
             // python.os.sttrcancer.io/py
             // return fetch('http://localhost:5000/py', {
             headers: headers,

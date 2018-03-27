@@ -21921,8 +21921,8 @@ var ComputeWorkerUtil = /** @class */ (function () {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'
         };
-        return fetch('http://oncoscape-opencpu.sttrcancer.io/py', {
-            // return fetch('http://python.os.sttrcancer.io/py', {
+        // return fetch('http://oncoscape-opencpu.sttrcancer.io/py', {
+        return fetch('https://python.os.sttrcancer.io/py', {
             // python.os.sttrcancer.io/py
             // return fetch('http://localhost:5000/py', {
             headers: headers,
@@ -41233,54 +41233,54 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var _ = __webpack_require__(30);
 var JStat = __webpack_require__(390);
 exports.boxwhiskersCompute = function (config, worker) {
-    worker.util.processShapeColorSizeIntersect(config, worker);
-    if (config.dirtyFlag & 0 /* LAYOUT */) {
-        if (config.continuousVariable.tbl !== null && config.categoricalVariable1.tbl !== null) {
-            // Continuous Molecular
-            if (config.continuousVariable.ctype & 34808 /* MOLECULAR */) {
-                worker.util
-                    .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
-                    .then(function (mtx) {
-                    worker.postMessage('TERMINATE');
-                });
-            }
-            if (config.continuousVariable.ctype & 4 /* PATIENT */) {
-                worker.util.getPatientData(config.sampleFilter, config.database, config.continuousVariable.tbl)
-                    .then(function (data) {
-                });
-            }
-        }
-        else {
+    // worker.util.processShapeColorSizeIntersect(config, worker);
+    // if (config.dirtyFlag & DirtyEnum.LAYOUT) {
+    if (config.continuousVariable.tbl !== null && config.categoricalVariable1.tbl !== null) {
+        // Continuous Molecular
+        if (config.continuousVariable.ctype & 34808 /* MOLECULAR */) {
             worker.util
                 .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
                 .then(function (mtx) {
-                worker.util.getSamplePatientMap(config.database).then(function (result) {
-                    // Transpose To Show Patients
-                    mtx.data = _.zip.apply(_, mtx.data);
-                    var psMap = result.reduce(function (p, c) { p[c.s] = c.p; return p; }, {});
-                    var data = mtx.data.map(function (datum) { return ({
-                        median: JStat.median(datum),
-                        quartiles: JStat.quartiles(datum),
-                        min: JStat.min(datum),
-                        max: JStat.max(datum)
-                    }); });
-                    worker.postMessage({
-                        config: config,
-                        data: {
-                            legendItems: [],
-                            result: data,
-                            min: JStat.min(data.map(function (v) { return v.min; })),
-                            max: JStat.max(data.map(function (v) { return v.max; })),
-                            patientIds: mtx.samples.map(function (v) { return psMap[v]; }),
-                            sampleIds: mtx.samples,
-                            markerIds: mtx.markers
-                        }
-                    });
-                    worker.postMessage('TERMINATE');
-                });
+                worker.postMessage('TERMINATE');
+            });
+        }
+        if (config.continuousVariable.ctype & 4 /* PATIENT */) {
+            worker.util.getPatientData(config.sampleFilter, config.database, config.continuousVariable.tbl)
+                .then(function (data) {
             });
         }
     }
+    else {
+        worker.util
+            .getMatrix(config.markerFilter, config.sampleFilter, config.table.map, config.database, config.table.tbl, config.entity)
+            .then(function (mtx) {
+            worker.util.getSamplePatientMap(config.database).then(function (result) {
+                // Transpose To Show Patients
+                mtx.data = _.zip.apply(_, mtx.data);
+                var psMap = result.reduce(function (p, c) { p[c.s] = c.p; return p; }, {});
+                var data = mtx.data.map(function (datum) { return ({
+                    median: JStat.median(datum),
+                    quartiles: JStat.quartiles(datum),
+                    min: JStat.min(datum),
+                    max: JStat.max(datum)
+                }); });
+                worker.postMessage({
+                    config: config,
+                    data: {
+                        legendItems: [],
+                        result: data,
+                        min: JStat.min(data.map(function (v) { return v.min; })),
+                        max: JStat.max(data.map(function (v) { return v.max; })),
+                        patientIds: mtx.samples.map(function (v) { return psMap[v]; }),
+                        sampleIds: mtx.samples,
+                        markerIds: mtx.markers
+                    }
+                });
+                worker.postMessage('TERMINATE');
+            });
+        });
+    }
+    // }
 };
 
 
