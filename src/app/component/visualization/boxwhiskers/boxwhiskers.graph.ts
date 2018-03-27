@@ -135,10 +135,15 @@ export class BoxWhiskersGraph extends AbstractVisualization {
         curve['type'] = 'chordal';
         const path = new THREE.CurvePath();
         path.add(curve);
+
+        const geo = new THREE.Geometry().setFromPoints(curve.getPoints(this.data.result.length));
         const chromosomeLine = new MeshLine();
-        chromosomeLine.setGeometry(path.createPointsGeometry(this.data.result.length * 10));
+        chromosomeLine.setGeometry(geo);
+        //     path.createPointsGeometry(this.data.result.length * 10)
+        // );
         const chromosomeMesh = new THREE.Mesh(chromosomeLine.geometry,
             ChartFactory.getMeshLine(0xEEEEEE, 3));
+
         (chromosomeMesh.material as MeshPhongMaterial).opacity = .5;
         (chromosomeMesh.material as MeshPhongMaterial).transparent = true;
         chromosomeMesh.frustumCulled = false;

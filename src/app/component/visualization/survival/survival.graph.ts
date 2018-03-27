@@ -105,7 +105,7 @@ export class SurvivalGraph extends AbstractVisualization {
         //     this.meshes.push(group);
         //     this.view.scene.add(group);
         // });
-        // ChartFactory.decorateDataGroups(this.meshes, this.decorators);
+        ChartFactory.decorateDataGroups(this.meshes, this.decorators);
     }
 
     removeObjects(): void {
