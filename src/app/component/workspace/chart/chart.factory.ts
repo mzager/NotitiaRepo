@@ -90,7 +90,7 @@ export class ChartFactory {
         return group;
     }
     public static decorateDataGroups(groups: Array<THREE.Group>, decorators: Array<DataDecorator>,
-        renderer: DataDecoatorRenderer = null): void {
+        renderer: DataDecoatorRenderer = null, scale: number = 2): void {
 
         // Retrieve Id
         if (groups.length === 0) { return; }
@@ -130,7 +130,6 @@ export class ChartFactory {
             const spriteMaterial = ChartFactory.getSpriteMaterial((shapeMap) ? shapeMap[id] : ShapeEnum.CIRCLE, color);
             spriteMaterial.opacity = 0.8;
             // const scale = ((sizeMap) ? sizeMap[id] : 1) * 2;
-            const scale = 3;
             const mesh: THREE.Sprite = new THREE.Sprite(spriteMaterial);
             mesh.scale.set(scale, scale, scale);
             mesh.userData.tooltip = id;
@@ -159,6 +158,7 @@ export class ChartFactory {
         });
     }
 
+
     // --------------------- Old ------------------------ //
 
     // Mesh Pool
@@ -179,7 +179,12 @@ export class ChartFactory {
         this.meshPool.length = 0;
     }
 
-    // Line Pool
+    public static planeAllocate(color: number, width: number, height: number, data): THREE.Mesh {
+        const geo = new THREE.PlaneGeometry(width, height);
+        const material = this.getColorPhong(color);
+        return new THREE.Mesh(geo, material);
+    }
+
     public static lineRelease(line: THREE.Line): void {
 
     }
@@ -188,7 +193,7 @@ export class ChartFactory {
         line.material = this.getLineColor(color);
         const curve = new THREE.SplineCurve([pt1, pt3, pt2]);
         const path = new THREE.Path(curve.getPoints(50));
-        const pts = path.getPoints();
+        const pts = path.getPoints().map(v => new Vector3(v.x, v.y, 0));
         const geometry = new THREE.BufferGeometry().setFromPoints(pts);
         line.geometry = geometry;
         return line;

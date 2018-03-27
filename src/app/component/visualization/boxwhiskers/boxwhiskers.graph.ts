@@ -1,238 +1,179 @@
+import { MeshLine } from 'three.meshline';
+import { scaleLinear } from 'd3-scale';
+import { BoxWhiskersDataModel, BoxWhiskersConfigModel } from './boxwhiskers.model';
+import { GraphEnum } from 'app/model/enum.model';
+import { EventEmitter } from '@angular/core';
 import { DataDecorator } from './../../../model/data-map.model';
-import { BoxWhiskersConfigModel, BoxWhiskersDataModel } from './boxwhiskers.model';
-import { DirtyEnum } from 'app/model/enum.model';
-// import { Tween, Easing } from 'es6-tween';
-import { Colors, EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
-import { OrbitControls } from 'three-orbitcontrols-ts';
-import { ChartUtil } from './../../workspace/chart/chart.utils';
-import { Subscription } from 'rxjs/Subscription';
+import { EntityTypeEnum } from './../../../model/enum.model';
+import { ChartFactory, DataDecoatorRenderer } from './../../workspace/chart/chart.factory';
+import { GraphConfig } from 'app/model/graph-config.model';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
-import { ChartEvent, ChartEvents } from './../../workspace/chart/chart.events';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { VisualizationView } from './../../../model/chart-view.model';
-import { FontFactory } from './../../../service/font.factory';
-import { Injectable, EventEmitter, Output } from '@angular/core';
-import { ShapeEnum, ColorEnum, GraphEnum, GenomicEnum } from 'app/model/enum.model';
-import { ChartFactory } from './../../workspace/chart/chart.factory';
-import { GraphConfig } from './../../../model/graph-config.model';
-import * as scale from 'd3-scale';
-import * as _ from 'lodash';
+import { ChartEvent, ChartEvents } from './../../workspace/chart/chart.events';
+import { AbstractVisualization } from './../visualization.abstract.component';
 import * as THREE from 'three';
-import { scaleLinear, scaleOrdinal } from 'd3-scale';
+import { Vector2, MeshPhongMaterial, Vector3 } from 'three';
 
-export class BoxWhisterksGraph implements ChartObjectInterface {
+export class BoxWhiskersGraph extends AbstractVisualization {
 
+    public set data(data: BoxWhiskersDataModel) { this._data = data; }
+    public get data(): BoxWhiskersDataModel { return this._data as BoxWhiskersDataModel; }
+    public set config(config: BoxWhiskersConfigModel) { this._config = config; }
+    public get config(): BoxWhiskersConfigModel { return this._config as BoxWhiskersConfigModel; }
 
-    // Emitters
-    public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
-    public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{ type: GraphConfig }>();
-    public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
-        new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
+    public globalMeshes: Array<THREE.Object3D>;
+    public lines: Array<THREE.Line | THREE.Mesh>;
+    public bars: Array<THREE.Mesh>;
+    public entityWidth = 6;
 
-    private overMaterial = new THREE.LineBasicMaterial({ color: 0x039BE5 });
-    private outMaterial = new THREE.LineBasicMaterial({ color: 0xDDDDDD });
+    public renderer: DataDecoatorRenderer = (group: THREE.Group, mesh: THREE.Sprite, decorators: Array<DataDecorator>,
+        i: number, count: number): void => {
 
+        const color = mesh.material.color.getHex();
+        mesh.material.color.setHex(0xffffff);
+        mesh.material.opacity = 1;
+        mesh.scale.set(2, 2, 2);
+        const x = group.userData.index;
+        const m = ChartFactory.getColorPhong(color);
+        m.opacity = 0.8;
+        m.transparent = true;
+        this.bars[x * 2].material = m;
+        this.bars[(x * 2) + 1].material = m;
+        this.lines[x].material = ChartFactory.getLineColor(color);
+    }
 
-    // Chart Elements
-    private labels: HTMLElement;
-    private events: ChartEvents;
-    private view: VisualizationView;
-    private data: BoxWhiskersDataModel;
-    private config: BoxWhiskersConfigModel;
-    private isEnabled: boolean;
-
-    // Objects
-    public decorators: DataDecorator[];
-    public meshes: Array<THREE.Mesh>;
-    private arms: any;
-    private chromosomes: any;
-    private selector: THREE.Mesh;
-    private selectorOrigin: { x: number, y: number, yInit: number };
-    private selectorScale: any;
-    private group: THREE.Group;
-    private lineMaterial;
-    private geneLines: Array<THREE.Line>;
-    private chords: Array<THREE.Line>;
-
-    // Private Subscriptions
-    private sMouseMove: Subscription;
-    private sMouseDown: Subscription;
-    private sMouseUp: Subscription;
-
+    // Create - Initialize Mesh Arrays
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
-        this.labels = labels;
-        this.events = events;
-        this.view = view;
-        this.isEnabled = false;
+        super.create(labels, events, view);
         this.meshes = [];
-        this.geneLines = [];
-        this.chords = [];
-        this.view.controls.enableRotate = true;
-
-        this.group = new THREE.Group();
-        this.view.scene.add(this.group);
-        this.lineMaterial = new THREE.LineBasicMaterial({ color: 0x039BE5 });
+        this.globalMeshes = [];
+        this.lines = [];
+        this.bars = [];
         return this;
     }
 
     destroy() {
-        this.enable(false);
+        super.destroy();
         this.removeObjects();
     }
 
-    // Focus On This
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        throw new Error('Method not implemented.');
+        super.updateDecorator(config, decorators);
+        ChartFactory.decorateDataGroups(this.meshes, this.decorators, this.renderer, 3);
     }
+
     updateData(config: GraphConfig, data: any) {
-
-        // Save Config + Data Locally
-        this.config = config as BoxWhiskersConfigModel;
-        this.data = data;
-
-        if (this.config.dirtyFlag & DirtyEnum.LAYOUT) {
-            this.removeObjects();
-            this.addObjects();
-        }
-        if (this.config.dirtyFlag & DirtyEnum.COLOR) {
-
-            const lines = this.geneLines;
-            this.meshes.forEach(v => {
-                if (data.pointColor.hasOwnProperty(v.userData.gene)) {
-                    const color = data.pointColor[v.userData.gene];
-                    (v as THREE.Mesh).material = new THREE.MeshBasicMaterial({ color: color });
-                } else {
-                    (v as THREE.Mesh).material = new THREE.MeshBasicMaterial({ color: 0xDDDDDD });
-                }
-            });
-            lines.forEach(v => {
-                if (data.pointColor.hasOwnProperty(v.userData.gene)) {
-                    const color = data.pointColor[v.userData.gene];
-                    (v as THREE.Line).material = new THREE.LineBasicMaterial({ color: color });
-                } else {
-                    (v as THREE.Line).material = new THREE.LineBasicMaterial({ color: 0xDDDDDD });
-                }
-            });
-            this.onRequestRender.next();
-        }
+        super.updateData(config, data);
+        this.removeObjects();
+        this.addObjects(this.config.entity);
     }
 
-    // Ignore
     enable(truthy: boolean) {
-        if (this.isEnabled === truthy) { return; }
-        this.isEnabled = truthy;
-        this.view.controls.enabled = this.isEnabled;
-        if (truthy) {
-            this.sMouseUp = this.events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
-            this.sMouseDown = this.events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
-            this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
-        } else {
-            this.sMouseUp.unsubscribe();
-            this.sMouseDown.unsubscribe();
-            this.sMouseMove.unsubscribe();
-        }
-    }
-    preRender(views: Array<VisualizationView>, layout: WorkspaceLayoutEnum, renderer: THREE.WebGLRenderer) {
-
+        super.enable(truthy);
+        this.view.controls.enableRotate = false;
     }
 
-    // Focus On This
-    addObjects() {
 
-        const w = (this.view.viewport.width * 0.5) - 100;
-        const scale = scaleLinear();
-        scale.domain([this.data.min, this.data.max]);
-        scale.range([0, w]);
+    addObjects(type: EntityTypeEnum): void {
+        this.addGlobalMeshes();
+        const propertyId = (this.config.entity === EntityTypeEnum.GENE) ? 'markerIds' : 'sampleIds';
+        const objectIds = this.data[propertyId];
+        const xOffset = (this.entityWidth * this.data.result.length) * -0.5;
 
-        this.data.result.forEach((datum, i) => {
+        const domain = Math.ceil(Math.max(Math.abs(this.data.min), Math.abs(this.data.max)));
+        const scale = scaleLinear().domain([-domain, domain]).range([-600, 600]);
 
-            const y = i * 7;
-            const q1 = scale(datum.quartiles[0]);
-            const q2 = scale(datum.quartiles[2]);
-            const m = scale(datum.quartiles[1]);
+        const halfWidth = this.entityWidth * 0.5;
 
+        const medianPoints = [];
+        this.data.result
+            .sort((a, b) => a.median - b.median)
+            .forEach((node, index) => {
 
-            // if (this.config.scatter){
+                const median = scale(node.median);
 
-            // }else{
-            // Mesh = Geometry (shape) + Material (color)
-            // Mesh Is Like A Div + Get's added to the scene or parent "div"
-            const boxGeometry = new THREE.PlaneGeometry(q2 - q1, 5);
-            const boxMaterial = ChartFactory.getColorBasic(0x039BE5);
-            const box = new THREE.Mesh(boxGeometry, boxMaterial);
-            box.position.setX(m);
-            box.position.setY(y);
+                const xPos = xOffset + (this.entityWidth * index);
+                const group = ChartFactory.createDataGroup(
+                    objectIds[index], this.config.entity, new THREE.Vector3(xPos, median, 0.02));
+                this.meshes.push(group);
+                this.view.scene.add(group);
 
+                // Line
+                const line = ChartFactory.lineAllocate(0x029BE5, new Vector2(xPos, scale(node.min)), new Vector2(xPos, scale(node.max)));
+                this.lines.push(line);
+                this.view.scene.add(line);
 
-            const circle = ChartFactory.meshAllocate(0xFF000, ShapeEnum.CIRCLE, 2, new THREE.Vector3(m, y, 0), {});
-            this.group.add(circle);
+                medianPoints.push(new Vector3(xPos, median, 0));
 
-            // Group is like a parent div - add all child objects to it
-            this.group.add(box);
+                // line = ChartFactory.lineAllocate(0x029BE5,
+                //     new Vector2(xPos - (this.entityWidth * 0.5), median),
+                //     new Vector2(xPos + (this.entityWidth * 0.5), median));
+                // this.lines.push(line);
+                // this.view.scene.add(line);
 
-            const lineMaterialBlue = new THREE.LineBasicMaterial({ color: 0x039BE5 });
-            const lineMaterialWhite = new THREE.LineBasicMaterial({ color: 0xFFFFFF });
+                const q1Height = median - scale(node.quartiles[0]);
+                const q2Height = scale(node.quartiles[2]) - median;
 
-            let lineGeometry;
-            let line;
+                const q1Box = ChartFactory.planeAllocate(0x029BE5, this.entityWidth, q1Height, {});
+                q1Box.position.set(xPos, median - (q1Height * .5), 0);
+                (q1Box.material as MeshPhongMaterial).opacity = 0.8;
+                (q1Box.material as MeshPhongMaterial).transparent = true;
+                this.bars.push(q1Box);
+                this.view.scene.add(q1Box);
 
-            // median
-            lineGeometry = new THREE.Geometry();
-            lineGeometry.vertices.push(
-                new THREE.Vector3(scale(datum.median), y - 3, 1),
-                new THREE.Vector3(scale(datum.median), y + 3, 1)
-            );
-            line = new THREE.Line(lineGeometry, lineMaterialWhite);
-            this.group.add(line);
+                const q2Box = ChartFactory.planeAllocate(0x029BE5, this.entityWidth, q2Height, {});
+                q2Box.position.set(xPos, median + (q2Height * .5), 0);
+                (q2Box.material as MeshPhongMaterial).opacity = 0.8;
+                (q2Box.material as MeshPhongMaterial).transparent = true;
+                this.bars.push(q2Box);
+                this.view.scene.add(q2Box);
 
-            // min
-            lineGeometry = new THREE.Geometry();
-            lineGeometry.vertices.push(
-                new THREE.Vector3(scale(datum.min), y - 2, 0),
-                new THREE.Vector3(scale(datum.min), y + 2, 0)
-            );
-            line = new THREE.Line(lineGeometry, lineMaterialBlue);
-            this.group.add(line);
+                group.userData.index = index;
+            });
 
-            // max
-            lineGeometry = new THREE.Geometry();
-            lineGeometry.vertices.push(
-                new THREE.Vector3(scale(datum.max), y - 2, 0),
-                new THREE.Vector3(scale(datum.max), y + 2, 0)
-            );
-            line = new THREE.Line(lineGeometry, lineMaterialBlue);
-            this.group.add(line);
+        const curve = new THREE.CatmullRomCurve3(medianPoints);
+        curve['type'] = 'chordal';
+        const path = new THREE.CurvePath();
+        path.add(curve);
 
-            // Horiz
-            lineGeometry = new THREE.Geometry();
-            lineGeometry.vertices.push(
-                new THREE.Vector3(scale(datum.min), y, 0),
-                new THREE.Vector3(scale(datum.max), y, 0)
-            );
-            line = new THREE.Line(lineGeometry, lineMaterialBlue);
-            this.group.add(line);
+        const geo = new THREE.Geometry().setFromPoints(curve.getPoints(this.data.result.length));
+        const chromosomeLine = new MeshLine();
+        chromosomeLine.setGeometry(geo);
+        //     path.createPointsGeometry(this.data.result.length * 10)
+        // );
+        const chromosomeMesh = new THREE.Mesh(chromosomeLine.geometry,
+            ChartFactory.getMeshLine(0xEEEEEE, 3));
 
-        });
+        (chromosomeMesh.material as MeshPhongMaterial).opacity = .5;
+        (chromosomeMesh.material as MeshPhongMaterial).transparent = true;
+        chromosomeMesh.frustumCulled = false;
+        chromosomeMesh.position.setZ(0.01);
+        this.lines.push(chromosomeMesh);
+        this.view.scene.add(chromosomeMesh);
+
+        ChartFactory.decorateDataGroups(this.meshes, this.decorators, this.renderer, 3);
     }
 
-    removeObjects() {
-        while (this.group.children.length) {
-            this.group.remove(this.group.children[0]);
-        }
-        this.meshes = [];
+    removeObjects(): void {
+        this.view.scene.remove(...this.globalMeshes);
+        this.view.scene.remove(...this.meshes);
+        this.view.scene.remove(...this.lines);
+        this.view.scene.remove(...this.bars);
+        this.globalMeshes.length = 0;
+        this.meshes.length = 0;
+        this.lines.length = 0;
+        this.bars.length = 0;
     }
 
-    private onMouseMove(e: ChartEvent): void {
+    onMouseDown(e: ChartEvent): void { }
+    onMouseUp(e: ChartEvent): void { }
+    onMouseMove(e: ChartEvent): void { }
 
+    addGlobalMeshes(): void {
+        const width = this.entityWidth * this.data.result.length;
+        const line = ChartFactory.lineAllocate(0x4a148c, new Vector2((-width * 0.5) - 5, 0), new Vector2((width * 0.5) + 5, 0));
+        line.position.setZ(1);
+        this.globalMeshes.push(line);
+        this.view.scene.add(line);
     }
-
-    private onMouseUp(e: ChartEvent): void {
-
-    }
-
-    private onMouseDown(e: ChartEvent): void {
-
-    }
-
-    constructor() { }
 }
