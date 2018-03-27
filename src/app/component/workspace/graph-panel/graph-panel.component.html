@@ -45,8 +45,9 @@
                     <span class='form-label'>Gene Set</span>
                     <select materialize='material_select' (change)='onGenesetChange($event)' [materializeSelectOptions]='genesets'>
                         <option *ngFor='let option of genesets' [value]='option.n'>{{option.n}}</option>
+                        <option [value]='add'>Add Gene Set</option>
                     </select>
-                    <i class="tiny material-icons" (click)='showPanel.emit(32);' style='cursor:pointer; color:#029BE5; position: relative;left: 40px;top: 1px;'>add</i>
+                    <!-- <i class="tiny material-icons" (click)='showPanel.emit(32);' style='cursor:pointer; color:#029BE5; position: relative;left: 40px;top: 1px;'>add</i> -->
 
                 </label>
             </div>
@@ -56,8 +57,9 @@
                     <span class='form-label'>Cohort</span>
                     <select materialize='material_select' (change)='onCohortChange($event)' [materializeSelectOptions]='cohorts'>
                         <option *ngFor='let option of cohorts' [value]='option.n'>{{option.n}}</option>
+                        <option [value]='add'>Add Cohort</option>
                     </select>
-                    <i class="tiny material-icons" (click)='showPanel.emit(16);' style='cursor:pointer; color:#029BE5; position: relative;left: 40px;top: 1px;'>add</i>
+                    <!-- <i class="tiny material-icons" (click)='showPanel.emit(16);' style='cursor:pointer; color:#029BE5; position: relative;left: 40px;top: 1px;'>add</i> -->
                 </label>
             </div>
 
