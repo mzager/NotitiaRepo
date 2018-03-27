@@ -204,12 +204,11 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.configChange.emit(this.config);
   }
   onGenesetChange($event: Event) {
-    if ($event.target['selectedOptions'][0].text === 'Customize') {
-      this.showPanel.emit(PanelEnum.GENESET);
+    if ($event.target['value'] === 'add') {
+      this.showPanel.emit(PanelEnum.COHORT);
       $event.preventDefault();
       return;
     }
-
     const selected = this.genesets.find(v => v.n === $event.target['value']);
     this.config.markerFilter = selected.g;
     this.config.dirtyFlag = DirtyEnum.LAYOUT;
