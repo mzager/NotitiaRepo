@@ -1,4 +1,4 @@
-# An Ingress with 2 hosts and 3 endpoints
+# An Ingress with 3 hosts and 4 endpoints
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -18,5 +18,12 @@ spec:
       - path: /
         backend:
           serviceName: python
+          servicePort: 80
+  - host: upload-server.os.sttrcancer.io
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: upload-service
           servicePort: 80
           
