@@ -28,7 +28,7 @@ kind: Service
 metadata:
   name: python
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
   - port: 80
     nodePort: 30303

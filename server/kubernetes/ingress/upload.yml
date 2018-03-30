@@ -1,0 +1,77 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: deployment-os-user-uploading
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: uploading
+    spec:
+      containers:
+      - name: os-user-uploading
+        image: canaantt/oncoscape-data-upload:kubernetes2
+        ports:
+        - name: upload-port
+          containerPort: 7776
+        env:
+        - name: GMAIL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: upload-secret
+              key: GMAIL_PASSWORD
+        - name: MONGO_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: upload-secret
+              key: MONGO_USERNAME
+        - name: MONGO_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: upload-secret
+              key: MONGO_PASSWORD
+        - name: MONGO_CONNECTION
+          valueFrom:
+            secretKeyRef:
+              name: upload-secret
+              key: MONGO_CONNECTION
+        - name: MONGO_DOMAIN
+          valueFrom:
+            secretKeyRef:
+              name: upload-secret
+              key: MONGO_DOMAIN
+        - name: NODE_PORT
+          valueFrom:
+            secretKeyRef:
+              name: upload-secret
+              key: NODE_PORT
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: upload-secret
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: upload-secret
+              key: AWS_SECRET_ACCESS_KEY
+        - name: APP_ROOT
+          valueFrom:
+            secretKeyRef:
+              name: upload-secret
+              key: APP_ROOT
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: upload-service
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: upload-port
+    protocol: TCP
+    name: http
+  selector:
+    app: uploading
