@@ -1,3 +1,4 @@
+import { HistogramGraph } from './../../visualization/histogram/histogram.graph';
 import { BoxWhiskersGraph } from './../../visualization/boxwhiskers/boxwhiskers.graph';
 // tslint:disable-next-line:max-line-length
 import { QuadradicDiscriminantAnalysisGraph } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis';
@@ -323,10 +324,10 @@ export class ChartScene {
                         view.chart.onConfigEmit.unsubscribe();
                         view.chart.destroy();
                         const camera = view.camera as PerspectiveCamera;
-                        camera.aspect = view.viewport.width / view.viewport.height;
-                        camera.updateProjectionMatrix();
                         camera.position.set(0, 0, 1000);
                         camera.lookAt(new Vector3(0, 0, 0));
+                        camera.aspect = view.viewport.width / view.viewport.height;
+                        camera.updateProjectionMatrix();
 
                     }
                     view.chart = this.getChartObject(config.visualization).create(
@@ -395,6 +396,7 @@ export class ChartScene {
             case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS: return new QuadradicDiscriminantAnalysisGraph();
             case VisualizationEnum.SURVIVAL: return new SurvivalGraph();
             case VisualizationEnum.DENDOGRAM: return new DendogramGraph();
+            case VisualizationEnum.HISTOGRAM: return new HistogramGraph();
         }
     }
 

@@ -1,3 +1,5 @@
+import { histogramCompute } from './../component/visualization/histogram/histogram.compute';
+import { HistogramConfigModel } from './../component/visualization/histogram/histogram.model';
 import { SurvivalConfigModel } from './../component/visualization/survival/survival.model';
 import { genomeCompute } from './../component/visualization/genome/genome.compute';
 import { HeatmapConfigModel } from './../component/visualization/heatmap/heatmap.model';
@@ -138,9 +140,9 @@ export class DataEffect {
             const workspaceConfig = new WorkspaceConfigModel();
             workspaceConfig.layout = WorkspaceLayoutEnum.SINGLE;
 
-            // const survivalConfig = new SurvivalConfigModel();
-            // survivalConfig.graph = GraphEnum.GRAPH_A;
-            // survivalConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
+            const survivalConfig = new SurvivalConfigModel();
+            survivalConfig.graph = GraphEnum.GRAPH_A;
+            survivalConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
 
             // const pathwaysConfig = new PathwaysConfigModel();
             // pathwaysConfig.graph = GraphEnum.GRAPH_B;
@@ -191,6 +193,10 @@ export class DataEffect {
             pcaConfig.graph = GraphEnum.GRAPH_A;
             pcaConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
 
+            const histogramConfig = new HistogramConfigModel();
+            histogramConfig.graph = GraphEnum.GRAPH_A;
+            histogramConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
+
             // const heatmapConfig = new HeatmapConfigModel();
             // heatmapConfig.graph = GraphEnum.GRAPH_B;
             // heatmapConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
@@ -207,7 +213,7 @@ export class DataEffect {
                 // new compute.TimelinesAction( { config: timelinesConfigB})
                 // new compute.ChromosomeAction({ config: chromosomeConfig }),
                 // new compute.HeatmapAction({ config: heatmapConfig }),
-                // new compute.SurvivalAction( { config: survivalConfig })
+                // new compute.SurvivalAction({ config: survivalConfig }),
                 // new compute.ChromosomeAction( { config: chromosomeConfig } )
                 // new compute.PathwaysAction( { config: pathwaysConfig }),
                 // new compute.GenomeAction( { config: genomeConfig }),

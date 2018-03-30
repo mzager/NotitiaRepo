@@ -13,6 +13,8 @@ import { ChartEvent, ChartEvents } from './../../workspace/chart/chart.events';
 import { AbstractVisualization } from './../visualization.abstract.component';
 import * as THREE from 'three';
 import { Vector2, MeshPhongMaterial, Vector3 } from 'three';
+import { MeshText2D, textAlign } from 'three-text2d';
+
 
 export class BoxWhiskersGraph extends AbstractVisualization {
 
@@ -25,6 +27,7 @@ export class BoxWhiskersGraph extends AbstractVisualization {
     public lines: Array<THREE.Line | THREE.Mesh>;
     public bars: Array<THREE.Mesh>;
     public entityWidth = 6;
+    public text: Array<MeshText2D>;
 
     public renderer: DataDecoatorRenderer = (group: THREE.Group, mesh: THREE.Sprite, decorators: Array<DataDecorator>,
         i: number, count: number): void => {
@@ -49,6 +52,7 @@ export class BoxWhiskersGraph extends AbstractVisualization {
         this.globalMeshes = [];
         this.lines = [];
         this.bars = [];
+        this.text = []
         return this;
     }
 
@@ -102,14 +106,7 @@ export class BoxWhiskersGraph extends AbstractVisualization {
                 const line = ChartFactory.lineAllocate(0x029BE5, new Vector2(xPos, scale(node.min)), new Vector2(xPos, scale(node.max)));
                 this.lines.push(line);
                 this.view.scene.add(line);
-
                 medianPoints.push(new Vector3(xPos, median, 0));
-
-                // line = ChartFactory.lineAllocate(0x029BE5,
-                //     new Vector2(xPos - (this.entityWidth * 0.5), median),
-                //     new Vector2(xPos + (this.entityWidth * 0.5), median));
-                // this.lines.push(line);
-                // this.view.scene.add(line);
 
                 const q1Height = median - scale(node.quartiles[0]);
                 const q2Height = scale(node.quartiles[2]) - median;
@@ -158,10 +155,12 @@ export class BoxWhiskersGraph extends AbstractVisualization {
         this.view.scene.remove(...this.globalMeshes);
         this.view.scene.remove(...this.meshes);
         this.view.scene.remove(...this.lines);
+        this.view.scene.remove(...this.text);
         this.view.scene.remove(...this.bars);
         this.globalMeshes.length = 0;
         this.meshes.length = 0;
         this.lines.length = 0;
+        this.text.length = 0;
         this.bars.length = 0;
     }
 
@@ -171,9 +170,25 @@ export class BoxWhiskersGraph extends AbstractVisualization {
 
     addGlobalMeshes(): void {
         const width = this.entityWidth * this.data.result.length;
-        const line = ChartFactory.lineAllocate(0x4a148c, new Vector2((-width * 0.5) - 5, 0), new Vector2((width * 0.5) + 5, 0));
+        const left = (-width * 0.5) - 5;
+        const right = (width * 0.5) + 5;
+        const line = ChartFactory.lineAllocate(0x4a148c, new Vector2(left, 0), new Vector2(right, 0));
         line.position.setZ(1);
         this.globalMeshes.push(line);
         this.view.scene.add(line);
+
+        let text = new MeshText2D('0',
+            { align: textAlign.left, font: '12px Ariel', fillStyle: '#666666', antialias: true });
+        text.position.setX(Math.round(left - 10));
+        text.position.setY(0 + 6);
+        this.text.push(text);
+        this.view.scene.add(text);
+
+        text = new MeshText2D('0',
+            { align: textAlign.left, font: '12px Ariel', fillStyle: '#666666', antialias: true });
+        text.position.setX(Math.round(right + 10));
+        text.position.setY(0 + 6);
+        this.text.push(text);
+        this.view.scene.add(text);
     }
 }
