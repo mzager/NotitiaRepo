@@ -980,7 +980,9 @@ export class StatFactory {
                         return stat;
                     });
                 });
-                const result = bothResults[1];
+
+                const result = bothResults[1]
+                // .concat(bothResults[0]);
                 result.unshift(keyValues);
 
                 resolve(result);

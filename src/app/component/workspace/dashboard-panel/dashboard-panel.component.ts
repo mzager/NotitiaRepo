@@ -14,6 +14,7 @@ import { VisualizationEnum, DirtyEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import { Subscription } from 'rxjs/Subscription';
 import * as _ from 'lodash';
+import { StatTwoD } from '../../../model/stat.model';
 declare var $: any;
 declare var vega: any;
 declare var vegaTooltip: any;
@@ -48,33 +49,103 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
 
     drawStats(): void {
 
-        // Return Stat Objects That Get Drawn To Screen
-        this.statFactory.getPopulationStats(this.config, this.dataService).then(stats => {
-            stats.forEach((stat, i) => {
+        this.dataService.getAllCohortStats(this.config.database).then(results => {
+            results.forEach((result, i) => {
+                const div = this.container.append('<div id="cc' + result.cohort.n +
+                    '" class="statItemContainer" style="padding-bottom:20px;">' + result.cohort.n + '</div>');
+                const stats = result.result.map(stat => new StatTwoD(stat.name, stat.stat));
 
-                // Create A Div For Each Stat
-                const div = this.container.append('<div id="cc' + i.toString() +
-                    '" class="statItemContainer" style="padding-bottom:20px;"></div>');
+                stats.forEach((stat, j) => {
+                    div.append('<div id="cc' + result.cohort.n + j.toString() + '" class="statItemContainer"> < /div>');
 
-                // Process Stat Types
-                switch (stat.renderer) {
-                    case StatRendererEnum.VEGA:
-                        const v = vega.parse(VegaFactory.getInstance().getChartObject(stat, stat.charts[0]), { renderer: ('svg') });
-                        const c = new vega.View(v)
-                            .initialize('#cc' + i.toString())
-                            .hover()
-                            .renderer('svg')
-                            .run();
-                        break;
+                    stat.data = stat.data.map(v => ({ mylabel: v.label, myvalue: v.value }));
 
-                    case StatRendererEnum.HTML:
-                        div.children('#cc' + i.toString()).append(
-                            VegaFactory.getInstance().getChartObject(
-                                stat, stat.charts[0]).toString());
-                        break;
-                }
+
+                    switch (stat.renderer) {
+
+                        case StatRendererEnum.VEGA:
+                            const v = vega.parse(VegaFactory.getInstance().getChartObject(stat, stat.charts[0]), { renderer: ('svg') });
+
+
+                            const c = new vega.View(v)
+                                .initialize('#cc' + result.cohort.n + j.toString())
+                                .hover()
+                                .renderer('svg')
+                                .run();
+                            break;
+
+                        case StatRendererEnum.HTML:
+                            // div.children('#cc' + i.stats + '-' + j.stats).append(
+                            //     VegaFactory.getInstance().getChartObject(
+                            //         stat, stat.charts[0]).toString());
+                            break;
+                    }
+                });
             });
         });
+
+
+
+
+
+
+
+
+        //     const stats = results[0].result.map(stat => new StatTwoD(stat.name, stat.stat));
+        //     stats.forEach((stat, i) => {
+
+        //         // Create A Div For Each Stat
+        //         const div = this.container.append('<div id="cc' + i.toString() +
+        //             '" class="statItemContainer" style="padding-bottom:20px;"></div>');
+
+        //         // Process Stat Types
+        //         switch (stat.renderer) {
+
+        //             case StatRendererEnum.VEGA:
+        //                 const v = vega.parse(VegaFactory.getInstance().getChartObject(stat, stat.charts[0]), { renderer: ('svg') });
+        //                 const c = new vega.View(v)
+        //                     .initialize('#cc' + i.toString())
+        //                     .hover()
+        //                     .renderer('svg')
+        //                     .run();
+        //                 break;
+
+        //             case StatRendererEnum.HTML:
+        //                 div.children('#cc' + i.toString()).append(
+        //                     VegaFactory.getInstance().getChartObject(
+        //                         stat, stat.charts[0]).toString());
+        //                 break;
+        //         }
+        //     });
+        // })
+        // // Return Stat Objects That Get Drawn To Screen
+        // this.statFactory.getPopulationStats(this.config, this.dataService).then(stats => {
+        //     stats.forEach((stat, i) => {
+
+        //         // Create A Div For Each Stat
+        //         const div = this.container.append('<div id="cc' + i.toString() +
+        //             '" class="statItemContainer" style="padding-bottom:20px;"></div>');
+
+        //         // Process Stat Types
+        //         switch (stat.renderer) {
+
+        //             case StatRendererEnum.VEGA:
+        //                 const v = vega.parse(VegaFactory.getInstance().getChartObject(stat, stat.charts[0]), { renderer: ('svg') });
+        //                 const c = new vega.View(v)
+        //                     .initialize('#cc' + i.toString())
+        //                     .hover()
+        //                     .renderer('svg')
+        //                     .run();
+        //                 break;
+
+        //             case StatRendererEnum.HTML:
+        //                 div.children('#cc' + i.toString()).append(
+        //                     VegaFactory.getInstance().getChartObject(
+        //                         stat, stat.charts[0]).toString());
+        //                 break;
+        //         }
+        //     });
+        // });
     }
 
     closeClick(): void {

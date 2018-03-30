@@ -422,6 +422,22 @@ export class DataService {
     });
   }
 
+  getAllCohortStats(database: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+
+      const db = new Dexie('notitia-' + database);
+      db.open().then(connection => {
+        connection.table('cohorts').toArray().then(cohorts => {
+          Promise.all(cohorts.map(cohort => this.getPatientStats(database, cohort.pids))).then(results => {
+            const cohortResults = cohorts.map((cohort, index) => ({ cohort: cohort, result: results[index] }));
+            resolve(cohortResults);
+          })
+        });
+
+      });
+    });
+  }
+
   getPatientStats(database: string, ids: Array<string>): Promise<any> {
 
     // TODO: FIX This
@@ -435,18 +451,28 @@ export class DataService {
       this.getQueryBuilderConfig(database).then(config => {
 
         // Pull field Meta Data
+
         const fields = Object.keys(config.fields)
           .map(field => Object.assign(config.fields[field], { field: field }))
           .filter(item => item.type !== 'string')
           .sort((a, b) => (a.type !== b.type) ? a.type.localeCompare(b.type) : a.name.localeCompare(b.name));
 
+        // const test = fields.indexOf(config.fields)
+        console.log(fields)
+
+
         const db = new Dexie('notitia-' + database);
         db.open().then(connection => {
           const query = (ids.length === 0) ?
             connection.table('patient') :
-            connection.table('patient').where('p').anyOfIgnoreCase(ids);
+            connection.table('patient').where('p').anyOfIgnoreCase(ids)
+
+          // console.log(connection.table('patient').toArray());
 
           query.toArray().then(result => {
+
+
+
 
             const cat = fields.filter(v => v.type === 'category').map(f => {
               const arr = result.map(v => v[f.field]);
