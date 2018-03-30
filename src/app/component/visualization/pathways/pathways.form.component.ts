@@ -17,7 +17,7 @@ import * as _ from 'lodash';
       <select materialize='material_select'
           [materializeSelectOptions]='pathwayOptions'
           formControlName='pathway'>
-          <option *ngFor='let option of pathwayOptions' [value]='option'>{{option}}</option>
+          <option *ngFor='let option of pathwayOptions' [value]='option'>{{option.name}}</option>
       </select>
     </label>
   </div>
@@ -30,7 +30,6 @@ export class PathwaysFormComponent {
     this.dataOptions = tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0));
   }
 
-
   @Input() set fields(fields: Array<DataField>) {
     if (fields === null) { return; }
     if (fields.length === 0) { return; }
@@ -38,12 +37,53 @@ export class PathwaysFormComponent {
     this.colorOptions = DataFieldFactory.getSampleColorFields(fields);
   }
 
+
+  private _config: PathwaysConfigModel;
+  get config(): PathwaysConfigModel { return this._config; }
   @Input() set config(v: PathwaysConfigModel) {
     if (v === null) { return; }
+    this._config = v;
     this.form.patchValue(v, { emitEvent: false });
+    this.setPathwayOptions();
   }
 
-  @Input() pathwayOptions: Array<string> = [];
+  // @Input() pathwayOptions: Array<string> = [];
+  public pathwayOptions: Array<any> = [];
+
+
+  public setPathwayOptions(): void {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept-Encoding', 'gzip');
+    const requestInit: RequestInit = {
+      method: 'GET',
+      headers: headers,
+      mode: 'cors',
+      cache: 'default'
+    };
+
+    // http://www.pathwaycommons.org/pc2/search.json?q=(BRCA2%20and%20IDH1)%20and%20size%3E3&type=Pathway&organism=homo%20sapiens
+    // fetch('https://s3-us-west-2.amazonaws.com/notitia/reactome/manifest.json.gz', requestInit)
+
+    fetch('http://www.pathwaycommons.org/pc2/search.json?q=(BRCA2%20and%20IDH1)%20and%20size%3E3&type=Pathway&organism=homo%20sapiens&datasource=reactome', requestInit)
+      .then(response => response.json())
+      .then(response => {
+        // 'https://s3-us-west-2.amazonaws.com/notitia/pwc/'
+        // debugger;
+        this.pathwayOptions = response.searchHit;
+
+        fetch('https://s3-us-west-2.amazonaws.com/notitia/pwc/' +
+          response.searchHit[0].uri.split('/').reverse()[0].toLowerCase() + '.json.gz',
+          requestInit)
+          .then(response => response.json())
+          .then(response => {
+            debugger;
+          });
+        // this.pathwayOptions = this.pathwayOptions.slice(0, 100);
+        this.cd.detectChanges();
+      });
+
+  }
 
   @Output() configChange = new EventEmitter<GraphConfig>();
 
@@ -57,22 +97,9 @@ export class PathwaysFormComponent {
   }
 
   constructor(private fb: FormBuilder, private cd: ChangeDetectorRef) {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept-Encoding', 'gzip');
-    const requestInit: RequestInit = {
-      method: 'GET',
-      headers: headers,
-      mode: 'cors',
-      cache: 'default'
-    };
-    fetch('https://s3-us-west-2.amazonaws.com/notitia/reactome/manifest.json.gz', requestInit)
-      .then(response => response.json())
-      .then(response => {
-        this.pathwayOptions = response;
-        this.pathwayOptions = this.pathwayOptions.slice(0, 100);
-        cd.detectChanges();
-      });
+
+
+
     // Init Form
     this.form = this.fb.group({
       dirtyFlag: [0],
@@ -98,10 +125,6 @@ export class PathwaysFormComponent {
       .subscribe(data => {
         let dirty = 0;
         const form = this.form;
-        if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
-        // if (form.get('pointShape').dirty) { dirty |= DirtyEnum.SHAPE; }
-        // if (form.get('pointSize').dirty) { dirty |= DirtyEnum.SIZE; }S
-        if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
         form.markAsPristine();
         data.dirtyFlag = dirty;
         this.configChange.emit(data);

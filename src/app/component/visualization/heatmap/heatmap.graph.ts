@@ -65,9 +65,7 @@ export class HeatmapGraph implements ChartObjectInterface {
         this.isEnabled = false;
         this.view.controls.enableRotate = false;
         this.meshes = [];
-        // this.selector = new THREE.Mesh(
-        //     new THREE.SphereGeometry(3, 30, 30),
-        //     new THREE.MeshStandardMaterial({ opacity: .2, transparent: true }));
+        this.view.controls.reset();
         return this;
     }
 

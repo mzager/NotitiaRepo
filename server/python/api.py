@@ -71,15 +71,15 @@ def survival_ll_kaplan_meier(content):
 		'result': kmf.survival_function_.to_dict(),
 		'confidence': kmf.confidence_interval_.to_dict(),
 		'median': kmf.median_
+        # 'density': kmf.cumulative_density_.to_dict()
 		}))
 
 def survival_ll_nelson_aalen(content):
-	kmf = NelsonAalenFitter()
-	kmf.fit(content['times'], event_observed=content['events'])
+	naf = NelsonAalenFitter()
+	naf.fit(content['times'], event_observed=content['events'])
 	return httpWrapper( json.dumps({
-		'result': kmf.survival_function_,
-		'hazard': cumulative_hazard_,
-		'median': kmf.kmf.median_
+		'hazard': naf.cumulative_hazard_.to_dict(),
+        'confidence': naf.confidence_interval_.to_dict()
 		}))
 
 def cluster_sp_agglomerative(content):
@@ -723,6 +723,7 @@ def main():
     content = request.get_json()
     function_to_invoke = {
     	'survival_ll_kaplan_meier': survival_ll_kaplan_meier,
+        'survival_ll_nelson_aalen': survival_ll_nelson_aalen,
     	'cluster_sp_agglomerative': cluster_sp_agglomerative,	
         'cluster_sk_pca': cluster_sk_pca,
         'cluster_sk_pca_incremental': cluster_sk_pca_incremental,
