@@ -965,11 +965,12 @@ export class StatFactory {
             Promise.all([
                 dataService.getPatientStats(config.database, []),
                 dataService.getPatientStats(config.database, config.patientFilter),
-
+                dataService.getAllCohortStats(config.database)
             ]).then(results => {
                 // debugger;
                 const bothResults: Array<any> = results.map(result => {
                     return result.map(v => {
+
                         const stat = new StatOneD(v.name, v.stat.map(w => ({
                             mylabel: w.label, myvalue: w.value
                         })));
@@ -981,8 +982,7 @@ export class StatFactory {
                     });
                 });
 
-                const result = bothResults[1]
-                // .concat(bothResults[0]);
+                const result = bothResults[1].concat(bothResults[0]);
                 result.unshift(keyValues);
 
                 resolve(result);

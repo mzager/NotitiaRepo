@@ -75,9 +75,9 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
                             break;
 
                         case StatRendererEnum.HTML:
-                            // div.children('#cc' + i.stats + '-' + j.stats).append(
-                            //     VegaFactory.getInstance().getChartObject(
-                            //         stat, stat.charts[0]).toString());
+                            div.children('#cc' + result.cohort.n + j.toString().append(
+                                VegaFactory.getInstance().getChartObject(
+                                    stat, stat.charts[0]).toString()));
                             break;
                     }
                 });
