@@ -43,11 +43,11 @@
             <div class='form-group'>
                 <label class='center-block'>
                     <span class='form-label'>Gene Set</span>
-                    <select materialize='material_select' (change)='onGenesetChange($event)' [materializeSelectOptions]='genesets'>
+                    <select materialize='material_select' [materializeSelectOptions]='genesets'>
                         <option *ngFor='let option of genesets' [value]='option.n' selected>{{option.n}} </option>
-                        <option value='customize'>
+                        <!-- <option value='customize'>
                             <span class='customizeDropdownOption'>Customize</span>
-                        </option>
+                        </option> -->
                     </select>
                 </label>
             </div>
@@ -57,9 +57,9 @@
                     <span class='form-label'>Cohort</span>
                     <select materialize='material_select' (change)='onCohortChange($event)' [materializeSelectOptions]='cohorts'>
                         <option *ngFor='let option of cohorts' [value]='option.n' selected>{{option.n}} </option>
-                        <option value='customize'>
+                        <!-- <option value='customize'>
                             <span class='customizeDropdownOption'>Customize</span>
-                        </option>
+                        </option> -->
                     </select>
 
                 </label>
@@ -91,6 +91,7 @@
                     [config]='config' [tables]='tables' [fields]='fields'></app-parallelcoords-form>
                 <app-linked-gene-form *ngIf='config && config.visualization === 1073741824' (configChange)='graphPanelSetConfig($event)'
                     [config]='config'></app-linked-gene-form>
+                <app-histogram-form *ngIf='config && config.visualization === 65' (configChange)='graphPanelSetConfig($event)' [config]='config'></app-histogram-form>
                 <app-hic-form *ngIf='config && config.visualization === 17179869184' (configChange)='graphPanelSetConfig($event)' [config]='config'></app-hic-form>
                 <app-som-form *ngIf='config && config.visualization === 4096' (configChange)='graphPanelSetConfig($event)' [config]='config'
                     [molecularData]='molecularData' [clinicalFields]='clinicalFields'></app-som-form>

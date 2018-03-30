@@ -22,14 +22,25 @@ export class SurvivalConfigModel extends GraphConfig {
 
 export interface SurvivalDataModel extends GraphData {
     legends: Array<Legend>;
-    cohorts: Array<{
+    survival: Array<{
         name: string,
         result: Array<[number, number]>,
         confidence: {
             upper: Array<[number, number]>,
             lower: Array<[number, number]>
         },
-        median: number,
-        timeRange: [number, number]
+        xRangeSurvival: [number, number],
+        yRangeSurvival: [number, number],
+        median: number
+    }>;
+    hazard: Array<{
+        name: string,
+        result: Array<[number, number]>,
+        confidence: {
+            upper: Array<[number, number]>,
+            lower: Array<[number, number]>
+        },
+        yRangeHazard: [number, number],
+        xRangeHazard: [number, number]
     }>;
 }

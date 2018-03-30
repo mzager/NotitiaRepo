@@ -52,6 +52,7 @@ import { TimelinesConfigModel } from 'app/component/visualization/timelines/time
 import { GraphData } from 'app/model/graph-data.model';
 import { Subscription } from 'rxjs/Subscription';
 import { Cohort } from '../../../model/cohort.model';
+import { HistogramConfigModel } from '../../visualization/histogram/histogram.model';
 declare var $: any;
 
 @Component({
@@ -185,13 +186,19 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   helpClick(): void {
     this.help.emit(this.config);
   }
+  public onCustomizeClick($event: Event) {
+    // this.showPanel
+    console.log('click');
+    $event.preventDefault();
 
+  }
   onCohortChange($event: Event) {
-    if ($event.target['value'] === 'customize') {
-      this.showPanel.emit(PanelEnum.COHORT);
-      $event.preventDefault();
-      return;
-    }
+
+    // if ($event.target['value'] === 'customize') {
+    //   this.showPanel.emit(PanelEnum.COHORT);
+    //   $event.preventDefault();
+    //   return;
+    // }
 
     const selected = this.cohorts.find(v => v.n === $event.target['value']);
     this.config.patientFilter = selected.pids;
@@ -200,11 +207,13 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.configChange.emit(this.config);
   }
   onGenesetChange($event: Event) {
-    if ($event.target['value'] === 'customize') {
-      this.showPanel.emit(PanelEnum.GENESET);
-      $event.preventDefault();
-      return;
-    }
+    // if ($event.target['value'] === 'customize') {
+    //   this.showPanel.emit(PanelEnum.GENESET);
+    //   $event.stopPropagation();
+    //   $event.stopImmediatePropagation();
+    //   $event.preventDefault();
+    //   return;
+    // }
 
     const selected = this.genesets.find(v => v.n === $event.target['value']);
     this.config.markerFilter = selected.g;
@@ -336,6 +345,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       case VisualizationEnum.SPARSE_PCA:
         gc = new PcaSparseConfigModel();
         break;
+      case VisualizationEnum.HISTOGRAM:
+        gc = new HistogramConfigModel();
+        break;
       default:
         this.methodOptions = [];
         break;
@@ -384,7 +396,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       { value: VisualizationEnum.HEATMAP, label: 'Heatmap' },
       { value: VisualizationEnum.HISTOGRAM, label: 'Histogram' },
       { value: VisualizationEnum.PATHWAYS, label: 'Pathways' },
-      { value: VisualizationEnum.SURVIVAL, label: 'Survival' },
+      { value: VisualizationEnum.SURVIVAL, label: 'Survival + Hazard' },
       { value: VisualizationEnum.TIMELINES, label: 'Timelines' },
       { value: VisualizationEnum.SPREADSHEET, label: 'Spreadsheet' },
       {
