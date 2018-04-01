@@ -10,7 +10,6 @@ import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { ChartEvent, ChartEvents } from './../../workspace/chart/chart.events';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { VisualizationView } from './../../../model/chart-view.model';
-import { FontFactory } from './../../../service/font.factory';
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { ShapeEnum, ColorEnum, GraphEnum, GenomicEnum } from 'app/model/enum.model';
 import { ChartFactory } from './../../workspace/chart/chart.factory';

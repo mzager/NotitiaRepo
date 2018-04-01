@@ -390,15 +390,16 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.visualizationOptions = [
       { value: VisualizationEnum.BOX_WHISKERS, label: 'Box + Whisker' },
       { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
+      { value: VisualizationEnum.SPREADSHEET, label: 'Dashboard' },
       { value: VisualizationEnum.HIC, label: 'Force Directed Graph' },
       { value: VisualizationEnum.GENOME, label: 'Genome' },
-      { value: VisualizationEnum.DENDOGRAM, label: 'Dendogram' },
+      // { value: VisualizationEnum.DENDOGRAM, label: 'Dendogram' },
       { value: VisualizationEnum.HEATMAP, label: 'Heatmap' },
       { value: VisualizationEnum.HISTOGRAM, label: 'Histogram' },
       { value: VisualizationEnum.PATHWAYS, label: 'Pathways' },
       { value: VisualizationEnum.SURVIVAL, label: 'Survival + Hazard' },
-      { value: VisualizationEnum.TIMELINES, label: 'Timelines' },
       { value: VisualizationEnum.SPREADSHEET, label: 'Spreadsheet' },
+      { value: VisualizationEnum.TIMELINES, label: 'Timelines' },
       {
         value: VisualizationEnum.DECOMPOSITION, label: 'Matrix Decomposition', methodOptions: [
           { value: VisualizationEnum.DICTIONARY_LEARNING, label: 'Dictionary Learning' },
