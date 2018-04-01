@@ -38,14 +38,14 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
     }
     constructor() {
         this.quotes = [
+            // { q: 'Statistics are used much like a drunk uses a lamp: for support, not illumination', a: 'Vin Scully' },
+            // { q: 'Only two things are infinite, the universe and human stupidity', a: 'Albert Einstein' },
+            // { q: 'It takes a smart man to play dumb', a: 'Mr. T' },
+            // { q: 'The goal is to provide analytical tools that will last students a lifetime', a: 'Edward Tufte' },
+            // { q: 'Biology is the least of what makes someone a mother', a: 'Oprah Winfrey' },
             { q: 'If your experiment needs statistics, you ought to have done a better experiment', a: 'Ernest Rutherford' },
             { q: 'Statistics are no substitute for judgement', a: 'Henry Clay' },
-            { q: 'Statistics are used much like a drunk uses a lamp: for support, not illumination', a: 'Vin Scully' },
             { q: 'Fasts are stubborn, but statistics are pliable', a: 'Mark Twain' },
-            { q: 'Only two things are infinite, the universe and human stupidity', a: 'Albert Einstein' },
-            { q: 'It takes a smart man to play dumb', a: 'Mr. T' },
-            { q: 'The goal is to provide analytical tools that will last students a lifetime', a: 'Edward Tufte' },
-            { q: 'The point of the essay is to change things', a: 'Edward Tufte' },
             { q: 'The minimum we should hope for with any display technology is that it should do no harm', a: 'Edward Tufte' },
             { q: 'The commonality between science and art is in trying to see profoundly', a: 'Edward Tufte' },
             { q: 'Science is beautiful when it makes simple explanations', a: 'Stephen Hawking' },
@@ -74,7 +74,6 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
             { q: 'Evolution is the fundamental idea in all of life science - in all of biology', a: 'Bill Nye' },
             { q: 'Biology has at least 50 more interesting years', a: 'James D. Watson' },
             { q: 'DNA - is technology. It is coding. It is physical coding, but still code.', a: 'Ryan Bethencourt' },
-            { q: 'Biology is the least of what makes someone a mother', a: 'Oprah Winfrey' },
             { q: 'Lies damn lies and statistics', a: 'Mark Twain' },
             { q: 'Biology is now accelerating at a pace faster than Moore\'s Law.', a: 'Arvind Gupta' }
         ];

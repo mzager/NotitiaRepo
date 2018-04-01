@@ -71,7 +71,7 @@ export class PathwaysFormComponent {
         // 'https://s3-us-west-2.amazonaws.com/notitia/pwc/'
         // debugger;
         this.pathwayOptions = response.searchHit;
-
+        // https://s3-us-west-2.amazonaws.com/notitia/pwc/r-hsa-2978092.json.gz
         fetch('https://s3-us-west-2.amazonaws.com/notitia/pwc/' +
           response.searchHit[0].uri.split('/').reverse()[0].toLowerCase() + '.json.gz',
           requestInit)

@@ -322,7 +322,7 @@ export class ComputeWorkerUtil {
     }
 
     // Call IDB
-    getEventData(db: string, pids: Array<string>): Promise<any> {
+    getEvents(db: string, pids: Array<string>): Promise<any> {
         return new Promise((resolve, reject) => {
             this.openDatabaseData(db).then(v => {
                 const query = (pids.length === 0) ?
@@ -334,17 +334,24 @@ export class ComputeWorkerUtil {
             });
         });
     }
-    getPatientData(samples: Array<string>, db: string, tbl: string): Promise<any> {
+    getPatients(samples: Array<string>, db: string, tbl: string): Promise<any> {
         return new Promise((resolve, reject) => {
             this.openDatabaseData(db).then(v => {
                 console.log('Filter by Seleted Patients / Samples');
-                // const query = (samples.length === 0) ?
-                //     this.dbData.table(tbl) :
-                //     this.dbData.table(tbl).where('p').anyOfIgnoreCase(markers);
                 this.dbData.table(tbl).toArray().then(_patients => {
                     resolve(_patients);
                 });
             });
+        });
+    }
+
+    getCohorts(db: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.openDatabaseData(db).then(v => {
+                this.dbData.table('cohorts').toArray().then(_cohorts => {
+                    resolve(_cohorts);
+                });
+            })
         });
     }
 
@@ -1075,10 +1082,7 @@ export class ComputeWorkerUtil {
             headers: headers,
             method: 'POST',
             body: JSON.stringify(config)
-        })
-            .then(res => {
-                return res.json();
-            });
+        }).then(res => res.json());
     }
 
 

@@ -21003,7 +21003,7 @@ var ComputeWorkerUtil = /** @class */ (function () {
         });
     };
     // Call IDB
-    ComputeWorkerUtil.prototype.getEventData = function (db, pids) {
+    ComputeWorkerUtil.prototype.getEvents = function (db, pids) {
         var _this = this;
         return new Promise(function (resolve, reject) {
             _this.openDatabaseData(db).then(function (v) {
@@ -21016,16 +21016,23 @@ var ComputeWorkerUtil = /** @class */ (function () {
             });
         });
     };
-    ComputeWorkerUtil.prototype.getPatientData = function (samples, db, tbl) {
+    ComputeWorkerUtil.prototype.getPatients = function (samples, db, tbl) {
         var _this = this;
         return new Promise(function (resolve, reject) {
             _this.openDatabaseData(db).then(function (v) {
                 console.log('Filter by Seleted Patients / Samples');
-                // const query = (samples.length === 0) ?
-                //     this.dbData.table(tbl) :
-                //     this.dbData.table(tbl).where('p').anyOfIgnoreCase(markers);
                 _this.dbData.table(tbl).toArray().then(function (_patients) {
                     resolve(_patients);
+                });
+            });
+        });
+    };
+    ComputeWorkerUtil.prototype.getCohorts = function (db) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.openDatabaseData(db).then(function (v) {
+                _this.dbData.table('cohorts').toArray().then(function (_cohorts) {
+                    resolve(_cohorts);
                 });
             });
         });
@@ -21700,10 +21707,7 @@ var ComputeWorkerUtil = /** @class */ (function () {
             headers: headers,
             method: 'POST',
             body: JSON.stringify(config)
-        })
-            .then(function (res) {
-            return res.json();
-        });
+        }).then(function (res) { return res.json(); });
     };
     ComputeWorkerUtil.prototype.processMolecularData = function (molecularData, config) {
         var matrix = molecularData.data;
@@ -28513,14 +28517,62 @@ exports.dendogramCompute = function (config, worker) {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.survivalCompute = function (config, worker) {
-    worker.util.getPatientData([], config.database, 'patient')
-        .then(function (result) {
-        var e = result.map(function (v) { return (v.vital_status === 'dead') ? 1 : 0; });
-        var t = result.map(function (v) { return (v.vital_status === 'dead') ?
+    var colors = [0x42a5f5, 0x66bb6a, 0xff9800, 0x795548, 0x673ab7, 0xe91e63];
+    var getRange = function (pointCollections) {
+        var dx = [Infinity, -Infinity];
+        var dy = [Infinity, -Infinity];
+        pointCollections.forEach(function (pointCollection) {
+            pointCollection.forEach(function (point) {
+                dx[0] = Math.min(dx[0], point[0]);
+                dx[1] = Math.max(dx[1], point[0]);
+                dy[0] = Math.min(dy[0], point[1]);
+                dy[1] = Math.max(dy[1], point[1]);
+            });
+        });
+        return [dx, dy];
+    };
+    var formatResult = function (data, property) {
+        return Object.keys(data[property])
+            .map(function (v) { return [parseFloat(v), data[property][v]]; })
+            .sort(function (a, b) { return a[0] - b[0]; });
+    };
+    var processHazard = function (result) {
+        var line = formatResult(result.hazard, 'NA_estimate');
+        var upper = formatResult(result.confidence, 'NA_estimate_upper_0.95');
+        var lower = formatResult(result.confidence, 'NA_estimate_lower_0.95');
+        var range = getRange([line, upper, lower]);
+        return {
+            line: line,
+            upper: upper,
+            lower: lower,
+            range: range
+        };
+    };
+    var processSurvival = function (result) {
+        var line = formatResult(result.result, 'KM_estimate');
+        var upper = formatResult(result.confidence, 'KM_estimate_upper_0.95');
+        var lower = formatResult(result.confidence, 'KM_estimate_lower_0.95');
+        var range = getRange([line, upper, lower]);
+        return {
+            line: line,
+            upper: upper,
+            lower: lower,
+            range: range
+        };
+    };
+    Promise.all([
+        worker.util.getCohorts(config.database),
+        worker.util.getPatients([], config.database, 'patient')
+    ]).then(function (results) {
+        // TODO: Fix Setting Time To 1 When null
+        var cohorts = results[0];
+        var patients = results[1];
+        var e = patients.map(function (v) { return (v.vital_status === 'dead') ? 1 : 0; });
+        var t = patients.map(function (v) { return (v.vital_status === 'dead') ?
             v.days_to_death : v.days_to_last_follow_up; })
-            .map(function (v) { return (v === null) ? 0 : v; });
-        var p = result.map(function (v, i) { return ({ p: v.p, e: e[i], t: t[i] }); });
-        Promise.all([
+            .map(function (v) { return (v === null) ? 1 : Math.max(1, v); });
+        var p = patients.map(function (v, i) { return ({ p: v.p, e: e[i], t: t[i] }); });
+        var promises = [
             worker.util.fetchResult({
                 method: 'survival_ll_kaplan_meier',
                 times: t,
@@ -28531,66 +28583,49 @@ exports.survivalCompute = function (config, worker) {
                 times: t,
                 events: e
             })
-        ]).then(function (survivalHazardResults) {
-            // Survival
-            var survivalResult = survivalHazardResults[0];
-            var ea = e;
-            var et = t;
-            var survivalResults = Object.keys(survivalResult.result.KM_estimate)
-                .map(function (v) { return [parseFloat(v), survivalResult.result.KM_estimate[v]]; })
-                .sort(function (a, b) { return a[0] - b[0]; });
-            var survivalUpper = Object.keys(survivalResult.confidence['KM_estimate_upper_0.95'])
-                .map(function (v) { return [parseFloat(v), survivalResult.confidence['KM_estimate_upper_0.95'][v]]; })
-                .sort(function (a, b) { return a[0] - b[0]; });
-            var survivalLower = Object.keys(survivalResult.confidence['KM_estimate_lower_0.95'])
-                .map(function (v) { return [parseFloat(v), survivalResult.confidence['KM_estimate_lower_0.95'][v]]; })
-                .sort(function (a, b) { return a[0] - b[0]; });
-            var xRangeSurvival = [survivalResults[0][0], survivalResults[survivalResults.length - 1][0]];
-            var yRangeSurvival = [survivalLower[0][1], survivalUpper[survivalUpper.length - 1][1]];
-            // Hazard
-            var hazardResult = survivalHazardResults[1];
-            var hazardResults = Object.keys(hazardResult.hazard['NA_estimate'])
-                .map(function (v) { return [parseFloat(v), hazardResult.hazard['NA_estimate'][v]]; })
-                .sort(function (a, b) { return a[0] - b[0]; });
-            var hazardUpper = Object.keys(hazardResult.confidence['NA_estimate_upper_0.95'])
-                .map(function (v) { return [parseFloat(v), hazardResult.confidence['NA_estimate_upper_0.95'][v]]; })
-                .sort(function (a, b) { return a[0] - b[0]; });
-            var hazardLower = Object.keys(hazardResult.confidence['NA_estimate_lower_0.95'])
-                .map(function (v) { return [parseFloat(v), hazardResult.confidence['NA_estimate_lower_0.95'][v]]; })
-                .sort(function (a, b) { return a[0] - b[0]; });
-            var xRangeHazard = [hazardResults[0][0], hazardResults[hazardResults.length - 1][0]];
-            var yRangeHazard = [hazardLower[0][1], hazardUpper[hazardUpper.length - 1][1]];
+        ];
+        var cohortPatientData = [{
+                name: 'All',
+                patients: p
+            }];
+        cohorts.forEach(function (cohort) {
+            var cohortSet = new Set(cohort.pids);
+            var cohortPatients = p.filter(function (v) { return cohortSet.has(v.p); });
+            var cohortEvents = cohortPatients.map(function (v) { return v.e; });
+            var cohortTimes = cohortPatients.map(function (v) { return v.t; });
+            cohortPatientData.push({
+                name: cohort.n,
+                patients: cohortPatients
+            });
+            promises.push(worker.util.fetchResult({
+                method: 'survival_ll_kaplan_meier',
+                times: cohortTimes,
+                events: cohortEvents
+            }), worker.util.fetchResult({
+                method: 'survival_ll_nelson_aalen',
+                times: cohortTimes,
+                events: cohortEvents
+            }));
+        });
+        Promise.all(promises).then(function (survivalHazardResults) {
+            var survivalResults = [];
+            var hazardResults = [];
+            survivalHazardResults.forEach(function (result, i) {
+                if (i % 2) {
+                    var x = cohortPatientData;
+                    hazardResults.push(Object.assign(processHazard(survivalHazardResults[i]), cohortPatientData[Math.ceil(i / 2)], { color: colors[Math.ceil(i / 2)] }));
+                }
+                else {
+                    survivalResults.push(Object.assign(processSurvival(survivalHazardResults[i]), cohortPatientData[Math.ceil(i / 2)], { color: colors[Math.ceil(i / 2)] }));
+                }
+            });
             worker.postMessage({
                 config: config,
                 data: {
                     legendItems: [],
                     result: {
-                        survival: [
-                            {
-                                name: 'All',
-                                result: survivalResults,
-                                confidence: {
-                                    upper: survivalUpper,
-                                    lower: survivalLower
-                                },
-                                median: survivalResult.median,
-                                xRangeSurvival: xRangeSurvival,
-                                yRangeSurvival: yRangeSurvival,
-                                p: p
-                            }
-                        ],
-                        hazard: [
-                            {
-                                name: 'All',
-                                result: hazardResults,
-                                yRangeHazard: yRangeHazard,
-                                xRangeHazard: xRangeHazard,
-                                confidence: {
-                                    upper: hazardUpper,
-                                    lower: hazardLower
-                                }
-                            }
-                        ]
+                        survival: survivalResults,
+                        hazard: hazardResults
                     }
                 }
             });
@@ -28632,7 +28667,7 @@ exports.timelinesCompute = function (config, worker) {
             0xf44336, 0x607d8b, 0x673ab7, 0xe91e63]
     ];
     var getPatientInfo = function (db, tbl) {
-        return worker.util.getPatientData([], db, tbl);
+        return worker.util.getPatients([], db, tbl);
     };
     if (config.dirtyFlag & 16 /* OPTIONS */) {
         worker.postMessage({
@@ -28642,8 +28677,8 @@ exports.timelinesCompute = function (config, worker) {
     }
     if (config.dirtyFlag & 0 /* LAYOUT */) {
         Promise.all([
-            worker.util.getEventData(config.database, config.patientFilter),
-            worker.util.getPatientData([], config.database, 'patient')
+            worker.util.getEvents(config.database, config.patientFilter),
+            worker.util.getPatients([], config.database, 'patient')
         ]).then(function (result) {
             var eventData = result[0];
             var patientData = result[1];
@@ -39518,7 +39553,7 @@ exports.boxwhiskersCompute = function (config, worker) {
             });
         }
         if (config.continuousVariable.ctype & 4 /* PATIENT */) {
-            worker.util.getPatientData(config.sampleFilter, config.database, config.continuousVariable.tbl)
+            worker.util.getPatients(config.sampleFilter, config.database, config.continuousVariable.tbl)
                 .then(function (data) {
             });
         }

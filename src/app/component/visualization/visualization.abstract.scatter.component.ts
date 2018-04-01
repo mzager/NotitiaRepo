@@ -179,9 +179,4 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         }
         this.tooltips.innerHTML = '';
     }
-    constructor() {
-        super();
-    }
-
-
 }

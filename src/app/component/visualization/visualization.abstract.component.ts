@@ -1,3 +1,4 @@
+import { FontService } from './../../service/font.service';
 import { GraphData } from 'app/model/graph-data.model';
 import { DataField } from './../../model/data-field.model';
 import { DataDecorator } from './../../model/data-map.model';
@@ -31,6 +32,7 @@ export class AbstractVisualization implements ChartObjectInterface {
     public view: VisualizationView;
     public isEnabled: boolean;
     public meshes: THREE.Object3D[];
+    public fontService: FontService;
 
     enable(truthy: boolean) {
         if (this.isEnabled === truthy) { return; }
@@ -85,5 +87,9 @@ export class AbstractVisualization implements ChartObjectInterface {
     onMouseDown(e: ChartEvent): void { }
     onMouseUp(e: ChartEvent): void { }
     onMouseMove(e: ChartEvent): void { }
+
+    constructor(fontService: FontService) {
+        this.fontService = fontService;
+    }
 
 }
