@@ -33,7 +33,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
     ];
 
     const getPatientInfo = function (db: string, tbl: string): Promise<any> {
-        return worker.util.getPatientData([], db, tbl);
+        return worker.util.getPatients([], db, tbl);
     };
 
     if (config.dirtyFlag & DirtyEnum.OPTIONS) {
@@ -45,8 +45,8 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
 
     if (config.dirtyFlag & DirtyEnum.LAYOUT) {
         Promise.all([
-            worker.util.getEventData(config.database, config.patientFilter),
-            worker.util.getPatientData([], config.database, 'patient')
+            worker.util.getEvents(config.database, config.patientFilter),
+            worker.util.getPatients([], config.database, 'patient')
         ]).then(result => {
 
             let eventData = result[0];

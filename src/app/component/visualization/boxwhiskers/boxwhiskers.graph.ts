@@ -139,7 +139,7 @@ export class BoxWhiskersGraph extends AbstractVisualization {
         //     path.createPointsGeometry(this.data.result.length * 10)
         // );
         const chromosomeMesh = new THREE.Mesh(chromosomeLine.geometry,
-            ChartFactory.getMeshLine(0xEEEEEE, 3));
+            ChartFactory.getMeshLine(0xEEEEEE, 1));
 
         (chromosomeMesh.material as MeshPhongMaterial).opacity = .5;
         (chromosomeMesh.material as MeshPhongMaterial).transparent = true;

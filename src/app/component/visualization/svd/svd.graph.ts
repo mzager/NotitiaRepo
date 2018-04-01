@@ -10,7 +10,6 @@ import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { ChartEvents, ChartEvent } from './../../workspace/chart/chart.events';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { VisualizationView } from './../../../model/chart-view.model';
-import { FontFactory } from './../../../service/font.factory';
 import { ChartFactory } from './../../workspace/chart/chart.factory';
 import { DimensionEnum, EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
 import * as scale from 'd3-scale';
