@@ -74,6 +74,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
             this.view.scene.add(group);
         });
         ChartFactory.decorateDataGroups(this.meshes, this.decorators);
+        this.points = this.meshes.map(v => v.children[0]);
     }
 
     removeObjects() {
@@ -85,6 +86,12 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.lines.length = 0;
     }
 
+    showLabels(): void {
+
+    }
+    hideLabels(): void {
+        this.tooltips.innerHTML = '';
+    }
     onMouseDown(e: ChartEvent): void {
         const hit = ChartUtil.getIntersects(this.view, e.mouse, this.points);
         if (hit.length > 0) {
@@ -162,21 +169,22 @@ export class AbstractScatterVisualization extends AbstractVisualization {
             return;
         }
         // Hit Test
-        const hit = ChartUtil.getIntersects(this.view, e.mouse, this.points);
-        if (hit.length > 0) {
+        // const hit = ChartUtil.getIntersects(this.view, e.mouse, this.points);
+        // console.log(hit.length);
+        // if (hit.length > 0) {
 
-            if (hit[0].object.userData === undefined) {
-                return;
-            }
-            const xPos = e.mouse.xs + 10;
-            const yPos = e.mouse.ys;
-            this.tooltips.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#FFF;padding:3px;border-radius:' +
-                '3px;z-index:9999;position:absolute;left:' +
-                xPos + 'px;top:' +
-                yPos + 'px;">' +
-                hit[0].object.userData.tooltip + '</div>';
-            return;
-        }
-        this.tooltips.innerHTML = '';
+        //     if (hit[0].object.userData === undefined) {
+        //         return;
+        //     }
+        //     const xPos = e.mouse.xs + 10;
+        //     const yPos = e.mouse.ys;
+        //     this.tooltips.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#FFF;padding:3px;border-radius:' +
+        //         '3px;z-index:9999;position:absolute;left:' +
+        //         xPos + 'px;top:' +
+        //         yPos + 'px;">' +
+        //         hit[0].object.userData.tooltip + '</div>';
+        //     return;
+        // }
+        // this.tooltips.innerHTML = '';
     }
 }

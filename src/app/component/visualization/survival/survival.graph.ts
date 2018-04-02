@@ -32,7 +32,7 @@ export class SurvivalGraph extends AbstractVisualization {
         this.meshes = [];
         this.lines = [];
         this.grid = [];
-        this.view.camera.position.setZ(5000);
+        // this.view.camera.position.setZ(5000);
         // this.view.camera.position.setX(-350);
         return this;
     }

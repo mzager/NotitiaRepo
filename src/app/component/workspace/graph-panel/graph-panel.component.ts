@@ -76,7 +76,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Input() molecularData: Array<string>;
   @Input() clinicalFields: Array<DataField>;
   @Input() entityType: EntityTypeEnum;
-  @Input() data: GraphData;
   @Output() hide: EventEmitter<any> = new EventEmitter();
   @Output() help: EventEmitter<GraphConfig> = new EventEmitter();
   @Output() showPanel: EventEmitter<PanelEnum> = new EventEmitter();
@@ -103,6 +102,16 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  _data: GraphData;
+  get data(): GraphData {
+    return this._data;
+  }
+  @Input() set data(value: GraphData) {
+    this._data = value;
+    requestAnimationFrame(() => {
+      this.cd.markForCheck();
+    });
+  }
 
   public _genesets: Array<any>;
   public get genesets(): Array<any> { return this._genesets; }

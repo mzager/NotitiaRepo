@@ -27,6 +27,13 @@ export const pcaKernalCompute = (config: PcaKernalConfigModel, worker: Dedicated
                 result.sid = matrix.sid;
                 result.mid = matrix.mid;
                 result.pid = matrix.pid;
+                result.legends = [
+                    Legend.create('Data Points',
+                        config.entity === EntityTypeEnum.GENE ? ['Genes'] : ['Samples'],
+                        ['circle'],
+                        'SHAPE',
+                        'DISCRETE'
+                    )];
                 worker.postMessage({
                     config: config,
                     data: result

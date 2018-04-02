@@ -116,7 +116,8 @@ export class ComputeEffect {
         resultScaled: null,
         sid: [],
         mid: [],
-        pid: []
+        pid: [],
+        legends: []
       };
       return Observable.of(new NoneCompleteAction({ config: payload['config'], data: data }));
     });
