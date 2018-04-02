@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import * as scale from 'd3-scale';
 import * as TWEEN from 'tween.js';
@@ -17,6 +18,10 @@ import { GraphEnum, EntityTypeEnum, DirtyEnum, ShapeEnum, VisualizationEnum } fr
 import { ChartObjectInterface } from './../../model/chart.object.interface';
 import * as THREE from 'three';
 import { CircleGeometry, SphereGeometry, Vector2, MeshPhongMaterial } from 'three';
+import { EventTargetLike } from 'rxjs/observable/FromEventObservable';
+import * as _ from 'lodash';
+import * as d3Force from 'd3-force';
+
 export class AbstractScatterVisualization extends AbstractVisualization {
 
     public set data(data: GraphData) { this._data = data; }
@@ -32,7 +37,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     private selectionMesh: THREE.Mesh;
     private selectionOrigin2d: Vector2;
     private selectionScale: scale.ScaleLinear<number, number>;
-
+    // private labelListener = _.debounce(this.showLabels, 300);
 
     // Private Subscriptions
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
@@ -47,6 +52,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     destroy() {
         super.destroy();
         this.removeObjects();
+        this.view.controls.removeEventListener('change', this.showLabels);
     }
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
         super.updateDecorator(config, decorators);
@@ -62,6 +68,9 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     enable(truthy: boolean) {
         super.enable(truthy);
         this.view.controls.enableRotate = true;
+
+        this.view.controls.addEventListener('change', this.showLabels.bind(this));
+
     }
 
     addObjects(type: EntityTypeEnum) {
@@ -87,7 +96,35 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     }
 
     showLabels(): void {
+        const frustum = new THREE.Frustum();
+        frustum.setFromMatrix(new THREE.Matrix4().multiplyMatrices(this.view.camera.projectionMatrix, this.view.camera.matrixWorldInverse));
+        const visibleMeshes = this.meshes.filter(mesh => frustum.containsPoint(mesh.position));
+        const w = this.view.viewport.width * .5;
+        const h = this.view.viewport.height * .5;
 
+        const data = visibleMeshes.map(mesh => {
+            const vector = mesh.position.clone().project(this.view.camera)
+            vector.y = -(vector.y * h) + h;
+            vector.x = (vector.x * w) + w;
+            return { vector: vector, tooltip: mesh.userData.tooltip };
+        }).sort((a, b) => a.vector.z - b.vector.z);
+
+        // Take 30 closest to screen
+        data.length = 40;
+
+
+        const html = data.reduce((p, c) => {
+            return p += '<div class="z-tooltip" style="left:' + c.vector.x + 'px;top:' + c.vector.y + 'px;">' + c.tooltip + '</div>';
+        }, '')
+
+
+        d3Force.forceLink()
+
+        this.tooltips.innerHTML = html;
+
+
+        // console.log(visibleMeshes.length)
+        // console.log('show labels');
     }
     hideLabels(): void {
         this.tooltips.innerHTML = '';
