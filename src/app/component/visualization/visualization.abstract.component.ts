@@ -1,3 +1,4 @@
+import { Vector3 } from 'three';
 import { FontService } from './../../service/font.service';
 import { GraphData } from 'app/model/graph-data.model';
 import { DataField } from './../../model/data-field.model';
@@ -73,6 +74,10 @@ export class AbstractVisualization implements ChartObjectInterface {
         this.overlay = <HTMLDivElement>(document.createElement('div'));
         this.overlay.className = 'graph-overlay';
         this.labels.appendChild(this.overlay);
+
+        view.camera.position.fromArray([0, 0, 1000]);
+        view.camera.lookAt(new Vector3(0, 0, 0));
+        view.scene.add(view.camera);
 
         return this;
     }

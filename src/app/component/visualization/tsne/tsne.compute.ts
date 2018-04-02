@@ -1,3 +1,4 @@
+import { EntityTypeEnum } from 'app/model/enum.model';
 import { TsneConfigModel, TsneDataModel } from './tsne.model';
 import { DimensionEnum, DirtyEnum } from './../../../model/enum.model';
 import { Legend } from 'app/model/legend.model';
@@ -29,6 +30,13 @@ export const tsneCompute = (config: TsneConfigModel, worker: DedicatedWorkerGlob
                 result.sid = matrix.sid;
                 result.mid = matrix.mid;
                 result.pid = matrix.pid;
+                result.legends = [
+                    Legend.create('Data Points',
+                        config.entity === EntityTypeEnum.GENE ? ['Genes'] : ['Samples'],
+                        ['circle'],
+                        'SHAPE',
+                        'DISCRETE'
+                    )];
                 worker.postMessage({
                     config: config,
                     data: result

@@ -21,6 +21,7 @@ import * as _ from 'lodash';
   </select>
 </label>
 </div>
+<!--
 <div class='form-group'>
 <label class='center-block'><span class='form-label'>Sort</span>
   <select materialize='material_select'
@@ -32,6 +33,7 @@ import * as _ from 'lodash';
   </select>
 </label>
 </div>
+-->
 <!--
 <div class='form-group'>
   <div class='switch'>
