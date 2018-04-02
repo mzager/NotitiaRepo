@@ -10,16 +10,14 @@ import {
         `<div class='loader'>
     <div class='loader-background'></div>
     <div class='loader-copy-container'>
+        <!--
+        <div class='lds-rotated'><div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div>
+        -->
         <div class='loader-copy'>
             <div class='loader-quote'>&lsquo;{{quote.q}}&rsquo;</div>
             <div class='loader-author'>{{quote.a}}</div>
-
         </div>
-        <!--
-        <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
-        -->
     </div>
-
 </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
