@@ -1,3 +1,6 @@
+
+import { LabelLayout } from './../../util/label/label.layout';
+import { Observable } from 'rxjs/Observable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import * as scale from 'd3-scale';
 import * as TWEEN from 'tween.js';
@@ -17,6 +20,10 @@ import { GraphEnum, EntityTypeEnum, DirtyEnum, ShapeEnum, VisualizationEnum } fr
 import { ChartObjectInterface } from './../../model/chart.object.interface';
 import * as THREE from 'three';
 import { CircleGeometry, SphereGeometry, Vector2, MeshPhongMaterial } from 'three';
+import { EventTargetLike } from 'rxjs/observable/FromEventObservable';
+import * as _ from 'lodash';
+import * as d3Force from 'd3-force';
+
 export class AbstractScatterVisualization extends AbstractVisualization {
 
     public set data(data: GraphData) { this._data = data; }
@@ -33,7 +40,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     private selectionOrigin2d: Vector2;
     private selectionScale: scale.ScaleLinear<number, number>;
 
-
     // Private Subscriptions
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         super.create(labels, events, view);
@@ -47,6 +53,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     destroy() {
         super.destroy();
         this.removeObjects();
+        this.view.controls.removeEventListener('change', this.showLabels);
     }
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
         super.updateDecorator(config, decorators);
@@ -62,6 +69,12 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     enable(truthy: boolean) {
         super.enable(truthy);
         this.view.controls.enableRotate = true;
+        const db = _.debounce(this.showLabels.bind(this), 300)
+        this.view.controls.addEventListener('change', v => {
+            this.hideLabels();
+            db();
+        });
+
     }
 
     addObjects(type: EntityTypeEnum) {
@@ -74,6 +87,8 @@ export class AbstractScatterVisualization extends AbstractVisualization {
             this.view.scene.add(group);
         });
         ChartFactory.decorateDataGroups(this.meshes, this.decorators);
+        this.points = this.meshes.map(v => v.children[0]);
+        this.showLabels();
     }
 
     removeObjects() {
@@ -83,6 +98,16 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.selectionMeshes.length = 0;
         this.meshes.length = 0;
         this.lines.length = 0;
+    }
+
+    showLabels(): void {
+        const objs = LabelLayout.filterObjectsInFrustum(this.meshes, this.view);
+        const pts = LabelLayout.mapLabelForces(objs, this.view);
+        const html = LabelLayout.reduceHtml(pts);
+        this.tooltips.innerHTML = html;
+    }
+    hideLabels(): void {
+        this.tooltips.innerHTML = '';
     }
 
     onMouseDown(e: ChartEvent): void {
@@ -162,26 +187,22 @@ export class AbstractScatterVisualization extends AbstractVisualization {
             return;
         }
         // Hit Test
-        const hit = ChartUtil.getIntersects(this.view, e.mouse, this.points);
-        if (hit.length > 0) {
+        // const hit = ChartUtil.getIntersects(this.view, e.mouse, this.points);
+        // console.log(hit.length);
+        // if (hit.length > 0) {
 
-            if (hit[0].object.userData === undefined) {
-                return;
-            }
-            const xPos = e.mouse.xs + 10;
-            const yPos = e.mouse.ys;
-            this.tooltips.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#FFF;padding:3px;border-radius:' +
-                '3px;z-index:9999;position:absolute;left:' +
-                xPos + 'px;top:' +
-                yPos + 'px;">' +
-                hit[0].object.userData.tooltip + '</div>';
-            return;
-        }
-        this.tooltips.innerHTML = '';
+        //     if (hit[0].object.userData === undefined) {
+        //         return;
+        //     }
+        //     const xPos = e.mouse.xs + 10;
+        //     const yPos = e.mouse.ys;
+        //     this.tooltips.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#FFF;padding:3px;border-radius:' +
+        //         '3px;z-index:9999;position:absolute;left:' +
+        //         xPos + 'px;top:' +
+        //         yPos + 'px;">' +
+        //         hit[0].object.userData.tooltip + '</div>';
+        //     return;
+        // }
+        // this.tooltips.innerHTML = '';
     }
-    constructor() {
-        super();
-    }
-
-
 }

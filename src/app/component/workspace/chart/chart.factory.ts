@@ -86,7 +86,7 @@ export class ChartFactory {
         group.position.set(position.x, position.y, position.z);
         group.userData.id = id;
         group.userData.idType = idType;
-        group.userData.tooltip = 'ID: ' + id;
+        group.userData.tooltip = id;
         return group;
     }
     public static decorateDataGroups(groups: Array<THREE.Group>, decorators: Array<DataDecorator>,

@@ -1,5 +1,5 @@
-import { EntityTypeEnum, DirtyEnum } from './../../../model/enum.model';
-import { Legend } from 'app/model/legend.model';
+import { EntityTypeEnum, DirtyEnum, ShapeEnum } from './../../../model/enum.model';
+import { Legend } from './../../../model/legend.model';
 import { PcaConfigModel, PcaDataModel } from './pca.model';
 import { DedicatedWorkerGlobalScope } from 'compute';
 import * as _ from 'lodash';
@@ -27,6 +27,13 @@ export const pcaCompute = (config: PcaConfigModel, worker: DedicatedWorkerGlobal
                 result.sid = matrix.sid;
                 result.mid = matrix.mid;
                 result.pid = matrix.pid;
+                result.legends = [
+                    Legend.create('Data Points',
+                        config.entity === EntityTypeEnum.GENE ? ['Genes'] : ['Samples'],
+                        ['circle'],
+                        'SHAPE',
+                        'DISCRETE'
+                    )];
                 worker.postMessage({
                     config: config,
                     data: result

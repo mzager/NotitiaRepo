@@ -1,3 +1,5 @@
+import { FontService } from './../../../service/font.service';
+import { HistogramGraph } from './../../visualization/histogram/histogram.graph';
 import { BoxWhiskersGraph } from './../../visualization/boxwhiskers/boxwhiskers.graph';
 // tslint:disable-next-line:max-line-length
 import { QuadradicDiscriminantAnalysisGraph } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis';
@@ -43,7 +45,6 @@ import { ChartEvents, ChartEvent } from './chart.events';
 import { VisualizationView } from './../../../model/chart-view.model';
 import { Observable } from 'rxjs/Observable';
 import { Injectable, EventEmitter } from '@angular/core';
-import { FontFactory } from './../../../service/font.factory';
 import { ChartControls } from './chart.controls';
 import TransformControls from 'three-transformcontrols';
 import { ChromosomeGraph } from './../../visualization/chromosome/chromosome.graph';
@@ -59,8 +60,7 @@ import {
 // import { EffectComposer, GlitchPass, RenderPass } from 'postprocessing';
 import { EffectComposer, RenderPass } from 'postprocessing';
 
-
-
+@Injectable()
 export class ChartScene {
 
     public static instance: ChartScene;
@@ -323,10 +323,10 @@ export class ChartScene {
                         view.chart.onConfigEmit.unsubscribe();
                         view.chart.destroy();
                         const camera = view.camera as PerspectiveCamera;
-                        camera.aspect = view.viewport.width / view.viewport.height;
-                        camera.updateProjectionMatrix();
                         camera.position.set(0, 0, 1000);
                         camera.lookAt(new Vector3(0, 0, 0));
+                        camera.aspect = view.viewport.width / view.viewport.height;
+                        camera.updateProjectionMatrix();
 
                     }
                     view.chart = this.getChartObject(config.visualization).create(
@@ -366,35 +366,36 @@ export class ChartScene {
             case VisualizationEnum.HEATMAP: return new HeatmapGraph();
             case VisualizationEnum.PATHWAYS: return new PathwaysGraph();
             case VisualizationEnum.EDGES: return new EdgesGraph();
-            case VisualizationEnum.PCA: return new PcaGraph();
-            case VisualizationEnum.CHROMOSOME: return new ChromosomeGraph();
-            case VisualizationEnum.GENOME: return new GenomeGraph();
-            case VisualizationEnum.TSNE: return new TsneGraph();
+            case VisualizationEnum.PCA: return new PcaGraph(this.fontService);
+            case VisualizationEnum.CHROMOSOME: return new ChromosomeGraph(this.fontService);
+            case VisualizationEnum.GENOME: return new GenomeGraph(this.fontService);
+            case VisualizationEnum.TSNE: return new TsneGraph(this.fontService);
             case VisualizationEnum.PLS: return new PlsGraph();
-            case VisualizationEnum.MDS: return new MdsGraph();
-            case VisualizationEnum.FA: return new FaGraph();
+            case VisualizationEnum.MDS: return new MdsGraph(this.fontService);
+            case VisualizationEnum.FA: return new FaGraph(this.fontService);
             case VisualizationEnum.LINKED_GENE: return new LinkedGeneGraph();
-            case VisualizationEnum.HIC: return new HicGraph();
+            case VisualizationEnum.HIC: return new HicGraph(this.fontService);
             case VisualizationEnum.PARALLEL_COORDS: return new ParallelCoordsGraph();
-            case VisualizationEnum.BOX_WHISKERS: return new BoxWhiskersGraph();
+            case VisualizationEnum.BOX_WHISKERS: return new BoxWhiskersGraph(this.fontService);
             case VisualizationEnum.SOM: return new SomGraph();
-            case VisualizationEnum.TRUNCATED_SVD: return new TruncatedSvdGraph();
-            case VisualizationEnum.FAST_ICA: return new FastIcaGraph();
-            case VisualizationEnum.DICTIONARY_LEARNING: return new DictionaryLearningGraph();
-            case VisualizationEnum.LDA: return new LdaGraph();
-            case VisualizationEnum.NMF: return new NmfGraph();
-            case VisualizationEnum.LOCALLY_LINEAR_EMBEDDING: return new LocalLinearEmbeddingGraph();
-            case VisualizationEnum.ISOMAP: return new IsoMapGraph();
-            case VisualizationEnum.SPECTRAL_EMBEDDING: return new SpectralEmbeddingGraph();
-            case VisualizationEnum.KERNAL_PCA: return new PcaKernalGraph();
-            case VisualizationEnum.SPARSE_PCA: return new PcaSparseGraph();
-            case VisualizationEnum.INCREMENTAL_PCA: return new PcaIncrementalGraph();
-            case VisualizationEnum.MINI_BATCH_SPARSE_PCA: return new MiniBatchSparsePcaGraph();
-            case VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING: return new MiniBatchDictionaryLearningGraph();
-            case VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS: return new LinearDiscriminantAnalysisGraph();
-            case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS: return new QuadradicDiscriminantAnalysisGraph();
-            case VisualizationEnum.SURVIVAL: return new SurvivalGraph();
+            case VisualizationEnum.TRUNCATED_SVD: return new TruncatedSvdGraph(this.fontService);
+            case VisualizationEnum.FAST_ICA: return new FastIcaGraph(this.fontService);
+            case VisualizationEnum.DICTIONARY_LEARNING: return new DictionaryLearningGraph(this.fontService);
+            case VisualizationEnum.LDA: return new LdaGraph(this.fontService);
+            case VisualizationEnum.NMF: return new NmfGraph(this.fontService);
+            case VisualizationEnum.LOCALLY_LINEAR_EMBEDDING: return new LocalLinearEmbeddingGraph(this.fontService);
+            case VisualizationEnum.ISOMAP: return new IsoMapGraph(this.fontService);
+            case VisualizationEnum.SPECTRAL_EMBEDDING: return new SpectralEmbeddingGraph(this.fontService);
+            case VisualizationEnum.KERNAL_PCA: return new PcaKernalGraph(this.fontService);
+            case VisualizationEnum.SPARSE_PCA: return new PcaSparseGraph(this.fontService);
+            case VisualizationEnum.INCREMENTAL_PCA: return new PcaIncrementalGraph(this.fontService);
+            case VisualizationEnum.MINI_BATCH_SPARSE_PCA: return new MiniBatchSparsePcaGraph(this.fontService);
+            case VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING: return new MiniBatchDictionaryLearningGraph(this.fontService);
+            case VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS: return new LinearDiscriminantAnalysisGraph(this.fontService);
+            case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS: return new QuadradicDiscriminantAnalysisGraph(this.fontService);
+            case VisualizationEnum.SURVIVAL: return new SurvivalGraph(this.fontService);
             case VisualizationEnum.DENDOGRAM: return new DendogramGraph();
+            case VisualizationEnum.HISTOGRAM: return new HistogramGraph(this.fontService);
         }
     }
 
@@ -403,7 +404,7 @@ export class ChartScene {
     //     TWEEN.update(time);
     // }
 
-    constructor() {
+    constructor(private fontService: FontService) {
         ChartScene.instance = this;
         // requestAnimationFrame(this.animate);
     }

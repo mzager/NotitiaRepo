@@ -52,6 +52,7 @@ import { TimelinesConfigModel } from 'app/component/visualization/timelines/time
 import { GraphData } from 'app/model/graph-data.model';
 import { Subscription } from 'rxjs/Subscription';
 import { Cohort } from '../../../model/cohort.model';
+import { HistogramConfigModel } from '../../visualization/histogram/histogram.model';
 declare var $: any;
 
 @Component({
@@ -75,7 +76,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Input() molecularData: Array<string>;
   @Input() clinicalFields: Array<DataField>;
   @Input() entityType: EntityTypeEnum;
-  @Input() data: GraphData;
   @Output() hide: EventEmitter<any> = new EventEmitter();
   @Output() help: EventEmitter<GraphConfig> = new EventEmitter();
   @Output() showPanel: EventEmitter<PanelEnum> = new EventEmitter();
@@ -102,6 +102,16 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  _data: GraphData;
+  get data(): GraphData {
+    return this._data;
+  }
+  @Input() set data(value: GraphData) {
+    this._data = value;
+    requestAnimationFrame(() => {
+      this.cd.markForCheck();
+    });
+  }
 
   public _genesets: Array<any>;
   public get genesets(): Array<any> { return this._genesets; }
@@ -185,13 +195,19 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   helpClick(): void {
     this.help.emit(this.config);
   }
+  public onCustomizeClick($event: Event) {
+    // this.showPanel
+    console.log('click');
+    $event.preventDefault();
 
+  }
   onCohortChange($event: Event) {
-    if ($event.target['value'] === 'customize') {
-      this.showPanel.emit(PanelEnum.COHORT);
-      $event.preventDefault();
-      return;
-    }
+
+    // if ($event.target['value'] === 'customize') {
+    //   this.showPanel.emit(PanelEnum.COHORT);
+    //   $event.preventDefault();
+    //   return;
+    // }
 
     const selected = this.cohorts.find(v => v.n === $event.target['value']);
     this.config.patientFilter = selected.pids;
@@ -200,11 +216,13 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.configChange.emit(this.config);
   }
   onGenesetChange($event: Event) {
-    if ($event.target['value'] === 'customize') {
-      this.showPanel.emit(PanelEnum.GENESET);
-      $event.preventDefault();
-      return;
-    }
+    // if ($event.target['value'] === 'customize') {
+    //   this.showPanel.emit(PanelEnum.GENESET);
+    //   $event.stopPropagation();
+    //   $event.stopImmediatePropagation();
+    //   $event.preventDefault();
+    //   return;
+    // }
 
     const selected = this.genesets.find(v => v.n === $event.target['value']);
     this.config.markerFilter = selected.g;
@@ -336,6 +354,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       case VisualizationEnum.SPARSE_PCA:
         gc = new PcaSparseConfigModel();
         break;
+      case VisualizationEnum.HISTOGRAM:
+        gc = new HistogramConfigModel();
+        break;
       default:
         this.methodOptions = [];
         break;
@@ -378,15 +399,16 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.visualizationOptions = [
       { value: VisualizationEnum.BOX_WHISKERS, label: 'Box + Whisker' },
       { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
+      { value: VisualizationEnum.SPREADSHEET, label: 'Dashboard' },
       { value: VisualizationEnum.HIC, label: 'Force Directed Graph' },
       { value: VisualizationEnum.GENOME, label: 'Genome' },
-      { value: VisualizationEnum.DENDOGRAM, label: 'Dendogram' },
+      // { value: VisualizationEnum.DENDOGRAM, label: 'Dendogram' },
       { value: VisualizationEnum.HEATMAP, label: 'Heatmap' },
       { value: VisualizationEnum.HISTOGRAM, label: 'Histogram' },
       { value: VisualizationEnum.PATHWAYS, label: 'Pathways' },
-      { value: VisualizationEnum.SURVIVAL, label: 'Survival' },
-      { value: VisualizationEnum.TIMELINES, label: 'Timelines' },
+      { value: VisualizationEnum.SURVIVAL, label: 'Survival + Hazard' },
       { value: VisualizationEnum.SPREADSHEET, label: 'Spreadsheet' },
+      { value: VisualizationEnum.TIMELINES, label: 'Timelines' },
       {
         value: VisualizationEnum.DECOMPOSITION, label: 'Matrix Decomposition', methodOptions: [
           { value: VisualizationEnum.DICTIONARY_LEARNING, label: 'Dictionary Learning' },

@@ -19,17 +19,16 @@ export class SurvivalConfigModel extends GraphConfig {
         sampleIds: Array<number>
     }>;
 }
-
+export interface SurvivalDatumModel {
+    line: Array<[number, number]>,
+    upper: Array<[number, number]>,
+    lower: Array<[number, number]>,
+    range: Array<[number, number]>,
+    name: string,
+    color: number
+}
 export interface SurvivalDataModel extends GraphData {
     legends: Array<Legend>;
-    cohorts: Array<{
-        name: string,
-        result: Array<[number, number]>,
-        confidence: {
-            upper: Array<[number, number]>,
-            lower: Array<[number, number]>
-        },
-        median: number,
-        timeRange: [number, number]
-    }>;
+    survival: Array<SurvivalDatumModel>;
+    hazard: Array<SurvivalDatumModel>;
 }

@@ -21,6 +21,7 @@ import {
   PcaCompleteAction,
   SomCompleteAction,
   ChromosomeCompleteAction,
+  HistogramCompleteAction,
   GenomeCompleteAction,
   TsneCompleteAction,
   EdgesCompleteAction,
@@ -115,7 +116,8 @@ export class ComputeEffect {
         resultScaled: null,
         sid: [],
         mid: [],
-        pid: []
+        pid: [],
+        legends: []
       };
       return Observable.of(new NoneCompleteAction({ config: payload['config'], data: data }));
     });
@@ -235,6 +237,18 @@ export class ComputeEffect {
         .mergeMap(result => {
           return [(result === null) ? new NullDataAction() :
             new SurvivalCompleteAction({ config: result.config, data: result.data }),
+          new LoaderHideAction()];
+        });
+    });
+
+  @Effect() loadHistogram: Observable<any> = this.actions$
+    .ofType(compute.COMPUTE_HISTOGRAM)
+    .map((action: UnsafeAction) => action.payload)
+    .switchMap(payload => {
+      return this.computeService.histogram(payload['config'])
+        .mergeMap(result => {
+          return [(result === null) ? new NullDataAction() :
+            new HistogramCompleteAction({ config: result.config, data: result.data }),
           new LoaderHideAction()];
         });
     });

@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: deployment-notitia-python
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: notitia-python
+    spec:
+      containers:
+      - name: notitia-python
+        image: canaantt/notitia-python:v2
+        resources:
+          limits:
+            cpu: "200m"
+            memory: "512Mi"
+          requests:
+            cpu: "200m"
+            memory: "512Mi"
+        ports:
+        - name: python-port
+          containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: python
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    nodePort: 30303
+    targetPort: python-port
+    protocol: TCP
+    name: http
+  selector:
+    app: notitia-python
+    

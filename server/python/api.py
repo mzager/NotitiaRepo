@@ -4,7 +4,8 @@ from flask import Flask
 from flask_cors import CORS
 
 import os.path
-import json
+import simplejson as json
+
 import base64
 from flask import request
 from flask import jsonify
@@ -71,16 +72,16 @@ def survival_ll_kaplan_meier(content):
 		'result': kmf.survival_function_.to_dict(),
 		'confidence': kmf.confidence_interval_.to_dict(),
 		'median': kmf.median_
-		}))
+        # 'density': kmf.cumulative_density_.to_dict()
+		}, ignore_nan=True ))
 
 def survival_ll_nelson_aalen(content):
-	kmf = NelsonAalenFitter()
-	kmf.fit(content['times'], event_observed=content['events'])
+	naf = NelsonAalenFitter()
+	naf.fit(content['times'], event_observed=content['events'])
 	return httpWrapper( json.dumps({
-		'result': kmf.survival_function_,
-		'hazard': cumulative_hazard_,
-		'median': kmf.kmf.median_
-		}))
+		'hazard': naf.cumulative_hazard_.to_dict(),
+        'confidence': naf.confidence_interval_.to_dict()
+		}, ignore_nan=True ))
 
 def cluster_sp_agglomerative(content):
     """ Agglomerative Clustering """
@@ -97,7 +98,7 @@ def cluster_sp_agglomerative(content):
 		'result': orderedDataMatrix.tolist(),
 		'order': heatmapOrder.tolist(),
 		'dendo': hier.dendrogram(linkageMatrix, no_plot=True)
-	}))
+	}, ignore_nan=True ))
 
 def cluster_sk_pca(content):
     """ SK PCA | components: N, data:[[]] """
@@ -121,7 +122,7 @@ def cluster_sk_pca(content):
         'mean': _config.mean_.tolist(),
         'nComponents': _config.n_components_,
         'noiseVariance': _config.noise_variance_
-    }))
+    }, ignore_nan=True ))
 
 def cluster_sk_pca_incremental(content):
     """ SK PCA """
@@ -141,7 +142,7 @@ def cluster_sk_pca_incremental(content):
         'nComponents': _config.n_components_,
         'noiseVariance': _config.noise_variance_,
         'nSamplesSeen': _config.n_samples_seen_
-    }))
+    }, ignore_nan=True ))
 
 def cluster_sk_pca_kernal(content):
     """ PCA KERNAL """
@@ -170,7 +171,7 @@ def cluster_sk_pca_kernal(content):
         #'dualCoef':  _config.dual_coef_.tolist(),
         #'X_transformed_fit_': _config.X_transformed_fit_.tolist(),
         #'X_fit_': _config.X_fit_
-        }))
+        }, ignore_nan=True ))
 
 def cluster_sk_pca_sparse(content):
     """ x """
@@ -189,7 +190,7 @@ def cluster_sk_pca_sparse(content):
         'components': _config.components_.tolist(),
         'error': _config.error_,
         'iter': _config.n_iter_
-    }))
+    }, ignore_nan=True ))
 
 def cluster_sk_sparse_coder(content):
     """ x """
@@ -208,7 +209,7 @@ def cluster_sk_sparse_coder(content):
         'components': _config.components_.tolist(),
         'error': _config.error_,
         'iter': _config.n_iter_
-    }))
+    }, ignore_nan=True ))
 
 def cluster_sk_mini_batch_dictionary_learning(content):
     """ x """
@@ -233,7 +234,7 @@ def cluster_sk_mini_batch_dictionary_learning(content):
         'result':  _result.tolist(),
         'components': _config.components_.tolist(),
         'iter': _config.n_iter_
-    }))
+    }, ignore_nan=True ))
 
 def cluster_sk_mini_batch_sparse_pca(content):
     """ x """
@@ -255,7 +256,7 @@ def cluster_sk_mini_batch_sparse_pca(content):
         'result':  _result.tolist(),
         'components': _config.components_.tolist(),
         'iter': _config.n_iter_
-    }))
+    }, ignore_nan=True ))
 
 def cluster_sk_linear_discriminant_analysis(content):
     """ SK LDA | components: N, data:[[]], classes:[] """
@@ -263,7 +264,7 @@ def cluster_sk_linear_discriminant_analysis(content):
     _result = _config.fit(content['data'], content['classes']).transform(content['data'])
     return httpWrapper(json.dumps({
         'result': _result.tolist()
-    }))
+    }, ignore_nan=True ))
 
 
 def cluster_sk_latent_dirichlet_allocation(content):
@@ -287,7 +288,7 @@ def cluster_sk_latent_dirichlet_allocation(content):
         'nIter': _config.n_iter_,
         'perplexity': _config.perplexity(content['data']),
         'score': _config.score(content['data'])
-    }))
+    }, ignore_nan=True ))
 
 
 def cluster_sk_dictionary_learning(content):
@@ -307,7 +308,7 @@ def cluster_sk_dictionary_learning(content):
         'components': _config.components_.tolist(),
         'error': _config.error_,
         'nIter': _config.n_iter_
-    }))
+    }, ignore_nan=True ))
 
 def cluster_sk_fast_ica(content):
     """ sk fast ica | """
@@ -324,7 +325,7 @@ def cluster_sk_fast_ica(content):
         'components': _config.components_.tolist(),
         'mixing': _config.mixing_.tolist(),
         'nIter': _config.n_iter_
-    }))
+    }, ignore_nan=True ))
 
 def cluster_sk_factor_analysis(content):
     """ SK FA | components: N, data:[[]], classes:[] """
@@ -338,7 +339,7 @@ def cluster_sk_factor_analysis(content):
         'loglike': _config.loglike_,
         'noiseVariance':_config.noise_variance_.tolist(),
         'nIter': _config.n_iter_
-    }))
+    }, ignore_nan=True ))
 
 def cluster_sk_nmf(content):
     """ """
@@ -355,7 +356,7 @@ def cluster_sk_nmf(content):
         'components': _config.components_.tolist(),
         'reconstruction_err':_config.reconstruction_err_,
         'nIter': _config.n_iter_
-    }))
+    }, ignore_nan=True ))
 
 def cluster_sk_truncated_svd(content):
     """ """
@@ -372,7 +373,7 @@ def cluster_sk_truncated_svd(content):
         'explainedVariance': _config.explained_variance_.tolist(),
         'explainedVarianceRatio': _config.explained_variance_ratio_.tolist(),
         'singularValues': _config.singular_values_.tolist()
-    }))
+    }, ignore_nan=True ))
 
 def manifold_sk_tsne(content):
     """ SK TSNE """
@@ -393,7 +394,7 @@ def manifold_sk_tsne(content):
         'embedding': _config.embedding_.tolist(),
         'klDivergence': _config.kl_divergence_,
         'nIter': _config.n_iter_
-    }))
+    }, ignore_nan=True ))
 
 def manifold_sk_mds(content):
     """ SK MDS """
@@ -408,7 +409,7 @@ def manifold_sk_mds(content):
         'result':  _result.tolist(),
         'embedding': _config.embedding_.tolist(),
         'stress': _config.stress_,
-    }))
+    }, ignore_nan=True ))
 
 def manifold_sk_iso_map(content):
     """ ISO MAP """
@@ -428,7 +429,7 @@ def manifold_sk_iso_map(content):
         #'kernalPca': _config.kernel_pca_,
         #'distMatrix': _config.dist_matrix_.tolist()
         #'reconstructionError': _config.reconstruction_error()
-    }))
+    }, ignore_nan=True ))
 
 def manifold_sk_local_linear_embedding(content):
     """ http://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html#sklearn.manifold.Isomap """
@@ -448,7 +449,7 @@ def manifold_sk_local_linear_embedding(content):
     return httpWrapper(json.dumps({
         'result':  _result.tolist(),
         'reconstructionError': _config.reconstruction_error_
-    }))
+    }, ignore_nan=True ))
 
 def manifold_sk_spectral_embedding(content):
     """ http://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html#sklearn.manifold.Isomap """
@@ -465,7 +466,7 @@ def manifold_sk_spectral_embedding(content):
         'result':  _result.tolist()
         # 'embedding': _config.embedding_.tolist(),
         # 'affinityMatrix': _config.affinity_matrix_.tolist()
-    }))
+    }, ignore_nan=True ))
 
 def cluster_sk_affinity_propagation(content):
     """ AffinityPropagation """
@@ -487,7 +488,7 @@ def cluster_sk_affinity_propagation(content):
         # 'affinity_matrix': affinity_matrix_,
         'affinity_matrix': _configaffinity_matrix_,
         'n_iter':  _config.n_iter_
-    }))
+    }, ignore_nan=True ))
 
 def cluster_sk_birch(content):
     """ Birch """
@@ -509,7 +510,8 @@ def cluster_sk_birch(content):
         'subcluster_centers': _config.subcluster_centers_,
         'subcluster_labels': _config.subcluster_labels_,
         'labels': _config.affinity_matrix_
-    }))
+    }, ignore_nan=True ))
+
 def cluster_sk_dbscan(content):
     """ DBSCAN """
     _config = DBSCAN(
@@ -525,7 +527,7 @@ def cluster_sk_dbscan(content):
         'core_sample_indices': _config.core_sample_indices_,
         'components': _config.components_,
         'labels': _config.labels_
-    }))
+    }, ignore_nan=True ))
 
 
 def cluster_sk_agglomerative(content):
@@ -543,7 +545,7 @@ def cluster_sk_agglomerative(content):
         'n_components': _config.n_components_,
         'labels': _config.labels_.tolist(),
         'children': _config.children_.tolist(),
-    }))
+    }, ignore_nan=True ))
 
 def cluster_sk_feature_agglomeration(content):
     """ FeatureAgglomeration """
@@ -563,7 +565,7 @@ def cluster_sk_feature_agglomeration(content):
         'n_leaves': _config.n_leaves_,
         'n_components': _config.n_components_,
         'children': base64.b64encode(_config.children_)
-    }))
+    }, ignore_nan=True ))
 
 def cluster_sk_kmeans(content):
     """ KMeans """
@@ -586,7 +588,7 @@ def cluster_sk_kmeans(content):
         'cluster_centers': _config.cluster_centers_,
         'labels': _config.labels_,
         'inertia': _config.inertia_
-    }))
+    }, ignore_nan=True ))
 
 def cluster_sk_mini_batch_kmeans(content):
     """ MiniBatchKMeans """
@@ -610,7 +612,7 @@ def cluster_sk_mini_batch_kmeans(content):
         'cluster_centers': _config.cluster_centers_,
         'labels': _config.labels_,
         'inertia': _config.inertia_
-    }))
+    }, ignore_nan=True ))
 
 def cluster_sk_mean_shift(content):
     """ MeanShift """
@@ -627,7 +629,7 @@ def cluster_sk_mean_shift(content):
         'result': _result.tolist(),
         'cluster_centers': _config.cluster_centers_,
         'labels': _config.labels_
-    }))
+    }, ignore_nan=True ))
 
 def cluster_sk_spectral(content):
     """ SpectralClustering """
@@ -651,7 +653,7 @@ def cluster_sk_spectral(content):
         'result': _result.tolist(),
         'affinity_matrix': _config.affinity_matrix_,
         'labels': _config.labels_
-    }))
+    }, ignore_nan=True ))
 
 def manifold_sk_lineardiscriminantanalysis(content):
     """ discriminant_analysis_LinearDiscriminantAnalysis """
@@ -675,7 +677,7 @@ def manifold_sk_lineardiscriminantanalysis(content):
         'scalings': _config.scalings_,
         'xbar': _config.xbar_,
         'classes': _config.classes_
-    }))
+    }, ignore_nan=True ))
 
 def manifold_sk_quadradicdiscriminantanalysis(content):
     """ discriminant_analysis_sk_QuadraticDiscriminantAnalysis """
@@ -693,7 +695,7 @@ def manifold_sk_quadradicdiscriminantanalysis(content):
         'priors': _config.priors_,
         'rotations': _config.rotations_, 
         'scalings': _config.scalings_
-    }))
+    }, ignore_nan=True ))
 
 
 
@@ -723,6 +725,7 @@ def main():
     content = request.get_json()
     function_to_invoke = {
     	'survival_ll_kaplan_meier': survival_ll_kaplan_meier,
+        'survival_ll_nelson_aalen': survival_ll_nelson_aalen,
     	'cluster_sp_agglomerative': cluster_sp_agglomerative,	
         'cluster_sk_pca': cluster_sk_pca,
         'cluster_sk_pca_incremental': cluster_sk_pca_incremental,
