@@ -36,6 +36,9 @@ export class ComputeWorkerUtil {
         0xf44336, 0xe91e63, 0x9c27b0, 0x673ab7, 0x3f51b5, 0x2196f3, 0x03a9f4, 0x00bcd4, 0x009688,
         0x4caf50, 0x8bc34a, 0xcddc39, 0xffeb3b, 0xffc107, 0xff9800, 0xff5722, 0x795548];
 
+
+
+
     // Returns Data Matrix That Matches Filters + Sorted By Entity Type
     getDataMatrix(config: GraphConfig): Promise<any> {
         return new Promise((resolve, reject) => {
@@ -322,7 +325,7 @@ export class ComputeWorkerUtil {
     }
 
     // Call IDB
-    getEventData(db: string, pids: Array<string>): Promise<any> {
+    getEvents(db: string, pids: Array<string>): Promise<any> {
         return new Promise((resolve, reject) => {
             this.openDatabaseData(db).then(v => {
                 const query = (pids.length === 0) ?
@@ -334,17 +337,24 @@ export class ComputeWorkerUtil {
             });
         });
     }
-    getPatientData(samples: Array<string>, db: string, tbl: string): Promise<any> {
+    getPatients(samples: Array<string>, db: string, tbl: string): Promise<any> {
         return new Promise((resolve, reject) => {
             this.openDatabaseData(db).then(v => {
                 console.log('Filter by Seleted Patients / Samples');
-                // const query = (samples.length === 0) ?
-                //     this.dbData.table(tbl) :
-                //     this.dbData.table(tbl).where('p').anyOfIgnoreCase(markers);
                 this.dbData.table(tbl).toArray().then(_patients => {
                     resolve(_patients);
                 });
             });
+        });
+    }
+
+    getCohorts(db: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.openDatabaseData(db).then(v => {
+                this.dbData.table('cohorts').toArray().then(_cohorts => {
+                    resolve(_cohorts);
+                });
+            })
         });
     }
 
@@ -1068,17 +1078,14 @@ export class ComputeWorkerUtil {
             'Access-Control-Allow-Origin': '*'
         };
 
-        return fetch('http://oncoscape-opencpu.sttrcancer.io/py', {
-            // return fetch('https://python.os.sttrcancer.io/py', {
-            // python.os.sttrcancer.io/py
-            // return fetch('http://localhost:5000/py', {
+        // return fetch('http://oncoscape-opencpu.sttrcancer.io/py', {
+        // return fetch('https://python.os.sttrcancer.io/py', {
+        // python.os.sttrcancer.io/py
+        return fetch('http://localhost/py', {
             headers: headers,
             method: 'POST',
             body: JSON.stringify(config)
-        })
-            .then(res => {
-                return res.json();
-            });
+        }).then(res => res.json());
     }
 
 

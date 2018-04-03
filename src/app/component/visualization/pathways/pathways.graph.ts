@@ -82,6 +82,7 @@ export class PathwaysGraph implements ChartObjectInterface {
 
 
     enable(truthy: boolean) {
+
         if (this.isEnabled === truthy) { return; }
         this.isEnabled = truthy;
         this.view.controls.enabled = this.isEnabled;

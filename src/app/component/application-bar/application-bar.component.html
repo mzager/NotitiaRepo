@@ -1,18 +1,8 @@
-<!-- File Menu -->
+<!-- File Menu
 <ul id='application-bar-menu-file' class='dropdown-content'>
-    <!-- <li><a class='app-bar-menu-item' href='#!'>Load</a></li>
-    <li><a class='app-bar-menu-item' href='#!'>Save</a></li>
-    <li class='divider'></li> -->
-    <!-- <li>
-        <input type='file' ng2FileSelect (change)='changeFile($event)' 
-        [uploader]='uploader' name='file' id='file' class='inputfile'/>
-       <a class='app-bar-menu-item'><label class='app-bar-menu-item' for='file'>Excel</label></a> 
-   </li> -->
-    <!-- <li><a class='app-bar-menu-item' href='https://dev.oncoscape.sttrcancer.io/upload/'>Oncoscape</a></li> -->
     <li>
         <a class='app-bar-menu-item' (click)='filePanelToggle.emit()'>Load </a>
     </li>
-    <!-- <li><a class='app-bar-menu-item' (click)='filePanelToggle.emit()'>Save </a></li> -->
     <li class='divider'></li>
     <li>
         <a class='app-bar-menu-item' (click)='exportImage();'>Export</a>
@@ -21,37 +11,7 @@
         <a class='app-bar-menu-item' (click)='print();'>Print</a>
     </li>
 </ul>
-
-
-<!-- View -->
-<ul id='application-bar-menu-view' class='dropdown-content'>
-    <li>
-        <a class='app-bar-menu-item' (click)='graphPanelToggle.emit(1)'>Graph A</a>
-    </li>
-    <li>
-        <a class='app-bar-menu-item' (click)='graphPanelToggle.emit(2)'>Graph B</a>
-    </li>
-    <li>
-        <a class='app-bar-menu-item' (click)='edgePanelToggle.emit()'>Workspace</a>
-    </li>
-    <li>
-        <a class='app-bar-menu-item' (click)='dataPanelToggle.emit()'>Data Table</a>
-    </li>
-
-    <!-- <li><a class='app-bar-menu-item' (click)='statPanelToggle.emit()'>Stats (s)</a></li> -->
-    <!--  -->
-    <!-- <li><a class='app-bar-menu-item' (click)='edgePanelToggle.emit()'>Edge (e)</a></li> -->
-    <!-- <li><a class='app-bar-menu-item' (click)='edgePanelToggle.emit()'>Edge (e)</a></li> -->
-    <!-- 
-        <li class='divider'></li>
-         <li><a class='app-bar-menu-item' (click)='cohortPanelToggle.emit()'>Cohort (c)</a></li>
-        <li><a class='app-bar-menu-item' (click)='genesetPanelToggle.emit()'>Geneset (x)</a></li>
-        <li><a class='app-bar-menu-item' (click)='historyPanelToggle.emit()'>History (h)</a></li>
-        <li><a class='app-bar-menu-item' (click)='toolPanelToggle.emit()'>Tool Panel</a></li>
-        <li><a class='app-bar-menu-item' href='#!'>Axis</a></li>
-        <li><a class='app-bar-menu-item' href='#!'>Grid</a></li> 
-    -->
-</ul>
+-->
 
 
 <!-- Help -->
@@ -65,14 +25,18 @@
     <li>
         <a class='app-bar-menu-item' (click)='viewPanel(16)' href='#'>Cohorts</a>
     </li>
-    <li>
+    <!-- <li>
         <a class='app-bar-menu-item' (click)='viewPanel(256)' href='#'>Settings</a>
-    </li>
+    </li> -->
     <li>
         <a class='app-bar-menu-item' (click)='viewPanel(512)' href='#'>About</a>
     </li>
+    <li class='divider'></li>
     <li>
         <a class='app-bar-menu-item' (click)='viewPanel(2048)' href='#'>Dashboard</a>
+    </li>
+    <li>
+        <a class='app-bar-menu-item' (click)='viewPanel(1099511627776)' href='#'>Spreadsheet</a>
     </li>
 
 </ul>
@@ -84,6 +48,12 @@
         <div class='app-bar-menu-item hide-on-small-and-down ' class='app-bar-menu-item-comparison' style='border-width:0px 1px; position:relative;'>
             <input class='hide-on-small-and-down ' type='text' placeholder="Search Chart" style='color:#FFF; border-bottom-width: 0px; margin: 0px; padding-left:30px; width:80px;'>
             <i class="material-icons hide-on-small-and-down" style='position:absolute;top:4px;left:10px;'>search</i>
+        </div>
+        <div class='app-bar-menu-item hide-on-small-and-down' class='app-bar-menu-item-comparison hide-on-small-and-down'>
+            <label style='color:#FFF;' (click)='toggleBackgroundColor()'>
+                <i class='material-icons tiny' style='padding-top:2px;position:relative;top:3px;'>brightness_6</i> Color
+            </label>
+
         </div>
         <div class='app-bar-menu-item hide-on-small-and-down' class='app-bar-menu-item-comparison hide-on-small-and-down'>
             <div class='switch hide-on-small-and-down' style='margin:0px;color:#FFF;'>

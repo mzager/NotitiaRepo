@@ -1,3 +1,4 @@
+import { Legend } from './../../../model/legend.model';
 import { EntityTypeEnum, DirtyEnum } from './../../../model/enum.model';
 import { LinearDiscriminantAnalysisConfigModel, LinearDiscriminantAnalysisDataModel } from './lineardiscriminantanalysis.model';
 import { DedicatedWorkerGlobalScope } from 'compute';
@@ -22,6 +23,13 @@ export const linearDiscriminantAnalysisCompute = (config: LinearDiscriminantAnal
                 result.sid = matrix.sid;
                 result.mid = matrix.mid;
                 result.pid = matrix.pid;
+                result.legends = [
+                    Legend.create('Data Points',
+                        config.entity === EntityTypeEnum.GENE ? ['Genes'] : ['Samples'],
+                        ['circle'],
+                        'SHAPE',
+                        'DISCRETE'
+                    )];
                 worker.postMessage({
                     config: config,
                     data: result

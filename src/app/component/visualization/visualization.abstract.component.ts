@@ -1,3 +1,5 @@
+import { Vector3 } from 'three';
+import { FontService } from './../../service/font.service';
 import { GraphData } from 'app/model/graph-data.model';
 import { DataField } from './../../model/data-field.model';
 import { DataDecorator } from './../../model/data-map.model';
@@ -31,6 +33,7 @@ export class AbstractVisualization implements ChartObjectInterface {
     public view: VisualizationView;
     public isEnabled: boolean;
     public meshes: THREE.Object3D[];
+    public fontService: FontService;
 
     enable(truthy: boolean) {
         if (this.isEnabled === truthy) { return; }
@@ -72,6 +75,10 @@ export class AbstractVisualization implements ChartObjectInterface {
         this.overlay.className = 'graph-overlay';
         this.labels.appendChild(this.overlay);
 
+        view.camera.position.fromArray([0, 0, 1000]);
+        view.camera.lookAt(new Vector3(0, 0, 0));
+        view.scene.add(view.camera);
+
         return this;
     }
     destroy() {
@@ -85,5 +92,9 @@ export class AbstractVisualization implements ChartObjectInterface {
     onMouseDown(e: ChartEvent): void { }
     onMouseUp(e: ChartEvent): void { }
     onMouseMove(e: ChartEvent): void { }
+
+    constructor(fontService: FontService) {
+        this.fontService = fontService;
+    }
 
 }

@@ -1,7 +1,7 @@
-import { DimensionEnum } from './../../../model/enum.model';
+import { Legend } from './../../../model/legend.model';
+import { DimensionEnum, EntityTypeEnum } from './../../../model/enum.model';
 import { ComputeWorkerUtil } from './../../../service/compute.worker.util';
 import { HicConfigModel } from './hic.model';
-import { Legend } from 'app/model/legend.model';
 import { ColorEnum, DirtyEnum } from 'app/model/enum.model';
 import * as util from 'app/service/compute.worker.util';
 import { scaleLinear, scaleQuantize, scaleQuantile, scaleOrdinal, scaleThreshold } from 'd3-scale';
@@ -77,6 +77,10 @@ export const hicComputeFn = (config: HicConfigModel): Promise<any> => {
 
 export const hicCompute = (config: HicConfigModel, worker: DedicatedWorkerGlobalScope): void => {
     hicComputeFn(config).then(result => {
+
+        result.legends = [
+            Legend.create('Data Points', ['Genes'], ['circle'], 'SHAPE', 'DISCRETE')
+        ];
         worker.postMessage({
             config: config,
             data: result

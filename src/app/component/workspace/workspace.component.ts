@@ -1,3 +1,4 @@
+import { HistogramConfigModel } from './../visualization/histogram/histogram.model';
 import { DataDecorator } from './../../model/data-map.model';
 import { Cohort } from './../../model/cohort.model';
 import { GeneSet } from './../../model/gene-set.model';
@@ -269,6 +270,9 @@ export class WorkspaceComponent {
         break;
       case enums.VisualizationEnum.SURVIVAL:
         this.store.dispatch(new compute.SurvivalAction({ config: value as SurvivalConfigModel }));
+        break;
+      case enums.VisualizationEnum.HISTOGRAM:
+        this.store.dispatch(new compute.HistogramAction({ config: value as HistogramConfigModel }));
         break;
       case enums.VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS:
         this.store.dispatch(new compute.QuadraticDiscriminantAnalysisAction(

@@ -1,3 +1,4 @@
+import { histogramCompute } from './app/component/visualization/histogram/histogram.compute';
 import { dendogramCompute } from './app/component/visualization/dendogram/dendogram.compute';
 import { survivalCompute } from './app/component/visualization/survival/survival.compute';
 
@@ -31,12 +32,15 @@ import { chromosomeCompute } from './app/component/visualization/chromosome/chro
 import { ComputeWorkerUtil } from './app/service/compute.worker.util';
 import { pathwaysCompute } from './app/component/visualization/pathways/pathways.compute';
 import { miniBatchSparsePcaCompute } from './app/component/visualization/minibatchsparsepca/minibatchsparsepca.compute';
-import { linearDiscriminantAnalysisCompute
-    } from './app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.compute';
-import { miniBatchDictionaryLearningCompute
-    } from './app/component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.compute';
-import { quadradicDiscriminantAnalysisCompute
-    } from './app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.compute';
+import {
+    linearDiscriminantAnalysisCompute
+} from './app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.compute';
+import {
+    miniBatchDictionaryLearningCompute
+} from './app/component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.compute';
+import {
+    quadradicDiscriminantAnalysisCompute
+} from './app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.compute';
 
 // import * as util from './app/service/compute.worker.util';
 // Recompile:  npm run worker
@@ -151,6 +155,9 @@ onmessage = function (e) {
             break;
         case VisualizationEnum.SPARSE_PCA:
             pcaSparseCompute(e.data, me);
+            break;
+        case VisualizationEnum.HISTOGRAM:
+            histogramCompute(e.data, me);
             break;
     }
 };
