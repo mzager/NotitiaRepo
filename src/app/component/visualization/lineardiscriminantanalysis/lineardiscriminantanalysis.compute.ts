@@ -1,4 +1,4 @@
-import { Legend } from 'app/model/legend.model';
+import { Legend } from './../../../model/legend.model';
 import { EntityTypeEnum, DirtyEnum } from './../../../model/enum.model';
 import { LinearDiscriminantAnalysisConfigModel, LinearDiscriminantAnalysisDataModel } from './lineardiscriminantanalysis.model';
 import { DedicatedWorkerGlobalScope } from 'compute';

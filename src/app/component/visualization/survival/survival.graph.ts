@@ -92,10 +92,10 @@ export class SurvivalGraph extends AbstractVisualization {
             }, [Infinity, -Infinity]));
 
         this.data.result.survival.forEach((result, i) => {
-            this.drawLine(-600, 0, result, sX, sY, i);
+            this.drawLine(-600, 0, result, sX, sY, i, 'Survival');
         });
         this.data.result.hazard.forEach((result, i) => {
-            this.drawLine(600, 0, result, hX, hY, i);
+            this.drawLine(600, 0, result, hX, hY, i, 'Hazard');
         });
 
 
@@ -110,7 +110,7 @@ export class SurvivalGraph extends AbstractVisualization {
 
     drawLine(xOffset: number, yOffset: number, cohort: SurvivalDatumModel,
         xScale: ScaleContinuousNumeric<number, number>, yScale: ScaleContinuousNumeric<number, number>,
-        renderOrder): void {
+        renderOrder, label: string): void {
         let pts: Array<Vector2>, line: THREE.Line;
 
         // Confidence
@@ -132,40 +132,37 @@ export class SurvivalGraph extends AbstractVisualization {
             blending: THREE.NormalBlending
         });
 
-
         const mesh = new Mesh(geometry, material);
-        // mesh.renderOrder = renderOrder;
         mesh.position.setZ(renderOrder * 1)
         this.confidences.push(mesh);
         this.view.scene.add(mesh);
 
-        // pts = cohort.upper.map(v => new Vector2(xScale(v[0]) + xOffset, yScale(v[1]) + yOffset));
-        // line = ChartFactory.linesAllocate(cohort.color, pts, {});
-        // this.lines.push(line);
-        // this.view.scene.add(line)
+        pts = cohort.upper.map(v => new Vector2(xScale(v[0]) + xOffset, yScale(v[1]) + yOffset));
+        line = ChartFactory.linesAllocate(cohort.color, pts, {});
+        this.lines.push(line);
+        this.view.scene.add(line)
 
-        // pts = cohort.lower.map(v => new Vector2(xScale(v[0]) + xOffset, yScale(v[1]) + yOffset));
-        // line = ChartFactory.linesAllocate(cohort.color, pts, {});
-        // this.lines.push(line);
-        // this.view.scene.add(line);
-
+        pts = cohort.lower.map(v => new Vector2(xScale(v[0]) + xOffset, yScale(v[1]) + yOffset));
+        line = ChartFactory.linesAllocate(cohort.color, pts, {});
+        this.lines.push(line);
+        this.view.scene.add(line);
 
         // Line
         pts = cohort.line.map(v => new Vector2(xScale(v[0]) + xOffset, yScale(v[1]) + yOffset));
-        // const geo = new THREE.Geometry().setFromPoints(pts);
-        // line = new MeshLine();
-        // line.setGeometry(geo);
-        // const meshLine = new THREE.Mesh(line.geometry,
-        //     ChartFactory.getMeshLine(cohort.color, 5));
+        const geo = new THREE.Geometry().setFromPoints(pts);
+        const mline = new MeshLine();
+        mline.setGeometry(geo);
+        const meshLine = new THREE.Mesh(line.geometry,
+            ChartFactory.getMeshLine(cohort.color, 5));
 
         line = ChartFactory.linesAllocate(cohort.color, pts, {});
         this.lines.push(line);
         this.view.scene.add(line);
 
         // Copy
-        const text = this.fontService.createFontMesh(1000, 'Survival', this.view.camera, 'center', 'medium', 30);
+        const text = this.fontService.createFontMesh(1000, label, this.view.camera, 'center', 'medium', 30);
         text.position.setX(0 + xOffset);
-        text.position.setY(-520 + yOffset);
+        text.position.setY(-620 + yOffset);
         this.grid.push(text);
         this.view.scene.add(text);
     }
