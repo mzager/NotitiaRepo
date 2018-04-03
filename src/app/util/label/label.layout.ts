@@ -1,8 +1,40 @@
+import { Subject } from 'rxjs/subject';
+import { Observable } from 'rxjs/Observable';
 import { LabelForce } from './../../util/label/label.force';
 import { VisualizationView } from './../../model/chart-view.model';
 import * as THREE from 'three';
+import * as _ from 'lodash';
 
 export class LabelLayout {
+
+    private _view: VisualizationView;
+    constructor(view: VisualizationView) {
+        this._view = view;
+    }
+
+    private _enabled: boolean = false;
+    public get enable(): boolean { return this._enabled; }
+    public set enable(value: boolean) {
+        if (value === this._enabled) { return; }
+        if (value) {
+            this._view.controls.addEventListener('change', this.onControlsChange.bind(this));
+        } else {
+            this._view.controls.removeEventListener('change', this.onControlsChange.bind(this));
+        }
+    }
+
+    public firstChange = true;
+    public onShow = new Subject<null>();
+    public onHide = new Subject<null>();
+    private onControlsChangeDebounce = _.debounce(this.onHide.next, 300)
+    private onControlsChange(e: any): void {
+        if (this.firstChange) {
+            this.onHide.next();
+            this.firstChange = false;
+        }
+        this.onControlsChangeDebounce();
+    }
+
     static filterObjectsInFrustum(objs: Array<THREE.Object3D>, view: VisualizationView): Array<THREE.Object3D> {
         const frustum = new THREE.Frustum();
         frustum.setFromMatrix(new THREE.Matrix4().multiplyMatrices(view.camera.projectionMatrix, view.camera.matrixWorldInverse));
