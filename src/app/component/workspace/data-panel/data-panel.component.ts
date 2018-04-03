@@ -26,7 +26,12 @@ export class DataPanelComponent implements AfterViewInit {
   @ViewChild('dataTable') dataTable;
   @ViewChild('tabs') tabs: ElementRef;
 
-
+  /*
+      `<div>
+      <a href='#' class='modalClose' (click)='closeClick()'></a>
+      <h1> Dashboard </h1>
+      <div #chartContainer></div>
+  </div>*/
 
   @Input() configA: GraphConfig;
   @Input() configB: GraphConfig;
@@ -39,9 +44,9 @@ export class DataPanelComponent implements AfterViewInit {
       { tbl: 'configA', label: 'Chart A', map: '', ctype: CollectionTypeEnum.UNDEFINED },
       { tbl: 'configB', label: 'Chart B', map: '', ctype: CollectionTypeEnum.UNDEFINED }
     ]);
-    this._tables.unshift(
-      { tbl: 'summary', label: 'Summary', map: '', ctype: CollectionTypeEnum.UNDEFINED },
-    );
+    // this._tables.unshift(
+    //   { tbl: 'summary', label: 'Summary', map: '', ctype: CollectionTypeEnum.UNDEFINED },
+    // );
   }
 
   tableChange(table: DataTable): void {
@@ -63,18 +68,17 @@ export class DataPanelComponent implements AfterViewInit {
   }
 
   loadTable(table: DataTable): void {
-
+    debugger;
     const hot = this.hotRegisterer.getInstance('hotInstance');
     if (table.ctype === CollectionTypeEnum.UNDEFINED) {
       const config: GraphConfig = (table.tbl === 'configA') ? this.configA : this.configB;
       const markers: Array<any> = config.markerFilter.map(v =>
-        ( [v, 'Gene', (config.markerSelect.indexOf(v) !== -1) ] ));
+        ([v, 'Gene', (config.markerSelect.indexOf(v) !== -1)]));
       const samples: Array<any> = config.sampleFilter.map(v =>
-        ( [v, 'Sample', (config.sampleSelect.indexOf(v) !== -1) ] ));
-
-
+        ([v, 'Sample', (config.sampleSelect.indexOf(v) !== -1)]));
       const data = markers.concat(samples);
       const colHeaders = ['Name', 'Type', 'Selected'];
+      // const data = [];
 
       hot.updateSettings({
         manualColumnResize: true,
@@ -95,13 +99,14 @@ export class DataPanelComponent implements AfterViewInit {
       return;
     }
     this.openDatabase().then(() => {
+      debugger;
       Promise.all([
-        this.db.table(table.tbl).limit(100).toArray(),
+        this.db.table(table.tbl.replace(/\s/gi, '')).limit(100).toArray(),
         this.db.table(table.map).toArray()
       ]).then(result => {
         const colHeaders = result[1].map(v => v.s);
-        const rowHeaders = result[0].map(v => v.m );
-        const data = result[0].map(v => v.d );
+        const rowHeaders = result[0].map(v => v.m);
+        const data = result[0].map(v => v.d);
         hot.updateSettings({
           manualColumnResize: true,
           columnSorting: true,
