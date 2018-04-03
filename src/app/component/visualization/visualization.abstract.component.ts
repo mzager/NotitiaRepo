@@ -1,3 +1,4 @@
+import { OrbitControls } from 'three-orbitcontrols-ts';
 import { Vector3 } from 'three';
 import { FontService } from './../../service/font.service';
 import { GraphData } from 'app/model/graph-data.model';
@@ -11,6 +12,7 @@ import { GraphConfig } from './../../model/graph-config.model';
 import { EventEmitter } from '@angular/core';
 import { GraphEnum, EntityTypeEnum } from 'app/model/enum.model';
 import { ChartObjectInterface } from './../../model/chart.object.interface';
+import * as _ from 'lodash';
 export class AbstractVisualization implements ChartObjectInterface {
 
     // Emitters
