@@ -1,3 +1,6 @@
+import { Stat } from './../../../model/stat.model';
+import { StatFactory } from './../../../service/stat.factory';
+import { StatVegaFactory } from './../../../service/stat.vega.factory';
 import { DataService } from './../../../service/data.service';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
@@ -15,7 +18,6 @@ import {
 import { VisualizationEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import { values } from 'd3';
-import { VegaFactory, StatFactory, Stat } from 'app/model/stat.model';
 import { Element } from '@angular/compiler';
 import { combineLatest } from 'rxjs/observable/combineLatest';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
@@ -32,11 +34,10 @@ declare var vegaTooltip: any;
 })
 export class StatPanelComponent implements AfterViewInit, OnDestroy {
 
-  // @ViewChild('chartContainer', { read: ViewContainerRef }) chartContainer: ViewContainerRef;
-
   container: any;
   chartStats: Array<Stat> = [];
   statFactory: StatFactory;
+  statVegaFactory: StatVegaFactory;
 
   $configChange: Subject<GraphConfig> = new Subject();
   $dataChange: Subject<GraphData> = new Subject();
@@ -45,7 +46,6 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
   _config: GraphConfig;
   _data: GraphData;
 
-  @Input() data: GraphData;
   @Input() set config(value: GraphConfig) {
     if (value === null) { return; }
     this._config = value; this.$configChange.next();
@@ -58,34 +58,21 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
   update(): void {
 
     if (this._config === null || this._data === null) { return; }
+
     this.container.empty();
-    // this.statFactory.getPopulationStats(this._config, this.dataService).then(populationStats => {
-
-    this.statFactory.getStatObjects(this._data, this._config).forEach((stat, i) => {
-      const div = this.container.append('<div id="cc' + i.toString() + '" class="statItemContainer" style="padding-bottom:20px;"></div>');
-
-      // Process Stat Types
-      switch (stat.renderer) {
-        case StatRendererEnum.VEGA:
-          const v = vega.parse(VegaFactory.getInstance().getChartObject(stat, stat.charts[0]), { renderer: ('svg') });
-          const c = new vega.View(v)
-            .initialize('#cc' + i.toString())
-            .hover()
-            .renderer('svg')
-            .run();
-          break;
-
-        case StatRendererEnum.HTML:
-          div.children('#cc' + i.toString()).append(VegaFactory.getInstance().getChartObject(stat, stat.charts[0]).toString());
-          break;
-      }
+    this.statFactory.getComputeStats(this._data, this._config).then(stats => {
+      stats.forEach((stat) => {
+        const id = 'cc' + Math.random().toString(36).substring(7);
+        const div = this.container.append('<div id="' + id + '" class="statItemContainer" style="padding-bottom:20px;"></div>');
+        this.statVegaFactory.drawChartObject(stat, stat.charts[0], id, div);
+      })
     });
-    // });
   }
 
   // Ng After View Init get's called after the dom has been constructed
   ngAfterViewInit() {
-    this.statFactory = StatFactory.getInstance();
+    this.statFactory = StatFactory.getInstance(this.dataService);
+    this.statVegaFactory = StatVegaFactory.getInstance();
     this.container = $(this.elementRef.nativeElement.firstElementChild.firstElementChild.firstElementChild);
     this.$statsChange = Observable.combineLatest(this.$configChange, this.$dataChange)
       .debounceTime(300).subscribe(this.update.bind(this));

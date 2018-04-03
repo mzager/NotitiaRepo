@@ -1,3 +1,4 @@
+import { HistogramConfigModel } from './../component/visualization/histogram/histogram.model';
 // tslint:disable:max-line-length
 import { MiniBatchDictionaryLearningConfigModel } from './../component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
 import { LinearDiscriminantAnalysisConfigModel } from './../component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
@@ -86,6 +87,7 @@ export class ComputeService {
     private hic$ = new Subject<any>();
     private pathways$ = new Subject<any>();
     private survival$ = new Subject<any>();
+    private histogram$ = new Subject<any>();
 
     constructor() {
         // this.pool = Pool.create({
@@ -140,7 +142,8 @@ export class ComputeService {
                                                                                                                             (v === VisualizationEnum.HIC) ? this.hic$ :
                                                                                                                                 (v === VisualizationEnum.SURVIVAL) ? this.survival$ :
                                                                                                                                     (v === VisualizationEnum.EDGES) ? this.edges$ :
-                                                                                                                                        null;
+                                                                                                                                        (v === VisualizationEnum.HISTOGRAM) ? this.histogram$ :
+                                                                                                                                            null;
     }
     onMessage(v) {
         if (v.data === 'TERMINATE') {
@@ -324,5 +327,9 @@ export class ComputeService {
 
     pcaSparse(config: PcaSparseConfigModel): Observable<any> {
         return this.execute(config, this.pcaSparse$);
+    }
+
+    histogram(config: HistogramConfigModel): Observable<any> {
+        return this.execute(config, this.histogram$);
     }
 }

@@ -400,3 +400,10 @@ select:focus {
     padding-left: 10px;
     padding-right: 5px;
 }
+
+.z-tooltip { 
+    font-size:10px;
+    white-space:nowrap;
+    position:absolute;
+    font-weight: 700;
+}

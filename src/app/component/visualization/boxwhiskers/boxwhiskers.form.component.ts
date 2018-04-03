@@ -12,6 +12,17 @@ import * as _ from 'lodash';
   template: `
 <form [formGroup]='form' novalidate>
 <div class='form-group'>
+<label class='center-block'><span class='form-label'>Data</span>
+  <select materialize='material_select'
+    [compareWith]='byKey'
+    formControlName='table'>
+    <option *ngFor='let option of dataOptions' 
+      [ngValue]='option'>{{option.label}}</option>
+  </select>
+</label>
+</div>
+<!--
+<div class='form-group'>
 <label class='center-block'><span class='form-label'>Sort</span>
   <select materialize='material_select'
       [compareWith]='byKey'
@@ -22,6 +33,7 @@ import * as _ from 'lodash';
   </select>
 </label>
 </div>
+-->
 <!--
 <div class='form-group'>
   <div class='switch'>
@@ -95,7 +107,7 @@ export class BoxWhiskersFormComponent {
 
   byKey(p1: DataField, p2: DataField) {
     if (p2 === null) { return false; }
-    return p1.key === p2.key;
+    return p1.label === p2.label;
   }
 
   constructor(private fb: FormBuilder) {
@@ -117,6 +129,8 @@ export class BoxWhiskersFormComponent {
       categoricalVariable1: [],
       categoricalVariable2: [],
       pointColor: [],
+      table: [],
+
       sort: [],
       scatter: [],
       outliers: [],
