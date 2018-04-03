@@ -1,5 +1,5 @@
 import { EntityTypeEnum, DirtyEnum } from './../../../model/enum.model';
-import { Legend } from 'app/model/legend.model';
+import { Legend } from './../../../model/legend.model';
 import { FastIcaConfigModel, FastIcaDataModel } from './fastica.model';
 import { DedicatedWorkerGlobalScope } from 'compute';
 import * as _ from 'lodash';
@@ -25,6 +25,13 @@ export const fasticaCompute = (config: FastIcaConfigModel, worker: DedicatedWork
                 result.sid = matrix.sid;
                 result.mid = matrix.mid;
                 result.pid = matrix.pid;
+                result.legends = [
+                    Legend.create('Data Points',
+                        config.entity === EntityTypeEnum.GENE ? ['Genes'] : ['Samples'],
+                        ['circle'],
+                        'SHAPE',
+                        'DISCRETE'
+                    )];
                 worker.postMessage({
                     config: config,
                     data: result

@@ -1,5 +1,5 @@
+import { StatFactory } from './../../../../service/stat.factory';
 import { GraphConfig } from './../../../../model/graph-config.model';
-import { StatFactory } from './../../../../model/stat.model';
 import { DataService } from './../../../../service/data.service';
 import { DataTypeEnum, CollectionTypeEnum, DirtyEnum } from 'app/model/enum.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewChild, ElementRef } from '@angular/core';
@@ -45,7 +45,7 @@ export class SummaryComponent {
   }
 
   constructor(public dataService: DataService) {
-    this.statFactory = StatFactory.getInstance();
+    this.statFactory = StatFactory.getInstance(dataService);
   }
 
 

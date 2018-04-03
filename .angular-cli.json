@@ -26,15 +26,15 @@
         "styles.css"
       ],
       "scripts": [
-            "../node_modules/jquery/dist/jquery.js",
-            "../node_modules/hammerjs/hammer.js",
-            "../node_modules/materialize-css/dist/js/materialize.js",
-            "../node_modules/numbro/dist/numbro.min.js",
-            "../node_modules/moment/min/moment.min.js",
-            "../node_modules/three/build/three.min.js",
-            "../node_modules/vega/build/vega.min.js",
-            "../node_modules/vega-tooltip/build/vega-tooltip.min.js",
-            "assets/ml220.js"
+        "../node_modules/jquery/dist/jquery.js",
+        "../node_modules/hammerjs/hammer.js",
+        "../node_modules/materialize-css/dist/js/materialize.js",
+        "../node_modules/numbro/dist/numbro.min.js",
+        "../node_modules/moment/min/moment.min.js",
+        "../node_modules/three/build/three.min.js",
+        "../node_modules/vega/build/vega.min.js",
+        "../node_modules/vega-tooltip/build/vega-tooltip.min.js",
+        "assets/ml220.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

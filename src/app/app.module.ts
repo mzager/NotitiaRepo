@@ -1,3 +1,4 @@
+
 import { DashboardPanelComponent } from './component/workspace/dashboard-panel/dashboard-panel.component';
 import { DecoratorPanelComponent } from './component/workspace/decorator-panel/decorator-panel.component';
 import { CitationsPanelComponent } from './component/workspace/citations-panel/citations-panel.component';
@@ -96,6 +97,7 @@ import { LinearDiscriminantAnalysisFormComponent } from 'app/component/visualiza
 import { MiniBatchDictionaryLearningFormComponent } from 'app/component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.form.component';
 import { QueryBuilderComponent } from 'app/component/workspace/query-panel/query-builder/query-builder.component';
 import { ModalService } from 'app/service/modal-service';
+import { FontService } from 'app/service/font.service';
 import { HotTableModule } from 'angular-handsontable';
 import { NouisliderModule } from 'ng2-nouislider';
 import { SummaryComponent } from './component/workspace/data-panel/summary/summary.component';
@@ -194,6 +196,7 @@ import { LoaderComponent } from './component/workspace/loader/loader.component';
     Title,
     DataService,
     DatasetService,
+    FontService,
     ComputeService,
     WorkbookService,
     ChartFactory,

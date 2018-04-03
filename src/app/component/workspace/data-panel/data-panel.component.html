@@ -1,6 +1,16 @@
 <div>
-    <ul class='tabs tabs-fixed-width' #tabs>
-        <li class='tab' *ngFor='let table of _tables'><a class='active' (click)='tableChange(table)'>{{table.label}}</a></li>
-    </ul>
-    <hot-table #dataTable  hotId="hotInstance"></hot-table>
+    <div class='row'>
+        <a href='#' class='modalClose' (click)='closeClick()'></a>
+        <div class="col s12">
+            <h1 class='cohort-h1'>Speadsheet</h1>
+        </div>
+    </div>
+    <div class='row' style='position:relative;left:-60px;'>
+        <ul class='tabs tabs-fixed-width' #tabs>
+            <li class='tab' *ngFor='let table of _tables'>
+                <a class='active' (click)='tableChange(table)'>{{table.label}}</a>
+            </li>
+        </ul>
+        <hot-table #dataTable hotId="hotInstance"></hot-table>
+    </div>
 </div>

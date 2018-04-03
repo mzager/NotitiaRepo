@@ -1,5 +1,5 @@
 import { EntityTypeEnum, DirtyEnum } from './../../../model/enum.model';
-import { Legend } from 'app/model/legend.model';
+import { Legend } from './../../../model/legend.model';
 import { FaConfigModel, FaDataModel } from './fa.model';
 import { DedicatedWorkerGlobalScope } from 'compute';
 import * as _ from 'lodash';
@@ -22,6 +22,13 @@ export const faCompute = (config: FaConfigModel, worker: DedicatedWorkerGlobalSc
                 result.sid = matrix.sid;
                 result.mid = matrix.mid;
                 result.pid = matrix.pid;
+                result.legends = [
+                    Legend.create('Data Points',
+                        config.entity === EntityTypeEnum.GENE ? ['Genes'] : ['Samples'],
+                        ['circle'],
+                        'SHAPE',
+                        'DISCRETE'
+                    )];
                 worker.postMessage({
                     config: config,
                     data: result

@@ -57,6 +57,13 @@
     padding-top: 10px;
 }
 
+.lds-rotated {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
 .lds-ellipsis {
     display: inline-block;
     position: relative;
@@ -69,7 +76,7 @@
     width: 11px;
     height: 11px;
     border-radius: 50%;
-    background: #eeeeee;
+    background: #EEE;
     animation-timing-function: cubic-bezier(0, 1, 1, 0);
   }
   .lds-ellipsis div:nth-child(1) {

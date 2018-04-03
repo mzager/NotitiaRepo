@@ -1,6 +1,7 @@
+import { Legend } from './../../../model/legend.model';
+
 import { TsneConfigModel, TsneDataModel } from './tsne.model';
-import { DimensionEnum, DirtyEnum } from './../../../model/enum.model';
-import { Legend } from 'app/model/legend.model';
+import { DimensionEnum, DirtyEnum, EntityTypeEnum } from './../../../model/enum.model';
 import { DedicatedWorkerGlobalScope } from './../../../../compute';
 import * as _ from 'lodash';
 declare var ML: any;
@@ -29,6 +30,13 @@ export const tsneCompute = (config: TsneConfigModel, worker: DedicatedWorkerGlob
                 result.sid = matrix.sid;
                 result.mid = matrix.mid;
                 result.pid = matrix.pid;
+                result.legends = [
+                    Legend.create('Data Points',
+                        config.entity === EntityTypeEnum.GENE ? ['Genes'] : ['Samples'],
+                        ['circle'],
+                        'SHAPE',
+                        'DISCRETE'
+                    )];
                 worker.postMessage({
                     config: config,
                     data: result

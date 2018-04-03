@@ -1,7 +1,7 @@
+import { FontService } from './../../../service/font.service';
 import { WorkspaceConfigModel } from './../../../model/workspace.model';
 import { EntityTypeEnum } from './../../../model/enum.model';
 import { getGraphAConfig, getEdgesData } from './../../../reducer/index.reducer';
-import { FontFactory } from './../../../service/font.factory';
 import * as e from 'app/model/enum.model';
 import * as fromRoot from 'app/reducer/index.reducer';
 import * as select from 'app/action/select.action';
@@ -65,7 +65,10 @@ export class ChartComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.ngZone.runOutsideAngular(() => {
 
-      const chartScene: ChartScene = new ChartScene();
+      // FontService.getInstance().then( fontFactoy => { 
+
+      // }
+      const chartScene: ChartScene = new ChartScene(this.fontService);
       chartScene.init(this.container.nativeElement, this.labelsA.nativeElement,
         this.labelsB.nativeElement, this.labelsE.nativeElement);
 
@@ -130,6 +133,5 @@ export class ChartComponent implements AfterViewInit {
     });
   }
 
-  constructor(private ngZone: NgZone, private store: Store<any>, private cdr: ChangeDetectorRef) {
-  }
+  constructor(private ngZone: NgZone, private store: Store<any>, private cdr: ChangeDetectorRef, private fontService: FontService) { }
 }
