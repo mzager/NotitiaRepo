@@ -39,6 +39,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     private selectionMesh: THREE.Mesh;
     private selectionOrigin2d: Vector2;
     private selectionScale: scale.ScaleLinear<number, number>;
+    private labelLayout: LabelLayout;
 
     // Private Subscriptions
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
@@ -47,13 +48,13 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.meshes = [];
         this.points = [];
         this.lines = [];
+        this.labelLayout = new LabelLayout(view);
         return this;
     }
 
     destroy() {
         super.destroy();
         this.removeObjects();
-        this.view.controls.removeEventListener('change', this.showLabels);
     }
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
         super.updateDecorator(config, decorators);
@@ -69,12 +70,15 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     enable(truthy: boolean) {
         super.enable(truthy);
         this.view.controls.enableRotate = true;
-        const db = _.debounce(this.showLabels.bind(this), 300)
-        this.view.controls.addEventListener('change', v => {
-            this.hideLabels();
-            db();
-        });
-
+        if (truthy) {
+            this.labelLayout.enable = true;
+            this.labelLayout.onHide.subscribe(this.onHideLabels.bind(this));
+            this.labelLayout.onShow.subscribe(this.onShowLabels.bind(this));
+        } else {
+            this.labelLayout.enable = false;
+            this.labelLayout.onHide.unsubscribe();
+            this.labelLayout.onShow.unsubscribe();
+        }
     }
 
     addObjects(type: EntityTypeEnum) {
@@ -88,7 +92,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         });
         ChartFactory.decorateDataGroups(this.meshes, this.decorators);
         this.points = this.meshes.map(v => v.children[0]);
-        this.showLabels();
     }
 
     removeObjects() {
@@ -100,13 +103,15 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.lines.length = 0;
     }
 
-    showLabels(): void {
+    onShowLabels(): void {
+        console.log('Show');
         const objs = LabelLayout.filterObjectsInFrustum(this.meshes, this.view);
         const pts = LabelLayout.mapLabelForces(objs, this.view);
         const html = LabelLayout.reduceHtml(pts);
         this.tooltips.innerHTML = html;
     }
-    hideLabels(): void {
+    onHideLabels(): void {
+        console.log('hide');
         this.tooltips.innerHTML = '';
     }
 
