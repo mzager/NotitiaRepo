@@ -1,4 +1,4 @@
-import { Legend } from 'app/model/legend.model';
+import { Legend } from './../../../model/legend.model';
 import { LocalLinearEmbeddingConfigModel, LocalLinearEmbeddingDataModel } from './locallinearembedding.model';
 import { EntityTypeEnum, DirtyEnum } from './../../../model/enum.model';
 import { DedicatedWorkerGlobalScope } from 'compute';

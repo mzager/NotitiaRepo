@@ -240,13 +240,10 @@ export class DataService {
     }));
   }
   createDataDecorator(config: GraphConfig, decorator: DataDecorator): Observable<DataDecorator> {
-
     if (decorator.field.ctype & CollectionTypeEnum.MOLEC_DATA_FIELD_TABLES) {
       return this.createMolecularDataDecorator(config, decorator);
     }
     return this.createSampleDataDecorator(config, decorator);
-
-
   }
 
   getGeneMap(): Observable<any> {

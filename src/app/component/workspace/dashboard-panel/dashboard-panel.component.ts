@@ -25,7 +25,7 @@ declare var vegaTooltip: any;
     template:
         `<div>
     <a href='#' class='modalClose' (click)='closeClick()'></a>
-    <h1> Filtered Stats </h1>
+    <h1> Dashboard </h1>
     <div #chartContainer></div>
 </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -52,9 +52,8 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
 
         this.container.empty();
         Promise.all([
-            this.statFactory.getCohortsStats(this.config),
-            // this.statFactory.getCohortsStats(this.config),
-            this.statFactory.getGenesetsStats(this.config)
+            this.statFactory.getCohortsStats(this.config)
+            // this.statFactory.getGenesetsStats(this.config)
         ]).then(results => {
             const allResults = results.reduce((p, c) => p.concat(...c), []);
             allResults.forEach(result => {
