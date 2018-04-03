@@ -1,7 +1,7 @@
-import { EntityTypeEnum } from 'app/model/enum.model';
+import { Legend } from './../../../model/legend.model';
+
 import { TsneConfigModel, TsneDataModel } from './tsne.model';
-import { DimensionEnum, DirtyEnum } from './../../../model/enum.model';
-import { Legend } from 'app/model/legend.model';
+import { DimensionEnum, DirtyEnum, EntityTypeEnum } from './../../../model/enum.model';
 import { DedicatedWorkerGlobalScope } from './../../../../compute';
 import * as _ from 'lodash';
 declare var ML: any;

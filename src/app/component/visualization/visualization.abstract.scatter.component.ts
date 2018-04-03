@@ -1,3 +1,5 @@
+
+import { LabelLayout } from './../../util/label/label.layout';
 import { Observable } from 'rxjs/Observable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import * as scale from 'd3-scale';
@@ -37,7 +39,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     private selectionMesh: THREE.Mesh;
     private selectionOrigin2d: Vector2;
     private selectionScale: scale.ScaleLinear<number, number>;
-    // private labelListener = _.debounce(this.showLabels, 300);
 
     // Private Subscriptions
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
@@ -68,8 +69,11 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     enable(truthy: boolean) {
         super.enable(truthy);
         this.view.controls.enableRotate = true;
-
-        this.view.controls.addEventListener('change', this.showLabels.bind(this));
+        const db = _.debounce(this.showLabels.bind(this), 300)
+        this.view.controls.addEventListener('change', v => {
+            this.hideLabels();
+            db();
+        });
 
     }
 
@@ -84,6 +88,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         });
         ChartFactory.decorateDataGroups(this.meshes, this.decorators);
         this.points = this.meshes.map(v => v.children[0]);
+        this.showLabels();
     }
 
     removeObjects() {
@@ -96,39 +101,15 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     }
 
     showLabels(): void {
-        const frustum = new THREE.Frustum();
-        frustum.setFromMatrix(new THREE.Matrix4().multiplyMatrices(this.view.camera.projectionMatrix, this.view.camera.matrixWorldInverse));
-        const visibleMeshes = this.meshes.filter(mesh => frustum.containsPoint(mesh.position));
-        const w = this.view.viewport.width * .5;
-        const h = this.view.viewport.height * .5;
-
-        const data = visibleMeshes.map(mesh => {
-            const vector = mesh.position.clone().project(this.view.camera)
-            vector.y = -(vector.y * h) + h;
-            vector.x = (vector.x * w) + w;
-            return { vector: vector, tooltip: mesh.userData.tooltip };
-        }).sort((a, b) => a.vector.z - b.vector.z);
-
-        // Take 30 closest to screen
-        data.length = 40;
-
-
-        const html = data.reduce((p, c) => {
-            return p += '<div class="z-tooltip" style="left:' + c.vector.x + 'px;top:' + c.vector.y + 'px;">' + c.tooltip + '</div>';
-        }, '')
-
-
-        d3Force.forceLink()
-
+        const objs = LabelLayout.filterObjectsInFrustum(this.meshes, this.view);
+        const pts = LabelLayout.mapLabelForces(objs, this.view);
+        const html = LabelLayout.reduceHtml(pts);
         this.tooltips.innerHTML = html;
-
-
-        // console.log(visibleMeshes.length)
-        // console.log('show labels');
     }
     hideLabels(): void {
         this.tooltips.innerHTML = '';
     }
+
     onMouseDown(e: ChartEvent): void {
         const hit = ChartUtil.getIntersects(this.view, e.mouse, this.points);
         if (hit.length > 0) {

@@ -146,7 +146,7 @@ export class HeatmapGraph implements ChartObjectInterface {
         geometry.addAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
         geometry.addAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
         geometry.computeBoundingSphere();
-        const material = new THREE.PointsMaterial({ size: 10, vertexColors: THREE.VertexColors });
+        const material = new THREE.PointsMaterial({ size: 12, vertexColors: THREE.VertexColors });
         this.points = new THREE.Points(geometry, material);
         this.group.add(this.points);
 

@@ -2,7 +2,7 @@ import {
     SpectralEmbeddingConfigModel, SpectralEmbeddingDataModel, SpectralEmbeddingAffinity, SpectralEmbeddingEigenSolver
 } from './spectralembedding.model';
 import { EntityTypeEnum, DirtyEnum } from './../../../model/enum.model';
-import { Legend } from 'app/model/legend.model';
+import { Legend } from './../../../model/legend.model';
 import { DedicatedWorkerGlobalScope } from 'compute';
 import * as _ from 'lodash';
 declare var ML: any;
