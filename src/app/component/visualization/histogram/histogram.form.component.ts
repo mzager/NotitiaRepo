@@ -21,25 +21,13 @@ import * as _ from 'lodash';
     </label>
   </div>
   <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Point Color</span>
-      <select materialize='material_select'
-          [compareWith]='byKey'
-          [materializeSelectOptions]='colorOptions'
-          formControlName='pointColor'>
-          <option *ngFor='let option of colorOptions' [ngValue]='option'>{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Point Size</span>
-       <select materialize='material_select'
-          [compareWith]='byKey'
-          [materializeSelectOptions]='sizeOptions'
-          formControlName='pointSize'>
-          <option *ngFor='let option of sizeOptions' [ngValue]='option'>{{option.label}}</option>
-      </select>
-    </label>
-  </div>
+  <label class='center-block'><span class='form-label'>Visualize</span>
+    <select materialize='material_select'
+        formControlName='entity'>
+        <option *ngFor='let option of displayOptions'>{{option}}</option>
+    </select>
+  </label>
+</div>
   <div class='form-group'>
     <div class='switch'>
       <label>
@@ -63,13 +51,6 @@ export class HistogramFormComponent {
 
   @Input() set molecularData(tables: Array<string>) {
     this.dataOptions = tables;
-    this.colorOptions = [
-      DataFieldFactory.getUndefined(),
-      // DataFieldFactory.create('fn', 'Sample Mean', DataTypeEnum.FUNCTION_MEAN),
-      // DataFieldFactory.create('fn', 'Sample Median', DataTypeEnum.FUNCTION_MEDIAN)
-    ];
-
-    this.sizeOptions = this.colorOptions;
 
     // Init Form
     this.form = this.fb.group({
@@ -80,11 +61,8 @@ export class HistogramFormComponent {
       markerList: [],
       sampleList: [],
       molecularTable: this.dataOptions[0],
-      pointColor: this.colorOptions[0],
-      pointSize: this.sizeOptions[0],
       dimension: [],
-      showCytobands: [],
-      allowRotation: []
+
     });
 
     // Update When Form Changes
@@ -104,9 +82,6 @@ export class HistogramFormComponent {
   @Output() configChange = new EventEmitter<GraphConfig>();
 
   form: FormGroup;
-  colorOptions: Array<DataField>;
-  shapeOptions: Array<DataField>;
-  sizeOptions: Array<DataField>;
   dataOptions: Array<string>;
   dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D];
 

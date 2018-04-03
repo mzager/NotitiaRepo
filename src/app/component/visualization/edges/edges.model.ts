@@ -21,7 +21,7 @@ export class EdgeConfigModel extends GraphConfig {
 }
 
 export class EdgeDataModel implements GraphData {
-    legendItems: Array<Legend>;
+    legends: Array<Legend>;
     result: any;
     resultScaled: number[][];
     pointIntersect: Array<any>;

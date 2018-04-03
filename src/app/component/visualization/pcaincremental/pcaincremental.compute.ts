@@ -2,7 +2,7 @@ import { DirtyEnum } from 'app/model/enum.model';
 import Dexie from 'dexie';
 import { PcaIncrementalConfigModel } from './pcaincremental.model';
 import { EntityTypeEnum } from './../../../model/enum.model';
-import { Legend } from 'app/model/legend.model';
+import { Legend } from './../../../model/legend.model';
 import { DedicatedWorkerGlobalScope } from 'compute';
 import * as _ from 'lodash';
 declare var ML: any;
@@ -22,6 +22,13 @@ export const pcaIncrementalCompute = (config: PcaIncrementalConfigModel, worker:
                 result.sid = matrix.sid;
                 result.mid = matrix.mid;
                 result.pid = matrix.pid;
+                result.legends = [
+                    Legend.create('Data Points',
+                        config.entity === EntityTypeEnum.GENE ? ['Genes'] : ['Samples'],
+                        ['circle'],
+                        'SHAPE',
+                        'DISCRETE'
+                    )];
                 worker.postMessage({
                     config: config,
                     data: result

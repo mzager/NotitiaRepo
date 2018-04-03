@@ -7,4 +7,5 @@ export interface GraphData {
     sid: Array<string>;
     mid: Array<string>;
     pid: Array<string>;
+    legends: Array<Legend>;
 }

@@ -1,8 +1,8 @@
 <div class='legend'>
     <div class='legendHeader'>{{legend.name}}</div>
-    <div [ngSwitch]="decorator.type">
+    <div [ngSwitch]="_legend.type">
         <!-- Color -->
-        <div *ngSwitchCase="0">
+        <div *ngSwitchCase='"COLOR"'>
             <div *ngFor='let item of items' class='legendItem'>
                 <div class='swatch' [style.background-color]='item.value'></div>
                 {{item.label}}
@@ -13,7 +13,7 @@
             </div>
         </div>
         <!-- Shape -->
-        <div *ngSwitchCase="2">
+        <div *ngSwitchCase='"SHAPE"'>
             <div *ngFor='let item of items' class='legendItem'>
                 <img class='swatch' src='{{item.value}}'> {{item.label}}
                 <div class='swatchButtons'>
