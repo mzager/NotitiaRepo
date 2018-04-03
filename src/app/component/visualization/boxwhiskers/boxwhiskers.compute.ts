@@ -30,7 +30,7 @@ export const boxwhiskersCompute = (config: BoxWhiskersConfigModel, worker: Dedic
                 });
         }
         if (config.continuousVariable.ctype & CollectionTypeEnum.PATIENT) {
-            worker.util.getPatientData(config.sampleFilter, config.database, config.continuousVariable.tbl)
+            worker.util.getPatients(config.sampleFilter, config.database, config.continuousVariable.tbl)
                 .then(data => {
                 });
         }

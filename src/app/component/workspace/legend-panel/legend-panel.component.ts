@@ -13,6 +13,7 @@ import * as d3Interpolate from 'd3-interpolate';
 import * as d3Color from 'd3-color';
 import * as d3Shape from 'd3-shape';
 import * as d3 from 'd3';
+import { GraphConfig } from '../../../model/graph-config.model';
 declare var $: any;
 
 @Component({
@@ -23,25 +24,26 @@ declare var $: any;
 })
 export class LegendPanelComponent implements AfterViewInit {
 
-  public legend: Legend;
+
   public items: Array<{ label: string, value: string }>;
+
 
   private _decorator: DataDecorator;
   public get decorator(): DataDecorator { return this._decorator; }
   @Input() public set decorator(value: DataDecorator) {
     this._decorator = value;
-    this.legend = this._decorator.legend;
+    this._legend = this._decorator.legend;
 
-    switch (this.legend.type) {
+    switch (this._legend.type) {
 
       case 'COLOR':
-        this.items = this.legend.labels.map((v, i) => {
-          let color = this.legend.values[i];
+        this.items = this._legend.labels.map((v, i) => {
+          let color = this._legend.values[i];
           if (color === undefined) {
             color = '#333333';
           } else {
             color = (this.decorator.field.type === DataTypeEnum.STRING) ?
-              ('#' + (this.legend.values[i]).toString(16)) : this.legend.values[i];
+              ('#' + (this._legend.values[i]).toString(16)) : this._legend.values[i];
           }
           return {
             label: v,
@@ -51,17 +53,30 @@ export class LegendPanelComponent implements AfterViewInit {
         break;
 
       case 'SHAPE':
-        this.items = this.legend.labels.map((v, i) => ({
+        this.items = this._legend.labels.map((v, i) => ({
           label: v,
-          value: './assets/shapes/shape-' + this.legend.values[i] + '-solid-legend.png'
+          value: './assets/shapes/shape-' + this._legend.values[i] + '-solid-legend.png'
         }));
         break;
-
     }
 
     this.cd.markForCheck();
   }
 
+  public _legend: Legend;
+  public get legend(): Legend {
+    return this._legend;
+  }
+  @Input() public set legend(value: Legend) {
+    this._legend = value;
+    this.items = this._legend.labels.map((v, i) => ({
+      label: v,
+      value: './assets/shapes/shape-' + this._legend.values[i] + '-solid-legend.png'
+    }));
+    requestAnimationFrame(v => {
+      this.cd.markForCheck();
+    });
+  }
 
   public select(): void {
   }

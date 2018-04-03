@@ -6,12 +6,14 @@ import { DataField, DataFieldFactory } from 'app/model/data-field.model';
 
 export class HistogramConfigModel extends GraphConfig {
 
-    displayType: DimensionEnum = DimensionEnum.THREE_D;
-    domain: Array<number> = [-500, 500];
-    showAllGenes: Boolean = false;
-    showCytobands: Boolean = true;
+    constructor() {
+        super();
+        this.entity = EntityTypeEnum.GENE;
+        this.visualization = VisualizationEnum.HISTOGRAM;
+        this.label = 'Histogram';
+    }
 }
 
 export interface HistogramDataModel extends GraphData {
-    x: number;
+    data: any;
 }

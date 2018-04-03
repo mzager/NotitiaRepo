@@ -24,7 +24,6 @@ export class ChartEvents {
     public chartMouseDown: Observable<ChartEvent>;
     public chartMouseUp: Observable<ChartEvent>;
     public chartKeyPress: Observable<KeyboardEvent>;
-
     public isMouseDown: Boolean;
 
     public mouseUp: Observable<MouseEvent>;

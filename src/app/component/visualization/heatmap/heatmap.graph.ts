@@ -11,7 +11,6 @@ import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { ChartEvents, ChartEvent } from './../../workspace/chart/chart.events';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { VisualizationView } from './../../../model/chart-view.model';
-import { FontFactory } from './../../../service/font.factory';
 import { ChartFactory } from './../../workspace/chart/chart.factory';
 import { DimensionEnum, EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
 import * as scale from 'd3-scale';
@@ -65,9 +64,7 @@ export class HeatmapGraph implements ChartObjectInterface {
         this.isEnabled = false;
         this.view.controls.enableRotate = false;
         this.meshes = [];
-        // this.selector = new THREE.Mesh(
-        //     new THREE.SphereGeometry(3, 30, 30),
-        //     new THREE.MeshStandardMaterial({ opacity: .2, transparent: true }));
+        this.view.controls.reset();
         return this;
     }
 
@@ -149,7 +146,7 @@ export class HeatmapGraph implements ChartObjectInterface {
         geometry.addAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
         geometry.addAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
         geometry.computeBoundingSphere();
-        const material = new THREE.PointsMaterial({ size: 10, vertexColors: THREE.VertexColors });
+        const material = new THREE.PointsMaterial({ size: 12, vertexColors: THREE.VertexColors });
         this.points = new THREE.Points(geometry, material);
         this.group.add(this.points);
 

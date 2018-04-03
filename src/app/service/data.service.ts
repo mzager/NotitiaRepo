@@ -240,13 +240,10 @@ export class DataService {
     }));
   }
   createDataDecorator(config: GraphConfig, decorator: DataDecorator): Observable<DataDecorator> {
-
     if (decorator.field.ctype & CollectionTypeEnum.MOLEC_DATA_FIELD_TABLES) {
       return this.createMolecularDataDecorator(config, decorator);
     }
     return this.createSampleDataDecorator(config, decorator);
-
-
   }
 
   getGeneMap(): Observable<any> {
@@ -422,11 +419,38 @@ export class DataService {
     });
   }
 
-  getPatientStats(database: string, ids: Array<string>): Promise<any> {
+  getGeneStats(database: string, mids: Array<string>): Promise<any> {
+    if (mids === undefined || mids === null) {
+      mids = [];
+    }
+    return new Promise((resolve, reject) => {
+      const db = new Dexie('notitia-' + database);
+      db.open().then(connection => {
+        connection.table('dataset').toArray().then(dataset => {
+          // Filter All Tables To Only Show Molecular
+          const molecularTables = dataset[0].tables.filter(table => table.ctype & CollectionTypeEnum.MOLEC_DATA_FIELD_TABLES);
 
-    // TODO: FIX This
-    if (ids === undefined || ids === null) {
-      ids = [];
+          // Build Query For Each Table
+          const queries = molecularTables.map(tbl =>
+            (mids.length === 0) ? connection.table(tbl.tbl.replace(/\s/gi, '')) :
+              connection.table(tbl.tbl).where('m').anyOfIgnoreCase(mids)
+          );
+
+          Promise.all(queries.map(query => query.toArray())).then(results => {
+            debugger;
+            // Do your math...
+            resolve(results);
+          });
+
+
+        });
+      });
+    });
+  }
+  getPatientStats(database: string, pids: Array<string>): Promise<any> {
+
+    if (pids === undefined || pids === null) {
+      pids = [];
     }
 
     return new Promise((resolve, reject) => {
@@ -442,9 +466,9 @@ export class DataService {
 
         const db = new Dexie('notitia-' + database);
         db.open().then(connection => {
-          const query = (ids.length === 0) ?
+          const query = (pids.length === 0) ?
             connection.table('patient') :
-            connection.table('patient').where('p').anyOfIgnoreCase(ids);
+            connection.table('patient').where('p').anyOfIgnoreCase(pids);
 
           query.toArray().then(result => {
 

@@ -8,6 +8,7 @@ import { GraphPanelEnum, PanelEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import * as XLSX from 'xlsx';
 import * as downloadjs from 'downloadjs';
+import * as THREE from 'three';
 import { ChartScene } from 'app/component/workspace/chart/chart.scene';
 declare var $: any;
 
@@ -75,9 +76,12 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
     // window.print();
   }
 
-  exportImage() {
+  exportJpg() {
     const jpg = $('canvas')[0].toDataURL('image/jpeg', 1);
     downloadjs(jpg, 'test.jpg', 'image/jpeg');
+  }
+  exportImage() {
+
   }
   ngOnInit() {
   }
