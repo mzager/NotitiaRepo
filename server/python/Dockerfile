@@ -18,8 +18,8 @@ RUN apt-get install -y software-properties-common && \
     pip3 install flask scipy lifelines pandas scikit-learn numpy eve && \
     pip3 install -U flask-cors && \
     git clone https://github.com/canaantt/Python
-    # dockgit clone https://github.com/mzager/Python
-COPY static/loaderio-0eee16638c75d153d8fe2f0021281756.txt /Python/loaderio-0eee16638c75d153d8fe2f0021281756.txt  
+# dockgit clone https://github.com/mzager/Python
+
 # Start
 EXPOSE 80
 CMD ["python3", "Python/api.py"]
