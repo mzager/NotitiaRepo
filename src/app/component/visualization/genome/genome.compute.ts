@@ -1,5 +1,5 @@
-import { Legend } from 'app/model/legend.model';
-import { ColorEnum, DirtyEnum } from 'app/model/enum.model';
+import { EntityTypeEnum, DirtyEnum } from './../../../model/enum.model';
+import { Legend } from './../../../model/legend.model';
 import { GenomeConfigModel } from './genome.model';
 import * as util from 'app/service/compute.worker.util';
 import { scaleLinear, scaleQuantize, scaleQuantile, scaleOrdinal, scaleThreshold } from 'd3-scale';
@@ -131,8 +131,12 @@ export const genomeCompute = (config: GenomeConfigModel, worker: DedicatedWorker
                 })
             );
         const ct = ct19;
+
+
         const d = {
-            legendItems: [],
+            legends: [
+                Legend.create('Data Points', ['Genes'], ['circle'], 'SHAPE', 'DISCRETE')
+            ],
             genes: genes,
             bands: bands,
             tads: [],

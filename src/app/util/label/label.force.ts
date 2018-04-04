@@ -224,44 +224,32 @@ export class LabelForce {
     };
 
     width(x): LabelForce {
-        // users insert graph width
-        //if (!arguments.length) { return this.w; }
         this.w = x;
         return this;
     };
 
     height(x): LabelForce {
-        // users insert graph height
-        // if (!arguments.length) return h;
         this.h = x;
         return this;
     };
 
     label(x: Array<{ name: string, x: number, y: number, width: number, height: number }>): LabelForce {
-        // users insert label positions
-        // if (!arguments.length) return lab;
         this.lab = x;
         return this;
     };
 
     anchor(x): LabelForce {
-        // users insert anchor positions
-        // if (!arguments.length) return anc;
         this.anc = x;
         return this;
     };
 
     altEnergy(x): LabelForce {
-        // user defined energy
-        // if (!arguments.length) return energy;
         this.user_defined_energy = x;
         this.user_energy = true;
         return this;
     };
 
     altSchedule(x): LabelForce {
-        // user defined cooling_schedule
-        // if (!arguments.length) return cooling_schedule;
         this.user_defined_schedule = x;
         this.user_schedule = true;
         return this;
