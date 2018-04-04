@@ -44315,6 +44315,7 @@ jStat.models = (function(){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var legend_model_1 = __webpack_require__(3);
 var d3_scale_1 = __webpack_require__(16);
 var _ = __webpack_require__(29);
 exports.genomeCompute = function (config, worker) {
@@ -44426,7 +44427,9 @@ exports.genomeCompute = function (config, worker) {
         });
         var ct = ct19;
         var d = {
-            legendItems: [],
+            legends: [
+                legend_model_1.Legend.create('Data Points', ['Genes'], ['circle'], 'SHAPE', 'DISCRETE')
+            ],
             genes: genes,
             bands: bands,
             tads: [],
