@@ -52,8 +52,7 @@
 }
 .loader-author {
     font-size: 1.5rem;
-    text-align: right;
-    padding-right:20px;
+    line-height: 3rem;
     padding-top: 10px;
 }
 
@@ -69,6 +68,7 @@
     position: relative;
     width: 64px;
     height: 64px;
+   
   }
   .lds-ellipsis div {
     position: absolute;
@@ -76,7 +76,7 @@
     width: 11px;
     height: 11px;
     border-radius: 50%;
-    background: #EEE;
+    background: #DDD;
     animation-timing-function: cubic-bezier(0, 1, 1, 0);
   }
   .lds-ellipsis div:nth-child(1) {

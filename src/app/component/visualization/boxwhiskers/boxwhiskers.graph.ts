@@ -1,3 +1,4 @@
+import { LabelController } from './../../../util/label/label.controller';
 import { MeshLine } from 'three.meshline';
 import { scaleLinear } from 'd3-scale';
 import { BoxWhiskersDataModel, BoxWhiskersConfigModel } from './boxwhiskers.model';
@@ -28,12 +29,13 @@ export class BoxWhiskersGraph extends AbstractVisualization {
     public bars: Array<THREE.Mesh>;
     public entityWidth = 6;
     public text: Array<MeshText2D>;
+    private labelLayout: LabelController;
 
     public renderer: DataDecoatorRenderer = (group: THREE.Group, mesh: THREE.Sprite, decorators: Array<DataDecorator>,
         i: number, count: number): void => {
 
         const color = mesh.material.color.getHex();
-        mesh.material.color.setHex(0xffffff);
+        mesh.material.color.setHex(0xFFFFFF);
         mesh.material.opacity = 1;
         mesh.scale.set(2, 2, 2);
         const x = group.userData.index;
@@ -52,7 +54,8 @@ export class BoxWhiskersGraph extends AbstractVisualization {
         this.globalMeshes = [];
         this.lines = [];
         this.bars = [];
-        this.text = []
+        this.text = [];
+        this.labelLayout = new LabelController(view, this.onShowLabels.bind(this), this.onHideLabels.bind(this), this.onShowLabels.bind(this), this.onHideLabels.bind(this));
         return this;
     }
 
@@ -75,6 +78,7 @@ export class BoxWhiskersGraph extends AbstractVisualization {
     enable(truthy: boolean) {
         super.enable(truthy);
         this.view.controls.enableRotate = false;
+        this.labelLayout.enable = truthy;
     }
 
 
@@ -103,7 +107,7 @@ export class BoxWhiskersGraph extends AbstractVisualization {
                 this.view.scene.add(group);
 
                 // Line
-                const line = ChartFactory.lineAllocate(0x029BE5, new Vector2(xPos, scale(node.min)), new Vector2(xPos, scale(node.max)));
+                const line = ChartFactory.lineAllocate(0xFF0000, new Vector2(xPos, scale(node.min)), new Vector2(xPos, scale(node.max)));
                 this.lines.push(line);
                 this.view.scene.add(line);
                 medianPoints.push(new Vector3(xPos, median, 0));
@@ -136,10 +140,8 @@ export class BoxWhiskersGraph extends AbstractVisualization {
         const geo = new THREE.Geometry().setFromPoints(curve.getPoints(this.data.result.length));
         const chromosomeLine = new MeshLine();
         chromosomeLine.setGeometry(geo);
-        //     path.createPointsGeometry(this.data.result.length * 10)
-        // );
         const chromosomeMesh = new THREE.Mesh(chromosomeLine.geometry,
-            ChartFactory.getMeshLine(0xEEEEEE, 1));
+            ChartFactory.getMeshLine(0xFF0000, 5));
 
         (chromosomeMesh.material as MeshPhongMaterial).opacity = .5;
         (chromosomeMesh.material as MeshPhongMaterial).transparent = true;
@@ -167,7 +169,12 @@ export class BoxWhiskersGraph extends AbstractVisualization {
     onMouseDown(e: ChartEvent): void { }
     onMouseUp(e: ChartEvent): void { }
     onMouseMove(e: ChartEvent): void { }
-
+    onShowLabels(): void {
+        this.tooltips.innerHTML = LabelController.generateHtmlLabels(this.meshes, this.view, 50);
+    }
+    onHideLabels(): void {
+        this.tooltips.innerHTML = '';
+    }
     addGlobalMeshes(): void {
         const width = this.entityWidth * this.data.result.length;
         const left = (-width * 0.5) - 5;
