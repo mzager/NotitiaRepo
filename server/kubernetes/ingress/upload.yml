@@ -11,7 +11,8 @@ spec:
     spec:
       containers:
       - name: os-user-uploading
-        image: canaantt/oncoscape-data-upload:kubernetes2
+        image: canaantt/oncoscape-data-upload:v5
+        imagePullPolicy: "Always"
         ports:
         - name: upload-port
           containerPort: 7776
