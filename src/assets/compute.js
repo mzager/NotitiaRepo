@@ -21916,9 +21916,9 @@ var ComputeWorkerUtil = /** @class */ (function () {
             'Access-Control-Allow-Origin': '*'
         };
         // return fetch('http://oncoscape-opencpu.sttrcancer.io/py', {
-        return fetch('https://python.os.sttrcancer.io/py', {
-            // python.os.sttrcancer.io/py
-            // return fetch('http://localhost/py', {
+        // return fetch('https://python.os.sttrcancer.io/py', {
+        // python.os.sttrcancer.io/py
+        return fetch('http://localhost/py', {
             headers: headers,
             method: 'POST',
             body: JSON.stringify(config)
@@ -28678,160 +28678,145 @@ exports.timelinesCompute = function (config, worker) {
     var getPatientInfo = function (db, tbl) {
         return worker.util.getPatients([], db, tbl);
     };
-    if (config.dirtyFlag & 16 /* OPTIONS */) {
-        worker.postMessage({
-            config: config,
-            data: {}
-        });
-    }
-    if (config.dirtyFlag & 0 /* LAYOUT */) {
-        Promise.all([
-            worker.util.getEvents(config.database, config.patientFilter),
-            worker.util.getPatients([], config.database, 'patient')
-        ]).then(function (result) {
-            var eventData = result[0];
-            var patientData = result[1];
-            // Align
-            if (config.align !== 'None') {
-                var align_1 = eventData.filter(function (v) { return v.subtype === config.align; })
-                    .reduce(function (p, c) {
-                    if (p.hasOwnProperty(c.p)) {
-                        if (p[c.p] > c.start) {
-                            p[c.p] = c.start;
-                        }
-                    }
-                    else {
+    // if (config.dirtyFlag & DirtyEnum.OPTIONS) {
+    //     worker.postMessage({
+    //         config: config,
+    //         data: {}
+    //     });
+    // }
+    // if (config.dirtyFlag & DirtyEnum.LAYOUT) {
+    Promise.all([
+        worker.util.getEvents(config.database, config.patientFilter),
+        worker.util.getPatients([], config.database, 'patient')
+    ]).then(function (result) {
+        var eventData = result[0];
+        var patientData = result[1];
+        // Align
+        if (config.align !== 'None') {
+            var align_1 = eventData.filter(function (v) { return v.subtype === config.align; })
+                .reduce(function (p, c) {
+                if (p.hasOwnProperty(c.p)) {
+                    if (p[c.p] > c.start) {
                         p[c.p] = c.start;
                     }
-                    return p;
-                }, {});
-                eventData = eventData.filter(function (v) { return align_1.hasOwnProperty(v.p); });
-                eventData.forEach(function (v) {
-                    v.start -= align_1[v.p];
-                    v.end -= align_1[v.p];
-                });
-            }
-            // Filter Events
-            var events = Array.from(config.bars
-                .reduce(function (p, c) { if (c.events !== null) {
-                c.events.forEach(function (v) { return p.add(v.toString()); });
-            } return p; }, new Set()))
-                .map(function (v) { return v.toString(); });
-            eventData = eventData.filter(function (v) { return events.indexOf(v.subtype) !== -1; });
-            var colorMap = config.bars.map(function (v, i) {
-                return v.events.reduce(function (p, c, j) {
-                    p[c] = colors[i][j];
-                    return p;
-                }, {});
-            }).reduce(function (p, c) { return Object.assign(p, c); }, {});
-            // Associate Bar + Color To Event
-            eventData = eventData.map(function (v) {
-                return Object.assign(v, { 'color': colorMap[v.subtype] });
-            });
-            // Build Legend
-            var legends = config.bars.filter(function (v) { return v.style !== 'None'; }).map(function (v) {
-                var rv = new legend_model_1.Legend();
-                rv.name = 'ROW // ' + v.label.toUpperCase();
-                rv.type = 'COLOR';
-                rv.display = 'DISCRETE';
-                rv.labels = v.events;
-                rv.values = rv.labels.map(function (w) { return colorMap[w]; });
-                return rv;
-            });
-            // Group And Execute Sort
-            var patients = _.groupBy(eventData, 'p');
-            if (config.group.label !== 'None') {
-                patientData.forEach(function (patient) {
-                    if (patients.hasOwnProperty(patient.p)) {
-                        patients[patient.p].group = patient[config.group.label];
-                    }
-                });
-            }
-            if (config.sort.label !== 'None') {
-                if (config.sort['type'] === 'patient') {
-                    patientData.forEach(function (patient) {
-                        if (patients.hasOwnProperty(patient.p)) {
-                            patients[patient.p].sort = patient[config.sort['key']];
-                        }
-                    });
                 }
                 else {
-                    Object.keys(patients).forEach(function (pid) {
-                        var patient = patients[pid];
-                        var eref = patient.find(function (v) { return v.subtype === config.sort.label; });
-                        if (eref !== undefined) {
-                            patient.sort = eref.start;
-                        }
-                    });
+                    p[c.p] = c.start;
                 }
-            }
-            patients = Object.keys(patients).map(function (key) { return ({
-                sort: patients[key].hasOwnProperty('sort') ? patients[key].sort : null,
-                group: patients[key].hasOwnProperty('group') ? patients[key].group : null,
-                events: patients[key]
-            }); });
-            if (config.sort.label !== 'None') {
-                patients = patients.filter(function (p) { return p.sort !== null; });
-                patients = patients.sort(function (a, b) { return b.sort - a.sort; });
-            }
-            if (config.group.label !== 'None') {
-                patients = patients.filter(function (p) { return p.group !== null; });
-                patients = _.groupBy(patients, 'group');
-                patients = Object.keys(patients).reduce(function (p, c) { return p.concat(patients[c]); }, []);
-            }
-            patients = patients.map(function (patient) { return patient.events; });
-            // Determine Min + Max "Dates"
-            var minMax = eventData.reduce(function (p, c) {
-                p.min = Math.min(p.min, c.start);
-                p.max = Math.max(p.max, c.end);
                 return p;
-            }, { min: Infinity, max: -Infinity });
-            // Get Heatmap Stuff
-            if (config.attrs !== undefined) {
-                var pas = worker.util.getPatientAttributeSummary(config.patientFilter, config.attrs, config.database);
-                pas.then(function (attrs) {
-                    legends = legends.concat(attrs.attrs.map(function (attr) {
-                        if (attr.hasOwnProperty('min')) {
-                            var scale_1 = d3_scale_1.scaleSequential(d3_scale_chromatic_1.interpolateSpectral).domain([attr.min, attr.max]);
-                            var legend = new legend_model_1.Legend();
-                            legend.name = 'HEATMAP // ' + attr.prop.replace(/_/gi, ' ');
-                            legend.type = 'COLOR';
-                            legend.display = 'CONTINUOUS';
-                            legend.labels = [attr.min, attr.max].map(function (val) { return Math.round(val).toString(); });
-                            legend.values = [0xFF0000, 0xFF0000];
-                            attr.values = attr.values.map(function (v) { return ({ label: v, color: colorToHex(scale_1(v)) }); });
-                            return legend;
-                        }
-                        else {
-                            var cm_1 = attr.set.reduce(function (p, c, i) {
-                                p[c] = worker.util.colors[i];
-                                return p;
-                            }, {});
-                            var legend = new legend_model_1.Legend();
-                            legend.name = 'HEATMAP // ' + attr.prop.replace(/_/gi, ' ').toUpperCase();
-                            legend.type = 'COLOR';
-                            legend.display = 'DISCRETE';
-                            legend.labels = Object.keys(cm_1);
-                            legend.values = Object.keys(cm_1).map(function (key) { return cm_1[key]; });
-                            attr.values = attr.values.map(function (v) { return ({ label: v, color: cm_1[v] }); });
-                            return legend;
-                        }
-                    }));
-                    worker.postMessage({
-                        config: config,
-                        data: {
-                            legendItems: legends,
-                            result: {
-                                minMax: minMax,
-                                patients: patients,
-                                attrs: attrs
-                            }
-                        }
-                    });
-                    worker.postMessage('TERMINATE');
+            }, {});
+            eventData = eventData.filter(function (v) { return align_1.hasOwnProperty(v.p); });
+            eventData.forEach(function (v) {
+                v.start -= align_1[v.p];
+                v.end -= align_1[v.p];
+            });
+        }
+        // Filter Events
+        var events = Array.from(config.bars
+            .reduce(function (p, c) { if (c.events !== null) {
+            c.events.forEach(function (v) { return p.add(v.toString()); });
+        } return p; }, new Set()))
+            .map(function (v) { return v.toString(); });
+        eventData = eventData.filter(function (v) { return events.indexOf(v.subtype) !== -1; });
+        var colorMap = config.bars.map(function (v, i) {
+            return v.events.reduce(function (p, c, j) {
+                p[c] = colors[i][j];
+                return p;
+            }, {});
+        }).reduce(function (p, c) { return Object.assign(p, c); }, {});
+        // Associate Bar + Color To Event
+        eventData = eventData.map(function (v) {
+            return Object.assign(v, { 'color': colorMap[v.subtype] });
+        });
+        // Build Legend
+        var legends = config.bars.filter(function (v) { return v.style !== 'None'; }).map(function (v) {
+            var rv = new legend_model_1.Legend();
+            rv.name = 'ROW // ' + v.label.toUpperCase();
+            rv.type = 'COLOR';
+            rv.display = 'DISCRETE';
+            rv.labels = v.events;
+            rv.values = rv.labels.map(function (w) { return colorMap[w]; });
+            return rv;
+        });
+        // Group And Execute Sort
+        var patients = _.groupBy(eventData, 'p');
+        if (config.group.label !== 'None') {
+            patientData.forEach(function (patient) {
+                if (patients.hasOwnProperty(patient.p)) {
+                    patients[patient.p].group = patient[config.group.label];
+                }
+            });
+        }
+        if (config.sort.label !== 'None') {
+            if (config.sort['type'] === 'patient') {
+                patientData.forEach(function (patient) {
+                    if (patients.hasOwnProperty(patient.p)) {
+                        patients[patient.p].sort = patient[config.sort['key']];
+                    }
                 });
             }
             else {
+                Object.keys(patients).forEach(function (pid) {
+                    var patient = patients[pid];
+                    var eref = patient.find(function (v) { return v.subtype === config.sort.label; });
+                    if (eref !== undefined) {
+                        patient.sort = eref.start;
+                    }
+                });
+            }
+        }
+        patients = Object.keys(patients).map(function (key) { return ({
+            sort: patients[key].hasOwnProperty('sort') ? patients[key].sort : null,
+            group: patients[key].hasOwnProperty('group') ? patients[key].group : null,
+            events: patients[key]
+        }); });
+        if (config.sort.label !== 'None') {
+            patients = patients.filter(function (p) { return p.sort !== null; });
+            patients = patients.sort(function (a, b) { return b.sort - a.sort; });
+        }
+        if (config.group.label !== 'None') {
+            patients = patients.filter(function (p) { return p.group !== null; });
+            patients = _.groupBy(patients, 'group');
+            patients = Object.keys(patients).reduce(function (p, c) { return p.concat(patients[c]); }, []);
+        }
+        patients = patients.map(function (patient) { return patient.events; });
+        // Determine Min + Max "Dates"
+        var minMax = eventData.reduce(function (p, c) {
+            p.min = Math.min(p.min, c.start);
+            p.max = Math.max(p.max, c.end);
+            return p;
+        }, { min: Infinity, max: -Infinity });
+        // Get Heatmap Stuff
+        if (config.attrs !== undefined) {
+            var pas = worker.util.getPatientAttributeSummary(config.patientFilter, config.attrs, config.database);
+            pas.then(function (attrs) {
+                legends = legends.concat(attrs.attrs.map(function (attr) {
+                    if (attr.hasOwnProperty('min')) {
+                        var scale_1 = d3_scale_1.scaleSequential(d3_scale_chromatic_1.interpolateSpectral).domain([attr.min, attr.max]);
+                        var legend = new legend_model_1.Legend();
+                        legend.name = 'HEATMAP // ' + attr.prop.replace(/_/gi, ' ');
+                        legend.type = 'COLOR';
+                        legend.display = 'CONTINUOUS';
+                        legend.labels = [attr.min, attr.max].map(function (val) { return Math.round(val).toString(); });
+                        legend.values = [0xFF0000, 0xFF0000];
+                        attr.values = attr.values.map(function (v) { return ({ label: v, color: colorToHex(scale_1(v)) }); });
+                        return legend;
+                    }
+                    else {
+                        var cm_1 = attr.set.reduce(function (p, c, i) {
+                            p[c] = worker.util.colors[i];
+                            return p;
+                        }, {});
+                        var legend = new legend_model_1.Legend();
+                        legend.name = 'HEATMAP // ' + attr.prop.replace(/_/gi, ' ').toUpperCase();
+                        legend.type = 'COLOR';
+                        legend.display = 'DISCRETE';
+                        legend.labels = Object.keys(cm_1);
+                        legend.values = Object.keys(cm_1).map(function (key) { return cm_1[key]; });
+                        attr.values = attr.values.map(function (v) { return ({ label: v, color: cm_1[v] }); });
+                        return legend;
+                    }
+                }));
                 worker.postMessage({
                     config: config,
                     data: {
@@ -28839,14 +28824,29 @@ exports.timelinesCompute = function (config, worker) {
                         result: {
                             minMax: minMax,
                             patients: patients,
-                            attrs: null
+                            attrs: attrs
                         }
                     }
                 });
                 worker.postMessage('TERMINATE');
-            }
-        });
-    }
+            });
+        }
+        else {
+            worker.postMessage({
+                config: config,
+                data: {
+                    legendItems: legends,
+                    result: {
+                        minMax: minMax,
+                        patients: patients,
+                        attrs: null
+                    }
+                }
+            });
+            worker.postMessage('TERMINATE');
+        }
+    });
+    // }
 };
 
 
@@ -44315,6 +44315,7 @@ jStat.models = (function(){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var legend_model_1 = __webpack_require__(3);
 var d3_scale_1 = __webpack_require__(16);
 var _ = __webpack_require__(29);
 exports.genomeCompute = function (config, worker) {
@@ -44426,7 +44427,9 @@ exports.genomeCompute = function (config, worker) {
         });
         var ct = ct19;
         var d = {
-            legendItems: [],
+            legends: [
+                legend_model_1.Legend.create('Data Points', ['Genes'], ['circle'], 'SHAPE', 'DISCRETE')
+            ],
             genes: genes,
             bands: bands,
             tads: [],

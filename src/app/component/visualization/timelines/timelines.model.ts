@@ -1,3 +1,4 @@
+import { GraphData } from './../../../model/graph-data.model';
 import { Legend } from './../../../model/legend.model';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { VisualizationEnum, DimensionEnum, GraphEnum, EntityTypeEnum, DirtyEnum } from 'app/model/enum.model';
@@ -48,7 +49,7 @@ export class TimelinesConfigModel extends GraphConfig {
     ];
 }
 
-export interface TimelinesDataModel {
+export interface TimelinesDataModel extends GraphData {
     legends: Array<Legend>;
     result: any;
 }

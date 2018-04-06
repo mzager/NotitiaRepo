@@ -1,3 +1,4 @@
+import { AbstractVisualization } from './../visualization.abstract.component';
 import { DataDecorator } from './../../../model/data-map.model';
 import { scaleLinear, scaleLog, InterpolatorFactory, scaleSequential, scaleQuantize, scaleQuantile } from 'd3-scale';
 import { interpolateRgb, interpolateHcl } from 'd3-interpolate';
@@ -25,22 +26,12 @@ import { Vector3, CubeGeometry, Vector2, OrthographicCamera } from 'three';
 import { DataService } from 'app/service/data.service';
 // import MeshLine from 'three.meshline';
 
-export class TimelinesGraph implements ChartObjectInterface {
+export class TimelinesGraph extends AbstractVisualization {
 
-
-    // Emitters
-    public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
-    public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{ type: GraphConfig }>();
-    public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
-        new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
-
-    // Chart Elements
-    private labels: HTMLElement;
-    private events: ChartEvents;
-    private view: VisualizationView;
-    private data: TimelinesDataModel;
-    private config: TimelinesConfigModel;
-    private isEnabled: boolean;
+    public set data(data: TimelinesDataModel) { this._data = data; }
+    public get data(): TimelinesDataModel { return this._data as TimelinesDataModel; }
+    public set config(config: TimelinesConfigModel) { this._config = config; }
+    public get config(): TimelinesConfigModel { return this._config as TimelinesConfigModel; }
 
     public patients: Array<THREE.Group>;
     public attrs: THREE.Group;
@@ -50,40 +41,9 @@ export class TimelinesGraph implements ChartObjectInterface {
     public clipPlanes: Array<THREE.Object3D> = [];
     public database: string;
 
-    private overlay: HTMLElement;
-    private tooltips: HTMLElement;
-
-    // Private Subscriptions
-    private sMouseMove: Subscription;
-
-    enable(truthy: boolean) {
-        if (this.isEnabled === truthy) { return; }
-        this.isEnabled = truthy;
-        this.view.controls.enabled = this.isEnabled;
-        if (truthy) {
-            this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
-        } else {
-            if (this.sMouseMove !== undefined) {
-                this.sMouseMove.unsubscribe();
-            }
-        }
-    }
-    updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        throw new Error('Method not implemented.');
-    }
-    updateData(config: GraphConfig, data: any) {
-        this.config = config as TimelinesConfigModel;
-        this.data = data;
-        this.removeObjects();
-        this.addObjects();
-    }
-
-    preRender(views: Array<VisualizationView>, layout: WorkspaceLayoutEnum, renderer: THREE.WebGLRenderer) {
-
-    }
-
+    // Create - Initialize Mesh Arrays
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
-
+        super.create(labels, events, view);
         this.labels = labels;
         this.labels.innerText = '';
 
@@ -103,18 +63,50 @@ export class TimelinesGraph implements ChartObjectInterface {
         this.attrs = new THREE.Group();
         this.lines = new THREE.Group();
 
-        this.view.controls.enableRotate = false;
-        this.view.controls.reset();
-        this.view.controls.maxZoom = 1;
+        // this.view.controls.maxZoom = 1;
         this.view.controls.pan(0, 1200);
         this.view.controls.dollyOut(3);
         return this;
+
     }
 
     destroy() {
+        super.destroy();
         this.removeObjects();
-        this.enable(false);
     }
+
+    updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
+        super.updateDecorator(config, decorators);
+        ChartFactory.decorateDataGroups(this.meshes, this.decorators);
+    }
+
+    updateData(config: GraphConfig, data: any) {
+        super.updateData(config, data);
+        this.removeObjects();
+        this.addObjects(this.config.entity);
+    }
+
+    enable(truthy: boolean) {
+        super.enable(truthy);
+        this.view.controls.enableRotate = true;
+    }
+
+    removeObjects(): void {
+        this.view.scene.remove(...this.meshes);
+        this.view.scene.remove(...this.clipPlanes);
+        this.view.scene.remove(...this.patients);
+        this.view.scene.remove(this.attrs);
+        this.view.scene.remove(this.lines);
+        this.meshes.length = 0;
+        this.clipPlanes.length = 0;
+        this.patients.length = 0;
+        this.attrs = new THREE.Group();
+        this.lines = new THREE.Group();
+    }
+
+    onMouseDown(e: ChartEvent): void { }
+    onMouseUp(e: ChartEvent): void { }
+
 
     addTic(event: any, bar: number, barHeight: number, rowHeight: number, group: THREE.Group, scale: ScaleLinear<number, number>): void {
         const s = scale(event.start);
@@ -143,10 +135,7 @@ export class TimelinesGraph implements ChartObjectInterface {
                 new THREE.Vector2(e, yPos - 2),
                 new THREE.Vector2(c, yPos + 2)
             );
-            // mesh.material =  new MeshLineMaterial({
-            //     color: new THREE.Color(0x90caf9),
-            //     lineWidth: 2,
-            // });
+
             mesh.userData = event;
             group.add(mesh);
             this.meshes.push(mesh);
@@ -157,7 +146,6 @@ export class TimelinesGraph implements ChartObjectInterface {
             mesh.userData = event;
             group.add(mesh);
             this.meshes.push(mesh);
-            // this.addTic(event, bar, barHeight, barHeight, group, scale);
         }
     }
 
@@ -189,6 +177,7 @@ export class TimelinesGraph implements ChartObjectInterface {
             this.meshes.push(triangle);
         }
     }
+
     addAttrs(rowHeight, rowCount, pidMap): void {
         const d = this.data;
         this.data.result.attrs.pids.forEach((pid, pidIndex) => {
@@ -231,7 +220,7 @@ export class TimelinesGraph implements ChartObjectInterface {
     }
 
     // #endregion
-    addObjects(): void {
+    addObjects(entity: EntityTypeEnum): void {
 
 
         this.clipPlanes = [];
@@ -289,9 +278,7 @@ export class TimelinesGraph implements ChartObjectInterface {
                 this.data.result.minMax.min + minOffset : this.data.result.minMax.min;
             const max = (this.config.range[1] !== 100) ?
                 maxOffset : this.data.result.minMax.max;
-
             scale.domain([min, max]);
-
         } else {
             scale.domain([this.data.result.minMax.min, this.data.result.minMax.max]);
         }
@@ -331,28 +318,9 @@ export class TimelinesGraph implements ChartObjectInterface {
 
         // Attributes
         this.addAttrs(rowHeight, rowCount, pidMap);
-
-        // Reset Controls
-        this.view.controls.reset();
-        requestAnimationFrame(() => {
-            this.view.controls.pan(0, (rowHeight * rowCount));
-            this.view.controls.dollyOut(3);
-            this.view.controls.update();
-        });
     }
 
-    removeObjects(): void {
-        this.clipPlanes.forEach(plane => this.view.scene.remove(plane));
-        this.patients.forEach(patient => this.view.scene.remove(patient));
-        this.view.scene.remove(this.attrs);
-        this.view.scene.remove(this.lines);
-        this.meshes = [];
-        this.patients = [];
-        this.attrs = new THREE.Group();
-        this.lines = new THREE.Group();
-    }
-
-    private onMouseMove(e: ChartEvent): void {
+    onMouseMove(e: ChartEvent): void {
         const hit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
 
         if (hit.length > 0) {
@@ -396,7 +364,7 @@ export class TimelinesGraph implements ChartObjectInterface {
         this.tooltips.innerHTML = '';
     }
 
-    constructor() {
+    // constructor() {
 
-    }
+    // }
 }

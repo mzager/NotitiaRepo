@@ -1,3 +1,4 @@
+import { LabelController } from './../../../util/label/label.controller';
 import { MeshLine } from 'three.meshline';
 import { interpolateYlGnBu } from 'd3-scale-chromatic';
 import { HicDataModel, HicConfigModel } from './hic.model';
@@ -22,12 +23,14 @@ export class HicGraph extends AbstractVisualization {
     public get data(): HicDataModel { return this._data as HicDataModel; }
     public set config(config: HicConfigModel) { this._config = config; }
     public get config(): HicConfigModel { return this._config as HicConfigModel; }
+    private labelLayout: LabelController;
 
     // Create - Initialize Mesh Arrays
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         super.create(labels, events, view);
         this.meshes = [];
         this.lines = [];
+        this.labelLayout = new LabelController(view, this.onShowLabels.bind(this), this.onHideLabels.bind(this), this.onShowLabels.bind(this), this.onHideLabels.bind(this));
         return this;
     }
 
@@ -50,6 +53,7 @@ export class HicGraph extends AbstractVisualization {
     enable(truthy: boolean) {
         super.enable(truthy);
         this.view.controls.enableRotate = true;
+        this.labelLayout.enable = truthy;
     }
 
 
@@ -101,4 +105,11 @@ export class HicGraph extends AbstractVisualization {
     onMouseDown(e: ChartEvent): void { }
     onMouseUp(e: ChartEvent): void { }
     onMouseMove(e: ChartEvent): void { }
+
+    onShowLabels(): void {
+        this.tooltips.innerHTML = LabelController.generateHtmlLabels(this.meshes, this.view, 50);
+    }
+    onHideLabels(): void {
+        this.tooltips.innerHTML = '';
+    }
 }
