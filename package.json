@@ -14,7 +14,7 @@
   },
   "private": true,
   "dependencies": {
-    "3d-force-graph": "^1.28.18",
+    "3d-force-graph": "^1.29.4",
     "@angular/animations": "^5.2.9",
     "@angular/common": "^5.2.9",
     "@angular/compiler": "^5.2.9",
@@ -81,7 +81,7 @@
     "nouislider": "^11.1.0",
     "numbro": "^2.0.6",
     "pikaday": "^1.7.0",
-    "postprocessing": "^4.4.0",
+    "postprocessing": "^4.4.1",
     "reselect": "^3.0.1",
     "rxjs": "^5.5.8",
     "strip-ansi": "^4.0.0",
@@ -101,11 +101,11 @@
     "uuid-by-string": "^0.6.0",
     "vega": "^3.2.1",
     "vega-tooltip": "^0.7.0",
-    "xlsx": "^0.12.7",
+    "xlsx": "^0.12.8",
     "zone.js": "^0.8.25"
   },
   "devDependencies": {
-    "@angular/cli": "^1.7.3",
+    "@angular/cli": "^1.7.4",
     "@angular/compiler-cli": "^5.2.9",
     "@angular/language-service": "^5.2.9",
     "@types/d3": "^5.0.0",
