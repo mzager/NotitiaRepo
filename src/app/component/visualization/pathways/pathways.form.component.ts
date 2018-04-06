@@ -70,11 +70,13 @@ export class PathwaysFormComponent {
       .then(response => {
         // 'https://s3-us-west-2.amazonaws.com/notitia/pwc/'
         // debugger;
-        this.pathwayOptions = response.searchHit;
+        this.pathwayOptions = response.searchHit.map(v => {
+          return Object.assign(v, { url: v.uri.substr(response.searchHit[0].uri.lastIndexOf('/') + 1).toLowerCase() + '.json.gz' })
+        })
+
         // https://s3-us-west-2.amazonaws.com/notitia/pwc/r-hsa-2978092.json.gz
         fetch('https://s3-us-west-2.amazonaws.com/notitia/pwc/' +
-          response.searchHit[0].uri.split('/').reverse()[0].toLowerCase() + '.json.gz',
-          requestInit)
+          response.searchHit[0].url, requestInit)
           .then(response => response.json())
           .then(response => {
             debugger;
@@ -125,6 +127,7 @@ export class PathwaysFormComponent {
       .subscribe(data => {
         let dirty = 0;
         const form = this.form;
+
         form.markAsPristine();
         data.dirtyFlag = dirty;
         this.configChange.emit(data);

@@ -68,7 +68,7 @@ export class GenomeGraph extends AbstractVisualization {
     }
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         super.create(labels, events, view);
-        this.labelLayout = new LabelController(view, this.onShowLabels.bind(this), this.onHideLabels.bind(this), this.onShowLabels.bind(this), this.onHideLabels.bind(this));
+        // this.labelLayout = new LabelController(view, this.onShowLabels.bind(this), this.onHideLabels.bind(this), this.onShowLabels.bind(this), this.onHideLabels.bind(this));
         return this;
     }
     destroy() {
@@ -79,7 +79,7 @@ export class GenomeGraph extends AbstractVisualization {
     }
     enable(truthy: boolean) {
         super.enable(truthy);
-        this.labelLayout.enable = truthy;
+        // this.labelLayout.enable = truthy;
     }
 
     preRender(views: VisualizationView[], layout: WorkspaceLayoutEnum, renderer: THREE.Renderer): void {
