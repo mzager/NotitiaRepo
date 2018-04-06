@@ -22,38 +22,7 @@ import * as _ from 'lodash';
         </select>
     </label>
   </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Point Color</span>
-      <select materialize='material_select'
-          [compareWith]='byKey'
-          [materializeSelectOptions]='colorOptions'
-          formControlName='pointColor'>
-          <option *ngFor='let option of colorOptions'
-            [ngValue]='option'>{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Point Size</span>
-      <select materialize='material_select'
-          [compareWith]='byKey'
-          [materializeSelectOptions]='sizeOptions'
-          formControlName='pointSize'>
-          <option *ngFor='let option of sizeOptions'
-            [ngValue]='option'>{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Point Shape</span>
-      <select materialize='material_select'
-          [compareWith]='byKey'
-          [materializeSelectOptions]='colorOptions' formControlName='pointShape'>
-          <option *ngFor='let option of shapeOptions'
-            [ngValue]='option'>{{option.label}}</option>
-      </select>
-    </label>
-  </div>
+  
   <div class='form-group'>
   <label class='center-block'><span class='form-label'>X Axis</span>
     <select materialize='material_select'
@@ -134,7 +103,7 @@ import * as _ from 'lodash';
 </form>
   `
 })
-export class TsneFormComponent extends AbstractScatterForm  {
+export class TsneFormComponent extends AbstractScatterForm {
 
 
   @Input() set config(v: TsneConfigModel) {
@@ -142,7 +111,7 @@ export class TsneFormComponent extends AbstractScatterForm  {
     this.form.patchValue(v, { emitEvent: false });
   }
 
-    TsneMetricOptions = [
+  TsneMetricOptions = [
     TsneMetric.CANBERRA, TsneMetric.CHEBYSHEV, TsneMetric.CITYBLOCK, TsneMetric.CMATCHING,
     TsneMetric.CORRELATION, TsneMetric.COSINE, TsneMetric.DICE, TsneMetric.EUCLIDEAN,
     TsneMetric.HAMMING, TsneMetric.JACCARD, TsneMetric.KULSINSKI, TsneMetric.KULSINSKI, TsneMetric.L1,
@@ -150,12 +119,15 @@ export class TsneFormComponent extends AbstractScatterForm  {
     TsneMetric.ROGERSTANIMOTO, TsneMetric.RUSSELLRAO, TsneMetric.SEUCLIDEAN, TsneMetric.SOKALMICHENER,
     TsneMetric.SOKALSNEATH, TsneMetric.SQEUCLIDEAN, TsneMetric.YULE];
 
-    TsneMethodOptions = [
+  TsneMethodOptions = [
     TsneMethod.BARNES_HUT, TsneMethod.EXACT];
+
 
   constructor(private fb: FormBuilder) {
 
     super();
+
+    this.PcOptions = [1, 2, 3];
 
     this.form = this.fb.group({
       visualization: [],
@@ -169,9 +141,9 @@ export class TsneFormComponent extends AbstractScatterForm  {
       patientFilter: [],
       patientSelect: [],
       pointData: [],
-      pointColor: [],
-      pointShape: [],
-      pointSize: [],
+      // pointColor: [],
+      // pointShape: [],
+      // pointSize: [],
 
       pcx: [],
       pcy: [],

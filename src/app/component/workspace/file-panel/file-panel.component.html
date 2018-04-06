@@ -22,7 +22,8 @@
                         <span class='file-cohort-header'>Public Data Sets</span>
                         <div class='file-img-container'>
                                 <div class='file-cohort-field' *ngFor='let dataset of datasets; let i = index' (click)='this.loadTcga.emit(dataset)'>
-                                        <img class='file-image' src='./assets/disease/img{{dataset.img}}'>
+                                        <!-- <div class='sprite sprite-img{{dataset.img}}'></div> -->
+                                        <img class='file-image' src='./assets/disease/img{{dataset.img}}.png'>
                                         <div class='file-link '>{{dataset.name}}</div>
                                 </div>
                         </div>
