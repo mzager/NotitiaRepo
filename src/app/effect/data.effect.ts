@@ -140,9 +140,9 @@ export class DataEffect {
             const workspaceConfig = new WorkspaceConfigModel();
             workspaceConfig.layout = WorkspaceLayoutEnum.SINGLE;
 
-            const survivalConfig = new SurvivalConfigModel();
-            survivalConfig.graph = GraphEnum.GRAPH_A;
-            survivalConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
+            // const survivalConfig = new SurvivalConfigModel();
+            // survivalConfig.graph = GraphEnum.GRAPH_A;
+            // survivalConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
 
             // const pathwaysConfig = new PathwaysConfigModel();
             // pathwaysConfig.graph = GraphEnum.GRAPH_B;
@@ -193,9 +193,9 @@ export class DataEffect {
             // pcaConfig.graph = GraphEnum.GRAPH_A;
             // pcaConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
 
-            const histogramConfig = new HistogramConfigModel();
-            histogramConfig.graph = GraphEnum.GRAPH_A;
-            histogramConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
+            // const histogramConfig = new HistogramConfigModel();
+            // histogramConfig.graph = GraphEnum.GRAPH_A;
+            // histogramConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
 
             // const heatmapConfig = new HeatmapConfigModel();
             // heatmapConfig.graph = GraphEnum.GRAPH_B;
@@ -206,7 +206,7 @@ export class DataEffect {
                 new DataUpdateGenesetsAction(args.genesets),
                 new WorkspaceConfigAction(workspaceConfig),
                 // new compute.LinkedGeneAction( { config: graphAConfig } ),
-                // new compute.PcaIncrementalAction( { config: graphBConfig } ),
+                new compute.PcaIncrementalAction({ config: graphBConfig }),
                 // new compute.HicAction( { config: hicConfig }),
                 // new compute.BoxWhiskersAction({ config: boxWhiskersConfig }),
                 // new compute.TimelinesAction( { config: timelinesConfigA}),
@@ -217,9 +217,9 @@ export class DataEffect {
                 // new compute.ChromosomeAction( { config: chromosomeConfig } )
                 // new compute.PathwaysAction( { config: pathwaysConfig }),
                 // new compute.GenomeAction( { config: genomeConfig }),
-                // new compute.PcaIncrementalAction({ config: pcaIncConfig }),
-                // new GraphPanelToggleAction( GraphPanelEnum.GRAPH_A )
-                new compute.PcaAction({ config: pcaConfig }),
+                // // new compute.PcaIncrementalAction({ config: pcaIncConfig }),
+                // new GraphPanelToggleAction(GraphPanelEnum.GRAPH_A),
+                // new compute.PcaAction({ config: graphBConfig }),
                 new LoaderShowAction()
             ];
         });
