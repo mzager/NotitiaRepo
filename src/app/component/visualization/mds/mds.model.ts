@@ -19,7 +19,7 @@ export class MdsConfigModel extends GraphConfig {
         this.label = 'Multidimensional Scaling';
     }
 
-    n_components = 10;
+    n_components = 3;
     dimension = DimensionEnum.THREE_D;
     metric: Boolean = true;
     eps = 1e-3;

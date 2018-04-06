@@ -45,9 +45,9 @@
                     <span class='form-label'>Gene Set</span>
                     <select materialize='material_select' [materializeSelectOptions]='genesets'>
                         <option *ngFor='let option of genesets' [value]='option.n' selected>{{option.n}} </option>
-                        <!-- <option value='customize'>
+                        <option value='customize'>
                             <span class='customizeDropdownOption'>Customize</span>
-                        </option> -->
+                        </option>
                     </select>
                 </label>
             </div>
@@ -57,11 +57,10 @@
                     <span class='form-label'>Cohort</span>
                     <select materialize='material_select' (change)='onCohortChange($event)' [materializeSelectOptions]='cohorts'>
                         <option *ngFor='let option of cohorts' [value]='option.n' selected>{{option.n}} </option>
-                        <!-- <option value='customize'>
+                        <option value='customize'>
                             <span class='customizeDropdownOption'>Customize</span>
-                        </option> -->
+                        </option>
                     </select>
-
                 </label>
             </div>
 
@@ -125,7 +124,6 @@
                     (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)' (selectGeneSignature)='graphPanelSelecteGeneSignature($event)'
                     [config]='config' [tables]='tables' [fields]='fields'></app-spectralembedding-form>
             </div>
-
         </div>
 
         <div class='graphPanelHeader'>Legend</div>

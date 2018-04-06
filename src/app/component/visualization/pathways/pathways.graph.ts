@@ -1,106 +1,65 @@
-import { DataDecorator } from './../../../model/data-map.model';
-import { ChartUtil } from './../../workspace/chart/chart.utils';
-import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
-import { VisualizationView } from './../../../model/chart-view.model';
-import { ChartEvents, ChartEvent } from './../../workspace/chart/chart.events';
-import { GraphConfig } from 'app/model/graph-config.model';
-import { EntityTypeEnum, WorkspaceLayoutEnum, ShapeEnum, ColorEnum } from './../../../model/enum.model';
-import { GraphEnum, DirtyEnum } from 'app/model/enum.model';
-import { ChartObjectInterface } from './../../../model/chart.object.interface';
-import { Injectable, EventEmitter, Output } from '@angular/core';
-import { scaleLinear, scaleOrdinal } from 'd3-scale';
-import { PathwaysDataModel, PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
-import { Subscription } from 'rxjs/Subscription';
-import * as THREE from 'three';
 import { PathwaysFactory } from 'app/component/visualization/pathways/pathways.factory';
-import { Vector2, Object3D } from 'three';
-import * as _ from 'lodash';
-export class PathwaysGraph implements ChartObjectInterface {
+import { PathwaysDataModel, PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
+import { GraphEnum, ColorEnum } from 'app/model/enum.model';
+import { EventEmitter } from '@angular/core';
+import { DataDecorator } from './../../../model/data-map.model';
+import { EntityTypeEnum } from './../../../model/enum.model';
+import { ChartFactory } from './../../workspace/chart/chart.factory';
+import { GraphConfig } from 'app/model/graph-config.model';
+import { ChartObjectInterface } from './../../../model/chart.object.interface';
+import { VisualizationView } from './../../../model/chart-view.model';
+import { ChartEvent, ChartEvents } from './../../workspace/chart/chart.events';
+import { AbstractVisualization } from './../visualization.abstract.component';
+import * as THREE from 'three';
+export class PathwaysGraph extends AbstractVisualization {
 
-    // Emitters
-    public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
-    public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{ type: GraphConfig }>();
-    public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
-        new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
+    public set data(data: PathwaysDataModel) { this._data = data; }
+    public get data(): PathwaysDataModel { return this._data as PathwaysDataModel; }
+    public set config(config: PathwaysConfigModel) { this._config = config; }
+    public get config(): PathwaysConfigModel { return this._config as PathwaysConfigModel; }
 
-    // Chart Elements
-    private labels: HTMLElement;
-    private overlay: HTMLElement;
-    private tooltips: HTMLElement;
-    private events: ChartEvents;
-    private view: VisualizationView;
-    private data: PathwaysDataModel;
-    private config: PathwaysConfigModel;
-    private isEnabled: boolean;
 
-    // Objects
-    public meshes: Array<THREE.Mesh>;
-    public decorators: DataDecorator[];
+
     public lines: Array<THREE.Object3D>;
 
-    // Private Subscriptions
-    private sMouseMove: Subscription;
-    private sMouseDown: Subscription;
-    private sMouseUp: Subscription;
-
+    // Create - Initialize Mesh Arrays
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
-        this.labels = labels;
-        this.labels.innerText = '';
-
-        this.tooltips = <HTMLDivElement>(document.createElement('div'));
-        this.tooltips.className = 'graph-tooltip';
-        this.labels.appendChild(this.tooltips);
-
-        this.overlay = <HTMLDivElement>(document.createElement('div'));
-        this.overlay.className = 'graph-overlay';
-        this.labels.appendChild(this.overlay);
-        this.events = events;
-        this.view = view;
-        this.isEnabled = false;
+        super.create(labels, events, view);
         this.meshes = [];
         this.lines = [];
-        this.view.controls.enableRotate = false;
-        this.view.controls.pan(-1200, -1200);
-        this.view.controls.dollyOut(8);
         return this;
     }
 
     destroy() {
-        this.enable(false);
+        super.destroy();
         this.removeObjects();
-    }
-    updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        throw new Error('Method not implemented.');
-    }
-    updateData(config: GraphConfig, data: any) {
-        this.config = config as PathwaysConfigModel;
-        this.data = data;
-        this.removeObjects();
-        this.addObjects();
-        this.onRequestRender.next();
     }
 
+    updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
+        super.updateDecorator(config, decorators);
+        ChartFactory.decorateDataGroups(this.meshes, this.decorators);
+    }
+
+    updateData(config: GraphConfig, data: any) {
+        super.updateData(config, data);
+        this.removeObjects();
+        this.addObjects(this.config.entity);
+    }
 
     enable(truthy: boolean) {
-
-        if (this.isEnabled === truthy) { return; }
-        this.isEnabled = truthy;
-        this.view.controls.enabled = this.isEnabled;
-        if (truthy) {
-            this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
-            // this.view.controls.addEventListener('start', this.onZoomStart.bind(this));
-            // this.view.controls.addEventListener('end', _.debounce(this.onZoomEnd.bind(this), 300));
-
-        } else {
-            this.sMouseMove.unsubscribe();
-        }
-    }
-    preRender(views: Array<VisualizationView>, layout: WorkspaceLayoutEnum, renderer: THREE.WebGLRenderer) {
-
+        super.enable(truthy);
+        this.view.controls.enableRotate = true;
     }
 
 
-    addObjects() {
+
+    onMouseDown(e: ChartEvent): void { }
+    onMouseUp(e: ChartEvent): void { }
+    onMouseMove(e: ChartEvent): void { }
+
+
+
+    addObjects(entity: EntityTypeEnum) {
         const nodes = this.data.layout.nodes.filter(v => {
             switch (v.class) {
                 case 'unspecified entity':
@@ -168,59 +127,15 @@ export class PathwaysGraph implements ChartObjectInterface {
                 this.lines.push(o);
                 this.view.scene.add(o);
             });
+        ChartFactory.decorateDataGroups(this.meshes, this.decorators);
     }
 
     removeObjects() {
-        this.enable(false);
+        this.view.scene.remove(...this.meshes);
+        this.meshes.length = 0;
         this.lines.forEach(line => {
             this.view.scene.remove(line);
         });
-        this.meshes.forEach(mesh => {
-            this.view.scene.remove(mesh);
-        });
-    }
-
-    // private onZoomStart(): void {
-    //     this.overlay.innerText = '';
-    // }
-
-    // private onZoomEnd(): void {
-    //     ChartUtil.getVisibleMeshes(this.view, this.meshes);
-
-    // }
-
-    private onMouseMove(e: ChartEvent): void {
-        const hit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
-
-        if (hit.length > 0) {
-
-            if (hit[0].object.userData === undefined) {
-                return;
-            }
-            try {
-                const xPos = e.mouse.xs + 10;
-                const yPos = e.mouse.ys;
-                const tip = hit[0].object.userData.replace(/_/gi, ' ').trim();
-                this.tooltips.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#DDD;padding:5px;border-radius:' +
-                    '3px;z-index:9999;position:absolute;left:' +
-                    xPos + 'px;top:' +
-                    yPos + 'px;">' +
-                    tip + '</div>';
-            } catch (e) { }
-
-            return;
-        }
-        this.tooltips.innerHTML = '';
-    }
-
-    showLabels(e: ChartEvent) {
 
     }
-
-    hideLabels() {
-        this.labels.innerHTML = '';
-    }
-
-    constructor() { }
-
 }
