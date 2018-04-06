@@ -318,15 +318,18 @@ export class ChartFactory {
 
     @memoize
     public static getColorPhong(color: number): THREE.Material {
-        return new THREE.MeshStandardMaterial(
-            {
-                color: color,
-                roughness: 0.0,
-                metalness: 0.02,
-                emissive: new THREE.Color(0x000000)
-                // color: color, emissive: new THREE.Color(0x000000),
-                // metalness: 0.2, roughness: .5, shading: THREE.SmoothShading
-            });
+        return new THREE.MeshBasicMaterial({
+            color: color
+        });
+        // return new THREE.MeshStandardMaterial(
+        //     {
+        //         color: color,
+        //         roughness: 0.0,
+        //         metalness: 0.02,
+        //         emissive: new THREE.Color(0x000000)
+        //         // color: color, emissive: new THREE.Color(0x000000),
+        //         // metalness: 0.2, roughness: .5, shading: THREE.SmoothShading
+        //     });
     }
 
 

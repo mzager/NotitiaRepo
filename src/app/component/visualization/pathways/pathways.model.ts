@@ -1,3 +1,4 @@
+import { GraphData } from './../../../model/graph-data.model';
 import { Legend } from './../../../model/legend.model';
 
 import { GraphConfig } from 'app/model/graph-config.model';
@@ -18,7 +19,6 @@ export class PathwaysConfigModel extends GraphConfig {
     pathway = 'chromatin_modifying_enzymes'; // 'copi-mediated_anterograde_transport';
 }
 
-export interface PathwaysDataModel {
-    legends: Array<Legend>;
+export interface PathwaysDataModel extends GraphData {
     layout: any;
 }

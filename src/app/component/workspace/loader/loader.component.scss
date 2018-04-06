@@ -73,10 +73,10 @@
   .lds-ellipsis div {
     position: absolute;
     top: 27px;
-    width: 11px;
-    height: 11px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
-    background: #DDD;
+    background: purple;
     animation-timing-function: cubic-bezier(0, 1, 1, 0);
   }
   .lds-ellipsis div:nth-child(1) {

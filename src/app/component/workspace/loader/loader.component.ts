@@ -12,10 +12,11 @@ import {
     <div class='loader-copy-container'>
         
         <div class='loader-copy'>
-            <div class='loader-quote'>&lsquo;{{quote.q}}&rsquo;<div class='loader-author'>{{quote.a}}</div></div>
+            <div class='loader-quote'>&lsquo;{{quote.q}}&rsquo;<div class='loader-author'>{{quote.a}}
+            <div class="lds-ellipsis" style='height:15px;top:-20px;left:10px;'><div></div><div></div><div></div><div></div></div></div></div>
             
         </div>
-        <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+        
     </div>
 
 </div>`,
@@ -36,11 +37,12 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
     }
     constructor() {
         this.quotes = [
-            // { q: 'Statistics are used much like a drunk uses a lamp: for support, not illumination', a: 'Vin Scully' },
+
             // { q: 'Only two things are infinite, the universe and human stupidity', a: 'Albert Einstein' },
             // { q: 'It takes a smart man to play dumb', a: 'Mr. T' },
             // { q: 'The goal is to provide analytical tools that will last students a lifetime', a: 'Edward Tufte' },
             // { q: 'Biology is the least of what makes someone a mother', a: 'Oprah Winfrey' },
+            // { q: 'Don\'t quote me on this', a: 'Jenny Zhang' },
             { q: 'If your experiment needs statistics, you ought to have done a better experiment', a: 'Ernest Rutherford' },
             { q: 'Statistics are no substitute for judgement', a: 'Henry Clay' },
             { q: 'Fasts are stubborn, but statistics are pliable', a: 'Mark Twain' },
@@ -53,6 +55,7 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
             { q: 'I was not a good student - I was too busy enjoying myself', a: 'Stephen Hawking' },
             { q: 'If you torture the data long enough, it will confess to anything', a: 'Ronald Coase' },
             { q: 'Nothing cannot exist forever', a: 'Stephen Hawking' },
+            { q: 'Statistics are used much like a drunk uses a lamp: for support, not illumination', a: 'Vin Scully' },
             { q: 'Imagination is more important than knowledge', a: 'Albert Einstein' },
             { q: 'Not everything that can be counted counts', a: 'Albert Einstein' },
             { q: 'Curiosity has its own reason for existing', a: 'Albert Einstein' },
@@ -73,7 +76,32 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
             { q: 'Biology has at least 50 more interesting years', a: 'James D. Watson' },
             { q: 'DNA - is technology. It is coding. It is physical coding, but still code.', a: 'Ryan Bethencourt' },
             { q: 'Lies damn lies and statistics', a: 'Mark Twain' },
-            { q: 'Biology is now accelerating at a pace faster than Moore\'s Law.', a: 'Arvind Gupta' }
+            { q: 'Biology is now accelerating at a pace faster than Moore\'s Law', a: 'Arvind Gupta' },
+            { q: 'Science is organized knowledge. Wisdom is organized life', a: 'Immanuel Kant' },
+            { q: 'The art and science of asking questions is the source of all knowledge', a: 'Thomas Berger' },
+            { q: 'Our scientific power has outrun our spiritual power. We have guided missiles and misguided men.', a: 'Martin Luther King' },
+            { q: 'Research is what I\'m doing when I don\'t know what I\'m doing', a: 'Wernher von Braun' },
+            { q: 'Art is the tree of life. Science is the tree of death.', a: 'William Blake' },
+            { q: 'Medicine is a science of uncertainty and an art of probability', a: 'William Osler' },
+            { q: 'Science is the great antidote to the poison of enthusiasm and superstition', a: 'Adam Smith' },
+            { q: 'Everything is theoretically impossible, until it is done', a: 'Robert A. Heinlein' },
+            { q: 'Science is what you know, philosophy is what you don\'t know', a: 'Bertrand Russell' },
+            { q: 'Science never solves a problem without creating ten more', a: 'George Bernard Shaw' },
+            { q: 'The fewer the facts, the stronger the opinion', a: 'Arnold H. Glasow' },
+            { q: 'Science is the captain, and practice the soldiers', a: 'Leonardo da Vinci' },
+            { q: 'It is through science that we prove, but through intuition that we discover', a: 'Henri Poincare' },
+            { q: 'By denying scientific principles, one may maintain any paradox', a: 'Galileo Galilei' },
+            { q: 'Science is the father of knowledge, but opinion breeds ignorance', a: 'Hippocrates' },
+            { q: 'In science, we must be interested in things, not in persons', a: 'Marie Curie' },
+            { q: 'It should be mandatory that you understand computer science', a: 'will.i.am' },
+            { q: 'Science is a differential equation. Religion is a boundary condition.', a: 'Alan Turing' },
+            { q: 'Some say they see poetry in my paintings; I see only science', a: 'Georges Seurat' },
+            { q: 'Imagination is the key to my lyrics. The rest is painted with a little science fiction.', a: 'Jimi Hendrix' },
+            { q: 'All science is either physics or stamp collecting.', a: 'Ernest Rutherford' },
+            { q: 'Music is science. Everything is science. Because science is truth.', a: 'Chuck Berry' },
+            { q: 'Human Nature is the only science of man; and yet has been hitherto the most neglected.', a: 'David Hume' },
+            { q: 'Science may be described as the art of systematic over-simplification.', a: 'Karl Popper' },
+            { q: 'There are no such things as applied sciences, only applications of science.', a: 'Louis Pasteur' }
         ];
         const i = Math.floor(Math.random() * ((this.quotes.length)));
         this.quote = this.quotes[i];

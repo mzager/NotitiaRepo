@@ -26,18 +26,16 @@ export class DataPanelComponent implements AfterViewInit {
   @ViewChild('dataTable') dataTable;
   @ViewChild('tabs') tabs: ElementRef;
 
-  /*
-      `<div>
-      <a href='#' class='modalClose' (click)='closeClick()'></a>
-      <h1> Dashboard </h1>
-      <div #chartContainer></div>
-  </div>*/
-
   @Input() configA: GraphConfig;
   @Input() configB: GraphConfig;
+  @Output() hide: EventEmitter<any> = new EventEmitter();
 
   public _tables: Array<DataTable> = [];
   public db: Dexie = null;
+
+  closeClick() {
+    this.hide.emit();
+  }
 
   @Input() set tables(v: Array<DataTable>) {
     this._tables = v.concat([

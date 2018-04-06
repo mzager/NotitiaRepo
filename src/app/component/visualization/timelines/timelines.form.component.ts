@@ -220,20 +220,33 @@ export class TimelinesFormComponent implements OnDestroy {
       bars: this.fb.array([])
     });
 
+    // // Update When Form Changes
+    // this.form.valueChanges
+    //   .debounceTime(800)
+    //   .distinctUntilChanged()
+    //   .subscribe(data => {
+    //     let dirty = 0;
+    //     const form = this.form;
+
+    //     // if (form.get('timescale').dirty) { dirty |= DirtyEnum.OPTIONS; }
+    //     // if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
+    //     if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
+    //     form.markAsPristine();
+    //     data.dirtyFlag = dirty;
+    //     this.configChange.emit(data);
+    //   });
+
+
     // Update When Form Changes
     this.form.valueChanges
-      .debounceTime(800)
+      .debounceTime(500)
       .distinctUntilChanged()
       .subscribe(data => {
-        let dirty = 0;
         const form = this.form;
-
-        // if (form.get('timescale').dirty) { dirty |= DirtyEnum.OPTIONS; }
-        // if (form.get('pointColor').dirty) { dirty |= DirtyEnum.COLOR; }
-        if (dirty === 0) { dirty |= DirtyEnum.LAYOUT; }
-        form.markAsPristine();
-        data.dirtyFlag = dirty;
-        this.configChange.emit(data);
+        if (form.dirty) {
+          form.markAsPristine();
+          this.configChange.emit(data);
+        }
       });
 
     this.$options = Observable.combineLatest(this.$fields, this.$events).subscribe(this.setOptions.bind(this));

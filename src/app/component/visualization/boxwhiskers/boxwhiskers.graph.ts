@@ -55,7 +55,7 @@ export class BoxWhiskersGraph extends AbstractVisualization {
         this.lines = [];
         this.bars = [];
         this.text = [];
-        this.labelLayout = new LabelController(view, this.onShowLabels.bind(this), this.onHideLabels.bind(this), this.onShowLabels.bind(this), this.onHideLabels.bind(this));
+        // this.labelLayout = new LabelController(view, this.onShowLabels.bind(this), this.onHideLabels.bind(this), this.onShowLabels.bind(this), this.onHideLabels.bind(this));
         return this;
     }
 
@@ -78,7 +78,7 @@ export class BoxWhiskersGraph extends AbstractVisualization {
     enable(truthy: boolean) {
         super.enable(truthy);
         this.view.controls.enableRotate = false;
-        this.labelLayout.enable = truthy;
+        // this.labelLayout.enable = truthy;
     }
 
 

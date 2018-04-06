@@ -1,3 +1,5 @@
+import { QueryBuilderComponent } from './component/workspace/query-panel/query-builder/query-builder.component';
+import { QueryPanelComponent } from './component/workspace/query-panel/query-panel.component';
 
 import { DashboardPanelComponent } from './component/workspace/dashboard-panel/dashboard-panel.component';
 import { DecoratorPanelComponent } from './component/workspace/decorator-panel/decorator-panel.component';
@@ -71,7 +73,6 @@ import { PcaIncrementalFormComponent } from './component/visualization/pcaincrem
 import { PcaKernalFormComponent } from './component/visualization/pcakernal/pcakernal.form.component';
 import { PcaSparseFormComponent } from './component/visualization/pcasparse/pcasparse.form.component';
 import { PlsFormComponent } from 'app/component/visualization/pls/pls.form.component';
-import { QueryPanelComponent } from 'app/component/workspace/query-panel/query-panel.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { reducers } from 'app/reducer/index.reducer';
 import { SelectEffect } from './effect/select.effect';
@@ -95,7 +96,6 @@ import { QuadradicDiscriminantAnalysisFormComponent } from 'app/component/visual
 import { LinearDiscriminantAnalysisFormComponent } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.form.component';
 // tslint:disable-next-line:max-line-length
 import { MiniBatchDictionaryLearningFormComponent } from 'app/component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.form.component';
-import { QueryBuilderComponent } from 'app/component/workspace/query-panel/query-builder/query-builder.component';
 import { ModalService } from 'app/service/modal-service';
 import { FontService } from 'app/service/font.service';
 import { HotTableModule } from 'angular-handsontable';
@@ -169,7 +169,12 @@ import { LoaderComponent } from './component/workspace/loader/loader.component';
     CitationsPanelComponent,
     LoaderComponent,
     DecoratorPanelComponent,
-    DashboardPanelComponent
+    DashboardPanelComponent,
+
+    ToolBarComponent,
+    ColorPanelComponent,
+    QueryPanelComponent,
+    QueryBuilderComponent
   ],
   entryComponents: [
   ],

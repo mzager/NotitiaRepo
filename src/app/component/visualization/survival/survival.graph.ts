@@ -12,7 +12,7 @@ import { ChartEvent, ChartEvents } from './../../workspace/chart/chart.events';
 import { AbstractVisualization } from './../visualization.abstract.component';
 import * as THREE from 'three';
 import { SurvivalDataModel, SurvivalConfigModel, SurvivalDatumModel } from './survival.model';
-import { Vector2, Shape, ShapeGeometry, MeshPhongMaterial, Mesh } from 'three';
+import { Vector2, Shape, ShapeGeometry, MeshPhongMaterial, Mesh, PerspectiveCamera } from 'three';
 
 export class SurvivalGraph extends AbstractVisualization {
 
@@ -32,8 +32,7 @@ export class SurvivalGraph extends AbstractVisualization {
         this.meshes = [];
         this.lines = [];
         this.grid = [];
-        // this.view.camera.position.setZ(5000);
-        // this.view.camera.position.setX(-350);
+        this.view.camera.position.setZ(5000);
         return this;
     }
 

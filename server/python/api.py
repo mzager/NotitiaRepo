@@ -60,6 +60,7 @@ from lifelines import AalenAdditiveFitter
 def httpWrapper(content):
     return Response(content, status=200, mimetype='application/json')
 
+
 def echo(content):
     return httpWrapper(json.dumps(content))
 
@@ -757,7 +758,11 @@ def main():
         'cluster_sk_mini_batch_dictionary_learning': cluster_sk_mini_batch_dictionary_learning,
         'cluster_sk_mini_batch_sparse_pca': cluster_sk_mini_batch_sparse_pca,
     }.get(content['method'], echo)
-    return function_to_invoke(content)
+    try:
+        return function_to_invoke(content)
+    except Exception as err:
+         return Response(json.dumps(err.args, ignore_nan=True ), status=400, mimetype='application/json')
+
 
 # if __name__ == '__main__':
 #     app.run()
