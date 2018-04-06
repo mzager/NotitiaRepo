@@ -338,6 +338,7 @@ export class ChartScene {
                     view.chart.onRequestRender.subscribe(this.render);
                     view.chart.onConfigEmit.subscribe(this.config);
                     view.controls.enableRotate = false;
+                    view.controls.reset();
                     view.chart.enable(true);
                     try {
                         ((graph === GraphEnum.GRAPH_A) ? this.views[1] : this.views[0]).chart.enable(false);
@@ -362,7 +363,7 @@ export class ChartScene {
 
     private getChartObject(visualization: VisualizationEnum): ChartObjectInterface {
         switch (visualization) {
-            case VisualizationEnum.TIMELINES: return new TimelinesGraph();
+            case VisualizationEnum.TIMELINES: return new TimelinesGraph(this.fontService);
             case VisualizationEnum.HEATMAP: return new HeatmapGraph();
             case VisualizationEnum.PATHWAYS: return new PathwaysGraph();
             case VisualizationEnum.EDGES: return new EdgesGraph();

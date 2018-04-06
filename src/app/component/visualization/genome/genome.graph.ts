@@ -1,3 +1,4 @@
+import { LabelController } from './../../../util/label/label.controller';
 import { ChromosomeDataModel } from './../chromosome/chromosome.model';
 import { AbstractVisualization } from './../visualization.abstract.component';
 import { DataDecorator } from './../../../model/data-map.model';
@@ -31,6 +32,7 @@ export class GenomeGraph extends AbstractVisualization {
     public set config(config: GenomeConfigModel) { this._config = config; }
     public get config(): GenomeConfigModel { return this._config as GenomeConfigModel; }
 
+    private labelLayout: LabelController;
     public meshes: THREE.Object3D[] = [];
     private points: Array<THREE.Object3D>;
     public tads: Array<THREE.Object3D> = [];
@@ -57,6 +59,7 @@ export class GenomeGraph extends AbstractVisualization {
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
         super.updateDecorator(config, decorators);
         ChartFactory.decorateDataGroups(this.meshes, this.decorators, this.renderer);
+        this.onShowLabels();
     }
     updateData(config: GraphConfig, data: any) {
         super.updateData(config, data);
@@ -65,6 +68,7 @@ export class GenomeGraph extends AbstractVisualization {
     }
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         super.create(labels, events, view);
+        // this.labelLayout = new LabelController(view, this.onShowLabels.bind(this), this.onHideLabels.bind(this), this.onShowLabels.bind(this), this.onHideLabels.bind(this));
         return this;
     }
     destroy() {
@@ -73,6 +77,11 @@ export class GenomeGraph extends AbstractVisualization {
         this.removeTads();
         this.removeGenes();
     }
+    enable(truthy: boolean) {
+        super.enable(truthy);
+        // this.labelLayout.enable = truthy;
+    }
+
     preRender(views: VisualizationView[], layout: WorkspaceLayoutEnum, renderer: THREE.Renderer): void {
         super.preRender(views, layout, renderer);
     }
@@ -179,5 +188,12 @@ export class GenomeGraph extends AbstractVisualization {
     removeGenes() {
         this.view.scene.remove(...this.meshes);
         this.meshes.length = 0;
+    }
+
+    onShowLabels(): void {
+        this.tooltips.innerHTML = LabelController.generateHtmlLabels(this.meshes, this.view, 100, 20, 10, 'RIGHT');
+    }
+    onHideLabels(): void {
+        this.tooltips.innerHTML = '';
     }
 }

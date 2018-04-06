@@ -249,8 +249,11 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     let gc: GraphConfig;
     switch (visualizationEnumValue) {
       case VisualizationEnum.DECOMPOSITION:
+        this.setVisualization(VisualizationEnum.INCREMENTAL_PCA);
+        return;
       case VisualizationEnum.MANIFOLDLEARNING:
-        this.setVisualization(this.visualizationOptions.find(v => v.value === visualizationEnumValue).methodOptions[0].value);
+        // this.setVisualization(this.visualizationOptions.find(v => v.value === visualizationEnumValue).methodOptions[0].value);
+        this.setVisualization(VisualizationEnum.TSNE);
         return;
       case VisualizationEnum.TIMELINES:
         gc = new TimelinesConfigModel();
@@ -399,15 +402,15 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.visualizationOptions = [
       { value: VisualizationEnum.BOX_WHISKERS, label: 'Box + Whisker' },
       { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
-      { value: VisualizationEnum.SPREADSHEET, label: 'Dashboard' },
+      // { value: VisualizationEnum.SPREADSHEET, label: 'Dashboard' },
       { value: VisualizationEnum.HIC, label: 'Force Directed Graph' },
       { value: VisualizationEnum.GENOME, label: 'Genome' },
       // { value: VisualizationEnum.DENDOGRAM, label: 'Dendogram' },
       { value: VisualizationEnum.HEATMAP, label: 'Heatmap' },
-      { value: VisualizationEnum.HISTOGRAM, label: 'Histogram' },
+      // { value: VisualizationEnum.HISTOGRAM, label: 'Histogram' },
       { value: VisualizationEnum.PATHWAYS, label: 'Pathways' },
       { value: VisualizationEnum.SURVIVAL, label: 'Survival + Hazard' },
-      { value: VisualizationEnum.SPREADSHEET, label: 'Spreadsheet' },
+      // { value: VisualizationEnum.SPREADSHEET, label: 'Spreadsheet' },
       { value: VisualizationEnum.TIMELINES, label: 'Timelines' },
       {
         value: VisualizationEnum.DECOMPOSITION, label: 'Matrix Decomposition', methodOptions: [
