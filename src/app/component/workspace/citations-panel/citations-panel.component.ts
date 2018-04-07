@@ -23,9 +23,11 @@ declare var $: any;
     <div class='row'>
         <a href='#' class='modalClose' (click)='closeClick()'></a>
         <div class='col s12 m9'>
-            <h1 class="citations-h1">{{method}}</h1>
+        <h2 class='citations-section'>Citations</h2>
+        <div *ngFor='let attr of methods; let i = index'>
+        <h1 class="citations-h1">{{method}}</h1>
             <a class='citations-link' href='{{url}}' target='_blank'>Learn More</a>
-            <h2 class='citations-section'>Site Citations</h2>
+          </div>
             <div *ngFor='let attr of citations; let i = index'>
                 <p class='citations-label'>{{ attr.name }}</p>
                 <p class='citations-desc'>{{ attr.desc }}
@@ -38,7 +40,7 @@ declare var $: any;
                 </p>
                 </div>
             </div>
-        </div>
+       
     </div>
 </div>
 `,
@@ -46,9 +48,15 @@ declare var $: any;
 })
 export class CitationsPanelComponent implements AfterViewInit, OnDestroy {
 
-    method = '';
-    url = '';
+    methods: Array<{ method: string, url: string }> = [];
     citations: Array<{ name: string, desc: string, url: string, url2?: string, url3?: string }> = [];
+
+    @Input() set config(config: CitationsPanelComponent) {
+        this.dataService.getCitations().then(result => {
+            this.methods = result.methods;
+            this.citations = result.citations;
+        });
+    }
 
     // Attributes
     @Output() hide = new EventEmitter<any>();
