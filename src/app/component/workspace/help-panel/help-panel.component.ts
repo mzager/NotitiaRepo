@@ -56,6 +56,7 @@ export class HelpPanelComponent implements AfterViewInit, OnDestroy {
   // Sparse Coder
   // Dict Learning Online
   // Sparse Encode
+  learn = '';
   method = '';
   desc = '';
   url = '';
@@ -77,6 +78,7 @@ export class HelpPanelComponent implements AfterViewInit, OnDestroy {
       this.params = result.params;
       this.citations = result.citations;
       this.tutorial = result.tutorial;
+      this.learn = '';
       this.cd.markForCheck();
     });
   }

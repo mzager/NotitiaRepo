@@ -1,1 +1,109 @@
-{"method":"NMF","desc":"<span class='help-method'>Non-Negative Matrix Factorization (NMF)</span>Find two non-negative matrices (W, H) whose product approximates the non- negative matrix X. This factorization can be used for example for dimensionality reduction, source separation or topic extraction. The objective function is: 0.5 * ||X - WH||_Fro^2 + alpha * l1_ratio * ||vec(W)||_1 + alpha * l1_ratio * ||vec(H)||_1 + 0.5 * alpha * (1 - l1_ratio) * ||W||_Fro^2 + 0.5 * alpha * (1 - l1_ratio) * ||H||_Fro^2 Where: ||A||_Fro^2 = \\sum_{i,j} A_{ij}^2 (Frobenius norm) ||vec(A)||_1 = \\sum_{i,j} abs(A_{ij}) (Elementwise L1 norm) For multiplicative-update (‘mu’) solver, the Frobenius norm (0.5 * ||X - WH||_Fro^2) can be changed into another beta-divergence loss, by changing the beta_loss parameter. The objective function is minimized with an alternating minimization of W and H. Read more in the scikit-learn user guide. ","url":"http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.NMF.html#sklearn.decomposition.NMF","params":[{"name":"n components","type":"int or None","desc":"Number of components, if n_components is not set all features are kept."},{"name":"init","type":"‘random’ | ‘nndsvd’ |  ‘nndsvda’ | ‘nndsvdar’ | ‘custom’","desc":"Method used to initialize the procedure. Default: ‘nndsvd’ if n_components < n_features, otherwise random. Valid options:   ‘random’: non-negative random matrices, scaled with: sqrt(X.mean() / n_components)    ‘nndsvd’: Nonnegative Double Singular Value Decomposition (NNDSVD) initialization (better for sparseness)    ‘nndsvda’: NNDSVD with zeros filled with the average of X (better when sparsity is not desired)    ‘nndsvdar’: NNDSVD with zeros filled with small random values (generally faster, less accurate alternative to NNDSVDa for when sparsity is not desired)   ‘custom’: use custom matrices W and H"},{"name":"solver","type":"‘cd’ | ‘mu’","desc":"Numerical solver to use: ‘cd’ is a Coordinate Descent solver. ‘mu’ is a Multiplicative Update solver.  New in version 0.17: Coordinate Descent solver.   New in version 0.19: Multiplicative Update solver."},{"name":"beta loss","type":"float or string, default ‘frobenius’","desc":"String must be in {‘frobenius’, ‘kullback-leibler’, ‘itakura-saito’}. Beta divergence to be minimized, measuring the distance between X and the dot product WH. Note that values different from ‘frobenius’ (or 2) and ‘kullback-leibler’ (or 1) lead to significantly slower fits. Note that for beta_loss <= 0 (or ‘itakura-saito’), the input matrix X cannot contain zeros. Used only in ‘mu’ solver.  New in version 0.19."},{"name":"tol","type":"float, default","desc":"Tolerance of the stopping condition."},{"name":"max iter","type":"integer, default","desc":"Maximum number of iterations before timing out."},{"name":"random state","type":"int, RandomState instance or None, optional, default","desc":"If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random."},{"name":"alpha","type":"double, default","desc":"Constant that multiplies the regularization terms. Set it to zero to have no regularization.  New in version 0.17: alpha used in the Coordinate Descent solver."},{"name":"l1 ratio","type":"double, default","desc":"The regularization mixing parameter, with 0 <= l1_ratio <= 1. For l1_ratio = 0 the penalty is an elementwise L2 penalty (aka Frobenius Norm). For l1_ratio = 1 it is an elementwise L1 penalty. For 0 < l1_ratio < 1, the penalty is a combination of L1 and L2.  New in version 0.17: Regularization parameter l1_ratio used in the Coordinate Descent solver."},{"name":"verbose","type":"bool, default=False","desc":"Whether to be verbose."},{"name":"shuffle","type":"boolean, default","desc":"If true, randomize the order of coordinates in the CD solver.  New in version 0.17: shuffle parameter used in the Coordinate Descent solver."}],"attrs":[{"name":"components","type":"array, [n_components, n_features]","desc":"Factorization matrix, sometimes called ‘dictionary’."},{"name":"reconstruction err","type":"number","desc":"Frobenius norm of the matrix difference, or beta-divergence, between the training data X and the reconstructed data WH from the fitted model."},{"name":"n iter","type":"int","desc":"Actual number of iterations."}]}
+{
+    "method": "NMF",
+    "summary": "Nonnegative matrix factorization analyzes high-dimensional data as it automatically extracts sparse and meaningful features from a set of nonnegative data vectors",
+    "desc": "<span class='help-method'>Non-Negative Matrix Factorization (NMF)</span>Find two non-negative matrices (W, H) whose product approximates the non- negative matrix X. This factorization can be used for example for dimensionality reduction, source separation or topic extraction. The objective function is: 0.5 * ||X - WH||_Fro^2 + alpha * l1_ratio * ||vec(W)||_1 + alpha * l1_ratio * ||vec(H)||_1 + 0.5 * alpha * (1 - l1_ratio) * ||W||_Fro^2 + 0.5 * alpha * (1 - l1_ratio) * ||H||_Fro^2 Where: ||A||_Fro^2 = \\sum_{i,j} A_{ij}^2 (Frobenius norm) ||vec(A)||_1 = \\sum_{i,j} abs(A_{ij}) (Elementwise L1 norm) For multiplicative-update (‘mu’) solver, the Frobenius norm (0.5 * ||X - WH||_Fro^2) can be changed into another beta-divergence loss, by changing the beta_loss parameter. The objective function is minimized with an alternating minimization of W and H. ",
+    "urlparagraph":"Read more in the scikit-learn user guide.",
+    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.NMF.html#sklearn.decomposition.NMF",
+    "tutorial": [
+        {
+            "desc": "Learn more on Oncoscape + Sci-Kit clustering methods",
+            "url": "https://www.youtube.com/embed/XQu8TTBmGhA"  
+        }
+    ],
+    "params": [
+        {
+            "name": "n components",
+            "type": "int or None",
+            "desc": "Number of components, if n_components is not set all features are kept."
+        },
+        {
+            "name": "init",
+            "type": "‘random’ | ‘nndsvd’ |  ‘nndsvda’ | ‘nndsvdar’ | ‘custom’",
+            "desc": "Method used to initialize the procedure. Default: ‘nndsvd’ if n_components < n_features, otherwise random. Valid options:   ‘random’: non-negative random matrices, scaled with: sqrt(X.mean() / n_components)    ‘nndsvd’: Nonnegative Double Singular Value Decomposition (NNDSVD) initialization (better for sparseness)    ‘nndsvda’: NNDSVD with zeros filled with the average of X (better when sparsity is not desired)    ‘nndsvdar’: NNDSVD with zeros filled with small random values (generally faster, less accurate alternative to NNDSVDa for when sparsity is not desired)   ‘custom’: use custom matrices W and H"
+        },
+        {
+            "name": "solver",
+            "type": "‘cd’ | ‘mu’",
+            "desc": "Numerical solver to use: ‘cd’ is a Coordinate Descent solver. ‘mu’ is a Multiplicative Update solver.  New in version 0.17: Coordinate Descent solver.   New in version 0.19: Multiplicative Update solver."
+        },
+        {
+            "name": "beta loss",
+            "type": "float or string, default ‘frobenius’",
+            "desc": "String must be in {‘frobenius’, ‘kullback-leibler’, ‘itakura-saito’}. Beta divergence to be minimized, measuring the distance between X and the dot product WH. Note that values different from ‘frobenius’ (or 2) and ‘kullback-leibler’ (or 1) lead to significantly slower fits. Note that for beta_loss <= 0 (or ‘itakura-saito’), the input matrix X cannot contain zeros. Used only in ‘mu’ solver.  New in version 0.19."
+        },
+        {
+            "name": "tol",
+            "type": "float, default",
+            "desc": "Tolerance of the stopping condition."
+        },
+        {
+            "name": "max iter",
+            "type": "integer, default",
+            "desc": "Maximum number of iterations before timing out."
+        },
+        {
+            "name": "random state",
+            "type": "int, RandomState instance or None, optional, default",
+            "desc": "If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random."
+        },
+        {
+            "name": "alpha",
+            "type": "double, default",
+            "desc": "Constant that multiplies the regularization terms. Set it to zero to have no regularization.  New in version 0.17: alpha used in the Coordinate Descent solver."
+        },
+        {
+            "name": "l1 ratio",
+            "type": "double, default",
+            "desc": "The regularization mixing parameter, with 0 <= l1_ratio <= 1. For l1_ratio = 0 the penalty is an elementwise L2 penalty (aka Frobenius Norm). For l1_ratio = 1 it is an elementwise L1 penalty. For 0 < l1_ratio < 1, the penalty is a combination of L1 and L2.  New in version 0.17: Regularization parameter l1_ratio used in the Coordinate Descent solver."
+        },
+        {
+            "name": "verbose",
+            "type": "bool, default=False",
+            "desc": "Whether to be verbose."
+        },
+        {
+            "name": "shuffle",
+            "type": "boolean, default",
+            "desc": "If true, randomize the order of coordinates in the CD solver.  New in version 0.17: shuffle parameter used in the Coordinate Descent solver."
+        }
+    ],
+    "attrs": [
+        {
+            "name": "components",
+            "type": "array, [n_components, n_features]",
+            "desc": "Factorization matrix, sometimes called ‘dictionary’."
+        },
+        {
+            "name": "reconstruction err",
+            "type": "number",
+            "desc": "Frobenius norm of the matrix difference, or beta-divergence, between the training data X and the reconstructed data WH from the fitted model."
+        },
+        {
+            "name": "n iter",
+            "type": "int",
+            "desc": "Actual number of iterations."
+        }
+    ],
+    "citations": [
+        {
+            "name": "Fast local algorithms for large scale nonnegative matrix and tensor factorizations",
+            "desc": "Cichocki, Andrzej, and P. H. A. N. Anh-Huy. Fast local algorithms for large scale nonnegative matrix and tensor factorizations. IEICE transactions on fundamentals of electronics, communications and computer sciences 92.3: 708-721, 2009.",
+            "url": "http://www.bsp.brain.riken.jp/publications/2009/Cichocki-Phan-IEICE_col.pdf"
+        },
+        {
+            "name": "Algorithms for nonnegative matrix factorization with the beta-divergence",
+            "desc": "Fevotte, C., & Idier, J. (2011). Algorithms for nonnegative matrix factorization with the beta-divergence. Neural Computation, 23(9).",
+            "url": "https://arxiv.org/abs/1010.1763"
+        },
+        {
+            "name": "Scikit-learn: Machine Learning in Python",
+            "desc": "Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.",
+            "url": "http://www.jmlr.org/papers/volume12/pedregosa11a/pedregosa11a.pdf"
+        },
+        {
+            "name": "API design for machine learning software: experiences from the scikit-learn project",
+            "desc": "API design for machine learning software: experiences from the scikit-learn project, Buitinck et al., 2013.",
+            "url": "http://www.di.ens.fr/sierra/pdfs/icml09.pdf"
+        }
+    ]
+}
