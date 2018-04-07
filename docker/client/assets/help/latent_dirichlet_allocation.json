@@ -1,1 +1,144 @@
-{"method":"Latent Dirichlet Allocation","desc":"<span class='help-method'>Latent Dirichlet Allocation with online variational Bayes algorithm</span>New in version 0.17. Read more in the scikit-learn user guide. ","url":"http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.LatentDirichletAllocation.html#sklearn.decomposition.LatentDirichletAllocation","params":[{"name":"n components","type":"int, optional (default=10)","desc":"Number of topics."},{"name":"doc topic prior","type":"float, optional (default=None)","desc":"Prior of document topic distribution theta. If the value is None, defaults to 1 / n_components. In the literature, this is called alpha."},{"name":"topic word prior","type":"float, optional (default=None)","desc":"Prior of topic word distribution beta. If the value is None, defaults to 1 / n_components. In the literature, this is called eta."},{"name":"learning method","type":"‘batch’ | ‘online’, default=’online’","desc":"Method used to update _component. Only used in fit method. In general, if the data size is large, the online update will be much faster than the batch update. The default learning method is going to be changed to ‘batch’ in the 0.20 release. Valid options: 'batch': Batch variational Bayes method. Use all training data in     each EM update.     Old `components_` will be overwritten in each iteration. 'online': Online variational Bayes method. In each EM update, use     mini-batch of training data to update the ``components_``     variable incrementally. The learning rate is controlled by the     ``learning_decay`` and the ``learning_offset`` parameters."},{"name":"learning decay","type":"float, optional (default=0.7)","desc":"It is a parameter that control learning rate in the online learning method. The value should be set between (0.5, 1.0] to guarantee asymptotic convergence. When the value is 0.0 and batch_size is n_samples, the update method is same as batch learning. In the literature, this is called kappa."},{"name":"learning offset","type":"float, optional (default=10.)","desc":"A (positive) parameter that downweights early iterations in online learning.  It should be greater than 1.0. In the literature, this is called tau_0."},{"name":"max iter","type":"integer, optional (default=10)","desc":"The maximum number of iterations."},{"name":"batch size","type":"int, optional (default=128)","desc":"Number of documents to use in each EM iteration. Only used in online learning."},{"name":"evaluate every","type":"int, optional (default=0)","desc":"How often to evaluate perplexity. Only used in fit method. set it to 0 or negative number to not evalute perplexity in training at all. Evaluating perplexity can help you check convergence in training process, but it will also increase total training time. Evaluating perplexity in every iteration might increase training time up to two-fold."},{"name":"total samples","type":"int, optional (default=1e6)","desc":"Total number of documents. Only used in the partial_fit method."},{"name":"perp tol","type":"float, optional (default=1e-1)","desc":"Perplexity tolerance in batch learning. Only used when evaluate_every is greater than 0."},{"name":"mean change tol","type":"float, optional (default=1e-3)","desc":"Stopping tolerance for updating document topic distribution in E-step."},{"name":"max doc update iter","type":"int (default=100)","desc":"Max number of iterations for updating document topic distribution in the E-step."},{"name":"n jobs","type":"int, optional (default=1)","desc":"The number of jobs to use in the E-step. If -1, all CPUs are used. For n_jobs below -1, (n_cpus + 1 + n_jobs) are used."},{"name":"verbose","type":"int, optional (default=0)","desc":"Verbosity level."},{"name":"random state","type":"int, RandomState instance or None, optional (default=None)","desc":"If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random."},{"name":"n topics","type":"int, optional (default=None)","desc":"This parameter has been renamed to n_components and will be removed in version 0.21. .. deprecated:: 0.19"}],"attrs":[{"name":"components","type":"array, [n_components, n_features]","desc":"Variational parameters for topic word distribution. Since the complete conditional for topic word distribution is a Dirichlet, components_[i, j] can be viewed as pseudocount that represents the number of times word j was assigned to topic i. It can also be viewed as distribution over the words for each topic after normalization: model.components_ / model.components_.sum(axis=1)[:, np.newaxis]."},{"name":"n batch iter","type":"int","desc":"Number of iterations of the EM step."},{"name":"n iter","type":"int","desc":"Number of passes over the dataset."}]}
+{
+    "method": "Latent Dirichlet Allocation",
+    "summary": "Latent Dirichlet allocation (LDA) is a generative statistical model that allows sets of observations to be explained by unobserved groups that explain why some parts of the data are similar.",
+    "desc": "<span class='help-method'>Latent Dirichlet Allocation with online variational Bayes algorithm</span>New in version 0.17. ",
+    "urlparagraph":"Read more in the scikit-learn user guide.",
+    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.LatentDirichletAllocation.html#sklearn.decomposition.LatentDirichletAllocation",
+    "tutorial": [
+        {
+            "desc": "Learn more on Oncoscape + Sci-Kit clustering methods",
+            "url": "https://www.youtube.com/embed/XQu8TTBmGhA"  
+        }
+    ],
+    "params": [
+        {
+            "name": "n components",
+            "type": "int, optional (default=10)",
+            "desc": "Number of topics."
+        },
+        {
+            "name": "doc topic prior",
+            "type": "float, optional (default=None)",
+            "desc": "Prior of document topic distribution theta. If the value is None, defaults to 1 / n_components. In the literature, this is called alpha."
+        },
+        {
+            "name": "topic word prior",
+            "type": "float, optional (default=None)",
+            "desc": "Prior of topic word distribution beta. If the value is None, defaults to 1 / n_components. In the literature, this is called eta."
+        },
+        {
+            "name": "learning method",
+            "type": "‘batch’ | ‘online’, default=’online’",
+            "desc": "Method used to update _component. Only used in fit method. In general, if the data size is large, the online update will be much faster than the batch update. The default learning method is going to be changed to ‘batch’ in the 0.20 release. Valid options: 'batch': Batch variational Bayes method. Use all training data in     each EM update.     Old `components_` will be overwritten in each iteration. 'online': Online variational Bayes method. In each EM update, use     mini-batch of training data to update the ``components_``     variable incrementally. The learning rate is controlled by the     ``learning_decay`` and the ``learning_offset`` parameters."
+        },
+        {
+            "name": "learning decay",
+            "type": "float, optional (default=0.7)",
+            "desc": "It is a parameter that control learning rate in the online learning method. The value should be set between (0.5, 1.0] to guarantee asymptotic convergence. When the value is 0.0 and batch_size is n_samples, the update method is same as batch learning. In the literature, this is called kappa."
+        },
+        {
+            "name": "learning offset",
+            "type": "float, optional (default=10.)",
+            "desc": "A (positive) parameter that downweights early iterations in online learning.  It should be greater than 1.0. In the literature, this is called tau_0."
+        },
+        {
+            "name": "max iter",
+            "type": "integer, optional (default=10)",
+            "desc": "The maximum number of iterations."
+        },
+        {
+            "name": "batch size",
+            "type": "int, optional (default=128)",
+            "desc": "Number of documents to use in each EM iteration. Only used in online learning."
+        },
+        {
+            "name": "evaluate every",
+            "type": "int, optional (default=0)",
+            "desc": "How often to evaluate perplexity. Only used in fit method. set it to 0 or negative number to not evalute perplexity in training at all. Evaluating perplexity can help you check convergence in training process, but it will also increase total training time. Evaluating perplexity in every iteration might increase training time up to two-fold."
+        },
+        {
+            "name": "total samples",
+            "type": "int, optional (default=1e6)",
+            "desc": "Total number of documents. Only used in the partial_fit method."
+        },
+        {
+            "name": "perp tol",
+            "type": "float, optional (default=1e-1)",
+            "desc": "Perplexity tolerance in batch learning. Only used when evaluate_every is greater than 0."
+        },
+        {
+            "name": "mean change tol",
+            "type": "float, optional (default=1e-3)",
+            "desc": "Stopping tolerance for updating document topic distribution in E-step."
+        },
+        {
+            "name": "max doc update iter",
+            "type": "int (default=100)",
+            "desc": "Max number of iterations for updating document topic distribution in the E-step."
+        },
+        {
+            "name": "n jobs",
+            "type": "int, optional (default=1)",
+            "desc": "The number of jobs to use in the E-step. If -1, all CPUs are used. For n_jobs below -1, (n_cpus + 1 + n_jobs) are used."
+        },
+        {
+            "name": "verbose",
+            "type": "int, optional (default=0)",
+            "desc": "Verbosity level."
+        },
+        {
+            "name": "random state",
+            "type": "int, RandomState instance or None, optional (default=None)",
+            "desc": "If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random."
+        },
+        {
+            "name": "n topics",
+            "type": "int, optional (default=None)",
+            "desc": "This parameter has been renamed to n_components and will be removed in version 0.21. .. deprecated:: 0.19"
+        }
+    ],
+    "attrs": [
+        {
+            "name": "components",
+            "type": "array, [n_components, n_features]",
+            "desc": "Variational parameters for topic word distribution. Since the complete conditional for topic word distribution is a Dirichlet, components_[i, j] can be viewed as pseudocount that represents the number of times word j was assigned to topic i. It can also be viewed as distribution over the words for each topic after normalization: model.components_ / model.components_.sum(axis=1)[:, np.newaxis]."
+        },
+        {
+            "name": "n batch iter",
+            "type": "int",
+            "desc": "Number of iterations of the EM step."
+        },
+        {
+            "name": "n iter",
+            "type": "int",
+            "desc": "Number of passes over the dataset."
+        }
+    ],
+    "citations": [
+        {
+            "name": "Online Learning for Latent Dirichlet Allocation",
+            "desc": "Online Learning for Latent Dirichlet Allocation”, Matthew D. Hoffman, David M. Blei, Francis Bach, 2010",
+            "url": ""
+        },
+        {
+            "name": "Stochastic Variational Inference",
+            "desc": "Stochastic Variational Inference”, Matthew D. Hoffman, David M. Blei, Chong Wang, John Paisley, 2013",
+            "url": ""
+        },
+        {
+            "name": "Matthew D. Hoffman’s onlineldavb code",
+            "desc": "Matthew D. Hoffman’s onlineldavb code",
+            "url": "http://papers.nips.cc/paper/3902-online-learning-for-latentdirichlet-allocation!"
+        },
+        {
+            "name": "Scikit-learn: Machine Learning in Python",
+            "desc": "Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.",
+            "url": "http://www.jmlr.org/papers/volume12/pedregosa11a/pedregosa11a.pdf"
+        },
+        {
+            "name": "API design for machine learning software: experiences from the scikit-learn project",
+            "desc": "API design for machine learning software: experiences from the scikit-learn project, Buitinck et al., 2013.",
+            "url": "http://www.di.ens.fr/sierra/pdfs/icml09.pdf"
+        }
+    ]
+}
