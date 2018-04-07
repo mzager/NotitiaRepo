@@ -47,7 +47,6 @@ import { GenomeFormComponent } from './component/visualization/genome/genome.for
 import { GraphPanelComponent } from 'app/component/workspace/graph-panel/graph-panel.component';
 import { HeatmapFormComponent } from './component/visualization/heatmap/heatmap.form.component';
 import { HistogramFormComponent } from './component/visualization/histogram/histogram.form.component';
-// import { HotTableModule } from 'ng2-handsontable';
 import { HttpClient } from './service/http.client';
 import { HttpModule } from '@angular/http';
 import { IsoMapFormComponent } from './component/visualization/isomap/isomap.form.component';
