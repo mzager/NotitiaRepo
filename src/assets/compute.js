@@ -21288,141 +21288,139 @@ var ComputeWorkerUtil = /** @class */ (function () {
     ComputeWorkerUtil.prototype.getEdgesSampleSample = function (config) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            // Bounce Early
-            if (config.pointColor.key === 'None') {
-                resolve([]);
-                return;
-            }
+            // // Bounce Early
+            // if (config.pointColor.key === 'None') {
+            //     resolve([]);
+            //     return;
+            // }
             _this.openDatabaseData(config.database).then(function (v) {
                 Promise.all([
                     _this.dbData.table('patient').toArray(),
                     _this.dbData.table('patientSampleMap').toArray()
                 ]).then(function (result) {
-                    var patientMap = result[0].reduce(function (p, c) { p[c.p] = c; return p; }, {});
-                    var colorField = config.pointColor.key;
-                    var intersectField = config.pointIntersect.key;
-                    var edges = result[1].map(function (ps) {
-                        var rv = { a: ps.s, b: ps.s, c: null, i: null };
-                        if (patientMap.hasOwnProperty(ps.p)) {
-                            var patient = patientMap[ps.p];
-                            if (patient.hasOwnProperty(colorField) && colorField !== 'None') {
-                                rv.c = patient[colorField];
-                            }
-                            if (patient.hasOwnProperty(intersectField) && intersectField !== 'None') {
-                                rv.i = patient[intersectField];
-                            }
-                        }
-                        return rv;
-                    });
-                    if (colorField !== 'None') {
-                        var colorValues = edges.map(function (value) { return value.c; });
-                        var colorScale_1 = d3_scale_1.scaleSequential(d3_scale_chromatic_1.interpolateSpectral)
-                            .domain([Math.min.apply(Math, colorValues), Math.max.apply(Math, colorValues)]);
-                        edges.forEach(function (edge) { return edge.c = colorScale_1(edge.c); });
-                    }
-                    if (intersectField !== 'None') {
-                        var bins = 0;
-                        var intersectScale_1;
-                        var colorValues = edges.map(function (value) { return value.i; });
-                        switch (config.pointIntersect.type) {
-                            case enum_model_1.DataTypeEnum.STRING:
-                                bins = config.pointIntersect.values.length;
-                                intersectScale_1 = function (value) { return config.pointIntersect.values.indexOf(value) + 1; };
-                                break;
-                            case enum_model_1.DataTypeEnum.NUMBER:
-                                bins = 6;
-                                intersectScale_1 = d3_scale_1.scaleQuantile()
-                                    .domain([Math.min.apply(Math, colorValues), Math.max.apply(Math, colorValues)])
-                                    .range([1, 2, 3, 4, 5, 6]);
-                                break;
-                        }
-                        edges.forEach(function (edge) { return edge.i = intersectScale_1(edge.i); });
-                    }
-                    resolve(edges);
+                    // const patientMap = result[0].reduce((p, c) => { p[c.p] = c; return p; }, {});
+                    // const colorField = config.pointColor.key;
+                    // const intersectField = config.pointIntersect.key;
+                    // const edges = result[1].map(ps => {
+                    //     const rv = { a: ps.s, b: ps.s, c: null, i: null };
+                    //     if (patientMap.hasOwnProperty(ps.p)) {
+                    //         const patient = patientMap[ps.p];
+                    //         if (patient.hasOwnProperty(colorField) && colorField !== 'None') {
+                    //             rv.c = patient[colorField];
+                    //         }
+                    //         if (patient.hasOwnProperty(intersectField) && intersectField !== 'None') {
+                    //             rv.i = patient[intersectField];
+                    //         }
+                    //     }
+                    //     return rv;
+                    // });
+                    // if (colorField !== 'None') {
+                    //     const colorValues = edges.map<number>((value) => value.c);
+                    //     const colorScale = scaleSequential<string>(interpolateSpectral)
+                    //         .domain([Math.min(...colorValues), Math.max(...colorValues)]);
+                    //     edges.forEach(edge => edge.c = colorScale(edge.c));
+                    // }
+                    // if (intersectField !== 'None') {
+                    //     let bins = 0;
+                    //     let intersectScale: any;
+                    //     const colorValues = edges.map<number>((value) => value.i);
+                    //     switch (config.pointIntersect.type) {
+                    //         case DataTypeEnum.STRING:
+                    //             bins = config.pointIntersect.values.length;
+                    //             intersectScale = (value) => config.pointIntersect.values.indexOf(value) + 1;
+                    //             break;
+                    //         case DataTypeEnum.NUMBER:
+                    //             bins = 6;
+                    //             intersectScale = scaleQuantile<number>()
+                    //                 .domain([Math.min(...colorValues), Math.max(...colorValues)])
+                    //                 .range([1, 2, 3, 4, 5, 6]);
+                    //             break;
+                    //     }
+                    //     edges.forEach(edge => edge.i = intersectScale(edge.i));
+                    // }
+                    // resolve(edges);
                 });
             });
         });
     };
     ComputeWorkerUtil.prototype.getEdgesGeneGene = function (config) {
-        var _this = this;
         return new Promise(function (resolve, reject) {
-            // Bounce Early
-            if (config.pointColor.key === 'None') {
-                resolve([]);
-                return;
-            }
-            _this.openDatabaseData(config.database).then(function (v) {
-                _this.getMolecularGeneValues(config.markerFilter, config.pointColor, config.database).then(function (result) {
-                    var edges = result.map(function (gene) { return ({
-                        a: gene.m,
-                        b: gene.m,
-                        c: gene.mean,
-                        i: null
-                    }); });
-                    var colorValues = edges.map(function (value) { return value.c; });
-                    var colorScale = d3_scale_1.scaleSequential(d3_scale_chromatic_1.interpolateSpectral)
-                        .domain([Math.min.apply(Math, colorValues), Math.max.apply(Math, colorValues)]);
-                    edges.forEach(function (edge) { return edge.c = colorScale(edge.c); });
-                    resolve(edges);
-                });
-            });
+            // // Bounce Early
+            // if (config.pointColor.key === 'None') {
+            //     resolve([]);
+            //     return;
+            // }
+            // this.openDatabaseData(config.database).then(v => {
+            //     this.getMolecularGeneValues(config.markerFilter, config.pointColor, config.database).then(result => {
+            //         const edges = result.map(gene => ({
+            //             a: gene.m,
+            //             b: gene.m,
+            //             c: gene.mean,
+            //             i: null
+            //         }));
+            //         const colorValues = edges.map((value) => value.c);
+            //         const colorScale = scaleSequential<string>(interpolateSpectral)
+            //             .domain([Math.min(...colorValues), Math.max(...colorValues)]);
+            //         edges.forEach(edge => edge.c = colorScale(edge.c));
+            //         resolve(edges);
+            //     });
+            // });
         });
     };
     ComputeWorkerUtil.prototype.getEdgesGeneSample = function (config) {
-        var _this = this;
         return new Promise(function (resolve, reject) {
             // Bounce Early
-            if (config.pointColor.key === 'None') {
-                resolve([]);
-                return;
-            }
-            _this.getMatrix(config.markerFilter, config.sampleFilter, 'gismutMap', config.database, 'gisticT', enum_model_1.EntityTypeEnum.GENE)
-                .then(function (result) {
-                var edges = [];
-                var nMarkers = result.markers.length;
-                var nSamples = result.samples.length;
-                var aIsGene = (config.entityA === enum_model_1.EntityTypeEnum.GENE);
-                for (var iMarker = 0; iMarker < nMarkers; iMarker++) {
-                    for (var iSample = 0; iSample < nSamples; iSample++) {
-                        var value = result.data[iMarker][iSample];
-                        var color = (value === -2) ? _this.colors[0] :
-                            (value === -1) ? _this.colors[1] :
-                                (value === 1) ? _this.colors[2] :
-                                    _this.colors[3];
-                        edges.push({
-                            a: (aIsGene) ? result['markers'][iMarker] : result['samples'][iSample],
-                            b: (aIsGene) ? result['samples'][iSample] : result['markers'][iMarker],
-                            c: color,
-                            i: null
-                        });
-                    }
-                }
-                // const edges: Array<any> = [];
-                // const aIsGene = (config.entityA === EntityTypeEnum.GENE);
-                // const colorField = (config.pointColor.key !== 'None');
-                // const intersectField = (config.pointIntersect.key !== 'None');
-                // result.data.forEach((gene, geneIndex) => gene.forEach((sample, sampleIndex) => {
-                //     if (sample !== 0) {
-                //         const rv = { a: null, b: null, c: 0x333333, i: null };
-                //         rv.a = aIsGene ? result['markers'][geneIndex] : result['samples'][sampleIndex];
-                //         rv.b = !aIsGene ? result['markers'][geneIndex] : result['samples'][sampleIndex];
-                //         if (intersectField) {
-                //             rv.i = (sample === -2) ? 1 :
-                //                 (sample === -1) ? 2 :
-                //                     (sample === 1) ? 3 :
-                //                         4;
-                //         }
-                //         if (colorField) {
-                //             rv.c = (sample === -2) ? this.colors[0] :
-                //                 (sample === -1) ? this.colors[1] :
-                //                     (sample === 1) ? this.colors[2] :
-                //                         this.colors[3];
-                //         }
-                //         edges.push(rv);
-                //     }
-                // }));
-                resolve(edges);
-            });
+            // if (config.pointColor.key === 'None') {
+            //     resolve([]);
+            //     return;
+            // }
+            // this.getMatrix(config.markerFilter, config.sampleFilter, 'gismutMap', config.database, 'gisticT', EntityTypeEnum.GENE)
+            //     .then((result: any) => {
+            //         const edges: Array<any> = [];
+            //         const nMarkers = result.markers.length;
+            //         const nSamples = result.samples.length;
+            //         const aIsGene = (config.entityA === EntityTypeEnum.GENE);
+            //         for (let iMarker = 0; iMarker < nMarkers; iMarker++) {
+            //             for (let iSample = 0; iSample < nSamples; iSample++) {
+            //                 const value = result.data[iMarker][iSample];
+            //                 const color = (value === -2) ? this.colors[0] :
+            //                     (value === -1) ? this.colors[1] :
+            //                         (value === 1) ? this.colors[2] :
+            //                             this.colors[3];
+            //                 edges.push({
+            //                     a: (aIsGene) ? result['markers'][iMarker] : result['samples'][iSample],
+            //                     b: (aIsGene) ? result['samples'][iSample] : result['markers'][iMarker],
+            //                     c: color,
+            //                     i: null
+            //                 });
+            //             }
+            //         }
+            //         // const edges: Array<any> = [];
+            //         // const aIsGene = (config.entityA === EntityTypeEnum.GENE);
+            //         // const colorField = (config.pointColor.key !== 'None');
+            //         // const intersectField = (config.pointIntersect.key !== 'None');
+            //         // result.data.forEach((gene, geneIndex) => gene.forEach((sample, sampleIndex) => {
+            //         //     if (sample !== 0) {
+            //         //         const rv = { a: null, b: null, c: 0x333333, i: null };
+            //         //         rv.a = aIsGene ? result['markers'][geneIndex] : result['samples'][sampleIndex];
+            //         //         rv.b = !aIsGene ? result['markers'][geneIndex] : result['samples'][sampleIndex];
+            //         //         if (intersectField) {
+            //         //             rv.i = (sample === -2) ? 1 :
+            //         //                 (sample === -1) ? 2 :
+            //         //                     (sample === 1) ? 3 :
+            //         //                         4;
+            //         //         }
+            //         //         if (colorField) {
+            //         //             rv.c = (sample === -2) ? this.colors[0] :
+            //         //                 (sample === -1) ? this.colors[1] :
+            //         //                     (sample === 1) ? this.colors[2] :
+            //         //                         this.colors[3];
+            //         //         }
+            //         //         edges.push(rv);
+            //         //     }
+            //         // }));
+            //         resolve(edges);
+            //     });
         });
     };
     ComputeWorkerUtil.prototype.getSamplePatientMap = function (db) {
@@ -21916,9 +21914,9 @@ var ComputeWorkerUtil = /** @class */ (function () {
             'Access-Control-Allow-Origin': '*'
         };
         // return fetch('http://oncoscape-opencpu.sttrcancer.io/py', {
-        // return fetch('https://python.os.sttrcancer.io/py', {
-        // python.os.sttrcancer.io/py
-        return fetch('http://localhost/py', {
+        return fetch('https://python.os.sttrcancer.io/py', {
+            // python.os.sttrcancer.io/py
+            // return fetch('http://localhost/py', {
             headers: headers,
             method: 'POST',
             body: JSON.stringify(config)
