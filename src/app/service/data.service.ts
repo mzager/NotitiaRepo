@@ -31,6 +31,21 @@ export class DataService {
   public static API_PATH = 'https://dev.oncoscape.sttrcancer.io/api/';
   private createMolecularDataDecorator(config: GraphConfig, decorator: DataDecorator): Observable<DataDecorator> {
 
+    if (decorator.field.ctype === CollectionTypeEnum.GENE_NAME) {
+      new Dexie('notitia').open().then(db => {
+        db.table('genecoords').toArray().then(results => {
+          debugger;
+          // decorator.values = results.map(v => ({
+          //   pid: null,
+          //   sid: null,
+          //   mid: v.gene,
+          //   key: EntityTypeEnum.GENE,
+          //   label: DataService.biotypeMap[v.type],
+          //   value: scale(DataService.biotypeMap[v.type])
+          // })).filter(v => v.label);
+        });
+      });
+    }
 
     if (decorator.field.ctype === CollectionTypeEnum.GENE_TYPE) {
       return Observable.fromPromise(new Promise((resolve, reject) => {
@@ -164,6 +179,18 @@ export class DataService {
             let scale: Function;
             // let legend: Legend;
             switch (decorator.type) {
+
+              case DataDecoratorTypeEnum.LABEL:
+                decorator.values = items.map(v => ({
+                  pid: v.p,
+                  sid: psMap[v.p],
+                  mid: null,
+                  key: EntityTypeEnum.PATIENT,
+                  label: v[decorator.field.key],
+                  value: v[decorator.field.key]
+                }));
+                resolve(decorator);
+                break;
 
               case DataDecoratorTypeEnum.COLOR:
                 scale = (decorator.field.type === 'STRING') ?

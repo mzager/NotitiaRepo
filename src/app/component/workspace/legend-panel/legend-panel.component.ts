@@ -31,6 +31,12 @@ export class LegendPanelComponent implements AfterViewInit {
   private _decorator: DataDecorator;
   public get decorator(): DataDecorator { return this._decorator; }
   @Input() public set decorator(value: DataDecorator) {
+    if (value === null) {
+      return;
+    }
+    if (value.legend === null) {
+      return; // not all decorators have legends (like labels)
+    }
     this._decorator = value;
     this._legend = this._decorator.legend;
 
