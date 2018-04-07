@@ -1,1 +1,119 @@
-{"method":"Locally Linear Embedding","desc":"<span class='help-method'>Perform a Locally Linear Embedding analysis on the data.</span>Read more in the scikit-learn user guide. ","url":"http://scikit-learn.org/stable/modules/generated/sklearn.manifold.locally_linear_embedding.html#sklearn.manifold.locally_linear_embedding","params":[{"name":"X","type":"{array-like, sparse matrix, BallTree, KDTree, NearestNeighbors}","desc":"Sample data, shape = (n_samples, n_features), in the form of a numpy array, sparse array, precomputed tree, or NearestNeighbors object."},{"name":"n neighbors","type":"integer","desc":"number of neighbors to consider for each point."},{"name":"n components","type":"integer","desc":"number of coordinates for the manifold."},{"name":"reg","type":"float","desc":"regularization constant, multiplies the trace of the local covariance matrix of the distances."},{"name":"eigen solver","type":"string, {‘auto’, ‘arpack’, ‘dense’}","desc":"auto : algorithm will attempt to choose the best method for input data  arpack : use arnoldi iteration in shift-invert mode. For this method, M may be a dense matrix, sparse matrix, or general linear operator. Warning: ARPACK can be unstable for some problems.  It is best to try several random seeds in order to check results.  dense : use standard dense matrix operations for the eigenvalue decomposition.  For this method, M must be an array or matrix type.  This method should be avoided for large problems."},{"name":"tol","type":"float, optional","desc":"Tolerance for ‘arpack’ method Not used if eigen_solver==’dense’."},{"name":"max iter","type":"integer","desc":"maximum number of iterations for the arpack solver."},{"name":"method","type":"{‘standard’, ‘hessian’, ‘modified’, ‘ltsa’}","desc":"standard : use the standard locally linear embedding algorithm. see reference [R193]  hessian : use the Hessian eigenmap method.  This method requires n_neighbors > n_components * (1 + (n_components + 1) / 2. see reference [R194]  modified : use the modified locally linear embedding algorithm. see reference [R195]  ltsa : use local tangent space alignment algorithm see reference [R196]"},{"name":"hessian tol","type":"float, optional","desc":"Tolerance for Hessian eigenmapping method. Only used if method == ‘hessian’"},{"name":"modified tol","type":"float, optional","desc":"Tolerance for modified LLE method. Only used if method == ‘modified’"},{"name":"random state","type":"int, RandomState instance or None, optional (default=None)","desc":"If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random. Used when solver == ‘arpack’."},{"name":"n jobs","type":"int, optional (default = 1)","desc":"The number of parallel jobs to run for neighbors search. If -1, then the number of jobs is set to the number of CPU cores."}],"attrs":[{"name":"Y","type":"array-like, shape [n_samples, n_components]","desc":"Embedding vectors."},{"name":"squared error","type":"float","desc":"Reconstruction error for the embedding vectors. Equivalent to norm(Y - W Y, 'fro')**2, where W are the reconstruction weights."}]}
+{
+    "method": "Locally Linear Embedding",
+    "summary": "Locally linear embedding computes low dimensional, neighborhood preserving embeddings of high dimensional data and attempts to discover nonlinear structure in high dimensional data by exploiting the local symmetries of linear reconstructions.",
+    "desc": "<span class='help-method'>Perform a Locally Linear Embedding analysis on the data.</span> ",
+    "urlparagraph":"Read more in the scikit-learn user guide.",
+    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.locally_linear_embedding.html#sklearn.manifold.locally_linear_embedding",
+    "tutorial": [
+        {
+            "desc": "Learn more on Oncoscape + Sci-Kit clustering methods",
+            "url": "https://www.youtube.com/embed/XQu8TTBmGhA"  
+        }
+    ],
+    "params": [
+        {
+            "name": "X",
+            "type": "{array-like, sparse matrix, BallTree, KDTree, NearestNeighbors}",
+            "desc": "Sample data, shape = (n_samples, n_features), in the form of a numpy array, sparse array, precomputed tree, or NearestNeighbors object."
+        },
+        {
+            "name": "n neighbors",
+            "type": "integer",
+            "desc": "number of neighbors to consider for each point."
+        },
+        {
+            "name": "n components",
+            "type": "integer",
+            "desc": "number of coordinates for the manifold."
+        },
+        {
+            "name": "reg",
+            "type": "float",
+            "desc": "regularization constant, multiplies the trace of the local covariance matrix of the distances."
+        },
+        {
+            "name": "eigen solver",
+            "type": "string, {‘auto’, ‘arpack’, ‘dense’}",
+            "desc": "auto : algorithm will attempt to choose the best method for input data  arpack : use arnoldi iteration in shift-invert mode. For this method, M may be a dense matrix, sparse matrix, or general linear operator. Warning: ARPACK can be unstable for some problems.  It is best to try several random seeds in order to check results.  dense : use standard dense matrix operations for the eigenvalue decomposition.  For this method, M must be an array or matrix type.  This method should be avoided for large problems."
+        },
+        {
+            "name": "tol",
+            "type": "float, optional",
+            "desc": "Tolerance for ‘arpack’ method Not used if eigen_solver==’dense’."
+        },
+        {
+            "name": "max iter",
+            "type": "integer",
+            "desc": "maximum number of iterations for the arpack solver."
+        },
+        {
+            "name": "method",
+            "type": "{‘standard’, ‘hessian’, ‘modified’, ‘ltsa’}",
+            "desc": "standard : use the standard locally linear embedding algorithm. see reference [R193]  hessian : use the Hessian eigenmap method.  This method requires n_neighbors > n_components * (1 + (n_components + 1) / 2. see reference [R194]  modified : use the modified locally linear embedding algorithm. see reference [R195]  ltsa : use local tangent space alignment algorithm see reference [R196]"
+        },
+        {
+            "name": "hessian tol",
+            "type": "float, optional",
+            "desc": "Tolerance for Hessian eigenmapping method. Only used if method == ‘hessian’"
+        },
+        {
+            "name": "modified tol",
+            "type": "float, optional",
+            "desc": "Tolerance for modified LLE method. Only used if method == ‘modified’"
+        },
+        {
+            "name": "random state",
+            "type": "int, RandomState instance or None, optional (default=None)",
+            "desc": "If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random. Used when solver == ‘arpack’."
+        },
+        {
+            "name": "n jobs",
+            "type": "int, optional (default = 1)",
+            "desc": "The number of parallel jobs to run for neighbors search. If -1, then the number of jobs is set to the number of CPU cores."
+        }
+    ],
+    "attrs": [
+        {
+            "name": "Y",
+            "type": "array-like, shape [n_samples, n_components]",
+            "desc": "Embedding vectors."
+        },
+        {
+            "name": "squared error",
+            "type": "float",
+            "desc": "Reconstruction error for the embedding vectors. Equivalent to norm(Y - W Y, 'fro')**2, where W are the reconstruction weights."
+        }
+    ],
+    "citations": [
+        {
+            "name": "Nonlinear dimensionality reduction by locally linear embedding",
+            "desc": "Roweis, S. & Saul, L. Nonlinear dimensionality reduction by locally linear embedding. Science 290:2323 (2000).",
+            "url": "http://www.robots.ox.ac.uk/~az/lectures/ml/lle.pdf"
+        },
+        {
+            "name": "Hessian eigenmaps: Locally linear embedding techniques for high-dimensional data",
+            "desc": "Donoho, D. & Grimes, C. Hessian eigenmaps: Locally linear embedding techniques for high-dimensional data. Proc Natl Acad Sci U S A. 100:5591 (2003).",
+            "url": "http://www.pnas.org/content/100/10/5591"
+        },
+        {
+            "name": "MLLE: Modified Locally Linear Embedding Using Multiple Weights",
+            "desc": "Zhang, Z. & Wang, J. MLLE: Modified Locally Linear Embedding Using Multiple Weights.",
+            "url": "http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.70.382"
+        },
+        {
+            "name": "Principal manifolds and nonlinear dimensionality reduction via tangent space alignment",
+            "desc": "Zhang, Z. & Zha, H. Principal manifolds and nonlinear dimensionality reduction via tangent space alignment. Journal of Shanghai Univ. 8:406 (2004)",
+            "url": "https://arxiv.org/abs/cs/0212008"
+        },
+        {
+            "name": "Scikit-learn: Machine Learning in Python",
+            "desc": "Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.",
+            "url": "http://www.jmlr.org/papers/volume12/pedregosa11a/pedregosa11a.pdf"
+        },
+        {
+            "name": "API design for machine learning software: experiences from the scikit-learn project",
+            "desc": "API design for machine learning software: experiences from the scikit-learn project, Buitinck et al., 2013.",
+            "url": "http://www.di.ens.fr/sierra/pdfs/icml09.pdf"
+        }
+    ]
+}
