@@ -133,12 +133,13 @@ export const enum CollectionTypeEnum {
     EVENT = 1 << 14,
     RNA = 1 << 15,
     TAD = 1 << 16,
+    GENE_NAME = 1 << 17,
     // tslint:disable-next-line:no-bitwise
     EXP = CollectionTypeEnum.PROTEIN | CollectionTypeEnum.MIRNA | CollectionTypeEnum.MRNA,
     // Molec Data Field Tables (use to determine the color options and decorators)
     MOLEC_DATA_FIELD_TABLES = CollectionTypeEnum.RNA | CollectionTypeEnum.MRNA |
     CollectionTypeEnum.GISTIC | CollectionTypeEnum.GISTIC_THRESHOLD |
-    CollectionTypeEnum.GENE_TYPE,
+    CollectionTypeEnum.GENE_TYPE | CollectionTypeEnum.GENE_NAME,
     // tslint:disable-next-line:no-bitwise
     MOLECULAR = CollectionTypeEnum.CNV | CollectionTypeEnum.GISTIC |
     CollectionTypeEnum.GISTIC_THRESHOLD | CollectionTypeEnum.MUTATION | CollectionTypeEnum.MIRNA |
