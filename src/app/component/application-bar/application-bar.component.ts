@@ -51,6 +51,8 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
       case 'p': this.exportImage(); break;
       case 'i': this.toggleBackgroundColor(); break;
       case 'd': this.viewPanel(PanelEnum.DASHBOARD); break;
+      // check
+      case 's': this.viewPanel(PanelEnum.CITATION); break;
     }
   }
 

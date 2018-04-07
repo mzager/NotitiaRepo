@@ -1,12 +1,17 @@
 [
     {
-        "method": "Oncocape 3rd Party Licenses",
-        "url": "",
+        "methods": [
+            {
+                "method": "Oncocape 3rd Party Licenses",
+                "url": ""
+            }
+        ],
         "citations": [
             {
                 "name": "@angular/core@5.2.3, @angular/forms@5.2.3, @angular/platform-browser@5.2.3, @ngrx/core@1.2.0",
                 "desc": "Copyright (c) 2016 Brandon Roberts, Mike Ryan, Rob Wormald",
-                "url": "https://libraries.io/npm/@angular%2Fcore/5.2.3"
+                "url": "https://github.com/angular",
+                "url2": "https://github.com/ngrx/core"
             },
             {
                 "name": "@ngrx/store-devtools@4.1.1",
@@ -186,8 +191,12 @@
         ]
     },
     {
-        "method": "scikit-learn",
-        "url": "http://scikit-learn.org/stable/documentation.html",
+        "methods": [
+            {
+                "method": "scikit-learn",
+                "url": "http://scikit-learn.org/stable/documentation.html"
+            }
+        ],
         "citations": [
             {
                 "name": "Scikit-learn: Machine Learning in Python",
@@ -202,9 +211,12 @@
         ]
     },
     {
-        "method": "Box + Whisker",
-        "urlparagraph": "Read more about the methods used to build Box and Whiskers.",
-        "url": "",
+        "methods": [
+            {
+                "method": "Box + Whisker",
+                "url": ""
+            }
+        ],
         "citations": [
             {
                 "name": "Ensembl 2018",
@@ -219,9 +231,12 @@
         ]
     },
     {
-        "method": "Chromosome",
-        "urlparagraph": "Read more about the methods used to build Chromosome.",
-        "url": "",
+        "methods": [
+            {
+                "method": "Chromosome",
+                "url": ""
+            }
+        ],
         "citations": [
             {
                 "name": "Ensembl 2018",
@@ -236,9 +251,12 @@
         ]
     },
     {
-        "method": "Dictionary Learning",
-        "urlparagraph": "Read more in the scikit-learn user guide.",
-        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.DictionaryLearning.html#sklearn.decomposition.DictionaryLearning",
+        "methods": [
+            {
+                "method": "Dictionary Learning",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.DictionaryLearning.html#sklearn.decomposition.DictionaryLearning",
+            }
+        ],
         "citations": [
             {
                 "name": "API design for machine learning software: experiences from the scikit-learn project",
@@ -258,9 +276,12 @@
         ]
     },
     {
-        "method": "Factor Analysis",
-        "urlparagraph": "Read more in the scikit-learn user guide.",
-        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FactorAnalysis.html#sklearn.decomposition.FactorAnalysis",
+        "methods": [
+            {
+                "method": "Factor Analysis",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FactorAnalysis.html#sklearn.decomposition.FactorAnalysis",
+            }
+        ],
         "citations": [
             {
                 "name": "",
@@ -270,9 +291,12 @@
         ]
     },
     {
-        "method": "Force Directed Graph (HIC)",
-        "urlparagraph": "Read more about the methods used to build HIC.",
-        "url": "",
+        "methods": [
+            {
+                "method": "Force Directed Graph (HIC)",
+                "url": ""
+            }
+        ],
         "citations": [
             {
                 "name": "",
@@ -282,9 +306,12 @@
         ]
     },
     {
-        "method": "Genome",
-        "urlparagraph": "Read more about the methods used to build genome.",
-        "url": "",
+        "methods": [
+            {
+                "method": "Genome",
+                "url": ""
+            }
+        ],
         "citations": [
             {
                 "name": "Ensembl 2018",
@@ -299,8 +326,12 @@
         ]
     },
     {
-        "method": "Heatmap",
-        "urlparagraph": "Read more about the methods used to build heatmap.",
+        "methods": [
+            {
+                "method": "Heatmap",
+                "url": ""
+            }
+        ],
         "citations": [
             {
                 "name": "Hierarchical clustering",
@@ -365,9 +396,12 @@
         ]
     },
     {
-        "method": "Histogram",
-        "urlparagraph": "Read more about the methods used to build histogram.",
-        "url": "",
+        "methods": [
+            {
+                "method": "Histogram",
+                "url": ""
+            }
+        ],
         "citations": [
             {
                 "name": "Ensembl 2018",
@@ -382,9 +416,12 @@
         ]
     },
     {
-        "method": "PCA Incremental",
-        "urlparagraph": "Read more in the scikit-learn user guide.",
-        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.IncrementalPCA.html#sklearn.decomposition.IncrementalPCA",
+        "methods": [
+            {
+                "method": "PCA Incremental",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.IncrementalPCA.html#sklearn.decomposition.IncrementalPCA",
+            }
+        ],
         "citations": [
             {
                 "name": "Implements the incremental PCA model from: Incremental Learning for Robust Visual Tracking",
@@ -409,9 +446,12 @@
         ]
     },
     {
-        "method": "Isomap",
-        "urlparagraph": "Read more in the scikit-learn user guide.",
-        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html#sklearn.manifold.Isomap",
+        "methods": [
+            {
+                "method": "Isomap",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html#sklearn.manifold.Isomap",
+            }
+        ],
         "citations": [
             {
                 "name": " A global geometric framework for nonlinear dimensionality reduction",
@@ -421,9 +461,12 @@
         ]
     },
     {
-        "method": "Kernel PCA",
-        "urlparagraph": "Read more in the scikit-learn user guide.",
-        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA",
+        "methods": [
+            {
+                "method": "Kernel PCA",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA",
+            }
+        ],
         "citations": [
             {
                 "name": "Kernel principal component analysis. In Advances in kernel methods",
@@ -433,8 +476,12 @@
         ]
     },
     {
-        "method": "Latent Dirichlet Allocation",
-        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.LatentDirichletAllocation.html#sklearn.decomposition.LatentDirichletAllocation",
+        "methods": [
+            {
+                "method": "Latent Dirichlet Allocation",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.LatentDirichletAllocation.html#sklearn.decomposition.LatentDirichletAllocation",
+            }
+        ],
         "citations": [
             {
                 "name": "Online Learning for Latent Dirichlet Allocation",
@@ -454,9 +501,12 @@
         ]
     },
     {
-        "method": "Locally Linear Embedding",
-        "urlparagraph": "Read more in the scikit-learn user guide.",
-        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.locally_linear_embedding.html#sklearn.manifold.locally_linear_embedding",
+        "methods": [
+            {
+                "method": "Locally Linear Embedding",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.locally_linear_embedding.html#sklearn.manifold.locally_linear_embedding",
+            }
+        ],
         "citations": [
             {
                 "name": "Nonlinear dimensionality reduction by locally linear embedding",
@@ -481,9 +531,12 @@
         ]
     },
     {
-        "method": "MDS",
-        "urlparagraph": "Read more in the scikit-learn user guide.",
-        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html#sklearn.manifold.MDS",
+        "methods": [
+            {
+                "method": "MDS",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html#sklearn.manifold.MDS",
+            }
+        ],
         "citations": [
             {
                 "name": "Modern Multidimensional Scaling - Theory and Applications",
@@ -503,9 +556,12 @@
         ]
     },
     {
-        "method": "Mini Batch Dictionary Learning",
-        "urlparagraph": "Read more in the scikit-learn user guide.",
-        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.MiniBatchDictionaryLearning.html#sklearn.decomposition.MiniBatchDictionaryLearning",
+        "methods": [
+            {
+                "method": "Mini Batch Dictionary Learning",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.MiniBatchDictionaryLearning.html#sklearn.decomposition.MiniBatchDictionaryLearning",
+            }
+        ],
         "citations": [
             {
                 "name": "Online dictionary learning for sparse coding",
@@ -515,9 +571,12 @@
         ]
     },
     {
-        "method": "Mini Batch Sparse PCA",
-        "urlparagraph": "Read more in the scikit-learn user guide.",
-        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.MiniBatchSparsePCA.html#sklearn.decomposition.MiniBatchSparsePCA",
+        "methods": [
+            {
+                "method": "Mini Batch Sparse PCA",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.MiniBatchSparsePCA.html#sklearn.decomposition.MiniBatchSparsePCA",
+            }
+        ],
         "citations": [
             {
                 "name": "",
@@ -527,9 +586,12 @@
         ]
     },
     {
-        "method": "NMF",
-        "urlparagraph": "Read more in the scikit-learn user guide.",
-        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.NMF.html#sklearn.decomposition.NMF",
+        "methods": [
+            {
+                "method": "NMF",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.NMF.html#sklearn.decomposition.NMF",
+            }
+        ],
         "citations": [
             {
                 "name": "Fast local algorithms for large scale nonnegative matrix and tensor factorizations",
@@ -544,8 +606,12 @@
         ]
     },
     {
-        "method": "Pathways",
-        "urlparagraph": "Read more about the methods used to build pathways.",
+        "methods": [
+            {
+                "method": "Pathways",
+                "url": ""
+            }
+        ],
         "citations": [
             {
                 "name": "Reactome pathway knowledgebase",
@@ -560,9 +626,12 @@
         ]
     },
     {
-        "method": "Quadratic Discriminant Analysis",
-        "urlparagraph": "Read more in the scikit-learn user guide.",
-        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis.html#sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis",
+        "methods": [
+            {
+                "method": "Quadratic Discriminant Analysis",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis.html#sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis",
+            }
+        ],
         "citations": [
             {
                 "name": "",
@@ -572,9 +641,12 @@
         ]
     },
     {
-        "method": "Sparse PCA",
-        "urlparagraph": "Read more in the scikit-learn user guide.",
-        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.SparsePCA.html#sklearn.decomposition.SparsePCA",
+        "methods": [
+            {
+                "method": "Sparse PCA",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.SparsePCA.html#sklearn.decomposition.SparsePCA",
+            }
+        ],
         "citations": [
             {
                 "name": "",
@@ -584,9 +656,12 @@
         ]
     },
     {
-        "method": "Spectral Embedding",
-        "urlparagraph": "Read more in the scikit-learn user guide.",
-        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.spectral_embedding.html#sklearn.manifold.spectral_embedding",
+        "methods": [
+            {
+                "method": "Spectral Embedding",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.spectral_embedding.html#sklearn.manifold.spectral_embedding",
+            }
+        ],
         "citations": [
             {
                 "name": "A Tutorial on Spectral Clustering",
@@ -606,9 +681,12 @@
         ]
     },
     {
-        "method": "Survival",
-        "urlparagraph": "Read more about the methods used to build survival",
-        "url": "http://lifelines.readthedocs.io/en/latest/",
+        "methods": [
+            {
+                "method": "Survival",
+                "url": "http://lifelines.readthedocs.io/en/latest/",
+            }
+        ],
         "citations": [
             {
                 "name": "lifelines is a implementation of survival analysis in Python",
@@ -618,9 +696,12 @@
         ]
     },
     {
-        "method": "Timelines",
-        "urlparagraph": "Read more about the methods used to build timelines.",
-        "url": "",
+        "methods": [
+            {
+                "method": "Timelines",
+                "url": ""
+            }
+        ],
         "citations": [
             {
                 "name": "",
@@ -630,9 +711,12 @@
         ]
     },
     {
-        "method": "Truncated SVD",
-        "urlparagraph": "Read more in the scikit-learn user guide.",
-        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html#sklearn.decomposition.TruncatedSVD",
+        "methods": [
+            {
+                "method": "Truncated SVD",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html#sklearn.decomposition.TruncatedSVD",
+            }
+        ],
         "citations": [
             {
                 "name": "Finding structure with randomness: Stochastic algorithms for constructing approximate matrix decompositions",
@@ -642,9 +726,12 @@
         ]
     },
     {
-        "method": "TSNE",
-        "urlparagraph": "Read more in the scikit-learn user guide.",
-        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html#sklearn.manifold.TSNE",
+        "methods": [
+            {
+                "method": "TSNE",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html#sklearn.manifold.TSNE",
+            }
+        ],
         "citations": [
             {
                 "name": "Visualizing High-Dimensional Data Using t-SNE",
