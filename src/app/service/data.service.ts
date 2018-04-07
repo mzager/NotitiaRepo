@@ -33,53 +33,48 @@ export class DataService {
   private createMolecularDataDecorator(config: GraphConfig, decorator: DataDecorator): Observable<DataDecorator> {
 
     if (decorator.field.ctype === CollectionTypeEnum.GENE_NAME) {
-      new Dexie('notitia').open().then(db => {
-        db.table('genecoords').toArray().then(results => {
-          debugger;
-          // decorator.values = results.map(v => ({
-          //   pid: null,
-          //   sid: null,
-          //   mid: v.gene,
-          //   key: EntityTypeEnum.GENE,
-          //   label: DataService.biotypeMap[v.type],
-          //   value: scale(DataService.biotypeMap[v.type])
-          // })).filter(v => v.label);
+      return Observable.fromPromise(new Promise((resolve, reject) => {
+        new Dexie('notitia').open().then(db => {
+          db.table('genecoords').toArray().then(results => {
+            debugger;
+            decorator.values = results.map(v => ({
+              pid: null,
+              sid: null,
+              mid: v.gene,
+              key: EntityTypeEnum.GENE,
+              label: v.gene,
+              value: v.gene
+            })).filter(v => v.label);
+            resolve(decorator);
+            return;
+          });
         });
-      });
+      }));
     }
 
+    // Type Dec
     if (decorator.field.ctype === CollectionTypeEnum.GENE_TYPE) {
       return Observable.fromPromise(new Promise((resolve, reject) => {
         new Dexie('notitia').open().then(db => {
           db.table('genecoords').toArray().then(results => {
-
-            //             const biotypeCat = {
-            //               'Protein Coding': ['protein_coding', 'polymorphic_pseudogene', 'IG_V_gene', 'TR_V_gene', 'TR_C_gene', 'TR_J_gene',
-            //                 'TR_D_gene', 'IG_C_gene', 'IG_D_gene', 'IG_J_gene'],
-            //               'Pseudogene': ['IG_V_pseudogene', 'transcribed_unprocessed_pseudogene', 'processed_pseudogene',
-            //                 'unprocessed_pseudogene', 'transcribed_processed_pseudogene', 'unitary_pseudogene', 'IG_pseudogene',
-            //                 'IG_C_pseudogene', 'IG_J_pseudogene', 'TR_J_pseudogene', 'TR_V_pseudogene', 'transcribed_unitary_pseudogene'],
-            //               'Long Noncoding': ['antisense', 'sense_intronic', 'lincRNA', 'sense_overlapping', 'processed_transcript',
-            //                 '3prime_overlapping_ncRNA', 'non_coding'],
-            //               'Short Noncoding': ['rRna', 'misc_RNA', 'pseudogene', 'snoRNA', 'scRNA', 'miRNA', 'snRNA', 'sRNA', 'ribozyme',
-            //                 'scaRNA', 'vaultRNA'],
-            //               'Other': ['TEC', 'bidirectional_promoter_lncRNA', 'macro_lncRNA']
-            //             };
-
-            //             const biotypeMap = Object.keys(biotypeCat).reduce((p, c) => {
-            //               p = Object.assign(p, biotypeCat[c].reduce((p2, c2) => {
-            //                 p2[c2.toLowerCase()] = c;
-            //                 return p2;
-            //               }, {}));
-            //               return p;
-            //             }, {});
-            // debugger;
             const bioTypes: Array<string> = Array.from(results.reduce((p, c) => {
               p.add(c.type.toLowerCase());
               return p;
             }, new Set()));
 
-
+            if (decorator.type === DataDecoratorTypeEnum.LABEL) {
+              decorator.values = results.map(v => ({
+                pid: null,
+                sid: null,
+                mid: v.gene,
+                key: EntityTypeEnum.GENE,
+                label: DataService.biotypeMap[v.type],
+                value: DataService.biotypeMap[v.type]
+              })).filter(v => v.label);
+              // Labels don't need legends
+              resolve(decorator);
+              return;
+            }
             const scale = (decorator.type === DataDecoratorTypeEnum.SHAPE) ?
               ChartFactory.getScaleShapeOrdinal(DataService.biotypeCat) :
               ChartFactory.getScaleColorOrdinal(DataService.biotypeCat);
@@ -93,11 +88,7 @@ export class DataService {
               value: scale(DataService.biotypeMap[v.type])
             })).filter(v => v.label);
 
-            if (decorator.type === DataDecoratorTypeEnum.LABEL) {
-              // Labels don't need legends
-              resolve(decorator);
-              return;
-            }
+
             decorator.legend = new Legend();
             decorator.legend.type = (decorator.type === DataDecoratorTypeEnum.SHAPE) ? 'SHAPE' : 'COLOR';
             decorator.legend.display = 'DISCRETE';
@@ -111,6 +102,8 @@ export class DataService {
         });
       }));
     }
+
+    // Min Max Dec
     return Observable.fromPromise(new Promise((resolve, reject) => {
 
       new Dexie('notitia-' + config.database).open().then(db => {
@@ -167,6 +160,8 @@ export class DataService {
     }));
   }
   private createSampleDataDecorator(config: GraphConfig, decorator: DataDecorator): Observable<DataDecorator> {
+    debugger;
+
     return Observable.fromPromise(new Promise((resolve, reject) => {
       new Dexie('notitia-' + config.database).open().then(db => {
         Promise.all([
@@ -182,14 +177,34 @@ export class DataService {
             switch (decorator.type) {
 
               case DataDecoratorTypeEnum.LABEL:
-                decorator.values = items.map(v => ({
-                  pid: v.p,
-                  sid: psMap[v.p],
-                  mid: null,
-                  key: EntityTypeEnum.PATIENT,
-                  label: v[decorator.field.key],
-                  value: v[decorator.field.key]
-                }));
+                if (decorator.field.key === 'pid') {
+                  decorator.values = items.map(v => ({
+                    pid: v.p,
+                    sid: psMap[v.p],
+                    mid: null,
+                    key: EntityTypeEnum.PATIENT,
+                    label: v.p,
+                    value: v.p
+                  }));
+                } else if (decorator.field.key === 'sid') {
+                  decorator.values = items.map(v => ({
+                    pid: v.p,
+                    sid: psMap[v.p],
+                    mid: null,
+                    key: EntityTypeEnum.PATIENT,
+                    label: psMap[v.p],
+                    value: psMap[v.p]
+                  }));
+                } else {
+                  decorator.values = items.map(v => ({
+                    pid: v.p,
+                    sid: psMap[v.p],
+                    mid: null,
+                    key: EntityTypeEnum.PATIENT,
+                    label: v[decorator.field.key],
+                    value: v[decorator.field.key]
+                  }));
+                }
                 resolve(decorator);
                 break;
 
@@ -399,9 +414,9 @@ export class DataService {
     //   // });
     // });
   }
+
   getCitations(): Promise<any> {
     return new Promise((resolve, reject) => {
-
       resolve({
         methods: [],
         citations: []
@@ -409,7 +424,6 @@ export class DataService {
       this.http
         .get('./assets/citations/method-citations')
         .map(res => res.json()).toPromise();
-
     });
   }
 
