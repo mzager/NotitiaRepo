@@ -19,56 +19,45 @@ declare var $: any;
     styleUrls: ['./citations-panel.component.scss'],
     template:
         `
-<!-- Card -->
-<div>
-    <h1>Citations</h1>
-    <h2>Lorum Ipsum</h2>
-
-    <!--
-    <br /> Once selected, your cohort will appear in the geneset dropdown of the settings panel. </h2>
-    -->
-</div>`,
+<div class="citations-modal-panel">
+    <div class='row'>
+        <a href='#' class='modalClose' (click)='closeClick()'></a>
+        <div class='col s12 m9'>
+            <h1 class="citations-h1">{{method}}</h1>
+            <a class='citations-link' href='{{url}}' target='_blank'>Learn More</a>
+            <h2 class='citations-section'>Site Citations</h2>
+            <div *ngFor='let attr of citations; let i = index'>
+                <p class='citations-label'>{{ attr.name }}</p>
+                <p class='citations-desc'>{{ attr.desc }}
+                    <br />
+                    <span class='citations-link'>
+                        <a class='citations-link' href='{{ attr.url }}' target='_blank'>Link to Pub</a>
+                        <a class='citations-link' href='{{ attr.url2 }}' target='_blank'>Link to Pub</a>
+                        <a class='citations-link' href='{{ attr.url3 }}' target='_blank'>Link to Pub</a>
+                    </span>
+                </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+`,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CitationsPanelComponent implements AfterViewInit, OnDestroy {
 
+    method = '';
+    url = '';
+    citations: Array<{ name: string, desc: string, url: string, url2?: string, url3?: string }> = [];
+
     // Attributes
-   
-    // Mini Batch Dictionary Learning
-  // Mini Batch Sparse PCA
-  // Sparse Coder
-  // Dict Learning Online
-  // Sparse Encode
-  method = '';
-  desc = '';
-  url = '';
-  urlparagraph = '';
-  attrs: Array<{ name: string, type: string, desc: string }> = [];
-  params: Array<{ name: string, type: string, desc: string }> = [];
-  citations: Array<{ name: string, desc: string, url: string }> = [];
-  tutorial: Array<{ desc: string, url: string }> = [];
+    @Output() hide = new EventEmitter<any>();
+    closeClick(): void {
+        this.hide.emit();
+    }
 
-
-  @Input() set config(config: GraphConfig) {
-
-    this.dataService.getHelpInfo(config).then(result => {
-      this.method = result.method;
-      this.desc = result.desc;
-      this.url = result.url;
-      this.urlparagraph = result.urlparagraph;
-      this.attrs = result.attrs;
-      this.params = result.params;
-      this.citations = result.citations;
-      this.tutorial = result.tutorial;
-      this.cd.markForCheck();
-    });
-  }
-
-
-  ngAfterViewInit(): void { }
-  ngOnDestroy(): void { }
-
-
+    ngOnDestroy(): void { }
+    ngAfterViewInit(): void { }
     constructor(private cd: ChangeDetectorRef, private dataService: DataService, public ms: ModalService) {
     }
 }
