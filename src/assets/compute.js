@@ -56245,7 +56245,7 @@ exports.pathwaysCompute = function (config, worker) {
         mode: 'cors',
         cache: 'default'
     };
-    fetch('https://s3-us-west-2.amazonaws.com/notitia/reactome/' + config.pathway + '.json.gz', requestInit)
+    fetch('https://s3-us-west-2.amazonaws.com/notitia/pwc/' + config.pathway + '.json.gz', requestInit)
         .then(function (response) { return response.json(); })
         .then(function (response) {
         worker.postMessage({

@@ -17,7 +17,7 @@ import * as _ from 'lodash';
       <select materialize='material_select'
           [materializeSelectOptions]='pathwayOptions'
           formControlName='pathway'>
-          <option *ngFor='let option of pathwayOptions' [value]='option'>{{option.name}}</option>
+          <option *ngFor='let option of pathwayOptions' [value]='option.id'>{{option.name}}</option>
       </select>
     </label>
   </div>
@@ -62,26 +62,12 @@ export class PathwaysFormComponent {
       cache: 'default'
     };
 
-    // http://www.pathwaycommons.org/pc2/search.json?q=(BRCA2%20and%20IDH1)%20and%20size%3E3&type=Pathway&organism=homo%20sapiens
-    // fetch('https://s3-us-west-2.amazonaws.com/notitia/reactome/manifest.json.gz', requestInit)
-
     fetch('http://www.pathwaycommons.org/pc2/search.json?q=(BRCA2%20and%20IDH1)%20and%20size%3E3&type=Pathway&organism=homo%20sapiens&datasource=reactome', requestInit)
       .then(response => response.json())
       .then(response => {
-        // 'https://s3-us-west-2.amazonaws.com/notitia/pwc/'
-        // debugger;
         this.pathwayOptions = response.searchHit.map(v => {
-          return Object.assign(v, { url: v.uri.substr(response.searchHit[0].uri.lastIndexOf('/') + 1).toLowerCase() + '.json.gz' })
-        })
-
-        // https://s3-us-west-2.amazonaws.com/notitia/pwc/r-hsa-2978092.json.gz
-        fetch('https://s3-us-west-2.amazonaws.com/notitia/pwc/' +
-          response.searchHit[0].url, requestInit)
-          .then(response => response.json())
-          .then(response => {
-            debugger;
-          });
-        // this.pathwayOptions = this.pathwayOptions.slice(0, 100);
+          return Object.assign(v, { id: response.searchHit[0].uri.substr(response.searchHit[0].uri.lastIndexOf('/') + 1).toLowerCase() });
+        });
         this.cd.detectChanges();
       });
 
