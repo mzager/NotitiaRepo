@@ -57,7 +57,7 @@ export class ChartFactory {
 
     public static getScaleSizeOrdinal(values: Array<string>): Function {
         const len = values.length;
-        return scale.scaleOrdinal().domain(values).range(ChartFactory.sizes.splice(0, values.length));
+        return scale.scaleOrdinal().domain(values).range(ChartFactory.sizes.slice(0, values.length));
     }
 
     public static getScaleSizeLinear(min: number, max: number): Function {
@@ -65,7 +65,7 @@ export class ChartFactory {
     }
     public static getScaleShapeOrdinal(values: Array<string>): Function {
         const len = values.length;
-        return scale.scaleOrdinal().domain(values).range(ChartFactory.sprites.splice(0, values.length));
+        return scale.scaleOrdinal().domain(values).range(ChartFactory.sprites.slice(0, values.length));
     }
     public static getScaleShapeLinear(min: number, max: number): Function {
         return scale.scaleQuantize<string>().domain([min, max])
@@ -73,7 +73,8 @@ export class ChartFactory {
     }
     public static getScaleColorOrdinal(values: Array<string>): Function {
         const len = values.length;
-        return scale.scaleOrdinal().domain(values).range(ChartFactory.colors.splice(0, values.length));
+        const cols = ChartFactory.colors.slice(0, values.length);
+        return scale.scaleOrdinal().domain(values).range(cols);
     }
     public static getScaleColorLinear(min: number, max: number): Function {
         return scale.scaleQuantize<string>().domain([min, max])

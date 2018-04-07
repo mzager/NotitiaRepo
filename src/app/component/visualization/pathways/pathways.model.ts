@@ -16,7 +16,7 @@ export class PathwaysConfigModel extends GraphConfig {
 
     displayType: DimensionEnum = DimensionEnum.THREE_D;
     domain: Array<number> = [-500, 500];
-    pathway = 'chromatin_modifying_enzymes'; // 'copi-mediated_anterograde_transport';
+    pathway = 'r-hsa-109688'; //'chromatin_modifying_enzymes'; // 'copi-mediated_anterograde_transport';
 }
 
 export interface PathwaysDataModel extends GraphData {
