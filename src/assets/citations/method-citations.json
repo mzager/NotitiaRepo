@@ -1,5 +1,191 @@
 [
     {
+        "method": "Oncocape 3rd Party Licenses",
+        "url": "",
+        "citations": [
+            {
+                "name": "@angular/core@5.2.3, @angular/forms@5.2.3, @angular/platform-browser@5.2.3, @ngrx/core@1.2.0",
+                "desc": "Copyright (c) 2016 Brandon Roberts, Mike Ryan, Rob Wormald",
+                "url": ""
+            },
+            {
+                "name": "@ngrx/store-devtools@4.1.1",
+                "desc": "Copyright (c) 2017 Brandon Roberts, Mike Ryan, Victor Savkin, Rob Wormald",
+                "url": ""
+            },
+            {
+                "name": "@ngrx/store@4.1.1",
+                "desc": "Copyright (c) 2017 Brandon Roberts, Mike Ryan, Victor Savkin, Rob Wormald",
+                "url": ""
+            },
+            {
+                "name": "angular-handsontable@1.0.0-beta3",
+                "desc": "Copyright (c) 2012-2014 Marcin Warpechowski, Copyright (c) 2015 Handsoncode sp. z o.o. hello@handsoncode.net",
+                "url": ""
+            },
+            {
+                "name": "angular2-oauth2@1.3.10, base64-js@1.2.1",
+                "desc": "Copyright (c) 2014",
+                "url": ""
+            },
+            {
+                "name": "buffer@4.9.1",
+                "desc": "Copyright (c) Feross Aboukhadijeh, and other contributors",
+                "url": ""
+            },
+            {
+                "name": "downloadjs@1.4.7",
+                "desc": "Copyright (c) 2016 dandavis",
+                "url": ""
+            },
+            {
+                "name": "handsontable@0.34.4",
+                "desc": "Copyright (c) 2012-2014 Marcin Warpechowski, Copyright (c) 2015 Handsoncode sp. z o.o. hello@handsoncode.net",
+                "url": ""
+            },
+            {
+                "name": "ieee754@1.1.8, BSD-3-Clause, ",
+                "desc": "Copyright (c) 2008, Fair Oaks Labs, Inc.",
+                "url": ""
+            },
+            {
+                "name": "isarray@1.0.0, js-base64@2.1.9",
+                "desc": "Copyright (c) 2014, Dan Kogai",
+                "url": ""
+            },
+            {
+                "name": "jStat@1.7.1",
+                "desc": "Copyright (c) 2013 jStat",
+                "url": ""
+            },
+            {
+                "name": "lodash@4.17.5",
+                "desc": "Copyright JS Foundation and other contributors https://js.foundation. This software consists of voluntary contributions made by many individuals. For exact contribution history, see the revision history available at https://github.com/lodash/lodash",
+                "url": ""
+            },
+            {
+                "name": "moment@2.20.1",
+                "desc": "Copyright (c) JS Foundation and other contributors",
+                "url": ""
+            },
+            {
+                "name": "@angular/common@5.2.3, ng2-file-upload@1.3.0",
+                "desc": "Copyright (c) 2015-2017 Dmitriy Shekhovtsov valorkin@gmail.com, Copyright (c) 2015-1017 Valor Software",
+                "url": ""
+            },
+            {
+                "name": "ng2-nouislider@1.7.7, ng2-toastr@4.1.2, ngraph.events@0.0.3",
+                "desc": "Copyright (c) 2013, Andrei Kashcha",
+                "url": ""
+            },
+            {
+                "name": "ngraph.expose@0.0.0",
+                "desc": "Copyright (c) 2014 Andrei Kashcha",
+                "url": ""
+            },
+            {
+                "name": "ngraph.forcelayout3d@0.0.16",
+                "desc": "Copyright (c) 2014 Andrei Kashcha",
+                "url": ""
+            },
+            {
+                "name": "ngraph.graph@0.0.14",
+                "desc": "Copyright (c) 2013 - 2016, Andrei Kashcha",
+                "url": ""
+            },
+            {
+                "name": "ngraph.merge@0.0.1",
+                "desc": "Copyright (c) 2013 Andrei Kashcha",
+                "url": ""
+            },
+            {
+                "name": "ngraph.physics.primitives@0.0.7",
+                "desc": "Copyright (c) 2013, Andrei Kashcha",
+                "url": ""
+            },
+            {
+                "name": "ngraph.physics.primitives@0.0.7",
+                "desc": "Copyright (c) 2013, Andrei Kashcha",
+                "url": ""
+            },
+            {
+                "name": "ngraph.quadtreebh3d@0.0.3",
+                "desc": "Copyright (c) 2014 Andrei Kashcha",
+                "url": ""
+            },
+            {
+                "name": "ngraph.random@0.0.1",
+                "desc": "Copyright (c) 2013, Andrei Kashcha",
+                "url": ""
+            },
+            {
+                "name": "ngrx-store-freeze@0.1.9",
+                "desc": "Copyright (c) 2016 Codeware.io",
+                "url": ""
+            },
+            {
+                "name": "process@0.11.10",
+                "desc": "Copyright (c) 2013 Roman Shtylman shtylman@gmail.com",
+                "url": ""
+            },
+            {
+                "name": "reselect@3.0.1",
+                "desc": "Copyright (c) 2015-2016 Reselect Contributors",
+                "url": ""
+            },
+            {
+                "name": "three-orbitcontrols-ts@0.1.2",
+                "desc": "Copyright (c) 2017 Nicolas Panel",
+                "url": ""
+            },
+            {
+                "name": "three.meshline@1.0.3",
+                "desc": "Copyright (c) 2016 Jaume Sanchez",
+                "url": ""
+            },
+            {
+                "name": "three@0.86.0",
+                "desc": "Copyright © 2010-2017 three.js authors",
+                "url": ""
+            },
+            {
+                "name": "tween.js@16.6.0",
+                "desc": "Copyright (c) 2010-2012 Tween.js authors",
+                "url": ""
+            },
+            {
+                "name": "underscore@1.8.3",
+                "desc": "Copyright (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative",
+                "url": ""
+            },
+            {
+                "name": "uuid-by-string@0.3.0",
+                "desc": "Copyright (c) 2016 Danakt Frost",
+                "url": ""
+            },
+            {
+                "name": "webpack@3.10.0",
+                "desc": "Copyright JS Foundation and other contributors",
+                "url": ""
+            },
+            {
+                "name": "core-js@2.5.3",
+                "desc": "Copyright (c) 2014-2017 Denis Pushkarev",
+                "url": ""
+            },
+            {
+                "name": "zone.js@0.8.20",
+                "desc": "Copyright (c) 2016 Google, Inc.",
+                "url": ""
+            },
+            {
+                "name": "vega-tooltip@0.4.4",
+                "desc": "Vega Tooltip was built by Zening Qu and Sira Horradarn, with significant help from Dominik Moritz and Kanit "Ham" Wongsuphasawat.",
+                "url": ""
+            }
+        ]
+    },
+    {
         "method": "scikit-learn",
         "url": "http://scikit-learn.org/stable/documentation.html",
         "citations": [
