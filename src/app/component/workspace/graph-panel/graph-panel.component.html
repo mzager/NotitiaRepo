@@ -64,6 +64,7 @@
                 </label>
             </div>
 
+
             <div *ngIf='config'>
                 <app-workspace-decorator-panel [decorators]='decorators' (decoratorAdd)='onDecoratorAdd($event)' (decoratorDel)='onDecoratorDel($event)'
                     [config]='config' [fields]='fields' [tables]='tables'></app-workspace-decorator-panel>
