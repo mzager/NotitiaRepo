@@ -449,6 +449,7 @@ export class DataService {
   }
   getPatientStats(database: string, pids: Array<string>): Promise<any> {
 
+
     if (pids === undefined || pids === null) {
       pids = [];
     }
@@ -459,18 +460,26 @@ export class DataService {
       this.getQueryBuilderConfig(database).then(config => {
 
         // Pull field Meta Data
+
         const fields = Object.keys(config.fields)
           .map(field => Object.assign(config.fields[field], { field: field }))
           .filter(item => item.type !== 'string')
           .sort((a, b) => (a.type !== b.type) ? a.type.localeCompare(b.type) : a.name.localeCompare(b.name));
 
+        // const test = fields.indexOf(config.fields)
+        console.log(fields)
+
+
         const db = new Dexie('notitia-' + database);
         db.open().then(connection => {
           const query = (pids.length === 0) ?
             connection.table('patient') :
-            connection.table('patient').where('p').anyOfIgnoreCase(pids);
 
+            connection.table('patient').where('p').anyOfIgnoreCase(pids);
           query.toArray().then(result => {
+
+
+
 
             const cat = fields.filter(v => v.type === 'category').map(f => {
               const arr = result.map(v => v[f.field]);

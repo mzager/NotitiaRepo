@@ -33,10 +33,42 @@ declare var $: any;
 export class CitationsPanelComponent implements AfterViewInit, OnDestroy {
 
     // Attributes
-    @Output() hide = new EventEmitter<any>();
+   
+    // Mini Batch Dictionary Learning
+  // Mini Batch Sparse PCA
+  // Sparse Coder
+  // Dict Learning Online
+  // Sparse Encode
+  method = '';
+  desc = '';
+  url = '';
+  urlparagraph = '';
+  attrs: Array<{ name: string, type: string, desc: string }> = [];
+  params: Array<{ name: string, type: string, desc: string }> = [];
+  citations: Array<{ name: string, desc: string, url: string }> = [];
+  tutorial: Array<{ desc: string, url: string }> = [];
 
-    ngOnDestroy(): void { }
-    ngAfterViewInit(): void { }
+
+  @Input() set config(config: GraphConfig) {
+
+    this.dataService.getHelpInfo(config).then(result => {
+      this.method = result.method;
+      this.desc = result.desc;
+      this.url = result.url;
+      this.urlparagraph = result.urlparagraph;
+      this.attrs = result.attrs;
+      this.params = result.params;
+      this.citations = result.citations;
+      this.tutorial = result.tutorial;
+      this.cd.markForCheck();
+    });
+  }
+
+
+  ngAfterViewInit(): void { }
+  ngOnDestroy(): void { }
+
+
     constructor(private cd: ChangeDetectorRef, private dataService: DataService, public ms: ModalService) {
     }
 }

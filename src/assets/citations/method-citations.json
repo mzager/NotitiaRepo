@@ -1,0 +1,666 @@
+[
+    {
+        "method": "Oncocape 3rd Party Licenses",
+        "url": "",
+        "citations": [
+            {
+                "name": "@angular/core@5.2.3, @angular/forms@5.2.3, @angular/platform-browser@5.2.3, @ngrx/core@1.2.0",
+                "desc": "Copyright (c) 2016 Brandon Roberts, Mike Ryan, Rob Wormald",
+                "url": ""
+            },
+            {
+                "name": "@ngrx/store-devtools@4.1.1",
+                "desc": "Copyright (c) 2017 Brandon Roberts, Mike Ryan, Victor Savkin, Rob Wormald",
+                "url": ""
+            },
+            {
+                "name": "@ngrx/store@4.1.1",
+                "desc": "Copyright (c) 2017 Brandon Roberts, Mike Ryan, Victor Savkin, Rob Wormald",
+                "url": ""
+            },
+            {
+                "name": "angular-handsontable@1.0.0-beta3",
+                "desc": "Copyright (c) 2012-2014 Marcin Warpechowski, Copyright (c) 2015 Handsoncode sp. z o.o. hello@handsoncode.net",
+                "url": ""
+            },
+            {
+                "name": "angular2-oauth2@1.3.10, base64-js@1.2.1",
+                "desc": "Copyright (c) 2014",
+                "url": ""
+            },
+            {
+                "name": "buffer@4.9.1",
+                "desc": "Copyright (c) Feross Aboukhadijeh, and other contributors",
+                "url": ""
+            },
+            {
+                "name": "downloadjs@1.4.7",
+                "desc": "Copyright (c) 2016 dandavis",
+                "url": ""
+            },
+            {
+                "name": "handsontable@0.34.4",
+                "desc": "Copyright (c) 2012-2014 Marcin Warpechowski, Copyright (c) 2015 Handsoncode sp. z o.o. hello@handsoncode.net",
+                "url": ""
+            },
+            {
+                "name": "ieee754@1.1.8, BSD-3-Clause, ",
+                "desc": "Copyright (c) 2008, Fair Oaks Labs, Inc.",
+                "url": ""
+            },
+            {
+                "name": "isarray@1.0.0, js-base64@2.1.9",
+                "desc": "Copyright (c) 2014, Dan Kogai",
+                "url": ""
+            },
+            {
+                "name": "jStat@1.7.1",
+                "desc": "Copyright (c) 2013 jStat",
+                "url": ""
+            },
+            {
+                "name": "lodash@4.17.5",
+                "desc": "Copyright JS Foundation and other contributors https://js.foundation. This software consists of voluntary contributions made by many individuals. For exact contribution history, see the revision history available at https://github.com/lodash/lodash",
+                "url": ""
+            },
+            {
+                "name": "moment@2.20.1",
+                "desc": "Copyright (c) JS Foundation and other contributors",
+                "url": ""
+            },
+            {
+                "name": "@angular/common@5.2.3, ng2-file-upload@1.3.0",
+                "desc": "Copyright (c) 2015-2017 Dmitriy Shekhovtsov valorkin@gmail.com, Copyright (c) 2015-1017 Valor Software",
+                "url": ""
+            },
+            {
+                "name": "ng2-nouislider@1.7.7, ng2-toastr@4.1.2, ngraph.events@0.0.3",
+                "desc": "Copyright (c) 2013, Andrei Kashcha",
+                "url": ""
+            },
+            {
+                "name": "ngraph.expose@0.0.0",
+                "desc": "Copyright (c) 2014 Andrei Kashcha",
+                "url": ""
+            },
+            {
+                "name": "ngraph.forcelayout3d@0.0.16",
+                "desc": "Copyright (c) 2014 Andrei Kashcha",
+                "url": ""
+            },
+            {
+                "name": "ngraph.graph@0.0.14",
+                "desc": "Copyright (c) 2013 - 2016, Andrei Kashcha",
+                "url": ""
+            },
+            {
+                "name": "ngraph.merge@0.0.1",
+                "desc": "Copyright (c) 2013 Andrei Kashcha",
+                "url": ""
+            },
+            {
+                "name": "ngraph.physics.primitives@0.0.7",
+                "desc": "Copyright (c) 2013, Andrei Kashcha",
+                "url": ""
+            },
+            {
+                "name": "ngraph.physics.primitives@0.0.7",
+                "desc": "Copyright (c) 2013, Andrei Kashcha",
+                "url": ""
+            },
+            {
+                "name": "ngraph.quadtreebh3d@0.0.3",
+                "desc": "Copyright (c) 2014 Andrei Kashcha",
+                "url": ""
+            },
+            {
+                "name": "ngraph.random@0.0.1",
+                "desc": "Copyright (c) 2013, Andrei Kashcha",
+                "url": ""
+            },
+            {
+                "name": "ngrx-store-freeze@0.1.9",
+                "desc": "Copyright (c) 2016 Codeware.io",
+                "url": ""
+            },
+            {
+                "name": "process@0.11.10",
+                "desc": "Copyright (c) 2013 Roman Shtylman shtylman@gmail.com",
+                "url": ""
+            },
+            {
+                "name": "reselect@3.0.1",
+                "desc": "Copyright (c) 2015-2016 Reselect Contributors",
+                "url": ""
+            },
+            {
+                "name": "three-orbitcontrols-ts@0.1.2",
+                "desc": "Copyright (c) 2017 Nicolas Panel",
+                "url": ""
+            },
+            {
+                "name": "three.meshline@1.0.3",
+                "desc": "Copyright (c) 2016 Jaume Sanchez",
+                "url": ""
+            },
+            {
+                "name": "three@0.86.0",
+                "desc": "Copyright © 2010-2017 three.js authors",
+                "url": ""
+            },
+            {
+                "name": "tween.js@16.6.0",
+                "desc": "Copyright (c) 2010-2012 Tween.js authors",
+                "url": ""
+            },
+            {
+                "name": "underscore@1.8.3",
+                "desc": "Copyright (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative",
+                "url": ""
+            },
+            {
+                "name": "uuid-by-string@0.3.0",
+                "desc": "Copyright (c) 2016 Danakt Frost",
+                "url": ""
+            },
+            {
+                "name": "webpack@3.10.0",
+                "desc": "Copyright JS Foundation and other contributors",
+                "url": ""
+            },
+            {
+                "name": "core-js@2.5.3",
+                "desc": "Copyright (c) 2014-2017 Denis Pushkarev",
+                "url": ""
+            },
+            {
+                "name": "zone.js@0.8.20",
+                "desc": "Copyright (c) 2016 Google, Inc.",
+                "url": ""
+            },
+            {
+                "name": "vega-tooltip@0.4.4",
+                "desc": "Vega Tooltip was built by Zening Qu and Sira Horradarn, with significant help from Dominik Moritz and Kanit "Ham" Wongsuphasawat.",
+                "url": ""
+            }
+        ]
+    },
+    {
+        "method": "scikit-learn",
+        "url": "http://scikit-learn.org/stable/documentation.html",
+        "citations": [
+            {
+                "name": "Scikit-learn: Machine Learning in Python",
+                "desc": "Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.",
+                "url": "http://www.jmlr.org/papers/volume12/pedregosa11a/pedregosa11a.pdf"
+            },
+            {
+                "name": "API design for machine learning software: experiences from the scikit-learn project",
+                "desc": "API design for machine learning software: experiences from the scikit-learn project, Buitinck et al., 2013.",
+                "url": "http://www.di.ens.fr/sierra/pdfs/icml09.pdf"
+            }
+        ]
+    },
+    {
+        "method": "Box + Whisker",
+        "urlparagraph": "Read more about the methods used to build Box and Whiskers.",
+        "url": "",
+        "citations": [
+            {
+                "name": "Ensembl 2018",
+                "desc": "Daniel R. Zerbino, Premanand Achuthan, Wasiu Akanni, M. Ridwan Amode, Daniel Barrell, Jyothish Bhai, Konstantinos Billis, Carla Cummins, Astrid Gall, Carlos García Giro´n, Laurent Gil, Leo Gordon, Leanne Haggerty, Erin Haskell, Thibaut Hourlier, Osagie G. Izuogu, Sophie H. Janacek, Thomas Juettemann, Jimmy Kiang To, Matthew R. Laird, Ilias Lavidas, Zhicheng Liu, Jane E. Loveland, Thomas Maurel, William McLaren, Benjamin Moore, Jonathan Mudge, Daniel N. Murphy, Victoria Newman, Michael Nuhn, Denye Ogeh, Chuang Kee Ong, Anne Parker, Mateus Patricio, Harpreet Singh Riat, Helen Schuilenburg, Dan Sheppard, Helen Sparrow, Kieron Taylor, Anja Thormann, Alessandro Vullo, Brandon Walts, Amonida Zadissa, Adam Frankish, Sarah E. Hunt, Myrto Kostadima, Nicholas Langridge, Fergal J. Martin, Matthieu Muffato, Emily Perry, Magali Ruffier, Dan M. Staines, Stephen J. Trevanion, Bronwen L. Aken, Fiona Cunningham, Andrew Yates, Paul FlicekEnsembl 2018. PubMed PMID: 29155950.",
+                "url": "https://academic.oup.com/nar/article/46/D1/D754/4634002"
+            },
+            {
+                "name": "Scientific Publications, Citing Ensembl Data",
+                "desc": "Since release 25, all Ensembl releases have been archived as fully functional sites for about three years. This makes it possible to accurately cite data being referred to in a paper, even though the main Ensembl site is being continuously updated (currently release 91 - December 2017). ",
+                "url": "http://uswest.ensembl.org/info/about/publications.html#current_ensembl"
+            }
+        ]
+    },
+    {
+        "method": "Chromosome",
+        "urlparagraph": "Read more about the methods used to build Chromosome.",
+        "url": "",
+        "citations": [
+            {
+                "name": "Ensembl 2018",
+                "desc": "Daniel R. Zerbino, Premanand Achuthan, Wasiu Akanni, M. Ridwan Amode, Daniel Barrell, Jyothish Bhai, Konstantinos Billis, Carla Cummins, Astrid Gall, Carlos García Giro´n, Laurent Gil, Leo Gordon, Leanne Haggerty, Erin Haskell, Thibaut Hourlier, Osagie G. Izuogu, Sophie H. Janacek, Thomas Juettemann, Jimmy Kiang To, Matthew R. Laird, Ilias Lavidas, Zhicheng Liu, Jane E. Loveland, Thomas Maurel, William McLaren, Benjamin Moore, Jonathan Mudge, Daniel N. Murphy, Victoria Newman, Michael Nuhn, Denye Ogeh, Chuang Kee Ong, Anne Parker, Mateus Patricio, Harpreet Singh Riat, Helen Schuilenburg, Dan Sheppard, Helen Sparrow, Kieron Taylor, Anja Thormann, Alessandro Vullo, Brandon Walts, Amonida Zadissa, Adam Frankish, Sarah E. Hunt, Myrto Kostadima, Nicholas Langridge, Fergal J. Martin, Matthieu Muffato, Emily Perry, Magali Ruffier, Dan M. Staines, Stephen J. Trevanion, Bronwen L. Aken, Fiona Cunningham, Andrew Yates, Paul FlicekEnsembl 2018. PubMed PMID: 29155950.",
+                "url": "https://academic.oup.com/nar/article/46/D1/D754/4634002"
+            },
+            {
+                "name": "Scientific Publications, Citing Ensembl Data",
+                "desc": "Since release 25, all Ensembl releases have been archived as fully functional sites for about three years. This makes it possible to accurately cite data being referred to in a paper, even though the main Ensembl site is being continuously updated (currently release 91 - December 2017). ",
+                "url": "http://uswest.ensembl.org/info/about/publications.html#current_ensembl"
+            }
+        ]
+    },
+    {
+        "method": "Dictionary Learning",
+        "urlparagraph": "Read more in the scikit-learn user guide.",
+        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.DictionaryLearning.html#sklearn.decomposition.DictionaryLearning",
+        "citations": [
+            {
+                "name": "API design for machine learning software: experiences from the scikit-learn project",
+                "desc": "API design for machine learning software: experiences from the scikit-learn project, Buitinck et al., 2013.",
+                "url": "http://www.di.ens.fr/sierra/pdfs/icml09.pdf"
+            },
+            {
+                "name": "Scikit-learn: Machine Learning in Python",
+                "desc": "Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.",
+                "url": "http://www.jmlr.org/papers/volume12/pedregosa11a/pedregosa11a.pdf"
+            },
+            {
+                "name": "Online dictionary learning for sparse coding",
+                "desc": "J. Mairal, F. Bach, J. Ponce, G. Sapiro, 2009: Online dictionary learning for sparse coding ",
+                "url": "http://www.di.ens.fr/sierra/pdfs/icml09.pdf"
+            }
+        ]
+    },
+    {
+        "method": "Factor Analysis",
+        "urlparagraph": "Read more in the scikit-learn user guide.",
+        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FactorAnalysis.html#sklearn.decomposition.FactorAnalysis",
+        "citations": [
+            {
+                "name": "",
+                "desc": "",
+                "url": ""
+            }
+        ]
+    },
+    {
+        "method": "Force Directed Graph (HIC)",
+        "urlparagraph": "Read more about the methods used to build HIC.",
+        "url": "",
+        "citations": [
+            {
+                "name": "",
+                "desc": "",
+                "url": ""
+            }
+        ]
+    },
+    {
+        "method": "Genome",
+        "urlparagraph": "Read more about the methods used to build genome.",
+        "url": "",
+        "citations": [
+            {
+                "name": "Ensembl 2018",
+                "desc": "Daniel R. Zerbino, Premanand Achuthan, Wasiu Akanni, M. Ridwan Amode, Daniel Barrell, Jyothish Bhai, Konstantinos Billis, Carla Cummins, Astrid Gall, Carlos García Giro´n, Laurent Gil, Leo Gordon, Leanne Haggerty, Erin Haskell, Thibaut Hourlier, Osagie G. Izuogu, Sophie H. Janacek, Thomas Juettemann, Jimmy Kiang To, Matthew R. Laird, Ilias Lavidas, Zhicheng Liu, Jane E. Loveland, Thomas Maurel, William McLaren, Benjamin Moore, Jonathan Mudge, Daniel N. Murphy, Victoria Newman, Michael Nuhn, Denye Ogeh, Chuang Kee Ong, Anne Parker, Mateus Patricio, Harpreet Singh Riat, Helen Schuilenburg, Dan Sheppard, Helen Sparrow, Kieron Taylor, Anja Thormann, Alessandro Vullo, Brandon Walts, Amonida Zadissa, Adam Frankish, Sarah E. Hunt, Myrto Kostadima, Nicholas Langridge, Fergal J. Martin, Matthieu Muffato, Emily Perry, Magali Ruffier, Dan M. Staines, Stephen J. Trevanion, Bronwen L. Aken, Fiona Cunningham, Andrew Yates, Paul FlicekEnsembl 2018. PubMed PMID: 29155950.",
+                "url": "https://academic.oup.com/nar/article/46/D1/D754/4634002"
+            },
+            {
+                "name": "Scientific Publications, Citing Ensembl Data",
+                "desc": "Since release 25, all Ensembl releases have been archived as fully functional sites for about three years. This makes it possible to accurately cite data being referred to in a paper, even though the main Ensembl site is being continuously updated (currently release 91 - December 2017). ",
+                "url": "http://uswest.ensembl.org/info/about/publications.html#current_ensembl"
+            }
+        ]
+    },
+    {
+        "method": "Heatmap",
+        "urlparagraph": "Read more about the methods used to build heatmap.",
+        "citations": [
+            {
+                "name": "Hierarchical clustering",
+                "desc": "These functions cut hierarchical clusterings into flat clusterings or find the roots of the forest formed by a cut by providing the flat cluster ids of each observation.",
+                "url": "https://docs.scipy.org/doc/scipy/reference/cluster.hierarchy.html"
+            },
+            {
+                "name": "Statistics toolbox",
+                "desc": "Statistics toolbox.” API Reference Documentation. The MathWorks. Accessed October 1, 2007.",
+                "url": "http://www.mathworks.com/access/helpdesk/help/toolbox/stats/"
+            },
+            {
+                "name": "Hierarchical clustering",
+                "desc": "Hierarchical clustering.” API Reference Documentation. The Wolfram Research, Inc. Accessed October 1, 2007.",
+                "url": "https://reference.wolfram.com/language/HierarchicalClustering/tutorial/HierarchicalClustering.html"
+            },
+            {
+                "name": "Minimum Spanning Trees and Single Linkage Cluster Analysis",
+                "desc": "Gower, JC and Ross, GJS. Minimum Spanning Trees and Single Linkage Cluster Analysis. Applied Statistics. 18(1): pp. 54–64. 1969.",
+                "url": "https://www.jstor.org/stable/2346439?seq=1#page_scan_tab_contents"
+            },
+            {
+                "name": "Hierarchical grouping to optimize an objective function",
+                "desc": "Ward Jr, JH. Hierarchical grouping to optimize an objective function. Journal of the American Statistical Association. 58(301): pp. 236–44. 1963.",
+                "url": "http://iv.slis.indiana.edu/sw/data/ward.pdf"
+            },
+            {
+                "name": "Hierarchical clustering schemes",
+                "desc": "Johnson, SC. Hierarchical clustering schemes.Psychometrika. 32(2): pp. 241–54. 1966",
+                "url": "https://link.springer.com/article/10.1007/BF02289588"
+            },
+            {
+                "name": "Numerical taxonomy",
+                "desc": "Sneath, PH and Sokal, RR. Numerical taxonomy. Nature. 193: pp. 855–60. 1962. PMID: 13914561",
+                "url": "https://www.nature.com/articles/193855a0"
+            },
+            {
+                "name": "Comparing resemblance measures",
+                "desc": "Batagelj, V. Comparing resemblance measures. Journal of Classification. 12: pp. 73–90. 1995.",
+                "url": "http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.108.7106&rep=rep1&type=pdf"
+            },
+            {
+                "name": "A statistical method for evaluating systematic relationships",
+                "desc": "Sokal, RR and Michener, CD. A statistical method for evaluating systematic relationships. Scientific Bulletins. 38(22): pp. 1409–38. 1958",
+                "url": "https://archive.org/details/cbarchive_33927_astatisticalmethodforevaluatin1902"
+            },
+            {
+                "name": "Mixture model tests of hierarchical clustering algorithms: the problem of classifying everybody",
+                "desc": "Edelbrock, C. Mixture model tests of hierarchical clustering algorithms: the problem of classifying everybody. Multivariate Behavioral Research. 14: pp. 367–84. 1979.",
+                "url": "http://www.tandfonline.com/doi/abs/10.1207/s15327906mbr1403_6"
+            },
+            {
+                "name": "Algorithms for Clustering Data",
+                "desc": "Jain, A., and Dubes, R., Algorithms for Clustering Data. Prentice-Hall. Englewood Cliffs, NJ. 1988.",
+                "url": "https://homepages.inf.ed.ac.uk/rbf/BOOKS/JAIN/Clustering_Jain_Dubes.pdf"
+            },
+            {
+                "name": "The use of multiple measurements in taxonomic problems",
+                "desc": "Fisher, RA The use of multiple measurements in taxonomic problems. Annals of Eugenics, 7(2): 179-188. 1936",
+                "url": "http://onlinelibrary.wiley.com/doi/10.1111/j.1469-1809.1936.tb02137.x/abstract"
+            }
+        ]
+    },
+    {
+        "method": "Histogram",
+        "urlparagraph": "Read more about the methods used to build histogram.",
+        "url": "",
+        "citations": [
+            {
+                "name": "Ensembl 2018",
+                "desc": "Daniel R. Zerbino, Premanand Achuthan, Wasiu Akanni, M. Ridwan Amode, Daniel Barrell, Jyothish Bhai, Konstantinos Billis, Carla Cummins, Astrid Gall, Carlos García Giro´n, Laurent Gil, Leo Gordon, Leanne Haggerty, Erin Haskell, Thibaut Hourlier, Osagie G. Izuogu, Sophie H. Janacek, Thomas Juettemann, Jimmy Kiang To, Matthew R. Laird, Ilias Lavidas, Zhicheng Liu, Jane E. Loveland, Thomas Maurel, William McLaren, Benjamin Moore, Jonathan Mudge, Daniel N. Murphy, Victoria Newman, Michael Nuhn, Denye Ogeh, Chuang Kee Ong, Anne Parker, Mateus Patricio, Harpreet Singh Riat, Helen Schuilenburg, Dan Sheppard, Helen Sparrow, Kieron Taylor, Anja Thormann, Alessandro Vullo, Brandon Walts, Amonida Zadissa, Adam Frankish, Sarah E. Hunt, Myrto Kostadima, Nicholas Langridge, Fergal J. Martin, Matthieu Muffato, Emily Perry, Magali Ruffier, Dan M. Staines, Stephen J. Trevanion, Bronwen L. Aken, Fiona Cunningham, Andrew Yates, Paul FlicekEnsembl 2018. PubMed PMID: 29155950.",
+                "url": "https://academic.oup.com/nar/article/46/D1/D754/4634002"
+            },
+            {
+                "name": "Scientific Publications, Citing Ensembl Data",
+                "desc": "Since release 25, all Ensembl releases have been archived as fully functional sites for about three years. This makes it possible to accurately cite data being referred to in a paper, even though the main Ensembl site is being continuously updated (currently release 91 - December 2017). ",
+                "url": "http://uswest.ensembl.org/info/about/publications.html#current_ensembl"
+            }
+        ]
+    },
+    {
+        "method": "PCA Incremental",
+        "urlparagraph": "Read more in the scikit-learn user guide.",
+        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.IncrementalPCA.html#sklearn.decomposition.IncrementalPCA",
+        "citations": [
+            {
+                "name": "Implements the incremental PCA model from: Incremental Learning for Robust Visual Tracking",
+                "desc": "D. Ross, J. Lim, R. Lin, M. Yang, Incremental Learning for Robust Visual Tracking, International Journal of Computer Vision, Volume 77, Issue 1-3, pp. 125-141, May 2008",
+                "url": "https://link.springer.com/article/10.1007/s11263-007-0075-7"
+            },
+            {
+                "name": "This model is an extension of the Sequential Karhunen-Loeve Transform from: Sequential Karhunen-Loeve Basis Extraction and its Application to Images",
+                "desc": "A. Levy and M. Lindenbaum, Sequential Karhunen-Loeve Basis Extraction and its Application to Images, IEEE Transactions on Image Processing, Volume 9, Number 8, pp. 1371-1374, August 2000.",
+                "url": "http://www.cs.technion.ac.il/~mic/doc/skl-ip.pdf"
+            },
+            {
+                "name": "Matrix Computations",
+                "desc": "Golub and C. Van Loan. Matrix Computations, Third Edition, Chapter 5, Section 5.4.4, pp. 252-253.",
+                "url": "http://www.cs.cornell.edu/courses/cs4220/2014sp/CVLBook/chap5.pdf"
+            },
+            {
+                "name": "Pattern Recognition and Machine Learning (noise variance)",
+                "desc": "Pattern Recognition and Machine Learning by C. Bishop, 12.2.1 p. 574",
+                "url": "http://www.miketipping.com/papers/met-mppca.pdf"
+            }
+        ]
+    },
+    {
+        "method": "Isomap",
+        "urlparagraph": "Read more in the scikit-learn user guide.",
+        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html#sklearn.manifold.Isomap",
+        "citations": [
+            {
+                "name": " A global geometric framework for nonlinear dimensionality reduction",
+                "desc": "Tenenbaum, J.B.; De Silva, V.; & Langford, J.C. A global geometric framework for nonlinear dimensionality reduction. Science 290 (5500)",
+                "url": "http://web.mit.edu/cocosci/Papers/sci_reprint.pdf"
+            }
+        ]
+    },
+    {
+        "method": "Kernel PCA",
+        "urlparagraph": "Read more in the scikit-learn user guide.",
+        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA",
+        "citations": [
+            {
+                "name": "Kernel principal component analysis. In Advances in kernel methods",
+                "desc": "Bernhard Schoelkopf, Alexander J. Smola, and Klaus-Robert Mueller. 1999. Kernel principal component analysis. In Advances in kernel methods, MIT Press, Cambridge, MA, USA 327-352.",
+                "url": "http://pca.narod.ru/scholkopf_kernel.pdf"
+            }
+        ]
+    },
+    {
+        "method": "Latent Dirichlet Allocation",
+        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.LatentDirichletAllocation.html#sklearn.decomposition.LatentDirichletAllocation",
+        "citations": [
+            {
+                "name": "Online Learning for Latent Dirichlet Allocation",
+                "desc": "Online Learning for Latent Dirichlet Allocation”, Matthew D. Hoffman, David M. Blei, Francis Bach, 2010",
+                "url": ""
+            },
+            {
+                "name": "Stochastic Variational Inference",
+                "desc": "Stochastic Variational Inference”, Matthew D. Hoffman, David M. Blei, Chong Wang, John Paisley, 2013",
+                "url": ""
+            },
+            {
+                "name": "Matthew D. Hoffman’s onlineldavb code",
+                "desc": "Matthew D. Hoffman’s onlineldavb code",
+                "url": "http://papers.nips.cc/paper/3902-online-learning-for-latentdirichlet-allocation!"
+            }
+        ]
+    },
+    {
+        "method": "Locally Linear Embedding",
+        "urlparagraph": "Read more in the scikit-learn user guide.",
+        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.locally_linear_embedding.html#sklearn.manifold.locally_linear_embedding",
+        "citations": [
+            {
+                "name": "Nonlinear dimensionality reduction by locally linear embedding",
+                "desc": "Roweis, S. & Saul, L. Nonlinear dimensionality reduction by locally linear embedding. Science 290:2323 (2000).",
+                "url": "http://www.robots.ox.ac.uk/~az/lectures/ml/lle.pdf"
+            },
+            {
+                "name": "Hessian eigenmaps: Locally linear embedding techniques for high-dimensional data",
+                "desc": "Donoho, D. & Grimes, C. Hessian eigenmaps: Locally linear embedding techniques for high-dimensional data. Proc Natl Acad Sci U S A. 100:5591 (2003).",
+                "url": "http://www.pnas.org/content/100/10/5591"
+            },
+            {
+                "name": "MLLE: Modified Locally Linear Embedding Using Multiple Weights",
+                "desc": "Zhang, Z. & Wang, J. MLLE: Modified Locally Linear Embedding Using Multiple Weights.",
+                "url": "http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.70.382"
+            },
+            {
+                "name": "Principal manifolds and nonlinear dimensionality reduction via tangent space alignment",
+                "desc": "Zhang, Z. & Zha, H. Principal manifolds and nonlinear dimensionality reduction via tangent space alignment. Journal of Shanghai Univ. 8:406 (2004)",
+                "url": "https://arxiv.org/abs/cs/0212008"
+            }
+        ]
+    },
+    {
+        "method": "MDS",
+        "urlparagraph": "Read more in the scikit-learn user guide.",
+        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html#sklearn.manifold.MDS",
+        "citations": [
+            {
+                "name": "Modern Multidimensional Scaling - Theory and Applications",
+                "desc": "Modern Multidimensional Scaling - Theory and Applications” Borg, I.; Groenen P. Springer Series in Statistics (1997)",
+                "url": "http://www.springer.com/us/book/9781475727111"
+            },
+            {
+                "name": "Nonmetric multidimensional scaling: a numerical method",
+                "desc": "Nonmetric multidimensional scaling: a numerical method” Kruskal, J. Psychometrika, 29 (1964)",
+                "url": "https://link.springer.com/article/10.1007/BF02289694"
+            },
+            {
+                "name": "Multidimensional scaling by optimizing goodness of fit to a nonmetric hypothesis",
+                "desc": "Multidimensional scaling by optimizing goodness of fit to a nonmetric hypothesis” Kruskal, J. Psychometrika, 29, (1964)",
+                "url": "https://link.springer.com/article/10.1007/BF02289565"
+            }
+        ]
+    },
+    {
+        "method": "Mini Batch Dictionary Learning",
+        "urlparagraph": "Read more in the scikit-learn user guide.",
+        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.MiniBatchDictionaryLearning.html#sklearn.decomposition.MiniBatchDictionaryLearning",
+        "citations": [
+            {
+                "name": "Online dictionary learning for sparse coding",
+                "desc": "J. Mairal, F. Bach, J. Ponce, G. Sapiro, 2009: Online dictionary learning for sparse coding ",
+                "url": "http://www.di.ens.fr/sierra/pdfs/icml09.pdf"
+            }
+        ]
+    },
+    {
+        "method": "Mini Batch Sparse PCA",
+        "urlparagraph": "Read more in the scikit-learn user guide.",
+        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.MiniBatchSparsePCA.html#sklearn.decomposition.MiniBatchSparsePCA",
+        "citations": [
+            {
+                "name": "",
+                "desc": "",
+                "url": ""
+            }
+        ]
+    },
+    {
+        "method": "NMF",
+        "urlparagraph": "Read more in the scikit-learn user guide.",
+        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.NMF.html#sklearn.decomposition.NMF",
+        "citations": [
+            {
+                "name": "Fast local algorithms for large scale nonnegative matrix and tensor factorizations",
+                "desc": "Cichocki, Andrzej, and P. H. A. N. Anh-Huy. Fast local algorithms for large scale nonnegative matrix and tensor factorizations. IEICE transactions on fundamentals of electronics, communications and computer sciences 92.3: 708-721, 2009.",
+                "url": "http://www.bsp.brain.riken.jp/publications/2009/Cichocki-Phan-IEICE_col.pdf"
+            },
+            {
+                "name": "Algorithms for nonnegative matrix factorization with the beta-divergence",
+                "desc": "Fevotte, C., & Idier, J. (2011). Algorithms for nonnegative matrix factorization with the beta-divergence. Neural Computation, 23(9).",
+                "url": "https://arxiv.org/abs/1010.1763"
+            }
+        ]
+    },
+    {
+        "method": "Pathways",
+        "urlparagraph": "Read more about the methods used to build pathways.",
+        "citations": [
+            {
+                "name": "Reactome pathway knowledgebase",
+                "desc": "Fabregat et al. 2017 PMID: 29145629",
+                "url": "https://www.ncbi.nlm.nih.gov/pubmed/29145629"
+            },
+            {
+                "name": "Reactome pathway knowledgebase",
+                "desc": "Milacic et al. 2012 PMID:24213504",
+                "url": "https://www.ncbi.nlm.nih.gov/pubmed/24243840"
+            }
+        ]
+    },
+    {
+        "method": "Quadratic Discriminant Analysis",
+        "urlparagraph": "Read more in the scikit-learn user guide.",
+        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis.html#sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis",
+        "citations": [
+            {
+                "name": "",
+                "desc": "",
+                "url": ""
+            }
+        ]
+    },
+    {
+        "method": "Sparse PCA",
+        "urlparagraph": "Read more in the scikit-learn user guide.",
+        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.SparsePCA.html#sklearn.decomposition.SparsePCA",
+        "citations": [
+            {
+                "name": "",
+                "desc": "",
+                "url": ""
+            }
+        ]
+    },
+    {
+        "method": "Spectral Embedding",
+        "urlparagraph": "Read more in the scikit-learn user guide.",
+        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.spectral_embedding.html#sklearn.manifold.spectral_embedding",
+        "citations": [
+            {
+                "name": "A Tutorial on Spectral Clustering",
+                "desc": "A Tutorial on Spectral Clustering, 2007 Ulrike von Luxburg",
+                "url": "http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.165.9323"
+            },
+            {
+                "name": "On Spectral Clustering: Analysis and an algorithm",
+                "desc": "On Spectral Clustering: Analysis and an algorithm, 2001 Andrew Y. Ng, Michael I. Jordan, Yair Weiss",
+                "url": "http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.19.8100"
+            },
+            {
+                "name": "Normalized cuts and image segmentation",
+                "desc": "Normalized cuts and image segmentation, 2000 Jianbo Shi, Jitendra Malik",
+                "url": "http://citeseer.ist.psu.edu/viewdoc/summary?doi=10.1.1.160.2324"
+            }
+        ]
+    },
+    {
+        "method": "Survival",
+        "urlparagraph": "Read more about the methods used to build survival",
+        "url": "http://lifelines.readthedocs.io/en/latest/",
+        "citations": [
+            {
+                "name": "lifelines is a implementation of survival analysis in Python",
+                "desc": "lifelines is a implementation of survival analysis in Python",
+                "url": "http://lifelines.readthedocs.io/en/latest/"
+            }
+        ]
+    },
+    {
+        "method": "Timelines",
+        "urlparagraph": "Read more about the methods used to build timelines.",
+        "url": "",
+        "citations": [
+            {
+                "name": "",
+                "desc": "",
+                "url": ""
+            }
+        ]
+    },
+    {
+        "method": "Truncated SVD",
+        "urlparagraph": "Read more in the scikit-learn user guide.",
+        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html#sklearn.decomposition.TruncatedSVD",
+        "citations": [
+            {
+                "name": "Finding structure with randomness: Stochastic algorithms for constructing approximate matrix decompositions",
+                "desc": "Finding structure with randomness: Stochastic algorithms for constructing approximate matrix decompositions Halko, et al., 2009 (arXiv:909)",
+                "url": "https://arxiv.org/pdf/0909.4061/"
+            }
+        ]
+    },
+    {
+        "method": "TSNE",
+        "urlparagraph": "Read more in the scikit-learn user guide.",
+        "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html#sklearn.manifold.TSNE",
+        "citations": [
+            {
+                "name": "Visualizing High-Dimensional Data Using t-SNE",
+                "desc": "van der Maaten, L.J.P.; Hinton, G.E. Visualizing High-Dimensional Data Using t-SNE. Journal of Machine Learning Research 9:2579-2605, 2008.",
+                "url": "http://www.jmlr.org/papers/volume9/vandermaaten08a/vandermaaten08a.pdf"
+            },
+            {
+                "name": "t-Distributed Stochastic Neighbor Embedding",
+                "desc": "van der Maaten, L.J.P. t-Distributed Stochastic Neighbor Embedding",
+                "url": "http://lvdmaaten.github.io/tsne/"
+            },
+            {
+                "name": "Accelerating t-SNE using Tree-Based Algorithms",
+                "desc": "L.J.P. van der Maaten. Accelerating t-SNE using Tree-Based Algorithms. Journal of Machine Learning Research 15(Oct):3221-3245, 2014.",
+                "url": "http://lvdmaaten.github.io/publications/papers/JMLR_2014.pdf"
+            }
+        ]
+    }
+]

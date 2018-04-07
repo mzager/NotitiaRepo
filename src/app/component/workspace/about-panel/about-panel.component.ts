@@ -22,20 +22,27 @@ declare var $: any;
 <!-- Card -->
 <div>
     <a href='#' class='modalClose' (click)='closeClick()'></a>
-    <h1>About</h1>
-    <h2>Fhcrc / holland Lab</h2>
+    <h1 class='about-h1'>About</h1>
+    <h2 class='about-h2'>Seattle Tumor Translation Research (STTR) assists cancer researchers and clinicians to extract biological meaning through the development of custom 
+    software solutions.</h2>
+    <h2 class='about-h2'>The rapid growth of both public datasets and analytic methods presents challenges and opportunities. To maximize impact researchers 
+    often need to enlist the support of biostatisticians, data scientists and software engineers that specialize in cloud technologies.</h2>
+    <h2 class='about-h2'> To help mitigate these challenges, STTR has built a cloud-based platform called Oncoscape.  Our solution allows users to upload clinical and molecular data; leverage industry standard analytic libraries; augment with NCI sponsored data sets; and visualize with dozens of novel online interactive tools.
+    Our mission is to accelerate your science.</h2>
 
-    <h1>Feedback</h1>
+
+    <h1 class='about-h1'>Feedback</h1>
+    <h2 class='about-h2'>To learn more or request a custom solution, please send us a <a href="mailto:contact@oncoscape.org">message</a> </h2>
+
+
+    <h1 class='about-h1'>Credits</h1>
     <h2>Lorum Ipsum</h2>
 
-    <h1>Credits</h1>
+    <h1 class='about-h1'>Special Thanks</h1>
     <h2>Lorum Ipsum</h2>
 
-    <h1>Special Thanks</h1>
-    <h2>Lorum Ipsum</h2>
-
-    <h1>Citations</h1>
-    <h2>Lorum Ipsum</h2>
+    <h1 class='about-h1'>Site Citations</h1>
+    <a href="#">View</a><h2 class='about-h2'>all libraries and resources used to build the Oncoscape platform</h2>
 
     <!--
     <br /> Once selected, your cohort will appear in the geneset dropdown of the settings panel. </h2>
