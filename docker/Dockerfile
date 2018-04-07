@@ -4,8 +4,8 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Basics
 RUN apt-get -y update && \
-    apt-get -y upgrade && \
-    apt-get install -y git nano
+  apt-get -y upgrade && \
+  apt-get install -y git nano
 
 
 # Open CPU
@@ -19,16 +19,16 @@ RUN \
 
 # Python
 RUN apt-get install -y software-properties-common && \
-    add-apt-repository ppa:deadsnakes/ppa && \
-    apt-get -y update && \
-    apt-get install -y python3.6 python3.6-dev && \
-    apt-get -y update && \
-    apt-get install -y python3-pip python-virtualenv && \
-    pip3 install --upgrade pip && \
-    pip3 install flask scipy lifelines pandas scikit-learn numpy eve uwsgi && \
-    pip3 install -U flask-cors && \
-    cd /var/www && \
-    git clone https://github.com/mzager/Python
+  add-apt-repository ppa:deadsnakes/ppa && \
+  apt-get -y update && \
+  apt-get install -y python3.6 python3.6-dev && \
+  apt-get -y update && \
+  apt-get install -y python3-pip python-virtualenv && \
+  pip3 install --upgrade pip && \
+  pip3 install flask scipy lifelines pandas scikit-learn numpy eve uwsgi && \
+  pip3 install -U flask-cors && \
+  cd /var/www && \
+  git clone https://github.com/mzager/Python
 COPY Docker.Uwsgi.ini /var/www/Python/uwsgi.ini
 
 # Nginx
@@ -36,7 +36,7 @@ RUN apt-get install -y nginx uwsgi
 RUN rm /etc/nginx/sites-enabled/default
 COPY Docker.Nginx.conf /etc/nginx/sites-available/server.conf
 RUN ln -s /etc/nginx/sites-available/server.conf /etc/nginx/sites-enabled/server.conf && \
-    echo "daemon off;" >> /etc/nginx/nginx.conf
+  echo "daemon off;" >> /etc/nginx/nginx.conf
 
 # Prints apache logs to stdout
 RUN \
@@ -65,7 +65,7 @@ RUN apt-get install -y supervisor
 COPY Docker.Supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Html
-COPY /dist /var/www/html
+COPY /client /var/www/html
 
 # Start
 EXPOSE 80 8004 8005

@@ -22,13 +22,15 @@ declare var $: any;
 <div class="citations-modal-panel">
     <div class='row'>
         <a href='#' class='modalClose' (click)='closeClick()'></a>
-        <div class='col s12 m9'>
-        <h2 class='citations-section'>Citations</h2>
+            <div class='col s12 m9'>
+                <h2 class='citations-section'>Site Citations</h2>  
+        
         <div *ngFor='let attr of methods; let i = index'>
-        <h1 class="citations-h1">{{method}}</h1>
+            <h1 class="citations-h1">{{method}}</h1>
             <a class='citations-link' href='{{url}}' target='_blank'>Learn More</a>
-          </div>
-            <div *ngFor='let attr of citations; let i = index'>
+        </div>
+           
+        <div *ngFor='let attr of citations; let i = index'>
                 <p class='citations-label'>{{ attr.name }}</p>
                 <p class='citations-desc'>{{ attr.desc }}
                     <br />
@@ -40,7 +42,6 @@ declare var $: any;
                 </p>
                 </div>
             </div>
-       
     </div>
 </div>
 `,
