@@ -104,7 +104,8 @@ export class ChartFactory {
         const colorDecorator = decorators.filter(decorator => decorator.type === DataDecoratorTypeEnum.COLOR);
         const sizeDecorator = decorators.filter(decorator => decorator.type === DataDecoratorTypeEnum.SIZE);
         const selectDecorator = decorators.filter(decorator => decorator.type === DataDecoratorTypeEnum.SELECT);
-        const tooltipDecorator = decorators.filter(decorator => decorator.type === DataDecoratorTypeEnum.TOOLTIP);
+        const labelDecorator = decorators.filter(decorator => decorator.type === DataDecoratorTypeEnum.LABEL);
+        // const tooltipDecorator = decorators.filter(decorator => decorator.type === DataDecoratorTypeEnum.TOOLTIP);
 
         // Maps
         const shapeMap = (!shapeDecorator.length) ? null : shapeDecorator[0].values.reduce((p, c) => {
@@ -115,6 +116,13 @@ export class ChartFactory {
             p[c[idProperty]] = c.value;
             return p;
         }, {});
+
+        const labelMap = (!labelDecorator.length) ? null : labelDecorator[0].values.reduce((p, c) => {
+            p[c[idProperty]] = c.value;
+            return p;
+        }, {});
+
+        debugger;
         // const sizeMap = (!sizeDecorator.length) ? null : sizeDecorator[0].values.reduce((p, c) => {
         //     p[c[idProperty]] = c.value;
         //     return p;
@@ -125,15 +133,19 @@ export class ChartFactory {
                 group.remove(group.children[0]);
             }
             const id = group.userData.id;
+            ;
             // const shape = this.getShape((shapeMap) ? shapeMap[id] : ShapeEnum.CIRCLE);
             const color = (colorMap) ? (colorMap[id]) ? colorMap[id] : 0xDDDDDD : 0x039be5;
+            const label = (labelMap) ? (labelMap[id]) ? labelMap[id] : 'Unknown' : '';
 
+            // const spriteMaterial = ChartFactory.getSpriteMaterial(shape, color);
             const spriteMaterial = ChartFactory.getSpriteMaterial((shapeMap) ? shapeMap[id] : ShapeEnum.CIRCLE, color);
             spriteMaterial.opacity = 0.8;
             // const scale = ((sizeMap) ? sizeMap[id] : 1) * 2;
             const mesh: THREE.Sprite = new THREE.Sprite(spriteMaterial);
+            group.userData.tooltip = label;
             mesh.scale.set(scale, scale, scale);
-            mesh.userData.tooltip = id;
+            // mesh.userData.tooltip = label;
             mesh.userData.color = color;
             mesh.userData.selectionLocked = false;
             if (renderer) {
