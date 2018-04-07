@@ -1,5 +1,3 @@
-import { DataField } from 'app/model/data-field.model';
-import { EntityTypeEnum } from 'app/model/enum.model';
 import { CollectionTypeEnum, DataTypeEnum, EntityTypeEnum } from './enum.model';
 import { DataField, DataTable } from './data-field.model';
 
@@ -10,7 +8,9 @@ export class DataFieldFactory {
 
   public static defaultDataField: DataField = DataFieldFactory.getUndefined();
   public static getMolecularLabelOptions(tables: Array<DataTable>): Array<DataField> {
-    return DataFieldFactory.getMolecularColorFields(tables);
+    const lbls = DataFieldFactory.getMolecularColorFields(tables);
+    lbls.splice(1, 0, DataFieldFactory.getGeneId());
+    return lbls;
   }
   public static getMolecularShapeFields(tables: Array<DataTable>): Array<DataField> {
     return DataFieldFactory.getMolecularColorFields(tables);
@@ -41,7 +41,11 @@ export class DataFieldFactory {
   }
 
   public static getSampleLabelFields(clinicalFields: Array<DataField>, entity: EntityTypeEnum = EntityTypeEnum.SAMPLE): Array<DataField> {
-    return [DataFieldFactory.defaultDataField, ...clinicalFields];
+    return [
+      DataFieldFactory.defaultDataField,
+      DataFieldFactory.getPatientId(),
+      DataFieldFactory.getSampleId(),
+      ...clinicalFields];
   }
 
   public static getSampleColorFields(clinicalFields: Array<DataField>, entity: EntityTypeEnum = EntityTypeEnum.SAMPLE): Array<DataField> {
@@ -99,6 +103,39 @@ export class DataFieldFactory {
       tbl: null,
       values: null,
       ctype: CollectionTypeEnum.GENE_FAMILY
+    };
+  }
+
+  public static getGeneId(): DataField {
+    return {
+      key: 'mid',
+      label: 'HGNC Symbol',
+      type: DataTypeEnum.FUNCTION,
+      tbl: null,
+      values: null,
+      ctype: CollectionTypeEnum.GENE_NAME
+    };
+  }
+
+  public static getPatientId(): DataField {
+    return {
+      key: 'pid',
+      label: 'Patient Id',
+      type: DataTypeEnum.STRING,
+      tbl: 'patient',
+      values: null,
+      ctype: CollectionTypeEnum.SAMPLE
+    };
+  }
+
+  public static getSampleId(): DataField {
+    return {
+      key: 'sid',
+      label: 'Sample Id',
+      type: DataTypeEnum.STRING,
+      tbl: 'patient',
+      values: null,
+      ctype: CollectionTypeEnum.SAMPLE
     };
   }
 

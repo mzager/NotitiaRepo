@@ -92,6 +92,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   methodSummary = '';
 
   _decorators: Array<DataDecorator>;
+  get decoratorsWithLegends(): Array<DataDecorator> {
+    return this._decorators.filter(v => v.legend);
+  }
   get decorators(): Array<DataDecorator> {
     return this._decorators;
   }
