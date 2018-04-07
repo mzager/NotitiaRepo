@@ -1,5 +1,6 @@
+import { DataField } from 'app/model/data-field.model';
 import { EntityTypeEnum } from 'app/model/enum.model';
-import { CollectionTypeEnum, DataTypeEnum } from './enum.model';
+import { CollectionTypeEnum, DataTypeEnum, EntityTypeEnum } from './enum.model';
 import { DataField, DataTable } from './data-field.model';
 
 /**
@@ -8,6 +9,9 @@ import { DataField, DataTable } from './data-field.model';
 export class DataFieldFactory {
 
   public static defaultDataField: DataField = DataFieldFactory.getUndefined();
+  public static getMolecularLabelOptions(tables: Array<DataTable>): Array<DataField> {
+    return DataFieldFactory.getMolecularColorFields(tables);
+  }
   public static getMolecularShapeFields(tables: Array<DataTable>): Array<DataField> {
     return DataFieldFactory.getMolecularColorFields(tables);
   }
@@ -28,10 +32,18 @@ export class DataFieldFactory {
       }
     ))), []);
 
-    return [DataFieldFactory.defaultDataField, DataFieldFactory.getGeneFamily(),
-    DataFieldFactory.getGeneType(), DataFieldFactory.getHicType(),
-    DataFieldFactory.getTadType()].concat(...fields);
+    return [DataFieldFactory.defaultDataField,
+    DataFieldFactory.getGeneType()
+      // DataFieldFactory.getGeneFamily(),
+      // DataFieldFactory.getHicType(),
+      // DataFieldFactory.getTadType()
+    ].concat(...fields);
   }
+
+  public static getSampleLabelFields(clinicalFields: Array<DataField>, entity: EntityTypeEnum = EntityTypeEnum.SAMPLE): Array<DataField> {
+    return [DataFieldFactory.defaultDataField, ...clinicalFields];
+  }
+
   public static getSampleColorFields(clinicalFields: Array<DataField>, entity: EntityTypeEnum = EntityTypeEnum.SAMPLE): Array<DataField> {
 
     return [DataFieldFactory.defaultDataField, ...clinicalFields.filter(v => {

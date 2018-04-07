@@ -37,37 +37,36 @@ export class DataService {
         new Dexie('notitia').open().then(db => {
           db.table('genecoords').toArray().then(results => {
 
-            // const biotypeCat = {
-            //   'Protein Coding': ['protein_coding', 'polymorphic_pseudogene', 'IG_V_gene', 'TR_V_gene', 'TR_C_gene', 'TR_J_gene',
-            //     'TR_D_gene', 'IG_C_gene', 'IG_D_gene', 'IG_J_gene'],
-            //   'Pseudogene': ['IG_V_pseudogene', 'transcribed_unprocessed_pseudogene', 'processed_pseudogene',
-            //     'unprocessed_pseudogene', 'transcribed_processed_pseudogene', 'unitary_pseudogene', 'IG_pseudogene',
-            //     'IG_C_pseudogene', 'IG_J_pseudogene', 'TR_J_pseudogene', 'TR_V_pseudogene', 'transcribed_unitary_pseudogene'],
-            //   'Long Noncoding': ['antisense', 'sense_intronic', 'lincRNA', 'sense_overlapping', 'processed_transcript',
-            //     '3prime_overlapping_ncRNA', 'non_coding'],
-            //   'Short Noncoding': ['rRna', 'misc_RNA', 'pseudogene', 'snoRNA', 'scRNA', 'miRNA', 'snRNA', 'sRNA', 'ribozyme',
-            //     'scaRNA', 'vaultRNA'],
-            //   'Other': ['TEC', 'bidirectional_promoter_lncRNA', 'macro_lncRNA']
-            // };
+            //             const biotypeCat = {
+            //               'Protein Coding': ['protein_coding', 'polymorphic_pseudogene', 'IG_V_gene', 'TR_V_gene', 'TR_C_gene', 'TR_J_gene',
+            //                 'TR_D_gene', 'IG_C_gene', 'IG_D_gene', 'IG_J_gene'],
+            //               'Pseudogene': ['IG_V_pseudogene', 'transcribed_unprocessed_pseudogene', 'processed_pseudogene',
+            //                 'unprocessed_pseudogene', 'transcribed_processed_pseudogene', 'unitary_pseudogene', 'IG_pseudogene',
+            //                 'IG_C_pseudogene', 'IG_J_pseudogene', 'TR_J_pseudogene', 'TR_V_pseudogene', 'transcribed_unitary_pseudogene'],
+            //               'Long Noncoding': ['antisense', 'sense_intronic', 'lincRNA', 'sense_overlapping', 'processed_transcript',
+            //                 '3prime_overlapping_ncRNA', 'non_coding'],
+            //               'Short Noncoding': ['rRna', 'misc_RNA', 'pseudogene', 'snoRNA', 'scRNA', 'miRNA', 'snRNA', 'sRNA', 'ribozyme',
+            //                 'scaRNA', 'vaultRNA'],
+            //               'Other': ['TEC', 'bidirectional_promoter_lncRNA', 'macro_lncRNA']
+            //             };
 
-            // const biotypeMap = Object.keys(biotypeCat).reduce((p, c) => {
-            //   p = Object.assign(p, biotypeCat[c].reduce((p2, c2) => {
-            //     p2[c2.toLowerCase()] = c;
-            //     return p2;
-            //   }, {}));
-            //   return p;
-            // }, {});
-
-
-
+            //             const biotypeMap = Object.keys(biotypeCat).reduce((p, c) => {
+            //               p = Object.assign(p, biotypeCat[c].reduce((p2, c2) => {
+            //                 p2[c2.toLowerCase()] = c;
+            //                 return p2;
+            //               }, {}));
+            //               return p;
+            //             }, {});
+            // debugger;
             const bioTypes: Array<string> = Array.from(results.reduce((p, c) => {
               p.add(c.type.toLowerCase());
               return p;
             }, new Set()));
 
+
             const scale = (decorator.type === DataDecoratorTypeEnum.SHAPE) ?
-              ChartFactory.getScaleShapeOrdinal(Object.keys(DataService.biotypeCat)) :
-              ChartFactory.getScaleColorOrdinal(Object.keys(DataService.biotypeCat));
+              ChartFactory.getScaleShapeOrdinal(DataService.biotypeCat) :
+              ChartFactory.getScaleColorOrdinal(DataService.biotypeCat);
 
             decorator.values = results.map(v => ({
               pid: null,
@@ -78,10 +77,15 @@ export class DataService {
               value: scale(DataService.biotypeMap[v.type])
             })).filter(v => v.label);
 
+            if (decorator.type === DataDecoratorTypeEnum.LABEL) {
+              // Labels don't need legends
+              resolve(decorator);
+              return;
+            }
             decorator.legend = new Legend();
             decorator.legend.type = (decorator.type === DataDecoratorTypeEnum.SHAPE) ? 'SHAPE' : 'COLOR';
             decorator.legend.display = 'DISCRETE';
-            decorator.legend.labels = scale['domain']();
+            decorator.legend.labels = scale['domain']().filter(v => v);
             decorator.legend.values = decorator.legend.values = scale['range']();
             if (decorator.type === DataDecoratorTypeEnum.COLOR) {
               decorator.legend.values = decorator.legend.values.map(v => '#' + v.toString(16));

@@ -56,9 +56,9 @@ export class GraphConfig {
         'WNT10B', 'WNT11', 'WNT16', 'WNT2', 'WNT2B', 'WNT3', 'WNT3A', 'WNT4', 'WNT5A', 'WNT5B', 'WNT6', 'WNT7A', 'WNT7B', 'WNT8A',
         'WNT8B', 'WNT9A', 'WNT9B', 'XIAP', 'ZBTB16'];
 
-    pointColor: DataField = DataFieldFactory.getUndefined();
-    pointShape: DataField = DataFieldFactory.getUndefined();
-    pointSize: DataField = DataFieldFactory.getUndefined();
+    // pointColor: DataField = DataFieldFactory.getUndefined();
+    // pointShape: DataField = DataFieldFactory.getUndefined();
+    // pointSize: DataField = DataFieldFactory.getUndefined();
     pointIntersect: DataField = DataFieldFactory.getUndefined();
     database: string;
 

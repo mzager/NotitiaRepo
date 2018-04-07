@@ -365,7 +365,7 @@ export class ChartScene {
         switch (visualization) {
             case VisualizationEnum.TIMELINES: return new TimelinesGraph(this.fontService);
             case VisualizationEnum.HEATMAP: return new HeatmapGraph();
-            case VisualizationEnum.PATHWAYS: return new PathwaysGraph();
+            case VisualizationEnum.PATHWAYS: return new PathwaysGraph(this.fontService);
             case VisualizationEnum.EDGES: return new EdgesGraph();
             case VisualizationEnum.PCA: return new PcaGraph(this.fontService);
             case VisualizationEnum.CHROMOSOME: return new ChromosomeGraph(this.fontService);

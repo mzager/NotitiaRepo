@@ -20,12 +20,15 @@ export class DecoratorPanelComponent implements AfterViewInit, OnDestroy {
   public clinicalColorOptions: Array<DataField>;
   public clinicalShapeOptions: Array<DataField>;
   public clinicalSizeOptions: Array<DataField>;
+  public clinicalLabelOptions: Array<DataField>;
   public molecularColorOptions: Array<DataField>;
   public molecularShapeOptions: Array<DataField>;
   public molecularSizeOptions: Array<DataField>;
+  public molecularLabelOptions: Array<DataField>;
   public colorOptions: Array<DataField>;
   public shapeOptions: Array<DataField>;
   public sizeOptions: Array<DataField>;
+  public labelOptions: Array<DataField>;
   public form: FormGroup;
 
 
@@ -51,48 +54,15 @@ export class DecoratorPanelComponent implements AfterViewInit, OnDestroy {
     this.molecularColorOptions = DataFieldFactory.getMolecularColorFields(tables);
     this.molecularShapeOptions = DataFieldFactory.getMolecularShapeFields(tables);
     this.molecularSizeOptions = DataFieldFactory.getMolecularSizeFields(tables);
+    this.molecularLabelOptions = DataFieldFactory.getMolecularLabelOptions(tables);
     this.updateFields();
   }
   @Input() set fields(fields: Array<DataField>) {
     this.clinicalColorOptions = DataFieldFactory.getSampleColorFields(fields);
     this.clinicalShapeOptions = DataFieldFactory.getSampleShapeFields(fields);
     this.clinicalSizeOptions = DataFieldFactory.getSampleSizeFields(fields);
+    this.clinicalLabelOptions = DataFieldFactory.getSampleLabelFields(fields);
     this.updateFields();
-    //     if (fields.length === 0) { return; }
-    //     const defaultDataField: DataField = DataFieldFactory.getUndefined();
-
-    //     // Gene Signature Color
-    //     const signatureField = DataFieldFactory.getUndefined();
-    //     signatureField.ctype = CollectionTypeEnum.UNDEFINED;
-    //     signatureField.type = DataTypeEnum.FUNCTION;
-    //     signatureField.label = DecoratorPanelComponent.GENE_SIGNATURE;
-
-    //     // Clustering Algorithm Color
-    //     const clusterField = DataFieldFactory.getUndefined();
-    //     clusterField.ctype = CollectionTypeEnum.UNDEFINED;
-    //     clusterField.type = DataTypeEnum.FUNCTION;
-    //     clusterField.label = DecoratorPanelComponent.CLUSTERING_ALGORITHM;
-
-    //     const colorOptions = DataFieldFactory.getColorFields(fields);
-    //     colorOptions.push(...[signatureField, clusterField]);
-
-    //     this.colorOptions = colorOptions;
-    //     this.shapeOptions = DataFieldFactory.getShapeFields(fields);
-    //     this.sizeOptions = DataFieldFactory.getSizeFields(fields);
-    // }
-    //   if (form.get('pointColor').dirty) {
-    //     const pointColor = form.getRawValue().pointColor.label;
-    //     if (pointColor === AbstractScatterForm.CLUSTERING_ALGORITHM) {
-    //         this.selectClusteringAlgorithm.emit(data);
-    //         return;
-    //     }
-    //     if (pointColor === AbstractScatterForm.GENE_SIGNATURE) {
-    //         this.selectGeneSignature.emit(data);
-    //         return;
-    //     }
-    //     dirty |= DirtyEnum.COLOR; }
-    // if (form.get('pointShape').dirty) { dirty |= DirtyEnum.SHAPE; }
-    // if (form.get('pointSize').dirty) { dirty |= DirtyEnum.SIZE; }
   }
 
   private _decorators: Array<DataDecorator> = [];
@@ -112,10 +82,12 @@ export class DecoratorPanelComponent implements AfterViewInit, OnDestroy {
       this.colorOptions = this.molecularColorOptions;
       this.shapeOptions = this.molecularShapeOptions;
       this.sizeOptions = this.molecularSizeOptions;
+      this.labelOptions = this.molecularLabelOptions;
     } else {
       this.colorOptions = this.clinicalColorOptions;
       this.shapeOptions = this.clinicalShapeOptions;
       this.sizeOptions = this.clinicalSizeOptions;
+      this.labelOptions = this.clinicalLabelOptions;
     }
     this.cd.markForCheck();
   }
@@ -132,7 +104,8 @@ export class DecoratorPanelComponent implements AfterViewInit, OnDestroy {
     this.form = this.fb.group({
       colorOption: [],
       shapeOption: [],
-      sizeOption: []
+      sizeOption: [],
+      labelOption: []
     });
 
     this.form.valueChanges
@@ -143,6 +116,14 @@ export class DecoratorPanelComponent implements AfterViewInit, OnDestroy {
         const opts: Array<DataField> = [];
         let value;
 
+        if (form.get('labelOption').dirty) {
+          value = form.get('labelOption').value;
+          if (value.key === 'None') {
+            this.decoratorDel.emit({ type: DataDecoratorTypeEnum.LABEL, values: null, field: null, legend: null });
+          } else {
+            this.decoratorAdd.emit({ type: DataDecoratorTypeEnum.LABEL, field: value, legend: null, values: null });
+          }
+        }
         if (form.get('colorOption').dirty) {
           value = form.get('colorOption').value;
           if (value.key === 'None') {

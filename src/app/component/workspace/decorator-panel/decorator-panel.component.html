@@ -1,6 +1,14 @@
 <form [formGroup]='form' novalidate>
   <div class='form-group'>
     <label class='center-block'>
+      <span class='form-label'>Label</span>
+      <select materialize='material_select' [compareWith]='byKey' [materializeSelectOptions]='labelOptions' formControlName='labelOption'>
+        <option *ngFor='let option of labelOptions' [ngValue]='option'>{{option.label}}</option>
+      </select>
+    </label>
+  </div>
+  <div class='form-group'>
+    <label class='center-block'>
       <span class='form-label'>Color</span>
       <select materialize='material_select' [compareWith]='byKey' [materializeSelectOptions]='colorOptions' formControlName='colorOption'>
         <option *ngFor='let option of colorOptions' [ngValue]='option'>{{option.label}}</option>
