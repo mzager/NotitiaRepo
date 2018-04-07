@@ -15,6 +15,7 @@ import { VisualizationEnum, DirtyEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import { Subscription } from 'rxjs/Subscription';
 import * as _ from 'lodash';
+import { StatTwoD } from '../../../model/stat.model';
 declare var $: any;
 declare var vega: any;
 declare var vegaTooltip: any;
@@ -50,6 +51,7 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
 
     drawStats(): void {
 
+
         this.container.empty();
         Promise.all([
             this.statFactory.getCohortsStats(this.config)
@@ -63,6 +65,7 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
                     const id = 'cc' + Math.random().toString(36).substring(7);
                     const div = cohortDiv.append('<div id="' + id + '" style="float: left;" class="statItemContainer" style="padding-bottom:20px;"></div>');
                     this.statVegaFactory.drawChartObject(stat, stat.charts[0], id, div);
+
                 });
             });
         });
