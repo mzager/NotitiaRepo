@@ -122,7 +122,7 @@ export class ChartFactory {
             return p;
         }, {});
 
-        debugger;
+        // debugger;
         // const sizeMap = (!sizeDecorator.length) ? null : sizeDecorator[0].values.reduce((p, c) => {
         //     p[c[idProperty]] = c.value;
         //     return p;
