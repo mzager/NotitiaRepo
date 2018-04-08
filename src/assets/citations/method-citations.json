@@ -213,6 +213,37 @@
     {
         "methods": [
             {
+                "method": "e! Ensembl",
+                "url": "https://www.ensembl.org/index.html"
+            }
+        ],
+        "citations": [
+            {
+                "name": "e! Ensembl",
+                "desc": "Ensembl is a genome browser for vertebrate genomes that supports research in comparative genomics, evolution, sequence variation and transcriptional regulation. Ensembl annotate genes, computes multiple alignments, predicts regulatory function and collects disease data. Ensembl tools include BLAST, BLAT, BioMart and the Variant Effect Predictor (VEP) for all supported species.",
+                "url": "https://www.ensembl.org/index.html",
+                "url2": "https://github.com/Ensembl"
+            }
+        ]
+    },
+    {
+        "methods": [
+            {
+                "method": "Genomic Data Commons Data Portal (GDC)",
+                "url": "https://portal.gdc.cancer.gov/"
+            }
+        ],
+        "citations": [
+            {
+                "name": "GDC Github",
+                "desc": "GDC is Open Source, Github Repositories containing source code of GDC Applications can be found on GDC GitHub Organization page.",
+                "url": "https://github.com/NCIP/gdc-docs/blob/develop/README.md"
+            }
+        ]
+    },
+    {
+        "methods": [
+            {
                 "method": "Box + Whisker",
                 "url": ""
             }
