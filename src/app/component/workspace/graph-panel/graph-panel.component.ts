@@ -226,7 +226,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     //   $event.preventDefault();
     //   return;
     // }
-
+    debugger;
     const selected = this.genesets.find(v => v.n === $event.target['value']);
     this.config.markerFilter = selected.g;
     this.config.dirtyFlag = DirtyEnum.LAYOUT;

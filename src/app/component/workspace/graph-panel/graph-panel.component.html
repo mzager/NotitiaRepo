@@ -43,7 +43,7 @@
             <div class='form-group'>
                 <label class='center-block'>
                     <span class='form-label'>Gene Set</span>
-                    <select materialize='material_select' [materializeSelectOptions]='genesets'>
+                    <select materialize='material_select' (change)='onGenesetChange($event)' [materializeSelectOptions]='genesets'>
                         <option *ngFor='let option of genesets' [value]='option.n' selected>{{option.n}} </option>
                         <option value='customize'>
                             <span class='customizeDropdownOption'>Customize</span>
