@@ -16,6 +16,7 @@ import * as _ from 'lodash';
 import * as JStat from 'jstat';
 import { QueryBuilderConfig } from 'app/component/workspace/query-panel/query-builder/query-builder.interfaces';
 import { Legend } from '../model/legend.model';
+import { CitationsPanelComponent } from '../component/workspace/citations-panel/citations-panel.component';
 
 
 @Injectable()
@@ -433,6 +434,20 @@ export class DataService {
     //   // });
     // });
   }
+
+  getCitations(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      resolve({
+        methods: [],
+        citations: []
+      });
+      this.http
+        .get('./assets/citations/method-citations')
+        .map(res => res.json()).toPromise();
+    });
+  }
+
+
 
   getEvents(database: string): Promise<Array<any>> {
     return new Promise((resolve, reject) => {
