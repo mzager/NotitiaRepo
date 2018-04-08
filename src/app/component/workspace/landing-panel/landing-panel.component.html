@@ -1,139 +1,232 @@
 <div class="landing-modal-panel">
     <div class="row">
-        <div class="col s12 ">
+        <div class="col s12" style="padding-left:0px;">
+            <!-- <a style='float:right;margin-right:1%' href="#" (click)="getStartedClick()" class='landing-link'>Get Started</a> -->
             <h1 class='landing-h1'>Oncoscape</h1>
             <h2 class='landing-h2'>Acclerate your research</h2>
         </div>
     </div>
     <div class="row">
-        <div class=' landing-marque '>
-            <div class='landing-marque-image '>
-                <img class="landing-image" src="/assets/landing/img-1.jpg" alt="knot">
-            </div>
-
-            <div class='landing-marque-image '>
-                <img class="landing-image" src="/assets/landing/img-4.jpg" alt="M+P">
-            </div>
-
-            <div class='landing-marque-image '>
-                <img class="landing-image" src="/assets/landing/img-chromo.jpg" alt="chromosome">
-            </div>
-
-            <div class='landing-marque-image hide-on-med-and-down '>
-                <img class="landing-image " src="/assets/landing/img-genome.jpg" alt="genome">
-            </div>
-
-            <div class='landing-marque-image hide-on-med-and-down '>
-                <img class="landing-image " src="/assets/landing/img-scatter.jpg" alt="clustering">
-            </div>
-        </div>
+        <section class='landing-images'>
+            <div class='landing-image-container' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position: 20% 50%'></div>
+            <div class='landing-image-container' style='background: url(assets/landing/img-4.jpg) no-repeat; background-position: 20% 50%'></div>
+            <div class='landing-image-container' style='background: url(assets/landing/img-chromo.jpg) no-repeat; background-position: 20% 50%'></div>
+            <div class='landing-image-container' style='background: url(assets/landing/img-genome.jpg) no-repeat; background-position: 20% 50%'></div>
+            <div class='landing-image-container' style='background: url(assets/landing/img-scatter.jpg) no-repeat; background-position: 20% 50%'></div>
+        </section>
     </div>
-    <div class="row">
-        <div class="col s12">
-            <a href="#" (click)="getStartedClick()" class='landing-link '>Get Started</a>
+    <!-- <div class="row">
+        <div class="col s12" style="padding-left:0px;">
+            <a href="#" (click)="getStartedClick()" class='landing-link'>Get Started</a>
         </div>
-    </div>
+    </div> -->
 
     <section class='row '>
-        <h2 class='landing-copy-h2 '>Introducing Oncoscape 3.0</h2>
-        <p class='landing-copy '>
+        <!-- <h2 class='landing-copy-h2'>Overview</h2> -->
+        <p class='landing-copy ' style='padding-left:0px;padding-right:0px;'>
+            Oncoscape leverages cloud computing, public data sets and analytic methods to extract biological meaning from genomic data.
+
+            <!-- Through a suite of interoperable tools, researchers can develop cohorts and test hypothoses and enrich their
+            own datasets. -->
+            <!-- 
+
             The rapid growth of cloud computing, public data sets and analytic methods presents both opportunities and challenges. STTR
             develops software products and provides professional services that enable researchers and clinicians to extract
             maximal biological mean from complex genomic data. To accelerate research the STTR developed Oncoscape, an omics-focused
             data visualization platform. The solution enables researchers to analyze and augment their clinical and molecular
             data with industry standard analytic libraries and NCI sponsored datasets respectively. To learn more or request
-            a custom solution, contact us at contact@oncoscape.org
+            a custom solution, contact us at contact@oncoscape.org -->
+            <a href="#" (click)="getStartedClick()" class='landing-link'>Get Started</a>
         </p>
     </section>
-    <section class='row '>
-        <h2 class='landing-copy-h2 '>What's New</h2>
-        <p class='landing-copy'>
-            Random Text... Our team assists researchers and clinicians extract maximal biological meaning from human genomic data through
-            the development of custom software solutions. Our mission is to accelerate your science. Today, researchers wanting
-            to augment their own datasets or analytic methods face many challenges including: identifying, downloading and
-            storing data from multiple public repositories; developing scripts to integrate and interrogate these resources;
-            creating novel data visualization to extract meaning. To help mitigate these challenges, the STTR has built a
-            cloud-based platform called Oncoscape. Our platform allows researchers to easily upload mutation, expression,
-            copy number, structural variation, clinical, and time series data; augment their data with a growing list of
-            reference datasets including TCGA, Reactome, MSigDB, HGNC and BioMart; interrogate their data using industry
-            standard libraries such as scikit learn, lifelines and bioC; Visualize data using any one of our XX tools. To
-            learn more or request custom analysis contact oncoscape@fredhutch.org
-        </p>
-    </section>
-    <section class='row'>
-        <h2 class='landing-copy-h2'>Analysis</h2>
-        <dl class='landing-copy'>
-            <dt>Matrix Decomposition</dt>
-            <dd>Visualize the inherent spatial structure of high dimensional datasets in 3D. With 13 fully customizable linear
-                dimension reduction algorithm, select from 5 variants of PCA, Factor Analysis, LDA, SVD and more.</dd>
+    <section class=' row '>
+        <h2 class='landing-section-title '>Analysis</h2>
 
-            <dt>Manifold Learning</dt>
-            <dd>Like Matrix Decomposition, Manifold Learning seeks to unveil the spatial structure of high dimensional datasets.
-                Unlike Matrix Decomposition the dimension reduction process is non-linear. Available methods include T-SNE,
-                MDS, IsoMap, Local Linear and Spectral Embedding.</dd>
-
-            <dt>Heat map</dt>
-            <dd>Sort, group and visualize your data using 7 agglomerative clustering algorithms in conjunction with 20 distance
-                metrics. Leverage dendrogram to sub select populations of samples or markers for further investigation.</dd>
-
-            <dt>Genome</dt>
-            <dd>Identify chromosomal regions of interest by projecting your data onto a visual representation of the genome.
-                Overlay CNV, Gistic or expression data along with Topically Aligned Domains and Cytobands. Explore thousands
-                of curated gene sets or create your own.</dd>
-
-            <dt>Chromosome</dt>
-            <dd>Compare datasets at the chromosomal level with circos and linear visualizations. Overlay pathways or topically
-                aligned domains.
-            </dd>
-
-            <dt>Pathways</dt>
-            <dd>Overlay your data on over 5,900 pathways curated from Kegg, Panther, Reactome, SMPDB, WikiPathways and Pathway
-                Commons.
-            </dd>
-
-
-            <dt>Survival + Hazard</dt>
-            <dd>Estimate and compare survival and hazard rates for patient populations using Kaplin Kaplan-Meier, Nelson-Aalen,
-                Aalen, Weibull and Cox models. </dd>
-
-            <dt>Timelines</dt>
-            <dd>Visualize patterns in time series data with an interactive swimmer plot. Sort, group and highlight patients using
-                clinical attributes.</dd>
-
-            <dt>Box + Whisker</dt>
-            <dd>Gain insights into the distribution of your data by visualizing the minimum, first quartile, median, 3rd quartile
-                and maximum values.</dd>
-
-            <dt>Fore Directed Graph</dt>
-            <dd>Visualize graph data in three-dimensions using a class of algorithms called force directed graphs. These algorithms
-                use the number and strength of connections to position nodes.</dd>
-
-            <dt>Spreadsheet</dt>
-            <dd>Sort and export your data, cohorts and genes of interest in tabular format.</dd>
-
-            <dt>Clinical Dashboard</dt>
-            <dd>Preview </dd>
-
-            <dt>Edges</dt>
-            <dd>Connect multiple graphs with edges. Link tumor/normal samples or visualize mutations.</dd>
-
-            <dt>Cohort Builder</dt>
-            <dd>Preform ad-hoc queries for patients with defined characteristics. Isolate patients with specific mutations or
-                clinical attributes.
-            </dd>
-
-            <dt>Gene Sets</dt>
-            <dd>Select from thousands of curated gene sets from MSigDB or create your own. </dd>
-
-            <dt>Data Upload</dt>
-            <dd>Visualize your RNA, CVN, Mutation, Event, Patient, Sample data in Oncoscape. To get started download an excel
-                template and follow the instructions at http://needurl.com/</dd>
-
-            <dt>Reproducibility</dt>
-            <dd>All analysis in Oncoscape is fully reproducible. All data manipulation and augmentation is done using best in
+        <div class='landing-copy col s12 m6 '>
+            <div class='landing-copy-thumb ' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position:
+            20% 50% '></div>
+            <span class='landing-copy-title '>Reproducible</span>
+            <span class='landing-copy-desc '>All analysis in Oncoscape is fully reproducible. All data manipulation and augmentation is done using best in
                 class / open source libraries and data stores with citations. Pause, rewind and interrogate every variable
-                and result.</dd>
+                and result.</span>
+        </div>
 
-        </dl>
+        <div class='landing-copy col s12 m6 '>
+            <div class='landing-copy-thumb ' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position:
+            20% 50% '></div>
+            <span class='landing-copy-title '>Renowned</span>
+            <span class='landing-copy-desc '>All analysis in Oncoscape is fully reproducible. All data manipulation and augmentation is done using best in
+                class / open source libraries and data stores with citations. Pause, rewind and interrogate every variable
+                and result.</span>
+        </div>
+
+        <div class='landing-copy col s12 m6 '>
+            <div class='landing-copy-thumb ' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position:
+            20% 50% '></div>
+            <span class='landing-copy-title '>Real Time</span>
+            <span class='landing-copy-desc '>All analysis in Oncoscape is fully reproducible. All data manipulation and augmentation is done using best in
+                class / open source libraries and data stores with citations. Pause, rewind and interrogate every variable
+                and result.</span>
+        </div>
+    </section>
+
+
+    <section class='row '>
+        <h2 class='landing-section-title '>Data</h2>
+
+
+        <div class='landing-copy col s12 m6 '>
+            <div class='landing-copy-thumb ' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position:
+            20% 50% '></div>
+            <span class='landing-copy-title '>TCGA</span>
+            <span class='landing-copy-desc '>Select from thousands of curated gene sets from MSigDB or create your own. </span>
+        </div>
+
+        <div class='landing-copy col s12 m6 '>
+            <div class='landing-copy-thumb ' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position:
+            20% 50% '></div>
+            <span class='landing-copy-title '>Gene Sets</span>
+            <span class='landing-copy-desc '>Select from thousands of curated gene sets from MSigDB or create your own. </span>
+        </div>
+
+
+        <div class='landing-copy col s12 m6 '>
+            <div class='landing-copy-thumb ' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position:
+            20% 50% '></div>
+            <span class='landing-copy-title '>Data Upload</span>
+            <span class='landing-copy-desc '>Visualize your RNA, CVN, Mutation, Event, Patient, Sample data in Oncoscape. To get started download an excel
+                template and follow the instructions at http://needurl.com/</span>
+        </div>
+
+        <div class='landing-copy col s12 m6 '>
+            <div class='landing-copy-thumb ' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position:
+            20% 50% '></div>
+            <span class='landing-copy-title '>Cohort Builder</span>
+            <span class='landing-copy-desc '>Preform ad-hoc queries for patients with defined characteristics. Isolate patients with specific mutations or
+                clinical attributes.
+            </span>
+        </div>
+    </section>
+
+    <section class='row '>
+
+        <h2 class='landing-section-title '>Visualization</h2>
+
+        <div class='landing-copy col s12 m6 '>
+            <div class='landing-copy-thumb ' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position:
+            20% 50% '></div>
+            <span class='landing-copy-title '>Matrix Decomposition</span>
+            <span class='landing-copy-desc '>Visualize the inherent spatial structure of high dimensional datasets in 3D. With 13 fully customizable linear
+                dimension reduction algorithm, select from 5 variants of PCA, Factor Analysis, LDA, SVD and more.</span>
+        </div>
+
+        <div class='landing-copy col s12 m6 '>
+            <div class='landing-copy-thumb ' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position:
+            20% 50% '></div>
+            <span class='landing-copy-title '>Manifold Learning</span>
+            <span class='landing-copy-desc '>Like Matrix Decomposition, Manifold Learning seeks to unveil the spatial structure of high dimensional datasets.
+                Unlike Matrix Decomposition the dimension reduction process is non-linear. Available methods include T-SNE,
+                MDS, IsoMap, Local Linear and Spectral Embedding.</span>
+        </div>
+
+        <div class='landing-copy col s12 m6 '>
+            <div class='landing-copy-thumb ' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position:
+            20% 50% '></div>
+            <span class='landing-copy-title '>Heat map</span>
+            <span class='landing-copy-desc '>Sort, group and visualize your data using 7 agglomerative clustering algorithms in conjunction with 20 distance
+                metrics. Leverage dendrogram to sub select populations of samples or markers for further investigation.</span>
+        </div>
+
+        <div class='landing-copy col s12 m6 '>
+            <div class='landing-copy-thumb ' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position:
+            20% 50% '></div>
+            <span class='landing-copy-title '>Genome</span>
+            <span class='landing-copy-desc '>Identify chromosomal regions of interest by projecting your data onto a visual representation of the genome.
+                Overlay CNV, Gistic or expression data along with Topically Aligned Domains and Cytobands. Explore thousands
+                of curated gene sets or create your own.</span>
+        </div>
+
+
+        <div class='landing-copy col s12 m6 '>
+            <div class='landing-copy-thumb ' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position:
+            20% 50% '></div>
+            <span class='landing-copy-title '>Chromosome</span>
+            <span class='landing-copy-desc '>Compare datasets at the chromosomal level with circos and linear visualizations. Overlay pathways or topically
+                aligned domains.
+            </span>
+        </div>
+
+        <div class='landing-copy col s12 m6 '>
+            <div class='landing-copy-thumb ' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position:
+            20% 50% '></div>
+            <span class='landing-copy-title '>Pathways</span>
+            <span class='landing-copy-desc '>Overlay your data on over 5,900 pathways curated from Kegg, Panther, Reactome, SMPDB, WikiPathways and Pathway
+                Commons.
+            </span>
+        </div>
+
+        <div class='landing-copy col s12 m6 '>
+            <div class='landing-copy-thumb ' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position:
+            20% 50% '></div>
+            <span class='landing-copy-title '>Survival + Hazard</span>
+            <span class='landing-copy-desc '>Estimate and compare survival and hazard rates for patient populations using Kaplin Kaplan-Meier, Nelson-Aalen,
+                Aalen, Weibull and Cox models. </span>
+        </div>
+
+
+        <div class='landing-copy col s12 m6 '>
+            <div class='landing-copy-thumb ' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position:
+            20% 50% '></div>
+            <span class='landing-copy-title '>Timelines</span>
+            <span class='landing-copy-desc '>Visualize patterns in time series data with an interactive swimmer plot. Sort, group and highlight patients using
+                clinical attributes.
+            </span>
+        </div>
+
+
+        <div class='landing-copy col s12 m6 '>
+            <div class='landing-copy-thumb ' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position:
+            20% 50% '></div>
+            <span class='landing-copy-title '>Box + Whisker</span>
+            <span class='landing-copy-desc '>Gain insights into the distribution of your data by visualizing the minimum, first quartile, median, 3rd quartile
+                and maximum values.</span>
+        </div>
+
+
+        <div class='landing-copy col s12 m6 '>
+            <div class='landing-copy-thumb ' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position:
+            20% 50% '></div>
+            <span class='landing-copy-title '>Fore Directed Graph</span>
+            <span class='landing-copy-desc '>Visualize graph data in three-dimensions using a class of algorithms called force directed graphs. These algorithms
+                use the number and strength of connections to position nodes.</span>
+        </div>
+
+
+        <div class='landing-copy col s12 m6 '>
+            <div class='landing-copy-thumb ' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position:
+            20% 50% '></div>
+            <span class='landing-copy-title '>Spreadsheet</span>
+            <span class='landing-copy-desc '>Sort and export your data, cohorts and genes of interest in tabular format.</span>
+        </div>
+
+
+        <div class='landing-copy col s12 m6 '>
+            <div class='landing-copy-thumb ' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position:
+            20% 50% '></div>
+            <span class='landing-copy-title '>Clinical Dashboard</span>
+            <span class='landing-copy-desc '>Preview </span>
+        </div>
+
+
+        <div class='landing-copy col s12 m6 '>
+            <div class='landing-copy-thumb ' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position:
+            20% 50% '></div>
+            <span class='landing-copy-title '>Edges</span>
+            <span class='landing-copy-desc '>Connect multiple graphs with edges. Link tumor/normal samples or visualize mutations.</span>
+        </div>
+
+
+
+
     </section>
 </div>

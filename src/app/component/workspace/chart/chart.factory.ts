@@ -76,9 +76,10 @@ export class ChartFactory {
         const cols = ChartFactory.colors.slice(0, values.length);
         return scale.scaleOrdinal().domain(values).range(cols);
     }
-    public static getScaleColorLinear(min: number, max: number): Function {
-        return scale.scaleQuantize<string>().domain([min, max])
-            .range(ChartFactory.colorsContinuous);
+    public static getScaleColorLinear(min: number, max: number, bins: number = 8): Function {
+        bins = Math.max(bins, 8);
+        const range = ChartFactory.colorsContinuous.slice(0, bins);
+        return scale.scaleQuantize<string>().domain([min, max]).range(range);
     }
 
     // Pools

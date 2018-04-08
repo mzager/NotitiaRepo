@@ -35,7 +35,6 @@ export class DataService {
       return Observable.fromPromise(new Promise((resolve, reject) => {
         new Dexie('notitia').open().then(db => {
           db.table('genecoords').toArray().then(results => {
-            debugger;
             decorator.values = results.map(v => ({
               pid: null,
               sid: null,
@@ -159,8 +158,6 @@ export class DataService {
     }));
   }
   private createSampleDataDecorator(config: GraphConfig, decorator: DataDecorator): Observable<DataDecorator> {
-    debugger;
-
     return Observable.fromPromise(new Promise((resolve, reject) => {
       new Dexie('notitia-' + config.database).open().then(db => {
         Promise.all([
@@ -208,9 +205,32 @@ export class DataService {
                 break;
 
               case DataDecoratorTypeEnum.COLOR:
-                scale = (decorator.field.type === 'STRING') ?
-                  ChartFactory.getScaleColorOrdinal(decorator.field.values) :
-                  ChartFactory.getScaleColorLinear(decorator.field.values.min, decorator.field.values.max);
+
+                let scale;
+                if (decorator.field.type !== 'STRING') {
+
+                  // Determine IQR
+                  const data = items.map(v => v[decorator.field.key]);
+                  const sorted = data.slice(0).sort(function (a, b) { return a - b; });
+                  const q1 = sorted[Math.floor(sorted.length / 4)];
+                  const q3 = sorted[Math.floor(sorted.length * 3 / 4)];
+                  const iqr = q3 - q1;
+
+                  // Bins (Freedman-Diaconis)
+                  let bins = 1;
+                  const binWidth = 2 * iqr * Math.pow(data.length, -1 / 3);
+                  const upperLimit = Math.max.apply(Math, data);
+                  const lowerLimit = Math.min.apply(Math, data);
+                  if (binWidth <= (upperLimit - lowerLimit) / data.length) {
+                    bins = 3; // Fix num bins if binWidth yields too small a value.
+                  } else {
+                    bins = Math.ceil((upperLimit - lowerLimit) / binWidth);
+                  }
+                  console.log("BBBBBBBBB :::: " + bins);
+                  scale = ChartFactory.getScaleColorLinear(decorator.field.values.min, decorator.field.values.max, bins);
+                } else {
+                  scale = ChartFactory.getScaleColorOrdinal(decorator.field.values);
+                }
                 decorator.values = items.map(v => ({
                   pid: v.p,
                   sid: psMap[v.p],
