@@ -38,18 +38,6 @@ declare var $: any;
                 {{citation.url}}
             </div>
         
-    
-        <!--
-            <div *ngFor='let method in result.methods'>
-                {{method.method}}
-                {{method.url}}
-            </div>
-            <div *ngFor='let citation in result.citations'>
-                {{citation.name}}
-                {{citation.desc}}
-                {{citation.url}}
-            </div>
-            -->
         </div>
            <!--
         <div *ngFor='let attr of methods; let i = index'>
