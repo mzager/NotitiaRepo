@@ -24,12 +24,28 @@ declare var $: any;
         <a href='#' class='modalClose' (click)='closeClick()'></a>
             <div class='col s12 m9'>
                 <h2 class='citations-section'>Site Citations</h2>  
+     
+    
+        <div *ngFor='let result of results'>
+            <div *ngFor='let method of result.methods'>
+                {{method.method}}
+                {{method.url}}
+            </div>
+
+            <div *ngFor='let citation of result.citations'>
+                {{citation.name}}
+                {{citation.desc}}
+                {{citation.url}}
+            </div>
         
+        </div>
+           <!--
         <div *ngFor='let attr of methods; let i = index'>
             <h1 class="citations-h1">{{method}}</h1>
             <a class='citations-link' href='{{url}}' target='_blank'>Learn More</a>
         </div>
-           
+        -->
+        <!--
         <div *ngFor='let attr of citations; let i = index'>
                 <p class='citations-label'>{{ attr.name }}</p>
                 <p class='citations-desc'>{{ attr.desc }}
@@ -42,6 +58,7 @@ declare var $: any;
                 </p>
                 </div>
             </div>
+            -->
     </div>
 </div>
 `,
@@ -49,15 +66,11 @@ declare var $: any;
 })
 export class CitationsPanelComponent implements AfterViewInit, OnDestroy {
 
-    methods: Array<{ method: string, url: string }> = [];
-    citations: Array<{ name: string, desc: string, url: string, url2?: string, url3?: string }> = [];
 
-    @Input() set config(config: CitationsPanelComponent) {
-        this.dataService.getCitations().then(result => {
-            this.methods = result.methods;
-            this.citations = result.citations;
-        });
-    }
+    // Since sitation
+    // methods: Array<{ method: string, url: string }> = [];
+    // citations: Array<{ name: string, desc: string, url: string, url2?: string, url3?: string }> = [];
+    results = [];
 
     // Attributes
     @Output() hide = new EventEmitter<any>();
@@ -66,7 +79,13 @@ export class CitationsPanelComponent implements AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy(): void { }
-    ngAfterViewInit(): void { }
+    ngAfterViewInit(): void {
+        this.dataService.getCitations().then(result => {
+
+            this.results = result;
+            this.cd.markForCheck();
+        });
+    }
     constructor(private cd: ChangeDetectorRef, private dataService: DataService, public ms: ModalService) {
     }
 }

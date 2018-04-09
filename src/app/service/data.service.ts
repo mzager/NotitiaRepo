@@ -17,6 +17,7 @@ import * as JStat from 'jstat';
 import { QueryBuilderConfig } from 'app/component/workspace/query-panel/query-builder/query-builder.interfaces';
 import { Legend } from '../model/legend.model';
 import { CitationsPanelComponent } from '../component/workspace/citations-panel/citations-panel.component';
+import * as d3 from 'd3';
 
 
 @Injectable()
@@ -210,24 +211,17 @@ export class DataService {
                 let scale;
                 if (decorator.field.type !== 'STRING') {
 
-                  // Determine IQR
-                  const data = items.map(v => v[decorator.field.key]);
-                  const sorted = data.slice(0).sort(function (a, b) { return a - b; });
-                  const q1 = sorted[Math.floor(sorted.length / 4)];
-                  const q3 = sorted[Math.floor(sorted.length * 3 / 4)];
-                  const iqr = q3 - q1;
 
-                  // Bins (Freedman-Diaconis)
-                  let bins = 1;
-                  const binWidth = 2 * iqr * Math.pow(data.length, -1 / 3);
+
+                  // // Determine IQR
+                  const data = items.map(v => v[decorator.field.key]);
                   const upperLimit = Math.max.apply(Math, data);
                   const lowerLimit = Math.min.apply(Math, data);
-                  if (binWidth <= (upperLimit - lowerLimit) / data.length) {
-                    bins = 3; // Fix num bins if binWidth yields too small a value.
-                  } else {
-                    bins = Math.ceil((upperLimit - lowerLimit) / binWidth);
-                  }
-                  console.log("BBBBBBBBB :::: " + bins);
+                  // const bins = d3.thresholdFreedmanDiaconis(data, lowerLimit, upperLimit);
+                  // const bins = d3.thresholdScott(data, lowerLimit, upperLimit);
+                  let bins = d3.thresholdSturges(data) * 2;
+                  if (bins > 10) { bins = 10; }
+
                   scale = ChartFactory.getScaleColorLinear(decorator.field.values.min, decorator.field.values.max, bins);
                 } else {
                   scale = ChartFactory.getScaleColorOrdinal(decorator.field.values);
@@ -436,15 +430,9 @@ export class DataService {
   }
 
   getCitations(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      resolve({
-        methods: [],
-        citations: []
-      });
-      this.http
-        .get('./assets/citations/method-citations')
-        .map(res => res.json()).toPromise();
-    });
+    return this.http
+      .get('./assets/citations/method-citations.json')
+      .map(res => res.json()).toPromise();
   }
 
 
