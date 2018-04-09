@@ -29,7 +29,6 @@ export class BoxWhiskersGraph extends AbstractVisualization {
     public bars: Array<THREE.Mesh>;
     public entityWidth = 6;
     public text: Array<MeshText2D>;
-    private labelLayout: LabelController;
 
     public renderer: DataDecoatorRenderer = (group: THREE.Group, mesh: THREE.Sprite, decorators: Array<DataDecorator>,
         i: number, count: number): void => {
@@ -55,7 +54,6 @@ export class BoxWhiskersGraph extends AbstractVisualization {
         this.lines = [];
         this.bars = [];
         this.text = [];
-        // this.labelLayout = new LabelController(view, this.onShowLabels.bind(this), this.onHideLabels.bind(this), this.onShowLabels.bind(this), this.onHideLabels.bind(this));
         return this;
     }
 
@@ -170,11 +168,9 @@ export class BoxWhiskersGraph extends AbstractVisualization {
     onMouseUp(e: ChartEvent): void { }
     onMouseMove(e: ChartEvent): void { }
     onShowLabels(): void {
-        this.tooltips.innerHTML = LabelController.generateHtmlLabels(this.meshes, this.view, 50);
+        this.tooltips.innerHTML = this.labelController.generateLabels(this.meshes, this.view, 'FORCE');
     }
-    onHideLabels(): void {
-        this.tooltips.innerHTML = '';
-    }
+
     addGlobalMeshes(): void {
         const width = this.entityWidth * this.data.result.length;
         const left = (-width * 0.5) - 5;

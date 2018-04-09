@@ -1,3 +1,4 @@
+import { LabelController } from './../../util/label/label.controller';
 import { OrbitControls } from 'three-orbitcontrols-ts';
 import { Vector3 } from 'three';
 import { FontService } from './../../service/font.service';
@@ -25,9 +26,11 @@ export class AbstractVisualization implements ChartObjectInterface {
     public _data: GraphData;
     public _config: GraphConfig;
     public decorators: Array<DataDecorator>;
-    public sMouseMove: Subscription;
-    public sMouseDown: Subscription;
-    public sMouseUp: Subscription;
+    public $MouseMove: Subscription;
+    public $MouseDown: Subscription;
+    public $MouseUp: Subscription;
+    public $onShowLabels: Subscription;
+    public $onHideLabels: Subscription;
     public overlay: HTMLElement;
     public tooltips: HTMLElement;
     public labels: HTMLElement;
@@ -36,19 +39,21 @@ export class AbstractVisualization implements ChartObjectInterface {
     public isEnabled: boolean;
     public meshes: THREE.Object3D[];
     public fontService: FontService;
+    protected labelController: LabelController;
 
     enable(truthy: boolean) {
         if (this.isEnabled === truthy) { return; }
         this.isEnabled = truthy;
+        this.labelController.enable = this.isEnabled;
         this.view.controls.enabled = this.isEnabled;
         if (truthy) {
-            this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
-            this.sMouseDown = this.events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
-            this.sMouseUp = this.events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
+            this.$MouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
+            this.$MouseDown = this.events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
+            this.$MouseUp = this.events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
         } else {
-            this.sMouseMove.unsubscribe();
-            this.sMouseDown.unsubscribe();
-            this.sMouseUp.unsubscribe();
+            this.$MouseMove.unsubscribe();
+            this.$MouseDown.unsubscribe();
+            this.$MouseUp.unsubscribe();
             this.tooltips.innerHTML = '';
         }
     }
@@ -81,20 +86,34 @@ export class AbstractVisualization implements ChartObjectInterface {
         view.camera.lookAt(new Vector3(0, 0, 0));
         view.scene.add(view.camera);
 
+
+        this.labelController = new LabelController(view);
+        this.labelController.onShow.subscribe(this.onShowLabels.bind(this));
+        this.labelController.onHide.subscribe(this.onHideLabels.bind(this));
+
         return this;
     }
     destroy() {
-        this.sMouseDown.unsubscribe();
-        this.sMouseMove.unsubscribe();
-        this.sMouseUp.unsubscribe();
+        this.$MouseDown.unsubscribe();
+        this.$MouseMove.unsubscribe();
+        this.$MouseUp.unsubscribe();
+        this.$onShowLabels.unsubscribe();
+        this.$onHideLabels.unsubscribe();
+        this.labelController.onHide.unsubscribe();
         this.enable(false);
     }
     preRender(views: VisualizationView[], layout: WorkspaceLayoutEnum, renderer: THREE.Renderer): void { }
 
-    onMouseDown(e: ChartEvent): void { }
-    onMouseUp(e: ChartEvent): void { }
-    onMouseMove(e: ChartEvent): void { }
-
+    public onMouseDown(e: ChartEvent): void { }
+    public onMouseUp(e: ChartEvent): void { }
+    public onMouseMove(e: ChartEvent): void { }
+    public onShowLabels(): void {
+        console.log('show - super');
+    }
+    public onHideLabels(): void {
+        console.log('hide')
+        this.tooltips.innerHTML = '';
+    }
     constructor(fontService: FontService) {
         this.fontService = fontService;
     }
