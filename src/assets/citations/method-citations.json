@@ -185,7 +185,7 @@
             },
             {
                 "name": "vega-tooltip@0.4.4",
-                "desc": "Vega Tooltip was built by Zening Qu and Sira Horradarn, with significant help from Dominik Moritz and Kanit "Ham" Wongsuphasawat.",
+                "desc": "Vega Tooltip was built by Zening Qu and Sira Horradarn, with significant help from Dominik Moritz and Kanit 'Ham' Wongsuphasawat.",
                 "url": "https://github.com/vega/vega-tooltip"
             }
         ]
@@ -285,7 +285,7 @@
         "methods": [
             {
                 "method": "Dictionary Learning",
-                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.DictionaryLearning.html#sklearn.decomposition.DictionaryLearning",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.DictionaryLearning.html#sklearn.decomposition.DictionaryLearning"
             }
         ],
         "citations": [
@@ -310,7 +310,7 @@
         "methods": [
             {
                 "method": "Factor Analysis",
-                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FactorAnalysis.html#sklearn.decomposition.FactorAnalysis",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FactorAnalysis.html#sklearn.decomposition.FactorAnalysis"
             }
         ],
         "citations": [
@@ -450,7 +450,7 @@
         "methods": [
             {
                 "method": "PCA Incremental",
-                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.IncrementalPCA.html#sklearn.decomposition.IncrementalPCA",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.IncrementalPCA.html#sklearn.decomposition.IncrementalPCA"
             }
         ],
         "citations": [
@@ -480,7 +480,7 @@
         "methods": [
             {
                 "method": "Isomap",
-                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html#sklearn.manifold.Isomap",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html#sklearn.manifold.Isomap"
             }
         ],
         "citations": [
@@ -495,7 +495,7 @@
         "methods": [
             {
                 "method": "Kernel PCA",
-                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA"
             }
         ],
         "citations": [
@@ -510,7 +510,7 @@
         "methods": [
             {
                 "method": "Latent Dirichlet Allocation",
-                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.LatentDirichletAllocation.html#sklearn.decomposition.LatentDirichletAllocation",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.LatentDirichletAllocation.html#sklearn.decomposition.LatentDirichletAllocation"
             }
         ],
         "citations": [
@@ -535,7 +535,7 @@
         "methods": [
             {
                 "method": "Locally Linear Embedding",
-                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.locally_linear_embedding.html#sklearn.manifold.locally_linear_embedding",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.locally_linear_embedding.html#sklearn.manifold.locally_linear_embedding"
             }
         ],
         "citations": [
@@ -565,7 +565,7 @@
         "methods": [
             {
                 "method": "MDS",
-                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html#sklearn.manifold.MDS",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html#sklearn.manifold.MDS"
             }
         ],
         "citations": [
@@ -590,7 +590,7 @@
         "methods": [
             {
                 "method": "Mini Batch Dictionary Learning",
-                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.MiniBatchDictionaryLearning.html#sklearn.decomposition.MiniBatchDictionaryLearning",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.MiniBatchDictionaryLearning.html#sklearn.decomposition.MiniBatchDictionaryLearning"
             }
         ],
         "citations": [
@@ -605,7 +605,7 @@
         "methods": [
             {
                 "method": "Mini Batch Sparse PCA",
-                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.MiniBatchSparsePCA.html#sklearn.decomposition.MiniBatchSparsePCA",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.MiniBatchSparsePCA.html#sklearn.decomposition.MiniBatchSparsePCA"
             }
         ],
         "citations": [
@@ -620,7 +620,7 @@
         "methods": [
             {
                 "method": "NMF",
-                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.NMF.html#sklearn.decomposition.NMF",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.NMF.html#sklearn.decomposition.NMF"
             }
         ],
         "citations": [
@@ -660,7 +660,7 @@
         "methods": [
             {
                 "method": "Quadratic Discriminant Analysis",
-                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis.html#sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis.html#sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis"
             }
         ],
         "citations": [
@@ -675,7 +675,7 @@
         "methods": [
             {
                 "method": "Sparse PCA",
-                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.SparsePCA.html#sklearn.decomposition.SparsePCA",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.SparsePCA.html#sklearn.decomposition.SparsePCA"
             }
         ],
         "citations": [
@@ -690,7 +690,7 @@
         "methods": [
             {
                 "method": "Spectral Embedding",
-                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.spectral_embedding.html#sklearn.manifold.spectral_embedding",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.spectral_embedding.html#sklearn.manifold.spectral_embedding"
             }
         ],
         "citations": [
@@ -715,7 +715,7 @@
         "methods": [
             {
                 "method": "Survival",
-                "url": "http://lifelines.readthedocs.io/en/latest/",
+                "url": "http://lifelines.readthedocs.io/en/latest/"
             }
         ],
         "citations": [
@@ -745,7 +745,7 @@
         "methods": [
             {
                 "method": "Truncated SVD",
-                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html#sklearn.decomposition.TruncatedSVD",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html#sklearn.decomposition.TruncatedSVD"
             }
         ],
         "citations": [
@@ -760,7 +760,7 @@
         "methods": [
             {
                 "method": "TSNE",
-                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html#sklearn.manifold.TSNE",
+                "url": "http://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html#sklearn.manifold.TSNE"
             }
         ],
         "citations": [
