@@ -148,9 +148,9 @@ export class DataEffect {
             // pathwaysConfig.graph = GraphEnum.GRAPH_A;
             // pathwaysConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
 
-            // const genomeConfig = new GenomeConfigModel();
-            // genomeConfig.graph = GraphEnum.GRAPH_B;
-            // genomeConfig.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[1];
+            const genomeConfig = new GenomeConfigModel();
+            genomeConfig.graph = GraphEnum.GRAPH_A;
+            genomeConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
 
             // const chromosomeConfig = new ChromosomeConfigModel();
             // chromosomeConfig.graph = GraphEnum.GRAPH_A;
@@ -224,8 +224,8 @@ export class DataEffect {
                 // new compute.SurvivalAction({ config: survivalConfig }),
                 // new compute.ChromosomeAction( { config: chromosomeConfig } )
                 new compute.PathwaysAction({ config: pathwaysConfig }),
-                // new compute.GenomeAction( { config: genomeConfig }),
-                new compute.PcaIncrementalAction({ config: pcaIncConfig }),
+                new compute.GenomeAction({ config: genomeConfig }),
+                // new compute.PcaIncrementalAction({ config: pcaIncConfig }),
                 // new compute.PcaIncrementalAction({ config: pcaIncConfig }),
                 // new GraphPanelToggleAction( GraphPanelEnum.GRAPH_A )
                 // new compute.PcaAction({ config: pcaConfig }),

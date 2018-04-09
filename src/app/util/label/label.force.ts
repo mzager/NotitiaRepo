@@ -1,3 +1,6 @@
+import { VisualizationView } from './../../model/chart-view.model';
+import { LabelController } from './label.controller';
+import * as THREE from 'three';
 
 export class LabelForce {
     lab: Array<{ name: string, x: number, y: number, width: number, height: number }> = [];

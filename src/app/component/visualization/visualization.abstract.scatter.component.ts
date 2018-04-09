@@ -1,6 +1,5 @@
-
+import { Observable } from 'rxjs/Rx';
 import { LabelController } from './../../util/label/label.controller';
-import { Observable } from 'rxjs/Observable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import * as scale from 'd3-scale';
 import * as TWEEN from 'tween.js';
@@ -39,27 +38,29 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     private selectionMesh: THREE.Mesh;
     private selectionOrigin2d: Vector2;
     private selectionScale: scale.ScaleLinear<number, number>;
-    private labelLayout: LabelController;
+    public $onShowLabels: Subscription;
 
     // Private Subscriptions
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         super.create(labels, events, view);
+        this.$onShowLabels = this.labelController.onShow.subscribe(this.onShowLabels);
         this.selectionMeshes = [];
         this.meshes = [];
         this.points = [];
         this.lines = [];
-        this.labelLayout = new LabelController(view, this.showLabels.bind(this), this.hideLabels.bind(this), this.showLabels.bind(this), this.hideLabels.bind(this));
         return this;
     }
 
     destroy() {
         super.destroy();
         this.removeObjects();
+        this.$onShowLabels.unsubscribe();
+
     }
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
         super.updateDecorator(config, decorators);
         ChartFactory.decorateDataGroups(this.meshes, this.decorators);
-        this.showLabels();
+        this.onShowLabels();
     }
 
     updateData(config: GraphConfig, data: any) {
@@ -71,7 +72,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     enable(truthy: boolean) {
         super.enable(truthy);
         this.view.controls.enableRotate = true;
-        this.labelLayout.enable = truthy;
     }
 
     addObjects(type: EntityTypeEnum) {
@@ -96,12 +96,10 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.lines.length = 0;
     }
 
-    showLabels(): void {
-        this.tooltips.innerHTML = LabelController.generateHtmlLabels(this.meshes, this.view, 80, 20);;
+    onShowLabels(): void {
+        console.log('SHOW SUB')
     }
-    hideLabels(): void {
-        this.tooltips.innerHTML = '';
-    }
+
 
     onMouseDown(e: ChartEvent): void {
         const hit = ChartUtil.getIntersects(this.view, e.mouse, this.points);
