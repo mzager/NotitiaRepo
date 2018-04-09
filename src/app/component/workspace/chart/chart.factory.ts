@@ -77,7 +77,7 @@ export class ChartFactory {
         return scale.scaleOrdinal().domain(values).range(cols);
     }
     public static getScaleColorLinear(min: number, max: number, bins: number = 8): Function {
-        bins = Math.max(bins, 8);
+        bins = Math.max(bins, 10);
         const range = ChartFactory.colorsContinuous.slice(0, bins);
         return scale.scaleQuantize<string>().domain([min, max]).range(range);
     }
