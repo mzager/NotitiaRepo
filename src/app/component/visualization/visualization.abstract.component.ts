@@ -88,8 +88,8 @@ export class AbstractVisualization implements ChartObjectInterface {
 
 
         this.labelController = new LabelController(view);
-        this.labelController.onShow.subscribe(this.onShowLabels.bind(this));
-        this.labelController.onHide.subscribe(this.onHideLabels.bind(this));
+        this.$onShowLabels = this.labelController.onShow.subscribe(this.onShowLabels.bind(this));
+        this.$onHideLabels = this.labelController.onHide.subscribe(this.onHideLabels.bind(this));
 
         return this;
     }
@@ -97,8 +97,8 @@ export class AbstractVisualization implements ChartObjectInterface {
         this.$MouseDown.unsubscribe();
         this.$MouseMove.unsubscribe();
         this.$MouseUp.unsubscribe();
-        this.$onShowLabels.unsubscribe();
         this.$onHideLabels.unsubscribe();
+        this.$onShowLabels.unsubscribe();
         this.labelController.onHide.unsubscribe();
         this.enable(false);
     }

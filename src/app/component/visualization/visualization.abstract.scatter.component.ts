@@ -38,12 +38,10 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     private selectionMesh: THREE.Mesh;
     private selectionOrigin2d: Vector2;
     private selectionScale: scale.ScaleLinear<number, number>;
-    public $onShowLabels: Subscription;
 
     // Private Subscriptions
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         super.create(labels, events, view);
-        this.$onShowLabels = this.labelController.onShow.subscribe(this.onShowLabels);
         this.selectionMeshes = [];
         this.meshes = [];
         this.points = [];
@@ -54,7 +52,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     destroy() {
         super.destroy();
         this.removeObjects();
-        this.$onShowLabels.unsubscribe();
 
     }
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
