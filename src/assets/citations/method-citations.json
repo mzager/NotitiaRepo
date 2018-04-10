@@ -2,197 +2,6 @@
     {
         "methods": [
             {
-                "method": "Oncocape 3rd Party Licenses",
-                "url": ""
-            }
-        ],
-        "citations": [
-            {
-                "name": "@angular/core@5.2.3, @angular/forms@5.2.3, @angular/platform-browser@5.2.3, @ngrx/core@1.2.0",
-                "desc": "Copyright (c) 2016 Brandon Roberts, Mike Ryan, Rob Wormald",
-                "url": "https://github.com/angular",
-                "url2": "https://github.com/ngrx/core"
-            },
-            {
-                "name": "@ngrx/store-devtools@4.1.1",
-                "desc": "Copyright (c) 2017 Brandon Roberts, Mike Ryan, Victor Savkin, Rob Wormald",
-                "url": "https://github.com/ngrx/platform/tree/master/docs/store-devtools"
-            },
-            {
-                "name": "@ngrx/store@4.1.1",
-                "desc": "Copyright (c) 2017 Brandon Roberts, Mike Ryan, Victor Savkin, Rob Wormald",
-                "url": "https://www.npmjs.com/package/@ngrx/store"
-            },
-            {
-                "name": "angular-handsontable@1.0.0-beta3",
-                "desc": "Copyright (c) 2012-2014 Marcin Warpechowski, Copyright (c) 2015 Handsoncode sp. z o.o. hello@handsoncode.net",
-                "url": "https://github.com/handsontable/angular-handsontable"
-            },
-            {
-                "name": "angular2-oauth2@1.3.10, base64-js@1.2.1",
-                "desc": "Copyright (c) 2014",
-                "url": "https://libraries.io/npm/angular2-oauth2",
-                "url2": "https://libraries.io/npm/base64-js/1.2.1"
-            },
-            {
-                "name": "buffer@4.9.1",
-                "desc": "Copyright (c) Feross Aboukhadijeh, and other contributors",
-                "url": "https://libraries.io/npm/buffer/4.9.1"
-            },
-            {
-                "name": "downloadjs@1.4.7",
-                "desc": "Copyright (c) 2016 dandavis",
-                "url": "https://www.npmjs.com/package/downloadjs"
-            },
-            {
-                "name": "handsontable@0.34.4",
-                "desc": "Copyright (c) 2012-2014 Marcin Warpechowski, Copyright (c) 2015 Handsoncode sp. z o.o. hello@handsoncode.net",
-                "url": "https://www.nuget.org/packages/Handsontable/0.34.4"
-            },
-            {
-                "name": "ieee754@1.1.8",
-                "desc": "Copyright (c) 2008, Fair Oaks Labs, Inc.",
-                "url": "https://libraries.io/npm/ieee754"
-            },
-            {
-                "name": "isarray@1.0.0, js-base64@2.1.9",
-                "desc": "Copyright (c) 2014, Dan Kogai",
-                "url": "https://github.com/juliangruber/isarray",
-                "url2": "https://github.com/dankogai/js-base64"
-            },
-            {
-                "name": "jStat@1.7.1",
-                "desc": "Copyright (c) 2013 jStat",
-                "url": "https://www.npmjs.com/package/jStat"
-            },
-            {
-                "name": "lodash@4.17.5",
-                "desc": "Copyright JS Foundation and other contributors https://js.foundation. This software consists of voluntary contributions made by many individuals. For exact contribution history, see the revision history available at https://github.com/lodash/lodash",
-                "url": "https://github.com/lodash/lodash"
-            },
-            {
-                "name": "moment@2.20.1",
-                "desc": "Copyright (c) JS Foundation and other contributors",
-                "url": "https://github.com/moment/moment"
-            },
-            {
-                "name": "@angular/common@5.2.3, ng2-file-upload@1.3.0",
-                "desc": "Copyright (c) 2015-2017 Dmitriy Shekhovtsov valorkin@gmail.com, Copyright (c) 2015-1017 Valor Software",
-                "url": "https://libraries.io/npm/@angular%2Fcommon/5.2.3",
-                "url2": "https://github.com/valor-software/ng2-file-upload"
-            },
-            {
-                "name": "ng2-nouislider@1.7.7, ng2-toastr@4.1.2, ngraph.events@0.0.3",
-                "desc": "Copyright (c) 2013, Andrei Kashcha",
-                "url": "https://libraries.io/npm/ng2-nouislider",
-                "url2": "https://www.npmjs.com/package/ng2-toastr",
-                "url3": "https://github.com/anvaka/ngraph.asyncforce/blob/master/package.json"
-            },
-            {
-                "name": "ngraph.expose@0.0.0",
-                "desc": "Copyright (c) 2014 Andrei Kashcha",
-                "url": "https://github.com/anvaka/ngraph.physics.simulator/blob/master/package.json"
-            },
-            {
-                "name": "ngraph.forcelayout3d@0.0.16",
-                "desc": "Copyright (c) 2014 Andrei Kashcha",
-                "url": "https://www.npmjs.com/package/ngraph.forcelayout3d"
-            },
-            {
-                "name": "ngraph.graph@0.0.14",
-                "desc": "Copyright (c) 2013 - 2016, Andrei Kashcha",
-                "url": "https://github.com/anvaka/ngraph.graph"
-            },
-            {
-                "name": "ngraph.merge@0.0.1",
-                "desc": "Copyright (c) 2013 Andrei Kashcha",
-                "url": "https://www.npmjs.com/package/ngraph.merge"
-            },
-            {
-                "name": "ngraph.physics.primitives@0.0.7",
-                "desc": "Copyright (c) 2013, Andrei Kashcha",
-                "url": "https://github.com/anvaka/ngraph.physics.primitives"
-            },
-            {
-                "name": "ngraph.quadtreebh3d@0.0.3",
-                "desc": "Copyright (c) 2014 Andrei Kashcha",
-                "url": "https://github.com/anvaka/ngraph.quadtreebh3d"
-            },
-            {
-                "name": "ngraph.random@0.0.1",
-                "desc": "Copyright (c) 2013, Andrei Kashcha",
-                "url": "https://github.com/anvaka/ngraph.path.demo/blob/master/package.json"
-            },
-            {
-                "name": "ngrx-store-freeze@0.1.9",
-                "desc": "Copyright (c) 2016 Codeware.io",
-                "url": "https://github.com/brandonroberts/ngrx-store-freeze"
-            },
-            {
-                "name": "process@0.11.10",
-                "desc": "Copyright (c) 2013 Roman Shtylman shtylman@gmail.com",
-                "url": "https://libraries.io/npm/process"
-            },
-            {
-                "name": "reselect@3.0.1",
-                "desc": "Copyright (c) 2015-2016 Reselect Contributors",
-                "url": "https://www.npmjs.com/package/reselect"
-            },
-            {
-                "name": "three-orbitcontrols-ts@0.1.2",
-                "desc": "Copyright (c) 2017 Nicolas Panel",
-                "url": "https://www.npmjs.com/package/three-orbitcontrols-ts"
-            },
-            {
-                "name": "three.meshline@1.0.3",
-                "desc": "Copyright (c) 2016 Jaume Sanchez",
-                "url": "https://github.com/spite/THREE.MeshLine"
-            },
-            {
-                "name": "three@0.86.0",
-                "desc": "Copyright © 2010-2017 three.js authors",
-                "url": "https://github.com/toxicFork/react-three-renderer"
-            },
-            {
-                "name": "tween.js@16.6.0",
-                "desc": "Copyright (c) 2010-2012 Tween.js authors",
-                "url": "https://github.com/tweenjs/tween.js"
-            },
-            {
-                "name": "underscore@1.8.3",
-                "desc": "Copyright (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative",
-                "url": "http://underscorejs.org/"
-            },
-            {
-                "name": "uuid-by-string@0.3.0",
-                "desc": "Copyright (c) 2016 Danakt Frost",
-                "url": "https://github.com/uuid-rs/uuid"
-            },
-            {
-                "name": "webpack@3.10.0",
-                "desc": "Copyright JS Foundation and other contributors",
-                "url": "https://github.com/getsentry/sentry-webpack-plugin"
-            },
-            {
-                "name": "core-js@2.5.3",
-                "desc": "Copyright (c) 2014-2017 Denis Pushkarev",
-                "url": "https://github.com/zloirock/core-js"
-            },
-            {
-                "name": "zone.js@0.8.20",
-                "desc": "Copyright (c) 2016 Google, Inc.",
-                "url": "https://github.com/angular/zone.js"
-            },
-            {
-                "name": "vega-tooltip@0.4.4",
-                "desc": "Vega Tooltip was built by Zening Qu and Sira Horradarn, with significant help from Dominik Moritz and Kanit 'Ham' Wongsuphasawat.",
-                "url": "https://github.com/vega/vega-tooltip"
-            }
-        ]
-    },
-    {
-        "methods": [
-            {
                 "method": "scikit-learn",
                 "url": "http://scikit-learn.org/stable/documentation.html"
             }
@@ -238,6 +47,31 @@
                 "name": "GDC Github",
                 "desc": "GDC is Open Source, Github Repositories containing source code of GDC Applications can be found on GDC GitHub Organization page.",
                 "url": "https://github.com/NCIP/gdc-docs/blob/develop/README.md"
+            }
+        ]
+    },
+    {
+        "methods": [
+            {
+                "method": "MSigDB Molecular Signatures Database",
+                "url": "http://software.broadinstitute.org/gsea/msigdb"
+            }
+        ],
+        "citations": [
+            {
+                "name": "Gene set enrichment analysis: A knowledge-based approach for interpreting genome-wide expression profiles",
+                "desc": "Subramanian, Tamayo, et al. (2005, PNAS 102, 15545-15550",
+                "url": "http://www.pnas.org/content/102/43/15545"
+            },
+            {
+                "name": "Molecular signatures database (MSigDB) 3.0",
+                "desc": "Liberzon, et al. (2011, Bionformatics)",
+                "url": "https://academic.oup.com/bioinformatics/article/27/12/1739/257711"
+            },
+            {
+                "name": "The Molecular Signatures Database Hallmark Gene Set Collection",
+                "desc": "Liberzon, et al. (2015, Cell Systems),",
+                "url": "https://www.sciencedirect.com/science/article/pii/S2405471215002185"
             }
         ]
     },
@@ -301,7 +135,7 @@
             },
             {
                 "name": "Online dictionary learning for sparse coding",
-                "desc": "J. Mairal, F. Bach, J. Ponce, G. Sapiro, 2009: Online dictionary learning for sparse coding ",
+                "desc": "J. Mairal, F. Bach, J. Ponce, G. Sapiro, 2009: Online dictionary learning for sparse coding.",
                 "url": "http://www.di.ens.fr/sierra/pdfs/icml09.pdf"
             }
         ]
@@ -778,6 +612,197 @@
                 "name": "Accelerating t-SNE using Tree-Based Algorithms",
                 "desc": "L.J.P. van der Maaten. Accelerating t-SNE using Tree-Based Algorithms. Journal of Machine Learning Research 15(Oct):3221-3245, 2014.",
                 "url": "http://lvdmaaten.github.io/publications/papers/JMLR_2014.pdf"
+            }
+        ]
+    },
+    {
+        "methods": [
+            {
+                "method": "Oncocape 3rd Party Licenses",
+                "url": ""
+            }
+        ],
+        "citations": [
+            {
+                "name": "@angular/core@5.2.3, @angular/forms@5.2.3, @angular/platform-browser@5.2.3, @ngrx/core@1.2.0",
+                "desc": "Copyright (c) 2016 Brandon Roberts, Mike Ryan, Rob Wormald",
+                "url": "https://github.com/angular",
+                "url2": "https://github.com/ngrx/core"
+            },
+            {
+                "name": "@ngrx/store-devtools@4.1.1",
+                "desc": "Copyright (c) 2017 Brandon Roberts, Mike Ryan, Victor Savkin, Rob Wormald",
+                "url": "https://github.com/ngrx/platform/tree/master/docs/store-devtools"
+            },
+            {
+                "name": "@ngrx/store@4.1.1",
+                "desc": "Copyright (c) 2017 Brandon Roberts, Mike Ryan, Victor Savkin, Rob Wormald",
+                "url": "https://www.npmjs.com/package/@ngrx/store"
+            },
+            {
+                "name": "angular-handsontable@1.0.0-beta3",
+                "desc": "Copyright (c) 2012-2014 Marcin Warpechowski, Copyright (c) 2015 Handsoncode sp. z o.o. hello@handsoncode.net",
+                "url": "https://github.com/handsontable/angular-handsontable"
+            },
+            {
+                "name": "angular2-oauth2@1.3.10, base64-js@1.2.1",
+                "desc": "Copyright (c) 2014",
+                "url": "https://libraries.io/npm/angular2-oauth2",
+                "url2": "https://libraries.io/npm/base64-js/1.2.1"
+            },
+            {
+                "name": "buffer@4.9.1",
+                "desc": "Copyright (c) Feross Aboukhadijeh, and other contributors",
+                "url": "https://libraries.io/npm/buffer/4.9.1"
+            },
+            {
+                "name": "downloadjs@1.4.7",
+                "desc": "Copyright (c) 2016 dandavis",
+                "url": "https://www.npmjs.com/package/downloadjs"
+            },
+            {
+                "name": "handsontable@0.34.4",
+                "desc": "Copyright (c) 2012-2014 Marcin Warpechowski, Copyright (c) 2015 Handsoncode sp. z o.o. hello@handsoncode.net",
+                "url": "https://www.nuget.org/packages/Handsontable/0.34.4"
+            },
+            {
+                "name": "ieee754@1.1.8",
+                "desc": "Copyright (c) 2008, Fair Oaks Labs, Inc.",
+                "url": "https://libraries.io/npm/ieee754"
+            },
+            {
+                "name": "isarray@1.0.0, js-base64@2.1.9",
+                "desc": "Copyright (c) 2014, Dan Kogai",
+                "url": "https://github.com/juliangruber/isarray",
+                "url2": "https://github.com/dankogai/js-base64"
+            },
+            {
+                "name": "jStat@1.7.1",
+                "desc": "Copyright (c) 2013 jStat",
+                "url": "https://www.npmjs.com/package/jStat"
+            },
+            {
+                "name": "lodash@4.17.5",
+                "desc": "Copyright JS Foundation and other contributors https://js.foundation. This software consists of voluntary contributions made by many individuals. For exact contribution history, see the revision history available at https://github.com/lodash/lodash",
+                "url": "https://github.com/lodash/lodash"
+            },
+            {
+                "name": "moment@2.20.1",
+                "desc": "Copyright (c) JS Foundation and other contributors",
+                "url": "https://github.com/moment/moment"
+            },
+            {
+                "name": "@angular/common@5.2.3, ng2-file-upload@1.3.0",
+                "desc": "Copyright (c) 2015-2017 Dmitriy Shekhovtsov valorkin@gmail.com, Copyright (c) 2015-1017 Valor Software",
+                "url": "https://libraries.io/npm/@angular%2Fcommon/5.2.3",
+                "url2": "https://github.com/valor-software/ng2-file-upload"
+            },
+            {
+                "name": "ng2-nouislider@1.7.7, ng2-toastr@4.1.2, ngraph.events@0.0.3",
+                "desc": "Copyright (c) 2013, Andrei Kashcha",
+                "url": "https://libraries.io/npm/ng2-nouislider",
+                "url2": "https://www.npmjs.com/package/ng2-toastr",
+                "url3": "https://github.com/anvaka/ngraph.asyncforce/blob/master/package.json"
+            },
+            {
+                "name": "ngraph.expose@0.0.0",
+                "desc": "Copyright (c) 2014 Andrei Kashcha",
+                "url": "https://github.com/anvaka/ngraph.physics.simulator/blob/master/package.json"
+            },
+            {
+                "name": "ngraph.forcelayout3d@0.0.16",
+                "desc": "Copyright (c) 2014 Andrei Kashcha",
+                "url": "https://www.npmjs.com/package/ngraph.forcelayout3d"
+            },
+            {
+                "name": "ngraph.graph@0.0.14",
+                "desc": "Copyright (c) 2013 - 2016, Andrei Kashcha",
+                "url": "https://github.com/anvaka/ngraph.graph"
+            },
+            {
+                "name": "ngraph.merge@0.0.1",
+                "desc": "Copyright (c) 2013 Andrei Kashcha",
+                "url": "https://www.npmjs.com/package/ngraph.merge"
+            },
+            {
+                "name": "ngraph.physics.primitives@0.0.7",
+                "desc": "Copyright (c) 2013, Andrei Kashcha",
+                "url": "https://github.com/anvaka/ngraph.physics.primitives"
+            },
+            {
+                "name": "ngraph.quadtreebh3d@0.0.3",
+                "desc": "Copyright (c) 2014 Andrei Kashcha",
+                "url": "https://github.com/anvaka/ngraph.quadtreebh3d"
+            },
+            {
+                "name": "ngraph.random@0.0.1",
+                "desc": "Copyright (c) 2013, Andrei Kashcha",
+                "url": "https://github.com/anvaka/ngraph.path.demo/blob/master/package.json"
+            },
+            {
+                "name": "ngrx-store-freeze@0.1.9",
+                "desc": "Copyright (c) 2016 Codeware.io",
+                "url": "https://github.com/brandonroberts/ngrx-store-freeze"
+            },
+            {
+                "name": "process@0.11.10",
+                "desc": "Copyright (c) 2013 Roman Shtylman shtylman@gmail.com",
+                "url": "https://libraries.io/npm/process"
+            },
+            {
+                "name": "reselect@3.0.1",
+                "desc": "Copyright (c) 2015-2016 Reselect Contributors",
+                "url": "https://www.npmjs.com/package/reselect"
+            },
+            {
+                "name": "three-orbitcontrols-ts@0.1.2",
+                "desc": "Copyright (c) 2017 Nicolas Panel",
+                "url": "https://www.npmjs.com/package/three-orbitcontrols-ts"
+            },
+            {
+                "name": "three.meshline@1.0.3",
+                "desc": "Copyright (c) 2016 Jaume Sanchez",
+                "url": "https://github.com/spite/THREE.MeshLine"
+            },
+            {
+                "name": "three@0.86.0",
+                "desc": "Copyright © 2010-2017 three.js authors",
+                "url": "https://github.com/toxicFork/react-three-renderer"
+            },
+            {
+                "name": "tween.js@16.6.0",
+                "desc": "Copyright (c) 2010-2012 Tween.js authors",
+                "url": "https://github.com/tweenjs/tween.js"
+            },
+            {
+                "name": "underscore@1.8.3",
+                "desc": "Copyright (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative",
+                "url": "http://underscorejs.org/"
+            },
+            {
+                "name": "uuid-by-string@0.3.0",
+                "desc": "Copyright (c) 2016 Danakt Frost",
+                "url": "https://github.com/uuid-rs/uuid"
+            },
+            {
+                "name": "webpack@3.10.0",
+                "desc": "Copyright JS Foundation and other contributors",
+                "url": "https://github.com/getsentry/sentry-webpack-plugin"
+            },
+            {
+                "name": "core-js@2.5.3",
+                "desc": "Copyright (c) 2014-2017 Denis Pushkarev",
+                "url": "https://github.com/zloirock/core-js"
+            },
+            {
+                "name": "zone.js@0.8.20",
+                "desc": "Copyright (c) 2016 Google, Inc.",
+                "url": "https://github.com/angular/zone.js"
+            },
+            {
+                "name": "vega-tooltip@0.4.4",
+                "desc": "Vega Tooltip was built by Zening Qu and Sira Horradarn, with significant help from Dominik Moritz and Kanit 'Ham' Wongsuphasawat.",
+                "url": "https://github.com/vega/vega-tooltip"
             }
         ]
     }
