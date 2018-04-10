@@ -137,15 +137,12 @@ export class ChartFactory {
             // const shape = this.getShape((shapeMap) ? shapeMap[id] : ShapeEnum.CIRCLE);
             const color = (colorMap) ? (colorMap[id]) ? colorMap[id] : 0xDDDDDD : 0x039be5;
             const label = (labelMap) ? (labelMap[id]) ? labelMap[id] : 'Unknown' : '';
-
-            // const spriteMaterial = ChartFactory.getSpriteMaterial(shape, color);
             const spriteMaterial = ChartFactory.getSpriteMaterial((shapeMap) ? shapeMap[id] : ShapeEnum.CIRCLE, color);
             spriteMaterial.opacity = 0.8;
-            // const scale = ((sizeMap) ? sizeMap[id] : 1) * 2;
             const mesh: THREE.Sprite = new THREE.Sprite(spriteMaterial);
             group.userData.tooltip = label;
             mesh.scale.set(scale, scale, scale);
-            // mesh.userData.tooltip = label;
+            mesh.userData.tooltip = label;
             mesh.userData.color = color;
             mesh.userData.selectionLocked = false;
             if (renderer) {
