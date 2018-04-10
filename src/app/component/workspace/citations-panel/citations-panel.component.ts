@@ -23,42 +23,23 @@ declare var $: any;
     <div class='row'>
         <a href='#' class='modalClose' (click)='closeClick()'></a>
             <div class='col s12 m9'>
-                <h2 class='citations-section'>Site Citations</h2>  
-     
+                <h1 class='citations-h1'>Complete Oncoscape Citations</h1>  
     
         <div *ngFor='let result of results'>
             <div *ngFor='let method of result.methods'>
-                {{method.method}}
-                {{method.url}}
+                <h2 class='citations-h2'>{{method.method}}</h2>
+                <p class='citations-main-link'>{{method.url}}</p>
             </div>
-
             <div *ngFor='let citation of result.citations'>
-                {{citation.name}}
-                {{citation.desc}}
-                {{citation.url}}
+                <p class= 'citations-name'>{{citation.name}}</p>
+                <p class= 'citations-desc'> {{citation.desc}}</p>
+            
+            
+                <p class='citations-link'><a href='{{citation.url}}' target='_blank'>{{citation.url}}</a></p>
+                <p class='citations-link-2'><a href='{{citation.url}}' target='_blank'>{{citation.url2}}</a></p>
+                <p class='citations-link-2'><a href='{{citation.url}}' target='_blank'>{{citation.url3}}</a></p>
             </div>
-        
         </div>
-           <!--
-        <div *ngFor='let attr of methods; let i = index'>
-            <h1 class="citations-h1">{{method}}</h1>
-            <a class='citations-link' href='{{url}}' target='_blank'>Learn More</a>
-        </div>
-        -->
-        <!--
-        <div *ngFor='let attr of citations; let i = index'>
-                <p class='citations-label'>{{ attr.name }}</p>
-                <p class='citations-desc'>{{ attr.desc }}
-                    <br />
-                    <span class='citations-link'>
-                        <a class='citations-link' href='{{ attr.url }}' target='_blank'>Link to Pub</a>
-                        <a class='citations-link' href='{{ attr.url2 }}' target='_blank'>Link to Pub</a>
-                        <a class='citations-link' href='{{ attr.url3 }}' target='_blank'>Link to Pub</a>
-                    </span>
-                </p>
-                </div>
-            </div>
-            -->
     </div>
 </div>
 `,
