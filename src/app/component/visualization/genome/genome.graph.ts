@@ -23,7 +23,7 @@ import { scaleLinear, scaleOrdinal } from 'd3-scale';
 import * as TWEEN from 'tween.js';
 import { ChromosomeConfigModel } from 'app/component/visualization/chromosome/chromosome.model';
 import { DataTable } from 'app/model/data-field.model';
-import { Group, Vector3 } from 'three';
+import { Group, Vector3, Object3D } from 'three';
 
 export class GenomeGraph extends AbstractVisualization {
 
@@ -32,11 +32,13 @@ export class GenomeGraph extends AbstractVisualization {
     public set config(config: GenomeConfigModel) { this._config = config; }
     public get config(): GenomeConfigModel { return this._config as GenomeConfigModel; }
 
-    private labelLayout: LabelController;
     public meshes: THREE.Object3D[] = [];
     private points: Array<THREE.Object3D>;
     public tads: Array<THREE.Object3D> = [];
     public chromosomes: Array<THREE.Object3D> = [];
+    public meres: Array<THREE.Object3D> = [];
+    public bands: Array<THREE.Object3D> = [];
+
     public renderer: DataDecoatorRenderer = (group: THREE.Group, mesh: THREE.Sprite, decorators: Array<DataDecorator>,
         i: number, count: number): void => {
         mesh.position.setX(-2);
@@ -68,7 +70,6 @@ export class GenomeGraph extends AbstractVisualization {
     }
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         super.create(labels, events, view);
-        this.labelLayout = new LabelController(view, this.onShowLabels.bind(this), this.onHideLabels.bind(this), this.onShowLabels.bind(this), this.onHideLabels.bind(this));
         return this;
     }
     destroy() {
@@ -79,7 +80,6 @@ export class GenomeGraph extends AbstractVisualization {
     }
     enable(truthy: boolean) {
         super.enable(truthy);
-        this.labelLayout.enable = truthy;
     }
 
     preRender(views: VisualizationView[], layout: WorkspaceLayoutEnum, renderer: THREE.Renderer): void {
@@ -101,8 +101,8 @@ export class GenomeGraph extends AbstractVisualization {
 
             // Centromere
             const centro: THREE.Mesh = ChartFactory.meshAllocate(0x0091EA, ShapeEnum.CIRCLE, .5, new THREE.Vector3(xPos, 0, 0), {});
-            centro.userData.tip = 'Centromere ' + chromosome.chr;
-            this.chromosomes.push(centro);
+            centro.userData.tooltip = chromosome.chr; //'Centromere ' + chromosome.chr;
+            this.meres.push(centro);
             this.view.scene.add(centro);
 
             // Tele Q
@@ -110,8 +110,8 @@ export class GenomeGraph extends AbstractVisualization {
                 new THREE.Vector3(xPos, chromosome.Q - chromosome.C, 0), {});
             teleQ.userData.chr = chromosome.chr;
             teleQ.userData.type = GenomicEnum.Q_TELOMERE;
-            teleQ.userData.tip = 'Telemere Q ' + chromosome.chr;
-            this.chromosomes.push(teleQ);
+            teleQ.userData.tooltip = 'Q' + chromosome.chr; //Telemere
+            this.meres.push(teleQ);
             this.view.scene.add(teleQ);
 
             // Tele P
@@ -119,8 +119,8 @@ export class GenomeGraph extends AbstractVisualization {
                 new THREE.Vector3(xPos, chromosome.P - chromosome.C, 0), {});
             teleP.userData.chr = chromosome.chr;
             teleP.userData.type = GenomicEnum.P_TELOMERE;
-            teleP.userData.tip = 'Telemere P ' + chromosome.chr;
-            this.chromosomes.push(teleP);
+            teleP.userData.tooltip = 'P' + chromosome.chr; //Telemere
+            this.meres.push(teleP);
             this.view.scene.add(teleP);
         });
 
@@ -134,10 +134,10 @@ export class GenomeGraph extends AbstractVisualization {
                 const mesh: THREE.Mesh = new THREE.Mesh(geometry, material);
                 mesh.userData.type = GenomicEnum.CYTOBAND;
                 mesh.position.set(xPos, (yPos + (cyto.l / 2)) - centro, 0);
-                mesh.userData.tip = cyto.chr + cyto.arm.toLowerCase() +
+                mesh.userData.tooltip = cyto.chr + cyto.arm.toLowerCase() +
                     ((cyto.subband) ? '.' + cyto.subband : '') + ' | ' + cyto.tag.replace('neg', '-').replace('pos', '+');
                 yPos += cyto.l;
-                this.chromosomes.push(mesh);
+                this.bands.push(mesh);
                 this.view.scene.add(mesh);
             });
         });
@@ -178,8 +178,12 @@ export class GenomeGraph extends AbstractVisualization {
         this.points = this.meshes.map(v => v.children[0]);
     }
     removeChromosomes() {
-        this.view.scene.remove(...this.chromosomes);
+        this.view.scene.remove(... this.chromosomes);
+        this.view.scene.remove(... this.meres);
+        this.view.scene.remove(... this.bands);
         this.chromosomes.length = 0;
+        this.meres.length = 0;
+        this.bands.length = 0;
     }
     removeTads() {
         this.view.scene.remove(...this.tads);
@@ -191,7 +195,15 @@ export class GenomeGraph extends AbstractVisualization {
     }
 
     onShowLabels(): void {
-        this.tooltips.innerHTML = LabelController.generateHtmlLabels(this.meshes, this.view, 100, 20, 10, 'RIGHT');
+        const zoom = this.view.camera.position.z;
+        if (zoom > 600) {
+            this.tooltips.innerHTML = this.labelController.generateLabels(this.meres, this.view, 'PIXEL');
+        } else if (zoom > 500) {
+            this.tooltips.innerHTML = this.labelController.generateLabels(this.bands, this.view, 'PIXEL');
+        } else {
+            this.tooltips.innerHTML = this.labelController.generateLabels(this.meshes, this.view, 'FORCE', { align: 'RIGHT' });
+        }
+
     }
     onHideLabels(): void {
         this.tooltips.innerHTML = '';
