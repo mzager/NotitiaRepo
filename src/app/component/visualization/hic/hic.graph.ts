@@ -23,14 +23,12 @@ export class HicGraph extends AbstractVisualization {
     public get data(): HicDataModel { return this._data as HicDataModel; }
     public set config(config: HicConfigModel) { this._config = config; }
     public get config(): HicConfigModel { return this._config as HicConfigModel; }
-    private labelLayout: LabelController;
 
     // Create - Initialize Mesh Arrays
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         super.create(labels, events, view);
         this.meshes = [];
         this.lines = [];
-        this.labelLayout = new LabelController(view, this.onShowLabels.bind(this), this.onHideLabels.bind(this), this.onShowLabels.bind(this), this.onHideLabels.bind(this));
         return this;
     }
 
@@ -53,7 +51,6 @@ export class HicGraph extends AbstractVisualization {
     enable(truthy: boolean) {
         super.enable(truthy);
         this.view.controls.enableRotate = true;
-        this.labelLayout.enable = truthy;
     }
 
 
@@ -86,7 +83,10 @@ export class HicGraph extends AbstractVisualization {
             const path = new THREE.CurvePath();
             path.add(curve);
             const chromosomeLine = new MeshLine();
+
+            // chromosomeLine.setGeometry(new THREE.Geometry().setFromPoints(path.getPoints() as Array<THREE.Vector3>));
             chromosomeLine.setGeometry(path.createPointsGeometry(1000));
+
             const chromosomeMesh = new THREE.Mesh(chromosomeLine.geometry,
                 ChartFactory.getMeshLine(0x90caf9, 1));
             chromosomeMesh.frustumCulled = false;
@@ -107,9 +107,8 @@ export class HicGraph extends AbstractVisualization {
     onMouseMove(e: ChartEvent): void { }
 
     onShowLabels(): void {
-        this.tooltips.innerHTML = LabelController.generateHtmlLabels(this.meshes, this.view, 50);
+        debugger;
+        this.tooltips.innerHTML = this.labelController.generateLabels(this.meshes, this.view, 'FORCE');
     }
-    onHideLabels(): void {
-        this.tooltips.innerHTML = '';
-    }
+
 }
