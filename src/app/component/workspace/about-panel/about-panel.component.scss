@@ -14,41 +14,41 @@
 }
 
 .team-copy {
-    display: block;
-    position: relative;
-    min-height: 200px;
-    margin-bottom: 40px;
-    padding-left: 15%; // padding-right: 10%;
-    font-size: 1.2rem;
+    // display: block;
+    // position: relative;
+    // min-height: 200px;
+    // margin-bottom: 40px;
+    // padding-left: 15%; // padding-right: 10%;
+    // font-size: 1.2rem;
 }
 
 .team-copy-thumb {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    display: inline-block;
-    width: 34%;
-    height: 225px;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover; // border: 1px solid #666666;
-    // float: left;
-    // width: 150px;
-    // background: red;
+    // position: absolute;
+    // left: 0px;
+    // top: 0px;
+    // display: inline-block;
+    float: left;
+    width: 15%; // height: 225px;
+    // -webkit-background-size: cover;
+    // -moz-background-size: cover;
+    // -o-background-size: cover;
+    // background-size: cover; // border: 1px solid #666666;
+    margin-right: 20px;
 }
 
 .team-copy-title {
-    text-transform: uppercase;
-    color: #039be5;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 1.2rem;
-    letter-spacing: 5px;
-    display: block;
+    margin-top: 0px;
 }
 
 .team-copy-desc {
     font-size: 1.2rem;
     font-weight: 300;
     line-height: 150%;
+}
+
+.left {
+    float: left;
+    margin-right: 1em;
 }
