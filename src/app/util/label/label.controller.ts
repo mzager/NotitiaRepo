@@ -95,7 +95,7 @@ export class LabelController {
     }
 
     protected _view: VisualizationView;
-    public change: Subject<any> = new Subject();
+    public change: Subject<any>;
     public onShow: EventEmitter<any>;
     public $onShow: Subscription;
     public onHide: EventEmitter<any>;
@@ -112,6 +112,18 @@ export class LabelController {
         this.onHide = new EventEmitter();
         this.onEnable = new EventEmitter();
         this.onDisable = new EventEmitter();
+        this.change = new Subject();
+        this.$onShow = this.change.pipe(debounceTime(300)).subscribe(e => {
+            console.log('show');
+            this.hidden = false;
+            this.onShow.emit(e);
+        });
+        this.$onHide = this.change.subscribe(e => {
+            if (this.hidden) { return }
+            console.log('hide');
+            this.hidden = true;
+            this.onHide.emit(e);
+        });
     }
 
     private _enabled: boolean = false;
@@ -121,31 +133,9 @@ export class LabelController {
         if (value) {
             this.onEnable.emit();
             this._view.controls.addEventListener('change', this.onChange.bind(this));
-
-
-            this.$onShow = this.change.pipe(debounceTime(300)).subscribe(e => {
-                console.log('show');
-                this.hidden = false;
-                this.onShow.emit(e);
-            });
-
-            this.$onHide = this.change.subscribe(e => {
-                if (this.hidden) { return }
-                console.log('hide');
-                this.hidden = true;
-                this.onHide.emit(e);
-            });
-
         } else {
             this.onDisable.emit();
             this._view.controls.removeEventListener('change', this.onChange.bind(this));
-            try {
-                this.$onShow.unsubscribe();
-            } catch (e) { }
-            try {
-                this.$onHide.unsubscribe();
-            } catch (e) { }
-
         }
     }
 
