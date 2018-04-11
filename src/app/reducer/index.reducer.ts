@@ -26,6 +26,7 @@ export interface State {
 }
 const graphAReducer = fromGraph.graphReducerA;
 const graphBReducer = fromGraph.graphReducerB;
+
 export let reducers = {
   help: fromHelp.reducer,
   layout: fromLayout.reducer,
@@ -41,8 +42,10 @@ export let reducers = {
 const productionReducer: ActionReducer<State> = combineReducers(reducers);
 
 export function reducer(state: State, action: any) {
-  // if (environment.production) {
+
   return productionReducer(state, action);
+
+  // if (environment.production) {
   // } else {
   //   return developmentReducer(state, action);
   // }

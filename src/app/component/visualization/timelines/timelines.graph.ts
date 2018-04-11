@@ -1,3 +1,4 @@
+import { ILabel, LabelController } from './../../../util/label/label.controller';
 import { AbstractVisualization } from './../visualization.abstract.component';
 import { DataDecorator } from './../../../model/data-map.model';
 import { scaleLinear, scaleLog, InterpolatorFactory, scaleSequential, scaleQuantize, scaleQuantile } from 'd3-scale';
@@ -22,7 +23,7 @@ import * as d3Scale from 'd3-scale';
 import { Subscription } from 'rxjs/Subscription';
 import { geoAlbers, active, ScaleLinear } from 'd3';
 import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
-import { Vector3, CubeGeometry, Vector2, OrthographicCamera } from 'three';
+import { Vector3, CubeGeometry, Vector2, OrthographicCamera, Float32BufferAttribute, LineSegments } from 'three';
 import { DataService } from 'app/service/data.service';
 // import MeshLine from 'three.meshline';
 
@@ -35,17 +36,23 @@ export class TimelinesGraph extends AbstractVisualization {
 
     public patients: Array<THREE.Group>;
     public attrs: THREE.Group;
-    public lines: THREE.Group;
+    public lines: THREE.LineSegments;
     public meshes: Array<THREE.Object3D>;
     public decorators: DataDecorator[];
     public clipPlanes: Array<THREE.Object3D> = [];
     public database: string;
+    public yAxis: Array<ILabel>;
+    public xAxis: Array<ILabel>;
+    public grid: THREE.LineSegments;
 
     // Create - Initialize Mesh Arrays
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         super.create(labels, events, view);
-        this.labels = labels;
-        this.labels.innerText = '';
+        // this.labels = labels;
+        // this.labels.innerText = '';
+
+        this.yAxis = [];
+        this.xAxis = [];
 
         this.tooltips = <HTMLDivElement>(document.createElement('div'));
         this.tooltips.className = 'graph-tooltip';
@@ -61,7 +68,6 @@ export class TimelinesGraph extends AbstractVisualization {
         this.meshes = [];
         this.patients = [];
         this.attrs = new THREE.Group();
-        this.lines = new THREE.Group();
 
         // this.view.controls.maxZoom = 1;
         this.view.controls.pan(0, 1200);
@@ -88,7 +94,7 @@ export class TimelinesGraph extends AbstractVisualization {
 
     enable(truthy: boolean) {
         super.enable(truthy);
-        this.view.controls.enableRotate = true;
+        this.view.controls.enableRotate = false;
     }
 
     removeObjects(): void {
@@ -97,11 +103,12 @@ export class TimelinesGraph extends AbstractVisualization {
         this.view.scene.remove(...this.patients);
         this.view.scene.remove(this.attrs);
         this.view.scene.remove(this.lines);
+
         this.meshes.length = 0;
         this.clipPlanes.length = 0;
         this.patients.length = 0;
         this.attrs = new THREE.Group();
-        this.lines = new THREE.Group();
+        this.view.scene.remove(this.grid);
     }
 
     onMouseDown(e: ChartEvent): void { }
@@ -207,39 +214,53 @@ export class TimelinesGraph extends AbstractVisualization {
     }
 
     addLines(rowHeight, rowCount): void {
+
         const chartHeight = rowHeight * rowCount;
+        const geometry: THREE.Geometry = new THREE.Geometry();
+        geometry.vertices = [];
         for (let i = -500; i <= 500; i += 50) {
-            const line = ChartFactory.lineAllocate(0xDDDDDD, new THREE.Vector2(i, chartHeight), new THREE.Vector2(i, 0));
-            this.lines.add(line);
+            // new THREE.Vector2(i, chartHeight), new THREE.Vector2(i, 0)
+            geometry.vertices.push(
+                new THREE.Vector3(i, chartHeight, 0),
+                new THREE.Vector3(i, 0, 0)
+            );
         }
         for (let i = 0; i < rowCount + 1; i++) {
-            const line = ChartFactory.lineAllocate(0xDDDDDD, new THREE.Vector2(-500, i * rowHeight), new THREE.Vector2(500, i * rowHeight));
-            this.lines.add(line);
+            geometry.vertices.push(
+                new THREE.Vector3(-500, i * rowHeight, 0),
+                new THREE.Vector3(500, i * rowHeight, 0)
+            );
         }
-        this.view.scene.add(this.lines);
+
+        var material = ChartFactory.getLineColor(0xEEEEEE);
+        this.grid = new THREE.LineSegments(geometry, material);
+        this.grid.updateMatrix();
+
+        this.view.scene.add(this.grid);
+
     }
 
     // #endregion
     addObjects(entity: EntityTypeEnum): void {
 
 
-        this.clipPlanes = [];
+        // this.clipPlanes = [];
 
-        let plane = new THREE.PlaneGeometry(1000, 3000);
-        let mesh = new THREE.Mesh(plane, ChartFactory.getColorBasic(0xFFFFFF));
-        mesh.position.x -= 1000;
-        mesh.position.y = 0;
-        mesh.position.z = 5;
-        this.clipPlanes.push(mesh);
-        this.view.scene.add(mesh);
+        // let plane = new THREE.PlaneGeometry(1000, 3000);
+        // let mesh = new THREE.Mesh(plane, ChartFactory.getColorBasic(0xFFFFFF));
+        // mesh.position.x -= 1000;
+        // mesh.position.y = 0;
+        // mesh.position.z = 5;
+        // this.clipPlanes.push(mesh);
+        // this.view.scene.add(mesh);
 
-        plane = new THREE.PlaneGeometry(1000, 3000);
-        mesh = new THREE.Mesh(plane, ChartFactory.getColorBasic(0xFFFFFF));
-        mesh.position.x += 1000;
-        mesh.position.y = 0;
-        mesh.position.z = 5;
-        this.clipPlanes.push(mesh);
-        this.view.scene.add(mesh);
+        // plane = new THREE.PlaneGeometry(1000, 3000);
+        // mesh = new THREE.Mesh(plane, ChartFactory.getColorBasic(0xFFFFFF));
+        // mesh.position.x += 1000;
+        // mesh.position.y = 0;
+        // mesh.position.z = 5;
+        // this.clipPlanes.push(mesh);
+        // this.view.scene.add(mesh);
 
         // Helper Variables
         const bars = this.config.bars;
@@ -264,16 +285,15 @@ export class TimelinesGraph extends AbstractVisualization {
         // Grid
         this.addLines(rowHeight, rowCount);
 
+
+
         // Scale
         const scale = scaleLinear();
         scale.range([-500, 500]);
         if (this.config.range[0] !== 0 || this.config.range[1] !== 100) {
-
             const span = this.data.result.minMax.max - this.data.result.minMax.min;
-
             const minOffset = (this.config.range[0] / 100) * span;
             const maxOffset = (this.config.range[1] / 100) * span;
-
             const min = (this.config.range[0] !== 0) ?
                 this.data.result.minMax.min + minOffset : this.data.result.minMax.min;
             const max = (this.config.range[1] !== 100) ?
@@ -283,6 +303,15 @@ export class TimelinesGraph extends AbstractVisualization {
             scale.domain([this.data.result.minMax.min, this.data.result.minMax.max]);
         }
 
+        // X-Axis
+        for (let i = -500; i <= 500; i += 50) {
+            this.xAxis.push(
+                {
+                    position: new THREE.Vector3(i, 0, 0),
+                    userData: { tooltip: scale.invert(i).toString() }
+                }
+            );
+        }
 
         // Patients + PID MAP
         const pidMap: any = {};
@@ -291,7 +320,14 @@ export class TimelinesGraph extends AbstractVisualization {
             const group = new THREE.Group();
             this.patients.push(group);
             this.view.scene.add(group);
-            group.position.setY(i * rowHeight);
+            const yPos = i * rowHeight;
+            group.position.setY(yPos);
+            this.yAxis.push(
+                {
+                    position: new THREE.Vector3(0, yPos, 0),
+                    userData: { tooltip: patient[0].p }
+                }
+            );
             barLayout.forEach(bl => {
                 const barEvents = patient.filter(p => p.type === bl.label);
                 barEvents.forEach(event => {
@@ -364,7 +400,22 @@ export class TimelinesGraph extends AbstractVisualization {
         this.tooltips.innerHTML = '';
     }
 
-    // constructor() {
+    onShowLabels(): void {
+        const zoom = this.view.camera.position.z;
+        if (zoom < 1500) {
+            this.labels.innerHTML =
+                this.labelController.generateLabels(this.yAxis, this.view, 'PIXEL', { xPos: this.view.viewport.width - 20, xUnlimited: true, yOffset: -7 }) +
+                this.labelController.generateLabels(this.xAxis, this.view, 'PIXEL', { yPos: this.view.viewport.height - 20, yUnlimited: true, align: 'CENTER', suffix: ' Days' });
+        } else {
+            this.labels.innerHTML = LabelController.reduceHtml([
+                { x: this.view.viewport.width * .5, y: this.view.viewport.height - 20, name: 'Time' }
+            ], 'CENTER') +
+                LabelController.reduceHtml([
+                    { x: this.view.viewport.width - 20, y: this.view.viewport.height * 0.5, name: 'Patients' }
+                ], 'RIGHT');
 
-    // }
+        }
+
+    }
+
 }
