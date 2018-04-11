@@ -1,3 +1,4 @@
+import { ILabel } from './label.controller';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Rx';
 import { EventEmitter } from '@angular/core';
@@ -6,39 +7,109 @@ import { LabelForce } from './../../util/label/label.force';
 import { VisualizationView } from './../../model/chart-view.model';
 import * as THREE from 'three';
 import * as _ from 'lodash';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, skipWhile } from 'rxjs/operators';
+
+export interface ILabel {
+    position: THREE.Vector3;
+    userData: { tooltip: string };
+}
 
 export class LabelController {
 
-    static reduceHtml(data: Array<{ x: number, y: number, name: string }>, align: 'RIGHT' | 'LEFT' = 'LEFT'): string {
-        return (align === 'LEFT') ?
-            data.reduce((p, c) => { return p += '<div class="z-tooltip" style="left:' + c.x + 'px;top:' + c.y + 'px;">' + c.name + '</div>'; }, '') :
-            data.reduce((p, c) => { return p += '<div class="z-tooltip" style="text-align:right; width:300px; display:inline-block; left:' + (c.x - 300) + 'px;top:' + c.y + 'px;">' + c.name + '</div>'; }, '');
+    public generateLabels(objects: Array<ILabel>, view: VisualizationView, generator: 'FORCE' | 'GRID' | 'PIXEL' = 'FORCE', options: any = {}): string {
+        let pts;
+        const objs = LabelController.filterObjectsInFrustum(objects, view, options);
+        switch (generator) {
+            case 'FORCE':
+                pts = LabelController.forceLayout(objs, view, options);
+                break;
+            case 'PIXEL':
+                pts = LabelController.pixelLayout(objs, view, options);
+                break;
+            case 'GRID':
+                pts = LabelController.forceLayout(objs, view, options);
+                break;
+        }
 
+        return LabelController.reduceHtml(pts, options.align || 'RIGHT');
+    }
 
+    static reduceHtml(data: Array<{ x: number, y: number, name: string }>, align: 'RIGHT' | 'LEFT' | 'CENTER' = 'LEFT'): string {
+        return (align === 'LEFT') ? data.reduce((p, c) => { return p += '<div class="z-tooltip" style="left:' + c.x + 'px;top:' + c.y + 'px;">' + c.name + '</div>'; }, '') :
+            (align === 'RIGHT') ? data.reduce((p, c) => { return p += '<div class="z-tooltip" style="text-align:right; width:300px; display:inline-block; left:' + (c.x - 300) + 'px;top:' + c.y + 'px;">' + c.name + '</div>'; }, '') :
+                data.reduce((p, c) => { return p += '<div class="z-tooltip" style="text-align:center; width:300px; display:inline-block; left:' + (c.x - 150) + 'px;top:' + c.y + 'px;">' + c.name + '</div>'; }, '');
     }
     // Get Objects In Frustum
-    static filterObjectsInFrustum(objs: Array<THREE.Object3D>, view: VisualizationView): Array<THREE.Object3D> {
+    static filterObjectsInFrustum(objs: Array<ILabel>, view: VisualizationView, options: any): Array<ILabel> {
         const frustum = new THREE.Frustum();
         frustum.setFromMatrix(new THREE.Matrix4().multiplyMatrices(view.camera.projectionMatrix, view.camera.matrixWorldInverse));
-        return objs.filter(obj => frustum.containsPoint(obj.position));
+
+        const yUnlimited = options.hasOwnProperty('yUnlimited');
+        const xUnlimited = options.hasOwnProperty('xUnlimited');
+        return objs.filter(obj => {
+            const pt = obj.position.clone();
+            if (xUnlimited) {
+                pt.setZ(-3000);
+                pt.setX(0);
+            }
+            if (yUnlimited) {
+                pt.setZ(-3000);
+                pt.setY(0);
+            }
+            pt.setY(0);
+            return frustum.containsPoint(pt);
+        });
     }
 
-    static pixelLayout(objs: Array<THREE.Object3D>, view: VisualizationView, options: any):
+    // Options..
+    //  ???? CSS CLASS
+    // If yPos & xPos Specified Overide Postion With VAlue
+    // If yUnlimited & xUnlimited The Ignore When Frustrum Culling 
+    // If yOffset & xOffset Adjust Placement By Value
+    // Prefix & Suffix (Copy)
+    // Align = 'RIGHT' | 'LEFT' | 'CENTER'
+    static pixelLayout(objs: Array<ILabel>, view: VisualizationView, options: any):
         Array<{ x: number, y: number, name: string }> {
         const w = view.viewport.width * .5;
         const h = view.viewport.height * .5;
+        const xPos = options.hasOwnProperty('xPos');
+        const yPos = options.hasOwnProperty('yPos');
+        const xOffset = options.hasOwnProperty('xOffset');
+        const yOffset = options.hasOwnProperty('yOffset');
+        const prefix = options.hasOwnProperty('prefix');
+        const suffix = options.hasOwnProperty('suffix');
         return objs.map(mesh => {
             const vector = mesh.position.clone().project(view.camera)
             vector.y = -(vector.y * h) + h - 6;
             vector.x = (vector.x * w) + w - 6;
-            return { x: vector.x, y: vector.y, z: vector.z, name: mesh.userData.tooltip, width: 70, height: 10 };
+            const rv = {
+                x: (xPos) ? options.xPos : vector.x,
+                y: (yPos) ? options.yPos : vector.y,
+                z: vector.z,
+                name: mesh.userData.tooltip,
+                width: 70,
+                height: 10
+            };
+            if (yOffset) {
+                rv.y += options.yOffset;
+            }
+            if (xOffset) {
+                rv.x += options.xOffset;
+            }
+            if (prefix) {
+                rv.name = options.prefix + name;
+            }
+            if (suffix) {
+                rv.name += options.suffix;
+            }
+            return rv;
         });
     }
 
     // Force Directed Map Layout In Quarters
-    static forceLayout(objs: Array<THREE.Object3D>, view: VisualizationView, options: any):
+    static forceLayout(objs: Array<ILabel>, view: VisualizationView, options: any):
         Array<{ x: number, y: number, name: string }> {
+
 
         let limit: number = options.limit || 50;
         const iterations: number = options.iterations || 200;
@@ -54,6 +125,7 @@ export class LabelController {
         const w = view.viewport.width * .5;
         const h = view.viewport.height * .5;
         let data = objs.map(mesh => {
+
             const vector = mesh.position.clone().project(view.camera)
             vector.y = -(vector.y * h) + h;
             vector.x = (vector.x * w) + w;
@@ -94,71 +166,62 @@ export class LabelController {
         return data;
     }
 
+    // State
     protected _view: VisualizationView;
-    public change: Subject<any>;
-    public onShow: EventEmitter<any>;
-    public $onShow: Subscription;
-    public onHide: EventEmitter<any>;
-    public $onHide: Subscription;
-    public onEnable: EventEmitter<any>;
-    public $onEnable: Subscription;
-    public onDisable: EventEmitter<any>;
-    public $onDisable: Subscription;
-    public hidden = false;
+    protected _enabled: boolean;
+    protected _debounce: number;
+    protected _timeout;
+    protected _then: number;
+    protected _debouncing: boolean;
 
-    constructor(view: VisualizationView, debounce: number = 300, align: 'RIGHT' | 'LEFT' = 'RIGHT') {
+    public onShow: EventEmitter<any>;
+    public onHide: EventEmitter<any>;
+
+    constructor(view: VisualizationView, debounce: number = 300) {
         this._view = view;
+        this._enabled = this._enabled;
+        this._debounce = debounce;
+        this._debouncing = false;
+        this._then = new Date().getTime();
         this.onShow = new EventEmitter();
         this.onHide = new EventEmitter();
-        this.onEnable = new EventEmitter();
-        this.onDisable = new EventEmitter();
-        this.change = new Subject();
-        this.$onShow = this.change.pipe(debounceTime(300)).subscribe(e => {
-            console.log('show');
-            this.hidden = false;
-            this.onShow.emit(e);
-        });
-        this.$onHide = this.change.subscribe(e => {
-            if (this.hidden) { return }
-            console.log('hide');
-            this.hidden = true;
-            this.onHide.emit(e);
-        });
     }
 
-    private _enabled: boolean = false;
+    public onChange(e: THREE.Event): void {
+        const now = new Date().getTime();
+        const elapsed = now - this._then;
+        this._then = now;
+
+        // Time Elapsed Exceeds Debounce
+        if (elapsed > this._debounce) {
+            this.onHide.emit();
+        } else {
+            clearTimeout(this._timeout);
+        }
+        this._timeout = setTimeout(this.tick.bind(this), this._debounce);
+    }
+
+    public tick(): void {
+        this.onShow.emit();
+    }
+    public destroy(): void {
+        this._view.controls.removeEventListener('change', this.onChange);
+        clearTimeout(this._timeout);
+        this.onHide.emit();
+    }
     public get enable(): boolean { return this._enabled; }
     public set enable(value: boolean) {
-        if (value === this._enabled) { return; }
+        if (value === this._enabled) {
+            return;
+        }
         if (value) {
-            this.onEnable.emit();
             this._view.controls.addEventListener('change', this.onChange.bind(this));
+            this.onShow.emit();
         } else {
-            this.onDisable.emit();
-            this._view.controls.removeEventListener('change', this.onChange.bind(this));
-        }
-    }
-
-    private onChange(): void {
-        this.change.next();
-    }
-
-    // limit: number = 50, iterations: number = 200, radius: number = 3, align: 'RIGHT' | 'LEFT' = 'LEFT'
-    public generateLabels(objects: Array<THREE.Object3D>, view: VisualizationView, generator: 'FORCE' | 'GRID' | 'PIXEL' = 'FORCE', options: any = {}): string {
-        let pts;
-        const objs = LabelController.filterObjectsInFrustum(objects, view);
-        switch (generator) {
-            case 'FORCE':
-                pts = LabelController.forceLayout(objs, view, options);
-                break;
-            case 'PIXEL':
-                pts = LabelController.pixelLayout(objs, view, options);
-                break;
-            case 'GRID':
-                pts = LabelController.forceLayout(objs, view, options);
-                break;
+            this._view.controls.removeEventListener('change', this.onChange);
+            clearTimeout(this._timeout);
+            this.onHide.emit();
         }
 
-        return LabelController.reduceHtml(pts, options.align || 'RIGHT');
     }
 }

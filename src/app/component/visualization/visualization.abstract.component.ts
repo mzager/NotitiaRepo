@@ -99,7 +99,7 @@ export class AbstractVisualization implements ChartObjectInterface {
         this.$MouseUp.unsubscribe();
         this.$onHideLabels.unsubscribe();
         this.$onShowLabels.unsubscribe();
-        this.labelController.onHide.unsubscribe();
+        this.labelController.destroy();
         this.enable(false);
     }
     preRender(views: VisualizationView[], layout: WorkspaceLayoutEnum, renderer: THREE.Renderer): void { }

@@ -203,9 +203,6 @@ export class GenomeGraph extends AbstractVisualization {
         } else {
             this.tooltips.innerHTML = this.labelController.generateLabels(this.meshes, this.view, 'FORCE', { align: 'RIGHT' });
         }
+    }
 
-    }
-    onHideLabels(): void {
-        this.tooltips.innerHTML = '';
-    }
 }

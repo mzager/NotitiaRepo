@@ -93,87 +93,91 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.lines.length = 0;
     }
 
+
     onShowLabels(): void {
-        console.log('SHOW SUB')
+        const zoom = this.view.camera.position.z;
+        this.tooltips.innerHTML = this.labelController.generateLabels(this.meshes, this.view, 'FORCE');
     }
 
 
     onMouseDown(e: ChartEvent): void {
-        const hit = ChartUtil.getIntersects(this.view, e.mouse, this.points);
-        if (hit.length > 0) {
-            this.tooltips.innerHTML = '';
-            this.mouseMode = 'SELECTION';
-            this.view.controls.enabled = false;
-            const target: THREE.Vector3 = hit[0].object.parent.position.clone();
-            const event: MouseEvent = e.event as MouseEvent;
-            const geometry = new THREE.SphereGeometry(3, 30, 30);
-            const material = new THREE.MeshPhongMaterial({ color: 0x029BE5, opacity: 0.1, transparent: true, depthWrite: false });
-            this.selectionMesh = new THREE.Mesh(geometry, material);
-            this.selectionMesh.position.set(target.x, target.y, target.z);
-            this.selectionMeshes.push(this.selectionMesh);
-            this.selectionOrigin2d = new Vector2(event.clientX, event.clientY);
-            this.selectionScale = scale.scaleLinear();
-            this.selectionScale.range([1, 200]);
-            this.selectionScale.domain([0, this.view.viewport.width]);
-            this.view.scene.add(this.selectionMesh);
-            this.onRequestRender.emit(this._config.graph);
-        }
+        // const hit = ChartUtil.getIntersects(this.view, e.mouse, this.points);
+        // if (hit.length > 0) {
+        //     this.tooltips.innerHTML = '';
+        //     this.mouseMode = 'SELECTION';
+        //     this.view.controls.enabled = false;
+        //     const target: THREE.Vector3 = hit[0].object.parent.position.clone();
+        //     const event: MouseEvent = e.event as MouseEvent;
+        //     const geometry = new THREE.SphereGeometry(3, 30, 30);
+        //     const material = new THREE.MeshPhongMaterial({ color: 0x029BE5, opacity: 0.1, transparent: true, depthWrite: false });
+        //     this.selectionMesh = new THREE.Mesh(geometry, material);
+        //     this.selectionMesh.position.set(target.x, target.y, target.z);
+        //     this.selectionMeshes.push(this.selectionMesh);
+        //     this.selectionOrigin2d = new Vector2(event.clientX, event.clientY);
+        //     this.selectionScale = scale.scaleLinear();
+        //     this.selectionScale.range([1, 200]);
+        //     this.selectionScale.domain([0, this.view.viewport.width]);
+        //     this.view.scene.add(this.selectionMesh);
+        //     this.onRequestRender.emit(this._config.graph);
+        // }
     }
 
     onMouseUp(e: ChartEvent): void {
-        this.mouseMode = 'CONTROL';
-        this.view.controls.enabled = true;
-        if (!(e.event as MouseEvent).shiftKey) {
-            this.selectionMeshes.forEach(mesh => this.view.scene.remove(mesh));
-            this.onRequestRender.emit(this._config.graph);
-            this.meshes
-                .forEach(o3d => {
-                    const mesh = o3d.children[0] as THREE.Mesh;
-                    mesh.userData.selectionLocked = false;
-                });
-        } else {
-            const radius = this.selectionMesh.geometry.boundingSphere.radius * this.selectionMesh.scale.x;
-            const position = this.selectionMesh.position;
-            this.meshes
-                .forEach(o3d => {
-                    const mesh = o3d.children[0] as THREE.Mesh;
-                    const material: THREE.MeshPhongMaterial = mesh.material as THREE.MeshPhongMaterial;
-                    if (o3d.position.distanceTo(position) < radius) {
-                        mesh.userData.selectionLocked = true;
-                    }
-                });
-        }
+        // this.mouseMode = 'CONTROL';
+        // this.view.controls.enabled = true;
+        // if (!(e.event as MouseEvent).shiftKey) {
+        //     this.selectionMeshes.forEach(mesh => this.view.scene.remove(mesh));
+        //     this.onRequestRender.emit(this._config.graph);
+        //     this.meshes
+        //         .forEach(o3d => {
+        //             const mesh = o3d.children[0] as THREE.Mesh;
+        //             mesh.userData.selectionLocked = false;
+        //         });
+        // } else {
+        //     const radius = this.selectionMesh.geometry.boundingSphere.radius * this.selectionMesh.scale.x;
+        //     const position = this.selectionMesh.position;
+        //     this.meshes
+        //         .forEach(o3d => {
+        //             const mesh = o3d.children[0] as THREE.Mesh;
+        //             const material: THREE.MeshPhongMaterial = mesh.material as THREE.MeshPhongMaterial;
+        //             if (o3d.position.distanceTo(position) < radius) {
+        //                 mesh.userData.selectionLocked = true;
+        //             }
+        //         });
+        // }
     }
 
     onMouseMove(e: ChartEvent): void {
-        // Selection
-        if (this.mouseMode === 'SELECTION') {
-            const event: MouseEvent = e.event as MouseEvent;
-            const mousePos = new Vector2(event.clientX, event.clientY);
-            const delta = mousePos.distanceTo(this.selectionOrigin2d);
-            const scale = this.selectionScale(delta);
-            this.selectionMesh.scale.set(scale, scale, scale);
+        // // Selection
+        // if (this.mouseMode === 'SELECTION') {
+        //     const event: MouseEvent = e.event as MouseEvent;
+        //     const mousePos = new Vector2(event.clientX, event.clientY);
+        //     const delta = mousePos.distanceTo(this.selectionOrigin2d);
+        //     const scale = this.selectionScale(delta);
+        //     this.selectionMesh.scale.set(scale, scale, scale);
 
-            const radius = this.selectionMesh.geometry.boundingSphere.radius * this.selectionMesh.scale.x;
-            const position = this.selectionMesh.position;
-            this.meshes
-                .forEach(o3d => {
-                    const mesh = o3d.children[0] as THREE.Mesh;
-                    const material: THREE.MeshPhongMaterial = mesh.material as THREE.MeshPhongMaterial;
-                    if (o3d.position.distanceTo(position) < radius) {
-                        material.color.set(0x000000);
-                        material.transparent = false;
-                    } else {
-                        if (!mesh.userData.selectionLocked) {
-                            material.color.set(mesh.userData.color);
-                            material.transparent = true;
-                            material.opacity = 0.7;
-                        }
-                    }
-                });
-            this.onRequestRender.emit(this._config.graph);
-            return;
-        }
+        //     const radius = this.selectionMesh.geometry.boundingSphere.radius * this.selectionMesh.scale.x;
+        //     const position = this.selectionMesh.position;
+        //     this.meshes
+        //         .forEach(o3d => {
+        //             const mesh = o3d.children[0] as THREE.Mesh;
+        //             const material: THREE.MeshPhongMaterial = mesh.material as THREE.MeshPhongMaterial;
+        //             if (o3d.position.distanceTo(position) < radius) {
+        //                 material.color.set(0x000000);
+        //                 material.transparent = false;
+        //             } else {
+        //                 if (!mesh.userData.selectionLocked) {
+        //                     material.color.set(mesh.userData.color);
+        //                     material.transparent = true;
+        //                     material.opacity = 0.7;
+        //                 }
+        //             }
+        //         });
+        //     this.onRequestRender.emit(this._config.graph);
+        //     return;
+        // }
+
+        // SECOND HALF
         // Hit Test
         // const hit = ChartUtil.getIntersects(this.view, e.mouse, this.points);
         // console.log(hit.length);
