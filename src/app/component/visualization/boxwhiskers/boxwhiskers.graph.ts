@@ -168,7 +168,7 @@ export class BoxWhiskersGraph extends AbstractVisualization {
     onMouseUp(e: ChartEvent): void { }
     onMouseMove(e: ChartEvent): void { }
     onShowLabels(): void {
-        this.tooltips.innerHTML = this.labelController.generateLabels(this.meshes, this.view, 'FORCE');
+        // this.tooltips.innerHTML = this.labelController.generateLabels(this.meshes, this.view, 'FORCE');
     }
 
     addGlobalMeshes(): void {
