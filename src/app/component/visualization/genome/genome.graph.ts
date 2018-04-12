@@ -1,4 +1,4 @@
-import { LabelController } from './../../../util/label/label.controller';
+import { LabelController, LabelOptions } from './../../../util/label/label.controller';
 import { ChromosomeDataModel } from './../chromosome/chromosome.model';
 import { AbstractVisualization } from './../visualization.abstract.component';
 import { DataDecorator } from './../../../model/data-map.model';
@@ -196,12 +196,18 @@ export class GenomeGraph extends AbstractVisualization {
 
     onShowLabels(): void {
         const zoom = this.view.camera.position.z;
+        const layoutOpts = new LabelOptions(this.view);
+
         if (zoom > 600) {
-            this.tooltips.innerHTML = this.labelController.generateLabels(this.meres, this.view, 'PIXEL');
+            this.tooltips.innerHTML = LabelController.generateHtml(this.meres, layoutOpts)
         } else if (zoom > 500) {
-            this.tooltips.innerHTML = this.labelController.generateLabels(this.bands, this.view, 'PIXEL');
+            this.tooltips.innerHTML = LabelController.generateHtml(this.bands, layoutOpts);
         } else {
-            this.tooltips.innerHTML = this.labelController.generateLabels(this.meshes, this.view, 'FORCE', { align: 'RIGHT' });
+            layoutOpts.algorithm = 'FORCE';
+            layoutOpts.align = 'RIGHT';
+            layoutOpts.maxLabels = 500;
+            layoutOpts.offsetX = -30;
+            this.tooltips.innerHTML = LabelController.generateHtml(this.meshes, layoutOpts);
         }
     }
 

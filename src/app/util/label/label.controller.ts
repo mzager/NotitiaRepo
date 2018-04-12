@@ -1,3 +1,4 @@
+import { textAlign } from 'three-text2d';
 import { ILabel } from './label.controller';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Rx';
@@ -8,30 +9,132 @@ import { VisualizationView } from './../../model/chart-view.model';
 import * as THREE from 'three';
 import * as _ from 'lodash';
 import { debounceTime, skipWhile } from 'rxjs/operators';
+import { Vector3, Matrix4 } from 'three';
 
 export interface ILabel {
     position: THREE.Vector3;
     userData: { tooltip: string };
 }
 
+export class LabelOptions {
+    classes: Array<string> = [];    // CSS Classes To Apply
+    ignoreFrustumX = false;         // Only Make Sure Object Is In View On Y Axis
+    ignoreFrustumY = false;         // Only Make Sure Object Is In View On X Axis
+    offsetX = 0;                    // Offset Computed X Position By Amount After 2D Transform
+    offsetY = 0;                    // Offset Computed Y Position By Amount After 2D Transform
+    offsetX3d = 1;                  // Offset Computed X Position By Amount Before 2D Transform
+    offsetY3d = 0;                  // Offset Computed Y Position By Amount Before 2D Transform
+    offsetZ3d = 0;                  // Offset Computed Y Position By Amount Before 2D Transform
+    absoluteX: number = null;       // Replace Computed X Position By Amount
+    absoluteY: number = null;       // Replace Computed Y Position By Amount
+    rotate: number = 0;             // Degrees To Rotate Text
+    origin: 'LEFT' | 'CENTER' | 'RIGHT' | 'JUSTIFY' = 'RIGHT';   // Origin For Transforms + Positions
+    prefix = '';                    // Copy To Add Before Label
+    postfix = '';                   // Copy To Add After Label
+    align: 'LEFT' | 'RIGHT' | 'CENTER' = 'LEFT';    // Text Alignment
+    maxLabels: number = 100;        // Maximum Number Of Labels
+    algorithm: 'FORCE' | 'GRID' | 'PIXEL' = 'PIXEL';    // Layout Algorythem
+    algorithmIterations = 20;       // Number Of Iterations To Apply Algorythem (Force Algo)          
+    pointRadius = 3;                // How Big Is The Point...
+    view: VisualizationView;
+
+
+    constructor(view: VisualizationView, algorithm: 'FORCE' | 'GRID' | 'PIXEL' = 'PIXEL') {
+        this.view = view;
+        this.algorithm = algorithm;
+    }
+    generateCss(): string {
+        let css = '';
+        css += 'position:absolute; left:0px; top:0px;';
+        css += 'transform-origin: ' + ((this.origin === 'LEFT') ? '0%' : (this.origin === 'RIGHT') ? '100%' : '50%') + ' 50%';
+        css += ';text-align: ' + this.align.toLocaleLowerCase();
+        css += ';transform: rotate(' + this.rotate + 'deg) ';
+        return css;
+    }
+}
+
 export class LabelController {
 
-    public generateLabels(objects: Array<ILabel>, view: VisualizationView, generator: 'FORCE' | 'GRID' | 'PIXEL' = 'FORCE', options: any = {}): string {
-        let pts;
-        const objs = LabelController.filterObjectsInFrustum(objects, view, options);
-        switch (generator) {
-            case 'FORCE':
-                pts = LabelController.forceLayout(objs, view, options);
-                break;
-            case 'PIXEL':
-                pts = LabelController.pixelLayout(objs, view, options);
-                break;
-            case 'GRID':
-                pts = LabelController.forceLayout(objs, view, options);
-                break;
+    public static generateHtml(objects: Array<ILabel>, options: LabelOptions): string {
+        if (!options.ignoreFrustumX && !options.ignoreFrustumY) {
+            objects = LabelController.filterObjects(objects, options);
+        }
+        objects = LabelController.layoutObjects(objects, options);
+        const html = LabelController.styleObjects(objects, options);
+        return html;
+    }
+
+    private static layoutObjects(objects: Array<ILabel>, options: LabelOptions): Array<ILabel> {
+        return (options.algorithm === 'FORCE') ? this.layoutObjectsForce(objects, options) :
+            (options.algorithm === 'GRID') ? this.layoutObjectsGrid(objects, options) :
+                this.layoutObjectsPixel(objects, options);
+    }
+    private static layoutObjectsPixel(objects: Array<ILabel>, options: LabelOptions): Array<ILabel> {
+        const viewport = options.view.viewport;
+        const width = viewport.width;
+        const height = viewport.height;
+        const halfWidth = width * 0.5;
+        const halfHeight = height * 0.5;
+
+        // var vector = new THREE.Vector3();
+        const camera = options.view.camera;
+        const offset = new THREE.Vector3(options.offsetX3d, options.offsetY3d, options.offsetZ3d);
+        let data = objects.map(obj => {
+            const position = obj.position.clone().add(offset).project(camera);
+            position.x = (position.x * halfWidth) + halfWidth;
+            position.y = -(position.y * halfHeight) + halfHeight;
+            position.z = 0;
+            if (options.absoluteY !== null) { position.y = options.absoluteY; }
+            if (options.absoluteX !== null) { position.x = options.absoluteX; }
+
+            return {
+                position: position,
+                userData: { tooltip: obj.userData.tooltip }
+            };
+        });
+        if (options.ignoreFrustumX || options.ignoreFrustumY) {
+            data = data.filter(v => (v.position.x > 0 && v.position.y > 0 && v.position.x < width && v.position.y < height));
         }
 
-        return LabelController.reduceHtml(pts, options.align || 'RIGHT');
+        data = data.sort((a, b) => a.position.z - b.position.z);
+        if (data.length > options.maxLabels) {
+            data.length = options.maxLabels;
+        }
+        return data;
+    }
+    private static layoutObjectsForce(objects: Array<ILabel>, options: LabelOptions): Array<ILabel> {
+
+        const data = this.layoutObjectsPixel(objects, options);
+        new LabelForce()
+            .label(data)
+            .width(options.view.viewport.width)
+            .height(options.view.viewport.height)
+            .start(options.algorithmIterations);
+        return data;
+    }
+
+    private static layoutObjectsGrid(objects: Array<ILabel>, options: LabelOptions): Array<ILabel> {
+        return [];
+    }
+
+    private static styleObjects(objects: Array<ILabel>, options: LabelOptions): string {
+        const css = options.generateCss();
+        const alignmentOffset = (options.align === 'LEFT') ? 0 : (options.align === 'CENTER') ? 50 : -100;
+        return objects.reduce((p, c) => {
+            const translate = 'translate(' + Math.round(c.position.x + alignmentOffset + options.offsetX) + 'px, ' + Math.round(c.position.y + options.offsetY) + 'px)';
+            return p += '<div class="z-label" style="' + css + translate + '">' + options.prefix + c.userData.tooltip + options.postfix + '</div>';
+        }, '');
+    }
+
+    private static filterObjects(objects: Array<ILabel>, options: LabelOptions): Array<ILabel> {
+        const camera = options.view.camera as THREE.PerspectiveCamera;
+        camera.updateMatrixWorld(true);
+        camera.matrixWorldInverse.getInverse(camera.matrixWorld);
+        const cameraViewProjectionMatrix: Matrix4 = new Matrix4();
+        cameraViewProjectionMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+        const frustum = new THREE.Frustum();
+        frustum.setFromMatrix(cameraViewProjectionMatrix);
+        return objects.filter(obj => frustum.containsPoint(obj.position));
     }
 
     static reduceHtml(data: Array<{ x: number, y: number, name: string }>, align: 'RIGHT' | 'LEFT' | 'CENTER' = 'LEFT'): string {
@@ -39,133 +142,10 @@ export class LabelController {
             (align === 'RIGHT') ? data.reduce((p, c) => { return p += '<div class="z-tooltip" style="text-align:right; width:300px; display:inline-block; left:' + (c.x - 300) + 'px;top:' + c.y + 'px;">' + c.name + '</div>'; }, '') :
                 data.reduce((p, c) => { return p += '<div class="z-tooltip" style="text-align:center; width:300px; display:inline-block; left:' + (c.x - 150) + 'px;top:' + c.y + 'px;">' + c.name + '</div>'; }, '');
     }
-    // Get Objects In Frustum
-    static filterObjectsInFrustum(objs: Array<ILabel>, view: VisualizationView, options: any): Array<ILabel> {
-        const frustum = new THREE.Frustum();
-        frustum.setFromMatrix(new THREE.Matrix4().multiplyMatrices(view.camera.projectionMatrix, view.camera.matrixWorldInverse));
 
-        const yUnlimited = options.hasOwnProperty('yUnlimited');
-        const xUnlimited = options.hasOwnProperty('xUnlimited');
-        return objs.filter(obj => {
-            const pt = obj.position.clone();
-            if (xUnlimited) {
-                pt.setZ(-3000);
-                pt.setX(0);
-            }
-            if (yUnlimited) {
-                pt.setZ(-3000);
-                pt.setY(0);
-            }
-            pt.setY(0);
-            return frustum.containsPoint(pt);
-        });
-    }
-
-    // Options..
-    //  ???? CSS CLASS
-    // If yPos & xPos Specified Overide Postion With VAlue
-    // If yUnlimited & xUnlimited The Ignore When Frustrum Culling 
-    // If yOffset & xOffset Adjust Placement By Value
-    // Prefix & Suffix (Copy)
-    // Align = 'RIGHT' | 'LEFT' | 'CENTER'
-    static pixelLayout(objs: Array<ILabel>, view: VisualizationView, options: any):
-        Array<{ x: number, y: number, name: string }> {
-        const w = view.viewport.width * .5;
-        const h = view.viewport.height * .5;
-        const xPos = options.hasOwnProperty('xPos');
-        const yPos = options.hasOwnProperty('yPos');
-        const xOffset = options.hasOwnProperty('xOffset');
-        const yOffset = options.hasOwnProperty('yOffset');
-        const prefix = options.hasOwnProperty('prefix');
-        const suffix = options.hasOwnProperty('suffix');
-        return objs.map(mesh => {
-            const vector = mesh.position.clone().project(view.camera)
-            vector.y = -(vector.y * h) + h - 6;
-            vector.x = (vector.x * w) + w - 6;
-            const rv = {
-                x: (xPos) ? options.xPos : vector.x,
-                y: (yPos) ? options.yPos : vector.y,
-                z: vector.z,
-                name: mesh.userData.tooltip,
-                width: 70,
-                height: 10
-            };
-            if (yOffset) {
-                rv.y += options.yOffset;
-            }
-            if (xOffset) {
-                rv.x += options.xOffset;
-            }
-            if (prefix) {
-                rv.name = options.prefix + name;
-            }
-            if (suffix) {
-                rv.name += options.suffix;
-            }
-            return rv;
-        });
-    }
-
-    // Force Directed Map Layout In Quarters
-    static forceLayout(objs: Array<ILabel>, view: VisualizationView, options: any):
-        Array<{ x: number, y: number, name: string }> {
-
-
-        let limit: number = options.limit || 50;
-        const iterations: number = options.iterations || 200;
-        const radius: number = options.radius || 3;
-
-        const qlimit = Math.floor(limit /= 4);
-        const limits = {
-            tl: qlimit,
-            tr: qlimit,
-            bl: qlimit,
-            br: qlimit
-        }
-        const w = view.viewport.width * .5;
-        const h = view.viewport.height * .5;
-        let data = objs.map(mesh => {
-
-            const vector = mesh.position.clone().project(view.camera)
-            vector.y = -(vector.y * h) + h;
-            vector.x = (vector.x * w) + w;
-            return { x: vector.x, y: vector.y, z: vector.z, name: mesh.userData.tooltip, width: 70, height: 10 };
-        }).sort((a, b) => a.z - b.z);
-        // Sep into quartiles
-        data = data.filter(v => {
-            if (v.y < h) {
-                if (v.x < w) {
-                    limits.tl -= 1;
-                    return (limits.tl > 0);
-                }
-                limits.tr -= 1;
-                return (limits.tr > 0);
-            } else {
-                if (v.x < w) {
-                    limits.bl -= 1;
-                    return (limits.bl > 0);
-                }
-                limits.br -= 1;
-                return (limits.br > 0);
-            }
-        });
-
-        const anchors = data.map(datum => ({
-            x: datum.x,
-            y: datum.y,
-            r: radius
-        }));
-
-        new LabelForce()
-            .label(data)
-            .anchor(anchors)
-            .width(view.viewport.width)
-            .height(view.viewport.width)
-            .start(iterations);
-
-        return data;
-    }
-
+    /*
+        Logic To Show Hide On Move  
+    */
     // State
     protected _view: VisualizationView;
     protected _enabled: boolean;
