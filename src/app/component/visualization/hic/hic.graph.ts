@@ -108,7 +108,7 @@ export class HicGraph extends AbstractVisualization {
 
     onShowLabels(): void {
         debugger;
-        this.tooltips.innerHTML = this.labelController.generateLabels(this.meshes, this.view, 'FORCE');
+        // this.tooltips.innerHTML = this.labelController.generateLabels(this.meshes, this.view, 'FORCE');
     }
 
 }

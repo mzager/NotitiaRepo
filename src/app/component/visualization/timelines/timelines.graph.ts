@@ -1,4 +1,4 @@
-import { ILabel, LabelController } from './../../../util/label/label.controller';
+import { ILabel, LabelController, LabelOptions } from './../../../util/label/label.controller';
 import { AbstractVisualization } from './../visualization.abstract.component';
 import { DataDecorator } from './../../../model/data-map.model';
 import { scaleLinear, scaleLog, InterpolatorFactory, scaleSequential, scaleQuantize, scaleQuantile } from 'd3-scale';
@@ -402,19 +402,35 @@ export class TimelinesGraph extends AbstractVisualization {
 
     onShowLabels(): void {
         const zoom = this.view.camera.position.z;
-        if (zoom < 1500) {
-            this.labels.innerHTML =
-                this.labelController.generateLabels(this.yAxis, this.view, 'PIXEL', { xPos: this.view.viewport.width - 20, xUnlimited: true, yOffset: -7 }) +
-                this.labelController.generateLabels(this.xAxis, this.view, 'PIXEL', { yPos: this.view.viewport.height - 20, yUnlimited: true, align: 'CENTER', suffix: ' Days' });
-        } else {
-            this.labels.innerHTML = LabelController.reduceHtml([
-                { x: this.view.viewport.width * .5, y: this.view.viewport.height - 20, name: 'Time' }
-            ], 'CENTER') +
-                LabelController.reduceHtml([
-                    { x: this.view.viewport.width - 20, y: this.view.viewport.height * 0.5, name: 'Patients' }
-                ], 'RIGHT');
 
-        }
+        const labelXAxis = new LabelOptions(this.view);
+        labelXAxis.absoluteY = this.view.viewport.height - 20;
+        labelXAxis.ignoreFrustumY = true;
+        labelXAxis.maxLabels = Infinity;
+        labelXAxis.align = 'CENTER';
+        labelXAxis.postfix = ' Days';
+
+        const labelYAxis = new LabelOptions(this.view);
+        labelYAxis.absoluteX = this.view.viewport.width - 20;
+        labelYAxis.ignoreFrustumX = true;
+        labelYAxis.maxLabels = Infinity;
+        labelYAxis.offsetX = -7;
+        labelYAxis.align = 'RIGHT';
+
+
+        this.labels.innerHTML =
+            LabelController.generateHtml(this.xAxis, labelXAxis) +
+            LabelController.generateHtml(this.yAxis, labelYAxis);
+        // } else {
+        //     this.labels.innerHTML = '';
+        // this.labels.innerHTML = LabelController.reduceHtml([
+        //     { x: this.view.viewport.width * .5, y: this.view.viewport.height - 20, name: 'Time' }
+        // ], 'CENTER') +
+        //     LabelController.reduceHtml([
+        //         { x: this.view.viewport.width - 20, y: this.view.viewport.height * 0.5, name: 'Patients' }
+        //     ], 'RIGHT');
+
+        // }
 
     }
 
