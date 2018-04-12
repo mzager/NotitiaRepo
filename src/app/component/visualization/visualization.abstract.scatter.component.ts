@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/Rx';
-import { LabelController } from './../../util/label/label.controller';
+import { LabelController, LabelOptions } from './../../util/label/label.controller';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import * as scale from 'd3-scale';
 import * as TWEEN from 'tween.js';
@@ -96,7 +96,9 @@ export class AbstractScatterVisualization extends AbstractVisualization {
 
     onShowLabels(): void {
         const zoom = this.view.camera.position.z;
-        this.tooltips.innerHTML = this.labelController.generateLabels(this.meshes, this.view, 'FORCE');
+        const labelOptions = new LabelOptions(this.view, 'FORCE');
+        labelOptions.offsetX3d = 1;
+        this.tooltips.innerHTML = LabelController.generateHtml(this.meshes, labelOptions);
     }
 
 
