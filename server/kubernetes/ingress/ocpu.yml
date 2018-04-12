@@ -24,7 +24,6 @@ spec:
   type: NodePort
   ports:
   - port: 80
-    nodePort: 30304
     targetPort: ocpu-port
     protocol: TCP
     name: http
