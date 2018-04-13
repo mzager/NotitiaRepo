@@ -416,18 +416,30 @@ select:focus {
     width: 100px;
     display: inline-block;
     line-height: 15px;
+    display: inline-block;
+    color: #FFF;
+    background: #1395DE;
+    width: auto;
+    // div { 
+    //     color: #FFF;
+    //     background: #1395DE;
+    //     width: auto;
+    //     display: inline-block;
+    // }
     .copy {
         font-size:14px;
         color: #FFF;
+        line-height: 16px;
+        
         background: #1395DE;
-        padding: 5px;
-        border-radius: 5px;
-        position: relative;
+        display: block;
+        padding: 10px
+        
     }
    
     .copy:after {
         right: 100%;
-        top: 50%;
+        top: 20px; //50%;
         border: solid transparent;
         content: " ";
         height: 0;
