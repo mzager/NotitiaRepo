@@ -96,7 +96,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.lines.length = 0;
     }
 
-
     onShowLabels(): void {
         // const zoom = this.view.camera.position.z;
         const labelOptions = new LabelOptions(this.view, 'FORCE');
@@ -104,7 +103,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         labelOptions.maxLabels = 100;
         this.labels.innerHTML = LabelController.generateHtml(this.meshes, labelOptions);
     }
-
 
     onMouseDown(e: ChartEvent): void {
         // const hit = ChartUtil.getIntersects(this.view, e.mouse, this.points);
@@ -154,6 +152,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     }
 
     onMouseMove(e: ChartEvent): void {
+        super.onMouseMove(e);
         // // Selection
         // if (this.mouseMode === 'SELECTION') {
         //     const event: MouseEvent = e.event as MouseEvent;
