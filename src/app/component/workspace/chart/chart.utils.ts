@@ -106,7 +106,9 @@ export class ChartUtil {
         return parent.children.filter(o => o.type === 'Mesh').filter(o => frustum.intersectsObject(o));
     }
 
-    public static getIntersects(view: VisualizationView, pos: { x: number, y: number, xs: number, ys: number },
+    public static getIntersects(
+        view: VisualizationView,
+        pos: { x: number, y: number, xs: number, ys: number },
         objects: Array<THREE.Object3D>): Array<THREE.Intersection> {
         this.raycaster.setFromCamera(pos, view.camera);
         return this.raycaster.intersectObjects(objects, false);

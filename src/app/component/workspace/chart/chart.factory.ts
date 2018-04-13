@@ -133,7 +133,7 @@ export class ChartFactory {
                 group.remove(group.children[0]);
             }
             const id = group.userData.id;
-            ;
+
             // const shape = this.getShape((shapeMap) ? shapeMap[id] : ShapeEnum.CIRCLE);
             const color = (colorMap) ? (colorMap[id]) ? colorMap[id] : 0xDDDDDD : 0x039be5;
             const label = (labelMap) ? (labelMap[id]) ? labelMap[id] : 'Unknown' : '';
