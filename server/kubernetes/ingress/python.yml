@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
       - name: notitia-python
-        image: canaantt/notitia-python:v2
+        image: canaantt/notitia-python:v4
         resources:
           limits:
             cpu: "200m"
@@ -31,7 +31,6 @@ spec:
   type: NodePort
   ports:
   - port: 80
-    nodePort: 30303
     targetPort: python-port
     protocol: TCP
     name: http
