@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/Rx';
-import { LabelController, LabelOptions } from './../../util/label/label.controller';
+import { LabelController, LabelOptions } from './../../controller/label/label.controller';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import * as scale from 'd3-scale';
 import * as TWEEN from 'tween.js';
@@ -58,6 +58,8 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         super.updateDecorator(config, decorators);
         ChartFactory.decorateDataGroups(this.meshes, this.decorators);
         this.onShowLabels();
+        this.points = this.meshes.map(v => v.children[0]);
+        this.tooltipController.targets = this.points;
     }
 
     updateData(config: GraphConfig, data: any) {
@@ -82,6 +84,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         });
         ChartFactory.decorateDataGroups(this.meshes, this.decorators);
         this.points = this.meshes.map(v => v.children[0]);
+        this.tooltipController.targets = this.points;
     }
 
     removeObjects() {
@@ -95,10 +98,11 @@ export class AbstractScatterVisualization extends AbstractVisualization {
 
 
     onShowLabels(): void {
-        const zoom = this.view.camera.position.z;
+        // const zoom = this.view.camera.position.z;
         const labelOptions = new LabelOptions(this.view, 'FORCE');
         labelOptions.offsetX3d = 1;
-        this.tooltips.innerHTML = LabelController.generateHtml(this.meshes, labelOptions);
+        labelOptions.maxLabels = 100;
+        this.labels.innerHTML = LabelController.generateHtml(this.meshes, labelOptions);
     }
 
 
