@@ -1,17 +1,7 @@
 import os.path
-# from eve import Eve
-from flask import Flask
-from flask_cors import CORS
-
-import os.path
 import simplejson as json
 
 import base64
-from flask import request
-from flask import jsonify
-from flask import Response
-from flask import send_from_directory
-
 from sklearn.manifold import MDS
 from sklearn.manifold import TSNE
 from sklearn.manifold import Isomap
@@ -45,25 +35,16 @@ from sklearn.cluster import MiniBatchKMeans
 from sklearn.cluster import MeanShift
 from sklearn.cluster import SpectralClustering
 
-import numpy
-# import pandas as pd
-# import sys, numpy, scipy
-# import scipy.cluster.hierarchy as hier
-# import scipy.spatial.distance as dist
+import pandas as pd
+import sys, numpy, scipy
+import scipy.cluster.hierarchy as hier
+import scipy.spatial.distance as dist
 
 from lifelines import KaplanMeierFitter
 from lifelines import NelsonAalenFitter
 from lifelines import CoxPHFitter
 from lifelines import AalenAdditiveFitter
 
-
-
-def httpWrapper(content):
-    return Response(content, status=200, mimetype='application/json')
-
-
-def echo(content):
-    return httpWrapper(json.dumps(content))
 
 def survival_ll_kaplan_meier(content):
     T = numpy.array(content['times'], dtype=int)
@@ -700,29 +681,14 @@ def manifold_sk_quadradicdiscriminantanalysis(content):
     }, ignore_nan=True ))
 
 
-
-# Start Eve Stuff
-# def on_fetched_resource(resource, response):
-#     for doc in response['_items']:
-#         for field in doc.keys():
-#             if field.startswith('_'):
-#                 del(doc[field])
-
-# app = Eve(settings='settings.py')
-# app.on_fetched_resource += on_fetched_resource
-app = Flask(__name__)
-CORS(app)
-@app.route('/')
 def hello():
     return "Hello World!"
 
-@app.route('/test')
 def test():
    src = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'loaderio-0eee16638c75d153d8fe2f0021281756.txt')
    return open(src).read()
 
-@app.route('/py', methods=['GET', 'POST'])
-def main():
+def handler(event, context):
     """ Gateway """
     content = request.get_json()
     function_to_invoke = {
@@ -763,9 +729,3 @@ def main():
         return function_to_invoke(content)
     except Exception as err:
          return Response(json.dumps(err.args, ignore_nan=True ), status=400, mimetype='application/json')
-
-
-# if __name__ == '__main__':
-#     app.run()
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80)
