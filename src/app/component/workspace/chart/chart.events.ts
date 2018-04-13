@@ -6,10 +6,10 @@ import { Subject } from 'rxjs/Subject';
 import { WorkspaceConfigModel } from 'app/model/workspace.model';
 
 export class ChartEvent {
-    public event: Event;
+    public event: MouseEvent;
     public mouse: { x: number, y: number, xs: number, ys: number };
     public chart: GraphEnum;
-    constructor(event: Event, mouse: { x: number, y: number, xs: number, ys: number }, chart?: GraphEnum) {
+    constructor(event: MouseEvent, mouse: { x: number, y: number, xs: number, ys: number }, chart?: GraphEnum) {
         this.event = event;
         this.mouse = mouse;
         this.chart = chart;
