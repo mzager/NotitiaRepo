@@ -75,6 +75,7 @@ export class TimelinesGraph extends AbstractVisualization {
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
         super.updateDecorator(config, decorators);
         ChartFactory.decorateDataGroups(this.meshes, this.decorators);
+        this.tooltipController.targets = this.meshes;
     }
 
     updateData(config: GraphConfig, data: any) {
@@ -116,7 +117,7 @@ export class TimelinesGraph extends AbstractVisualization {
         );
         const yPos = (rowHeight - (bar * barHeight)) - 2;
         mesh.position.set(s + (w * 0.5), yPos, 0);
-        mesh.userData = event;
+        mesh.userData = { tooltip: this.formatEventTooltip(event) };
         group.add(mesh);
         this.meshes.push(mesh);
     }
@@ -134,14 +135,14 @@ export class TimelinesGraph extends AbstractVisualization {
                 new THREE.Vector2(c, yPos + 2)
             );
 
-            mesh.userData = event;
+            mesh.userData = { tooltip: this.formatEventTooltip(event) };
             group.add(mesh);
             this.meshes.push(mesh);
         } else {
             const s = scale(event.start);
             const yPos = (rowHeight - (bar * barHeight)) - 2;
             const mesh = ChartFactory.lineAllocate(event.color, new Vector2(s, yPos - 2), new Vector2(s, yPos + 2));
-            mesh.userData = event;
+            mesh.userData = { tooltip: this.formatEventTooltip(event) };
             group.add(mesh);
             this.meshes.push(mesh);
         }
@@ -158,7 +159,7 @@ export class TimelinesGraph extends AbstractVisualization {
         const yPos = (rowHeight - (bar * barHeight)) - 2;
 
         mesh.position.set(s, yPos, 1);
-        mesh.userData = event;
+        mesh.userData = { tooltip: this.formatEventTooltip(event) };
         group.add(mesh);
         this.meshes.push(mesh);
 
@@ -191,6 +192,7 @@ export class TimelinesGraph extends AbstractVisualization {
                 );
                 mesh.position.set(xPos - (rowHeight * 0.5) - 1, yPos, 10);
                 mesh.userData = {
+                    tooltip: this.formatAttrTooltip(attr),
                     data: {
                         type: 'attr',
                         field: attr.prop.replace(/_/gi, ' '),
@@ -276,8 +278,6 @@ export class TimelinesGraph extends AbstractVisualization {
         // Grid
         this.addLines(rowHeight, rowCount);
 
-
-
         // Scale
         const scale = scaleLinear();
         scale.range([-500, 500]);
@@ -341,55 +341,30 @@ export class TimelinesGraph extends AbstractVisualization {
             });
         });
 
-
-
         // Attributes
         this.addAttrs(rowHeight, rowCount, pidMap);
+        this.tooltipController.targets = this.meshes;
+    }
+
+    formatEventTooltip(event: any): string {
+        const data = event.data;
+        return '<div>' + Object.keys(data).reduce((p, c) => {
+            if (c !== 'type') {
+                if (data[c].trim().length > 0) {
+                    p += '<nobr>' + c + ': ' + data[c].toLowerCase() + '</nobr><br />';
+                }
+            }
+            return p;
+        }, '') + '</div>';
+    }
+    formatAttrTooltip(attr: any): string {
+        return attr.field + ': ' + attr.value;
     }
 
     onMouseMove(e: ChartEvent): void {
-        const hit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
-
-        if (hit.length > 0) {
-
-            if (hit[0].object.userData === undefined) {
-                return;
-            }
-            try {
-                const xPos = e.mouse.xs + 10;
-                const yPos = e.mouse.ys;
-                const data = hit[0].object.userData.data;
-                if (data.type === 'event') {
-                    const tip = Object.keys(data).reduce((p, c) => {
-                        if (c !== 'type') {
-                            if (data[c].trim().length > 0) {
-                                p += '<nobr>' + c + ': ' + data[c].toLowerCase() + '</nobr><br />';
-                            }
-                        }
-                        return p;
-                    }, '<span style="font-weight:700;font-size:1rem;color:#FFF;">' + hit[0].object.userData.subtype + '</span><br />');
-                    this.tooltips.innerHTML = '<div style="width:auto;background:rgba(0,0,0,.8);font-size:.9rem;color:#DDD;' +
-                        'padding:5px;border-radius:3px;z-index:9999;position:absolute;left:' +
-                        xPos + 'px;top:' +
-                        yPos + 'px;">' +
-                        tip + '</div>';
-                }
-                if (data.type === 'attr') {
-                    const tip = data.field + ': ' + data.value;
-                    this.tooltips.innerHTML = '<div style="width:auto;background:rgba(255,255,255,.8);color:#000;' +
-                        'padding:5px;border-radius:3px;z-index:9999;position:absolute;left:' +
-                        xPos + 'px;top:' +
-                        yPos + 'px;">' +
-                        tip + '</div>';
-                }
-            } catch (e) {
-
-            }
-
-            return;
-        }
-        this.tooltips.innerHTML = '';
+        super.onMouseMove(e);
     }
+
 
     onShowLabels(): void {
         const zoom = this.view.camera.position.z;
