@@ -140,9 +140,9 @@ export class DataEffect {
             const workspaceConfig = new WorkspaceConfigModel();
             workspaceConfig.layout = WorkspaceLayoutEnum.SINGLE;
 
-            // const survivalConfig = new SurvivalConfigModel();
-            // survivalConfig.graph = GraphEnum.GRAPH_A;
-            // survivalConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
+            const survivalConfig = new SurvivalConfigModel();
+            survivalConfig.graph = GraphEnum.GRAPH_A;
+            survivalConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
 
             // const pathwaysConfig = new PathwaysConfigModel();
             // pathwaysConfig.graph = GraphEnum.GRAPH_A;
@@ -217,11 +217,11 @@ export class DataEffect {
                 // new compute.PcaIncrementalAction({ config: graphBConfig }),
                 // new compute.HicAction( { config: hicConfig }),
                 // new compute.BoxWhiskersAction({ config: boxWhiskersConfig }),
-                new compute.TimelinesAction({ config: timelinesConfigA }),
+                // new compute.TimelinesAction({ config: timelinesConfigA }),
                 // new compute.TimelinesAction( { config: timelinesConfigB})
                 // new compute.ChromosomeAction({ config: chromosomeConfig }),
                 // new compute.HeatmapAction({ config: heatmapConfig }),
-                // new compute.SurvivalAction({ config: survivalConfig }),
+                new compute.SurvivalAction({ config: survivalConfig }),
                 // new compute.ChromosomeAction( { config: chromosomeConfig } )
                 new compute.PathwaysAction({ config: pathwaysConfig }),
                 // new compute.GenomeAction({ config: genomeConfig }),

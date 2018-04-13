@@ -18,6 +18,7 @@ export interface ILabel {
 
 export class LabelOptions {
     classes: Array<string> = [];    // CSS Classes To Apply
+    fontsize: number = 10;
     ignoreFrustumX = false;         // Only Make Sure Object Is In View On Y Axis
     ignoreFrustumY = false;         // Only Make Sure Object Is In View On X Axis
     offsetX = 0;                    // Offset Computed X Position By Amount After 2D Transform
@@ -28,11 +29,11 @@ export class LabelOptions {
     absoluteX: number = null;       // Replace Computed X Position By Amount
     absoluteY: number = null;       // Replace Computed Y Position By Amount
     rotate: number = 0;             // Degrees To Rotate Text
-    origin: 'LEFT' | 'CENTER' | 'RIGHT' | 'JUSTIFY' = 'RIGHT';   // Origin For Transforms + Positions
+    origin: 'LEFT' | 'CENTER' | 'RIGHT' = 'RIGHT';   // Origin For Transforms + Positions
     prefix = '';                    // Copy To Add Before Label
     postfix = '';                   // Copy To Add After Label
-    align: 'LEFT' | 'RIGHT' | 'CENTER' = 'LEFT';    // Text Alignment
-    maxLabels: number = 100;        // Maximum Number Of Labels
+    align: 'LEFT' | 'RIGHT' | 'CENTER' | 'JUSTIFIED' = 'LEFT';    // Text Alignment
+    maxLabels: number = Infinity;        // Maximum Number Of Labels
     algorithm: 'FORCE' | 'GRID' | 'PIXEL' = 'PIXEL';    // Layout Algorythem
     algorithmIterations = 20;       // Number Of Iterations To Apply Algorythem (Force Algo)          
     pointRadius = 3;                // How Big Is The Point...
@@ -45,6 +46,7 @@ export class LabelOptions {
     }
     generateCss(): string {
         let css = '';
+        css += 'font-size:' + this.fontsize + 'px;';
         css += 'position:absolute; left:0px; top:0px;';
         css += 'transform-origin: ' + ((this.origin === 'LEFT') ? '0%' : (this.origin === 'RIGHT') ? '100%' : '50%') + ' 50%';
         css += ';text-align: ' + this.align.toLocaleLowerCase();
@@ -61,6 +63,7 @@ export class LabelController {
         }
         objects = LabelController.layoutObjects(objects, options);
         const html = LabelController.styleObjects(objects, options);
+        console.log(html);
         return html;
     }
 
@@ -103,7 +106,6 @@ export class LabelController {
         return data;
     }
     private static layoutObjectsForce(objects: Array<ILabel>, options: LabelOptions): Array<ILabel> {
-
         const data = this.layoutObjectsPixel(objects, options);
         new LabelForce()
             .label(data)
