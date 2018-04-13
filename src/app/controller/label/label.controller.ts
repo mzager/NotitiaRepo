@@ -1,10 +1,11 @@
+import { ChartEvents } from './../../component/workspace/chart/chart.events';
 import { textAlign } from 'three-text2d';
 import { ILabel } from './label.controller';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Rx';
 import { EventEmitter } from '@angular/core';
 import { Subject } from 'rxjs/subject';
-import { LabelForce } from './../../util/label/label.force';
+import { LabelForce } from './../../controller/label/label.force';
 import { VisualizationView } from './../../model/chart-view.model';
 import * as THREE from 'three';
 import * as _ from 'lodash';
@@ -47,10 +48,10 @@ export class LabelOptions {
     generateCss(): string {
         let css = '';
         css += 'font-size:' + this.fontsize + 'px;';
-        css += 'position:absolute; left:0px; top:0px;';
         css += 'transform-origin: ' + ((this.origin === 'LEFT') ? '0%' : (this.origin === 'RIGHT') ? '100%' : '50%') + ' 50%';
         css += ';text-align: ' + this.align.toLocaleLowerCase();
         css += ';transform: rotate(' + this.rotate + 'deg) ';
+        css += ';position:absolute;';
         return css;
     }
 }
@@ -63,7 +64,6 @@ export class LabelController {
         }
         objects = LabelController.layoutObjects(objects, options);
         const html = LabelController.styleObjects(objects, options);
-        console.log(html);
         return html;
     }
 
@@ -123,7 +123,7 @@ export class LabelController {
         const css = options.generateCss();
         const alignmentOffset = (options.align === 'LEFT') ? 0 : (options.align === 'CENTER') ? 50 : -100;
         return objects.reduce((p, c) => {
-            const translate = 'translate(' + Math.round(c.position.x + alignmentOffset + options.offsetX) + 'px, ' + Math.round(c.position.y + options.offsetY) + 'px)';
+            const translate = 'left:' + Math.round(c.position.x + alignmentOffset + options.offsetX) + 'px; top:' + Math.round(c.position.y + options.offsetY) + 'px;';
             return p += '<div class="z-label" style="' + css + translate + '">' + options.prefix + c.userData.tooltip + options.postfix + '</div>';
         }, '');
     }
@@ -159,7 +159,7 @@ export class LabelController {
     public onShow: EventEmitter<any>;
     public onHide: EventEmitter<any>;
 
-    constructor(view: VisualizationView, debounce: number = 300) {
+    constructor(view: VisualizationView, events: ChartEvents, debounce: number = 300) {
         this._view = view;
         this._enabled = this._enabled;
         this._debounce = debounce;
@@ -196,6 +196,7 @@ export class LabelController {
         if (value === this._enabled) {
             return;
         }
+        this._enabled = value;
         if (value) {
             this._view.controls.addEventListener('change', this.onChange.bind(this));
             this.onShow.emit();

@@ -1,4 +1,4 @@
-import { LabelController } from './../../../util/label/label.controller';
+import { LabelController, LabelOptions } from './../../../controller/label/label.controller';
 import { MeshLine } from 'three.meshline';
 import { interpolateYlGnBu } from 'd3-scale-chromatic';
 import { HicDataModel, HicConfigModel } from './hic.model';
@@ -24,7 +24,6 @@ export class HicGraph extends AbstractVisualization {
     public set config(config: HicConfigModel) { this._config = config; }
     public get config(): HicConfigModel { return this._config as HicConfigModel; }
 
-    // Create - Initialize Mesh Arrays
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         super.create(labels, events, view);
         this.meshes = [];
@@ -107,8 +106,10 @@ export class HicGraph extends AbstractVisualization {
     onMouseMove(e: ChartEvent): void { }
 
     onShowLabels(): void {
-        debugger;
-        // this.tooltips.innerHTML = this.labelController.generateLabels(this.meshes, this.view, 'FORCE');
+        const labelOptions = new LabelOptions(this.view, 'FORCE');
+        labelOptions.offsetX3d = 1;
+        labelOptions.maxLabels = 100;
+        this.labels.innerHTML = LabelController.generateHtml(this.meshes, labelOptions);
     }
 
 }

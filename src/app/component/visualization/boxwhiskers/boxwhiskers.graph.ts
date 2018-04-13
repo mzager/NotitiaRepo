@@ -1,4 +1,4 @@
-import { LabelController } from './../../../util/label/label.controller';
+import { LabelController } from './../../../controller/label/label.controller';
 import { MeshLine } from 'three.meshline';
 import { scaleLinear } from 'd3-scale';
 import { BoxWhiskersDataModel, BoxWhiskersConfigModel } from './boxwhiskers.model';

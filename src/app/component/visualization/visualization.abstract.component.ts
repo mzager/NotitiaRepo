@@ -1,6 +1,7 @@
-import { LabelController } from './../../util/label/label.controller';
+import { IToolTip, TooltipOptions } from './../../controller/tooltip/tooltip.controller';
+import { LabelController } from './../../controller/label/label.controller';
 import { OrbitControls } from 'three-orbitcontrols-ts';
-import { Vector3 } from 'three';
+import { Vector3, Object3D } from 'three';
 import { FontService } from './../../service/font.service';
 import { GraphData } from 'app/model/graph-data.model';
 import { DataField } from './../../model/data-field.model';
@@ -14,6 +15,7 @@ import { EventEmitter } from '@angular/core';
 import { GraphEnum, EntityTypeEnum } from 'app/model/enum.model';
 import { ChartObjectInterface } from './../../model/chart.object.interface';
 import * as _ from 'lodash';
+import { TooltipController } from '../../controller/tooltip/tooltip.controller';
 export class AbstractVisualization implements ChartObjectInterface {
 
     // Emitters
@@ -31,8 +33,11 @@ export class AbstractVisualization implements ChartObjectInterface {
     public $MouseUp: Subscription;
     public $onShowLabels: Subscription;
     public $onHideLabels: Subscription;
-    public overlay: HTMLElement;
+    public $onShowTooltip: Subscription;
+    public $onHideTooltip: Subscription;
+    public html: HTMLElement;
     public tooltips: HTMLElement;
+    public tooltip: string;
     public labels: HTMLElement;
     public events: ChartEvents;
     public view: VisualizationView;
@@ -40,11 +45,14 @@ export class AbstractVisualization implements ChartObjectInterface {
     public meshes: THREE.Object3D[];
     public fontService: FontService;
     protected labelController: LabelController;
+    protected tooltipOptions: TooltipOptions;
+    protected tooltipController: TooltipController;
 
     enable(truthy: boolean) {
         if (this.isEnabled === truthy) { return; }
         this.isEnabled = truthy;
         this.labelController.enable = this.isEnabled;
+        this.tooltipController.enable = this.isEnabled;
         this.view.controls.enabled = this.isEnabled;
         if (truthy) {
             this.$MouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
@@ -64,32 +72,39 @@ export class AbstractVisualization implements ChartObjectInterface {
         this._config = config as GraphConfig;
         this._data = data;
     }
-    create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
+    create(html: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
 
-        this.labels = labels;
-        this.labels.innerText = '';
+        this.html = html;
+        this.html.innerText = '';
         this.events = events;
         this.view = view;
         this.isEnabled = false;
         this.meshes = [];
         this.decorators = [];
 
+
+        this.labels = <HTMLDivElement>(document.createElement('div'));
+        this.labels.className = 'graph-overlay';
+        this.html.appendChild(this.labels);
+
+        this.tooltipOptions = new TooltipOptions();
+        this.tooltip = '';
         this.tooltips = <HTMLDivElement>(document.createElement('div'));
         this.tooltips.className = 'graph-tooltip';
-        this.labels.appendChild(this.tooltips);
+        this.html.appendChild(this.tooltips);
 
-        this.overlay = <HTMLDivElement>(document.createElement('div'));
-        this.overlay.className = 'graph-overlay';
-        this.labels.appendChild(this.overlay);
+
 
         view.camera.position.fromArray([0, 0, 1000]);
         view.camera.lookAt(new Vector3(0, 0, 0));
         view.scene.add(view.camera);
 
-
-        this.labelController = new LabelController(view);
+        this.labelController = new LabelController(view, events);
+        this.tooltipController = new TooltipController(view, events);
         this.$onShowLabels = this.labelController.onShow.subscribe(this.onShowLabels.bind(this));
         this.$onHideLabels = this.labelController.onHide.subscribe(this.onHideLabels.bind(this));
+        this.$onShowTooltip = this.tooltipController.onShow.subscribe(this.onShowTooltip.bind(this));
+        this.$onHideTooltip = this.tooltipController.onHide.subscribe(this.onHideTooltip.bind(this));
 
         return this;
     }
@@ -99,20 +114,38 @@ export class AbstractVisualization implements ChartObjectInterface {
         this.$MouseUp.unsubscribe();
         this.$onHideLabels.unsubscribe();
         this.$onShowLabels.unsubscribe();
+        this.$onShowTooltip.unsubscribe();
+        this.$onHideTooltip.unsubscribe();
         this.labelController.destroy();
+        this.tooltipController.destroy();
         this.enable(false);
     }
     preRender(views: VisualizationView[], layout: WorkspaceLayoutEnum, renderer: THREE.Renderer): void { }
 
     public onMouseDown(e: ChartEvent): void { }
     public onMouseUp(e: ChartEvent): void { }
-    public onMouseMove(e: ChartEvent): void { }
+    public onMouseMove(e: ChartEvent): void {
+        console.log('111' + this.tooltip);
+        // this.tooltips.innerHTML = TooltipController.generateHtml({
+        //     position: new Vector3(0, 0, 0),
+        //     userData: { tooltip: this.tooltip }
+        // }, this.tooltipOptions);    
+    }
+    public onShowTooltip(e: { text: string, event: ChartEvent }): void {
+        this.tooltip = e.text;
+        console.log(e.text + ";;;");
+        debugger;
+        this.onMouseMove(e.event);
+    }
+    public onHideTooltip(): void {
+        this.tooltip = '';
+        this.tooltips.innerText = '';
+    }
     public onShowLabels(): void {
-        console.log('show - super');
+
     }
     public onHideLabels(): void {
-        console.log('hide')
-        this.tooltips.innerHTML = '';
+        this.labels.innerHTML = '';
     }
     constructor(fontService: FontService) {
         this.fontService = fontService;

@@ -1,4 +1,4 @@
-import { ILabel, LabelController, LabelOptions } from './../../../util/label/label.controller';
+import { ILabel, LabelController, LabelOptions } from './../../../controller/label/label.controller';
 import { AbstractVisualization } from './../visualization.abstract.component';
 import { DataDecorator } from './../../../model/data-map.model';
 import { scaleLinear, scaleLog, InterpolatorFactory, scaleSequential, scaleQuantize, scaleQuantile } from 'd3-scale';
@@ -48,19 +48,10 @@ export class TimelinesGraph extends AbstractVisualization {
     // Create - Initialize Mesh Arrays
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         super.create(labels, events, view);
-        // this.labels = labels;
-        // this.labels.innerText = '';
+
 
         this.yAxis = [];
         this.xAxis = [];
-
-        this.tooltips = <HTMLDivElement>(document.createElement('div'));
-        this.tooltips.className = 'graph-tooltip';
-        this.labels.appendChild(this.tooltips);
-
-        this.overlay = <HTMLDivElement>(document.createElement('div'));
-        this.overlay.className = 'graph-overlay';
-        this.labels.appendChild(this.overlay);
 
         this.events = events;
         this.view = view;
@@ -403,6 +394,7 @@ export class TimelinesGraph extends AbstractVisualization {
     onShowLabels(): void {
         const zoom = this.view.camera.position.z;
 
+        // Move these to static... don't need to recreate
         const labelXAxis = new LabelOptions(this.view);
         labelXAxis.absoluteY = this.view.viewport.height - 20;
         labelXAxis.ignoreFrustumY = true;
@@ -417,20 +409,9 @@ export class TimelinesGraph extends AbstractVisualization {
         labelYAxis.offsetX = -7;
         labelYAxis.align = 'RIGHT';
 
-
         this.labels.innerHTML =
             LabelController.generateHtml(this.xAxis, labelXAxis) +
             LabelController.generateHtml(this.yAxis, labelYAxis);
-        // } else {
-        //     this.labels.innerHTML = '';
-        // this.labels.innerHTML = LabelController.reduceHtml([
-        //     { x: this.view.viewport.width * .5, y: this.view.viewport.height - 20, name: 'Time' }
-        // ], 'CENTER') +
-        //     LabelController.reduceHtml([
-        //         { x: this.view.viewport.width - 20, y: this.view.viewport.height * 0.5, name: 'Patients' }
-        //     ], 'RIGHT');
-
-        // }
 
     }
 

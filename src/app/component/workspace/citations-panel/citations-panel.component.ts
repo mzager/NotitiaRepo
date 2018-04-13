@@ -26,7 +26,7 @@ declare var $: any;
         <a href='#' class='modalClose' (click)='closeClick()'></a>
         <div class='col s12 m9'>
             <h1 class='citations-h1'>Complete Oncoscape Citations</h1>  
-            <input type='text' #filterInput>
+            <input type='text' #filterInput placeholder="Filter">
             <div *ngFor='let result of results'>
                 <span *ngIf='result.visible'>
                     <div *ngFor='let method of result.methods'>

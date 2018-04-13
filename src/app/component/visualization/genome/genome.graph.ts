@@ -1,4 +1,4 @@
-import { LabelController, LabelOptions } from './../../../util/label/label.controller';
+import { LabelController, LabelOptions } from './../../../controller/label/label.controller';
 import { ChromosomeDataModel } from './../chromosome/chromosome.model';
 import { AbstractVisualization } from './../visualization.abstract.component';
 import { DataDecorator } from './../../../model/data-map.model';

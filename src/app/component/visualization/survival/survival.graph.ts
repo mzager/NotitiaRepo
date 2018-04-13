@@ -1,4 +1,4 @@
-import { LabelController, ILabel, LabelOptions } from './../../../util/label/label.controller';
+import { LabelController, ILabel, LabelOptions } from './../../../controller/label/label.controller';
 import { MeshLine } from 'three.meshline';
 import { scaleLinear, ScaleContinuousNumeric } from 'd3-scale';
 import { GraphEnum } from 'app/model/enum.model';
@@ -23,6 +23,7 @@ export class SurvivalGraph extends AbstractVisualization {
     public get config(): SurvivalConfigModel { return this._config as SurvivalConfigModel; }
 
     public labelsForPercents: Array<ILabel>;
+    public labelsForTimes: Array<ILabel>;
     public labelsForTitles: Array<ILabel>;
     public lines: Array<THREE.Line>;
     public confidences: Array<THREE.Mesh>;
@@ -37,6 +38,7 @@ export class SurvivalGraph extends AbstractVisualization {
         this.grid = [];
         this.labelsForPercents = [];
         this.labelsForTitles = [];
+        this.labelsForTimes = [];
         this.view.camera.position.setZ(5000);
         return this;
     }
@@ -78,6 +80,7 @@ export class SurvivalGraph extends AbstractVisualization {
         }
 
 
+
         const sX = scaleLinear().range([-500, 500]).domain(
             this.data.result.survival.reduce((p, c) => {
                 p[0] = Math.min(p[0], c.range[0][0]);
@@ -110,6 +113,18 @@ export class SurvivalGraph extends AbstractVisualization {
             this.drawLine(600, 0, result, hX, hY, i, 'Hazard');
         });
 
+        for (let x = -450; x <= 500; x += 100) {
+            this.labelsForTimes.push(
+                {
+                    position: new THREE.Vector3(-600 + x, -600, 0),
+                    userData: { tooltip: sX.invert(x).toString() }
+                },
+                {
+                    position: new THREE.Vector3(600 + x, -600, 0),
+                    userData: { tooltip: hX.invert(x).toString() }
+                }
+            );
+        }
         this.labelsForTitles.push(
             {
                 position: new THREE.Vector3(-600, 0, 0),
@@ -121,7 +136,7 @@ export class SurvivalGraph extends AbstractVisualization {
             },
         );
 
-
+        debugger;
         // Grids
         this.drawGrid(-600, 0);
         this.drawGrid(600, 0);
@@ -182,12 +197,6 @@ export class SurvivalGraph extends AbstractVisualization {
         this.lines.push(line);
         this.view.scene.add(line);
 
-        // Copy
-        // const text = this.fontService.createFontMesh(1000, label, this.view.camera, 'center', 'medium', 30);
-        // text.position.setX(0 + xOffset);
-        // text.position.setY(-620 + yOffset);
-        // this.grid.push(text);
-        // this.view.scene.add(text);
     }
 
     drawGrid(xOffset: number, yOffset: number): void {
@@ -208,14 +217,6 @@ export class SurvivalGraph extends AbstractVisualization {
                 position: new THREE.Vector3(-506 + xOffset, y + 6 + yOffset, 0),
                 userData: { tooltip: percent.toString() }
             });
-
-
-            // const text = new MeshText2D(percent.toString(),
-            //     { align: textAlign.right, font: '30px Ariel', fillStyle: '#666666', antialias: true });
-            // text.position.setX(-506 + xOffset);
-            // text.position.setY(y + 6 + yOffset);
-            // this.grid.push(text);
-            // this.view.scene.add(text);
             percent += 10;
         }
     }
@@ -244,26 +245,37 @@ export class SurvivalGraph extends AbstractVisualization {
         // Step 1 - Create Options
         const optionsForPercents = new LabelOptions(this.view, 'PIXEL');
         optionsForPercents.fontsize = 10;
+        optionsForPercents.origin = 'RIGHT';
+        optionsForPercents.align = 'RIGHT';
+
+        const optionsForTimes = new LabelOptions(this.view, 'PIXEL');
+        optionsForTimes.fontsize = 10;
+        optionsForTimes.rotate = 30;
+        // optionsForTimes.origin = 'CENTER';
+        // optionsForTimes.align = 'CENTER';
 
         const optionsForTitles = new LabelOptions(this.view, 'PIXEL');
-        optionsForTitles.fontsize = 30;
+        optionsForTitles.fontsize = 15;
         optionsForTitles.ignoreFrustumY = true;
         optionsForTitles.absoluteY = 60;
 
 
-        if (this.view.camera.position.z < 500) {
+        // if (this.view.camera.position.z < 500) {
 
-            optionsForPercents.fontsize = 10;
-            this.tooltips.innerHTML =
-                LabelController.generateHtml(this.labelsForPercents, optionsForPercents);
-        }
+        //     optionsForPercents.fontsize = 10;
+        //     this.tooltips.innerHTML =
+        //         LabelController.generateHtml(this.labelsForPercents, optionsForPercents);
+        // }
 
-        if (this.view.camera.position.z < 1500) {
-            optionsForPercents.fontsize = 10;
-            this.tooltips.innerHTML =
-                LabelController.generateHtml(this.labelsForPercents, optionsForPercents) +
-                LabelController.generateHtml(this.labelsForTitles, optionsForTitles);
-        }
+        // if (this.view.camera.position.z < 1500) {
+        optionsForPercents.fontsize = 10;
+        this.labels.innerHTML =
+            LabelController.generateHtml(this.labelsForPercents, optionsForPercents) +
+            LabelController.generateHtml(this.labelsForTimes, optionsForTimes) +
+            LabelController.generateHtml(this.labelsForTitles, optionsForTitles);
+
+
+        // }
 
 
 
