@@ -25,7 +25,6 @@ spec:
   type: NodePort
   ports:
   - port: 80
-    nodePort: 30302
     targetPort: 8080
     protocol: TCP
     name: http
