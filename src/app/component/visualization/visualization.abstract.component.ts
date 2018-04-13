@@ -55,13 +55,16 @@ export class AbstractVisualization implements ChartObjectInterface {
         this.tooltipController.enable = this.isEnabled;
         this.view.controls.enabled = this.isEnabled;
         if (truthy) {
+            console.log('enable');
             this.$MouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
             this.$MouseDown = this.events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
             this.$MouseUp = this.events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
         } else {
+            console.log('disable');
             this.$MouseMove.unsubscribe();
             this.$MouseDown.unsubscribe();
             this.$MouseUp.unsubscribe();
+            this.labels.innerHTML = '';
             this.tooltips.innerHTML = '';
         }
     }
@@ -93,8 +96,6 @@ export class AbstractVisualization implements ChartObjectInterface {
         this.tooltips.className = 'graph-tooltip';
         this.html.appendChild(this.tooltips);
 
-
-
         view.camera.position.fromArray([0, 0, 1000]);
         view.camera.lookAt(new Vector3(0, 0, 0));
         view.scene.add(view.camera);
@@ -125,16 +126,14 @@ export class AbstractVisualization implements ChartObjectInterface {
     public onMouseDown(e: ChartEvent): void { }
     public onMouseUp(e: ChartEvent): void { }
     public onMouseMove(e: ChartEvent): void {
-        console.log('111' + this.tooltip);
-        // this.tooltips.innerHTML = TooltipController.generateHtml({
-        //     position: new Vector3(0, 0, 0),
-        //     userData: { tooltip: this.tooltip }
-        // }, this.tooltipOptions);    
+        if (this.tooltip === '') { return; }
+        this.tooltips.innerHTML = TooltipController.generateHtml({
+            position: new Vector3(e.event.clientX + 5, e.event.clientY + 5, 0),
+            userData: { tooltip: this.tooltip }
+        }, this.tooltipOptions);
     }
     public onShowTooltip(e: { text: string, event: ChartEvent }): void {
         this.tooltip = e.text;
-        console.log(e.text + ";;;");
-        debugger;
         this.onMouseMove(e.event);
     }
     public onHideTooltip(): void {
