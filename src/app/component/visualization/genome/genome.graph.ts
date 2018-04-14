@@ -70,6 +70,7 @@ export class GenomeGraph extends AbstractVisualization {
     }
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         super.create(labels, events, view);
+        this.tooltipController.targets = this.bands; //.concat(this.meres);
         return this;
     }
     destroy() {
@@ -195,20 +196,31 @@ export class GenomeGraph extends AbstractVisualization {
     }
 
     onShowLabels(): void {
-        const zoom = this.view.camera.position.z;
-        const layoutOpts = new LabelOptions(this.view);
 
+        const zoom = this.view.camera.position.z;
+        let labelOptions;
         if (zoom > 600) {
-            this.tooltips.innerHTML = LabelController.generateHtml(this.meres, layoutOpts)
-        } else if (zoom > 500) {
-            this.tooltips.innerHTML = LabelController.generateHtml(this.bands, layoutOpts);
+            labelOptions = new LabelOptions(this.view, 'PIXEL');
+            labelOptions.offsetX3d = -2;
+            labelOptions.align = 'RIGHT';
+            this.labels.innerHTML = LabelController.generateHtml(this.meres, labelOptions);
         } else {
-            layoutOpts.algorithm = 'FORCE';
-            layoutOpts.align = 'RIGHT';
-            layoutOpts.maxLabels = 500;
-            layoutOpts.offsetX = -30;
-            this.tooltips.innerHTML = LabelController.generateHtml(this.meshes, layoutOpts);
+            labelOptions = new LabelOptions(this.view, 'FORCE');
+            labelOptions.align = 'RIGHT';
+            labelOptions.maxLabels = 500;
+            labelOptions.offsetX = -30;
+            this.labels.innerHTML = LabelController.generateHtml(this.meshes, labelOptions);
         }
+        // const zoom = this.view.camera.position.z;
+        // const layoutOpts = new LabelOptions(this.view);
+
+        // if (zoom > 600) {
+        //     this.tooltips.innerHTML = LabelController.generateHtml(this.meres, layoutOpts)
+        // } else if (zoom > 500) {
+        //     this.tooltips.innerHTML = LabelController.generateHtml(this.bands, layoutOpts);
+        // } else {
+
+        // }
     }
 
 }
