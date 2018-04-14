@@ -38,6 +38,7 @@ export class AbstractVisualization implements ChartObjectInterface {
     public html: HTMLElement;
     public tooltips: HTMLElement;
     public tooltip: string;
+    public tooltipColor: string;
     public labels: HTMLElement;
     public events: ChartEvents;
     public view: VisualizationView;
@@ -128,12 +129,13 @@ export class AbstractVisualization implements ChartObjectInterface {
     public onMouseMove(e: ChartEvent): void {
         if (this.tooltip === '') { return; }
         this.tooltips.innerHTML = TooltipController.generateHtml({
-            position: new Vector3(e.event.clientX + 17, e.event.clientY - 13, 0),
-            userData: { tooltip: this.tooltip }
+            position: new Vector3(e.event.clientX + 17, e.event.clientY - 15, 0),
+            userData: { tooltip: this.tooltip, color: this.tooltipColor }
         }, this.tooltipOptions);
     }
-    public onShowTooltip(e: { text: string, event: ChartEvent }): void {
+    public onShowTooltip(e: { text: string, color: string, event: ChartEvent }): void {
         this.tooltip = e.text;
+        this.tooltipColor = e.color;
         this.onMouseMove(e.event);
     }
     public onHideTooltip(): void {
