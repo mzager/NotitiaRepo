@@ -421,7 +421,7 @@ select:focus {
     background: #FFF;
     width: auto;
     border: 1px solid #1395DE;
-    border-right-width: 6px;
+    border-right-width: 7px;
     // div { 
     //     color: #FFF;
     //     background: #1395DE;
@@ -437,6 +437,7 @@ select:focus {
         // background: #1395DE;
         display: block;
         padding: 10px;
+        text-transform: capitalize;
 
     }
    
