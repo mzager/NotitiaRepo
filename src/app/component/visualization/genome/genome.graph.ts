@@ -70,7 +70,7 @@ export class GenomeGraph extends AbstractVisualization {
     }
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         super.create(labels, events, view);
-        this.tooltipController.targets = this.bands;
+        this.tooltipController.targets = this.bands; //.concat(this.meres);
         return this;
     }
     destroy() {
