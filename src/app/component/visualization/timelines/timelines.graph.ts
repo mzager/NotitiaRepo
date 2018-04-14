@@ -21,7 +21,7 @@ import * as THREE from 'three';
 import * as d3Interpolate from 'd3-interpolate';
 import * as d3Scale from 'd3-scale';
 import { Subscription } from 'rxjs/Subscription';
-import { geoAlbers, active, ScaleLinear } from 'd3';
+import { geoAlbers, active, ScaleLinear, color } from 'd3';
 import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
 import { Vector3, CubeGeometry, Vector2, OrthographicCamera, Float32BufferAttribute, LineSegments } from 'three';
 import { DataService } from 'app/service/data.service';
@@ -119,7 +119,10 @@ export class TimelinesGraph extends AbstractVisualization {
         );
         const yPos = (rowHeight - (bar * barHeight)) - 2;
         mesh.position.set(s + (w * 0.5), yPos, 0);
-        mesh.userData = { tooltip: this.formatEventTooltip(event) };
+        mesh.userData = {
+            tooltip: this.formatEventTooltip(event),
+            color: event.color
+        };
         group.add(mesh);
         this.meshes.push(mesh);
     }
@@ -137,14 +140,20 @@ export class TimelinesGraph extends AbstractVisualization {
                 new THREE.Vector2(c, yPos + 2)
             );
 
-            mesh.userData = { tooltip: this.formatEventTooltip(event) };
+            mesh.userData = {
+                tooltip: this.formatEventTooltip(event),
+                color: event.color
+            };
             group.add(mesh);
             this.meshes.push(mesh);
         } else {
             const s = scale(event.start);
             const yPos = (rowHeight - (bar * barHeight)) - 2;
             const mesh = ChartFactory.lineAllocate(event.color, new Vector2(s, yPos - 2), new Vector2(s, yPos + 2));
-            mesh.userData = { tooltip: this.formatEventTooltip(event) };
+            mesh.userData = {
+                tooltip: this.formatEventTooltip(event),
+                color: event.color
+            };
             group.add(mesh);
             this.meshes.push(mesh);
         }
@@ -161,7 +170,10 @@ export class TimelinesGraph extends AbstractVisualization {
         const yPos = (rowHeight - (bar * barHeight)) - 2;
 
         mesh.position.set(s, yPos, 1);
-        mesh.userData = { tooltip: this.formatEventTooltip(event) };
+        mesh.userData = {
+            tooltip: this.formatEventTooltip(event),
+            color: event.color
+        };
         group.add(mesh);
         this.meshes.push(mesh);
 
@@ -172,7 +184,10 @@ export class TimelinesGraph extends AbstractVisualization {
             triangleGeometry.vertices.push(new THREE.Vector3(1.8, -1.8, 0.0));
             triangleGeometry.faces.push(new THREE.Face3(0, 1, 2));
             const triangle = new THREE.Mesh(triangleGeometry, ChartFactory.getColorBasic(event.color));
-            triangle.userData = event;
+            triangle.userData = {
+                tooltip: this.formatEventTooltip(event),
+                color: event.color
+            }
             triangle.position.set(scale(event.end), yPos, 0);
             group.add(triangle);
             this.meshes.push(triangle);
@@ -195,6 +210,7 @@ export class TimelinesGraph extends AbstractVisualization {
                 mesh.position.set(xPos - (rowHeight * 0.5) - 1, yPos, 10);
                 mesh.userData = {
                     tooltip: this.formatAttrTooltip(attr),
+                    color: color,
                     data: {
                         type: 'attr',
                         field: attr.prop.replace(/_/gi, ' '),
@@ -230,9 +246,7 @@ export class TimelinesGraph extends AbstractVisualization {
         var material = ChartFactory.getLineColor(0xEEEEEE);
         this.grid = new THREE.LineSegments(geometry, material);
         this.grid.updateMatrix();
-
         this.view.scene.add(this.grid);
-
     }
 
     // #endregion
