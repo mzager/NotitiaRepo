@@ -3,7 +3,7 @@ import { AbstractVisualization } from './../visualization.abstract.component';
 import { DataDecorator } from './../../../model/data-map.model';
 import { scaleLinear, scaleLog, InterpolatorFactory, scaleSequential, scaleQuantize, scaleQuantile } from 'd3-scale';
 import { interpolateRgb, interpolateHcl } from 'd3-interpolate';
-import { rgb } from 'd3-color';
+import { rgb, lab } from 'd3-color';
 import { OrbitControls } from 'three-orbitcontrols-ts';
 import { TimelinesStyle } from './timelines.model';
 import { Dexie } from 'dexie';
@@ -43,6 +43,7 @@ export class TimelinesGraph extends AbstractVisualization {
     public database: string;
     public yAxis: Array<ILabel>;
     public xAxis: Array<ILabel>;
+    public labelsForTitles: Array<ILabel>;
     public grid: THREE.LineSegments;
 
     // Create - Initialize Mesh Arrays
@@ -58,6 +59,7 @@ export class TimelinesGraph extends AbstractVisualization {
 
         this.meshes = [];
         this.patients = [];
+        this.labelsForTitles = [];
         this.attrs = new THREE.Group();
 
         // this.view.controls.maxZoom = 1;
@@ -236,6 +238,12 @@ export class TimelinesGraph extends AbstractVisualization {
     // #endregion
     addObjects(entity: EntityTypeEnum): void {
 
+        this.labelsForTitles.push(
+            {
+                position: new THREE.Vector3(-600, 0, 0),
+                userData: { tooltip: 'Timelines' }
+            }
+        );
 
         // this.clipPlanes = [];
 
@@ -368,25 +376,77 @@ export class TimelinesGraph extends AbstractVisualization {
 
     onShowLabels(): void {
         const zoom = this.view.camera.position.z;
+        console.log(zoom);
 
         // Move these to static... don't need to recreate
-        const labelXAxis = new LabelOptions(this.view);
-        labelXAxis.absoluteY = this.view.viewport.height - 20;
-        labelXAxis.ignoreFrustumY = true;
-        labelXAxis.maxLabels = Infinity;
+        const labelXAxis = new LabelOptions(this.view, 'PIXEL');
+        // labelXAxis.absoluteY = this.view.viewport.width + 5;
+        // labelXAxis.ignoreFrustumY = true;
         labelXAxis.align = 'CENTER';
+        labelXAxis.origin = 'CENTER';
         labelXAxis.postfix = ' Days';
+        labelXAxis.fontsize = 0;
 
-        const labelYAxis = new LabelOptions(this.view);
-        labelYAxis.absoluteX = this.view.viewport.width - 20;
+        const labelYAxis = new LabelOptions(this.view, 'PIXEL');
+        labelYAxis.absoluteX = this.view.viewport.width - 10;
         labelYAxis.ignoreFrustumX = true;
-        labelYAxis.maxLabels = Infinity;
-        labelYAxis.offsetX = -7;
+        // labelYAxis.maxLabels = Infinity;
+        labelYAxis.offsetY = -10;
         labelYAxis.align = 'RIGHT';
+        labelYAxis.fontsize = 0;
 
-        this.labels.innerHTML =
-            LabelController.generateHtml(this.xAxis, labelXAxis) +
-            LabelController.generateHtml(this.yAxis, labelYAxis);
+
+        const optionsForTitles = new LabelOptions(this.view, 'PIXEL');
+        optionsForTitles.fontsize = 10;
+        optionsForTitles.ignoreFrustumY = true;
+        optionsForTitles.absoluteY = 520;
+        optionsForTitles.absoluteX = 10;
+        optionsForTitles.align = 'CENTER';
+
+
+        if (this.view.camera.position.z < 3001) {
+            labelXAxis.fontsize = 5;
+            labelYAxis.fontsize = 5;
+            labelXAxis.offsetX = -90;
+
+            this.labels.innerHTML =
+                LabelController.generateHtml(this.xAxis, labelXAxis) +
+                LabelController.generateHtml(this.yAxis, labelYAxis) +
+                LabelController.generateHtml(this.labelsForTitles, optionsForTitles);
+        }
+        if (this.view.camera.position.z < 2000) {
+            labelXAxis.fontsize = 10;
+            labelYAxis.fontsize = 10;
+
+
+            this.labels.innerHTML =
+                LabelController.generateHtml(this.xAxis, labelXAxis) +
+                LabelController.generateHtml(this.yAxis, labelYAxis) +
+                LabelController.generateHtml(this.labelsForTitles, optionsForTitles);
+        }
+
+        // if (this.view.camera.position.z < 700) {
+        //     labelXAxis.fontsize = 15;
+        //     labelYAxis.fontsize = 15;
+
+        //     this.labels.innerHTML =
+        //         LabelController.generateHtml(this.xAxis, labelXAxis) +
+        //         LabelController.generateHtml(this.yAxis, labelYAxis)
+        // }
+        if (this.view.camera.position.z < 500) {
+            labelXAxis.fontsize = 15;
+
+            this.labels.innerHTML =
+                LabelController.generateHtml(this.xAxis, labelXAxis) +
+                LabelController.generateHtml(this.yAxis, labelYAxis)
+            // console.log(this.labels.innerHTML)
+        }
+
+
+        // this.labels.innerHTML =
+        //     LabelController.generateHtml(this.xAxis, labelXAxis) +
+        //     LabelController.generateHtml(this.yAxis, labelYAxis) +
+        //     LabelController.generateHtml(this.labelsForTitles, optionsForTitles);
 
     }
 
