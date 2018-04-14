@@ -154,6 +154,27 @@ declare var $: any;
             </div>
         </div>
     </div>
+    <h1 class='about-h1'>Institutional Support</h1>
+    <div class='row'>
+        <div class='team-copy col s12 l6'>
+            <img class='team-copy-thumb responsive-img' src='assets/about/mcdermott.jpg'>
+            <p class='team-copy-title'>Fred Hutchinson Cancer Research Center</p>
+            <div class='team-copy-desc'>Mr. McDermott started his career at the Fred Hutch in 2000 as an IT professional in Center IT. During that time,
+                he has been involved with the design, implementation and administration of many IT systems including email,
+                server virtualization, storage, cloud computing and more. He’s most interested in working on projects that
+                have a direct and positive impact on the important research that is happening at the Center.
+            </div>
+        </div>
+        <div class='team-copy col s12 l6'>
+            <img class='team-copy-thumb responsive-img' src='assets/about/mcdermott.jpg'>
+            <p class='team-copy-title'>SARC</p>
+            <div class='team-copy-desc'>Mr. McDermott started his career at the Fred Hutch in 2000 as an IT professional in Center IT. During that time,
+                he has been involved with the design, implementation and administration of many IT systems including email,
+                server virtualization, storage, cloud computing and more. He’s most interested in working on projects that
+                have a direct and positive impact on the important research that is happening at the Center.
+            </div>
+        </div>
+    </div>
 </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
