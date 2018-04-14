@@ -136,7 +136,7 @@ export class SurvivalGraph extends AbstractVisualization {
             },
         );
 
-        debugger;
+        // debugger;
         // Grids
         this.drawGrid(-600, 0);
         this.drawGrid(600, 0);
@@ -247,6 +247,8 @@ export class SurvivalGraph extends AbstractVisualization {
         optionsForPercents.fontsize = 10;
         optionsForPercents.origin = 'RIGHT';
         optionsForPercents.align = 'RIGHT';
+
+
 
         const optionsForTimes = new LabelOptions(this.view, 'PIXEL');
         optionsForTimes.fontsize = 10;
