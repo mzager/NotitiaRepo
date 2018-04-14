@@ -1,0 +1,37 @@
+# An Ingress with 3 hosts and 4 endpoints
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  namespace: production
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: 500m
+    ingress.kubernetes.io/proxy-body-size: 500m
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 10m
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: 30s
+    nginx.ingress.kubernetes.io/proxy-read-timeout: 20s
+spec:
+  rules:
+  - host: opencpu.os.sttrcancer.io
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: ocpu
+          servicePort: 80
+  - host: python.os.sttrcancer.io
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: python
+          servicePort: 80
+  - host: upload-server.os.sttrcancer.io
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: upload
+          servicePort: 80
