@@ -28614,7 +28614,9 @@ exports.survivalCompute = function (config, worker) {
                 events: cohortEvents
             }));
         });
+        debugger;
         Promise.all(promises).then(function (survivalHazardResults) {
+            debugger;
             var survivalResults = [];
             var hazardResults = [];
             survivalHazardResults.forEach(function (result, i) {
@@ -56243,7 +56245,7 @@ exports.pathwaysCompute = function (config, worker) {
         mode: 'cors',
         cache: 'default'
     };
-    fetch('https://s3-us-west-2.amazonaws.com/notitia/pwc/' + config.pathway + '.json.gz', requestInit)
+    fetch('https://s3-us-west-2.amazonaws.com/notitia/pathways/' + config.pathway + '.json.gz', requestInit)
         .then(function (response) { return response.json(); })
         .then(function (response) {
         worker.postMessage({
