@@ -46,10 +46,10 @@ from sklearn.cluster import MeanShift
 from sklearn.cluster import SpectralClustering
 
 import numpy
-# import pandas as pd
-# import sys, numpy, scipy
-# import scipy.cluster.hierarchy as hier
-# import scipy.spatial.distance as dist
+import pandas as pd
+import sys, numpy, scipy
+import scipy.cluster.hierarchy as hier
+import scipy.spatial.distance as dist
 
 from lifelines import KaplanMeierFitter
 from lifelines import NelsonAalenFitter
