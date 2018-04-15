@@ -101,9 +101,10 @@ export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWo
                 })
             );
         });
-
+        debugger;
         Promise.all(promises).then(survivalHazardResults => {
 
+            debugger;
             const survivalResults = [];
             const hazardResults = [];
             survivalHazardResults.forEach((result, i) => {

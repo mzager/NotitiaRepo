@@ -20,17 +20,17 @@
         <a class='app-bar-menu-item' (click)='viewPanel(4)' href='#'>Data Sets</a>
     </li>
     <li>
+        <a class='app-bar-menu-item' (click)='viewPanel(16)' href='#'>Cohorts</a>
+    </li>
+    <li>
         <a class='app-bar-menu-item' (click)='viewPanel(32)' href='#'>Gene Sets</a>
     </li>
     <li>
-        <a class='app-bar-menu-item' (click)='viewPanel(16)' href='#'>Cohorts</a>
+        <a class='app-bar-menu-item' (click)='viewPanel(8192)' href='#'>Pathways</a>
     </li>
     <!-- <li>
         <a class='app-bar-menu-item' (click)='viewPanel(256)' href='#'>Settings</a>
     </li> -->
-    <li>
-        <a class='app-bar-menu-item' (click)='viewPanel(512)' href='#'>About</a>
-    </li>
     <li class='divider'></li>
     <li>
         <a class='app-bar-menu-item' (click)='viewPanel(2048)' href='#'>Dashboard</a>
@@ -38,9 +38,17 @@
     <li>
         <a class='app-bar-menu-item' (click)='viewPanel(1099511627776)' href='#'>Spreadsheet</a>
     </li>
+    <li class='divider'></li>
+    <li>
+        <!-- wrong Panel number? -->
+        <a class='app-bar-menu-item' (click)='viewPanel(1024)' href='#'>Feedback</a>
+    </li>
     <li>
         <!-- wrong Panel number? -->
         <a class='app-bar-menu-item' (click)='viewPanel(1024)' href='#'>Citations</a>
+    </li>
+    <li>
+        <a class='app-bar-menu-item' (click)='viewPanel(512)' href='#'>About</a>
     </li>
 
 </ul>

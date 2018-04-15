@@ -14,7 +14,7 @@ export const pathwaysCompute = (config: PathwaysConfigModel, worker: DedicatedWo
         cache: 'default'
     };
 
-    fetch('https://s3-us-west-2.amazonaws.com/notitia/pwc/' + config.pathway + '.json.gz', requestInit)
+    fetch('https://s3-us-west-2.amazonaws.com/notitia/pathways/' + config.pathway + '.json.gz', requestInit)
         .then(response => response.json())
         .then(response => {
             worker.postMessage({
