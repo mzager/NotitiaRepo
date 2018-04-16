@@ -13,21 +13,21 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-read-timeout: 20s
 spec:
   rules:
-  - host: opencpu.os.sttrcancer.io
+  - host: dev.opencpu.os.sttrcancer.io
     http:
       paths:
       - path: /
         backend:
           serviceName: ocpu
           servicePort: 80
-  - host: python.os.sttrcancer.io
+  - host: dev.python.os.sttrcancer.io
     http:
       paths:
       - path: /
         backend:
           serviceName: python
           servicePort: 80
-  - host: upload-server.os.sttrcancer.io
+  - host: dev.upload-server.os.sttrcancer.io
     http:
       paths:
       - path: /

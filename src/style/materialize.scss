@@ -417,9 +417,11 @@ select:focus {
     display: inline-block;
     line-height: 15px;
     display: inline-block;
-    color: #FFF;
-    background: #1395DE;
+    color: #1395DE;
+    background: #FFF;
     width: auto;
+    border: 1px solid #1395DE;
+    border-right-width: 7px;
     // div { 
     //     color: #FFF;
     //     background: #1395DE;
@@ -428,13 +430,15 @@ select:focus {
     // }
     .copy {
         font-size:14px;
-        color: #FFF;
+        color: #1395DE;
+        background: #FFF;
+        // color: #FFF;
         line-height: 16px;
-        
-        background: #1395DE;
+        // background: #1395DE;
         display: block;
-        padding: 10px
-        
+        padding: 10px;
+        text-transform: capitalize;
+
     }
    
     .copy:after {
@@ -451,4 +455,7 @@ select:focus {
         border-width: 7px;
         margin-top: -7px;
     }
+}
+canvas {
+    cursor: crosshair;
 }

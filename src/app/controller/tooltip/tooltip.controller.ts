@@ -7,7 +7,7 @@ import { VisualizationView } from './../../model/chart-view.model';
 import { EventEmitter } from '@angular/core';
 export interface IToolTip {
     position: THREE.Vector3;
-    userData: { tooltip: string };
+    userData: { tooltip: string, color: string };
 }
 export class TooltipOptions {
 
@@ -40,7 +40,8 @@ export class TooltipOptions {
 export class TooltipController {
 
     public static generateHtml(object: IToolTip, options: TooltipOptions): string {
-        const css = options.generateCss();
+        const css = 'border-right-color:' + object.userData.color + ';' + options.generateCss();
+        console.log(css);
         const alignmentOffset = (options.align === 'LEFT') ? 0 : (options.align === 'CENTER') ? 50 : -100;
         const translate = 'left:' + Math.round(object.position.x + alignmentOffset + options.offsetX) + 'px; top:' + Math.round(object.position.y + options.offsetY) + 'px;';
         const html = '<div class="z-tooltip" style="' + css + translate + '"><span class="copy">' + options.prefix + object.userData.tooltip + options.postfix + '</span></div>';
@@ -59,7 +60,7 @@ export class TooltipController {
     protected _hoverObjectId: number;
 
 
-    public onShow: EventEmitter<{ text: string, event: ChartEvent }>;
+    public onShow: EventEmitter<{ text: string, color: string, event: ChartEvent }>;
     public onHide: EventEmitter<any>;
 
     constructor(view: VisualizationView, events: ChartEvents, debounce: number = 10) {
@@ -117,8 +118,16 @@ export class TooltipController {
         }
         if (this._hoverObjectId === intersects[0].object.id) { return; }
         this._hoverObjectId = intersects[0].object.id;
-        const text = intersects[0].object.userData.tooltip;
+        const data = intersects[0].object.userData;
+        const text = data.tooltip;
+        const color = data.hasOwnProperty('color') ? data.color : 0xFFFFFF;
+
         if (text === '') { return; }
-        this.onShow.emit({ text: text, event: e });
+        const hex = '#' + (0xffffff + color + 1).toString(16).substr(1);
+        this.onShow.emit({
+            text: text,
+            color: hex,
+            event: e
+        });
     }
 }

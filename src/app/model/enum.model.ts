@@ -334,7 +334,9 @@ export const enum PanelEnum {
     ABOUT = 1 << 9,
     CITATION = 1 << 10,
     DOCUMENTATION = 1 << 11,
-    DASHBOARD = 1 << 12
+    DASHBOARD = 1 << 12,
+    PATHWAYS = 1 << 13
+
 }
 
 // Panels

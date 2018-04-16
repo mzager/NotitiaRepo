@@ -11,15 +11,18 @@ RUN apt-get -y update && \
 RUN apt-get install -y software-properties-common && \
     add-apt-repository ppa:deadsnakes/ppa && \
     apt-get -y update && \
-    apt-get install -y python3.6 python3.6-dev && \
+    apt-get install -y python3.6 python3.6-dev python3-pip && \
     apt-get -y update && \
-    apt-get install -y python3-pip python-virtualenv && \
-    pip3 install --upgrade pip && \
-    pip3 install flask scipy lifelines pandas scikit-learn numpy eve && \
-    pip3 install -U flask-cors && \
-    git clone https://github.com/canaantt/Python
-# dockgit clone https://github.com/mzager/Python
+    apt-get install -y python-setuptools 
 
+RUN easy_install pip && \
+    apt-get install -y python-virtualenv && \
+    pip3 install flask scipy lifelines pandas scikit-learn numpy eve && \
+    pip3 install -U flask-cors # 
+# && \
+# git clone https://github.com/canaantt/Python
+RUN mkdir Python
+COPY ./ Python
 # Start
 EXPOSE 80
 CMD ["python3", "Python/api.py"]
