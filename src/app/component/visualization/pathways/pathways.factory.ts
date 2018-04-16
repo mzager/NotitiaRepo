@@ -25,22 +25,33 @@ export class PathwayEdgeEnum {
 }
 export class PathwaysFactory {
 
-    public static createEdge(edge: string, start: Vector2, end: Vector2): Object3D {
+    public static createEdge(edge: any): Object3D {
+        const start = new Vector2(edge.start.x, edge.start.y);
+        const end = new Vector2(edge.end.x, edge.end.y);
 
-        console.log(edge);
-        switch (edge) {
+        const dim = (edge.start.hasOwnProperty('w')) ?
+            new Vector2(edge.start.w, edge.start.h) :
+            new Vector2(48, 25);
+
+        const radians = Math.atan2(end.y - start.y, end.x - start.x);
+        const offset = new Vector2(
+            Math.cos(radians) * dim.x * .5,
+            Math.sin(radians) * dim.y * .5
+        )
+        console.log('!!' + edge.class)
+        switch (edge.class) {
             case PathwayEdgeEnum.CONSUMPTION:
-                return this.createConsumption(start.x, start.y, end.x, end.y);
+                return this.createConsumption(start.x, start.y, end.x, end.y, offset.x, offset.y);
             case PathwayEdgeEnum.PRODUCTION:
-                return this.createEdgeLine(start.x, start.y, end.x, end.y);
+                return this.createProduction(start.x, start.y, end.x, end.y, offset.x, offset.y);
             case PathwayEdgeEnum.CATALYSIS:
-                return this.createCatalysis(start.x, start.y, end.x, end.y);
+                return this.createCatalysis(start.x, start.y, end.x, end.y, offset.x, offset.y);
             case PathwayEdgeEnum.INHIBITION:
-                return this.createInhibition(start.x, start.y, end.x, end.y);
+                return this.createInhibition(start.x, start.y, end.x, end.y, offset.x, offset.y);
             case PathwayEdgeEnum.STIMULATION:
-                return this.createStimulation(start.x, start.y, end.x, end.y);
+                return this.createStimulation(start.x, start.y, end.x, end.y, offset.x, offset.y);
         }
-        return this.createEdgeLine(start.x, start.y, end.x, end.y);
+        return this.createEdgeLine(start.x, start.y, end.x, end.y, offset.x, offset.y);
     }
     public static createNode(node: string, w: number, h: number, x: number, y: number): THREE.Shape {
         //return this.createOctagonShape(w, h, x, y);
@@ -128,43 +139,83 @@ export class PathwaysFactory {
         return roundedRectShape;
     }
 
-    private static createEdgeLine(x1, y1, x2, y2): THREE.Group {
+
+    // LINES START
+    private static lineIntersect(a, b) {
+        a.m = (a[0].y - a[1].y) / (a[0].x - a[1].x);  // slope of line 1
+        b.m = (b[0].y - b[1].y) / (b[0].x - b[1].x);  // slope of line 2
+        return a.m - b.m < Number.EPSILON ? undefined
+            : {
+                x: (a.m * a[0].x - b.m * b[0].x + b[0].y - a[0].y) / (a.m - b.m),
+                y: (a.m * b.m * (b[0].x - a[0].x) + b.m * a[0].y - a.m * b[0].y) / (b.m - a.m)
+            };
+    }
+    private static createEdgeLine(x1, y1, x2, y2, xO, yO): THREE.Group {
         const group = new THREE.Group();
         group.add(ChartFactory.lineAllocate(0x90caf9, new Vector2(x1, y1), new Vector2(x2, y2)));
         return group;
     }
-    private static createConsumption(x1, y1, x2, y2): THREE.Group {
+    private static createConsumption(x1, y1, x2, y2, xO, yO): THREE.Group {
         const group = new THREE.Group();
         group.add(ChartFactory.lineAllocate(0xf48fb1, new Vector2(x1, y1), new Vector2(x2, y2)));
         return group;
     }
-    private static createCatalysis(x1, y1, x2, y2): THREE.Group {
+    private static createCatalysis(x1, y1, x2, y2, xO, yO): THREE.Group {
         const group = new THREE.Group();
         group.add(ChartFactory.lineAllocate(0xb39ddb, new Vector2(x1, y1), new Vector2(x2, y2)));
-        const radians = Math.atan2(y2 - y1, x2 - x1);
-        const yOff = Math.sin(radians) * 5;
-        const xOff = Math.cos(radians) * 5;
+        const rotation = Math.atan2(y2 - y1, x2 - x1);
         const circle = new THREE.Mesh(
             new THREE.CircleGeometry(5),
             ChartFactory.getColorPhong(0xb39ddb));
-        circle.position.x = x1 + xOff;
-        circle.position.y = y1 + yOff;
+        circle.position.setX(x1 + Math.cos(rotation) * 25);
+        circle.position.setY(y1 + Math.sin(rotation) * 25);
+        circle.position.z = 0.1;
+        circle.rotateZ(rotation);
         group.add(circle);
         return group;
     }
 
-    private static createInhibition(x1, y1, x2, y2): THREE.Group {
+    private static createInhibition(x1, y1, x2, y2, xO, yO): THREE.Group {
+        console.log("INHIBITION")
         const group = new THREE.Group();
         group.add(ChartFactory.lineAllocate(0xa5d6a7, new Vector2(x1, y1), new Vector2(x2, y2)));
         const line = ChartFactory.lineAllocate(0xa5d6a7, new Vector2(-5, 0), new Vector2(5, 0));
-        line.position.setX(x1);
-        line.position.setY(y1);
+        line.position.x = x1 + xO;
+        line.position.y = y1 + yO;
+        line.position.z = 0.1;
         line.rotateZ(Math.atan2(y2 - y1, x2 - x1) + 1.5);
         group.add(line);
         return group;
     }
 
-    private static createStimulation(x1, y1, x2, y2): THREE.Group {
+    private static createProduction(x1, y1, x2, y2, xO, yO): THREE.Group {
+        console.log("PRODUCTION");
+        const group = new THREE.Group();
+        const line = ChartFactory.lineAllocate(0xffcc80, new Vector2(x1, y1), new Vector2(x2, y2));
+        group.add(line);
+
+        const rotation = Math.atan2(y2 - y1, x2 - x1);
+        const triangleGeom = new THREE.ShapeGeometry(
+            new THREE.Shape([
+                new Vector2(0, 0),
+                new Vector2(6, -3),
+                new Vector2(6, 3),
+            ])
+        );
+        const triangle = new THREE.Mesh(
+            triangleGeom,
+            ChartFactory.getColorPhong(0xffcc80)
+        );
+        triangle.position.setX(x1 + Math.cos(rotation) * 5);
+        triangle.position.setY(y1 + Math.sin(rotation) * 5);
+        triangle.position.z = 0.1;
+        triangle.rotateZ(rotation);
+
+        group.add(triangle);
+        return group;
+    }
+    private static createStimulation(x1, y1, x2, y2, xO, yO): THREE.Group {
+        console.log("SIMULATION");
         const group = new THREE.Group();
         const line = ChartFactory.lineAllocate(0xffcc80, new Vector2(x1, y1), new Vector2(x2, y2));
         group.add(line);
@@ -179,8 +230,10 @@ export class PathwaysFactory {
             triangleGeom,
             ChartFactory.getColorPhong(0xffcc80)
         );
-        triangle.position.setX(x1);
-        triangle.position.setY(y1);
+        triangle.position.setX(x1 + xO);
+        triangle.position.setY(y1 + yO);
+        triangle.position.z = 0.1;
+
         triangle.rotateZ(Math.atan2(y2 - y1, x2 - x1));
         group.add(triangle);
         return group;

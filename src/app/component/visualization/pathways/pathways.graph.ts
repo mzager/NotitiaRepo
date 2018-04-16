@@ -113,13 +113,13 @@ export class PathwaysGraph extends AbstractVisualization {
 
                     if (node.hasOwnProperty('hgnc')) {
                         const numGenes = node.hgnc.length;
+                        const offset = ((node.hgnc.length * .5) * 5);
                         node.hgnc.forEach((gene, i) => {
-                            const group = ChartFactory.createDataGroup(gene.toUpperCase(), EntityTypeEnum.GENE, new THREE.Vector3(x + (i * 5), y + (h * 0.5) + 5, 0))
+                            const group = ChartFactory.createDataGroup(gene.toUpperCase(), EntityTypeEnum.GENE, new THREE.Vector3(x + (i * 5) - offset, y, .2))
                             this.view.scene.add(group);
                             this.dataGroups.push(group);
                         });
                     }
-                    console.log(this.dataGroups.length);
 
                     this.meshes.push(mesh);
                     this.view.scene.add(mesh);
@@ -145,11 +145,8 @@ export class PathwaysGraph extends AbstractVisualization {
 
     addEdges(edges: Array<any>): void {
         edges.forEach(edge => {
-            // if (edge.start.hasOwnProperty('w')) { edge.start.x += (edge.start.w * 0.5); }
-            // if (edge.start.hasOwnProperty('h')) { edge.start.y += (edge.start.h * 0.5); }
-            // if (edge.end.hasOwnProperty('w')) { edge.end.x += (edge.end.w * 0.5); }
-            // if (edge.end.hasOwnProperty('h')) { edge.end.y += (edge.end.h * 0.5); }
-            const o = PathwaysFactory.createEdge(edge.class, edge.start, edge.end);
+
+            const o = PathwaysFactory.createEdge(edge);
             this.lines.push(o);
             this.view.scene.add(o);
         });
@@ -159,8 +156,7 @@ export class PathwaysGraph extends AbstractVisualization {
     addObjects(entity: EntityTypeEnum) {
         this.addEdges(this.data.layout.sbgn.map.arc);
         this.addNodes(this.data.layout.sbgn.map.glyph);
-
-        // ChartFactory.decorateDataGroups(this.meshes, this.decorators);
+        ChartFactory.decorateDataGroups(this.meshes, this.decorators);
     }
 
     removeObjects() {
@@ -174,15 +170,11 @@ export class PathwaysGraph extends AbstractVisualization {
     }
     onShowLabels(): void {
         const zoom = this.view.camera.position.z;
-        console.log(zoom);
         if (zoom < 500) {
             this.labels.innerHTML = LabelController.generateHtml(this.lbls, this.lblOptions);
         }
         else {
             this.labels.innerHTML = '';
         }
-
-
-
     }
 }
