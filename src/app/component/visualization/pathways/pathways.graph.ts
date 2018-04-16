@@ -45,7 +45,7 @@ export class PathwaysGraph extends AbstractVisualization {
 
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
         super.updateDecorator(config, decorators);
-        ChartFactory.decorateDataGroups(this.meshes, this.decorators);
+        ChartFactory.decorateDataGroups(this.dataGroups, this.decorators);
     }
 
     updateData(config: GraphConfig, data: any) {
@@ -69,14 +69,21 @@ export class PathwaysGraph extends AbstractVisualization {
 
         nodes.forEach(node => {
             if (node.hasOwnProperty('port')) {
-
+                node.port.forEach(port => {
+                    const geo = PathwaysFactory.createNode(node.class, 8, 8, port.x, port.y);
+                    const sg = new THREE.ShapeGeometry(geo);
+                    const mesh = new THREE.Mesh(sg, ChartFactory.getColorPhong(0xFF0000));
+                    mesh.position.set(port.x, port.y, 0);
+                    this.meshes.push(mesh);
+                    this.view.scene.add(mesh);
+                });
             }
             if (node.hasOwnProperty('glyph')) {
                 this.addNodes(node.glyph);
             } else {
                 if (node.class === 'process' || node.class === 'compartment') {
-                    node.bbox.w *= 1.5;
-                    node.bbox.h *= 1.5;
+                    node.bbox.w *= 1;
+                    node.bbox.h *= 1;
                     node.bbox.x += node.bbox.w * .5;
                     node.bbox.y += node.bbox.h * .5;
                 }
@@ -104,19 +111,22 @@ export class PathwaysGraph extends AbstractVisualization {
                         center: new THREE.Vector3(x, y, 0)//Math.round(x + (w * 0.5)), Math.round(y + (h * 0.5)), 0)
                     };
 
-                    // if (node.hasOwnProperty('hgnc')) {
-
-                    //     console.dir(node.hgnc);
-                    //     this.dataGroups.push(
-                    //         ChartFactory.createDataGroup(node.hgnc[0].toUpperCase(), EntityTypeEnum.GENE, new THREE.Vector3(x, y, 0))
-                    //     );
-                    // }
+                    if (node.hasOwnProperty('hgnc')) {
+                        const numGenes = node.hgnc.length;
+                        node.hgnc.forEach((gene, i) => {
+                            const group = ChartFactory.createDataGroup(gene.toUpperCase(), EntityTypeEnum.GENE, new THREE.Vector3(x + (i * 5), y + (h * 0.5) + 5, 0))
+                            this.view.scene.add(group);
+                            this.dataGroups.push(group);
+                        });
+                    }
+                    console.log(this.dataGroups.length);
 
                     this.meshes.push(mesh);
                     this.view.scene.add(mesh);
                 }
             }
         });
+        ChartFactory.decorateDataGroups(this.dataGroups, this.decorators);
         this.tooltipController.targets = this.meshes;
     }
 
