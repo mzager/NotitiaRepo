@@ -44,12 +44,29 @@ export class TimelinesGraph extends AbstractVisualization {
     public yAxis: Array<ILabel>;
     public xAxis: Array<ILabel>;
     public labelsForTitles: Array<ILabel>;
+    public labelsForY: Array<ILabel>;
+    public labelsForX: Array<ILabel>;
     public grid: THREE.LineSegments;
+    public bgTime: HTMLElement;
+    public bgPatient: HTMLElement;
+
 
     // Create - Initialize Mesh Arrays
-    create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
-        super.create(labels, events, view);
+    create(html: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
 
+
+
+        super.create(html, events, view);
+
+
+        this.bgTime = <HTMLDivElement>(document.createElement('div'));
+        this.bgTime.className = 'timelines-bg-time';
+        this.labels.insertAdjacentElement('beforebegin', this.bgTime);
+
+
+        this.bgPatient = <HTMLDivElement>(document.createElement('div'));
+        this.bgPatient.className = 'timelines-bg-patient';
+        this.labels.insertAdjacentElement('beforebegin', this.bgPatient);
 
         this.yAxis = [];
         this.xAxis = [];
@@ -60,6 +77,8 @@ export class TimelinesGraph extends AbstractVisualization {
         this.meshes = [];
         this.patients = [];
         this.labelsForTitles = [];
+        this.labelsForY = [];
+        this.labelsForX = [];
         this.attrs = new THREE.Group();
 
         // this.view.controls.maxZoom = 1;
@@ -258,6 +277,18 @@ export class TimelinesGraph extends AbstractVisualization {
                 userData: { tooltip: 'Timelines' }
             }
         );
+        this.labelsForY.push(
+            {
+                position: new THREE.Vector3(600, 0, 0),
+                userData: { tooltip: 'Patients' }
+            }
+        );
+        this.labelsForX.push(
+            {
+                position: new THREE.Vector3(-600, 0, 0),
+                userData: { tooltip: 'Days' }
+            }
+        );
 
         // this.clipPlanes = [];
 
@@ -392,75 +423,73 @@ export class TimelinesGraph extends AbstractVisualization {
         const zoom = this.view.camera.position.z;
         console.log(zoom);
 
-        // Move these to static... don't need to recreate
+        // x labels
         const labelXAxis = new LabelOptions(this.view, 'PIXEL');
-        // labelXAxis.absoluteY = this.view.viewport.width + 5;
-        // labelXAxis.ignoreFrustumY = true;
-        labelXAxis.align = 'CENTER';
-        labelXAxis.origin = 'CENTER';
+        labelXAxis.absoluteY = this.view.viewport.height - 20;
+        labelXAxis.ignoreFrustumY = true;
+        labelXAxis.align = 'LEFT';
+        labelXAxis.origin = 'RIGHT';
         labelXAxis.postfix = ' Days';
         labelXAxis.fontsize = 0;
 
+        // y labels
         const labelYAxis = new LabelOptions(this.view, 'PIXEL');
         labelYAxis.absoluteX = this.view.viewport.width - 10;
         labelYAxis.ignoreFrustumX = true;
-        // labelYAxis.maxLabels = Infinity;
         labelYAxis.offsetY = -10;
+        labelYAxis.origin = 'LEFT';
         labelYAxis.align = 'RIGHT';
         labelYAxis.fontsize = 0;
 
+        // Patients- needs work!
+        const optionsForY = new LabelOptions(this.view, 'PIXEL');
+        optionsForY.fontsize = 20;
+        optionsForY.absoluteX = this.view.viewport.height / 2;
+        optionsForY.ignoreFrustumX = true;
+        optionsForY.align = 'CENTER';
+        optionsForY.rotate = 90;
+        optionsForY.offsetX = 600;
 
-        const optionsForTitles = new LabelOptions(this.view, 'PIXEL');
-        optionsForTitles.fontsize = 10;
-        optionsForTitles.ignoreFrustumY = true;
-        optionsForTitles.absoluteY = 520;
-        optionsForTitles.absoluteX = 10;
-        optionsForTitles.align = 'CENTER';
+        // Days- needs work!
+        const optionsForX = new LabelOptions(this.view, 'PIXEL');
+        optionsForX.fontsize = 20;
+        optionsForX.absoluteY = 800;
+        optionsForX.ignoreFrustumY = true;
+        optionsForX.align = 'CENTER';
+        optionsForX.origin = 'CENTER';
 
 
-        if (this.view.camera.position.z < 3001) {
-            labelXAxis.fontsize = 5;
-            labelYAxis.fontsize = 5;
-            labelXAxis.offsetX = -90;
+        if (this.view.camera.position.z > 1400) {
+            this.labels.innerHTML =
+                LabelController.generateHtml(this.labelsForX, optionsForX) +
+                LabelController.generateHtml(this.labelsForY, optionsForY);
+        }
+        else if (this.view.camera.position.z > 1100) {
+            labelXAxis.fontsize = 8;
+            labelYAxis.fontsize = 8;
 
             this.labels.innerHTML =
                 LabelController.generateHtml(this.xAxis, labelXAxis) +
-                LabelController.generateHtml(this.yAxis, labelYAxis) +
-                LabelController.generateHtml(this.labelsForTitles, optionsForTitles);
+                LabelController.generateHtml(this.yAxis, labelYAxis);
+
         }
-        if (this.view.camera.position.z < 2000) {
+        else if (this.view.camera.position.z > 650) {
             labelXAxis.fontsize = 10;
             labelYAxis.fontsize = 10;
 
-
             this.labels.innerHTML =
                 LabelController.generateHtml(this.xAxis, labelXAxis) +
-                LabelController.generateHtml(this.yAxis, labelYAxis) +
-                LabelController.generateHtml(this.labelsForTitles, optionsForTitles);
+                LabelController.generateHtml(this.yAxis, labelYAxis);
         }
-
-        // if (this.view.camera.position.z < 700) {
-        //     labelXAxis.fontsize = 15;
-        //     labelYAxis.fontsize = 15;
-
-        //     this.labels.innerHTML =
-        //         LabelController.generateHtml(this.xAxis, labelXAxis) +
-        //         LabelController.generateHtml(this.yAxis, labelYAxis)
-        // }
-        if (this.view.camera.position.z < 500) {
+        else if (this.view.camera.position.z > 50) {
             labelXAxis.fontsize = 15;
+            labelYAxis.fontsize = 15;
 
             this.labels.innerHTML =
                 LabelController.generateHtml(this.xAxis, labelXAxis) +
-                LabelController.generateHtml(this.yAxis, labelYAxis)
-            // console.log(this.labels.innerHTML)
+                LabelController.generateHtml(this.yAxis, labelYAxis);
+
         }
-
-
-        // this.labels.innerHTML =
-        //     LabelController.generateHtml(this.xAxis, labelXAxis) +
-        //     LabelController.generateHtml(this.yAxis, labelYAxis) +
-        //     LabelController.generateHtml(this.labelsForTitles, optionsForTitles);
 
     }
 
