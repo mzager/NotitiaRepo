@@ -70,6 +70,7 @@ export class SpriteMaterialEnum {
     static readonly SQUARE = 'square';
     static readonly STAR = 'star';
     static readonly TRIANGLE = 'triangle';
+    static readonly NA = 'na';
 }
 
 export const enum ShapeEnum {

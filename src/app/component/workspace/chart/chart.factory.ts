@@ -52,7 +52,8 @@ export class ChartFactory {
         polygon: new THREE.TextureLoader().load('assets/shapes/shape-polygon-solid.png'),
         square: new THREE.TextureLoader().load('assets/shapes/shape-square-solid.png'),
         star: new THREE.TextureLoader().load('assets/shapes/shape-star-solid.png'),
-        triangle: new THREE.TextureLoader().load('assets/shapes/shape-triangle-solid.png')
+        triangle: new THREE.TextureLoader().load('assets/shapes/shape-triangle-solid.png'),
+        na: new THREE.TextureLoader().load('assets/shapes/shape-na-solid.png')
     };
 
     public static getScaleSizeOrdinal(values: Array<string>): Function {
@@ -141,11 +142,12 @@ export class ChartFactory {
             spriteMaterial.opacity = 0.8;
             const mesh: THREE.Sprite = new THREE.Sprite(spriteMaterial);
             group.userData.tooltip = label;
-            group.userData.color = parseInt(color.replace(/^#/, ''), 16);
-
+            group.userData.color = (isNaN(color)) ?
+                parseInt(color.replace(/^#/, ''), 16) :
+                color;
             mesh.scale.set(scale, scale, scale);
             mesh.userData.tooltip = label;
-            mesh.userData.color = parseInt(color.replace(/^#/, ''), 16);;
+            mesh.userData.color = group.userData.color;
             mesh.userData.selectionLocked = false;
             if (renderer) {
                 renderer(group, mesh, decorators, i, count);
@@ -365,6 +367,8 @@ export class ChartFactory {
                 return new THREE.SpriteMaterial({ map: ChartFactory.textures.star, color: color });
             case SpriteMaterialEnum.TRIANGLE:
                 return new THREE.SpriteMaterial({ map: ChartFactory.textures.triangle, color: color });
+            case SpriteMaterialEnum.NA:
+                return new THREE.SpriteMaterial({ map: ChartFactory.textures.na, color: color });
         }
         return new THREE.SpriteMaterial({ map: ChartFactory.textures.circle, color: color });
     }
