@@ -26,6 +26,8 @@ export class PathwayEdgeEnum {
 export class PathwaysFactory {
 
     public static createEdge(edge: string, start: Vector2, end: Vector2): Object3D {
+
+        console.log(edge);
         switch (edge) {
             case PathwayEdgeEnum.CONSUMPTION:
                 return this.createConsumption(start.x, start.y, end.x, end.y);
@@ -41,7 +43,6 @@ export class PathwaysFactory {
         return this.createEdgeLine(start.x, start.y, end.x, end.y);
     }
     public static createNode(node: string, w: number, h: number, x: number, y: number): THREE.Shape {
-        console.log(node);
         //return this.createOctagonShape(w, h, x, y);
         // return this.createRoundedRectangleShape(w, h, x, y);
         // return this.createRectangleShape(w, h, x, y);
