@@ -115,6 +115,8 @@ export class DataService {
             return p;
           }, [Infinity, -Infinity]);
           let scale;
+
+
           switch (decorator.type) {
             case DataDecoratorTypeEnum.COLOR:
               scale = ChartFactory.getScaleColorLinear(minMax[0], minMax[1]);
@@ -211,18 +213,16 @@ export class DataService {
                 let scale;
                 if (decorator.field.type !== 'STRING') {
 
-
-
                   // // Determine IQR
                   const data = items.map(v => v[decorator.field.key]);
                   const upperLimit = Math.max.apply(Math, data);
                   const lowerLimit = Math.min.apply(Math, data);
                   // const bins = d3.thresholdFreedmanDiaconis(data, lowerLimit, upperLimit);
                   // const bins = d3.thresholdScott(data, lowerLimit, upperLimit);
-                  let bins = d3.thresholdSturges(data) * 2;
+                  let bins = d3.thresholdSturges(data);
                   if (bins > 10) { bins = 10; }
 
-                  scale = ChartFactory.getScaleColorLinear(decorator.field.values.min, decorator.field.values.max, bins);
+                  scale = ChartFactory.getScaleColorLinear(lowerLimit, upperLimit, bins);
                 } else {
                   scale = ChartFactory.getScaleColorOrdinal(decorator.field.values);
                 }
@@ -240,11 +240,12 @@ export class DataService {
                 decorator.legend.name = (config.entity === EntityTypeEnum.SAMPLE) ? 'Sample ' + decorator.field.label :
                   (config.entity === EntityTypeEnum.GENE) ? 'Gene ' + decorator.field.label : 'Patient ' + decorator.field.label;
                 if (decorator.field.type === 'STRING') {
-                  decorator.legend.labels = scale['domain']();
-                  decorator.legend.values = scale['range']();
+                  decorator.legend.labels = scale['domain']().concat(['Unknown'])
+                  decorator.legend.values = scale['range']().concat([0xDDDDDD]);
+
                 } else {
-                  decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v).map(w => Math.round(w)).join(' to '));
-                  decorator.legend.values = scale['range']();
+                  decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v).map(w => Math.round(w)).join(' to ')).concat(['Unknown']);
+                  decorator.legend.values = scale['range']().concat([0xDDDDDD]);
                 }
                 resolve(decorator);
                 break;
@@ -267,11 +268,11 @@ export class DataService {
                 decorator.legend.name = (config.entity === EntityTypeEnum.SAMPLE) ? 'Sample ' + decorator.field.label :
                   (config.entity === EntityTypeEnum.GENE) ? 'Gene ' + decorator.field.label : 'Patient ' + decorator.field.label;
                 if (decorator.field.type === 'STRING') {
-                  decorator.legend.labels = scale['domain']();
-                  decorator.legend.values = scale['range']();
+                  decorator.legend.labels = scale['domain']().concat(['Unknown']);
+                  decorator.legend.values = scale['range']().concat(['na']);
                 } else {
-                  decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v).join(' - '));
-                  decorator.legend.values = scale['range']();
+                  decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v).join(' - ')).concat(['Unknown']);
+                  decorator.legend.values = scale['range']().concat(['na']);
                 }
                 resolve(decorator);
                 break;

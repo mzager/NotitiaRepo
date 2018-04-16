@@ -56,7 +56,7 @@ export class PathwaysGraph extends AbstractVisualization {
 
     enable(truthy: boolean) {
         super.enable(truthy);
-        this.view.controls.enableRotate = true;
+        this.view.controls.enableRotate = false;
     }
 
     onMouseDown(e: ChartEvent): void { }
@@ -145,13 +145,11 @@ export class PathwaysGraph extends AbstractVisualization {
 
     addEdges(edges: Array<any>): void {
         edges.forEach(edge => {
-
             const o = PathwaysFactory.createEdge(edge);
             this.lines.push(o);
             this.view.scene.add(o);
         });
     }
-
 
     addObjects(entity: EntityTypeEnum) {
         this.addEdges(this.data.layout.sbgn.map.arc);
