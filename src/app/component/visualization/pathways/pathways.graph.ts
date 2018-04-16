@@ -1,3 +1,4 @@
+import { ILabel, LabelOptions, LabelController } from './../../../controller/label/label.controller';
 import { PathwaysFactory } from 'app/component/visualization/pathways/pathways.factory';
 import { PathwaysDataModel, PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
 import { GraphEnum, ColorEnum } from 'app/model/enum.model';
@@ -21,13 +22,19 @@ export class PathwaysGraph extends AbstractVisualization {
 
 
     public lines: Array<THREE.Object3D>;
-
+    public lbls: Array<ILabel>;
+    public lblOptions: LabelOptions;
+    public dataGroups: Array<THREE.Group>;
 
     // Create - Initialize Mesh Arrays
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         super.create(labels, events, view);
         this.meshes = [];
         this.lines = [];
+        this.dataGroups = [];
+        this.lbls = [];
+        this.lblOptions = new LabelOptions(view, 'PIXEL');
+        this.lblOptions.offsetY3d = -8;
         return this;
     }
 
@@ -38,7 +45,7 @@ export class PathwaysGraph extends AbstractVisualization {
 
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
         super.updateDecorator(config, decorators);
-        ChartFactory.decorateDataGroups(this.meshes, this.decorators);
+        ChartFactory.decorateDataGroups(this.dataGroups, this.decorators);
     }
 
     updateData(config: GraphConfig, data: any) {
@@ -54,33 +61,76 @@ export class PathwaysGraph extends AbstractVisualization {
 
     onMouseDown(e: ChartEvent): void { }
     onMouseUp(e: ChartEvent): void { }
-    onMouseMove(e: ChartEvent): void { }
+    onMouseMove(e: ChartEvent): void {
+        super.onMouseMove(e);
+    }
 
     addNodes(nodes: Array<any>): void {
+
         nodes.forEach(node => {
+            if (node.hasOwnProperty('port')) {
+                node.port.forEach(port => {
+                    const geo = PathwaysFactory.createNode(node.class, 8, 8, port.x, port.y);
+                    const sg = new THREE.ShapeGeometry(geo);
+                    const mesh = new THREE.Mesh(sg, ChartFactory.getColorPhong(0xFF0000));
+                    mesh.position.set(port.x, port.y, 0);
+                    this.meshes.push(mesh);
+                    this.view.scene.add(mesh);
+                });
+            }
             if (node.hasOwnProperty('glyph')) {
                 this.addNodes(node.glyph);
             } else {
-                const w = Math.round(parseFloat(node.bbox[0].w) * 0.4);
-                const h = Math.round(parseFloat(node.bbox[0].h) * 0.4);
-                const x = Math.round(parseFloat(node.bbox[0].x) * 0.4);
-                const y = -Math.round(parseFloat(node.bbox[0].y) * 0.4);
-                const label = (node.label) ? node.label[0].text : '';
-                const geo = PathwaysFactory.createNode(node.class, w, h, x, y);
-                const sg = new THREE.ShapeGeometry(geo);
-                const mesh = new THREE.Mesh(sg, this.getColor(node.class));;
-                mesh.userData = {
-                    label: label,
-                    id: node.id,
-                    center: new THREE.Vector3(x, y, 0)//Math.round(x + (w * 0.5)), Math.round(y + (h * 0.5)), 0)
-                };
-                this.meshes.push(mesh);
-                this.view.scene.add(mesh);
+                if (node.class === 'process' || node.class === 'compartment') {
+                    node.bbox.w *= 1;
+                    node.bbox.h *= 1;
+                    node.bbox.x += node.bbox.w * .5;
+                    node.bbox.y += node.bbox.h * .5;
+                }
+                if (node.class !== 'compartment') {
+
+                    const w = Math.round(node.bbox.w);
+                    const h = Math.round(node.bbox.h);
+                    const x = Math.round(node.bbox.x);
+                    const y = Math.round(node.bbox.y);
+                    const label = (node.label) ? node.label.text : '';
+                    const geo = PathwaysFactory.createNode(node.class, w, h, x, y);
+                    const sg = new THREE.ShapeGeometry(geo);
+                    const color = this.getColor(node.class);
+                    const mesh = new THREE.Mesh(sg, ChartFactory.getColorPhong(color));
+                    mesh.position.set(x, y, 0);
+                    this.lbls.push({
+                        position: new THREE.Vector3(x, y, 0),
+                        userData: { tooltip: label }
+                    })
+                    mesh.userData = {
+                        node: node,
+                        tooltip: label,
+                        color: color,
+                        id: node.id,
+                        center: new THREE.Vector3(x, y, 0)//Math.round(x + (w * 0.5)), Math.round(y + (h * 0.5)), 0)
+                    };
+
+                    if (node.hasOwnProperty('hgnc')) {
+                        const numGenes = node.hgnc.length;
+                        node.hgnc.forEach((gene, i) => {
+                            const group = ChartFactory.createDataGroup(gene.toUpperCase(), EntityTypeEnum.GENE, new THREE.Vector3(x + (i * 5), y + (h * 0.5) + 5, 0))
+                            this.view.scene.add(group);
+                            this.dataGroups.push(group);
+                        });
+                    }
+                    console.log(this.dataGroups.length);
+
+                    this.meshes.push(mesh);
+                    this.view.scene.add(mesh);
+                }
             }
-        })
+        });
+        ChartFactory.decorateDataGroups(this.dataGroups, this.decorators);
+        this.tooltipController.targets = this.meshes;
     }
 
-    getColor(type: string): THREE.Material {
+    getColor(type: string): number {
         const color = (type === 'unspecified entity') ? ColorEnum.BLUE :
             (type === 'macromolecule') ? ColorEnum.RED :
                 (type === 'process') ? ColorEnum.GREEN :
@@ -90,105 +140,49 @@ export class PathwaysGraph extends AbstractVisualization {
                                 (type === 'compartment') ? 0xEEEEEE :
                                     (type === 'state variable') ? ColorEnum.INDIGO :
                                         0x000000;
-
-        const mat = ChartFactory.getColorPhong(color);
-        mat.transparent = true;
-        mat.opacity = 0.3;
-        return mat;
+        return color;
     }
 
     addEdges(edges: Array<any>): void {
-        // edges
-        //     .forEach(edge => {
-        //         const source = this.meshes.find(mesh => mesh.userData.id.indexOf(edge.source)).userData.center;
-        //         const target = this.meshes.find(mesh => mesh.userData.id.indexOf(edge.source)).userData.center;
-
-        //         // const start = edge.start[0];
-        //         // const end = edge.end[0];
-
-        //         // const s = new THREE.Vector2(
-        //         //     Math.round(parseFloat(start.x) * 0.4),
-        //         //     - Math.round(parseFloat(start.y) * 0.4)
-        //         // );
-        //         // const e = new THREE.Vector2(
-        //         //     Math.round(parseFloat(end.x) * 0.4),
-        //         //     - Math.round(parseFloat(end.y) * 0.4)
-        //         // );
-        //         const o = PathwaysFactory.createEdge(edge.class, source, target);
-        //         this.lines.push(o);
-        //         this.view.scene.add(o);
-        //     });
-
-        // const l = this.lines;
-        // debugger;
+        edges.forEach(edge => {
+            // if (edge.start.hasOwnProperty('w')) { edge.start.x += (edge.start.w * 0.5); }
+            // if (edge.start.hasOwnProperty('h')) { edge.start.y += (edge.start.h * 0.5); }
+            // if (edge.end.hasOwnProperty('w')) { edge.end.x += (edge.end.w * 0.5); }
+            // if (edge.end.hasOwnProperty('h')) { edge.end.y += (edge.end.h * 0.5); }
+            const o = PathwaysFactory.createEdge(edge.class, edge.start, edge.end);
+            this.lines.push(o);
+            this.view.scene.add(o);
+        });
     }
 
 
     addObjects(entity: EntityTypeEnum) {
-
-        this.addNodes(this.data.layout.nodes);
-        this.addEdges(this.data.layout.edges);
-
-        // const nodes = this.data.layout.nodes.filter(v => {
-        //     switch (v.class) {
-        //         case 'unspecified entity':
-        //             v.color = ColorEnum.BLUE;
-        //             return true;
-        //         case 'macromolecule':
-        //             v.color = ColorEnum.RED;
-        //             return true;
-        //         case 'process':
-        //             v.color = ColorEnum.GREEN;
-        //             return true;
-        //         case 'simple chemical':
-        //             v.color = ColorEnum.PURPLE;
-        //             return true;
-        //         case 'complex multimer':
-        //             v.color = ColorEnum.ORANGE;
-        //             return true;
-        //         case 'complex':
-        //             v.color = ColorEnum.PINK;
-        //             return true;
-        //     }
-        //     return false;
-        // });
-
-        // debugger;
-        // const shapes: Array<{ shape: THREE.Shape, color: number, label: string }> = nodes
-        //     .map(node => {
-        // const w = Math.round(parseFloat(node.bbox[0].w) * 0.4);
-        // const h = Math.round(parseFloat(node.bbox[0].h) * 0.4);
-        // const x = Math.round(parseFloat(node.bbox[0].x) * 0.4);
-        // const y = -Math.round(parseFloat(node.bbox[0].y) * 0.4);
-        //         if (w === 0 || h === 0) { return null; }
-        //         const label = (node.label) ? node.label[0].text : '';
-        //         // if (node.hasOwnProperty('glyph')) { this.processBranch(node.glyph); }
-        //         return { shape: PathwaysFactory.createNode(node.class, w, h, x, y), color: node.color, label: label };
-        //     }).filter(v => v);
-
-        // this.meshes = shapes.map(shape => {
-        //     const geo = new THREE.ShapeGeometry(shape.shape);
-        //     const material = new THREE.MeshLambertMaterial({ color: shape.color, transparent: true, opacity: 0.8 });
-        //     const mesh = new THREE.Mesh(geo, material);
-        //     mesh.userData = shape.label;
-        //     return mesh;
-        // });
-
-        // this.meshes.forEach(mesh => {
-        //     this.meshes.push(mesh);
-        //     this.view.scene.add(mesh);
-        // });
-
-        // // Edges
+        this.addEdges(this.data.layout.sbgn.map.arc);
+        this.addNodes(this.data.layout.sbgn.map.glyph);
 
         // ChartFactory.decorateDataGroups(this.meshes, this.decorators);
     }
 
     removeObjects() {
         this.view.scene.remove(...this.meshes);
+        this.view.scene.remove(...this.dataGroups)
+        this.view.scene.remove(...this.lines);
         this.meshes.length = 0;
-        this.lines.forEach(line => {
-            this.view.scene.remove(line);
-        });
+        this.dataGroups.length = 0;
+        this.lines.length = 0;
+
+    }
+    onShowLabels(): void {
+        const zoom = this.view.camera.position.z;
+        console.log(zoom);
+        if (zoom < 500) {
+            this.labels.innerHTML = LabelController.generateHtml(this.lbls, this.lblOptions);
+        }
+        else {
+            this.labels.innerHTML = '';
+        }
+
+
+
     }
 }

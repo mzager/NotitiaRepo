@@ -38,6 +38,7 @@ export class LabelOptions {
     algorithm: 'FORCE' | 'GRID' | 'PIXEL' = 'PIXEL';    // Layout Algorythem
     algorithmIterations = 20;       // Number Of Iterations To Apply Algorythem (Force Algo)          
     pointRadius = 3;                // How Big Is The Point...
+    background: string = null;      // Background Color
     view: VisualizationView;
 
 
@@ -52,6 +53,9 @@ export class LabelOptions {
         css += ';text-align: ' + this.align.toLocaleLowerCase();
         css += ';transform: rotate(' + this.rotate + 'deg) ';
         css += ';position:absolute;';
+        if (this.background !== null) {
+            css += 'background:' + this.background + ';';
+        }
         return css;
     }
 }

@@ -135,15 +135,17 @@ export class ChartFactory {
             const id = group.userData.id;
 
             // const shape = this.getShape((shapeMap) ? shapeMap[id] : ShapeEnum.CIRCLE);
-            const color = (colorMap) ? (colorMap[id]) ? colorMap[id] : 0xDDDDDD : 0x039be5;
+            const color = (colorMap) ? (colorMap[id]) ? colorMap[id] : '#DDDDDD' : '#039be5';
             const label = (labelMap) ? (labelMap[id]) ? labelMap[id] : 'Unknown' : '';
             const spriteMaterial = ChartFactory.getSpriteMaterial((shapeMap) ? shapeMap[id] : ShapeEnum.CIRCLE, color);
             spriteMaterial.opacity = 0.8;
             const mesh: THREE.Sprite = new THREE.Sprite(spriteMaterial);
             group.userData.tooltip = label;
+            group.userData.color = parseInt(color.replace(/^#/, ''), 16);
+
             mesh.scale.set(scale, scale, scale);
             mesh.userData.tooltip = label;
-            mesh.userData.color = color;
+            mesh.userData.color = parseInt(color.replace(/^#/, ''), 16);;
             mesh.userData.selectionLocked = false;
             if (renderer) {
                 renderer(group, mesh, decorators, i, count);
