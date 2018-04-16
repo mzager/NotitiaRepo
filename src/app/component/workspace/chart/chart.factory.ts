@@ -135,10 +135,13 @@ export class ChartFactory {
             }
             const id = group.userData.id;
 
-            // const shape = this.getShape((shapeMap) ? shapeMap[id] : ShapeEnum.CIRCLE);
+            console.log(shapeMap);
+
             const color = (colorMap) ? (colorMap[id]) ? colorMap[id] : '#DDDDDD' : '#039be5';
             const label = (labelMap) ? (labelMap[id]) ? labelMap[id] : 'Unknown' : '';
-            const spriteMaterial = ChartFactory.getSpriteMaterial((shapeMap) ? shapeMap[id] : ShapeEnum.CIRCLE, color);
+            const shape = (shapeMap) ? (shapeMap[id]) ? shapeMap[id] : SpriteMaterialEnum.NA : SpriteMaterialEnum.CIRCLE;
+            console.log(shape);
+            const spriteMaterial = ChartFactory.getSpriteMaterial(shape, color);
             spriteMaterial.opacity = 0.8;
             const mesh: THREE.Sprite = new THREE.Sprite(spriteMaterial);
             group.userData.tooltip = label;
@@ -370,7 +373,8 @@ export class ChartFactory {
             case SpriteMaterialEnum.NA:
                 return new THREE.SpriteMaterial({ map: ChartFactory.textures.na, color: color });
         }
-        return new THREE.SpriteMaterial({ map: ChartFactory.textures.circle, color: color });
+        debugger;
+        return new THREE.SpriteMaterial({ map: ChartFactory.textures.na, color: color });
     }
 
     @memoize
