@@ -39,6 +39,7 @@ export class LabelOptions {
     algorithmIterations = 20;       // Number Of Iterations To Apply Algorythem (Force Algo)          
     pointRadius = 3;                // How Big Is The Point...
     background: string = null;      // Background Color
+    // margin: number = null;
     view: VisualizationView;
 
 
@@ -53,6 +54,7 @@ export class LabelOptions {
         css += ';text-align: ' + this.align.toLocaleLowerCase();
         css += ';transform: rotate(' + this.rotate + 'deg) ';
         css += ';position:absolute;';
+        // css += 'margin:' + this.margin + 'px;';
         if (this.background !== null) {
             css += 'background:' + this.background + ';';
         }
