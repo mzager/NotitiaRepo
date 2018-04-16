@@ -63,6 +63,7 @@ export class HicGraph extends AbstractVisualization {
         ChartFactory.decorateDataGroups(this.meshes, this.decorators);
 
         if (this.config.showLinks) {
+            const links = new THREE.Geometry();
             this.data.edges.forEach(edge => {
                 const linkGeometry = new THREE.Geometry();
                 linkGeometry.vertices.push(
@@ -72,6 +73,8 @@ export class HicGraph extends AbstractVisualization {
                 this.lines.push(line);
                 this.view.scene.add(line);
             });
+
+
         }
         if (this.config.showChromosome) {
             const geneLocations = this.data.nodes.filter(v => v.data)  // Filter Out genes That Don't Have Chromosome Info
@@ -88,7 +91,7 @@ export class HicGraph extends AbstractVisualization {
 
             const chromosomeMesh = new THREE.Mesh(chromosomeLine.geometry,
                 ChartFactory.getMeshLine(0x90caf9, 1));
-            chromosomeMesh.frustumCulled = false;
+            // chromosomeMesh.frustumCulled = false;
             this.lines.push(chromosomeMesh);
             this.view.scene.add(chromosomeMesh);
         }

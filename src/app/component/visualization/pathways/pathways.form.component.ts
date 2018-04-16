@@ -52,6 +52,7 @@ export class PathwaysFormComponent {
 
 
   public setPathwayOptions(): void {
+
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Accept-Encoding', 'gzip');
@@ -62,12 +63,12 @@ export class PathwaysFormComponent {
       cache: 'default'
     };
 
-    fetch('http://www.pathwaycommons.org/pc2/search.json?q=(BRCA2%20and%20IDH1)%20and%20size%3E3&type=Pathway&organism=homo%20sapiens&datasource=reactome', requestInit)
+    // fetch('http://www.pathwaycommons.org/pc2/search.json?q=(BRCA2%20and%20IDH1)%20and%20size%3E3&type=Pathway&organism=homo%20sapiens&datasource=reactome', requestInit)
+    fetch('http://www.pathwaycommons.org/pc2/top_pathways.json', requestInit)
       .then(response => response.json())
       .then(response => {
-        this.pathwayOptions = response.searchHit.map(v => {
-          return Object.assign(v, { id: response.searchHit[0].uri.substr(response.searchHit[0].uri.lastIndexOf('/') + 1).toLowerCase() });
-        });
+        response.searchHit.forEach(v => v.id = v.uri.replace(/\//gi, '_').replace(/:/, '_'));
+        this.pathwayOptions = response.searchHit;
         this.cd.detectChanges();
       });
 
@@ -85,8 +86,6 @@ export class PathwaysFormComponent {
   }
 
   constructor(private fb: FormBuilder, private cd: ChangeDetectorRef) {
-
-
 
     // Init Form
     this.form = this.fb.group({

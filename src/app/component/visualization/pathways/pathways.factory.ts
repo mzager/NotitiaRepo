@@ -25,7 +25,9 @@ export class PathwayEdgeEnum {
 }
 export class PathwaysFactory {
 
-    public static createEdge( edge: string, start: Vector2, end: Vector2): Object3D {
+    public static createEdge(edge: string, start: Vector2, end: Vector2): Object3D {
+
+        console.log(edge);
         switch (edge) {
             case PathwayEdgeEnum.CONSUMPTION:
                 return this.createConsumption(start.x, start.y, end.x, end.y);
@@ -40,26 +42,34 @@ export class PathwaysFactory {
         }
         return this.createEdgeLine(start.x, start.y, end.x, end.y);
     }
-    public static createNode( node: string, w: number, h: number, x: number, y: number): THREE.Shape {
+    public static createNode(node: string, w: number, h: number, x: number, y: number): THREE.Shape {
+        //return this.createOctagonShape(w, h, x, y);
+        // return this.createRoundedRectangleShape(w, h, x, y);
+        // return this.createRectangleShape(w, h, x, y);
+        // return this.createEllipseShape(w, h, x, y);
         switch (node) {
             case PathwayNodeEnum.UNSPECIFIED_ENTRY: // Potentially Gene
+                return this.createEllipseShape(w, h, x, y);
             case PathwayNodeEnum.SIMPLE_CHEMICAL:
                 return this.createEllipseShape(w, h, x, y);
             case PathwayNodeEnum.PROCESS:
             case PathwayNodeEnum.COMPARTMENT:
             case PathwayNodeEnum.MACROMOLECULE: // Potentially Gene
-                return this.createRoundedRectangleShape( w, h, x, y);
+                return this.createRoundedRectangleShape(w, h, x, y);
             case PathwayNodeEnum.COMPLEX:  // Potentially Gene
             case PathwayNodeEnum.COMPLEX_MULTIMER:  // Potentially Gene
-                return this.createOctagonShape( w, h, x, y);
+                return this.createOctagonShape(w, h, x, y);
             case PathwayNodeEnum.UNIT_OF_INFORMATION:
-                return this.createRectangleShape( w, h, x, y);
+                return this.createRectangleShape(w, h, x, y);
             default:
-                return this.createRectangleShape( w, h, x, y);
+                console.log(node);
+                return this.createRectangleShape(w, h, x, y);
         }
     }
 
     private static createRectangleShape(w: number, h: number, x: number, y: number): THREE.Shape {
+        x = -0.5 * w;
+        y = 0.5 * h;
         const rectShape = new THREE.Shape();
         rectShape.moveTo(x, y);
         rectShape.lineTo(x, y - h);
@@ -70,10 +80,12 @@ export class PathwaysFactory {
     }
 
     private static createEllipseShape(w: number, h: number, x: number, y: number): THREE.Shape {
+        x = -0.5 * w;
+        y = 0.5 * h;
         const ellipsePath = new THREE.EllipseCurve(
             (x + w / 2), (y - h / 2),
             w / 2, h / 2,
-            0,  2 * Math.PI,
+            0, 2 * Math.PI,
             false,
             0
         );
@@ -83,6 +95,8 @@ export class PathwaysFactory {
     }
 
     private static createOctagonShape(w: number, h: number, x: number, y: number): THREE.Shape {
+        x = -0.5 * w;
+        y = 0.5 * h;
         const octShape = new THREE.Shape();
         const corner = h / 6;
         octShape.moveTo(x, y - corner);
@@ -98,6 +112,8 @@ export class PathwaysFactory {
     }
 
     private static createRoundedRectangleShape(w: number, h: number, x: number, y: number): THREE.Shape {
+        x = -0.5 * w;
+        y = 0.5 * h;
         const roundedRectShape = new THREE.Shape();
         const radius = h / 6;
         roundedRectShape.moveTo(x, y - radius);
@@ -131,8 +147,8 @@ export class PathwaysFactory {
         const circle = new THREE.Mesh(
             new THREE.CircleGeometry(5),
             ChartFactory.getColorPhong(0xb39ddb));
-            circle.position.x = x1 + xOff;
-            circle.position.y = y1 + yOff;
+        circle.position.x = x1 + xOff;
+        circle.position.y = y1 + yOff;
         group.add(circle);
         return group;
     }

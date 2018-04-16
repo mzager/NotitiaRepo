@@ -206,7 +206,7 @@ export class DataEffect {
             // heatmapConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
 
             const pathwaysConfig = new PathwaysConfigModel();
-            pathwaysConfig.graph = GraphEnum.GRAPH_B;
+            pathwaysConfig.graph = GraphEnum.GRAPH_A;
             pathwaysConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
 
             return [
@@ -217,13 +217,13 @@ export class DataEffect {
                 // new compute.PcaIncrementalAction({ config: graphBConfig }),
                 // new compute.HicAction( { config: hicConfig }),
                 // new compute.BoxWhiskersAction({ config: boxWhiskersConfig }),
-                new compute.TimelinesAction({ config: timelinesConfigA }),
+                // new compute.TimelinesAction({ config: timelinesConfigA }),
                 // new compute.TimelinesAction( { config: timelinesConfigB})
                 // new compute.ChromosomeAction({ config: chromosomeConfig }),
                 // new compute.HeatmapAction({ config: heatmapConfig }),
                 // new compute.SurvivalAction({ config: survivalConfig }),
                 // new compute.ChromosomeAction( { config: chromosomeConfig } )
-                // new compute.PathwaysAction({ config: pathwaysConfig }),
+                new compute.PathwaysAction({ config: pathwaysConfig }),
                 // new compute.GenomeAction({ config: genomeConfig }),
                 // new compute.PcaIncrementalAction({ config: pcaIncConfig }),
                 // new compute.PcaIncrementalAction({ config: pcaIncConfig }),

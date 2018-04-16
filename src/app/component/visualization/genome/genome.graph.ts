@@ -135,6 +135,7 @@ export class GenomeGraph extends AbstractVisualization {
                 const mesh: THREE.Mesh = new THREE.Mesh(geometry, material);
                 mesh.userData.type = GenomicEnum.CYTOBAND;
                 mesh.position.set(xPos, (yPos + (cyto.l / 2)) - centro, 0);
+                mesh.userData.color = cyto.c;
                 mesh.userData.tooltip = cyto.chr + cyto.arm.toLowerCase() +
                     ((cyto.subband) ? '.' + cyto.subband : '') + ' | ' + cyto.tag.replace('neg', '-').replace('pos', '+');
                 yPos += cyto.l;
