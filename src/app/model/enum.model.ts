@@ -70,15 +70,16 @@ export class SpriteMaterialEnum {
     static readonly SQUARE = 'square';
     static readonly STAR = 'star';
     static readonly TRIANGLE = 'triangle';
+    static readonly NA = 'na';
 }
 
 export const enum ShapeEnum {
-    CIRCLE = 1 << 0,
-    SQUARE = 1 << 1,
-    TRIANGLE = 1 << 2,
-    CONE = 1 << 3,
-    BOX = 1 << 4,
-    NULL = 1 << 5
+    CIRCLE = 1 << 1,
+    SQUARE = 1 << 2,
+    TRIANGLE = 1 << 3,
+    CONE = 1 << 4,
+    BOX = 1 << 5,
+    NA = 1 << 6
 }
 
 export const enum SizeEnum {

@@ -162,7 +162,9 @@ export class PathwaysFactory {
     }
     private static createCatalysis(x1, y1, x2, y2, xO, yO): THREE.Group {
         const group = new THREE.Group();
-        group.add(ChartFactory.lineAllocate(0xb39ddb, new Vector2(x1, y1), new Vector2(x2, y2)));
+        const line = ChartFactory.lineAllocate(0xb39ddb, new Vector2(x1, y1), new Vector2(x2, y2));
+        line.position.z -= 0.1;
+        group.add(line);
         const rotation = Math.atan2(y2 - y1, x2 - x1);
         const circle = new THREE.Mesh(
             new THREE.CircleGeometry(5),
@@ -182,7 +184,7 @@ export class PathwaysFactory {
         const line = ChartFactory.lineAllocate(0xa5d6a7, new Vector2(-5, 0), new Vector2(5, 0));
         line.position.x = x1 + xO;
         line.position.y = y1 + yO;
-        line.position.z = 0.1;
+        line.position.z = -0.1;
         line.rotateZ(Math.atan2(y2 - y1, x2 - x1) + 1.5);
         group.add(line);
         return group;
@@ -192,6 +194,7 @@ export class PathwaysFactory {
         console.log("PRODUCTION");
         const group = new THREE.Group();
         const line = ChartFactory.lineAllocate(0xffcc80, new Vector2(x1, y1), new Vector2(x2, y2));
+        line.position.z = -0.1;
         group.add(line);
 
         const rotation = Math.atan2(y2 - y1, x2 - x1);
@@ -218,23 +221,26 @@ export class PathwaysFactory {
         console.log("SIMULATION");
         const group = new THREE.Group();
         const line = ChartFactory.lineAllocate(0xffcc80, new Vector2(x1, y1), new Vector2(x2, y2));
+        line.position.z = -0.1;
         group.add(line);
+
+        const rotation = Math.atan2(y2 - y1, x2 - x1);
         const triangleGeom = new THREE.ShapeGeometry(
             new THREE.Shape([
                 new Vector2(0, 0),
-                new Vector2(10, -7),
-                new Vector2(10, 7),
+                new Vector2(6, -3),
+                new Vector2(6, 3),
             ])
         );
         const triangle = new THREE.Mesh(
             triangleGeom,
             ChartFactory.getColorPhong(0xffcc80)
         );
-        triangle.position.setX(x1 + xO);
-        triangle.position.setY(y1 + yO);
+        triangle.position.setX(x1 + Math.cos(rotation) * 5);
+        triangle.position.setY(y1 + Math.sin(rotation) * 5);
         triangle.position.z = 0.1;
+        triangle.rotateZ(rotation);
 
-        triangle.rotateZ(Math.atan2(y2 - y1, x2 - x1));
         group.add(triangle);
         return group;
     }
