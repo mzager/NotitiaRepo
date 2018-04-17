@@ -217,13 +217,13 @@ export class DataEffect {
                 // new compute.PcaIncrementalAction({ config: graphBConfig }),
                 // new compute.HicAction( { config: hicConfig }),
                 // new compute.BoxWhiskersAction({ config: boxWhiskersConfig }),
-                // new compute.TimelinesAction({ config: timelinesConfigA }),
+                new compute.TimelinesAction({ config: timelinesConfigA }),
                 // new compute.TimelinesAction( { config: timelinesConfigB})
                 // new compute.ChromosomeAction({ config: chromosomeConfig }),
                 // new compute.HeatmapAction({ config: heatmapConfig }),
                 // new compute.SurvivalAction({ config: survivalConfig }),
                 // new compute.ChromosomeAction( { config: chromosomeConfig } )
-                new compute.PathwaysAction({ config: pathwaysConfig }),
+                // new compute.PathwaysAction({ config: pathwaysConfig }),
                 // new compute.GenomeAction({ config: genomeConfig }),
                 // new compute.PcaIncrementalAction({ config: pcaIncConfig }),
                 // new compute.PcaIncrementalAction({ config: pcaIncConfig }),
