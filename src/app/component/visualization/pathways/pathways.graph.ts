@@ -67,7 +67,7 @@ export class PathwaysGraph extends AbstractVisualization {
 
     enable(truthy: boolean) {
         super.enable(truthy);
-        this.view.controls.enableRotate = false;
+        this.view.controls.enableRotate = true;
     }
 
     onMouseDown(e: ChartEvent): void { }
@@ -194,9 +194,9 @@ export class PathwaysGraph extends AbstractVisualization {
         this.addEdges(this.data.layout.sbgn.map.arc);
         this.addNodes(this.data.layout.sbgn.map.glyph);
         ChartFactory.decorateDataGroups(this.dataGroups, this.decorators, null, 6);
-
-        const result = ChartUtil.calcualteBoundingSphere(this.view.scene);
-        debugger;
+        const sphere = ChartUtil.calcualteBoundingSphere(this.view.scene);
+        ChartUtil.fitCameraToSphere(this.view, sphere);
+        console.log('hi');
     }
 
     removeObjects() {
