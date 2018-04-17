@@ -2,13 +2,14 @@ import { WorkspaceLayoutEnum } from './../../../model/enum.model';
 import { GraphEnum } from 'app/model/enum.model';
 import { VisualizationView } from './../../../model/chart-view.model';
 import * as THREE from 'three';
-import { Box3 } from 'three';
+import { Box3, Vector3, PerspectiveCamera } from 'three';
+import { OrbitControls } from 'three-orbitcontrols-ts';
 
 export class ChartUtil {
 
     private static raycaster: THREE.Raycaster = new THREE.Raycaster();
 
-    public static calcualteBoundingSphere(root: THREE.Object3D): any {
+    public static calcualteBoundingSphere(root: THREE.Object3D): THREE.Sphere {
         let sceneBSCenter = new THREE.Vector3(0, 0, 0);
         let sceneBSRadius = 0;
         root.traverseVisible((obj: THREE.Object3D) => {
@@ -26,34 +27,25 @@ export class ChartUtil {
                 sceneBSRadius = newRadius;
             }
         });
-        return {
-            center: sceneBSCenter,
-            radius: sceneBSRadius
-        };
+        debugger;
+        return new THREE.Sphere(sceneBSCenter, sceneBSRadius);
+
     }
-    // THREE.SceneUtils.traverseHierarchy( root, function (object) 
-    // {
-    //     if (object instanceof THREE.Mesh)
-    //     {
-    //         // Object radius
-    //         var radius = object.geometry.boundingSphere.radius;
+    public static fitCameraToSphere(view: VisualizationView, sphere: THREE.Sphere): void {
+        // const scale = 0.618; // object size / display size
+        const scale = 1;
+        const camera: PerspectiveCamera = view.camera as PerspectiveCamera;
+        const controls: OrbitControls = view.controls as OrbitControls;
+        const objectAngularSize = (camera.fov * Math.PI / 180) * scale;
+        const distanceToCamera = sphere.radius / Math.tan(objectAngularSize / 2)
+        const len = Math.sqrt(Math.pow(distanceToCamera, 2) + Math.pow(distanceToCamera, 2))
+        camera.position.set(len, len, len);
+        view.controls.update();
+        camera.lookAt(sphere.center);
+        // view.controls.target.set(sphere.center.x, sphere.center.y, sphere.center.z);
+        camera.updateProjectionMatrix();
+    }
 
-    //         // Object center in world space
-    //         var objectCenterLocal = object.position.clone();
-    //         var objectCenterWorld = object.matrixWorld.multiplyVector3(objectCenterLocal);
-
-    //         // New center in world space
-    //         var newCenter = new THREE.Vector3();
-    //         newCenter.add(sceneBSCenter, objectCenterWorld);
-    //         newCenter.divideScalar(2.0);
-
-    //         // New radius in world space
-    //         var dCenter = newCenter.distanceTo(sceneBSCenter);
-    //         var newRadius = Math.max(dCenter + radius, dCenter + sceneBSRadius);
-    //         sceneBSCenter = dCenter;
-    //         sceneBSRadius = newRadius;
-    //     }
-    // } );
     // public static fitCameraToObject(camera, object: Box3, offset, controls) {
 
     //     // offset = offset || 1.25;
