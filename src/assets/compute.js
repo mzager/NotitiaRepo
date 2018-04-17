@@ -28620,9 +28620,9 @@ exports.survivalCompute = function (config, worker) {
                 events: cohortEvents
             }));
         });
-        debugger;
+        // debugger;
         Promise.all(promises).then(function (survivalHazardResults) {
-            debugger;
+            // debugger;
             var survivalResults = [];
             var hazardResults = [];
             survivalHazardResults.forEach(function (result, i) {
