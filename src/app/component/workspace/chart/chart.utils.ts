@@ -9,41 +9,147 @@ export class ChartUtil {
 
     private static raycaster: THREE.Raycaster = new THREE.Raycaster();
 
-    public static calcualteBoundingSphere(root: THREE.Object3D): THREE.Sphere {
-        let sceneBSCenter = new THREE.Vector3(0, 0, 0);
-        let sceneBSRadius = 0;
-        root.traverseVisible((obj: THREE.Object3D) => {
-            if (obj instanceof THREE.Mesh) {
-                const object = obj as THREE.Mesh;
-                object.geometry.computeBoundingSphere();
-                let radius = object.geometry.boundingSphere.radius;
-                let objectCenterLocal = object.position.clone();
-                let objectCenterWorld = object.matrixWorld.multiplyVector3(objectCenterLocal);
-                let newCenter = sceneBSCenter.clone().add(objectCenterWorld).divideScalar(2.0);
-                // New radius in world space
-                let dCenter = newCenter.distanceTo(sceneBSCenter);
-                var newRadius = Math.max(dCenter + radius, dCenter + sceneBSRadius);
-                sceneBSCenter = newCenter;
-                sceneBSRadius = newRadius;
-            }
-        });
-        debugger;
-        return new THREE.Sphere(sceneBSCenter, sceneBSRadius);
-
+    public static calcualteBoundSphere(root: THREE.Object3D): THREE.Sphere {
+        return null;
+        // const sphere = new THREE.Sphere();
+        // let sceneCenter = new THREE.Vector3(0, 0, 0);
+        // let sceneRadius = 0;
+        // root.traverse(o => {
+        //     console.log(o);
+        //     const radius = 6;
+        //     const localPos = o.position.clone();
+        //     const worldPos = o.matrixWorld.multiplyVector3(localPos);
+        //     const newCenter = sceneCenter.clone().add(worldPos).divideScalar(2.0);
+        //     const distCenter = newCenter.distanceTo(sceneCenter);
+        //     const newRadius = Math.max(distCenter, sceneRadius);
+        //     sceneCenter = newCenter;
+        //     sceneRadius = newRadius;
+        // });
+        // return new THREE.Sphere(sceneCenter, sceneRadius);
     }
+    // public static calculateBoundingSphere2(objects: Array<THREE.Object3D>): THREE.Sphere {
+    //     let sceneBSCenter = new THREE.Vector3(0, 0, 0);
+    //     let sceneBSRadius = 0;
+    //     const numObjects = objects.length;
+    //     for (let i = 0; i < objects.length; i++) {
+    //         if (objects[i] instanceof THREE.Sprite) {
+    //             const sprite = objects[i] as THREE.Sprite;
+    //             let radius = 6;
+    //             let objectCenterLocal = sprite.position.clone();
+    //             let objectCenterWorld = sprite.matrixWorld.multiplyVector3(objectCenterLocal);
+    //             let newCenter = sceneBSCenter.clone().add(objectCenterWorld).divideScalar(2.0);
+    //             let dCenter = newCenter.distanceTo(sceneBSCenter);
+    //             var newRadius = Math.max(dCenter + radius, dCenter + sceneBSRadius);
+    //             sceneBSCenter = newCenter;
+    //             sceneBSRadius = newRadius;
+    //         } else if (objects[i] instanceof THREE.Mesh) {
+    //             const mesh = objects[i] as THREE.Mesh;
+    //             mesh.geometry.computeBoundingSphere();
+    //             let radius = mesh.geometry.boundingSphere.radius;
+    //             let objectCenterLocal = mesh.position.clone();
+    //             let objectCenterWorld = mesh.matrixWorld.multiplyVector3(objectCenterLocal);
+    //             let newCenter = sceneBSCenter.clone().add(objectCenterWorld).divideScalar(2.0);
+    //             let dCenter = newCenter.distanceTo(sceneBSCenter);
+    //             var newRadius = Math.max(dCenter + radius, dCenter + sceneBSRadius);
+    //             sceneBSCenter = newCenter;
+    //             sceneBSRadius = newRadius;
+    //             console.log(objectCenterWorld);
+    //         } else if (objects[i] instanceof THREE.Group) {
+    //             const group = objects[i] as THREE.Group;
+    //             let radius = 6;
+    //             let objectCenterLocal = group.position.clone();
+    //             let objectCenterWorld = group.matrixWorld.multiplyVector3(objectCenterLocal);
+    //             let newCenter = sceneBSCenter.clone().add(objectCenterWorld).divideScalar(2.0);
+    //             let dCenter = newCenter.distanceTo(sceneBSCenter);
+    //             var newRadius = Math.max(dCenter + radius, dCenter + sceneBSRadius);
+    //             sceneBSCenter = newCenter;
+    //             sceneBSRadius = newRadius;
+    //         }
+    //         console.log('...');
+
+
+    //     }
+    //     return new THREE.Sphere(sceneBSCenter, sceneBSRadius);
+    // }
+    // public static calculateBoundingBox(root: THREE.Object3D): THREE.Box3 {
+    //     // let box: THREE.Box3 = new THREE.Box3();
+    //     // root.traverse(function (obj3D) {
+    //     //     if (obj3D.hasOwnProperty('geometry')) {
+    //     //         const geometry: THREE.Geometry = obj3D['geometry'];
+    //     //         geometry.computeBoundingBox();
+    //     //         if (box === null) { box = geometry.boundingBox; }
+    //     //         else {
+    //     //             box.union(geometry.boundingBox);
+    //     //         }
+    //     //         console.log('.........');
+    //     //     } else {
+    //     //         const bbb = new Box3();
+    //     //         bbb.setFromCenterAndSize(obj3D.position, new THREE.Vector3(3, 3, 3));
+    //     //         box.union(box);
+    //     //     }
+    //     // });
+    //     // return box;
+    // }
+    // public static calcualteBoundingSphere(root: THREE.Object3D): THREE.Sphere {
+    //     let sceneBSCenter = new THREE.Vector3(0, 0, 0);
+    //     let sceneBSRadius = 0;
+    //     root.traverseVisible((obj: THREE.Object3D) => {
+    //         if (obj instanceof THREE.Mesh) {
+    //             console.log(obj + "!!!");
+    //             const object = obj as THREE.Mesh;
+    //             object.geometry.computeBoundingSphere();
+    //             let radius = object.geometry.boundingSphere.radius;
+    //             let objectCenterLocal = object.position.clone();
+    //             let objectCenterWorld = object.matrixWorld.multiplyVector3(objectCenterLocal);
+    //             let newCenter = sceneBSCenter.clone().add(objectCenterWorld).divideScalar(2.0);
+    //             // New radius in world space
+    //             let dCenter = newCenter.distanceTo(sceneBSCenter);
+    //             var newRadius = Math.max(dCenter + radius, dCenter + sceneBSRadius);
+    //             sceneBSCenter = newCenter;
+    //             sceneBSRadius = newRadius;
+    //         }
+    //     });
+    //     return new THREE.Sphere(sceneBSCenter, sceneBSRadius);
+    // }
+    // public static fitCameraToBox(view: VisualizationView, box: THREE.Box3): void {
+    //     const scale = 1;
+    //     const camera: PerspectiveCamera = view.camera as PerspectiveCamera;
+    //     const controls: OrbitControls = view.controls as OrbitControls;
+    //     const objectAngularSize = (camera.fov * Math.PI / 180) * scale;
+    //     // const distanceToCamera = box.getBoundingSphere() / Math.tan(objectAngularSize / 2)
+    //     // const len = Math.sqrt(Math.pow(distanceToCamera, 2) + Math.pow(distanceToCamera, 2))
+    //     // camera.position.set(len, len, len);
+    //     debugger;
+    // }
     public static fitCameraToSphere(view: VisualizationView, sphere: THREE.Sphere): void {
-        // const scale = 0.618; // object size / display size
-        const scale = 1;
-        const camera: PerspectiveCamera = view.camera as PerspectiveCamera;
-        const controls: OrbitControls = view.controls as OrbitControls;
-        const objectAngularSize = (camera.fov * Math.PI / 180) * scale;
-        const distanceToCamera = sphere.radius / Math.tan(objectAngularSize / 2)
-        const len = Math.sqrt(Math.pow(distanceToCamera, 2) + Math.pow(distanceToCamera, 2))
-        camera.position.set(len, len, len);
-        view.controls.update();
-        camera.lookAt(sphere.center);
+        return null;
+        // const aspect = view.viewport.width / view.viewport.height;
+        // const fov = (view.camera as PerspectiveCamera).fov * (Math.PI / 180);
+        // view.camera.position.set(
+        //     sphere.center.x,
+        //     sphere.center.y,
+        //     sphere.center.z + (sphere.radius * 1.5)
+        // );
+        // view.camera.lookAt(sphere.center);
+
         // view.controls.target.set(sphere.center.x, sphere.center.y, sphere.center.z);
-        camera.updateProjectionMatrix();
+
+
+
+
+        // const scale = 0.618; // object size / display size
+        // // const scale = 1;
+        // const camera: PerspectiveCamera = view.camera as PerspectiveCamera;
+        // const controls: OrbitControls = view.controls as OrbitControls;
+        // const objectAngularSize = (camera.fov * Math.PI / 180) * scale;
+        // const distanceToCamera = sphere.radius / Math.tan(objectAngularSize / 2)
+        // const len = Math.sqrt(Math.pow(distanceToCamera, 2) + Math.pow(distanceToCamera, 2))
+        // // camera.position.set(len, len, len);
+        // console.log(len);
+        // view.controls.update();
+        // camera.lookAt(sphere.center);
+        // view.controls.target.set(sphere.center.x, sphere.center.y, sphere.center.z);
+        // camera.updateProjectionMatrix();
     }
 
     // public static fitCameraToObject(camera, object: Box3, offset, controls) {
