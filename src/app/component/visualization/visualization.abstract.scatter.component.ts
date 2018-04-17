@@ -85,6 +85,17 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         ChartFactory.decorateDataGroups(this.meshes, this.decorators);
         this.points = this.meshes.map(v => v.children[0]);
         this.tooltipController.targets = this.points;
+
+        // const s = ChartUtil.calculateBoundingSphere2(this.meshes);
+        // const t = ChartUtil.calculateBoundingBox(this.view.scene);
+
+        // const sphere = ChartUtil.calcualteBoundSphere(this.view.scene);
+        // ChartUtil.fitCameraToSphere(this.view, sphere);
+
+        // ChartUtil.fitCameraToSphere(this.view, t);
+
+
+        // ChartUtil.calcualteBoundingSphere(this.points);
     }
 
     removeObjects() {
