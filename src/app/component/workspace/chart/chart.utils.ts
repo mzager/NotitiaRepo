@@ -8,42 +8,88 @@ export class ChartUtil {
 
     private static raycaster: THREE.Raycaster = new THREE.Raycaster();
 
-    public static fitCameraToObject(camera, object: Box3, offset, controls) {
-
-        // offset = offset || 1.25;
-
-        // const boundingBox = object;
-        // // get bounding box of object - this will be used to setup controls and camera
-        // // boundingBox.setFromObject( object );
-
-        // const center = boundingBox.getCenter();
-
-        // const size = boundingBox.getSize();
-
-        // // get the max side of the bounding box (fits to width OR height as needed )
-        // const maxDim = Math.max(size.x, size.y, size.z);
-        // const fov = camera.fov * (Math.PI / 180);
-        // let cameraZ = Math.abs(maxDim / 4 * Math.tan(fov * 2));
-
-        // cameraZ *= offset; // zoom out a little so that objects don't fill the screen
-
-        // camera.position.z = cameraZ;
-
-        // const minZ = boundingBox.min.z;
-        // const cameraToFarEdge = (minZ < 0) ? -minZ + cameraZ : cameraZ - minZ;
-
-        // camera.far = cameraToFarEdge * 3;
-        // camera.updateProjectionMatrix();
-        // if (controls) {
-        //     // set camera to rotate around center of loaded object
-        //     controls.target = center;
-        //     // prevent camera from zooming out far enough to create far plane cutoff
-        //     controls.maxDistance = cameraToFarEdge * 2;
-        //     //   controls.saveState();
-        // } else {
-        //     camera.lookAt(center);
-        // }
+    public static calcualteBoundingSphere(root: THREE.Object3D): any {
+        let sceneBSCenter = new THREE.Vector3(0, 0, 0);
+        let sceneBSRadius = 0;
+        root.traverseVisible((obj: THREE.Object3D) => {
+            if (obj instanceof THREE.Mesh) {
+                const object = obj as THREE.Mesh;
+                object.geometry.computeBoundingSphere();
+                let radius = object.geometry.boundingSphere.radius;
+                let objectCenterLocal = object.position.clone();
+                let objectCenterWorld = object.matrixWorld.multiplyVector3(objectCenterLocal);
+                let newCenter = sceneBSCenter.clone().add(objectCenterWorld).divideScalar(2.0);
+                // New radius in world space
+                let dCenter = newCenter.distanceTo(sceneBSCenter);
+                var newRadius = Math.max(dCenter + radius, dCenter + sceneBSRadius);
+                sceneBSCenter = newCenter;
+                sceneBSRadius = newRadius;
+            }
+        });
+        return {
+            center: sceneBSCenter,
+            radius: sceneBSRadius
+        };
     }
+    // THREE.SceneUtils.traverseHierarchy( root, function (object) 
+    // {
+    //     if (object instanceof THREE.Mesh)
+    //     {
+    //         // Object radius
+    //         var radius = object.geometry.boundingSphere.radius;
+
+    //         // Object center in world space
+    //         var objectCenterLocal = object.position.clone();
+    //         var objectCenterWorld = object.matrixWorld.multiplyVector3(objectCenterLocal);
+
+    //         // New center in world space
+    //         var newCenter = new THREE.Vector3();
+    //         newCenter.add(sceneBSCenter, objectCenterWorld);
+    //         newCenter.divideScalar(2.0);
+
+    //         // New radius in world space
+    //         var dCenter = newCenter.distanceTo(sceneBSCenter);
+    //         var newRadius = Math.max(dCenter + radius, dCenter + sceneBSRadius);
+    //         sceneBSCenter = dCenter;
+    //         sceneBSRadius = newRadius;
+    //     }
+    // } );
+    // public static fitCameraToObject(camera, object: Box3, offset, controls) {
+
+    //     // offset = offset || 1.25;
+
+    //     // const boundingBox = object;
+    //     // // get bounding box of object - this will be used to setup controls and camera
+    //     // // boundingBox.setFromObject( object );
+
+    //     // const center = boundingBox.getCenter();
+
+    //     // const size = boundingBox.getSize();
+
+    //     // // get the max side of the bounding box (fits to width OR height as needed )
+    //     // const maxDim = Math.max(size.x, size.y, size.z);
+    //     // const fov = camera.fov * (Math.PI / 180);
+    //     // let cameraZ = Math.abs(maxDim / 4 * Math.tan(fov * 2));
+
+    //     // cameraZ *= offset; // zoom out a little so that objects don't fill the screen
+
+    //     // camera.position.z = cameraZ;
+
+    //     // const minZ = boundingBox.min.z;
+    //     // const cameraToFarEdge = (minZ < 0) ? -minZ + cameraZ : cameraZ - minZ;
+
+    //     // camera.far = cameraToFarEdge * 3;
+    //     // camera.updateProjectionMatrix();
+    //     // if (controls) {
+    //     //     // set camera to rotate around center of loaded object
+    //     //     controls.target = center;
+    //     //     // prevent camera from zooming out far enough to create far plane cutoff
+    //     //     controls.maxDistance = cameraToFarEdge * 2;
+    //     //     //   controls.saveState();
+    //     // } else {
+    //     //     camera.lookAt(center);
+    //     // }
+    // }
     public static objectToScreen(obj: THREE.Object3D, view: VisualizationView, layout: WorkspaceLayoutEnum): THREE.Vector2 {
 
         const vector = new THREE.Vector3();

@@ -1,6 +1,6 @@
 import {
     DataLoadedAction, DATA_UPDATE_COHORTS, DataUpdateCohortsAction,
-    DATA_UPDATE_GENESETS, DataUpdateGenesetsAction
+    DATA_UPDATE_GENESETS, DataUpdatePathwayAction, DataUpdateGenesetsAction
 } from './../action/data.action';
 import { DataChromosome } from './../model/data-chromosome.model';
 import { DataField, DataTable } from './../model/data-field.model';
@@ -13,6 +13,7 @@ export interface State {
     dataset: string;
     fields: Array<DataField>;
     tables: Array<DataTable>;
+    pathways: Array<any>;
     genesets: Array<any>;
     cohorts: Array<any>;
     events: Array<{ type: string, subtype: string }>;
@@ -24,6 +25,7 @@ const initialState: State = {
     fields: [],
     tables: [],
     events: [],
+    pathways: [],
     genesets: [],
     cohorts: []
 };
@@ -36,6 +38,9 @@ export function reducer(state = initialState, action: Action): State {
         case data.DATA_UPDATE_COHORTS:
             const duc: DataUpdateCohortsAction = action as DataUpdateCohortsAction;
             return Object.assign({}, state, { cohorts: duc.payload });
+        case data.DATA_UPDATE_PATHWAYS:
+            const dup: DataUpdatePathwayAction = action as DataUpdatePathwayAction;
+            return Object.assign({}, state, { pathways: dup.payload });
         case data.DATA_UPDATE_GENESETS:
             const dug: DataUpdateGenesetsAction = action as DataUpdateGenesetsAction;
             return Object.assign({}, state, { genesets: dug.payload });
@@ -44,6 +49,7 @@ export function reducer(state = initialState, action: Action): State {
     }
 }
 
+export const getPathways = (state: State) => state.pathways;
 export const getGenesets = (state: State) => state.genesets;
 export const getCohorts = (state: State) => state.cohorts;
 export const getDataset = (state: State) => state.dataset;

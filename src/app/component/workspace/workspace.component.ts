@@ -1,3 +1,4 @@
+import { Pathway } from './../../model/pathway.model';
 import { HistogramConfigModel } from './../visualization/histogram/histogram.model';
 import { DataDecorator } from './../../model/data-map.model';
 import { Cohort } from './../../model/cohort.model';
@@ -44,6 +45,8 @@ import {
   DataLoadIlluminaVcfAction,
   DataUpdateGenesetsAction,
   DataUpdateCohortsAction,
+  DataAddPathwayAction,
+  DataDelPathwayAction,
   DataAddGenesetAction,
   DataDelGenesetAction,
   DataAddCohortAction,
@@ -98,6 +101,7 @@ export class WorkspaceComponent {
   @ViewChild('panelContainer') public panelContainer: ElementRef;
 
   // graphTool: Observable<GraphTool>;
+  pathways: Observable<Array<any>>;
   genesets: Observable<Array<any>>;
   cohorts: Observable<Array<any>>;
   loader: Observable<boolean>;
@@ -131,6 +135,7 @@ export class WorkspaceComponent {
 
   constructor(private store: Store<fromRoot.State>) {
 
+    this.pathways = store.select(fromRoot.getPathways);
     this.genesets = store.select(fromRoot.getGenesets);
     this.cohorts = store.select(fromRoot.getCohorts);
     this.graphPanelATab = store.select(fromRoot.getLayoutGraphPanelAState);
@@ -286,6 +291,12 @@ export class WorkspaceComponent {
   }
   graphPanelDelDecorator(e: { config: GraphConfig, decorator: DataDecorator }): void {
     this.store.dispatch(new DataDecoratorDelAction({ config: e.config, decorator: e.decorator }));
+  }
+  addPathway(value: { database: string, pathway: Pathway }): void {
+    this.store.dispatch(new DataAddPathwayAction(value));
+  }
+  delPathway(value: { database: string, pathway: Pathway }): void {
+    this.store.dispatch(new DataDelPathwayAction(value));
   }
   addGeneset(value: { database: string, geneset: GeneSet }): void {
     this.store.dispatch(new DataAddGenesetAction(value));
