@@ -223,7 +223,7 @@ export class DataEffect {
                 // new compute.HeatmapAction({ config: heatmapConfig }),
                 // new compute.SurvivalAction({ config: survivalConfig }),
                 // new compute.ChromosomeAction( { config: chromosomeConfig } )
-                new compute.PathwaysAction({ config: pathwaysConfig }),
+                // new compute.PathwaysAction({ config: pathwaysConfig }),
                 // new compute.GenomeAction({ config: genomeConfig }),
                 // new compute.PcaIncrementalAction({ config: pcaIncConfig }),
                 // new compute.PcaIncrementalAction({ config: pcaIncConfig }),
