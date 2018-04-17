@@ -194,8 +194,8 @@ export class PathwaysGraph extends AbstractVisualization {
         this.addEdges(this.data.layout.sbgn.map.arc);
         this.addNodes(this.data.layout.sbgn.map.glyph);
         ChartFactory.decorateDataGroups(this.dataGroups, this.decorators, null, 6);
-        const sphere = ChartUtil.calcualteBoundingSphere(this.view.scene);
-        ChartUtil.fitCameraToSphere(this.view, sphere);
+        // const sphere = ChartUtil.calcualteBoundingSphere(this.view.scene);
+        // ChartUtil.fitCameraToSphere(this.view, sphere);
         console.log('hi');
     }
 
