@@ -27,7 +27,7 @@ export class ChartUtil {
                 sceneBSRadius = newRadius;
             }
         });
-        debugger;
+        // debugger;
         return new THREE.Sphere(sceneBSCenter, sceneBSRadius);
 
     }
