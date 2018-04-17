@@ -1,5 +1,5 @@
-import { Pathway } from './../model/pathway.model';
 import { Cohort } from './../model/cohort.model';
+import { Pathway } from './../model/pathway.model';
 import { GeneSet } from './../model/gene-set.model';
 import { UnsafeAction } from './unsafe.action';
 import { DataChromosome } from './../model/data-chromosome.model';
