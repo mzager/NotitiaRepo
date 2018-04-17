@@ -1,3 +1,5 @@
+import { ChartUtil } from './../../workspace/chart/chart.utils';
+import { PathwayNodeEnum } from './pathways.factory';
 import { ILabel, LabelOptions, LabelController } from './../../../controller/label/label.controller';
 import { PathwaysFactory } from 'app/component/visualization/pathways/pathways.factory';
 import { PathwaysDataModel, PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
@@ -22,8 +24,10 @@ export class PathwaysGraph extends AbstractVisualization {
 
 
     public lines: Array<THREE.Object3D>;
-    public lbls: Array<ILabel>;
-    public lblOptions: LabelOptions;
+    public lblNetwork: Array<ILabel>;
+    public lblNetworkOptions: LabelOptions;
+    public lblGenes: Array<ILabel>;
+    public lblGenesOptions: LabelOptions;
     public dataGroups: Array<THREE.Group>;
 
     // Create - Initialize Mesh Arrays
@@ -32,9 +36,16 @@ export class PathwaysGraph extends AbstractVisualization {
         this.meshes = [];
         this.lines = [];
         this.dataGroups = [];
-        this.lbls = [];
-        this.lblOptions = new LabelOptions(view, 'PIXEL');
-        this.lblOptions.offsetY3d = -8;
+        this.lblGenes = [];
+        this.lblNetwork = [];
+        this.lblNetworkOptions = new LabelOptions(view, 'PIXEL');
+        this.lblNetworkOptions.offsetY3d = -12;
+        this.lblNetworkOptions.background = 'rgba(255,255,255,.8)';
+        this.lblGenesOptions = new LabelOptions(view, 'PIXEL');
+        this.lblGenesOptions.offsetY3d = 8;
+        // this.lblGenesOptions.background = 'rgba(255,255,255,.8)';
+        this.lblGenesOptions.rotate = -45;
+        this.lblGenesOptions.origin = 'LEFT';
         return this;
     }
 
@@ -45,7 +56,7 @@ export class PathwaysGraph extends AbstractVisualization {
 
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
         super.updateDecorator(config, decorators);
-        ChartFactory.decorateDataGroups(this.dataGroups, this.decorators);
+        ChartFactory.decorateDataGroups(this.dataGroups, this.decorators, null, 6);
     }
 
     updateData(config: GraphConfig, data: any) {
@@ -70,10 +81,13 @@ export class PathwaysGraph extends AbstractVisualization {
         nodes.forEach(node => {
             if (node.hasOwnProperty('port')) {
                 node.port.forEach(port => {
-                    const geo = PathwaysFactory.createNode(node.class, 8, 8, port.x, port.y);
+                    const geo = PathwaysFactory.createNode('port', 8, 8, 0, 0);
                     const sg = new THREE.ShapeGeometry(geo);
-                    const mesh = new THREE.Mesh(sg, ChartFactory.getColorPhong(0xFF0000));
+                    const mesh = new THREE.Mesh(sg, ChartFactory.getColorBasic(this.getColor('port')));
                     mesh.position.set(port.x, port.y, 0);
+                    mesh.userData = {
+                        tooltip: ''
+                    }
                     this.meshes.push(mesh);
                     this.view.scene.add(mesh);
                 });
@@ -81,28 +95,36 @@ export class PathwaysGraph extends AbstractVisualization {
             if (node.hasOwnProperty('glyph')) {
                 this.addNodes(node.glyph);
             } else {
-                if (node.class === 'process' || node.class === 'compartment') {
-                    node.bbox.w *= 1;
-                    node.bbox.h *= 1;
-                    node.bbox.x += node.bbox.w * .5;
-                    node.bbox.y += node.bbox.h * .5;
+                if (node.class === 'process') {
+                    node.bbox.x += Math.floor(node.bbox.w * 0.5);
+                    node.bbox.y += Math.floor(node.bbox.h * 0.5);
                 }
-                if (node.class !== 'compartment') {
+                // if (node.class === 'process' || node.class === 'compartment') {
+                //     node.bbox.w *= 1;
+                //     node.bbox.h *= 1;
+                //     node.bbox.x += node.bbox.w * .5;
+                //     node.bbox.y += node.bbox.h * .5;
+                // }
+                if (node.class !== 'xcompartment') {
 
                     const w = Math.round(node.bbox.w);
                     const h = Math.round(node.bbox.h);
                     const x = Math.round(node.bbox.x);
                     const y = Math.round(node.bbox.y);
                     const label = (node.label) ? node.label.text : '';
+
                     const geo = PathwaysFactory.createNode(node.class, w, h, x, y);
                     const sg = new THREE.ShapeGeometry(geo);
                     const color = this.getColor(node.class);
-                    const mesh = new THREE.Mesh(sg, ChartFactory.getColorPhong(color));
+                    const mat = ChartFactory.getColorBasic(color);
+                    mat.opacity = .3;
+                    mat.transparent = true;
+                    const mesh = new THREE.Mesh(sg, mat);
                     mesh.position.set(x, y, 0);
-                    this.lbls.push({
+                    this.lblNetwork.push({
                         position: new THREE.Vector3(x, y, 0),
                         userData: { tooltip: label }
-                    })
+                    });
                     mesh.userData = {
                         node: node,
                         tooltip: label,
@@ -110,12 +132,18 @@ export class PathwaysGraph extends AbstractVisualization {
                         id: node.id,
                         center: new THREE.Vector3(x, y, 0)//Math.round(x + (w * 0.5)), Math.round(y + (h * 0.5)), 0)
                     };
-
                     if (node.hasOwnProperty('hgnc')) {
                         const numGenes = node.hgnc.length;
-                        const offset = ((node.hgnc.length * .5) * 5);
+                        const offset = ((node.hgnc.length * .5) * 7);
+
                         node.hgnc.forEach((gene, i) => {
-                            const group = ChartFactory.createDataGroup(gene.toUpperCase(), EntityTypeEnum.GENE, new THREE.Vector3(x + (i * 5) - offset, y, .2))
+                            // const yOff = ((i % 2) * 7) - 3.5;
+                            const pos = new THREE.Vector3(x + (i * 7) - offset, y, .2);
+                            this.lblGenes.push({
+                                position: pos,
+                                userData: { tooltip: gene.toUpperCase() }
+                            });
+                            const group = ChartFactory.createDataGroup(gene.toUpperCase(), EntityTypeEnum.GENE, pos);
                             this.view.scene.add(group);
                             this.dataGroups.push(group);
                         });
@@ -126,21 +154,32 @@ export class PathwaysGraph extends AbstractVisualization {
                 }
             }
         });
-        ChartFactory.decorateDataGroups(this.dataGroups, this.decorators);
-        this.tooltipController.targets = this.meshes;
+        this.tooltipController.targets = this.meshes.concat(this.dataGroups);
     }
 
     getColor(type: string): number {
-        const color = (type === 'unspecified entity') ? ColorEnum.BLUE :
-            (type === 'macromolecule') ? ColorEnum.RED :
-                (type === 'process') ? ColorEnum.GREEN :
-                    (type === 'simple chemical') ? ColorEnum.PURPLE :
-                        (type === 'complex multimer') ? ColorEnum.ORANGE :
-                            (type === 'complex') ? ColorEnum.PINK :
-                                (type === 'compartment') ? 0xEEEEEE :
-                                    (type === 'state variable') ? ColorEnum.INDIGO :
-                                        0x000000;
-        return color;
+        switch (type) {
+            case PathwayNodeEnum.SIMPLE_CHEMICAL:
+                return ColorEnum.BLUE;
+            case PathwayNodeEnum.MACROMOLECULE:
+                return ColorEnum.GREEN;
+            case PathwayNodeEnum.PROCESS:
+                return ColorEnum.PURPLE_DARK;
+            case PathwayNodeEnum.PORT:
+                return ColorEnum.PURPLE;
+            case PathwayNodeEnum.UNIT_OF_INFORMATION:
+                return ColorEnum.BLUE_LIGHT;
+            case PathwayNodeEnum.NOT:
+                return ColorEnum.RED;
+            case PathwayNodeEnum.AND:
+                return ColorEnum.GREEN
+            case PathwayNodeEnum.OR:
+                return ColorEnum.ORANGE;
+            case PathwayNodeEnum.STATE_VARIABLE:
+                return ColorEnum.PINK;
+            default:
+                return 0xDDDDDD;
+        }
     }
 
     addEdges(edges: Array<any>): void {
@@ -154,13 +193,17 @@ export class PathwaysGraph extends AbstractVisualization {
     addObjects(entity: EntityTypeEnum) {
         this.addEdges(this.data.layout.sbgn.map.arc);
         this.addNodes(this.data.layout.sbgn.map.glyph);
-        ChartFactory.decorateDataGroups(this.meshes, this.decorators);
+        ChartFactory.decorateDataGroups(this.dataGroups, this.decorators, null, 6);
+
+        const result = ChartUtil.calcualteBoundingSphere(this.view.scene);
+        debugger;
     }
 
     removeObjects() {
         this.view.scene.remove(...this.meshes);
         this.view.scene.remove(...this.dataGroups)
         this.view.scene.remove(...this.lines);
+        this.lblNetwork.length = 0;
         this.meshes.length = 0;
         this.dataGroups.length = 0;
         this.lines.length = 0;
@@ -168,8 +211,10 @@ export class PathwaysGraph extends AbstractVisualization {
     }
     onShowLabels(): void {
         const zoom = this.view.camera.position.z;
-        if (zoom < 500) {
-            this.labels.innerHTML = LabelController.generateHtml(this.lbls, this.lblOptions);
+        if (zoom < 1900) {
+            this.labels.innerHTML =
+                LabelController.generateHtml(this.lblNetwork, this.lblNetworkOptions) +
+                LabelController.generateHtml(this.lblGenes, this.lblGenesOptions);
         }
         else {
             this.labels.innerHTML = '';

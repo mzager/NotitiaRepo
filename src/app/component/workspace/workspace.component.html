@@ -58,6 +58,10 @@
     [cohorts]='cohorts | async' [config]='graphAConfig | async' class='modal-panel'></app-workspace-cohort-panel>
 <app-workspace-geneset-panel *ngIf='(modalPanel | async) === 32' (hide)='setPanel(1)' (addGeneset)='addGeneset($event)' (delGeneset)='delGeneset($event)'
     [genesets]='genesets | async' [config]='graphAConfig | async' class='modal-panel'></app-workspace-geneset-panel>
+<app-workspace-pathway-panel *ngIf='(modalPanel | async) === 8192' (hide)='setPanel(1)' (addPathway)='addPathway($event)'
+    (delPathway)='delPathway($event)' [pathways]='pathways | async' [config]='graphAConfig | async' class='modal-panel'></app-workspace-pathway-panel>
+
+
 <app-workspace-help-panel *ngIf='(modalPanel | async) === 128' (hide)='setPanel(1)' class='modal-panel' [config]='helpPanelConfig | async'></app-workspace-help-panel>
 <app-workspace-settings-panel *ngIf='(modalPanel | async) === 256' (hide)='setPanel(1)' class='modal-panel'></app-workspace-settings-panel>
 <app-workspace-about-panel *ngIf='(modalPanel | async) === 512' (hide)='setPanel(1)' class='modal-panel'></app-workspace-about-panel>

@@ -41,6 +41,7 @@ export class ChartFactory {
     public static colorsContinuous = [
         '#e53935', '#d81b60', '#8e24aa', '#5e35b1', '#3949ab', '#1e88e5', '#039be5', '#00acc1', '#00897b', '#43a047'
     ];
+    // public static shapes = ['blast', 'blob', 'circle', 'diamond', 'polygon', 'square', 'star', 'triangle'];
     private static sprites = [SpriteMaterialEnum.CIRCLE, SpriteMaterialEnum.TRIANGLE, SpriteMaterialEnum.DIAMOND,
     SpriteMaterialEnum.POLYGON, SpriteMaterialEnum.SQUARE, SpriteMaterialEnum.STAR, SpriteMaterialEnum.BLAST, SpriteMaterialEnum.BLOB];
 
@@ -66,25 +67,31 @@ export class ChartFactory {
     }
     public static getScaleShapeOrdinal(values: Array<string>): Function {
         const len = values.length;
-        return scale.scaleOrdinal().domain(values).range(ChartFactory.sprites.slice(0, values.length));
+        const cols = ChartFactory.sprites.slice(0, values.length)
+        return scale.scaleOrdinal().domain(values).range(cols);
     }
-    public static getScaleShapeLinear(min: number, max: number): Function {
-        return scale.scaleQuantize<string>().domain([min, max])
-            .range(['blast', 'blob', 'circle', 'diamond', 'polygon', 'square', 'star', 'triangle']);
+    public static getScaleShapeLinear(min: number, max: number, bins: number = 0): Function {
+        bins = Math.min(bins, 8);
+        const range = ChartFactory.sprites.slice(0, bins);
+        return scale.scaleQuantize<string>().domain([min, max]).range(range);
     }
     public static getScaleColorOrdinal(values: Array<string>): Function {
         const len = values.length;
-        const cols = ChartFactory.colors.slice(0, values.length);
+        const cols = (len > 4) ? ChartFactory.colors.slice(0, values.length) :
+            ChartFactory.colors.filter((c, i) => i % 2).slice(0, values.length);
+        debugger;
         return scale.scaleOrdinal().domain(values).range(cols);
     }
     public static getScaleColorLinear(min: number, max: number, bins: number = 8): Function {
-        bins = Math.max(bins, 10);
-        const range = ChartFactory.colorsContinuous.slice(0, bins);
+        bins = Math.min(bins, 8);
+        const range = (bins > 4) ? ChartFactory.colorsContinuous.slice(0, bins) :
+            ChartFactory.colorsContinuous.filter((c, i) => i % 2).slice(0, bins);
         return scale.scaleQuantize<string>().domain([min, max]).range(range);
     }
 
     // Pools
     public static createDataGroup(id: string, idType: EntityTypeEnum, position: Vector3): THREE.Group {
+
         const group = new THREE.Group();
         group.position.set(position.x, position.y, position.z);
         group.userData.id = id;
@@ -134,13 +141,9 @@ export class ChartFactory {
                 group.remove(group.children[0]);
             }
             const id = group.userData.id;
-
-            console.log(shapeMap);
-
             const color = (colorMap) ? (colorMap[id]) ? colorMap[id] : '#DDDDDD' : '#039be5';
             const label = (labelMap) ? (labelMap[id]) ? labelMap[id] : 'Unknown' : '';
             const shape = (shapeMap) ? (shapeMap[id]) ? shapeMap[id] : SpriteMaterialEnum.NA : SpriteMaterialEnum.CIRCLE;
-            console.log(shape);
             const spriteMaterial = ChartFactory.getSpriteMaterial(shape, color);
             spriteMaterial.opacity = 0.8;
             const mesh: THREE.Sprite = new THREE.Sprite(spriteMaterial);
