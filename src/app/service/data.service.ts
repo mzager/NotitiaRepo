@@ -29,8 +29,53 @@ export class DataService {
   // tslint:disable-next-line:max-line-length
   public static biotypeMap = { 'protein_coding': 'Protein Coding', 'polymorphic_pseudogene': 'Protein Coding', 'ig_v_gene': 'Protein Coding', 'tr_v_gene': 'Protein Coding', 'tr_c_gene': 'Protein Coding', 'tr_j_gene': 'Protein Coding', 'tr_d_gene': 'Protein Coding', 'ig_c_gene': 'Protein Coding', 'ig_d_gene': 'Protein Coding', 'ig_j_gene': 'Protein Coding', 'ig_v_pseudogene': 'Pseudogene', 'transcribed_unprocessed_pseudogene': 'Pseudogene', 'processed_pseudogene': 'Pseudogene', 'unprocessed_pseudogene': 'Pseudogene', 'transcribed_processed_pseudogene': 'Pseudogene', 'unitary_pseudogene': 'Pseudogene', 'ig_pseudogene': 'Pseudogene', 'ig_c_pseudogene': 'Pseudogene', 'ig_j_pseudogene': 'Pseudogene', 'tr_j_pseudogene': 'Pseudogene', 'tr_v_pseudogene': 'Pseudogene', 'transcribed_unitary_pseudogene': 'Pseudogene', 'antisense': 'Long Noncoding', 'sense_intronic': 'Long Noncoding', 'lincrna': 'Long Noncoding', 'sense_overlapping': 'Long Noncoding', 'processed_transcript': 'Long Noncoding', '3prime_overlapping_ncrna': 'Long Noncoding', 'non_coding': 'Long Noncoding', 'rrna': 'Short Noncoding', 'misc_rna': 'Short Noncoding', 'pseudogene': 'Short Noncoding', 'snorna': 'Short Noncoding', 'scrna': 'Short Noncoding', 'mirna': 'Short Noncoding', 'snrna': 'Short Noncoding', 'srna': 'Short Noncoding', 'ribozyme': 'Short Noncoding', 'scarna': 'Short Noncoding', 'vaultrna': 'Short Noncoding', 'tec': 'Other', 'bidirectional_promoter_lncrna': 'Other', 'macro_lncrna': 'Other' };
   public static biotypeCat = ['Protein Coding', 'Pseudogene', 'Long Noncoding', 'Short Noncoding', 'Other'];
-
   public static API_PATH = 'https://dev.oncoscape.sttrcancer.io/api/';
+
+  private getShapeScale(items: Array<any>, field: DataField): Function {
+    if (field.type !== 'STRING') {
+
+      // // Determine IQR
+      const data = items.map(v => v[field.key]);
+      const upperLimit = Math.max.apply(Math, data);
+      const lowerLimit = Math.min.apply(Math, data);
+      // const bins = d3.thresholdFreedmanDiaconis(data, lowerLimit, upperLimit);
+      // const bins = d3.thresholdScott(data, lowerLimit, upperLimit);
+      let bins = 0;
+      if ((upperLimit - lowerLimit) < 8) {
+        bins = Math.ceil(upperLimit - lowerLimit) + 1;
+      } else {
+        bins = d3.thresholdSturges(data);
+        if (bins > 8) { bins = 8; }
+      }
+      return ChartFactory.getScaleShapeLinear(lowerLimit, upperLimit, bins);
+    }
+    return ChartFactory.getScaleShapeOrdinal(field.values);
+  }
+  private getColorScale(items: Array<any>, field: DataField): Function {
+    // let scale;
+    if (field.type !== 'STRING') {
+
+      // // Determine IQR
+      const data = items.map(v => v[field.key]);
+      const upperLimit = Math.max.apply(Math, data);
+      const lowerLimit = Math.min.apply(Math, data);
+      // const bins = d3.thresholdFreedmanDiaconis(data, lowerLimit, upperLimit);
+      // const bins = d3.thresholdScott(data, lowerLimit, upperLimit);
+      let bins = 0;
+      if ((upperLimit - lowerLimit) < 8) {
+        bins = Math.ceil(upperLimit - lowerLimit) + 1;
+      } else {
+        bins = d3.thresholdSturges(data);
+        if (bins > 8) { bins = 8; }
+      }
+      return ChartFactory.getScaleColorLinear(lowerLimit, upperLimit, bins);
+    }
+    return ChartFactory.getScaleColorOrdinal(field.values);
+
+  }
+
+
+
   private createMolecularDataDecorator(config: GraphConfig, decorator: DataDecorator): Observable<DataDecorator> {
 
     if (decorator.field.ctype === CollectionTypeEnum.GENE_NAME) {
@@ -78,7 +123,6 @@ export class DataService {
             const scale = (decorator.type === DataDecoratorTypeEnum.SHAPE) ?
               ChartFactory.getScaleShapeOrdinal(DataService.biotypeCat) :
               ChartFactory.getScaleColorOrdinal(DataService.biotypeCat);
-
             decorator.values = results.map(v => ({
               pid: null,
               sid: null,
@@ -87,8 +131,6 @@ export class DataService {
               label: DataService.biotypeMap[v.type],
               value: scale(DataService.biotypeMap[v.type])
             })).filter(v => v.label);
-
-
             decorator.legend = new Legend();
             decorator.legend.type = (decorator.type === DataDecoratorTypeEnum.SHAPE) ? 'SHAPE' : 'COLOR';
             decorator.legend.display = 'DISCRETE';
@@ -109,17 +151,10 @@ export class DataService {
       new Dexie('notitia-' + config.database).open().then(db => {
         db.table(decorator.field.tbl.replace(/\s/gi, '')).toArray().then(results => {
           const prop = (decorator.field.key === 'Minimum') ? 'min' : (decorator.field.key === 'Maximum') ? 'max' : 'mean';
-          const minMax = results.reduce((p, c) => {
-            p[0] = Math.min(p[0], c[prop]);
-            p[1] = Math.max(p[1], c[prop]);
-            return p;
-          }, [Infinity, -Infinity]);
           let scale;
-
-
           switch (decorator.type) {
             case DataDecoratorTypeEnum.COLOR:
-              scale = ChartFactory.getScaleColorLinear(minMax[0], minMax[1]);
+              scale = this.getColorScale(results, Object.assign({}, decorator.field, { key: prop }));
               decorator.values = results.map(v => ({
                 pid: null,
                 sid: null,
@@ -128,17 +163,17 @@ export class DataService {
                 label: v[prop],
                 value: scale(v[prop])
               }));
-
               decorator.legend = new Legend();
               decorator.legend.type = 'COLOR';
               decorator.legend.display = 'DISCRETE';
               decorator.legend.name = 'Gene ' + decorator.field.label;
-              decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v).map(w => Math.round(w)).join(' to '));
-              decorator.legend.values = scale['range']();
+              decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v).map(w => Math.round(w)).join(' to ')).concat(['Unknown']);
+              decorator.legend.values = scale['range']().concat(['#DDDDDD']);
               break;
 
             case DataDecoratorTypeEnum.SHAPE:
-              scale = ChartFactory.getScaleShapeLinear(minMax[0], minMax[1]);
+              // scale = ChartFactory.getScaleShapeLinear(minMax[0], minMax[1]);
+              scale = this.getShapeScale(results, Object.assign({}, decorator.field, { key: prop }));
               decorator.values = results.map(v => ({
                 pid: null,
                 sid: null,
@@ -147,13 +182,12 @@ export class DataService {
                 label: v[prop],
                 value: scale(v[prop])
               }));
-
               decorator.legend = new Legend();
               decorator.legend.type = 'SHAPE';
               decorator.legend.display = 'DISCRETE';
               decorator.legend.name = 'Gene ' + decorator.field.label;
-              decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v).map(w => Math.round(w)).join(' to '));
-              decorator.legend.values = scale['range']();
+              decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v).map(w => Math.round(w)).join(' to ')).concat(['Unknown']);
+              decorator.legend.values = scale['range']().concat(['na']);
               break;
           }
           resolve(decorator);
@@ -209,23 +243,7 @@ export class DataService {
                 break;
 
               case DataDecoratorTypeEnum.COLOR:
-
-                let scale;
-                if (decorator.field.type !== 'STRING') {
-
-                  // // Determine IQR
-                  const data = items.map(v => v[decorator.field.key]);
-                  const upperLimit = Math.max.apply(Math, data);
-                  const lowerLimit = Math.min.apply(Math, data);
-                  // const bins = d3.thresholdFreedmanDiaconis(data, lowerLimit, upperLimit);
-                  // const bins = d3.thresholdScott(data, lowerLimit, upperLimit);
-                  let bins = d3.thresholdSturges(data);
-                  if (bins > 10) { bins = 10; }
-
-                  scale = ChartFactory.getScaleColorLinear(lowerLimit, upperLimit, bins);
-                } else {
-                  scale = ChartFactory.getScaleColorOrdinal(decorator.field.values);
-                }
+                scale = this.getColorScale(items, decorator.field);
                 decorator.values = items.map(v => ({
                   pid: v.p,
                   sid: psMap[v.p],
@@ -242,18 +260,15 @@ export class DataService {
                 if (decorator.field.type === 'STRING') {
                   decorator.legend.labels = scale['domain']().concat(['Unknown'])
                   decorator.legend.values = scale['range']().concat([0xDDDDDD]);
-
                 } else {
                   decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v).map(w => Math.round(w)).join(' to ')).concat(['Unknown']);
-                  decorator.legend.values = scale['range']().concat([0xDDDDDD]);
+                  decorator.legend.values = scale['range']().concat([0xFF0000]);
                 }
                 resolve(decorator);
                 break;
 
               case DataDecoratorTypeEnum.SHAPE:
-                scale = (decorator.field.type === 'STRING') ?
-                  ChartFactory.getScaleShapeOrdinal(decorator.field.values) :
-                  ChartFactory.getScaleShapeLinear(decorator.field.values.min, decorator.field.values.max);
+                scale = this.getShapeScale(items, decorator.field);
                 decorator.values = items.map(v => ({
                   pid: v.p,
                   sid: psMap[v.p],
@@ -271,7 +286,7 @@ export class DataService {
                   decorator.legend.labels = scale['domain']().concat(['Unknown']);
                   decorator.legend.values = scale['range']().concat(['na']);
                 } else {
-                  decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v).join(' - ')).concat(['Unknown']);
+                  decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v).map(w => Math.round(w)).join(' to ')).concat(['Unknown']);
                   decorator.legend.values = scale['range']().concat(['na']);
                 }
                 resolve(decorator);

@@ -225,6 +225,7 @@ var SpriteMaterialEnum = /** @class */ (function () {
     SpriteMaterialEnum.SQUARE = 'square';
     SpriteMaterialEnum.STAR = 'star';
     SpriteMaterialEnum.TRIANGLE = 'triangle';
+    SpriteMaterialEnum.NA = 'na';
     return SpriteMaterialEnum;
 }());
 exports.SpriteMaterialEnum = SpriteMaterialEnum;
@@ -20896,7 +20897,7 @@ var ComputeWorkerUtil = /** @class */ (function () {
         this.dbData = null;
         this.dbLookup = null;
         this.sizes = [1, 2, 3, 4];
-        this.shapes = [1 /* CIRCLE */, 2 /* SQUARE */, 4 /* TRIANGLE */, 8 /* CONE */];
+        this.shapes = [2 /* CIRCLE */, 4 /* SQUARE */, 8 /* TRIANGLE */, 16 /* CONE */];
         this.sprites = [enum_model_1.SpriteMaterialEnum.BLAST, enum_model_1.SpriteMaterialEnum.BLOB, enum_model_1.SpriteMaterialEnum.CIRCLE, enum_model_1.SpriteMaterialEnum.DIAMOND,
             enum_model_1.SpriteMaterialEnum.POLYGON, enum_model_1.SpriteMaterialEnum.SQUARE, enum_model_1.SpriteMaterialEnum.STAR, enum_model_1.SpriteMaterialEnum.TRIANGLE];
         this.colors4 = [0x419268, 0xd044cc, 0x55a338, 0x754ad0, 0xc58528, 0x6885ce, 0xdd5031, 0x6a448f,

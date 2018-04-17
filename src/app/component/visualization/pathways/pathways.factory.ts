@@ -14,6 +14,13 @@ export class PathwayNodeEnum {
     static readonly PROCESS = 'process';
     static readonly UNSPECIFIED_ENTRY = 'unspecified entity';
     static readonly UNIT_OF_INFORMATION = 'unit of information';
+    static readonly PORT = 'port';
+    static readonly NOT = 'not';
+    static readonly AND = 'and';
+    static readonly OR = 'or';
+    static readonly STATE_VARIABLE = 'state variable';
+
+
 }
 
 export class PathwayEdgeEnum {
@@ -38,7 +45,7 @@ export class PathwaysFactory {
             Math.cos(radians) * dim.x * .5,
             Math.sin(radians) * dim.y * .5
         )
-        console.log('!!' + edge.class)
+        // console.log('!!' + edge.class)
         switch (edge.class) {
             case PathwayEdgeEnum.CONSUMPTION:
                 return this.createConsumption(start.x, start.y, end.x, end.y, offset.x, offset.y);
@@ -51,6 +58,7 @@ export class PathwaysFactory {
             case PathwayEdgeEnum.STIMULATION:
                 return this.createStimulation(start.x, start.y, end.x, end.y, offset.x, offset.y);
         }
+        // console.log('!!' + edge.class)
         return this.createEdgeLine(start.x, start.y, end.x, end.y, offset.x, offset.y);
     }
     public static createNode(node: string, w: number, h: number, x: number, y: number): THREE.Shape {
@@ -58,22 +66,44 @@ export class PathwaysFactory {
         // return this.createRoundedRectangleShape(w, h, x, y);
         // return this.createRectangleShape(w, h, x, y);
         // return this.createEllipseShape(w, h, x, y);
+        // console.log('---' + node)
         switch (node) {
-            case PathwayNodeEnum.UNSPECIFIED_ENTRY: // Potentially Gene
-                return this.createEllipseShape(w, h, x, y);
-            case PathwayNodeEnum.SIMPLE_CHEMICAL:
-                return this.createEllipseShape(w, h, x, y);
-            case PathwayNodeEnum.PROCESS:
             case PathwayNodeEnum.COMPARTMENT:
-            case PathwayNodeEnum.MACROMOLECULE: // Potentially Gene
-                return this.createRoundedRectangleShape(w, h, x, y);
-            case PathwayNodeEnum.COMPLEX:  // Potentially Gene
-            case PathwayNodeEnum.COMPLEX_MULTIMER:  // Potentially Gene
-                return this.createOctagonShape(w, h, x, y);
-            case PathwayNodeEnum.UNIT_OF_INFORMATION:
-                return this.createRectangleShape(w, h, x, y);
+                this.createRoundedRectangleShape(w, h, x, y);
+            case PathwayNodeEnum.SIMPLE_CHEMICAL:
+                return this.createEllipseShape(20, 20, x, y);
+            case PathwayNodeEnum.MACROMOLECULE:
+                return this.createRoundedRectangleShape(30, 20, x, y);
+            case PathwayNodeEnum.PROCESS:
+                return this.createRoundedRectangleShape(12, 12, x, y);
+            case PathwayNodeEnum.PORT:
+                return this.createRoundedRectangleShape(10, 10, x, y);
+            case PathwayNodeEnum.NOT:
+            case PathwayNodeEnum.AND:
+            case PathwayNodeEnum.OR:
+                return this.createEllipseShape(10, 10, x, y);
+            case PathwayNodeEnum.STATE_VARIABLE:
+                return this.createEllipseShape(20, 10, x, y);
+
+
+
+
+            // case PathwayNodeEnum.UNIT_OF_INFORMATION:
+            //     return this.createUnitOfInformation
+            // case PathwayNodeEnum.UNSPECIFIED_ENTRY: // Potentially Gene
+            //     return this.createEllipseShape(w, h, x, y);
+
+            // return this.createEllipseShape(w, h, x, y);
+            // case PathwayNodeEnum.COMPARTMENT:
+            // case PathwayNodeEnum.MACROMOLECULE: // Potentially Gene
+            //     return this.createRoundedRectangleShape(w, h, x, y);
+            // case PathwayNodeEnum.COMPLEX:  // Potentially Gene
+            // case PathwayNodeEnum.COMPLEX_MULTIMER:  // Potentially Gene
+            //     return this.createOctagonShape(w, h, x, y);
+            // case PathwayNodeEnum.UNIT_OF_INFORMATION:
+            //     return this.createRectangleShape(w, h, x, y);
             default:
-                console.log(node);
+                // console.log(node);
                 return this.createRectangleShape(w, h, x, y);
         }
     }
@@ -156,21 +186,43 @@ export class PathwaysFactory {
         return group;
     }
     private static createConsumption(x1, y1, x2, y2, xO, yO): THREE.Group {
+        const rotation = Math.atan2(y2 - y1, x2 - x1);
+        const color = ColorEnum.GREEN;
+        const squareGeom = new THREE.ShapeGeometry(
+            new THREE.Shape([
+                new Vector2(0, 0),
+                new Vector2(0, 5),
+                new Vector2(5, 5),
+                new Vector2(5, 0)
+            ])
+        );
+        const square = new THREE.Mesh(
+            squareGeom,
+            ChartFactory.getColorPhong(color)
+        );
+        square.position.setX(x1 + Math.cos(rotation) * 15);
+        square.position.setY(y1 + Math.sin(rotation) * 15);
+        square.position.z = 0.1;
+        square.rotateZ(rotation);
+
+
         const group = new THREE.Group();
-        group.add(ChartFactory.lineAllocate(0xf48fb1, new Vector2(x1, y1), new Vector2(x2, y2)));
+        group.add(ChartFactory.lineAllocate(color, new Vector2(x1, y1), new Vector2(x2, y2)));
+        group.add(square);
         return group;
     }
     private static createCatalysis(x1, y1, x2, y2, xO, yO): THREE.Group {
+        const color = ColorEnum.PURPLE_DARK;
         const group = new THREE.Group();
-        const line = ChartFactory.lineAllocate(0xb39ddb, new Vector2(x1, y1), new Vector2(x2, y2));
+        const line = ChartFactory.lineAllocate(color, new Vector2(x1, y1), new Vector2(x2, y2));
         line.position.z -= 0.1;
         group.add(line);
         const rotation = Math.atan2(y2 - y1, x2 - x1);
         const circle = new THREE.Mesh(
-            new THREE.CircleGeometry(5),
-            ChartFactory.getColorPhong(0xb39ddb));
-        circle.position.setX(x1 + Math.cos(rotation) * 25);
-        circle.position.setY(y1 + Math.sin(rotation) * 25);
+            new THREE.CircleGeometry(2.5),
+            ChartFactory.getColorBasic(color));
+        circle.position.setX(x1 + (Math.cos(rotation) * 15));
+        circle.position.setY(y1 + (Math.sin(rotation) * 15));
         circle.position.z = 0.1;
         circle.rotateZ(rotation);
         group.add(circle);
@@ -178,7 +230,7 @@ export class PathwaysFactory {
     }
 
     private static createInhibition(x1, y1, x2, y2, xO, yO): THREE.Group {
-        console.log("INHIBITION")
+        // console.log("INHIBITION")
         const group = new THREE.Group();
         group.add(ChartFactory.lineAllocate(0xa5d6a7, new Vector2(x1, y1), new Vector2(x2, y2)));
         const line = ChartFactory.lineAllocate(0xa5d6a7, new Vector2(-5, 0), new Vector2(5, 0));
@@ -191,9 +243,10 @@ export class PathwaysFactory {
     }
 
     private static createProduction(x1, y1, x2, y2, xO, yO): THREE.Group {
-        console.log("PRODUCTION");
+        // console.log("PRODUCTION");
+        const color = ColorEnum.BLUE;
         const group = new THREE.Group();
-        const line = ChartFactory.lineAllocate(0xffcc80, new Vector2(x1, y1), new Vector2(x2, y2));
+        const line = ChartFactory.lineAllocate(color, new Vector2(x1, y1), new Vector2(x2, y2));
         line.position.z = -0.1;
         group.add(line);
 
@@ -207,18 +260,17 @@ export class PathwaysFactory {
         );
         const triangle = new THREE.Mesh(
             triangleGeom,
-            ChartFactory.getColorPhong(0xffcc80)
+            ChartFactory.getColorBasic(color)
         );
         triangle.position.setX(x1 + Math.cos(rotation) * 5);
         triangle.position.setY(y1 + Math.sin(rotation) * 5);
         triangle.position.z = 0.1;
         triangle.rotateZ(rotation);
-
         group.add(triangle);
         return group;
     }
     private static createStimulation(x1, y1, x2, y2, xO, yO): THREE.Group {
-        console.log("SIMULATION");
+        //console.log("SIMULATION");
         const group = new THREE.Group();
         const line = ChartFactory.lineAllocate(0xffcc80, new Vector2(x1, y1), new Vector2(x2, y2));
         line.position.z = -0.1;

@@ -110,6 +110,7 @@ export class TooltipController {
 
     }
     public onMouseMove(e: ChartEvent): void {
+
         const intersects = ChartUtil.getIntersects(this._view, e.mouse, this._targets);
         if (intersects.length === 0) {
             if (this._hoverObjectId !== -1) { this.onHide.emit(); }
@@ -121,7 +122,6 @@ export class TooltipController {
         const data = intersects[0].object.userData;
         const text = data.tooltip;
         const color = data.hasOwnProperty('color') ? data.color : 0xFFFFFF;
-
         if (text === '') { return; }
         const hex = '#' + (0xffffff + color + 1).toString(16).substr(1);
         this.onShow.emit({
