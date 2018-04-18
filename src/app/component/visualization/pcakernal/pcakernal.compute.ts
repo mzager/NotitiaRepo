@@ -1,5 +1,5 @@
 import { PcaKernalConfigModel } from './pcakernal.model';
-import { EntityTypeEnum, DirtyEnum } from './../../../model/enum.model';
+import { EntityTypeEnum, DirtyEnum, SpriteMaterialEnum } from './../../../model/enum.model';
 import { Legend } from './../../../model/legend.model';
 import { DedicatedWorkerGlobalScope } from 'compute';
 import * as _ from 'lodash';
@@ -30,7 +30,7 @@ export const pcaKernalCompute = (config: PcaKernalConfigModel, worker: Dedicated
                 result.legends = [
                     Legend.create('Data Points',
                         config.entity === EntityTypeEnum.GENE ? ['Genes'] : ['Samples'],
-                        ['circle'],
+                        [SpriteMaterialEnum.CIRCLE],
                         'SHAPE',
                         'DISCRETE'
                     )];

@@ -4,7 +4,7 @@ import { DataDecorator, DataDecoratorTypeEnum } from './../model/data-map.model'
 import { GeneSet } from './../model/gene-set.model';
 import { Cohort } from './../model/cohort.model';
 import { GraphConfig } from 'app/model/graph-config.model';
-import { VisualizationEnum, EntityTypeEnum, CollectionTypeEnum } from 'app/model/enum.model';
+import { VisualizationEnum, EntityTypeEnum, CollectionTypeEnum, SpriteMaterialEnum } from 'app/model/enum.model';
 import { DataFieldFactory } from 'app/model/data-field.model';
 import { DataField } from './../model/data-field.model';
 import { DataCollection } from './../model/data-collection.model';
@@ -167,7 +167,8 @@ export class DataService {
               decorator.legend.type = 'COLOR';
               decorator.legend.display = 'DISCRETE';
               decorator.legend.name = 'Gene ' + decorator.field.label;
-              decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v).map(w => Math.round(w)).join(' to ')).concat(['Unknown']);
+              decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v)
+                .map(w => Math.round(w)).join(' to ')).concat(['Unknown']);
               decorator.legend.values = scale['range']().concat(['#DDDDDD']);
               break;
 
@@ -186,8 +187,9 @@ export class DataService {
               decorator.legend.type = 'SHAPE';
               decorator.legend.display = 'DISCRETE';
               decorator.legend.name = 'Gene ' + decorator.field.label;
-              decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v).map(w => Math.round(w)).join(' to ')).concat(['Unknown']);
-              decorator.legend.values = scale['range']().concat(['na']);
+              decorator.legend.labels = scale['range']()
+                .map(v => scale['invertExtent'](v).map(w => Math.round(w)).join(' to ')).concat(['Unknown']);
+              decorator.legend.values = scale['range']().concat([SpriteMaterialEnum.NA]);
               break;
           }
           resolve(decorator);
@@ -258,10 +260,11 @@ export class DataService {
                 decorator.legend.name = (config.entity === EntityTypeEnum.SAMPLE) ? 'Sample ' + decorator.field.label :
                   (config.entity === EntityTypeEnum.GENE) ? 'Gene ' + decorator.field.label : 'Patient ' + decorator.field.label;
                 if (decorator.field.type === 'STRING') {
-                  decorator.legend.labels = scale['domain']().concat(['Unknown'])
+                  decorator.legend.labels = scale['domain']().concat(['Unknown']);
                   decorator.legend.values = scale['range']().concat([0xDDDDDD]);
                 } else {
-                  decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v).map(w => Math.round(w)).join(' to ')).concat(['Unknown']);
+                  decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v)
+                    .map(w => Math.round(w)).join(' to ')).concat(['Unknown']);
                   decorator.legend.values = scale['range']().concat([0xFF0000]);
                 }
                 resolve(decorator);
@@ -286,7 +289,9 @@ export class DataService {
                   decorator.legend.labels = scale['domain']().concat(['Unknown']);
                   decorator.legend.values = scale['range']().concat(['na']);
                 } else {
-                  decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v).map(w => Math.round(w)).join(' to ')).concat(['Unknown']);
+                  decorator.legend.labels = scale['range']()
+                    .map(v => scale['invertExtent'](v).map(w => Math.round(w)).join(' to '))
+                    .concat(['Unknown']);
                   decorator.legend.values = scale['range']().concat(['na']);
                 }
                 resolve(decorator);
@@ -522,7 +527,6 @@ export class DataService {
           );
 
           Promise.all(queries.map(query => query.toArray())).then(results => {
-            debugger;
             // Do your math...
             resolve(results);
           });
@@ -550,10 +554,6 @@ export class DataService {
           .map(field => Object.assign(config.fields[field], { field: field }))
           .filter(item => item.type !== 'string')
           .sort((a, b) => (a.type !== b.type) ? a.type.localeCompare(b.type) : a.name.localeCompare(b.name));
-
-        // const test = fields.indexOf(config.fields)
-        console.log(fields)
-
 
         const db = new Dexie('notitia-' + database);
         db.open().then(connection => {
@@ -686,33 +686,45 @@ export class DataService {
           genesets.unshift({
             n: 'Pathways in Cancer', g: [
               'ABL1', 'AKT1', 'AKT2', 'AKT3', 'APC', 'APC2', 'APPL1', 'AR', 'ARAF', 'ARNT', 'ARNT2', 'AXIN1',
+              // tslint:disable-next-line:max-line-length
               'AXIN2', 'BAD', 'BAX', 'BCL2', 'BCL2L1', 'BCR', 'BID', 'BIRC2', 'BIRC3', 'BIRC5', 'BMP2', 'BMP4', 'BRAF', 'BRCA2', 'CASP3',
+              // tslint:disable-next-line:max-line-length
               'CASP8', 'CASP9', 'CBL', 'CBLB', 'CBLC', 'CCDC6', 'CCNA1', 'CCND1', 'CCNE1', 'CCNE2', 'CDC42', 'CDH1', 'CDK2', 'CDK4', 'CDK6',
               // tslint:disable-next-line:max-line-length
               'CDKN1A', 'CDKN1B', 'CDKN2A', 'CDKN2B', 'CEBPA', 'CHUK', 'CKS1B', 'COL4A1', 'COL4A2', 'COL4A4', 'COL4A6', 'CREBBP', 'CRK', 'CRKL',
+              // tslint:disable-next-line:max-line-length
               'CSF1R', 'CSF2RA', 'CSF3R', 'CTBP1', 'CTBP2', 'CTNNA1', 'CTNNA2', 'CTNNA3', 'CTNNB1', 'CUL2', 'CYCS', 'DAPK1', 'DAPK2', 'DAPK3',
               // tslint:disable-next-line:max-line-length
               'DCC', 'DVL1', 'DVL2', 'DVL3', 'E2F1', 'E2F2', 'E2F3', 'EGF', 'EGFR', 'EGLN1', 'EGLN2', 'EGLN3', 'EP300', 'EPAS1', 'ERBB2', 'ETS1',
+              // tslint:disable-next-line:max-line-length
               'FADD', 'FAS', 'FASLG', 'FGF1', 'FGF10', 'FGF11', 'FGF12', 'FGF13', 'FGF14', 'FGF16', 'FGF17', 'FGF18', 'FGF19', 'FGF2', 'FGF20',
               // tslint:disable-next-line:max-line-length
               'FGF21', 'FGF22', 'FGF23', 'FGF3', 'FGF4', 'FGF5', 'FGF6', 'FGF7', 'FGF8', 'FGF9', 'FGFR1', 'FGFR2', 'FGFR3', 'FH', 'FIGF', 'FLT3',
+              // tslint:disable-next-line:max-line-length
               'FLT3LG', 'FN1', 'FOS', 'FOXO1', 'FZD1', 'FZD10', 'FZD2', 'FZD3', 'FZD4', 'FZD5', 'FZD6', 'FZD7', 'FZD8', 'FZD9', 'GLI1', 'GLI2',
+              // tslint:disable-next-line:max-line-length
               'GLI3', 'GRB2', 'GSK3B', 'GSTP1', 'HDAC1', 'HDAC2', 'HGF', 'HHIP', 'HIF1A', 'HRAS', 'HSP90AA1', 'HSP90AB1', 'HSP90B1', 'IGF1',
+              // tslint:disable-next-line:max-line-length
               'IGF1R', 'IKBKB', 'IKBKG', 'IL6', 'IL8', 'ITGA2', 'ITGA2B', 'ITGA3', 'ITGA6', 'ITGAV', 'ITGB1', 'JAK1', 'JUN', 'JUP', 'KIT',
               // tslint:disable-next-line:max-line-length
               'KITLG', 'KLK3', 'KRAS', 'LAMA1', 'LAMA2', 'LAMA3', 'LAMA4', 'LAMA5', 'LAMB1', 'LAMB2', 'LAMB3', 'LAMB4', 'LAMC1', 'LAMC2', 'LAMC3',
+              // tslint:disable-next-line:max-line-length
               'LEF1', 'LOC652346', 'LOC652671', 'LOC652799', 'MAP2K1', 'MAP2K2', 'MAPK1', 'MAPK10', 'MAPK3', 'MAPK8', 'MAPK9', 'MAX', 'MDM2',
               // tslint:disable-next-line:max-line-length
               'MECOM', 'MET', 'MITF', 'MLH1', 'MMP1', 'MMP2', 'MMP9', 'MSH2', 'MSH3', 'MSH6', 'MTOR', 'MYC', 'NCOA4', 'NFKB1', 'NFKB2', 'NFKBIA',
+              // tslint:disable-next-line:max-line-length
               'NKX3-1', 'NOS2', 'NRAS', 'NTRK1', 'PAX8', 'PDGFA', 'PDGFB', 'PDGFRA', 'PDGFRB', 'PGF', 'PIAS1', 'PIAS2', 'PIAS3', 'PIAS4', 'PIK3CA',
               // tslint:disable-next-line:max-line-length
               'PIK3CB', 'PIK3CD', 'PIK3CG', 'PIK3R1', 'PIK3R2', 'PIK3R3', 'PIK3R5', 'PLCG1', 'PLCG2', 'PLD1', 'PML', 'PPARD', 'PPARG', 'PRKCA',
+              // tslint:disable-next-line:max-line-length
               'PRKCB', 'PRKCG', 'PTCH1', 'PTCH2', 'PTEN', 'PTGS2', 'PTK2', 'RAC1', 'RAC2', 'RAC3', 'RAD51', 'RAF1', 'RALA', 'RALB', 'RALBP1',
               // tslint:disable-next-line:max-line-length
               'RALGDS', 'RARA', 'RARB', 'RASSF1', 'RASSF5', 'RB1', 'RBX1', 'RELA', 'RET', 'RHOA', 'RUNX1', 'RUNX1T1', 'RXRA', 'RXRB', 'RXRG',
+              // tslint:disable-next-line:max-line-length
               'SHH', 'SKP2', 'SLC2A1', 'SMAD2', 'SMAD3', 'SMAD4', 'SMO', 'SOS1', 'SOS2', 'SPI1', 'STAT1', 'STAT3', 'STAT5A', 'STAT5B', 'STK36',
               // tslint:disable-next-line:max-line-length
               'STK4', 'SUFU', 'TCEB1', 'TCEB2', 'TCF7', 'TCF7L1', 'TCF7L2', 'TFG', 'TGFA', 'TGFB1', 'TGFB2', 'TGFB3', 'TGFBR1', 'TGFBR2', 'TP53',
+              // tslint:disable-next-line:max-line-length
               'TPM3', 'TPR', 'TRAF1', 'TRAF2', 'TRAF3', 'TRAF4', 'TRAF5', 'TRAF6', 'VEGFA', 'VEGFB', 'VEGFC', 'VHL', 'WNT1', 'WNT10A', 'WNT10B',
               // tslint:disable-next-line:max-line-length
               'WNT11', 'WNT16', 'WNT2', 'WNT2B', 'WNT3', 'WNT3A', 'WNT4', 'WNT5A', 'WNT5B', 'WNT6', 'WNT7A', 'WNT7B', 'WNT8A', 'WNT8B', 'WNT9A',
@@ -870,14 +882,13 @@ export class DataService {
               ...Array.from(new Set(geneLinksData.map(gene => gene.source))),
               ...Array.from(new Set(geneLinksData.map(gene => gene.target)))
             ]));
-            const missingGenes = allGenes.filter(gene => !validHugoGenes.has(gene));
 
+            const missingGenes = allGenes.filter(gene => !validHugoGenes.has(gene));
             const missingMap = missingGenes.reduce((p, c) => {
-              const value = hugoLookup.find(geneLookup => geneLookup.symbols.indexOf(c) >= 0);
+              const value = hugoLookup.find(v2 => v2.symbols.indexOf(c) >= 0);
               if (value) { p[c.toString()] = value; }
               return p;
             }, {});
-
 
             geneLinksData.forEach(link => {
               link.target = (validHugoGenes.has(link.target)) ? link.target :

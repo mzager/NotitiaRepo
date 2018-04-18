@@ -1,8 +1,7 @@
 import { Legend } from './../../../model/legend.model';
-import { DimensionEnum, EntityTypeEnum } from './../../../model/enum.model';
+import { DimensionEnum, EntityTypeEnum, ColorEnum, DirtyEnum, SpriteMaterialEnum } from './../../../model/enum.model';
 import { ComputeWorkerUtil } from './../../../service/compute.worker.util';
 import { HicConfigModel } from './hic.model';
-import { ColorEnum, DirtyEnum } from 'app/model/enum.model';
 import * as util from 'app/service/compute.worker.util';
 import { scaleLinear, scaleQuantize, scaleQuantile, scaleOrdinal, scaleThreshold } from 'd3-scale';
 import { schemeRdBu, interpolateGnBu, interpolateYlGnBu } from 'd3-scale-chromatic';
@@ -19,9 +18,9 @@ import graph from 'ngraph.graph';
 
 export const hicComputeFn = (config: HicConfigModel): Promise<any> => {
     return new Promise((resolve, reject) => {
-        const util: ComputeWorkerUtil = new ComputeWorkerUtil();
+        const utils: ComputeWorkerUtil = new ComputeWorkerUtil();
 
-        util.getGeneLinkInfoByGenes(config.markerFilter).then(result => {
+        utils.getGeneLinkInfoByGenes(config.markerFilter).then(result => {
 
             let nodes = Array.from(new Set(result.map(v => v.target).concat(result.map(v => v.source))));
 
@@ -79,7 +78,7 @@ export const hicCompute = (config: HicConfigModel, worker: DedicatedWorkerGlobal
     hicComputeFn(config).then(result => {
 
         result.legends = [
-            Legend.create('Data Points', ['Genes'], ['circle'], 'SHAPE', 'DISCRETE')
+            Legend.create('Data Points', ['Genes'], [SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')
         ];
         worker.postMessage({
             config: config,

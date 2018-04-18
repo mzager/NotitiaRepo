@@ -1,4 +1,4 @@
-import { EntityTypeEnum, DirtyEnum } from './../../../model/enum.model';
+import { EntityTypeEnum, DirtyEnum, SpriteMaterialEnum } from './../../../model/enum.model';
 import { Legend } from './../../../model/legend.model';
 import { TruncatedSvdConfigModel, TruncatedSvdDataModel } from './truncatedsvd.model';
 import { DedicatedWorkerGlobalScope } from 'compute';
@@ -27,7 +27,7 @@ export const truncatedSvdCompute = (config: TruncatedSvdConfigModel, worker: Ded
                 result.legends = [
                     Legend.create('Data Points',
                         config.entity === EntityTypeEnum.GENE ? ['Genes'] : ['Samples'],
-                        ['circle'],
+                        [SpriteMaterialEnum.CIRCLE],
                         'SHAPE',
                         'DISCRETE'
                     )];

@@ -129,8 +129,7 @@
 
         <div class='graphPanelHeader'>Legend</div>
         <div style='padding:10px; overflow-y: scroll; overflow-x: hidden; padding-bottom: 30px;'>
-            <app-workspace-legend-panel *ngFor='let legend of data.legends' [legend]='legend'></app-workspace-legend-panel>
-            <app-workspace-legend-panel *ngFor='let decorator of decoratorsWithLegends' [decorator]='decorator'></app-workspace-legend-panel>
+            <app-workspace-legend-panel [legends]='data.legends' [decorators]='decoratorsWithLegends'></app-workspace-legend-panel>
         </div>
         <div class='graphPanelHeader'>Supplemental</div>
         <div style='padding:10px; overflow-y: scroll; overflow-x: hidden; padding-bottom: 30px;'>

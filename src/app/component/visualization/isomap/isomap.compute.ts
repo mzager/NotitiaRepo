@@ -1,5 +1,5 @@
 import { Legend } from './../../../model/legend.model';
-import { EntityTypeEnum, DirtyEnum } from './../../../model/enum.model';
+import { EntityTypeEnum, DirtyEnum, SpriteMaterialEnum } from './../../../model/enum.model';
 import { IsoMapConfigModel, IsoMapDataModel } from './isomap.model';
 import { DedicatedWorkerGlobalScope } from 'compute';
 
@@ -26,7 +26,7 @@ export const isoMapCompute = (config: IsoMapConfigModel, worker: DedicatedWorker
                 result.legends = [
                     Legend.create('Data Points',
                         config.entity === EntityTypeEnum.GENE ? ['Genes'] : ['Samples'],
-                        ['circle'],
+                        [SpriteMaterialEnum.CIRCLE],
                         'SHAPE',
                         'DISCRETE'
                     )];
