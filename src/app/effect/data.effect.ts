@@ -160,9 +160,9 @@ export class DataEffect {
             boxWhiskersConfig.graph = GraphEnum.GRAPH_A;
             boxWhiskersConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[0];
 
-            // const timelinesConfigA = new TimelinesConfigModel();
-            // timelinesConfigA.graph = GraphEnum.GRAPH_A;
-            // timelinesConfigA.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[0];
+            const timelinesConfigA = new TimelinesConfigModel();
+            timelinesConfigA.graph = GraphEnum.GRAPH_A;
+            timelinesConfigA.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[0];
 
             // const timelinesConfigB = new TimelinesConfigModel();
             // timelinesConfigB.graph = GraphEnum.GRAPH_B;
@@ -225,8 +225,8 @@ export class DataEffect {
                 // new compute.ChromosomeAction( { config: chromosomeConfig } )
                 // new compute.PathwaysAction({ config: pathwaysConfig }),
                 // new compute.GenomeAction({ config: genomeConfig }),
+                new compute.PcaIncrementalAction({ config: pcaIncConfig }),
                 // new compute.PcaIncrementalAction({ config: pcaIncConfig }),
-                //new compute.PcaIncrementalAction({ config: pcaIncConfig }),
                 // new GraphPanelToggleAction( GraphPanelEnum.GRAPH_A )
                 // new compute.PcaAction({ config: pcaConfig }),
                 new LoaderShowAction()

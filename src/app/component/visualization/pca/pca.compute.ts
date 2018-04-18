@@ -1,4 +1,4 @@
-import { EntityTypeEnum, DirtyEnum, ShapeEnum } from './../../../model/enum.model';
+import { EntityTypeEnum, DirtyEnum, ShapeEnum, SpriteMaterialEnum } from './../../../model/enum.model';
 import { Legend } from './../../../model/legend.model';
 import { PcaConfigModel, PcaDataModel } from './pca.model';
 import { DedicatedWorkerGlobalScope } from 'compute';
@@ -30,7 +30,7 @@ export const pcaCompute = (config: PcaConfigModel, worker: DedicatedWorkerGlobal
                 result.legends = [
                     Legend.create('Data Points',
                         config.entity === EntityTypeEnum.GENE ? ['Genes'] : ['Samples'],
-                        ['circle'],
+                        [SpriteMaterialEnum.CIRCLE],
                         'SHAPE',
                         'DISCRETE'
                     )];

@@ -1,5 +1,5 @@
 import { Legend } from './../../../model/legend.model';
-import { EntityTypeEnum, DirtyEnum } from './../../../model/enum.model';
+import { EntityTypeEnum, DirtyEnum, SpriteMaterialEnum } from './../../../model/enum.model';
 import { MdsConfigModel, MdsDataModel } from './mds.model';
 import { DedicatedWorkerGlobalScope } from 'compute';
 
@@ -24,7 +24,7 @@ export const mdsCompute = (config: MdsConfigModel, worker: DedicatedWorkerGlobal
                 result.legends = [
                     Legend.create('Data Points',
                         config.entity === EntityTypeEnum.GENE ? ['Genes'] : ['Samples'],
-                        ['circle'],
+                        [SpriteMaterialEnum.CIRCLE],
                         'SHAPE',
                         'DISCRETE'
                     )];
