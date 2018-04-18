@@ -226,7 +226,7 @@ export class DataEffect {
                 // new compute.PathwaysAction({ config: pathwaysConfig }),
                 // new compute.GenomeAction({ config: genomeConfig }),
                 // new compute.PcaIncrementalAction({ config: pcaIncConfig }),
-                new compute.PcaIncrementalAction({ config: pcaIncConfig }),
+                //new compute.PcaIncrementalAction({ config: pcaIncConfig }),
                 // new GraphPanelToggleAction( GraphPanelEnum.GRAPH_A )
                 // new compute.PcaAction({ config: pcaConfig }),
                 new LoaderShowAction()
