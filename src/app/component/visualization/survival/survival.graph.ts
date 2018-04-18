@@ -267,8 +267,8 @@ export class SurvivalGraph extends AbstractVisualization {
 
             this.labels.innerHTML =
                 LabelController.generateHtml(this.labelsForTitles, optionsForTitles) +
-                '<div style="position:fixed;bottom:10px;left:30%; font-size: 1.2rem;">Time</div>' +
-                '<div style="position:fixed;left:10px;top:50%; transform: rotate(90deg);font-size: 1.2rem;">Percent</div>';
+                '<div style="position:fixed;bottom:50px;left:30%; font-size: 1.2rem;">Time</div>' +
+                '<div style="position:fixed;left:275px;top:50%; transform: rotate(90deg);font-size: 1.2rem;">Percent</div>';
         }
         else if (this.view.camera.position.z < 10000) {
             optionsForPercents.fontsize = 10;
@@ -279,8 +279,8 @@ export class SurvivalGraph extends AbstractVisualization {
                 LabelController.generateHtml(this.labelsForPercents, optionsForPercents) +
                 LabelController.generateHtml(this.labelsForTimes, optionsForTimes) +
                 LabelController.generateHtml(this.labelsForTitles, optionsForTitles) +
-                '<div style="position:fixed;bottom:10px;left:30%; font-size: 1.2rem;">Time</div>' +
-                '<div style="position:fixed;left:30px;top:50%; transform: rotate(90deg);font-size: 1.2rem;">Percent</div>';
+                '<div style="position:fixed;bottom:50px;left:30%; font-size: 1.2rem;">Time</div>' +
+                '<div style="position:fixed;left:200px;top:50%; transform: rotate(90deg);font-size: 1.2rem;">Percent</div>';
         }
 
     }
