@@ -11,11 +11,11 @@ import { scaleLinear, scaleLog, InterpolatorFactory, scaleSequential, scaleQuant
 
 export const timelinesCompute = (config: TimelinesConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
-    const colorToHex = function (color): number {
-        if (color.substr(0, 1) === '#') {
-            return color;
+    const colorToHex = function (col): number {
+        if (col.substr(0, 1) === '#') {
+            return col;
         }
-        const digits = /(.*?)rgb\((\d+), (\d+), (\d+)\)/.exec(color);
+        const digits = /(.*?)rgb\((\d+), (\d+), (\d+)\)/.exec(col);
         const red = parseInt(digits[2], 10);
         const green = parseInt(digits[3], 10);
         const blue = parseInt(digits[4], 10);
@@ -184,7 +184,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 worker.postMessage({
                     config: config,
                     data: {
-                        legendItems: legends,
+                        legends: legends,
                         result: {
                             minMax: minMax,
                             patients: patients,
@@ -198,7 +198,7 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
             worker.postMessage({
                 config: config,
                 data: {
-                    legendItems: legends,
+                    legends: legends,
                     result: {
                         minMax: minMax,
                         patients: patients,

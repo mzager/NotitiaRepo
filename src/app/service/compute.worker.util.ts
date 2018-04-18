@@ -354,7 +354,7 @@ export class ComputeWorkerUtil {
                 this.dbData.table('cohorts').toArray().then(_cohorts => {
                     resolve(_cohorts);
                 });
-            })
+            });
         });
     }
 
@@ -382,8 +382,8 @@ export class ComputeWorkerUtil {
                             markers: _markers.map(m => m.m),
                             samples: _samples.map(s => s.s),
                             data: (entity === EntityTypeEnum.GENE) ?
-                                _markers.map(marker => _samples.map(sample => marker.d[sample.i])) :
-                                _samples.map(sample => _markers.map(marker => marker.d[sample.i]))
+                                _markers.map(marker => _samples.map(value => marker.d[value.i])) :
+                                _samples.map(value => _markers.map(marker => marker.d[value.i]))
                         });
                     });
                 });
@@ -744,8 +744,8 @@ export class ComputeWorkerUtil {
                             this.dbData.table(map).toArray().then(sampleMap => {
                                 this.getMolecularGeneValues(markers, field, db).then(result => {
                                     const sampleCount = sampleMap.length;
-                                    const sampleAvgs = sampleMap.map((sample, index) => ({
-                                        id: sample.s,
+                                    const sampleAvgs = sampleMap.map((value, index) => ({
+                                        id: value.s,
                                         value: (result.reduce((p, c) => { p += c.d[index]; return p; }, 0) / sampleCount)
                                     }));
                                     const sampleDomain = sampleAvgs.reduce((p, c) => {
@@ -886,8 +886,8 @@ export class ComputeWorkerUtil {
                             this.dbData.table(map).toArray().then(sampleMap => {
                                 this.getMolecularGeneValues(markers, field, db).then(result => {
                                     const sampleCount = sampleMap.length;
-                                    const sampleAvgs = sampleMap.map((sample, index) => ({
-                                        id: sample.s,
+                                    const sampleAvgs = sampleMap.map((value, index) => ({
+                                        id: value.s,
                                         value: (result.reduce((p, c) => { p += c.d[index]; return p; }, 0) / sampleCount)
                                     }));
                                     const sampleDomain = sampleAvgs.reduce((p, c) => {

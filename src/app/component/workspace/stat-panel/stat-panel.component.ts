@@ -65,7 +65,7 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
         const id = 'cc' + Math.random().toString(36).substring(7);
         const div = this.container.append('<div id="' + id + '" class="statItemContainer" style="padding-bottom:20px;"></div>');
         this.statVegaFactory.drawChartObject(stat, stat.charts[0], id, div);
-      })
+      });
     });
   }
 

@@ -1,6 +1,6 @@
 import { Legend } from './../../../model/legend.model';
 import { LocalLinearEmbeddingConfigModel, LocalLinearEmbeddingDataModel } from './locallinearembedding.model';
-import { EntityTypeEnum, DirtyEnum } from './../../../model/enum.model';
+import { EntityTypeEnum, DirtyEnum, SpriteMaterialEnum } from './../../../model/enum.model';
 import { DedicatedWorkerGlobalScope } from 'compute';
 
 export const localLinearEmbeddingCompute = (config: LocalLinearEmbeddingConfigModel, worker: DedicatedWorkerGlobalScope): void => {
@@ -29,7 +29,7 @@ export const localLinearEmbeddingCompute = (config: LocalLinearEmbeddingConfigMo
                 result.legends = [
                     Legend.create('Data Points',
                         config.entity === EntityTypeEnum.GENE ? ['Genes'] : ['Samples'],
-                        ['circle'],
+                        [SpriteMaterialEnum.CIRCLE],
                         'SHAPE',
                         'DISCRETE'
                     )];

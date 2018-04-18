@@ -75,8 +75,9 @@ export class TimelinesGraph extends AbstractVisualization {
         this.attrs = new THREE.Group();
 
         // this.view.controls.maxZoom = 1;
-        this.view.controls.pan(0, 1200);
-        this.view.controls.dollyOut(3);
+        // this.view.controls.pan(0, 1200);
+        // // this.view.controls.dollyOut(3);
+        // this.view.controls.maxDistance
 
 
         this.labelXAxis = new LabelOptions(this.view, 'PIXEL');
@@ -219,7 +220,7 @@ export class TimelinesGraph extends AbstractVisualization {
             triangle.userData = {
                 tooltip: this.formatEventTooltip(event),
                 color: event.color
-            }
+            };
             triangle.position.set(scale(event.end), yPos, 0);
             group.add(triangle);
             this.meshes.push(triangle);
@@ -275,7 +276,7 @@ export class TimelinesGraph extends AbstractVisualization {
             );
         }
 
-        var material = ChartFactory.getLineColor(0xEEEEEE);
+        const material = ChartFactory.getLineColor(0xEEEEEE);
         this.grid = new THREE.LineSegments(geometry, material);
         this.grid.updateMatrix();
         this.view.scene.add(this.grid);
@@ -423,10 +424,9 @@ export class TimelinesGraph extends AbstractVisualization {
         if (this.view.camera.position.z > 1400) {
             this.labels.innerHTML =
                 '<div style="position:fixed;bottom:10px;left:50%; font-size: 1.2rem;">Days</div>' +
-                '<div style="position:fixed;right:10px;top:50%; transform: rotate(90deg);font-size: 1.2rem;">Patients</div>'
+                '<div style="position:fixed;right:10px;top:50%; transform: rotate(90deg);font-size: 1.2rem;">Patients</div>';
 
-        }
-        else if (this.view.camera.position.z > 1100) {
+        } else if (this.view.camera.position.z > 1100) {
             this.labelXAxis.fontsize = 8;
             this.labelYAxis.fontsize = 8;
 
@@ -434,8 +434,7 @@ export class TimelinesGraph extends AbstractVisualization {
                 LabelController.generateHtml(this.xAxis, this.labelXAxis) +
                 LabelController.generateHtml(this.yAxis, this.labelYAxis);
 
-        }
-        else if (this.view.camera.position.z > 650) {
+        } else if (this.view.camera.position.z > 650) {
             this.labelXAxis.fontsize = 10;
             this.labelYAxis.fontsize = 10;
 
@@ -443,8 +442,7 @@ export class TimelinesGraph extends AbstractVisualization {
                 LabelController.generateHtml(this.xAxis, this.labelXAxis) +
                 LabelController.generateHtml(this.yAxis, this.labelYAxis);
 
-        }
-        else if (this.view.camera.position.z > 50) {
+        } else if (this.view.camera.position.z > 50) {
             this.labelXAxis.fontsize = 15;
             this.labelYAxis.fontsize = 15;
 

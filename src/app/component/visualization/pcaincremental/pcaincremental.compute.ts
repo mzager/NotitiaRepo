@@ -1,7 +1,7 @@
-import { DirtyEnum } from 'app/model/enum.model';
+import { DirtyEnum, ShapeEnum } from 'app/model/enum.model';
 import Dexie from 'dexie';
 import { PcaIncrementalConfigModel } from './pcaincremental.model';
-import { EntityTypeEnum } from './../../../model/enum.model';
+import { EntityTypeEnum, SpriteMaterialEnum } from './../../../model/enum.model';
 import { Legend } from './../../../model/legend.model';
 import { DedicatedWorkerGlobalScope } from 'compute';
 import * as _ from 'lodash';
@@ -25,7 +25,7 @@ export const pcaIncrementalCompute = (config: PcaIncrementalConfigModel, worker:
                 result.legends = [
                     Legend.create('Data Points',
                         config.entity === EntityTypeEnum.GENE ? ['Genes'] : ['Samples'],
-                        ['circle'],
+                        [SpriteMaterialEnum.CIRCLE],
                         'SHAPE',
                         'DISCRETE'
                     )];
@@ -37,4 +37,3 @@ export const pcaIncrementalCompute = (config: PcaIncrementalConfigModel, worker:
             });
     });
 };
-
