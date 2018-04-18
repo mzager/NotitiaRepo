@@ -44,7 +44,7 @@ export class PathwaysFactory {
         const offset = new Vector2(
             Math.cos(radians) * dim.x * .5,
             Math.sin(radians) * dim.y * .5
-        )
+        );
         // console.log('!!' + edge.class)
         switch (edge.class) {
             case PathwayEdgeEnum.CONSUMPTION:
@@ -62,14 +62,14 @@ export class PathwaysFactory {
         return this.createEdgeLine(start.x, start.y, end.x, end.y, offset.x, offset.y);
     }
     public static createNode(node: string, w: number, h: number, x: number, y: number): THREE.Shape {
-        //return this.createOctagonShape(w, h, x, y);
+        // return this.createOctagonShape(w, h, x, y);
         // return this.createRoundedRectangleShape(w, h, x, y);
         // return this.createRectangleShape(w, h, x, y);
         // return this.createEllipseShape(w, h, x, y);
         // console.log('---' + node)
         switch (node) {
             case PathwayNodeEnum.COMPARTMENT:
-                this.createRoundedRectangleShape(w, h, x, y);
+                return this.createRoundedRectangleShape(w, h, x, y);
             case PathwayNodeEnum.SIMPLE_CHEMICAL:
                 return this.createEllipseShape(20, 20, x, y);
             case PathwayNodeEnum.MACROMOLECULE:
@@ -270,7 +270,7 @@ export class PathwaysFactory {
         return group;
     }
     private static createStimulation(x1, y1, x2, y2, xO, yO): THREE.Group {
-        //console.log("SIMULATION");
+        // console.log("SIMULATION");
         const group = new THREE.Group();
         const line = ChartFactory.lineAllocate(0xffcc80, new Vector2(x1, y1), new Vector2(x2, y2));
         line.position.z = -0.1;

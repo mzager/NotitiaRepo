@@ -87,7 +87,7 @@ export class PathwaysGraph extends AbstractVisualization {
                     mesh.position.set(port.x, port.y, 0);
                     mesh.userData = {
                         tooltip: ''
-                    }
+                    };
                     this.meshes.push(mesh);
                     this.view.scene.add(mesh);
                 });
@@ -130,7 +130,9 @@ export class PathwaysGraph extends AbstractVisualization {
                         tooltip: label,
                         color: color,
                         id: node.id,
-                        center: new THREE.Vector3(x, y, 0)//Math.round(x + (w * 0.5)), Math.round(y + (h * 0.5)), 0)
+                        center: new THREE.Vector3(x, y, 0
+                        )
+                        // Math.round(x + (w * 0.5)), Math.round(y + (h * 0.5)), 0)
                     };
                     if (node.hasOwnProperty('hgnc')) {
                         const numGenes = node.hgnc.length;
@@ -172,7 +174,7 @@ export class PathwaysGraph extends AbstractVisualization {
             case PathwayNodeEnum.NOT:
                 return ColorEnum.RED;
             case PathwayNodeEnum.AND:
-                return ColorEnum.GREEN
+                return ColorEnum.GREEN;
             case PathwayNodeEnum.OR:
                 return ColorEnum.ORANGE;
             case PathwayNodeEnum.STATE_VARIABLE:
@@ -201,7 +203,7 @@ export class PathwaysGraph extends AbstractVisualization {
 
     removeObjects() {
         this.view.scene.remove(...this.meshes);
-        this.view.scene.remove(...this.dataGroups)
+        this.view.scene.remove(...this.dataGroups);
         this.view.scene.remove(...this.lines);
         this.lblNetwork.length = 0;
         this.meshes.length = 0;
@@ -215,8 +217,7 @@ export class PathwaysGraph extends AbstractVisualization {
             this.labels.innerHTML =
                 LabelController.generateHtml(this.lblNetwork, this.lblNetworkOptions) +
                 LabelController.generateHtml(this.lblGenes, this.lblGenesOptions);
-        }
-        else {
+        } else {
             this.labels.innerHTML = '';
         }
     }

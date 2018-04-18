@@ -158,7 +158,7 @@ export class BoxWhiskersGraph extends AbstractVisualization {
         this.view.scene.add(chromosomeMesh);
 
         ChartFactory.decorateDataGroups(this.meshes, this.decorators, this.renderer, 3);
-        // maybe 
+        // maybe
         // this.labelsForTitles.push(
         //     {
         //         position: new THREE.Vector3(-600, 0, 0),
