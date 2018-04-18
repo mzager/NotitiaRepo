@@ -25,7 +25,7 @@ declare var $: any;
     <div class='row'>
         <a href='#' class='modalClose' (click)='closeClick()'></a>
         <div class='col s12 m9'>
-            <h1 class='citations-h1'>Complete Oncoscape Citations</h1>  
+            <h1 class='citations-h1'>Complete Oncoscape Citations</h1>
             <input type='text' #filterInput placeholder="Filter">
             <div *ngFor='let result of results'>
                 <span *ngIf='result.visible'>
@@ -64,9 +64,16 @@ export class CitationsPanelComponent implements AfterViewInit, OnInit, OnDestroy
     filterChange(e: any): void {
         const needle = e.target.value.toLowerCase();
         this.results.forEach(result => {
-            if (result.methods.find(method => { return (method.method.toLowerCase().indexOf(needle) > -1) }) !== undefined) {
+            if (result.methods.find(method => {
+                return (method.method.toLowerCase().indexOf(needle) > -1);
+            })
+                !== undefined) {
                 result.visible = true;
-            } else if (result.citations.find(citation => { return (citation.name.toLowerCase().indexOf(needle) > -1 || citation.desc.toLowerCase().indexOf(needle)) > -1 }) !== undefined) {
+            } else if (result.citations
+                .find(citation => {
+                    return (citation.name.toLowerCase().indexOf(needle) > -1
+                        || citation.desc.toLowerCase().indexOf(needle)) > -1;
+                }) !== undefined) {
                 result.visible = true;
             } else {
                 result.visible = false;

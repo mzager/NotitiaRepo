@@ -183,8 +183,6 @@ export class ChartScene {
         this.render();
     }
 
-
-
     render = () => {
         let view;
         this.renderer.clear();
@@ -216,9 +214,6 @@ export class ChartScene {
         } catch (e) {
             console.log('resolve init');
         }
-
-        // const c = this.composer;
-        // c.render();
     }
 
     private onResize() {

@@ -1,4 +1,4 @@
-import { EntityTypeEnum, DirtyEnum } from './../../../model/enum.model';
+import { EntityTypeEnum, DirtyEnum, SpriteMaterialEnum } from './../../../model/enum.model';
 import { Legend } from './../../../model/legend.model';
 import { FastIcaConfigModel, FastIcaDataModel } from './fastica.model';
 import { DedicatedWorkerGlobalScope } from 'compute';
@@ -28,7 +28,7 @@ export const fasticaCompute = (config: FastIcaConfigModel, worker: DedicatedWork
                 result.legends = [
                     Legend.create('Data Points',
                         config.entity === EntityTypeEnum.GENE ? ['Genes'] : ['Samples'],
-                        ['circle'],
+                        [SpriteMaterialEnum.CIRCLE],
                         'SHAPE',
                         'DISCRETE'
                     )];
