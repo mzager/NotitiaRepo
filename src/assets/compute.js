@@ -167,6 +167,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Legend = /** @class */ (function () {
     function Legend() {
     }
+    Object.defineProperty(Legend.prototype, "items", {
+        get: function () {
+            var _this = this;
+            console.log('1111');
+            return this.labels.map(function (lbl, i) { return ({
+                label: lbl,
+                value: _this.values[i]
+            }); });
+        },
+        enumerable: true,
+        configurable: true
+    });
     Legend.create = function (name, labels, values, type, display) {
         var l = new Legend();
         l.display = display;
@@ -217,15 +229,15 @@ exports.Colors = [0x00FF00, 0xD50000, 0xC51162, 0xAA00FF, 0x6200EA, 0x304FFE, 0x
 var SpriteMaterialEnum = /** @class */ (function () {
     function SpriteMaterialEnum() {
     }
-    SpriteMaterialEnum.BLAST = 'blast';
-    SpriteMaterialEnum.BLOB = 'blob';
-    SpriteMaterialEnum.CIRCLE = 'circle';
-    SpriteMaterialEnum.DIAMOND = 'diamond';
-    SpriteMaterialEnum.POLYGON = 'polygon';
-    SpriteMaterialEnum.SQUARE = 'square';
-    SpriteMaterialEnum.STAR = 'star';
-    SpriteMaterialEnum.TRIANGLE = 'triangle';
-    SpriteMaterialEnum.NA = 'na';
+    SpriteMaterialEnum.BLAST = './assets/shapes/shape-blast-solid-legend.png';
+    SpriteMaterialEnum.BLOB = './assets/shapes/shape-blob-solid-legend.png';
+    SpriteMaterialEnum.CIRCLE = './assets/shapes/shape-circle-solid-legend.png';
+    SpriteMaterialEnum.DIAMOND = './assets/shapes/shape-diamond-solid-legend.png';
+    SpriteMaterialEnum.POLYGON = './assets/shapes/shape-polygon-solid-legend.png';
+    SpriteMaterialEnum.SQUARE = './assets/shapes/shape-square-solid-legend.png';
+    SpriteMaterialEnum.STAR = './assets/shapes/shape-star-solid-legend.png';
+    SpriteMaterialEnum.TRIANGLE = './assets/shapes/shape-triangle-solid-legend.png';
+    SpriteMaterialEnum.NA = './assets/shapes/shape-na-solid-legend.png';
     return SpriteMaterialEnum;
 }());
 exports.SpriteMaterialEnum = SpriteMaterialEnum;
@@ -21280,8 +21292,8 @@ var ComputeWorkerUtil = /** @class */ (function () {
                             markers: _markers.map(function (m) { return m.m; }),
                             samples: _samples.map(function (s) { return s.s; }),
                             data: (entity === enum_model_1.EntityTypeEnum.GENE) ?
-                                _markers.map(function (marker) { return _samples.map(function (sample) { return marker.d[sample.i]; }); }) :
-                                _samples.map(function (sample) { return _markers.map(function (marker) { return marker.d[sample.i]; }); })
+                                _markers.map(function (marker) { return _samples.map(function (value) { return marker.d[value.i]; }); }) :
+                                _samples.map(function (value) { return _markers.map(function (marker) { return marker.d[value.i]; }); })
                         });
                     });
                 });
@@ -21625,8 +21637,8 @@ var ComputeWorkerUtil = /** @class */ (function () {
                             _this.dbData.table(map).toArray().then(function (sampleMap) {
                                 _this.getMolecularGeneValues(markers, field, db).then(function (result) {
                                     var sampleCount = sampleMap.length;
-                                    var sampleAvgs = sampleMap.map(function (sample, index) { return ({
-                                        id: sample.s,
+                                    var sampleAvgs = sampleMap.map(function (value, index) { return ({
+                                        id: value.s,
                                         value: (result.reduce(function (p, c) { p += c.d[index]; return p; }, 0) / sampleCount)
                                     }); });
                                     var sampleDomain = sampleAvgs.reduce(function (p, c) {
@@ -21746,8 +21758,8 @@ var ComputeWorkerUtil = /** @class */ (function () {
                             _this.dbData.table(map).toArray().then(function (sampleMap) {
                                 _this.getMolecularGeneValues(markers, field, db).then(function (result) {
                                     var sampleCount = sampleMap.length;
-                                    var sampleAvgs = sampleMap.map(function (sample, index) { return ({
-                                        id: sample.s,
+                                    var sampleAvgs = sampleMap.map(function (value, index) { return ({
+                                        id: value.s,
                                         value: (result.reduce(function (p, c) { p += c.d[index]; return p; }, 0) / sampleCount)
                                     }); });
                                     var sampleDomain = sampleAvgs.reduce(function (p, c) {
@@ -28620,9 +28632,7 @@ exports.survivalCompute = function (config, worker) {
                 events: cohortEvents
             }));
         });
-        // debugger;
         Promise.all(promises).then(function (survivalHazardResults) {
-            // debugger;
             var survivalResults = [];
             var hazardResults = [];
             survivalHazardResults.forEach(function (result, i) {
@@ -28662,11 +28672,11 @@ var legend_model_1 = __webpack_require__(3);
 var _ = __webpack_require__(29);
 var d3_scale_1 = __webpack_require__(16);
 exports.timelinesCompute = function (config, worker) {
-    var colorToHex = function (color) {
-        if (color.substr(0, 1) === '#') {
-            return color;
+    var colorToHex = function (col) {
+        if (col.substr(0, 1) === '#') {
+            return col;
         }
-        var digits = /(.*?)rgb\((\d+), (\d+), (\d+)\)/.exec(color);
+        var digits = /(.*?)rgb\((\d+), (\d+), (\d+)\)/.exec(col);
         var red = parseInt(digits[2], 10);
         var green = parseInt(digits[3], 10);
         var blue = parseInt(digits[4], 10);
@@ -28826,7 +28836,7 @@ exports.timelinesCompute = function (config, worker) {
                 worker.postMessage({
                     config: config,
                     data: {
-                        legendItems: legends,
+                        legends: legends,
                         result: {
                             minMax: minMax,
                             patients: patients,
@@ -28841,7 +28851,7 @@ exports.timelinesCompute = function (config, worker) {
             worker.postMessage({
                 config: config,
                 data: {
-                    legendItems: legends,
+                    legends: legends,
                     result: {
                         minMax: minMax,
                         patients: patients,
@@ -32105,8 +32115,8 @@ var d3Scale = __webpack_require__(16);
 var d3_force = __webpack_require__(305);
 exports.hicComputeFn = function (config) {
     return new Promise(function (resolve, reject) {
-        var util = new compute_worker_util_1.ComputeWorkerUtil();
-        util.getGeneLinkInfoByGenes(config.markerFilter).then(function (result) {
+        var utils = new compute_worker_util_1.ComputeWorkerUtil();
+        utils.getGeneLinkInfoByGenes(config.markerFilter).then(function (result) {
             var nodes = Array.from(new Set(result.map(function (v) { return v.target; }).concat(result.map(function (v) { return v.source; }))));
             var geneDataMap = result.reduce(function (p, c) {
                 p[c.source] = c.sourceData;
@@ -32149,7 +32159,7 @@ exports.hicComputeFn = function (config) {
 exports.hicCompute = function (config, worker) {
     exports.hicComputeFn(config).then(function (result) {
         result.legends = [
-            legend_model_1.Legend.create('Data Points', ['Genes'], ['circle'], 'SHAPE', 'DISCRETE')
+            legend_model_1.Legend.create('Data Points', ['Genes'], [enum_model_1.SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')
         ];
         worker.postMessage({
             config: config,
@@ -44739,7 +44749,7 @@ exports.pcaSparseCompute = function (config, worker) {
             result.mid = matrix.mid;
             result.pid = matrix.pid;
             result.legends = [
-                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], ['circle'], 'SHAPE', 'DISCRETE')
+                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], [enum_model_1.SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')
             ];
             worker.postMessage({
                 config: config,
@@ -44782,7 +44792,7 @@ exports.pcaKernalCompute = function (config, worker) {
             result.mid = matrix.mid;
             result.pid = matrix.pid;
             result.legends = [
-                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], ['circle'], 'SHAPE', 'DISCRETE')
+                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], [enum_model_1.SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')
             ];
             worker.postMessage({
                 config: config,
@@ -44818,7 +44828,7 @@ exports.pcaIncrementalCompute = function (config, worker) {
             result.mid = matrix.mid;
             result.pid = matrix.pid;
             result.legends = [
-                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], ['circle'], 'SHAPE', 'DISCRETE')
+                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], [enum_model_1.SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')
             ];
             worker.postMessage({
                 config: config,
@@ -44860,7 +44870,7 @@ exports.isoMapCompute = function (config, worker) {
             result.mid = matrix.mid;
             result.pid = matrix.pid;
             result.legends = [
-                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], ['circle'], 'SHAPE', 'DISCRETE')
+                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], [enum_model_1.SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')
             ];
             worker.postMessage({
                 config: config,
@@ -44901,7 +44911,7 @@ exports.spectralEmbeddingCompute = function (config, worker) {
             result.mid = matrix.mid;
             result.pid = matrix.pid;
             result.legends = [
-                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], ['circle'], 'SHAPE', 'DISCRETE')
+                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], [enum_model_1.SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')
             ];
             worker.postMessage({
                 config: config,
@@ -44946,7 +44956,7 @@ exports.localLinearEmbeddingCompute = function (config, worker) {
             result.mid = matrix.mid;
             result.pid = matrix.pid;
             result.legends = [
-                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], ['circle'], 'SHAPE', 'DISCRETE')
+                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], [enum_model_1.SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')
             ];
             worker.postMessage({
                 config: config,
@@ -45067,7 +45077,7 @@ exports.truncatedSvdCompute = function (config, worker) {
             result.mid = matrix.mid;
             result.pid = matrix.pid;
             result.legends = [
-                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], ['circle'], 'SHAPE', 'DISCRETE')
+                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], [enum_model_1.SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')
             ];
             worker.postMessage({
                 config: config,
@@ -45108,7 +45118,7 @@ exports.ldaCompute = function (config, worker) {
             result.mid = matrix.mid;
             result.pid = matrix.pid;
             result.legends = [
-                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], ['circle'], 'SHAPE', 'DISCRETE')
+                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], [enum_model_1.SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')
             ];
             worker.postMessage({
                 config: config,
@@ -45148,7 +45158,7 @@ exports.nmfCompute = function (config, worker) {
             result.mid = matrix.mid;
             result.pid = matrix.pid;
             result.legends = [
-                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], ['circle'], 'SHAPE', 'DISCRETE')
+                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], [enum_model_1.SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')
             ];
             worker.postMessage({
                 config: config,
@@ -45226,7 +45236,7 @@ exports.mdsCompute = function (config, worker) {
             result.mid = matrix.mid;
             result.pid = matrix.pid;
             result.legends = [
-                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], ['circle'], 'SHAPE', 'DISCRETE')
+                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], [enum_model_1.SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')
             ];
             worker.postMessage({
                 config: config,
@@ -56110,7 +56120,7 @@ exports.tsneCompute = function (config, worker) {
             result.mid = matrix.mid;
             result.pid = matrix.pid;
             result.legends = [
-                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], ['circle'], 'SHAPE', 'DISCRETE')
+                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], [enum_model_1.SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')
             ];
             worker.postMessage({
                 config: config,
@@ -56151,7 +56161,7 @@ exports.pcaCompute = function (config, worker) {
             result.mid = matrix.mid;
             result.pid = matrix.pid;
             result.legends = [
-                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], ['circle'], 'SHAPE', 'DISCRETE')
+                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], [enum_model_1.SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')
             ];
             worker.postMessage({
                 config: config,
@@ -56258,6 +56268,7 @@ exports.chromosomeCompute = function (config, worker) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var legend_model_1 = __webpack_require__(3);
 exports.pathwaysCompute = function (config, worker) {
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -56268,12 +56279,54 @@ exports.pathwaysCompute = function (config, worker) {
         mode: 'cors',
         cache: 'default'
     };
+    var legendNodes = new legend_model_1.Legend();
+    legendNodes.name = 'Nodes';
+    legendNodes.type = 'SHAPE';
+    legendNodes.labels = legendNodes.values = [
+        'unspecified entity',
+        'simple chemical',
+        'macromolecule',
+        'nucleic acid',
+        'multimer',
+        'sink',
+        'tag',
+        'observable',
+        'perturbation'
+    ];
+    var legendEdges = new legend_model_1.Legend();
+    legendEdges.name = 'Edges';
+    legendEdges.type = 'SHAPE';
+    legendEdges.labels = legendEdges.values = [
+        'consumption',
+        'production',
+        'modulation',
+        'stimulation',
+        'catalysis',
+        'inhibition',
+        'trigger'
+    ];
+    var legendOps = new legend_model_1.Legend();
+    legendOps.name = 'Operations';
+    legendOps.type = 'SHAPE';
+    legendOps.labels = legendOps.values = [
+        'and',
+        'or',
+        'not'
+    ];
+    var legends = [
+        legendNodes,
+        legendEdges,
+        legendOps
+    ];
     fetch('https://s3-us-west-2.amazonaws.com/notitia/pathways/' + config.pathway + '.json.gz', requestInit)
         .then(function (response) { return response.json(); })
         .then(function (response) {
         worker.postMessage({
             config: config,
-            data: { layout: response }
+            data: {
+                legends: legends,
+                layout: response
+            }
         });
         worker.postMessage('TERMINATE');
     });
@@ -56310,7 +56363,7 @@ exports.miniBatchSparsePcaCompute = function (config, worker) {
             result.mid = matrix.mid;
             result.pid = matrix.pid;
             result.legends = [
-                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], ['circle'], 'SHAPE', 'DISCRETE')
+                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], [enum_model_1.SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')
             ];
             worker.postMessage({
                 config: config,
@@ -56352,7 +56405,7 @@ exports.linearDiscriminantAnalysisCompute = function (config, worker) {
             result.mid = matrix.mid;
             result.pid = matrix.pid;
             result.legends = [
-                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], ['circle'], 'SHAPE', 'DISCRETE')
+                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], [enum_model_1.SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')
             ];
             worker.postMessage({
                 config: config,
@@ -56373,6 +56426,7 @@ exports.linearDiscriminantAnalysisCompute = function (config, worker) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var legend_model_1 = __webpack_require__(3);
 var enum_model_1 = __webpack_require__(4);
+var enum_model_2 = __webpack_require__(4);
 exports.miniBatchDictionaryLearningCompute = function (config, worker) {
     worker.util.getDataMatrix(config).then(function (matrix) {
         worker.util
@@ -56395,7 +56449,7 @@ exports.miniBatchDictionaryLearningCompute = function (config, worker) {
             result.mid = matrix.mid;
             result.pid = matrix.pid;
             result.legends = [
-                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], ['circle'], 'SHAPE', 'DISCRETE')
+                legend_model_1.Legend.create('Data Points', config.entity === enum_model_2.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], [enum_model_1.SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')
             ];
             worker.postMessage({
                 config: config,

@@ -93,6 +93,8 @@
     "three-orbitcontrols-ts": "^0.1.2",
     "three-simplicial-complex": "^69.0.6",
     "three-text2d": "^0.3.4",
+    "three-trackballcontrols": "0.0.7",
+    "three-trackballcontrols-es6": "0.0.9",
     "three-transformcontrols": "^0.78.1",
     "three.js-svg-renderer": "^3.1.6",
     "three.meshline": "^1.0.3",
