@@ -87,6 +87,7 @@ import {
 import { WorkspaceConfigModel } from './../../model/workspace.model';
 // tslint:disable-next-line:max-line-length
 import { LinearDiscriminantAnalysisConfigModel } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
+// tslint:disable-next-line:max-line-length
 import { QuadradicDiscriminantAnalysisConfigModel } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
 
 @Component({

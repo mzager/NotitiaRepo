@@ -1,5 +1,5 @@
 import { Legend } from './../../../model/legend.model';
-import { DirtyEnum } from './../../../model/enum.model';
+import { DirtyEnum, SpriteMaterialEnum } from './../../../model/enum.model';
 import Dexie from 'dexie';
 import { MiniBatchDictionaryLearningConfigModel } from './minibatchdictionarylearning.model';
 import { EntityTypeEnum } from './../../../model/enum.model';
@@ -33,7 +33,7 @@ export const miniBatchDictionaryLearningCompute =
                     result.legends = [
                         Legend.create('Data Points',
                             config.entity === EntityTypeEnum.GENE ? ['Genes'] : ['Samples'],
-                            ['circle'],
+                            [SpriteMaterialEnum.CIRCLE],
                             'SHAPE',
                             'DISCRETE'
                         )];

@@ -12,7 +12,7 @@ export interface IToolTip {
 export class TooltipOptions {
 
     classes: Array<string> = [];    // CSS Classes To Apply
-    fontsize: number = 10;
+    fontsize = 10;
     offsetX = 0;                    // Offset Computed X Position By Amount After 2D Transform
     offsetY = 0;                    // Offset Computed Y Position By Amount After 2D Transform
     offsetX3d = 1;                  // Offset Computed X Position By Amount Before 2D Transform
@@ -20,7 +20,7 @@ export class TooltipOptions {
     offsetZ3d = 0;                  // Offset Computed Y Position By Amount Before 2D Transform
     absoluteX: number = null;       // Replace Computed X Position By Amount
     absoluteY: number = null;       // Replace Computed Y Position By Amount
-    rotate: number = 0;             // Degrees To Rotate Text
+    rotate = 0;                       // Degrees To Rotate Text
     origin: 'LEFT' | 'CENTER' | 'RIGHT' = 'RIGHT';   // Origin For Transforms + Positions
     prefix = '';                    // Copy To Add Before Label
     postfix = '';                   // Copy To Add After Label
@@ -39,15 +39,6 @@ export class TooltipOptions {
 
 export class TooltipController {
 
-    public static generateHtml(object: IToolTip, options: TooltipOptions): string {
-        const css = 'border-right-color:' + object.userData.color + ';' + options.generateCss();
-        console.log(css);
-        const alignmentOffset = (options.align === 'LEFT') ? 0 : (options.align === 'CENTER') ? 50 : -100;
-        const translate = 'left:' + Math.round(object.position.x + alignmentOffset + options.offsetX) + 'px; top:' + Math.round(object.position.y + options.offsetY) + 'px;';
-        const html = '<div class="z-tooltip" style="' + css + translate + '"><span class="copy">' + options.prefix + object.userData.tooltip + options.postfix + '</span></div>';
-        return html;
-    }
-
     // State
     protected _view: VisualizationView;
     protected _enabled: boolean;
@@ -58,10 +49,24 @@ export class TooltipController {
     protected _targets: Array<Object3D>;
     protected _options; TooltipOptions;
     protected _hoverObjectId: number;
-
-
     public onShow: EventEmitter<{ text: string, color: string, event: ChartEvent }>;
     public onHide: EventEmitter<any>;
+
+    public static generateHtml(object: IToolTip, options: TooltipOptions): string {
+        const css = 'border-right-color:' + object.userData.color + ';' + options.generateCss();
+        console.log(css);
+        const alignmentOffset = (options.align === 'LEFT') ? 0 : (options.align === 'CENTER') ? 50 : -100;
+        const translate = 'left:' +
+            Math.round(object.position.x + alignmentOffset + options.offsetX) + 'px; top:' +
+            Math.round(object.position.y + options.offsetY) + 'px;';
+        const html = '<div class="z-tooltip" style="' +
+            css + translate + '"><span class="copy">' +
+            options.prefix + object.userData.tooltip + options.postfix +
+            '</span></div>';
+        return html;
+    }
+
+
 
     constructor(view: VisualizationView, events: ChartEvents, debounce: number = 10) {
         this._events = events;

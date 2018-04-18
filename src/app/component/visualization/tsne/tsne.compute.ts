@@ -1,7 +1,7 @@
 import { Legend } from './../../../model/legend.model';
 
 import { TsneConfigModel, TsneDataModel } from './tsne.model';
-import { DimensionEnum, DirtyEnum, EntityTypeEnum } from './../../../model/enum.model';
+import { DimensionEnum, DirtyEnum, EntityTypeEnum, SpriteMaterialEnum } from './../../../model/enum.model';
 import { DedicatedWorkerGlobalScope } from './../../../../compute';
 import * as _ from 'lodash';
 declare var ML: any;
@@ -33,7 +33,7 @@ export const tsneCompute = (config: TsneConfigModel, worker: DedicatedWorkerGlob
                 result.legends = [
                     Legend.create('Data Points',
                         config.entity === EntityTypeEnum.GENE ? ['Genes'] : ['Samples'],
-                        ['circle'],
+                        [SpriteMaterialEnum.CIRCLE],
                         'SHAPE',
                         'DISCRETE'
                     )];

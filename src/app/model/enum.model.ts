@@ -62,15 +62,15 @@ export const enum DirtyEnum {
 //     static readonly NOT = 'Not';
 // }
 export class SpriteMaterialEnum {
-    static readonly BLAST = 'blast';
-    static readonly BLOB = 'blob';
-    static readonly CIRCLE = 'circle';
-    static readonly DIAMOND = 'diamond';
-    static readonly POLYGON = 'polygon';
-    static readonly SQUARE = 'square';
-    static readonly STAR = 'star';
-    static readonly TRIANGLE = 'triangle';
-    static readonly NA = 'na';
+    static readonly BLAST = './assets/shapes/shape-blast-solid-legend.png';
+    static readonly BLOB = './assets/shapes/shape-blob-solid-legend.png';
+    static readonly CIRCLE = './assets/shapes/shape-circle-solid-legend.png';
+    static readonly DIAMOND = './assets/shapes/shape-diamond-solid-legend.png';
+    static readonly POLYGON = './assets/shapes/shape-polygon-solid-legend.png';
+    static readonly SQUARE = './assets/shapes/shape-square-solid-legend.png';
+    static readonly STAR = './assets/shapes/shape-star-solid-legend.png';
+    static readonly TRIANGLE = './assets/shapes/shape-triangle-solid-legend.png';
+    static readonly NA = './assets/shapes/shape-na-solid-legend.png';
 }
 
 export const enum ShapeEnum {
