@@ -1,4 +1,4 @@
-import { LabelController } from './../../../controller/label/label.controller';
+import { LabelController, ILabel, LabelOptions } from './../../../controller/label/label.controller';
 import { MeshLine } from 'three.meshline';
 import { scaleLinear } from 'd3-scale';
 import { BoxWhiskersDataModel, BoxWhiskersConfigModel } from './boxwhiskers.model';
@@ -23,6 +23,12 @@ export class BoxWhiskersGraph extends AbstractVisualization {
     public get data(): BoxWhiskersDataModel { return this._data as BoxWhiskersDataModel; }
     public set config(config: BoxWhiskersConfigModel) { this._config = config; }
     public get config(): BoxWhiskersConfigModel { return this._config as BoxWhiskersConfigModel; }
+
+
+    public labelsForX: Array<ILabel>;
+    public labelsForY: Array<ILabel>;
+    // public labelsForTitles: Array<ILabel>;
+
 
     public globalMeshes: Array<THREE.Object3D>;
     public lines: Array<THREE.Line | THREE.Mesh>;
@@ -54,6 +60,9 @@ export class BoxWhiskersGraph extends AbstractVisualization {
         this.lines = [];
         this.bars = [];
         this.text = [];
+        this.labelsForX = [];
+        this.labelsForY = [];
+        // this.labelsForTitles = [];
         return this;
     }
 
@@ -149,6 +158,14 @@ export class BoxWhiskersGraph extends AbstractVisualization {
         this.view.scene.add(chromosomeMesh);
 
         ChartFactory.decorateDataGroups(this.meshes, this.decorators, this.renderer, 3);
+        // maybe 
+        // this.labelsForTitles.push(
+        //     {
+        //         position: new THREE.Vector3(-600, 0, 0),
+        //         userData: { tooltip: 'Box + Whisker' }
+        //     },
+
+        // );
     }
 
     removeObjects(): void {
@@ -168,7 +185,27 @@ export class BoxWhiskersGraph extends AbstractVisualization {
     onMouseUp(e: ChartEvent): void { }
     onMouseMove(e: ChartEvent): void { }
     onShowLabels(): void {
-        // this.tooltips.innerHTML = this.labelController.generateLabels(this.meshes, this.view, 'FORCE');
+        console.log(this.view.camera.position.z);
+
+        // Step 1 - Create Options
+        const optionsForX = new LabelOptions(this.view, 'PIXEL');
+        optionsForX.fontsize = 10;
+        optionsForX.origin = 'RIGHT';
+        optionsForX.align = 'RIGHT';
+
+        const optionsForY = new LabelOptions(this.view, 'PIXEL');
+        optionsForY.fontsize = 10;
+        optionsForY.rotate = 30;
+
+        // const optionsForTitles = new LabelOptions(this.view, 'PIXEL');
+        // optionsForTitles.fontsize = 15;
+        // optionsForTitles.ignoreFrustumY = true;
+        // optionsForTitles.absoluteY = 60;
+
+        this.labels.innerHTML =
+            LabelController.generateHtml(this.labelsForX, optionsForX) +
+            LabelController.generateHtml(this.labelsForY, optionsForY);
+        // LabelController.generateHtml(this.labelsForTitles, optionsForTitles);
     }
 
     addGlobalMeshes(): void {
