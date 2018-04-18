@@ -9,15 +9,15 @@ import { GraphConfig } from 'app/model/graph-config.model';
 import { Stat } from '../model/stat.model';
 
 /*
-    Singleton Class that produces arrays of stat objects.  
+    Singleton Class that produces arrays of stat objects.
 */
 @Injectable()
 export class StatFactory {
 
-    // Singleton Pattern- copied logic
+    private static _instance: StatFactory = null;
 
     private dataService: DataService;
-    private static _instance: StatFactory = null;
+
     public static getInstance(dataService: DataService): StatFactory {
         if (StatFactory._instance === null) {
             StatFactory._instance = new StatFactory();
@@ -83,7 +83,7 @@ export class StatFactory {
         return new Promise((resolve, reject) => {
             this.dataService.getGeneStats(config.database, mids).then(results => {
                 // Look at what comes back and turn it into STateOnD Objects... Just like below.
-                //Don't forget 'mylabel' 
+                // Don't forget 'mylabel'
             });
         });
     }
@@ -100,39 +100,38 @@ export class StatFactory {
                     return stat;
                 });
                 resolve(stats);
-            })
+            });
         });
     }
-
-    //region Create Stats From GraphData + Graph Config
+    // region Create Stats From GraphData + Graph Config
     public getComputeStats(data: any, config: GraphConfig): Promise<Array<Stat>> {
         return new Promise((resolve, reject) => {
             if (config === undefined) { resolve([]); }
             switch (config.visualization) {
-                case VisualizationEnum.INCREMENTAL_PCA: resolve(this.createIncrementalPca(data));
-                case VisualizationEnum.TRUNCATED_SVD: resolve(this.createTruncatedSvd(data));
-                case VisualizationEnum.PCA: resolve(this.createPca(data));
-                case VisualizationEnum.SPARSE_PCA: resolve(this.createSparse_PCA(data));
-                case VisualizationEnum.KERNAL_PCA: resolve(this.createKernalPca(data));
-                case VisualizationEnum.DICTIONARY_LEARNING: resolve(this.createDictionaryLearning(data));
-                case VisualizationEnum.FA: resolve(this.createFactorAnalysis(data));
-                case VisualizationEnum.LDA: resolve(this.createLatentDirichletAllocation(data));
-                case VisualizationEnum.NMF: resolve(this.createNonNegativeMatrixFactorization(data));
-                case VisualizationEnum.ISOMAP: resolve(this.createIsoMap(data));
-                case VisualizationEnum.LOCALLY_LINEAR_EMBEDDING: resolve(this.createLocallyLinearEmbedding(data));
-                case VisualizationEnum.MDS: resolve(this.createMds(data));
-                case VisualizationEnum.FAST_ICA: resolve(this.createFastIca(data));
-                case VisualizationEnum.SPECTRAL_EMBEDDING: resolve(this.createSpectralEmbedding(data));
-                case VisualizationEnum.TSNE: resolve(this.createTSNE(data));
-                case VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS: resolve(null);
-                case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS: resolve(null);
-                case VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING: resolve(null);
-                case VisualizationEnum.MINI_BATCH_SPARSE_PCA: resolve(null);
+                case VisualizationEnum.INCREMENTAL_PCA: resolve(this.createIncrementalPca(data)); break;
+                case VisualizationEnum.TRUNCATED_SVD: resolve(this.createTruncatedSvd(data)); break;
+                case VisualizationEnum.PCA: resolve(this.createPca(data)); break;
+                case VisualizationEnum.SPARSE_PCA: resolve(this.createSparse_PCA(data)); break;
+                case VisualizationEnum.KERNAL_PCA: resolve(this.createKernalPca(data)); break;
+                case VisualizationEnum.DICTIONARY_LEARNING: resolve(this.createDictionaryLearning(data)); break;
+                case VisualizationEnum.FA: resolve(this.createFactorAnalysis(data)); break;
+                case VisualizationEnum.LDA: resolve(this.createLatentDirichletAllocation(data)); break;
+                case VisualizationEnum.NMF: resolve(this.createNonNegativeMatrixFactorization(data)); break;
+                case VisualizationEnum.ISOMAP: resolve(this.createIsoMap(data)); break;
+                case VisualizationEnum.LOCALLY_LINEAR_EMBEDDING: resolve(this.createLocallyLinearEmbedding(data)); break;
+                case VisualizationEnum.MDS: resolve(this.createMds(data)); break;
+                case VisualizationEnum.FAST_ICA: resolve(this.createFastIca(data)); break;
+                case VisualizationEnum.SPECTRAL_EMBEDDING: resolve(this.createSpectralEmbedding(data)); break;
+                case VisualizationEnum.TSNE: resolve(this.createTSNE(data)); break;
+                case VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS: resolve(null); break;
+                case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS: resolve(null); break;
+                case VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING: resolve(null); break;
+                case VisualizationEnum.MINI_BATCH_SPARSE_PCA: resolve(null); break;
+                // case VisualizationEnum.TIMELINES: resolve(this.createTimelinesStats(data)); break;
             }
             resolve([]);
         });
     }
-
     private createIncrementalPca(data: PcaIncrementalDataModel): Array<Stat> {
         const stats = [
             new StatKeyValues('', ([
@@ -146,7 +145,6 @@ export class StatFactory {
         ];
         return stats;
     }
-
     private createTruncatedSvd(data: TruncatedSvdDataModel): Array<Stat> {
         const stats = [
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.explainedVariance)),
@@ -154,7 +152,6 @@ export class StatFactory {
         ];
         return stats;
     }
-
     private createPca(data: PcaDataModel): Array<Stat> {
         const stats = [
             new StatKeyValues('', ([
@@ -167,7 +164,6 @@ export class StatFactory {
         ];
         return stats;
     }
-
     private createSparse_PCA(data: any): Array<Stat> {
         const stats = [
             new StatKeyValues('', ([
@@ -177,15 +173,12 @@ export class StatFactory {
             ])),
             new StatTwoD('PCA Loadings', this.formatPCALoadings(data.mide, data.components))
         ];
-
         return stats;
     }
-
     private createKernalPca(data: any): Array<Stat> {
         const stats = [];
         return stats;
     }
-
     private createDictionaryLearning(data: any): Array<Stat> {
         const stats = [
             new StatKeyValues('', ([
@@ -193,43 +186,35 @@ export class StatFactory {
             ])),
             new StatTwoD('PCA Loadings', this.formatPCALoadings(data.mid, data.components))
         ];
-
         return stats;
     }
-
     private createFactorAnalysis(data: any): Array<Stat> {
         const stats = [
             new StatKeyValues('', ([{ mylabel: 'nIter:', myvalue: data.nIter.toString() }]))
         ];
         return stats;
     }
-
     private createLatentDirichletAllocation(data: any): Array<Stat> {
         const stats = [];
         return stats;
     }
-
     private createNonNegativeMatrixFactorization(data: any): Array<Stat> {
         const stats = [];
         return stats;
 
     }
-
     private createIsoMap(data: any): Array<Stat> {
         const stats = [];
         return stats;
     }
-
     private createLocallyLinearEmbedding(data: any): Array<Stat> {
         const stats = [
             new StatKeyValues('', ([
                 { mylabel: 'Stress:', myvalue: data.stress.toString() },
-
             ]))
         ];
         return stats;
     }
-
     private createMds(data: any): Array<Stat> {
         const stats = [
             new StatKeyValues('', ([
@@ -237,15 +222,12 @@ export class StatFactory {
 
             ]))
         ];
-
         return stats;
     }
-
     private createFastIca(data: any): Array<Stat> {
         const stats = [
             new StatKeyValues('', ([{ mylabel: 'nIter:', myvalue: data.nIter.toString() }]))
         ];
-
         return stats;
     }
     private createSpectralEmbedding(data: any): Array<Stat> {
@@ -253,7 +235,6 @@ export class StatFactory {
         ];
         return stats;
     }
-
     private createTSNE(data: any): Array<Stat> {
         const stats = [
             new StatKeyValues('', ([
@@ -263,20 +244,20 @@ export class StatFactory {
         ];
         return stats;
     }
-    //endregion
+    // endregion
 
-    //region Format Utilities
+    // region Format Utilities
     private formatPrincipleComponents(data: Array<number>): Array<{ mylabel: string, myvalue: number, color?: number }> {
         const rv = data.map((v, i) => ({ mylabel: 'PC' + (i + 1), myvalue: (Math.round(v * 100) / 100) }));
         rv.push({ mylabel: 'Other', myvalue: rv.reduce((p, c) => { p -= c.myvalue; return (Math.round(p * 100) / 100); }, 100) });
         return rv;
     }
-    private formatPCALoadings(markers: Array<string>, data: Array<Array<number>>): Array<{ mylabel: string, myvalue: number, color?: number }> {
+    private formatPCALoadings(markers: Array<string>,
+        data: Array<Array<number>>): Array<{ mylabel: string, myvalue: number, color?: number }> {
         const r = markers.map((v, i) => ({ marker: v, pc1: data[0][i], pc2: data[1][i], pc3: data[2][i] }))
             .sort((a, b) => (b.pc1 - a.pc1))
             .map(v => ({ mylabel: v.marker, myvalue: Math.round(v.pc1 * 1e2) / 1e2 })).splice(0, 11);
         return r;
     }
-    //endregion
-
+    // endregion
 }

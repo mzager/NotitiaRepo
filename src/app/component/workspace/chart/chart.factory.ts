@@ -67,7 +67,7 @@ export class ChartFactory {
     }
     public static getScaleShapeOrdinal(values: Array<string>): Function {
         const len = values.length;
-        const cols = ChartFactory.sprites.slice(0, values.length)
+        const cols = ChartFactory.sprites.slice(0, values.length);
         return scale.scaleOrdinal().domain(values).range(cols);
     }
     public static getScaleShapeLinear(min: number, max: number, bins: number = 0): Function {
@@ -79,7 +79,6 @@ export class ChartFactory {
         const len = values.length;
         const cols = (len > 4) ? ChartFactory.colors.slice(0, values.length) :
             ChartFactory.colors.filter((c, i) => i % 2).slice(0, values.length);
-        debugger;
         return scale.scaleOrdinal().domain(values).range(cols);
     }
     public static getScaleColorLinear(min: number, max: number, bins: number = 8): Function {
@@ -100,7 +99,7 @@ export class ChartFactory {
         return group;
     }
     public static decorateDataGroups(groups: Array<THREE.Group>, decorators: Array<DataDecorator>,
-        renderer: DataDecoatorRenderer = null, scale: number = 2): void {
+        renderer: DataDecoatorRenderer = null, scaleFactor: number = 2): void {
 
         // Retrieve Id
         if (groups.length === 0) { return; }
@@ -151,7 +150,7 @@ export class ChartFactory {
             group.userData.color = (isNaN(color)) ?
                 parseInt(color.replace(/^#/, ''), 16) :
                 color;
-            mesh.scale.set(scale, scale, scale);
+            mesh.scale.set(scaleFactor, scaleFactor, scaleFactor);
             mesh.userData.tooltip = label;
             mesh.userData.color = group.userData.color;
             mesh.userData.selectionLocked = false;
@@ -376,7 +375,6 @@ export class ChartFactory {
             case SpriteMaterialEnum.NA:
                 return new THREE.SpriteMaterial({ map: ChartFactory.textures.na, color: color });
         }
-        debugger;
         return new THREE.SpriteMaterial({ map: ChartFactory.textures.na, color: color });
     }
 

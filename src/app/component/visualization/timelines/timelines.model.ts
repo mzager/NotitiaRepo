@@ -50,6 +50,5 @@ export class TimelinesConfigModel extends GraphConfig {
 }
 
 export interface TimelinesDataModel extends GraphData {
-    legends: Array<Legend>;
     result: any;
 }
