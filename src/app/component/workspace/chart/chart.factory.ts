@@ -1,3 +1,5 @@
+import { OrbitControls } from 'three-orbitcontrols-ts';
+import { VisualizationView } from './../../../service/chart-view.model';
 import { QuadradicDiscriminantAnalysisGraph } from './../../visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { FontService } from 'app/service/font.service';
@@ -9,7 +11,7 @@ import memoize from 'memoize-decorator';
 import { GraphEnum, ShapeEnum, SizeEnum, VisualizationEnum } from 'app/model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import * as THREE from 'three';
-import { Vector3, Vector2, Shading, SmoothShading, Geometry, Mesh } from 'three';
+import { Vector3, Vector2, Shading, SmoothShading, Geometry, Mesh, Object3D, PerspectiveCamera } from 'three';
 import * as scale from 'd3-scale';
 import { schemeRdBu, interpolateRdBu, interpolateSpectral } from 'd3-scale-chromatic';
 
@@ -400,6 +402,26 @@ export class ChartFactory {
             default:
                 return new THREE.TorusGeometry(2);
         }
+    }
+
+    public static fitControls(view: VisualizationView, box: THREE.Mesh,
+        paddingMultiplier: number = 1): void {
+        box.geometry.computeBoundingSphere();
+        box.geometry.computeBoundingBox();
+        const boundingSphere = box.geometry.boundingSphere;
+        const boundingBox = box.geometry.boundingBox;
+        const center = boundingSphere.center;
+        const radius = boundingSphere.radius;
+        const distance = center.distanceTo(view.camera.position) - radius;
+        const realHeight = Math.abs(boundingBox.max.y - boundingBox.min.y);
+        const orbitControls = view.controls as OrbitControls;
+        const cameraPerspective = view.camera as PerspectiveCamera;
+        const fov = 2 * Math.atan(realHeight * paddingMultiplier / (2 * distance)) * (180 / Math.PI);
+        console.log(fov);
+        view.controls.minDistance = 100;
+        view.controls.maxDistance = distance * 2;
+        cameraPerspective.fov = fov;
+        cameraPerspective.updateProjectionMatrix();
     }
 
 

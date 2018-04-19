@@ -14,7 +14,7 @@ export class FontService {
     private _texture: THREE.Texture;
     private _material: THREE.MeshBasicMaterial;
 
-    private _ready: boolean = false;
+    private _ready = false;
     public get ready(): boolean { return this._ready; }
     public getFont(size: 'small' | 'medium' | 'large' = 'medium') {
         return (size === 'small') ? this._fonts[0] :
@@ -25,10 +25,14 @@ export class FontService {
     public get material() { return this._material; }
 
 
-    public createFontMesh(width: number, copy: string, camera: THREE.Camera, align: 'left' | 'center' | 'right' = 'left', size: 'small' | 'medium' | 'large' = 'medium', letterSpacing: number = 0): THREE.Object3D {
+    public createFontMesh(width: number, copy: string,
+        camera: THREE.Camera,
+        align: 'left' | 'center' | 'right' = 'left',
+        size: 'small' | 'medium' | 'large' = 'medium',
+        letterSpacing: number = 0): THREE.Object3D {
 
 
-        var geom = createText({
+        const geom = createText({
             text: copy,
             font: this.getFont(size),
             align: align,
@@ -36,18 +40,18 @@ export class FontService {
         });
 
 
-        var layout = geom.layout
+        const layout = geom.layout;
         const text = new THREE.Mesh(geom, this._material);
 
         text.position.set(-layout.width, layout.descender - layout.height, 0);
-        text.quaternion.copy(camera.quaternion)
-        var textAnchor = new THREE.Object3D()
-        textAnchor.add(text)
-        textAnchor.scale.multiplyScalar(1 / (window.devicePixelRatio || 1))
+        text.quaternion.copy(camera.quaternion);
+        const textAnchor = new THREE.Object3D();
+        textAnchor.add(text);
+        textAnchor.scale.multiplyScalar(1 / (window.devicePixelRatio || 1));
         text.onBeforeRender = function () {
             text.scale.setY(-1);
             text.quaternion.copy(camera.quaternion);
-        }
+        };
         return textAnchor;
 
     }
@@ -65,18 +69,18 @@ export class FontService {
     private loadTexture(): Promise<any> {
         return new Promise((resolve, reject) => {
             const textureLoader = new THREE.TextureLoader();
-            const texture = this._texture = textureLoader.load('/assets/font/lato.png', texture => {
-                texture.needsUpdate = true;
-                texture.minFilter = THREE.LinearMipMapLinearFilter;
-                texture.magFilter = THREE.LinearFilter;
-                texture.generateMipmaps = true;
+            const texture = this._texture = textureLoader.load('/assets/font/lato.png', v => {
+                v.needsUpdate = true;
+                v.minFilter = THREE.LinearMipMapLinearFilter;
+                v.magFilter = THREE.LinearFilter;
+                v.generateMipmaps = true;
                 const material = this._material = new THREE.MeshBasicMaterial({
-                    map: texture,
+                    map: v,
                     transparent: true,
                     side: THREE.DoubleSide,
                     color: 0x666666
                 });
-                resolve({ texture: texture, material: material });
+                resolve({ texture: v, material: material });
             });
         });
     }
