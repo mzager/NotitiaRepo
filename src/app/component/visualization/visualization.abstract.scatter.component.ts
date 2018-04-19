@@ -1,27 +1,38 @@
-import { Observable } from 'rxjs/Rx';
-import { LabelController, LabelOptions } from './../../controller/label/label.controller';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import * as scale from 'd3-scale';
-import * as TWEEN from 'tween.js';
-import { DataDecorator } from './../../model/data-map.model';
-import { ChartUtil } from './../workspace/chart/chart.utils';
-import { GraphData } from './../../model/graph-data.model';
-import { ChartFactory } from './../workspace/chart/chart.factory';
-import { DragSelectionControl } from './drag.selection.control';
-import { GraphConfig } from 'app/model/graph-config.model';
-import { AbstractVisualization } from './visualization.abstract.component';
-import { Subscription } from 'rxjs/Subscription';
-import { WorkspaceLayoutEnum, DimensionEnum, CollectionTypeEnum } from './../../model/enum.model';
+import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
 import { VisualizationView } from './../../model/chart-view.model';
-import { ChartEvent, ChartEvents } from './../workspace/chart/chart.events';
-import { EventEmitter, HostListener, ViewContainerRef } from '@angular/core';
-import { GraphEnum, EntityTypeEnum, DirtyEnum, ShapeEnum, VisualizationEnum } from 'app/model/enum.model';
-import { ChartObjectInterface } from './../../model/chart.object.interface';
-import * as THREE from 'three';
-import { CircleGeometry, SphereGeometry, Vector2, MeshPhongMaterial } from 'three';
-import { EventTargetLike } from 'rxjs/observable/FromEventObservable';
-import * as _ from 'lodash';
-import * as d3Force from 'd3-force';
+import { GraphConfig } from './../../model/graph-config.model';
+import { GraphData } from 'app/model/graph-data.model';
+
+
+// import { Observable } from 'rxjs/Rx';
+// import { LabelController, LabelOptions } from './../../controller/label/label.controller';
+// import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import * as scale from 'd3-scale';
+// import * as TWEEN from 'tween.js';
+// import { DataDecorator } from './../../model/data-map.model';
+// import { GraphData } from './../../model/graph-data.model';
+// import { ChartFactory } from './../workspace/chart/chart.factory';
+// import { DragSelectionControl } from './drag.selection.control';
+// import { GraphConfig } from 'app/model/graph-config.model';
+// import { AbstractVisualization } from './visualization.abstract.component';
+// import { Subscription } from 'rxjs/Subscription';
+// import { WorkspaceLayoutEnum, DimensionEnum, CollectionTypeEnum } from './../../model/enum.model';
+// import { VisualizationView } from './../../model/chart-view.model';
+// import { ChartEvent, ChartEvents } from './../workspace/chart/chart.events';
+// import { EventEmitter, HostListener, ViewContainerRef } from '@angular/core';
+// import { GraphEnum, EntityTypeEnum, DirtyEnum, ShapeEnum, VisualizationEnum } from 'app/model/enum.model';
+// import { ChartObjectInterface } from './../../model/chart.object.interface';
+// import * as THREE from 'three';
+import { CircleGeometry, SphereGeometry, Vector2, MeshPhongMaterial, Vector3 } from 'three';
+import { ChartEvent, ChartEvents } from '../workspace/chart/chart.events';
+import { ChartObjectInterface } from '../../model/chart.object.interface';
+import { AbstractVisualization } from './visualization.abstract.component';
+import { DataDecorator } from '../../model/data-map.model';
+import { EntityTypeEnum } from '../../model/enum.model';
+import { LabelOptions, LabelController } from '../../controller/label/label.controller';
+// import { EventTargetLike } from 'rxjs/observable/FromEventObservable';
+// import * as _ from 'lodash';
+// import * as d3Force from 'd3-force';
 
 export class AbstractScatterVisualization extends AbstractVisualization {
 
@@ -46,6 +57,8 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.meshes = [];
         this.points = [];
         this.lines = [];
+        // const sphere: THREE.Sphere = new THREE.Sphere(new Vector3(0, 0, 0), 200);
+        // CxhartUtil.fitCameraToSphere(this.view, sphere);
         return this;
     }
 
@@ -78,24 +91,13 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         const objectIds = this._data[propertyId];
         this._data.resultScaled.forEach((point, index) => {
             const group = ChartFactory.createDataGroup(
-                objectIds[index], this._config.entity, new THREE.Vector3(...point));
+                objectIds[index], this._config.entity, new Vector3(...point));
             this.meshes.push(group);
             this.view.scene.add(group);
         });
         ChartFactory.decorateDataGroups(this.meshes, this.decorators);
         this.points = this.meshes.map(v => v.children[0]);
         this.tooltipController.targets = this.points;
-
-        // const s = ChartUtil.calculateBoundingSphere2(this.meshes);
-        // const t = ChartUtil.calculateBoundingBox(this.view.scene);
-
-        // const sphere = ChartUtil.calcualteBoundSphere(this.view.scene);
-        // ChartUtil.fitCameraToSphere(this.view, sphere);
-
-        // ChartUtil.fitCameraToSphere(this.view, t);
-
-
-        // ChartUtil.calcualteBoundingSphere(this.points);
     }
 
     removeObjects() {
@@ -116,7 +118,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     }
 
     onMouseDown(e: ChartEvent): void {
-        // const hit = ChartUtil.getIntersects(this.view, e.mouse, this.points);
+        // const hit = CxhartUtil.getIntersects(this.view, e.mouse, this.points);
         // if (hit.length > 0) {
         //     this.tooltips.innerHTML = '';
         //     this.mouseMode = 'SELECTION';
@@ -195,7 +197,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
 
         // SECOND HALF
         // Hit Test
-        // const hit = ChartUtil.getIntersects(this.view, e.mouse, this.points);
+        // const hit = CxhartUtil.getIntersects(this.view, e.mouse, this.points);
         // console.log(hit.length);
         // if (hit.length > 0) {
 

@@ -1,8 +1,6 @@
 import { DataDecorator } from './../../../model/data-map.model';
 import { SomDataModel, SomConfigModel } from './som.model';
 import { EventEmitter, Output } from '@angular/core';
-
-import { ChartUtil } from './../../workspace/chart/chart.utils';
 import { Subscription } from 'rxjs/Subscription';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { OrbitControls } from 'three-orbitcontrols-ts';
@@ -112,8 +110,8 @@ export class SomGraph implements ChartObjectInterface {
             const deltaX = Math.abs(this.selectorOrigin.x - mouseEvent.clientX);
             const deltaY = Math.abs(this.selectorOrigin.y - mouseEvent.clientY);
             const delta = Math.max(deltaX, deltaY);
-            const scale = this.selectorScale(delta);
-            this.selector.scale.set(scale, scale, scale);
+            const scaleMe = this.selectorScale(delta);
+            this.selector.scale.set(scaleMe, scaleMe, scaleMe);
             this.onRequestRender.next();
             const radius = this.selector.geometry.boundingSphere.radius * this.selector.scale.x;
             const position = this.selector.position;
@@ -137,10 +135,7 @@ export class SomGraph implements ChartObjectInterface {
     }
 
     private onMouseDown(e: ChartEvent): void {
-        const intersects = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
-        if (intersects.length > 0) {
 
-        }
     }
 
     constructor() { }

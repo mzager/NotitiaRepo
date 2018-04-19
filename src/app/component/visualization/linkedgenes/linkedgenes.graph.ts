@@ -4,7 +4,6 @@ import { ComputeWorkerUtil } from './../../../service/compute.worker.util';
 import { LinkedGeneConfigModel, LinkedGeneDataModel } from './linkedgenes.model';
 import { Colors, EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
 import { OrbitControls } from 'three-orbitcontrols-ts';
-import { ChartUtil } from './../../workspace/chart/chart.utils';
 import { Subscription } from 'rxjs/Subscription';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { ChartEvent, ChartEvents } from './../../workspace/chart/chart.events';

@@ -221,8 +221,8 @@ export class PathwaysFactory {
         const circle = new THREE.Mesh(
             new THREE.CircleGeometry(2.5),
             ChartFactory.getColorBasic(color));
-        circle.position.setX(x1 + (Math.cos(rotation) * 15));
-        circle.position.setY(y1 + (Math.sin(rotation) * 15));
+        circle.position.setX(x2); // + (Math.cos(rotation) * 5));
+        circle.position.setY(y2); // + (Math.sin(rotation) * 5));
         circle.position.z = 0.1;
         circle.rotateZ(rotation);
         group.add(circle);
@@ -250,7 +250,7 @@ export class PathwaysFactory {
         line.position.z = -0.1;
         group.add(line);
 
-        const rotation = Math.atan2(y2 - y1, x2 - x1);
+        const rotation = Math.atan2(y1 - y2, x1 - x2);
         const triangleGeom = new THREE.ShapeGeometry(
             new THREE.Shape([
                 new Vector2(0, 0),
@@ -262,8 +262,8 @@ export class PathwaysFactory {
             triangleGeom,
             ChartFactory.getColorBasic(color)
         );
-        triangle.position.setX(x1 + Math.cos(rotation) * 5);
-        triangle.position.setY(y1 + Math.sin(rotation) * 5);
+        triangle.position.setX(x2 + Math.cos(rotation) * 8);
+        triangle.position.setY(y2 + Math.sin(rotation) * 8);
         triangle.position.z = 0.1;
         triangle.rotateZ(rotation);
         group.add(triangle);

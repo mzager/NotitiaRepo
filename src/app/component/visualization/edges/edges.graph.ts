@@ -1,5 +1,4 @@
 import { DataDecorator } from './../../../model/data-map.model';
-import { ChartUtil } from './../../workspace/chart/chart.utils';
 import { ChartFactory } from './../../workspace/chart/chart.factory';
 import { EdgeDataModel, EdgeConfigModel } from './edges.model';
 import { VisualizationView } from './../../../model/chart-view.model';
@@ -51,51 +50,51 @@ export class EdgesGraph implements ChartObjectInterface {
     }
 
     drawEdges(views, layout, renderer) {
-        this.view.scene.children = this.view.scene.children.splice(0, 2);
+        // this.view.scene.children = this.view.scene.children.splice(0, 2);
 
-        // if (!this.config.isVisible) { return; }
-        if (views[0].chart === null || views[1].chart === null) { return; }
+        // // if (!this.config.isVisible) { return; }
+        // if (views[0].chart === null || views[1].chart === null) { return; }
 
-        const aId = (this.config.entityA === EntityTypeEnum.GENE) ? 'mid' : 'sid';
-        const bId = (this.config.entityB === EntityTypeEnum.GENE) ? 'mid' : 'sid';
+        // const aId = (this.config.entityA === EntityTypeEnum.GENE) ? 'mid' : 'sid';
+        // const bId = (this.config.entityB === EntityTypeEnum.GENE) ? 'mid' : 'sid';
 
-        const aMap = views[0].chart.meshes.reduce((p, c) => {
-            const screenPosition = ChartUtil.objectToScreen(c, views[0], layout);
-            if (screenPosition !== null) {
-                p[c.userData[aId]] = { mesh: c, screenPosition: screenPosition };
-            }
-            return p;
-        }, {});
+        // const aMap = views[0].chart.meshes.reduce((p, c) => {
+        //     const screenPosition = CxhartUtil.objectToScreen(c, views[0], layout);
+        //     if (screenPosition !== null) {
+        //         p[c.userData[aId]] = { mesh: c, screenPosition: screenPosition };
+        //     }
+        //     return p;
+        // }, {});
 
-        const bMap = views[1].chart.meshes.reduce((p, c) => {
-            const screenPosition = ChartUtil.objectToScreen(c, views[1], layout);
-            if (screenPosition !== null) {
-                p[c.userData[bId]] = { mesh: c, screenPosition: screenPosition };
-            }
-            return p;
-        }, {});
+        // const bMap = views[1].chart.meshes.reduce((p, c) => {
+        //     const screenPosition = CxhartUtil.objectToScreen(c, views[1], layout);
+        //     if (screenPosition !== null) {
+        //         p[c.userData[bId]] = { mesh: c, screenPosition: screenPosition };
+        //     }
+        //     return p;
+        // }, {});
 
 
-        let edges = [];
-        const visibleEdges = this.data.result.filter(edge => (aMap.hasOwnProperty(edge.a) && bMap.hasOwnProperty(edge.b)));
-        if (visibleEdges.length < 10000) {
-            edges = visibleEdges.map(edge => {
-                const aPoint = aMap[edge.a];
-                const bPoint = bMap[edge.b];
-                if (edge.i === null) {
-                    return ChartFactory.lineAllocate(edge.c, aPoint.screenPosition, bPoint.screenPosition);
-                } else {
-                    const yDelta = this.view.viewport.height / 7;
-                    const yOffset = this.view.viewport.height * 0.5;
+        // let edges = [];
+        // const visibleEdges = this.data.result.filter(edge => (aMap.hasOwnProperty(edge.a) && bMap.hasOwnProperty(edge.b)));
+        // if (visibleEdges.length < 10000) {
+        // edges = visibleEdges.map(edge => {
+        //     const aPoint = aMap[edge.a];
+        //     const bPoint = bMap[edge.b];
+        //     if (edge.i === null) {
+        //         return ChartFactory.lineAllocate(edge.c, aPoint.screenPosition, bPoint.screenPosition);
+        //     } else {
+        //         const yDelta = this.view.viewport.height / 7;
+        //         const yOffset = this.view.viewport.height * 0.5;
 
-                    return ChartFactory.lineAllocateCurve(edge.c, aPoint.screenPosition, bPoint.screenPosition,
-                        new THREE.Vector2(0, (edge.i * yDelta) - yOffset));
-                }
-            }).forEach(edge => this.view.scene.add(edge));
-            console.log('good number');
-        } else {
-            console.log('too many edges');
-        }
+        //         return ChartFactory.lineAllocateCurve(edge.c, aPoint.screenPosition, bPoint.screenPosition,
+        //             new THREE.Vector2(0, (edge.i * yDelta) - yOffset));
+        //     }
+        // }).forEach(edge => this.view.scene.add(edge));
+        // console.log('good number');
+        // } else {
+        //     console.log('too many edges');
+        // }
         // const edges = this.data.result.map( edge => {
         //     if (aMap.hasOwnProperty(edge.a) && bMap.hasOwnProperty(edge.b)) {
         //         const aPoint = aMap[edge.a];
