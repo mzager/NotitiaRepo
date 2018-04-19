@@ -5,7 +5,6 @@ import { DataDecorator } from './../../../model/data-map.model';
 // import { Tween, Easing } from 'es6-tween';
 import { Colors, EntityTypeEnum, WorkspaceLayoutEnum, DirtyEnum, CollectionTypeEnum } from './../../../model/enum.model';
 import { OrbitControls } from 'three-orbitcontrols-ts';
-import { ChartUtil } from './../../workspace/chart/chart.utils';
 import { Subscription } from 'rxjs/Subscription';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { ChartEvent, ChartEvents } from './../../workspace/chart/chart.events';
@@ -70,7 +69,7 @@ export class GenomeGraph extends AbstractVisualization {
     }
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         super.create(labels, events, view);
-        this.tooltipController.targets = this.bands; //.concat(this.meres);
+        this.tooltipController.targets = this.bands;
         return this;
     }
     destroy() {
@@ -102,7 +101,7 @@ export class GenomeGraph extends AbstractVisualization {
 
             // Centromere
             const centro: THREE.Mesh = ChartFactory.meshAllocate(0x0091EA, ShapeEnum.CIRCLE, .5, new THREE.Vector3(xPos, 0, 0), {});
-            centro.userData.tooltip = chromosome.chr; //'Centromere ' + chromosome.chr;
+            centro.userData.tooltip = chromosome.chr;
             this.meres.push(centro);
             this.view.scene.add(centro);
 
@@ -111,7 +110,7 @@ export class GenomeGraph extends AbstractVisualization {
                 new THREE.Vector3(xPos, chromosome.Q - chromosome.C, 0), {});
             teleQ.userData.chr = chromosome.chr;
             teleQ.userData.type = GenomicEnum.Q_TELOMERE;
-            teleQ.userData.tooltip = 'Q' + chromosome.chr; //Telemere
+            teleQ.userData.tooltip = 'Q' + chromosome.chr; // Telemere
             this.meres.push(teleQ);
             this.view.scene.add(teleQ);
 
@@ -120,7 +119,7 @@ export class GenomeGraph extends AbstractVisualization {
                 new THREE.Vector3(xPos, chromosome.P - chromosome.C, 0), {});
             teleP.userData.chr = chromosome.chr;
             teleP.userData.type = GenomicEnum.P_TELOMERE;
-            teleP.userData.tooltip = 'P' + chromosome.chr; //Telemere
+            teleP.userData.tooltip = 'P' + chromosome.chr; // Telemere
             this.meres.push(teleP);
             this.view.scene.add(teleP);
         });

@@ -4,7 +4,6 @@ import { DirtyEnum } from 'app/model/enum.model';
 // import { Tween, Easing } from 'es6-tween';
 import { Colors, EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
 import { OrbitControls } from 'three-orbitcontrols-ts';
-import { ChartUtil } from './../../workspace/chart/chart.utils';
 import { Subscription } from 'rxjs/Subscription';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { ChartEvent, ChartEvents } from './../../workspace/chart/chart.events';
@@ -213,24 +212,6 @@ export class ParallelCoordsGraph implements ChartObjectInterface {
 
 
     private onMouseMove(e: ChartEvent): void {
-        const intersects = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
-        if (intersects.length > 0) {
-
-            const gene = intersects[0].object.userData.gene;
-            this.chords.forEach(v => {
-                if ((gene === v.userData.source) || (gene === v.userData.target)) {
-                    v.material = this.overMaterial;
-                    (v.geometry as THREE.Geometry).vertices = v.userData.overGeometry;
-                    (v.geometry as THREE.Geometry).verticesNeedUpdate = true;
-                } else {
-                    v.material = this.outMaterial;
-                    (v.geometry as THREE.Geometry).vertices = v.userData.outGeometry;
-                    (v.geometry as THREE.Geometry).verticesNeedUpdate = true;
-
-                }
-            });
-            this.onRequestRender.emit();
-        }
     }
 
     private onMouseUp(e: ChartEvent): void {
@@ -242,16 +223,7 @@ export class ParallelCoordsGraph implements ChartObjectInterface {
     }
 
     showLabels() {
-        // const meshes = ChartUtil.getVisibleMeshes(this.view).map<{ label: string, x: number, y: number }>(mesh => {
-        //     const coord = ChartUtil.projectToScreen(this.config.graph, mesh, this.view.camera,
-        //         this.view.viewport.width, this.view.viewport.height);
-        //     return { label: mesh.userData.tip, x: coord.x + 40, y: coord.y - 10 };
-        // });
-        // const html = meshes.map(data => {
-        //     return '<div class="chart-label" style="font-size:12px;left:' + data.x + 'px;top:' + data.y +
-        //         'px;position:absolute;">' + data.label + '</div>';
-        // }).reduce((p, c) => p += c, '');
-        // this.labels.innerHTML = html;
+
     }
 
     hideLabels() {
@@ -261,36 +233,7 @@ export class ParallelCoordsGraph implements ChartObjectInterface {
     // // Events
     private molabels(e: ChartEvent): void {
 
-        // let hits;
-        // const geneHit = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
-        // if (geneHit.length > 0) {
-        //     const xPos = e.mouse.xs + 10;
-        //     const yPos = e.mouse.ys;
-        //     this.labels.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#FFF;padding:3px;border-radius:' +
-        //         '3px;z-index:9999;position:absolute;left:' +
-        //         xPos + 'px;top:' +
-        //         yPos + 'px;">' +
-        //         geneHit[0].object.userData.tip + '</div>';
-        //     return;
-        // }
 
-        // const keys: Array<string> = Object.keys(this.arms);
-        // for (let i = 0; i < keys.length; i++) {
-        //     const kids = this.arms[keys[i]].children;
-        //     hits = ChartUtil.getIntersects(this.view, e.mouse, kids);
-        //     if (hits.length > 0) {
-        //         const xPos = e.mouse.xs + 10;
-        //         const yPos = e.mouse.ys;
-        //         this.labels.innerHTML = '<div style="background:rgba(255,255,255,.8);padding:3px;border-radius:3px;' +
-        //             'z-index:9999;position:absolute;left:' +
-        //             xPos + 'px;top:' +
-        //             yPos + 'px;">' +
-        //             hits[0].object.userData.tip + '</div>';
-        //         break;
-        //     } else {
-        //         this.labels.innerHTML = '';
-        //     }
-        // }
     }
 
     constructor() { }

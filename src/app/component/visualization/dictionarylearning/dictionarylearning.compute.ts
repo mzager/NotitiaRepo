@@ -1,9 +1,9 @@
-import { DirtyEnum } from 'app/model/enum.model';
 import { DictionaryLearningConfigModel } from './dictionarylearning.model';
-import { EntityTypeEnum } from './../../../model/enum.model';
+import { EntityTypeEnum, DirtyEnum, SpriteMaterialEnum } from './../../../model/enum.model';
 import { Legend } from './../../../model/legend.model';
 import { DedicatedWorkerGlobalScope } from 'compute';
 import * as _ from 'lodash';
+import { SpriteMaterial } from 'three';
 declare var ML: any;
 
 export const dictionaryLearningCompute = (config: DictionaryLearningConfigModel, worker: DedicatedWorkerGlobalScope): void => {
@@ -30,7 +30,7 @@ export const dictionaryLearningCompute = (config: DictionaryLearningConfigModel,
                 result.legends = [
                     Legend.create('Data Points',
                         config.entity === EntityTypeEnum.GENE ? ['Genes'] : ['Samples'],
-                        ['circle'],
+                        [SpriteMaterialEnum.CIRCLE],
                         'SHAPE',
                         'DISCRETE'
                     )];

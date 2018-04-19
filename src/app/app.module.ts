@@ -1,7 +1,6 @@
 import { PathwayPanelComponent } from './component/workspace/pathway-panel/pathway-panel.component';
 import { QueryBuilderComponent } from './component/workspace/query-panel/query-builder/query-builder.component';
 import { QueryPanelComponent } from './component/workspace/query-panel/query-panel.component';
-
 import { DashboardPanelComponent } from './component/workspace/dashboard-panel/dashboard-panel.component';
 import { DecoratorPanelComponent } from './component/workspace/decorator-panel/decorator-panel.component';
 import { CitationsPanelComponent } from './component/workspace/citations-panel/citations-panel.component';
@@ -207,7 +206,7 @@ import { LoaderComponent } from './component/workspace/loader/loader.component';
     WorkbookService,
     ChartFactory,
     HttpClient,
-    NcbiService,
+    // NcbiService,
     ModalService,
     OAuthService
   ],

@@ -1,4 +1,3 @@
-import { ChartUtil } from 'app/component/workspace/chart/chart.utils';
 import { interpolateSpectral } from 'd3-scale-chromatic';
 import { EntityTypeEnum } from './../../../model/enum.model';
 import { Legend } from './../../../model/legend.model';

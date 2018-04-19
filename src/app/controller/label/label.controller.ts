@@ -19,7 +19,7 @@ export interface ILabel {
 
 export class LabelOptions {
     classes: Array<string> = [];    // CSS Classes To Apply
-    fontsize: number = 10;
+    fontsize = 10;
     ignoreFrustumX = false;         // Only Make Sure Object Is In View On Y Axis
     ignoreFrustumY = false;         // Only Make Sure Object Is In View On X Axis
     offsetX = 0;                    // Offset Computed X Position By Amount After 2D Transform
@@ -29,14 +29,14 @@ export class LabelOptions {
     offsetZ3d = 0;                  // Offset Computed Y Position By Amount Before 2D Transform
     absoluteX: number = null;       // Replace Computed X Position By Amount
     absoluteY: number = null;       // Replace Computed Y Position By Amount
-    rotate: number = 0;             // Degrees To Rotate Text
+    rotate = 0;             // Degrees To Rotate Text
     origin: 'LEFT' | 'CENTER' | 'RIGHT' = 'RIGHT';   // Origin For Transforms + Positions
     prefix = '';                    // Copy To Add Before Label
     postfix = '';                   // Copy To Add After Label
     align: 'LEFT' | 'RIGHT' | 'CENTER' | 'JUSTIFIED' = 'LEFT';    // Text Alignment
-    maxLabels: number = Infinity;        // Maximum Number Of Labels
+    maxLabels = Infinity;        // Maximum Number Of Labels
     algorithm: 'FORCE' | 'GRID' | 'PIXEL' = 'PIXEL';    // Layout Algorythem
-    algorithmIterations = 20;       // Number Of Iterations To Apply Algorythem (Force Algo)          
+    algorithmIterations = 20;       // Number Of Iterations To Apply Algorythem (Force Algo)
     pointRadius = 3;                // How Big Is The Point...
     background: string = null;      // Background Color
     // margin: number = null;
@@ -63,6 +63,17 @@ export class LabelOptions {
 }
 
 export class LabelController {
+
+    // State
+    protected _view: VisualizationView;
+    protected _enabled: boolean;
+    protected _debounce: number;
+    protected _timeout;
+    protected _then: number;
+    protected _debouncing: boolean;
+
+    public onShow: EventEmitter<any>;
+    public onHide: EventEmitter<any>;
 
     public static generateHtml(objects: Array<ILabel>, options: LabelOptions): string {
         if (!options.ignoreFrustumX && !options.ignoreFrustumY) {
@@ -129,8 +140,11 @@ export class LabelController {
         const css = options.generateCss();
         const alignmentOffset = (options.align === 'LEFT') ? 0 : (options.align === 'CENTER') ? 50 : -100;
         return objects.reduce((p, c) => {
-            const translate = 'left:' + Math.round(c.position.x + alignmentOffset + options.offsetX) + 'px; top:' + Math.round(c.position.y + options.offsetY) + 'px;';
-            return p += '<div class="z-label" style="' + css + translate + '">' + options.prefix + c.userData.tooltip + options.postfix + '</div>';
+            const translate = 'left:' +
+                Math.round(c.position.x + alignmentOffset + options.offsetX) +
+                'px; top:' + Math.round(c.position.y + options.offsetY) + 'px;';
+            return p += '<div class="z-label" style="' + css + translate + '">' +
+                options.prefix + c.userData.tooltip + options.postfix + '</div>';
         }, '');
     }
 
@@ -146,24 +160,25 @@ export class LabelController {
     }
 
     static reduceHtml(data: Array<{ x: number, y: number, name: string }>, align: 'RIGHT' | 'LEFT' | 'CENTER' = 'LEFT'): string {
-        return (align === 'LEFT') ? data.reduce((p, c) => { return p += '<div class="z-tooltip" style="left:' + c.x + 'px;top:' + c.y + 'px;">' + c.name + '</div>'; }, '') :
-            (align === 'RIGHT') ? data.reduce((p, c) => { return p += '<div class="z-tooltip" style="text-align:right; width:300px; display:inline-block; left:' + (c.x - 300) + 'px;top:' + c.y + 'px;">' + c.name + '</div>'; }, '') :
-                data.reduce((p, c) => { return p += '<div class="z-tooltip" style="text-align:center; width:300px; display:inline-block; left:' + (c.x - 150) + 'px;top:' + c.y + 'px;">' + c.name + '</div>'; }, '');
+        return (align === 'LEFT') ? data.reduce(
+            (p, c) => {
+                return p += '<div class="z-tooltip" style="left:' +
+                    c.x + 'px;top:' + c.y + 'px;">' + c.name + '</div>';
+            }, '') :
+            (align === 'RIGHT') ? data.reduce((p, c) => {
+                return p += '<div class="z-tooltip" style="text-align:right; width:300px; display:inline-block; left:' +
+                    (c.x - 300) + 'px;top:' + c.y + 'px;">' + c.name + '</div>';
+            }, '') :
+                data.reduce((p, c) => {
+                    return p += '<div class="z-tooltip" style="text-align:center; width:300px; display:inline-block; left:' +
+                        (c.x - 150) + 'px;top:' + c.y + 'px;">' + c.name + '</div>';
+                }, '');
     }
 
     /*
-        Logic To Show Hide On Move  
+        Logic To Show Hide On Move
     */
-    // State
-    protected _view: VisualizationView;
-    protected _enabled: boolean;
-    protected _debounce: number;
-    protected _timeout;
-    protected _then: number;
-    protected _debouncing: boolean;
 
-    public onShow: EventEmitter<any>;
-    public onHide: EventEmitter<any>;
 
     constructor(view: VisualizationView, events: ChartEvents, debounce: number = 300) {
         this._view = view;
