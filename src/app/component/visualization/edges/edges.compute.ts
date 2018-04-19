@@ -1,5 +1,4 @@
 import { DirtyEnum, EntityTypeEnum } from './../../../model/enum.model';
-import { ChartUtil } from './../../workspace/chart/chart.utils';
 import { interpolateRdBu, interpolateSpectral } from 'd3-scale-chromatic';
 import { scaleLinear } from 'd3-scale';
 import * as d3Scale from 'd3-scale';

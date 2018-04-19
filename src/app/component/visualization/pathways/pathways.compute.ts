@@ -19,8 +19,10 @@ export const pathwaysCompute = (config: PathwaysConfigModel, worker: DedicatedWo
     const legendNodes = new Legend();
     legendNodes.name = 'Nodes';
     legendNodes.type = 'SHAPE';
-    legendNodes.labels = legendNodes.values = [
+    legendNodes.labels = [
         'unspecified entity',
+        'process',
+        'port',
         'simple chemical',
         'macromolecule',
         'nucleic acid',
@@ -30,11 +32,14 @@ export const pathwaysCompute = (config: PathwaysConfigModel, worker: DedicatedWo
         'observable',
         'perturbation'
     ];
+    legendNodes.values = legendNodes.labels.map(v => {
+        return './assets/shapes/shape-' + v + '-solid-legend.png';
+    });
 
     const legendEdges = new Legend();
     legendEdges.name = 'Edges';
     legendEdges.type = 'SHAPE';
-    legendEdges.labels = legendEdges.values = [
+    legendEdges.labels = [
         'consumption',
         'production',
         'modulation',
@@ -43,15 +48,21 @@ export const pathwaysCompute = (config: PathwaysConfigModel, worker: DedicatedWo
         'inhibition',
         'trigger'
     ];
+    legendEdges.values = legendEdges.labels.map(v => {
+        return './assets/shapes/shape-' + v + '-solid-legend.png';
+    });
 
     const legendOps = new Legend();
     legendOps.name = 'Operations';
     legendOps.type = 'SHAPE';
-    legendOps.labels = legendOps.values = [
+    legendOps.labels = [
         'and',
         'or',
         'not'
     ];
+    legendOps.values = legendOps.labels.map(v => {
+        return './assets/shapes/shape-' + v + '-solid-legend.png';
+    });
 
     const legends = [
         legendNodes,

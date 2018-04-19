@@ -2,8 +2,6 @@ import { DataDecorator } from './../../../model/data-map.model';
 import { NoneAction } from './../../../action/compute.action';
 import { HeatmapDataModel, HeatmapConfigModel } from './heatmap.model';
 import { EventEmitter, Output } from '@angular/core';
-
-import { ChartUtil } from './../../workspace/chart/chart.utils';
 import { Subscription } from 'rxjs/Subscription';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { OrbitControls } from 'three-orbitcontrols-ts';

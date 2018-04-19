@@ -44,7 +44,7 @@ export class PathwaysFactory {
         const offset = new Vector2(
             Math.cos(radians) * dim.x * .5,
             Math.sin(radians) * dim.y * .5
-        )
+        );
         // console.log('!!' + edge.class)
         switch (edge.class) {
             case PathwayEdgeEnum.CONSUMPTION:
@@ -62,14 +62,14 @@ export class PathwaysFactory {
         return this.createEdgeLine(start.x, start.y, end.x, end.y, offset.x, offset.y);
     }
     public static createNode(node: string, w: number, h: number, x: number, y: number): THREE.Shape {
-        //return this.createOctagonShape(w, h, x, y);
+        // return this.createOctagonShape(w, h, x, y);
         // return this.createRoundedRectangleShape(w, h, x, y);
         // return this.createRectangleShape(w, h, x, y);
         // return this.createEllipseShape(w, h, x, y);
         // console.log('---' + node)
         switch (node) {
             case PathwayNodeEnum.COMPARTMENT:
-                this.createRoundedRectangleShape(w, h, x, y);
+                return this.createRoundedRectangleShape(w, h, x, y);
             case PathwayNodeEnum.SIMPLE_CHEMICAL:
                 return this.createEllipseShape(20, 20, x, y);
             case PathwayNodeEnum.MACROMOLECULE:
@@ -221,8 +221,8 @@ export class PathwaysFactory {
         const circle = new THREE.Mesh(
             new THREE.CircleGeometry(2.5),
             ChartFactory.getColorBasic(color));
-        circle.position.setX(x1 + (Math.cos(rotation) * 15));
-        circle.position.setY(y1 + (Math.sin(rotation) * 15));
+        circle.position.setX(x2); // + (Math.cos(rotation) * 5));
+        circle.position.setY(y2); // + (Math.sin(rotation) * 5));
         circle.position.z = 0.1;
         circle.rotateZ(rotation);
         group.add(circle);
@@ -250,7 +250,7 @@ export class PathwaysFactory {
         line.position.z = -0.1;
         group.add(line);
 
-        const rotation = Math.atan2(y2 - y1, x2 - x1);
+        const rotation = Math.atan2(y1 - y2, x1 - x2);
         const triangleGeom = new THREE.ShapeGeometry(
             new THREE.Shape([
                 new Vector2(0, 0),
@@ -262,15 +262,15 @@ export class PathwaysFactory {
             triangleGeom,
             ChartFactory.getColorBasic(color)
         );
-        triangle.position.setX(x1 + Math.cos(rotation) * 5);
-        triangle.position.setY(y1 + Math.sin(rotation) * 5);
+        triangle.position.setX(x2 + Math.cos(rotation) * 8);
+        triangle.position.setY(y2 + Math.sin(rotation) * 8);
         triangle.position.z = 0.1;
         triangle.rotateZ(rotation);
         group.add(triangle);
         return group;
     }
     private static createStimulation(x1, y1, x2, y2, xO, yO): THREE.Group {
-        //console.log("SIMULATION");
+        // console.log("SIMULATION");
         const group = new THREE.Group();
         const line = ChartFactory.lineAllocate(0xffcc80, new Vector2(x1, y1), new Vector2(x2, y2));
         line.position.z = -0.1;

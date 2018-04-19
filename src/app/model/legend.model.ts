@@ -10,7 +10,6 @@ export class Legend {
   values: Array<any>;
 
   get items(): Array<{ label: string, value: string }> {
-    console.log('1111');
     return this.labels.map((lbl, i) => ({
       label: lbl,
       value: this.values[i]
