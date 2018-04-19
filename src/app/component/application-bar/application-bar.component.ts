@@ -24,6 +24,7 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   @Output() splitScreenChange = new EventEmitter<boolean>();
   @Output() showPanel = new EventEmitter<PanelEnum>();
 
+
   // @Output() graphPanelToggle = new EventEmitter<GraphPanelEnum>();
   // @Output() genesetPanelToggle = new EventEmitter();
   // @Output() toolPanelToggle = new EventEmitter();
