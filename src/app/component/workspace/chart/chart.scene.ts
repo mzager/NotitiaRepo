@@ -1,43 +1,9 @@
 import { FontService } from './../../../service/font.service';
-import { HistogramGraph } from './../../visualization/histogram/histogram.graph';
-import { BoxWhiskersGraph } from './../../visualization/boxwhiskers/boxwhiskers.graph';
-// tslint:disable-next-line:max-line-length
-import { QuadradicDiscriminantAnalysisGraph } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis';
 import { DataDecorator } from './../../../model/data-map.model';
-import { DendogramGraph } from './../../visualization/dendogram/dendogram.graph';
-import { SurvivalGraph } from './../../visualization/survival/survival.graph';
-import { LinearDiscriminantAnalysisGraph } from './../../visualization/lineardiscriminantanalysis/lineardiscriminantanalysis';
-import { MiniBatchDictionaryLearningGraph } from './../../visualization/minibatchdictionarylearning/minibatchdictionarylearning';
-import { MiniBatchSparsePcaGraph } from './../../visualization/minibatchsparsepca/minibatchsparsepca';
-import { PathwaysGraph } from './../../visualization/pathways/pathways.graph';
 import { GraphConfig } from 'app/model/graph-config.model';
-import { TimelinesGraph } from './../../visualization/timelines/timelines.graph';
-import { HicGraph } from './../../visualization/hic/hic.graph';
-import { ParallelCoordsGraph } from './../../visualization/parallelcoords/parallelcoords.graph';
-import { GenomeGraph } from './../../visualization/genome/genome.graph';
 import * as TWEEN from 'tween.js';
-import { LinkedGeneGraph } from './../../visualization/linkedgenes/linkedgenes.graph';
 import { ChartFactory } from './chart.factory';
 import { EdgeConfigModel } from './../../visualization/edges/edges.model';
-import { PcaIncrementalGraph } from './../../visualization/pcaincremental/pcaincremental.graph';
-import { PcaSparseGraph } from './../../visualization/pcasparse/pcasparse.graph';
-import { PcaKernalGraph } from './../../visualization/pcakernal/pcakernal.graph';
-import { SpectralEmbeddingGraph } from './../../visualization/spectralembedding/spectralembedding.graph';
-import { IsoMapGraph } from './../../visualization/isomap/isomap.graph';
-import { IsoMapFormComponent } from './../../visualization/isomap/isomap.form.component';
-import { LocalLinearEmbeddingGraph } from './../../visualization/locallinearembedding/locallinearembedding.graph';
-import { NmfGraph } from './../../visualization/nmf/nmf.graph';
-import { LdaGraph } from './../../visualization/lda/lda.graph';
-import { DictionaryLearningGraph } from './../../visualization/dictionarylearning/dictionarylearning.graph';
-import { FastIcaGraph } from './../../visualization/fastica/fastica.graph';
-import { TruncatedSvdGraph } from './../../visualization/truncatedsvd/truncatedsvd.graph';
-import { FaGraph } from './../../visualization/fa/fa.graph';
-import { MdsGraph } from './../../visualization/mds/mds.graph';
-import { SomGraph } from './../../visualization/som/som.graph';
-import { HeatmapGraph } from './../../visualization/heatmap/heatmap.graph';
-import { EdgesGraph } from './../../visualization/edges/edges.graph';
-import { PlsGraph } from './../../visualization/pls/pls.graph';
-import { TsneGraph } from './../../visualization/tsne/tsne.graph';
 import { WorkspaceConfigModel } from './../../../model/workspace.model';
 import { EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
@@ -47,10 +13,8 @@ import { Observable } from 'rxjs/Observable';
 import { Injectable, EventEmitter } from '@angular/core';
 import { ChartControls } from './chart.controls';
 import TransformControls from 'three-transformcontrols';
-import { ChromosomeGraph } from './../../visualization/chromosome/chromosome.graph';
 import { GraphPanelEnum, ToolEnum, GraphEnum, VisualizationEnum, DimensionEnum, VisibilityEnum } from 'app/model/enum.model';
 import { GraphTool } from 'app/model/graph-tool.model';
-import { PcaGraph } from './../../visualization/pca/pca.graph';
 import { Subscription } from 'rxjs/Subscription';
 import { OrbitControls } from 'three-orbitcontrols-ts';
 import {
@@ -122,6 +86,7 @@ export class ChartScene {
             chart: null,
             camera: new PerspectiveCamera(20, 1, 1, 30000) as Camera,
             scene: new Scene(),
+            renderer: this.renderer,
             controls: null
         }, {
             viewport: { x: Math.floor(dimension.width * .5), y: 0, width: Math.floor(dimension.width * .5), height: dimension.height },
@@ -129,6 +94,7 @@ export class ChartScene {
             chart: null,
             camera: new PerspectiveCamera(20, 1, 1, 30000) as Camera,
             scene: new Scene(),
+            renderer: this.renderer,
             controls: null
         }, {
             viewport: { x: 0, y: 0, width: dimension.width, height: dimension.height },
@@ -136,6 +102,7 @@ export class ChartScene {
             chart: null,
             camera: null, // new OrthographicCamera(-300, 300, 300, -300) as Camera,
             scene: new Scene(),
+            renderer: this.renderer,
             controls: null
         }
         ].map<any>((view, i) => {
@@ -183,8 +150,6 @@ export class ChartScene {
         this.render();
     }
 
-
-
     render = () => {
         let view;
         this.renderer.clear();
@@ -216,9 +181,6 @@ export class ChartScene {
         } catch (e) {
             console.log('resolve init');
         }
-
-        // const c = this.composer;
-        // c.render();
     }
 
     private onResize() {
@@ -296,7 +258,7 @@ export class ChartScene {
         }
     }
 
-    public updateData(graph: GraphEnum, config: GraphConfig, data: any): void {
+    public updateData(graph: GraphEnum, config: GraphConfig, data: any, chartObjectInterface: ChartObjectInterface): void {
         let view: VisualizationView;
         switch (graph) {
             case GraphEnum.EDGES:
@@ -329,7 +291,7 @@ export class ChartScene {
                         camera.updateProjectionMatrix();
 
                     }
-                    view.chart = this.getChartObject(config.visualization).create(
+                    view.chart = chartObjectInterface.create(
                         (config.graph === GraphEnum.GRAPH_A) ? this.labelsA : this.labelsB,
                         this.events, view);
                     if (!entityChanged) {
@@ -361,44 +323,6 @@ export class ChartScene {
     }
 
 
-    private getChartObject(visualization: VisualizationEnum): ChartObjectInterface {
-        switch (visualization) {
-            case VisualizationEnum.TIMELINES: return new TimelinesGraph(this.fontService);
-            case VisualizationEnum.HEATMAP: return new HeatmapGraph();
-            case VisualizationEnum.PATHWAYS: return new PathwaysGraph(this.fontService);
-            case VisualizationEnum.EDGES: return new EdgesGraph();
-            case VisualizationEnum.PCA: return new PcaGraph(this.fontService);
-            case VisualizationEnum.CHROMOSOME: return new ChromosomeGraph(this.fontService);
-            case VisualizationEnum.GENOME: return new GenomeGraph(this.fontService);
-            case VisualizationEnum.TSNE: return new TsneGraph(this.fontService);
-            case VisualizationEnum.PLS: return new PlsGraph();
-            case VisualizationEnum.MDS: return new MdsGraph(this.fontService);
-            case VisualizationEnum.FA: return new FaGraph(this.fontService);
-            case VisualizationEnum.LINKED_GENE: return new LinkedGeneGraph();
-            case VisualizationEnum.HIC: return new HicGraph(this.fontService);
-            case VisualizationEnum.PARALLEL_COORDS: return new ParallelCoordsGraph();
-            case VisualizationEnum.BOX_WHISKERS: return new BoxWhiskersGraph(this.fontService);
-            case VisualizationEnum.SOM: return new SomGraph();
-            case VisualizationEnum.TRUNCATED_SVD: return new TruncatedSvdGraph(this.fontService);
-            case VisualizationEnum.FAST_ICA: return new FastIcaGraph(this.fontService);
-            case VisualizationEnum.DICTIONARY_LEARNING: return new DictionaryLearningGraph(this.fontService);
-            case VisualizationEnum.LDA: return new LdaGraph(this.fontService);
-            case VisualizationEnum.NMF: return new NmfGraph(this.fontService);
-            case VisualizationEnum.LOCALLY_LINEAR_EMBEDDING: return new LocalLinearEmbeddingGraph(this.fontService);
-            case VisualizationEnum.ISOMAP: return new IsoMapGraph(this.fontService);
-            case VisualizationEnum.SPECTRAL_EMBEDDING: return new SpectralEmbeddingGraph(this.fontService);
-            case VisualizationEnum.KERNAL_PCA: return new PcaKernalGraph(this.fontService);
-            case VisualizationEnum.SPARSE_PCA: return new PcaSparseGraph(this.fontService);
-            case VisualizationEnum.INCREMENTAL_PCA: return new PcaIncrementalGraph(this.fontService);
-            case VisualizationEnum.MINI_BATCH_SPARSE_PCA: return new MiniBatchSparsePcaGraph(this.fontService);
-            case VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING: return new MiniBatchDictionaryLearningGraph(this.fontService);
-            case VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS: return new LinearDiscriminantAnalysisGraph(this.fontService);
-            case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS: return new QuadradicDiscriminantAnalysisGraph(this.fontService);
-            case VisualizationEnum.SURVIVAL: return new SurvivalGraph(this.fontService);
-            case VisualizationEnum.DENDOGRAM: return new DendogramGraph();
-            case VisualizationEnum.HISTOGRAM: return new HistogramGraph(this.fontService);
-        }
-    }
 
     // animate = (time) => {
     //     requestAnimationFrame(this.animate);

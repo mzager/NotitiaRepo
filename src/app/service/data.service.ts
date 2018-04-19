@@ -287,12 +287,12 @@ export class DataService {
                   (config.entity === EntityTypeEnum.GENE) ? 'Gene ' + decorator.field.label : 'Patient ' + decorator.field.label;
                 if (decorator.field.type === 'STRING') {
                   decorator.legend.labels = scale['domain']().concat(['Unknown']);
-                  decorator.legend.values = scale['range']().concat(['na']);
+                  decorator.legend.values = scale['range']().concat([SpriteMaterialEnum.NA]);
                 } else {
                   decorator.legend.labels = scale['range']()
                     .map(v => scale['invertExtent'](v).map(w => Math.round(w)).join(' to '))
                     .concat(['Unknown']);
-                  decorator.legend.values = scale['range']().concat(['na']);
+                  decorator.legend.values = scale['range']().concat([SpriteMaterialEnum.NA]);
                 }
                 resolve(decorator);
                 break;

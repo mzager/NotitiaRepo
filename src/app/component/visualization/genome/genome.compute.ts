@@ -1,4 +1,4 @@
-import { EntityTypeEnum, DirtyEnum } from './../../../model/enum.model';
+import { EntityTypeEnum, DirtyEnum, SpriteMaterialEnum } from './../../../model/enum.model';
 import { Legend } from './../../../model/legend.model';
 import { GenomeConfigModel } from './genome.model';
 import * as util from 'app/service/compute.worker.util';
@@ -13,7 +13,6 @@ import * as JStat from 'jstat';
 import { DedicatedWorkerGlobalScope } from 'compute';
 
 export const genomeCompute = (config: GenomeConfigModel, worker: DedicatedWorkerGlobalScope): void => {
-
 
     const bandColors = {
         'gneg': 0xEC407A,
@@ -135,7 +134,7 @@ export const genomeCompute = (config: GenomeConfigModel, worker: DedicatedWorker
 
         const d = {
             legends: [
-                Legend.create('Data Points', ['Genes'], ['circle'], 'SHAPE', 'DISCRETE')
+                Legend.create('Data Points', ['Genes'], [SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')
             ],
             genes: genes,
             bands: bands,

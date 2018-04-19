@@ -170,7 +170,6 @@ var Legend = /** @class */ (function () {
     Object.defineProperty(Legend.prototype, "items", {
         get: function () {
             var _this = this;
-            console.log('1111');
             return this.labels.map(function (lbl, i) { return ({
                 label: lbl,
                 value: _this.values[i]
@@ -44346,6 +44345,7 @@ jStat.models = (function(){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var enum_model_1 = __webpack_require__(4);
 var legend_model_1 = __webpack_require__(3);
 var d3_scale_1 = __webpack_require__(16);
 var _ = __webpack_require__(29);
@@ -44459,7 +44459,7 @@ exports.genomeCompute = function (config, worker) {
         var ct = ct19;
         var d = {
             legends: [
-                legend_model_1.Legend.create('Data Points', ['Genes'], ['circle'], 'SHAPE', 'DISCRETE')
+                legend_model_1.Legend.create('Data Points', ['Genes'], [enum_model_1.SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')
             ],
             genes: genes,
             bands: bands,
@@ -44998,7 +44998,7 @@ exports.dictionaryLearningCompute = function (config, worker) {
             result.mid = matrix.mid;
             result.pid = matrix.pid;
             result.legends = [
-                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], ['circle'], 'SHAPE', 'DISCRETE')
+                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], [enum_model_1.SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')
             ];
             worker.postMessage({
                 config: config,
@@ -45038,7 +45038,7 @@ exports.fasticaCompute = function (config, worker) {
             result.mid = matrix.mid;
             result.pid = matrix.pid;
             result.legends = [
-                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], ['circle'], 'SHAPE', 'DISCRETE')
+                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], [enum_model_1.SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')
             ];
             worker.postMessage({
                 config: config,
@@ -45196,7 +45196,7 @@ exports.faCompute = function (config, worker) {
             result.mid = matrix.mid;
             result.pid = matrix.pid;
             result.legends = [
-                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], ['circle'], 'SHAPE', 'DISCRETE')
+                legend_model_1.Legend.create('Data Points', config.entity === enum_model_1.EntityTypeEnum.GENE ? ['Genes'] : ['Samples'], [enum_model_1.SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')
             ];
             worker.postMessage({
                 config: config,
@@ -56282,8 +56282,10 @@ exports.pathwaysCompute = function (config, worker) {
     var legendNodes = new legend_model_1.Legend();
     legendNodes.name = 'Nodes';
     legendNodes.type = 'SHAPE';
-    legendNodes.labels = legendNodes.values = [
+    legendNodes.labels = [
         'unspecified entity',
+        'process',
+        'port',
         'simple chemical',
         'macromolecule',
         'nucleic acid',
@@ -56293,10 +56295,13 @@ exports.pathwaysCompute = function (config, worker) {
         'observable',
         'perturbation'
     ];
+    legendNodes.values = legendNodes.labels.map(function (v) {
+        return './assets/shapes/shape-' + v + '-solid-legend.png';
+    });
     var legendEdges = new legend_model_1.Legend();
     legendEdges.name = 'Edges';
     legendEdges.type = 'SHAPE';
-    legendEdges.labels = legendEdges.values = [
+    legendEdges.labels = [
         'consumption',
         'production',
         'modulation',
@@ -56305,14 +56310,20 @@ exports.pathwaysCompute = function (config, worker) {
         'inhibition',
         'trigger'
     ];
+    legendEdges.values = legendEdges.labels.map(function (v) {
+        return './assets/shapes/shape-' + v + '-solid-legend.png';
+    });
     var legendOps = new legend_model_1.Legend();
     legendOps.name = 'Operations';
     legendOps.type = 'SHAPE';
-    legendOps.labels = legendOps.values = [
+    legendOps.labels = [
         'and',
         'or',
         'not'
     ];
+    legendOps.values = legendOps.labels.map(function (v) {
+        return './assets/shapes/shape-' + v + '-solid-legend.png';
+    });
     var legends = [
         legendNodes,
         legendEdges,

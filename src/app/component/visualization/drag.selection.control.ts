@@ -1,7 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { VisualizationView } from './../../model/chart-view.model';
 import { EntityTypeEnum, GraphEnum } from 'app/model/enum.model';
-import { ChartUtil } from './../workspace/chart/chart.utils';
 import { ChartEvent, ChartEvents } from './../workspace/chart/chart.events';
 import { Subscription } from 'rxjs/Subscription';
 import * as THREE from 'three';
@@ -22,6 +21,7 @@ export class DragSelectionControl {
     private view: VisualizationView;
     private events: ChartEvents;
     public meshes: Array<THREE.Object3D>;
+    private _raycaster: THREE.Raycaster;
 
     // State
     private selectorOrigin: { x: number, y: number };
@@ -45,6 +45,7 @@ export class DragSelectionControl {
 
     public create(events: ChartEvents, view: VisualizationView, meshes: Array<THREE.Object3D>,
         onRequestRender: EventEmitter<GraphEnum>, onSelect: EventEmitter<{ type: EntityTypeEnum; ids: string[]; }>): void {
+        this._raycaster = new THREE.Raycaster();
         // this._enabled = false;
         // this.view = view;
         // this.meshes = meshes;
@@ -70,8 +71,8 @@ export class DragSelectionControl {
             const deltaX = Math.abs(this.selectorOrigin.x - mouseEvent.clientX);
             const deltaY = Math.abs(this.selectorOrigin.y - mouseEvent.clientY);
             const delta = Math.max(deltaX, deltaY);
-            const scale = this.selectorScale(delta);
-            this.selector.scale.set(scale, scale, scale);
+            const scaleMe = this.selectorScale(delta);
+            this.selector.scale.set(scaleMe, scaleMe, scaleMe);
             this.onRequestRender.next();
             const radius = this.selector.geometry.boundingSphere.radius * this.selector.scale.x;
             const position = this.selector.position;
@@ -114,10 +115,16 @@ export class DragSelectionControl {
             this.onRequestRender.next();
         }
     }
-
+    public getIntersects(
+        view: VisualizationView,
+        pos: { x: number, y: number, xs: number, ys: number },
+        objects: Array<THREE.Object3D>): Array<THREE.Intersection> {
+        this._raycaster.setFromCamera(pos, view.camera);
+        return this._raycaster.intersectObjects(objects, false);
+    }
     private onMouseDown(e: ChartEvent): void {
 
-        const intersects = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
+        const intersects = this.getIntersects(this.view, e.mouse, this.meshes);
 
         if (intersects.length > 0) {
             this._dragging = true;

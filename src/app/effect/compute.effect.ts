@@ -1,5 +1,4 @@
 import { DataDecoratorCreateAction, DataDecoratorAddAction, DATA_DECORATOR_CREATE } from './../action/graph.action';
-import { ChartUtil } from './../component/workspace/chart/chart.utils';
 import { LoaderHideAction } from './../action/layout.action';
 import { UnsafeAction } from './../action/unsafe.action';
 import { boxwhiskersCompute } from './../component/visualization/boxwhiskers/boxwhiskers.compute';
@@ -111,7 +110,7 @@ export class ComputeEffect {
     .ofType(compute.COMPUTE_NONE)
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      const data: GraphData = {
+      const graphData: GraphData = {
         result: null,
         resultScaled: null,
         sid: [],
@@ -119,7 +118,7 @@ export class ComputeEffect {
         pid: [],
         legends: []
       };
-      return Observable.of(new NoneCompleteAction({ config: payload['config'], data: data }));
+      return Observable.of(new NoneCompleteAction({ config: payload['config'], data: graphData }));
     });
 
   @Effect() loadFa: Observable<any> = this.actions$
