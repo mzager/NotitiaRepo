@@ -1,19 +1,24 @@
+import { QuadradicDiscriminantAnalysisGraph } from './../../visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis';
+import { ChartObjectInterface } from './../../../model/chart.object.interface';
+import { FontService } from 'app/service/font.service';
 import { EntityTypeEnum, SpriteMaterialEnum } from './../../../model/enum.model';
 import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
 import { MeshLine, MeshLineMaterial } from 'three.meshline';
 import { Injectable } from '@angular/core';
 import memoize from 'memoize-decorator';
-import { GraphEnum, ShapeEnum, SizeEnum } from 'app/model/enum.model';
+import { GraphEnum, ShapeEnum, SizeEnum, VisualizationEnum } from 'app/model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import * as THREE from 'three';
 import { Vector3, Vector2, Shading, SmoothShading, Geometry, Mesh } from 'three';
 import * as scale from 'd3-scale';
 import { schemeRdBu, interpolateRdBu, interpolateSpectral } from 'd3-scale-chromatic';
 
+
 export type DataDecoatorRenderer = (group: THREE.Group, mesh: THREE.Sprite, decorators: Array<DataDecorator>,
     index: number, count: number) => void;
 
 export class ChartFactory {
+
     private static meshPool: Array<THREE.Mesh> = [];
     private static linePool: Array<THREE.Line> = [];
     public static shader = {
@@ -176,6 +181,7 @@ export class ChartFactory {
             fragmentShader: outShader.fragment_shader,
         });
     }
+
 
 
     // --------------------- Old ------------------------ //
@@ -395,4 +401,6 @@ export class ChartFactory {
                 return new THREE.TorusGeometry(2);
         }
     }
+
+
 }

@@ -1,10 +1,11 @@
 import { Object3D, Vector3 } from 'three';
 import { IToolTip } from './tooltip.controller';
-import { ChartUtil } from 'app/component/workspace/chart/chart.utils';
 import { Subscription } from 'rxjs/Subscription';
 import { ChartEvent, ChartEvents } from './../../component/workspace/chart/chart.events';
 import { VisualizationView } from './../../model/chart-view.model';
 import { EventEmitter } from '@angular/core';
+import * as THREE from 'three';
+
 export interface IToolTip {
     position: THREE.Vector3;
     userData: { tooltip: string, color: string };
@@ -49,6 +50,7 @@ export class TooltipController {
     protected _targets: Array<Object3D>;
     protected _options; TooltipOptions;
     protected _hoverObjectId: number;
+    protected _raycaster: THREE.Raycaster;
     public onShow: EventEmitter<{ text: string, color: string, event: ChartEvent }>;
     public onHide: EventEmitter<any>;
 
@@ -79,6 +81,7 @@ export class TooltipController {
         this._debounce = debounce;
         this._mouseOver = false;
         this._hoverObjectId = -1;
+        this._raycaster = new THREE.Raycaster();
     }
 
     public get targets(): Array<Object3D> { return this._targets; }
@@ -114,9 +117,17 @@ export class TooltipController {
         }
 
     }
+    public getIntersects(
+        view: VisualizationView,
+        pos: { x: number, y: number, xs: number, ys: number },
+        objects: Array<THREE.Object3D>): Array<THREE.Intersection> {
+        this._raycaster.setFromCamera(pos, view.camera);
+        return this._raycaster.intersectObjects(objects, false);
+    }
+
     public onMouseMove(e: ChartEvent): void {
 
-        const intersects = ChartUtil.getIntersects(this._view, e.mouse, this._targets);
+        const intersects = this.getIntersects(this._view, e.mouse, this._targets);
         if (intersects.length === 0) {
             if (this._hoverObjectId !== -1) { this.onHide.emit(); }
             this._hoverObjectId = -1;
