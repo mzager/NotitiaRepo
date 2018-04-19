@@ -1,7 +1,5 @@
 import { DataDecorator } from './../../../model/data-map.model';
 import { EventEmitter, Output } from '@angular/core';
-
-import { ChartUtil } from './../../workspace/chart/chart.utils';
 import { Subscription } from 'rxjs/Subscription';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { OrbitControls } from 'three-orbitcontrols-ts';
@@ -112,8 +110,8 @@ export class KmeansGraph implements ChartObjectInterface {
             const deltaX = Math.abs(this.selectorOrigin.x - mouseEvent.clientX);
             const deltaY = Math.abs(this.selectorOrigin.y - mouseEvent.clientY);
             const delta = Math.max(deltaX, deltaY);
-            const scale = this.selectorScale(delta);
-            this.selector.scale.set(scale, scale, scale);
+            const scaleMe = this.selectorScale(delta);
+            this.selector.scale.set(scaleMe, scaleMe, scaleMe);
             this.onRequestRender.next();
             const radius = this.selector.geometry.boundingSphere.radius * this.selector.scale.x;
             const position = this.selector.position;
@@ -157,21 +155,6 @@ export class KmeansGraph implements ChartObjectInterface {
     }
 
     private onMouseDown(e: ChartEvent): void {
-        const intersects = ChartUtil.getIntersects(this.view, e.mouse, this.meshes);
-        if (intersects.length > 0) {
-            this.selectorScale = scale.scaleLinear();
-            this.selectorScale.range([1, 100]);
-            this.selectorScale.domain([0, this.view.viewport.width]);
-
-            const mouseEvent: MouseEvent = e.event as MouseEvent;
-            this.selectorOrigin = { x: mouseEvent.clientX, y: mouseEvent.clientY };
-
-            this.view.controls.enabled = false;
-            const targetPosition: THREE.Vector3 = intersects[0].object.position.clone();
-            this.selector.scale.set(5, 5, 5);
-            this.selector.position.set(targetPosition.x, targetPosition.y, targetPosition.z);
-            this.view.scene.add(this.selector);
-        }
     }
 
 }

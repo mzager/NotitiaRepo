@@ -1,4 +1,3 @@
-import { ChartUtil } from './../../workspace/chart/chart.utils';
 import { PathwayNodeEnum } from './pathways.factory';
 import { ILabel, LabelOptions, LabelController } from './../../../controller/label/label.controller';
 import { PathwaysFactory } from 'app/component/visualization/pathways/pathways.factory';
@@ -196,9 +195,6 @@ export class PathwaysGraph extends AbstractVisualization {
         this.addEdges(this.data.layout.sbgn.map.arc);
         this.addNodes(this.data.layout.sbgn.map.glyph);
         ChartFactory.decorateDataGroups(this.dataGroups, this.decorators, null, 6);
-        // const sphere = ChartUtil.calcualteBoundingSphere(this.view.scene);
-        // ChartUtil.fitCameraToSphere(this.view, sphere);
-        console.log('hi');
     }
 
     removeObjects() {
