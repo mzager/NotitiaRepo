@@ -135,6 +135,7 @@ export class BoxWhiskersGraph extends AbstractVisualization {
                 const q1Height = median - scale(node.quartiles[0]);
                 const q2Height = scale(node.quartiles[2]) - median;
 
+
                 this.labelsForQ1.push({
                     position: new THREE.Vector3(q1Height, median, 0.02),
                     userData: { 'tooltip': node.quartiles[0].toString() }
@@ -200,7 +201,7 @@ export class BoxWhiskersGraph extends AbstractVisualization {
         super.onMouseMove(e);
     }
     onShowLabels(): void {
-        // console.log(this.view.camera.position.z);
+        console.log(this.view.camera.position.z);
 
         // Step 1 - Create Options
         const optionsForX = new LabelOptions(this.view, 'PIXEL');
@@ -212,15 +213,23 @@ export class BoxWhiskersGraph extends AbstractVisualization {
         optionsForQ1.fontsize = 15;
         optionsForQ1.rotate = 90;
 
-        // const optionsForTitles = new LabelOptions(this.view, 'PIXEL');
-        // optionsForTitles.fontsize = 15;
-        // optionsForTitles.ignoreFrustumY = true;
-        // optionsForTitles.absoluteY = 60;
+        if (this.view.camera.position.z > 1000) {
+            optionsForX.fontsize = 10;
+            optionsForQ1.fontsize = 10;
 
-        this.labels.innerHTML =
-            LabelController.generateHtml(this.meshes, optionsForX) +
-            LabelController.generateHtml(this.labelsForQ1, optionsForQ1);
-        // LabelController.generateHtml(this.labelsForTitles, optionsForTitles);
+            this.labels.innerHTML =
+                LabelController.generateHtml(this.meshes, optionsForX) +
+                LabelController.generateHtml(this.labelsForQ1, optionsForQ1);
+        }
+
+        else if (this.view.camera.position.z > 500) {
+            optionsForX.fontsize = 15;
+            optionsForQ1.fontsize = 15;
+
+            this.labels.innerHTML =
+                LabelController.generateHtml(this.meshes, optionsForX) +
+                LabelController.generateHtml(this.labelsForQ1, optionsForQ1);
+        }
     }
 
     addGlobalMeshes(): void {
