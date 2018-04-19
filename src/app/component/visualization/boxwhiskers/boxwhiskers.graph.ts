@@ -29,8 +29,7 @@ export class BoxWhiskersGraph extends AbstractVisualization {
     public labelsForY: Array<ILabel>;
     public labelsForQ1: Array<ILabel>;
     public labelsForQ2: Array<ILabel>;
-    public labelsForQ3: Array<ILabel>;
-    public labelsForQ4: Array<ILabel>;
+    public labelsForTitles: Array<ILabel>;
     // public labelsForTitles: Array<ILabel>;
 
 
@@ -68,8 +67,7 @@ export class BoxWhiskersGraph extends AbstractVisualization {
         this.labelsForY = [];
         this.labelsForQ1 = [];
         this.labelsForQ2 = [];
-        this.labelsForQ3 = [];
-        this.labelsForQ4 = [];
+        this.labelsForTitles = [];
         return this;
     }
 
@@ -137,9 +135,23 @@ export class BoxWhiskersGraph extends AbstractVisualization {
 
 
                 this.labelsForQ1.push({
-                    position: new THREE.Vector3(q1Height, median, 0.02),
-                    userData: { 'tooltip': node.quartiles[0].toString() }
+                    position: new THREE.Vector3(xPos, q1Height, 0),
+                    userData: { 'tooltip': q1Height.toFixed(2) }
                 });
+                this.labelsForQ2.push({
+                    position: new THREE.Vector3(xPos, q2Height, 0),
+                    userData: { 'tooltip': q2Height.toFixed(2) }
+                });
+                this.labelsForTitles.push(
+                    {
+                        position: new THREE.Vector3(-600, 0, 0),
+                        userData: { tooltip: 'Survival' }
+                    },
+                    {
+                        position: new THREE.Vector3(600, 0, 0),
+                        userData: { tooltip: 'Hazard' }
+                    },
+                );
 
                 const q1Box = ChartFactory.planeAllocate(0x029BE5, this.entityWidth, q1Height, {});
                 q1Box.position.set(xPos, median - (q1Height * .5), 0);
@@ -205,31 +217,57 @@ export class BoxWhiskersGraph extends AbstractVisualization {
 
         // Step 1 - Create Options
         const optionsForX = new LabelOptions(this.view, 'PIXEL');
-        optionsForX.fontsize = 15;
-        optionsForX.origin = 'RIGHT';
-        optionsForX.align = 'RIGHT';
+        optionsForX.fontsize = 0;
+        optionsForX.origin = 'CENTER';
+        optionsForX.align = 'CENTER';
 
         const optionsForQ1 = new LabelOptions(this.view, 'PIXEL');
-        optionsForQ1.fontsize = 15;
-        optionsForQ1.rotate = 90;
+        optionsForQ1.fontsize = 0;
+        optionsForQ1.origin = 'CENTER';
+        optionsForQ1.align = 'CENTER';
 
-        if (this.view.camera.position.z > 1000) {
+
+        const optionsForQ2 = new LabelOptions(this.view, 'PIXEL');
+        optionsForQ2.fontsize = 0;
+        optionsForQ2.origin = 'CENTER';
+        optionsForQ2.align = 'CENTER';
+
+
+
+        if (this.view.camera.position.z > 1400) {
+            this.labels.innerHTML =
+                '<div style="position:fixed;bottom:10px;left:50%; font-size: 1.2rem;">TEST</div>' +
+                '<div style="position:fixed;right:10px;top:50%; transform: rotate(90deg);font-size: 1.2rem;">TEST</div>';
+        }
+        else if (this.view.camera.position.z > 350) {
+            optionsForX.fontsize = 0;
+            optionsForQ1.fontsize = 8;
+
+            this.labels.innerHTML =
+                LabelController.generateHtml(this.meshes, optionsForX) +
+                LabelController.generateHtml(this.labelsForQ1, optionsForQ1) +
+                LabelController.generateHtml(this.labelsForQ2, optionsForQ2);
+        }
+        else if (this.view.camera.position.z > 250) {
             optionsForX.fontsize = 10;
             optionsForQ1.fontsize = 10;
 
             this.labels.innerHTML =
                 LabelController.generateHtml(this.meshes, optionsForX) +
-                LabelController.generateHtml(this.labelsForQ1, optionsForQ1);
+                LabelController.generateHtml(this.labelsForQ1, optionsForQ1) +
+                LabelController.generateHtml(this.labelsForQ2, optionsForQ2);
         }
 
-        else if (this.view.camera.position.z > 500) {
+        else if (this.view.camera.position.z > 20) {
             optionsForX.fontsize = 15;
             optionsForQ1.fontsize = 15;
 
             this.labels.innerHTML =
                 LabelController.generateHtml(this.meshes, optionsForX) +
-                LabelController.generateHtml(this.labelsForQ1, optionsForQ1);
+                LabelController.generateHtml(this.labelsForQ1, optionsForQ1) +
+                LabelController.generateHtml(this.labelsForQ2, optionsForQ2);
         }
+
     }
 
     addGlobalMeshes(): void {
