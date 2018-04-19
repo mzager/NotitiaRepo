@@ -27,6 +27,10 @@ export class BoxWhiskersGraph extends AbstractVisualization {
 
     public labelsForX: Array<ILabel>;
     public labelsForY: Array<ILabel>;
+    public labelsForQ1: Array<ILabel>;
+    public labelsForQ2: Array<ILabel>;
+    public labelsForQ3: Array<ILabel>;
+    public labelsForQ4: Array<ILabel>;
     // public labelsForTitles: Array<ILabel>;
 
 
@@ -62,7 +66,10 @@ export class BoxWhiskersGraph extends AbstractVisualization {
         this.text = [];
         this.labelsForX = [];
         this.labelsForY = [];
-        // this.labelsForTitles = [];
+        this.labelsForQ1 = [];
+        this.labelsForQ2 = [];
+        this.labelsForQ3 = [];
+        this.labelsForQ4 = [];
         return this;
     }
 
@@ -110,8 +117,14 @@ export class BoxWhiskersGraph extends AbstractVisualization {
                 const xPos = xOffset + (this.entityWidth * index);
                 const group = ChartFactory.createDataGroup(
                     objectIds[index], this.config.entity, new THREE.Vector3(xPos, median, 0.02));
+                // group.userData.tooltip = 'bbb';
                 this.meshes.push(group);
                 this.view.scene.add(group);
+
+                this.labelsForX.push({
+                    position: new THREE.Vector3(xPos, median, 0.02),
+                    userData: { 'tooltip': node.median.toString() }
+                });
 
                 // Line
                 const line = ChartFactory.lineAllocate(0xFF0000, new Vector2(xPos, scale(node.min)), new Vector2(xPos, scale(node.max)));
@@ -121,6 +134,11 @@ export class BoxWhiskersGraph extends AbstractVisualization {
 
                 const q1Height = median - scale(node.quartiles[0]);
                 const q2Height = scale(node.quartiles[2]) - median;
+
+                this.labelsForQ1.push({
+                    position: new THREE.Vector3(q1Height, median, 0.02),
+                    userData: { 'tooltip': node.quartiles[0].toString() }
+                });
 
                 const q1Box = ChartFactory.planeAllocate(0x029BE5, this.entityWidth, q1Height, {});
                 q1Box.position.set(xPos, median - (q1Height * .5), 0);
@@ -158,14 +176,8 @@ export class BoxWhiskersGraph extends AbstractVisualization {
         this.view.scene.add(chromosomeMesh);
 
         ChartFactory.decorateDataGroups(this.meshes, this.decorators, this.renderer, 3);
-        // maybe
-        // this.labelsForTitles.push(
-        //     {
-        //         position: new THREE.Vector3(-600, 0, 0),
-        //         userData: { tooltip: 'Box + Whisker' }
-        //     },
+        this.tooltipController.targets = this.meshes;
 
-        // );
     }
 
     removeObjects(): void {
@@ -183,19 +195,22 @@ export class BoxWhiskersGraph extends AbstractVisualization {
 
     onMouseDown(e: ChartEvent): void { }
     onMouseUp(e: ChartEvent): void { }
-    onMouseMove(e: ChartEvent): void { }
+    onMouseMove(e: ChartEvent): void {
+        // Makes tooltips change
+        super.onMouseMove(e);
+    }
     onShowLabels(): void {
-        console.log(this.view.camera.position.z);
+        // console.log(this.view.camera.position.z);
 
         // Step 1 - Create Options
         const optionsForX = new LabelOptions(this.view, 'PIXEL');
-        optionsForX.fontsize = 10;
+        optionsForX.fontsize = 15;
         optionsForX.origin = 'RIGHT';
         optionsForX.align = 'RIGHT';
 
-        const optionsForY = new LabelOptions(this.view, 'PIXEL');
-        optionsForY.fontsize = 10;
-        optionsForY.rotate = 30;
+        const optionsForQ1 = new LabelOptions(this.view, 'PIXEL');
+        optionsForQ1.fontsize = 15;
+        optionsForQ1.rotate = 90;
 
         // const optionsForTitles = new LabelOptions(this.view, 'PIXEL');
         // optionsForTitles.fontsize = 15;
@@ -203,8 +218,8 @@ export class BoxWhiskersGraph extends AbstractVisualization {
         // optionsForTitles.absoluteY = 60;
 
         this.labels.innerHTML =
-            LabelController.generateHtml(this.labelsForX, optionsForX) +
-            LabelController.generateHtml(this.labelsForY, optionsForY);
+            LabelController.generateHtml(this.meshes, optionsForX) +
+            LabelController.generateHtml(this.labelsForQ1, optionsForQ1);
         // LabelController.generateHtml(this.labelsForTitles, optionsForTitles);
     }
 
@@ -216,19 +231,5 @@ export class BoxWhiskersGraph extends AbstractVisualization {
         line.position.setZ(1);
         this.globalMeshes.push(line);
         this.view.scene.add(line);
-
-        let text = new MeshText2D('0',
-            { align: textAlign.left, font: '12px Ariel', fillStyle: '#666666', antialias: true });
-        text.position.setX(Math.round(left - 10));
-        text.position.setY(0 + 6);
-        this.text.push(text);
-        this.view.scene.add(text);
-
-        text = new MeshText2D('0',
-            { align: textAlign.left, font: '12px Ariel', fillStyle: '#666666', antialias: true });
-        text.position.setX(Math.round(right + 10));
-        text.position.setY(0 + 6);
-        this.text.push(text);
-        this.view.scene.add(text);
     }
 }
