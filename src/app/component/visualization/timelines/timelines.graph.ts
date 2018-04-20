@@ -47,9 +47,6 @@ export class TimelinesGraph extends AbstractVisualization {
     public bgPatient: HTMLElement;
     public labelYAxis: LabelOptions;
     public labelXAxis: LabelOptions;
-    public chartHeight = 0;
-    public chartHalfHeight = 0;
-
 
     // Create - Initialize Mesh Arrays
     create(html: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
@@ -74,12 +71,6 @@ export class TimelinesGraph extends AbstractVisualization {
         this.patients = [];
 
         this.attrs = new THREE.Group();
-
-        // this.view.controls.maxZoom = 1;
-        // this.view.controls.pan(0, 1200);
-        // // this.view.controls.dollyOut(3);
-        // this.view.controls.maxDistance
-
 
         this.labelXAxis = new LabelOptions(this.view, 'PIXEL');
         this.labelXAxis.absoluteY = this.view.viewport.height - 20;
@@ -121,7 +112,7 @@ export class TimelinesGraph extends AbstractVisualization {
 
     enable(truthy: boolean) {
         super.enable(truthy);
-        this.view.controls.enableRotate = false;
+        this.view.controls.enableRotate = true;
     }
 
     removeObjects(): void {
@@ -142,7 +133,8 @@ export class TimelinesGraph extends AbstractVisualization {
     onMouseUp(e: ChartEvent): void { }
 
 
-    addTic(event: any, bar: number, barHeight: number, rowHeight: number, group: THREE.Group, scale: ScaleLinear<number, number>): void {
+    addTic(event: any, bar: number, barHeight: number, rowHeight: number,
+        group: THREE.Group, scale: ScaleLinear<number, number>, yOffset: number): void {
         const s = scale(event.start);
         const e = scale(event.end);
         const w = Math.round(e - s);
@@ -150,7 +142,7 @@ export class TimelinesGraph extends AbstractVisualization {
             new THREE.PlaneGeometry((w < 1) ? 1 : w, barHeight * 0.3),
             ChartFactory.getColorPhong(event.color)
         );
-        const yPos = (rowHeight - (bar * barHeight)) - 2;
+        const yPos = (rowHeight - (bar * barHeight)) - 2 - yOffset;
         mesh.position.set(s + (w * 0.5), yPos, 0);
         mesh.userData = {
             tooltip: this.formatEventTooltip(event),
@@ -160,13 +152,14 @@ export class TimelinesGraph extends AbstractVisualization {
         this.meshes.push(mesh);
     }
 
-    addArc(event: any, bar: number, barHeight: number, rowHeight: number, group: THREE.Group, scale: ScaleLinear<number, number>): void {
+    addArc(event: any, bar: number, barHeight: number, rowHeight: number,
+        group: THREE.Group, scale: ScaleLinear<number, number>, yOffset: number): void {
         if (event.start !== event.end) {
             const s = scale(event.start);
             const e = scale(event.end);
             const w = Math.round(e - s);
             const c = (Math.abs(e - s) * 0.5) + Math.min(e, s);
-            const yPos = (rowHeight - (bar * barHeight)) - 2;
+            const yPos = (rowHeight - (bar * barHeight)) - 2 - yOffset;
             const mesh = ChartFactory.lineAllocateCurve(event.color,
                 new THREE.Vector2(s, yPos - 2),
                 new THREE.Vector2(e, yPos - 2),
@@ -181,7 +174,7 @@ export class TimelinesGraph extends AbstractVisualization {
             this.meshes.push(mesh);
         } else {
             const s = scale(event.start);
-            const yPos = (rowHeight - (bar * barHeight)) - 2;
+            const yPos = (rowHeight - (bar * barHeight)) - 2 - yOffset;
             const mesh = ChartFactory.lineAllocate(event.color, new Vector2(s, yPos - 2), new Vector2(s, yPos + 2));
             mesh.userData = {
                 tooltip: this.formatEventTooltip(event),
@@ -192,7 +185,8 @@ export class TimelinesGraph extends AbstractVisualization {
         }
     }
 
-    addSymbol(event: any, bar: number, barHeight: number, rowHeight: number, group: THREE.Group, scale: ScaleLinear<number, number>): void {
+    addSymbol(event: any, bar: number, barHeight: number, rowHeight: number, group: THREE.Group,
+        scale: ScaleLinear<number, number>, yOffset: number): void {
         const s = scale(event.start);
         const e = scale(event.end);
         const w = Math.round(e - s);
@@ -200,7 +194,7 @@ export class TimelinesGraph extends AbstractVisualization {
             new THREE.CircleGeometry(1.6, 20),
             ChartFactory.getColorPhong(event.color)
         );
-        const yPos = (rowHeight - (bar * barHeight)) - 2;
+        const yPos = (rowHeight - (bar * barHeight)) - 2 - yOffset;
 
         mesh.position.set(s, yPos, 1);
         mesh.userData = {
@@ -257,22 +251,21 @@ export class TimelinesGraph extends AbstractVisualization {
         this.view.scene.add(this.attrs);
     }
 
-    addLines(rowHeight, rowCount): void {
+    addLines(rowHeight: number, rowCount: number, chartHeight: number, chartHeightHalf: number): void {
 
-        const chartHeight = rowHeight * rowCount;
         const geometry: THREE.Geometry = new THREE.Geometry();
         geometry.vertices = [];
         for (let i = -500; i <= 500; i += 50) {
             // new THREE.Vector2(i, chartHeight), new THREE.Vector2(i, 0)
             geometry.vertices.push(
-                new THREE.Vector3(i, chartHeight + this.chartHalfHeight, 0),
-                new THREE.Vector3(i, 0, 0)
+                new THREE.Vector3(i, chartHeightHalf, 0),
+                new THREE.Vector3(i, -chartHeightHalf, 0)
             );
         }
         for (let i = 0; i < rowCount + 1; i++) {
             geometry.vertices.push(
-                new THREE.Vector3(-500, i * rowHeight + this.chartHalfHeight, 0),
-                new THREE.Vector3(500, i * rowHeight + this.chartHalfHeight, 0)
+                new THREE.Vector3(-500, (i * rowHeight) - chartHeightHalf, 0),
+                new THREE.Vector3(500, (i * rowHeight) - chartHeightHalf, 0)
             );
         }
         const material = ChartFactory.getLineColor(0xEEEEEE);
@@ -303,11 +296,10 @@ export class TimelinesGraph extends AbstractVisualization {
         }
         const rowHeight = (track + 1) * barHeight;
         const rowCount = pts.length;
-
+        const chartHeight = rowHeight * rowCount;
+        const chartHeightHalf = chartHeight * .5;
         // Grid
-        this.addLines(rowHeight, rowCount);
-        this.chartHeight = Math.round(rowHeight * rowCount);
-        this.chartHalfHeight = Math.round(this.chartHeight * 0.5);
+        this.addLines(rowHeight, rowCount, chartHeight, chartHeightHalf);
 
         // Scale
         const scale = scaleLinear();
@@ -359,13 +351,13 @@ export class TimelinesGraph extends AbstractVisualization {
                         case TimelinesStyle.NONE:
                             break;
                         case TimelinesStyle.ARCS:
-                            this.addArc(event, bl.track, barHeight, rowHeight, group, scale);
+                            this.addArc(event, bl.track, barHeight, rowHeight, group, scale, chartHeightHalf);
                             break;
                         case TimelinesStyle.TICKS:
-                            this.addTic(event, bl.track, barHeight, rowHeight, group, scale);
+                            this.addTic(event, bl.track, barHeight, rowHeight, group, scale, chartHeightHalf);
                             break;
                         case TimelinesStyle.SYMBOLS:
-                            this.addSymbol(event, bl.track, barHeight, rowHeight, group, scale);
+                            this.addSymbol(event, bl.track, barHeight, rowHeight, group, scale, chartHeightHalf);
                             break;
                     }
                 });
@@ -375,10 +367,22 @@ export class TimelinesGraph extends AbstractVisualization {
         // Attributes
         this.addAttrs(rowHeight, rowCount, pidMap);
         this.tooltipController.targets = this.meshes;
+        const height = (rowHeight * rowCount);
+        const width = 1000;
+        const geo = new THREE.CubeGeometry(width, height, 500, 1, 1, 1);
+        const mesh = new THREE.Mesh(geo, ChartFactory.getColorBasic(0x333333));
+        mesh.position.set(0, 0, 0);
+        const box: THREE.BoxHelper = new THREE.BoxHelper(mesh, new THREE.Color(0xFF0000));
+        this.view.scene.add(box);
+        ChartFactory.fitControls(this.view, mesh, .8);
 
+
+        // mesh.position.set(0, 0, 0);
+        // ChartFactory.fitControls(this.view, mesh, .8);
         // const size = Math.max(((rowHeight * rowCount) * 0.2), 500);
         // const sphere: THREE.Sphere = new THREE.Sphere(new Vector3(0, 0, 0), size);
         // // ChartUtil.fitCameraToSphere(this.view, sphere);
+
     }
 
     formatEventTooltip(event: any): string {
