@@ -61,7 +61,7 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
             allResults.forEach(result => {
                 const id = 'cc' + Math.random().toString(36).substring(7);
                 // tslint:disable-next-line:max-line-length
-                const cohortDiv = this.container.append('<div style="font-size:2rem; font-weight: 300; margin-bottom:20px;">' + result.cohort.n + '</div>');
+                const cohortDiv = this.container.append('<div style="font-size:2rem; font-weight: 300; margin-bottom:20px; margin-top:10px;">' + result.cohort.n + '</div>');
                 result.stats.forEach(stat => {
                     const id2 = 'cc' + Math.random().toString(36).substring(7);
                     const div = cohortDiv.append('<div id="' + id2 + '" style="display:inline-block;padding-bottom:40px;"></div>');
