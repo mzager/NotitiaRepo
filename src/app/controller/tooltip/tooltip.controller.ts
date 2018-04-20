@@ -56,7 +56,6 @@ export class TooltipController {
 
     public static generateHtml(object: IToolTip, options: TooltipOptions): string {
         const css = 'border-right-color:' + object.userData.color + ';' + options.generateCss();
-        console.log(css);
         const alignmentOffset = (options.align === 'LEFT') ? 0 : (options.align === 'CENTER') ? 50 : -100;
         const translate = 'left:' +
             Math.round(object.position.x + alignmentOffset + options.offsetX) + 'px; top:' +
