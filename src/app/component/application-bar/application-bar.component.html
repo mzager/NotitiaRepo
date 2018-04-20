@@ -16,68 +16,68 @@
 
 <!-- Help -->
 <ul id='application-bar-menu-help' class='dropdown-content'>
-    <li>
-        <a class='app-bar-menu-item' (click)='viewPanel(4)' href='#'>Data Sets</a>
-    </li>
-    <li>
-        <a class='app-bar-menu-item' (click)='viewPanel(16)' href='#'>Cohorts</a>
-    </li>
-    <li>
-        <a class='app-bar-menu-item' (click)='viewPanel(32)' href='#'>Gene Sets</a>
-    </li>
-    <li>
-        <a class='app-bar-menu-item' (click)='viewPanel(8192)' href='#'>Pathways</a>
-    </li>
-    <!-- <li>
+  <li>
+    <a class='app-bar-menu-item' (click)='viewPanel(4)' href='#'>Data Sets</a>
+  </li>
+  <li>
+    <a class='app-bar-menu-item' (click)='viewPanel(16)' href='#'>Cohorts</a>
+  </li>
+  <li>
+    <a class='app-bar-menu-item' (click)='viewPanel(32)' href='#'>Gene Sets</a>
+  </li>
+  <li>
+    <a class='app-bar-menu-item' (click)='viewPanel(8192)' href='#'>Pathways</a>
+  </li>
+  <!-- <li>
         <a class='app-bar-menu-item' (click)='viewPanel(256)' href='#'>Settings</a>
     </li> -->
-    <li class='divider'></li>
-    <li>
-        <a class='app-bar-menu-item' (click)='viewPanel(2048)' href='#'>Dashboard</a>
-    </li>
-    <li>
-        <a class='app-bar-menu-item' (click)='viewPanel(1099511627776)' href='#'>Spreadsheet</a>
-    </li>
-    <li class='divider'></li>
-    <li>
-        <!-- wrong Panel number? -->
-        <a class='app-bar-menu-item' (click)='viewPanel(1024)' href='#'>Feedback</a>
-    </li>
-    <li>
-        <!-- wrong Panel number? -->
-        <a class='app-bar-menu-item' (click)='viewPanel(1024)' href='#'>Citations</a>
-    </li>
-    <li>
-        <a class='app-bar-menu-item' (click)='viewPanel(512)' href='#'>About</a>
-    </li>
+  <li class='divider'></li>
+  <li>
+    <a class='app-bar-menu-item' (click)='viewPanel(2048)' href='#'>Dashboard</a>
+  </li>
+  <li>
+    <a class='app-bar-menu-item' (click)='viewPanel(1099511627776)' href='#'>Spreadsheet</a>
+  </li>
+  <li class='divider'></li>
+  <li>
+    <!-- wrong Panel number? -->
+    <a class='app-bar-menu-item' (click)='viewPanel(16384)' href='#'>Feedback</a>
+  </li>
+  <li>
+    <!-- wrong Panel number? -->
+    <a class='app-bar-menu-item' (click)='viewPanel(1024)' href='#'>Citations</a>
+  </li>
+  <li>
+    <a class='app-bar-menu-item' (click)='viewPanel(512)' href='#'>About</a>
+  </li>
 
 </ul>
 
 <!-- Bar -->
 <div class='application-bar-menu'>
-    <span class='application-bar-logo' (click)='viewPanel(1)'>Oncoscape</span>
-    <span class='right'>
-        <div class='app-bar-menu-item hide-on-small-and-down ' class='app-bar-menu-item-comparison' style='border-width:0px 1px; position:relative;'>
-            <input class='hide-on-small-and-down ' type='text' placeholder="Search Chart" style='color:#FFF; border-bottom-width: 0px; margin: 0px; padding-left:30px; width:80px;'>
-            <i class="material-icons hide-on-small-and-down" style='position:absolute;top:4px;left:10px;'>search</i>
-        </div>
-        <div class='app-bar-menu-item hide-on-small-and-down' class='app-bar-menu-item-comparison hide-on-small-and-down'>
-            <label style='color:#FFF;' (click)='toggleBackgroundColor()'>
-                <i class='material-icons tiny' style='padding-top:2px;position:relative;top:3px;'>brightness_6</i> Color
-            </label>
+  <span class='application-bar-logo' (click)='viewPanel(1)'>Oncoscape</span>
+  <span class='right'>
+    <div class='app-bar-menu-item hide-on-small-and-down ' class='app-bar-menu-item-comparison' style='border-width:0px 1px; position:relative;'>
+      <input class='hide-on-small-and-down ' type='text' placeholder="Search Chart" style='color:#FFF; border-bottom-width: 0px; margin: 0px; padding-left:30px; width:80px;'>
+      <i class="material-icons hide-on-small-and-down" style='position:absolute;top:4px;left:10px;'>search</i>
+    </div>
+    <div class='app-bar-menu-item hide-on-small-and-down' class='app-bar-menu-item-comparison hide-on-small-and-down'>
+      <label style='color:#FFF;' (click)='toggleBackgroundColor()'>
+        <i class='material-icons tiny' style='padding-top:2px;position:relative;top:3px;'>brightness_6</i> Color
+      </label>
 
-        </div>
-        <div class='app-bar-menu-item hide-on-small-and-down' class='app-bar-menu-item-comparison hide-on-small-and-down'>
-            <div class='switch hide-on-small-and-down' style='margin:0px;color:#FFF;'>
-                <label style='color:#FFF;'>Split Screen
-                    <input type="checkbox" (change)='onSplitScreenChange($event)'>
-                    <span class="lever"></span>
-                </label>
-            </div>
-        </div>
-        <a class='dropdown-button nav-button' data-activates='application-bar-menu-help' data-beloworigin='true' href='#'>
-            <label style='color:#FFF;'>Menu</label>
-            <i class='material-icons tiny' style='padding-top:2px;position:relative;top:3px;'>menu</i>
-        </a>
-    </span>
+    </div>
+    <div class='app-bar-menu-item hide-on-small-and-down' class='app-bar-menu-item-comparison hide-on-small-and-down'>
+      <div class='switch hide-on-small-and-down' style='margin:0px;color:#FFF;'>
+        <label style='color:#FFF;'>Split Screen
+          <input type="checkbox" (change)='onSplitScreenChange($event)'>
+          <span class="lever"></span>
+        </label>
+      </div>
+    </div>
+    <a class='dropdown-button nav-button' data-activates='application-bar-menu-help' data-beloworigin='true' href='#'>
+      <label style='color:#FFF;'>Menu</label>
+      <i class='material-icons tiny' style='padding-top:2px;position:relative;top:3px;'>menu</i>
+    </a>
+  </span>
 </div>

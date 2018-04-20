@@ -336,7 +336,8 @@ export const enum PanelEnum {
     CITATION = 1 << 10,
     DOCUMENTATION = 1 << 11,
     DASHBOARD = 1 << 12,
-    PATHWAYS = 1 << 13
+    PATHWAYS = 1 << 13,
+    FEEDBACK = 1 << 14
 
 }
 
