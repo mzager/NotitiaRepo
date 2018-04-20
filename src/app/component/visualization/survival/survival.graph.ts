@@ -32,7 +32,7 @@ export class SurvivalGraph extends AbstractVisualization {
     // Create - Initialize Mesh Arrays
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         super.create(labels, events, view);
-        this.confidences = []
+        this.confidences = [];
         this.meshes = [];
         this.lines = [];
         this.grid = [];
