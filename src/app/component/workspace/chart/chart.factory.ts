@@ -404,25 +404,36 @@ export class ChartFactory {
         }
     }
 
-    public static fitControls(view: VisualizationView, box: THREE.Mesh,
+    public static fitControls(
+        view: VisualizationView,
+        box: THREE.Mesh,
         paddingMultiplier: number = 1): void {
+        const fov = (view.camera as PerspectiveCamera).fov;
         box.geometry.computeBoundingSphere();
-        box.geometry.computeBoundingBox();
         const boundingSphere = box.geometry.boundingSphere;
-        const boundingBox = box.geometry.boundingBox;
-        const center = boundingSphere.center;
-        const radius = boundingSphere.radius;
-        const distance = center.distanceTo(view.camera.position) - radius;
-        const realHeight = Math.abs(boundingBox.max.y - boundingBox.min.y);
-        const orbitControls = view.controls as OrbitControls;
-        const cameraPerspective = view.camera as PerspectiveCamera;
-        const fov = 2 * Math.atan(realHeight * paddingMultiplier / (2 * distance)) * (180 / Math.PI);
-        console.log(fov);
-        view.controls.minDistance = 100;
-        view.controls.maxDistance = distance * 2;
-        cameraPerspective.fov = fov;
-        cameraPerspective.updateProjectionMatrix();
+
+        const dist = boundingSphere.radius / (2 * Math.tan(fov * Math.PI / 360));
+        view.camera.position.setZ(dist - boundingSphere.radius);
+        console.log('....');
+
+        // box.geometry.computeBoundingBox();
+        // const boundingSphere = box.geometry.boundingSphere;
+        // const boundingBox = box.geometry.boundingBox;
+        // const center = boundingSphere.center;
+        // const radius = boundingSphere.radius;
+        // const distance = center.distanceTo(view.camera.position) - radius;
+        // const realHeight = Math.abs(boundingBox.max.y - boundingBox.min.y);
+        // const orbitControls = view.controls as OrbitControls;
+        // const cameraPerspective = view.camera as PerspectiveCamera;
+        // const fov = 2 * Math.atan(realHeight * paddingMultiplier / (2 * distance)) * (180 / Math.PI);
+        // debugger;
+        // view.controls.minDistance = - distance * 0.5;
+        // view.controls.maxDistance = distance * 2;
+        // // Added
+        // view.camera.position.set(0, 0, -distance);
+        // view.camera.lookAt(0, 0, 0);
+        //     console.log(fov);
+        //     cameraPerspective.fov = fov;
+        //     cameraPerspective.updateProjectionMatrix();
     }
-
-
 }

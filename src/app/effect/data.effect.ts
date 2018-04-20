@@ -157,7 +157,7 @@ export class DataEffect {
             // chromosomeConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
 
             const boxWhiskersConfig = new BoxWhiskersConfigModel();
-            boxWhiskersConfig.graph = GraphEnum.GRAPH_A;
+            boxWhiskersConfig.graph = GraphEnum.GRAPH_B;
             boxWhiskersConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[0];
 
             const timelinesConfigA = new TimelinesConfigModel();
@@ -216,7 +216,7 @@ export class DataEffect {
                 // new compute.LinkedGeneAction( { config: graphAConfig } ),
                 // new compute.PcaIncrementalAction({ config: graphBConfig }),
                 // new compute.HicAction( { config: hicConfig }),
-                new compute.BoxWhiskersAction({ config: boxWhiskersConfig }),
+                // new compute.BoxWhiskersAction({ config: boxWhiskersConfig }),
                 // new compute.TimelinesAction({ config: timelinesConfigA }),
                 // new compute.TimelinesAction( { config: timelinesConfigB})
                 // new compute.ChromosomeAction({ config: chromosomeConfig }),

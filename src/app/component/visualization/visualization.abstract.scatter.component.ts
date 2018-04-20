@@ -1,10 +1,11 @@
+import { OrbitControls } from 'three-orbitcontrols-ts';
 import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
 import { VisualizationView } from './../../model/chart-view.model';
 import { GraphConfig } from './../../model/graph-config.model';
 import { GraphData } from 'app/model/graph-data.model';
 import * as THREE from 'three';
 import * as scale from 'd3-scale';
-import { CircleGeometry, SphereGeometry, Vector2, MeshPhongMaterial, Vector3 } from 'three';
+import { CircleGeometry, SphereGeometry, Vector2, MeshPhongMaterial, Vector3, BoxHelper } from 'three';
 import { ChartEvent, ChartEvents } from '../workspace/chart/chart.events';
 import { ChartObjectInterface } from '../../model/chart.object.interface';
 import { AbstractVisualization } from './visualization.abstract.component';
@@ -35,6 +36,14 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.meshes = [];
         this.points = [];
         this.lines = [];
+
+        const geo = new THREE.CubeGeometry(500, 500, 500, 1, 1, 1);
+        const mesh = new THREE.Mesh(geo, ChartFactory.getColorBasic(0x333333));
+        mesh.position.set(0, 0, 0);
+        const box: BoxHelper = new BoxHelper(mesh, new THREE.Color(0xFF0000));
+        view.scene.add(box);
+        ChartFactory.fitControls(this.view, mesh, .8);
+        this.onRequestRender.emit();
         return this;
     }
 
@@ -74,13 +83,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         ChartFactory.decorateDataGroups(this.meshes, this.decorators);
         this.points = this.meshes.map(v => v.children[0]);
         this.tooltipController.targets = this.points;
-        const geo = new THREE.CubeGeometry(500, 500, 500, 1, 1, 1);
-        const mesh = new THREE.Mesh(geo, ChartFactory.getColorBasic(0x333333));
-        mesh.position.set(0, 0, 0);
-        const boxHelper = new THREE.BoxHelper(mesh, new THREE.Color(0x333333));
-        this.view.scene.add(boxHelper);
-        ChartFactory.fitControls(this.view, mesh, .8);
-        // this.onRequestRender.emit(this.config.graph);
+
     }
 
     removeObjects() {

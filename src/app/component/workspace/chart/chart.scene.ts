@@ -84,7 +84,7 @@ export class ChartScene {
             viewport: { x: 0, y: 0, width: Math.floor(dimension.width * .5), height: dimension.height },
             config: { visualization: VisualizationEnum.NONE },
             chart: null,
-            camera: new PerspectiveCamera(20, 1, 1, 30000) as Camera,
+            camera: new PerspectiveCamera(90, 1, 1, 3000) as Camera,
             scene: new Scene(),
             renderer: this.renderer,
             controls: null
@@ -92,7 +92,7 @@ export class ChartScene {
             viewport: { x: Math.floor(dimension.width * .5), y: 0, width: Math.floor(dimension.width * .5), height: dimension.height },
             config: { visualization: VisualizationEnum.NONE },
             chart: null,
-            camera: new PerspectiveCamera(20, 1, 1, 30000) as Camera,
+            camera: new PerspectiveCamera(90, 1, 1, 30000) as Camera,
             scene: new Scene(),
             renderer: this.renderer,
             controls: null
@@ -284,7 +284,10 @@ export class ChartScene {
                         view.chart.onRequestRender.unsubscribe();
                         view.chart.onConfigEmit.unsubscribe();
                         view.chart.destroy();
+                        view.controls.minDistance = 0;
+                        view.controls.maxDistance = Infinity;
                         const camera = view.camera as PerspectiveCamera;
+                        camera.fov = 90;
                         camera.position.set(0, 0, 1000);
                         camera.lookAt(new Vector3(0, 0, 0));
                         camera.aspect = view.viewport.width / view.viewport.height;
