@@ -24,9 +24,9 @@ declare var vegaTooltip: any;
     selector: 'app-workspace-dashboard-panel',
     styleUrls: ['./dashboard-panel.component.scss'],
     template:
-        `<div>
+        `<div class="citations-modal-panel">
     <a href='#' class='modalClose' (click)='closeClick()'></a>
-    <h1> Dashboard </h1>
+    <h1 class='dashboard-h1'> Dashboard </h1>
     <div #chartContainer></div>
 </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -60,10 +60,10 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
             const allResults = results.reduce((p, c) => p.concat(...c), []);
             allResults.forEach(result => {
                 const id = 'cc' + Math.random().toString(36).substring(7);
-                const cohortDiv = this.container.append('<div class="statCohortContainer"><span class="statCohortName">' + result.cohort.n + '</span></div>');
+                const cohortDiv = this.container.append('<div class="test"><div class"cohortName"  style="font-size:2rem; font-weight:300; margin-bottom:20px;">' + result.cohort.n + '</div>');
                 result.stats.forEach(stat => {
                     const id = 'cc' + Math.random().toString(36).substring(7);
-                    const div = cohortDiv.append('<div id="' + id + '" style="float: left;" class="statItemContainer" style="padding-bottom:20px;"></div>');
+                    const div = cohortDiv.append('<div id="' + id + '" style="float:left; padding-bottom:40px;"></div></div>');
                     this.statVegaFactory.drawChartObject(stat, stat.charts[0], id, div);
 
                 });
