@@ -45896,7 +45896,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* unused harmony export devDependencies */
 /* unused harmony export dependencies */
 var name = "d3";
-var version = "5.0.2";
+var version = "5.1.0";
 var description = "Data-Driven Documents";
 var keywords = ["dom","visualization","svg","animation","canvas"];
 var homepage = "https://d3js.org";
