@@ -1,326 +1,337 @@
 // Responsive Mobile First
 // Selectors and styles affecting screens SMALLER THAN 360px (smallPhones) 
-.geneset-modal-panel {
-    padding: 20px;
-    background: #FFF;
-    width: 100%;
-    height: 100vh;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    overflow: scroll;
+.pathways-modal-panel {
+  padding: 20px;
+  background: #FFF;
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  overflow: scroll;
 }
 
-.geneset-h1 {
-    font-size: 2rem;
-    font-weight: 300;
-    margin-bottom: 10px;
-    letter-spacing: 3px;
-    margin-top: 47px;
-    padding-bottom: 18px;
+.modalClose {
+  height: 115px;
+  width: 50px;
+  position: fixed;
+  right: 15px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  line-height: 50px;
+  display: inline-block;
 }
 
-.geneset-h2 {
-    font-size: 1rem;
-    line-height: 150%;
-    font-weight: 300;
-    margin-top: 0px;
-    margin-bottom: 10px;
+.pathways-h1 {
+  font-size: 2rem;
+  font-weight: 300;
+  margin-bottom: 10px;
+  letter-spacing: 3px;
+  margin-top: 47px;
+  padding-bottom: 18px;
 }
 
-.geneset-link {
-    line-height: 30px;
-    font-weight: 300;
-    font-size: 1rem;
-    cursor: pointer;
+.pathways-h2 {
+  font-size: 1rem;
+  line-height: 150%;
+  font-weight: 300;
+  margin-top: 0px;
+  margin-bottom: 10px;
 }
 
-.geneset-public-datasets {
-    padding-left: 10px;
-    padding-right: 0px;
-    padding-top: 30px;
+.pathways-link {
+  line-height: 30px;
+  font-weight: 300;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
-.geneset-my-row {
-    position: relative;
-    line-height: 30px;
-    font-weight: 300;
-    font-size: 1rem;
-    cursor: pointer;
+.pathways-public-datasets {
+  padding-left: 10px;
+  padding-right: 0px;
+  padding-top: 30px;
 }
 
-.geneset-my-row-delete {
-    transform: translateY(6px);
+.pathways-my-row {
+  position: relative;
+  line-height: 30px;
+  font-weight: 300;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
-.geneset-my-name:hover {
-    color: #029BE5;
+.pathways-my-row-delete {
+  transform: translateY(6px);
 }
 
-.geneset-my-row-delete {
-    color: #029BE5;
+.pathways-my-name:hover {
+  color: #029BE5;
 }
 
-.geneset-from-field {
-    position: relative;
-    margin-top: 1px;
+.pathways-my-row-delete {
+  color: #029BE5;
 }
 
-.geneset-where-field {
-    position: relative;
-    margin-top: 1px;
+.pathways-from-field {
+  position: relative;
+  margin-top: 1px;
 }
 
-.geneset-from-label {
-    width: 75px;
-    height: 40px;
-    line-height: 40px;
-    text-transform: uppercase;
-    font-weight: 700;
-    margin-left: 0px;
+.pathways-where-field {
+  position: relative;
+  margin-top: 1px;
 }
 
-.geneset-where-label {
-    width: 75px;
-    height: 40px;
-    line-height: 40px;
-    text-transform: uppercase;
-    font-weight: 700;
-    margin-left: 0px;
+.pathways-from-label {
+  width: 75px;
+  height: 40px;
+  line-height: 40px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-left: 0px;
 }
 
-.geneset-gene-label {
-    width: 75px;
-    height: 40px;
-    line-height: 40px;
-    text-transform: uppercase;
-    font-weight: 700;
-    margin-left: 0px;
+.pathways-where-label {
+  width: 75px;
+  height: 40px;
+  line-height: 40px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-left: 0px;
 }
 
-.geneset-field-dropdown {
-    width: 250px;
-    display: inline-block;
-    margin-left: 0px;
-    margin-right: 10px;
-    margin-bottom: 10px;
+.pathways-gene-label {
+  width: 75px;
+  height: 40px;
+  line-height: 40px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-left: 0px;
 }
 
-.geneset-results {
-    font-weight: 300;
-    padding-top: 5px;
+.pathways-field-dropdown {
+  width: 250px;
+  display: inline-block;
+  margin-left: 0px;
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 
-.geneset-results:hover {
-    color: #029BE5;
+.pathways-results {
+  font-weight: 300;
+  padding-top: 5px;
 }
 
-.geneset-icon {
-    color: #029BE5;
-    padding-right: 10px;
-    padding-left: 0px;
+.pathways-results:hover {
+  color: #029BE5;
 }
 
-.geneset-des {
-    display: inline-block;
-    margin-bottom: 10px;
-    padding-left: 5px;
-    color: #029BE5;
+.pathways-icon {
+  color: #029BE5;
+  padding-right: 10px;
+  padding-left: 0px;
+}
+
+.pathways-des {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding-left: 5px;
+  color: #029BE5;
 }
 
 input:not([type]),
 input[type=text],
 input[type=search],
 textarea.materialize-textarea {
-    border-bottom: 1px solid #eee;
-    width: 250px;
+  border-bottom: 1px solid #eee;
+  width: 250px;
 }
 
-.geneset-save {
-    border-radius: 20px;
-    border: 2px solid #039be5; // display: inline-block;
-    width: 75px;
-    height: 40px;
-    line-height: 36px;
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: 700;
-    float: right;
-    margin-top: 10px;
+.pathways-save {
+  border-radius: 20px;
+  border: 2px solid #039be5; // display: inline-block;
+  width: 75px;
+  height: 40px;
+  line-height: 36px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  float: right;
+  margin-top: 10px;
 }
 
 textarea {
-    width: 100%;
-    height: 7rem;
-    background-color: transparent;
-    border-color: #eee;
+  width: 100%;
+  height: 7rem;
+  background-color: transparent;
+  border-color: #eee;
 }
 
-.geneset-from-dropdown {
-    width: 250px;
-    display: inline-block;
-    margin-right: 10px;
-    padding-left: 0px;
+.pathways-from-dropdown {
+  width: 250px;
+  display: inline-block;
+  margin-right: 10px;
+  padding-left: 0px;
 }
 
-.geneset-categories-dropdown {
-    width: 250px;
-    display: inline-block;
-    margin-right: 10px;
-    padding-left: 0px;
+.pathways-categories-dropdown {
+  width: 250px;
+  display: inline-block;
+  margin-right: 10px;
+  padding-left: 0px;
 }
 
 @media (min-width: 370px) {
-    /* Selectors and styles affecting screens WIDER THAN 370px (phone) */
-    .geneset-from-label {
-        margin-right: 10px;
-    }
-    .geneset-where-label {
-        // display: inline-block;
-        margin-right: 10px;
-    }
-    textarea {
-        width: 100%;
-        height: 10rem;
-        background-color: transparent;
-        border-color: #eee;
-    }
+  /* Selectors and styles affecting screens WIDER THAN 370px (phone) */
+  .pathways-from-label {
+    margin-right: 10px;
+  }
+  .pathways-where-label {
+    // display: inline-block;
+    margin-right: 10px;
+  }
+  textarea {
+    width: 100%;
+    height: 10rem;
+    background-color: transparent;
+    border-color: #eee;
+  }
 }
 
 @media (min-width: 410px) {
-    /* Selectors and styles affecting screens WIDER THAN 410px (phone) */
-    .geneset-from-label {
-        margin-right: 50px;
-    }
-    .geneset-where-label {
-        margin-right: 50px;
-    }
-    .geneset-icon {
-        margin-left: 0px;
-    }
+  /* Selectors and styles affecting screens WIDER THAN 410px (phone) */
+  .pathways-from-label {
+    margin-right: 50px;
+  }
+  .pathways-where-label {
+    margin-right: 50px;
+  }
+  .pathways-icon {
+    margin-left: 0px;
+  }
 }
 
 @media (min-width: 601px) {
-    /* Selectors and styles affecting screens WIDER THAN 601px (takes icon out and turns des blue) */
-    .geneset-des {
-        color: #666666;
-    }
+  /* Selectors and styles affecting screens WIDER THAN 601px (takes icon out and turns des blue) */
+  .pathways-des {
+    color: #666666;
+  }
 }
 
 @media (min-width: 767px) {
-    /* Selectors and styles affecting screens WIDER THAN 767px (tablets) */
-    .geneset-modal-panel {
-        padding: 40px;
-    }
-    .geneset-h1 {
-        font-size: 3rem;
-    }
-    .geneset-des {
-        margin-left: 0px;
-    }
+  /* Selectors and styles affecting screens WIDER THAN 767px (tablets) */
+  .pathways-modal-panel {
+    padding: 40px;
+  }
+  .pathways-h1 {
+    font-size: 3rem;
+  }
+  .pathways-des {
+    margin-left: 0px;
+  }
 }
 
 @media (min-width: 1100px) {
-    /* Selectors and styles affecting screens WIDER THAN 1100px (Largetablets) */
-    .geneset-modal-panel {
-        padding: 40px;
-    }
+  /* Selectors and styles affecting screens WIDER THAN 1100px (Largetablets) */
+  .pathways-modal-panel {
+    padding: 40px;
+  }
 }
 
 @media (min-width: 1200px) {
-    /* Selectors and styles affecting screens WIDER THAN 1200px (Desktop) */
-    .geneset-modal-panel {
-        padding: 60px;
-    }
-    .modalClose {
-        height: 50px;
-        right: 60px;
-    }
-    .geneset-h1 {
-        font-size: 3rem;
-        margin-bottom: 0px;
-        padding-bottom: 0px;
-    }
-    .geneset-h2 {
-        font-size: 1.2rem;
-        margin-bottom: 30px;
-    }
-    .geneset-sets {
-        border: 0px solid #EEE;
-        border-right-width: 1px;
-        padding-left: 10px;
-        padding-right: 30px;
-    }
-    .geneset-link {
-        font-size: 1.2rem;
-    }
-    .geneset-public-datasets {
-        padding-left: 30px;
-        padding-right: 30px;
-        padding-top: 0px;
-    }
-    .geneset-box {
-        position: relative;
-    }
-    .geneset-textarea {
-        padding: 5px;
-        height: 40vh;
-        overflow-y: scroll;
-        display: inline-block;
-        width: 80%;
-        position: absolute;
-        left: 75px;
-        top: 5px;
-        border-color: #EEE;
-    }
-    .geneset-datasets {
-        border: 0px solid #EEE;
-        border-right-width: 1px;
-        padding-left: 10px;
-        padding-right: 30px;
-    }
-    .geneset-my-list {
-        border: 0px solid #EEE;
-        border-right-width: 1px;
-        padding-left: 10px;
-        padding-right: 30px;
-    }
-    .geneset-from-label {
-        width: 55px;
-        height: 40px;
-        margin-right: 25px;
-    }
-    .geneset-where-label {
-        width: 55px;
-        height: 40px;
-        margin-right: 17px;
-    }
-    .geneset-des {
-        margin-left: 25px;
-    }
-    .geneset-from-dropdown {
-        margin-left: 0px;
-    }
-    .geneset-categories-dropdown {
-        margin-left: 0px;
-    }
-    input:not([type]),
-    input[type=text],
-    input[type=search],
-    textarea.materialize-textarea {
-        width: 515px;
-    }
-    .geneset-button {
-        padding-left: 5px;
-        margin-top: 17px;
-    }
-    .geneset-save {
-        float: none;
-        margin-top: 0;
-        padding: 10px;
-    }
-    .geneset-icon {
-        margin-left: 10px;
-    }
+  /* Selectors and styles affecting screens WIDER THAN 1200px (Desktop) */
+  .pathways-modal-panel {
+    padding: 60px;
+  }
+  .modalClose {
+    height: 50px;
+    right: 60px;
+  }
+  .pathways-h1 {
+    font-size: 3rem;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+  }
+  .pathways-h2 {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+  }
+  .pathways-sets {
+    border: 0px solid #EEE;
+    border-right-width: 1px;
+    padding-left: 10px;
+    padding-right: 30px;
+  }
+  .pathways-link {
+    font-size: 1.2rem;
+  }
+  .pathways-public-datasets {
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 0px;
+  }
+  .pathways-box {
+    position: relative;
+  }
+  .pathways-textarea {
+    padding: 5px;
+    height: 40vh;
+    overflow-y: scroll;
+    display: inline-block;
+    width: 80%;
+    position: absolute;
+    left: 75px;
+    top: 5px;
+    border-color: #EEE;
+  }
+  .pathways-datasets {
+    border: 0px solid #EEE;
+    border-right-width: 1px;
+    padding-left: 10px;
+    padding-right: 30px;
+  }
+  .pathways-my-list {
+    border: 0px solid #EEE;
+    border-right-width: 1px;
+    padding-left: 10px;
+    padding-right: 30px;
+  }
+  .pathways-from-label {
+    width: 55px;
+    height: 40px;
+    margin-right: 25px;
+  }
+  .pathways-where-label {
+    width: 55px;
+    height: 40px;
+    margin-right: 17px;
+  }
+  .pathways-des {
+    margin-left: 25px;
+  }
+  .pathways-from-dropdown {
+    margin-left: 0px;
+  }
+  .pathways-categories-dropdown {
+    margin-left: 0px;
+  }
+  input:not([type]),
+  input[type=text],
+  input[type=search],
+  textarea.materialize-textarea {
+    width: 515px;
+  }
+  .pathways-button {
+    padding-left: 5px;
+    margin-top: 17px;
+  }
+  .pathways-save {
+    float: none;
+    margin-top: 0;
+    padding: 10px;
+  }
+  .pathways-icon {
+    margin-left: 10px;
+  }
 }

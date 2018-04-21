@@ -1,5 +1,5 @@
 // Responsive Mobile First
-.citations-modal-panel {
+.feedback-modal-panel {
   padding: 20px;
   background: #FFF;
   width: 100%;
@@ -22,11 +22,11 @@
   display: inline-block;
 }
 
-.citations-search {
+.feedback-search {
   margin-bottom: 20px;
 }
 
-.citations-h1 {
+.feedback-h1 {
   font-size: 2rem;
   font-weight: 300;
   margin-bottom: 10px;
@@ -35,69 +35,23 @@
   padding-bottom: 18px;
 }
 
-.citations-h2 {
+.feedback-h2 {
   font-weight: 300;
   padding-top: 25px;
   font-size: 2rem;
   margin-bottom: 0px;
 }
 
-.citations-method {
-  display: none;
-}
-
-.citations-name {
-  font-weight: 400;
-  font-size: 1.2rem;
-  margin-top: 0px;
-  margin-bottom: 0px;
-}
-
-.citations-desc {
-  font-weight: 300;
-  font-size: 1.2rem;
-  margin-top: 0px;
-  margin-bottom: 0px;
-}
-
-.citations-main-link {
-  font-size: 1.2rem;
-  font-weight: 300;
-  cursor: pointer;
-  color: #039be5;
-  margin-top: 0px;
-  word-wrap: break-word;
-}
-
-.citations-link {
-  font-size: 1.2rem;
-  font-weight: 300;
-  cursor: pointer;
-  color: #039be5;
-  margin-top: 5px;
-  margin-bottom: 0px;
-  word-wrap: break-word;
-}
-
-.citations-link-2 {
-  font-size: 1.2rem;
-  font-weight: 300;
-  cursor: pointer;
-  color: #039be5;
-  margin-top: 0px;
-  word-wrap: break-word;
-}
-
 @media (min-width: 767px) {
   /* Selectors and styles affecting screens WIDER THAN 767px (tablets) */
-  .citations-modal-panel {
+  .feedback-modal-panel {
     padding: 40px;
   }
 }
 
 @media (min-width: 1200px) {
   /* Selectors and styles affecting screens WIDER THAN 1200px (Desktop) */
-  .citations-modal-panel {
+  .feedback-modal-panel {
     padding: 60px;
     background: #FFF;
     width: 100%;
@@ -118,16 +72,12 @@
     line-height: 50px;
     display: inline-block;
   }
-  .citations-search {
-    margin-top: 40px;
-    margin-bottom: 40px;
-  }
-  .citations-h1 {
+  .feedback-h1 {
     font-size: 3rem;
     margin-bottom: 0px;
     padding-bottom: 0px;
   }
-  .citations-h2 {
+  .feedback-h2 {
     font-weight: 300;
     padding-top: 25px;
     font-size: 2.5rem;

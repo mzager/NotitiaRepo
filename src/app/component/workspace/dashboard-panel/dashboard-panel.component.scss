@@ -1,19 +1,7 @@
-.statCohortName {
-  font-size: 2rem;
-  font-weight: 300;
-}
-
-.statItemContainer {
-  float: left;
-}
-
-.statCohortContainer {
-  font-size: 2rem;
-  font-weight: 300;
-}
-
+// Responsive Mobile First
+// Selectors and styles affecting screens SMALLER THAN 360px (smallPhones) 
 .dashboard-modal-panel {
-  padding: 60px;
+  padding: 20px;
   background: #FFF;
   width: 100%;
   height: 100vh;
@@ -36,8 +24,48 @@
 }
 
 .dashboard-h1 {
+  font-size: 2rem;
   font-weight: 300;
-  padding-top: 25px;
-  font-size: 3rem;
   margin-bottom: 10px;
+  letter-spacing: 3px;
+  margin-top: 47px;
+  padding-bottom: 18px;
+}
+
+.dashboard-h2 {
+  font-size: 1rem;
+  line-height: 150%;
+  font-weight: 300;
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+
+@media (min-width: 767px) {
+  /* Selectors and styles affecting screens WIDER THAN 767px (tablets) */
+  .dashboard-modal-panel {
+    padding: 40px;
+  }
+  .dashboard-h1 {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  /* Selectors and styles affecting screens WIDER THAN 1200px (Desktop) */
+  .dashboard-modal-panel {
+    padding: 60px;
+  }
+  .modalClose {
+    height: 50px;
+    right: 60px;
+  }
+  .dashboard-h1 {
+    font-size: 3rem;
+    margin-bottom: 0px;
+    padding-bottom: 20px;
+  }
+  .dashboard-h2 {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+  }
 }
