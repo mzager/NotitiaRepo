@@ -1,119 +1,123 @@
 // Responsive Mobile First
 // Selectors and styles affecting screens SMALLER THAN 767px (Phones) 
 .file-modal-panel {
-    padding: 20px;
-    background: #FFF;
-    width: 100%;
-    height: 100vh;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    overflow: scroll;
+  padding: 20px;
+  background: #FFF;
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  overflow: scroll;
 }
 
 .modalClose {
-    height: 115px;
-    width: 50px;
-    position: fixed;
-    right: 15px;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    line-height: 50px;
-    display: inline-block;
+  height: 115px;
+  width: 50px;
+  position: fixed;
+  right: 15px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  line-height: 50px;
+  display: inline-block;
 }
 
 .file-h1 {
-    font-size: 2rem;
-    font-weight: 300;
-    margin-bottom: 10px;
-    letter-spacing: 3px;
-    margin-top: 47px;
-    padding-bottom: 18px;
+  font-size: 2rem;
+  font-weight: 300;
+  margin-bottom: 10px;
+  letter-spacing: 3px;
+  margin-top: 47px;
+  padding-bottom: 18px;
 }
 
 .file-h2 {
-    font-size: 1rem;
-    line-height: 150%;
-    font-weight: 300;
-    margin-top: 0px;
-    margin-bottom: 10px;
+  font-size: 1rem;
+  line-height: 150%;
+  font-weight: 300;
+  margin-top: 0px;
+  margin-bottom: 10px;
 }
 
 .file-link {
-    line-height: 30px;
-    font-weight: 300;
-    font-size: 1rem;
-    cursor: pointer;
+  line-height: 30px;
+  font-weight: 300;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
 .file-image {
-    height: 30px;
-    float: left;
-    padding-right: 10px;
+  height: 30px;
+  float: left;
+  padding-right: 10px;
 }
 
 .file-link:hover {
-    color: #039be5;
+  color: #039be5;
 }
 
 .file-public-datasets {
-    padding-left: 10px;
-    padding-right: 0px;
-    padding-top: 30px;
+  padding-left: 10px;
+  padding-right: 0px;
+  padding-top: 30px;
 }
 
 .file-cohort-header {
-    padding-bottom: 20px;
+  padding-bottom: 20px;
 }
 
 .file-cohort-field {
-    width: 100%;
-    display: inline-block;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    height: 25px;
+  width: 100%;
+  display: inline-block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  height: 25px;
 }
 
-@media (min-width: 979px) {
-    /* Selectors and styles affecting screens WIDER THAN 979px (Desktop) */
-    .file-modal-panel {
-        padding: 60px;
-    }
-    .modalClose {
-        height: 50px;
-        right: 60px;
-    }
-    .file-h1 {
-        font-size: 3rem;
-        margin-bottom: 0px;
-        padding-bottom: 0px;
-    }
-    .file-h2 {
-        font-size: 1.2rem;
-        margin-bottom: 30px;
-    }
-    .file-link {
-        font-size: 1.2rem;
-    }
-    .file-datasets {
-        border: 0px solid #EEE;
-        border-right-width: 1px;
-        padding-left: 10px;
-        padding-right: 30px;
-    }
-    .file-public-datasets {
-        padding-left: 30px;
-        padding-right: 30px;
-        padding-top: 0px;
-    }
-    .file-cohort-field {
-        width: 33%;
-    } 
-    
-    // maybe add back at some point, when more datasets
-    // .file-img-container {
-    //     height: 60vh;
-    //     overflow-y: scroll;
-    // }
+@media (min-width: 767px) {
+  /* Selectors and styles affecting screens WIDER THAN 767px (tablets) */
+  .file-modal-panel {
+    padding: 40px;
+  }
+  .file-h1 {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  /* Selectors and styles affecting screens WIDER THAN 1100px (Largetablets) */
+  .file-modal-panel {
+    padding: 60px;
+  }
+  .modalClose {
+    height: 50px;
+    right: 60px;
+  }
+  .file-h1 {
+    font-size: 3rem;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+  }
+  .file-h2 {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+  }
+  .file-link {
+    font-size: 1.2rem;
+  }
+  .file-datasets {
+    border: 0px solid #EEE;
+    border-right-width: 1px;
+    padding-left: 10px;
+    padding-right: 30px;
+  }
+  .file-public-datasets {
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 0px;
+  }
+  .file-cohort-field {
+    width: 33%;
+  }
 }

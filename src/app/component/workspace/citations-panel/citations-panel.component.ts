@@ -25,8 +25,8 @@ declare var $: any;
     <div class='row'>
         <a href='#' class='modalClose' (click)='closeClick()'></a>
         <div class='col s12 m9'>
-            <h1 class='citations-h1'>Complete Oncoscape Citations</h1>
-            <div class="input-field col s12" style="margin-top:40px; margin-bottom:40px;">
+            <h1 class='citations-h1'>Site Citations</h1>
+            <div class="input-field citations-search col s12">
             <i class="material-icons prefix">search</i>
             <input id="icon_prefix" type="text" #filterInput class="validate">
           </div>
