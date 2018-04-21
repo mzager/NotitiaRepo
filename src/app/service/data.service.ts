@@ -413,10 +413,11 @@ export class DataService {
                                                   (v === VisualizationEnum.SPARSE_PCA) ? 'sparse_pca.json' :
                                                     (v === VisualizationEnum.SPECTRAL_EMBEDDING) ? 'spectral_embedding.json' :
                                                       (v === VisualizationEnum.SURVIVAL) ? 'survival.json' :
-                                                        (v === VisualizationEnum.TIMELINES) ? 'timelines.json' :
-                                                          (v === VisualizationEnum.TRUNCATED_SVD) ? 'truncated_svd.json' :
-                                                            (v === VisualizationEnum.TSNE) ? 'tsne.json' :
-                                                              '';
+                                                        (v === VisualizationEnum.HAZARD) ? 'hazard.json' :
+                                                          (v === VisualizationEnum.TIMELINES) ? 'timelines.json' :
+                                                            (v === VisualizationEnum.TRUNCATED_SVD) ? 'truncated_svd.json' :
+                                                              (v === VisualizationEnum.TSNE) ? 'tsne.json' :
+                                                                '';
 
 
     if (method === '') {

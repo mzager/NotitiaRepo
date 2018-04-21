@@ -404,36 +404,20 @@ export class ChartFactory {
         }
     }
 
-    public static fitControls(
+    public static configPerspectiveOrbit(
         view: VisualizationView,
-        box: THREE.Mesh,
-        paddingMultiplier: number = 1): void {
-        const fov = (view.camera as PerspectiveCamera).fov;
-        box.geometry.computeBoundingSphere();
-        const boundingSphere = box.geometry.boundingSphere;
-
-        const dist = boundingSphere.radius / (2 * Math.tan(fov * Math.PI / 360));
-        view.camera.position.setZ(dist - boundingSphere.radius);
-        console.log('....');
-
-        // box.geometry.computeBoundingBox();
-        // const boundingSphere = box.geometry.boundingSphere;
-        // const boundingBox = box.geometry.boundingBox;
-        // const center = boundingSphere.center;
-        // const radius = boundingSphere.radius;
-        // const distance = center.distanceTo(view.camera.position) - radius;
-        // const realHeight = Math.abs(boundingBox.max.y - boundingBox.min.y);
-        // const orbitControls = view.controls as OrbitControls;
-        // const cameraPerspective = view.camera as PerspectiveCamera;
-        // const fov = 2 * Math.atan(realHeight * paddingMultiplier / (2 * distance)) * (180 / Math.PI);
-        // debugger;
-        // view.controls.minDistance = - distance * 0.5;
-        // view.controls.maxDistance = distance * 2;
-        // // Added
-        // view.camera.position.set(0, 0, -distance);
-        // view.camera.lookAt(0, 0, 0);
-        //     console.log(fov);
-        //     cameraPerspective.fov = fov;
-        //     cameraPerspective.updateProjectionMatrix();
+        box: THREE.Box3): void {
+        const perspective = view.camera as PerspectiveCamera;
+        const orbit = view.controls as OrbitControls;
+        const fovyR = perspective.fov * Math.PI / 180;
+        const sphere = box.getBoundingSphere(new THREE.Sphere());
+        const modelHeight = sphere.radius;
+        const zPosition = (modelHeight / 2) / Math.tan(fovyR / 2);
+        const distance = (zPosition);
+        orbit.minDistance = - distance * 0.5;
+        orbit.maxDistance = distance * 2;
+        perspective.position.z = distance * 2;
+        perspective.lookAt(0, 0, 0);
+        perspective.updateProjectionMatrix();
     }
 }

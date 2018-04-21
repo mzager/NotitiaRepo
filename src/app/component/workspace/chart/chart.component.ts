@@ -1,3 +1,4 @@
+import { HazardGraph } from './../../visualization/hazard/hazard.graph';
 
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
@@ -210,6 +211,7 @@ export class ChartComponent implements AfterViewInit {
       case VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS: return new LinearDiscriminantAnalysisGraph(fontService);
       case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS: return new QuadradicDiscriminantAnalysisGraph(fontService);
       case VisualizationEnum.SURVIVAL: return new SurvivalGraph(fontService);
+      case VisualizationEnum.HAZARD: return new HazardGraph(fontService);
       case VisualizationEnum.DENDOGRAM: return new DendogramGraph();
       case VisualizationEnum.HISTOGRAM: return new HistogramGraph(fontService);
     }
