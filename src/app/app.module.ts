@@ -1,3 +1,4 @@
+import { HazardFormComponent } from './component/visualization/hazard/hazard.form.component';
 import { PathwayPanelComponent } from './component/workspace/pathway-panel/pathway-panel.component';
 import { QueryBuilderComponent } from './component/workspace/query-panel/query-builder/query-builder.component';
 import { QueryPanelComponent } from './component/workspace/query-panel/query-panel.component';
@@ -144,6 +145,7 @@ import { LoaderComponent } from './component/workspace/loader/loader.component';
     HicFormComponent,
     TimelinesFormComponent,
     SurvivalFormComponent,
+    HazardFormComponent,
     HeatmapFormComponent,
     DendogramFormComponent,
     BoxWhiskersFormComponent,

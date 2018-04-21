@@ -1,3 +1,4 @@
+import { HazardDataModel, HazardConfigModel, HazardDatumModel } from './hazard.model';
 import { LabelController, ILabel, LabelOptions } from './../../../controller/label/label.controller';
 import { MeshLine } from 'three.meshline';
 import { scaleLinear, ScaleContinuousNumeric } from 'd3-scale';
@@ -12,15 +13,14 @@ import { VisualizationView } from './../../../model/chart-view.model';
 import { ChartEvent, ChartEvents } from './../../workspace/chart/chart.events';
 import { AbstractVisualization } from './../visualization.abstract.component';
 import * as THREE from 'three';
-import { SurvivalDataModel, SurvivalConfigModel, SurvivalDatumModel } from './survival.model';
 import { Vector2, Shape, ShapeGeometry, MeshPhongMaterial, Mesh, PerspectiveCamera } from 'three';
 
-export class SurvivalGraph extends AbstractVisualization {
+export class HazardGraph extends AbstractVisualization {
 
-    public set data(data: SurvivalDataModel) { this._data = data; }
-    public get data(): SurvivalDataModel { return this._data as SurvivalDataModel; }
-    public set config(config: SurvivalConfigModel) { this._config = config; }
-    public get config(): SurvivalConfigModel { return this._config as SurvivalConfigModel; }
+    public set data(data: HazardDataModel) { this._data = data; }
+    public get data(): HazardDataModel { return this._data as HazardDataModel; }
+    public set config(config: HazardConfigModel) { this._config = config; }
+    public get config(): HazardConfigModel { return this._config as HazardConfigModel; }
 
     public labelsForPercents: Array<ILabel>;
     public labelsForTimes: Array<ILabel>;
@@ -73,31 +73,31 @@ export class SurvivalGraph extends AbstractVisualization {
     addObjects(type: EntityTypeEnum): void {
 
 
-        if (this.data.result.survival === undefined) {
+        if (this.data.result.hazard === undefined) {
             return;
         }
-
-
-        const sX = scaleLinear().range([-500, 500]).domain(
-            this.data.result.survival.reduce((p, c) => {
+        const hX = scaleLinear().range([-500, 500]).domain(
+            this.data.result.hazard.reduce((p, c) => {
                 p[0] = Math.min(p[0], c.range[0][0]);
                 p[1] = Math.max(p[1], c.range[0][1]);
                 return p;
             }, [Infinity, -Infinity]));
-        const sY = scaleLinear().range([-500, 500]).domain(
-            this.data.result.survival.reduce((p, c) => {
+        const hY = scaleLinear().range([-500, 500]).domain(
+            this.data.result.hazard.reduce((p, c) => {
                 p[0] = Math.min(p[0], c.range[1][0]);
                 p[1] = Math.max(p[1], c.range[1][1]);
                 return p;
             }, [Infinity, -Infinity]));
-        this.data.result.survival.forEach((result, i) => {
-            this.drawLine(0, 0, result, sX, sY, i, 'Survival');
+
+        this.data.result.hazard.forEach((result, i) => {
+            this.drawLine(0, 0, result, hX, hY, i, 'Hazard');
         });
+
         for (let x = -450; x <= 500; x += 100) {
             this.labelsForTimes.push(
                 {
                     position: new THREE.Vector3(x, -600, 0),
-                    userData: { tooltip: sX.invert(x).toString() }
+                    userData: { tooltip: hX.invert(x).toString() }
                 }
             );
         }
@@ -118,7 +118,7 @@ export class SurvivalGraph extends AbstractVisualization {
 
     }
 
-    drawLine(xOffset: number, yOffset: number, cohort: SurvivalDatumModel,
+    drawLine(xOffset: number, yOffset: number, cohort: HazardDatumModel,
         xScale: ScaleContinuousNumeric<number, number>, yScale: ScaleContinuousNumeric<number, number>,
         renderOrder, label: string): void {
         let pts: Array<Vector2>, line: THREE.Line;
@@ -126,6 +126,7 @@ export class SurvivalGraph extends AbstractVisualization {
         // Confidence
         const shape = new Shape();
         shape.autoClose = false;
+        // shape.moveTo(-500 + xOffset, -500 + yOffset);
         cohort.lower.forEach(pt => {
             shape.lineTo(xScale(pt[0]) + xOffset, yScale(pt[1]) + yOffset);
         });
@@ -228,9 +229,15 @@ export class SurvivalGraph extends AbstractVisualization {
         optionsForTimes.rotate = 30;
 
 
+        const optionsForTitles = new LabelOptions(this.view, 'PIXEL');
+        optionsForTitles.fontsize = 15;
+        optionsForTitles.ignoreFrustumY = true;
+        optionsForTitles.absoluteY = 60;
+
         if (this.view.camera.position.z > 10000) {
             optionsForPercents.fontsize = 8;
             optionsForTimes.fontsize = 8;
+            optionsForTitles.fontsize = 15;
 
             this.labels.innerHTML =
                 '<div style="position:fixed;bottom:50px;left:30%; font-size: 1.2rem;">Time</div>' +
@@ -238,6 +245,7 @@ export class SurvivalGraph extends AbstractVisualization {
         } else if (this.view.camera.position.z < 10000) {
             optionsForPercents.fontsize = 10;
             optionsForTimes.fontsize = 10;
+            optionsForTitles.fontsize = 15;
 
             this.labels.innerHTML =
                 LabelController.generateHtml(this.labelsForPercents, optionsForPercents) +

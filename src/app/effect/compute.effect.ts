@@ -52,6 +52,7 @@ import {
   LinearDiscriminantAnalysisCompleteAction,
   QuadraticDiscriminantAnalysisCompleteAction,
   SurvivalCompleteAction,
+  HazardCompleteAction,
   DecoratorAddAction,
   DecoratorDelAction,
   DecoratorUpdateAction
@@ -236,6 +237,17 @@ export class ComputeEffect {
         .mergeMap(result => {
           return [(result === null) ? new NullDataAction() :
             new SurvivalCompleteAction({ config: result.config, data: result.data }),
+          new LoaderHideAction()];
+        });
+    });
+  @Effect() loadHazard: Observable<any> = this.actions$
+    .ofType(compute.COMPUTE_HAZARD)
+    .map((action: UnsafeAction) => action.payload)
+    .switchMap(payload => {
+      return this.computeService.hazard(payload['config'])
+        .mergeMap(result => {
+          return [(result === null) ? new NullDataAction() :
+            new HazardCompleteAction({ config: result.config, data: result.data }),
           new LoaderHideAction()];
         });
     });

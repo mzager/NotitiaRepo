@@ -1,3 +1,4 @@
+import { hazardCompute } from './app/component/visualization/hazard/hazard.compute';
 import { histogramCompute } from './app/component/visualization/histogram/histogram.compute';
 import { dendogramCompute } from './app/component/visualization/dendogram/dendogram.compute';
 import { survivalCompute } from './app/component/visualization/survival/survival.compute';
@@ -86,6 +87,9 @@ onmessage = function (e) {
             break;
         case VisualizationEnum.GENOME:
             genomeCompute(e.data, me);
+            break;
+        case VisualizationEnum.HAZARD:
+            hazardCompute(e.data, me);
             break;
         case VisualizationEnum.SURVIVAL:
             survivalCompute(e.data, me);

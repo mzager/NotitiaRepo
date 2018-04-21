@@ -36,14 +36,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.meshes = [];
         this.points = [];
         this.lines = [];
-
-        const geo = new THREE.CubeGeometry(500, 500, 500, 1, 1, 1);
-        const mesh = new THREE.Mesh(geo, ChartFactory.getColorBasic(0x333333));
-        mesh.position.set(0, 0, 0);
-        const box: BoxHelper = new BoxHelper(mesh, new THREE.Color(0xFF0000));
-        view.scene.add(box);
-        ChartFactory.fitControls(this.view, mesh, .8);
-        this.onRequestRender.emit();
         return this;
     }
 
@@ -84,6 +76,17 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.points = this.meshes.map(v => v.children[0]);
         this.tooltipController.targets = this.points;
 
+
+        // const geo = new THREE.CubeGeometry(500, 500, 500, 1, 1, 1);
+        // const mesh = new THREE.Mesh(geo, ChartFactory.getColorBasic(0x333333));
+        // mesh.position.set(0, 0, 0);
+        // const boxH: BoxHelper = new BoxHelper(mesh, new THREE.Color(0xFF0000));
+        // this.view.scene.add(boxH);
+
+        ChartFactory.configPerspectiveOrbit(this.view,
+            new THREE.Box3(
+                new Vector3(-250, -250, -250),
+                new THREE.Vector3(250, 250, 250)));
     }
 
     removeObjects() {
@@ -125,6 +128,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         // }
     }
 
+
     onMouseUp(e: ChartEvent): void {
         // this.mouseMode = 'CONTROL';
         // this.view.controls.enabled = true;
@@ -152,6 +156,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
 
     onMouseMove(e: ChartEvent): void {
         super.onMouseMove(e);
+        // console.log(this.view.camera.position.z);
         // // Selection
         // if (this.mouseMode === 'SELECTION') {
         //     const event: MouseEvent = e.event as MouseEvent;

@@ -1,7 +1,7 @@
-import { SurvivalConfigModel } from './survival.model';
+import { HazardConfigModel } from './hazard.model';
 import { ChromosomeConfigModel } from './../chromosome/chromosome.model';
 import { DedicatedWorkerGlobalScope } from './../../../../compute';
-export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWorkerGlobalScope): void => {
+export const hazardCompute = (config: HazardConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
     const colors = [0x42a5f5, 0x66bb6a, 0xff9800, 0x795548, 0x673ab7, 0xe91e63];
     const getRange = (pointCollections: Array<any>): Array<any> => {
@@ -24,10 +24,10 @@ export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWo
             .sort((a, b) => a[0] - b[0]);
     };
 
-    const processSurvival = (result: any): any => {
-        const line = formatResult(result.result, 'KM_estimate');
-        const upper = formatResult(result.confidence, 'KM_estimate_upper_0.95');
-        const lower = formatResult(result.confidence, 'KM_estimate_lower_0.95');
+    const processHazard = (result: any): any => {
+        const line = formatResult(result.hazard, 'NA_estimate');
+        const upper = formatResult(result.confidence, 'NA_estimate_upper_0.95');
+        const lower = formatResult(result.confidence, 'NA_estimate_lower_0.95');
         const range = getRange([line, upper, lower]);
         return {
             line: line,
@@ -53,7 +53,7 @@ export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWo
 
         const promises = [
             worker.util.fetchResult({
-                method: 'survival_ll_kaplan_meier',
+                method: 'survival_ll_nelson_aalen',
                 times: t,
                 events: e
             })
@@ -75,29 +75,32 @@ export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWo
             });
             promises.push(
                 worker.util.fetchResult({
-                    method: 'survival_ll_kaplan_meier',
+                    method: 'survival_ll_nelson_aalen',
                     times: cohortTimes,
                     events: cohortEvents
                 })
             );
         });
-        Promise.all(promises).then(survivalData => {
-            const survivalResults = [];
-            survivalData.forEach((result, i) => {
-                survivalResults.push(
+        Promise.all(promises).then(hazardData => {
+
+            const hazardResults = [];
+            hazardData.forEach((result, i) => {
+                const x = cohortPatientData;
+                hazardResults.push(
                     Object.assign(
-                        processSurvival(survivalData[i]),
+                        processHazard(hazardData[i]),
                         cohortPatientData[Math.ceil(i / 2)],
                         { color: colors[Math.ceil(i / 2)] }
                     )
                 );
             });
+
             worker.postMessage({
                 config: config,
                 data: {
                     legendItems: [],
                     result: {
-                        survival: survivalResults
+                        hazard: hazardResults
                     }
                 }
             });
