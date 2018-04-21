@@ -336,12 +336,10 @@ export class TimelinesGraph extends AbstractVisualization {
             this.view.scene.add(group);
             const yPos = i * rowHeight;
             group.position.setY(yPos);
-            this.yAxis.push(
-                {
-                    position: new THREE.Vector3(0, yPos, 0),
-                    userData: { tooltip: patient[0].p }
-                }
-            );
+            this.yAxis.push({
+                position: new THREE.Vector3(0, yPos - chartHeightHalf, 0),
+                userData: { tooltip: patient[0].p }
+            });
             barLayout.forEach(bl => {
                 const barEvents = patient.filter(p => p.type === bl.label);
                 barEvents.forEach(event => {
@@ -368,21 +366,17 @@ export class TimelinesGraph extends AbstractVisualization {
         this.addAttrs(rowHeight, rowCount, pidMap);
         this.tooltipController.targets = this.meshes;
         const height = (rowHeight * rowCount);
-        const width = 1000;
-        const geo = new THREE.CubeGeometry(width, height, 500, 1, 1, 1);
-        const mesh = new THREE.Mesh(geo, ChartFactory.getColorBasic(0x333333));
-        mesh.position.set(0, 0, 0);
-        const box: THREE.BoxHelper = new THREE.BoxHelper(mesh, new THREE.Color(0xFF0000));
-        this.view.scene.add(box);
-        ChartFactory.fitControls(this.view, mesh, .8);
 
-
+        // const geo = new THREE.CubeGeometry(1000, height, 10, 1, 1, 1);
+        // const mesh = new THREE.Mesh(geo, ChartFactory.getColorBasic(0x333333));
         // mesh.position.set(0, 0, 0);
-        // ChartFactory.fitControls(this.view, mesh, .8);
-        // const size = Math.max(((rowHeight * rowCount) * 0.2), 500);
-        // const sphere: THREE.Sphere = new THREE.Sphere(new Vector3(0, 0, 0), size);
-        // // ChartUtil.fitCameraToSphere(this.view, sphere);
+        // const box: THREE.BoxHelper = new THREE.BoxHelper(mesh, new THREE.Color(0xFF0000));
+        // this.view.scene.add(box);
 
+        ChartFactory.configPerspectiveOrbit(this.view,
+            new THREE.Box3(
+                new Vector3(-550, -height, -5),
+                new THREE.Vector3(550, height, 5)));
     }
 
     formatEventTooltip(event: any): string {

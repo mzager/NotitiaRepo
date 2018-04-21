@@ -97,7 +97,7 @@ export class AbstractVisualization implements ChartObjectInterface {
         this.tooltips.className = 'graph-tooltip';
         this.html.appendChild(this.tooltips);
 
-        view.camera.position.fromArray([0, 0, 1000]);
+        view.camera.position.set(0, 0, 1000);
         view.camera.lookAt(new Vector3(0, 0, 0));
         view.scene.add(view.camera);
 

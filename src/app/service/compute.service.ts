@@ -1,3 +1,4 @@
+import { HazardConfigModel } from './../component/visualization/hazard/hazard.model';
 import { HistogramConfigModel } from './../component/visualization/histogram/histogram.model';
 // tslint:disable:max-line-length
 import { MiniBatchDictionaryLearningConfigModel } from './../component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
@@ -87,6 +88,7 @@ export class ComputeService {
     private hic$ = new Subject<any>();
     private pathways$ = new Subject<any>();
     private survival$ = new Subject<any>();
+    private hazard$ = new Subject<any>();
     private histogram$ = new Subject<any>();
 
     constructor() {
@@ -141,9 +143,10 @@ export class ComputeService {
                                                                                                                         (v === VisualizationEnum.LINKED_GENE) ? this.linkedGene$ :
                                                                                                                             (v === VisualizationEnum.HIC) ? this.hic$ :
                                                                                                                                 (v === VisualizationEnum.SURVIVAL) ? this.survival$ :
-                                                                                                                                    (v === VisualizationEnum.EDGES) ? this.edges$ :
-                                                                                                                                        (v === VisualizationEnum.HISTOGRAM) ? this.histogram$ :
-                                                                                                                                            null;
+                                                                                                                                    (v === VisualizationEnum.HAZARD) ? this.hazard$ :
+                                                                                                                                        (v === VisualizationEnum.EDGES) ? this.edges$ :
+                                                                                                                                            (v === VisualizationEnum.HISTOGRAM) ? this.histogram$ :
+                                                                                                                                                null;
     }
     onMessage(v) {
         if (v.data === 'TERMINATE') {
@@ -251,6 +254,10 @@ export class ComputeService {
 
     survival(config: SurvivalConfigModel): Observable<any> {
         return this.execute(config, this.survival$);
+    }
+
+    hazard(config: HazardConfigModel): Observable<any> {
+        return this.execute(config, this.hazard$);
     }
 
     edges(config: EdgeConfigModel): Observable<any> {

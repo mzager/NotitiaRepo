@@ -1,3 +1,4 @@
+import { HazardConfigModel } from './../../visualization/hazard/hazard.model';
 import { ChartScene } from './../chart/chart.scene';
 import { DataDecorator } from './../../../model/data-map.model';
 import { DataService } from 'app/service/data.service';
@@ -6,6 +7,7 @@ import { SurvivalConfigModel } from './../../visualization/survival/survival.mod
 import { ModalService } from './../../../service/modal-service';
 // tslint:disable-next-line:max-line-length
 import { QuadradicDiscriminantAnalysisConfigModel } from './../../visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
+// tslint:disable-next-line:max-line-length
 import { LinearDiscriminantAnalysisConfigModel } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
 // tslint:disable-next-line:max-line-length
 import { MiniBatchDictionaryLearningConfigModel } from './../../visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
@@ -226,7 +228,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     //   $event.preventDefault();
     //   return;
     // }
-    debugger;
     const selected = this.genesets.find(v => v.n === $event.target['value']);
     this.config.markerFilter = selected.g;
     this.config.dirtyFlag = DirtyEnum.LAYOUT;
@@ -272,6 +273,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
         break;
       case VisualizationEnum.SURVIVAL:
         gc = new SurvivalConfigModel();
+        break;
+      case VisualizationEnum.HAZARD:
+        gc = new HazardConfigModel();
         break;
       case VisualizationEnum.PCA:
         gc = new PcaConfigModel();
@@ -405,42 +409,43 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.visualizationOptions = [
       { value: VisualizationEnum.BOX_WHISKERS, label: 'Box + Whisker' },
       { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
-      // { value: VisualizationEnum.SPREADSHEET, label: 'Dashboard' },
+      { value: VisualizationEnum.SPREADSHEET, label: 'Dashboard' },
       { value: VisualizationEnum.HIC, label: 'Force Directed Graph' },
       { value: VisualizationEnum.GENOME, label: 'Genome' },
       // { value: VisualizationEnum.DENDOGRAM, label: 'Dendogram' },
       { value: VisualizationEnum.HEATMAP, label: 'Heatmap' },
       // { value: VisualizationEnum.HISTOGRAM, label: 'Histogram' },
       { value: VisualizationEnum.PATHWAYS, label: 'Pathways' },
-      { value: VisualizationEnum.SURVIVAL, label: 'Survival + Hazard' },
-      // { value: VisualizationEnum.SPREADSHEET, label: 'Spreadsheet' },
+      { value: VisualizationEnum.SURVIVAL, label: 'Survival' },
+      { value: VisualizationEnum.HAZARD, label: 'Hazard' },
+      { value: VisualizationEnum.SPREADSHEET, label: 'Spreadsheet' },
       { value: VisualizationEnum.TIMELINES, label: 'Timelines' },
-      {
-        value: VisualizationEnum.DECOMPOSITION, label: 'Matrix Decomposition', methodOptions: [
-          { value: VisualizationEnum.DICTIONARY_LEARNING, label: 'Dictionary Learning' },
-          { value: VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING, label: 'Dictionary Learning - Mini Batch ' },
-          { value: VisualizationEnum.FA, label: 'Factor Analysis' },
-          { value: VisualizationEnum.FAST_ICA, label: 'Fast ICA' },
-          { value: VisualizationEnum.LDA, label: 'Latent Dirichlet Allocation' },
-          { value: VisualizationEnum.NMF, label: 'Non-Negative Matrix Factorization' },
-          { value: VisualizationEnum.PCA, label: 'PCA' },
-          { value: VisualizationEnum.INCREMENTAL_PCA, label: 'PCA - Incremental' },
-          { value: VisualizationEnum.KERNAL_PCA, label: 'PCA - Kernel' },
-          { value: VisualizationEnum.SPARSE_PCA, label: 'PCA - Sparse' },
-          { value: VisualizationEnum.MINI_BATCH_SPARSE_PCA, label: 'PCA - Sparse - Mini Batch' },
-          { value: VisualizationEnum.SPARSE_CODER, label: 'Sparse Coder' },
-          { value: VisualizationEnum.TRUNCATED_SVD, label: 'Truncated SVD' }
-        ]
-      },
-      {
-        value: VisualizationEnum.MANIFOLDLEARNING, label: 'Manifold Learning', methodOptions: [
-          { value: VisualizationEnum.ISOMAP, label: 'Isomap' },
-          { value: VisualizationEnum.LOCALLY_LINEAR_EMBEDDING, label: 'Locally Linear Embedding' },
-          { value: VisualizationEnum.MDS, label: 'MDS' },
-          { value: VisualizationEnum.SPECTRAL_EMBEDDING, label: 'Spectral Embedding' },
-          { value: VisualizationEnum.TSNE, label: 'T-SNE' }
-        ]
-      },
+      // {
+      //   value: VisualizationEnum.DECOMPOSITION, label: 'Matrix Decomposition', methodOptions: [
+      { value: VisualizationEnum.DICTIONARY_LEARNING, label: 'Dictionary Learning' },
+      { value: VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING, label: 'Dictionary Learning - Mini Batch ' },
+      { value: VisualizationEnum.FA, label: 'Factor Analysis' },
+      { value: VisualizationEnum.FAST_ICA, label: 'Fast ICA' },
+      { value: VisualizationEnum.LDA, label: 'Latent Dirichlet Allocation' },
+      { value: VisualizationEnum.NMF, label: 'Non-Negative Matrix Factorization' },
+      { value: VisualizationEnum.PCA, label: 'PCA' },
+      { value: VisualizationEnum.INCREMENTAL_PCA, label: 'PCA - Incremental' },
+      { value: VisualizationEnum.KERNAL_PCA, label: 'PCA - Kernel' },
+      { value: VisualizationEnum.SPARSE_PCA, label: 'PCA - Sparse' },
+      { value: VisualizationEnum.MINI_BATCH_SPARSE_PCA, label: 'PCA - Sparse - Mini Batch' },
+      { value: VisualizationEnum.SPARSE_CODER, label: 'Sparse Coder' },
+      { value: VisualizationEnum.TRUNCATED_SVD, label: 'Truncated SVD' },
+      //   ]
+      // }
+      // , {
+      //   value: VisualizationEnum.MANIFOLDLEARNING, label: 'Manifold Learning', methodOptions: [
+      { value: VisualizationEnum.ISOMAP, label: 'Isomap' },
+      { value: VisualizationEnum.LOCALLY_LINEAR_EMBEDDING, label: 'Locally Linear Embedding' },
+      { value: VisualizationEnum.MDS, label: 'MDS' },
+      { value: VisualizationEnum.SPECTRAL_EMBEDDING, label: 'Spectral Embedding' },
+      { value: VisualizationEnum.TSNE, label: 'T-SNE' }
+      //   ]
+      // },
       // { value: VisualizationEnum.DECOMPOSITION, label: 'Cross Decomposition', methodOptions: [
       //    {
       //         value: VisualizationEnum.SUPPORT_VECTOR_MACHINES, label: 'Support Vector Machines', methodOptions: [

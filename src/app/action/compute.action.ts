@@ -1,3 +1,4 @@
+import { HazardConfigModel, HazardDataModel } from './../component/visualization/hazard/hazard.model';
 import { DataDecorator } from './../model/data-map.model';
 import { DendogramConfigModel, DendogramDataModel } from './../component/visualization/dendogram/dendogram.model';
 import {
@@ -102,6 +103,8 @@ export const COMPUTE_DE = '[Compute] De';
 export const COMPUTE_DE_COMPLETE = '[Compute] De Complete';
 export const COMPUTE_SURVIVAL = '[Compute] Survival';
 export const COMPUTE_SURVIVAL_COMPLETE = '[Compute] Survival Complete';
+export const COMPUTE_HAZARD = '[Compute] Hazard';
+export const COMPUTE_HAZARD_COMPLETE = '[Compute] Hazard Complete';
 export const COMPUTE_DENDOGRAM = '[Compute] Dendogram';
 export const COMPUTE_DENDOGRAM_COMPLETE = '[Compute] Dendogram Complete';
 export const COMPUTE_HEATMAP = '[Compute] Heatmap';
@@ -376,6 +379,14 @@ export class SurvivalCompleteAction implements Action {
     readonly type: string = COMPUTE_SURVIVAL_COMPLETE;
     constructor(public payload: { config: SurvivalConfigModel, data: SurvivalDataModel }) { }
 }
+export class HazardAction implements Action {
+    readonly type: string = COMPUTE_HAZARD;
+    constructor(public payload: { config: HazardConfigModel }) { }
+}
+export class HazardCompleteAction implements Action {
+    readonly type: string = COMPUTE_HAZARD_COMPLETE;
+    constructor(public payload: { config: HazardConfigModel, data: HazardDataModel }) { }
+}
 export class DendogramAction implements Action {
     readonly type: string = COMPUTE_DENDOGRAM;
     constructor(public payload: { config: DendogramConfigModel }) { }
@@ -567,6 +578,7 @@ export type Actions =
     PlsAction | PlsCompleteAction |
     TsneAction | TsneCompleteAction |
     SurvivalAction | SurvivalCompleteAction |
+    HazardAction | HazardCompleteAction |
     DendogramAction | DendogramCompleteAction |
     HeatmapAction | HeatmapCompleteAction |
     BoxWhiskersAction | BoxWhiskersCompleteAction |

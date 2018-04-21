@@ -5,12 +5,12 @@ import { VisualizationEnum, DimensionEnum, GraphEnum, EntityTypeEnum } from 'app
 import { DataField, DataFieldFactory } from 'app/model/data-field.model';
 import { GraphData } from 'app/model/graph-data.model';
 
-export class SurvivalConfigModel extends GraphConfig {
+export class HazardConfigModel extends GraphConfig {
     constructor() {
         super();
         this.entity = EntityTypeEnum.PATIENT;
-        this.visualization = VisualizationEnum.SURVIVAL;
-        this.label = 'Survival';
+        this.visualization = VisualizationEnum.HAZARD;
+        this.label = 'Hazard';
     }
     censorEvent: string;
 
@@ -19,7 +19,7 @@ export class SurvivalConfigModel extends GraphConfig {
         sampleIds: Array<number>
     }>;
 }
-export interface SurvivalDatumModel {
+export interface HazardDatumModel {
     line: Array<[number, number]>;
     upper: Array<[number, number]>;
     lower: Array<[number, number]>;
@@ -27,7 +27,7 @@ export interface SurvivalDatumModel {
     name: string;
     color: number;
 }
-export interface SurvivalDataModel extends GraphData {
+export interface HazardDataModel extends GraphData {
     legends: Array<Legend>;
-    survival: Array<SurvivalDatumModel>;
+    hazard: Array<HazardDatumModel>;
 }
