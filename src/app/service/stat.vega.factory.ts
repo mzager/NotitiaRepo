@@ -249,7 +249,7 @@ export class StatVegaFactory {
                             'signal': 'signal_selected_myvalue'
                         },
                         'fillOpacity': {
-                            'value': 0.2
+                            'value': 1
                         },
                         'fontSize': {
                             'value': 10,

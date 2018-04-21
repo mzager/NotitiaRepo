@@ -6,6 +6,7 @@ import { DashboardPanelComponent } from './component/workspace/dashboard-panel/d
 import { DecoratorPanelComponent } from './component/workspace/decorator-panel/decorator-panel.component';
 import { CitationsPanelComponent } from './component/workspace/citations-panel/citations-panel.component';
 import { AboutPanelComponent } from './component/workspace/about-panel/about-panel.component';
+import { FeedbackPanelComponent } from './component/workspace/feedback-panel/feedback-panel.component';
 import { AnalysisPanelComponent } from './component/workspace/analysis-panel/analysis-panel.component';
 import { LandingPanelComponent } from './component/workspace/landing-panel/landing-panel.component';
 import { AngularDraggableModule } from 'angular2-draggable';
@@ -172,6 +173,7 @@ import { LoaderComponent } from './component/workspace/loader/loader.component';
     DecoratorPanelComponent,
     PathwayPanelComponent,
     DashboardPanelComponent,
+    FeedbackPanelComponent,
 
     ToolBarComponent,
     ColorPanelComponent,
