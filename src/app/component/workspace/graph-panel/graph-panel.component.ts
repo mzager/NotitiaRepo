@@ -159,21 +159,21 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
         });
       });
     }
-
-    const topTierVisualization = this.visualizationOptions.find(v => v.value === value.visualization);
-    if (topTierVisualization) {
-      this.methodOption = null;
-      this.methodOptions = [];
-      this.visualizationOption = value.visualization;
-    } else {
-      const secondTierVisualization = this.visualizationOptions
-        .filter(v => v.methodOptions)
-        .filter(v => v.methodOptions
-          .find(w => w.value === value.visualization))[0];
-      this.visualizationOption = secondTierVisualization.value;
-      this.methodOptions = secondTierVisualization.methodOptions;
-      this.methodOption = value.visualization;
-    }
+    this.visualizationOption = value.visualization;
+    // const topTierVisualization = this.visualizationOptions.find(v => v.value === value.visualization);
+    // if (topTierVisualization) {
+    //   this.methodOption = null;
+    //   this.methodOptions = [];
+    //   this.visualizationOption = value.visualization;
+    // } else {
+    //   const secondTierVisualization = this.visualizationOptions
+    //     .filter(v => v.methodOptions)
+    //     .filter(v => v.methodOptions
+    //       .find(w => w.value === value.visualization))[0];
+    //   this.visualizationOption = secondTierVisualization.value;
+    //   this.methodOptions = secondTierVisualization.methodOptions;
+    //   this.methodOption = value.visualization;
+    // }
   }
 
   visualizationOptions: Array<any>;
@@ -407,45 +407,79 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.cid = Math.random().toString(36).replace(/[^a-z]+/g, '');
     this.methodOptions = [];
     this.visualizationOptions = [
-      { value: VisualizationEnum.BOX_WHISKERS, label: 'Box + Whisker' },
-      { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
-      { value: VisualizationEnum.SPREADSHEET, label: 'Dashboard' },
-      { value: VisualizationEnum.HIC, label: 'Force Directed Graph' },
-      { value: VisualizationEnum.GENOME, label: 'Genome' },
-      // { value: VisualizationEnum.DENDOGRAM, label: 'Dendogram' },
-      { value: VisualizationEnum.HEATMAP, label: 'Heatmap' },
-      // { value: VisualizationEnum.HISTOGRAM, label: 'Histogram' },
-      { value: VisualizationEnum.PATHWAYS, label: 'Pathways' },
-      { value: VisualizationEnum.SURVIVAL, label: 'Survival' },
-      { value: VisualizationEnum.HAZARD, label: 'Hazard' },
-      { value: VisualizationEnum.SPREADSHEET, label: 'Spreadsheet' },
-      { value: VisualizationEnum.TIMELINES, label: 'Timelines' },
-      // {
-      //   value: VisualizationEnum.DECOMPOSITION, label: 'Matrix Decomposition', methodOptions: [
-      { value: VisualizationEnum.DICTIONARY_LEARNING, label: 'Dictionary Learning' },
-      { value: VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING, label: 'Dictionary Learning - Mini Batch ' },
-      { value: VisualizationEnum.FA, label: 'Factor Analysis' },
-      { value: VisualizationEnum.FAST_ICA, label: 'Fast ICA' },
-      { value: VisualizationEnum.LDA, label: 'Latent Dirichlet Allocation' },
-      { value: VisualizationEnum.NMF, label: 'Non-Negative Matrix Factorization' },
-      { value: VisualizationEnum.PCA, label: 'PCA' },
-      { value: VisualizationEnum.INCREMENTAL_PCA, label: 'PCA - Incremental' },
-      { value: VisualizationEnum.KERNAL_PCA, label: 'PCA - Kernel' },
-      { value: VisualizationEnum.SPARSE_PCA, label: 'PCA - Sparse' },
-      { value: VisualizationEnum.MINI_BATCH_SPARSE_PCA, label: 'PCA - Sparse - Mini Batch' },
-      { value: VisualizationEnum.SPARSE_CODER, label: 'Sparse Coder' },
-      { value: VisualizationEnum.TRUNCATED_SVD, label: 'Truncated SVD' },
+      {
+        group: 'Summary', options: [
+          { value: VisualizationEnum.DASHBOARD, label: 'Dashboard' },
+          { value: VisualizationEnum.BOX_WHISKERS, label: 'Box + Whisker' },
+          { value: VisualizationEnum.HEATMAP, label: 'Heatmap' },
+          { value: VisualizationEnum.SPREADSHEET, label: 'Spreadsheet' },
+          // { value: VisualizationEnum.PARALLEL_COORDS, label: 'Parallel Coordinates'}
+          // { value: VisualizationEnum.DENDOGRAM, label: 'Dendogram' },
+          // { value: VisualizationEnum.HISTOGRAM, label: 'Histogram' },
+        ]
+      }, {
+        group: 'Structural', options: [
+          { value: VisualizationEnum.GENOME, label: 'Genome' },
+          { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
+          { value: VisualizationEnum.HIC, label: 'Force Directed Graph' },
+          { value: VisualizationEnum.PATHWAYS, label: 'Pathways' }
+        ]
+      }, {
+        group: 'Treatment', options: [
+          { value: VisualizationEnum.SURVIVAL, label: 'Survival' },
+          { value: VisualizationEnum.HAZARD, label: 'Hazard' },
+          { value: VisualizationEnum.TIMELINES, label: 'Timelines' }
+        ]
+      }, {
+        group: 'Manifold Learning', options: [
+          { value: VisualizationEnum.ISOMAP, label: 'Isomap' },
+          { value: VisualizationEnum.LOCALLY_LINEAR_EMBEDDING, label: 'Locally Linear Embedding' },
+          { value: VisualizationEnum.MDS, label: 'MDS' },
+          { value: VisualizationEnum.SPECTRAL_EMBEDDING, label: 'Spectral Embedding' },
+          { value: VisualizationEnum.TSNE, label: 'T-SNE' }
+        ]
+      }, {
+        group: 'Matrix Decomposition', options: [
+          { value: VisualizationEnum.DICTIONARY_LEARNING, label: 'Dictionary Learning' },
+          { value: VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING, label: 'Dictionary Learning - Mini Batch ' },
+          { value: VisualizationEnum.FA, label: 'Factor Analysis' },
+          { value: VisualizationEnum.FAST_ICA, label: 'Fast ICA' },
+          { value: VisualizationEnum.LDA, label: 'Latent Dirichlet Allocation' },
+          { value: VisualizationEnum.NMF, label: 'Non-Negative Matrix Factorization' },
+          { value: VisualizationEnum.PCA, label: 'PCA' },
+          { value: VisualizationEnum.INCREMENTAL_PCA, label: 'PCA - Incremental' },
+          { value: VisualizationEnum.KERNAL_PCA, label: 'PCA - Kernel' },
+          { value: VisualizationEnum.SPARSE_PCA, label: 'PCA - Sparse' },
+          // { value: VisualizationEnum.SPARSE_PCA, label: 'PCA - Probabilistic' },
+          { value: VisualizationEnum.MINI_BATCH_SPARSE_PCA, label: 'PCA - Sparse - Mini Batch' },
+          { value: VisualizationEnum.SPARSE_CODER, label: 'Sparse Coder' },
+          { value: VisualizationEnum.TRUNCATED_SVD, label: 'Truncated SVD' },
+        ]
+      }, {
+        group: 'Discriminant Analysis', options: [
+          { value: VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS, label: 'Linear Discriminat Analysis' },
+          { value: VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS, label: 'Quadratic Discriminant Analysis' }
+        ]
+      }, {
+        group: 'Support Vector Machines', options: [
+          { value: VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS, label: 'SVC' },
+          { value: VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS, label: 'SVR' },
+          { value: VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS, label: 'Linear SVC' },
+          { value: VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS, label: 'Linear SVR' },
+          { value: VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS, label: 'NU SVC' },
+          { value: VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS, label: 'NU SVR' },
+          { value: VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS, label: 'One Class SVM' }
+        ]
+      }
+      // ,{
+      //   group: 'Cross Decomposition', options: [
+      //     { value: VisualizationEnumPLS, label: 'Linear Discriminat Analysis' },
+      //     { value: VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS, label: 'Quadratic Discriminant Analysis' }
       //   ]
       // }
-      // , {
-      //   value: VisualizationEnum.MANIFOLDLEARNING, label: 'Manifold Learning', methodOptions: [
-      { value: VisualizationEnum.ISOMAP, label: 'Isomap' },
-      { value: VisualizationEnum.LOCALLY_LINEAR_EMBEDDING, label: 'Locally Linear Embedding' },
-      { value: VisualizationEnum.MDS, label: 'MDS' },
-      { value: VisualizationEnum.SPECTRAL_EMBEDDING, label: 'Spectral Embedding' },
-      { value: VisualizationEnum.TSNE, label: 'T-SNE' }
-      //   ]
-      // },
+
+
+
       // { value: VisualizationEnum.DECOMPOSITION, label: 'Cross Decomposition', methodOptions: [
       //    {
       //         value: VisualizationEnum.SUPPORT_VECTOR_MACHINES, label: 'Support Vector Machines', methodOptions: [
@@ -464,8 +498,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       // Manifold learning
 
       // Discriminant Analysis
-      // { value: VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS, label: 'Linear Discriminat Analysis' },
-      // { value: VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS, label: 'Quadratic Discriminant Analysis' },
+
       // Random Projection
       // Gaussian, Sparse
       // Cross Decomposition
@@ -477,7 +510,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       // { value: VisualizationEnum.DA, label: 'Discriminat Analysis '},
       // { value: VisualizationEnum.DE, label: 'Gene Set Enrichmant '},
       // { value: VisualizationEnum.DE, label: 'Differential Expression '},
-      // { value: VisualizationEnum.PARALLEL_COORDS, label: 'Parallel Coordinates'},
     ];
   }
 }

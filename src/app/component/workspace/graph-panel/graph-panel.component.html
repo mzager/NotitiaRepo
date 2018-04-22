@@ -21,21 +21,25 @@
 
         <div style='padding:10px'>
             <app-workspace-edge-panel *ngIf='config.graph === 2'></app-workspace-edge-panel>
-
             <div class='form-group'>
                 <label class='center-block'>
                     <span class='form-label'>Analysis</span>
-                    <select materialize='material_select' [ngModel]='visualizationOption' (change)='onVisualizationChange($event)' [materializeSelectOptions]='visualizationOptions'>
-                        <option *ngFor='let option of visualizationOptions' [value]='option.value' [selected]='config.visualization'>{{option.label}}</option>
+                    <select class='graphPanelAnalysisSelect' materialize='material_select' [ngModel]='visualizationOption' (change)='onVisualizationChange($event)'>
+                        <optgroup *ngFor='let group of visualizationOptions' [label]='group.group'>
+                            <option class='graphPanelAnalysisOption' *ngFor='let option of group.options' [value]='option.value' [selected]='config.visualization'>{{option.label}}</option>
+                        </optgroup>
                     </select>
                 </label>
             </div>
 
-            <div class='form-group' *ngIf='methodOptions.length'>
+            <div class='form-group'>
                 <label class='center-block'>
-                    <span class='form-label'>Method</span>
-                    <select materialize='material_select' [ngModel]='methodOption' (change)='onVisualizationChange($event)' [materializeSelectOptions]='methodOptions'>
-                        <option *ngFor='let option of methodOptions' [value]='option.value' [selected]='config.visualization'>{{option.label}}</option>
+                    <span class='form-label'>Cohort</span>
+                    <select materialize='material_select' (change)='onCohortChange($event)' [materializeSelectOptions]='cohorts'>
+                        <option *ngFor='let option of cohorts' [value]='option.n' selected>{{option.n}} </option>
+                        <option value='customize'>
+                            <span class='customizeDropdownOption'>Customize</span>
+                        </option>
                     </select>
                 </label>
             </div>
@@ -52,17 +56,7 @@
                 </label>
             </div>
 
-            <div class='form-group'>
-                <label class='center-block'>
-                    <span class='form-label'>Cohort</span>
-                    <select materialize='material_select' (change)='onCohortChange($event)' [materializeSelectOptions]='cohorts'>
-                        <option *ngFor='let option of cohorts' [value]='option.n' selected>{{option.n}} </option>
-                        <option value='customize'>
-                            <span class='customizeDropdownOption'>Customize</span>
-                        </option>
-                    </select>
-                </label>
-            </div>
+
 
 
             <div *ngIf='config'>
