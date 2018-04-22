@@ -26,7 +26,7 @@
     font-weight: 500;
 }
 .app-bar-menu-item-comparison {
-    border: 1px solid  rgba(0, 0, 0, 0.38);;
+    border: 1px solid rgba(255, 255, 255, 0.3);// rgba(0, 0, 0, 0.38);;
     border-width: 0px 1px 0px 0px;
     color: #FFF !important;
     display: inline-block;
@@ -34,12 +34,17 @@
     ::placeholder {
         color: #FFF;
     }
-    
+    label {
+        cursor: pointer;
+    }
+    margin: 0px;
     padding-left: 10px;
     padding-right: 10px;
     cursor: pointer;
 }
-
+.app-bar-menu-item-comparison:hover {
+    // background: o
+}
 .application-bar-menu {
     position: absolute;
     top: 0px;
