@@ -16,6 +16,7 @@
 
 <!-- Help -->
 <ul id='application-bar-menu-help' class='dropdown-content'>
+  <!--
   <li>
     <a class='app-bar-menu-item' (click)='viewPanel(4)' href='#'>Data Sets</a>
   </li>
@@ -28,6 +29,7 @@
   <li>
     <a class='app-bar-menu-item' (click)='viewPanel(8192)' href='#'>Pathways</a>
   </li>
+  -->
   <!-- <li>
         <a class='app-bar-menu-item' (click)='viewPanel(256)' href='#'>Settings</a>
     </li> -->
@@ -62,10 +64,29 @@
       <i class="material-icons hide-on-small-and-down" style='position:absolute;top:4px;left:10px;'>search</i>
     </div>
     <div class='app-bar-menu-item hide-on-small-and-down' class='app-bar-menu-item-comparison hide-on-small-and-down'>
+      <label style='color:#FFF;' (click)='viewPanel(4)'>
+        <i class='material-icons tiny' style='padding-top:2px;position:relative;top:3px;'>grid_on</i> Datasets
+      </label>
+    </div>
+    <div class='app-bar-menu-item hide-on-small-and-down' class='app-bar-menu-item-comparison hide-on-small-and-down'>
+      <label style='color:#FFF;' (click)='viewPanel(8192)'>
+        <i class='material-icons tiny' style='padding-top:2px;position:relative;top:3px;'>timeline</i> Pathways
+      </label>
+    </div>
+    <div class='app-bar-menu-item hide-on-small-and-down' class='app-bar-menu-item-comparison hide-on-small-and-down'>
+      <label style='color:#FFF;' (click)='viewPanel(16)'>
+        <i class='material-icons tiny' style='padding-top:2px;position:relative;top:3px;'>people</i> Cohorts
+      </label>
+    </div>
+    <div class='app-bar-menu-item hide-on-small-and-down' class='app-bar-menu-item-comparison hide-on-small-and-down'>
+      <label style='color:#FFF;' (click)='viewPanel(32)'>
+        <i class='material-icons tiny' style='padding-top:2px;position:relative;top:3px;'>grain</i> Genesets
+      </label>
+    </div>
+    <div class='app-bar-menu-item hide-on-small-and-down' class='app-bar-menu-item-comparison hide-on-small-and-down'>
       <label style='color:#FFF;' (click)='toggleBackgroundColor()'>
         <i class='material-icons tiny' style='padding-top:2px;position:relative;top:3px;'>brightness_6</i> Color
       </label>
-
     </div>
     <div class='app-bar-menu-item hide-on-small-and-down' class='app-bar-menu-item-comparison hide-on-small-and-down'>
       <div class='switch hide-on-small-and-down' style='margin:0px;color:#FFF;'>
@@ -75,6 +96,18 @@
         </label>
       </div>
     </div>
+    <!-- <div class='app-bar-menu-item hide-on-small-and-down' class='app-bar-menu-item-comparison hide-on-small-and-down'>
+      <label style='color:#FFF;' (click)='toggleBackgroundColor()'>
+        <i class='material-icons timeline' style='padding-top:2px;position:relative;top:3px;'>timeline</i> Pathways
+      </label>
+      <label style='color:#FFF;' (click)='toggleBackgroundColor()'>
+        <i class='material-icons timeline' style='padding-top:2px;position:relative;top:3px;'>people</i> Cohorts
+      </label>
+      <label style='color:#FFF;' (click)='toggleBackgroundColor()'>
+        <i class='material-icons timeline' style='padding-top:2px;position:relative;top:3px;'>grain</i> Gene Sets
+      </label>
+    </div> -->
+
     <a class='dropdown-button nav-button' data-activates='application-bar-menu-help' data-beloworigin='true' href='#'>
       <label style='color:#FFF;'>Menu</label>
       <i class='material-icons tiny' style='padding-top:2px;position:relative;top:3px;'>menu</i>

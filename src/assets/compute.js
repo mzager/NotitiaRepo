@@ -21928,9 +21928,9 @@ var ComputeWorkerUtil = /** @class */ (function () {
             'Access-Control-Allow-Origin': '*'
         };
         // return fetch('http://oncoscape-opencpu.sttrcancer.io/py', {
-        return fetch('https://python.os.sttrcancer.io/py', {
-            // python.os.sttrcancer.io/py
-            // return fetch('http://localhost/py', {
+        // return fetch('https://python.os.sttrcancer.io/py', {
+        // python.os.sttrcancer.io/py
+        return fetch('http://localhost/py', {
             headers: headers,
             method: 'POST',
             body: JSON.stringify(config)
