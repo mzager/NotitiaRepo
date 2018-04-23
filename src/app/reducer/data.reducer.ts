@@ -34,7 +34,12 @@ export function reducer(state = initialState, action: Action): State {
     switch (action.type) {
         case data.DATA_LOADED:
             const dla: DataLoadedAction = action as DataLoadedAction;
-            return Object.assign({}, state, { dataset: dla.dataset, fields: dla.fields, tables: dla.tables, events: dla.events });
+            return Object.assign({}, state, {
+                cohorts: dla.cohorts,
+                pathways: dla.pathways,
+                genesets: dla.genesets,
+                dataset: dla.dataset, fields: dla.fields, tables: dla.tables, events: dla.events
+            });
         case data.DATA_UPDATE_COHORTS:
             const duc: DataUpdateCohortsAction = action as DataUpdateCohortsAction;
             return Object.assign({}, state, { cohorts: duc.payload });

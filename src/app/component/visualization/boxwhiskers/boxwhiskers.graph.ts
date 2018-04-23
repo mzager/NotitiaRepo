@@ -190,7 +190,10 @@ export class BoxWhiskersGraph extends AbstractVisualization {
 
         ChartFactory.decorateDataGroups(this.meshes, this.decorators, this.renderer, 3);
         this.tooltipController.targets = this.meshes;
-
+        ChartFactory.configPerspectiveOrbit(this.view,
+            new THREE.Box3(
+                new Vector3(0, -900, -5),
+                new THREE.Vector3(this.entityWidth, 900, 5)));
     }
 
     removeObjects(): void {
@@ -238,8 +241,7 @@ export class BoxWhiskersGraph extends AbstractVisualization {
             this.labels.innerHTML =
                 '<div style="position:fixed;bottom:10px;left:50%; font-size: 1.2rem;">TEST</div>' +
                 '<div style="position:fixed;right:10px;top:50%; transform: rotate(90deg);font-size: 1.2rem;">TEST</div>';
-        }
-        else if (this.view.camera.position.z > 350) {
+        } else if (this.view.camera.position.z > 350) {
             optionsForX.fontsize = 0;
             optionsForQ1.fontsize = 8;
 
@@ -247,8 +249,7 @@ export class BoxWhiskersGraph extends AbstractVisualization {
                 LabelController.generateHtml(this.meshes, optionsForX) +
                 LabelController.generateHtml(this.labelsForQ1, optionsForQ1) +
                 LabelController.generateHtml(this.labelsForQ2, optionsForQ2);
-        }
-        else if (this.view.camera.position.z > 250) {
+        } else if (this.view.camera.position.z > 250) {
             optionsForX.fontsize = 10;
             optionsForQ1.fontsize = 10;
 
@@ -256,9 +257,7 @@ export class BoxWhiskersGraph extends AbstractVisualization {
                 LabelController.generateHtml(this.meshes, optionsForX) +
                 LabelController.generateHtml(this.labelsForQ1, optionsForQ1) +
                 LabelController.generateHtml(this.labelsForQ2, optionsForQ2);
-        }
-
-        else if (this.view.camera.position.z > 20) {
+        } else if (this.view.camera.position.z > 20) {
             optionsForX.fontsize = 15;
             optionsForQ1.fontsize = 15;
 

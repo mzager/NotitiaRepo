@@ -34,11 +34,18 @@ import { Actions, Effect } from '@ngrx/effects';
 import { ComputeService } from './../service/compute.service';
 import { DataField } from 'app/model/data-field.model';
 import {
-    DataLoadedAction, DataLoadIlluminaVcfAction, DATA_LOADED, DataUpdateGenesetsAction,
+    DataLoadedAction,
+    DataLoadIlluminaVcfAction,
+    DataUpdateGenesetsAction,
     DataLoadFromDexieAction,
     DataUpdateCohortsAction,
-    DataAddCohortAction, DATA_DEL_COHORT, DataAddGenesetAction, DATA_ADD_GENESET, DataDelGenesetAction,
-    DataDelCohortAction
+    DataAddCohortAction,
+    DataDelCohortAction,
+    DataAddGenesetAction,
+    DataDelGenesetAction,
+    DataAddPathwayAction,
+    DataDelPathwayAction,
+    DataUpdatePathwayAction
 } from './../action/data.action';
 import { DataService } from './../service/data.service';
 import { DataTypeEnum, WorkspaceLayoutEnum, CollectionTypeEnum, GraphPanelEnum } from './../model/enum.model';
@@ -82,7 +89,8 @@ export class DataEffect {
             return Observable.fromPromise(Promise.all([
                 this.datasetService.getDataset(args.dataset),
                 this.dataService.getCustomGenesets(args.dataset),
-                this.dataService.getCustomCohorts(args.dataset)
+                this.dataService.getCustomCohorts(args.dataset),
+                this.dataService.getCustomPathways(args.dataset)
             ]));
         })
         .switchMap((args) => {
@@ -90,7 +98,26 @@ export class DataEffect {
             if (args[2] === undefined) { args[2] = []; }
             return Observable.of(
                 new DataLoadedAction(args[0].name, args[0].tables, args[0].fields, args[0].events,
-                    args[1], args[2]));
+                    args[1], args[2], args[3]));
+        });
+
+    @Effect() addPathway: Observable<Action> = this.actions$
+        .ofType(data.DATA_ADD_PATHWAY)
+        .switchMap((args: DataAddPathwayAction) => {
+            return Observable.fromPromise(this.dataService.createCustomPathway(args.payload.database, args.payload.pathway)
+                .then(v => this.dataService.getCustomPathways(args.payload.database)));
+        }).switchMap((args: any) => {
+            return Observable.of(new DataUpdatePathwayAction(args));
+        });
+
+    @Effect() delPathway: Observable<Action> = this.actions$
+        .ofType(data.DATA_DEL_PATHWAY)
+        .switchMap((args: DataDelPathwayAction) => {
+            return Observable.fromPromise(
+                this.dataService.deleteCustomPathway(args.payload.database, args.payload.pathway)
+                    .then(v => this.dataService.getCustomPathways(args.payload.database)));
+        }).switchMap((args: any) => {
+            return Observable.of(new DataUpdatePathwayAction(args));
         });
 
     @Effect() addCohort: Observable<Action> = this.actions$
