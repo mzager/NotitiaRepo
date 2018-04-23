@@ -29,14 +29,13 @@ export class QueryPanelComponent implements AfterViewInit, OnDestroy {
 
   @Input() set configA(config: GraphConfig) {
     this._configA = config;
-    
     this.dataService.getQueryBuilderConfig(config.database).then(result => {
       this.cfg = result;
       const fieldKey = Object.keys(this.cfg.fields)[0];
       const field = result[fieldKey];
       this.query = {
         condition: 'and',
-        rules: [ { field: fieldKey, operator: '<=' } ]
+        rules: [{ field: fieldKey, operator: '<=' }]
       };
       this.showForm = true;
       this.cd.markForCheck();
@@ -76,10 +75,10 @@ export class QueryPanelComponent implements AfterViewInit, OnDestroy {
   // }
 
   // Life Cycle
-  ngOnDestroy(): void {}
-  ngAfterViewInit(): void {  }
+  ngOnDestroy(): void { }
+  ngAfterViewInit(): void { }
   constructor(private dataService: DataService, public ms: ModalService, private cd: ChangeDetectorRef, private fb: FormBuilder) {
-    this.form =  this.fb.group({
+    this.form = this.fb.group({
       cohortName: []
     });
   }

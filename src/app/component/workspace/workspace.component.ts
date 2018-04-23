@@ -45,6 +45,7 @@ import {
   DataLoadIlluminaVcfAction,
   DataUpdateGenesetsAction,
   DataUpdateCohortsAction,
+  DataUpdatePathwayAction,
   DataAddPathwayAction,
   DataDelPathwayAction,
   DataAddGenesetAction,
