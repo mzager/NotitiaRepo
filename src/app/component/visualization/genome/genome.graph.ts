@@ -19,7 +19,6 @@ import * as scale from 'd3-scale';
 import * as _ from 'lodash';
 import * as THREE from 'three';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
-import * as TWEEN from 'tween.js';
 import { ChromosomeConfigModel } from 'app/component/visualization/chromosome/chromosome.model';
 import { DataTable } from 'app/model/data-field.model';
 import { Group, Vector3, Object3D } from 'three';

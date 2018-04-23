@@ -1,7 +1,7 @@
 import { Legend } from './../../../model/legend.model';
 import { EntityTypeEnum, DirtyEnum, SpriteMaterialEnum } from './../../../model/enum.model';
 import { LdaConfigModel, LdaDataModel } from './lda.model';
-import { DedicatedWorkerGlobalScope } from 'compute';
+import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 
 export const ldaCompute = (config: LdaConfigModel, worker: DedicatedWorkerGlobalScope): void => {
     worker.util.getDataMatrix(config).then(matrix => {

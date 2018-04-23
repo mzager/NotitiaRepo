@@ -1,3 +1,4 @@
+import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 import { hazardCompute } from './app/component/visualization/hazard/hazard.compute';
 import { histogramCompute } from './app/component/visualization/histogram/histogram.compute';
 import { dendogramCompute } from './app/component/visualization/dendogram/dendogram.compute';
@@ -26,7 +27,6 @@ import { mdsCompute } from './app/component/visualization/mds/mds.compute';
 import { somCompute } from './app/component/visualization/som/som.compute';
 import { heatmapCompute } from './app/component/visualization/heatmap/heatmap.compute';
 import { edgesCompute } from './app/component/visualization/edges/edges.compute';
-import { DedicatedWorkerGlobalScope } from './compute';
 import { tsneCompute } from './app/component/visualization/tsne/tsne.compute';
 import { pcaCompute } from './app/component/visualization/pca/pca.compute';
 import { chromosomeCompute } from './app/component/visualization/chromosome/chromosome.compute';
@@ -43,15 +43,7 @@ import {
     quadradicDiscriminantAnalysisCompute
 } from './app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.compute';
 
-// import * as util from './app/service/compute.worker.util';
-// Recompile:  npm run worker
-export interface DedicatedWorkerGlobalScope extends Window {
-    util: ComputeWorkerUtil;
-    postMessage(data: any, transferList?: any): void;
-    importScripts(src: string): void;
-}
-
-onmessage = function (e) {
+onmessage = (e) => {
 
     const me = self as DedicatedWorkerGlobalScope;
     if (!me.hasOwnProperty('util')) {

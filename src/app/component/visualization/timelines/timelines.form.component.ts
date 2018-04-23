@@ -8,7 +8,7 @@ import { DataField, DataFieldFactory } from './../../../model/data-field.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import * as _ from 'lodash';
-import { Subject } from 'rxjs/subject';
+import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 declare var $: any;

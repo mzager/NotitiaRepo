@@ -1,7 +1,7 @@
 import { DataDecorator, DataDecoratorTypeEnum, DataDecoratorValue } from './../model/data-map.model';
 import { EdgeConfigModel } from './../component/visualization/edges/edges.model';
 import { interpolateRdBu, interpolateSpectral } from 'd3-scale-chromatic';
-import { DedicatedWorkerGlobalScope } from 'compute';
+import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 import { scaleLinear, InterpolatorFactory, scaleSequential, scaleQuantize, scaleQuantile } from 'd3-scale';
 import { interpolateRgb, interpolateHcl } from 'd3-interpolate';
 import { rgb } from 'd3-color';

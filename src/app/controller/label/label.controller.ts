@@ -4,7 +4,6 @@ import { ILabel } from './label.controller';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Rx';
 import { EventEmitter } from '@angular/core';
-import { Subject } from 'rxjs/subject';
 import { LabelForce } from './../../controller/label/label.force';
 import { VisualizationView } from './../../model/chart-view.model';
 import * as THREE from 'three';

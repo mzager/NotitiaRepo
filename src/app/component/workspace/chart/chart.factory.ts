@@ -7,7 +7,6 @@ import { EntityTypeEnum, SpriteMaterialEnum } from './../../../model/enum.model'
 import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
 import { MeshLine, MeshLineMaterial } from 'three.meshline';
 import { Injectable } from '@angular/core';
-import memoize from 'memoize-decorator';
 import { GraphEnum, ShapeEnum, SizeEnum, VisualizationEnum } from 'app/model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import * as THREE from 'three';
@@ -267,16 +266,16 @@ export class ChartFactory {
         this.linePool.length = 0;
     }
 
-    @memoize
+    // @memoize
     public static getLineColor(color: number): THREE.LineBasicMaterial {
         return new THREE.LineBasicMaterial({ color: color });
     }
-    @memoize
+    // @memoize
     public static getMeshLine(color: number, lineWidth: number = 2): MeshLineMaterial {
         return new MeshLineMaterial({ color: new THREE.Color(color), lineWidth: lineWidth });
     }
 
-    @memoize
+    // @memoize
     public static getColorMetal(color: number): THREE.Material {
         return new THREE.MeshStandardMaterial({
             color: color, emissive: new THREE.Color(0x000000),
@@ -330,12 +329,12 @@ export class ChartFactory {
         });
     }
 
-    @memoize
+    // @memoize
     public static getColor(color: number): THREE.Color {
         return new THREE.Color(color);
     }
 
-    @memoize
+    // @memoize
     public static getColorBasic(color: number): THREE.Material {
         return new THREE.MeshBasicMaterial({
             color: color,
@@ -343,7 +342,7 @@ export class ChartFactory {
         });
     }
 
-    @memoize
+    // @memoize
     public static getColorPhong(color: number): THREE.Material {
         return new THREE.MeshBasicMaterial({
             color: color
@@ -360,7 +359,7 @@ export class ChartFactory {
     }
 
 
-    @memoize
+    // @memoize
     public static getSpriteMaterial(shape: SpriteMaterialEnum, color: number): THREE.SpriteMaterial {
         // console.log(shape);
         switch (shape) {
@@ -386,7 +385,7 @@ export class ChartFactory {
         return new THREE.SpriteMaterial({ map: ChartFactory.textures.na, color: color });
     }
 
-    @memoize
+    // @memoize
     public static getShape(shape: ShapeEnum): THREE.Geometry {
         switch (shape) {
             case ShapeEnum.BOX:

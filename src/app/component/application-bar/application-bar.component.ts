@@ -6,7 +6,6 @@ import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { Component, Input, Output, ChangeDetectionStrategy, EventEmitter, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { GraphPanelEnum, PanelEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
-import * as XLSX from 'xlsx';
 import * as downloadjs from 'downloadjs';
 import * as THREE from 'three';
 import { ChartScene } from 'app/component/workspace/chart/chart.scene';

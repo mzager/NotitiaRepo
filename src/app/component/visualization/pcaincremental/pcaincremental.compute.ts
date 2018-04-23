@@ -3,7 +3,7 @@ import Dexie from 'dexie';
 import { PcaIncrementalConfigModel } from './pcaincremental.model';
 import { EntityTypeEnum, SpriteMaterialEnum } from './../../../model/enum.model';
 import { Legend } from './../../../model/legend.model';
-import { DedicatedWorkerGlobalScope } from 'compute';
+import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 import * as _ from 'lodash';
 declare var ML: any;
 

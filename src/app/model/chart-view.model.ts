@@ -1,4 +1,4 @@
-import { EffectComposer } from 'postprocessing';
+
 import { GraphConfig } from 'app/model/graph-config.model';
 import { ChartObjectInterface } from './../model/chart.object.interface';
 import { VisualizationView } from './chart-view.model';

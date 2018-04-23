@@ -1,3 +1,4 @@
+import { Store } from '@ngrx/store';
 import { HazardConfigModel } from './../visualization/hazard/hazard.model';
 import { Pathway } from './../../model/pathway.model';
 import { HistogramConfigModel } from './../visualization/histogram/histogram.model';
@@ -24,8 +25,6 @@ import * as fromRoot from 'app/reducer/index.reducer';
 import * as graph from 'app/action/graph.action';
 import * as layout from 'app/action/layout.action';
 import * as select from 'app/action/select.action';
-import * as XLSX from 'xlsx';
-import { Action, Store } from '@ngrx/store';
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {
   ChromosomeAction,

@@ -11,7 +11,7 @@ import * as d3Scale from 'd3-scale';
 import * as d3Color from 'd3-color';
 import * as d3Array from 'd3-array';
 import * as JStat from 'jstat';
-import { DedicatedWorkerGlobalScope } from 'compute';
+import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 
 const ct = [
     { 'chr': '1', 'P': 0, 'C': 124300000, 'Q': 247249719 },

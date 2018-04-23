@@ -471,6 +471,11 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
           { value: VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS, label: 'One Class SVM' }
         ]
       }
+      // { value: VisualizationEnum.PLS, label: 'Partial Least Squares'},
+      // { value: VisualizationEnum.SOM, label: 'SOM '},
+      // { value: VisualizationEnum.DA, label: 'Discriminat Analysis '},
+      // { value: VisualizationEnum.DE, label: 'Gene Set Enrichmant '},
+      // { value: VisualizationEnum.DE, label: 'Differential Expression '}
       // ,{
       //   group: 'Cross Decomposition', options: [
       //     { value: VisualizationEnumPLS, label: 'Linear Discriminat Analysis' },
