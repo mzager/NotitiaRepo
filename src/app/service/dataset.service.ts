@@ -68,6 +68,7 @@ export class DatasetService {
               return;
             }
             // Add Chort Table Defs
+            response.schema.pathways = '++, n';
             response.schema.cohorts = '++, n';
             response.schema.genesets = '++, n';
             const db = DatasetService.db = new Dexie('notitia-' + manifest.disease);

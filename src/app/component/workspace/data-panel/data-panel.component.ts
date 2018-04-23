@@ -66,7 +66,6 @@ export class DataPanelComponent implements AfterViewInit {
   }
 
   loadTable(table: DataTable): void {
-    debugger;
     const hot = this.hotRegisterer.getInstance('hotInstance');
     if (table.ctype === CollectionTypeEnum.UNDEFINED) {
       const config: GraphConfig = (table.tbl === 'configA') ? this.configA : this.configB;
@@ -97,7 +96,6 @@ export class DataPanelComponent implements AfterViewInit {
       return;
     }
     this.openDatabase().then(() => {
-      debugger;
       Promise.all([
         this.db.table(table.tbl.replace(/\s/gi, '')).limit(100).toArray(),
         this.db.table(table.map).toArray()

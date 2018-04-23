@@ -136,6 +136,15 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  _pathways: Array<any>;
+  public get pathways(): Array<any> { return this._pathways; }
+  @Input() public set pathways(value: Array<any>) {
+    this._pathways = value;
+    requestAnimationFrame(() => {
+      this.cd.markForCheck();
+    });
+  }
+
   private _config: GraphConfig = null;
   get config(): GraphConfig { return this._config; }
   @Input() set config(value: GraphConfig) {
@@ -406,6 +415,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
 
     this.cid = Math.random().toString(36).replace(/[^a-z]+/g, '');
     this.methodOptions = [];
+
     this.visualizationOptions = [
       {
         group: 'Summary', options: [
@@ -413,9 +423,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
           { value: VisualizationEnum.BOX_WHISKERS, label: 'Box + Whisker' },
           { value: VisualizationEnum.HEATMAP, label: 'Heatmap' },
           { value: VisualizationEnum.SPREADSHEET, label: 'Spreadsheet' },
-          // { value: VisualizationEnum.PARALLEL_COORDS, label: 'Parallel Coordinates'}
-          // { value: VisualizationEnum.DENDOGRAM, label: 'Dendogram' },
-          // { value: VisualizationEnum.HISTOGRAM, label: 'Histogram' },
+          { value: VisualizationEnum.PARALLEL_COORDS, label: 'Parallel Coordinates' },
+          { value: VisualizationEnum.DENDOGRAM, label: 'Dendogram' },
+          { value: VisualizationEnum.HISTOGRAM, label: 'Histogram' },
         ]
       }, {
         group: 'Structural', options: [

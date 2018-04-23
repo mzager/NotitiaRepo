@@ -339,7 +339,8 @@ export const enum PanelEnum {
     DOCUMENTATION = 1 << 11,
     DASHBOARD = 1 << 12,
     PATHWAYS = 1 << 13,
-    FEEDBACK = 1 << 14
+    FEEDBACK = 1 << 14,
+    UPLOAD = 1 << 15
 
 }
 

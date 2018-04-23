@@ -1,0 +1,67 @@
+<div class="file-modal-panel">
+        <div class="row">
+                <a href='#' class='modalClose' (click)='closeClick()'></a>
+                <div class="col s12">
+                        <h1 class='file-h1'>Data Hub</h1>
+                        <h2 class='file-h2'>Upload and share your data sets to our private cloud.
+                                <a href='https://www.youtube.com/embed/XQu8TTBmGhA' target='_blank'>
+                                        <i class='small material-icons modalWatchVideoIcon'>ondemand_video</i>Watch Tutorial</a>
+                        </h2>
+                </div>
+        </div>
+        <div class='row'>
+                <!-- My Pathways -->
+                <div class='col s12 l3 pathways-my-list'>
+                        <span>My Data Sets</span>
+                        <div>
+                                <div class='pathways-my-row'>
+                                        <i class='material-icons pathways-my-row-delete'>remove_circle_outline</i>
+                                        <span class='pathways-my-name'>Some Dataset</span>
+                                </div>
+                                <div class='pathways-my-row'>
+                                        <i class='material-icons pathways-my-row-delete'>remove_circle_outline</i>
+                                        <span class='pathways-my-name'>Some Other Dataset</span>
+                                </div>
+                        </div>
+                        <!-- <div *ngFor='let myPathway of pathways' (click)='pathwayDel(myPathway)'>
+                                <div class='pathways-my-row'>
+                                        <i class='material-icons pathways-my-row-delete'>remove_circle_outline</i>
+                                        <span class='pathways-my-name'>{{myPathway.n}}</span>
+                                </div>
+                        </div> -->
+                </div>
+                <div class='col s12 l9 pathways-public-datasets upload-container'>
+                        <span class="pathways-public-span" style='padding-left:10px;'>Upload a Dataset</span>
+
+
+
+                        <div class='col s12'>
+                                <label>Data Set Name</label>
+                                <input type='text' placeholder='Name Your Dataset Name'>
+                        </div>
+                        <div class='col s12'>
+                                <label>Dataset Description</label>
+                                <input type='text' placeholder='Describe Your Data Set'>
+                        </div>
+                        <div class='col s12'>
+                                <mat-checkbox>I certify this data set does not contain any Personal Health Information</mat-checkbox>
+                        </div>
+                        <div class='col s12'>
+                                <mat-checkbox>Select if data set is derived from Human Subjects</mat-checkbox>
+                        </div>
+                        <div class='col s12'>
+                                <label>Protocol Approval Documentation</label>
+                                <mat-select placeholder="Select One">
+                                        <mat-option *ngFor="let documentationType of documentationTypes" [value]="documentationType">
+                                                {{ documentationType.name }}
+                                        </mat-option>
+                                </mat-select>
+                        </div>
+                        <div class='col s12'>
+                                <button mat-raised-button>Upload Excel File</button>
+                        </div>
+
+
+                </div>
+        </div>
+</div>

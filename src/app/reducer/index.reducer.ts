@@ -88,7 +88,7 @@ export const getDataState = (state: State) => state.data;
 export const getFields = createSelector(getDataState, fromData.getFields);
 export const getTables = createSelector(getDataState, fromData.getTables);
 export const getEvents = createSelector(getDataState, fromData.getEvents);
-export const getPathways = createSelector(getDataState, fromData.getPathways)
+export const getPathways = createSelector(getDataState, fromData.getPathways);
 export const getGenesets = createSelector(getDataState, fromData.getGenesets);
 export const getCohorts = createSelector(getDataState, fromData.getCohorts);
 

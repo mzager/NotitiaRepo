@@ -18,6 +18,7 @@ import { QueryBuilderConfig } from 'app/component/workspace/query-panel/query-bu
 import { Legend } from '../model/legend.model';
 import { CitationsPanelComponent } from '../component/workspace/citations-panel/citations-panel.component';
 import * as d3 from 'd3';
+import { Pathway } from '../model/pathway.model';
 
 
 @Injectable()
@@ -668,6 +669,93 @@ export class DataService {
     });
   }
 
+  getPathwayCategories(): Promise<Array<{ c: string, n: string, d: string }>> {
+    return new Promise((resolve, reject) => {
+      resolve([
+        {
+          'c': 'http://pathwaycommons.org/pc2/pid',
+          'n': 'NCI Pathway Interaction Database',
+          'd': 'NCI Curated Human Pathways from PID'
+        },
+        {
+          'c': 'http://pathwaycommons.org/pc2/reactome',
+          'n': 'Reactome',
+          'd': 'Reactome v61'
+        },
+        {
+          'c': 'http://pathwaycommons.org/pc2/humancyc',
+          'n': 'HumanCyc',
+          'd': 'HumanCyc 20; 2016; under license from SRI International'
+        },
+        {
+          'c': 'http://pathwaycommons.org/pc2/inoh',
+          'n': 'Integrating Network Objects with Hierarchies',
+          'd': 'INOH 4.0 (signal transduction and metabolic data)'
+        },
+        {
+          'c': 'http://pathwaycommons.org/pc2/netpath',
+          'n': 'NetPath',
+          'd': 'NetPath 12/2011 (BIOPAX)'
+        },
+        {
+          'c': 'http://pathwaycommons.org/pc2/panther',
+          'n': 'PANTHER Pathway',
+          'd': 'PANTHER Pathways 3.4.1 on 04-Jul-2016'
+        },
+        {
+          'c': 'http://pathwaycommons.org/pc2/smpdb',
+          'n': 'Small Molecule Pathway Database',
+          'd': 'Small Molecule Pathway Database 2.0, 05-Jun-2016'
+        },
+        {
+          'c': 'http://pathwaycommons.org/pc2/kegg',
+          'n': 'KEGG Pathway',
+          'd': 'KEGG 07/2011 (only human, hsa files)'
+        },
+        {
+          'c': 'http://pathwaycommons.org/pc2/wp',
+          'n': 'WikiPathways',
+          'd': 'WikiPathways - Community Curated Human Pathways; 29/09/2015'
+        }
+      ]);
+    });
+  }
+  getPathways(): Promise<Array<any>> {
+    return this.http
+      .get('https://s3-us-west-2.amazonaws.com/notitia/pwc/pathways.json.gz')
+      .map(res => res.json()).toPromise();
+  }
+  createCustomPathway(database: string, pathway: Pathway): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const db = new Dexie('notitia-' + database);
+      db.open().then(v => {
+        v.table('pathways').add(pathway).then(w => {
+          resolve(w);
+        });
+      });
+    });
+  }
+  deleteCustomPathway(database: string, pathway: Pathway): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const db = new Dexie('notitia-' + database);
+      db.open().then(v => {
+        v.table('pathways').where('n').equalsIgnoreCase(pathway.n).delete().then(w => {
+          resolve(w);
+        });
+      });
+    });
+  }
+  getCustomPathways(database: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const db = new Dexie('notitia-' + database);
+      db.open().then(v => {
+        v.table('pathways').toArray().then(result => {
+          const pathways = result;
+          resolve(result);
+        });
+      });
+    });
+  }
   getGenesetCategories(): Promise<Array<{ c: string, n: string, d: string }>> {
     return this.http
       .get('https://s3-us-west-2.amazonaws.com/notitia/reference/genesets.json.gz')

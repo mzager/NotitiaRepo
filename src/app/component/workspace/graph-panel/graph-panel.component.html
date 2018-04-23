@@ -15,12 +15,77 @@
         <p style="margin-left: 10px; margin-top: 0px;">
             <a (click)='helpClick()' href='#'>Learn More</a>
         </p>
-
         <div class='graphPanelHeader'>Settings</div>
-
-
         <div style='padding:10px'>
+            <!--
             <app-workspace-edge-panel *ngIf='config.graph === 2'></app-workspace-edge-panel>
+            <mat-menu #analysisSummaryMenu='matMenu'>
+                <button mat-menu-item>Dashboard</button>
+                <button mat-menu-item>Box + Whiskers</button>
+                <button mat-menu-item>Heatmap</button>
+                <button mat-menu-item>Spreadsheet</button>
+            </mat-menu>
+            <mat-menu #analysisStructuralMenu='matMenu'>
+                <button mat-menu-item>Genome</button>
+                <button mat-menu-item>Chromosome</button>
+                <button mat-menu-item>Force Directed Graph</button>
+                <button mat-menu-item>Pathways</button>
+            </mat-menu>
+            <mat-menu #analysisTreatmentMenu='matMenu'>
+                <button mat-menu-item>Survival</button>
+                <button mat-menu-item>Hazard</button>
+                <button mat-menu-item>Timelines</button>
+            </mat-menu>
+            <mat-menu #analysisManifoldLearningMenu='matMenu'>
+                <button mat-menu-item>Isomap</button>
+                <button mat-menu-item>Locally Linear Embedding</button>
+                <button mat-menu-item>Spectral Embedding</button>
+            </mat-menu>
+            <mat-menu #analysisMatrixDecompositionMenu='matMenu'>
+                <button mat-menu-item>Dictionary Learning</button>
+                <button mat-menu-item>Dictionary Learning - Mini Batch</button>
+                <button mat-menu-item>Factor Analysis</button>
+                <button mat-menu-item>Fast ICA</button>
+                <button mat-menu-item>Latent Dirichlet Allocation</button>
+                <button mat-menu-item>Non-Negative Matrix Factorization</button>
+                <button mat-menu-item>PCA</button>
+                <button mat-menu-item>PCA - Incremental</button>
+                <button mat-menu-item>PCA - Kernel</button>
+                <button mat-menu-item>PCA - Sparse</button>
+                <button mat-menu-item>PCA - Sparse - Mini Batch</button>
+                <button mat-menu-item>PCA - Sparse Coder</button>
+                <button mat-menu-item>Truncated SVD</button>
+            </mat-menu>
+            <mat-menu #analysisDiscriminantAnalysisMenu='matMenu'>
+                <button mat-menu-item>Linear Discriminant Analysis</button>
+                <button mat-menu-item>Quadratic Discriminant Analysis</button>
+            </mat-menu>
+            <mat-menu #analysisSupportVectorMachinesMenu='matMenu'>
+                <button mat-menu-item>SVC</button>
+                <button mat-menu-item>SVR</button>
+                <button mat-menu-item>Linear SVC</button>
+                <button mat-menu-item>Linear SVR</button>
+                <button mat-menu-item>NU SVC</button>
+                <button mat-menu-item>NU SVR</button>
+                <button mat-menu-item>One Class SVM</button>
+            </mat-menu>
+            <mat-menu #analysisMenu='matMenu'>
+                <button mat-menu-item [matMenuTriggerFor]='analysisSummaryMenu'>Summary</button>
+                <button mat-menu-item [matMenuTriggerFor]='analysisStructuralMenu'>Structural</button>
+                <button mat-menu-item [matMenuTriggerFor]='analysisTreatmentMenu'>Treatment</button>
+                <button mat-menu-item [matMenuTriggerFor]='analysisManifoldLearningMenu'>Manifold Learning</button>
+                <button mat-menu-item [matMenuTriggerFor]='analysisMatrixDecompositionMenu'>Matrix Decomposition</button>
+                <button mat-menu-item [matMenuTriggerFor]='analysisDiscriminantAnalysisMenu'>Discriminant Analysis</button>
+                <button mat-menu-item [matMenuTriggerFor]='analysisSupportVectorMachinesMenu'>Support Vector Machines</button>
+            </mat-menu>
+
+            <button mat-button [matMenuTriggerFor]='analysisMenu' style='width:50%;text-align: left;'>Analysis</button>
+            <button mat-button style='width:50%;text-align: left;'>Configuration</button>
+            <button mat-button style='width:50%;text-align: left;'>Data</button>
+            <button mat-button style='width:50%;text-align: left;'>Visualization</button>
+
+-->
+
             <div class='form-group'>
                 <label class='center-block'>
                     <span class='form-label'>Analysis</span>
@@ -56,8 +121,17 @@
                 </label>
             </div>
 
-
-
+            <div class='form-group'>
+                <label class='center-block'>
+                    <span class='form-label'>Pathway</span>
+                    <select materialize='material_select' (change)='onPathwayChange($event)' [materializeSelectOptions]='pathways'>
+                        <option *ngFor='let option of pathways' [value]='option.n' selected>{{option.n}} </option>
+                        <option value='customize'>
+                            <span class='customizeDropdownOption'>Customize</span>
+                        </option>
+                    </select>
+                </label>
+            </div>
 
             <div *ngIf='config'>
                 <app-workspace-decorator-panel [decorators]='decorators' (decoratorAdd)='onDecoratorAdd($event)' (decoratorDel)='onDecoratorDel($event)'

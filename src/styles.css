@@ -1,4 +1,5 @@
 @import '~handsontable/dist/handsontable.full.css';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 /* Remove Bounce Scroll ioS */
 body{
     height: 100%;

@@ -151,6 +151,7 @@ export class HeatmapGraph implements ChartObjectInterface {
         this.drawDendogram(this.data.y, true);
         this.drawDendogram(this.data.x, false);
         this.onRequestRender.next();
+        // debugger;
     }
 
     createLine(node) {
