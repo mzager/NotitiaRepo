@@ -1,10 +1,8 @@
+import { EventEmitter } from '@angular/core';
 import { DataDecorator } from './data-map.model';
 import { EntityTypeEnum, WorkspaceLayoutEnum } from './enum.model';
 import { GraphEnum } from 'app/model/enum.model';
-import { Subject } from 'rxjs/subject';
-import { EventEmitter } from '@angular/core';
 import { VisualizationView } from './chart-view.model';
-import { ChartObjectInterface } from './chart.object.interface';
 import { OrbitControls } from 'three-orbitcontrols-ts';
 import { ChartEvents } from './../component/workspace/chart/chart.events';
 import { GraphConfig } from './graph-config.model';

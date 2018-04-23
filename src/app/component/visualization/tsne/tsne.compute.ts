@@ -2,7 +2,7 @@ import { Legend } from './../../../model/legend.model';
 
 import { TsneConfigModel, TsneDataModel } from './tsne.model';
 import { DimensionEnum, DirtyEnum, EntityTypeEnum, SpriteMaterialEnum } from './../../../model/enum.model';
-import { DedicatedWorkerGlobalScope } from './../../../../compute';
+import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 import * as _ from 'lodash';
 declare var ML: any;
 

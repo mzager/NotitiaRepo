@@ -4,7 +4,7 @@ import { scaleLinear } from 'd3-scale';
 import * as d3Scale from 'd3-scale';
 import * as d3Color from 'd3-color';
 import { Legend } from './../../../model/legend.model';
-import { DedicatedWorkerGlobalScope } from './../../../../compute';
+import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 import { EdgeConfigModel } from './edges.model';
 import * as _ from 'lodash';
 

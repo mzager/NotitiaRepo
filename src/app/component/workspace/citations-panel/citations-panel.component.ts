@@ -1,5 +1,4 @@
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/subject';
 import { ModalService } from 'app/service/modal-service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DataService } from './../../../service/data.service';

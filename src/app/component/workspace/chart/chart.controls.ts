@@ -65,11 +65,11 @@ export class ChartControls {
         this.subscription = null;
         this.mode = null;
         this.container = container;
-        this.mouseUp = Observable.fromEvent(container, 'mouseup');
-        this.mouseMove = Observable.fromEvent(container, 'mousemove');
-        this.mouseDown = Observable.fromEvent(container, 'mousedown');
-        this.keyDown = Observable.fromEvent(document, 'keydown');
-        this.keyUp = Observable.fromEvent(document, 'keyup');
+        this.mouseUp = Observable.fromEvent<MouseEvent>(container, 'mouseup');
+        this.mouseMove = Observable.fromEvent<MouseEvent>(container, 'mousemove');
+        this.mouseDown = Observable.fromEvent<MouseEvent>(container, 'mousedown');
+        this.keyDown = Observable.fromEvent<KeyboardEvent>(document, 'keydown');
+        this.keyUp = Observable.fromEvent<KeyboardEvent>(document, 'keyup');
         this.mouseDrag = this.mouseDown.filter((e => {
             return true;
         }).bind(this))

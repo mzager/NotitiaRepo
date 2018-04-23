@@ -3,7 +3,6 @@ import { SelectGraphCompleteAction } from './../action/select.action';
 import { State } from './../reducer/layout.reducer';
 import { ChromosomeConfigModel } from './../component/visualization/chromosome/chromosome.model';
 import { PcaConfigModel } from './../component/visualization/pca/pca.model';
-import { WorkbookService } from './../service/workbook.service';
 import * as compute from './../action/compute.action';
 import * as select from 'app/action/select.action';
 import * as service from 'app/service/http.client';

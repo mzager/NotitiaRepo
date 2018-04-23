@@ -7,7 +7,6 @@ import { DataField, DataTable } from './../model/data-field.model';
 import { DataSet } from './../model/data-set.model';
 import { GraphEnum } from 'app/model/enum.model';
 import { Action } from '@ngrx/store';
-import * as XLSX from 'xlsx';
 
 // Action Constants
 export const DATA_LOAD_FROM_DEXIE = '[Data] Load From Dexie';
@@ -38,7 +37,7 @@ export class DataAddPathwayAction implements Action {
     constructor(public payload: { pathway: Pathway, database: string }) { }
 }
 export class DataDelPathwayAction implements Action {
-    readonly type: string = DATA_DEL_PATHWAY
+    readonly type: string = DATA_DEL_PATHWAY;
     constructor(public payload: { pathway: Pathway, database: string }) { }
 }
 export class DataUpdatePathwayAction implements Action {

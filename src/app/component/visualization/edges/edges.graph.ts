@@ -8,7 +8,6 @@ import { EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model
 import { GraphEnum, DirtyEnum, ShapeEnum } from 'app/model/enum.model';
 import { EventEmitter, Output, Injectable, ReflectiveInjector, ViewChild } from '@angular/core';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import * as THREE from 'three';
 import * as _ from 'lodash';
 
@@ -31,7 +30,6 @@ export class EdgesGraph implements ChartObjectInterface {
     public decorators: DataDecorator[];
     public lines: Array<THREE.Line> = [];
     private drawEdgesDebounce: Function;
-    private toastsManager: ToastsManager;
     public updateEdges: Boolean = false;
     private edges: Array<any>;
     private commonKeys: any;

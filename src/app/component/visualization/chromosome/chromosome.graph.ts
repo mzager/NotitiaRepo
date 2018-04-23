@@ -13,9 +13,7 @@ import * as THREE from 'three';
 import { ChromosomeDataModel, ChromosomeConfigModel } from './chromosome.model';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
 import { arc } from 'd3-shape';
-import * as svgMesh3d from 'svg-mesh-3d';
 import * as complex from 'three-simplicial-complex';
-
 import { Geometry } from 'three';
 
 /*

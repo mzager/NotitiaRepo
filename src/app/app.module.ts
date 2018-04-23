@@ -9,7 +9,6 @@ import { AboutPanelComponent } from './component/workspace/about-panel/about-pan
 import { FeedbackPanelComponent } from './component/workspace/feedback-panel/feedback-panel.component';
 import { AnalysisPanelComponent } from './component/workspace/analysis-panel/analysis-panel.component';
 import { LandingPanelComponent } from './component/workspace/landing-panel/landing-panel.component';
-import { AngularDraggableModule } from 'angular2-draggable';
 import { MiniBatchSparsePcaFormComponent } from './component/visualization/minibatchsparsepca/minibatchsparsepca.form.component';
 import { HelpPanelComponent } from './component/workspace/help-panel/help-panel.component';
 import { HicFormComponent } from './component/visualization/hic/hic.form.component';
@@ -67,7 +66,6 @@ import { MdsFormComponent } from './component/visualization/mds/mds.form.compone
 import { NcbiService } from './service/ncbi.service';
 import { NgModule, NgZone } from '@angular/core';
 import { NmfFormComponent } from './component/visualization/nmf/nmf.form.component';
-import { OAuthService } from 'angular2-oauth2/oauth-service';
 import { PathwaysFormComponent } from './component/visualization/pathways/pathways.form.component';
 import { PcaFormComponent } from 'app/component/visualization/pca/pca.form.component';
 import { PcaIncrementalFormComponent } from './component/visualization/pcaincremental/pcaincremental.form.component';
@@ -85,11 +83,9 @@ import { StoreModule } from '@ngrx/store';
 import { SurvivalFormComponent } from './component/visualization/survival/survival.form.component';
 import { SvdFormComponent } from './component/visualization/svd/svd.form.component';
 import { TimelinesFormComponent } from './component/visualization/timelines/timelines.form.component';
-import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { ToolBarComponent } from 'app/component/workspace/tool-bar/tool-bar.component';
 import { TruncatedSvdFormComponent } from './component/visualization/truncatedsvd/truncatedsvd.form.component';
 import { TsneFormComponent } from './component/visualization/tsne/tsne.form.component';
-import { WorkbookService } from './service/workbook.service';
 import { WorkspaceComponent } from 'app/component/workspace/workspace.component';
 // tslint:disable-next-line:max-line-length
 import { QuadradicDiscriminantAnalysisFormComponent } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.form.component';
@@ -184,7 +180,6 @@ import { LoaderComponent } from './component/workspace/loader/loader.component';
   ],
   imports: [
     NouisliderModule,
-    ToastModule.forRoot(),
     MaterializeModule,
     FileUploadModule,
     BrowserModule,
@@ -193,7 +188,6 @@ import { LoaderComponent } from './component/workspace/loader/loader.component';
     HttpModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    AngularDraggableModule,
     EffectsModule.forRoot([DataEffect, ComputeEffect, SelectEffect]),
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({
@@ -207,12 +201,9 @@ import { LoaderComponent } from './component/workspace/loader/loader.component';
     DatasetService,
     FontService,
     ComputeService,
-    WorkbookService,
     ChartFactory,
     HttpClient,
-    // NcbiService,
-    ModalService,
-    OAuthService
+    ModalService
   ],
   bootstrap: [AppComponent]
 })

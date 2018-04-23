@@ -22,7 +22,6 @@ import * as _ from 'lodash';
         </select>
     </label>
   </div>
-  
   <div class='form-group'>
   <label class='center-block'><span class='form-label'>X Axis</span>
     <select materialize='material_select'
