@@ -1,6 +1,7 @@
+import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 import { HazardConfigModel } from './hazard.model';
 import { ChromosomeConfigModel } from './../chromosome/chromosome.model';
-import { DedicatedWorkerGlobalScope } from './../../../../compute';
+
 export const hazardCompute = (config: HazardConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
     const colors = [0x42a5f5, 0x66bb6a, 0xff9800, 0x795548, 0x673ab7, 0xe91e63];

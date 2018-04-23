@@ -12,7 +12,7 @@ import * as d3Color from 'd3-color';
 import * as d3Force from 'd3-force';
 import * as d3Array from 'd3-array';
 import * as JStat from 'jstat';
-import { DedicatedWorkerGlobalScope } from 'compute';
+import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 import * as d3_force from 'd3-force-3d';
 import graph from 'ngraph.graph';
 

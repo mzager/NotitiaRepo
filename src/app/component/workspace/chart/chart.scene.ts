@@ -1,7 +1,6 @@
 import { FontService } from './../../../service/font.service';
 import { DataDecorator } from './../../../model/data-map.model';
 import { GraphConfig } from 'app/model/graph-config.model';
-import * as TWEEN from 'tween.js';
 import { ChartFactory } from './chart.factory';
 import { EdgeConfigModel } from './../../visualization/edges/edges.model';
 import { WorkspaceConfigModel } from './../../../model/workspace.model';
@@ -12,7 +11,6 @@ import { VisualizationView } from './../../../model/chart-view.model';
 import { Observable } from 'rxjs/Observable';
 import { Injectable, EventEmitter } from '@angular/core';
 import { ChartControls } from './chart.controls';
-import TransformControls from 'three-transformcontrols';
 import { GraphPanelEnum, ToolEnum, GraphEnum, VisualizationEnum, DimensionEnum, VisibilityEnum } from 'app/model/enum.model';
 import { GraphTool } from 'app/model/graph-tool.model';
 import { Subscription } from 'rxjs/Subscription';
@@ -22,7 +20,7 @@ import {
     AmbientLight, OrthographicCamera, Camera, Scene, Vector2
 } from 'three';
 // import { EffectComposer, GlitchPass, RenderPass } from 'postprocessing';
-import { EffectComposer, RenderPass } from 'postprocessing';
+// import { EffectComposer, RenderPass } from 'postprocessing';
 
 @Injectable()
 export class ChartScene {

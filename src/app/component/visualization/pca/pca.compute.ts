@@ -1,7 +1,7 @@
 import { EntityTypeEnum, DirtyEnum, ShapeEnum, SpriteMaterialEnum } from './../../../model/enum.model';
 import { Legend } from './../../../model/legend.model';
 import { PcaConfigModel, PcaDataModel } from './pca.model';
-import { DedicatedWorkerGlobalScope } from 'compute';
+import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 import * as _ from 'lodash';
 import { DataDecoratorTypeEnum } from '../../../model/data-map.model';
 declare var ML: any;

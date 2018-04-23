@@ -3,7 +3,7 @@ import { DirtyEnum, SpriteMaterialEnum } from './../../../model/enum.model';
 import Dexie from 'dexie';
 import { MiniBatchDictionaryLearningConfigModel } from './minibatchdictionarylearning.model';
 import { EntityTypeEnum } from './../../../model/enum.model';
-import { DedicatedWorkerGlobalScope } from 'compute';
+import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 import * as _ from 'lodash';
 declare var ML: any;
 

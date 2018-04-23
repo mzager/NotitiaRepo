@@ -1,6 +1,6 @@
+import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 import { DendogramConfigModel } from './dendogram.model';
 import { DirtyEnum } from 'app/model/enum.model';
-import { DedicatedWorkerGlobalScope } from './../../../../compute';
 import { DimensionEnum, HClustMethodEnum, HClustDistanceEnum } from './../../../model/enum.model';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Rx';

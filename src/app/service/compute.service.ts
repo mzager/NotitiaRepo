@@ -40,8 +40,6 @@ import { pcaCompute } from './../component/visualization/pca/pca.compute';
 import { PcaConfigModel } from './../component/visualization/pca/pca.model';
 import { tsneCompute } from './../component/visualization/tsne/tsne.compute';
 import { TsneConfigModel } from './../component/visualization/tsne/tsne.model';
-import { UUID } from 'angular2-uuid';
-import * as Pool from 'generic-promise-pool';
 import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
 import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
 import { QuadradicDiscriminantAnalysisConfigModel } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
@@ -55,7 +53,6 @@ When samples and genes are specified empty arrays == all
 export class ComputeService {
 
     private workers: Array<Worker>;
-    private pool: Pool;
     private isoMap$ = new Subject<any>();
     private localLinearEmbedding$ = new Subject<any>();
     private spectralEmbedding$ = new Subject<any>();

@@ -1,6 +1,6 @@
 import { KmedoidConfigModel } from './kmedoids.model';
 import { Legend } from 'app/model/legend.model';
-import { DedicatedWorkerGlobalScope } from 'compute';
+import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 import * as _ from 'lodash';
 declare var ML: any;
 

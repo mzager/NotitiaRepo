@@ -52,10 +52,10 @@ export class ChartEvents {
         window.addEventListener('resize', this.onResize.bind(this));
 
         // Low Level Dom Events
-        this.mouseUp = Observable.fromEvent(container, 'mouseup');
-        this.mouseMove = Observable.fromEvent(container, 'mousemove');
-        this.mouseDown = Observable.fromEvent(container, 'mousedown');
-        this.keyPress = Observable.fromEvent(window, 'keypress');
+        this.mouseUp = Observable.fromEvent<MouseEvent>(container, 'mouseup');
+        this.mouseMove = Observable.fromEvent<MouseEvent>(container, 'mousemove');
+        this.mouseDown = Observable.fromEvent<MouseEvent>(container, 'mousedown');
+        this.keyPress = Observable.fromEvent<KeyboardEvent>(window, 'keypress');
 
 
         // Higher Order Chart Events

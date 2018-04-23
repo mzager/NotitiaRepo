@@ -70,7 +70,6 @@ export class DaGraph implements ChartObjectInterface {
         this.meshes.length = 0;
     }
 
-    // @Memoize()
     private colorFactory(color): THREE.Material {
         const rv = new THREE.MeshPhongMaterial({ color: color, specular: color, shininess: 100 });
         return rv;

@@ -10,7 +10,7 @@ import * as d3Scale from 'd3-scale';
 import * as d3Color from 'd3-color';
 import * as d3Array from 'd3-array';
 import * as JStat from 'jstat';
-import { DedicatedWorkerGlobalScope } from 'compute';
+import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 
 export const parallelcoordsCompute = (config: ParallelCoordsConfigModel, worker: DedicatedWorkerGlobalScope): void => {
     worker.postMessage('TERMINATE');

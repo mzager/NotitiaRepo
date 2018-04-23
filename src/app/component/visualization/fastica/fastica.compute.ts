@@ -1,7 +1,7 @@
 import { EntityTypeEnum, DirtyEnum, SpriteMaterialEnum } from './../../../model/enum.model';
 import { Legend } from './../../../model/legend.model';
 import { FastIcaConfigModel, FastIcaDataModel } from './fastica.model';
-import { DedicatedWorkerGlobalScope } from 'compute';
+import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 import * as _ from 'lodash';
 declare var ML: any;
 

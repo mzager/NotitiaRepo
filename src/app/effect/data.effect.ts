@@ -22,7 +22,6 @@ import { GraphConfig } from 'app/model/graph-config.model';
 import { SelectGraphAction, SelectToolAction } from './../action/select.action';
 import { ChromosomeConfigModel } from './../component/visualization/chromosome/chromosome.model';
 import { PcaConfigModel } from './../component/visualization/pca/pca.model';
-import { WorkbookService } from './../service/workbook.service';
 import * as _ from 'lodash';
 import * as compute from './../action/compute.action';
 import * as data from 'app/action/data.action';
@@ -240,7 +239,6 @@ export class DataEffect {
         private actions$: Actions,
         private computeService: ComputeService,
         private dataService: DataService,
-        private datasetService: DatasetService,
-        private workbookService: WorkbookService
+        private datasetService: DatasetService
     ) { }
 }

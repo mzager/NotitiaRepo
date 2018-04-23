@@ -1,6 +1,6 @@
 import { DirtyEnum } from 'app/model/enum.model';
 import { HeatmapConfigModel } from './heatmap.model';
-import { DedicatedWorkerGlobalScope } from './../../../../compute';
+import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 import { DimensionEnum, HClustMethodEnum, HClustDistanceEnum } from './../../../model/enum.model';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Rx';

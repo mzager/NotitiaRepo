@@ -3,7 +3,7 @@ import { EntityTypeEnum } from './../../../model/enum.model';
 import { Legend } from './../../../model/legend.model';
 import { DirtyEnum, Colors } from 'app/model/enum.model';
 import { TimelinesConfigModel } from './timelines.model';
-import { DedicatedWorkerGlobalScope } from './../../../../compute';
+import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 import * as _ from 'lodash';
 import { color } from 'd3';
 import { scaleLinear, scaleLog, InterpolatorFactory, scaleSequential, scaleQuantize, scaleQuantile } from 'd3-scale';
