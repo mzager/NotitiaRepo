@@ -88,7 +88,7 @@ export class CitationsPanelComponent implements AfterViewInit, OnInit, OnDestroy
         console.log('iini');
         this.filterInputChangeStream = Observable
             .fromEvent(this.filterInput.nativeElement, 'keyup')
-            .debounceTime(600)
+            .debounceTime(300)
             .distinctUntilChanged();
         this.filterInputSubscription = this.filterInputChangeStream.subscribe(this.filterChange.bind(this));
     }

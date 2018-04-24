@@ -1,7 +1,9 @@
+import { Legend } from './../../../model/legend.model';
 import { SurvivalConfigModel } from './survival.model';
 import { ChromosomeConfigModel } from './../chromosome/chromosome.model';
 import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWorkerGlobalScope): void => {
+
 
     const colors = [0x42a5f5, 0x66bb6a, 0xff9800, 0x795548, 0x673ab7, 0xe91e63];
     const getRange = (pointCollections: Array<any>): Array<any> => {
@@ -92,12 +94,21 @@ export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWo
                     )
                 );
             });
+
+            const legends: Array<Legend> = [
+                Legend.create('Cohorts',
+                    survivalResults.map(v => v.name),
+                    survivalResults.map(v => '#' + (0xffffff + v.color + 1).toString(16).substr(1)),
+                    'COLOR', 'DISCRETE')
+            ];
+
             worker.postMessage({
                 config: config,
                 data: {
-                    legendItems: [],
+                    legends: legends,
                     result: {
-                        survival: survivalResults
+                        survival: survivalResults,
+                        cohorts: cohortPatientData
                     }
                 }
             });
