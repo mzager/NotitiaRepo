@@ -2,7 +2,7 @@
 // npm run worker
 // const MyWorker = require('file-loader?name=worker.[hash:20].[ext]!../assets/compute.js');
 const config = {
-  mode: 'production',
+  mode: 'development',
   entry: './src/compute.ts',
   output: {
     filename: './src/assets/compute.js'
@@ -17,6 +17,9 @@ const config = {
         loader: 'ts-loader'
       }
     ]
+  },
+  performance: {
+    hints: false
   }
 };
 

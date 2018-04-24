@@ -13,7 +13,6 @@ import Dexie from 'dexie';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { HotRegisterer } from 'angular-handsontable';
 declare var $: any;
-// declare var Handsontable: any;
 
 @Component({
   selector: 'app-workspace-data-panel',
@@ -42,14 +41,13 @@ export class DataPanelComponent implements AfterViewInit {
       { tbl: 'configA', label: 'Chart A', map: '', ctype: CollectionTypeEnum.UNDEFINED },
       { tbl: 'configB', label: 'Chart B', map: '', ctype: CollectionTypeEnum.UNDEFINED }
     ]);
-    // this._tables.unshift(
-    //   { tbl: 'summary', label: 'Summary', map: '', ctype: CollectionTypeEnum.UNDEFINED },
-    // );
+    this._tables.push(...this._tables.splice(0, 2));
   }
 
   tableChange(table: DataTable): void {
     this.loadTable(table);
   }
+
   openDatabase(): Promise<any> {
     return new Promise((resolve, reject) => {
       console.dir(this);

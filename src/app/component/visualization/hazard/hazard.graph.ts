@@ -126,7 +126,8 @@ export class HazardGraph extends AbstractVisualization {
         // Confidence
         const shape = new Shape();
         shape.autoClose = false;
-        // shape.moveTo(-500 + xOffset, -500 + yOffset);
+        const initPoint = cohort.lower[0];
+        shape.moveTo(xScale(initPoint[0]) + xOffset, yScale(initPoint[1]) + yOffset);
         cohort.lower.forEach(pt => {
             shape.lineTo(xScale(pt[0]) + xOffset, yScale(pt[1]) + yOffset);
         });
@@ -138,7 +139,7 @@ export class HazardGraph extends AbstractVisualization {
         const material = new THREE.MeshPhongMaterial({
             color: cohort.color,
             transparent: true,
-            opacity: 0.2,
+            opacity: 0.1,
             blending: THREE.NormalBlending
         });
 
@@ -146,6 +147,7 @@ export class HazardGraph extends AbstractVisualization {
         mesh.position.setZ(renderOrder * 1);
         this.confidences.push(mesh);
         this.view.scene.add(mesh);
+
 
         pts = cohort.upper.map(v => new Vector2(xScale(v[0]) + xOffset, yScale(v[1]) + yOffset));
         line = ChartFactory.linesAllocate(cohort.color, pts, {});

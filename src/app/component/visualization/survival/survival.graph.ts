@@ -126,6 +126,8 @@ export class SurvivalGraph extends AbstractVisualization {
         // Confidence
         const shape = new Shape();
         shape.autoClose = false;
+        const initPoint = cohort.lower[0];
+        shape.moveTo(xScale(initPoint[0]) + xOffset, yScale(initPoint[1]) + yOffset);
         cohort.lower.forEach(pt => {
             shape.lineTo(xScale(pt[0]) + xOffset, yScale(pt[1]) + yOffset);
         });
@@ -137,7 +139,7 @@ export class SurvivalGraph extends AbstractVisualization {
         const material = new THREE.MeshPhongMaterial({
             color: cohort.color,
             transparent: true,
-            opacity: 0.2,
+            opacity: 0.1,
             blending: THREE.NormalBlending
         });
 

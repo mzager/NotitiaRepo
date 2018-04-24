@@ -1,3 +1,4 @@
+import { Legend } from './../../../model/legend.model';
 import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 import { HazardConfigModel } from './hazard.model';
 import { ChromosomeConfigModel } from './../chromosome/chromosome.model';
@@ -96,12 +97,20 @@ export const hazardCompute = (config: HazardConfigModel, worker: DedicatedWorker
                 );
             });
 
+            const legends: Array<Legend> = [
+                Legend.create('Cohorts',
+                    hazardResults.map(v => v.name),
+                    hazardResults.map(v => '#' + (0xffffff + v.color + 1).toString(16).substr(1)),
+                    'COLOR', 'DISCRETE')
+            ];
+
             worker.postMessage({
                 config: config,
                 data: {
-                    legendItems: [],
+                    legends: legends,
                     result: {
-                        hazard: hazardResults
+                        hazard: hazardResults,
+                        cohorts: cohortPatientData
                     }
                 }
             });
