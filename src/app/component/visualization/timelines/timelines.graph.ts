@@ -77,7 +77,7 @@ export class TimelinesGraph extends AbstractVisualization {
         this.labelXAxis.ignoreFrustumY = true;
         this.labelXAxis.align = 'LEFT';
         this.labelXAxis.origin = 'RIGHT';
-        this.labelXAxis.postfix = ' Days';
+        this.labelXAxis.postfix = ' Times';
         this.labelXAxis.fontsize = 0;
 
         // y labels
@@ -377,6 +377,10 @@ export class TimelinesGraph extends AbstractVisualization {
             new THREE.Box3(
                 new Vector3(-550, -height, -5),
                 new THREE.Vector3(550, height, 5)));
+
+        requestAnimationFrame(v => {
+            this.onShowLabels();
+        });
     }
 
     formatEventTooltip(event: any): string {
@@ -405,7 +409,7 @@ export class TimelinesGraph extends AbstractVisualization {
         // label when rows are too small
         if (this.view.camera.position.z > 1400) {
             this.labels.innerHTML =
-                '<div style="position:fixed;bottom:10px;left:50%; font-size: 1.2rem;">Days</div>' +
+                '<div style="position:fixed;bottom:10px;left:50%; font-size: 1.2rem;">Time</div>' +
                 '<div style="position:fixed;right:10px;top:50%; transform: rotate(90deg);font-size: 1.2rem;">Patients</div>';
 
         } else if (this.view.camera.position.z > 1100) {

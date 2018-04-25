@@ -42,7 +42,7 @@ import { PlsConfigModel } from './../../visualization/pls/pls.model';
 import { PcaConfigModel } from './../../visualization/pca/pca.model';
 import { ChromosomeConfigModel } from './../../visualization/chromosome/chromosome.model';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { EntityTypeEnum, GraphPanelEnum, PanelEnum } from './../../../model/enum.model';
+import { EntityTypeEnum, GraphPanelEnum, PanelEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
 import { DataField } from 'app/model/data-field.model';
 import {
   Component, Input, Output, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy,
@@ -55,6 +55,7 @@ import { GraphData } from 'app/model/graph-data.model';
 import { Subscription } from 'rxjs/Subscription';
 import { Cohort } from '../../../model/cohort.model';
 import { HistogramConfigModel } from '../../visualization/histogram/histogram.model';
+import { WorkspaceConfigModel } from '../../../model/workspace.model';
 declare var $: any;
 
 @Component({
@@ -74,6 +75,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Input() tables: Array<DataTable>;
   @Input() fields: Array<DataField>;
   @Input() events: Array<{ type: string, subtype: string }>;
+  @Input() workspaceConfig: WorkspaceConfigModel;
 
   @Input() molecularData: Array<string>;
   @Input() clinicalFields: Array<DataField>;
@@ -88,10 +90,15 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Output() selectCohort: EventEmitter<any> = new EventEmitter();
   @Output() decoratorAdd: EventEmitter<{ config: GraphConfig, decorator: DataDecorator }> = new EventEmitter();
   @Output() decoratorDel: EventEmitter<{ config: GraphConfig, decorator: DataDecorator }> = new EventEmitter();
+  @Output() workspaceConfigChange: EventEmitter<{ config: WorkspaceConfigModel }> = new EventEmitter();
 
 
   methodName = '';
   methodSummary = '';
+  workspaceLayoutOptions = [
+    WorkspaceLayoutEnum.HORIZONTAL, WorkspaceLayoutEnum.VERTICAL, WorkspaceLayoutEnum.OVERLAY
+  ];
+  workspaceEdgeOptions = [];
 
   _decorators: Array<DataDecorator>;
   get decoratorsWithLegends(): Array<DataDecorator> {
@@ -196,6 +203,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   //   ChartScene.instance.renderer.setClearColor(isBlack ? 0xFFFFFF : 0x000000, 1);
   //   ChartScene.instance.render();
   // }
+  workspaceLayoutChange(layout: any): void {
+    // debugger;
+  }
   toggleClick(): void {
 
     if (this.panel.nativeElement.classList.contains('graphPanelCollapsed')) {
@@ -261,6 +271,12 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   setVisualization(visualizationEnumValue): void {
     let gc: GraphConfig;
     switch (visualizationEnumValue) {
+      case VisualizationEnum.SPREADSHEET:
+        this.showPanel.emit(PanelEnum.SPREADSHEET);
+        return;
+      case VisualizationEnum.DASHBOARD:
+        this.showPanel.emit(2048);
+        return;
       case VisualizationEnum.DECOMPOSITION:
         this.setVisualization(VisualizationEnum.INCREMENTAL_PCA);
         return;
@@ -418,13 +434,16 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
 
     this.visualizationOptions = [
       {
-        group: 'Summary', options: [
+        group: 'Data Set', options: [
           { value: VisualizationEnum.DASHBOARD, label: 'Dashboard' },
+          { value: VisualizationEnum.SPREADSHEET, label: 'Spreadsheet' },
+        ]
+      }, {
+        group: 'Distribution', options: [
           { value: VisualizationEnum.BOX_WHISKERS, label: 'Box + Whisker' },
           { value: VisualizationEnum.HEATMAP, label: 'Heatmap' },
-          { value: VisualizationEnum.SPREADSHEET, label: 'Spreadsheet' },
           { value: VisualizationEnum.PARALLEL_COORDS, label: 'Parallel Coordinates' },
-          { value: VisualizationEnum.DENDOGRAM, label: 'Dendogram' },
+          // { value: VisualizationEnum.DENDOGRAM, label: 'Dendogram' },
           { value: VisualizationEnum.HISTOGRAM, label: 'Histogram' },
         ]
       }, {

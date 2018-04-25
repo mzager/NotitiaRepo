@@ -97,12 +97,11 @@ export class HazardGraph extends AbstractVisualization {
             this.labelsForTimes.push(
                 {
                     position: new THREE.Vector3(x, -600, 0),
-                    userData: { tooltip: hX.invert(x).toString() }
+                    userData: { tooltip: Math.round(hX.invert(x)).toString() + ' Days' }
                 }
             );
         }
         this.drawGrid(0, 0);
-        this.onRequestRender.emit(this.config.graph);
 
         // ChartFactory.decorateDataGroups(this.meshes, this.decorators);
 
@@ -111,10 +110,15 @@ export class HazardGraph extends AbstractVisualization {
         // mesh.position.set(0, 0, 0);
         // const box: THREE.BoxHelper = new THREE.BoxHelper(mesh, new THREE.Color(0xFF0000));
         // this.view.scene.add(box);
+
         ChartFactory.configPerspectiveOrbit(this.view,
             new THREE.Box3(
                 new THREE.Vector3(-500, -500, -5),
                 new THREE.Vector3(500, 500, 5)));
+
+        requestAnimationFrame(v => {
+            this.onShowLabels();
+        });
 
     }
 
@@ -139,7 +143,7 @@ export class HazardGraph extends AbstractVisualization {
         const material = new THREE.MeshPhongMaterial({
             color: cohort.color,
             transparent: true,
-            opacity: 0.1,
+            opacity: 0.3,
             blending: THREE.NormalBlending
         });
 
@@ -149,23 +153,23 @@ export class HazardGraph extends AbstractVisualization {
         this.view.scene.add(mesh);
 
 
-        pts = cohort.upper.map(v => new Vector2(xScale(v[0]) + xOffset, yScale(v[1]) + yOffset));
-        line = ChartFactory.linesAllocate(cohort.color, pts, {});
-        this.lines.push(line);
-        this.view.scene.add(line);
+        // pts = cohort.upper.map(v => new Vector2(xScale(v[0]) + xOffset, yScale(v[1]) + yOffset));
+        // line = ChartFactory.linesAllocate(cohort.color, pts, {});
+        // this.lines.push(line);
+        // this.view.scene.add(line);
 
-        pts = cohort.lower.map(v => new Vector2(xScale(v[0]) + xOffset, yScale(v[1]) + yOffset));
-        line = ChartFactory.linesAllocate(cohort.color, pts, {});
-        this.lines.push(line);
-        this.view.scene.add(line);
+        // pts = cohort.lower.map(v => new Vector2(xScale(v[0]) + xOffset, yScale(v[1]) + yOffset));
+        // line = ChartFactory.linesAllocate(cohort.color, pts, {});
+        // this.lines.push(line);
+        // this.view.scene.add(line);
 
         // Line
         pts = cohort.line.map(v => new Vector2(xScale(v[0]) + xOffset, yScale(v[1]) + yOffset));
-        const geo = new THREE.Geometry().setFromPoints(pts);
-        const mline = new MeshLine();
-        mline.setGeometry(geo);
-        const meshLine = new THREE.Mesh(line.geometry,
-            ChartFactory.getMeshLine(cohort.color, 5));
+        // const geo = new THREE.Geometry().setFromPoints(pts);
+        // const mline = new MeshLine();
+        // mline.setGeometry(geo);
+        // const meshLine = new THREE.Mesh(line.geometry,
+        //     ChartFactory.getMeshLine(cohort.color, 5));
 
         line = ChartFactory.linesAllocate(cohort.color, pts, {});
         this.lines.push(line);
@@ -193,7 +197,7 @@ export class HazardGraph extends AbstractVisualization {
 
             this.labelsForPercents.push({
                 position: new THREE.Vector3(-510 + xOffset, y + 6 + yOffset, 0),
-                userData: { tooltip: percent.toString() }
+                userData: { tooltip: percent.toString() + '%' }
             });
             percent += 10;
         }
@@ -231,29 +235,29 @@ export class HazardGraph extends AbstractVisualization {
         optionsForTimes.rotate = 30;
 
 
-        const optionsForTitles = new LabelOptions(this.view, 'PIXEL');
-        optionsForTitles.fontsize = 15;
-        optionsForTitles.ignoreFrustumY = true;
-        optionsForTitles.absoluteY = 60;
+        // const optionsForTitles = new LabelOptions(this.view, 'PIXEL');
+        // optionsForTitles.fontsize = 15;
+        // optionsForTitles.ignoreFrustumY = true;
+        // optionsForTitles.absoluteY = 60;
 
         if (this.view.camera.position.z > 10000) {
             optionsForPercents.fontsize = 8;
             optionsForTimes.fontsize = 8;
-            optionsForTitles.fontsize = 15;
+            // optionsForTitles.fontsize = 15;
 
-            this.labels.innerHTML =
-                '<div style="position:fixed;bottom:50px;left:30%; font-size: 1.2rem;">Time</div>' +
-                '<div style="position:fixed;left:275px;top:50%; transform: rotate(90deg);font-size: 1.2rem;">Percent</div>';
+            this.labels.innerHTML = '';
+            // '<div style="position:fixed;bottom:50px;left:30%; font-size: 1.2rem;">Time</div>' +
+            //     '<div style="position:fixed;left:275px;top:50%; transform: rotate(90deg);font-size: 1.2rem;">Percent</div>';
         } else if (this.view.camera.position.z < 10000) {
             optionsForPercents.fontsize = 10;
             optionsForTimes.fontsize = 10;
-            optionsForTitles.fontsize = 15;
+            // optionsForTitles.fontsize = 15;
 
             this.labels.innerHTML =
                 LabelController.generateHtml(this.labelsForPercents, optionsForPercents) +
-                LabelController.generateHtml(this.labelsForTimes, optionsForTimes) +
-                '<div style="position:fixed;bottom:50px;left:30%; font-size: 1.2rem;">Time</div>' +
-                '<div style="position:fixed;left:200px;top:50%; transform: rotate(90deg);font-size: 1.2rem;">Percent</div>';
+                LabelController.generateHtml(this.labelsForTimes, optionsForTimes);
+            // '<div style="position:fixed;bottom:50px;left:30%; font-size: 1.2rem;">Time</div>' +
+            // '<div style="position:fixed;left:200px;top:50%; transform: rotate(90deg);font-size: 1.2rem;">Percent</div>';
         }
 
     }

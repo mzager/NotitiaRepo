@@ -239,8 +239,8 @@ export class BoxWhiskersGraph extends AbstractVisualization {
 
         if (this.view.camera.position.z > 1400) {
             this.labels.innerHTML =
-                '<div style="position:fixed;bottom:10px;left:50%; font-size: 1.2rem;">TEST</div>' +
-                '<div style="position:fixed;right:10px;top:50%; transform: rotate(90deg);font-size: 1.2rem;">TEST</div>';
+                '<div style="position:fixed;bottom:10px;left:50%; font-size: 1.2rem;">Samples</div>' +
+                '<div style="position:fixed;right:10px;top:50%; transform: rotate(90deg);font-size: 1.2rem;">Geneset Mean Value</div>';
         } else if (this.view.camera.position.z > 350) {
             optionsForX.fontsize = 0;
             optionsForQ1.fontsize = 8;
