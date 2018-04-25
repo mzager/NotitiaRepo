@@ -95,10 +95,14 @@ export class GenomeGraph extends AbstractVisualization {
         // const box: THREE.BoxHelper = new THREE.BoxHelper(mesh, new THREE.Color(0xFF0000));
         // this.view.scene.add(box);
 
-        // ChartFactory.configPerspectiveOrbit(this.view,
-        //     new THREE.Box3(
-        //         new THREE.Vector3(-1100, -500, -5),
-        //         new THREE.Vector3(1100, 500, 5)));
+        ChartFactory.configPerspectiveOrbit(this.view,
+            new THREE.Box3(
+                new THREE.Vector3(-200, -100, -5),
+                new THREE.Vector3(200, 100, 5)));
+
+        requestAnimationFrame(v => {
+            this.onShowLabels();
+        });
     }
     removeObjects() {
         if (!this.config.showTads) { this.removeTads(); }
@@ -110,14 +114,15 @@ export class GenomeGraph extends AbstractVisualization {
             const xPos = this.chromosomeToNumber(chromosome.chr);
 
             // Centromere
-            const centro: THREE.Mesh = ChartFactory.meshAllocate(0x0091EA, ShapeEnum.CIRCLE, .5, new THREE.Vector3(xPos, 0, 0), {});
+            const centro: THREE.Mesh = ChartFactory.meshAllocate(0x0091EA, ShapeEnum.CIRCLE, .5,
+                new THREE.Vector3(xPos - 230, 0, 0), {});
             centro.userData.tooltip = chromosome.chr;
             this.meres.push(centro);
             this.view.scene.add(centro);
 
             // Tele Q
             const teleQ: THREE.Mesh = ChartFactory.meshAllocate(0x0091EA, ShapeEnum.CIRCLE, .5,
-                new THREE.Vector3(xPos, chromosome.Q - chromosome.C, 0), {});
+                new THREE.Vector3(xPos - 230, chromosome.Q - chromosome.C, 0), {});
             teleQ.userData.chr = chromosome.chr;
             teleQ.userData.type = GenomicEnum.Q_TELOMERE;
             teleQ.userData.tooltip = 'Q' + chromosome.chr; // Telemere
@@ -126,7 +131,7 @@ export class GenomeGraph extends AbstractVisualization {
 
             // Tele P
             const teleP: THREE.Mesh = ChartFactory.meshAllocate(0x0091EA, ShapeEnum.CIRCLE, .5,
-                new THREE.Vector3(xPos, chromosome.P - chromosome.C, 0), {});
+                new THREE.Vector3(xPos - 230, chromosome.P - chromosome.C, 0), {});
             teleP.userData.chr = chromosome.chr;
             teleP.userData.type = GenomicEnum.P_TELOMERE;
             teleP.userData.tooltip = 'P' + chromosome.chr; // Telemere
@@ -136,7 +141,7 @@ export class GenomeGraph extends AbstractVisualization {
 
         data.bands.forEach((band, i) => {
             let yPos = 0;
-            const xPos = (i + 1) * 20;
+            const xPos = (i + 1) * 20 - 230;
             band.forEach((cyto) => {
                 const centro = data.chromo[i].C;
                 const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(0.5, cyto.l);
@@ -157,7 +162,7 @@ export class GenomeGraph extends AbstractVisualization {
         const data = this.data;
         data.tads.forEach(tad => {
             const chr = this.chromosomeToNumber(tad.chr, false);
-            const xPos = chr * 20;
+            const xPos = chr * 20 - 230;
             const centro = data.chromo[chr - 1].C;
             const line = ChartFactory.lineAllocateCurve(
                 0x9c27b0,
@@ -176,7 +181,7 @@ export class GenomeGraph extends AbstractVisualization {
         const data = this.data;
         Object.keys(data.genes).forEach(chromosome => {
             const chr = this.chromosomeToNumber(chromosome, false);
-            const xPos = chr * 20;
+            const xPos = chr * 20 - 230;
             const centro = data.chromo[chr - 1].C;
             data.genes[chromosome].forEach(gene => {
                 const group = ChartFactory.createDataGroup(gene.gene, EntityTypeEnum.GENE,
@@ -185,6 +190,7 @@ export class GenomeGraph extends AbstractVisualization {
                 this.view.scene.add(group);
             });
         });
+
         ChartFactory.decorateDataGroups(this.meshes, this.decorators, this.renderer);
         this.points = this.meshes.map(v => v.children[0]);
     }

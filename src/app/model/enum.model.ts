@@ -336,12 +336,12 @@ export const enum PanelEnum {
     SETTINGS = 1 << 8,
     ABOUT = 1 << 9,
     CITATION = 1 << 10,
-    DOCUMENTATION = 1 << 11,
-    DASHBOARD = 1 << 12,
+    DOCUMENTATION = 1 << 12,
+    DASHBOARD = 2048,
     PATHWAYS = 1 << 13,
     FEEDBACK = 1 << 14,
-    UPLOAD = 1 << 15
-
+    UPLOAD = 1 << 15,
+    SPREADSHEET = 1099511627776
 }
 
 // Panels

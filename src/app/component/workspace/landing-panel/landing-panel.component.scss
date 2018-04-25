@@ -1,6 +1,26 @@
 // Responsive Mobile First
 
 /* Selectors and styles affecting screens SMALLER THAN 767px (Phones) */
+ .landing-h1 {
+    color: #039be5;
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    font-weight: 300;
+    font-size: 2.5rem;
+    margin-right: 0px;
+    margin-top: 0px;
+}
+.landing-h2 {
+    text-transform: uppercase;
+    color: #666666;
+    font-weight: 500;
+    font-size: 1.2rem;
+    letter-spacing: 5px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    padding-bottom: 1rem;
+}
+
 
 .landing-images {
     line-height: 0;
@@ -22,66 +42,9 @@
  .landing-image-container :last-child { 
     padding-right: 0px;
  }
-.landing-copy {
-    display: block;
-    position: relative;
-    min-height: 200px;
-    margin-bottom: 20px;
-    padding-left: 18%;
-    padding-right: 10%;
-}
- .landing-copy-thumb { 
-     position: absolute;
-     left:0px;
-     top:0px;
-    display: inline-block;
-    width: 30%;
-    height: 150px;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    border: 1px solid #666666;
- }
- .landing-copy-title { 
-    text-transform: uppercase;
-    color: #039be5;
-    font-weight: 500;
-    font-size: 1.2rem;
-    letter-spacing: 5px;
-    display: block;
- }
 
-.landing-section-title {
-    color: #666;
-    letter-spacing: 10px;
-    text-transform: uppercase;
-    font-weight: 300;
-    font-size: 2.5rem;
-    margin-right: 0px;
-    margin-top: 0px;
-}
- 
- .landing-h1 {
-    color: #039be5;
-    letter-spacing: 10px;
-    text-transform: uppercase;
-    font-weight: 300;
-    font-size: 2.5rem;
-    margin-right: 0px;
-    margin-top: 0px;
-}
-.landing-h2 {
-    text-transform: uppercase;
-    color: #666666;
-    font-weight: 500;
-    font-size: 1.2rem;
-    letter-spacing: 5px;
-    padding-bottom: 0px;
-    margin-bottom: 0px;
-    padding-bottom: 1rem;
-}
-.landing-link {
+
+ .landing-link {
     color: #fff;
     letter-spacing: 10px;
     line-height: 2rem;
@@ -96,6 +59,7 @@
     cursor: pointer;
     margin-top: -30px;
 }
+
 .landing-link:hover {
    background:#5e35b1;
 }
@@ -111,67 +75,58 @@
     display: inline-block;
 }
 
-//  @media (max-width: 1200px) {
-//     .landing-images {
-//    -moz-column-count:    4;
-//    -webkit-column-count: 4;
-//    column-count:         4;
-//    }
-//  }
-//  @media (max-width: 1000px) {
-//     .landing-images {
-//    -moz-column-count:    3;
-//    -webkit-column-count: 3;
-//    column-count:         3;
-//    }
-//  }
-//  @media (max-width: 800px) {
-//     .landing-images {
-//    -moz-column-count:    2;
-//    -webkit-column-count: 2;
-//    column-count:         2;
-//    }
-//  }
-//  @media (max-width: 400px) {
-//     .landing-images {
-//    -moz-column-count:    1;
-//    -webkit-column-count: 1;
-//    column-count:         1;
-//    }
-//  }
+
+
+
+// .landing-copy-desc { 
+//     position: absolute;
+//     left: 20px;
+//     top:50px;
+//     padding-right:50px;
+//     font-size: 1.2rem;
+//     line-height: 2rem;
+// }
+
+
+
+.landing-section-title {
+    color: #666;
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    font-weight: 300;
+    font-size: 2.5rem;
+    margin-right: 0px;
+    margin-top: 0px;
+}
  
 
-// // @media (min-width: 767px) {
-// //     /* Selectors and styles affecting screens WIDER THAN 767px (Tablet) */
-// //     .landing-h1 {
-// //         letter-spacing: 20px;
-// //         font-size: 3rem;
-// //         margin-top: 100px;
-// //     }
-// //     .landing-h2 {
-// //         font-size: 1.2rem;
-// //         letter-spacing: 5px;
-// //         padding-bottom: 40px;
-// //     }
-// //     .landing-link {
-// //         font-size: 1.2rem;
-// //         letter-spacing: 5px;
-// //     }
-// //     .landing-marque {
-// //         margin-bottom: 80px;
-// //     }
-// //     .landing-marque-image {
-// //         width: 33%;
-// //     }
-// //     .landing-image {
-// //         width: 200%;
-// //     }
-// // }
 
-// // @media (min-width: 979px) {
-   
-// // }
 
-// // @media (min-width: 1200px) {
-   
-// // }
+
+.landing-copy {
+    display: block;
+    position: relative;
+    
+    margin-bottom: 20px;
+    padding: 0px;
+    padding-right:10px;
+}
+.landing-tool-image { 
+    border: 1px solid #666666;
+    width: 100px;
+    height: 100px;
+    float:left;
+    background-size: 100px 100px !important;
+    margin-right:20px;
+
+}
+ .landing-copy-title { 
+    text-transform: uppercase;
+    color: #039be5;
+    font-weight: 500;
+    font-size: 1.2rem;
+    letter-spacing: 5px;
+    display: block;
+ }
+
+ 

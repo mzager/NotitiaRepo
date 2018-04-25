@@ -36,7 +36,7 @@ export class EdgePanelComponent implements AfterViewInit, OnDestroy {
   @Input() graphBConfig: GraphConfig;
   @Input() config: GraphConfig;
   @Output() configChange: EventEmitter<GraphConfig> = new EventEmitter();
-  @Output() workspaceConfigChange: EventEmitter<WorkspaceConfigModel> = new EventEmitter();
+  @Output() workspaceConfigChange: EventEmitter<{ config: WorkspaceConfigModel }> = new EventEmitter();
   @Output() hide: EventEmitter<any> = new EventEmitter();
   @Output() help: EventEmitter<any> = new EventEmitter();
 

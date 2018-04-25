@@ -48,10 +48,7 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
 
     }
 
-
     drawStats(): void {
-
-
         this.container.empty();
         Promise.all([
             this.statFactory.getCohortsStats(this.config)
@@ -64,13 +61,13 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
                 const cohortDiv = this.container.append('<div style="font-size:2rem; font-weight: 300; margin-bottom:20px; margin-top:10px;">' + result.cohort.n + '</div>');
                 result.stats.forEach(stat => {
                     const id2 = 'cc' + Math.random().toString(36).substring(7);
-                    const div = cohortDiv.append('<div id="' + id2 + '" style="display:inline-block;padding-bottom:40px;"></div>');
+                    const div = cohortDiv.append('<div id="' + id2 +
+                        '" style="display:inline-block;padding-bottom:40px;padding-right:20px;"></div>');
                     this.statVegaFactory.drawChartObject(stat, stat.charts[0], id2, div);
 
                 });
             });
         });
-
     }
 
     closeClick(): void {
@@ -84,7 +81,5 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
         this.container = $(this.chartContainer.element.nativeElement);
         this.drawStats();
     }
-    constructor(private cd: ChangeDetectorRef, private dataService: DataService) {
-
-    }
+    constructor(private cd: ChangeDetectorRef, private dataService: DataService) { }
 }
