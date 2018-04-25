@@ -18,7 +18,7 @@
     [config]='graphBConfig | async' [data]='graphBData | async' (hide)='graphPanelToggle(2)' (help)='helpPanelToggle($event)'
     (configChange)='graphPanelSetConfig($event)' (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
     (selectGeneSignature)='graphPanelSelectGeneSignature($event)' (selectGeneset)='genesetPanelToggle($event)' (selectCohort)='queryPanelToggle($event)'
-    (showPanel)='setPanel($event)'></app-workspace-graph-panel>
+    (showPanel)='setPanel($event)' [workspaceConfig]='workspaceConfig | async' (workspaceConfigChange)='workspacePanelSetConfig($event)'></app-workspace-graph-panel>
 
   <!--     
     <app-workspace-edge-panel
