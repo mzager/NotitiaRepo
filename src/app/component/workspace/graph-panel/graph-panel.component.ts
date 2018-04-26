@@ -132,7 +132,11 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Input() public set edgeConfig(value: EdgeConfigModel) {
     this._edgeConfig = value;
 
-    this.workspaceEdgeOptions = DataFieldFactory.getEdgeDataFields(this.tables, this._edgeConfig.entityA, this._edgeConfig.entityB);
+    this.workspaceEdgeOptions = DataFieldFactory.getEdgeDataFields(
+      this.clinicalFields,
+      this.tables,
+      this._edgeConfig.entityA,
+      this._edgeConfig.entityB);
   }
 
   public _genesets: Array<any>;
