@@ -1,3 +1,4 @@
+import { GraphConfig } from 'app/model/graph-config.model';
 import { CollectionTypeEnum, DataTypeEnum, EntityTypeEnum } from './enum.model';
 import { DataField, DataTable } from './data-field.model';
 
@@ -12,6 +13,10 @@ export class DataFieldFactory {
     lbls.splice(1, 0, DataFieldFactory.getGeneId());
     return lbls;
   }
+  public static getEdgeDataFields(entityA: EntityTypeEnum, entityB: EntityTypeEnum): Array<DataField> {
+    const fields = [this.defaultDataField];
+    return fields;
+  }
   public static getMolecularShapeFields(tables: Array<DataTable>): Array<DataField> {
     return DataFieldFactory.getMolecularColorFields(tables);
   }
@@ -19,7 +24,6 @@ export class DataFieldFactory {
     return DataFieldFactory.getMolecularColorFields(tables);
   }
   public static getMolecularColorFields(tables: Array<DataTable>): Array<DataField> {
-
     const tablesMolec = tables.filter(tbl => tbl.ctype & CollectionTypeEnum.MOLEC_DATA_FIELD_TABLES);
     const fields = ['Mean', 'Minimum', 'Maximum'].reduce((prev, metric) => prev.concat(...tablesMolec.map(tbl => (
       {
@@ -49,7 +53,6 @@ export class DataFieldFactory {
   }
 
   public static getSampleColorFields(clinicalFields: Array<DataField>, entity: EntityTypeEnum = EntityTypeEnum.SAMPLE): Array<DataField> {
-
     return [DataFieldFactory.defaultDataField, ...clinicalFields.filter(v => {
       switch (v.type) {
         case DataTypeEnum.STRING:

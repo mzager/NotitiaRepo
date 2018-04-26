@@ -107,6 +107,9 @@ export class ComputeEffect {
   //     ];
   //   });
 
+  // @Effect() edgeChange: Observable<any> = this.actions$
+  //   .ofType(compute.)
+
   @Effect() loadNone: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_NONE)
     .map((action: UnsafeAction) => action.payload)

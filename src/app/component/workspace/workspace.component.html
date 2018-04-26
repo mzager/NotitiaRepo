@@ -15,8 +15,8 @@
     [events]='events | async' [tables]='tables | async' [fields]='fields | async' [clinicalFields]='clinicalFields | async'
     [pathways]='pathways | async' [genesets]='genesets | async' [cohorts]='cohorts | async' [decorators]='graphBDecorators | async'
     (decoratorAdd)='graphPanelAddDecorator($event)' (decoratorDel)='graphPanelDelDecorator($event)' [molecularData]='molecularData | async'
-    [config]='graphBConfig | async' [data]='graphBData | async' (hide)='graphPanelToggle(2)' (help)='helpPanelToggle($event)'
-    (configChange)='graphPanelSetConfig($event)' (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
+    [config]='graphBConfig | async' [edgeConfig]='edgeConfig | async' [workspaceConfig]='workspaceConfig | async' [data]='graphBData | async'
+    (hide)='graphPanelToggle(2)' (help)='helpPanelToggle($event)' (configChange)='graphPanelSetConfig($event)' (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
     (selectGeneSignature)='graphPanelSelectGeneSignature($event)' (selectGeneset)='genesetPanelToggle($event)' (selectCohort)='queryPanelToggle($event)'
     (showPanel)='setPanel($event)' [workspaceConfig]='workspaceConfig | async' (workspaceConfigChange)='workspacePanelSetConfig($event)'></app-workspace-graph-panel>
 
