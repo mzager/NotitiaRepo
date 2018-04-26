@@ -72,107 +72,59 @@ declare var $: any;
                 very excited to contribute to Oncoscape from web-lab-based data-collection to dry-lab-based data packing
                 and web application development.</div>
         </div>
-    </div>
-    <h1 class='about-h1'>Special Thanks</h1>
-    <div class='row'>
+        <div class='team-copy col s12 l6'>
+            <img class='team-copy-thumb responsive-img' src='assets/about/mcdermott.jpg'>
+            <p class='team-copy-title'> Rachel Galbraith</p>
+            <div class='team-copy-desc'>
+                Mr. McDermott started his career at the Fred Hutch in 2000 as an IT professional in Center IT. During that time,
+                he has been involved with the design, implementation and administration of many IT systems including email,
+                server virtualization, storage, cloud computing and more. He’s most interested in working on projects that
+                have a direct and positive impact on the important research that is happening at the Center.
+            </div>
+        </div>
         <div class='team-copy col s12 l6'>
             <img class='team-copy-thumb responsive-img' src='assets/about/mcdermott.jpg'>
             <p class='team-copy-title'>Robert McDermott</p>
-            <div class='team-copy-desc'>Mr. McDermott started his career at the Fred Hutch in 2000 as an IT professional in Center IT. During that time,
+            <div class='team-copy-desc'>
+                Mr. McDermott started his career at the Fred Hutch in 2000 as an IT professional in Center IT. During that time,
                 he has been involved with the design, implementation and administration of many IT systems including email,
                 server virtualization, storage, cloud computing and more. He’s most interested in working on projects that
                 have a direct and positive impact on the important research that is happening at the Center.
             </div>
         </div>
-        <div class='team-copy col s12 l6'>
-            <img class='team-copy-thumb responsive-img' src='assets/about/bolouri.jpg'>
-            <p class='team-copy-title'>Hamid Bolouri</p>
-            <div class='team-copy-desc'>Dr. Bolouri tackles big data, developing computational methods to discover how genes control the behavior of
-                cells in health and disease. Dr. Bolouri’s discoveries include the first genomic model of how roughly 150
-                genes drive the development of a type of immune cell called a T cell, as well as the first model to reveal
-                how a specific network of interacting genes controls early embryonic development in the sea urchin. Dr. Bolouri
-                has contributed to the development of more than a dozen software platforms, including Oncoscape. He is collaborating
-                with Fred Hutch colleague Dr. Soheil Meshinchi to identify key molecular changes in childhood acute leukemia
-                that can be used to guide therapy. With Dr. David MacPherson, Dr. Bolouri is studying the role that a specific
-                regulatory gene plays in lung cancer. As part of STTR, Dr. Bolouri has developed methods to sift through
-                large amounts of clinical and molecular data to find patterns that can be used to tailor treatment and improve
-                precision medicine strategies.
-            </div>
-        </div>
-        <div class='team-copy col s12 l6'>
-            <img class='team-copy-thumb responsive-img' src='assets/about/mcdermott.jpg'>
-            <p class='team-copy-title'>Vishnavi ...</p>
-            <div class='team-copy-desc'>Mr. McDermott started his career at the Fred Hutch in 2000 as an IT professional in Center IT. During that time,
-                he has been involved with the design, implementation and administration of many IT systems including email,
-                server virtualization, storage, cloud computing and more. He’s most interested in working on projects that
-                have a direct and positive impact on the important research that is happening at the Center.
-            </div>
-        </div>
-        <div class='team-copy col s12 l6'>
-            <img class='team-copy-thumb responsive-img' src='assets/about/mcdermott.jpg'>
-            <p class='team-copy-title'>Raquel ...</p>
-            <div class='team-copy-desc'>Mr. McDermott started his career at the Fred Hutch in 2000 as an IT professional in Center IT. During that time,
-                he has been involved with the design, implementation and administration of many IT systems including email,
-                server virtualization, storage, cloud computing and more. He’s most interested in working on projects that
-                have a direct and positive impact on the important research that is happening at the Center.
-            </div>
-        </div>
-        <div class='team-copy col s12 l6'>
-            <img class='team-copy-thumb responsive-img' src='assets/about/mcdermott.jpg'>
-            <p class='team-copy-title'>Rachel ...</p>
-            <div class='team-copy-desc'>Mr. McDermott started his career at the Fred Hutch in 2000 as an IT professional in Center IT. During that time,
-                he has been involved with the design, implementation and administration of many IT systems including email,
-                server virtualization, storage, cloud computing and more. He’s most interested in working on projects that
-                have a direct and positive impact on the important research that is happening at the Center.
-            </div>
-        </div>
-        <div class='team-copy col s12 l6'>
-            <img class='team-copy-thumb responsive-img' src='assets/about/mcdermott.jpg'>
-            <p class='team-copy-title'>Ilsa</p>
-            <div class='team-copy-desc'>Mr. McDermott started his career at the Fred Hutch in 2000 as an IT professional in Center IT. During that time,
-                he has been involved with the design, implementation and administration of many IT systems including email,
-                server virtualization, storage, cloud computing and more. He’s most interested in working on projects that
-                have a direct and positive impact on the important research that is happening at the Center.
-            </div>
-        </div>
-        <div class='team-copy col s12 l6'>
-            <img class='team-copy-thumb responsive-img' src='assets/about/mcdermott.jpg'>
-            <p class='team-copy-title'>Emily</p>
-            <div class='team-copy-desc'>Mr. McDermott started his career at the Fred Hutch in 2000 as an IT professional in Center IT. During that time,
-                he has been involved with the design, implementation and administration of many IT systems including email,
-                server virtualization, storage, cloud computing and more. He’s most interested in working on projects that
-                have a direct and positive impact on the important research that is happening at the Center.
-            </div>
-        </div>
-        <div class='team-copy col s12 l6'>
-            <img class='team-copy-thumb responsive-img' src='assets/about/mcdermott.jpg'>
-            <p class='team-copy-title'>...</p>
-            <div class='team-copy-desc'>Mr. McDermott started his career at the Fred Hutch in 2000 as an IT professional in Center IT. During that time,
-                he has been involved with the design, implementation and administration of many IT systems including email,
-                server virtualization, storage, cloud computing and more. He’s most interested in working on projects that
-                have a direct and positive impact on the important research that is happening at the Center.
-            </div>
-        </div>
+    </div>
+    <h1 class='about-h1'>Special Thanks</h1>
+    <div class='row'>
+    <div class='team-copy-desc'>
+    <span class='team-copy-title'>Steering</span>
+    Eric Holland, Raquel Sanchez, Elizabeth Krackow, Michael Zager<br />
+    <span class='team-copy-title'>Biostats</span>
+    Hamid Bolouri, Ilsa Coleman, Emily Kohlbrenner, Navonil De Sarkar, Lisa McFerrin, Chad He <br />
+    <span class='team-copy-title'>Interns</span>
+    Adam Samir Alayli, Vaishnavi Phadnis <br />
+    </div>
+    
+       
+        
     </div>
     <h1 class='about-h1'>Institutional Support</h1>
     <div class='row'>
         <div class='team-copy col s12 l6'>
-            <img class='team-copy-thumb responsive-img' src='assets/about/mcdermott.jpg'>
+            <img class='team-copy-thumb responsive-img' src='assets/about/fhcrc.jpg'>
             <p class='team-copy-title'>Fred Hutchinson Cancer Research Center</p>
-            <div class='team-copy-desc'>Mr. McDermott started his career at the Fred Hutch in 2000 as an IT professional in Center IT. During that time,
-                he has been involved with the design, implementation and administration of many IT systems including email,
-                server virtualization, storage, cloud computing and more. He’s most interested in working on projects that
-                have a direct and positive impact on the important research that is happening at the Center.
-            </div>
+            <div class='team-copy-desc'></div>
         </div>
+        <!--
         <div class='team-copy col s12 l6'>
-            <img class='team-copy-thumb responsive-img' src='assets/about/mcdermott.jpg'>
-            <p class='team-copy-title'>SARC</p>
-            <div class='team-copy-desc'>Mr. McDermott started his career at the Fred Hutch in 2000 as an IT professional in Center IT. During that time,
-                he has been involved with the design, implementation and administration of many IT systems including email,
-                server virtualization, storage, cloud computing and more. He’s most interested in working on projects that
-                have a direct and positive impact on the important research that is happening at the Center.
-            </div>
+            <img class='team-copy-thumb responsive-img' src='assets/about/fhcrc.jpg'>
+            <p class='team-copy-title'>Seattle Translational Tumor Research</p>
+            <div class='team-copy-desc'></div>
+        </div>
+        -->
+        <div class='team-copy col s12 l6'>
+            <img class='team-copy-thumb responsive-img' src='assets/about/sarc.jpg'>
+            <p class='team-copy-title'>Sarcoma Alliance for Research Through Collaboration</p>
+            <div class='team-copy-desc'></div>
         </div>
     </div>
 </div>`,

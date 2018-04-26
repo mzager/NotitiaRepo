@@ -66,6 +66,68 @@ import { single } from 'rxjs/operator/single';
 @Injectable()
 export class DataEffect {
 
+    // Pathway Crud
+    @Effect() addPathway: Observable<Action> = this.actions$
+        .ofType(data.DATA_ADD_PATHWAY)
+        .switchMap((args: DataAddPathwayAction) => {
+            return Observable.fromPromise(this.dataService.createCustomPathway(args.payload.database, args.payload.pathway)
+                .then(v => this.dataService.getCustomPathways(args.payload.database)));
+        }).switchMap((args: any) => {
+            return Observable.of(new DataUpdatePathwayAction(args));
+        });
+
+    @Effect() delPathway: Observable<Action> = this.actions$
+        .ofType(data.DATA_DEL_PATHWAY)
+        .switchMap((args: DataDelPathwayAction) => {
+            return Observable.fromPromise(
+                this.dataService.deleteCustomPathway(args.payload.database, args.payload.pathway)
+                    .then(v => this.dataService.getCustomPathways(args.payload.database)));
+        }).switchMap((args: any) => {
+            return Observable.of(new DataUpdatePathwayAction(args));
+        });
+
+    // Cohort Crud
+    @Effect() addCohort: Observable<Action> = this.actions$
+        .ofType(data.DATA_ADD_COHORT)
+        .switchMap((args: DataAddCohortAction) => {
+            return Observable.fromPromise(this.dataService.createCustomCohort(args.payload.database, args.payload.cohort)
+                .then(v => this.dataService.getCustomCohorts(args.payload.database)));
+        }).switchMap((args: any) => {
+            return Observable.of(new DataUpdateCohortsAction(args));
+        });
+
+    @Effect() delCohort: Observable<Action> = this.actions$
+        .ofType(data.DATA_DEL_COHORT)
+        .switchMap((args: DataDelCohortAction) => {
+            return Observable.fromPromise(
+                this.dataService.deleteCustomCohort(args.payload.database, args.payload.cohort)
+                    .then(v => this.dataService.getCustomCohorts(args.payload.database)));
+        }).switchMap((args: any) => {
+            return Observable.of(new DataUpdateCohortsAction(args));
+        });
+
+    // Geneset Crud
+    @Effect() addGeneset: Observable<Action> = this.actions$
+        .ofType(data.DATA_ADD_GENESET)
+        .switchMap((args: DataAddGenesetAction) => {
+            return Observable.fromPromise(
+                this.dataService.createCustomGeneset(args.payload.database, args.payload.geneset)
+                    .then(v => this.dataService.getCustomGenesets(args.payload.database)));
+        }).switchMap((args: any) => {
+            return Observable.of(new DataUpdateGenesetsAction(args));
+        });
+
+    @Effect() delGeneset: Observable<Action> = this.actions$
+        .ofType(data.DATA_DEL_GENESET)
+        .switchMap((args: DataDelGenesetAction) => {
+            return Observable.fromPromise(
+                this.dataService.deleteCustomGeneset(args.payload.database, args.payload.geneset)
+                    .then(v => this.dataService.getCustomGenesets(args.payload.database)));
+        }).switchMap((args: any) => {
+            return Observable.of(new DataUpdateGenesetsAction(args));
+        });
+
+
     // Load Data From TCGA
     @Effect() dataLoadFromTcga$: Observable<any> = this.actions$
         .ofType(data.DATA_LOAD_FROM_TCGA)
@@ -101,63 +163,7 @@ export class DataEffect {
                     args[1], args[2], args[3]));
         });
 
-    @Effect() addPathway: Observable<Action> = this.actions$
-        .ofType(data.DATA_ADD_PATHWAY)
-        .switchMap((args: DataAddPathwayAction) => {
-            return Observable.fromPromise(this.dataService.createCustomPathway(args.payload.database, args.payload.pathway)
-                .then(v => this.dataService.getCustomPathways(args.payload.database)));
-        }).switchMap((args: any) => {
-            return Observable.of(new DataUpdatePathwayAction(args));
-        });
 
-    @Effect() delPathway: Observable<Action> = this.actions$
-        .ofType(data.DATA_DEL_PATHWAY)
-        .switchMap((args: DataDelPathwayAction) => {
-            return Observable.fromPromise(
-                this.dataService.deleteCustomPathway(args.payload.database, args.payload.pathway)
-                    .then(v => this.dataService.getCustomPathways(args.payload.database)));
-        }).switchMap((args: any) => {
-            return Observable.of(new DataUpdatePathwayAction(args));
-        });
-
-    @Effect() addCohort: Observable<Action> = this.actions$
-        .ofType(data.DATA_ADD_COHORT)
-        .switchMap((args: DataAddCohortAction) => {
-            return Observable.fromPromise(this.dataService.createCustomCohort(args.payload.database, args.payload.cohort)
-                .then(v => this.dataService.getCustomCohorts(args.payload.database)));
-        }).switchMap((args: any) => {
-            return Observable.of(new DataUpdateCohortsAction(args));
-        });
-
-    @Effect() delCohort: Observable<Action> = this.actions$
-        .ofType(data.DATA_DEL_COHORT)
-        .switchMap((args: DataDelCohortAction) => {
-            return Observable.fromPromise(
-                this.dataService.deleteCustomCohort(args.payload.database, args.payload.cohort)
-                    .then(v => this.dataService.getCustomCohorts(args.payload.database)));
-        }).switchMap((args: any) => {
-            return Observable.of(new DataUpdateCohortsAction(args));
-        });
-
-    @Effect() addGeneset: Observable<Action> = this.actions$
-        .ofType(data.DATA_ADD_GENESET)
-        .switchMap((args: DataAddGenesetAction) => {
-            return Observable.fromPromise(
-                this.dataService.createCustomGeneset(args.payload.database, args.payload.geneset)
-                    .then(v => this.dataService.getCustomGenesets(args.payload.database)));
-        }).switchMap((args: any) => {
-            return Observable.of(new DataUpdateGenesetsAction(args));
-        });
-
-    @Effect() delGeneset: Observable<Action> = this.actions$
-        .ofType(data.DATA_DEL_GENESET)
-        .switchMap((args: DataDelGenesetAction) => {
-            return Observable.fromPromise(
-                this.dataService.deleteCustomGeneset(args.payload.database, args.payload.geneset)
-                    .then(v => this.dataService.getCustomGenesets(args.payload.database)));
-        }).switchMap((args: any) => {
-            return Observable.of(new DataUpdateGenesetsAction(args));
-        });
 
     @Effect() dataLoaded$: Observable<Action> = this.actions$
         .ofType(data.DATA_LOADED)

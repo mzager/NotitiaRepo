@@ -56,7 +56,6 @@ export class EdgePanelComponent implements AfterViewInit, OnDestroy {
       });
   }
 
-  zIndex = 1000;
   focusSubscription: Subscription;
   layoutOptions: Array<string>;
   form: FormGroup;
@@ -82,7 +81,6 @@ export class EdgePanelComponent implements AfterViewInit, OnDestroy {
     ];
 
     this.focusSubscription = this.ms.$focus.subscribe(v => {
-      this.zIndex = (v === 'edgePanel') ? 1001 : 1000;
       this.cd.markForCheck();
     });
   }

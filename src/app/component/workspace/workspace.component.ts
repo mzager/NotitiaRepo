@@ -90,6 +90,7 @@ import { WorkspaceConfigModel } from './../../model/workspace.model';
 import { LinearDiscriminantAnalysisConfigModel } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
 // tslint:disable-next-line:max-line-length
 import { QuadradicDiscriminantAnalysisConfigModel } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-workspace',
@@ -119,6 +120,8 @@ export class WorkspaceComponent {
   graphBDecorators: Observable<Array<DataDecorator>>;
   edgeConfig: Observable<GraphConfig>;
   edgeLegend: Observable<Array<Legend>>;
+  $configChangeA: Subscription;
+  $configChangeB: Subscription;
 
   graphPanelATab: Observable<enums.GraphPanelEnum>;
   graphPanelBTab: Observable<enums.GraphPanelEnum>;
@@ -160,6 +163,11 @@ export class WorkspaceComponent {
     this.tables = store.select(fromRoot.getTables);
     this.fields = store.select(fromRoot.getFields);
     this.events = store.select(fromRoot.getEvents);
+
+    this.$configChangeA = store.select(fromRoot.getGraphAConfig)
+      .subscribe(this.configChange.bind(this));
+    this.$configChangeB = store.select(fromRoot.getGraphBConfig)
+      .subscribe(this.configChange.bind(this));
   }
 
   select(selection: { type: EntityTypeEnum, ids: Array<string> }): void {
@@ -178,7 +186,10 @@ export class WorkspaceComponent {
   // fileOpen(value: DataTransfer) {
   //   this.store.dispatch(new data.DataLoadFromFileAction(value));
   // }
-
+  configChange(values: any): void {
+    const x = this;
+    debugger;
+  }
   graphPanelSetConfig(value: GraphConfig) {
     this.store.dispatch(new LoaderShowAction());
     switch (value.visualization) {

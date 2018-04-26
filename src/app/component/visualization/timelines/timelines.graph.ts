@@ -88,9 +88,7 @@ export class TimelinesGraph extends AbstractVisualization {
         this.labelYAxis.origin = 'LEFT';
         this.labelYAxis.align = 'RIGHT';
         this.labelYAxis.fontsize = 0;
-
         return this;
-
     }
 
     destroy() {
@@ -415,7 +413,6 @@ export class TimelinesGraph extends AbstractVisualization {
         } else if (this.view.camera.position.z > 1100) {
             this.labelXAxis.fontsize = 8;
             this.labelYAxis.fontsize = 8;
-
             this.labels.innerHTML =
                 LabelController.generateHtml(this.xAxis, this.labelXAxis) +
                 LabelController.generateHtml(this.yAxis, this.labelYAxis);
@@ -423,7 +420,6 @@ export class TimelinesGraph extends AbstractVisualization {
         } else if (this.view.camera.position.z > 650) {
             this.labelXAxis.fontsize = 10;
             this.labelYAxis.fontsize = 10;
-
             this.labels.innerHTML =
                 LabelController.generateHtml(this.xAxis, this.labelXAxis) +
                 LabelController.generateHtml(this.yAxis, this.labelYAxis);
@@ -431,11 +427,9 @@ export class TimelinesGraph extends AbstractVisualization {
         } else if (this.view.camera.position.z > 50) {
             this.labelXAxis.fontsize = 15;
             this.labelYAxis.fontsize = 15;
-
             this.labels.innerHTML =
                 LabelController.generateHtml(this.xAxis, this.labelXAxis) +
                 LabelController.generateHtml(this.yAxis, this.labelYAxis);
-
         }
 
     }
