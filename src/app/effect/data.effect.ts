@@ -172,6 +172,8 @@ export class DataEffect {
             const workspaceConfig = new WorkspaceConfigModel();
             workspaceConfig.layout = WorkspaceLayoutEnum.SINGLE;
 
+            const edgeConfig = new EdgeConfigModel();
+
             const survivalConfig = new SurvivalConfigModel();
             survivalConfig.graph = GraphEnum.GRAPH_A;
             survivalConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
@@ -248,6 +250,7 @@ export class DataEffect {
                 new DataUpdateCohortsAction(args.cohorts),
                 new DataUpdateGenesetsAction(args.genesets),
                 new WorkspaceConfigAction(workspaceConfig),
+                new compute.EdgesAction({ config: edgeConfig }),
                 // new compute.LinkedGeneAction( { config: graphAConfig } ),
                 // new compute.PcaIncrementalAction({ config: graphBConfig }),
                 // new compute.HicAction( { config: hicConfig }),
