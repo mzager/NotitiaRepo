@@ -97,7 +97,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   workspaceLayoutOptions = [
     WorkspaceLayoutEnum.HORIZONTAL, WorkspaceLayoutEnum.VERTICAL, WorkspaceLayoutEnum.OVERLAY
   ];
-  workspaceEdgeOptions = [];
+  workspaceEdgeOptions: Array<DataField> = [];
 
   _decorators: Array<DataDecorator>;
   get decoratorsWithLegends(): Array<DataDecorator> {
@@ -131,7 +131,8 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   _edgeConfig: EdgeConfigModel;
   @Input() public set edgeConfig(value: EdgeConfigModel) {
     this._edgeConfig = value;
-    debugger;
+
+    this.workspaceEdgeOptions = DataFieldFactory.getEdgeDataFields(this.tables, this._edgeConfig.entityA, this._edgeConfig.entityB);
   }
 
   public _genesets: Array<any>;
@@ -247,6 +248,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   //   this.workspaceEdgeOptions = DataFieldFactory.getEdgeDataFields(graphPrimaryConfig.entity, graphSecondaryConfig.entity);
   //   requestAnimationFrame(() => { this.cd.markForCheck(); });
   // }
+
   workspaceLayoutChange(layout: any): void {
     // debugger;
   }

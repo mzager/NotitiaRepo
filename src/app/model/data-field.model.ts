@@ -13,8 +13,9 @@ export class DataFieldFactory {
     lbls.splice(1, 0, DataFieldFactory.getGeneId());
     return lbls;
   }
-  public static getEdgeDataFields(entityA: EntityTypeEnum, entityB: EntityTypeEnum): Array<DataField> {
+  public static getEdgeDataFields(tables: Array<DataTable>, entityA: EntityTypeEnum, entityB: EntityTypeEnum): Array<DataField> {
     const fields = [this.defaultDataField];
+    debugger;
     return fields;
   }
   public static getMolecularShapeFields(tables: Array<DataTable>): Array<DataField> {

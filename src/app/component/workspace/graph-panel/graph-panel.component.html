@@ -11,6 +11,8 @@
         <p style="margin-left: 10px; margin-top: 0px;">
             <a (click)='helpClick()' href='#'>Learn More</a>
         </p>
+
+
         <span *ngIf='config.graph === 2'>
             <div class='graphPanelHeader'>Workspace</div>
             <div style='padding:10px'>
@@ -26,7 +28,7 @@
                     <label class='center-block'>
                         <span class='form-label'>Edges</span>
                         <select materialize='material_select' [materializeSelectOptions]='workspaceEdgeOptions'>
-                            <option *ngFor='let option of workspaceEdgeOptions' [value]='option'>{{option}}</option>
+                            <option *ngFor='let option of workspaceEdgeOptions' [value]='option'>{{option.label}}</option>
                         </select>
                     </label>
                 </div>
