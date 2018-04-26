@@ -122,6 +122,7 @@ export class WorkspaceComponent {
   edgeLegend: Observable<Array<Legend>>;
   $configChangeA: Subscription;
   $configChangeB: Subscription;
+  $configChangeE: Subscription;
 
   graphPanelATab: Observable<enums.GraphPanelEnum>;
   graphPanelBTab: Observable<enums.GraphPanelEnum>;
@@ -135,8 +136,8 @@ export class WorkspaceComponent {
   tables: Observable<Array<DataTable>>;
   events: Observable<Array<{ type: string, subtype: string }>>;
   queryData: Observable<any>;
-
   _selectedGraph: enums.GraphEnum; // This is super wrong
+  _edgeConfig: EdgeConfigModel;
 
   constructor(private store: Store<fromRoot.State>) {
 
@@ -164,10 +165,12 @@ export class WorkspaceComponent {
     this.fields = store.select(fromRoot.getFields);
     this.events = store.select(fromRoot.getEvents);
 
+    this.$configChangeE = store.select(fromRoot.getEdgesConfig)
+      .subscribe(this.configEdgeChange.bind(this));
     this.$configChangeA = store.select(fromRoot.getGraphAConfig)
-      .subscribe(this.configChange.bind(this));
+      .subscribe(this.configGraphChange.bind(this));
     this.$configChangeB = store.select(fromRoot.getGraphBConfig)
-      .subscribe(this.configChange.bind(this));
+      .subscribe(this.configGraphChange.bind(this));
   }
 
   select(selection: { type: EntityTypeEnum, ids: Array<string> }): void {
@@ -186,9 +189,23 @@ export class WorkspaceComponent {
   // fileOpen(value: DataTransfer) {
   //   this.store.dispatch(new data.DataLoadFromFileAction(value));
   // }
-  configChange(values: any): void {
-    const x = this;
-    debugger;
+  configEdgeChange(config: EdgeConfigModel): void {
+    if (config === null) { return; }
+    this._edgeConfig = config;
+  }
+  configGraphChange(config: GraphConfig): void {
+    if (config === null) { return; }
+    if (config.graph === GraphEnum.GRAPH_A) {
+      if (this._edgeConfig.entityA !== config.entity) {
+        this._edgeConfig.entityA = config.entity;
+        this.store.dispatch(new compute.EdgesAction({ config: this._edgeConfig }));
+      }
+    } else if (config.graph === GraphEnum.GRAPH_B) {
+      if (this._edgeConfig.entityB !== config.entity) {
+        this._edgeConfig.entityB = config.entity;
+        this.store.dispatch(new compute.EdgesAction({ config: this._edgeConfig }));
+      }
+    }
   }
   graphPanelSetConfig(value: GraphConfig) {
     this.store.dispatch(new LoaderShowAction());

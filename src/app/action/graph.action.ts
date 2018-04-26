@@ -27,40 +27,40 @@ export class WorkspaceConfigAction implements Action {
 }
 export class DataSetAction implements Action {
     readonly type: string = DATA_TYPE_SET;
-    constructor(public payload: {graph: GraphEnum, data: DataTypeEnum}) { }
+    constructor(public payload: { graph: GraphEnum, data: DataTypeEnum }) { }
 }
 export class VisualizationSetAction implements Action {
     readonly type: string = VISUALIZATION_TYPE_SET;
-    constructor(public payload: {graph: GraphEnum, data: VisualizationEnum}) { }
+    constructor(public payload: { graph: GraphEnum, data: VisualizationEnum }) { }
 }
 export class VisibilityToggleAction implements Action {
     readonly type: string = VISIBILITY_TOGGLE;
-    constructor(public payload: {graph: GraphEnum, data?: any} ) { }
+    constructor(public payload: { graph: GraphEnum, data?: any }) { }
 }
 export class DepthToggleAction implements Action {
     readonly type: string = DEPTH_TOGGLE;
-    constructor(public payload: {graph: GraphEnum, data?: any} ) { }
+    constructor(public payload: { graph: GraphEnum, data?: any }) { }
 }
 export class VisualizationCompleteAction implements Action {
     readonly type: string = VISUALIZATION_COMPLETE;
-    constructor(public payload: {graph: GraphEnum, visualization: GraphEnum, data: any} ) { }
+    constructor(public payload: { graph: GraphEnum, visualization: GraphEnum, data: any }) { }
 }
 export class DataDecoratorCreateAction implements Action {
     readonly type: string = DATA_DECORATOR_CREATE;
-    constructor(public payload: {config: GraphConfig, decorator: DataDecorator} ) { }
+    constructor(public payload: { config: GraphConfig, decorator: DataDecorator }) { }
 }
 export class DataDecoratorDelAction implements Action {
     readonly type: string = DATA_DECORATOR_DEL;
-    constructor(public payload: {config: GraphConfig, decorator: DataDecorator} ) { }
+    constructor(public payload: { config: GraphConfig, decorator: DataDecorator }) { }
 }
 export class DataDecoratorAddAction implements Action {
     readonly type: string = DATA_DECORATOR_ADD;
-    constructor(public payload: {config: GraphConfig, decorator: DataDecorator} ) { }
+    constructor(public payload: { config: GraphConfig, decorator: DataDecorator }) { }
 }
 
 // Action Type
 export type Actions =
-   DataSetAction | VisualizationSetAction |
-   VisibilityToggleAction | DepthToggleAction |
-   VisualizationCompleteAction |
-   DataDecoratorCreateAction | DataDecoratorDelAction | DataDecoratorAddAction;
+    DataSetAction | VisualizationSetAction |
+    VisibilityToggleAction | DepthToggleAction |
+    VisualizationCompleteAction |
+    DataDecoratorCreateAction | DataDecoratorDelAction | DataDecoratorAddAction;

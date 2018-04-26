@@ -64,7 +64,6 @@ import {
 
 // Action Constants
 export const COMPUTE_EDGES = '[Compute] Edges';
-// export const COMPUTE_EDGES_CONFIG = '[Compute] Edge Config';
 export const COMPUTE_EDGES_COMPLETE = '[Compute] Edges Complete';
 export const COMPUTE_LOAD_DATA = '[Compute] Load Data';
 export const COMPUTE_LOAD_DATA_COMPLETE = '[Compute] Load Data Complete';

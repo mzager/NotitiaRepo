@@ -44,7 +44,7 @@ import {
 } from './app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.compute';
 
 onmessage = (e) => {
-    console.log('!aaaa!aaaa!aaaa');
+    debugger;
     const me = self as DedicatedWorkerGlobalScope;
     if (!me.hasOwnProperty('util')) {
         console.log('Init Thread');
