@@ -63,6 +63,9 @@ import {
 } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
 
 // Action Constants
+export const COMPUTE_EDGES = '[Compute] Edges';
+// export const COMPUTE_EDGES_CONFIG = '[Compute] Edge Config';
+export const COMPUTE_EDGES_COMPLETE = '[Compute] Edges Complete';
 export const COMPUTE_LOAD_DATA = '[Compute] Load Data';
 export const COMPUTE_LOAD_DATA_COMPLETE = '[Compute] Load Data Complete';
 export const COMPUTE_CHROMOSOME = '[Compute] Chromosome';
@@ -73,8 +76,6 @@ export const COMPUTE_LINKED_GENE = '[Compute] Linked Gene';
 export const COMPUTE_LINKED_GENE_COMPLETE = '[Compute] Linked Gene Complete';
 export const COMPUTE_HIC = '[Compute] HiC';
 export const COMPUTE_HIC_COMPLETE = '[Compute] HiC Complete';
-export const COMPUTE_EDGES = '[Compute] Edges';
-export const COMPUTE_EDGES_COMPLETE = '[Compute] Edges Complete';
 export const COMPUTE_NONE = '[Compute] None';
 export const COMPUTE_NONE_COMPLETE = '[Compute] None Complete';
 export const COMPUTE_PCA = '[Compute] Pca';

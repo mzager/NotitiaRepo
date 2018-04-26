@@ -1,3 +1,4 @@
+import { EdgeConfigModel } from './../../visualization/edges/edges.model';
 import { HazardConfigModel } from './../../visualization/hazard/hazard.model';
 import { ChartScene } from './../chart/chart.scene';
 import { DataDecorator } from './../../../model/data-map.model';
@@ -19,7 +20,7 @@ import { BoxWhiskersConfigModel } from './../../visualization/boxwhiskers/boxwhi
 import { GenomeConfigModel } from './../../visualization/genome/genome.model';
 import { LinkedGeneConfigModel } from './../../visualization/linkedgenes/linkedgenes.model';
 import { PlsAction } from './../../../action/compute.action';
-import { DataTable } from './../../../model/data-field.model';
+import { DataTable, DataFieldFactory } from './../../../model/data-field.model';
 import { PcaSparseConfigModel } from './../../visualization/pcasparse/pcasparse.model';
 import { PcaKernalConfigModel } from './../../visualization/pcakernal/pcakernal.model';
 import { PcaIncrementalConfigModel } from './../../visualization/pcaincremental/pcaincremental.model';
@@ -75,8 +76,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Input() tables: Array<DataTable>;
   @Input() fields: Array<DataField>;
   @Input() events: Array<{ type: string, subtype: string }>;
-  @Input() workspaceConfig: WorkspaceConfigModel;
-
   @Input() molecularData: Array<string>;
   @Input() clinicalFields: Array<DataField>;
   @Input() entityType: EntityTypeEnum;
@@ -125,6 +124,16 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  _workspaceConfig: WorkspaceConfigModel;
+  @Input() public set workspaceConfig(value: WorkspaceConfigModel) {
+    this._workspaceConfig = value;
+  }
+  _edgeConfig: EdgeConfigModel;
+  @Input() public set edgeConfig(value: EdgeConfigModel) {
+    this._edgeConfig = value;
+    debugger;
+  }
+
   public _genesets: Array<any>;
   public get genesets(): Array<any> { return this._genesets; }
   @Input() public set genesets(value: Array<any>) {
@@ -152,17 +161,41 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  // private _configPrimary: GraphConfig = null;
+  // @Input() set configPrimary(value: GraphConfig) {
+  //   let updateEdges = false;
+  //   if (value === null) { return; }
+  //   if (this._configPrimary === null) {
+  //     updateEdges = true;
+  //   } else if (this._configPrimary.entity !== value.entity) {
+  //     updateEdges = true;
+  //   }
+
+  //   this._configPrimary = value;
+  //   if (updateEdges) {
+  //     this.setEdgeOptions(this._configPrimary, this._config);
+  //   }
+  // }
+
   private _config: GraphConfig = null;
   get config(): GraphConfig { return this._config; }
   @Input() set config(value: GraphConfig) {
 
-
+    let updateEdges = false;
     let updateHelp = false;
     if (value === null) { return; }
     if (this._config === null) {
       updateHelp = true;
     } else if (this._config.visualization !== value.visualization) {
       updateHelp = true;
+    }
+    if (value.graph === GraphEnum.GRAPH_B) {
+      if (this._config === null) {
+        updateEdges = true;
+      } else if (this._config.entity !== value.entity) {
+        updateEdges = true;
+      }
+
     }
 
     this._config = value;
@@ -176,6 +209,10 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       });
     }
     this.visualizationOption = value.visualization;
+
+    // if (updateEdges) {
+    //   this.setEdgeOptions(this._configPrimary, value);
+    // }
     // const topTierVisualization = this.visualizationOptions.find(v => v.value === value.visualization);
     // if (topTierVisualization) {
     //   this.methodOption = null;
@@ -202,6 +239,13 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   //   const isBlack = ChartScene.instance.renderer.getClearColor().r === 0;
   //   ChartScene.instance.renderer.setClearColor(isBlack ? 0xFFFFFF : 0x000000, 1);
   //   ChartScene.instance.render();
+  // }
+  // setEdgeOptions(graphPrimaryConfig: GraphConfig, graphSecondaryConfig: GraphConfig): void {
+  //   if (graphPrimaryConfig === null || graphSecondaryConfig === null) {
+  //     return;
+  //   }
+  //   this.workspaceEdgeOptions = DataFieldFactory.getEdgeDataFields(graphPrimaryConfig.entity, graphSecondaryConfig.entity);
+  //   requestAnimationFrame(() => { this.cd.markForCheck(); });
   // }
   workspaceLayoutChange(layout: any): void {
     // debugger;
