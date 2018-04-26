@@ -82,7 +82,7 @@ export class DataService {
     if (decorator.field.ctype === CollectionTypeEnum.GENE_NAME) {
       return Observable.fromPromise(new Promise((resolve, reject) => {
         new Dexie('notitia').open().then(db => {
-          db.table('genecoords').toArray().then(results => {
+          db.table('genecoords').where('gene').anyOf(config.markerFilter).toArray().then(results => {
             decorator.values = results.map(v => ({
               pid: null,
               sid: null,
@@ -100,9 +100,10 @@ export class DataService {
 
     // Type Dec
     if (decorator.field.ctype === CollectionTypeEnum.GENE_TYPE) {
+
       return Observable.fromPromise(new Promise((resolve, reject) => {
         new Dexie('notitia').open().then(db => {
-          db.table('genecoords').toArray().then(results => {
+          db.table('genecoords').where('gene').anyOfIgnoreCase(...config.markerFilter).toArray().then(results => {
             const bioTypes: Array<string> = Array.from(results.reduce((p, c) => {
               p.add(c.type.toLowerCase());
               return p;
@@ -148,9 +149,8 @@ export class DataService {
 
     // Min Max Dec
     return Observable.fromPromise(new Promise((resolve, reject) => {
-
       new Dexie('notitia-' + config.database).open().then(db => {
-        db.table(decorator.field.tbl.replace(/\s/gi, '')).toArray().then(results => {
+        db.table(decorator.field.tbl.replace(/\s/gi, '')).where('m').anyOfIgnoreCase(config.markerFilter).toArray().then(results => {
           const prop = (decorator.field.key === 'Minimum') ? 'min' : (decorator.field.key === 'Maximum') ? 'max' : 'mean';
           let scale;
           switch (decorator.type) {

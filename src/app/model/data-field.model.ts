@@ -13,10 +13,36 @@ export class DataFieldFactory {
     lbls.splice(1, 0, DataFieldFactory.getGeneId());
     return lbls;
   }
-  public static getEdgeDataFields(tables: Array<DataTable>, entityA: EntityTypeEnum, entityB: EntityTypeEnum): Array<DataField> {
-    const fields = [this.defaultDataField];
-    debugger;
-    return fields;
+  public static getEdgeDataFields(
+    clinicalFields: Array<DataField>,
+    tables: Array<DataTable>,
+    entityA: EntityTypeEnum, entityB: EntityTypeEnum): Array<DataField> {
+
+    // {}
+    // key: string;
+    // label: string;
+    // type: DataTypeEnum;
+    // tbl: string;
+    // values: any;
+    // ctype: CollectionTypeEnum;
+
+    const entities = [entityA, entityB].sort().map(v => v.toString().toUpperCase()).join('-');
+
+    switch (entities) {
+      case 'PATIENT-PATIENT':
+        return [this.defaultDataField, this.getPatientId(), ...this.getCategoricalFields(clinicalFields)];
+      case 'SAMPLES-SAMPLES':
+        return [this.defaultDataField, this.getPatientId(), this.getSampleId()];
+      case 'GENES-GENES':
+        return [this.defaultDataField, this.getGeneId()];
+      case 'SAMPLES-PATIENTS':
+        return [this.defaultDataField, this.getPatientId()];
+      case 'GENES-SAMPLES':
+        return [this.defaultDataField, ...this.getMutationFields()];
+      case 'GENES-PATIENTS':
+        return [this.defaultDataField, ...this.getMutationFields()];
+    }
+    return [];
   }
   public static getMolecularShapeFields(tables: Array<DataTable>): Array<DataField> {
     return DataFieldFactory.getMolecularColorFields(tables);
@@ -99,6 +125,10 @@ export class DataFieldFactory {
     return DataFieldFactory.getSampleShapeFields(clinicalFields);
   }
 
+  public static getMutationFields(): Array<DataField> {
+    return [];
+  }
+
   public static getGeneFamily(): DataField {
     return {
       key: 'GeneFamily',
@@ -120,6 +150,7 @@ export class DataFieldFactory {
       ctype: CollectionTypeEnum.GENE_NAME
     };
   }
+
 
   public static getPatientId(): DataField {
     return {
