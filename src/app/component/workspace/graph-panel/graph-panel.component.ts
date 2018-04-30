@@ -75,7 +75,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Input() cid: string;
   @Input() tables: Array<DataTable>;
   @Input() fields: Array<DataField>;
-  @Input() clinicalFields: Array<DataField>;
   @Input() events: Array<{ type: string, subtype: string }>;
   @Input() molecularData: Array<string>;
   @Input() entityType: EntityTypeEnum;

@@ -14,9 +14,10 @@ export class DataFieldFactory {
     return lbls;
   }
   public static getConnectionColorFields(
-    clinicalFields: Array<DataField>,
+    fields: Array<DataField>,
     tables: Array<DataTable>,
     entityA: EntityTypeEnum, entityB: EntityTypeEnum): Array<DataField> {
+
     const connectionType = ConnectionTypeEnum.createFromEntities(entityA, entityB);
     switch (connectionType) {
       case ConnectionTypeEnum.GENES_GENES:
@@ -24,17 +25,14 @@ export class DataFieldFactory {
       case ConnectionTypeEnum.GENES_SAMPLES:
       case ConnectionTypeEnum.PATIENTS_PATIENTS:
       case ConnectionTypeEnum.SAMPLES_SAMPLES:
-        return [
-          this.defaultDataField,
-          ...this.getSampleColorFields(clinicalFields, EntityTypeEnum.SAMPLE)
-        ];
+        return this.getSampleColorFields(fields, EntityTypeEnum.SAMPLE);
       case ConnectionTypeEnum.SAMPLES_PATIENTS:
         break;
     }
     return [this.defaultDataField];
   }
   public static getConnectionGroupFields(
-    clinicalFields: Array<DataField>,
+    fields: Array<DataField>,
     tables: Array<DataTable>,
     entityA: EntityTypeEnum, entityB: EntityTypeEnum): Array<DataField> {
     const connectionType = ConnectionTypeEnum.createFromEntities(entityA, entityB);
@@ -44,15 +42,14 @@ export class DataFieldFactory {
       case ConnectionTypeEnum.GENES_SAMPLES:
       case ConnectionTypeEnum.PATIENTS_PATIENTS:
       case ConnectionTypeEnum.SAMPLES_SAMPLES:
-        return [DataFieldFactory.defaultDataField,
-        ...this.getSampleColorFields(clinicalFields, EntityTypeEnum.SAMPLE)];
+        return this.getSampleColorFields(fields, EntityTypeEnum.SAMPLE);
       case ConnectionTypeEnum.SAMPLES_PATIENTS:
         break;
     }
     return [];
   }
   public static getConnectionDataFields(
-    clinicalFields: Array<DataField>,
+    fields: Array<DataField>,
     tables: Array<DataTable>,
     entityA: EntityTypeEnum, entityB: EntityTypeEnum): Array<DataField> {
 
@@ -66,7 +63,7 @@ export class DataFieldFactory {
     const connectionType = ConnectionTypeEnum.createFromEntities(entityA, entityB);
     switch (connectionType) {
       case ConnectionTypeEnum.PATIENTS_PATIENTS:
-        return [this.defaultDataField, this.getPatientId(), ...this.getCategoricalFields(clinicalFields)];
+        return [this.defaultDataField, this.getPatientId(), ...this.getCategoricalFields(fields)];
       case ConnectionTypeEnum.SAMPLES_SAMPLES:
         return [this.defaultDataField, this.getPatientId(), this.getSampleId()];
       case ConnectionTypeEnum.GENES_GENES:
@@ -124,7 +121,6 @@ export class DataFieldFactory {
           return true;
       }
     })];
-
   }
 
   public static getSampleSizeFields(clinicalFields: Array<DataField>, entity: EntityTypeEnum = EntityTypeEnum.SAMPLE): Array<DataField> {

@@ -29,7 +29,6 @@ declare var $: any;
 })
 export class EdgePanelComponent implements OnDestroy {
 
-  _clinicalFields: Array<DataField>;
   edgeConfig: EdgeConfigModel = new EdgeConfigModel();
   _graphAConfig: GraphConfig;
   _graphBConfig: GraphConfig;
@@ -49,14 +48,6 @@ export class EdgePanelComponent implements OnDestroy {
   @Input() workspaceConfig: WorkspaceConfigModel;
   @Input() tables: Array<DataTable>;
   @Input() fields: Array<DataField>;
-
-  get clinicalFields(): Array<DataField> {
-    return (this._clinicalFields === null) ? [] : this._clinicalFields;
-  }
-  @Input() set clinicalFields(v: Array<DataField>) {
-    this._clinicalFields = v;
-  }
-
   @Output() workspaceConfigChange: EventEmitter<{ config: WorkspaceConfigModel }> = new EventEmitter();
   @Output() edgeConfigChange: EventEmitter<EdgeConfigModel> = new EventEmitter();
 
@@ -90,9 +81,8 @@ export class EdgePanelComponent implements OnDestroy {
     this.edgeConfig.markerFilterB = this._graphBConfig.markerFilter;
     this.edgeConfig.sampleFitlerB = this._graphBConfig.sampleFilter;
     this.edgeConfig.patientFilterB = this._graphBConfig.patientFilter;
-    debugger;
     this.colorOptions = DataFieldFactory.getConnectionColorFields(
-      this.clinicalFields,
+      this.fields,
       this.tables,
       this._graphAConfig.entity,
       this._graphBConfig.entity);
@@ -129,7 +119,7 @@ export class EdgePanelComponent implements OnDestroy {
       if (this.edgeConfig.entityA !== graphConfig.entity) {
         console.log('type change A');
         this.edgeConfig.entityA = graphConfig.entity;
-        this.edgeOptions = DataFieldFactory.getConnectionDataFields(this.clinicalFields, this.tables,
+        this.edgeOptions = DataFieldFactory.getConnectionDataFields(this.fields, this.tables,
           this.edgeConfig.entityA, this.edgeConfig.entityB);
         // dispatch hide edges config
         this.edgeConfig.field = DataFieldFactory.defaultDataField;
@@ -144,7 +134,7 @@ export class EdgePanelComponent implements OnDestroy {
       if (this.edgeConfig.entityB !== graphConfig.entity) {
         console.log('type change B');
         this.edgeConfig.entityB = graphConfig.entity;
-        this.edgeOptions = DataFieldFactory.getConnectionDataFields(this.clinicalFields, this.tables,
+        this.edgeOptions = DataFieldFactory.getConnectionDataFields(this.fields, this.tables,
           this.edgeConfig.entityA, this.edgeConfig.entityB);
         // dispatch hide edges config
         this.edgeConfig.field = DataFieldFactory.defaultDataField;
