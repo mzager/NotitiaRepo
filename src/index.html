@@ -23,6 +23,9 @@
     </div> -->
   </app-root>
   <script>
+    if (global === undefined) {
+      var global = window;
+    }
     document.oncontextmenu = () => false;
     // if ('serviceWorker' in navigator) {
     //   window.addEventListener('load', function() {

@@ -1,14 +1,39 @@
-<div>
-    <form [formGroup]='fb' novalidate>
+<div style='padding: 10px;'>
+    <div class='graphPanelHeader' style="padding-top: 5px;">Connections</div>
+    <form novalidate>
         <div class='form-group'>
             <label class='center-block'>
                 <span class='form-label'>Layout</span>
-                <select materialize='material_select' [materializeSelectOptions]='layoutOptions' formControlName='layout'>
+                <select materialize='material_select' [materializeSelectOptions]='layoutOptions' (change)='layoutOptionChange($event)'>
                     <option *ngFor='let option of layoutOptions' [value]='option'>{{option}}</option>
                 </select>
             </label>
         </div>
+        <div class='form-group'>
+            <label class='center-block'>
+                <span class='form-label'>Connect</span>
+                <select materialize='material_select' [materializeSelectOptions]='edgeOptions' (change)='edgeOptionChange($event)'>
+                    <option *ngFor='let option of edgeOptions' [value]='option.label'>{{option.label}}</option>
+                </select>
+            </label>
+        </div>
+        <div class='form-group'>
+            <label class='center-block'>
+                <span class='form-label'>Color</span>
+                <select materialize='material_select' [materializeSelectOptions]='colorOptions' (change)='colorOptionChange($event)'>
+                    <option *ngFor='let option of colorOptions' [value]='option.label'>{{option.label}}</option>
+                </select>
+            </label>
+        </div>
+        <div class='form-group'>
+            <label class='center-block'>
+                <span class='form-label'>Group By</span>
+                <select materialize='material_select' [materializeSelectOptions]='groupOptions' (change)='groupOptionChange($event)'>
+                    <option *ngFor='let option of groupOptions' [value]='option.label'>{{option.label}}</option>
+                </select>
+            </label>
+        </div>
     </form>
-    <app-edges-form (configChange)='edgePanelSetConfig($event)' [graphAConfig]='graphAConfig' [graphBConfig]='graphBConfig' [tables]='tables'
-        [fields]='fields' [config]='config'></app-edges-form>
+    <!-- <app-edges-form (configChange)='edgePanelSetConfig($event)' [graphAConfig]='graphAConfig' [graphBConfig]='graphBConfig' [tables]='tables'
+        [fields]='fields' [config]='config'></app-edges-form> -->
 </div>

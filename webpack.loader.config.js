@@ -5,10 +5,11 @@ const config = {
   mode: 'production',
   entry: './src/loader.ts',
   output: {
-    filename: './src/assets/loader.js'
+    filename: 'loader.js',
+    path: __dirname + '/src/assets'
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js']
+    extensions: ['.ts', '.tsx', '.mjs', '.js']
   },
   module: {
     rules: [

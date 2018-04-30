@@ -11,13 +11,19 @@ export class EdgeConfigModel extends GraphConfig {
     constructor() {
         super();
         this.entity = EntityTypeEnum.MIXED;
+        this.graph = GraphEnum.EDGES;
         this.visualization = VisualizationEnum.EDGES;
+        this.field = DataFieldFactory.defaultDataField;
     }
-
-    isVisible = false;
+    markerFilterA: Array<string> = [];
+    patientFilterA: Array<string> = [];
+    sampleFitlerA: Array<string> = [];
+    markerFilterB: Array<string> = [];
+    patientFilterB: Array<string> = [];
+    sampleFitlerB: Array<string> = [];
     entityA: EntityTypeEnum = EntityTypeEnum.UNKNOWN;
     entityB: EntityTypeEnum = EntityTypeEnum.UNKNOWN;
-    edgeOption = ['None'];
+    field: DataField;
 }
 
 export class EdgeDataModel implements GraphData {

@@ -5,10 +5,11 @@ const config = {
   mode: 'development',
   entry: './src/compute.ts',
   output: {
-    filename: './src/assets/compute.js'
+    filename: 'compute.js',
+    path: __dirname + '/src/assets'
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js']
+    extensions: ['.ts', '.tsx', '.mjs', '.js']
   },
   module: {
     rules: [

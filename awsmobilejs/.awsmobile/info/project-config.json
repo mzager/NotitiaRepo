@@ -1,0 +1,6 @@
+{
+	"SourceDir": "src",
+	"DistributionDir": "dist",
+	"BuildCommand": "ng build --prod --aot=true --vendor-chunk=false",
+	"StartCommand": "ng serve"
+}
