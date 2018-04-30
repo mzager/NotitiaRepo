@@ -11,29 +11,7 @@
         <p style="margin-left: 10px; margin-top: 0px;">
             <a (click)='helpClick()' href='#'>Learn More</a>
         </p>
-
-
-        <span *ngIf='config.graph === 2'>
-            <div class='graphPanelHeader'>Workspace</div>
-            <div style='padding:10px'>
-                <div class='form-group'>
-                    <label class='center-block'>
-                        <span class='form-label'>Layout</span>
-                        <select materialize='material_select' [materializeSelectOptions]='workspaceLayoutOptions' (change)='workspaceLayoutChange($event)'>
-                            <option *ngFor='let option of workspaceLayoutOptions' [value]='option'>{{option}}</option>
-                        </select>
-                    </label>
-                </div>
-                <div class='form-group'>
-                    <label class='center-block'>
-                        <span class='form-label'>Edges</span>
-                        <select materialize='material_select' [materializeSelectOptions]='workspaceEdgeOptions'>
-                            <option *ngFor='let option of workspaceEdgeOptions' [value]='option'>{{option.label}}</option>
-                        </select>
-                    </label>
-                </div>
-            </div>
-        </span>
+        <ng-content></ng-content>
         <div class='graphPanelHeader'>Settings</div>
         <div style='padding:10px'>
             <!-- <app-edges-form (configChange)='edgePanelSetConfig($event)' [graphAConfig]='graphAConfig' [graphBConfig]='graphBConfig' [tables]='tables'
@@ -123,9 +101,9 @@
                     <span class='form-label'>Cohort</span>
                     <select materialize='material_select' (change)='onCohortChange($event)' [materializeSelectOptions]='cohorts'>
                         <option *ngFor='let option of cohorts' [value]='option.n' selected>{{option.n}} </option>
-                        <option value='customize'>
+                        <!-- <option value='customize'>
                             <span class='customizeDropdownOption'>Customize</span>
-                        </option>
+                        </option> -->
                     </select>
                 </label>
             </div>
@@ -135,9 +113,9 @@
                     <span class='form-label'>Gene Set</span>
                     <select materialize='material_select' (change)='onGenesetChange($event)' [materializeSelectOptions]='genesets'>
                         <option *ngFor='let option of genesets' [value]='option.n' selected>{{option.n}} </option>
-                        <option value='customize'>
+                        <!-- <option value='customize'>
                             <span class='customizeDropdownOption'>Customize</span>
-                        </option>
+                        </option> -->
                     </select>
                 </label>
             </div>
@@ -147,9 +125,9 @@
                     <span class='form-label'>Pathway</span>
                     <select materialize='material_select' (change)='onPathwayChange($event)' [materializeSelectOptions]='pathways'>
                         <option *ngFor='let option of pathways' [value]='option.n' selected>{{option.n}} </option>
-                        <option value='customize'>
+                        <!-- <option value='customize'>
                             <span class='customizeDropdownOption'>Customize</span>
-                        </option>
+                        </option> -->
                     </select>
                 </label>
             </div>

@@ -75,9 +75,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Input() cid: string;
   @Input() tables: Array<DataTable>;
   @Input() fields: Array<DataField>;
+  @Input() clinicalFields: Array<DataField>;
   @Input() events: Array<{ type: string, subtype: string }>;
   @Input() molecularData: Array<string>;
-  @Input() clinicalFields: Array<DataField>;
   @Input() entityType: EntityTypeEnum;
   @Output() hide: EventEmitter<any> = new EventEmitter();
   @Output() help: EventEmitter<GraphConfig> = new EventEmitter();
@@ -90,7 +90,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Output() decoratorAdd: EventEmitter<{ config: GraphConfig, decorator: DataDecorator }> = new EventEmitter();
   @Output() decoratorDel: EventEmitter<{ config: GraphConfig, decorator: DataDecorator }> = new EventEmitter();
   @Output() workspaceConfigChange: EventEmitter<{ config: WorkspaceConfigModel }> = new EventEmitter();
-
+  @Output() edgeConfigChange: EventEmitter<{ config: EdgeConfigModel }> = new EventEmitter();
 
   methodName = '';
   methodSummary = '';
@@ -103,9 +103,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   get decoratorsWithLegends(): Array<DataDecorator> {
     return this._decorators.filter(v => v.legend);
   }
-  get decorators(): Array<DataDecorator> {
-    return this._decorators;
-  }
+  get decorators(): Array<DataDecorator> { return this._decorators; }
   @Input() set decorators(value: Array<DataDecorator>) {
     this._decorators = value;
     requestAnimationFrame(() => {
@@ -114,29 +112,12 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   }
 
   _data: GraphData;
-  get data(): GraphData {
-    return this._data;
-  }
+  get data(): GraphData { return this._data; }
   @Input() set data(value: GraphData) {
     this._data = value;
     requestAnimationFrame(() => {
       this.cd.markForCheck();
     });
-  }
-
-  _workspaceConfig: WorkspaceConfigModel;
-  @Input() public set workspaceConfig(value: WorkspaceConfigModel) {
-    this._workspaceConfig = value;
-  }
-  _edgeConfig: EdgeConfigModel;
-  @Input() public set edgeConfig(value: EdgeConfigModel) {
-    this._edgeConfig = value;
-
-    this.workspaceEdgeOptions = DataFieldFactory.getEdgeDataFields(
-      this.clinicalFields,
-      this.tables,
-      this._edgeConfig.entityA,
-      this._edgeConfig.entityB);
   }
 
   public _genesets: Array<any>;
@@ -166,26 +147,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  // private _configPrimary: GraphConfig = null;
-  // @Input() set configPrimary(value: GraphConfig) {
-  //   let updateEdges = false;
-  //   if (value === null) { return; }
-  //   if (this._configPrimary === null) {
-  //     updateEdges = true;
-  //   } else if (this._configPrimary.entity !== value.entity) {
-  //     updateEdges = true;
-  //   }
-
-  //   this._configPrimary = value;
-  //   if (updateEdges) {
-  //     this.setEdgeOptions(this._configPrimary, this._config);
-  //   }
-  // }
-
   private _config: GraphConfig = null;
   get config(): GraphConfig { return this._config; }
   @Input() set config(value: GraphConfig) {
-
     let updateEdges = false;
     let updateHelp = false;
     if (value === null) { return; }
@@ -200,7 +164,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       } else if (this._config.entity !== value.entity) {
         updateEdges = true;
       }
-
     }
 
     this._config = value;
@@ -214,7 +177,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       });
     }
     this.visualizationOption = value.visualization;
-
     // if (updateEdges) {
     //   this.setEdgeOptions(this._configPrimary, value);
     // }
@@ -239,23 +201,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   methodOptions: Array<any>;
   methodOption: any;
 
-  // moved to global
-  // toggleBackgroundClick(): void {
-  //   const isBlack = ChartScene.instance.renderer.getClearColor().r === 0;
-  //   ChartScene.instance.renderer.setClearColor(isBlack ? 0xFFFFFF : 0x000000, 1);
-  //   ChartScene.instance.render();
-  // }
-  // setEdgeOptions(graphPrimaryConfig: GraphConfig, graphSecondaryConfig: GraphConfig): void {
-  //   if (graphPrimaryConfig === null || graphSecondaryConfig === null) {
-  //     return;
-  //   }
-  //   this.workspaceEdgeOptions = DataFieldFactory.getEdgeDataFields(graphPrimaryConfig.entity, graphSecondaryConfig.entity);
-  //   requestAnimationFrame(() => { this.cd.markForCheck(); });
-  // }
-
-  workspaceLayoutChange(layout: any): void {
-    // debugger;
-  }
   toggleClick(): void {
 
     if (this.panel.nativeElement.classList.contains('graphPanelCollapsed')) {
@@ -270,19 +215,16 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.help.emit(this.config);
   }
   public onCustomizeClick($event: Event) {
-    // this.showPanel
     console.log('click');
     $event.preventDefault();
 
   }
   onCohortChange($event: Event) {
-
     // if ($event.target['value'] === 'customize') {
     //   this.showPanel.emit(PanelEnum.COHORT);
     //   $event.preventDefault();
     //   return;
     // }
-
     const selected = this.cohorts.find(v => v.n === $event.target['value']);
     this.config.patientFilter = selected.pids;
     this.config.sampleFilter = selected.sids;
@@ -331,7 +273,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
         this.setVisualization(VisualizationEnum.INCREMENTAL_PCA);
         return;
       case VisualizationEnum.MANIFOLDLEARNING:
-        // this.setVisualization(this.visualizationOptions.find(v => v.value === visualizationEnumValue).methodOptions[0].value);
         this.setVisualization(VisualizationEnum.TSNE);
         return;
       case VisualizationEnum.TIMELINES:
@@ -475,7 +416,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
 
   constructor(private ms: ModalService, private cd: ChangeDetectorRef, private dataService: DataService) {
 
-
     this.genesets = [];
     this.cohorts = [];
 
@@ -492,9 +432,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
         group: 'Distribution', options: [
           { value: VisualizationEnum.BOX_WHISKERS, label: 'Box + Whisker' },
           { value: VisualizationEnum.HEATMAP, label: 'Heatmap' },
-          { value: VisualizationEnum.PARALLEL_COORDS, label: 'Parallel Coordinates' },
+          // { value: VisualizationEnum.PARALLEL_COORDS, label: 'Parallel Coordinates' },
           // { value: VisualizationEnum.DENDOGRAM, label: 'Dendogram' },
-          { value: VisualizationEnum.HISTOGRAM, label: 'Histogram' },
+          // { value: VisualizationEnum.HISTOGRAM, label: 'Histogram' },
         ]
       }, {
         group: 'Structural', options: [

@@ -1,3 +1,4 @@
+import { GraphEnum } from 'app/model/enum.model';
 import { ChartEvents } from './../../component/workspace/chart/chart.events';
 import { textAlign } from 'three-text2d';
 import { ILabel } from './label.controller';
@@ -9,7 +10,7 @@ import { VisualizationView } from './../../model/chart-view.model';
 import * as THREE from 'three';
 import * as _ from 'lodash';
 import { debounceTime, skipWhile } from 'rxjs/operators';
-import { Vector3, Matrix4 } from 'three';
+import { Vector3, Matrix4, Object3D } from 'three';
 
 export interface ILabel {
     position: THREE.Vector3;
@@ -88,6 +89,27 @@ export class LabelController {
             (options.algorithm === 'GRID') ? this.layoutObjectsGrid(objects, options) :
                 this.layoutObjectsPixel(objects, options);
     }
+    public static createMap2D(objects: Array<Object3D>, view: VisualizationView): Object {
+
+
+        const viewport = view.viewport;
+        const width = viewport.width;
+        const height = viewport.height;
+        const halfWidth = width * 0.5;
+        const halfHeight = height * 0.5;
+
+        const offset = (view.config.graph === GraphEnum.GRAPH_A) ?
+            new THREE.Vector3(-view.viewport.x, -view.viewport.y, 0) :
+            new THREE.Vector3(view.viewport.x, view.viewport.y, 0);
+        return objects.reduce((p, obj) => {
+            const position = obj.position.clone().project(view.camera);
+            position.x = (position.x * halfWidth) - halfWidth;
+            position.y = (position.y * halfHeight);
+            position.z = 0;
+            p[obj.userData.id] = position.add(offset);
+            return p;
+        }, {});
+    }
     private static layoutObjectsPixel(objects: Array<ILabel>, options: LabelOptions): Array<ILabel> {
         const viewport = options.view.viewport;
         const width = viewport.width;
@@ -147,8 +169,8 @@ export class LabelController {
         }, '');
     }
 
-    private static filterObjects(objects: Array<ILabel>, options: LabelOptions): Array<ILabel> {
-        const camera = options.view.camera as THREE.PerspectiveCamera;
+    public static filterObjectsInFrustum(objects: Array<any>, view: VisualizationView): Array<Object3D> {
+        const camera = view.camera as THREE.PerspectiveCamera;
         camera.updateMatrixWorld(true);
         camera.matrixWorldInverse.getInverse(camera.matrixWorld);
         const cameraViewProjectionMatrix: Matrix4 = new Matrix4();
@@ -156,6 +178,10 @@ export class LabelController {
         const frustum = new THREE.Frustum();
         frustum.setFromMatrix(cameraViewProjectionMatrix);
         return objects.filter(obj => frustum.containsPoint(obj.position));
+    }
+
+    private static filterObjects(objects: Array<ILabel>, options: LabelOptions): Array<ILabel> {
+        return this.filterObjectsInFrustum(objects, options.view);
     }
 
     static reduceHtml(data: Array<{ x: number, y: number, name: string }>, align: 'RIGHT' | 'LEFT' | 'CENTER' = 'LEFT'): string {

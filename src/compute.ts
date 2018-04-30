@@ -53,6 +53,9 @@ onmessage = (e) => {
     }
 
     switch (e.data.visualization) {
+        case VisualizationEnum.EDGES:
+            edgesCompute(e.data, me);
+            break;
         case VisualizationEnum.DENDOGRAM:
             dendogramCompute(e.data, me);
             break;

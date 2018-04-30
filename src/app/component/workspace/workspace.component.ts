@@ -37,7 +37,7 @@ import {
 } from './../../action/compute.action';
 import { ChromosomeConfigModel } from './../visualization/chromosome/chromosome.model';
 import { GraphPanelToggleAction, ModalPanelAction, LoaderHideAction, LoaderShowAction } from './../../action/layout.action';
-import { DataField } from 'app/model/data-field.model';
+import { DataField, DataFieldFactory } from 'app/model/data-field.model';
 import {
   DataLoadedAction,
   DataLoadFromDexieAction,
@@ -118,7 +118,7 @@ export class WorkspaceComponent {
   graphBData: Observable<any>;
   graphADecorators: Observable<Array<DataDecorator>>;
   graphBDecorators: Observable<Array<DataDecorator>>;
-  edgeConfig: Observable<GraphConfig>;
+  edgeConfig: Observable<EdgeConfigModel>;
   edgeLegend: Observable<Array<Legend>>;
   $configChangeA: Subscription;
   $configChangeB: Subscription;
@@ -137,7 +137,6 @@ export class WorkspaceComponent {
   events: Observable<Array<{ type: string, subtype: string }>>;
   queryData: Observable<any>;
   _selectedGraph: enums.GraphEnum; // This is super wrong
-  _edgeConfig: EdgeConfigModel;
 
   constructor(private store: Store<fromRoot.State>) {
 
@@ -164,13 +163,6 @@ export class WorkspaceComponent {
     this.tables = store.select(fromRoot.getTables);
     this.fields = store.select(fromRoot.getFields);
     this.events = store.select(fromRoot.getEvents);
-
-    this.$configChangeE = store.select(fromRoot.getEdgesConfig)
-      .subscribe(this.configEdgeChange.bind(this));
-    this.$configChangeA = store.select(fromRoot.getGraphAConfig)
-      .subscribe(this.configGraphChange.bind(this));
-    this.$configChangeB = store.select(fromRoot.getGraphBConfig)
-      .subscribe(this.configGraphChange.bind(this));
   }
 
   select(selection: { type: EntityTypeEnum, ids: Array<string> }): void {
@@ -189,24 +181,11 @@ export class WorkspaceComponent {
   // fileOpen(value: DataTransfer) {
   //   this.store.dispatch(new data.DataLoadFromFileAction(value));
   // }
-  configEdgeChange(config: EdgeConfigModel): void {
-    if (config === null) { return; }
-    this._edgeConfig = config;
+
+  edgeConfigChange(value: EdgeConfigModel): void {
+    this.store.dispatch(new compute.EdgesAction({ config: value }));
   }
-  configGraphChange(config: GraphConfig): void {
-    if (config === null) { return; }
-    if (config.graph === GraphEnum.GRAPH_A) {
-      if (this._edgeConfig.entityA !== config.entity) {
-        this._edgeConfig.entityA = config.entity;
-        this.store.dispatch(new compute.EdgesAction({ config: this._edgeConfig }));
-      }
-    } else if (config.graph === GraphEnum.GRAPH_B) {
-      if (this._edgeConfig.entityB !== config.entity) {
-        this._edgeConfig.entityB = config.entity;
-        this.store.dispatch(new compute.EdgesAction({ config: this._edgeConfig }));
-      }
-    }
-  }
+
   graphPanelSetConfig(value: GraphConfig) {
     this.store.dispatch(new LoaderShowAction());
     switch (value.visualization) {
@@ -356,6 +335,7 @@ export class WorkspaceComponent {
   setPanel(value: enums.PanelEnum): void {
     this.store.dispatch(new ModalPanelAction(value));
   }
+
   workspacePanelSetConfig(value: WorkspaceConfigModel) {
     this.store.dispatch(new WorkspaceConfigAction(value));
   }

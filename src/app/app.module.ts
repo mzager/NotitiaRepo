@@ -141,6 +141,7 @@ import {
   MatTooltipModule,
   MatTreeModule
 } from '@angular/material';
+import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
 
 @NgModule({
   declarations: [
@@ -220,6 +221,7 @@ import {
   entryComponents: [
   ],
   imports: [
+    AmplifyAngularModule,
     MatAutocompleteModule,
     MatBadgeModule,
     MatBottomSheetModule,
@@ -284,7 +286,8 @@ import {
     ComputeService,
     ChartFactory,
     HttpClient,
-    ModalService
+    ModalService,
+    AmplifyService
   ],
   bootstrap: [AppComponent]
 })

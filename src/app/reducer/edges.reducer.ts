@@ -9,7 +9,7 @@ import * as data from 'app/action/data.action';
 import { Action } from '@ngrx/store';
 
 export interface State {
-    config: GraphConfig;
+    config: EdgeConfigModel;
     data: EdgeDataModel;
 }
 

@@ -1,3 +1,4 @@
+import { EdgesGraph } from './../../visualization/edges/edges.graph';
 import { FontService } from './../../../service/font.service';
 import { DataDecorator } from './../../../model/data-map.model';
 import { GraphConfig } from 'app/model/graph-config.model';
@@ -260,16 +261,23 @@ export class ChartScene {
         let view: VisualizationView;
         switch (graph) {
             case GraphEnum.EDGES:
-                //     view = this.views[2];
-                //     //     //     if (view.config.visualization !== config.visualization) {
-                //     //     //         if (view.chart !== null) { view.chart.destroy(); }
-                //     //     //         view.chart = this.getChartObject(config.visualization)
-                //     //     //             .create(this.labelsE, this.events, view);
-                //     //     //         view.chart.onRequestRender.subscribe(this.render);
-                //     //     //         view.chart.onConfigEmit.subscribe(this.config);
-                //     //     //         (view.chart as EdgesGraph).updateEdges = true;
-                //     //     //     }
-                return;
+                view = this.views[2];
+                if (view.config.visualization !== config.visualization) {
+                    if (view.chart !== null) { view.chart.destroy(); }
+                    const e = config as EdgeConfigModel;
+                    view.config = config;
+                    view.chart = chartObjectInterface.create(this.labelsE, this.events, view);
+                    view.chart.onRequestRender.subscribe(this.render);
+                    view.chart.onConfigEmit.subscribe(this.config);
+                    (view.chart as EdgesGraph).updateEdges = true;
+                    // this.getChartObject(config.visualization)
+                    //         .create(this.labelsE, this.events, view);
+                    //     view.chart.onRequestRender.subscribe(this.render);
+                    //     view.chart.onConfigEmit.subscribe(this.config);
+                    //     (view.chart as EdgesGraph).updateEdges = true;
+                    // }
+                }
+                break;
             case GraphEnum.GRAPH_A:
             case GraphEnum.GRAPH_B:
                 view = (graph === GraphEnum.GRAPH_A) ? this.views[0] : this.views[1];
