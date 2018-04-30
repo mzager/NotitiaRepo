@@ -190,7 +190,29 @@ export class MutationTypeEnum {
     static readonly INDEL = 'Indel';
     static readonly R = 'R';
 }
-
+export class ConnectionTypeEnum {
+    static readonly NONE = 'None';
+    static readonly UNKNOWN = 'Unknown';
+    static readonly PATIENTS_PATIENTS = 'PATIENTS-PATIENTS';
+    static readonly SAMPLES_SAMPLES = 'SAMPLES-SAMPLES';
+    static readonly GENES_GENES = 'GENES-GENES';
+    static readonly SAMPLES_PATIENTS = 'SAMPLES-PATIENTS';
+    static readonly GENES_SAMPLES = 'GENES-SAMPLES';
+    static readonly GENES_PATIENTS = 'GENES-PATIENTS';
+    static createFromEntities(entityA: EntityTypeEnum, entityB: EntityTypeEnum): ConnectionTypeEnum {
+        const entities = [entityA, entityB].sort().map(v => v.toString().toUpperCase()).join('-');
+        switch (entities) {
+            case ConnectionTypeEnum.PATIENTS_PATIENTS: return ConnectionTypeEnum.PATIENTS_PATIENTS;
+            case ConnectionTypeEnum.GENES_GENES: return ConnectionTypeEnum.GENES_GENES;
+            case ConnectionTypeEnum.GENES_PATIENTS: return ConnectionTypeEnum.GENES_PATIENTS;
+            case ConnectionTypeEnum.GENES_SAMPLES: return ConnectionTypeEnum.GENES_SAMPLES;
+            case ConnectionTypeEnum.PATIENTS_PATIENTS: return ConnectionTypeEnum.PATIENTS_PATIENTS;
+            case ConnectionTypeEnum.SAMPLES_PATIENTS: return ConnectionTypeEnum.SAMPLES_PATIENTS;
+            case ConnectionTypeEnum.SAMPLES_SAMPLES: return ConnectionTypeEnum.SAMPLES_SAMPLES;
+        }
+        return ConnectionTypeEnum.NONE;
+    }
+}
 export class EntityTypeEnum {
     static readonly NONE = 'None';
     static readonly UNKNOWN = 'Unknown';

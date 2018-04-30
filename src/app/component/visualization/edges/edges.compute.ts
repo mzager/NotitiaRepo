@@ -9,6 +9,17 @@ import { EdgeConfigModel } from './edges.model';
 import * as _ from 'lodash';
 
 export const edgesCompute = (config: EdgeConfigModel, worker: DedicatedWorkerGlobalScope): void => {
+
+    if (config.field.type === 'UNDEFINED') {
+        worker.postMessage({
+            config: config,
+            data: { result: [] }
+        });
+        worker.postMessage('TERMINATE');
+        return;
+    }
+
+
     const edges = {
         getEventsEvents(cfg: EdgeConfigModel): Promise<any> {
             return new Promise((resolve, reject) => {
@@ -61,30 +72,31 @@ export const edgesCompute = (config: EdgeConfigModel, worker: DedicatedWorkerGlo
         getGenesSamples(cfg: EdgeConfigModel): Promise<any> {
             return new Promise((resolve, reject) => {
                 if (this.edgeOptions === 'None') { resolve([]); return; }
-                const colors = [0xab47bc, 0xffca28, 0x5c6bc0, 0x26c6da, 0x66bb6a, 0xffca28];
-                const colorMap = cfg.edgeOption.reduce((p, c, i) => {
-                    p[c] = colors[i];
-                    return p;
-                }, {});
-                worker.util.openDatabaseData(cfg.database).then(db => {
-                    db.table('mut').where('t').anyOfIgnoreCase(cfg.edgeOption).toArray().then(result => {
-                        const data = result.map(v => ({
-                            a: v.s,
-                            b: v.m,
-                            c: colorMap[v.t],
-                            i: null
-                        }));
-                        worker.postMessage({
-                            config: cfg,
-                            data: {
-                                result: data
-                            }
-                        });
-                        worker.postMessage('TERMINATE');
-                    });
-                });
+                // const colors = [0xab47bc, 0xffca28, 0x5c6bc0, 0x26c6da, 0x66bb6a, 0xffca28];
+                // const colorMap = cfg.edgeOption.reduce((p, c, i) => {
+                //     p[c] = colors[i];
+                //     return p;
+                // }, {});
+                // worker.util.openDatabaseData(cfg.database).then(db => {
+                //     db.table('mut').where('t').anyOfIgnoreCase(cfg.edgeOption).toArray().then(result => {
+                //         const data = result.map(v => ({
+                //             a: v.s,
+                //             b: v.m,
+                //             c: colorMap[v.t],
+                //             i: null
+                //         }));
+                //         worker.postMessage({
+                //             config: cfg,
+                //             data: {
+                //                 result: data
+                //             }
+                //         });
+                //         worker.postMessage('TERMINATE');
+                //     });
+                // });
             });
         },
+
         getPatientsPatients(cfg: EdgeConfigModel): Promise<any> {
             return new Promise((resolve, reject) => {
                 if (this.edgeOptions === 'None') { resolve([]); return; }
@@ -101,14 +113,49 @@ export const edgesCompute = (config: EdgeConfigModel, worker: DedicatedWorkerGlo
         },
         getSamplesSamples(cfg: EdgeConfigModel): Promise<any> {
             return new Promise((resolve, reject) => {
-                if (this.edgeOptions === 'None') { resolve([]); return; }
-                worker.util.openDatabaseData(config.database).then(db => {
-                });
+                switch (cfg.field.type) {
+                    case 'UNDEFINED':
+                        resolve([]);
+                        break;
+                    default:
+                        // case 'pid':
+                        worker.util.openDatabaseData(config.database).then(db => {
+                            db.table('patientSampleMap').toArray().then(result => {
+                                resolve(result.map(v => ({
+                                    a: v.s,
+                                    b: v.s,
+                                    c: 0xFF0000,
+                                    i: null
+                                })));
+                            });
+                        });
+                        break;
+                    // case 'sid':
+                    //     worker.util.openDatabaseData(config.database).then(db => {
+                    //         db.table('patientSampleMap').toArray().then(result => {
+                    //             resolve(result.map(v => ({
+                    //                 a: v.s,
+                    //                 b: v.m,
+                    //                 c: 0xFF0000,
+                    //                 i: null
+                    //             })));
+                    //         });
+                    //     });
+                    //     break;
+                }
             });
         }
     };
 
-    edges['get' + [config.entityA, config.entityB].sort().join('')](config);
+    edges['get' + [config.entityA, config.entityB].sort().join('')](config).then(result => {
+        worker.postMessage({
+            config: config,
+            data: {
+                result: result
+            }
+        });
+        worker.postMessage('TERMINATE');
+    });
 
     // if (config.entityA === EntityTypeEnum.SAMPLE && config.entityB === EntityTypeEnum.SAMPLE) {
     //     worker.util.getEdgesSampleSample(config).then( result => {

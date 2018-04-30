@@ -1,3 +1,4 @@
+import { LabelController } from './../../../controller/label/label.controller';
 import { DataDecorator } from './../../../model/data-map.model';
 import { ChartFactory } from './../../workspace/chart/chart.factory';
 import { EdgeDataModel, EdgeConfigModel } from './edges.model';
@@ -47,30 +48,26 @@ export class EdgesGraph implements ChartObjectInterface {
         this.drawEdgesDebounce();
     }
 
-    drawEdges(views, layout, renderer) {
-        // this.view.scene.children = this.view.scene.children.splice(0, 2);
+    drawEdges(views: Array<VisualizationView>, layout, renderer) {
+        if (this.data.result.length === 0) {
+            return;
+        }
 
-        // // if (!this.config.isVisible) { return; }
-        // if (views[0].chart === null || views[1].chart === null) { return; }
+        this.view.scene.children = this.view.scene.children.splice(0, 2);
+        if (views[0].chart === null || views[1].chart === null) { return; }
+        const visibleObjectsA = LabelController.filterObjectsInFrustum(views[0].chart.meshes, views[0]);
+        const visibleObjectsB = LabelController.filterObjectsInFrustum(views[1].chart.meshes, views[1]);
+        const obj2dMapA = LabelController.createMap2D(visibleObjectsA, views[0]);
+        const obj2dMapB = LabelController.createMap2D(visibleObjectsB, views[1]);
 
-        // const aId = (this.config.entityA === EntityTypeEnum.GENE) ? 'mid' : 'sid';
-        // const bId = (this.config.entityB === EntityTypeEnum.GENE) ? 'mid' : 'sid';
-
-        // const aMap = views[0].chart.meshes.reduce((p, c) => {
-        //     const screenPosition = CxhartUtil.objectToScreen(c, views[0], layout);
-        //     if (screenPosition !== null) {
-        //         p[c.userData[aId]] = { mesh: c, screenPosition: screenPosition };
-        //     }
-        //     return p;
-        // }, {});
-
-        // const bMap = views[1].chart.meshes.reduce((p, c) => {
-        //     const screenPosition = CxhartUtil.objectToScreen(c, views[1], layout);
-        //     if (screenPosition !== null) {
-        //         p[c.userData[bId]] = { mesh: c, screenPosition: screenPosition };
-        //     }
-        //     return p;
-        // }, {});
+        const visibleEdges = this.data.result.map(v => {
+            if (!obj2dMapA.hasOwnProperty(v.a) || !obj2dMapB.hasOwnProperty(v.b)) {
+                return null;
+            }
+            const line = ChartFactory.lineAllocate(v.c, obj2dMapA[v.a], obj2dMapB[v.b]);
+            line.userData = v;
+            return line;
+        }).filter(v => v !== null).forEach(edge => this.view.scene.add(edge));
 
 
         // let edges = [];

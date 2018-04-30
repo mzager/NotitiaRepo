@@ -19,11 +19,11 @@ export class DecoratorPanelComponent implements AfterViewInit, OnDestroy {
 
   public clinicalColorOptions: Array<DataField>;
   public clinicalShapeOptions: Array<DataField>;
-  public clinicalSizeOptions: Array<DataField>;
+  // public clinicalSizeOptions: Array<DataField>;
   public clinicalLabelOptions: Array<DataField>;
   public molecularColorOptions: Array<DataField>;
   public molecularShapeOptions: Array<DataField>;
-  public molecularSizeOptions: Array<DataField>;
+  // public molecularSizeOptions: Array<DataField>;
   public molecularLabelOptions: Array<DataField>;
   public colorOptions: Array<DataField>;
   public shapeOptions: Array<DataField>;
@@ -53,14 +53,14 @@ export class DecoratorPanelComponent implements AfterViewInit, OnDestroy {
   @Input() set tables(tables: Array<DataTable>) {
     this.molecularColorOptions = DataFieldFactory.getMolecularColorFields(tables);
     this.molecularShapeOptions = DataFieldFactory.getMolecularShapeFields(tables);
-    this.molecularSizeOptions = DataFieldFactory.getMolecularSizeFields(tables);
+    // this.molecularSizeOptions = DataFieldFactory.getMolecularSizeFields(tables);
     this.molecularLabelOptions = DataFieldFactory.getMolecularLabelOptions(tables);
     this.updateFields();
   }
   @Input() set fields(fields: Array<DataField>) {
     this.clinicalColorOptions = DataFieldFactory.getSampleColorFields(fields);
     this.clinicalShapeOptions = DataFieldFactory.getSampleShapeFields(fields);
-    this.clinicalSizeOptions = DataFieldFactory.getSampleSizeFields(fields);
+    // this.clinicalSizeOptions = DataFieldFactory.getSampleSizeFields(fields);
     this.clinicalLabelOptions = DataFieldFactory.getSampleLabelFields(fields);
     this.updateFields();
   }
@@ -81,12 +81,12 @@ export class DecoratorPanelComponent implements AfterViewInit, OnDestroy {
     if (this.config.entity === EntityTypeEnum.GENE) {
       this.colorOptions = this.molecularColorOptions;
       this.shapeOptions = this.molecularShapeOptions;
-      this.sizeOptions = this.molecularSizeOptions;
+      // this.sizeOptions = this.molecularSizeOptions;
       this.labelOptions = this.molecularLabelOptions;
     } else {
       this.colorOptions = this.clinicalColorOptions;
       this.shapeOptions = this.clinicalShapeOptions;
-      this.sizeOptions = this.clinicalSizeOptions;
+      // this.sizeOptions = this.clinicalSizeOptions;
       this.labelOptions = this.clinicalLabelOptions;
     }
     this.cd.markForCheck();
