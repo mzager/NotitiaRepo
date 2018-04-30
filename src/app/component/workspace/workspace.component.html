@@ -4,22 +4,20 @@
 
 
   <app-workspace-graph-panel style='pointer-events:all;position:absolute;left:0px;' *ngIf='graphPanelATab | async' [title]='"Graph A"'
-    [events]='events | async' [tables]='tables | async' [fields]='fields | async' [clinicalFields]='clinicalFields | async'
-    [pathways]='pathways | async' [genesets]='genesets | async' [cohorts]='cohorts | async' [decorators]='graphADecorators | async'
-    (decoratorAdd)='graphPanelAddDecorator($event)' (decoratorDel)='graphPanelDelDecorator($event)' [molecularData]='molecularData | async'
-    [config]='graphAConfig | async' [data]='graphAData | async' (hide)='graphPanelToggle(1)' (help)='helpPanelToggle($event)'
-    (configChange)='graphPanelSetConfig($event)' (selectGeneset)='genesetPanelToggle($event)' (selectCohort)='queryPanelToggle($event)'
-    (showPanel)='setPanel($event)'></app-workspace-graph-panel>
+    [events]='events | async' [tables]='tables | async' [fields]='fields | async' [pathways]='pathways | async' [genesets]='genesets | async'
+    [cohorts]='cohorts | async' [decorators]='graphADecorators | async' (decoratorAdd)='graphPanelAddDecorator($event)' (decoratorDel)='graphPanelDelDecorator($event)'
+    [molecularData]='molecularData | async' [config]='graphAConfig | async' [data]='graphAData | async' (hide)='graphPanelToggle(1)'
+    (help)='helpPanelToggle($event)' (configChange)='graphPanelSetConfig($event)' (selectGeneset)='genesetPanelToggle($event)'
+    (selectCohort)='queryPanelToggle($event)' (showPanel)='setPanel($event)'></app-workspace-graph-panel>
 
   <app-workspace-graph-panel style='pointer-events:all;position:absolute;right:0px;' *ngIf='graphPanelBTab | async' [title]='"Graph B"'
-    [events]='events | async' [tables]='tables | async' [fields]='fields | async' [clinicalFields]='clinicalFields | async'
-    [pathways]='pathways | async' [genesets]='genesets | async' [cohorts]='cohorts | async' [decorators]='graphBDecorators | async'
-    (decoratorAdd)='graphPanelAddDecorator($event)' (decoratorDel)='graphPanelDelDecorator($event)' [molecularData]='molecularData | async'
-    [config]='graphBConfig | async' [data]='graphBData | async' (hide)='graphPanelToggle(2)' (help)='helpPanelToggle($event)'
-    (configChange)='graphPanelSetConfig($event)' (selectGeneset)='genesetPanelToggle($event)' (selectCohort)='queryPanelToggle($event)'
-    (showPanel)='setPanel($event)'>
+    [events]='events | async' [tables]='tables | async' [fields]='fields | async' [pathways]='pathways | async' [genesets]='genesets | async'
+    [cohorts]='cohorts | async' [decorators]='graphBDecorators | async' (decoratorAdd)='graphPanelAddDecorator($event)' (decoratorDel)='graphPanelDelDecorator($event)'
+    [molecularData]='molecularData | async' [config]='graphBConfig | async' [data]='graphBData | async' (hide)='graphPanelToggle(2)'
+    (help)='helpPanelToggle($event)' (configChange)='graphPanelSetConfig($event)' (selectGeneset)='genesetPanelToggle($event)'
+    (selectCohort)='queryPanelToggle($event)' (showPanel)='setPanel($event)'>
     <app-workspace-edge-panel [graphAConfig]='graphAConfig | async' [graphBConfig]='graphBConfig | async' [workspaceConfig]='workspaceConfig'
-      [tables]='tables | async' [fields]='fields | async' [clinicalFields]='clinicalFields | async' (edgeConfigChange)='edgeConfigChange($event)'>
+      [tables]='tables | async' [fields]='fields | async' (edgeConfigChange)='edgeConfigChange($event)'>
     </app-workspace-edge-panel>
   </app-workspace-graph-panel>
 
