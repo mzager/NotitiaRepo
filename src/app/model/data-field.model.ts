@@ -62,7 +62,6 @@ export class DataFieldFactory {
       case ConnectionTypeEnum.GENES_GENES:
         return [this.defaultDataField, this.getGeneId()];
       case ConnectionTypeEnum.SAMPLES_PATIENTS:
-        debugger
         return [this.defaultDataField, this.getPatientId()];
       case ConnectionTypeEnum.GENES_SAMPLES:
         return [this.defaultDataField, ...this.getMutationFields()];
