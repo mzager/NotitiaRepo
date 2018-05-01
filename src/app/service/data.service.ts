@@ -32,6 +32,27 @@ export class DataService {
   public static biotypeCat = ['Protein Coding', 'Pseudogene', 'Long Noncoding', 'Short Noncoding', 'Other'];
   public static API_PATH = 'https://dev.oncoscape.sttrcancer.io/api/';
 
+  private getGroupScale(items: Array<any>, field: DataField): Function {
+    if (field.type !== 'STRING') {
+      // // Determine IQR
+      const data = items.map(v => v[field.key]);
+      const upperLimit = Math.max.apply(Math, data);
+      const lowerLimit = Math.min.apply(Math, data);
+      // const bins = d3.thresholdFreedmanDiaconis(data, lowerLimit, upperLimit);
+      // const bins = d3.thresholdScott(data, lowerLimit, upperLimit);
+      let bins = 0;
+      if ((upperLimit - lowerLimit) < 8) {
+        bins = Math.ceil(upperLimit - lowerLimit) + 1;
+      } else {
+        bins = d3.thresholdSturges(data);
+        if (bins > 8) { bins = 8; }
+      }
+      return ChartFactory.getScaleGroupLinear(lowerLimit, upperLimit, bins);
+    }
+    return ChartFactory.getScaleGroupOrdinal(field.values);
+  }
+
+
   private getShapeScale(items: Array<any>, field: DataField): Function {
     if (field.type !== 'STRING') {
 
@@ -242,6 +263,32 @@ export class DataService {
                     value: v[decorator.field.key]
                   }));
                 }
+                resolve(decorator);
+                break;
+
+              case DataDecoratorTypeEnum.GROUP:
+                scale = this.getGroupScale(items, decorator.field);
+                decorator.values = items.map(v => ({
+                  pid: v.p,
+                  sid: psMap[v.p],
+                  mid: null,
+                  key: EntityTypeEnum.PATIENT,
+                  label: v[decorator.field.key],
+                  value: scale(v[decorator.field.key])
+                }));
+                // decorator.legend = new Legend();
+                // decorator.legend.type = 'COLOR';
+                // decorator.legend.display = 'DISCRETE';
+                // decorator.legend.name = (config.entity === EntityTypeEnum.SAMPLE) ? 'Sample ' + decorator.field.label :
+                //   (config.entity === EntityTypeEnum.GENE) ? 'Gene ' + decorator.field.label : 'Patient ' + decorator.field.label;
+                // if (decorator.field.type === 'STRING') {
+                //   decorator.legend.labels = scale['domain']().concat(['Unknown']);
+                //   decorator.legend.values = scale['range']().concat([0xDDDDDD]);
+                // } else {
+                //   decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v)
+                //     .map(w => Math.round(w)).join(' to ')).concat(['Unknown']);
+                //   decorator.legend.values = scale['range']().concat([0xFF0000]);
+                // }
                 resolve(decorator);
                 break;
 

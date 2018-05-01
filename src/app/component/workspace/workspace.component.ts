@@ -118,6 +118,8 @@ export class WorkspaceComponent {
   graphBData: Observable<any>;
   graphADecorators: Observable<Array<DataDecorator>>;
   graphBDecorators: Observable<Array<DataDecorator>>;
+  edgeDecorators: Observable<Array<DataDecorator>>;
+
   edgeConfig: Observable<EdgeConfigModel>;
   edgeLegend: Observable<Array<Legend>>;
   $configChangeA: Subscription;
@@ -159,6 +161,7 @@ export class WorkspaceComponent {
 
     this.graphADecorators = store.select(fromRoot.getGraphADecorators);
     this.graphBDecorators = store.select(fromRoot.getGraphBDecorators);
+    this.edgeDecorators = store.select(fromRoot.getEdgeDecorators);
 
     this.tables = store.select(fromRoot.getTables);
     this.fields = store.select(fromRoot.getFields);
@@ -298,6 +301,12 @@ export class WorkspaceComponent {
     }
   }
 
+  edgeAddDecorator(e: { config: EdgeConfigModel, decorator: DataDecorator }): void {
+    this.store.dispatch(new DataDecoratorCreateAction({ config: e.config, decorator: e.decorator }));
+  }
+  edgeDelDecorator(e: { config: EdgeConfigModel, decorator: DataDecorator }): void {
+    this.store.dispatch(new DataDecoratorDelAction({ config: e.config, decorator: e.decorator }));
+  }
   graphPanelAddDecorator(e: { config: GraphConfig, decorator: DataDecorator }): void {
     this.store.dispatch(new DataDecoratorCreateAction({ config: e.config, decorator: e.decorator }));
   }

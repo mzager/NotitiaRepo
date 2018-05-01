@@ -37,15 +37,17 @@ declare var $: any;
             <img class='team-copy-thumb responsive-img' src='assets/about/holland.jpg'>
             <p class='team-copy-title'>Eric Holland</p>
             <div class='team-copy-desc'>Dr. Holland is an internationally renowned neurosurgeon and brain cancer researcher.
-            As senior vice president and director of the Human Biology Division of the Fred Hutchinson Cancer Research Center, Dr. Holland encourages collaboration among faculty with a broad range of expertise – from molecular and cellular... like oncoscape...
+            As senior vice president and director of the Human Biology Division of the Fred Hutchinson Cancer Research Center,
+            Dr. Holland encourages collaboration among faculty with a broad range of expertise – from molecular and cellular...
+             like oncoscape...
             </div>
         </div>
         <div class='team-copy col s12 l6  '>
             <img class='team-copy-thumb responsive-img' src='assets/about/zager.jpg'>
             <p class='team-copy-title'>Michael Zager</p>
-            <div class='team-copy-desc'>Mr. Zager has been crafting digital strategies and executions for the past 15 years. He has served in leadership
-                roles at several notable experiential and digital agencies and partnered with bio-tech, start-up and Fortune
-                500 companies such as Proctor & Gamble, Toyota and Coca-Cola. Prior to joining the Fred Hutch, Michael was
+            <div class='team-copy-desc'>Mr. Zager has been crafting digital strategies and executions for the past 15 years.
+                He has served in leadership roles at several notable experiential and digital agencies and partnered with bio-tech,
+                start-up and Fortune 500 companies such as Proctor &amp; Gamble, Toyota and Coca-Cola. Prior to joining the Fred Hutch, Michael was
                 responsible for evolving and supporting all digital marketing platforms in T-Mobile’s retail stores. Michael’s
                 passionate for transforming people’s lives with cutting edge technology lead him to the Fred Hutchinson.
                 Today, he contributes enterprise architecture, software development best practices and big data expertise
@@ -73,13 +75,10 @@ declare var $: any;
                 and web application development.</div>
         </div>
         <div class='team-copy col s12 l6'>
-            <img class='team-copy-thumb responsive-img' src='assets/about/mcdermott.jpg'>
+            <img class='team-copy-thumb responsive-img' src='assets/about/galbraith.jpg'>
             <p class='team-copy-title'> Rachel Galbraith</p>
             <div class='team-copy-desc'>
-                Mr. McDermott started his career at the Fred Hutch in 2000 as an IT professional in Center IT. During that time,
-                he has been involved with the design, implementation and administration of many IT systems including email,
-                server virtualization, storage, cloud computing and more. He’s most interested in working on projects that
-                have a direct and positive impact on the important research that is happening at the Center.
+                Rachel Galbraith is the Operations Director for Seattle Translational Tumor Research (STTR). The program is based at Fred Hutch bringing together over 500 faculty spanning oncology research efforts at Fred Hutch, UW Medicine, Seattle Cancer Care Alliance, Seattle Children’s Research Institute and several other Seattle-area translational research institutions. Her goal through this effort is to enhance collaborative scientific effort, eliminate barriers to cancer research, raise money to fund innovative research, facilitate access to clinical specimens, data, and technology that will speed research and improve cancer prevention, treatment and detection. She has helped to shape the direction of Oncoscape based on knowledge of needs within the research community. With a background in molecular genetics and cell biology, and research experience in genetic factors contributing to cancer risk, she can understand the challenges researchers face in analyzing large-scale data and leverage that insight to inform the development of tools within Oncoscape. This helps ensure that tools developed are impactful and transformative for the research community.
             </div>
         </div>
         <div class='team-copy col s12 l6'>
@@ -103,9 +102,7 @@ declare var $: any;
     <span class='team-copy-title'>Interns</span>
     Adam Samir Alayli, Vaishnavi Phadnis <br />
     </div>
-    
-       
-        
+
     </div>
     <h1 class='about-h1'>Institutional Support</h1>
     <div class='row'>

@@ -13,8 +13,7 @@ import * as compute from 'app/action/compute.action';
 import { DirtyEnum } from 'app/model/enum.model';
 import {
     COMPUTE_CHROMOSOME, COMPUTE_CHROMOSOME_COMPLETE, COMPUTE_PCA_COMPLETE,
-    COMPUTE_TIMELINES, COMPUTE_DECORATOR_ADD, COMPUTE_DECORATOR_DEL, COMPUTE_DECORATOR_UPDATE,
-    COMPUTE_GRAPH_COLOR, COMPUTE_GRAPH_SHAPE, COMPUTE_GRAPH_SIZE,
+    COMPUTE_TIMELINES, COMPUTE_GRAPH_COLOR, COMPUTE_GRAPH_SHAPE, COMPUTE_GRAPH_SIZE,
     COMPUTE_GRAPH_SHAPE_COMPLETE, COMPUTE_GRAPH_SIZE_COMPLETE,
     COMPUTE_GRAPH_COLOR_COMPLETE, COMPUTE_GENOME_COMPLETE,
     COMPUTE_TSNE_COMPLETE, COMPUTE_PLSR_COMPLETE, COMPUTE_HEATMAP_COMPLETE, COMPUTE_DENDOGRAM_COMPLETE,
@@ -92,8 +91,8 @@ function processAction(action: UnsafeAction, state: State): State {
         case COMPUTE_HAZARD_COMPLETE:
         case COMPUTE_SURVIVAL_COMPLETE:
             return Object.assign({}, state, { data: action.payload.data, config: action.payload.config });
-        case COMPUTE_DECORATOR_UPDATE:
-            return Object.assign({}, state, { decorators: (action as compute.DecoratorUpdateAction).payload.decorators });
+        // case COMPUTE_DECORATOR_UPDATE:
+        //     return Object.assign({}, state, { decorators: (action as compute.DecoratorUpdateAction).payload.decorators });
         case graph.VISIBILITY_TOGGLE:
             return Object.assign({}, state, { visibility: action.payload.data });
         case graph.DEPTH_TOGGLE:

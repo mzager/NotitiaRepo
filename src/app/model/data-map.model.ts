@@ -17,7 +17,8 @@ export const enum DataDecoratorTypeEnum {
     SHAPE = 1 << 1,
     TOOLTIP = 1 << 2,
     SELECT = 1 << 3,
-    LABEL = 1 << 4
+    LABEL = 1 << 4,
+    GROUP = 1 << 5
 }
 export interface DataDecorator {
     type: DataDecoratorTypeEnum;
