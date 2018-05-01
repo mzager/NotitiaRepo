@@ -1,11 +1,12 @@
+import { scaleOrdinal } from 'd3-scale';
 import { LabelController } from './../../../controller/label/label.controller';
-import { DataDecorator } from './../../../model/data-map.model';
+import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
 import { ChartFactory } from './../../workspace/chart/chart.factory';
 import { EdgeDataModel, EdgeConfigModel } from './edges.model';
 import { VisualizationView } from './../../../model/chart-view.model';
 import { ChartEvents } from './../../workspace/chart/chart.events';
 import { GraphConfig } from 'app/model/graph-config.model';
-import { EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
+import { EntityTypeEnum, WorkspaceLayoutEnum, CollectionTypeEnum } from './../../../model/enum.model';
 import { GraphEnum, DirtyEnum, ShapeEnum } from 'app/model/enum.model';
 import { EventEmitter, Output, Injectable, ReflectiveInjector, ViewChild } from '@angular/core';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
@@ -28,7 +29,7 @@ export class EdgesGraph implements ChartObjectInterface {
     private view: VisualizationView;
 
     public meshes: Array<THREE.Mesh>;
-    public decorators: DataDecorator[];
+    public decorators: DataDecorator[] = [];
     public lines: Array<THREE.Line> = [];
     private drawEdgesDebounce: Function;
     public updateEdges: Boolean = false;
@@ -39,8 +40,10 @@ export class EdgesGraph implements ChartObjectInterface {
     enable(truthy: Boolean) {
         throw new Error('Method not implemented.');
     }
+
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        throw new Error('Method not implemented.');
+        this.decorators = decorators;
+        this.drawEdgesDebounce();
     }
     updateData(config: GraphConfig, data: any) {
         this.config = config as EdgeConfigModel;
@@ -60,11 +63,60 @@ export class EdgesGraph implements ChartObjectInterface {
         const obj2dMapA = LabelController.createMap2D(visibleObjectsA, views[0]);
         const obj2dMapB = LabelController.createMap2D(visibleObjectsB, views[1]);
 
+        const ea = (this.config.entityA === 'Samples') ? 'sid' : (this.config.entityA === 'Patients') ? 'pid' : 'mid';
+        const eb = (this.config.entityB === 'Samples') ? 'sid' : (this.config.entityB === 'Patients') ? 'pid' : 'mid';
+
+        const colorDecorator = this.decorators.find(d => d.type === DataDecoratorTypeEnum.COLOR);
+        const hasColorDecorator = (colorDecorator !== undefined);
+        const colorMap = (hasColorDecorator) ? colorDecorator.values.reduce((p, c) => {
+            p[c.pid] = c;
+            p[c.sid] = c;
+            return p;
+        }, {}) : {};
+
+
+        const groupDecorator = this.decorators.find(d => d.type === DataDecoratorTypeEnum.GROUP);
+        const hasGroupDecorator = (groupDecorator !== undefined);
+        const groupMap = (hasGroupDecorator) ? groupDecorator.values.reduce((p, c) => {
+            c.value = parseInt(c.value, 10);
+            p[c.pid] = c;
+            p[c.sid] = c;
+            return p;
+        }, {}) : {};
+
+        let groupY = [];
+        if (hasGroupDecorator) {
+            const vph = this.view.viewport.height;
+            const vphHalf = this.view.viewport.height * 0.5;
+
+            const binCount = Math.max(...groupDecorator.values.map(v => v.value));
+            const binHeight = vph / (binCount + 1);
+            groupY = Array.from({ length: binCount }, (v, k) => k + 1).map(v => (v * binHeight) - vphHalf - (binHeight * .5));
+        }
+
         const visibleEdges = this.data.result.map(v => {
             if (!obj2dMapA.hasOwnProperty(v.a) || !obj2dMapB.hasOwnProperty(v.b)) {
                 return null;
             }
-            const line = ChartFactory.lineAllocate(v.c, obj2dMapA[v.a], obj2dMapB[v.b]);
+            const color = (!hasColorDecorator) ? 0xb3e5fc :
+                colorMap.hasOwnProperty(v.a) ? colorMap[v.a].value :
+                    colorMap.hasOwnProperty(v.b) ? colorMap[v.b].value :
+                        0xeeeeee;
+
+            const yPos = (!hasGroupDecorator) ? 0 :
+                groupMap.hasOwnProperty(v.a) ? groupY[groupMap[v.a].value] :
+                    groupMap.hasOwnProperty(v.b) ? groupY[groupMap[v.b].value] :
+                        0;
+
+            let line;
+            if (hasGroupDecorator) {
+                return ChartFactory.lineAllocateCurve(color, obj2dMapA[v.a], obj2dMapB[v.b],
+                    new THREE.Vector2(0, yPos));
+            } else {
+                line = ChartFactory.lineAllocate(color, obj2dMapA[v.a], obj2dMapB[v.b]);
+            }
+
+
             line.userData = v;
             return line;
         }).filter(v => v !== null).forEach(edge => this.view.scene.add(edge));

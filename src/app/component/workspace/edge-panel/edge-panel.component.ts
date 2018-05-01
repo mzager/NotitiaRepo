@@ -1,3 +1,4 @@
+import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
 import { GraphColorAction } from './../../../action/compute.action';
 import { Subject } from 'rxjs/Subject';
 import { ModalService } from 'app/service/modal-service';
@@ -32,6 +33,7 @@ export class EdgePanelComponent implements OnDestroy {
   edgeConfig: EdgeConfigModel = new EdgeConfigModel();
   _graphAConfig: GraphConfig;
   _graphBConfig: GraphConfig;
+  _decorators: Array<DataDecorator>;
   $graphAChange: Subject<GraphConfig> = new Subject();
   $graphBChange: Subject<GraphConfig> = new Subject();
   $graphChange: Subscription;
@@ -50,7 +52,8 @@ export class EdgePanelComponent implements OnDestroy {
   @Input() fields: Array<DataField>;
   @Output() workspaceConfigChange: EventEmitter<{ config: WorkspaceConfigModel }> = new EventEmitter();
   @Output() edgeConfigChange: EventEmitter<EdgeConfigModel> = new EventEmitter();
-
+  @Output() decoratorAdd: EventEmitter<{ config: GraphConfig, decorator: DataDecorator }> = new EventEmitter();
+  @Output() decoratorDel: EventEmitter<{ config: GraphConfig, decorator: DataDecorator }> = new EventEmitter();
 
   // focusSubscription: Subscription;
   layoutOptions: Array<string>;
@@ -58,6 +61,13 @@ export class EdgePanelComponent implements OnDestroy {
   colorOptions: Array<DataField>;
   groupOptions: Array<DataField>;
 
+  get decorators(): Array<DataDecorator> { return this._decorators; }
+  @Input() set decorators(value: Array<DataDecorator>) {
+    this._decorators = value;
+    // requestAnimationFrame(() => {
+    //   this.cd.markForCheck();
+    // });
+  }
 
   // edgePanelSetConfig(value: GraphConfig): void {
   //   const ecm: EdgeConfigModel = (value as EdgeConfigModel);
@@ -81,19 +91,47 @@ export class EdgePanelComponent implements OnDestroy {
     this.edgeConfig.markerFilterB = this._graphBConfig.markerFilter;
     this.edgeConfig.sampleFitlerB = this._graphBConfig.sampleFilter;
     this.edgeConfig.patientFilterB = this._graphBConfig.patientFilter;
-    this.colorOptions = DataFieldFactory.getConnectionColorFields(
+    this.groupOptions = this.colorOptions = DataFieldFactory.getConnectionColorFields(
       this.fields,
       this.tables,
       this._graphAConfig.entity,
       this._graphBConfig.entity);
-    debugger;
     this.cd.markForCheck();
 
     this.edgeConfigChange.emit(this.edgeConfig);
     console.dir(option);
   }
-  colorOptionChange(e: any): void { }
-  groupOptionChange(e: any): void { }
+  colorOptionChange(e: any): void {
+    const colorLabel = e.target.selectedOptions[0].value;
+    const field = this.colorOptions.find(v => v.label === colorLabel);
+    if (field.key === 'None') {
+      this.decoratorDel.emit({
+        config: this.edgeConfig,
+        decorator: { type: DataDecoratorTypeEnum.COLOR, values: null, field: null, legend: null }
+      });
+    } else {
+      this.decoratorAdd.emit({
+        config: this.edgeConfig,
+        decorator: { type: DataDecoratorTypeEnum.COLOR, field: field, legend: null, values: null }
+      });
+    }
+  }
+
+  groupOptionChange(e: any): void {
+    const colorLabel = e.target.selectedOptions[0].value;
+    const field = this.colorOptions.find(v => v.label === colorLabel);
+    if (field.key === 'None') {
+      this.decoratorDel.emit({
+        config: this.edgeConfig,
+        decorator: { type: DataDecoratorTypeEnum.GROUP, values: null, field: null, legend: null }
+      });
+    } else {
+      this.decoratorAdd.emit({
+        config: this.edgeConfig,
+        decorator: { type: DataDecoratorTypeEnum.GROUP, field: field, legend: null, values: null }
+      });
+    }
+  }
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver,
     public ms: ModalService, private cd: ChangeDetectorRef) {

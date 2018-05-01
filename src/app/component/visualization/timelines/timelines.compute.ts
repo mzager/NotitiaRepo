@@ -99,7 +99,8 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
         });
 
         // Group And Execute Sort
-        const patients = _.groupBy(eventData, 'p');
+        let patients: any;
+        patients = _.groupBy(eventData, 'p');
         if (config.group.label !== 'None') {
             patientData.forEach(patient => {
                 if (patients.hasOwnProperty(patient.p)) {
@@ -124,23 +125,23 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
                 });
             }
         }
-        /*
-                patients = Object.keys(patients).map(key => ({
-                    sort: patients[key].hasOwnProperty('sort') ? patients[key].sort : null,
-                    group: patients[key].hasOwnProperty('group') ? patients[key]['group'] : null,
-                    events: patients[key]
-                }));
-                if (config.sort.label !== 'None') {
-                    patients = patients.filter(p => p.sort !== null);
-                    patients = patients.sort((a, b) => b.sort - a.sort);
-                }
-                if (config.group.label !== 'None') {
-                    patients = patients.filter(p => p.group !== null);
-                    patients = _.groupBy(patients, 'group');
-                    patients = Object.keys(patients).reduce((p, c) => p.concat(patients[c]), []);
-                }
-                patients = patients.map(patient => patient.events);
-        */
+
+        patients = Object.keys(patients).map(key => ({
+            sort: patients[key].hasOwnProperty('sort') ? patients[key].sort : null,
+            group: patients[key].hasOwnProperty('group') ? patients[key]['group'] : null,
+            events: patients[key]
+        }));
+        if (config.sort.label !== 'None') {
+            patients = patients.filter(p => p.sort !== null);
+            patients = patients.sort((a, b) => b.sort - a.sort);
+        }
+        if (config.group.label !== 'None') {
+            patients = patients.filter(p => p.group !== null);
+            patients = _.groupBy(patients, 'group');
+            patients = Object.keys(patients).reduce((p, c) => p.concat(patients[c]), []);
+        }
+        patients = patients.map(patient => patient.events);
+
         // Determine Min + Max "Dates"
         const minMax = eventData.reduce((p, c) => {
             p.min = Math.min(p.min, c.start);

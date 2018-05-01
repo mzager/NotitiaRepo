@@ -81,6 +81,15 @@ export class ChartFactory {
         const range = ChartFactory.sprites.slice(0, bins);
         return scale.scaleQuantize<string>().domain([min, max]).range(range);
     }
+    public static getScaleGroupOrdinal(values: Array<string>): Function {
+        const range = Array.from({ length: values.length }, (v, k) => (k + 1).toString());
+        return scale.scaleOrdinal().domain(values).range(range);
+    }
+    public static getScaleGroupLinear(min: number, max: number, bins: number = 0): Function {
+        bins = Math.min(bins, 8);
+        const range = Array.from({ length: bins }, (v, k) => (k + 1).toString());
+        return scale.scaleQuantize<string>().domain([min, max]).range(range);
+    }
     public static getScaleColorOrdinal(values: Array<string>): Function {
         const len = values.length;
         const cols = (len > 4) ? ChartFactory.colors.slice(0, values.length) :
@@ -119,6 +128,7 @@ export class ChartFactory {
         const sizeDecorator = decorators.filter(decorator => decorator.type === DataDecoratorTypeEnum.SIZE);
         const selectDecorator = decorators.filter(decorator => decorator.type === DataDecoratorTypeEnum.SELECT);
         const labelDecorator = decorators.filter(decorator => decorator.type === DataDecoratorTypeEnum.LABEL);
+        const groupDecorator = decorators.filter(decorator => decorator.type === DataDecoratorTypeEnum.GROUP);
         // const tooltipDecorator = decorators.filter(decorator => decorator.type === DataDecoratorTypeEnum.TOOLTIP);
 
         // Maps
@@ -136,34 +146,41 @@ export class ChartFactory {
             return p;
         }, {});
 
+        const groupMap = (!groupDecorator.length) ? null : groupDecorator[0].values.reduce((p, c) => {
+            p[c[idProperty]] = c.value;
+            return p;
+        }, {});
+
         // const sizeMap = (!sizeDecorator.length) ? null : sizeDecorator[0].values.reduce((p, c) => {
         //     p[c[idProperty]] = c.value;
         //     return p;
         // }, {});
         const count = groups.length;
-        groups.forEach((group, i) => {
-            while (group.children.length) {
-                group.remove(group.children[0]);
+        groups.forEach((item, i) => {
+            while (item.children.length) {
+                item.remove(item.children[0]);
             }
-            const id = group.userData.id;
+            const id = item.userData.id;
             const color = (colorMap) ? (colorMap[id]) ? colorMap[id] : '#DDDDDD' : '#039be5';
             const label = (labelMap) ? (labelMap[id]) ? labelMap[id] : 'Unknown' : '';
             const shape = (shapeMap) ? (shapeMap[id]) ? shapeMap[id] : SpriteMaterialEnum.NA : SpriteMaterialEnum.CIRCLE;
+            const group = (groupMap) ? (groupMap[id]) ? groupMap[id] : 0 : 0;
+
             const spriteMaterial = ChartFactory.getSpriteMaterial(shape, color);
             spriteMaterial.opacity = 0.8;
             const mesh: THREE.Sprite = new THREE.Sprite(spriteMaterial);
-            group.userData.tooltip = label;
-            group.userData.color = (isNaN(color)) ?
+            item.userData.tooltip = label;
+            item.userData.color = (isNaN(color)) ?
                 parseInt(color.replace(/^#/, ''), 16) :
                 color;
             mesh.scale.set(scaleFactor, scaleFactor, scaleFactor);
             mesh.userData.tooltip = label;
-            mesh.userData.color = group.userData.color;
+            mesh.userData.color = item.userData.color;
             mesh.userData.selectionLocked = false;
             if (renderer) {
-                renderer(group, mesh, decorators, i, count);
+                renderer(item, mesh, decorators, i, count);
             }
-            group.add(mesh);
+            item.add(mesh);
         });
 
     }

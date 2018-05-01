@@ -82,6 +82,7 @@ export const getGraphBDecorators = createSelector(getGraphBState, (state: fromGr
 export const getEdgesState = (state: State) => state.edges;
 export const getEdgesConfig = createSelector(getEdgesState, (state: fromEdges.State) => state.config);
 export const getEdgesData = createSelector(getEdgesState, (state: fromEdges.State) => state.data);
+export const getEdgeDecorators = createSelector(getEdgesState, (state: fromEdges.State) => state.decorators);
 
 // Data Reducer
 export const getDataState = (state: State) => state.data;

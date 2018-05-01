@@ -1006,6 +1006,8 @@ export class ComputeWorkerUtil {
         });
     }
 
+
+
     getShapeMap(entity: EntityTypeEnum, markers: Array<string>, samples: Array<string>, db: string, field: DataField): Promise<any> {
         return new Promise((resolve, reject) => {
             this.openDatabaseData(db).then(v => {

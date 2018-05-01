@@ -1,3 +1,4 @@
+import { EdgeConfigModel } from 'app/component/visualization/edges/edges.model';
 import { HazardGraph } from './../../visualization/hazard/hazard.graph';
 
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
@@ -161,6 +162,15 @@ export class ChartComponent implements AfterViewInit {
         .filter(v => v[0] !== null);
       updateDecoratorGraphB.subscribe(v => {
         return chartScene.updateDecorators(GraphEnum.GRAPH_B, v[1], v[0]);
+      });
+
+      const selectedEdgeConfig: Observable<EdgeConfigModel> = this.store.select(fromRoot.getEdgesConfig);
+      const updateDecoratorEdge: Observable<any> = this.store
+        .select(fromRoot.getEdgeDecorators)
+        .withLatestFrom(selectedEdgeConfig)
+        .filter(v => v[0] !== null);
+      updateDecoratorEdge.subscribe(v => {
+        return chartScene.updateDecorators(GraphEnum.EDGES, v[1], v[0]);
       });
 
 

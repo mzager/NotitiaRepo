@@ -14,7 +14,7 @@
   },
   "private": true,
   "dependencies": {
-    "3d-force-graph": "^1.30.2",
+    "3d-force-graph": "^1.31.1",
     "@angular/animations": "^6.0.0-rc.6",
     "@angular/cdk": "^6.0.0-rc.13",
     "@angular/common": "^6.0.0-rc.6",
@@ -113,6 +113,6 @@
     "ts-node": "^6.0.2",
     "tslint": "~5.9.1",
     "typescript": ">=2.7.0 <2.8.0",
-    "webpack-cli": "^2.0.15"
+    "webpack-cli": "^2.1.2"
   }
 }
