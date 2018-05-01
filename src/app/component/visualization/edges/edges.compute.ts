@@ -95,6 +95,14 @@ export const edgesCompute = (config: EdgeConfigModel, worker: DedicatedWorkerGlo
             return new Promise((resolve, reject) => {
                 if (this.edgeOptions === 'None') { resolve([]); return; }
                 worker.util.openDatabaseData(config.database).then(db => {
+                    db.table('patientSampleMap').toArray().then(result => {
+                        resolve(result.map(v => ({
+                            a: (config.entityA === EntityTypeEnum.PATIENT) ? v.p : v.s,
+                            b: (config.entityB === EntityTypeEnum.PATIENT) ? v.p : v.s,
+                            c: 0x81d4fa,
+                            i: null
+                        })));
+                    });
                 });
             });
         },

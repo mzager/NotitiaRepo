@@ -196,7 +196,7 @@ export class ConnectionTypeEnum {
     static readonly PATIENTS_PATIENTS = 'PATIENTS-PATIENTS';
     static readonly SAMPLES_SAMPLES = 'SAMPLES-SAMPLES';
     static readonly GENES_GENES = 'GENES-GENES';
-    static readonly SAMPLES_PATIENTS = 'SAMPLES-PATIENTS';
+    static readonly SAMPLES_PATIENTS = 'PATIENTS-SAMPLES';
     static readonly GENES_SAMPLES = 'GENES-SAMPLES';
     static readonly GENES_PATIENTS = 'GENES-PATIENTS';
     static createFromEntities(entityA: EntityTypeEnum, entityB: EntityTypeEnum): ConnectionTypeEnum {
