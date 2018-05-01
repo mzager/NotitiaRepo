@@ -79,13 +79,6 @@ export const edgesCompute = (config: EdgeConfigModel, worker: DedicatedWorkerGlo
                             i: null
                         }));
                         resolve(data);
-                        // worker.postMessage({
-                        //     config: cfg,
-                        //     data: {
-                        //         result: data
-                        //     }
-                        // });
-                        // worker.postMessage('TERMINATE');
                     });
                 });
             });
