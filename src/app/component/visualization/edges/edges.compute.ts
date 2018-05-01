@@ -19,7 +19,6 @@ export const edgesCompute = (config: EdgeConfigModel, worker: DedicatedWorkerGlo
         return;
     }
 
-
     const edges = {
         getEventsEvents(cfg: EdgeConfigModel): Promise<any> {
             return new Promise((resolve, reject) => {
@@ -52,14 +51,13 @@ export const edgesCompute = (config: EdgeConfigModel, worker: DedicatedWorkerGlo
         getGenesGenes(cfg: EdgeConfigModel): Promise<any> {
             return new Promise((resolve, reject) => {
                 if (this.edgeOptions === 'None') { resolve([]); return; }
-                // worker.util.openDatabaseData(config.database).then( db => {
-                //     const edges = result.map( gene => ({
-                //         a: gene.m,
-                //         b: gene.m,
-                //         c: gene.mean,
-                //         i: null
-                //     }));
-                // });
+                const b = new Set(cfg.markerFilterB);
+                resolve([...cfg.markerFilterA].filter(x => b.has(x)).map(g => ({
+                    a: g,
+                    b: g,
+                    c: 0xFF0000,
+                    i: null
+                })));
             });
         },
         getGenesPatients(cfg: EdgeConfigModel): Promise<any> {
@@ -72,28 +70,24 @@ export const edgesCompute = (config: EdgeConfigModel, worker: DedicatedWorkerGlo
         getGenesSamples(cfg: EdgeConfigModel): Promise<any> {
             return new Promise((resolve, reject) => {
                 if (this.edgeOptions === 'None') { resolve([]); return; }
-                // const colors = [0xab47bc, 0xffca28, 0x5c6bc0, 0x26c6da, 0x66bb6a, 0xffca28];
-                // const colorMap = cfg.edgeOption.reduce((p, c, i) => {
-                //     p[c] = colors[i];
-                //     return p;
-                // }, {});
-                // worker.util.openDatabaseData(cfg.database).then(db => {
-                //     db.table('mut').where('t').anyOfIgnoreCase(cfg.edgeOption).toArray().then(result => {
-                //         const data = result.map(v => ({
-                //             a: v.s,
-                //             b: v.m,
-                //             c: colorMap[v.t],
-                //             i: null
-                //         }));
-                //         worker.postMessage({
-                //             config: cfg,
-                //             data: {
-                //                 result: data
-                //             }
-                //         });
-                //         worker.postMessage('TERMINATE');
-                //     });
-                // });
+                worker.util.openDatabaseData(cfg.database).then(db => {
+                    db.table('mut').where('t').anyOfIgnoreCase(cfg.field.key).toArray().then(result => {
+                        const data = result.map(v => ({
+                            a: (cfg.entityA === EntityTypeEnum.GENE) ? v.m : v.s,
+                            b: (cfg.entityB === EntityTypeEnum.GENE) ? v.m : v.s,
+                            c: 0xFF0000,
+                            i: null
+                        }));
+                        resolve(data);
+                        // worker.postMessage({
+                        //     config: cfg,
+                        //     data: {
+                        //         result: data
+                        //     }
+                        // });
+                        // worker.postMessage('TERMINATE');
+                    });
+                });
             });
         },
 
@@ -118,30 +112,17 @@ export const edgesCompute = (config: EdgeConfigModel, worker: DedicatedWorkerGlo
                         resolve([]);
                         break;
                     default:
-                        // case 'pid':
                         worker.util.openDatabaseData(config.database).then(db => {
                             db.table('patientSampleMap').toArray().then(result => {
                                 resolve(result.map(v => ({
                                     a: v.s,
                                     b: v.s,
-                                    c: 0xFF0000,
+                                    c: 0x81d4fa,
                                     i: null
                                 })));
                             });
                         });
                         break;
-                    // case 'sid':
-                    //     worker.util.openDatabaseData(config.database).then(db => {
-                    //         db.table('patientSampleMap').toArray().then(result => {
-                    //             resolve(result.map(v => ({
-                    //                 a: v.s,
-                    //                 b: v.m,
-                    //                 c: 0xFF0000,
-                    //                 i: null
-                    //             })));
-                    //         });
-                    //     });
-                    //     break;
                 }
             });
         }

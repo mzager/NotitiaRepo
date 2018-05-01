@@ -53,13 +53,6 @@ export class DataFieldFactory {
     tables: Array<DataTable>,
     entityA: EntityTypeEnum, entityB: EntityTypeEnum): Array<DataField> {
 
-    // {}
-    // key: string;
-    // label: string;
-    // type: DataTypeEnum;
-    // tbl: string;
-    // values: any;
-    // ctype: CollectionTypeEnum;
     const connectionType = ConnectionTypeEnum.createFromEntities(entityA, entityB);
     switch (connectionType) {
       case ConnectionTypeEnum.PATIENTS_PATIENTS:
@@ -158,7 +151,25 @@ export class DataFieldFactory {
   }
 
   public static getMutationFields(): Array<DataField> {
-    return [];
+    return ['Frame_Shift_Del',
+      'Frame_Shift_Ins',
+      'In_Frame_Del',
+      'In_Frame_Ins',
+      'Missense',
+      'Nonsense_Mutation',
+      'Nonstop_Mutation',
+      'Silent',
+      'Splice_Site',
+      'Translation_Start_Site'].map(v => {
+        return {
+          key: v,
+          label: v.replace(/_/gi, ''),
+          type: DataTypeEnum.STRING,
+          tbl: 'mut',
+          values: null,
+          ctype: CollectionTypeEnum.MUTATION
+        };
+      });
   }
 
   public static getGeneFamily(): DataField {
