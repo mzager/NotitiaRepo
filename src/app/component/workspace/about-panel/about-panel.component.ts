@@ -97,7 +97,7 @@ declare var $: any;
     <div class='row'>
     <div class='team-copy-desc'>
     <span class='team-copy-title'>Steering</span>
-    Eric Holland, Raquel Sanchez, Elizabeth Krackow, Michael Zager<br />
+    Eric Holland, Raquel Sanchez, Elizabeth Krakow, Michael Zager<br />
     <span class='team-copy-title'>Biostats</span>
     Hamid Bolouri, Ilsa Coleman, Emily Kohlbrenner, Navonil De Sarkar, Lisa McFerrin, Chad He <br />
     <span class='team-copy-title'>Interns</span>
