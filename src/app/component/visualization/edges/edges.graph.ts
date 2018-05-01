@@ -55,7 +55,6 @@ export class EdgesGraph implements ChartObjectInterface {
         if (this.data.result.length === 0) {
             return;
         }
-
         this.view.scene.children = this.view.scene.children.splice(0, 2);
         if (views[0].chart === null || views[1].chart === null) { return; }
         const visibleObjectsA = LabelController.filterObjectsInFrustum(views[0].chart.meshes, views[0]);
