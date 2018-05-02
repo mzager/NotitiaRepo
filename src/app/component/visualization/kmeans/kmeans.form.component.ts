@@ -12,6 +12,7 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 <form [formGroup]='form' novalidate>
+<!--
   <div class='form-group'>
     <label class='center-block'>Point Data
       <select materialize='material_select'
@@ -87,6 +88,7 @@ import * as _ from 'lodash';
       </label>
     </div>
   </div>
+  -->
 </form>
   `
 })
