@@ -1,3 +1,4 @@
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { GraphPanelVisualizationComponent } from './component/workspace/graph-panel/graph-panel-visualization.component';
 import { GraphPanelAnalysisComponent } from './component/workspace/graph-panel/graph-panel-analysis.component';
 import { UploadPanelComponent } from './component/workspace/upload-panel/upload-panel.component';
@@ -102,6 +103,7 @@ import { DendogramFormComponent } from './component/visualization/dendogram/dend
 import { SettingsPanelComponent } from './component/workspace/settings-panel/settings-panel.component';
 import { LoaderComponent } from './component/workspace/loader/loader.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
 import {
   MatAutocompleteModule,
   MatBadgeModule,
@@ -140,7 +142,6 @@ import {
   MatTooltipModule,
   MatTreeModule
 } from '@angular/material';
-import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
 import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph-panel-data.component';
 
 @NgModule({
@@ -223,7 +224,6 @@ import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph
   entryComponents: [
   ],
   imports: [
-    AmplifyAngularModule,
     MatAutocompleteModule,
     MatBadgeModule,
     MatBottomSheetModule,
@@ -272,6 +272,7 @@ import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph
     HttpModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    FlexLayoutModule,
     EffectsModule.forRoot([DataEffect, ComputeEffect, SelectEffect]),
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({
@@ -287,8 +288,7 @@ import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph
     ComputeService,
     ChartFactory,
     HttpClient,
-    ModalService,
-    AmplifyService
+    ModalService
   ],
   bootstrap: [AppComponent]
 })

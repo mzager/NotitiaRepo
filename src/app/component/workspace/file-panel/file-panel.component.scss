@@ -1,3 +1,5 @@
+@import '~@angular/material/theming';
+@import 'src/theme.scss';
 // Responsive Mobile First
 // Selectors and styles affecting screens SMALLER THAN 767px (Phones) 
 .file-modal-panel {
