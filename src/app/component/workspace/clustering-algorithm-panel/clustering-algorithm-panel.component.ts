@@ -31,6 +31,7 @@ declare var ML: any;
     </div>
   <div class="card-content">
     <form [formGroup]="form" novalidate>
+      <!--
       <div class="form-group">
         <label class="center-block"><span class="form-label">Graph</span>
           <select class="browser-default" materialize="material_select"
@@ -69,6 +70,7 @@ declare var ML: any;
           (click)="applyCluster('ward')">
           <img src="/assets/clusters/cluster2.png" style="width:100%"></a>
       </div>
+      -->
     </form>
   </div>`,
   changeDetection: ChangeDetectionStrategy.Default
