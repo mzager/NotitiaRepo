@@ -11,7 +11,7 @@ $accent:  mat-palette($mat-blue-grey);
 $warn:    mat-palette($mat-deep-orange);
 // Create the theme object (a Sass map containing all of the palettes).
 // $theme: mat-light-theme($primary, $accent, $warn);
-$theme: mat-dark-theme($primary, $accent, $warn);
+$theme: mat-light-theme($primary, $accent, $warn);
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
