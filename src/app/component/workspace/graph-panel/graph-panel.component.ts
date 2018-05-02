@@ -175,33 +175,10 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
         });
       });
     }
-    this.visualizationOption = value.visualization;
-    // if (updateEdges) {
-    //   this.setEdgeOptions(this._configPrimary, value);
-    // }
-    // const topTierVisualization = this.visualizationOptions.find(v => v.value === value.visualization);
-    // if (topTierVisualization) {
-    //   this.methodOption = null;
-    //   this.methodOptions = [];
-    //   this.visualizationOption = value.visualization;
-    // } else {
-    //   const secondTierVisualization = this.visualizationOptions
-    //     .filter(v => v.methodOptions)
-    //     .filter(v => v.methodOptions
-    //       .find(w => w.value === value.visualization))[0];
-    //   this.visualizationOption = secondTierVisualization.value;
-    //   this.methodOptions = secondTierVisualization.methodOptions;
-    //   this.methodOption = value.visualization;
-    // }
   }
 
-  visualizationOptions: Array<any>;
-  visualizationOption: any;
-  methodOptions: Array<any>;
-  methodOption: any;
 
   toggleClick(): void {
-
     if (this.panel.nativeElement.classList.contains('graphPanelCollapsed')) {
       this.panel.nativeElement.classList.remove('graphPanelCollapsed');
       this.panelButton.nativeElement.classList.remove('graphPanelCollapsedButton');
@@ -210,20 +187,12 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       this.panelButton.nativeElement.classList.add('graphPanelCollapsedButton');
     }
   }
+
   helpClick(): void {
     this.help.emit(this.config);
   }
-  public onCustomizeClick($event: Event) {
-    console.log('click');
-    $event.preventDefault();
 
-  }
   onCohortChange($event: Event) {
-    // if ($event.target['value'] === 'customize') {
-    //   this.showPanel.emit(PanelEnum.COHORT);
-    //   $event.preventDefault();
-    //   return;
-    // }
     const selected = this.cohorts.find(v => v.n === $event.target['value']);
     this.config.patientFilter = selected.pids;
     this.config.sampleFilter = selected.sids;
@@ -231,13 +200,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.configChange.emit(this.config);
   }
   onGenesetChange($event: Event) {
-    // if ($event.target['value'] === 'customize') {
-    //   this.showPanel.emit(PanelEnum.GENESET);
-    //   $event.stopPropagation();
-    //   $event.stopImmediatePropagation();
-    //   $event.preventDefault();
-    //   return;
-    // }
     const selected = this.genesets.find(v => v.n === $event.target['value']);
     this.config.markerFilter = selected.g;
     this.config.dirtyFlag = DirtyEnum.LAYOUT;
@@ -382,9 +344,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       case VisualizationEnum.HISTOGRAM:
         gc = new HistogramConfigModel();
         break;
-      default:
-        this.methodOptions = [];
-        break;
     }
 
     const prevConfig = this.config;
@@ -419,120 +378,5 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.cohorts = [];
 
     this.cid = Math.random().toString(36).replace(/[^a-z]+/g, '');
-    this.methodOptions = [];
-
-    this.visualizationOptions = [
-      {
-        group: 'Data Set', options: [
-          { value: VisualizationEnum.DASHBOARD, label: 'Dashboard' },
-          { value: VisualizationEnum.SPREADSHEET, label: 'Spreadsheet' },
-        ]
-      }, {
-        group: 'Distribution', options: [
-          { value: VisualizationEnum.BOX_WHISKERS, label: 'Box + Whisker' },
-          { value: VisualizationEnum.HEATMAP, label: 'Heatmap' },
-          // { value: VisualizationEnum.PARALLEL_COORDS, label: 'Parallel Coordinates' },
-          // { value: VisualizationEnum.DENDOGRAM, label: 'Dendogram' },
-          // { value: VisualizationEnum.HISTOGRAM, label: 'Histogram' },
-        ]
-      }, {
-        group: 'Structural', options: [
-          { value: VisualizationEnum.GENOME, label: 'Genome' },
-          { value: VisualizationEnum.CHROMOSOME, label: 'Chromosome' },
-          { value: VisualizationEnum.HIC, label: 'Force Directed Graph' },
-          { value: VisualizationEnum.PATHWAYS, label: 'Pathways' }
-        ]
-      }, {
-        group: 'Treatment', options: [
-          { value: VisualizationEnum.SURVIVAL, label: 'Survival' },
-          { value: VisualizationEnum.HAZARD, label: 'Hazard' },
-          { value: VisualizationEnum.TIMELINES, label: 'Timelines' }
-        ]
-      }, {
-        group: 'Manifold Learning', options: [
-          { value: VisualizationEnum.ISOMAP, label: 'Isomap' },
-          { value: VisualizationEnum.LOCALLY_LINEAR_EMBEDDING, label: 'Locally Linear Embedding' },
-          { value: VisualizationEnum.MDS, label: 'MDS' },
-          { value: VisualizationEnum.SPECTRAL_EMBEDDING, label: 'Spectral Embedding' },
-          { value: VisualizationEnum.TSNE, label: 'T-SNE' }
-        ]
-      }, {
-        group: 'Matrix Decomposition', options: [
-          { value: VisualizationEnum.DICTIONARY_LEARNING, label: 'Dictionary Learning' },
-          { value: VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING, label: 'Dictionary Learning - Mini Batch ' },
-          { value: VisualizationEnum.FA, label: 'Factor Analysis' },
-          { value: VisualizationEnum.FAST_ICA, label: 'Fast ICA' },
-          { value: VisualizationEnum.LDA, label: 'Latent Dirichlet Allocation' },
-          { value: VisualizationEnum.NMF, label: 'Non-Negative Matrix Factorization' },
-          { value: VisualizationEnum.PCA, label: 'PCA' },
-          { value: VisualizationEnum.INCREMENTAL_PCA, label: 'PCA - Incremental' },
-          { value: VisualizationEnum.KERNAL_PCA, label: 'PCA - Kernel' },
-          { value: VisualizationEnum.SPARSE_PCA, label: 'PCA - Sparse' },
-          // { value: VisualizationEnum.SPARSE_PCA, label: 'PCA - Probabilistic' },
-          { value: VisualizationEnum.MINI_BATCH_SPARSE_PCA, label: 'PCA - Sparse - Mini Batch' },
-          { value: VisualizationEnum.SPARSE_CODER, label: 'Sparse Coder' },
-          { value: VisualizationEnum.TRUNCATED_SVD, label: 'Truncated SVD' },
-        ]
-      }, {
-        group: 'Discriminant Analysis', options: [
-          { value: VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS, label: 'Linear Discriminat Analysis' },
-          { value: VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS, label: 'Quadratic Discriminant Analysis' }
-        ]
-      }, {
-        group: 'Support Vector Machines', options: [
-          { value: VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS, label: 'SVC' },
-          { value: VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS, label: 'SVR' },
-          { value: VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS, label: 'Linear SVC' },
-          { value: VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS, label: 'Linear SVR' },
-          { value: VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS, label: 'NU SVC' },
-          { value: VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS, label: 'NU SVR' },
-          { value: VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS, label: 'One Class SVM' }
-        ]
-      }
-      // { value: VisualizationEnum.PLS, label: 'Partial Least Squares'},
-      // { value: VisualizationEnum.SOM, label: 'SOM '},
-      // { value: VisualizationEnum.DA, label: 'Discriminat Analysis '},
-      // { value: VisualizationEnum.DE, label: 'Gene Set Enrichmant '},
-      // { value: VisualizationEnum.DE, label: 'Differential Expression '}
-      // ,{
-      //   group: 'Cross Decomposition', options: [
-      //     { value: VisualizationEnumPLS, label: 'Linear Discriminat Analysis' },
-      //     { value: VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS, label: 'Quadratic Discriminant Analysis' }
-      //   ]
-      // }
-
-
-
-      // { value: VisualizationEnum.DECOMPOSITION, label: 'Cross Decomposition', methodOptions: [
-      //    {
-      //         value: VisualizationEnum.SUPPORT_VECTOR_MACHINES, label: 'Support Vector Machines', methodOptions: [
-      // svm.LinearSVC([penalty, loss, dual, tol, C, …])	Linear Support Vector Classification.
-      // svm.LinearSVR([epsilon, tol, C, loss, …])	Linear Support Vector Regression.
-      // svm.NuSVC([nu, kernel, degree, gamma, …])	Nu-Support Vector Classification.
-      // svm.NuSVR([nu, C, kernel, degree, gamma, …])	Nu Support Vector Regression.
-      // svm.OneClassSVM([kernel, degree, gamma, …])	Unsupervised Outlier Detection.
-      // svm.SVC([C, kernel, degree, gamma, coef0, …])	C-Support Vector Classification.
-      // svm.SVR([kernel, degree, gamma, coef0, tol, …])	Epsilon-Support Vector Regression.
-      //         ]
-      //       }
-      // Decomposition
-
-
-      // Manifold learning
-
-      // Discriminant Analysis
-
-      // Random Projection
-      // Gaussian, Sparse
-      // Cross Decomposition
-      // CCA, PLSCanonical, PLSRegression
-      // SVM
-      // LinearSVC, LinearSVR, NuSVC, NuSVR, OneClassSvm, SVC, SVR
-      // { value: VisualizationEnum.PLS, label: 'Partial Least Squares'},
-      // { value: VisualizationEnum.SOM, label: 'SOM '},
-      // { value: VisualizationEnum.DA, label: 'Discriminat Analysis '},
-      // { value: VisualizationEnum.DE, label: 'Gene Set Enrichmant '},
-      // { value: VisualizationEnum.DE, label: 'Differential Expression '},
-    ];
   }
 }

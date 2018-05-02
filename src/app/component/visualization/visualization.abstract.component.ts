@@ -128,8 +128,13 @@ export class AbstractVisualization implements ChartObjectInterface {
     public onMouseUp(e: ChartEvent): void { }
     public onMouseMove(e: ChartEvent): void {
         if (this.tooltip === '') { return; }
+
+        let x = e.event.clientX;
+        if (this._config.graph === GraphEnum.GRAPH_B) {
+            x -= (this.view.viewport.width);
+        }
         this.tooltips.innerHTML = TooltipController.generateHtml({
-            position: new Vector3(e.event.clientX + 15, e.event.clientY - 20, 0),
+            position: new Vector3(x + 15, e.event.clientY - 20, 0),
             userData: { tooltip: this.tooltip, color: this.tooltipColor }
         }, this.tooltipOptions);
     }
