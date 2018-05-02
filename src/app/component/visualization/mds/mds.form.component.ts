@@ -48,15 +48,13 @@ import * as _ from 'lodash';
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <div class="form-group">
-    <label class="center-block"><span class="form-label">Dissimilarity</span>
-     <select class="browser-default" materialize="material_select"
-      [materializeSelectOptions]="MdsDissimilarityOpitions"
-      formControlName="dissimilarity">
-        <option *ngFor="let options of MdsDissimilarityOpitions" [ngValue]="options">{{options}}</option>
-      </select>
-    </label>
-  </div>
+  <mat-form-field>
+    <mat-select placeholder='Dissimilarity' formControlName='dissimilarity'>
+        <mat-option *ngFor='let option of MdsDissimilarityOpitions' [value]='option'>
+            {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
   <div class="form-group">
     <div class="switch">
       <label>

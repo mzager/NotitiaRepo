@@ -48,15 +48,13 @@ import * as _ from 'lodash';
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Svd Solver</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='PcaSvdSolverOptions'
-        formControlName='svd_solver'>
-        <option *ngFor='let options of PcaSvdSolverOptions' [ngValue]='options'>{{options}}</option>
-      </select>
-    </label>
-  </div>
+  <mat-form-field>
+    <mat-select placeholder='Svd Solver' formControlName='svd_solver'>
+        <mat-option *ngFor='let option of PcaSvdSolverOptions' [value]='option'>
+            {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
   <div class='form-group'>
     <div class='switch'>
     <label class='center-block'><span class='form-label'>Whiten</span>
