@@ -36,6 +36,7 @@ export class TimelinesGraph extends AbstractVisualization {
     public patients: Array<THREE.Group>;
     public attrs: THREE.Group;
     public lines: THREE.LineSegments;
+    public objs: Array<THREE.Object3D>;
     public meshes: Array<THREE.Object3D>;
     public decorators: DataDecorator[];
     public clipPlanes: Array<THREE.Object3D> = [];
@@ -68,6 +69,7 @@ export class TimelinesGraph extends AbstractVisualization {
         this.view = view;
 
         this.meshes = [];
+        this.objs = [];
         this.patients = [];
 
         this.attrs = new THREE.Group();
@@ -98,8 +100,8 @@ export class TimelinesGraph extends AbstractVisualization {
 
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
         super.updateDecorator(config, decorators);
-        ChartFactory.decorateDataGroups(this.meshes, this.decorators);
-        this.tooltipController.targets = this.meshes;
+        ChartFactory.decorateDataGroups(this.objs, this.decorators);
+        this.tooltipController.targets = this.objs;
     }
 
     updateData(config: GraphConfig, data: any) {
@@ -110,17 +112,19 @@ export class TimelinesGraph extends AbstractVisualization {
 
     enable(truthy: boolean) {
         super.enable(truthy);
-        this.view.controls.enableRotate = true;
+        this.view.controls.enableRotate = false;
     }
 
     removeObjects(): void {
         this.view.scene.remove(...this.meshes);
+        this.view.scene.remove(...this.objs);
         this.view.scene.remove(...this.clipPlanes);
         this.view.scene.remove(...this.patients);
         this.view.scene.remove(this.attrs);
         this.view.scene.remove(this.lines);
 
         this.meshes.length = 0;
+        this.objs.length = 0;
         this.clipPlanes.length = 0;
         this.patients.length = 0;
         this.attrs = new THREE.Group();
@@ -147,7 +151,7 @@ export class TimelinesGraph extends AbstractVisualization {
             color: event.color
         };
         group.add(mesh);
-        this.meshes.push(mesh);
+        this.objs.push(mesh);
     }
 
     addArc(event: any, bar: number, barHeight: number, rowHeight: number,
@@ -169,7 +173,7 @@ export class TimelinesGraph extends AbstractVisualization {
                 color: event.color
             };
             group.add(mesh);
-            this.meshes.push(mesh);
+            this.objs.push(mesh);
         } else {
             const s = scale(event.start);
             const yPos = (rowHeight - (bar * barHeight)) - 2 - yOffset;
@@ -179,7 +183,7 @@ export class TimelinesGraph extends AbstractVisualization {
                 color: event.color
             };
             group.add(mesh);
-            this.meshes.push(mesh);
+            this.objs.push(mesh);
         }
     }
 
@@ -200,7 +204,7 @@ export class TimelinesGraph extends AbstractVisualization {
             color: event.color
         };
         group.add(mesh);
-        this.meshes.push(mesh);
+        this.objs.push(mesh);
 
         if (event.start !== event.end) {
             const triangleGeometry = new THREE.Geometry();
@@ -215,7 +219,7 @@ export class TimelinesGraph extends AbstractVisualization {
             };
             triangle.position.set(scale(event.end), yPos, 0);
             group.add(triangle);
-            this.meshes.push(triangle);
+            this.objs.push(triangle);
         }
     }
 
@@ -243,7 +247,7 @@ export class TimelinesGraph extends AbstractVisualization {
                     }
                 };
                 this.attrs.add(mesh);
-                this.meshes.push(mesh);
+                this.objs.push(mesh);
             });
         });
         this.view.scene.add(this.attrs);
@@ -331,9 +335,27 @@ export class TimelinesGraph extends AbstractVisualization {
             pidMap[patient[0].p] = i;
             const group = new THREE.Group();
             this.patients.push(group);
+            this.objs.push(group);
+            group.userData.pid = patient[0].p;
             this.view.scene.add(group);
             const yPos = i * rowHeight;
             group.position.setY(yPos);
+
+            const mesh = new THREE.Mesh(
+                new THREE.CircleGeometry(1.6, 20),
+                ChartFactory.getColorPhong(0x000000)
+            );
+
+
+            mesh.position.set(-500, yPos - chartHeightHalf, 1);
+            mesh.userData = {
+                id: patient[0].p,
+                pid: patient[0].p
+            };
+            this.meshes.push(mesh);
+            // group.add(mesh);
+
+
             this.yAxis.push({
                 position: new THREE.Vector3(0, yPos - chartHeightHalf, 0),
                 userData: { tooltip: patient[0].p }
@@ -362,7 +384,7 @@ export class TimelinesGraph extends AbstractVisualization {
 
         // Attributes
         this.addAttrs(rowHeight, rowCount, pidMap);
-        this.tooltipController.targets = this.meshes;
+        this.tooltipController.targets = this.objs;
         const height = (rowHeight * rowCount);
 
         // const geo = new THREE.CubeGeometry(1000, height, 10, 1, 1, 1);

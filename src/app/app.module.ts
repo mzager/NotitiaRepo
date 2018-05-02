@@ -1,3 +1,5 @@
+import { GraphPanelVisualizationComponent } from './component/workspace/graph-panel/graph-panel-visualization.component';
+import { GraphPanelAnalysisComponent } from './component/workspace/graph-panel/graph-panel-analysis.component';
 import { UploadPanelComponent } from './component/workspace/upload-panel/upload-panel.component';
 import { HazardFormComponent } from './component/visualization/hazard/hazard.form.component';
 import { PathwayPanelComponent } from './component/workspace/pathway-panel/pathway-panel.component';
@@ -216,7 +218,9 @@ import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
     ToolBarComponent,
     ColorPanelComponent,
     QueryPanelComponent,
-    QueryBuilderComponent
+    QueryBuilderComponent,
+    GraphPanelAnalysisComponent,
+    GraphPanelVisualizationComponent
   ],
   entryComponents: [
   ],
