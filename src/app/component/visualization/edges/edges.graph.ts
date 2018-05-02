@@ -6,7 +6,7 @@ import { EdgeDataModel, EdgeConfigModel } from './edges.model';
 import { VisualizationView } from './../../../model/chart-view.model';
 import { ChartEvents } from './../../workspace/chart/chart.events';
 import { GraphConfig } from 'app/model/graph-config.model';
-import { EntityTypeEnum, WorkspaceLayoutEnum, CollectionTypeEnum } from './../../../model/enum.model';
+import { EntityTypeEnum, WorkspaceLayoutEnum, CollectionTypeEnum, VisualizationEnum } from './../../../model/enum.model';
 import { GraphEnum, DirtyEnum, ShapeEnum } from 'app/model/enum.model';
 import { EventEmitter, Output, Injectable, ReflectiveInjector, ViewChild } from '@angular/core';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
@@ -52,6 +52,7 @@ export class EdgesGraph implements ChartObjectInterface {
     }
 
     drawEdges(views: Array<VisualizationView>, layout, renderer) {
+
         if (this.data.result.length === 0) {
             return;
         }
@@ -73,7 +74,6 @@ export class EdgesGraph implements ChartObjectInterface {
             return p;
         }, {}) : {};
 
-
         const groupDecorator = this.decorators.find(d => d.type === DataDecoratorTypeEnum.GROUP);
         const hasGroupDecorator = (groupDecorator !== undefined);
         const groupMap = (hasGroupDecorator) ? groupDecorator.values.reduce((p, c) => {
@@ -87,7 +87,6 @@ export class EdgesGraph implements ChartObjectInterface {
         if (hasGroupDecorator) {
             const vph = this.view.viewport.height;
             const vphHalf = this.view.viewport.height * 0.5;
-
             const binCount = Math.max(...groupDecorator.values.map(v => v.value));
             const binHeight = vph / (binCount + 1);
             groupY = Array.from({ length: binCount }, (v, k) => k + 1).map(v => (v * binHeight) - vphHalf - (binHeight * .5));
@@ -109,9 +108,14 @@ export class EdgesGraph implements ChartObjectInterface {
 
             let line;
             if (hasGroupDecorator) {
+
                 return ChartFactory.lineAllocateCurve(color, obj2dMapA[v.a], obj2dMapB[v.b],
                     new THREE.Vector2(0, yPos));
             } else {
+                // if (views[1].config.visualization === VisualizationEnum.TIMELINES) {
+                //     debugger;
+                // }
+
                 line = ChartFactory.lineAllocate(color, obj2dMapA[v.a], obj2dMapB[v.b]);
             }
 

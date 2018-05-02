@@ -33,7 +33,7 @@ declare var $: any;
         data sets; and visualize with dozens of novel online interactive tools. Our mission is to accelerate your science.</h2>
     <h1 class='about-h1'>Meet the Team</h1>
     <div class='row'>
-        <div class='team-copy col s12 l6  '>
+        <div class='team-copy col s12 l6 '>
             <img class='team-copy-thumb responsive-img' src='assets/about/holland.jpg'>
             <p class='team-copy-title'>Eric Holland</p>
             <div class='team-copy-desc'>Dr. Holland is an internationally renowned neurosurgeon and brain cancer researcher.
@@ -42,7 +42,7 @@ declare var $: any;
              like oncoscape...
             </div>
         </div>
-        <div class='team-copy col s12 l6  '>
+        <div class='team-copy col s12 l6 '>
             <img class='team-copy-thumb responsive-img' src='assets/about/zager.jpg'>
             <p class='team-copy-title'>Michael Zager</p>
             <div class='team-copy-desc'>Mr. Zager has been crafting digital strategies and executions for the past 15 years.
@@ -53,7 +53,9 @@ declare var $: any;
                 Today, he contributes enterprise architecture, software development best practices and big data expertise
                 to Oncoscape.</div>
         </div>
-    
+        </div>
+        <div class='row'>
+        
         <div class='team-copy col s12 l6'>
             <img class='team-copy-thumb responsive-img' src='assets/about/krenn.jpg'>
             <p class='team-copy-title'>Gretchen Krenn</p>
@@ -66,7 +68,7 @@ declare var $: any;
                 the center.
             </div>
         </div>
-        <div class='team-copy col s12 l6 '>
+        <div class='team-copy col s12 l6'>
             <img class='team-copy-thumb responsive-img' src='assets/about/zhang.jpg'>
             <p class='team-copy-title'>Jenny Zhang</p>
             <div class='team-copy-desc'>Ms. Zhang, coming from biomedical science background, is also passionate about coding. She is a lab technician
@@ -74,11 +76,14 @@ declare var $: any;
                 very excited to contribute to Oncoscape from web-lab-based data-collection to dry-lab-based data packing
                 and web application development.</div>
         </div>
+        </div>
+        <div class='row'>
+        
         <div class='team-copy col s12 l6'>
             <img class='team-copy-thumb responsive-img' src='assets/about/galbraith.jpg'>
             <p class='team-copy-title'> Rachel Galbraith</p>
             <div class='team-copy-desc'>
-                Rachel Galbraith is the Operations Director for Seattle Translational Tumor Research (STTR). The program is based at Fred Hutch bringing together over 500 faculty spanning oncology research efforts at Fred Hutch, UW Medicine, Seattle Cancer Care Alliance, Seattle Children’s Research Institute and several other Seattle-area translational research institutions. Her goal through this effort is to enhance collaborative scientific effort, eliminate barriers to cancer research, raise money to fund innovative research, facilitate access to clinical specimens, data, and technology that will speed research and improve cancer prevention, treatment and detection. She has helped to shape the direction of Oncoscape based on knowledge of needs within the research community. With a background in molecular genetics and cell biology, and research experience in genetic factors contributing to cancer risk, she can understand the challenges researchers face in analyzing large-scale data and leverage that insight to inform the development of tools within Oncoscape. This helps ensure that tools developed are impactful and transformative for the research community.
+                Ms. Galbraith is the Operations Director for Seattle Translational Tumor Research (STTR). The program is based at Fred Hutch bringing together over 500 faculty spanning oncology research efforts at Fred Hutch, UW Medicine, Seattle Cancer Care Alliance, Seattle Children’s Research Institute and several other Seattle-area translational research institutions. Her goal through this effort is to enhance collaborative scientific effort, eliminate barriers to cancer research, raise money to fund innovative research, facilitate access to clinical specimens, data, and technology that will speed research and improve cancer prevention, treatment and detection. She has helped to shape the direction of Oncoscape based on knowledge of needs within the research community. With a background in molecular genetics and cell biology, and research experience in genetic factors contributing to cancer risk, she can understand the challenges researchers face in analyzing large-scale data and leverage that insight to inform the development of tools within Oncoscape. This helps ensure that tools developed are impactful and transformative for the research community.
             </div>
         </div>
         <div class='team-copy col s12 l6'>
@@ -112,7 +117,7 @@ declare var $: any;
             <div class='team-copy-desc'></div>
         </div>
         <!--
-        <div class='team-copy col s12 l6'>
+        <div class='team-copy col s12 '>
             <img class='team-copy-thumb responsive-img' src='assets/about/fhcrc.jpg'>
             <p class='team-copy-title'>Seattle Translational Tumor Research</p>
             <div class='team-copy-desc'></div>
