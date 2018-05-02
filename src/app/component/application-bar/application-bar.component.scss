@@ -1,27 +1,17 @@
-// @import '~@angular/material/theming';
-// $app-primary: map-get($theme, primary);
-// $app-accent: map-get($theme, accent);
-// .inputfile {
-// 	width: 0.1px;
-// 	height: 0.1px;
-// 	opacity: 0;
-// 	overflow: hidden;
-// 	position: absolute;
-// 	z-index: -1;
-// }
+@import '~@angular/material/theming';
+@import 'src/theme.scss';
 
-// .application-bar-logo {
-//     letter-spacing: 8px;
-//     line-height: 30px;
-//     color: #FFF !important;
-//     // background: #039be5;
-//     font-weight: 500;
-//     font-size: 1rem;
-//     text-transform: uppercase;
-//     padding-left: 10px;
-//     padding-right: 30px;
-//     float: left;
-// }
+.application-bar-logo {
+    letter-spacing: 8px;
+    line-height: 30px;
+    color: #FFF !important;
+    font-weight: 300 !important;
+    font-size: 1rem;
+    text-transform: uppercase;
+    padding-left: 10px;
+    padding-right: 30px;
+    float: left;
+}
 
 // .app-bar-menu-item {
 //     color: #666666 !important; // #283e4a !important; //
@@ -55,6 +45,7 @@
     width: 100%;
     height: 30px;
     z-index: 50;
+    background: mat-color($primary);
     // background: linear-gradient(135deg, #1396de 2%, #042a68);
     // background:#029BE5;
     // background-color: mat-color($app-primary);
