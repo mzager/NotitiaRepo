@@ -28,15 +28,13 @@ import { SvmCompleteAction } from '../../../action/compute.action';
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Method</span>
-     <select materialize='material_select'
-      [materializeSelectOptions]='MiniBatchSparsePcaMethodOpitions'
-      formControlName='sk_method'>
-        <option *ngFor='let options of MiniBatchSparsePcaMethodOpitions' [ngValue]='options'>{{options}}</option>
-      </select>
-    </label>
-  </div>
+  <mat-form-field>
+    <mat-select placeholder='Method' formControlName='sk_method'>
+        <mat-option *ngFor='let option of MiniBatchSparsePcaMethodOpitions' [value]='option'>
+            {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
   <mat-form-field>
     <mat-select placeholder='X Axis' formControlName='pcx'>
         <mat-option *ngFor='let option of PcOptions' [value]='option'>
