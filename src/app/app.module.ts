@@ -6,7 +6,6 @@ import { PathwayPanelComponent } from './component/workspace/pathway-panel/pathw
 import { QueryBuilderComponent } from './component/workspace/query-panel/query-builder/query-builder.component';
 import { QueryPanelComponent } from './component/workspace/query-panel/query-panel.component';
 import { DashboardPanelComponent } from './component/workspace/dashboard-panel/dashboard-panel.component';
-import { DecoratorPanelComponent } from './component/workspace/decorator-panel/decorator-panel.component';
 import { CitationsPanelComponent } from './component/workspace/citations-panel/citations-panel.component';
 import { AboutPanelComponent } from './component/workspace/about-panel/about-panel.component';
 import { FeedbackPanelComponent } from './component/workspace/feedback-panel/feedback-panel.component';
@@ -209,7 +208,6 @@ import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph
     AboutPanelComponent,
     CitationsPanelComponent,
     LoaderComponent,
-    DecoratorPanelComponent,
     PathwayPanelComponent,
     DashboardPanelComponent,
     FeedbackPanelComponent,
