@@ -48,24 +48,20 @@ import * as _ from 'lodash';
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Kernal</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='dimensionOptions'
-        formControlName='kernel'>
-          <option *ngFor='let options of kernalOptions'>{{options}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Eigen Solver</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='dimensionOptions'
-        formControlName='eigen_solver'>
-          <option *ngFor='let options of eigenSolverOptions'>{{options}}</option>
-      </select>
-    </label>
-  </div>
+  <mat-form-field>
+    <mat-select placeholder='Kernal' formControlName='kernel'>
+        <mat-option *ngFor='let option of kernalOptions' [value]='option'>
+            {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Eigen Solver' formControlName='eigen_solver'>
+        <mat-option *ngFor='let option of eigenSolverOptions' [value]='option'>
+            {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
   <div class='form-group'>
     <div class='switch'>
       <label class='center-block'><span class='form-label'>Fit Inverse</span>

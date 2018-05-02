@@ -48,16 +48,13 @@ import * as _ from 'lodash';
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Method</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='PcaSparseSkMethodOptions'
-        [compareWith]='byKey'
-        formControlName='sk_method'>
-          <option *ngFor='let options of PcaSparseSkMethodOptions' [ngValue]='options'>{{options}}</option>
-      </select>
-    </label>
-  </div>
+  <mat-form-field>
+    <mat-select placeholder='Method' formControlName='sk_method'>
+        <mat-option *ngFor='let option of PcaSparseSkMethodOptions' [value]='option'>
+            {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
 </form>
   `
 })
