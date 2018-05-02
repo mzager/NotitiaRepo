@@ -37,7 +37,6 @@ import * as _ from 'lodash';
         </mat-option>
     </mat-select>
   </mat-form-field>
-
   <mat-form-field>
     <mat-select placeholder='Y Axis' formControlName='pcy'>
         <mat-option *ngFor='let option of PcOptions' [value]='option'>
