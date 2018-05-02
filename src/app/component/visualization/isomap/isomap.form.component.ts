@@ -48,33 +48,27 @@ import * as _ from 'lodash';
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Eigen Solver</span>
-    <select materialize='material_select'
-      [materializeSelectOptions]='IsoMapEigenSolverOpitions'
-      formControlName='eigen_solver'>
-        <option *ngFor='let options of IsoMapEigenSolverOpitions' [ngValue]='options'>{{options}}</option>
-    </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Path Method</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='IsoMapPathMethodOpitions'
-        formControlName='path_method'>
-        <option *ngFor='let options of IsoMapPathMethodOpitions' [ngValue]='options'>{{options}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Neighbors Algorithm</span>
-        <select materialize='material_select'
-        [materializeSelectOptions]='IsoMapNeighborsAlgorithmOpitions'
-        formControlName='neighbors_algorithm'>
-          <option *ngFor='let options of IsoMapNeighborsAlgorithmOpitions' [ngValue]='options'>{{options}}</option>
-      </select>
-    </label>
-  </div>
+  <mat-form-field>
+    <mat-select placeholder='Eigen Solver' formControlName='eigen_solver'>
+        <mat-option *ngFor='let option of IsoMapEigenSolverOpitions' [value]='option'>
+            {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Path Method' formControlName='eigen_solver'>
+        <mat-option *ngFor='let option of IsoMapPathMethodOpitions' [value]='option'>
+            {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Neighbors Algorithm' formControlName='eigen_solver'>
+        <mat-option *ngFor='let option of IsoMapNeighborsAlgorithmOpitions' [value]='option'>
+            {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
   <div class='form-group'>
     <label class='center-block'>
      <span class='form-label'>Neighbors</span>
