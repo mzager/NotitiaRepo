@@ -51,32 +51,28 @@ import { SvmCompleteAction } from '../../../action/compute.action';
         </mat-option>
     </mat-select>
   </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Fit Algorithm' formControlName='fit_algorithm'>
+        <mat-option *ngFor='let option of miniBatchDictionaryLearningFitOptions' [value]='option'>
+            {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Transform Algorithm' formControlName='transform_algorithm'>
+        <mat-option *ngFor='let option of miniBatchDictionaryTransformOptions' [value]='option'>
+            {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
   <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Fit Algorithm</span>
-     <select materialize='material_select'
-      [materializeSelectOptions]='miniBatchDictionaryLearningFitOptions'
-      formControlName='fit_algorithm'>
-        <option *ngFor='let options of miniBatchDictionaryLearningFitOptions' [ngValue]='options'>{{options}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-  <label class='center-block'><span class='form-label'>Transform Algorithm</span>
-   <select materialize='material_select'
-    [materializeSelectOptions]='miniBatchDictionaryTransformOptions'
-    formControlName='transform_algorithm'>
-      <option *ngFor='let options of miniBatchDictionaryTransformOptions' [ngValue]='options'>{{options}}</option>
-    </select>
-  </label>
-</div>
-<div class='form-group'>
-  <div class='switch'>
-    <label>
-      <input type='checkbox' formControlName='shuffle'>
-      <span class='lever'></span>
-      Shuffle
-    </label>
-  </div>
+    <div class='switch'>
+      <label>
+        <input type='checkbox' formControlName='shuffle'>
+        <span class='lever'></span>
+        Shuffle
+      </label>
+    </div>
   </div>
 </form>
   `

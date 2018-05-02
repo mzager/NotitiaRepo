@@ -50,24 +50,20 @@ import { SvmCompleteAction } from '../../../action/compute.action';
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Dissimilarity</span>
-     <select materialize='material_select'
-      [materializeSelectOptions]='LinearDiscriminantAnalysisSolverOptions'
-      formControlName='LinearDiscriminantAnalysisSolver'>
-        <option *ngFor='let options of LinearDiscriminantAnalysisSolverOptions' [ngValue]='options'>{{options}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-  <label class='center-block'><span class='form-label'>Dissimilarity</span>
-   <select materialize='material_select'
-    [materializeSelectOptions]='LinearDiscriminantAnalysisShrinkageOptions'
-    formControlName='LinearDiscriminantAnalysisShrinkage'>
-      <option *ngFor='let options of LinearDiscriminantAnalysisShrinkageOptions' [ngValue]='options'>{{options}}</option>
-    </select>
-  </label>
-</div>
+  <mat-form-field>
+    <mat-select placeholder='Solver' formControlName='LinearDiscriminantAnalysisSolver'>
+      <mat-option *ngFor='let option of LinearDiscriminantAnalysisSolverOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Shrinkage' formControlName='LinearDiscriminantAnalysisShrinkage'>
+      <mat-option *ngFor='let option of LinearDiscriminantAnalysisShrinkageOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </form>
   `
 })

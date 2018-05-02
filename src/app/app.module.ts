@@ -38,7 +38,6 @@ import { DatasetService } from './service/dataset.service';
 import { DeFormComponent } from './component/visualization/de/de.form.component';
 import { DictionaryLearningFormComponent } from './component/visualization/dictionarylearning/dictionarylearning.form.component';
 import { EdgePanelComponent } from './component/workspace/edge-panel/edge-panel.component';
-import { EdgesFormComponent } from './component/visualization/edges/edges.form.component';
 import { EffectsModule } from '@ngrx/effects';
 import { FaFormComponent } from './component/visualization/fa/fa.form.component';
 import { FastIcaFormComponent } from './component/visualization/fastica/fastica.form.component';
@@ -168,7 +167,6 @@ import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph
     DaFormComponent,
     DeFormComponent,
     FaFormComponent,
-    EdgesFormComponent,
     PcaFormComponent,
     PlsFormComponent,
     TsneFormComponent,
