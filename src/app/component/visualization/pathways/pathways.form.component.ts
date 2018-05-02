@@ -12,19 +12,24 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 <form [formGroup]='form' novalidate>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Pathway</span>
-      <select materialize='material_select'
-          [materializeSelectOptions]='pathwayOptions'
-          formControlName='pathway'>
-          <option *ngFor='let option of pathwayOptions' [value]='option.id'>{{option.name}}</option>
-      </select>
-    </label>
-  </div>
+  <mat-form-field>
+    <mat-select placeholder='Pathway' formControlName='pathway'>
+        <mat-option *ngFor='let option of pathwayOptions' [value]='option.id'>
+            {{ option.name }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
 </form>
   `
 })
 export class PathwaysFormComponent {
+
+
+  @Output() configChange = new EventEmitter<GraphConfig>();
+
+  form: FormGroup;
+  colorOptions: Array<DataField>;
+  dataOptions: Array<DataTable>;
 
   @Input() set tables(tables: Array<DataTable>) {
     this.dataOptions = tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0));
@@ -63,6 +68,7 @@ export class PathwaysFormComponent {
       cache: 'default'
     };
 
+    // tslint:disable-next-line:max-line-length
     // fetch('http://www.pathwaycommons.org/pc2/search.json?q=(BRCA2%20and%20IDH1)%20and%20size%3E3&type=Pathway&organism=homo%20sapiens&datasource=reactome', requestInit)
     fetch('http://www.pathwaycommons.org/pc2/top_pathways.json', requestInit)
       .then(response => response.json())
@@ -73,12 +79,6 @@ export class PathwaysFormComponent {
       });
 
   }
-
-  @Output() configChange = new EventEmitter<GraphConfig>();
-
-  form: FormGroup;
-  colorOptions: Array<DataField>;
-  dataOptions: Array<DataTable>;
 
   byKey(p1: DataField, p2: DataField) {
     if (p2 === null) { return false; }
@@ -110,11 +110,9 @@ export class PathwaysFormComponent {
       .debounceTime(200)
       .distinctUntilChanged()
       .subscribe(data => {
-        let dirty = 0;
         const form = this.form;
-
         form.markAsPristine();
-        data.dirtyFlag = dirty;
+        data.dirtyFlag = 0;
         this.configChange.emit(data);
       });
   }

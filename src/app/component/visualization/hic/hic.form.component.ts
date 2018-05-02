@@ -11,15 +11,13 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 <form [formGroup]='form' novalidate>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Dimensions</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='dimensionOptions'
-        formControlName='dimensions'>
-          <option *ngFor='let options of dimensionOptions'>{{options}}</option>
-      </select>
-    </label>
-  </div>
+  <mat-form-field>
+    <mat-select placeholder='Dimensions' formControlName='dimensions'>
+        <mat-option *ngFor='let option of dimensionOptions' [value]='option'>
+          {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
   <div class='form-group'>
     <div class='switch'>
       <label>
