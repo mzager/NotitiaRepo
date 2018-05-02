@@ -41,24 +41,20 @@ import * as _ from 'lodash';
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Metric</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='TsneMetricOptions'
-        formControlName='metric'>
-          <option *ngFor='let options of TsneMetricOptions' [ngValue]='options' >{{options}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Method</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='TsneMethodOptions'
-        formControlName='sk_method'>
-          <option *ngFor='let options of TsneMethodOptions'>{{options}}</option>
-      </select>
-    </label>
-  </div>
+  <mat-form-field>
+    <mat-select placeholder='Metric' formControlName='metric'>
+      <mat-option *ngFor='let option of TsneMetricOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Method' formControlName='sk_method'>
+      <mat-option *ngFor='let option of TsneMethodOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
   <div class='form-group'>
     <label class='center-block'>
       <span class='form-label'>Perplexity</span>
