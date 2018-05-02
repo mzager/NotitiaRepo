@@ -55,6 +55,7 @@ export class TooltipController {
     public onHide: EventEmitter<any>;
 
     public static generateHtml(object: IToolTip, options: TooltipOptions): string {
+
         const css = 'border-right-color:' + object.userData.color + ';' + options.generateCss();
         const alignmentOffset = (options.align === 'LEFT') ? 0 : (options.align === 'CENTER') ? 50 : -100;
         const translate = 'left:' +
@@ -64,6 +65,8 @@ export class TooltipController {
             css + translate + '"><span class="copy">' +
             options.prefix + object.userData.tooltip + options.postfix +
             '</span></div>';
+
+        console.log(html);
         return html;
     }
 

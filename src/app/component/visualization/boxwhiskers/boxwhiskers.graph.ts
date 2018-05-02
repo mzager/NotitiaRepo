@@ -235,8 +235,6 @@ export class BoxWhiskersGraph extends AbstractVisualization {
         optionsForQ2.origin = 'CENTER';
         optionsForQ2.align = 'CENTER';
 
-
-
         if (this.view.camera.position.z > 1400) {
             this.labels.innerHTML =
                 '<div style="position:fixed;bottom:10px;left:50%; font-size: 1.2rem;">Samples</div>' +
