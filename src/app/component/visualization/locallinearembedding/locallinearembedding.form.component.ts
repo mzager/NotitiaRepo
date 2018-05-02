@@ -52,33 +52,27 @@ import * as _ from 'lodash';
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Eigen Solver</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='LocalLinearEmbeddingEigenSolverOpitions'
-        formControlName='eigen_solver'>
-          <option *ngFor='let options of LocalLinearEmbeddingEigenSolverOpitions' [ngValue]='options'>{{options}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-  <label class='center-block'><span class='form-label'>Method</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='LocalLinearEmbeddingMethodOptions'
-        formControlName='lle_method'>
-        <option *ngFor='let options of LocalLinearEmbeddingMethodOptions' [ngValue]='options'>{{options}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Neighbors Algorithm</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='LocalLinearEmbeddingNeighborsAlgorithmOptions'
-        formControlName='neighbors_algorithm'>
-        <option *ngFor='let options of LocalLinearEmbeddingNeighborsAlgorithmOptions' [ngValue]='options'>{{options}}</option>
-      </select>
-    </label>
-  </div>
+  <mat-form-field>
+    <mat-select placeholder='Eigen Solver' formControlName='eigen_solver'>
+      <mat-option *ngFor='let option of LocalLinearEmbeddingEigenSolverOpitions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Method' formControlName='lle_method'>
+      <mat-option *ngFor='let option of LocalLinearEmbeddingMethodOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Neighbors Algorithm' formControlName='neighbors_algorithm'>
+      <mat-option *ngFor='let option of LocalLinearEmbeddingNeighborsAlgorithmOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
   <div class='form-group'>
     <label class='center-block'>
       <span class='form-label'>Neighbors</span>
