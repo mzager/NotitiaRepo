@@ -25,7 +25,7 @@ import * as _ from 'lodash';
     <button mat-menu-item [matMenuTriggerFor]='visualizationColorsMenu'>Colors</button>
     <button mat-menu-item [matMenuTriggerFor]='visualizationShapesMenu'>Shapes</button>
   </mat-menu>
-  <button mat-button [matMenuTriggerFor]='analysisMenu' style='width:50%;text-align: left;'>Analysis</button>
+  <button mat-raised-button [matMenuTriggerFor]='analysisMenu' style='width: 118px;'>Visualization</button>
   `
 })
 export class GraphPanelVisualizationComponent {

@@ -64,7 +64,6 @@ import { LdaFormComponent } from './component/visualization/lda/lda.form.compone
 import { LegendPanelComponent } from 'app/component/workspace/legend-panel/legend-panel.component';
 import { LinkedGeneFormComponent } from './component/visualization/linkedgenes/linkedgenes.form.component';
 import { LocalLinearEmbeddingFormComponent } from './component/visualization/locallinearembedding/locallinearembedding.form.component';
-import { MaterializeModule } from 'angular2-materialize';
 import { MdsFormComponent } from './component/visualization/mds/mds.form.component';
 import { NcbiService } from './service/ncbi.service';
 import { NgModule, NgZone } from '@angular/core';
@@ -144,6 +143,7 @@ import {
   MatTreeModule
 } from '@angular/material';
 import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
+import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph-panel-data.component';
 
 @NgModule({
   declarations: [
@@ -220,7 +220,9 @@ import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
     QueryPanelComponent,
     QueryBuilderComponent,
     GraphPanelAnalysisComponent,
-    GraphPanelVisualizationComponent
+    GraphPanelVisualizationComponent,
+    GraphPanelDataComponent
+
   ],
   entryComponents: [
   ],
@@ -267,7 +269,6 @@ import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
     MatIconModule,
     MatCheckboxModule,
     NouisliderModule,
-    MaterializeModule,
     FileUploadModule,
     BrowserModule,
     BrowserAnimationsModule,
