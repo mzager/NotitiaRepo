@@ -69,14 +69,10 @@ import * as _ from 'lodash';
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <div class='form-group'>
-    <label class='center-block'>
-     <span class='form-label'>Neighbors</span>
-        <p class='range-field'>
-          <input type='range' min='1' max='20' formControlName='n_neighbors' />
-       </p>
-    </label>
-  </div>
+  <mat-form-field>
+    <mat-slider min="1" max="20" step="1" formControlName='n_neighbors'></mat-slider>
+  </mat-form-field>
+
 </form>
   `
 })
