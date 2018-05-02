@@ -11,65 +11,48 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 <form [formGroup]='form' novalidate>
-<div class='form-group'>
-    <label class='center-block'><span class='form-label'>Data</span>
-      <select materialize='material_select'
-        [compareWith]='byKey'
-        formControlName='table'>
-        <option *ngFor='let option of dataOptions'>{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Chromosomes</span>
-      <select materialize='material_select'
-          [compareWith]='byKey'
-          [materializeSelectOptions]='chromosomeOptions'
-          formControlName='chromosome'>
-          <option *ngFor='let option of chromosomeOptions' [value]='option'>{{option}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Layout</span>
-      <select materialize='material_select'
-          [compareWith]='byKey'
-          [materializeSelectOptions]='layoutOptions'
-          formControlName='layoutOption'>
-          <option *ngFor='let option of layoutOptions' [value]='option'>{{option}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Spacing</span>
-      <select materialize='material_select'
-          [compareWith]='byKey'
-          [materializeSelectOptions]='spacingOptions'
-          formControlName='spacingOption'>
-          <option *ngFor='let option of spacingOptions' [value]='option'>{{option}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Show</span>
-      <select materialize='material_select'
-          [compareWith]='byKey'
-          [materializeSelectOptions]='geneOptions'
-          formControlName='geneOption'>
-          <option *ngFor='let option of geneOptions' [ngValue]='option'>{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-  <label class='center-block'><span class='form-label'>Chords</span>
-    <select materialize='material_select'
-        [compareWith]='byKey'
-        [materializeSelectOptions]='chordOptions'
-        formControlName='chordOption'>
-        <option *ngFor='let option of chordOptions' [ngValue]='option'>{{option.label}}</option>
-    </select>
-  </label>
-</div>
+<mat-form-field>
+  <mat-select placeholder='Data' formControlName='table'>
+      <mat-option *ngFor='let option of dataOptions' [value]='option.label'>
+          {{ option.label }}
+      </mat-option>
+  </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+      <mat-select placeholder='Chromosomes' formControlName='chromosome'>
+          <mat-option *ngFor='let option of chromosomeOptions' [value]='option.label'>
+              {{ option.label }}
+          </mat-option>
+      </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+      <mat-select placeholder='Layout' formControlName='layoutOption'>
+          <mat-option *ngFor='let option of layoutOptions' [value]='option'>
+              {{ option }}
+          </mat-option>
+      </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+      <mat-select placeholder='Spacing' formControlName='spacingOption'>
+          <mat-option *ngFor='let option of spacingOptions' [value]='option'>
+              {{ option }}
+          </mat-option>
+      </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Show' formControlName='geneOption'>
+        <mat-option *ngFor='let option of geneOptions' [value]='option'>
+            {{ option.label }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Chords' formControlName='chordOption'>
+        <mat-option *ngFor='let option of chordOptions' [value]='option'>
+            {{ option.label }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
 </form>
   `
 })

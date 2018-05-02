@@ -1,39 +1,33 @@
 <div>
-    <div class='graphPanelHeader' style="padding-top: 5px;">Connections</div>
+    <div class='graphPanelHeader' style='padding-top: 5px;'>Connections</div>
     <form novalidate style='padding: 10px;'>
-        <div class='form-group'>
-            <label class='center-block'>
-                <span class='form-label'>Layout</span>
-                <select materialize='material_select' [materializeSelectOptions]='layoutOptions' (change)='layoutOptionChange($event)'>
-                    <option *ngFor='let option of layoutOptions' [value]='option'>{{option}}</option>
-                </select>
-            </label>
-        </div>
-        <div class='form-group'>
-            <label class='center-block'>
-                <span class='form-label'>Connect</span>
-                <select materialize='material_select' [materializeSelectOptions]='edgeOptions' (change)='edgeOptionChange($event)'>
-                    <option *ngFor='let option of edgeOptions' [value]='option.label'>{{option.label}}</option>
-                </select>
-            </label>
-        </div>
-        <div class='form-group'>
-            <label class='center-block'>
-                <span class='form-label'>Color</span>
-                <select materialize='material_select' [materializeSelectOptions]='colorOptions' (change)='colorOptionChange($event)'>
-                    <option *ngFor='let option of colorOptions' [value]='option.label'>{{option.label}}</option>
-                </select>
-            </label>
-        </div>
-        <div class='form-group'>
-            <label class='center-block'>
-                <span class='form-label'>Group By</span>
-                <select materialize='material_select' [materializeSelectOptions]='groupOptions' (change)='groupOptionChange($event)'>
-                    <option *ngFor='let option of groupOptions' [value]='option.label'>{{option.label}}</option>
-                </select>
-            </label>
-        </div>
+        <mat-form-field>
+            <mat-select placeholder='Layout' (change)='layoutOptionChange($event)'>
+                <mat-option *ngFor='let option of layoutOptions' [value]='option'>
+                    {{ option }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-select placeholder='Connect' (change)='edgeOptionChange($event)'>
+                <mat-option *ngFor='let option of edgeOptions' [value]='option.label'>
+                    {{ option.label }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-select placeholder='Color' (change)='edgeOptionChange($event)'>
+                <mat-option *ngFor='let option of colorOptions' [value]='option.label'>
+                    {{ option.label }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-select placeholder='Group By' (change)='groupOptionChange($event)'>
+                <mat-option *ngFor='let option of groupOptions' [value]='option.label'>
+                    {{ option.label }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
     </form>
-    <!-- <app-edges-form (configChange)='edgePanelSetConfig($event)' [graphAConfig]='graphAConfig' [graphBConfig]='graphBConfig' [tables]='tables'
-        [fields]='fields' [config]='config'></app-edges-form> -->
 </div>
