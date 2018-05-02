@@ -358,12 +358,12 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.configChange.emit(gc);
   }
 
-  graphPanelSelectClusteringAlgorithm(value: GraphConfig) {
-    this.selectClusteringAlgorithm.emit(value);
-  }
-  graphPanelSelecteGeneSignature(value: GraphConfig) {
-    this.selectGeneSignature.emit(value);
-  }
+  // graphPanelSelectClusteringAlgorithm(value: GraphConfig) {
+  //   this.selectClusteringAlgorithm.emit(value);
+  // }
+  // graphPanelSelecteGeneSignature(value: GraphConfig) {
+  //   this.selectGeneSignature.emit(value);
+  // }
   graphPanelSetConfig(value: GraphConfig) {
     this.configChange.emit(value);
   }

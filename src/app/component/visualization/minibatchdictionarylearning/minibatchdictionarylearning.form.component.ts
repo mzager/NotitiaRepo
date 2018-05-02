@@ -16,76 +16,63 @@ import { SvmCompleteAction } from '../../../action/compute.action';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 <form [formGroup]='form' novalidate>
+  <mat-form-field>
+    <mat-select placeholder='Data' formControlName='table'>
+      <mat-option *ngFor='let option of dataOptions' [value]='option.label'>
+          {{ option.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Visualize' formControlName='entity'>
+      <mat-option *ngFor='let option of displayOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='X Axis' formControlName='pcx'>
+        <mat-option *ngFor='let option of PcOptions' [value]='option'>
+            PC {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Y Axis' formControlName='pcy'>
+        <mat-option *ngFor='let option of PcOptions' [value]='option'>
+            PC {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Z Axis' formControlName='pcz'>
+        <mat-option *ngFor='let option of PcOptions' [value]='option'>
+            PC {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Fit Algorithm' formControlName='fit_algorithm'>
+        <mat-option *ngFor='let option of miniBatchDictionaryLearningFitOptions' [value]='option'>
+            {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Transform Algorithm' formControlName='transform_algorithm'>
+        <mat-option *ngFor='let option of miniBatchDictionaryTransformOptions' [value]='option'>
+            {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
   <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Data</span>
-      <select materialize='material_select'
-      [compareWith]='byKey'
-      formControlName='table'>
-      <option *ngFor='let option of dataOptions'>{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Visualize</span>
-      <select materialize='material_select'
-          formControlName='entity'>
-          <option *ngFor='let option of displayOptions'>{{option}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-  <label class='center-block'><span class='form-label'>X Axis</span>
-    <select materialize='material_select'
-        [materializeSelectOptions]='PcOptions'
-        formControlName='pcx'>
-        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
-    </select>
-  </label>
-  </div>
-  <div class='form-group'>
-  <label class='center-block'><span class='form-label'>Y Axis</span>
-    <select materialize='material_select'
-        [materializeSelectOptions]='PcOptions'
-        formControlName='pcy'>
-        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
-    </select>
-  </label>
-  </div>
-  <div class='form-group'>
-  <label class='center-block'><span class='form-label'>Z Axis</span>
-    <select materialize='material_select'
-        [materializeSelectOptions]='PcOptions'
-        formControlName='pcz'>
-        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
-    </select>
-  </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Fit Algorithm</span>
-     <select materialize='material_select'
-      [materializeSelectOptions]='miniBatchDictionaryLearningFitOptions'
-      formControlName='fit_algorithm'>
-        <option *ngFor='let options of miniBatchDictionaryLearningFitOptions' [ngValue]='options'>{{options}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-  <label class='center-block'><span class='form-label'>Transform Algorithm</span>
-   <select materialize='material_select'
-    [materializeSelectOptions]='miniBatchDictionaryTransformOptions'
-    formControlName='transform_algorithm'>
-      <option *ngFor='let options of miniBatchDictionaryTransformOptions' [ngValue]='options'>{{options}}</option>
-    </select>
-  </label>
-</div>
-<div class='form-group'>
-  <div class='switch'>
-    <label>
-      <input type='checkbox' formControlName='shuffle'>
-      <span class='lever'></span>
-      Shuffle
-    </label>
-  </div>
+    <div class='switch'>
+      <label>
+        <input type='checkbox' formControlName='shuffle'>
+        <span class='lever'></span>
+        Shuffle
+      </label>
+    </div>
   </div>
 </form>
   `

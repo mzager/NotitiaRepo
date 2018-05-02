@@ -13,77 +13,62 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 <form [formGroup]='form' novalidate>
-  <div class='form-group'>
-    <label class='center-block'>Data
-      <select materialize='material_select'
-      [compareWith]='byKey'
-      formControlName='table'>
-      <option *ngFor='let option of dataOptions'>{{option.label}}</option>
-    </select>
-  </label>
-</div>
-  <div class='form-group'>
-    <label class='center-block'>Display
-      <select materialize='material_select'
-          formControlName='entity'>
-          <option *ngFor='let option of displayOptions'>{{option}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-  <label class='center-block'><span class='form-label'>X Axis</span>
-    <select materialize='material_select'
-        [materializeSelectOptions]='PcOptions'
-        formControlName='pcx'>
-        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
-    </select>
-  </label>
-  </div>
-  <div class='form-group'>
-  <label class='center-block'><span class='form-label'>Y Axis</span>
-    <select materialize='material_select'
-        [materializeSelectOptions]='PcOptions'
-        formControlName='pcy'>
-        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
-    </select>
-  </label>
-  </div>
-  <div class='form-group'>
-  <label class='center-block'><span class='form-label'>Z Axis</span>
-    <select materialize='material_select'
-        [materializeSelectOptions]='PcOptions'
-        formControlName='pcz'>
-        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
-    </select>
-  </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Initialization</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='NmfInitOptions'
-        formControlName='init'>
-        <option *ngFor='let options of NmfInitOptions' [ngValue]='options'>{{options}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-  <label class='center-block'><span class='form-label'>Solver</span>
-    <select materialize='material_select'
-      [materializeSelectOptions]='NmFSolverOptions'
-      formControlName='solver'>
-      <option *ngFor='let options of NmFSolverOptions' [ngValue]='options'>{{options}}</option>
-    </select>
-  </label>
-</div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Betaloss</span>
-      <select materialize='material_select'
-      [materializeSelectOptions]='NmfBetalossOptions'
-      formControlName='beta_loss'>
-        <option *ngFor='let options of NmfBetalossOptions' [ngValue]='options'>{{options}}</option>
-      </select>
-    </label>
-  </div>
+  <mat-form-field>
+    <mat-select placeholder='Data' formControlName='table'>
+      <mat-option *ngFor='let option of dataOptions' [value]='option.label'>
+          {{ option.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Visualize' formControlName='entity'>
+      <mat-option *ngFor='let option of displayOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='X Axis' formControlName='pcx'>
+        <mat-option *ngFor='let option of PcOptions' [value]='option'>
+            PC {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Y Axis' formControlName='pcy'>
+        <mat-option *ngFor='let option of PcOptions' [value]='option'>
+            PC {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Z Axis' formControlName='pcz'>
+        <mat-option *ngFor='let option of PcOptions' [value]='option'>
+            PC {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Initialization' formControlName='init'>
+      <mat-option *ngFor='let option of NmfInitOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Solver' formControlName='solver'>
+      <mat-option *ngFor='let option of NmFSolverOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Betaloss' formControlName='beta_loss'>
+      <mat-option *ngFor='let option of NmfBetalossOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </form>
   `
 })

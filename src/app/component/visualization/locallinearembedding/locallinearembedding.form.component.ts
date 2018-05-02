@@ -17,77 +17,62 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 <form [formGroup]='form' novalidate>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Data</span>
-        <select materialize='material_select'
-        [compareWith]='byKey'
-        formControlName='table'>
-        <option *ngFor='let option of dataOptions'>{{option.label}}</option>
-      </select>
-    </label>
-</div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Visualize</span>
-      <select materialize='material_select'
-          formControlName='entity'>
-          <option *ngFor='let option of displayOptions'>{{option}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-  <label class='center-block'><span class='form-label'>X Axis</span>
-    <select materialize='material_select'
-        [materializeSelectOptions]='PcOptions'
-        formControlName='pcx'>
-        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
-    </select>
-  </label>
-  </div>
-  <div class='form-group'>
-  <label class='center-block'><span class='form-label'>Y Axis</span>
-    <select materialize='material_select'
-        [materializeSelectOptions]='PcOptions'
-        formControlName='pcy'>
-        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
-    </select>
-  </label>
-  </div>
-  <div class='form-group'>
-  <label class='center-block'><span class='form-label'>Z Axis</span>
-    <select materialize='material_select'
-        [materializeSelectOptions]='PcOptions'
-        formControlName='pcz'>
-        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
-    </select>
-  </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Eigen Solver</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='LocalLinearEmbeddingEigenSolverOpitions'
-        formControlName='eigen_solver'>
-          <option *ngFor='let options of LocalLinearEmbeddingEigenSolverOpitions' [ngValue]='options'>{{options}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-  <label class='center-block'><span class='form-label'>Method</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='LocalLinearEmbeddingMethodOptions'
-        formControlName='lle_method'>
-        <option *ngFor='let options of LocalLinearEmbeddingMethodOptions' [ngValue]='options'>{{options}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Neighbors Algorithm</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='LocalLinearEmbeddingNeighborsAlgorithmOptions'
-        formControlName='neighbors_algorithm'>
-        <option *ngFor='let options of LocalLinearEmbeddingNeighborsAlgorithmOptions' [ngValue]='options'>{{options}}</option>
-      </select>
-    </label>
-  </div>
+  <mat-form-field>
+    <mat-select placeholder='Data' formControlName='table'>
+      <mat-option *ngFor='let option of dataOptions' [value]='option.label'>
+          {{ option.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Visualize' formControlName='entity'>
+      <mat-option *ngFor='let option of displayOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='X Axis' formControlName='pcx'>
+        <mat-option *ngFor='let option of PcOptions' [value]='option'>
+            PC {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Y Axis' formControlName='pcy'>
+        <mat-option *ngFor='let option of PcOptions' [value]='option'>
+            PC {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Z Axis' formControlName='pcz'>
+        <mat-option *ngFor='let option of PcOptions' [value]='option'>
+            PC {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Eigen Solver' formControlName='eigen_solver'>
+      <mat-option *ngFor='let option of LocalLinearEmbeddingEigenSolverOpitions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Method' formControlName='lle_method'>
+      <mat-option *ngFor='let option of LocalLinearEmbeddingMethodOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Neighbors Algorithm' formControlName='neighbors_algorithm'>
+      <mat-option *ngFor='let option of LocalLinearEmbeddingNeighborsAlgorithmOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
   <div class='form-group'>
     <label class='center-block'>
       <span class='form-label'>Neighbors</span>

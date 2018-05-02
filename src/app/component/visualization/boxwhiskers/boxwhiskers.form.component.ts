@@ -12,14 +12,13 @@ import * as _ from 'lodash';
   template: `
 <form [formGroup]='form' novalidate>
 <div class='form-group'>
-<label class='center-block'><span class='form-label'>Data</span>
-  <select materialize='material_select'
-    [compareWith]='byKey'
-    formControlName='table'>
-    <option *ngFor='let option of dataOptions' 
-      [ngValue]='option'>{{option.label}}</option>
-  </select>
-</label>
+  <mat-form-field>
+      <mat-select placeholder='Data' formControlName='table'>
+          <mat-option *ngFor='let option of dataOptions' [value]='option.label'>
+              {{ option.label }}
+          </mat-option>
+      </mat-select>
+  </mat-form-field>
 </div>
 <!--
 <div class='form-group'>
