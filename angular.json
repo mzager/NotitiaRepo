@@ -37,7 +37,9 @@
                 "output": "/"
               }
             ],
-            "styles": [],
+            "styles": [
+              "src/styles.css"
+            ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
               "node_modules/hammerjs/hammer.js",
@@ -106,8 +108,6 @@
               "src/assets/ml220.js"
             ],
             "styles": [
-              "src/style/materialize.scss",
-              "node_modules/vega-tooltip/build/vega-tooltip.css",
               "src/styles.css"
             ],
             "assets": [
