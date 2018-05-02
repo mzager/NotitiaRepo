@@ -49,15 +49,13 @@ import { TruncatedSvdAction } from '../../../action/compute.action';
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <div class='form-group'>
-  <label class='center-block'><span class='form-label'>SVD Solver</span>
-    <select materialize='material_select'
-      [materializeSelectOptions]='TruncatedSvdAlgorithemOptions'
-      formControlName='algorithm'>
-        <option *ngFor='let options of TruncatedSvdAlgorithemOptions' [ngValue]='options'>{{options}}</option>
-    </select>
-  </label>
-</div>
+  <mat-form-field>
+    <mat-select placeholder='SVD Solver' formControlName='algorithm'>
+      <mat-option *ngFor='let option of TruncatedSvdAlgorithemOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </form>
   `
 })
