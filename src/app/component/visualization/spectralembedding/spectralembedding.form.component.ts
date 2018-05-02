@@ -51,24 +51,20 @@ import * as _ from 'lodash';
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Eigen Solver</span>
-        <select materialize='material_select'
-        [materializeSelectOptions]='SpectralEmbeddingEigenSolverOpitions'
-        formControlName='eigen_solver'>
-        <option *ngFor='let options of SpectralEmbeddingEigenSolverOpitions' [ngValue]='options'>{{options}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Affinity</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='SpectralEmbeddingAffinityOpitions'
-        formControlName='affinity'>
-        <option *ngFor='let options of SpectralEmbeddingAffinityOpitions' [ngValue]='options'>{{options}}</option>
-      </select>
-    </label>
-  </div>
+  <mat-form-field>
+    <mat-select placeholder='Eigen Solver' formControlName='eigen_solver'>
+        <mat-option *ngFor='let option of SpectralEmbeddingEigenSolverOpitions' [value]='option'>
+            {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Affinity' formControlName='affinity'>
+        <mat-option *ngFor='let option of SpectralEmbeddingAffinityOpitions' [value]='option'>
+            {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
   <div class='form-group'>
     <label class='center-block'>
       <span class='form-label'>Neighbors</span>
