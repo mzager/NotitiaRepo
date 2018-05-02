@@ -15,68 +15,55 @@ import { SvmCompleteAction } from '../../../action/compute.action';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 <form [formGroup]='form' novalidate>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Data</span>
-      <select materialize='material_select'
-      [compareWith]='byKey'
-      formControlName='table'>
-      <option *ngFor='let option of dataOptions'>{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Visualize</span>
-      <select materialize='material_select'
-          formControlName='entity'>
-          <option *ngFor='let option of displayOptions'>{{option}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-  <label class='center-block'><span class='form-label'>X Axis</span>
-    <select materialize='material_select'
-        [materializeSelectOptions]='PcOptions'
-        formControlName='pcx'>
-        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
-    </select>
-  </label>
-  </div>
-  <div class='form-group'>
-  <label class='center-block'><span class='form-label'>Y Axis</span>
-    <select materialize='material_select'
-        [materializeSelectOptions]='PcOptions'
-        formControlName='pcy'>
-        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
-    </select>
-  </label>
-  </div>
-  <div class='form-group'>
-  <label class='center-block'><span class='form-label'>Z Axis</span>
-    <select materialize='material_select'
-        [materializeSelectOptions]='PcOptions'
-        formControlName='pcz'>
-        <option *ngFor='let option of PcOptions' [ngValue]='option'>PC {{option}}</option>
-    </select>
-  </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Dissimilarity</span>
-     <select materialize='material_select'
-      [materializeSelectOptions]='LinearDiscriminantAnalysisSolverOptions'
-      formControlName='LinearDiscriminantAnalysisSolver'>
-        <option *ngFor='let options of LinearDiscriminantAnalysisSolverOptions' [ngValue]='options'>{{options}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-  <label class='center-block'><span class='form-label'>Dissimilarity</span>
-   <select materialize='material_select'
-    [materializeSelectOptions]='LinearDiscriminantAnalysisShrinkageOptions'
-    formControlName='LinearDiscriminantAnalysisShrinkage'>
-      <option *ngFor='let options of LinearDiscriminantAnalysisShrinkageOptions' [ngValue]='options'>{{options}}</option>
-    </select>
-  </label>
-</div>
+  <mat-form-field>
+    <mat-select placeholder='Data' formControlName='table'>
+      <mat-option *ngFor='let option of dataOptions' [value]='option.label'>
+          {{ option.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Visualize' formControlName='entity'>
+      <mat-option *ngFor='let option of displayOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='X Axis' formControlName='pcx'>
+        <mat-option *ngFor='let option of PcOptions' [value]='option'>
+            PC {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Y Axis' formControlName='pcy'>
+        <mat-option *ngFor='let option of PcOptions' [value]='option'>
+            PC {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Z Axis' formControlName='pcz'>
+        <mat-option *ngFor='let option of PcOptions' [value]='option'>
+            PC {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Solver' formControlName='LinearDiscriminantAnalysisSolver'>
+      <mat-option *ngFor='let option of LinearDiscriminantAnalysisSolverOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Shrinkage' formControlName='LinearDiscriminantAnalysisShrinkage'>
+      <mat-option *ngFor='let option of LinearDiscriminantAnalysisShrinkageOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </form>
   `
 })

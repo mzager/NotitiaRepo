@@ -6,7 +6,6 @@ import { PathwayPanelComponent } from './component/workspace/pathway-panel/pathw
 import { QueryBuilderComponent } from './component/workspace/query-panel/query-builder/query-builder.component';
 import { QueryPanelComponent } from './component/workspace/query-panel/query-panel.component';
 import { DashboardPanelComponent } from './component/workspace/dashboard-panel/dashboard-panel.component';
-import { DecoratorPanelComponent } from './component/workspace/decorator-panel/decorator-panel.component';
 import { CitationsPanelComponent } from './component/workspace/citations-panel/citations-panel.component';
 import { AboutPanelComponent } from './component/workspace/about-panel/about-panel.component';
 import { FeedbackPanelComponent } from './component/workspace/feedback-panel/feedback-panel.component';
@@ -38,7 +37,6 @@ import { DatasetService } from './service/dataset.service';
 import { DeFormComponent } from './component/visualization/de/de.form.component';
 import { DictionaryLearningFormComponent } from './component/visualization/dictionarylearning/dictionarylearning.form.component';
 import { EdgePanelComponent } from './component/workspace/edge-panel/edge-panel.component';
-import { EdgesFormComponent } from './component/visualization/edges/edges.form.component';
 import { EffectsModule } from '@ngrx/effects';
 import { FaFormComponent } from './component/visualization/fa/fa.form.component';
 import { FastIcaFormComponent } from './component/visualization/fastica/fastica.form.component';
@@ -64,7 +62,6 @@ import { LdaFormComponent } from './component/visualization/lda/lda.form.compone
 import { LegendPanelComponent } from 'app/component/workspace/legend-panel/legend-panel.component';
 import { LinkedGeneFormComponent } from './component/visualization/linkedgenes/linkedgenes.form.component';
 import { LocalLinearEmbeddingFormComponent } from './component/visualization/locallinearembedding/locallinearembedding.form.component';
-import { MaterializeModule } from 'angular2-materialize';
 import { MdsFormComponent } from './component/visualization/mds/mds.form.component';
 import { NcbiService } from './service/ncbi.service';
 import { NgModule, NgZone } from '@angular/core';
@@ -144,6 +141,7 @@ import {
   MatTreeModule
 } from '@angular/material';
 import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
+import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph-panel-data.component';
 
 @NgModule({
   declarations: [
@@ -168,7 +166,6 @@ import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
     DaFormComponent,
     DeFormComponent,
     FaFormComponent,
-    EdgesFormComponent,
     PcaFormComponent,
     PlsFormComponent,
     TsneFormComponent,
@@ -211,7 +208,6 @@ import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
     AboutPanelComponent,
     CitationsPanelComponent,
     LoaderComponent,
-    DecoratorPanelComponent,
     PathwayPanelComponent,
     DashboardPanelComponent,
     FeedbackPanelComponent,
@@ -220,7 +216,9 @@ import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
     QueryPanelComponent,
     QueryBuilderComponent,
     GraphPanelAnalysisComponent,
-    GraphPanelVisualizationComponent
+    GraphPanelVisualizationComponent,
+    GraphPanelDataComponent
+
   ],
   entryComponents: [
   ],
@@ -267,7 +265,6 @@ import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
     MatIconModule,
     MatCheckboxModule,
     NouisliderModule,
-    MaterializeModule,
     FileUploadModule,
     BrowserModule,
     BrowserAnimationsModule,

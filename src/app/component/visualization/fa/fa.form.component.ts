@@ -14,41 +14,34 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
   <form [formGroup]='form' novalidate>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Data</span>
-      <select materialize='material_select'
-          [compareWith]='byKey'
-          formControlName='table'>
-          <option *ngFor='let option of dataOptions'>{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Visualize</span>
-      <select materialize='material_select'
-          formControlName='entity'>
-          <option *ngFor='let option of displayOptions'>{{option}}</option>
-      </select>
-    </label>
-  </div>
-   <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Dimension</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='dimensionOptions'
-        formControlName='dimension'>
-          <option *ngFor='let options of dimensionOptions'>{{options}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-  <label class='center-block'><span class='form-label'>SVD Method</span>
-    <select materialize='material_select'
-      [materializeSelectOptions]='FaSvdMethodOptions'
-      formControlName='svd_method'>
-        <option *ngFor='let options of FaSvdMethodOptions' [ngValue]='options'>{{options}}</option>
-    </select>
-  </label>
-</div>
+  <mat-form-field>
+    <mat-select placeholder='Data' formControlName='table'>
+      <mat-option *ngFor='let option of dataOptions' [value]='option.label'>
+          {{ option.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Visualize' formControlName='entity'>
+      <mat-option *ngFor='let option of displayOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Dimension' formControlName='dimension'>
+      <mat-option *ngFor='let option of dimensionOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='SVD Method' formControlName='svd_method'>
+      <mat-option *ngFor='let option of FaSvdMethodOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </form>
   `
 })
