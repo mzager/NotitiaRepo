@@ -1,4 +1,13 @@
 // Responsive Mobile First
+.example-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.example-container>* {
+  width: 100%;
+}
+
 .feedback-modal-panel {
   padding: 20px;
   background: #FFF;
@@ -20,10 +29,6 @@
   box-sizing: border-box;
   line-height: 50px;
   display: inline-block;
-}
-
-.feedback-search {
-  margin-bottom: 20px;
 }
 
 .feedback-h1 {
