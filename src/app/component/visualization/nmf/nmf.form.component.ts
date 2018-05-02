@@ -48,33 +48,27 @@ import * as _ from 'lodash';
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Initialization</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='NmfInitOptions'
-        formControlName='init'>
-        <option *ngFor='let options of NmfInitOptions' [ngValue]='options'>{{options}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-  <label class='center-block'><span class='form-label'>Solver</span>
-    <select materialize='material_select'
-      [materializeSelectOptions]='NmFSolverOptions'
-      formControlName='solver'>
-      <option *ngFor='let options of NmFSolverOptions' [ngValue]='options'>{{options}}</option>
-    </select>
-  </label>
-</div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Betaloss</span>
-      <select materialize='material_select'
-      [materializeSelectOptions]='NmfBetalossOptions'
-      formControlName='beta_loss'>
-        <option *ngFor='let options of NmfBetalossOptions' [ngValue]='options'>{{options}}</option>
-      </select>
-    </label>
-  </div>
+  <mat-form-field>
+    <mat-select placeholder='Initialization' formControlName='init'>
+      <mat-option *ngFor='let option of NmfInitOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Solver' formControlName='solver'>
+      <mat-option *ngFor='let option of NmFSolverOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Betaloss' formControlName='beta_loss'>
+      <mat-option *ngFor='let option of NmfBetalossOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </form>
   `
 })

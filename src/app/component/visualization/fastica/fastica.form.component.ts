@@ -49,24 +49,20 @@ import * as _ from 'lodash';
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Algorithm</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='algorithmOptions'
-        formControlName='algorithm'>
-          <option *ngFor='let options of algorithmOptions' [ngValue]='options'>{{options}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Function</span>
-      <select materialize='material_select'
-      [materializeSelectOptions]='functionOptions'
-      formControlName='fun'>
-        <option *ngFor='let options of functionOptions' [ngValue]='options'>{{options}}</option>
-      </select>
-    </label>
-  </div>
+  <mat-form-field>
+    <mat-select placeholder='Algorithm' formControlName='algorithm'>
+      <mat-option *ngFor='let option of algorithmOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder='Function' formControlName='fun'>
+      <mat-option *ngFor='let option of functionOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
   <div class='form-group'>
     <div class='switch'>
       <label>
