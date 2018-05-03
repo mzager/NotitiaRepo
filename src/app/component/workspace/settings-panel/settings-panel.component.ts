@@ -19,7 +19,7 @@ declare var $: any;
     selector: 'app-workspace-settings-panel',
     styleUrls: ['./settings-panel.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    templateUrl: './settings-panel.component.ts',
+    templateUrl: './settings-panel.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SettingsPanelComponent implements AfterViewInit, OnDestroy {
