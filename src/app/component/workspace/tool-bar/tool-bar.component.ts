@@ -1,5 +1,8 @@
 import { WorkspaceConfigModel } from 'app/model/workspace.model';
-import { ChangeDetectionStrategy, OnInit, EventEmitter, Input, Output, Component, ChangeDetectorRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy, OnInit, EventEmitter, Input, Output,
+  Component, ChangeDetectorRef, ViewEncapsulation
+} from '@angular/core';
 import { GraphEnum, GraphActionEnum, ToolEnum, WorkspaceLayoutEnum } from 'app/model/enum.model';
 import { ElementRef } from '@angular/core/src/linker/element_ref';
 import { ViewChild } from '@angular/core/src/metadata/di';
@@ -10,7 +13,8 @@ declare var dat: any;
   selector: 'app-workspace-tool-bar',
   templateUrl: './tool-bar.component.html',
   styleUrls: ['./tool-bar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class ToolBarComponent implements OnInit {
 

@@ -1,13 +1,14 @@
 import {
   Component, Input, Output, ChangeDetectionStrategy,
-  EventEmitter, AfterViewInit, OnInit, ViewChild, ElementRef
+  EventEmitter, AfterViewInit, OnInit, ViewChild, ElementRef, ViewEncapsulation
 } from '@angular/core';
 
 @Component({
   selector: 'app-workspace-landing-panel',
   templateUrl: './landing-panel.component.html',
   styleUrls: ['./landing-panel.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class LandingPanelComponent implements AfterViewInit {
 
