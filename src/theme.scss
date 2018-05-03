@@ -31,7 +31,7 @@ $custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $hea
   left: 0px;
   top: 0px;
   overflow: scroll;
-  padding-top: 100px;
+  padding-top: 50px;
   background: #FFF;
   margin-left: 20px;
   margin-right: 20px;
@@ -78,5 +78,6 @@ $custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $hea
   .panel {
     margin-left: 40px;
     margin-right: 40px;
+    padding-top: 100px;
   }
 }
