@@ -16,7 +16,6 @@ declare var $: any;
 
 @Component({
     selector: 'app-workspace-about-panel',
-    styleUrls: ['./about-panel.component.scss'],
     templateUrl: './about-panel.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
