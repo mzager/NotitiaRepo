@@ -6,7 +6,7 @@ import { interpolateSpectral } from 'd3-scale-chromatic';
 
 import {
   Component, Input, Output, ChangeDetectionStrategy, EventEmitter, AfterViewInit,
-  ViewChild, ElementRef, ChangeDetectorRef
+  ViewChild, ElementRef, ChangeDetectorRef, ViewEncapsulation
 } from '@angular/core';
 import { ShapeEnum, SizeEnum, DataTypeEnum } from 'app/model/enum.model';
 import * as d3Interpolate from 'd3-interpolate';
@@ -21,7 +21,8 @@ declare var $: any;
   selector: 'app-workspace-legend-panel',
   templateUrl: './legend-panel.component.html',
   styleUrls: ['./legend-panel.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class LegendPanelComponent implements AfterViewInit {
 

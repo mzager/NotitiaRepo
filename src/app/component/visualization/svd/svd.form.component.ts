@@ -3,88 +3,15 @@ import { DimensionEnum, DistanceEnum, DenseSparseEnum } from './../../../model/e
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DataTypeEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory } from './../../../model/data-field.model';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as _ from 'lodash';
 
 @Component({
   selector: 'app-svd-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-<form [formGroup]='form' novalidate>
-<!--
-  <div class='form-group'>
-    <label class='center-block'>Point Data
-      <select materialize='material_select'
-          [compareWith]='byKey'
-          [materializeSelectOptions]='dataOptions'
-          formControlName='molecularTable'>
-          <option *ngFor='let option of dataOptions'>{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Display Dimension</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='dimensionOptions'
-        formControlName='dimension'>
-          <option *ngFor='let options of dimensionOptions'>{{options}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Distance Measure</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='distanceOptions'
-        formControlName='distance'>
-          <option *ngFor='let options of distanceOptions'>{{options}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Data Density</span>
-      <select materialize='material_select'
-        [materializeSelectOptions]='densityOptions'
-        formControlName='density'>
-          <option *ngFor='let options of densityOptions'>{{options}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'>
-    <span class='form-label'>Perplexity</span>
-    <p class='range-field'>
-      <input type='range' min='5' max='50' />
-    </p>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'>
-    <span class='form-label'>Early Exaggeration</span>
-    <p class='range-field'>
-      <input type='range' min='1' max='10' step='.1' />
-    </p>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'>
-    <span class='form-label'>Learning Rate</span>
-    <p class='range-field'>
-      <input type='range' min='1' max='1000' />
-    </p>
-    </label>
-  </div>
-  <div class='form-group'>
-    <label class='center-block'>
-    <span class='form-label'>Max Iterations</span>
-    <p class='range-field'>
-      <input type='range' min='50' max='500' />
-    </p>
-    </label>
-  </div>
--->
-</form>
-  `
+  templateUrl: './svd.form.component.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class SvdFormComponent {
 

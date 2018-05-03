@@ -4,17 +4,15 @@ import { ChromosomeConfigModel } from './../chromosome/chromosome.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DimensionEnum, DataTypeEnum, VisualizationEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory } from './../../../model/data-field.model';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as _ from 'lodash';
 
 @Component({
   selector: 'app-survival-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-<form [formGroup]='form' novalidate>
-</form>
-  `
+  templateUrl: './survival.form.component.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class SurvivalFormComponent implements OnDestroy {
 

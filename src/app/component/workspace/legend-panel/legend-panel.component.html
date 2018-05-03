@@ -1,6 +1,8 @@
-<div class='legend'>
+<mat-expansion-panel>
+    <mat-panel-title>Legend</mat-panel-title>
     <div *ngFor='let legend of allLegends'>
-        <div class='legendHeader'>{{legend.name}}</div>
+        <mat-panel-title>{{legend.name}}</mat-panel-title>
+        <div class='legendHeader'></div>
 
         <!-- Shape -->
         <div *ngIf='legend.type === "SHAPE"'>
@@ -24,4 +26,4 @@
             </div>
         </div>
     </div>
-</div>
+</mat-expansion-panel>
