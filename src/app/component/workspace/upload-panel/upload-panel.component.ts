@@ -4,14 +4,16 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { GraphConfig } from './../../../model/graph-config.model';
 import {
   Component, ComponentFactoryResolver, Input, Output, ViewContainerRef,
-  ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild
+  ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild, ViewEncapsulation
 } from '@angular/core';
 
 @Component({
   selector: 'app-workspace-upload-panel',
   templateUrl: './upload-panel.component.html',
   styleUrls: ['./upload-panel.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
+
 })
 export class UploadPanelComponent {
 
