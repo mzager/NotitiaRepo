@@ -20,9 +20,7 @@ declare var $: any;
     selector: 'app-workspace-citations-panel',
     templateUrl: './citations-panel.component.html',
     styleUrls: ['./citations-panel.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None
-
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CitationsPanelComponent implements AfterViewInit, OnInit, OnDestroy {
 
