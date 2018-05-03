@@ -20,7 +20,7 @@ $theme: mat-light-theme($primary, $accent, $warn);
 // Define a custom typography config that overrides the font-family as well as the
 // `headlines` and `body-1` levels.
 $custom-typography: mat-typography-config(
-  $font-family: 'Roboto, monospace',
+  $font-family: 'Lato, monospace',
   $headline: mat-typography-level(32px, 32px, 300),
   $title: mat-typography-level(14px, 14px, 500),
   $body-1: mat-typography-level(14px, 16px, 300)
