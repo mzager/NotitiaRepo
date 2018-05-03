@@ -1,3 +1,32 @@
+<!-- <div class="panel g">
+        <div class='os-sm-1-24 sm-22-24'>
+                <a href='#' class='modalClose' (click)='closeClick()'></a>
+                <h1 class='panel-header'>Data Upload</h1>
+                <p class='panel-header-desc'>Upload and share your data sets to our private cloud.</p>
+        </div>
+        <div class='os-sm-1-24 sm-7-24'>
+                <h2 class='panel-column-title'>My Datasets</h2>
+                <a class='panel-button-image' (click)='uploadExcelClick() '>
+                        <img src='./assets/logo-excel.png'>
+                        <span>Upload an Excel File</span>
+                </a>
+                <a class='panel-button-image ' (click)='uploadHubClick() '>
+                        <img src='./assets/logo-cloud.png '>
+                        <span>Upload to Data Hub</span>
+                </a>
+        </div>
+        <div class='sm-15-24'>
+                <h2 class='panel-column-title'>Public Data Sets</h2>
+                <div class='g'>
+                        <div class='sm-1-3' *ngFor='let dataset of datasets; let i=i ndex '>
+                                <a class='panel-button-image' (click)='this.loadTcga.emit(dataset) '>
+                                        <img src='./assets/disease/img{{dataset.img}}.png '>
+                                        <span>{{dataset.name}}</span>
+                                </a>
+                        </div>
+                </div>
+        </div>
+</div> -->
 <div class="file-modal-panel">
         <div class="row">
                 <a href='#' class='modalClose' (click)='closeClick()'></a>
@@ -24,11 +53,11 @@
                                 </div>
                         </div>
                         <!-- <div *ngFor='let myPathway of pathways' (click)='pathwayDel(myPathway)'>
-                                <div class='pathways-my-row'>
-                                        <i class='material-icons pathways-my-row-delete'>remove_circle_outline</i>
-                                        <span class='pathways-my-name'>{{myPathway.n}}</span>
-                                </div>
-                        </div> -->
+                                        <div class='pathways-my-row'>
+                                                <i class='material-icons pathways-my-row-delete'>remove_circle_outline</i>
+                                                <span class='pathways-my-name'>{{myPathway.n}}</span>
+                                        </div>
+                                </div> -->
                 </div>
                 <div class='col s12 l9 pathways-public-datasets upload-container'>
                         <span class="pathways-public-span" style='padding-left:10px;'>Upload a Dataset</span>

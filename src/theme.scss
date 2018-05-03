@@ -30,7 +30,6 @@ $custom-typography: mat-typography-config(
 
 
 /* Popup Panel */
-
 .panel {
   color: #333333;
   height: 100vh;
@@ -45,7 +44,6 @@ $custom-typography: mat-typography-config(
 }
 .panel-column-title{
     margin-bottom: 10px !important;
-    // text-transform:uppercase;
     font-weight: 300;
     padding-bottom: 10px;
 }
@@ -56,22 +54,24 @@ $custom-typography: mat-typography-config(
 .panel-header-desc {
   padding: 0px;
   margin: 0px;
+  padding-top: 10px;
   margin-bottom: 60px !important;
 }
 .panel-button-image {
-    display: block;
-    position:relative;
-    padding-left: 40px;
-    padding-bottom: 8px;
-    img {
-        width: 30px;
-        height: 30px;
-        position: absolute;
-        left: 0px;
-        top: -3px;
-    }
-    span{
-      line-height: 20px;
-      vertical-align: top;
-    }
+  cursor: hand;
+  display: block;
+  position:relative;
+  padding-left: 40px;
+  padding-bottom: 8px;
+  img {
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      left: 0px;
+      top: -3px;
+  }
+  span{
+    line-height: 20px;
+    vertical-align: top;
+  }
 }
