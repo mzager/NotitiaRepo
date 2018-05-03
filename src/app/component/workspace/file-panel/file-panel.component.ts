@@ -4,7 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import { GraphConfig } from './../../../model/graph-config.model';
 import {
   Component, ComponentFactoryResolver, Input, Output, ViewContainerRef,
-  ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild
+  ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild, ViewEncapsulation
 } from '@angular/core';
 import { Legend } from 'app/model/legend.model';
 
@@ -13,7 +13,8 @@ import { Legend } from 'app/model/legend.model';
   selector: 'app-workspace-file-panel',
   templateUrl: './file-panel.component.html',
   styleUrls: ['./file-panel.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class FilePanelComponent {
 
