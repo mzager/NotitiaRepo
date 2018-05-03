@@ -7,8 +7,8 @@
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue.
 $primary: mat-palette($mat-blue, 600);
-$accent:  mat-palette($mat-blue-grey);
-$warn:    mat-palette($mat-deep-orange);
+$accent: mat-palette($mat-blue-grey);
+$warn: mat-palette($mat-deep-orange);
 // Create the theme object (a Sass map containing all of the palettes).
 // $theme: mat-light-theme($primary, $accent, $warn);
 $theme: mat-light-theme($primary, $accent, $warn);
@@ -16,22 +16,12 @@ $theme: mat-light-theme($primary, $accent, $warn);
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($theme);
-
 // Define a custom typography config that overrides the font-family as well as the
 // `headlines` and `body-1` levels.
-$custom-typography: mat-typography-config(
-  $font-family: 'Lato, monospace',
-  $headline: mat-typography-level(32px, 32px, 300),
-  $title: mat-typography-level(14px, 14px, 300),
-  $body-1: mat-typography-level(14px, 16px, 300),
-  $button: mat-typography-level(14px, 16px, 300)
-
-);
-
+$custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $headline: mat-typography-level(32px, 32px, 300), $title: mat-typography-level(14px, 14px, 300), $body-1: mat-typography-level(14px, 16px, 300), $button: mat-typography-level(14px, 16px, 300));
 @include angular-material-typography($custom-typography);
-
-
 /* Popup Panel */
+
 .panel {
   color: #666;
   height: 100vh;
@@ -41,43 +31,53 @@ $custom-typography: mat-typography-config(
   left: 0px;
   top: 0px;
   overflow: scroll;
-  padding-top:100px;
+  padding-top: 50px;
   background: #FFF;
+  margin-left: 20px;
+  margin-right: 20px;
 }
-.panel-column-title{
-    margin-bottom: 10px !important;
-    font-weight: 300;
-    padding-bottom: 10px;
+
+.panel-column-title {
+  margin-bottom: 10px !important;
+  font-weight: 300;
+  padding-bottom: 10px;
 }
+
 .panel-header {
   padding: 0px;
   margin-bottom: 0px !important;
 }
+
 .panel-header-desc {
   padding: 0px;
   margin: 0px;
   padding-top: 10px;
   margin-bottom: 60px !important;
 }
+
 .panel-button-image {
   cursor: pointer;
   display: block;
-  position:relative;
+  position: relative;
   padding-left: 40px;
   padding-bottom: 8px;
   img {
-      width: 30px;
-      height: 30px;
-      position: absolute;
-      left: 0px;
-      top: -3px;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    left: 0px;
+    top: -3px;
   }
-  span{
+  span {
     line-height: 20px;
     vertical-align: top;
   }
 }
 
-// @media screen and (min-width: 48em){
-//   panel-button-image{}
-// }
+@media screen and (min-width: 48em) {
+  .panel {
+    margin-left: 40px;
+    margin-right: 40px;
+    padding-top: 100px;
+  }
+}

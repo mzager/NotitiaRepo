@@ -17,8 +17,8 @@ declare var $: any;
 
 @Component({
     selector: 'app-workspace-feedback-panel',
-    styleUrls: ['./feedback-panel.component.scss'],
     templateUrl: './feedback-panel.component.html',
+    styleUrls: ['./feedback-panel.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })
