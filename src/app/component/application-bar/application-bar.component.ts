@@ -34,7 +34,7 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   // @Output() workspacePanelToggle = new EventEmitter();
   // @Output() filePanelToggle = new EventEmitter();
   // @Output() fileOpen = new EventEmitter<DataTransfer>();
-
+  private split = false;
   public uploader: FileUploader = new FileUploader({ url: '' });
   private filesSubject: Subject<File>;
   private color = 0xFFFFFF;
@@ -62,8 +62,9 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   viewPanel(panel: PanelEnum): void {
     this.showPanel.emit(panel);
   }
-  onSplitScreenChange(e: any): void {
-    this.splitScreenChange.next(e.target.checked);
+  onSplitScreenChange(): void {
+    this.split = !this.split;
+    this.splitScreenChange.next(this.split);
   }
   toggleBackgroundColor(): void {
     const isBlack = ChartScene.instance.renderer.getClearColor().r === 0;
