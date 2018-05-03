@@ -259,11 +259,11 @@ export class DataEffect {
                 // new compute.TimelinesAction( { config: timelinesConfigB})
                 // new compute.ChromosomeAction({ config: chromosomeConfig }),
                 // new compute.HeatmapAction({ config: heatmapConfig }),
-                new compute.SurvivalAction({ config: survivalConfig }),
+                // new compute.SurvivalAction({ config: survivalConfig }),
                 // new compute.ChromosomeAction( { config: chromosomeConfig } )
                 // new compute.PathwaysAction({ config: pathwaysConfig }),
                 // new compute.GenomeAction({ config: genomeConfig }),
-                // new compute.PcaIncrementalAction({ config: pcaIncConfig }),
+                new compute.PcaIncrementalAction({ config: pcaIncConfig }),
                 new compute.PcaIncrementalAction({ config: pcaIncConfig2 }),
                 // new GraphPanelToggleAction( GraphPanelEnum.GRAPH_A )
                 // new compute.PcaAction({ config: pcaConfig }),
