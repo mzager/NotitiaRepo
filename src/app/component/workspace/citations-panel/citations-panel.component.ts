@@ -22,6 +22,7 @@ declare var $: any;
     styleUrls: ['./citations-panel.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
+
 })
 export class CitationsPanelComponent implements AfterViewInit, OnInit, OnDestroy {
 
