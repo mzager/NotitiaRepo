@@ -1,0 +1,52 @@
+<!-- Card -->
+<div class="pathways-modal-panel">
+    <div class="row">
+        <a href='#' class='modalClose' (click)='closeClick()'></a>
+        <div class="col s12">
+            <h1 class='pathways-h1'>Pathways</h1>
+
+            <h2 class='pathways-h2'>Select from thousands of curated pathways
+                <a href='https://www.youtube.com/embed/XQu8TTBmGhA' target='_blank'>
+                    <i class='small material-icons modalWatchVideoIcon'>ondemand_video</i>Watch Tutorial</a>
+            </h2>
+        </div>
+    </div>
+    <div class='row'>
+        <!-- My Pathways -->
+        <div class='col s12 l3 pathways-my-list'>
+            <span>My Pathways</span>
+            <div *ngFor='let myPathway of pathways' (click)='pathwayDel(myPathway)'>
+                <div class='pathways-my-row'>
+                    <i class='material-icons pathways-my-row-delete'>remove_circle_outline</i>
+                    <span class='pathways-my-name'>{{myPathway.n}}</span>
+                </div>
+            </div>
+        </div>
+        <div class='col s12 l9 pathways-public-datasets'>
+            <span class="pathways-public-span">Select a Pathway</span>
+            <!-- From -->
+            <div class='col s12 pathways-from-field'>
+                <label class=' pathways-from-label'>From</label>
+                <select class='pathways-categories-dropdown browser-default' materialize='material_select' (change)='pathwayCategoryChange($event.target.value)'>
+                    <option *ngFor='let option of pathwayCategories'>{{option.n}}</option>
+                </select>
+            </div>
+            <!-- Curated -->
+            <span>
+                <div class='col s12 pathways-where-field'>
+                    <label class='pathways-where-label '>Where</label>
+                    <input type='text' placeholder='Pathway Contains e.g. IDH1, BRCA1' (keyup)='$pathwayFilter.next($event.target.value)' ng-model='pathwayFilter'>
+                </div>
+                <div>
+                    <div *ngFor='let option of pathwayOptionsFilter' (click)='pathwayAdd(option)' class='pathways-results'>
+                        <i class='material-icons pathways-icon hide-on-small-only'>add_circle_outline</i>
+                        <div class='pathways-des'>
+                            {{option.name}}
+                            <br /> {{option.summary}}
+                        </div>
+                    </div>
+                </div>
+            </span>
+        </div>
+    </div>
+</div>
