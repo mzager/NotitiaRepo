@@ -14,7 +14,7 @@ import { GraphData } from './../../../model/graph-data.model';
 import {
   Component, ComponentFactoryResolver, Input, Output, ViewContainerRef,
   ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild,
-  OnDestroy, ChangeDetectorRef
+  OnDestroy, ChangeDetectorRef, ViewEncapsulation
 } from '@angular/core';
 import { GraphEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
@@ -26,7 +26,8 @@ declare var $: any;
   selector: 'app-workspace-edge-panel',
   templateUrl: './edge-panel.component.html',
   styleUrls: ['./edge-panel.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class EdgePanelComponent implements OnDestroy {
 

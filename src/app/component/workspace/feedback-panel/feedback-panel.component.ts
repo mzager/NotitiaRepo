@@ -6,7 +6,7 @@ import { EntityTypeEnum } from './../../../model/enum.model';
 import { DataField } from 'app/model/data-field.model';
 import {
     Component, Input, Output, EventEmitter, AfterViewInit, OnDestroy,
-    OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef
+    OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef, ViewEncapsulation
 } from '@angular/core';
 import { VisualizationEnum, DirtyEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
@@ -19,7 +19,8 @@ declare var $: any;
     selector: 'app-workspace-feedback-panel',
     templateUrl: './feedback-panel.component.html',
     styleUrls: ['./feedback-panel.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None
 })
 export class FeedbackPanelComponent implements AfterViewInit, OnDestroy {
 

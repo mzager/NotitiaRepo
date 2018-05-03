@@ -6,7 +6,7 @@ import { GraphConfig } from './../../../model/graph-config.model';
 import { EntityTypeEnum } from './../../../model/enum.model';
 import { DataField } from 'app/model/data-field.model';
 import {
-    Component, Input, Output, EventEmitter, AfterViewInit, OnDestroy,
+    Component, Input, Output, EventEmitter, AfterViewInit, OnDestroy, ViewEncapsulation,
     OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef
 } from '@angular/core';
 import { VisualizationEnum, DirtyEnum } from 'app/model/enum.model';
@@ -18,19 +18,8 @@ declare var $: any;
 @Component({
     selector: 'app-workspace-settings-panel',
     styleUrls: ['./settings-panel.component.scss'],
-    template:
-        `<div>
-    <a href='#' class='modalClose' (click)='closeClick()'></a>
-    <h1>Global Settings</h1>
-
-    <h2>Customize charts with inverted colors, custom color paletttes and create informative tooltips.</h2>
-    <p>Invert Colors <span><i (click)='toggleBackgroundClick()'
-    class="material-icons " style='position:absolute; color:#029BE5; cursor: pointer; margin-left: 10px;'>brightness_medium</i></span></p>
-
-     <p>Clear Local Data</p>
-    <p>Color Pallets</p>
-    <p>Tooltips</p>
-</div>`,
+    encapsulation: ViewEncapsulation.None,
+    templateUrl: './settings-panel.component.ts',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SettingsPanelComponent implements AfterViewInit, OnDestroy {
