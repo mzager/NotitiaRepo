@@ -12,13 +12,15 @@ import { VisualizationEnum, DirtyEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import { Subscription } from 'rxjs/Subscription';
 import * as _ from 'lodash';
+import { ViewEncapsulation } from '@angular/compiler/src/core';
 declare var $: any;
 
 @Component({
     selector: 'app-workspace-about-panel',
     templateUrl: './about-panel.component.html',
     styleUrls: ['./about-panel.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None
 })
 export class AboutPanelComponent implements AfterViewInit, OnDestroy {
 

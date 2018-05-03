@@ -1,3 +1,4 @@
+import { ViewEncapsulation } from '@angular/compiler/src/core';
 import { Observable } from 'rxjs/Observable';
 import { ModalService } from 'app/service/modal-service';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -19,7 +20,8 @@ declare var $: any;
     selector: 'app-workspace-citations-panel',
     templateUrl: './citations-panel.component.html',
     styleUrls: ['./citations-panel.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None
 })
 export class CitationsPanelComponent implements AfterViewInit, OnInit, OnDestroy {
 
