@@ -16,6 +16,7 @@ import { Legend } from 'app/model/legend.model';
 import { Subscription } from 'rxjs/Subscription';
 import * as _ from 'lodash';
 import { StatTwoD } from '../../../model/stat.model';
+import { ViewEncapsulation } from '@angular/compiler/src/core';
 declare var $: any;
 declare var vega: any;
 declare var vegaTooltip: any;
@@ -23,13 +24,9 @@ declare var vegaTooltip: any;
 @Component({
     selector: 'app-workspace-dashboard-panel',
     styleUrls: ['./dashboard-panel.component.scss'],
-    template:
-        `<div class="dashboard-modal-panel">
-    <a href='#' class='modalClose' (click)='closeClick()'></a>
-    <h1 class='dashboard-h1'> Cohort Dashboard </h1>
-    <div #chartContainer></div>
-</div>`,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './dashboard-panel.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None
 })
 export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
 
