@@ -20,9 +20,58 @@ $theme: mat-light-theme($primary, $accent, $warn);
 // Define a custom typography config that overrides the font-family as well as the
 // `headlines` and `body-1` levels.
 $custom-typography: mat-typography-config(
-  $font-family: 'Lato, monospace',
-  $headline: mat-typography-level(32px, 48px, 300),
-  $body-1: mat-typography-level(16px, 24px, 300)
+  $font-family: 'Roboto, monospace',
+  $headline: mat-typography-level(32px, 32px, 300),
+  $title: mat-typography-level(14px, 14px, 500),
+  $body-1: mat-typography-level(14px, 16px, 300)
 );
 
 @include angular-material-typography($custom-typography);
+
+
+/* Popup Panel */
+
+.panel {
+  color: #333333;
+  height: 100vh;
+  width: 100%;
+  max-width: 100%;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: scroll;
+  padding-top:100px;
+  background: #FFF;
+}
+.panel-column-title{
+    margin-bottom: 10px !important;
+    // text-transform:uppercase;
+    font-weight: 300;
+    padding-bottom: 10px;
+}
+.panel-header {
+  padding: 0px;
+  margin-bottom: 0px !important;
+}
+.panel-header-desc {
+  padding: 0px;
+  margin: 0px;
+  margin-bottom: 60px !important;
+}
+.panel-button-image {
+    display: block;
+    position:relative;
+    padding-left: 40px;
+    padding-bottom: 8px;
+    img {
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        left: 0px;
+        top: -3px;
+    }
+    span{
+      line-height: 20px;
+      vertical-align: top;
+    }
+}

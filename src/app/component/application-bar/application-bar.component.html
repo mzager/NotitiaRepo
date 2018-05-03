@@ -1,22 +1,19 @@
 <div class='application-bar-menu'>
-  <span class='application-bar-logo' (click)='viewPanel(1)'>Oncoscape</span>
-  <span class='right'>
-    <div class='app-bar-menu-item hide-on-small-and-down' class='app-bar-menu-item-comparison hide-on-small-and-down'>
-      <div class='switch hide-on-small-and-down' style='margin:0px;color:#FFF;'>
-        <label style='color:#FFF;'>Split Screen
-          <input type="checkbox" (change)='onSplitScreenChange($event)'>
-          <span class="lever"></span>
-        </label>
-      </div>
-    </div>
-    <mat-menu #appMenu="matMenu">
-      <button mat-menu-item (click)='viewPanel(32768)'>Data Hub</button>
-      <button mat-menu-item (click)='viewPanel(16384)'>Feedback</button>
-      <button mat-menu-item (click)='viewPanel(1024)'>Citations</button>
-      <button mat-menu-item (click)='viewPanel(512)'>About</button>
-    </mat-menu>
-    <button mat-icon-button [matMenuTriggerFor]="appMenu">
-      <mat-icon>more_vert</mat-icon>
-    </button>
+  <span class='application-bar-buttons'>
+    <span class='application-bar-button' (click)='onSplitScreenChange()'>
+      <!-- <mat-icon>computer</mat-icon> -->
+      <span class='copy'>Split Screen</span>
+    </span>
+    <span class='application-bar-button' mat-icon-button [matMenuTriggerFor]="appMenu">
+      <!-- <mat-icon>vert-menu</mat-icon> -->
+      <span class='copy'>Menu</span>
+    </span>
   </span>
+  <span class='application-bar-logo' (click)='viewPanel(1)'>Oncoscape</span>
+  <mat-menu #appMenu="matMenu">
+    <button mat-menu-item (click)='viewPanel(32768)'>Data Hub</button>
+    <button mat-menu-item (click)='viewPanel(16384)'>Feedback</button>
+    <button mat-menu-item (click)='viewPanel(1024)'>Citations</button>
+    <button mat-menu-item (click)='viewPanel(512)'>About</button>
+  </mat-menu>
 </div>
