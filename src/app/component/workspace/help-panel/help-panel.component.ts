@@ -33,7 +33,7 @@ import { EntityTypeEnum } from './../../../model/enum.model';
 import { DataField } from 'app/model/data-field.model';
 import {
   Component, Input, Output, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy,
-  EventEmitter, AfterViewInit, OnInit, ViewChild, ElementRef
+  EventEmitter, AfterViewInit, OnInit, ViewChild, ElementRef, ViewEncapsulation
 } from '@angular/core';
 import { VisualizationEnum, GraphEnum, DirtyEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
@@ -47,7 +47,8 @@ declare var $: any;
   selector: 'app-workspace-help-panel',
   templateUrl: './help-panel.component.html',
   styleUrls: ['./help-panel.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class HelpPanelComponent implements AfterViewInit, OnDestroy {
 
