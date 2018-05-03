@@ -12,7 +12,7 @@ import { StatsInterface } from './../../../model/stats.interface';
 import { FormBuilder } from '@angular/forms';
 import { GraphConfig } from './../../../model/graph-config.model';
 import {
-  Component, ComponentFactoryResolver, Input, Output, ViewContainerRef,
+  Component, ComponentFactoryResolver, Input, Output, ViewContainerRef, ViewEncapsulation,
   ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild
 } from '@angular/core';
 import { VisualizationEnum } from 'app/model/enum.model';
@@ -30,7 +30,8 @@ declare var vegaTooltip: any;
   selector: 'app-workspace-stat-panel',
   templateUrl: './stat-panel.component.html',
   styleUrls: ['./stat-panel.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class StatPanelComponent implements AfterViewInit, OnDestroy {
 

@@ -1,0 +1,80 @@
+<!-- Card -->
+<div class="geneset-modal-panel">
+    <div class="row">
+        <a href='#' class='modalClose' (click)='closeClick()'></a>
+        <div class="col s12">
+            <h1 class='geneset-h1'>Gene Sets</h1>
+
+            <h2 class='geneset-h2'>Select from thousands of curated gene sets, or build your own
+                <a href='https://www.youtube.com/embed/XQu8TTBmGhA' target='_blank'>
+                    <i class='small material-icons modalWatchVideoIcon'>ondemand_video</i>Watch Tutorial</a>
+            </h2>
+        </div>
+    </div>
+    <div class='row'>
+        <!-- My Cohorts -->
+        <div class='col s12 l3 geneset-my-list'>
+            <span>My Genesets</span>
+            <div *ngFor='let myGeneset of genesets' (click)='geneSetDel(myGeneset)'>
+                <div class='geneset-my-row'>
+                    <i class='material-icons geneset-my-row-delete'>remove_circle_outline</i>
+                    <span class='geneset-my-name'>{{myGeneset.n}}</span>
+                </div>
+            </div>
+        </div>
+        <div class='col s12 l9 geneset-public-datasets'>
+            <span class="geneset-public-span">Select / Build a Gene Set</span>
+            <!-- From -->
+            <div class='col s12 geneset-from-field'>
+                <label class=' geneset-from-label'>From</label>
+                <select class='geneset-from-dropdown browser-default' materialize='material_select' (change)='setBuildType($event)'>
+                    <option value='CURATED'>Curated Gene Set</option>
+                    <option value='CUSTOM'>List of Genes</option>
+                    <option value='CONDITIONAL'>Criteria</option>
+                </select>
+                <select *ngIf='buildType === "CURATED"' class='geneset-categories-dropdown browser-default' materialize='material_select'
+                    (change)='genesetCategoryChange($event.target.value)'>
+                    <option *ngFor='let option of genesetCategories'>{{option.n}}</option>
+                </select>
+            </div>
+            <!-- Curated -->
+            <span *ngIf='buildType === "CURATED"'>
+                <div class='col s12 geneset-where-field'>
+                    <label class='geneset-where-label '>Where</label>
+                    <input type='text' placeholder='Gene Set Contains e.g. IDH1, BRCA1' (keyup)='$genesetFilter.next($event.target.value)' ng-model='genesetFilter'>
+                </div>
+                <div>
+                    <div *ngFor='let option of genesetOptionsFilter' (click)='geneSetAdd(option)' class='geneset-results'>
+                        <i class='material-icons geneset-icon hide-on-small-only'>add_circle_outline</i>
+                        <div class='geneset-des'>
+                            {{option.name}}
+                            <br /> {{option.summary}}
+                        </div>
+                    </div>
+                </div>
+            </span>
+            <!-- Custom -->
+            <span *ngIf='buildType === "CUSTOM"'>
+                <div class='col s12 geneset-field'>
+                    <label class='geneset-where-label' for='genesetName'>Create</label>
+                    <input id='genesetName' [(ngModel)]='customName' type='text' placeholder='Enter Gene Set Name'>
+                </div>
+                <div class='col s12 geneset-box'>
+                    <label class='geneset-gene-label'>Genes</label>
+                    <textarea class='geneset-textarea' type='text' [(ngModel)]='customGenes' placeholder='Enter a comma seperated list of gene names'>
+                    </textarea>
+                </div>
+                <div class=' col s12 geneset-button'>
+                    <a class='geneset-save' href='#' (click)='onCustomSave()'>Save</a>
+                </div>
+            </span>
+            <!-- Conditional -->
+            <span *ngIf='buildType === "CONDITIONAL"'>
+                Above Expression...
+                <br /> With Mutation...
+                <br /> By Quartile...
+                <br /> etc...
+            </span>
+        </div>
+    </div>
+</div>
