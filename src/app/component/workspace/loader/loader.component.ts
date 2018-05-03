@@ -1,35 +1,22 @@
 import {
-    Component, Input, Output, EventEmitter, AfterViewInit, OnDestroy,
+    Component, Input, Output, EventEmitter, AfterViewInit, OnDestroy, ViewEncapsulation,
     OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef
 } from '@angular/core';
 
 @Component({
     selector: 'app-workspace-loader',
     styleUrls: ['./loader.component.scss'],
-    template:
-        `<div class='loader'>
-    <div class='loader-background'></div>
-    <div class='loader-copy-container'>
-        
-        <div class='loader-copy'>
-            <div class='loader-quote'>&lsquo;{{quote.q}}&rsquo;<div class='loader-author'>{{quote.a}}
-            <div class="lds-ellipsis" style='height:15px;top:-20px;left:10px;'><div></div><div></div><div></div><div></div></div></div></div>
-            
-        </div>
-        
-    </div>
+    templateUrl: './loader.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None
 
-</div>`,
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoaderComponent implements AfterViewInit, OnDestroy {
 
     public quote: any;
 
     public quotes: any;
-    @Input() set visbibility(value: boolean) {
-
-    }
+    @Input() set visbibility(value: boolean) { }
 
     ngOnDestroy(): void { }
     ngAfterViewInit(): void {
@@ -86,6 +73,7 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
             { q: 'Biology is now accelerating at a pace faster than Moore\'s Law', a: 'Arvind Gupta' },
             { q: 'Science is organized knowledge. Wisdom is organized life', a: 'Immanuel Kant' },
             { q: 'The art and science of asking questions is the source of all knowledge', a: 'Thomas Berger' },
+            // tslint:disable-next-line:max-line-length
             { q: 'Our scientific power has outrun our spiritual power. We have guided missiles and misguided men.', a: 'Martin Luther King' },
             { q: 'Research is what I\'m doing when I don\'t know what I\'m doing', a: 'Wernher von Braun' },
             { q: 'Medicine is a science of uncertainty and an art of probability', a: 'William Osler' },

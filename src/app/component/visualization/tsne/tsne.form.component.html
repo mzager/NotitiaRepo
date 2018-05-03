@@ -1,0 +1,76 @@
+<form [formGroup]='form' novalidate>
+    <mat-form-field>
+        <mat-select placeholder='Data' formControlName='table'>
+            <mat-option *ngFor='let option of dataOptions' [value]='option.label'>
+                {{ option.label }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-select placeholder='X Axis' formControlName='pcx'>
+            <mat-option *ngFor='let option of PcOptions' [value]='option'>
+                PC {{ option }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-select placeholder='Y Axis' formControlName='pcy'>
+            <mat-option *ngFor='let option of PcOptions' [value]='option'>
+                PC {{ option }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-select placeholder='Z Axis' formControlName='pcz'>
+            <mat-option *ngFor='let option of PcOptions' [value]='option'>
+                PC {{ option }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-select placeholder='Metric' formControlName='metric'>
+            <mat-option *ngFor='let option of TsneMetricOptions' [value]='option'>
+                {{ option }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-select placeholder='Method' formControlName='sk_method'>
+            <mat-option *ngFor='let option of TsneMethodOptions' [value]='option'>
+                {{ option }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div class='form-group'>
+        <label class='center-block'>
+            <span class='form-label'>Perplexity</span>
+            <p class='range-field'>
+                <input type='range' min='5' max='50' formControlName='perplexity' />
+            </p>
+        </label>
+    </div>
+    <div class='form-group'>
+        <label class='center-block'>
+            <span class='form-label'>Early Exaggeration</span>
+            <p class='range-field'>
+                <input type='range' min='3' max='24' step='.1' formControlName='early_exaggeration' />
+            </p>
+        </label>
+    </div>
+    <div class='form-group'>
+        <label class='center-block'>
+            <span class='form-label'>Learning Rate</span>
+            <p class='range-field'>
+                <input type='range' min='1' max='1000' formControlName='learning_rate' />
+            </p>
+        </label>
+    </div>
+    <div class='form-group'>
+        <label class='center-block'>
+            <span class='form-label'>Max Iterations</span>
+            <p class='range-field'>
+                <input type='range' min='250' max='2000' formControlName='n_iter' />
+            </p>
+        </label>
+    </div>
+</form>
