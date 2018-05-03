@@ -18,10 +18,11 @@ declare var $: any;
 
 @Component({
     selector: 'app-workspace-citations-panel',
-    styleUrls: ['./citations-panel.component.scss'],
     templateUrl: './citations-panel.component.html',
+    styleUrls: ['./citations-panel.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
+
 })
 export class CitationsPanelComponent implements AfterViewInit, OnInit, OnDestroy {
 

@@ -11,10 +11,10 @@ import { Legend } from 'app/model/legend.model';
 
 @Component({
   selector: 'app-workspace-file-panel',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   templateUrl: './file-panel.component.html',
   styleUrls: ['./file-panel.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
 })
 export class FilePanelComponent {
 
