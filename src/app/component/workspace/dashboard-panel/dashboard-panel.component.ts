@@ -9,24 +9,24 @@ import { DataField } from 'app/model/data-field.model';
 import {
     Component, Input, Output, EventEmitter, AfterViewInit, OnDestroy,
     OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef,
-    ViewContainerRef
+    ViewContainerRef, ViewEncapsulation
 } from '@angular/core';
 import { VisualizationEnum, DirtyEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import { Subscription } from 'rxjs/Subscription';
 import * as _ from 'lodash';
 import { StatTwoD } from '../../../model/stat.model';
-import { ViewEncapsulation } from '@angular/compiler/src/core';
 declare var $: any;
 declare var vega: any;
 declare var vegaTooltip: any;
 
 @Component({
     selector: 'app-workspace-dashboard-panel',
-    styleUrls: ['./dashboard-panel.component.scss'],
-    templateUrl: './dashboard-panel.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    templateUrl: './dashboard-panel.component.html',
+    styleUrls: ['./dashboard-panel.component.scss']
+
 })
 export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
 
