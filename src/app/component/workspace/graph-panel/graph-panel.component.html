@@ -6,7 +6,49 @@
         </a>
     </div>
     <div #panel class="graphPanelExpanded">
-asdf
+        <mat-accordion multi="true" displayMode='flat'>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Visualization
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <!-- <p>{{methodName}}</p> -->
+                <p>{{methodSummary}}</p>
+                <button mat-button (click)='helpClick()'>Learn More</button>
+                <!-- <mat-action-row>
+                    <button mat-icon-button color="primary">
+                        <mat-icon aria-label="Example icon-button with a heart icon">info</mat-icon>
+                    </button>
+                    <button mat-icon-button color="primary">
+                        <mat-icon aria-label="Example icon-button with a heart icon">insert_chart</mat-icon>
+                    </button>
+                    <button mat-icon-button color="primary">
+                        <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+                    </button>
+                    <button mat-icon-button color="primary">
+                        <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+                    </button>
+                </mat-action-row> -->
+            </mat-expansion-panel>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Legend
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <app-workspace-legend-panel [legends]='data.legends' [decorators]='decoratorsWithLegends'></app-workspace-legend-panel>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Supplemental
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <app-workspace-stat-panel [config]='config' [graphData]='data'></app-workspace-stat-panel>
+            </mat-expansion-panel>
+        </mat-accordion>
     </div>
 
 </div>

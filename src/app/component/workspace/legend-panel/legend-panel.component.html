@@ -1,29 +1,24 @@
-<mat-expansion-panel>
-    <mat-panel-title>Legend</mat-panel-title>
-    <div *ngFor='let legend of allLegends'>
-        <mat-panel-title>{{legend.name}}</mat-panel-title>
-        <div class='legendHeader'></div>
-
-        <!-- Shape -->
-        <div *ngIf='legend.type === "SHAPE"'>
-            <div *ngFor='let label of legend.labels; let i = index;' class='legendItem'>
-                <img class='swatch' src='{{legend.values[i]}}'> {{label}}
-                <div class='swatchButtons'>
-                    <a href='#' (click)='select()' class=''>Select</a> |
-                    <a href='#' (click)='deselect()' class=''>Deselect</a>
-                </div>
-            </div>
-        </div>
-        <!-- Color -->
-        <div *ngIf='legend.type === "COLOR"'>
-            <div *ngFor='let label of legend.labels; let i = index;' class='legendItem'>
-                <div class='swatch' [style.background-color]='legend.values[i]'></div>
-                {{label}}
-                <div class='swatchButtons'>
-                    <a href='#' (click)='select()' class=''>Select</a> |
-                    <a href='#' (click)='deselect()' class=''>Deselect</a>
-                </div>
+<div *ngFor='let legend of allLegends'>
+    <div class='legendHeader'>{{legend.name}}</div>
+    <!-- Shape -->
+    <div *ngIf='legend.type === "SHAPE"'>
+        <div *ngFor='let label of legend.labels; let i = index;' class='legendItem'>
+            <img class='swatch' src='{{legend.values[i]}}'> {{label}}
+            <div class='swatchButtons'>
+                <a href='#' (click)='select()' class=''>Select</a> |
+                <a href='#' (click)='deselect()' class=''>Deselect</a>
             </div>
         </div>
     </div>
-</mat-expansion-panel>
+    <!-- Color -->
+    <div *ngIf='legend.type === "COLOR"'>
+        <div *ngFor='let label of legend.labels; let i = index;' class='legendItem'>
+            <div class='swatch' [style.background-color]='legend.values[i]'></div>
+            {{label}}
+            <div class='swatchButtons'>
+                <a href='#' (click)='select()' class=''>Select</a> |
+                <a href='#' (click)='deselect()' class=''>Deselect</a>
+            </div>
+        </div>
+    </div>
+</div>
