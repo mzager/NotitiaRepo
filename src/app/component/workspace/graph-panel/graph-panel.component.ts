@@ -47,7 +47,7 @@ import { EntityTypeEnum, GraphPanelEnum, PanelEnum, WorkspaceLayoutEnum } from '
 import { DataField } from 'app/model/data-field.model';
 import {
   Component, Input, Output, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy,
-  EventEmitter, AfterViewInit, OnInit, ViewChild, ElementRef
+  EventEmitter, AfterViewInit, OnInit, ViewChild, ElementRef, ViewEncapsulation
 } from '@angular/core';
 import { VisualizationEnum, GraphEnum, DirtyEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
@@ -63,7 +63,8 @@ declare var $: any;
   selector: 'app-workspace-graph-panel',
   templateUrl: './graph-panel.component.html',
   styleUrls: ['./graph-panel.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class GraphPanelComponent implements AfterViewInit, OnDestroy {
 

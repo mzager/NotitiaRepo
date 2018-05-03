@@ -7,7 +7,8 @@ import {
   selector: 'app-workspace-analysis-panel',
   templateUrl: './analysis-panel.component.html',
   styleUrls: ['./analysis-panel.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class AnalysisPanelComponent implements AfterViewInit {
 
