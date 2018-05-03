@@ -1,3 +1,4 @@
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { GraphPanelVisualizationComponent } from './component/workspace/graph-panel/graph-panel-visualization.component';
 import { GraphPanelAnalysisComponent } from './component/workspace/graph-panel/graph-panel-analysis.component';
 import { UploadPanelComponent } from './component/workspace/upload-panel/upload-panel.component';
@@ -223,6 +224,7 @@ import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph
   entryComponents: [
   ],
   imports: [
+    FlexLayoutModule,
     MatAutocompleteModule,
     MatBadgeModule,
     MatBottomSheetModule,

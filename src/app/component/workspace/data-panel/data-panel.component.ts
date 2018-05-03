@@ -3,7 +3,7 @@ import { ComputeWorkerUtil } from './../../../service/compute.worker.util';
 import { DataField } from 'app/model/data-field.model';
 import {
   ChangeDetectorRef, ViewChild, Component, Input, Output, ElementRef,
-  ChangeDetectionStrategy, EventEmitter, AfterViewInit, NgZone
+  ChangeDetectionStrategy, EventEmitter, AfterViewInit, NgZone, ViewEncapsulation
 } from '@angular/core';
 import { CollectionTypeEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
@@ -18,7 +18,8 @@ declare var $: any;
   selector: 'app-workspace-data-panel',
   templateUrl: './data-panel.component.html',
   styleUrls: ['./data-panel.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class DataPanelComponent implements AfterViewInit {
 
