@@ -2,7 +2,7 @@
 
     <div #panelButton class="graphPanelExpandedButton" [ngClass]="{leftPanel: title === 'Graph B'}">
         <a (click)='toggleClick()'>
-            <i class="material-icons small" style="color: #029BE5;">expand_less</i>
+            <i class="material-icons small" style='color:rgba(0, 0, 0, 0.54);'>expand_less</i>
         </a>
     </div>
     <div #panel class="graphPanelExpanded">
@@ -15,7 +15,7 @@
                 </mat-expansion-panel-header>
                 <!-- <p>{{methodName}}</p> -->
                 <p>{{methodSummary}}</p>
-                <a (click)='helpClick()' href='#' style='color:#029BE5'>Learn More</a>
+                <a (click)='helpClick()' href='#'>Learn More</a>
             </mat-expansion-panel>
             <mat-expansion-panel expanded='true'>
                 <mat-expansion-panel-header>
