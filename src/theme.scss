@@ -18,79 +18,74 @@ $theme: mat-light-theme($primary, $accent, $warn);
 @include angular-material-theme($theme);
 // Define a custom typography config that overrides the font-family as well as the
 // `headlines` and `body-1` levels.
-$custom-typography: mat-typography-config( 
-  $font-family: 'Lato, monospace', 
-$headline: mat-typography-level(32px, 32px, 300), 
-$title: mat-typography-level(14px, 14px, 300), 
-$body-1: mat-typography-level(14px, 18px, 300), 
-$button: mat-typography-level(14px, 16px, 300));
+$custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $headline: mat-typography-level(32px, 32px, 300), $title: mat-typography-level(14px, 14px, 300), $body-1: mat-typography-level(14px, 18px, 300), $button: mat-typography-level(14px, 16px, 300));
 @include angular-material-typography($custom-typography);
-
-
 /* Disable Text Select */
-*{
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+
+* {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 /* Popup Panel */
 
+/* Angular Mobile First Breakpoints 
+{
+  xs: '(max-width: 480px)', // extra small screens
+  sm: '(min-width: 481px) and (max-width: 768px)', // small screens
+  md: '(min-width: 769px) and (max-width: 991px)', // medium screens
+  lg: '(min-width: 992px)' // large screens
+}
+*/
+
+// Main Themes (max-width: 480px)
 .panel {
   position: absolute;
   left: 20px;
-  right:20px;
+  right: 20px;
   top: 30px;
   bottom: 0px;
-  
   overflow: hidden;
-  
-}
-
-.panel-column-title {
-  margin-bottom: 10px !important;
-  font-weight: 300;
-  padding-bottom: 10px;
+  padding-top: 50px;
+  overflow-y: scroll;
 }
 
 .panel-header {
   padding: 0px;
-  margin-bottom: 0px !important;
+  margin-bottom: 0px;
 }
 
 .panel-header-desc {
   padding: 0px;
   margin: 0px;
   padding-top: 10px;
-  margin-bottom: 60px !important;
+  margin-bottom: 40px;
 }
 
-.panel-button-image {
-  cursor: pointer;
-  display: block;
-  position: relative;
-  padding-left: 40px;
-  padding-bottom: 8px;
-  img {
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    left: 0px;
-    top: -3px;
-  }
-  span {
-    line-height: 20px;
-    vertical-align: top;
-  }
+.panel-column-title {
+  margin-bottom: 10px;
+  font-weight: 400;
+  padding-bottom: 10px;
+  padding-top: 20px;
 }
 
-@media screen and (min-width: 48em) {
+@media screen and (min-width: 481px) and (max-width: 768px) {
   .panel {
     margin-left: 40px;
     margin-right: 40px;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 991px) {}
+
+@media screen and (min-width: 992px) {
+  .panel {
+    margin-left: 60px;
+    margin-right: 60px;
     padding-top: 100px;
   }
 }
