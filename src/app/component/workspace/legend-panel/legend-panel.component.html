@@ -1,5 +1,5 @@
 <div *ngFor='let legend of allLegends'>
-    <div class='legendHeader'>{{legend.name}}</div>
+    <!-- <div class='legendHeader'>{{legend.name}}</div> -->
     <!-- Shape -->
     <div *ngIf='legend.type === "SHAPE"'>
         <div *ngFor='let label of legend.labels; let i = index;' class='legendItem'>
