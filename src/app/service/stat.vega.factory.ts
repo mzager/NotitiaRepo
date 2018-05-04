@@ -69,11 +69,11 @@ export class StatVegaFactory {
             '$schema': 'https://vega.github.io/schema/vega/v3.0.json',
             'config': {
                 'title': {
-                    'offset': 20,
-                    'fontSize': 12.8,
+                    'offset': 10,
+                    'fontSize': 14,
                     'color': '#666666',
                     'font': 'Lato',
-                    'fontWeight': 'normal',
+                    'fontWeight': '300',
                     'orient': 'top',
                     'anchor': 'start'
                 }
@@ -252,7 +252,7 @@ export class StatVegaFactory {
                             'value': 1
                         },
                         'fontSize': {
-                            'value': 10,
+                            'value': 14,
                         },
                         'fill': {
                             'value': '#666666'
@@ -335,7 +335,7 @@ export class StatVegaFactory {
                     'fontSize': 12.8,
                     'color': '#666666',
                     'font': 'Lato',
-                    'fontWeight': 'normal',
+                    'fontWeight': '300',
                     'orient': 'top',
                     'anchor': 'start'
                 }

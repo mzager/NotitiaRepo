@@ -218,7 +218,6 @@ export class SurvivalGraph extends AbstractVisualization {
 
     // Label Options
     onShowLabels(): void {
-        console.log(this.view.camera.position.z);
 
         // Step 1 - Create Options
         const optionsForPercents = new LabelOptions(this.view, 'PIXEL');

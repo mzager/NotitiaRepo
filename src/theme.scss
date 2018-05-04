@@ -18,7 +18,7 @@ $theme: mat-light-theme($primary, $accent, $warn);
 @include angular-material-theme($theme);
 // Define a custom typography config that overrides the font-family as well as the
 // `headlines` and `body-1` levels.
-$custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $headline: mat-typography-level(32px, 32px, 300), $title: mat-typography-level(14px, 14px, 300), $body-1: mat-typography-level(14px, 16px, 300), $button: mat-typography-level(14px, 16px, 300));
+$custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $headline: mat-typography-level(32px, 32px, 300), $title: mat-typography-level(14px, 14px, 300), $body-1: mat-typography-level(14px, 18px, 300), $button: mat-typography-level(14px, 16px, 300));
 @include angular-material-typography($custom-typography);
 /* Disable Text Select */
 
@@ -43,17 +43,15 @@ $custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $hea
 */
 
 // Main Themes (max-width: 480px)
-.flex-container {
-  flex: 0 1 auto;
-  color: #666;
+.panel {
   position: absolute;
-  left: 0px;
-  top: 0px;
-  overflow: scroll;
-  padding-top: 100px;
-  background: #FFF;
-  margin-left: 20px;
-  margin-right: 20px;
+  left: 20px;
+  right: 20px;
+  top: 30px;
+  bottom: 0px;
+  overflow: hidden;
+  padding-top: 50px;
+  overflow-y: scroll;
 }
 
 .panel-header {

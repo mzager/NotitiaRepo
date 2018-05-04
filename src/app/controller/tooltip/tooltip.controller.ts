@@ -65,8 +65,6 @@ export class TooltipController {
             css + translate + '"><span class="copy">' +
             options.prefix + object.userData.tooltip + options.postfix +
             '</span></div>';
-
-        console.log(html);
         return html;
     }
 
