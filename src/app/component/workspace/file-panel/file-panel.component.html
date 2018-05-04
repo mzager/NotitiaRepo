@@ -1,9 +1,10 @@
-<div class="panel">
+<div class="flex-container">
+
   <a href='#' class='modalClose' (click)='closeClick()'></a>
   <h1 fxLayout="row" class='panel-header'>Data Sets</h1>
   <h2 fxLayout="row" class='panel-header-desc'>Select from public data sets, or visualize your own.</h2>
   <div fxLayout.xs="column" fxLayoutGap='5px'>
-    <h2 class='panel-column-title'>My Datasets</h2>
+    <p class='panel-column-title'>My Datasets</p>
     <a class='panel-button-image' (click)='uploadExcelClick() '>
       <img src='./assets/logo-excel.png'>
       <span>Upload an Excel File</span>
@@ -13,9 +14,9 @@
       <span>Upload to Data Hub</span>
     </a>
   </div>
-  <div fxLayout.xs="column" fxLayoutGap='5px'>
-    <h2 class='panel-column-title'>Public Data Sets</h2>
-    <div *ngFor='let dataset of datasets; let i=index' fxLayout="row wrap">
+  <div fxLayoutGap='5px'>
+    <p class='panel-column-title'>Public Data Sets</p>
+    <div *ngFor='let dataset of datasets; let i=index'>
       <a class='panel-button-image' (click)='this.loadTcga.emit(dataset) '>
         <img src='./assets/disease/img{{dataset.img}}.png '>
         <span>{{dataset.name}}</span>
