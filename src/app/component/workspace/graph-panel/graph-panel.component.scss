@@ -67,23 +67,15 @@
 //     font-size: 1rem;
 // }
 
-// .graphPanel {
-//     overflow-x: hidden;
-// }
-
-// .graphPanelHeader {
-//     background: #fafafa;
-//     border: 1px solid #eee;
-//     border-left-width: 0px;
-//     padding-left: 10px;
-//     text-transform: uppercase;
-//     font-size: .9rem;
-//     letter-spacing: 3px;
-//     line-height: 30px;
-//     width: 267px;
-//     left: 0px;
-//     top: 0px;
-// }
+.graphPanel {
+    overflow-y: scroll;
+    overflow-x: visible;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    bottom:0px;
+    width:auto;
+}
 
 .graphPanelExpanded {
     width: 267px;

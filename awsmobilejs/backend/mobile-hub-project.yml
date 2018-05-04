@@ -14,6 +14,12 @@ features:
       enabled: true
       optional-sign-in: true
     components:
+      sign-in-google: !com.amazonaws.mobilehub.v0.OpenIDConnectIdentityProvider 
+        attributes:
+          open-id-connect-audience-android: 428912153446-7c82srcvu1bk1nramiqqctne005epl6s.apps.googleusercontent.com
+          open-id-connect-audience-ios: 428912153446-7c82srcvu1bk1nramiqqctne005epl6s.apps.googleusercontent.com
+          open-id-connect-audience-webapp: 428912153446-7c82srcvu1bk1nramiqqctne005epl6s.apps.googleusercontent.com
+          open-id-provider-url: 'https://accounts.google.com'
       sign-in-user-pools: !com.amazonaws.mobilehub.v0.UserPoolsIdentityProvider 
         attributes:
           alias-attributes:
