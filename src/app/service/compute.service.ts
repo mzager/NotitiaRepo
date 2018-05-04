@@ -94,11 +94,9 @@ export class ComputeService {
         //     max     : 20,
         //     // min     : 0,
         //     create  : () => {
-        //         console.log('WORKER :: ALLOCATE');
         //         return new Worker('assets/compute.js');
         //     },
         //     destroy : (worker: Worker) => {
-        //         console.log('WORKER :: DESTROY');
         //         worker.terminate();
         //     }
         // });

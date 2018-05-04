@@ -39,12 +39,10 @@ export class EdgePanelComponent implements OnDestroy {
   $graphBChange: Subject<GraphConfig> = new Subject();
   $graphChange: Subscription;
   @Input() set graphAConfig(v: GraphConfig) {
-    console.log('G A');
     this._graphAConfig = v;
     this.$graphAChange.next(v);
   }
   @Input() set graphBConfig(v: GraphConfig) {
-    console.log('G B');
     this._graphBConfig = v;
     this.$graphBChange.next(v);
   }
@@ -98,9 +96,7 @@ export class EdgePanelComponent implements OnDestroy {
       this._graphAConfig.entity,
       this._graphBConfig.entity);
     this.cd.markForCheck();
-
     this.edgeConfigChange.emit(this.edgeConfig);
-    console.dir(option);
   }
   colorOptionChange(e: any): void {
     const colorLabel = e.target.selectedOptions[0].value;
@@ -156,7 +152,6 @@ export class EdgePanelComponent implements OnDestroy {
       this.edgeConfig.sampleFitlerA = this._graphAConfig.sampleFilter;
       this.edgeConfig.patientFilterA = this._graphAConfig.patientFilter;
       if (this.edgeConfig.entityA !== graphConfig.entity) {
-        console.log('type change A');
         this.edgeConfig.entityA = graphConfig.entity;
         this.edgeOptions = DataFieldFactory.getConnectionDataFields(this.fields, this.tables,
           this.edgeConfig.entityA, this.edgeConfig.entityB);
@@ -171,7 +166,6 @@ export class EdgePanelComponent implements OnDestroy {
       this.edgeConfig.sampleFitlerB = this._graphBConfig.sampleFilter;
       this.edgeConfig.patientFilterB = this._graphBConfig.patientFilter;
       if (this.edgeConfig.entityB !== graphConfig.entity) {
-        console.log('type change B');
         this.edgeConfig.entityB = graphConfig.entity;
         this.edgeOptions = DataFieldFactory.getConnectionDataFields(this.fields, this.tables,
           this.edgeConfig.entityA, this.edgeConfig.entityB);

@@ -1,11 +1,11 @@
 <app-workspace-chart (onSelect)='select($event)' (configChange)='graphPanelSetConfig($event)'></app-workspace-chart>
 
-<div #panelContainer style='pointer-events: none;position:relative;padding-top:30px;height:100vh;width:100%'>
+<div #panelContainer style='pointer-events: none;position:absolute;top:30px;left:0px;bottom:0px;right:0px;'>
 
 
-  <app-workspace-graph-panel style='pointer-events:all;position:absolute;left:0px;' *ngIf='graphPanelATab | async' [title]='"Graph A"'
-    [events]='events | async' [tables]='tables | async' [fields]='fields | async' [pathways]='pathways | async' [genesets]='genesets | async'
-    [cohorts]='cohorts | async' [decorators]='graphADecorators | async' (decoratorAdd)='graphPanelAddDecorator($event)' (decoratorDel)='graphPanelDelDecorator($event)'
+  <app-workspace-graph-panel style='pointer-events:all;' *ngIf='graphPanelATab | async' [title]='"Graph A"' [events]='events | async'
+    [tables]='tables | async' [fields]='fields | async' [pathways]='pathways | async' [genesets]='genesets | async' [cohorts]='cohorts | async'
+    [decorators]='graphADecorators | async' (decoratorAdd)='graphPanelAddDecorator($event)' (decoratorDel)='graphPanelDelDecorator($event)'
     [molecularData]='molecularData | async' [config]='graphAConfig | async' [data]='graphAData | async' (hide)='graphPanelToggle(1)'
     (help)='helpPanelToggle($event)' (configChange)='graphPanelSetConfig($event)' (selectGeneset)='genesetPanelToggle($event)'
     (selectCohort)='queryPanelToggle($event)' (showPanel)='setPanel($event)'></app-workspace-graph-panel>
