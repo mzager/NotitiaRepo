@@ -12,6 +12,9 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
   <!--<mat-menu #dataCohortsMenu='dataTablesMenu'></mat-menu>-->
+  <mat-menu #dataMolecularsMenu='matMenu'>
+    <button mat-menu-item *ngFor='let option of tableOptions'>{{option.label}}</button>
+  </mat-menu>
   <mat-menu #dataCohortsMenu='matMenu'>
     <button mat-menu-item *ngFor='let option of cohortOptions'>{{option.label}}</button>
   </mat-menu>
@@ -22,16 +25,16 @@ import * as _ from 'lodash';
     <button mat-menu-item *ngFor='let option of pathwayOptions'>{{option.label}}</button>
   </mat-menu>
   <mat-menu #analysisMenu='matMenu'>
-    <button mat-menu-item [matMenuTriggerFor]='dataCohortsMenu'>Cohorts</button>
-    <button mat-menu-item [matMenuTriggerFor]='dataGenesetsMenu'>Gene Ses</button>
-    <button mat-menu-item [matMenuTriggerFor]='dataPathwaysMenu'>Pathways</button>
-    <!--<button mat-menu-item [matMenuTriggerFor]='dataTablesMenu'>Data Tables</button>-->
-    <button mat-menu-item>Data Sets</button>
+    <button mat-menu-item [matMenuTriggerFor]='dataMolecularMenu'>Table</button>
+    <button mat-menu-item [matMenuTriggerFor]='dataCohortsMenu'>Cohort</button>
+    <button mat-menu-item [matMenuTriggerFor]='dataGenesetsMenu'>Gene Set</button>
+    <button mat-menu-item [matMenuTriggerFor]='dataPathwaysMenu'>Pathway</button>
   </mat-menu>
-  <button mat-raised-button [matMenuTriggerFor]='analysisMenu' style='width: 118px;'>Data</button>
+  <button mat-button mat-button color='primary' [matMenuTriggerFor]='analysisMenu' style='width: 118px;'>Data</button>
   `
 })
 export class GraphPanelDataComponent {
+  public tableOptions = [];
   public cohortOptions = [];
   public genesetOptions = [];
   public pathwayOptions = [];
