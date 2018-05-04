@@ -13,13 +13,13 @@ import * as _ from 'lodash';
   template: `
   <!--<mat-menu #dataCohortsMenu='dataTablesMenu'></mat-menu>-->
   <mat-menu #dataCohortsMenu='matMenu'>
-    <button mat-menu-item *ngFor='let option of colorOptions' (click)='setColorOption(option)'>{{option.label}}</button>
+    <button mat-menu-item *ngFor='let option of cohortOptions'>{{option.label}}</button>
   </mat-menu>
   <mat-menu #dataGenesetsMenu='matMenu'>
-    <button mat-menu-item *ngFor='let option of shapeOptions' (click)='setShapeOption(option)'>{{option.label}}</button>
+    <button mat-menu-item *ngFor='let option of genesetOptions'>{{option.label}}</button>
   </mat-menu>
   <mat-menu #dataPathwaysMenu='matMenu'>
-    <button mat-menu-item *ngFor='let option of labelOptions' (click)='setLabelOption(option)'>{{option.label}}</button>
+    <button mat-menu-item *ngFor='let option of pathwayOptions'>{{option.label}}</button>
   </mat-menu>
   <mat-menu #analysisMenu='matMenu'>
     <button mat-menu-item [matMenuTriggerFor]='dataCohortsMenu'>Cohorts</button>
@@ -32,9 +32,9 @@ import * as _ from 'lodash';
   `
 })
 export class GraphPanelDataComponent {
-  public colorOptions = [];
-  public shapeOptions = [];
-  public labelOptions = [];
+  public cohortOptions = [];
+  public genesetOptions = [];
+  public pathwayOptions = [];
 
   constructor(private cd: ChangeDetectorRef) { }
 }

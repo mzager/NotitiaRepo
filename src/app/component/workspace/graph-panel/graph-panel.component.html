@@ -19,6 +19,15 @@
             <mat-expansion-panel expanded='true'>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
+                        Settings
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <app-graph-panel-analysis (select)='setVisualization($event)'></app-graph-panel-analysis>
+                <app-graph-panel-data></app-graph-panel-data>
+            </mat-expansion-panel>
+            <mat-expansion-panel expanded='true'>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
                         Legend
                     </mat-panel-title>
                 </mat-expansion-panel-header>
@@ -32,13 +41,7 @@
                 </mat-expansion-panel-header>
                 <app-workspace-stat-panel [config]='config' [graphData]='data'></app-workspace-stat-panel>
             </mat-expansion-panel>
-            <mat-expansion-panel expanded='true'>
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        Configure
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-            </mat-expansion-panel>
+
         </mat-accordion>
     </div>
 </div>

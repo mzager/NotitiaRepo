@@ -35,8 +35,6 @@
     "@types/stats": "^0.16.30",
     "@types/three": "^0.91.10",
     "angular-handsontable": "^1.0.0-beta3",
-    "aws-amplify": "^0.3.3",
-    "aws-amplify-angular": "^0.1.0",
     "axios": "^0.18.0",
     "balloon-css": "^0.5.0",
     "bmfont-lato": "^2.1.1",
@@ -115,7 +113,7 @@
     "protractor": "~5.3.1",
     "ts-node": "^6.0.2",
     "tslint": "~5.10.0",
-    "typescript": "2.8.3",
+    "typescript": "^2.7.2",
     "webpack-cli": "^2.1.2"
   }
 }
