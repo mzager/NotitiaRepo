@@ -1,0 +1,26 @@
+@import '~@angular/material/theming';
+@import 'src/theme.scss';
+.panel-button-image {
+  cursor: pointer;
+  display: block;
+  position: relative;
+  padding-left: 40px;
+  padding-bottom: 8px;
+  img {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    left: 0px;
+    top: -3px;
+  }
+  span {
+    line-height: 20px;
+    vertical-align: top;
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) {}
+
+@media screen and (min-width: 769px) and (max-width: 991px) {}
+
+@media screen and (min-width: 992px) {}
