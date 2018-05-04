@@ -52,18 +52,20 @@ $custom-typography: mat-typography-config(
 // Main Themes (max-width: 480px)
 .panel {
   position: absolute;
-  left: 20px;
-  right: 20px;
+  left: 0px;
+  right: 0px;
   top: 30px;
   bottom: 0px;
   overflow: hidden;
   padding-top: 50px;
   overflow-y: scroll;
+  margin-left: 20px;
 }
 
 .panel-header {
   padding: 0px;
   margin-bottom: 0px;
+  line-height: 10px;
 }
 
 .panel-header-desc {
@@ -82,8 +84,7 @@ $custom-typography: mat-typography-config(
 
 @media screen and (min-width: 481px) and (max-width: 768px) {
   .panel {
-    margin-left: 40px;
-    margin-right: 40px;
+    margin-left: 40px; // margin-right: 40px;
   }
 }
 
@@ -91,8 +92,7 @@ $custom-typography: mat-typography-config(
 
 @media screen and (min-width: 992px) {
   .panel {
-    margin-left: 60px;
-    margin-right: 60px;
+    margin-left: 60px; // margin-right: 60px;
     padding-top: 100px;
   }
 }
