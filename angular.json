@@ -43,8 +43,6 @@
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
-              "node_modules/hammerjs/hammer.js",
-              "node_modules/materialize-css/dist/js/materialize.js",
               "node_modules/numbro/dist/numbro.min.js",
               "node_modules/moment/min/moment.min.js",
               "node_modules/three/build/three.min.js",
@@ -97,19 +95,18 @@
             "karmaConfig": "./karma.conf.js",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
+            "styles": [
+              "src/styles.css",
+              "src/theme.scss"
+            ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
-              "node_modules/hammerjs/hammer.js",
-              "node_modules/materialize-css/dist/js/materialize.js",
               "node_modules/numbro/dist/numbro.min.js",
               "node_modules/moment/min/moment.min.js",
               "node_modules/three/build/three.min.js",
               "node_modules/vega/build/vega.min.js",
               "node_modules/vega-tooltip/build/vega-tooltip.min.js",
               "src/assets/ml220.js"
-            ],
-            "styles": [
-              "src/styles.css"
             ],
             "assets": [
               {

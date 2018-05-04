@@ -25,7 +25,6 @@ export class ToolBarComponent implements OnInit {
   // @Output() selectGraph = new EventEmitter();
   // @Output() graphAction = new EventEmitter();
   @Input() set workspaceConfig(value: WorkspaceConfigModel) {
-    console.log(value.layout);
     this.hideButtons = (value.layout === WorkspaceLayoutEnum.SINGLE);
     this.cd.markForCheck();
   }

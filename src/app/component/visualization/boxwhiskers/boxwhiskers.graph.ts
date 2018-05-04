@@ -216,7 +216,6 @@ export class BoxWhiskersGraph extends AbstractVisualization {
         super.onMouseMove(e);
     }
     onShowLabels(): void {
-        console.log(this.view.camera.position.z);
 
         // Step 1 - Create Options
         const optionsForX = new LabelOptions(this.view, 'PIXEL');
