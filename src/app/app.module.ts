@@ -1,3 +1,4 @@
+import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { GraphPanelVisualizationComponent } from './component/workspace/graph-panel/graph-panel-visualization.component';
 import { GraphPanelAnalysisComponent } from './component/workspace/graph-panel/graph-panel-analysis.component';
@@ -224,6 +225,7 @@ import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph
   entryComponents: [
   ],
   imports: [
+    AmplifyAngularModule,
     FlexLayoutModule,
     MatAutocompleteModule,
     MatBadgeModule,
@@ -288,7 +290,8 @@ import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph
     ComputeService,
     ChartFactory,
     HttpClient,
-    ModalService
+    ModalService,
+    AmplifyService
   ],
   bootstrap: [AppComponent]
 })

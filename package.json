@@ -35,6 +35,8 @@
     "@types/stats": "^0.16.30",
     "@types/three": "^0.91.10",
     "angular-handsontable": "^1.0.0-beta3",
+    "aws-amplify": "^0.3.3",
+    "aws-amplify-angular": "^0.1.0",
     "axios": "^0.18.0",
     "balloon-css": "^0.5.0",
     "bmfont-lato": "^2.1.1",
@@ -85,6 +87,7 @@
     "uuid-by-string": "^0.6.0",
     "vega": "^3.3.1",
     "vega-tooltip": "^0.9.16",
+    "webpack-s3-plugin": "^1.0.0-rc.0",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
@@ -107,6 +110,7 @@
     "karma-coverage-istanbul-reporter": "^0.2.0",
     "karma-jasmine": "^1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "mime-types": "^2.1.18",
     "postcss-loader": "^2.1.4",
     "protractor": "~5.1.0",
     "ts-node": "^6.0.2",
