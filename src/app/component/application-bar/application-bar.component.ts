@@ -7,7 +7,6 @@ import { Component, Input, Output, ChangeDetectionStrategy, EventEmitter, HostLi
 import { GraphPanelEnum, PanelEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import * as downloadjs from 'downloadjs';
-import * as THREE from 'three';
 import { ChartScene } from 'app/component/workspace/chart/chart.scene';
 declare var $: any;
 
