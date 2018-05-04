@@ -378,7 +378,6 @@ export class ChartFactory {
 
     // @memoize
     public static getSpriteMaterial(shape: SpriteMaterialEnum, color: number): THREE.SpriteMaterial {
-        // console.log(shape);
         switch (shape) {
             case SpriteMaterialEnum.BLAST:
                 return new THREE.SpriteMaterial({ map: ChartFactory.textures.blast, color: color });

@@ -35,8 +35,12 @@ export class ComputeWorkerUtil {
         0x004d40, 0x1b5e20, 0x33691e, 0x827717, 0xf57f17, 0xff6f00, 0xe65100, 0xbf360c, 0x3e2723,
         0xf44336, 0xe91e63, 0x9c27b0, 0x673ab7, 0x3f51b5, 0x2196f3, 0x03a9f4, 0x00bcd4, 0x009688,
         0x4caf50, 0x8bc34a, 0xcddc39, 0xffeb3b, 0xffc107, 0xff9800, 0xff5722, 0x795548];
-
-
+    public headersJson = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
+        'Access-Control-Allow-Origin': '*'
+    };
 
 
     // Returns Data Matrix That Matches Filters + Sorted By Entity Type
@@ -265,13 +269,15 @@ export class ComputeWorkerUtil {
     }
     getCytobands(alignment: string): Promise<any> {
         return fetch('https://s3-us-west-2.amazonaws.com/notitia/reference/hg-' + alignment + '-cytoband.json.gz', {
-            method: 'GET'
+            method: 'GET',
+            headers: this.headersJson
         }).then(res => res.json());
     }
 
     getGenes(alignment: string): Promise<any> {
         return fetch('https://s3-us-west-2.amazonaws.com/notitia/reference/hg-' + alignment + '-genes.json.gz', {
-            method: 'GET'
+            method: 'GET',
+            headers: this.headersJson
         }).then(res => res.json());
     }
 
@@ -361,7 +367,8 @@ export class ComputeWorkerUtil {
     getTads(): Promise<any> {
         return new Promise((resolve, reject) => {
             fetch('https://s3-us-west-2.amazonaws.com/notitia/reference/tads.json.gz', {
-                method: 'GET'
+                method: 'GET',
+                headers: this.headersJson
             }).then(res => { res.json().then(resolve); });
         });
     }
@@ -688,7 +695,13 @@ export class ComputeWorkerUtil {
                             }
                         };
                         fetch('https://dev.oncoscape.sttrcancer.io/api/z_gene_families/' + JSON.stringify(query), {
-                            method: 'GET'
+                            method: 'GET',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json',
+                                'Accept-Encoding': 'gzip',
+                                'Access-Control-Allow-Origin': '*'
+                            }
                         }).then(res => {
                             res.json().then(data => {
 
@@ -1077,6 +1090,7 @@ export class ComputeWorkerUtil {
         const headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
+            'Accept-Encoding': 'gzip',
             'Access-Control-Allow-Origin': '*'
         };
 

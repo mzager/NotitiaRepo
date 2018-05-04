@@ -31,7 +31,12 @@ export class DataService {
   public static biotypeMap = { 'protein_coding': 'Protein Coding', 'polymorphic_pseudogene': 'Protein Coding', 'ig_v_gene': 'Protein Coding', 'tr_v_gene': 'Protein Coding', 'tr_c_gene': 'Protein Coding', 'tr_j_gene': 'Protein Coding', 'tr_d_gene': 'Protein Coding', 'ig_c_gene': 'Protein Coding', 'ig_d_gene': 'Protein Coding', 'ig_j_gene': 'Protein Coding', 'ig_v_pseudogene': 'Pseudogene', 'transcribed_unprocessed_pseudogene': 'Pseudogene', 'processed_pseudogene': 'Pseudogene', 'unprocessed_pseudogene': 'Pseudogene', 'transcribed_processed_pseudogene': 'Pseudogene', 'unitary_pseudogene': 'Pseudogene', 'ig_pseudogene': 'Pseudogene', 'ig_c_pseudogene': 'Pseudogene', 'ig_j_pseudogene': 'Pseudogene', 'tr_j_pseudogene': 'Pseudogene', 'tr_v_pseudogene': 'Pseudogene', 'transcribed_unitary_pseudogene': 'Pseudogene', 'antisense': 'Long Noncoding', 'sense_intronic': 'Long Noncoding', 'lincrna': 'Long Noncoding', 'sense_overlapping': 'Long Noncoding', 'processed_transcript': 'Long Noncoding', '3prime_overlapping_ncrna': 'Long Noncoding', 'non_coding': 'Long Noncoding', 'rrna': 'Short Noncoding', 'misc_rna': 'Short Noncoding', 'pseudogene': 'Short Noncoding', 'snorna': 'Short Noncoding', 'scrna': 'Short Noncoding', 'mirna': 'Short Noncoding', 'snrna': 'Short Noncoding', 'srna': 'Short Noncoding', 'ribozyme': 'Short Noncoding', 'scarna': 'Short Noncoding', 'vaultrna': 'Short Noncoding', 'tec': 'Other', 'bidirectional_promoter_lncrna': 'Other', 'macro_lncrna': 'Other' };
   public static biotypeCat = ['Protein Coding', 'Pseudogene', 'Long Noncoding', 'Short Noncoding', 'Other'];
   public static API_PATH = 'https://dev.oncoscape.sttrcancer.io/api/';
-
+  public static headersJson = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'Accept-Encoding': 'gzip',
+    'Access-Control-Allow-Origin': '*'
+  };
   private getGroupScale(items: Array<any>, field: DataField): Function {
     if (field.type !== 'STRING') {
       // // Determine IQR
@@ -388,36 +393,38 @@ export class DataService {
   getGeneSetByCategory(categoryCode: string): Observable<any> {
     const subcats = ['CGP', 'CP', 'CP:BIOCARTA', 'CP:KEGG', 'CP:REACTOME', 'MIR', 'TFT', 'CGN', 'CM', 'BP', 'CC', 'MF', 'C6', 'c7'];
     const field = (subcats.indexOf(categoryCode) === -1) ? 'category' : 'subcategory';
-    return this.http
-      .get(DataService.API_PATH +
-        'z_lookup_geneset/%7B%22$fields%22:[%22name%22,%22hugo%22,%22summary%22],%20%22$query%22:%7B%22' +
-        field + '%22:%22' +
-        categoryCode +
-        '%22%7D%20%7D')
-      .map(res => res.json());
+    return Observable.fromPromise(fetch(DataService.API_PATH +
+      'z_lookup_geneset/%7B%22$fields%22:[%22name%22,%22hugo%22,%22summary%22],%20%22$query%22:%7B%22' +
+      field + '%22:%22' +
+      categoryCode +
+      '%22%7D%20%7D', {
+        method: 'GET',
+        headers: DataService.headersJson
+      }).then(res => res.json()));
   }
   getGeneSetQuery(categoryCode: string, searchTerm: string): Observable<any> {
-    return this.http
-      .get(DataService.API_PATH +
-        'z_lookup_geneset/%20%7B%22category%22%3A%22' +
-        categoryCode +
-        '%22%2C%20%20%22%24text%22%3A%20%7B%20%22%24search%22%3A%20%22' +
-        searchTerm +
-        '%22%20%7D%20%20%7D')
-      .map(res => res.json());
+    return Observable.fromPromise(fetch(DataService.API_PATH +
+      'z_lookup_geneset/%20%7B%22category%22%3A%22' +
+      categoryCode + '%22%2C%20%20%22%24text%22%3A%20%7B%20%22%24search%22%3A%20%22' +
+      searchTerm + '%22%20%7D%20%20%7D', {
+        method: 'GET',
+        headers: DataService.headersJson
+      }).then(res => res.json()));
   }
   getGenesetBySearchTerm(searchTerm: string): Observable<any> {
-    return this.http
-      .get(DataService.API_PATH +
-        'z_lookup_geneset/%7B%22%24text%22%3A%7B%22%24search%22%3A%22' +
-        searchTerm +
-        '%22%7D%7D')
-      .map(res => res.json());
+    return Observable.fromPromise(fetch(DataService.API_PATH +
+      'z_lookup_geneset/%7B%22%24text%22%3A%7B%22%24search%22%3A%22' +
+      searchTerm +
+      '%22%7D%7D', {
+        method: 'GET',
+        headers: DataService.headersJson
+      }).then(res => res.json()));
   }
   getGeneSetCategories(): Observable<any> {
-    return this.http
-      .get(DataService.API_PATH + 'z_lookup_geneset_categories')
-      .map(res => res.json());
+    return Observable.fromPromise(fetch(DataService.API_PATH + 'z_lookup_geneset_categories', {
+      method: 'GET',
+      headers: DataService.headersJson
+    }).then(res => res.json()));
   }
 
   getDatasetInfo(database: string): Promise<any> {
@@ -482,30 +489,18 @@ export class DataService {
 
     }
 
-    return this.http
-      .get('./assets/help/' + method)
-      .map(res => res.json()).toPromise();
-    // // return this.http
-    // //   .get('https://s3-us-west-2.amazonaws.com/notitia/reference/genesets.json.gz')
-    // //   .map(res => res.json()).toPromise();
-
-    // return new Promise((resolve, reject) => {
-    //   // const db = new Dexie('notitia');
-    //   // db.open().then(v => {
-    //   //   v.table('docs').get({ 'method': method }).then(result => {
-    //   //     resolve(result);
-    //   //   });
-    //   // });
-    // });
+    return fetch('./assets/help/' + method, {
+      method: 'GET',
+      headers: DataService.headersJson
+    }).then(res => res.json());
   }
 
   getCitations(): Promise<any> {
-    return this.http
-      .get('./assets/citations/method-citations.json')
-      .map(res => res.json()).toPromise();
+    return fetch('./assets/citations/method-citations.json', {
+      method: 'GET',
+      headers: DataService.headersJson
+    }).then(res => res.json());
   }
-
-
 
   getEvents(database: string): Promise<Array<any>> {
     return new Promise((resolve, reject) => {
@@ -768,9 +763,10 @@ export class DataService {
     });
   }
   getPathways(): Promise<Array<any>> {
-    return this.http
-      .get('https://s3-us-west-2.amazonaws.com/notitia/pwc/pathways.json.gz')
-      .map(res => res.json()).toPromise();
+    return fetch('https://s3-us-west-2.amazonaws.com/notitia/pwc/pathways.json.gz', {
+      method: 'GET',
+      headers: DataService.headersJson
+    }).then(res => res.json());
   }
   createCustomPathway(database: string, pathway: Pathway): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -804,14 +800,16 @@ export class DataService {
     });
   }
   getGenesetCategories(): Promise<Array<{ c: string, n: string, d: string }>> {
-    return this.http
-      .get('https://s3-us-west-2.amazonaws.com/notitia/reference/genesets.json.gz')
-      .map(res => res.json()).toPromise();
+    return fetch('https://s3-us-west-2.amazonaws.com/notitia/reference/genesets.json.gz', {
+      method: 'GET',
+      headers: DataService.headersJson
+    }).then(res => res.json());
   }
   getGenesets(category: string): Promise<Array<any>> {
-    return this.http
-      .get('https://s3-us-west-2.amazonaws.com/notitia/reference/geneset-' + category.toLowerCase() + '.json.gz')
-      .map(res => res.json()).toPromise();
+    return fetch('https://s3-us-west-2.amazonaws.com/notitia/reference/geneset-' + category.toLowerCase() + '.json.gz', {
+      method: 'GET',
+      headers: DataService.headersJson
+    }).then(res => res.json());
   }
   getCustomGenesets(database: string): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -967,7 +965,7 @@ export class DataService {
     });
   }
 
-  constructor(private http: HttpClient) {
+  constructor() {
 
     DataService.instance = this;
 
@@ -996,14 +994,26 @@ export class DataService {
       requestAnimationFrame(v => {
         DataService.db.table('genemap').count().then(count => {
           if (count > 0) { return; }
-          const docs = this.http.get('https://s3-us-west-2.amazonaws.com/notitia/reference/scikit.json.gz').map(res => res.json());
-          const genecoords = this.http
-            .get('https://s3-us-west-2.amazonaws.com/notitia/reference/genecoords.json.gz').map(res => res.json());
-          const bandcoords = this.http
-            .get('https://s3-us-west-2.amazonaws.com/notitia/reference/bandcoords.json.gz').map(res => res.json());
-          const genemap = this.http.get('https://s3-us-west-2.amazonaws.com/notitia/reference/genemap.json.gz').map(res => res.json());
-          const genelinks = this.http.get('https://s3-us-west-2.amazonaws.com/notitia/reference/genelinks.json.gz').map(res => res.json());
-
+          const docs = fetch('https://s3-us-west-2.amazonaws.com/notitia/reference/scikit.json.gz', {
+            method: 'GET',
+            headers: DataService.headersJson
+          }).then(res => res.json());
+          const genecoords = fetch('https://s3-us-west-2.amazonaws.com/notitia/reference/genecoords.json.gz', {
+            method: 'GET',
+            headers: DataService.headersJson
+          }).then(res => res.json());
+          const bandcoords = fetch('https://s3-us-west-2.amazonaws.com/notitia/reference/bandcoords.json.gz', {
+            method: 'GET',
+            headers: DataService.headersJson
+          }).then(res => res.json());
+          const genemap = fetch('https://s3-us-west-2.amazonaws.com/notitia/reference/genemap.json.gz', {
+            method: 'GET',
+            headers: DataService.headersJson
+          }).then(res => res.json());
+          const genelinks = fetch('https://s3-us-west-2.amazonaws.com/notitia/reference/genelinks.json.gz', {
+            method: 'GET',
+            headers: DataService.headersJson
+          }).then(res => res.json());
           Observable.zip(genecoords, bandcoords, genemap, genelinks, docs).subscribe(result => {
             const hugoLookup = result[2];
             hugoLookup.forEach(gene => {

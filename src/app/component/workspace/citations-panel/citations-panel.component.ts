@@ -57,7 +57,6 @@ export class CitationsPanelComponent implements AfterViewInit, OnInit, OnDestroy
     }
 
     ngOnInit(): void {
-        console.log('iini');
         this.filterInputChangeStream = Observable
             .fromEvent(this.filterInput.nativeElement, 'keyup')
             .debounceTime(300)

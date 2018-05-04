@@ -1,5 +1,4 @@
-<div class='graph-panel' *ngIf='config'>
-
+<div class='graphPanel' *ngIf='config'>
     <div #panelButton class="graphPanelExpandedButton" [ngClass]="{leftPanel: title === 'Graph B'}">
         <a (click)='toggleClick()'>
             <i class="material-icons small" style='color:rgba(0, 0, 0, 0.54);'>expand_less</i>
@@ -13,9 +12,18 @@
                         Visualization
                     </mat-panel-title>
                 </mat-expansion-panel-header>
-                <!-- <p>{{methodName}}</p> -->
                 <p>{{methodSummary}}</p>
-                <a (click)='helpClick()' href='#'>Learn More</a>
+                <button mat-button color="primary">Configure</button>
+                <button mat-button color="primary" (click)='helpClick()'>Learn More</button>
+            </mat-expansion-panel>
+            <mat-expansion-panel expanded='true'>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Settings
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <app-graph-panel-analysis (select)='setVisualization($event)'></app-graph-panel-analysis>
+                <app-graph-panel-data></app-graph-panel-data>
             </mat-expansion-panel>
             <mat-expansion-panel expanded='true'>
                 <mat-expansion-panel-header>
@@ -33,7 +41,7 @@
                 </mat-expansion-panel-header>
                 <app-workspace-stat-panel [config]='config' [graphData]='data'></app-workspace-stat-panel>
             </mat-expansion-panel>
+
         </mat-accordion>
     </div>
-
 </div>

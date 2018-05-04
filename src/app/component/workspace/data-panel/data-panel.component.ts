@@ -51,11 +51,9 @@ export class DataPanelComponent implements AfterViewInit {
 
   openDatabase(): Promise<any> {
     return new Promise((resolve, reject) => {
-      console.dir(this);
       if (this.db === null) {
         this.db = new Dexie('notitia-' + this.configA.database);
       }
-      console.dir(this);
       if (this.db.isOpen()) {
         resolve();
       } else {

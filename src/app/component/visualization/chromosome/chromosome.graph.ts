@@ -82,7 +82,6 @@ export class ChromosomeGraph extends AbstractVisualization {
 
 
 
-        // console.log(circumference + ":::");
         // const slice = new THREE.Shape();
         // slice =
         //     count * 0.5;
