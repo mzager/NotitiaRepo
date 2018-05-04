@@ -1,33 +1,25 @@
 <div class="panel">
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutAlign="start stretch">
-    <a href='#' class='modalClose' (click)='closeClick()'></a>
-    <h1 class='panel-header'>Data Sets</h1>
-    <p class='panel-header-desc'>Select from public data sets, or visualize your own.</p>
-
-    <div>
-      <div>
-        <h2 class='panel-column-title'>My Datasets</h2>
-        <a class='panel-button-image' (click)='uploadExcelClick() '>
-          <img src='./assets/logo-excel.png'>
-          <span>Upload an Excel File</span>
-        </a>
-        <a class='panel-button-image ' (click)='uploadHubClick() '>
-          <img src='./assets/logo-cloud.png '>
-          <span>Upload to Data Hub</span>
-        </a>
-
-      </div>
-      <div fxLayout.xs="column">
-        <h2 class='panel-column-title'>Public Data Sets</h2>
-        <!-- <div fxLayout='row wrap' fxLayoutGap='20px'> -->
-        <div *ngFor='let dataset of datasets; let i=index' fxLayout="row wrap">
-          <a class='panel-button-image' (click)='this.loadTcga.emit(dataset) '>
-            <img src='./assets/disease/img{{dataset.img}}.png '>
-            <span>{{dataset.name}}</span>
-          </a>
-        </div>
-        <!-- </div> -->
-      </div>
+  <a href='#' class='modalClose' (click)='closeClick()'></a>
+  <h1 fxLayout="row" class='panel-header'>Data Sets</h1>
+  <h2 fxLayout="row" class='panel-header-desc'>Select from public data sets, or visualize your own.</h2>
+  <div fxLayout.xs="column" fxLayoutGap='5px'>
+    <p class='panel-column-title'>My Datasets</p>
+    <a class='panel-button-image' (click)='uploadExcelClick() '>
+      <img src='./assets/logo-excel.png'>
+      <span>Upload an Excel File</span>
+    </a>
+    <a class='panel-button-image ' (click)='uploadHubClick() '>
+      <img src='./assets/logo-cloud.png '>
+      <span>Upload to Data Hub</span>
+    </a>
+  </div>
+  <div fxLayoutGap='5px'>
+    <p class='panel-column-title'>Public Data Sets</p>
+    <div *ngFor='let dataset of datasets; let i=index'>
+      <a class='panel-button-image' (click)='this.loadTcga.emit(dataset) '>
+        <img src='./assets/disease/img{{dataset.img}}.png '>
+        <span>{{dataset.name}}</span>
+      </a>
     </div>
   </div>
 </div>
