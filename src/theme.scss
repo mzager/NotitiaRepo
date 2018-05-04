@@ -22,6 +22,16 @@ $custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $hea
 @include angular-material-typography($custom-typography);
 /* Popup Panel */
 
+/* Angular Mobile First Breakpoints 
+{
+  xs: '(max-width: 480px)', // extra small screens
+  sm: '(min-width: 481px) and (max-width: 768px)', // small screens
+  md: '(min-width: 769px) and (max-width: 991px)', // medium screens
+  lg: '(min-width: 992px)' // large screens
+}
+*/
+
+// (max-width: 480px)
 .panel {
   color: #666;
   height: 100vh;
@@ -31,7 +41,7 @@ $custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $hea
   left: 0px;
   top: 0px;
   overflow: scroll;
-  padding-top: 50px;
+  padding-top: 100px;
   background: #FFF;
   margin-left: 20px;
   margin-right: 20px;
@@ -39,8 +49,9 @@ $custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $hea
 
 .panel-column-title {
   margin-bottom: 10px !important;
-  font-weight: 300;
+  font-weight: 400 !important;
   padding-bottom: 10px;
+  padding-top: 10px;
 }
 
 .panel-header {
@@ -52,7 +63,7 @@ $custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $hea
   padding: 0px;
   margin: 0px;
   padding-top: 10px;
-  margin-bottom: 60px !important;
+  margin-bottom: 40px !important;
 }
 
 .panel-button-image {
@@ -74,10 +85,19 @@ $custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $hea
   }
 }
 
-@media screen and (min-width: 48em) {
+@media screen and (min-width: 481px) and (max-width: 768px) {
   .panel {
     margin-left: 40px;
     margin-right: 40px;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 991px) {}
+
+@media screen and (min-width: 992px) {
+  .panel {
+    margin-left: 60px;
+    margin-right: 60px;
     padding-top: 100px;
   }
 }
