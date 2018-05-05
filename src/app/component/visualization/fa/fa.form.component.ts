@@ -14,28 +14,28 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
   <form [formGroup]='form' novalidate>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Data' formControlName='table'>
       <mat-option *ngFor='let option of dataOptions' [value]='option.label'>
           {{ option.label }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Visualize' formControlName='entity'>
       <mat-option *ngFor='let option of displayOptions' [value]='option'>
           {{ option }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Dimension' formControlName='dimension'>
       <mat-option *ngFor='let option of dimensionOptions' [value]='option'>
           {{ option }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='SVD Method' formControlName='svd_method'>
       <mat-option *ngFor='let option of FaSvdMethodOptions' [value]='option'>
           {{ option }}

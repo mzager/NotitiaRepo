@@ -11,7 +11,7 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 <form [formGroup]='form' novalidate>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Data' formControlName='table'>
       <mat-option *ngFor='let option of dataOptions' [value]='option.label'>
           {{ option.label }}

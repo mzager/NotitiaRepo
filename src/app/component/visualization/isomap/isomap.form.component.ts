@@ -13,63 +13,63 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 <form [formGroup]='form' novalidate>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Data' formControlName='table'>
         <mat-option *ngFor='let option of dataOptions' [value]='option.label'>
             {{ option.label }}
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Visualize' formControlName='entity'>
         <mat-option *ngFor='let option of displayOptions' [value]='option'>
             {{ option }}
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='X Axis' formControlName='pcx'>
         <mat-option *ngFor='let option of PcOptions' [value]='option'>
             PC {{ option }}
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Y Axis' formControlName='pcy'>
         <mat-option *ngFor='let option of PcOptions' [value]='option'>
             PC {{ option }}
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Z Axis' formControlName='pcz'>
         <mat-option *ngFor='let option of PcOptions' [value]='option'>
             PC {{ option }}
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Eigen Solver' formControlName='eigen_solver'>
         <mat-option *ngFor='let option of IsoMapEigenSolverOpitions' [value]='option'>
             {{ option }}
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Path Method' formControlName='eigen_solver'>
         <mat-option *ngFor='let option of IsoMapPathMethodOpitions' [value]='option'>
             {{ option }}
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Neighbors Algorithm' formControlName='eigen_solver'>
         <mat-option *ngFor='let option of IsoMapNeighborsAlgorithmOpitions' [value]='option'>
             {{ option }}
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-slider min="1" max="20" step="1" formControlName='n_neighbors'></mat-slider>
   </mat-form-field>
 

@@ -15,14 +15,14 @@ import { SvmCompleteAction } from '../../../action/compute.action';
   template: `
 <form [formGroup]='form' novalidate>
   <!--
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Data' formControlName='table'>
       <mat-option *ngFor='let option of dataOptions' [value]='option.label'>
           {{ option.label }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Visualize' formControlName='entity'>
       <mat-option *ngFor='let option of displayOptions' [value]='option'>
           {{ option }}

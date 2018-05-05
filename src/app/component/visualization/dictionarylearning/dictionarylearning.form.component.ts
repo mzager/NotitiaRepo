@@ -16,49 +16,49 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 <form [formGroup]='form' novalidate>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Data' formControlName='table'>
         <mat-option *ngFor='let option of dataOptions' [value]='option.label'>
             {{ option.label }}
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Visualize' formControlName='entity'>
         <mat-option *ngFor='let option of displayOptions' [value]='option'>
             {{ option }}
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='X Axis' formControlName='pcx'>
         <mat-option *ngFor='let option of PcOptions' [value]='option'>
             PC {{ option }}
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Y Axis' formControlName='pcy'>
         <mat-option *ngFor='let option of PcOptions' [value]='option'>
             PC {{ option }}
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Z Axis' formControlName='pcz'>
         <mat-option *ngFor='let option of PcOptions' [value]='option'>
             PC {{ option }}
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Fit Algo' formControlName='fit_algorithm'>
         <mat-option *ngFor='let option of fitAlgorithemOptions' [value]='option'>
             {{ option }}
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Transform Algo' formControlName='fit_algorithm'>
         <mat-option *ngFor='let option of transformAlgorithemOptions' [value]='option'>
             {{ option }}
