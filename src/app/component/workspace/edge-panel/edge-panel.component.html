@@ -1,28 +1,28 @@
 <div>
     <div class='graphPanelHeader' style='padding-top: 5px;'>Connections</div>
     <form novalidate style='padding: 10px;'>
-        <mat-form-field>
+        <mat-form-field class='form-field'>
             <mat-select placeholder='Layout' (change)='layoutOptionChange($event)'>
                 <mat-option *ngFor='let option of layoutOptions' [value]='option'>
                     {{ option }}
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field class='form-field'>
             <mat-select placeholder='Connect' (change)='edgeOptionChange($event)'>
                 <mat-option *ngFor='let option of edgeOptions' [value]='option.label'>
                     {{ option.label }}
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field class='form-field'>
             <mat-select placeholder='Color' (change)='edgeOptionChange($event)'>
                 <mat-option *ngFor='let option of colorOptions' [value]='option.label'>
                     {{ option.label }}
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field class='form-field'>
             <mat-select placeholder='Group By' (change)='groupOptionChange($event)'>
                 <mat-option *ngFor='let option of groupOptions' [value]='option.label'>
                     {{ option.label }}

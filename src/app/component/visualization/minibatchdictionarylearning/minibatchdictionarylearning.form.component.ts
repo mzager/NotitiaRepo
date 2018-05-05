@@ -16,49 +16,49 @@ import { SvmCompleteAction } from '../../../action/compute.action';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 <form [formGroup]='form' novalidate>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Data' formControlName='table'>
       <mat-option *ngFor='let option of dataOptions' [value]='option.label'>
           {{ option.label }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Visualize' formControlName='entity'>
       <mat-option *ngFor='let option of displayOptions' [value]='option'>
           {{ option }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='X Axis' formControlName='pcx'>
         <mat-option *ngFor='let option of PcOptions' [value]='option'>
             PC {{ option }}
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Y Axis' formControlName='pcy'>
         <mat-option *ngFor='let option of PcOptions' [value]='option'>
             PC {{ option }}
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Z Axis' formControlName='pcz'>
         <mat-option *ngFor='let option of PcOptions' [value]='option'>
             PC {{ option }}
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Fit Algorithm' formControlName='fit_algorithm'>
         <mat-option *ngFor='let option of miniBatchDictionaryLearningFitOptions' [value]='option'>
             {{ option }}
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Transform Algorithm' formControlName='transform_algorithm'>
         <mat-option *ngFor='let option of miniBatchDictionaryTransformOptions' [value]='option'>
             {{ option }}
