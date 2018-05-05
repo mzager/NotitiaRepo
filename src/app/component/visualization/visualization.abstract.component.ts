@@ -56,12 +56,10 @@ export class AbstractVisualization implements ChartObjectInterface {
         this.tooltipController.enable = this.isEnabled;
         this.view.controls.enabled = this.isEnabled;
         if (truthy) {
-            console.log('tooltip enable');
             this.$MouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
             this.$MouseDown = this.events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
             this.$MouseUp = this.events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
         } else {
-            console.log('tooltip disable');
             this.$MouseMove.unsubscribe();
             this.$MouseDown.unsubscribe();
             this.$MouseUp.unsubscribe();

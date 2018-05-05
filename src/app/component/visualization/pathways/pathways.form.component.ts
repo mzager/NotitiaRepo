@@ -12,7 +12,7 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 <form [formGroup]='form' novalidate>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
     <mat-select placeholder='Pathway' formControlName='pathway'>
         <mat-option *ngFor='let option of pathwayOptions' [value]='option.id'>
             {{ option.name }}
