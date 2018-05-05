@@ -71,8 +71,9 @@
     overflow-y: scroll;
     overflow-x: visible;
     position: absolute;
-    left: 0px;
+    // left: 0px;
     top: 0px;
+    height: 100vh;
     bottom:0px;
     width:auto;
 }
@@ -81,7 +82,7 @@
     width: 267px;
     // background: rgba(255, 255, 255, 0.95);
     border: 0px solid #eee;
-    border-right-width: 1px;
+    // border-right-width: 1px;
     box-shadow: 0px 2px 4px #ddd;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -120,9 +121,17 @@
     }
 }
 
-.leftPanel {
-    left: -22px;
-    a {
-        transform: rotate(90deg) translateY(5px);
+.graphPanelLeft {
+    left: 0px;
+    .graphPanelExpanded{
+        border-left-width: 1px;
+        border-right-width: 1px;
+    }
+}
+.graphPanelRight {
+    right: 0px;
+    .graphPanelExpanded{
+        border-left-width: 1px;
+        border-right-width: 1px;
     }
 }

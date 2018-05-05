@@ -16,10 +16,10 @@
     [molecularData]='molecularData | async' [config]='graphBConfig | async' [data]='graphBData | async' (hide)='graphPanelToggle(2)'
     (help)='helpPanelToggle($event)' (configChange)='graphPanelSetConfig($event)' (selectGeneset)='genesetPanelToggle($event)'
     (selectCohort)='queryPanelToggle($event)' (showPanel)='setPanel($event)'>
-    <app-workspace-edge-panel [graphAConfig]='graphAConfig | async' [graphBConfig]='graphBConfig | async' [workspaceConfig]='workspaceConfig'
+    <!-- <app-workspace-edge-panel [graphAConfig]='graphAConfig | async' [graphBConfig]='graphBConfig | async' [workspaceConfig]='workspaceConfig'
       [tables]='tables | async' [fields]='fields | async' (edgeConfigChange)='edgeConfigChange($event)' [decorators]='edgeDecorators | async'
       (decoratorAdd)='edgeAddDecorator($event)' (decoratorDel)='edgeDelDecorator($event)'>
-    </app-workspace-edge-panel>
+    </app-workspace-edge-panel> -->
   </app-workspace-graph-panel>
 
   <!--     
