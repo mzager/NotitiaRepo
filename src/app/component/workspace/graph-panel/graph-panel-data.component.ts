@@ -11,7 +11,9 @@ import * as _ from 'lodash';
   selector: 'app-graph-panel-data',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-  <!--<mat-menu #dataCohortsMenu='dataTablesMenu'></mat-menu>-->
+  <mat-menu #dataVisualizationMenu='matMenu'>
+    <button mat-menu-item *ngFor='let option of visualizationOptions'>{{option.label}}</button>
+  </mat-menu>
   <mat-menu #dataMolecularsMenu='matMenu'>
     <button mat-menu-item *ngFor='let option of tableOptions'>{{option.label}}</button>
   </mat-menu>
@@ -26,14 +28,16 @@ import * as _ from 'lodash';
   </mat-menu>
   <mat-menu #analysisMenu='matMenu'>
     <button mat-menu-item [matMenuTriggerFor]='dataMolecularMenu'>Table</button>
+    <button mat-menu-item [matMenuTriggerFor]='dataVisualizationMenu'>Visualize</button>
     <button mat-menu-item [matMenuTriggerFor]='dataCohortsMenu'>Cohort</button>
     <button mat-menu-item [matMenuTriggerFor]='dataGenesetsMenu'>Gene Set</button>
     <button mat-menu-item [matMenuTriggerFor]='dataPathwaysMenu'>Pathway</button>
   </mat-menu>
-  <button mat-button mat-button color='primary' [matMenuTriggerFor]='analysisMenu' style='width: 118px;'>Data</button>
+  <button mat-button [matMenuTriggerFor]='analysisMenu' style='width: 118px;'>Data</button>
   `
 })
 export class GraphPanelDataComponent {
+  public visualizationOptions = [];
   public tableOptions = [];
   public cohortOptions = [];
   public genesetOptions = [];
