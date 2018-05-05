@@ -13,6 +13,7 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 <form [formGroup]='form' novalidate>
+<!--
   <mat-form-field class='form-field'>
     <mat-select placeholder='Data' formControlName='table'>
       <mat-option *ngFor='let option of dataOptions' [value]='option.label'>
@@ -27,6 +28,7 @@ import * as _ from 'lodash';
       </mat-option>
     </mat-select>
   </mat-form-field>
+  -->
   <mat-form-field class='form-field'>
     <mat-select placeholder='X Axis' formControlName='pcx'>
         <mat-option *ngFor='let option of PcOptions' [value]='option'>

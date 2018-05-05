@@ -22,8 +22,10 @@ $custom-typography: mat-typography-config(
   $font-family: 'Lato, monospace', 
   $headline: mat-typography-level(32px, 32px, 300), 
   $title: mat-typography-level(14px, 14px, 300), 
-  $body-1: mat-typography-level(14px, 18px, 300), 
+  $body-1: mat-typography-level(14px, 18px, 300),
+  $body-2: mat-typography-level(10px, 14px, 300), 
   $button: mat-typography-level(14px, 16px, 300),
+  $input: mat-typography-level(1em, 1, 300),
   $subheading-2: mat-typography-level(14px, 16px, 300)
 );
 @include angular-material-typography($custom-typography);
@@ -51,6 +53,7 @@ $custom-typography: mat-typography-config(
 
 .form-field { 
   width: 100%;
+  color: red;
 }
 .modalClose {
   $size: 50px;

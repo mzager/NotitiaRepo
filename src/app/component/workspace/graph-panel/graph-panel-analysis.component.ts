@@ -65,7 +65,7 @@ import * as _ from 'lodash';
   <button mat-menu-item [matMenuTriggerFor]='analysisDiscriminantAnalysisMenu'>Discriminant Analysis</button>
   <button mat-menu-item [matMenuTriggerFor]='analysisSupportVectorMachinesMenu'>Support Vector Machines</button>
   </mat-menu>
-  <button mat-button mat-button color='primary' [matMenuTriggerFor]='analysisMenu'>Analysis</button>
+  <button mat-button [matMenuTriggerFor]='analysisMenu'>Visualization</button>
   `
 })
 export class GraphPanelAnalysisComponent {
