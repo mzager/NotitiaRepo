@@ -24,7 +24,7 @@
         <div *ngFor='let attr of citations; let i = index'>
             <p class='panel-column-title'>{{ attr.name }}</p>
             <p class=''>{{ attr.desc }}</p>
-            <a mat-button href='{{ attr.url }}' target='_blank'>Link to Pub</a>
+            <a mat-button color="primary" href='{{ attr.url }}' target='_blank'>Link to Pub</a>
         </div>
     </div>
 </div>
