@@ -7,30 +7,24 @@
     <div>
         <p class='' [innerHTML]='desc'></p>
         <p class='' [innerHTML]='learn'></p>
-        <p class=''>{{urlparagraph}}</p>
-        <a mat-button color="primary" href='{{url}}' target='_blank'>Learn More</a>
-        <h2>Method Settings</h2>
+        <a mat-button color="primary" href='{{url}}' target='_blank'>{{urlparagraph}}</a>
+        <h2 class='panel-sub-header'>Method Settings</h2>
         <div *ngFor='let attr of params; let i = index'>
-            <h3 class='panel-column-title '>{{ attr.name }}</h3>
+            <h3 class='panel-column-title'>{{ attr.name }}</h3>
             <p class=''>{{ attr.desc }}</p>
         </div>
-        <h2>Returned Values
+        <h2 class='panel-sub-header'>Returned Values
             <span class="file-span"> (as viewed in chart legend)</span>
         </h2>
-
         <div *ngFor='let attr of attrs; let i = index'>
             <p class='panel-column-title'>{{ attr.name }}</p>
             <p class=''>{{ attr.desc }}</p>
         </div>
-        <h2 class=''>Method Citations</h2>
+        <h2 class='panel-sub-header'>Method Citations</h2>
         <div *ngFor='let attr of citations; let i = index'>
             <p class='panel-column-title'>{{ attr.name }}</p>
-            <p class=''>{{ attr.desc }}
-                <br />
-                <span class='help-link'>
-                    <a class='help-link' href='{{ attr.url }}' target='_blank'>Link to Pub</a>
-                </span>
-            </p>
+            <p class=''>{{ attr.desc }}</p>
+            <a mat-button href='{{ attr.url }}' target='_blank'>Link to Pub</a>
         </div>
     </div>
 </div>
