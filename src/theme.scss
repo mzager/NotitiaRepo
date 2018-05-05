@@ -113,6 +113,17 @@ $custom-typography: mat-typography-config(
   letter-spacing: 2px;  
 }
 
+.panel-sub-header {
+  padding: 0px;
+  margin-top: 18px !important;
+  margin-bottom: 0px !important;
+  line-height: 10px;
+  letter-spacing: 2px;  
+  font-size: 18px !important;;
+  line-height: 22px !important;;
+}
+
+
 .panel-header-desc {
   padding: 0px;
   margin: 0px;
