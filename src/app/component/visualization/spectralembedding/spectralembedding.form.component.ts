@@ -14,7 +14,7 @@ import * as _ from 'lodash';
 @Component({
   selector: 'app-spectralembedding-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: 'spectralembedding.form.component.html',
+  templateUrl: './spectralembedding.form.component.html',
   encapsulation: ViewEncapsulation.None
 })
 export class SpectralEmbeddingFormComponent extends AbstractScatterForm {

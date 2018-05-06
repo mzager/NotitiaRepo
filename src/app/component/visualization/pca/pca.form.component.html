@@ -35,10 +35,11 @@
         </mat-select>
     </mat-form-field>
     <mat-form-field class='form-field'>
-        <mat-select placeholder='SVD Solver' formControlName='algorithm'>
-            <mat-option *ngFor='let option of TruncatedSvdAlgorithemOptions' [value]='option'>
+        <mat-select placeholder='Svd Solver' formControlName='svd_solver'>
+            <mat-option *ngFor='let option of PcaSvdSolverOptions' [value]='option'>
                 {{ option }}
             </mat-option>
         </mat-select>
     </mat-form-field>
+    <mat-slide-toggle formControlName='whiten'>Whiten</mat-slide-toggle>
 </form>

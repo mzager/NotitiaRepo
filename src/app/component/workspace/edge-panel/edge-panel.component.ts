@@ -20,6 +20,7 @@ import { GraphEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import { Subscription } from 'rxjs/Subscription';
 import { EdgeConfigModel } from 'app/component/visualization/edges/edges.model';
+import { MatSelectChange } from '@angular/material';
 declare var $: any;
 
 @Component({
@@ -77,11 +78,11 @@ export class EdgePanelComponent implements OnDestroy {
   //   // this.configChange.emit(value);
   // }
 
-  layoutOptionChange(e: CustomEvent): void {
+  layoutOptionChange(e: MatSelectChange): void {
 
   }
-  edgeOptionChange(e: any): void {
-    const optionLabel = e.target.value;
+  edgeOptionChange(e: MatSelectChange): void {
+    const optionLabel = e.value;
     const option = this.edgeOptions.find(v => v.label === optionLabel);
     this.edgeConfig.field = option;
     this.edgeConfig.markerFilterA = this._graphAConfig.markerFilter;
@@ -98,8 +99,8 @@ export class EdgePanelComponent implements OnDestroy {
     this.cd.markForCheck();
     this.edgeConfigChange.emit(this.edgeConfig);
   }
-  colorOptionChange(e: any): void {
-    const colorLabel = e.target.selectedOptions[0].value;
+  colorOptionChange(e: MatSelectChange): void {
+    const colorLabel = e.value;
     const field = this.colorOptions.find(v => v.label === colorLabel);
     if (field.key === 'None') {
       this.decoratorDel.emit({
@@ -114,8 +115,8 @@ export class EdgePanelComponent implements OnDestroy {
     }
   }
 
-  groupOptionChange(e: any): void {
-    const colorLabel = e.target.selectedOptions[0].value;
+  groupOptionChange(e: MatSelectChange): void {
+    const colorLabel = e.value;
     const field = this.colorOptions.find(v => v.label === colorLabel);
     if (field.key === 'None') {
       this.decoratorDel.emit({
