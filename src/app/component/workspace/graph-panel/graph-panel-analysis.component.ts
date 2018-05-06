@@ -39,10 +39,13 @@ import * as _ from 'lodash';
   <button mat-menu-item (click)='select.emit(262144)'>PCA - Incremental</button>
   <button mat-menu-item (click)='select.emit(524288)'>PCA - Kernel</button>
   <button mat-menu-item (click)='select.emit(1048576)'>PCA - Sparse</button>
+  <!--
   <button mat-menu-item (click)='select.emit(68719476736)'>PCA - Sparse - Mini Batch</button>
   <button mat-menu-item (click)='select.emit(2199023255552)'>PCA - Sparse Coder</button>
+  -->
   <button mat-menu-item (click)='select.emit(131072)'>Truncated SVD</button>
   </mat-menu>
+  <!--
   <mat-menu #analysisDiscriminantAnalysisMenu='matMenu'>
   <button mat-menu-item>Linear Discriminant Analysis</button>
   <button mat-menu-item>Quadratic Discriminant Analysis</button>
@@ -56,16 +59,19 @@ import * as _ from 'lodash';
   <button mat-menu-item>NU SVR</button>
   <button mat-menu-item>One Class SVM</button>
   </mat-menu>
+  -->
   <mat-menu #analysisMenu='matMenu'>
   <button mat-menu-item [matMenuTriggerFor]='analysisSummaryMenu'>Summary</button>
   <button mat-menu-item [matMenuTriggerFor]='analysisStructuralMenu'>Structural</button>
   <button mat-menu-item [matMenuTriggerFor]='analysisTreatmentMenu'>Treatment</button>
   <button mat-menu-item [matMenuTriggerFor]='analysisManifoldLearningMenu'>Manifold Learning</button>
   <button mat-menu-item [matMenuTriggerFor]='analysisMatrixDecompositionMenu'>Matrix Decomposition</button>
+  <!--
   <button mat-menu-item [matMenuTriggerFor]='analysisDiscriminantAnalysisMenu'>Discriminant Analysis</button>
   <button mat-menu-item [matMenuTriggerFor]='analysisSupportVectorMachinesMenu'>Support Vector Machines</button>
+  -->
   </mat-menu>
-  <button mat-button [matMenuTriggerFor]='analysisMenu'>Visualization</button>
+  <button mat-button color="primary"[matMenuTriggerFor]='analysisMenu'>Change</button>
   `
 })
 export class GraphPanelAnalysisComponent {
