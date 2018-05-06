@@ -1,9 +1,9 @@
-<div class='graphPanel' *ngIf='config'>
-    <div #panelButton class="graphPanelExpandedButton" [ngClass]="{leftPanel: title === 'Graph B'}">
+<div class='graphPanel' *ngIf='config' [ngClass]="title === 'Graph B' ? 'graphPanelRight' : 'graphPanelLeft'">
+    <!-- <div #panelButton class="graphPanelExpandedButton">
         <a (click)='toggleClick()'>
             <i class="material-icons small" style='color:rgba(0, 0, 0, 0.54);'>expand_less</i>
         </a>
-    </div>
+    </div> -->
     <div #panel class="graphPanelExpanded">
         <mat-accordion multi="true" displayMode='flat'>
             <mat-expansion-panel expanded='true'>
@@ -13,16 +13,17 @@
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <p>{{methodSummary}}</p>
+                <app-graph-panel-analysis (select)='setVisualization($event)'></app-graph-panel-analysis>
                 <button mat-button color="primary" (click)='helpClick()'>Learn More</button>
             </mat-expansion-panel>
             <mat-expansion-panel expanded='true'>
+                <ng-content></ng-content>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        Settings
+                        Parameters
                     </mat-panel-title>
                 </mat-expansion-panel-header>
-                <app-graph-panel-data></app-graph-panel-data>
-                <app-graph-panel-analysis (select)='setVisualization($event)'></app-graph-panel-analysis>
+
                 <app-pathways-form *ngIf='config && config.visualization === 256' (configChange)='graphPanelSetConfig($event)' [fields]='fields'
                     [config]='config'></app-pathways-form>
                 <app-timelines-form *ngIf='config && config.visualization === 128' (configChange)='graphPanelSetConfig($event)' [fields]='fields'

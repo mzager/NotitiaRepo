@@ -12,7 +12,7 @@ import * as _ from 'lodash';
   template: `
 <form [formGroup]='form' novalidate>
 <div class='form-group'>
-  <mat-form-field>
+  <mat-form-field class='form-field'>
       <mat-select placeholder='Data' formControlName='table'>
           <mat-option *ngFor='let option of dataOptions' [value]='option.label'>
               {{ option.label }}

@@ -1,40 +1,30 @@
-<div class="help-modal-panel">
-    <div class='row'>
-        <a href='#' class='modalClose' (click)='closeClick()'></a>
-        <div class='col s12 m9'>
-            <h1 class="help-h1">{{method}}</h1>
-            <div *ngFor='let attr of tutorial; let i = index'>
-                <h2 class="help-h2">{{attr.desc}}
-                    <a href='{{attr.url}}' target='_blank'>
-                        <i class='small material-icons modalWatchVideoIcon'>ondemand_video</i>Watch Tutorial</a>
-                </h2>
-            </div>
-            <p class='help-desc' [innerHTML]='desc'></p>
-            <p class='help-desc' [innerHTML]='learn'></p>
-            <p class='help-link-desc'>{{urlparagraph}}</p>
-            <a class='help-link' href='{{url}}' target='_blank'>Learn More</a>
-            <h2 class='help-section'>Method Settings</h2>
-            <div *ngFor='let attr of params; let i = index'>
-                <p class='help-label'>{{ attr.name }}</p>
-                <p class='help-desc'>{{ attr.desc }}</p>
-            </div>
-            <h2 class='help-section'>Returned Values
-                <span class="file-span"> (as viewed in chart legend)</span>
-            </h2>
-            <div *ngFor='let attr of attrs; let i = index'>
-                <p class='help-label'>{{ attr.name }}</p>
-                <p class='help-desc'>{{ attr.desc }}</p>
-            </div>
-            <h2 class='help-section'>Method Citations</h2>
-            <div *ngFor='let attr of citations; let i = index'>
-                <p class='help-label'>{{ attr.name }}</p>
-                <p class='help-desc'>{{ attr.desc }}
-                    <br />
-                    <span class='help-link'>
-                        <a class='help-link' href='{{ attr.url }}' target='_blank'>Link to Pub</a>
-                    </span>
-                </p>
-            </div>
+<div class='panel'>
+    <div>
+        <a href='#' class='modalClose' (click)='closeClick()'>
+        </a>
+        <h1 class='panel-header'>{{method}}</h1>
+    </div>
+    <div>
+        <p class='' [innerHTML]='desc'></p>
+        <p class='' [innerHTML]='learn'></p>
+        <a mat-button color="primary" href='{{url}}' target='_blank'>{{urlparagraph}}</a>
+        <h2 class='panel-sub-header'>Method Settings</h2>
+        <div *ngFor='let attr of params; let i = index'>
+            <h3 class='panel-column-title'>{{ attr.name }}</h3>
+            <p class=''>{{ attr.desc }}</p>
+        </div>
+        <h2 class='panel-sub-header'>Returned Values
+            <span class="file-span"> (as viewed in chart legend)</span>
+        </h2>
+        <div *ngFor='let attr of attrs; let i = index'>
+            <p class='panel-column-title'>{{ attr.name }}</p>
+            <p class=''>{{ attr.desc }}</p>
+        </div>
+        <h2 class='panel-sub-header'>Method Citations</h2>
+        <div *ngFor='let attr of citations; let i = index'>
+            <p class='panel-column-title'>{{ attr.name }}</p>
+            <p class=''>{{ attr.desc }}</p>
+            <a mat-button color="primary" href='{{ attr.url }}' target='_blank'>Link to Pub</a>
         </div>
     </div>
 </div>

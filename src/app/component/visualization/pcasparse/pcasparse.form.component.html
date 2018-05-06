@@ -35,8 +35,8 @@
         </mat-select>
     </mat-form-field>
     <mat-form-field class='form-field'>
-        <mat-select placeholder='SVD Solver' formControlName='algorithm'>
-            <mat-option *ngFor='let option of TruncatedSvdAlgorithemOptions' [value]='option'>
+        <mat-select placeholder='Method' formControlName='sk_method'>
+            <mat-option *ngFor='let option of PcaSparseSkMethodOptions' [value]='option'>
                 {{ option }}
             </mat-option>
         </mat-select>
