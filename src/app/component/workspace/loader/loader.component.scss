@@ -43,17 +43,15 @@
     height: 100%;
 }
 .loader-quote{
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     padding-left: 1.5rem;
     border-left: 5px solid #039be5;
     text-align: left;
-    line-height: 3rem;
+    line-height: 2rem;
     animation: colorShift 4s infinite alternate;
 }
 .loader-author {
-    font-size: 1.5rem;
-    line-height: 3rem;
-    padding-top: 10px;
+    font-size: 1rem;
 }
 
 .lds-rotated {

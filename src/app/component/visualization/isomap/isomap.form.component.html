@@ -34,11 +34,27 @@
             </mat-option>
         </mat-select>
     </mat-form-field>
-    <mat-form-field class='form-field'>
-        <mat-select placeholder='SVD Solver' formControlName='algorithm'>
-            <mat-option *ngFor='let option of TruncatedSvdAlgorithemOptions' [value]='option'>
+    <mat-form-field class='form-field-1-2'>
+        <mat-select placeholder='Eigen Solver' formControlName='eigen_solver'>
+            <mat-option *ngFor='let option of IsoMapEigenSolverOpitions' [value]='option'>
                 {{ option }}
             </mat-option>
         </mat-select>
     </mat-form-field>
+    <mat-form-field class='form-field-1-2'>
+        <mat-select placeholder='Path Method' formControlName='eigen_solver'>
+            <mat-option *ngFor='let option of IsoMapPathMethodOpitions' [value]='option'>
+                {{ option }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class='form-field'>
+        <mat-select placeholder='Neighbors Algorithm' formControlName='eigen_solver'>
+            <mat-option *ngFor='let option of IsoMapNeighborsAlgorithmOpitions' [value]='option'>
+                {{ option }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-label>Neighbors</mat-label>
+    <mat-slider min="1" max="20" step="1" formControlName='n_neighbors'></mat-slider>
 </form>
