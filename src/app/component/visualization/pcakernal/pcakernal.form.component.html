@@ -34,11 +34,20 @@
             </mat-option>
         </mat-select>
     </mat-form-field>
-    <mat-form-field class='form-field'>
-        <mat-select placeholder='SVD Solver' formControlName='algorithm'>
-            <mat-option *ngFor='let option of TruncatedSvdAlgorithemOptions' [value]='option'>
+    <mat-form-field class='form-field-1-2'>
+        <mat-select placeholder='Kernal' formControlName='kernel'>
+            <mat-option *ngFor='let option of kernalOptions' [value]='option'>
                 {{ option }}
             </mat-option>
         </mat-select>
     </mat-form-field>
+    <mat-form-field class='form-field-1-2'>
+        <mat-select placeholder='Eigen Solver' formControlName='eigen_solver'>
+            <mat-option *ngFor='let option of eigenSolverOptions' [value]='option'>
+                {{ option }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-slide-toggle formControlName='fit_inverse_transform'>Fit Inverse</mat-slide-toggle>
+    <mat-slide-toggle formControlName='remove_zero_eig'>Remove 0 Eig</mat-slide-toggle>
 </form>

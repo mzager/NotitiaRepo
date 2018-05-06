@@ -143,7 +143,7 @@ export const enum CollectionTypeEnum {
     CollectionTypeEnum.GENE_TYPE | CollectionTypeEnum.GENE_NAME,
     // tslint:disable-next-line:no-bitwise
     MOLECULAR = CollectionTypeEnum.CNV | CollectionTypeEnum.GISTIC |
-    CollectionTypeEnum.GISTIC_THRESHOLD | CollectionTypeEnum.MUTATION | CollectionTypeEnum.MIRNA |
+    CollectionTypeEnum.GISTIC_THRESHOLD | CollectionTypeEnum.MIRNA |
     CollectionTypeEnum.MRNA | CollectionTypeEnum.EXP | CollectionTypeEnum.METH | CollectionTypeEnum.RNA
 }
 
