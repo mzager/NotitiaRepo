@@ -7,66 +7,15 @@ import { DimensionEnum, EntityTypeEnum } from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DataTypeEnum, DirtyEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory } from './../../../model/data-field.model';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as _ from 'lodash';
 
 @Component({
   selector: 'app-dictionarylearning-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-<form [formGroup]='form' novalidate>
-  <mat-form-field>
-    <mat-select placeholder='Data' formControlName='table'>
-        <mat-option *ngFor='let option of dataOptions' [value]='option.label'>
-            {{ option.label }}
-        </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-select placeholder='Visualize' formControlName='entity'>
-        <mat-option *ngFor='let option of displayOptions' [value]='option'>
-            {{ option }}
-        </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-select placeholder='X Axis' formControlName='pcx'>
-        <mat-option *ngFor='let option of PcOptions' [value]='option'>
-            PC {{ option }}
-        </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-select placeholder='Y Axis' formControlName='pcy'>
-        <mat-option *ngFor='let option of PcOptions' [value]='option'>
-            PC {{ option }}
-        </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-select placeholder='Z Axis' formControlName='pcz'>
-        <mat-option *ngFor='let option of PcOptions' [value]='option'>
-            PC {{ option }}
-        </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-select placeholder='Fit Algo' formControlName='fit_algorithm'>
-        <mat-option *ngFor='let option of fitAlgorithemOptions' [value]='option'>
-            {{ option }}
-        </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-select placeholder='Transform Algo' formControlName='fit_algorithm'>
-        <mat-option *ngFor='let option of transformAlgorithemOptions' [value]='option'>
-            {{ option }}
-        </mat-option>
-    </mat-select>
-  </mat-form-field>
-</form>
-  `
+  encapsulation: ViewEncapsulation.None,
+  templateUrl: './dictionarylearning.form.component.html'
 })
 export class DictionaryLearningFormComponent extends AbstractScatterForm {
 

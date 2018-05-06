@@ -1,33 +1,28 @@
-<div class="panel">
-
-  <a href='#' class='modalClose' (click)='closeClick()'></a>
-  <h1 fxLayout="row" class='panel-header'>Data Sets</h1>
-  <h2 fxLayout="row" class='panel-header-desc'>Select from public data sets, or visualize your own.</h2>
-
-
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center" fxLayoutAlign.xs="center stretch" class="row-example"
-    fxLayoutGap='5px'>
-    <p class='panel-column-title'>My Datasets</p>
-    <a class='panel-button-image' (click)='uploadExcelClick() '>
-      <img src='./assets/logo-excel.png'>
-      <span>Upload an Excel File</span>
+<div class='panel'>
+  <div>
+    <a href='#' class='modalClose' (click)='closeClick()'>
     </a>
-    <a class='panel-button-image ' (click)='uploadHubClick() '>
-      <img src='./assets/logo-cloud.png '>
-      <span>Upload to Data Hub</span>
-    </a>
+    <h1 class='panel-header'>Data Sets</h1>
+    <h2 class='panel-header-desc'>Select from public data sets, or visualize your own</h2>
   </div>
-
-
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center" fxLayoutAlign.xs="center stretch" class="row-example"
-    fxLayoutGap='5px'>
-    <p class='panel-column-title'>Public Data Sets</p>
-    <div *ngFor='let dataset of datasets; let i=index'>
-      <a class='panel-button-image' (click)='this.loadTcga.emit(dataset) '>
-        <img src='./assets/disease/img{{dataset.img}}.png '>
-        <span>{{dataset.name}}</span>
+  <div fxLayout.xs='column' fxLayout.md='row' fxLayoutAlign="start stretch">
+    <div fxFlex.xs='1 1 100%' fxFlex.sm='1 1 30%' fxFlex.md='1 1 20%' fxFlex.lg='1 1 25%' fxFlex.xl='1 1 10%'>
+      <h2 class='panel-column-title '>My Datasets</h2>
+      <a class='panel-button-image ' (click)='uploadHubClick() '>
+        <img src='./assets/logo-cloud.png '>
+        <span>Login | Sign Up</span>
       </a>
     </div>
+    <div fxFlex.xs='1 1 100%' fxFlex.sm='1 1 70%' fxFlex.md='1 1 80%' fxFlex.lg='1 1 75%' fxFlex.xl='1 1 90%'>
+      <h2 class='panel-column-title '>Public Data Sets</h2>
+      <div>
+        <div class='panel-button-link' *ngFor='let dataset of datasets; let i=index'>
+          <a class='panel-button-image ' (click)='this.loadTcga.emit(dataset) '>
+            <img src='./assets/disease/img{{dataset.img}}.png '>
+            <span>{{dataset.name}}</span>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
-
 </div>

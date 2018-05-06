@@ -1,59 +1,53 @@
 <form [formGroup]='form' novalidate>
-    <mat-form-field>
-        <mat-select placeholder='Data' formControlName='table'>
-            <mat-option *ngFor='let option of dataOptions' [value]='option.label'>
+    <mat-form-field class='form-field-1-2'>
+        <mat-select placeholder='Data' formControlName='table' [compareWith]='byTbl'>
+            <mat-option *ngFor='let option of dataOptions' [value]='option'>
                 {{ option.label }}
             </mat-option>
         </mat-select>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class='form-field-1-2'>
         <mat-select placeholder='Visualize' formControlName='entity'>
             <mat-option *ngFor='let option of displayOptions' [value]='option'>
                 {{ option }}
             </mat-option>
         </mat-select>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class='form-field-1-3'>
         <mat-select placeholder='X Axis' formControlName='pcx'>
             <mat-option *ngFor='let option of PcOptions' [value]='option'>
                 PC {{ option }}
             </mat-option>
         </mat-select>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class='form-field-1-3'>
         <mat-select placeholder='Y Axis' formControlName='pcy'>
             <mat-option *ngFor='let option of PcOptions' [value]='option'>
                 PC {{ option }}
             </mat-option>
         </mat-select>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class='form-field-1-3'>
         <mat-select placeholder='Z Axis' formControlName='pcz'>
             <mat-option *ngFor='let option of PcOptions' [value]='option'>
                 PC {{ option }}
             </mat-option>
         </mat-select>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class='form-field-1-2'>
         <mat-select placeholder='Eigen Solver' formControlName='eigen_solver'>
             <mat-option *ngFor='let option of SpectralEmbeddingEigenSolverOpitions' [value]='option'>
                 {{ option }}
             </mat-option>
         </mat-select>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class='form-field-1-2'>
         <mat-select placeholder='Affinity' formControlName='affinity'>
             <mat-option *ngFor='let option of SpectralEmbeddingAffinityOpitions' [value]='option'>
                 {{ option }}
             </mat-option>
         </mat-select>
     </mat-form-field>
-    <div class='form-group'>
-        <label class='center-block'>
-            <span class='form-label'>Neighbors</span>
-            <p class='range-field'>
-                <input type='range' min='1' max='20' formControlName='n_neighbors' />
-            </p>
-        </label>
-    </div>
+    <mat-label>Neighbors</mat-label>
+    <mat-slider min="1" max="20" step="1" formControlName='n_neighbors'></mat-slider>
 </form>

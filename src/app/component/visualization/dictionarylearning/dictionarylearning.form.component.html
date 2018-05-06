@@ -34,9 +34,16 @@
             </mat-option>
         </mat-select>
     </mat-form-field>
-    <mat-form-field class='form-field'>
-        <mat-select placeholder='SVD Solver' formControlName='algorithm'>
-            <mat-option *ngFor='let option of TruncatedSvdAlgorithemOptions' [value]='option'>
+    <mat-form-field class='form-field-1-2'>
+        <mat-select placeholder='Fit Algo' formControlName='fit_algorithm'>
+            <mat-option *ngFor='let option of fitAlgorithemOptions' [value]='option'>
+                {{ option }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class='form-field-1-2'>
+        <mat-select placeholder='Transform Algo' formControlName='fit_algorithm'>
+            <mat-option *ngFor='let option of transformAlgorithemOptions' [value]='option'>
                 {{ option }}
             </mat-option>
         </mat-select>

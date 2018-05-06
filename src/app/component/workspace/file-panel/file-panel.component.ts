@@ -46,7 +46,7 @@ export class FilePanelComponent {
     { 'name': 'Ovarian', 'disease': 'ov', 'img': 'DSovary' },
     { 'name': 'Pancreas', 'disease': 'paad', 'img': 'DSpancreas' },
     { 'name': 'Prostate', 'disease': 'prad', 'img': 'DSprostate' },
-    { 'name': 'Pheochromocytoma and Paraganglioma', 'disease': 'pcpg', 'img': 'DSadrenal' },
+    { 'name': 'Pheochromocytoma + Paraganglioma', 'disease': 'pcpg', 'img': 'DSadrenal' },
     { 'name': 'Rectal', 'disease': 'read', 'img': 'DScoadread' },
     { 'name': 'Sarcoma', 'disease': 'sarc', 'img': 'DSsarcoma' },
     { 'name': 'Stomach', 'disease': 'stad', 'img': 'DSstomach' },

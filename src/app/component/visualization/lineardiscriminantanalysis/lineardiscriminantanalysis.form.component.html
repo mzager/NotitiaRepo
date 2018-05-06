@@ -34,9 +34,16 @@
             </mat-option>
         </mat-select>
     </mat-form-field>
-    <mat-form-field class='form-field'>
-        <mat-select placeholder='SVD Solver' formControlName='algorithm'>
-            <mat-option *ngFor='let option of TruncatedSvdAlgorithemOptions' [value]='option'>
+    <mat-form-field class='form-field-1-2'>
+        <mat-select placeholder='Solver' formControlName='LinearDiscriminantAnalysisSolver'>
+            <mat-option *ngFor='let option of LinearDiscriminantAnalysisSolverOptions' [value]='option'>
+                {{ option }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class='form-field-1-2'>
+        <mat-select placeholder='Shrinkage' formControlName='LinearDiscriminantAnalysisShrinkage'>
+            <mat-option *ngFor='let option of LinearDiscriminantAnalysisShrinkageOptions' [value]='option'>
                 {{ option }}
             </mat-option>
         </mat-select>
