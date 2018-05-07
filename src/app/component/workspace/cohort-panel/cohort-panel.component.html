@@ -11,7 +11,7 @@
   <!-- My Cohorts -->
   <div fxLayout.xs='column'>
     <div fxFlex.sm='1 1 30%' fxFlex.md='1 1 20%' fxFlex.lg='1 1 25%' fxFlex.xl='1 1 10%'>
-      <span>My Cohorts</span>
+      <span class='panel-column-title'>My Cohorts</span>
       <div *ngFor='let myCohort of cohorts'>
         <div class='cohort-myRow' (click)='deleteClick(myCohort)'>
           <i class='material-icons cohort-myRow-delete'>remove_circle_outline</i>
@@ -20,24 +20,47 @@
       </div>
     </div>
     <div fxFlex.sm='1 1 70%' fxFlex.md='1 1 80%' fxFlex.lg='1 1 75%' fxFlex.xl='1 1 90%'>
-      <span class='cohort-span'>Build A Cohort</span>
-      <div class='cohort-field '>
-        <label for='cohortName'>Create</label>
-        <input id='cohortName' type='text' placeholder='Enter Cohort Name' [(ngModel)]='activeCohort.n'>
+      <span class='panel-column-title'>Build A Cohort</span>
+
+      <div class="cohort-container">
+        <!-- old -->
+        <div class='cohort-field '>
+          <label for='cohortName'>Name</label>
+          <mat-form-field>
+            <input matInput id='cohortName' type='text' [(ngModel)]='activeCohort.n'>
+          </mat-form-field>
+        </div>
       </div>
       <div class=' cohort-field' [class.cohort-field-or]='condition.condition==="or"' *ngFor='let condition of activeCohort.conditions'>
+
         <label>{{condition.condition}}</label>
-        <select class='cohort-field-dropdown browser-default' [(ngModel)]='condition.field' materialize='material_select'>
+        <!-- this is broken! fixing -->
+        <mat-form-field>
+          <mat-select [(ngModel)]='condition.field'>
+            <mat-option *ngFor='let option of fields' [value]='condition.field'>
+              {{option.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+        <!-- <select class='cohort-field-dropdown browser-default' [(ngModel)]='condition.field' materialize='material_select'>
           <option *ngFor='let option of fields' [ngValue]='option'>{{option.name}}</option>
-        </select>
+        </select> -->
+
+
         <select *ngIf='condition.field.type==="category"' class='cohort-field-dropdown browser-default' [(ngModel)]='condition.value'
           materialize='material_select'>
           <option *ngFor='let option of condition.field.options' [ngValue]='option.value'>{{option.name}}</option>
         </select>
+
+
         <span *ngIf='condition.field.type==="number"' class='cohort-minMax'>
           <input type='number' [(ngModel)]='condition.min' placeholder='Min' style='margin-bottom:5px;border-color:#EEE;width:65px;padding-left: 6px;'>
           <input type='number' [(ngModel)]='condition.max' placeholder='Max' style='margin-bottom:5px;border-color:#EEE;width:65px;padding-left: 6px;'>
         </span>
+
+
         <div class='cohort-field-buttons'>
           <a href='#' (click)='fieldAnd(condition)'>And</a> |
           <a href='#' (click)='fieldOr(condition)'>Or</a>
@@ -45,10 +68,13 @@
             <a href='#' (click)='fieldDel(condition)'>Remove</a>
           </span>
         </div>
+
+
       </div>
-      <div class=' cohort-button'>
-        <a class='cohort-save' href='#' (click)='saveClick()'>Save</a>
-      </div>
+      <!-- <div class='button'> -->
+      <button class='button' href='#' (click)='saveClick()' mat-raised-button>Save</button>
+      <!-- <a class='cohort-save' href='#' (click)='saveClick()'>Save</a> -->
+      <!-- </div> -->
     </div>
   </div>
 </div>

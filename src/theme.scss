@@ -122,7 +122,7 @@ $custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $hea
 
 .panel-header {
   padding: 0px;
-  margin-bottom: 0px !important;
+  margin-bottom: 5px !important;
   line-height: 10px;
   letter-spacing: 2px;
 }
@@ -149,7 +149,7 @@ $custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $hea
 .panel-column-title {
   margin-bottom: 10px;
   font-weight: 400 !important;
-  padding-bottom: 0px !important;
+  padding-bottom: 10px !important;
   padding-top: 20px;
   letter-spacing: 1px;
 }

@@ -4,6 +4,14 @@
 // Responsive Mobile First
 @import '~@angular/material/theming';
 @import 'src/theme.scss';
+.cohort-container {
+  display: flex; // flex-direction: column;
+}
+
+.cohort-container>* {
+  width: 100%;
+}
+
 .cohort-h2 {
   font-size: 1rem;
   line-height: 150%;
@@ -65,8 +73,7 @@
     line-height: 40px;
     text-align: center;
     text-transform: uppercase;
-    font-weight: 700;
-    margin-right: 20px;
+    font-weight: 700; // margin-right: 20px;
   }
   input {
     background: #FFF;
@@ -113,11 +120,10 @@
   }
 }
 
-.cohort-span {
-  margin-bottom: 10px;
-  margin-left: 10px;
-}
-
+// .cohort-span {
+//   margin-bottom: 10px;
+//   // margin-left: 10px;
+// }
 @media (min-width: 410px) {
   /* Selectors and styles affecting screens WIDER THAN 410px (phones) */
   .cohort-field {
