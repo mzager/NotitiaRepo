@@ -1,12 +1,11 @@
 // Responsive Mobile First
 @import '~@angular/material/theming';
 @import 'src/theme.scss';
-.feedback-form {
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
+.feedback-container {
+  display: flex;
+  flex-direction: column;
 }
 
-.feedback-full-width {
+.feedback-container>* {
   width: 100%;
 }

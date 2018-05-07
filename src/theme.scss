@@ -36,15 +36,17 @@ $custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $hea
   background:#EEE;
 }
 .mat-select {
-.mat-select-arrow {
+  .mat-select-arrow {
     opacity: 0;
   }
 }
+
 .mat-select:hover {
   .mat-select-arrow {
     opacity: 1;
   }
 }
+
 /* Popup Panel */
 
 /* Angular Mobile First Cheat Sheet 
@@ -158,6 +160,11 @@ $custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $hea
 
 .panel-button-link {
   display: block;
+}
+
+.button {
+  color: #fff;
+  background: #1e88e5;
 }
 
 // SM
