@@ -15,53 +15,80 @@ import * as _ from 'lodash';
   selector: 'app-graph-panel-data',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-  <mat-menu #dataVisualizeMenu='matMenu'>
-    <button mat-menu-item *ngFor='let option of visualizationOptions'>{{option}}</button>
-  </mat-menu>
-  <mat-menu #dataTableMenu='matMenu'>
-    <button mat-menu-item *ngFor='let option of tableOptions'>{{option.label}}</button>
-  </mat-menu>
-  <mat-menu #dataCohortsMenu='matMenu'>
-    <button mat-menu-item *ngFor='let option of cohortOptions'>{{option.n}}</button>
-  </mat-menu>
-  <mat-menu #dataGenesetsMenu='matMenu'>
-    <button mat-menu-item *ngFor='let option of genesetOptions'>{{option.n}}</button>
-  </mat-menu>
-  <mat-menu #dataPathwaysMenu='matMenu'>
-    <button mat-menu-item *ngFor='let option of pathwayOptions'>{{option.n}}</button>
-  </mat-menu>
-  <mat-menu #analysisMenu='matMenu'>
-    <button mat-menu-item [matMenuTriggerFor]='dataTableMenu'>Table</button>
-    <button mat-menu-item [matMenuTriggerFor]='dataVisualizeMenu'>Visualize</button>
-    <button mat-menu-item [matMenuTriggerFor]='dataCohortsMenu'>Cohort</button>
-    <button mat-menu-item [matMenuTriggerFor]='dataGenesetsMenu'>Gene Set</button>
-    <button mat-menu-item [matMenuTriggerFor]='dataPathwaysMenu'>Pathway</button>
-  </mat-menu>
-  <button mat-button [matMenuTriggerFor]='analysisMenu' style='width: 118px;'>Data</button>
+  <mat-form-field class='form-field-1-3'>
+  <mat-select placeholder='Cohort' (selectionChange)='setLabelOption($event)'
+      [(value)]='cohortSelected' [compareWith]='byName'>
+      <mat-option *ngFor='let option of cohortOptions' [value]='option'>
+          {{ option.n }}
+      </mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field class='form-field-1-3'>
+  <mat-select placeholder='Geneset' (selectionChange)='setColorOption($event)'
+      [(value)]='genesetSelected' [compareWith]='byName'>
+      <mat-option *ngFor='let option of genesetOptions' [value]='option'>
+          {{ option.n }}
+      </mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field class='form-field-1-3' >
+  <mat-select placeholder='Pathway' (selectionChange)='setShapeOption($event)'
+      [(value)]='pathwaySelected' [compareWith]='byName'>
+      <mat-option *ngFor='let option of pathwayOptions' [value]='option'>
+          {{ option.n }}
+      </mat-option>
+  </mat-select>
+</mat-form-field>
   `
 })
 export class GraphPanelDataComponent {
-  public visualizationOptions = [EntityTypeEnum.SAMPLE, EntityTypeEnum.GENE];
-  public tableOptions = [];
+
   public cohortOptions = [];
   public genesetOptions = [];
   public pathwayOptions = [];
-  @Input() set config(v: GraphConfig) {
-  }
-  @Input() set tables(tbls: Array<DataTable>) {
-    this.tableOptions = tbls.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0));
+  public cohortSelected: Cohort;
+  public genesetSelected: GeneSet;
+  public pathwaySelected: Pathway;
+  public cohortOptionsVisible = true;
+  public genesetOptionsVisible = true;
+  public pathwayOptionsVisible = true;
+
+  private _config: GraphConfig;
+  public get config(): GraphConfig { return this._config; }
+  @Input() public set config(config: GraphConfig) {
+    if (!this._config) {
+      this._config = config;
+      this.updateFields();
+    } else if (this._config.entity !== config.entity) {
+      this._config = config;
+      this.updateFields();
+    }
   }
   @Input() set pathways(v: Array<Pathway>) {
     this.pathwayOptions = v;
-  }
-  @Input() set fields(v: Array<DataField>) {
-
+    this.pathwaySelected = this.pathwayOptions[0];
+    this.cd.markForCheck();
   }
   @Input() set cohorts(v: Array<Cohort>) {
     this.cohortOptions = v;
+    this.cohortSelected = this.cohortOptions[0];
+    this.cd.markForCheck();
+
   }
   @Input() set genesets(v: Array<GeneSet>) {
     this.genesetOptions = v;
+    this.genesetSelected = this.genesetOptions[0];
+    this.cd.markForCheck();
+
+  }
+  updateFields(): void {
+    if (!this._config) { return; }
+    this.cd.markForCheck();
+  }
+
+  byName(p1: any, p2: any) {
+    if (p2 === null) { return false; }
+    return p1.n === p2.n;
   }
   constructor(private cd: ChangeDetectorRef) { }
 }

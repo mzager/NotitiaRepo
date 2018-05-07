@@ -2,59 +2,15 @@ import { ChromosomeConfigModel } from './chromosome.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DimensionEnum, DataTypeEnum, VisualizationEnum, DirtyEnum, CollectionTypeEnum, EntityTypeEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as _ from 'lodash';
 
 @Component({
   selector: 'app-chromosome-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-<form [formGroup]='form' novalidate>
-<mat-form-field class='form-field'>
-  <mat-select placeholder='Data' formControlName='table'>
-      <mat-option *ngFor='let option of dataOptions' [value]='option.label'>
-          {{ option.label }}
-      </mat-option>
-  </mat-select>
-  </mat-form-field>
-  <mat-form-field class='form-field'>
-      <mat-select placeholder='Chromosomes' formControlName='chromosome'>
-          <mat-option *ngFor='let option of chromosomeOptions' [value]='option.label'>
-              {{ option.label }}
-          </mat-option>
-      </mat-select>
-  </mat-form-field>
-  <mat-form-field class='form-field'>
-      <mat-select placeholder='Layout' formControlName='layoutOption'>
-          <mat-option *ngFor='let option of layoutOptions' [value]='option'>
-              {{ option }}
-          </mat-option>
-      </mat-select>
-  </mat-form-field>
-  <mat-form-field class='form-field'>
-      <mat-select placeholder='Spacing' formControlName='spacingOption'>
-          <mat-option *ngFor='let option of spacingOptions' [value]='option'>
-              {{ option }}
-          </mat-option>
-      </mat-select>
-  </mat-form-field>
-  <mat-form-field class='form-field'>
-    <mat-select placeholder='Show' formControlName='geneOption'>
-        <mat-option *ngFor='let option of geneOptions' [value]='option'>
-            {{ option.label }}
-        </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field class='form-field'>
-    <mat-select placeholder='Chords' formControlName='chordOption'>
-        <mat-option *ngFor='let option of chordOptions' [value]='option'>
-            {{ option.label }}
-        </mat-option>
-    </mat-select>
-  </mat-form-field>
-</form>
-  `
+  encapsulation: ViewEncapsulation.None,
+  templateUrl: './chromosome.form.component.html'
 })
 export class ChromosomeFormComponent {
 
