@@ -14,7 +14,7 @@
         </mat-select>
     </mat-form-field>
     <mat-form-field class='form-field'>
-        <mat-select [value]='colorSelected' placeholder='Color' (selectionChange)='edgeOptionChange($event)'>
+        <mat-select [value]='colorSelected' placeholder='Color' (selectionChange)='colorOptionChange($event)'>
             <mat-option *ngFor='let option of colorOptions' [value]='option.label'>
                 {{ option.label }}
             </mat-option>

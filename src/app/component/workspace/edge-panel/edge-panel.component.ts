@@ -107,11 +107,13 @@ export class EdgePanelComponent implements OnDestroy {
     const colorLabel = e.value;
     const field = this.colorOptions.find(v => v.label === colorLabel);
     if (field.key === 'None') {
+      debugger;
       this.decoratorDel.emit({
         config: this.edgeConfig,
         decorator: { type: DataDecoratorTypeEnum.COLOR, values: null, field: null, legend: null }
       });
     } else {
+      debugger;
       this.decoratorAdd.emit({
         config: this.edgeConfig,
         decorator: { type: DataDecoratorTypeEnum.COLOR, field: field, legend: null, values: null }
