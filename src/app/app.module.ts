@@ -213,7 +213,7 @@ import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph
     ComputeService,
     ChartFactory,
     HttpClient,
-    ModalService
+    ModalService,
   ],
   bootstrap: [AppComponent]
 })

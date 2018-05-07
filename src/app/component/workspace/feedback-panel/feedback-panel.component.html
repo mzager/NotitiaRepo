@@ -5,18 +5,27 @@
     <h1 class='panel-header'>Feedback</h1>
     <h2 class='panel-header-desc'>Contact the Oncoscape Team</h2>
   </div>
-  <form class="feedback-form">
-    <mat-form-field class="feedback-full-width">
-      <textarea matInput placeholder="Name"></textarea>
+  <div class="feedback-container">
+    <mat-form-field>
+      <input matInput placeholder="Name">
     </mat-form-field>
-    <mat-form-field class="feedback-full-width">
-      <textarea matInput placeholder="Institution"></textarea>
+    <!-- fix email -->
+    <mat-form-field>
+      <input matInput placeholder="Email">
     </mat-form-field>
-    <mat-form-field class="feedback-full-width">
-      <textarea matInput placeholder="Email"></textarea>
+    <mat-form-field>
+      <input matInput placeholder="Institution">
     </mat-form-field>
-    <mat-form-field class="feedback-full-width">
+    <mat-form-field>
+      <mat-select placeholder="Choose One">
+        <mat-option value="option">General Inquiry</mat-option>
+        <mat-option value="option">Developer Collaboration</mat-option>
+        <mat-option value="option">Research Collaboration</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
       <textarea matInput placeholder="Comments"></textarea>
     </mat-form-field>
-  </form>
+  </div>
+  <button class='button' mat-raised-button>Send Message!</button>
 </div>
