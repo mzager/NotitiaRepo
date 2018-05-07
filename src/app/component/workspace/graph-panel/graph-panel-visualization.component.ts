@@ -4,13 +4,14 @@ import { DataTable } from 'app/model/data-field.model';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
 import { DataField, DataFieldFactory } from './../../../model/data-field.model';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as _ from 'lodash';
 
 @Component({
     selector: 'app-graph-panel-visualization',
     changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
     template: `
     <mat-form-field class='form-field-1-3'>
         <mat-select placeholder='Label' (selectionChange)='setLabelOption($event)'

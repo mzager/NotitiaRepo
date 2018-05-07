@@ -14,7 +14,8 @@
                 </mat-expansion-panel-header>
                 <p>{{methodSummary}}</p>
                 <app-graph-panel-analysis (select)='setVisualization($event)'></app-graph-panel-analysis>
-                <button mat-button color="primary" (click)='helpClick()'>Learn More</button>
+                <a class='os-link' style='padding-left:20px;' href='#' (click)='helpClick()'>Learn More</a>
+                <!-- <button mat-button color="primary" (click)='helpClick()'>Learn More</button> -->
             </mat-expansion-panel>
             <mat-expansion-panel expanded='true'>
                 <ng-content></ng-content>

@@ -1,11 +1,11 @@
 <div class='application-bar-menu'>
   <span class='application-bar-buttons'>
-    <span class='application-bar-button' (click)='onSplitScreenChange()'>
+    <span class='application-bar-button' style='border-right-width: 1px;' (click)='onSplitScreenChange()'>
       <!-- <mat-icon>computer</mat-icon> -->
       <span class='copy'>Split Screen</span>
     </span>
     <mat-menu #appMenu="matMenu">
-      <button mat-menu-item (click)='viewPanel(32768)'>Data Hub</button>
+      <button mat-menu-item (click)='viewPanel(4)'>Data Sets</button>
       <button mat-menu-item (click)='viewPanel(16384)'>Feedback</button>
       <button mat-menu-item (click)='viewPanel(1024)'>Citations</button>
       <button mat-menu-item (click)='viewPanel(512)'>About</button>
