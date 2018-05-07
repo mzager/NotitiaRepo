@@ -18,16 +18,7 @@ $theme: mat-light-theme($primary, $accent, $warn);
 @include angular-material-theme($theme);
 // Define a custom typography config that overrides the font-family as well as the
 // `headlines` and `body-1` levels.
-$custom-typography: mat-typography-config( 
-  $font-family: 'Lato, monospace', 
-  $headline: mat-typography-level(32px, 32px, 300), 
-  $title: mat-typography-level(14px, 14px, 300), 
-  $body-1: mat-typography-level(14px, 18px, 300),
-  $body-2: mat-typography-level(10px, 14px, 300), 
-  $button: mat-typography-level(14px, 16px, 300),
-  $input: mat-typography-level(1em, 1, 300),
-  $subheading-2: mat-typography-level(14px, 16px, 300)
-);
+$custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $headline: mat-typography-level(32px, 32px, 300), $title: mat-typography-level(14px, 14px, 300), $body-1: mat-typography-level(14px, 18px, 300), $body-2: mat-typography-level(10px, 14px, 300), $button: mat-typography-level(14px, 16px, 300), $input: mat-typography-level(1em, 1, 300), $subheading-2: mat-typography-level(14px, 16px, 300));
 @include angular-material-typography($custom-typography);
 /* Disable Text Select */
 
@@ -52,24 +43,28 @@ $custom-typography: mat-typography-config(
 }
 /* Popup Panel */
 
-/* Angular Mobile First Breakpoints 
+/* Angular Mobile First Cheat Sheet 
 {
-  xs: '(max-width: 480px)', // extra small screens
-  sm: '(min-width: 481px) and (max-width: 768px)', // small screens
-  md: '(min-width: 769px) and (max-width: 991px)', // medium screens
-  lg: '(min-width: 992px)' // large screens
+  xs: 'screen and (max-width: 599px)'
+  sm: 'screen and (min-width: 600px) and (max-width: 959px)'
+  md: 'screen and (min-width: 960px) and (max-width: 1279px)'
+  lg: 'screen and (min-width: 1280px) and (max-width: 1919px)'
+  xl: 'screen and (min-width: 1920px) and (max-width: 5000px)'
 }
 */
 
-.form-field { 
+.form-field {
   width: 100%;
 }
+
 .form-field-1-2 {
   width: 50%
 }
+
 .form-field-1-3 {
   width: 33%
 }
+
 .modalClose {
   $size: 50px;
   height: $size;
@@ -81,36 +76,35 @@ $custom-typography: mat-typography-config(
   line-height: $size;
   display: inline-block;
   color: black;
-  &:before, &:after {
-      $width: 50px;
-      $height: 2px;
-      transform: rotate(-45deg);
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      margin-top: -$height/2;
-      margin-left: -$width/2;
-      display: block;
-      height: $height;
-      width: $width;
-      background-color: mat-color($primary);
-      transition: all 0.25s ease-out;
-  }
-
+  &:before,
   &:after {
-      transform: rotate(-135deg);
+    $width: 50px;
+    $height: 2px;
+    transform: rotate(-45deg);
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -$height/2;
+    margin-left: -$width/2;
+    display: block;
+    height: $height;
+    width: $width;
+    background-color: mat-color($primary);
+    transition: all 0.25s ease-out;
   }
-
+  &:after {
+    transform: rotate(-135deg);
+  }
   &:hover {
-
-      &:before, &:after {
-          transform: rotate(0deg);
-      }
+    &:before,
+    &:after {
+      transform: rotate(0deg);
+    }
   }
 }
 
-// Main Themes (max-width: 480px)
+// Main Themes XS 
 .panel {
   position: absolute;
   left: 0px;
@@ -120,7 +114,7 @@ $custom-typography: mat-typography-config(
   overflow: hidden;
   padding-top: 50px;
   overflow-y: scroll;
-  padding:50px 10px;
+  padding: 50px 10px;
   background: #FFF;
 }
 
@@ -128,7 +122,7 @@ $custom-typography: mat-typography-config(
   padding: 0px;
   margin-bottom: 0px !important;
   line-height: 10px;
-  letter-spacing: 2px;  
+  letter-spacing: 2px;
 }
 
 .panel-sub-header {
@@ -136,11 +130,12 @@ $custom-typography: mat-typography-config(
   margin-top: 18px !important;
   margin-bottom: 0px !important;
   line-height: 10px;
-  letter-spacing: 2px;  
-  font-size: 18px !important;;
-  line-height: 22px !important;;
+  letter-spacing: 2px;
+  font-size: 18px !important;
+  ;
+  line-height: 22px !important;
+  ;
 }
-
 
 .panel-header-desc {
   padding: 0px;
@@ -158,38 +153,42 @@ $custom-typography: mat-typography-config(
 }
 
 .panel-button-link {
-  display: block;   
+  display: block;
 }
+
 // SM
 @media screen and (min-width: 600px) and (max-width: 959px) {
   .panel {
-    padding:50px 50px;
+    padding: 50px 50px;
   }
 }
+
 // MD
 @media screen and (min-width: 960px) and (max-width: 1279px) {
   .panel {
-    padding:50px 75px;
+    padding: 50px 75px;
   }
   .panel-button-link {
     display: inline-block;
     width: 33%;
   }
 }
+
 // LG
 @media screen and (min-width: 1280px) and (max-width: 1919px) {
   .panel {
-    padding:50px 100px;
+    padding: 50px 100px;
   }
   .panel-button-link {
     display: inline-block;
     width: 33%;
   }
 }
+
 // XL
 @media screen and (min-width: 1920px) and (max-width: 5000px) {
   .panel {
-    padding:50px 300px;
+    padding: 50px 300px;
   }
   .panel-button-link {
     display: inline-block;
