@@ -1,6 +1,9 @@
 // Responsive Mobile First
 /* Selectors and styles affecting screens SMALLER THAN 410px (smallPhones) */
 
+// Responsive Mobile First
+@import '~@angular/material/theming';
+@import 'src/theme.scss';
 .cohort-h2 {
   font-size: 1rem;
   line-height: 150%;
