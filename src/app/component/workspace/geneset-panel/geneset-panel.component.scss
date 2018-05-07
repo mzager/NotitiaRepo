@@ -1,5 +1,7 @@
 // Responsive Mobile First
 // Selectors and styles affecting screens SMALLER THAN 360px (smallPhones) 
+@import '~@angular/material/theming';
+@import 'src/theme.scss';
 .geneset-modal-panel {
   padding: 20px;
   background: #FFF;
