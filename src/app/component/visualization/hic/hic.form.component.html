@@ -6,22 +6,6 @@
             </mat-option>
         </mat-select>
     </mat-form-field>
-    <div class='form-group'>
-        <div class='switch'>
-            <label>
-                <input type='checkbox' formControlName='showLinks'>
-                <span class='lever'></span>
-                Show Links
-            </label>
-        </div>
-    </div>
-    <div class='form-group'>
-        <div class='switch'>
-            <label>
-                <input type='checkbox' formControlName='showChromosome'>
-                <span class='lever'></span>
-                Show Chromosome
-            </label>
-        </div>
-    </div>
+    <mat-slide-toggle formControlName='showLinks'>Show Links</mat-slide-toggle>
+    <mat-slide-toggle formControlName='showChromosome'>Show Chromosome</mat-slide-toggle>
 </form>
