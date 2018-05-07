@@ -1,10 +1,11 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as _ from 'lodash';
 
 @Component({
     selector: 'app-graph-panel-analysis',
     changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
     template: `
   <mat-menu #analysisSummaryMenu='matMenu'>
   <button mat-menu-item (click)='select.emit(8796093022208)'>Dashboard</button>
@@ -71,7 +72,7 @@ import * as _ from 'lodash';
   <button mat-menu-item [matMenuTriggerFor]='analysisSupportVectorMachinesMenu'>Support Vector Machines</button>
   -->
   </mat-menu>
-  <button mat-button color="primary"[matMenuTriggerFor]='analysisMenu'>Change</button>
+  <a class='os-link' href='#' [matMenuTriggerFor]='analysisMenu'>Change Visualization</a>
   `
 })
 export class GraphPanelAnalysisComponent {

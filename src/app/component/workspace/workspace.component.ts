@@ -186,7 +186,6 @@ export class WorkspaceComponent {
   // }
 
   edgeConfigChange(value: EdgeConfigModel): void {
-    alert();
     this.store.dispatch(new compute.EdgesAction({ config: value }));
   }
 
