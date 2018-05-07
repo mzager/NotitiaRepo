@@ -1,7 +1,8 @@
 // // Responsive Mobile First
-
 // /* Selectors and styles affecting screens SMALLER THAN 767px (Phones) */
-
+// Responsive Mobile First
+@import '~@angular/material/theming';
+@import 'src/theme.scss';
 // .help-modal-panel {
 //     padding: 20px;
 //     background: #FFF;
@@ -31,7 +32,6 @@
 //     box-sizing: border-box;
 //     line-height: $size;
 //     display: inline-block;
-
 //     &:before, &:after {
 //         $width: 50px;
 //         $height: 10px;
@@ -48,25 +48,19 @@
 //         background-color: #fff;
 //         transition: all 0.25s ease-out;
 //     }
-
 //     &:after {
 //         transform: rotate(-135deg);
 //     }
-
 //     &:hover {
-
 //         &:before, &:after {
 //             transform: rotate(0deg);
 //         }
 //     }
 // }
-
-
 // .tabs .tab a {
 //     padding: 0px;
 //     font-size: 1rem;
 // }
-
 // .help-h1 {
 //     font-size: 2rem;
 //     font-weight: 300;
@@ -82,8 +76,6 @@
 //     margin-top: 0px;
 //     margin-bottom: 10px;
 // }
-
-
 // .btn-config {
 //     background-color: rgba(255, 255, 255, 0.9);
 //     width: 100%;
@@ -91,36 +83,30 @@
 //     border-radius: 2px;
 //     height: 2rem;
 // }
-
 // .help-method {
 //     display: none;
 // }
-
 // .help-section {
 //     font-weight: 300;
 //    padding-top: 25px;
 //    font-size: 3rem;
 //    margin-bottom: 10px;
 // }
-
 // .help-label {
 //     font-weight: 400;
 //     font-size: 1.2rem;
 //     margin-bottom: 0px;
 //     margin-top: 5px;
 // }
-
 // .help-desc {
 //     font-weight: 300;
 //     font-size: 1.2rem;
 //     margin-top: 0px;
 // }
-
 // .help-link {
 //     font-size: 1.2rem;
 //     font-weight: 300;
 // }
-
 // .help-link-desc {
 //     font-weight: 300;
 //     font-size: 1.2rem;
@@ -130,7 +116,6 @@
 // .file-span {
 //     font-size: 1.2rem;
 // }
-
 // @media (min-width: 979px) {
 //     .help-modal-panel {
 //         padding: 60px;
