@@ -11,8 +11,6 @@ import { HttpModule } from '@angular/http';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
-
-import { NouisliderModule } from 'ng2-nouislider';
 import { FileUploadModule } from 'ng2-file-upload';
 
 import { HotTableModule } from 'angular-handsontable';
@@ -198,7 +196,6 @@ import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph
     BrowserAnimationsModule,
     FlexLayoutModule,
     MaterialModule,
-    NouisliderModule,
     FileUploadModule,
     FormsModule,
     HttpModule,

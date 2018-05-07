@@ -28,7 +28,7 @@ export class AbstractScatterForm {
         if (p2 === null) { return false; }
         return p1.tbl === p2.tbl;
     }
-    public byKey(p1: DataField, p2: DataField) {
+    byKey(p1: DataField, p2: DataField) {
         if (p2 === null) { return false; }
         return p1.key === p2.key;
     }
