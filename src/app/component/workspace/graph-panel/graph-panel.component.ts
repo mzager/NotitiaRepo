@@ -92,6 +92,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Output() workspaceConfigChange: EventEmitter<{ config: WorkspaceConfigModel }> = new EventEmitter();
   @Output() edgeConfigChange: EventEmitter<{ config: EdgeConfigModel }> = new EventEmitter();
 
+
   methodName = '';
   methodSummary = '';
   workspaceLayoutOptions = [
@@ -177,7 +178,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       });
     }
   }
-
 
   toggleClick(): void {
     if (this.panel.nativeElement.classList.contains('graphPanelCollapsed')) {

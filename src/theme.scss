@@ -40,6 +40,16 @@ $custom-typography: mat-typography-config(
   user-select: none;
 }
 
+.mat-select {
+.mat-select-arrow {
+    opacity: 0;
+  }
+}
+.mat-select:hover {
+  .mat-select-arrow {
+    opacity: 1;
+  }
+}
 /* Popup Panel */
 
 /* Angular Mobile First Breakpoints 

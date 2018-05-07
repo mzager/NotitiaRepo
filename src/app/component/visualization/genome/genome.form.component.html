@@ -1,0 +1,10 @@
+<form [formGroup]='form' novalidate>
+    <mat-form-field class='form-field-1'>
+        <mat-select placeholder='Alignment' formControlName='alignment'>
+            <mat-option *ngFor='let option of alignmentOptions' [value]='option'>
+                HG{{ option }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-slide-toggle formControlName='showTads'>HG19 Tads</mat-slide-toggle>
+</form>

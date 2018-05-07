@@ -1,3 +1,4 @@
+import { MatSelectChange } from '@angular/material';
 import { EntityTypeEnum } from './../../../model/enum.model';
 import { DataTable } from 'app/model/data-field.model';
 import { GraphConfig } from 'app/model/graph-config.model';
@@ -11,27 +12,36 @@ import * as _ from 'lodash';
     selector: 'app-graph-panel-visualization',
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-  <mat-menu #visualizationLabelsMenu='matMenu'>
-    <button mat-menu-item *ngFor='let option of colorOptions' (click)='setColorOption(option)'>{{option.label}}</button>
-  </mat-menu>
-  <mat-menu #visualizationColorsMenu='matMenu'>
-    <button mat-menu-item *ngFor='let option of shapeOptions' (click)='setShapeOption(option)'>{{option.label}}</button>
-  </mat-menu>
-  <mat-menu #visualizationShapesMenu='matMenu'>
-    <button mat-menu-item *ngFor='let option of labelOptions' (click)='setLabelOption(option)'>{{option.label}}</button>
-  </mat-menu>
-  <mat-menu #analysisMenu='matMenu'>
-    <button mat-menu-item [matMenuTriggerFor]='visualizationLabelsMenu'>Labels</button>
-    <button mat-menu-item [matMenuTriggerFor]='visualizationColorsMenu'>Colors</button>
-    <button mat-menu-item [matMenuTriggerFor]='visualizationShapesMenu'>Shapes</button>
-  </mat-menu>
-  <button mat-button color='primary' [matMenuTriggerFor]='analysisMenu' style='width: 118px;'>Visualization</button>
+    <mat-form-field class='form-field-1-3'>
+        <mat-select placeholder='Label' (selectionChange)='setLabelOption($event)'
+            [(value)]='labelSelected' [compareWith]='byKey'>
+            <mat-option *ngFor='let option of labelOptions' [value]='option'>
+                {{ option.label }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class='form-field-1-3'>
+        <mat-select placeholder='Color' (selectionChange)='setColorOption($event)'
+            [(value)]='colorSelected' [compareWith]='byKey'>
+            <mat-option *ngFor='let option of colorOptions' [value]='option'>
+                {{ option.label }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class='form-field-1-3'>
+        <mat-select placeholder='Shape' (selectionChange)='setShapeOption($event)'
+            [(value)]='shapeSelected' [compareWith]='byKey'>
+            <mat-option *ngFor='let option of shapeOptions' [value]='option'>
+                {{ option.label }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
   `
 })
 export class GraphPanelVisualizationComponent {
 
-    @Output() decoratorAdd: EventEmitter<DataDecorator> = new EventEmitter();
-    @Output() decoratorDel: EventEmitter<DataDecorator> = new EventEmitter();
+    @Output() decoratorAdd: EventEmitter<{ config: GraphConfig, decorator: DataDecorator }> = new EventEmitter();
+    @Output() decoratorDel: EventEmitter<{ config: GraphConfig, decorator: DataDecorator }> = new EventEmitter();
     public clinicalColorOptions: Array<DataField>;
     public clinicalShapeOptions: Array<DataField>;
     // public clinicalSizeOptions: Array<DataField>;
@@ -40,11 +50,15 @@ export class GraphPanelVisualizationComponent {
     public molecularShapeOptions: Array<DataField>;
     // public molecularSizeOptions: Array<DataField>;
     public molecularLabelOptions: Array<DataField>;
-
+    public colorSelected: DataField;
+    public labelSelected: DataField;
+    public shapeSelected: DataField;
     public colorOptions: Array<DataField>;
     public shapeOptions: Array<DataField>;
     public sizeOptions: Array<DataField>;
     public labelOptions: Array<DataField>;
+
+
 
     private _decorators: Array<DataDecorator> = [];
     @Input() set decorators(value: Array<DataDecorator>) {
@@ -77,6 +91,10 @@ export class GraphPanelVisualizationComponent {
         this.clinicalLabelOptions = DataFieldFactory.getSampleLabelFields(fields);
         this.updateFields();
     }
+    byKey(p1: DataField, p2: DataField) {
+        if (p2 === null) { return false; }
+        return p1.label === p2.label;
+    }
     updateFields(): void {
         if (!this._config || !this.molecularColorOptions || !this.clinicalColorOptions) { return; }
         if (this.config.entity === EntityTypeEnum.GENE) {
@@ -90,27 +108,52 @@ export class GraphPanelVisualizationComponent {
             // this.sizeOptions = this.clinicalSizeOptions;
             this.labelOptions = this.clinicalLabelOptions;
         }
+        this.colorSelected = DataFieldFactory.getUndefined();
+        this.shapeSelected = DataFieldFactory.getUndefined();
+        this.labelSelected = DataFieldFactory.getUndefined();
         this.cd.markForCheck();
     }
-    setColorOption(field: DataField): void {
-        if (field.key === 'None') {
-            this.decoratorDel.emit({ type: DataDecoratorTypeEnum.COLOR, values: null, field: null, legend: null });
+
+    setColorOption(event: MatSelectChange): void {
+        this.colorSelected = event.value;
+        if (this.colorSelected.key === 'None') {
+            this.decoratorDel.emit({
+                config: this.config,
+                decorator: { type: DataDecoratorTypeEnum.COLOR, values: null, field: null, legend: null }
+            });
         } else {
-            this.decoratorAdd.emit({ type: DataDecoratorTypeEnum.COLOR, field: field, legend: null, values: null });
+            this.decoratorAdd.emit({
+                config: this.config,
+                decorator: { type: DataDecoratorTypeEnum.COLOR, field: this.colorSelected, legend: null, values: null }
+            });
         }
     }
-    setShapeOption(field: DataField): void {
-        if (field.key === 'None') {
-            this.decoratorDel.emit({ type: DataDecoratorTypeEnum.SHAPE, values: null, field: null, legend: null });
+    setShapeOption(event: MatSelectChange): void {
+        this.shapeSelected = event.value;
+        if (this.shapeSelected.key === 'None') {
+            this.decoratorDel.emit({
+                config: this.config,
+                decorator: { type: DataDecoratorTypeEnum.SHAPE, values: null, field: null, legend: null }
+            });
         } else {
-            this.decoratorAdd.emit({ type: DataDecoratorTypeEnum.SHAPE, field: field, legend: null, values: null });
+            this.decoratorAdd.emit({
+                config: this.config,
+                decorator: { type: DataDecoratorTypeEnum.SHAPE, field: this.shapeSelected, legend: null, values: null }
+            });
         }
     }
-    setLabelOption(field: DataField): void {
-        if (field.key === 'None') {
-            this.decoratorDel.emit({ type: DataDecoratorTypeEnum.LABEL, values: null, field: null, legend: null });
+    setLabelOption(event: MatSelectChange): void {
+        this.labelSelected = event.value;
+        if (this.labelSelected.key === 'None') {
+            this.decoratorDel.emit({
+                config: this.config,
+                decorator: { type: DataDecoratorTypeEnum.LABEL, values: null, field: null, legend: null }
+            });
         } else {
-            this.decoratorAdd.emit({ type: DataDecoratorTypeEnum.LABEL, field: field, legend: null, values: null });
+            this.decoratorAdd.emit({
+                config: this.config,
+                decorator: { type: DataDecoratorTypeEnum.LABEL, field: this.labelSelected, legend: null, values: null }
+            });
         }
     }
 
