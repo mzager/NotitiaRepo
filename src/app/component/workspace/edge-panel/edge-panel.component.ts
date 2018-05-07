@@ -56,6 +56,10 @@ export class EdgePanelComponent implements OnDestroy {
   @Output() decoratorDel: EventEmitter<{ config: GraphConfig, decorator: DataDecorator }> = new EventEmitter();
 
   // focusSubscription: Subscription;
+  layoutSelected: string;
+  edgeSelected: DataField;
+  colorSelected: DataField;
+  groupSelected: DataField;
   layoutOptions: Array<string>;
   edgeOptions: Array<DataField>;
   colorOptions: Array<DataField>;
@@ -176,10 +180,17 @@ export class EdgePanelComponent implements OnDestroy {
         this.cd.markForCheck();
       }
     }
+    this.layoutSelected = this.layoutOptionChange[0];
+    this.edgeSelected = this.edgeOptions[0];
+    this.colorSelected = this.colorOptions[0];
+    this.groupSelected = this.groupOptions[0];
+    this.cd.markForCheck();
   }
 
   ngOnDestroy() {
     // this.focusSubscription.unsubscribe();
     this.$graphChange.unsubscribe();
   }
+
+
 }
