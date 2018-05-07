@@ -8,15 +8,16 @@ import { DataTable } from 'app/model/data-field.model';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
 import { DataField, DataFieldFactory } from './../../../model/data-field.model';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as _ from 'lodash';
 
 @Component({
   selector: 'app-graph-panel-data',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: `
-  <mat-form-field class='form-field-1-3'>
+  <mat-form-field class='form-field-1-2'>
   <mat-select placeholder='Cohort' (selectionChange)='setCohortOption($event)'
       [value]='cohortSelected' [compareWith]='byName'>
       <mat-option *ngFor='let option of cohortOptions' [value]='option'>
@@ -27,7 +28,7 @@ import * as _ from 'lodash';
       </mat-option>
   </mat-select>
 </mat-form-field>
-<mat-form-field class='form-field-1-3'>
+<mat-form-field class='form-field-1-2'>
   <mat-select placeholder='Geneset' (selectionChange)='setGenesetOption($event)'
       [value]='genesetSelected' [compareWith]='byName'>
       <mat-option *ngFor='let option of genesetOptions' [value]='option'>
@@ -38,7 +39,7 @@ import * as _ from 'lodash';
       </mat-option>
   </mat-select>
 </mat-form-field>
-<mat-form-field class='form-field-1-3' >
+<mat-form-field class='form-field' >
   <mat-select placeholder='Pathway' (selectionChange)='setPathwayOption($event)'
       [value]='pathwaySelected' [compareWith]='byName'>
       <mat-option *ngFor='let option of pathwayOptions' [value]='option'>
@@ -121,13 +122,10 @@ export class GraphPanelDataComponent {
 
   }
   public setCohortOption(e: MatSelectChange): void {
-    debugger;
-
     if (e.value === undefined) {
       this.showPanel.emit(PanelEnum.COHORT);
       return;
     }
-    debugger;
     this.config.patientFilter = e.value.pids;
     this.config.sampleFilter = e.value.sids;
     this.config.dirtyFlag = DirtyEnum.LAYOUT;

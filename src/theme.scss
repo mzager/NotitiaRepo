@@ -33,7 +33,8 @@ $custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $hea
 
 .mat-expansion-panel-header {
   font-weight: 300;
-  background:#EEE;
+  // background:rgba(0, 0, 0, 0.87);
+  // padding: 0px;
 }
 .mat-select {
   .mat-select-arrow {
@@ -45,6 +46,18 @@ $custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $hea
   .mat-select-arrow {
     opacity: 1;
   }
+}
+.os-link {
+  color: mat-color($primary);
+  text-decoration: none;
+}
+.os-link:hover { 
+  color: mat-color($primary);
+  text-decoration: none;
+}
+.os-link:visited { 
+  color: mat-color($primary);
+  text-decoration: none;
 }
 
 /* Popup Panel */
@@ -64,11 +77,13 @@ $custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $hea
 }
 
 .form-field-1-2 {
-  width: 50%
+  width: 100%;
+  // width: 50%
 }
 
 .form-field-1-3 {
-  width: 33%
+  width: 100%;
+  // width: 33%
 }
 
 .modalClose {
