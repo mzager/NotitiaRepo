@@ -31,6 +31,10 @@ $custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $hea
   user-select: none;
 }
 
+.mat-expansion-panel-header {
+  font-weight: 300;
+  background:#EEE;
+}
 .mat-select {
 .mat-select-arrow {
     opacity: 0;
