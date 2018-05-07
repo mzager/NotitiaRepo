@@ -11,7 +11,6 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import * as util from 'app/service/compute.worker.util';
 import Dexie from 'dexie';
 import { GraphConfig } from 'app/model/graph-config.model';
-import { HotRegisterer } from 'angular-handsontable';
 declare var $: any;
 
 @Component({
@@ -31,6 +30,7 @@ export class DataPanelComponent implements AfterViewInit {
   @Output() hide: EventEmitter<any> = new EventEmitter();
 
   public _tables: Array<DataTable> = [];
+  public dataSource: Array<any> = [];
   public db: Dexie = null;
 
   closeClick() {
@@ -63,33 +63,35 @@ export class DataPanelComponent implements AfterViewInit {
   }
 
   loadTable(table: DataTable): void {
-    const hot = this.hotRegisterer.getInstance('hotInstance');
+    // const hot = this.hotRegisterer.getInstance('hotInstance');
     if (table.ctype === CollectionTypeEnum.UNDEFINED) {
-      const config: GraphConfig = (table.tbl === 'configA') ? this.configA : this.configB;
-      const markers: Array<any> = config.markerFilter.map(v =>
-        ([v, 'Gene', (config.markerSelect.indexOf(v) !== -1)]));
-      const samples: Array<any> = config.sampleFilter.map(v =>
-        ([v, 'Sample', (config.sampleSelect.indexOf(v) !== -1)]));
-      const data = markers.concat(samples);
-      const colHeaders = ['Name', 'Type', 'Selected'];
-      // const data = [];
+      // const config: GraphConfig = (table.tbl === 'configA') ? this.configA : this.configB;
+      // const markers: Array<any> = config.markerFilter.map(v =>
+      //   ([v, 'Gene', (config.markerSelect.indexOf(v) !== -1)]));
+      // const samples: Array<any> = config.sampleFilter.map(v =>
+      //   ([v, 'Sample', (config.sampleSelect.indexOf(v) !== -1)]));
+      // const data = markers.concat(samples);
+      // const colHeaders = ['Name', 'Type', 'Selected'];
+      const data = [];
 
-      hot.updateSettings({
-        manualColumnResize: true,
-        columnSorting: true,
-        sortIndicator: true,
-        width: window.innerWidth,
-        height: window.innerHeight - 60,
-        colWidths: 200,
-        rowHeights: 23,
-        rowHeaderWidth: 150,
-        colHeaders: colHeaders,
-        rowHeaders: null,
-        autoRowSize: false,
-        autoColSize: false,
-        contextMenu: true
-      }, true);
-      hot.loadData(data);
+      // hot.updateSettings({
+      //   manualColumnResize: true,
+      //   columnSorting: true,
+      //   sortIndicator: true,
+      //   width: window.innerWidth,
+      //   height: window.innerHeight - 60,
+      //   colWidths: 200,
+      //   rowHeights: 23,
+      //   rowHeaderWidth: 150,
+      //   colHeaders: colHeaders,
+      //   rowHeaders: null,
+      //   autoRowSize: false,
+      //   autoColSize: false,
+      //   contextMenu: true
+      // }, true);
+      // hot.loadData(data);
+      // return;
+      this.dataSource = data;
       return;
     }
     this.openDatabase().then(() => {
@@ -100,22 +102,23 @@ export class DataPanelComponent implements AfterViewInit {
         const colHeaders = result[1].map(v => v.s);
         const rowHeaders = result[0].map(v => v.m);
         const data = result[0].map(v => v.d);
-        hot.updateSettings({
-          manualColumnResize: true,
-          columnSorting: true,
-          sortIndicator: true,
-          width: window.innerWidth,
-          height: window.innerHeight - 60,
-          colWidths: 100,
-          rowHeights: 23,
-          rowHeaderWidth: 150,
-          colHeaders: colHeaders,
-          rowHeaders: rowHeaders,
-          autoRowSize: false,
-          autoColSize: false,
-          contextMenu: true
-        }, true);
-        hot.loadData(data);
+        this.dataSource = data;
+        //   hot.updateSettings({
+        //     manualColumnResize: true,
+        //     columnSorting: true,
+        //     sortIndicator: true,
+        //     width: window.innerWidth,
+        //     height: window.innerHeight - 60,
+        //     colWidths: 100,
+        //     rowHeights: 23,
+        //     rowHeaderWidth: 150,
+        //     colHeaders: colHeaders,
+        //     rowHeaders: rowHeaders,
+        //     autoRowSize: false,
+        //     autoColSize: false,
+        //     contextMenu: true
+        //   }, true);
+        //   hot.loadData(data);
       });
     });
   }
@@ -125,6 +128,6 @@ export class DataPanelComponent implements AfterViewInit {
     this.loadTable(this._tables[0]);
   }
 
-  constructor(private hotRegisterer: HotRegisterer) {
+  constructor() {
   }
 }

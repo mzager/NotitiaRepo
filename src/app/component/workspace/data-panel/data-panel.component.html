@@ -1,16 +1,32 @@
-<div>
-    <div class='row'>
-        <a href='#' class='modalClose' (click)='closeClick()'></a>
-        <div class="col s12">
-            <h1 class='cohort-h1'>Speadsheet</h1>
-        </div>
+<div class='panel'>
+    <div>
+        <a href='#' class='modalClose' (click)='closeClick()'>
+        </a>
+        <h1 class='panel-header'>Speadsheet</h1>
+        <h2 class='panel-header-desc'>Select from public data sets, or visualize your own</h2>
     </div>
-    <div class='row' style='position:relative;left:-60px;'>
-        <ul class='tabs tabs-fixed-width' #tabs>
+
+    <div>
+        <div class="example-header">
+            <mat-form-field>
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+            </mat-form-field>
+        </div>
+
+        <!-- <mat-tab-group>
+            <mat-tab *ngFor='let table of _tables' label="{{table.label}}">
+
+            </mat-tab>
+            <mat-tab label="Two">
+
+            </mat-tab>
+        </mat-tab-group> -->
+        <!-- <ul class='tabs tabs-fixed-width' #tabs>
             <li class='tab' *ngFor='let table of _tables'>
                 <a class='active' (click)='tableChange(table)'>{{table.label}}</a>
             </li>
-        </ul>
-        <hot-table #dataTable hotId="hotInstance"></hot-table>
+        </ul> -->
+        <table mat-table [dataSource]='dataSource'></table>
+        <!-- <hot-table #dataTable hotId="hotInstance"></hot-table> -->
     </div>
 </div>

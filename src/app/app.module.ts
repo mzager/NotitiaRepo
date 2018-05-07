@@ -13,8 +13,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import { FileUploadModule } from 'ng2-file-upload';
 
-import { HotTableModule } from 'angular-handsontable';
-
 // Components
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -205,8 +203,7 @@ import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({
       maxAge: 25 //  Retains last 25 states
-    }),
-    HotTableModule
+    })
   ],
   providers: [
     Title,
