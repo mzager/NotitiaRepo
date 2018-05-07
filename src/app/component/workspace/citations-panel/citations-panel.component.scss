@@ -1,10 +1,28 @@
 // Responsive Mobile First
 @import '~@angular/material/theming';
 @import 'src/theme.scss';
+.citations-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.citations-container>* {
+  width: 100%;
+}
+
+.citations-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.citations-full-width {
+  width: 100%;
+}
+
 .citations-h2 {
   font-weight: 300;
   padding-top: 25px;
-  font-size: 2rem;
   margin-bottom: 0px;
 }
 
@@ -13,22 +31,16 @@
 }
 
 .citations-name {
-  font-weight: 400;
-  font-size: 1.2rem;
   margin-top: 0px;
   margin-bottom: 0px;
 }
 
 .citations-desc {
-  font-weight: 300;
-  font-size: 1.2rem;
   margin-top: 0px;
   margin-bottom: 0px;
 }
 
 .citations-main-link {
-  font-size: 1.2rem;
-  font-weight: 300;
   cursor: pointer;
   color: #039be5;
   margin-top: 0px;
@@ -36,8 +48,6 @@
 }
 
 .citations-link {
-  font-size: 1.2rem;
-  font-weight: 300;
   cursor: pointer;
   color: #039be5;
   margin-top: 5px;
@@ -46,8 +56,6 @@
 }
 
 .citations-link-2 {
-  font-size: 1.2rem;
-  font-weight: 300;
   cursor: pointer;
   color: #039be5;
   margin-top: 0px;
