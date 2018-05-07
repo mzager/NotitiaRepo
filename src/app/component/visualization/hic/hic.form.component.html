@@ -1,0 +1,27 @@
+<form [formGroup]='form' novalidate>
+    <mat-form-field class='form-field'>
+        <mat-select placeholder='Dimensions' formControlName='dimensions'>
+            <mat-option *ngFor='let option of dimensionOptions' [value]='option'>
+                {{ option }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div class='form-group'>
+        <div class='switch'>
+            <label>
+                <input type='checkbox' formControlName='showLinks'>
+                <span class='lever'></span>
+                Show Links
+            </label>
+        </div>
+    </div>
+    <div class='form-group'>
+        <div class='switch'>
+            <label>
+                <input type='checkbox' formControlName='showChromosome'>
+                <span class='lever'></span>
+                Show Chromosome
+            </label>
+        </div>
+    </div>
+</form>

@@ -23,13 +23,14 @@
                         Parameters
                     </mat-panel-title>
                 </mat-expansion-panel-header>
-
+                <app-graph-panel-visualization [config]='config' [tables]='tables' [fields]='fields' (decoratorAdd)='decoratorAdd.emit($event)'
+                    (decoratorDel)='decoratorDel.emit($event)'></app-graph-panel-visualization>
                 <app-pathways-form *ngIf='config && config.visualization === 256' (configChange)='graphPanelSetConfig($event)' [fields]='fields'
                     [config]='config'></app-pathways-form>
                 <app-timelines-form *ngIf='config && config.visualization === 128' (configChange)='graphPanelSetConfig($event)' [fields]='fields'
                     [events]='events' [config]='config'></app-timelines-form>
                 <app-genome-form *ngIf='config && config.visualization === 2147483648' (configChange)='graphPanelSetConfig($event)' [fields]='fields'
-                    [config]='config'></app-genome-form>
+                    [config]='config' [tables]='tables'></app-genome-form>
                 <app-chromosome-form *ngIf='config && config.visualization === 3' (configChange)='graphPanelSetConfig($event)' [fields]='fields'
                     [tables]='tables' [config]='config'></app-chromosome-form>
                 <app-survival-form *ngIf='config && config.visualization === 16' (configChange)='graphPanelSetConfig($event)' (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
