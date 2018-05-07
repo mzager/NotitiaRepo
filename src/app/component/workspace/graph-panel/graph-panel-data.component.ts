@@ -121,6 +121,8 @@ export class GraphPanelDataComponent {
 
   }
   public setCohortOption(e: MatSelectChange): void {
+    debugger;
+
     if (e.value === undefined) {
       this.showPanel.emit(PanelEnum.COHORT);
       return;
