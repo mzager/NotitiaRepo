@@ -1,5 +1,6 @@
+import { MatSelectChange } from '@angular/material';
 import { Pathway } from './../../../model/pathway.model';
-import { CollectionTypeEnum } from 'app/model/enum.model';
+import { CollectionTypeEnum, DirtyEnum, PanelEnum } from 'app/model/enum.model';
 import { GeneSet } from './../../../model/gene-set.model';
 import { Cohort } from './../../../model/cohort.model';
 import { EntityTypeEnum } from './../../../model/enum.model';
@@ -16,26 +17,35 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
   <mat-form-field class='form-field-1-3'>
-  <mat-select placeholder='Cohort' (selectionChange)='setLabelOption($event)'
-      [(value)]='cohortSelected' [compareWith]='byName'>
+  <mat-select placeholder='Cohort' (selectionChange)='setCohortOption($event)'
+      [value]='cohortSelected' [compareWith]='byName'>
       <mat-option *ngFor='let option of cohortOptions' [value]='option'>
           {{ option.n }}
+      </mat-option>
+      <mat-option [value]='customize'>
+        Customize List
       </mat-option>
   </mat-select>
 </mat-form-field>
 <mat-form-field class='form-field-1-3'>
-  <mat-select placeholder='Geneset' (selectionChange)='setColorOption($event)'
-      [(value)]='genesetSelected' [compareWith]='byName'>
+  <mat-select placeholder='Geneset' (selectionChange)='setGenesetOption($event)'
+      [value]='genesetSelected' [compareWith]='byName'>
       <mat-option *ngFor='let option of genesetOptions' [value]='option'>
           {{ option.n }}
+      </mat-option>
+      <mat-option [value]='customize'>
+        Customize List
       </mat-option>
   </mat-select>
 </mat-form-field>
 <mat-form-field class='form-field-1-3' >
-  <mat-select placeholder='Pathway' (selectionChange)='setShapeOption($event)'
-      [(value)]='pathwaySelected' [compareWith]='byName'>
+  <mat-select placeholder='Pathway' (selectionChange)='setPathwayOption($event)'
+      [value]='pathwaySelected' [compareWith]='byName'>
       <mat-option *ngFor='let option of pathwayOptions' [value]='option'>
           {{ option.n }}
+      </mat-option>
+      <mat-option [value]='customize'>
+        Customize List
       </mat-option>
   </mat-select>
 </mat-form-field>
@@ -43,6 +53,8 @@ import * as _ from 'lodash';
 })
 export class GraphPanelDataComponent {
 
+  @Output() showPanel: EventEmitter<PanelEnum> = new EventEmitter();
+  @Output() configChange: EventEmitter<GraphConfig> = new EventEmitter();
   public cohortOptions = [];
   public genesetOptions = [];
   public pathwayOptions = [];
@@ -52,6 +64,7 @@ export class GraphPanelDataComponent {
   public cohortOptionsVisible = true;
   public genesetOptionsVisible = true;
   public pathwayOptionsVisible = true;
+
 
   private _config: GraphConfig;
   public get config(): GraphConfig { return this._config; }
@@ -89,6 +102,34 @@ export class GraphPanelDataComponent {
   byName(p1: any, p2: any) {
     if (p2 === null) { return false; }
     return p1.n === p2.n;
+  }
+
+  public setPathwayOption(e: MatSelectChange): void {
+    if (e.value === undefined) {
+      this.showPanel.emit(PanelEnum.PATHWAYS);
+      return;
+    }
+  }
+  public setGenesetOption(e: MatSelectChange): void {
+    if (e.value === undefined) {
+      this.showPanel.emit(PanelEnum.GENESET);
+      return;
+    }
+    this.config.markerFilter = e.value.g;
+    this.config.dirtyFlag = DirtyEnum.LAYOUT;
+    this.configChange.emit(this.config);
+
+  }
+  public setCohortOption(e: MatSelectChange): void {
+    if (e.value === undefined) {
+      this.showPanel.emit(PanelEnum.COHORT);
+      return;
+    }
+    debugger;
+    this.config.patientFilter = e.value.pids;
+    this.config.sampleFilter = e.value.sids;
+    this.config.dirtyFlag = DirtyEnum.LAYOUT;
+    this.configChange.emit(this.config);
   }
   constructor(private cd: ChangeDetectorRef) { }
 }
