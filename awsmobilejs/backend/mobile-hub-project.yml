@@ -2,25 +2,102 @@
 features:
   cloudlogic: !com.amazonaws.mobilehub.v0.CloudLogic 
     components:
-      sampleCloudApi: !com.amazonaws.mobilehub.v0.API 
+      CommentsCRUD: !com.amazonaws.mobilehub.v0.API 
         attributes:
-          name: sampleCloudApi
+          name: CommentsCRUD
           requires-signin: false
+          sdk-generation-stage-name: Development
         paths:
-          /items: !com.amazonaws.mobilehub.v0.Function 
-            name: sampleLambda
-            codeFilename: uploads/sampleLambda.zip
-            handler: lambda.handler
+          /Comments: !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/Comments-20180507122934.zip
+            description: 'Handler for calls to resource path : /Comments/{proxy+}'
             enableCORS: true
-            runtime: nodejs6.10
             environment: {}
-          '/items/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            name: sampleLambda
-            codeFilename: uploads/sampleLambda.zip
             handler: lambda.handler
-            enableCORS: true
+            hashcode: PR9u9FhpPKVFO/sM8R8Z8a7bsKmRK4xkEhxMAhtxIMw=
+            memorySize: '128'
+            modified: '2018-05-07T19:32:17.062+0000'
+            name: Comments
             runtime: nodejs6.10
+            timeout: '3'
+            version: nRguD1B8RGV5XmorJHbSERaL.1QcxrN6
+          '/Comments/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/Comments-20180507122934.zip
+            description: 'Handler for calls to resource path : /Comments/{proxy+}'
+            enableCORS: true
             environment: {}
+            handler: lambda.handler
+            hashcode: PR9u9FhpPKVFO/sM8R8Z8a7bsKmRK4xkEhxMAhtxIMw=
+            memorySize: '128'
+            modified: '2018-05-07T19:32:17.062+0000'
+            name: Comments
+            runtime: nodejs6.10
+            timeout: '3'
+            version: myXWQk9.qM3qg5SpvqlqL4BYMF0M5.7_
+      PermissionsCRUD: !com.amazonaws.mobilehub.v0.API 
+        attributes:
+          name: PermissionsCRUD
+          requires-signin: true
+          sdk-generation-stage-name: Development
+        paths:
+          /Permissions: !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/Permissions-20180507122934.zip
+            description: 'Handler for calls to resource path : /Permissions/{proxy+}'
+            enableCORS: true
+            environment: {}
+            handler: lambda.handler
+            hashcode: JrEjUxuGw1OJiBhHsMtC1E1b6R4OOucNhdbID7bXwnA=
+            memorySize: '128'
+            modified: '2018-05-07T19:30:28.711+0000'
+            name: Permissions
+            runtime: nodejs6.10
+            timeout: '3'
+            version: SzS5Ii7cHMv3iJcvZ.T8PyG6wsK81pMY
+          '/Permissions/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/Permissions-20180507122934.zip
+            description: 'Handler for calls to resource path : /Permissions/{proxy+}'
+            enableCORS: true
+            environment: {}
+            handler: lambda.handler
+            hashcode: JrEjUxuGw1OJiBhHsMtC1E1b6R4OOucNhdbID7bXwnA=
+            memorySize: '128'
+            modified: '2018-05-07T19:30:28.711+0000'
+            name: Permissions
+            runtime: nodejs6.10
+            timeout: '3'
+            version: 1HHOejM0kNt_ep459XAqJKhsYL9485oF
+      ProjectCRUD: !com.amazonaws.mobilehub.v0.API 
+        attributes:
+          name: ProjectCRUD
+          requires-signin: true
+          sdk-generation-stage-name: Development
+        paths:
+          /Project: !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/Project-20180507122934.zip
+            description: 'Handler for calls to resource path : /Project/{proxy+}'
+            enableCORS: true
+            environment: {}
+            handler: lambda.handler
+            hashcode: hZJIGA2KesBwvfn5IeEFhooW/n3PjJZaGw5Kb5Jfq8w=
+            memorySize: '128'
+            modified: '2018-05-07T19:30:29.050+0000'
+            name: Project
+            runtime: nodejs6.10
+            timeout: '3'
+            version: bOd8BH7UEYFqnxkVXClnvkEig60oEuap
+          '/Project/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/Project-20180507122934.zip
+            description: 'Handler for calls to resource path : /Project/{proxy+}'
+            enableCORS: true
+            environment: {}
+            handler: lambda.handler
+            hashcode: hZJIGA2KesBwvfn5IeEFhooW/n3PjJZaGw5Kb5Jfq8w=
+            memorySize: '128'
+            modified: '2018-05-07T19:30:29.050+0000'
+            name: Project
+            runtime: nodejs6.10
+            timeout: '3'
+            version: GUkkbyOx9w0dH2yYfxX4I7ewGmj.sKED
   content-delivery: !com.amazonaws.mobilehub.v0.ContentDelivery 
     attributes:
       enabled: true
@@ -34,12 +111,12 @@ features:
           - !com.amazonaws.mobilehub.v0.NoSQLTable 
             attributes:
               email: S
+              personId: S
               personName: S
               phone: S
+              teamId: S
             hashKeyName: teamId
             hashKeyType: S
-            rangeKeyName: personId
-            rangeKeyType: S
             indexes:
               - !com.amazonaws.mobilehub.v0.NoSQLIndex 
                 hashKeyName: teamId
@@ -47,7 +124,53 @@ features:
                 indexName: personName-index
                 rangeKeyName: personName
                 rangeKeyType: S
+            rangeKeyName: personId
+            rangeKeyType: S
             tableName: ___DYNAMIC_PREFIX___-AWSMobileTable
+            tablePrivacy: public
+          - !com.amazonaws.mobilehub.v0.NoSQLTable 
+            attributes:
+              category: S
+              comment: S
+              commentId: S
+              email: S
+              name: S
+            hashKeyName: commentId
+            hashKeyType: S
+            rangeKeyName: ''
+            rangeKeyType: ''
+            tableName: ___DYNAMIC_PREFIX___-Comments
+            tablePrivacy: public
+          - !com.amazonaws.mobilehub.v0.NoSQLTable 
+            attributes:
+              projects: M
+              userId: S
+            hashKeyName: userId
+            hashKeyType: S
+            rangeKeyName: ''
+            rangeKeyType: ''
+            tableName: ___DYNAMIC_PREFIX___-Permissions
+            tablePrivacy: private
+          - !com.amazonaws.mobilehub.v0.NoSQLTable 
+            attributes:
+              fileName: S
+              fileSize: S
+              isHuman: BOOL
+              isPhi: BOOL
+              isPublic: BOOL
+              projectAdmin: S
+              projectCreated: S
+              projectDesc: S
+              projectId: S
+              projectName: S
+              projectStatus: S
+              protocolId: S
+              protocolType: S
+            hashKeyName: projectId
+            hashKeyType: S
+            rangeKeyName: projectName
+            rangeKeyType: S
+            tableName: ___DYNAMIC_PREFIX___-Project
             tablePrivacy: public
   mobile-analytics: !com.amazonaws.mobilehub.v0.Pinpoint 
     components:
@@ -57,12 +180,6 @@ features:
       enabled: true
       optional-sign-in: true
     components:
-      sign-in-google: !com.amazonaws.mobilehub.v0.OpenIDConnectIdentityProvider 
-        attributes:
-          open-id-connect-audience-android: 428912153446-7c82srcvu1bk1nramiqqctne005epl6s.apps.googleusercontent.com
-          open-id-connect-audience-ios: 428912153446-7c82srcvu1bk1nramiqqctne005epl6s.apps.googleusercontent.com
-          open-id-connect-audience-webapp: 428912153446-7c82srcvu1bk1nramiqqctne005epl6s.apps.googleusercontent.com
-          open-id-provider-url: 'https://accounts.google.com'
       sign-in-user-pools: !com.amazonaws.mobilehub.v0.UserPoolsIdentityProvider 
         attributes:
           alias-attributes:
@@ -80,5 +197,5 @@ features:
     attributes:
       enabled: true
       wildcard-cors-policy: true
-name: Notitia
+name: Oncoscape
 region: us-west-2
