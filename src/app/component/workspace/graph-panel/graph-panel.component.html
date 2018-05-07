@@ -23,6 +23,7 @@
                         Parameters
                     </mat-panel-title>
                 </mat-expansion-panel-header>
+                <app-graph-panel-data [config]='config' [genesets]='genesets' [cohorts]='cohorts' [pathways]='pathways'></app-graph-panel-data>
                 <app-graph-panel-visualization [config]='config' [tables]='tables' [fields]='fields' (decoratorAdd)='decoratorAdd.emit($event)'
                     (decoratorDel)='decoratorDel.emit($event)'></app-graph-panel-visualization>
                 <app-pathways-form *ngIf='config && config.visualization === 256' (configChange)='graphPanelSetConfig($event)' [fields]='fields'
@@ -102,7 +103,6 @@
                 </mat-expansion-panel-header>
                 <app-workspace-stat-panel [config]='config' [graphData]='data'></app-workspace-stat-panel>
             </mat-expansion-panel>
-
         </mat-accordion>
     </div>
 </div>

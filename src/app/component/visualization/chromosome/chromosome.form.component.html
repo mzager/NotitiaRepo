@@ -1,0 +1,44 @@
+<form [formGroup]='form' novalidate>
+    <mat-form-field class='form-field-1-2'>
+        <mat-select placeholder='Data' formControlName='table'>
+            <mat-option *ngFor='let option of dataOptions' [value]='option.label'>
+                {{ option.label }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class='form-field-1-2'>
+        <mat-select placeholder='Chromosomes' formControlName='chromosome'>
+            <mat-option *ngFor='let option of chromosomeOptions' [value]='option.label'>
+                {{ option.label }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class='form-field-1-2'>
+        <mat-select placeholder='Layout' formControlName='layoutOption'>
+            <mat-option *ngFor='let option of layoutOptions' [value]='option'>
+                {{ option }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class='form-field-1-2'>
+        <mat-select placeholder='Spacing' formControlName='spacingOption'>
+            <mat-option *ngFor='let option of spacingOptions' [value]='option'>
+                {{ option }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class='form-field-1-2'>
+        <mat-select placeholder='Show' formControlName='geneOption'>
+            <mat-option *ngFor='let option of geneOptions' [value]='option'>
+                {{ option.label }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class='form-field-1-2'>
+        <mat-select placeholder='Chords' formControlName='chordOption'>
+            <mat-option *ngFor='let option of chordOptions' [value]='option'>
+                {{ option.label }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</form>
