@@ -65,8 +65,8 @@
 
 
         <div class='cohort-field-buttons'>
-          <a href='#' (click)='fieldAnd(condition)'>And</a> |
-          <a href='#' (click)='fieldOr(condition)'>Or</a>
+          <a href='#' class='os-link' (click)='fieldAnd(condition)'>And</a> |
+          <a href='#' class='os-link' (click)='fieldOr(condition)'>Or</a>
           <span *ngIf='condition.condition !== "where"'> |
             <a href='#' (click)='fieldDel(condition)'>Remove</a>
           </span>
