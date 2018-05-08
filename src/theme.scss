@@ -18,14 +18,7 @@ $theme: mat-light-theme($primary, $accent, $warn);
 @include angular-material-theme($theme);
 // Define a custom typography config that overrides the font-family as well as the
 // `headlines` and `body-1` levels.
-$custom-typography: mat-typography-config( $font-family: 'Lato, monospace', 
-$headline: mat-typography-level(32px, 32px, 300), 
-$title: mat-typography-level(12px, 14px, 300), 
-$body-1: mat-typography-level(12px, 14px, 300), 
-$body-2: mat-typography-level(12px, 14px, 300), 
-$button: mat-typography-level(14px, 16px, 300), 
-$input: mat-typography-level(1em, 1, 300), 
-$subheading-2: mat-typography-level(14px, 16px, 300));
+$custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $headline: mat-typography-level(32px, 32px, 300), $title: mat-typography-level(12px, 14px, 300), $body-1: mat-typography-level(12px, 14px, 300), $body-2: mat-typography-level(12px, 14px, 300), $button: mat-typography-level(14px, 16px, 300), $input: mat-typography-level(1em, 1, 300), $subheading-2: mat-typography-level(14px, 16px, 300));
 @include angular-material-typography($custom-typography);
 /* Disable Text Select */
 
@@ -39,10 +32,10 @@ $subheading-2: mat-typography-level(14px, 16px, 300));
 }
 
 .mat-expansion-panel-header {
-  font-weight: 300;
-  // background:rgba(0, 0, 0, 0.87);
+  font-weight: 300; // background:rgba(0, 0, 0, 0.87);
   // padding: 0px;
 }
+
 .mat-select {
   .mat-select-arrow {
     opacity: 0;
@@ -54,15 +47,18 @@ $subheading-2: mat-typography-level(14px, 16px, 300));
     opacity: 1;
   }
 }
+
 .os-link {
   color: mat-color($primary);
   text-decoration: none;
 }
-.os-link:hover { 
+
+.os-link:hover {
   color: mat-color($primary);
   text-decoration: none;
 }
-.os-link:visited { 
+
+.os-link:visited {
   color: mat-color($primary);
   text-decoration: none;
 }
@@ -79,18 +75,34 @@ $subheading-2: mat-typography-level(14px, 16px, 300));
 }
 */
 
+/* Rules for sizing the icon. */
+
+.material-icons.md-18 {
+  font-size: 18px;
+}
+
+.material-icons.md-24 {
+  font-size: 24px;
+}
+
+.material-icons.md-36 {
+  font-size: 36px;
+}
+
+.material-icons.md-48 {
+  font-size: 48px;
+}
+
 .form-field {
   width: 100%;
 }
 
 .form-field-1-2 {
-  width: 100%;
-  // width: 50%
+  width: 100%; // width: 50%
 }
 
 .form-field-1-3 {
-  width: 100%;
-  // width: 33%
+  width: 100%; // width: 33%
 }
 
 .modalClose {

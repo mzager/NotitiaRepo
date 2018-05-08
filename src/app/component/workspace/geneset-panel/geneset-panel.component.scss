@@ -2,6 +2,21 @@
 // Selectors and styles affecting screens SMALLER THAN 360px (smallPhones) 
 @import '~@angular/material/theming';
 @import 'src/theme.scss';
+.geneset-myRow {
+  position: relative;
+  line-height: 25px;
+  cursor: pointer;
+  span {
+    font-size: 12px;
+    margin-left: 10px;
+  }
+}
+
+.geneset-myRow-delete {
+  color: #029BE5;
+  transform: translateY(6px);
+}
+
 .geneset-h2 {
   font-size: 1rem;
   line-height: 150%;
