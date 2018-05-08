@@ -180,15 +180,24 @@ features:
       enabled: true
       optional-sign-in: true
     components:
+      sign-in-facebook: !com.amazonaws.mobilehub.v0.StandardIdentityProvider 
+        attributes:
+          provider-id: '142281766208909'
+          provider-name: facebook
+      sign-in-google: !com.amazonaws.mobilehub.v0.OpenIDConnectIdentityProvider 
+        attributes:
+          open-id-connect-audience-android: 459144121975-lp2p5kahpqahm2gffgtl31vv0nes9hj4.apps.googleusercontent.com
+          open-id-connect-audience-ios: 459144121975-lp2p5kahpqahm2gffgtl31vv0nes9hj4.apps.googleusercontent.com
+          open-id-connect-audience-webapp: 459144121975-lp2p5kahpqahm2gffgtl31vv0nes9hj4.apps.googleusercontent.com
+          open-id-provider-url: 'https://accounts.google.com'
       sign-in-user-pools: !com.amazonaws.mobilehub.v0.UserPoolsIdentityProvider 
         attributes:
           alias-attributes:
             - email
-            - phone_number
-          mfa-configuration: ON
+          mfa-configuration: OFF
           name: userpool
           password-policy: !com.amazonaws.mobilehub.ConvertibleMap 
-            min-length: '8'
+            min-length: '16'
             require-lower-case: true
             require-numbers: true
             require-symbols: true

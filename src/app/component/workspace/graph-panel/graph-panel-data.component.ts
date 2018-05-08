@@ -23,7 +23,7 @@ import * as _ from 'lodash';
       <mat-option *ngFor='let option of cohortOptions' [value]='option'>
           {{ option.n }}
       </mat-option>
-      <mat-option [value]='customize'>
+      <mat-option value='CUSTOM'>
         Customize List
       </mat-option>
   </mat-select>
@@ -34,7 +34,7 @@ import * as _ from 'lodash';
       <mat-option *ngFor='let option of genesetOptions' [value]='option'>
           {{ option.n }}
       </mat-option>
-      <mat-option [value]='customize'>
+      <mat-option value='CUSTOM'>
         Customize List
       </mat-option>
   </mat-select>
@@ -45,7 +45,7 @@ import * as _ from 'lodash';
       <mat-option *ngFor='let option of pathwayOptions' [value]='option'>
           {{ option.n }}
       </mat-option>
-      <mat-option [value]='customize'>
+      <mat-option value='CUSTOM'>
         Customize List
       </mat-option>
   </mat-select>
@@ -106,13 +106,13 @@ export class GraphPanelDataComponent {
   }
 
   public setPathwayOption(e: MatSelectChange): void {
-    if (e.value === undefined) {
+    if (e.value === 'CUSTOM') {
       this.showPanel.emit(PanelEnum.PATHWAYS);
       return;
     }
   }
   public setGenesetOption(e: MatSelectChange): void {
-    if (e.value === undefined) {
+    if (e.value === 'CUSTOM') {
       this.showPanel.emit(PanelEnum.GENESET);
       return;
     }
@@ -122,7 +122,7 @@ export class GraphPanelDataComponent {
 
   }
   public setCohortOption(e: MatSelectChange): void {
-    if (e.value === undefined) {
+    if (e.value === 'CUSTOM') {
       this.showPanel.emit(PanelEnum.COHORT);
       return;
     }
