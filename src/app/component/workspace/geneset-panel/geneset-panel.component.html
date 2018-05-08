@@ -22,28 +22,48 @@
     </div>
 
 
-
-
-
-
-
-
     <div fxFlex.sm='1 1 70%' fxFlex.md='1 1 80%' fxFlex.lg='1 1 75%' fxFlex.xl='1 1 90%'>
       <h2 class='panel-column-title'>Select / Build a Gene Set</h2>
       <!-- From -->
-      <div class=' geneset-from-field'>
+      <div fxLayoutGap="20px" class=' geneset-from-field'>
         <label class=' geneset-from-label'>From</label>
 
-        <select class='geneset-from-dropdown browser-default' materialize='material_select' (change)='setBuildType($event)'>
+
+
+        <mat-form-field>
+          <mat-select placeholder="Select..." (selectionChange)='setBuildType($event)'>
+            <mat-option value='CURATED'>Curated Gene Set </mat-option>
+            <mat-option value='CUSTOM'>List of Genes</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+        <!-- old -->
+        <!-- <select class='geneset-from-dropdown ' (change)='setBuildType($event)'>
           <option value='CURATED'>Curated Gene Set</option>
           <option value='CUSTOM'>List of Genes</option>
-        </select>
-        <select *ngIf='buildType === "CURATED"' class='geneset-categories-dropdown browser-default' materialize='material_select'
-          (change)='genesetCategoryChange($event.target.value)'>
+        </select> -->
+
+
+        <mat-form-field>
+          <mat-select placeholder="Select..." *ngIf='buildType === "CURATED"' (selectionChange)='genesetCategoryChange($event.target.value)'>
+            <mat-option *ngFor='let option of genesetCategories'>
+              {{option.n}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+
+        <!-- old -->
+        <!-- <select *ngIf='buildType === "CURATED"' class='geneset-categories-dropdown' (change)='genesetCategoryChange($event.target.value)'>
           <option *ngFor='let option of genesetCategories'>{{option.n}}</option>
-        </select>
+        </select> -->
+
       </div>
       <!-- Curated -->
+
+
       <span *ngIf='buildType === "CURATED"'>
         <div class=' geneset-where-field'>
           <label class='geneset-where-label '>Where</label>
@@ -53,7 +73,7 @@
         </div>
         <div>
           <div *ngFor='let option of genesetOptionsFilter' (click)='geneSetAdd(option)' class='geneset-results'>
-            <i class='material-icons geneset-icon hide-on-small-only'>add_circle_outline</i>
+            <i class='material-icons md-18 geneset-icon hide-on-small-only'>add_circle_outline</i>
             <div class='geneset-des'>
               {{option.name}}
               <br /> {{option.summary}}
