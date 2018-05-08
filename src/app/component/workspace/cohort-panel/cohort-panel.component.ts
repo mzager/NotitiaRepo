@@ -34,6 +34,7 @@ export class CohortPanelComponent implements AfterViewInit {
   defaultCondition: CohortCondition;
   activeCohort: Cohort;
 
+
   private _config: GraphConfig;
   get config(): GraphConfig { return this._config; }
   @Input() set config(config: GraphConfig) {
