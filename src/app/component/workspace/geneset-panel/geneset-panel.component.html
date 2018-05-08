@@ -9,52 +9,57 @@
                     <i class='small material-icons modalWatchVideoIcon'>ondemand_video</i>Watch Tutorial</a> -->
   </div>
 
-  <!-- My Cohorts -->
+  <!-- My Genesets -->
   <div fxLayout.xs='column'>
     <div fxFlex.sm='1 1 30%' fxFlex.md='1 1 20%' fxFlex.lg='1 1 25%' fxFlex.xl='1 1 10%'>
-      <div class=' geneset-my-list'>
-        <span>My Genesets</span>
-        <div *ngFor='let myGeneset of genesets' (click)='geneSetDel(myGeneset)'>
-          <div class='geneset-my-row'>
-            <i class='material-icons geneset-my-row-delete'>remove_circle_outline</i>
-            <span class='geneset-my-name'>{{myGeneset.n}}</span>
-          </div>
+      <h2 class='panel-column-title'>My Genesets</h2>
+      <div *ngFor='let myGeneset of genesets'>
+        <div class='geneset-myRow' (click)='geneSetDel(myGeneset)'>
+          <i class='material-icons md-18 geneset-myRow-delete'>remove_circle_outline</i>
+          <span>{{myGeneset.n}}</span>
         </div>
       </div>
     </div>
+
+
+
+
+
+
+
+
     <div fxFlex.sm='1 1 70%' fxFlex.md='1 1 80%' fxFlex.lg='1 1 75%' fxFlex.xl='1 1 90%'>
-      <div class=' geneset-public-datasets'>
-        <span class="geneset-public-span">Select / Build a Gene Set</span>
-        <!-- From -->
-        <div class=' geneset-from-field'>
-          <label class=' geneset-from-label'>From</label>
-          <select class='geneset-from-dropdown browser-default' materialize='material_select' (change)='setBuildType($event)'>
-            <option value='CURATED'>Curated Gene Set</option>
-            <option value='CUSTOM'>List of Genes</option>
-            <option value='CONDITIONAL'>Criteria</option>
-          </select>
-          <select *ngIf='buildType === "CURATED"' class='geneset-categories-dropdown browser-default' materialize='material_select'
-            (change)='genesetCategoryChange($event.target.value)'>
-            <option *ngFor='let option of genesetCategories'>{{option.n}}</option>
-          </select>
+      <h2 class='panel-column-title'>Select / Build a Gene Set</h2>
+      <!-- From -->
+      <div class=' geneset-from-field'>
+        <label class=' geneset-from-label'>From</label>
+        <select class='geneset-from-dropdown browser-default' materialize='material_select' (change)='setBuildType($event)'>
+          <option value='CURATED'>Curated Gene Set</option>
+          <option value='CUSTOM'>List of Genes</option>
+          <option value='CONDITIONAL'>Criteria</option>
+        </select>
+        <select *ngIf='buildType === "CURATED"' class='geneset-categories-dropdown browser-default' materialize='material_select'
+          (change)='genesetCategoryChange($event.target.value)'>
+          <option *ngFor='let option of genesetCategories'>{{option.n}}</option>
+        </select>
+      </div>
+      <!-- Curated -->
+      <span *ngIf='buildType === "CURATED"'>
+        <div class=' geneset-where-field'>
+          <label class='geneset-where-label '>Where</label>
+          <input type='text' placeholder='Gene Set Contains e.g. IDH1, BRCA1' (keyup)='$genesetFilter.next($event.target.value)' ng-model='genesetFilter'>
         </div>
-        <!-- Curated -->
-        <span *ngIf='buildType === "CURATED"'>
-          <div class=' geneset-where-field'>
-            <label class='geneset-where-label '>Where</label>
-            <input type='text' placeholder='Gene Set Contains e.g. IDH1, BRCA1' (keyup)='$genesetFilter.next($event.target.value)' ng-model='genesetFilter'>
-          </div>
-          <div>
-            <div *ngFor='let option of genesetOptionsFilter' (click)='geneSetAdd(option)' class='geneset-results'>
-              <i class='material-icons geneset-icon hide-on-small-only'>add_circle_outline</i>
-              <div class='geneset-des'>
-                {{option.name}}
-                <br /> {{option.summary}}
-              </div>
+        <div>
+          <div *ngFor='let option of genesetOptionsFilter' (click)='geneSetAdd(option)' class='geneset-results'>
+            <i class='material-icons geneset-icon hide-on-small-only'>add_circle_outline</i>
+            <div class='geneset-des'>
+              {{option.name}}
+              <br /> {{option.summary}}
             </div>
           </div>
-        </span>
-      </div>
+        </div>
+      </span>
+
       <!-- Custom -->
       <span *ngIf='buildType === "CUSTOM"'>
         <div class=' geneset-field'>

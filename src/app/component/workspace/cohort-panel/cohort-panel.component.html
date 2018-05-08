@@ -3,7 +3,7 @@
     <a href='#' class='modalClose' (click)='closeClick()'>
     </a>
     <h1 class='panel-header'>Cohorts</h1>
-    <h2 class='panel-header-desc'>Create, Manage and Apply custom cohorts to your visualizations </h2>
+    <h2 class='panel-header-desc'>Create, manage and apply custom cohorts to your visualizations </h2>
   </div>
   <!-- <a href='https://www.youtube.com/embed/XQu8TTBmGhA' target='_blank'>
                 <i class='small material-icons modalWatchVideoIcon'>ondemand_video</i>Watch Tutorial</a> -->
@@ -11,42 +11,45 @@
   <!-- My Cohorts -->
   <div fxLayout.xs='column'>
     <div fxFlex.sm='1 1 30%' fxFlex.md='1 1 20%' fxFlex.lg='1 1 25%' fxFlex.xl='1 1 10%'>
-      <span class='panel-column-title'>My Cohorts</span>
+      <h2 class='panel-column-title'>My Cohorts</h2>
       <div *ngFor='let myCohort of cohorts'>
         <div class='cohort-myRow' (click)='deleteClick(myCohort)'>
-          <i class='material-icons cohort-myRow-delete'>remove_circle_outline</i>
+          <i class='material-icons md-18 cohort-myRow-delete'>remove_circle_outline</i>
           <span>{{myCohort.n}}</span>
         </div>
       </div>
     </div>
-    <div fxFlex.sm='1 1 70%' fxFlex.md='1 1 80%' fxFlex.lg='1 1 75%' fxFlex.xl='1 1 90%'>
-      <span class='panel-column-title'>Build A Cohort</span>
 
-      <div class="cohort-container">
-        <!-- old -->
-        <div class='cohort-field '>
-          <label for='cohortName'>Name</label>
-          <mat-form-field>
-            <input matInput id='cohortName' type='text' [(ngModel)]='activeCohort.n'>
-          </mat-form-field>
-        </div>
+    <!-- Create Cohorts -->
+    <div fxFlex.sm='1 1 70%' fxFlex.md='1 1 80%' fxFlex.lg='1 1 75%' fxFlex.xl='1 1 90%'>
+
+      <h2 class='panel-column-title'>Build A Cohort</h2>
+
+
+      <!-- old -->
+      <div class='cohort-field '>
+        <label for='cohortName'>Name</label>
+        <mat-form-field>
+          <input matInput id='cohortName' type='text' [(ngModel)]='activeCohort.n'>
+        </mat-form-field>
       </div>
+
       <div class=' cohort-field' [class.cohort-field-or]='condition.condition==="or"' *ngFor='let condition of activeCohort.conditions'>
 
         <label>{{condition.condition}}</label>
         <!-- this is broken! fixing -->
-        <mat-form-field>
+        <!-- <mat-form-field>
           <mat-select [(ngModel)]='condition.field'>
             <mat-option *ngFor='let option of fields' [value]='condition.field'>
               {{option.name}}
             </mat-option>
           </mat-select>
-        </mat-form-field>
+        </mat-form-field> -->
 
 
-        <!-- <select class='cohort-field-dropdown browser-default' [(ngModel)]='condition.field' materialize='material_select'>
+        <select class='cohort-field-dropdown browser-default' [(ngModel)]='condition.field' materialize='material_select'>
           <option *ngFor='let option of fields' [ngValue]='option'>{{option.name}}</option>
-        </select> -->
+        </select>
 
 
         <select *ngIf='condition.field.type==="category"' class='cohort-field-dropdown browser-default' [(ngModel)]='condition.value'
@@ -68,13 +71,12 @@
             <a href='#' (click)='fieldDel(condition)'>Remove</a>
           </span>
         </div>
-
-
       </div>
       <!-- <div class='button'> -->
       <button class='button' href='#' (click)='saveClick()' mat-raised-button>Save</button>
       <!-- <a class='cohort-save' href='#' (click)='saveClick()'>Save</a> -->
       <!-- </div> -->
     </div>
+
   </div>
 </div>
