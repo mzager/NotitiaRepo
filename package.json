@@ -2,6 +2,18 @@
   "name": "notitia",
   "version": "0.0.0",
   "license": "MIT",
+  "resolve": {
+    "mainFields": [
+      "browser",
+      "main",
+      "module"
+    ],
+    "extensions": [
+      ".js",
+      ".json",
+      ".jsx"
+    ]
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -14,16 +26,16 @@
   },
   "private": true,
   "dependencies": {
-    "3d-force-graph": "^1.31.2",
+    "3d-force-graph": "^1.31.4",
     "@angular/animations": "^6.0.0",
-    "@angular/cdk": "^6.0.0",
+    "@angular/cdk": "^6.0.1",
     "@angular/common": "^6.0.0",
     "@angular/compiler": "^6.0.0",
     "@angular/core": "^6.0.0",
     "@angular/flex-layout": "^5.0.0-beta.14",
     "@angular/forms": "^6.0.0",
     "@angular/http": "^6.0.0",
-    "@angular/material": "^6.0.0",
+    "@angular/material": "^6.0.1",
     "@angular/platform-browser": "^6.0.0",
     "@angular/platform-browser-dynamic": "^6.0.0",
     "@angular/router": "^6.0.0",

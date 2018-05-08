@@ -1,3 +1,4 @@
+import { DataHubService } from './../../../service/datahub.service';
 import { INSERT_ANNOTATION } from './../../../action/graph.action';
 import { StatsInterface } from './../../../model/stats.interface';
 import { FormBuilder } from '@angular/forms';
@@ -63,12 +64,17 @@ export class FilePanelComponent {
     this.uploadExcel.emit();
   }
 
-  uploadHubClick(): void {
-    window.location.href = 'https://dev.oncoscape.sttrcancer.io/upload/#/landing';
+  onLogin(user): void {
+    this.datahubService.login(user);
   }
+  onLogout(): void {
+    this.datahubService.logout();
+  }
+
+
   closeClick(): void {
     this.hide.emit();
   }
-  constructor() {
+  constructor(public datahubService: DataHubService) {
   }
 }
