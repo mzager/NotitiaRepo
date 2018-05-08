@@ -22,16 +22,26 @@ declare var $: any;
 })
 export class DataPanelComponent implements AfterViewInit {
 
-  @ViewChild('dataTable') dataTable;
-  @ViewChild('tabs') tabs: ElementRef;
+  // @ViewChild('dataTable') dataTable;
+  // @ViewChild('tabs') tabs: ElementRef;
 
   @Input() configA: GraphConfig;
   @Input() configB: GraphConfig;
   @Output() hide: EventEmitter<any> = new EventEmitter();
 
   public _tables: Array<DataTable> = [];
+  public columns: Array<any> = [];
+  public columnsToDisplay: Array<string> = [];
   public dataSource: Array<any> = [];
   public db: Dexie = null;
+  public settings = {
+    width: window.innerWidth,
+    height: window.innerHeight - 150,
+    colWidths: 200,
+    rowHeights: 23,
+    autoRowSize: false,
+    autoColSize: false
+  };
 
   closeClick() {
     this.hide.emit();
@@ -102,7 +112,9 @@ export class DataPanelComponent implements AfterViewInit {
         const colHeaders = result[1].map(v => v.s);
         const rowHeaders = result[0].map(v => v.m);
         const data = result[0].map(v => v.d);
+
         this.dataSource = data;
+        this.cd.markForCheck();
         //   hot.updateSettings({
         //     manualColumnResize: true,
         //     columnSorting: true,
@@ -124,10 +136,10 @@ export class DataPanelComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    $(this.tabs.nativeElement).tabs();
+    // $(this.tabs.nativeElement).tabs();
     this.loadTable(this._tables[0]);
   }
 
-  constructor() {
+  constructor(private cd: ChangeDetectorRef) {
   }
 }
