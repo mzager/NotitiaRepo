@@ -10,7 +10,7 @@
 
   <!-- My Cohorts -->
   <div fxLayout.xs='column'>
-    <div fxFlex.sm='1 1 30%' fxFlex.md='1 1 20%' fxFlex.lg='1 1 25%' fxFlex.xl='1 1 10%'>
+    <div fxFlex.sm='1 1 30%' fxFlex.md='1 1 15%' fxFlex.lg='1 1 15%' fxFlex.xl='1 1 10%'>
       <h2 class='panel-column-title'>My Cohorts</h2>
       <div *ngFor='let myCohort of cohorts'>
         <div class='cohort-myRow' (click)='deleteClick(myCohort)'>
@@ -19,54 +19,69 @@
         </div>
       </div>
     </div>
-
+    <div fxHide.xs="true" fxHide.sm="true" fxFlex.md='1 1 5%' fxFlex.lg='1 1 10%' fxFlex.xl='1 1 10%' style='border-left: 1px solid #eee;'>
+    </div>
     <!-- Create Cohorts -->
-    <div fxFlex.sm='1 1 70%' fxFlex.md='1 1 80%' fxFlex.lg='1 1 75%' fxFlex.xl='1 1 90%'>
-
+    <div fxFlex.sm='1 1 70%' fxFlex.md='1 1 80%' fxFlex.lg='1 1 75%' fxFlex.xl='1 1 80%'>
       <h2 class='panel-column-title'>Build A Cohort</h2>
-
-
-      <!-- old -->
       <div class='cohort-field '>
         <label for='cohortName'>Name</label>
-        <mat-form-field>
+        <mat-form-field class='example-full-width'>
           <input matInput id='cohortName' type='text' [(ngModel)]='activeCohort.n'>
         </mat-form-field>
       </div>
-
       <div class=' cohort-field' [class.cohort-field-or]='condition.condition==="or"' *ngFor='let condition of activeCohort.conditions'>
-
         <label>{{condition.condition}}</label>
-        <!-- this is broken! fixing -->
-        <!-- <mat-form-field>
-          <mat-select [(ngModel)]='condition.field'>
-            <mat-option *ngFor='let option of fields' [value]='condition.field'>
+        <mat-form-field>
+          <mat-select placeholder="" style="margin-top: 10px;">
+            <mat-option *ngFor="let option of fields" [value]="option">
               {{option.name}}
             </mat-option>
           </mat-select>
-        </mat-form-field> -->
+        </mat-form-field>
 
 
-        <select class='cohort-field-dropdown browser-default' [(ngModel)]='condition.field' materialize='material_select'>
+
+        <!-- old -->
+        <!-- <select class='cohort-field-dropdown browser-default' [(ngModel)]='condition.field' materialize='material_select'>
           <option *ngFor='let option of fields' [ngValue]='option'>{{option.name}}</option>
-        </select>
+        </select> -->
 
+        <!-- new -->
+        <div *ngIf='condition.field.type==="category"'>
+          <mat-form-field>
+            <mat-select [(ngModel)]='condition.value'>
+              <mat-option *ngFor="let option of condition.field.options" [value]="option.value">
+                {{option.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
 
-        <select *ngIf='condition.field.type==="category"' class='cohort-field-dropdown browser-default' [(ngModel)]='condition.value'
+        <!-- old -->
+        <!-- <select *ngIf='condition.field.type==="category"' class='cohort-field-dropdown browser-default' [(ngModel)]='condition.value'
           materialize='material_select'>
           <option *ngFor='let option of condition.field.options' [ngValue]='option.value'>{{option.name}}</option>
-        </select>
+        </select> -->
 
+        <!-- new -->
+        <!-- <mat-form-field>
+          <span *ngIf='condition.field.type==="number"' class='cohort-minMax'>
+            <input matInput type='number' [(ngModel)]='condition.min' placeholder='Min' style='margin-bottom:5px;border-color:#EEE;width:65px;padding-left: 6px;'>
+            <input matInput type='number' [(ngModel)]='condition.max' placeholder='Max' style='margin-bottom:5px;border-color:#EEE;width:65px;padding-left: 6px;'>
+          </span>
+        </mat-form-field> -->
 
-        <span *ngIf='condition.field.type==="number"' class='cohort-minMax'>
-          <input type='number' [(ngModel)]='condition.min' placeholder='Min' style='margin-bottom:5px;border-color:#EEE;width:65px;padding-left: 6px;'>
-          <input type='number' [(ngModel)]='condition.max' placeholder='Max' style='margin-bottom:5px;border-color:#EEE;width:65px;padding-left: 6px;'>
-        </span>
-
+        <!-- <mat-form-field>
+          <span *ngIf='condition.field.type==="number"' class='cohort-minMax'>
+            <input matInput type='number' [(ngModel)]='condition.min' placeholder='Min' style='margin-bottom:5px;border-color:#EEE;width:65px;padding-left: 6px;'>
+            <input matInput type='number' [(ngModel)]='condition.max' placeholder='Max' style='margin-bottom:5px;border-color:#EEE;width:65px;padding-left: 6px;'>
+          </span>
+        </mat-form-field> -->
 
         <div class='cohort-field-buttons'>
-          <a href='#' (click)='fieldAnd(condition)'>And</a> |
-          <a href='#' (click)='fieldOr(condition)'>Or</a>
+          <a class='os-link' href='#' (click)='fieldAnd(condition)'>And</a> |
+          <a class='os-link' href='#' (click)='fieldOr(condition)'>Or</a>
           <span *ngIf='condition.condition !== "where"'> |
             <a href='#' (click)='fieldDel(condition)'>Remove</a>
           </span>
