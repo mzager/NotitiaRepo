@@ -131,7 +131,6 @@
 //   border-bottom: 1px solid #eee;
 //   width: 250px;
 // }
-
 .geneset-save {
   border-radius: 20px;
   border: 2px solid #039be5; // display: inline-block;
@@ -150,13 +149,6 @@ textarea {
   height: 7rem;
   background-color: transparent;
   border-color: #eee;
-}
-
-.geneset-from-dropdown {
-  width: 250px;
-  display: inline-block;
-  margin-right: 10px;
-  padding-left: 0px;
 }
 
 .geneset-categories-dropdown {
@@ -271,9 +263,6 @@ textarea {
   }
   .geneset-des {
     margin-left: 15px;
-  }
-  .geneset-from-dropdown {
-    margin-left: 0px;
   }
   .geneset-categories-dropdown {
     margin-left: 0px;
