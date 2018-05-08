@@ -5,23 +5,7 @@
         <h1 class='panel-header'>Speadsheet</h1>
         <h2 class='panel-header-desc'>Select from public data sets, or visualize your own</h2>
     </div>
-
     <div>
-
-        <!-- <mat-tab-group>
-            <mat-tab *ngFor='let table of _tables' label="{{table.label}}">
-
-            </mat-tab>
-            <mat-tab label="Two">
-
-            </mat-tab>
-        </mat-tab-group> -->
-        <!-- <ul class='tabs tabs-fixed-width' #tabs>
-            <li class='tab' *ngFor='let table of _tables'>
-                <a class='active' (click)='tableChange(table)'>{{table.label}}</a>
-            </li>
-        </ul> -->
-        <table mat-table [dataSource]='dataSource'></table>
-        <!-- <hot-table #dataTable hotId="hotInstance"></hot-table> -->
+        <hot-table [settings]='settings' [colHeaders]='colHeaders' [rowHeaders]='rowHeaders' [data]='dataSource'></hot-table>
     </div>
 </div>
