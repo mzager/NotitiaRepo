@@ -121,17 +121,16 @@
 .geneset-des {
   display: inline-block;
   margin-bottom: 10px;
-  padding-left: 5px;
   color: #029BE5;
 }
 
-input:not([type]),
-input[type=text],
-input[type=search],
-textarea.materialize-textarea {
-  border-bottom: 1px solid #eee;
-  width: 250px;
-}
+// input:not([type]),
+// input[type=text],
+// input[type=search],
+// textarea.materialize-textarea {
+//   border-bottom: 1px solid #eee;
+//   width: 250px;
+// }
 
 .geneset-save {
   border-radius: 20px;
@@ -271,7 +270,7 @@ textarea {
     margin-right: 17px;
   }
   .geneset-des {
-    margin-left: 25px;
+    margin-left: 15px;
   }
   .geneset-from-dropdown {
     margin-left: 0px;

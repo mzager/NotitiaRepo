@@ -33,10 +33,10 @@
       <!-- From -->
       <div class=' geneset-from-field'>
         <label class=' geneset-from-label'>From</label>
+
         <select class='geneset-from-dropdown browser-default' materialize='material_select' (change)='setBuildType($event)'>
           <option value='CURATED'>Curated Gene Set</option>
           <option value='CUSTOM'>List of Genes</option>
-          <option value='CONDITIONAL'>Criteria</option>
         </select>
         <select *ngIf='buildType === "CURATED"' class='geneset-categories-dropdown browser-default' materialize='material_select'
           (change)='genesetCategoryChange($event.target.value)'>
@@ -47,7 +47,9 @@
       <span *ngIf='buildType === "CURATED"'>
         <div class=' geneset-where-field'>
           <label class='geneset-where-label '>Where</label>
-          <input type='text' placeholder='Gene Set Contains e.g. IDH1, BRCA1' (keyup)='$genesetFilter.next($event.target.value)' ng-model='genesetFilter'>
+          <mat-form-field>
+            <input matInput placeholder='Gene Set Contains e.g. IDH1, BRCA1' (keyup)='$genesetFilter.next($event.target.value)' ng-model='genesetFilter'>
+          </mat-form-field>
         </div>
         <div>
           <div *ngFor='let option of genesetOptionsFilter' (click)='geneSetAdd(option)' class='geneset-results'>
@@ -62,25 +64,19 @@
 
       <!-- Custom -->
       <span *ngIf='buildType === "CUSTOM"'>
-        <div class=' geneset-field'>
+        <div class='geneset-field'>
           <label class='geneset-where-label' for='genesetName'>Create</label>
-          <input id='genesetName' [(ngModel)]='customName' type='text' placeholder='Enter Gene Set Name'>
+          <mat-form-field>
+            <input matInput [(ngModel)]='customName' type='text' placeholder='Enter Gene Set Name'>
+          </mat-form-field>
         </div>
-        <div class=' geneset-box'>
-          <label class='geneset-gene-label'>Genes</label>
-          <textarea class='geneset-textarea' type='text' [(ngModel)]='customGenes' placeholder='Enter a comma seperated list of gene names'>
-          </textarea>
+        <div class='geneset-field'>
+          <label class='geneset-where-label'>Genes</label>
+          <mat-form-field>
+            <input matInput type='text' [(ngModel)]='customGenes' placeholder='Enter a comma seperated list of gene names'>
+          </mat-form-field>
         </div>
-        <div class=' geneset-button'>
-          <a class='geneset-save' href='#' (click)='onCustomSave()'>Save</a>
-        </div>
-      </span>
-      <!-- Conditional -->
-      <span *ngIf='buildType === "CONDITIONAL"'>
-        Above Expression...
-        <br /> With Mutation...
-        <br /> By Quartile...
-        <br /> etc...
+        <button class='button' (click)='onCustomSave()' mat-raised-button>Save</button>
       </span>
     </div>
   </div>
