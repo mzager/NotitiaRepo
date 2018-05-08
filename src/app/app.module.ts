@@ -3,11 +3,13 @@ import { AmplifyService } from 'aws-amplify-angular';
 import { DataHubService } from './service/datahub.service';
 import { MaterialModule } from './material.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgModule, NgZone } from '@angular/core';
+import { NgModule, NgZone, Component } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material';
+import { MatSelectModule } from '@angular/material/select';
 // import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
 
@@ -200,6 +202,8 @@ import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph
     BrowserAnimationsModule,
     FlexLayoutModule,
     MaterialModule,
+    MatInputModule,
+    MatSelectModule,
     FileUploadModule,
     FormsModule,
     HttpModule,
