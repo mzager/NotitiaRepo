@@ -50,7 +50,9 @@ $custom-typography: mat-typography-config(
   font-weight: 300; // background:rgba(0, 0, 0, 0.87);
   // padding: 0px;
 }
-
+.mat-form-field-label { 
+  color: #666 !important;
+}
 .mat-select {
   .mat-select-arrow {
     opacity: 0;
@@ -196,7 +198,7 @@ $custom-typography: mat-typography-config(
   padding: 0px;
   margin: 0px;
   padding-top: 5px !important;
-  margin-bottom: 15px !important;
+  margin-bottom: 10px !important;
 }
 
 .panel-column-title {
