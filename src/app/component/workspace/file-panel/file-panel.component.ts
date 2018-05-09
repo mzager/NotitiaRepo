@@ -66,7 +66,6 @@ export class FilePanelComponent {
 
 
   onLogout(): void {
-    debugger;
     this.datahubService.logout();
   }
 
