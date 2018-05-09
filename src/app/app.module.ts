@@ -1,5 +1,4 @@
 // import { AmplifyService, AmplifyAngularModule } from 'aws-amplify-angular';
-import { AmplifyService } from 'aws-amplify-angular';
 import { DataHubService } from './service/datahub.service';
 import { MaterialModule } from './material.module';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -224,7 +223,6 @@ import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph
     ChartFactory,
     HttpClient,
     ModalService,
-    AmplifyService,
     DataHubService
   ],
   bootstrap: [AppComponent]

@@ -31,13 +31,13 @@ export class DataHubService {
 
     init(): void {
         const a = arguments;
-        this.gapiAuth;
-        debugger;
+        // this.gapiAuth;
+        // debugger;
 
     }
     constructor() {
         this.gapiAuth = window['gapi'];
-        gapi.load('auth2', this.init);
+        // gapi.load('auth2', thins.init);
         // gapi.load('client:auth2', this.init);
 
         // gapi.load('auth2', initSigninV2);
