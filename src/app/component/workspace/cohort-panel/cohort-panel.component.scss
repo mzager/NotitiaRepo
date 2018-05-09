@@ -2,7 +2,7 @@
 /* Selectors and styles affecting screens SMALLER THAN 410px (smallPhones) */
 
 // Responsive Mobile First
-@import '~@angular/material/theming';
+// @import '~@angular/material/theming';
 @import 'src/theme.scss';
 .cohort-full-width {
   width: 60%;
