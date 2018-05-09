@@ -27,15 +27,15 @@
         <div [class.cohort-field-or]='condition.condition==="or"' *ngFor='let condition of activeCohort.conditions'>
           <label class='cohort-label'>{{condition.condition}}</label>
           <mat-form-field>
-            <mat-select placeholder='Field' [(value)]='condition.field'>
+            <mat-select [(value)]='condition.field'>
               <mat-option *ngFor="let option of fields" [value]="option">
                 {{option.name}}
               </mat-option>
             </mat-select>
           </mat-form-field>
           <span *ngIf='condition.field.type==="category"'>
-            <mat-form-field>
-              <mat-select placeholder='Equals' [(value)]='condition.value'>
+            <mat-form-field style='width:170px;margin-left:20px;'>
+              <mat-select [(value)]='condition.value'>
                 <mat-option *ngFor="let option of condition.field.options" [value]="option.value">
                   {{option.name}}
                 </mat-option>
