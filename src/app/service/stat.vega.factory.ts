@@ -234,16 +234,13 @@ export class StatVegaFactory {
                 }
             }, {
                 'type': 'text',
-                'from': {
-                    'data': 'table'
-                },
                 'encode': {
                     'update': {
                         'x': {
                             'value': 58
                         },
                         'y': {
-                            'value': 64
+                            'value': 58
                         },
                         'text': {
                             'signal': 'signal_selected_myvalue'
@@ -255,7 +252,7 @@ export class StatVegaFactory {
                             'value': 10,
                         },
                         'fill': {
-                            'value': '#808080'
+                            'value': '#000000de'
                         },
                         'align': {
                             'value': 'center'
@@ -300,7 +297,7 @@ export class StatVegaFactory {
                                 'value': '#000000de'
                             },
                             'fillOpacity': {
-                                'value': 0.7
+                                'value': 0.8
                             }
                         },
                         'hover': {
