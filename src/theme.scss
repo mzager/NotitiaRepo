@@ -31,6 +31,8 @@ $custom-typography: mat-typography-config(
 @include angular-material-typography($custom-typography);
 /* Disable Text Select */
 
+
+// Global Styles
 * {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -45,44 +47,45 @@ $custom-typography: mat-typography-config(
   -moz-box-shadow: none !important;
   box-shadow: none !important;
 }
+
+// Material Overrides
 .mat-expansion-panel-body { 
-  padding-top: 10px;
+  padding-top: 10px !important;
+}
+.mat-form-field-underline {
+  background-color:#eeeeee !important;
 }
 .mat-expansion-panel-header {
-  background: #fafafa;
+  background: #fafafa !important;
+  border: 1px solid #eeeeee !important;
 }
 .mat-expansion-panel-header-title {
   font-weight: 300; // background:rgba(0, 0, 0, 0.87);
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 3px;
-  // padding: 0px;
 }
-.mat-form-field-label { 
-  color: #666 !important;
-}
+
 .mat-select {
   .mat-select-arrow {
     opacity: 0;
   }
 }
-
 .mat-select:hover {
   .mat-select-arrow {
     opacity: 1;
   }
 }
 
+/* Links */
 .os-link {
   color: mat-color($primary);
   text-decoration: none;
 }
-
 .os-link:hover {
   color: mat-color($primary);
   text-decoration: none;
 }
-
 .os-link:visited {
   color: mat-color($primary);
   text-decoration: none;
@@ -90,11 +93,6 @@ $custom-typography: mat-typography-config(
 
 
 /* Panel Config (geneset / cohort / pathway) */
-
-.os-link {
-  color: mat-color($primary);
-  text-decoration: none;
-}
 .panel-config-row-add{
   padding-bottom:5px;
   position: relative;
