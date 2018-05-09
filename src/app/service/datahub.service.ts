@@ -1,5 +1,6 @@
 import { Subject } from 'rxjs/Subject';
 import { Injectable } from '@angular/core';
+import { GoogleAuthService } from 'ng-gapi';
 
 export interface AuthState {
     state: string; // signedOut, signedIn, mfaRequired, newPasswordRequired
@@ -9,44 +10,36 @@ export interface AuthState {
 @Injectable()
 export class DataHubService {
 
-    private gapiAuth: any;
+    public static SESSION_STORAGE_KEY = 'accessToken';
+    private user: any;
     private _authState = new Subject<AuthState>();
     authStateChange$ = this._authState.asObservable();
 
-    onSignIn(user: any): void {
 
+    public getToken(): string {
+        const token = sessionStorage.getItem(DataHubService.SESSION_STORAGE_KEY);
+        if (!token) {
+            throw new Error("no token set , authentication required");
+        }
+        return sessionStorage.getItem(DataHubService.SESSION_STORAGE_KEY);
     }
 
-
-    login(user: any): void {
-
-
-
-    }
-    logout(): void {
-        // window['gapi'].auth2.getAuthInstance().signOut().then(function () {
-        //     console.log('User signed out.');
-        // });
+    public signIn(): void {
+        this.googleAuth.getAuth()
+            .subscribe((auth) => {
+                auth.signIn().then(res => this.signInSuccessHandler(res));
+            });
     }
 
-    init(): void {
-        const a = arguments;
-        // this.gapiAuth;
-        // debugger;
-
+    private signInSuccessHandler(res: any) {
+        debugger;
+        // this.user = res;
+        sessionStorage.setItem(
+            DataHubService.SESSION_STORAGE_KEY, res.getAuthResponse().access_token
+        );
     }
-    constructor() {
-        this.gapiAuth = window['gapi'];
-        // gapi.load('auth2', thins.init);
-        // gapi.load('client:auth2', this.init);
 
-        // gapi.load('auth2', initSigninV2);
-
-        // debugger;
-        // // window['gapi'].auth2.getAuthInstance().signIn().then(function () {
-        // //     debugger;
-        // //     console.log('signin');
-        // // });
+    constructor(private googleAuth: GoogleAuthService) {
     }
 
 }
