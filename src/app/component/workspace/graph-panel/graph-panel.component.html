@@ -7,7 +7,7 @@
     <div #panel class="graphPanelExpanded">
         <mat-accordion multi="true" displayMode='flat'>
             <mat-expansion-panel expanded='true'>
-                <mat-expansion-panel-header>
+                <mat-expansion-panel-header expandedHeight='40px' collapsedHeight='40px'>
                     <mat-panel-title>
                         Visualization
                     </mat-panel-title>
@@ -19,7 +19,7 @@
             </mat-expansion-panel>
             <mat-expansion-panel expanded='true'>
                 <ng-content></ng-content>
-                <mat-expansion-panel-header>
+                <mat-expansion-panel-header expandedHeight='40px' collapsedHeight='40px'>
                     <mat-panel-title>
                         Parameters
                     </mat-panel-title>
@@ -90,7 +90,7 @@
                     [config]='config' [tables]='tables' [fields]='fields'></app-spectralembedding-form>
             </mat-expansion-panel>
             <mat-expansion-panel expanded='true'>
-                <mat-expansion-panel-header>
+                <mat-expansion-panel-header expandedHeight='40px' collapsedHeight='40px'>
                     <mat-panel-title>
                         Legend
                     </mat-panel-title>
@@ -98,7 +98,7 @@
                 <app-workspace-legend-panel [legends]='data.legends' [decorators]='decoratorsWithLegends'></app-workspace-legend-panel>
             </mat-expansion-panel>
             <mat-expansion-panel expanded='true'>
-                <mat-expansion-panel-header>
+                <mat-expansion-panel-header expandedHeight='40px' collapsedHeight='40px'>
                     <mat-panel-title>
                         Supplemental
                     </mat-panel-title>
