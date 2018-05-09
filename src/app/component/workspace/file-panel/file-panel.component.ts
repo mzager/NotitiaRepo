@@ -64,9 +64,7 @@ export class FilePanelComponent {
     this.uploadExcel.emit();
   }
 
-  onLogin(user): void {
-    this.datahubService.login(user);
-  }
+
   onLogout(): void {
     this.datahubService.logout();
   }
@@ -76,5 +74,6 @@ export class FilePanelComponent {
     this.hide.emit();
   }
   constructor(public datahubService: DataHubService) {
+    datahubService.init();
   }
 }

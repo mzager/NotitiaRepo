@@ -17,6 +17,7 @@ import { Legend } from 'app/model/legend.model';
 import { Subscription } from 'rxjs/Subscription';
 import * as _ from 'lodash';
 import { Subject } from 'rxjs/Subject';
+import { MatSelectChange } from '@angular/material';
 declare var $: any;
 
 @Component({
@@ -34,6 +35,7 @@ export class PathwayPanelComponent implements AfterViewInit, OnDestroy {
     $pathwayFilter: Subject<any>;
     pathwayFilter = '';
     pathwayCategories: Array<{ c: string, n: string, d: string }>;
+    pathwayCategory: { c: string, n: string, d: string };
     pathwayOptions: Array<any>;
     pathwayOptionsFilter: Array<any>;
 
@@ -50,8 +52,8 @@ export class PathwayPanelComponent implements AfterViewInit, OnDestroy {
         this.hide.emit();
     }
 
-    pathwayCategoryChange(name: string): void {
-        const pathwayCode = this.pathwayCategories.find(v => v.n === name).c;
+    pathwayCategoryChange(e: MatSelectChange): void {
+        const pathwayCode = e.value.c;
         this.pathwayOptionsFilter = this.pathwayOptions.filter(v => (v.dataSource === pathwayCode));
         this.cd.markForCheck();
     }
@@ -93,6 +95,7 @@ export class PathwayPanelComponent implements AfterViewInit, OnDestroy {
             pathways
         ]).then(results => {
             this.pathwayCategories = results[0];
+            this.pathwayCategory = this.pathwayCategories[0];
             this.pathwayOptions = results[1]['searchHit'].map(v => ({
                 name: v.name,
                 uri: 'https://s3-us-west-2.amazonaws.com/notitia/pathways/' + v.uri.replace(/\//gi, '_').replace(':', '_') + '.json.gz',
