@@ -7,14 +7,16 @@
   <base href="/">
   <meta name="theme-color" content="#039BE5">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="google-signin-scope" content="profile email">
-  <meta name="google-signin-client_id" content="459144121975-lp2p5kahpqahm2gffgtl31vv0nes9hj4.apps.googleusercontent.com">
+  <!-- 
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="459144121975-lp2p5kahpqahm2gffgtl31vv0nes9hj4.apps.googleusercontent.com"> 
+  -->
 
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,500" rel="stylesheet">
 
-  <script type="text/javascript" src="https://apis.google.com/js/platform.js" async defer></script>
+  <!-- <script type="text/javascript" src="https://apis.google.com/js/platform.js?onload=gapiLoaded" async defer></script> -->
 </head>
 
 <body style=" padding:0px;margin:0px; " class='mat-typography'>
@@ -23,9 +25,14 @@
   </app-root>
   <script>
 
-    // function triggerGoogleAuthLoaded() {
-    //   alert('hi');
+    // function gapiInit(){
+
     // }
+
+    // function gapiLoaded(){
+    //   window.gapi.load('client:auth2', gapiInit);
+    // }
+
     if (global === undefined) { var global = window; }
     document.oncontextmenu = () => false;
   </script>
