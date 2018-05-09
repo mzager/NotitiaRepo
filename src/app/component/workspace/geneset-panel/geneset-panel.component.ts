@@ -15,6 +15,7 @@ import { Legend } from 'app/model/legend.model';
 import { Subscription } from 'rxjs/Subscription';
 import * as _ from 'lodash';
 import { Subject } from 'rxjs/Subject';
+import { MatSelectChange } from '@angular/material';
 declare var $: any;
 
 @Component({
@@ -33,6 +34,7 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
     buildType: 'CURATED' | 'CUSTOM' | 'CONDITIONAL' = 'CURATED';
     genesetFilter = '';
     genesetCategories: Array<{ c: string, n: string, d: string }>;
+    genesetCategory: { c: string, n: string, d: string };
     genesetOptions: Array<any>;
     genesetOptionsFilter: Array<any>;
     public customName = '';
@@ -55,8 +57,8 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
         this.cd.markForCheck();
     }
 
-    genesetCategoryChange(name: string): void {
-        const genesetCode = this.genesetCategories.find(v => v.n === name).c;
+    genesetCategoryChange(e: MatSelectChange): void {
+        const genesetCode = e.value.c;
         this.genesetOptions = [];
         this.cd.markForCheck();
         this.dataService.getGeneSetByCategory(genesetCode)
@@ -120,6 +122,7 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
                 v.genes = v.hugo.split(',');
             });
             this.genesetCategories = response[0];
+            this.genesetCategory = this.genesetCategories[0];
             this.genesetOptions = response[1];
             this.genesetOptionsFilter = this.genesetOptions;
             this.cd.markForCheck();
