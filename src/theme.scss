@@ -19,10 +19,20 @@ $theme: mat-light-theme($primary, $accent, $warn);
 @include angular-material-theme($theme);
 // Define a custom typography config that overrides the font-family as well as the
 // `headlines` and `body-1` levels.
-$custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $headline: mat-typography-level(32px, 32px, 300), $title: mat-typography-level(12px, 14px, 300), $body-1: mat-typography-level(12px, 14px, 300), $body-2: mat-typography-level(12px, 14px, 300), $button: mat-typography-level(14px, 16px, 300), $input: mat-typography-level(1em, 1, 300), $subheading-2: mat-typography-level(14px, 16px, 300));
+$custom-typography: mat-typography-config( 
+  $font-family: 'Lato, monospace', 
+  $headline: mat-typography-level(32px, 32px, 300), 
+  $title: mat-typography-level(13px, 16px, 300), 
+  $body-1: mat-typography-level(13px, 16px, 300), 
+  $body-2: mat-typography-level(13px, 16px, 300), 
+  $button: mat-typography-level(13px, 16px, 300), 
+  $input: mat-typography-level(1em, 1, 300), 
+  $subheading-2: mat-typography-level(13px, 16px, 300));
 @include angular-material-typography($custom-typography);
 /* Disable Text Select */
 
+
+// Global Styles
 * {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -38,9 +48,27 @@ $custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $hea
   box-shadow: none !important;
 }
 
+// Material Overrides
+.mat-expansion-panel{
+  box-shadow: none !important;
+}
+.mat-expansion-panel-body { 
+  padding-top: 10px !important;
+}
+.mat-form-field-underline {
+  background-color:#eeeeee !important;
+}
 .mat-expansion-panel-header {
+  background: #fafafa !important;
+  border: 0px solid #eeeeee !important;
+  border-top-width: 1px !important;
+  border-bottom-width: 1px !important;
+}
+.mat-expansion-panel-header-title {
   font-weight: 300; // background:rgba(0, 0, 0, 0.87);
-  // padding: 0px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
 }
 
 .mat-select {
@@ -48,26 +76,78 @@ $custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $hea
     opacity: 0;
   }
 }
-
 .mat-select:hover {
   .mat-select-arrow {
     opacity: 1;
   }
 }
 
+/* Links */
 .os-link {
   color: mat-color($primary);
   text-decoration: none;
 }
-
 .os-link:hover {
   color: mat-color($primary);
   text-decoration: none;
 }
-
 .os-link:visited {
   color: mat-color($primary);
   text-decoration: none;
+}
+
+
+/* Panel Config (geneset / cohort / pathway) */
+.panel-config-row-add{
+  padding-bottom:5px;
+  position: relative;
+  cursor: pointer;
+  height: 40px;
+  text-transform: capitalize;
+  i {
+    color: mat-color($primary);
+    margin-right: 10px;
+  }
+  div{
+    text-transform: capitalize;
+    position: absolute;
+    left: 30px;
+    top: 0px;
+  }
+}
+.panel-config-row-del {
+  padding-bottom:5px;
+  position: relative;
+  cursor: pointer;
+  height: 20px;
+  text-transform: capitalize;
+  i {
+    color: mat-color($primary);
+    margin-right: 10px;
+  }
+  div{
+    text-transform: capitalize;
+    position: absolute;
+    left: 30px;
+    top: 0px;
+  }
+}
+.panel-builder-label {
+  display: inline-block;
+  text-align: left;
+  font-weight: 400;
+  text-transform: capitalize;
+  width: 50px;
+}
+.panel-builder-criteria-row {
+  .panel-builder-buttons{
+    visibility: hidden;
+  }
+}
+.panel-builder-criteria-row:hover{
+  .panel-builder-buttons{
+    visibility: visible;
+  }
 }
 
 /* Popup Panel */
@@ -187,15 +267,15 @@ $custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $hea
 .panel-header-desc {
   padding: 0px;
   margin: 0px;
-  padding-top: 10px;
-  margin-bottom: 20px !important;
+  padding-top: 5px !important;
+  margin-bottom: 10px !important;
 }
 
 .panel-column-title {
-  margin-bottom: 10px;
+  margin-bottom: 0px;
   font-weight: 400 !important;
-  padding-bottom: 10px !important;
-  padding-top: 20px;
+  padding-bottom: 0px !important;
+  padding-top: 30px;
   letter-spacing: 1px;
 }
 

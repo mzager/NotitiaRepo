@@ -217,26 +217,17 @@ export class GenomeGraph extends AbstractVisualization {
         let labelOptions;
         if (zoom > 600) {
             labelOptions = new LabelOptions(this.view, 'PIXEL');
-            labelOptions.offsetX3d = -2;
-            labelOptions.align = 'RIGHT';
+            // labelOptions.offsetX3d = -2;
+            // labelOptions.align = 'RIGHT';
             this.labels.innerHTML = LabelController.generateHtml(this.meres, labelOptions);
+            // debugger;
         } else {
             labelOptions = new LabelOptions(this.view, 'FORCE');
             labelOptions.align = 'RIGHT';
             labelOptions.maxLabels = 500;
-            labelOptions.offsetX = -30;
+            // labelOptions.offsetX = -30;
             this.labels.innerHTML = LabelController.generateHtml(this.meshes, labelOptions);
         }
-        // const zoom = this.view.camera.position.z;
-        // const layoutOpts = new LabelOptions(this.view);
-
-        // if (zoom > 600) {
-        //     this.tooltips.innerHTML = LabelController.generateHtml(this.meres, layoutOpts)
-        // } else if (zoom > 500) {
-        //     this.tooltips.innerHTML = LabelController.generateHtml(this.bands, layoutOpts);
-        // } else {
-
-        // }
     }
 
 }
