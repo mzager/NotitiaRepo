@@ -1,5 +1,4 @@
 import { Subject } from 'rxjs/Subject';
-import Amplify, { APIClass, StorageClass, AuthClass, AnalyticsClass, Auth } from 'aws-amplify';
 import { Injectable } from '@angular/core';
 
 export interface AuthState {
@@ -10,28 +9,33 @@ export interface AuthState {
 @Injectable()
 export class DataHubService {
 
-    // private _auth: AuthClass;
-    // private _analytics: AnalyticsClass;
-    // private _storage: StorageClass;
-    // private _api: APIClass;
-    // private _cache: any;
-    // private _pubsub: any;
     private _authState = new Subject<AuthState>();
     authStateChange$ = this._authState.asObservable();
 
-
-    constructor() {
+    onSignIn(user: any): void {
 
     }
 
+
     login(user: any): void {
-        debugger;
+
+
 
     }
     logout(): void {
         window['gapi'].auth2.getAuthInstance().signOut().then(function () {
             console.log('User signed out.');
         });
+    }
+
+    init(): void {
+
+    }
+    constructor() {
+        // window['gapi'].auth2.getAuthInstance().signIn().then(function () {
+        //     debugger;
+        //     console.log('signin');
+        // });
     }
 
 }
