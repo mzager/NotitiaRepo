@@ -22,6 +22,16 @@ import { StoreModule } from '@ngrx/store';
 import { FileUploadModule } from 'ng2-file-upload';
 import { HotTableModule } from '@handsontable/angular';
 
+// Google
+import {
+  GoogleApiModule,
+  GoogleApiService,
+  GoogleAuthService,
+  NgGapiClientConfig,
+  NG_GAPI_CONFIG,
+  GoogleApiConfig
+} from 'ng-gapi';
+
 // Components
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -119,6 +129,16 @@ import { FontService } from './service/font.service';
 import { reducers } from './reducer/index.reducer';
 import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph-panel-data.component';
 
+const gapiClientConfig: NgGapiClientConfig = {
+  client_id: '459144121975-lp2p5kahpqahm2gffgtl31vv0nes9hj4.apps.googleusercontent.com',
+  discoveryDocs: ['https://analyticsreporting.googleapis.com/$discovery/rest?version=v4'],
+  scope: [
+    'profile', 'email'
+    // 'https://www.googleapis.com/auth/analytics.readonly',
+    // 'https://www.googleapis.com/auth/analytics'
+  ].join(' ')
+};
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -199,7 +219,10 @@ import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph
   entryComponents: [
   ],
   imports: [
-
+    GoogleApiModule.forRoot({
+      provide: NG_GAPI_CONFIG,
+      useValue: gapiClientConfig
+    }),
     HotTableModule.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,
@@ -227,7 +250,9 @@ import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph
     ChartFactory,
     HttpClient,
     ModalService,
-    DataHubService
+    DataHubService,
+    GoogleApiService,
+    GoogleAuthService,
   ],
   bootstrap: [AppComponent]
 })

@@ -64,16 +64,18 @@ export class FilePanelComponent {
     this.uploadExcel.emit();
   }
 
-
-  onLogout(): void {
-    this.datahubService.logout();
+  signIn(): void {
+    this.datahubService.signIn();
   }
+
+  // onLogout(): void {
+  //   // this.datahubService.logout();
+  // }
 
 
   closeClick(): void {
     this.hide.emit();
   }
   constructor(public datahubService: DataHubService) {
-    datahubService.init();
   }
 }
