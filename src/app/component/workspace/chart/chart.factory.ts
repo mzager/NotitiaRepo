@@ -2,7 +2,6 @@ import { OrbitControls } from 'three-orbitcontrols-ts';
 import { VisualizationView } from './../../../service/chart-view.model';
 import { QuadradicDiscriminantAnalysisGraph } from './../../visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
-import { FontService } from 'app/service/font.service';
 import { EntityTypeEnum, SpriteMaterialEnum } from './../../../model/enum.model';
 import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
 import { MeshLine, MeshLineMaterial } from 'three.meshline';

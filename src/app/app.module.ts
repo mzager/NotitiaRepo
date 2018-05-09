@@ -1,4 +1,3 @@
-// import { AmplifyService, AmplifyAngularModule } from 'aws-amplify-angular';
 import { DataHubService } from './service/datahub.service';
 import { MaterialModule } from './material.module';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -120,7 +119,7 @@ import { DatasetService } from './service/dataset.service';
 import { HttpClient } from './service/http.client';
 import { NcbiService } from './service/ncbi.service';
 import { ModalService } from './service/modal-service';
-import { FontService } from './service/font.service';
+
 // Reducers
 import { reducers } from './reducer/index.reducer';
 import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph-panel-data.component';
@@ -241,7 +240,6 @@ const gapiClientConfig: NgGapiClientConfig = {
     Title,
     DataService,
     DatasetService,
-    FontService,
     ComputeService,
     ChartFactory,
     HttpClient,
