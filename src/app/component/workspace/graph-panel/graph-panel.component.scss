@@ -3,10 +3,11 @@
     overflow-x: visible;
     position: absolute;
     top: 0px;
-    height: 100vh;
+    height: auto;
+    max-height: 100vh;
     bottom:0px;
     width:auto;
-    // box-shadow: 0px 2px 4px #ddd;
+    box-shadow: 0px 2px 4px #ddd;
 }
 
 .graphPanelExpanded {
