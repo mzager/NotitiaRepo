@@ -70,8 +70,8 @@ export class StatVegaFactory {
             'config': {
                 'title': {
                     'offset': 10,
-                    'fontSize': 14,
-                    'color': '#666666',
+                    'fontSize': 13,
+                    'color': '#000000de',
                     'font': 'Lato',
                     'fontWeight': '300',
                     'orient': 'top',
@@ -249,20 +249,20 @@ export class StatVegaFactory {
                             'signal': 'signal_selected_myvalue'
                         },
                         'fillOpacity': {
-                            'value': 1
+                            'value': 0.8
                         },
                         'fontSize': {
-                            'value': 14,
+                            'value': 10,
                         },
                         'fill': {
-                            'value': '#666666'
+                            'value': '#808080'
                         },
                         'align': {
                             'value': 'center'
                         },
-                        // 'baseline': {
-                        //     'value': 'middle'
-                        // }
+                        'baseline': {
+                            'value': 'middle'
+                        }
                     }
                 }
             }
@@ -297,13 +297,16 @@ export class StatVegaFactory {
                                 'value': 10
                             },
                             'fill': {
-                                'value': '#666666'
+                                'value': '#000000de'
                             },
                             'fillOpacity': {
-                                'value': 1.0
+                                'value': 0.7
                             }
                         },
                         'hover': {
+                            'fontSize': {
+                                'value': 12
+                            },
                             'fillOpacity': {
                                 'value': 0.7
                             }
@@ -332,8 +335,8 @@ export class StatVegaFactory {
             'config': {
                 'title': {
                     'offset': 20,
-                    'fontSize': 12.8,
-                    'color': '#666666',
+                    'fontSize': 13,
+                    'color': '#000000de',
                     'font': 'Lato',
                     'fontWeight': '300',
                     'orient': 'top',
@@ -391,13 +394,13 @@ export class StatVegaFactory {
                     'encode': {
                         'ticks': {
                             'update': {
-                                'stroke': { 'value': '#666666' }
+                                'stroke': { 'value': '#000000de' }
                             }
                         },
                         'labels': {
                             'interactive': false,
                             'update': {
-                                'fill': { 'value': '#666666' },
+                                'fill': { 'value': '#000000de' },
                                 'angle': { 'value': 50 },
                                 'fontSize': { 'value': 8 },
                                 'align': { 'value': '90' },
@@ -405,12 +408,12 @@ export class StatVegaFactory {
                                 'dx': { 'value': 3 }
                             },
                             'hover': {
-                                'fill': { 'value': '#666666' }
+                                'fill': { 'value': '#000000de' }
                             }
                         },
                         'domain': {
                             'update': {
-                                'stroke': { 'value': '#666666' },
+                                'stroke': { 'value': '#000000de' },
                                 'strokeWidth': { 'value': 1 }
                             }
                         }
@@ -443,7 +446,7 @@ export class StatVegaFactory {
                         'enter': {
                             'align': { 'value': 'center' },
                             'baseline': { 'value': 'bottom' },
-                            'fill': { 'value': '#666666' },
+                            'fill': { 'value': '#000000de' },
                             'font': { 'value': 'Lato' },
                             'fontSize': { 'value': 10 },
                         },
@@ -472,7 +475,12 @@ export class StatVegaFactory {
             'config': {
                 'title': {
                     'offset': 10,
-                    'fontSize': 12.8
+                    'fontSize': 12,
+                    'color': '#666666',
+                    'font': 'Lato',
+                    'fontWeight': '300',
+                    'orient': 'top',
+                    'anchor': 'start'
                 }
             },
             'title': {
