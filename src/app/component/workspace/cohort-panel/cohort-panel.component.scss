@@ -8,6 +8,11 @@
   width: 60%;
 }
 
+.os-link {
+  color: mat-color($primary);
+  text-decoration: none;
+}
+
 .mat-form-field-flex.test {
   display: inline-flex;
   align-items: baseline;
@@ -17,7 +22,7 @@
 
 .cohort-myRow {
   position: relative;
-  line-height: 25px;
+  line-height: 40px;
   cursor: pointer;
   span {
     font-size: 12px;
@@ -32,13 +37,11 @@
 
 .cohort-label {
   display: inline-block;
-  height: 40px;
-  line-height: 40px;
-  text-align: center;
-  text-transform: uppercase;
-  font-weight: 400;
-  margin-right: 20px;
-  margin-bottom: 20px;
+  text-align: left;
+  // text-transform: uppercase;
+  text-transform: capitalize;
+  margin-bottom: 5px;
+  width: 60px;
 }
 
 .cohort-field {
@@ -63,7 +66,7 @@
 }
 
 .cohort-field:hover {
-  color: #1e88e5;
+  // color: #1e88e5;
   .cohort-field-buttons {
     display: inline-block;
   }
