@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 
+=======
+// import { AmplifyService, AmplifyAngularModule } from 'aws-amplify-angular';
+>>>>>>> a706a520eddda5bc8adfd9023e079f1300cd8090
 import { DataHubService } from './service/datahub.service';
 import { MaterialModule } from './material.module';
 import { ReactiveFormsModule } from '@angular/forms';
