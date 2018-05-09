@@ -2,7 +2,6 @@ import { IToolTip, TooltipOptions } from './../../controller/tooltip/tooltip.con
 import { LabelController } from './../../controller/label/label.controller';
 import { OrbitControls } from 'three-orbitcontrols-ts';
 import { Vector3, Object3D } from 'three';
-import { FontService } from './../../service/font.service';
 import { GraphData } from 'app/model/graph-data.model';
 import { DataField } from './../../model/data-field.model';
 import { DataDecorator } from './../../model/data-map.model';
@@ -44,7 +43,6 @@ export class AbstractVisualization implements ChartObjectInterface {
     public view: VisualizationView;
     public isEnabled: boolean;
     public meshes: THREE.Object3D[];
-    public fontService: FontService;
     protected labelController: LabelController;
     protected tooltipOptions: TooltipOptions;
     protected tooltipController: TooltipController;
@@ -151,8 +149,8 @@ export class AbstractVisualization implements ChartObjectInterface {
     public onHideLabels(): void {
         this.labels.innerHTML = '';
     }
-    constructor(fontService: FontService) {
-        this.fontService = fontService;
+    constructor() {
+
     }
 
 }
