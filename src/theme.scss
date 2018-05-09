@@ -45,9 +45,17 @@ $custom-typography: mat-typography-config(
   -moz-box-shadow: none !important;
   box-shadow: none !important;
 }
-
+.mat-expansion-panel-body { 
+  padding-top: 10px;
+}
 .mat-expansion-panel-header {
+  background: #fafafa;
+}
+.mat-expansion-panel-header-title {
   font-weight: 300; // background:rgba(0, 0, 0, 0.87);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
   // padding: 0px;
 }
 .mat-form-field-label { 
