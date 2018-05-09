@@ -1,3 +1,4 @@
+import { DataField } from 'app/model/data-field.model';
 import { DataDecorator } from './../../../model/data-map.model';
 import { NoneAction } from './../../../action/compute.action';
 import { HeatmapDataModel, HeatmapConfigModel } from './heatmap.model';
@@ -69,6 +70,16 @@ export class HeatmapGraph implements ChartObjectInterface {
     destroy() {
         this.removeObjects();
         this.enable(false);
+    }
+
+    byTbl(p1: any, p2: any) {
+        if (p2 === null) { return false; }
+        return p1.tbl === p2.tbl;
+    }
+
+    byLbl(p1: DataField, p2: DataField) {
+        if (p2 === null) { return false; }
+        return p1.label === p2.label;
     }
 
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {

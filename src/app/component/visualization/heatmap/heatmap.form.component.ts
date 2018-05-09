@@ -13,38 +13,28 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
   <form [formGroup]='form' novalidate>
-    <div class='form-group'>
-      <label class='center-block'><span class='form-label'>Data</span>
-        <select materialize='material_select'
-            formControlName='table'>
-            <option *ngFor='let option of dataOptions' [value]='option'>{{option.label}}</option>
-        </select>
-      </label>
-    </div>
-    <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Method</span>
-      <select materialize='material_select'
-          formControlName='method'>
-          <option *ngFor='let option of methodOptions' [value]='option.value'>{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-    <div class='form-group'>
-    <label class='center-block'><span class='form-label'>Distance</span>
-      <select materialize='material_select'
-          formControlName='dist'>
-          <option *ngFor='let option of distanceOptions' [value]='option.value'>{{option.label}}</option>
-      </select>
-    </label>
-  </div>
-  <div class='form-group'>
-    <div class='switch'>
-      <label class='center-block'><span class='form-label'>Sort Dendo</span>
-        <input type='checkbox' formControlName='order'>
-        <span class='lever'></span>
-      </label>
-    </div>
-  </div>
+    <mat-form-field class='form-field-1-2'>
+      <mat-select placeholder='Data' formControlName='table' [compareWith]='byTbl'>
+          <mat-option *ngFor='let option of dataOptions' [value]='option'>
+              {{ option.label }}
+          </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class='form-field-1-2'>
+      <mat-select placeholder='Method' formControlName='method'>
+          <mat-option *ngFor='let option of methodOptions' [value]='option.value'>
+              {{ option.label }}
+          </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class='form-field-1-2'>
+      <mat-select placeholder='Distance' formControlName='dist'>
+          <mat-option *ngFor='let option of distanceOptions' [value]='option.value'>
+              {{ option.label }}
+          </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-slide-toggle formControlName='order'>Sort Dendo</mat-slide-toggle>
   </form>
   `
 })
