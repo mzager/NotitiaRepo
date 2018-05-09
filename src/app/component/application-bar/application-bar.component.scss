@@ -1,3 +1,4 @@
+
 @import 'src/theme.scss';
 .application-bar-menu {
   position: absolute;
@@ -23,16 +24,15 @@
 
 .application-bar-buttons {
   position: absolute;
-  right: -7px;
+  right: 3px;
   top: 0px;
   line-height: 30px;
 }
 
 .application-bar-button {
   cursor: pointer;
-  border: 0px solid rgba(255, 255, 255, .5); // border-right-width: 1px;
   line-height: 30px;
   font-size: 12px;
   color: #FFF;
-  padding: 0px 10px;
+  // padding: 0px 10px;
 }
