@@ -1,5 +1,4 @@
 import { EdgesGraph } from './../../visualization/edges/edges.graph';
-import { FontService } from './../../../service/font.service';
 import { DataDecorator } from './../../../model/data-map.model';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { ChartFactory } from './chart.factory';
@@ -338,7 +337,7 @@ export class ChartScene {
     //     TWEEN.update(time);
     // }
 
-    constructor(private fontService: FontService) {
+    constructor() {
         ChartScene.instance = this;
         // requestAnimationFrame(this.animate);
     }
