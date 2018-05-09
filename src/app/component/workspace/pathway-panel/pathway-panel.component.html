@@ -1,52 +1,36 @@
-<!-- Card -->
-<div class="pathways-modal-panel">
-    <div class="row">
-        <a href='#' class='modalClose' (click)='closeClick()'></a>
-        <div class="col s12">
-            <h1 class='pathways-h1'>Pathways</h1>
-
-            <h2 class='pathways-h2'>Select from thousands of curated pathways
-                <a href='https://www.youtube.com/embed/XQu8TTBmGhA' target='_blank'>
-                    <i class='small material-icons modalWatchVideoIcon'>ondemand_video</i>Watch Tutorial</a>
-            </h2>
-        </div>
+<div class='panel'>
+    <div>
+        <a href='#' class='modalClose' (click)='closeClick()'>
+        </a>
+        <h1 class='panel-header'>Pathways</h1>
+        <h2 class='panel-header-desc'>Select from thousands of curated pathways</h2>
     </div>
-    <div class='row'>
-        <!-- My Pathways -->
-        <div class='col s12 l3 pathways-my-list'>
-            <span>My Pathways</span>
-            <div *ngFor='let myPathway of pathways' (click)='pathwayDel(myPathway)'>
-                <div class='pathways-my-row'>
-                    <i class='material-icons pathways-my-row-delete'>remove_circle_outline</i>
-                    <span class='pathways-my-name'>{{myPathway.n}}</span>
-                </div>
+    <!-- My Cohorts -->
+    <div fxLayout.xs='column'>
+        <div fxFlex.sm='1 1 30%' fxFlex.md='1 1 20%' fxFlex.lg='1 1 25%' fxFlex.xl='1 1 20%'>
+            <h2 class='panel-column-title'>My Pathways</h2>
+            <div *ngFor='let option of pathways' (click)='pathwayDel(option)' class='panel-config-row-del'>
+                <i class='material-icons md-18'>remove_circle_outline</i>
+                <div>{{option.n}}</div>
             </div>
         </div>
-        <div class='col s12 l9 pathways-public-datasets'>
-            <span class="pathways-public-span">Select a Pathway</span>
-            <!-- From -->
-            <div class='col s12 pathways-from-field'>
-                <label class=' pathways-from-label'>From</label>
-                <select class='pathways-categories-dropdown browser-default' materialize='material_select' (change)='pathwayCategoryChange($event.target.value)'>
-                    <option *ngFor='let option of pathwayCategories'>{{option.n}}</option>
-                </select>
+        <!-- Create Cohorts -->
+        <div fxFlex.sm='1 1 70%' fxFlex.md='1 1 80%' fxFlex.lg='1 1 75%' fxFlex.xl='1 1 80%'>
+            <h2 class='panel-column-title'>Select / Build a Gene Set</h2>
+            <mat-form-field>
+                <mat-select placeholder='Cateogy' [value]='pathwayCategory' (selectionChange)='pathwayCategoryChange($event)'>
+                    <mat-option *ngFor='let option of pathwayCategories' [value]='option'>{{option.n}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field style='margin-left:5px;'>
+                <input matInput placeholder="Filter (e.g BRCA, Cancer)" (keyup)='$pathwayFilter.next($event.target.value)'>
+            </mat-form-field>
+            <div *ngFor='let option of pathwayOptionsFilter' (click)='pathwayAdd(option)' class='panel-config-row-add'>
+                <i class='material-icons md-18'>add_circle_outline</i>
+                <div>{{option.name}}
+                    <br />{{option.summary}}
+                </div>
             </div>
-            <!-- Curated -->
-            <span>
-                <div class='col s12 pathways-where-field'>
-                    <label class='pathways-where-label '>Where</label>
-                    <input type='text' placeholder='Pathway Contains e.g. IDH1, BRCA1' (keyup)='$pathwayFilter.next($event.target.value)' ng-model='pathwayFilter'>
-                </div>
-                <div>
-                    <div *ngFor='let option of pathwayOptionsFilter' (click)='pathwayAdd(option)' class='pathways-results'>
-                        <i class='material-icons pathways-icon hide-on-small-only'>add_circle_outline</i>
-                        <div class='pathways-des'>
-                            {{option.name}}
-                            <br /> {{option.summary}}
-                        </div>
-                    </div>
-                </div>
-            </span>
         </div>
     </div>
 </div>

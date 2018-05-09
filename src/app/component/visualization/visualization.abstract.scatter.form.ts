@@ -24,13 +24,17 @@ export class AbstractScatterForm {
     dataOptions: Array<DataTable>;
     dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D, DimensionEnum.ONE_D];
 
-    byTbl = (p1: any, p2: any): boolean => {
+    byTbl(p1: any, p2: any) {
         if (p2 === null) { return false; }
         return p1.tbl === p2.tbl;
     }
     byKey(p1: DataField, p2: DataField) {
         if (p2 === null) { return false; }
         return p1.key === p2.key;
+    }
+    byLbl(p1: DataField, p2: DataField) {
+        if (p2 === null) { return false; }
+        return p1.label === p2.label;
     }
 
     registerFormChange(): void {

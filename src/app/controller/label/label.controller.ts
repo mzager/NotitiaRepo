@@ -160,11 +160,13 @@ export class LabelController {
     private static styleObjects(objects: Array<ILabel>, options: LabelOptions): string {
         const css = options.generateCss();
         const alignmentOffset = (options.align === 'LEFT') ? 0 : (options.align === 'CENTER') ? 50 : -100;
+        const alignText = (options.align === 'LEFT') ? 'text-align:left;' :
+            (options.align === 'CENTER') ? 'text-align:center;' : 'text-align:right;';
         return objects.reduce((p, c) => {
             const translate = 'left:' +
                 Math.round(c.position.x + alignmentOffset + options.offsetX) +
                 'px; top:' + Math.round(c.position.y + options.offsetY) + 'px;';
-            return p += '<div class="z-label" style="' + css + translate + '">' +
+            return p += '<div class="z-label" style="' + css + translate + alignText + '">' +
                 options.prefix + c.userData.tooltip + options.postfix + '</div>';
         }, '');
     }
