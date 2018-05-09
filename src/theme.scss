@@ -19,7 +19,15 @@ $theme: mat-light-theme($primary, $accent, $warn);
 @include angular-material-theme($theme);
 // Define a custom typography config that overrides the font-family as well as the
 // `headlines` and `body-1` levels.
-$custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $headline: mat-typography-level(32px, 32px, 300), $title: mat-typography-level(12px, 14px, 300), $body-1: mat-typography-level(12px, 14px, 300), $body-2: mat-typography-level(12px, 14px, 300), $button: mat-typography-level(14px, 16px, 300), $input: mat-typography-level(1em, 1, 300), $subheading-2: mat-typography-level(14px, 16px, 300));
+$custom-typography: mat-typography-config( 
+  $font-family: 'Lato, monospace', 
+  $headline: mat-typography-level(32px, 32px, 300), 
+  $title: mat-typography-level(13px, 16px, 300), 
+  $body-1: mat-typography-level(13px, 16px, 300), 
+  $body-2: mat-typography-level(13px, 16px, 300), 
+  $button: mat-typography-level(13px, 16px, 300), 
+  $input: mat-typography-level(1em, 1, 300), 
+  $subheading-2: mat-typography-level(13px, 16px, 300));
 @include angular-material-typography($custom-typography);
 /* Disable Text Select */
 
@@ -188,13 +196,13 @@ $custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $hea
   padding: 0px;
   margin: 0px;
   padding-top: 10px;
-  margin-bottom: 20px !important;
+  margin-bottom: 10px !important;
 }
 
 .panel-column-title {
-  margin-bottom: 10px;
+  margin-bottom: 0px;
   font-weight: 400 !important;
-  padding-bottom: 10px !important;
+  padding-bottom: 5px !important;
   padding-top: 20px;
   letter-spacing: 1px;
 }
