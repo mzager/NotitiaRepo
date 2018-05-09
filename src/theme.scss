@@ -49,6 +49,9 @@ $custom-typography: mat-typography-config(
 }
 
 // Material Overrides
+.mat-expansion-panel{
+  box-shadow: none !important;
+}
 .mat-expansion-panel-body { 
   padding-top: 10px !important;
 }
@@ -57,7 +60,9 @@ $custom-typography: mat-typography-config(
 }
 .mat-expansion-panel-header {
   background: #fafafa !important;
-  border: 1px solid #eeeeee !important;
+  border: 0px solid #eeeeee !important;
+  border-top-width: 1px !important;
+  border-bottom-width: 1px !important;
 }
 .mat-expansion-panel-header-title {
   font-weight: 300; // background:rgba(0, 0, 0, 0.87);
