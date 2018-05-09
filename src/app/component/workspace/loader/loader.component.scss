@@ -6,12 +6,10 @@
     text-align: center;
     width: 100%;
     font-weight: 300;
-    color: #666;
-    font-size: 50px;
+    font-size: 30px;
 }
 .loader-copy { 
     margin: 0px 30%;
-    font-weight: 300;
 }
 .loader {
     z-index: 999999999999;
@@ -45,8 +43,9 @@
     height: 100%;
 }
 .loader-quote{
-    font-size: 1.5rem;
+    font-size: 2rem;
     padding-left: 1.5rem;
+    font-weight: 300;
     border-left: 5px solid #039be5;
     text-align: left;
     line-height: 2rem;
@@ -54,6 +53,7 @@
 }
 .loader-author {
     font-size: 1rem;
+    font-weight: 300;
 }
 
 .lds-rotated {
