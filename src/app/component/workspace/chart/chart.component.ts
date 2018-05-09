@@ -3,7 +3,6 @@ import { HazardGraph } from './../../visualization/hazard/hazard.graph';
 
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
-import { FontService } from './../../../service/font.service';
 import { WorkspaceConfigModel } from './../../../model/workspace.model';
 import { EntityTypeEnum } from './../../../model/enum.model';
 import { getGraphAConfig, getEdgesData } from './../../../reducer/index.reducer';
@@ -106,10 +105,9 @@ export class ChartComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.ngZone.runOutsideAngular(() => {
 
-      // FontService.getInstance().then( fontFactoy => {
 
       // }
-      const chartScene: ChartScene = new ChartScene(this.fontService);
+      const chartScene: ChartScene = new ChartScene();
       chartScene.init(this.container.nativeElement, this.labelsA.nativeElement,
         this.labelsB.nativeElement, this.labelsE.nativeElement);
 
@@ -131,7 +129,7 @@ export class ChartComponent implements AfterViewInit {
       updateDataGraphA.subscribe(v => {
         this.labelA = v[1].label;
         this.cdr.markForCheck();
-        const coi = this.createVisualization((v[1] as GraphConfig).visualization, this.fontService);
+        const coi = this.createVisualization((v[1] as GraphConfig).visualization);
         return chartScene.updateData(GraphEnum.GRAPH_A, v[1], v[0], coi);
       });
 
@@ -152,7 +150,7 @@ export class ChartComponent implements AfterViewInit {
       updateDataGraphB.subscribe(v => {
         this.labelB = v[1].label;
         this.cdr.markForCheck();
-        const coi = this.createVisualization((v[1] as GraphConfig).visualization, this.fontService);
+        const coi = this.createVisualization((v[1] as GraphConfig).visualization);
         return chartScene.updateData(GraphEnum.GRAPH_B, v[1], v[0], coi);
       });
 
@@ -180,56 +178,55 @@ export class ChartComponent implements AfterViewInit {
         .withLatestFrom(selectedEdgesConfig)
         .filter(v => (v[0] !== null) && (v[0] !== null));
       updateEdges.subscribe(v => {
-        const coi = this.createVisualization((v[1] as GraphConfig).visualization, this.fontService);
+        const coi = this.createVisualization((v[1] as GraphConfig).visualization);
         chartScene.updateData(GraphEnum.EDGES, v[1], v[0], coi);
       });
     });
   }
 
 
-  public createVisualization(visualization: VisualizationEnum, fontService: FontService): ChartObjectInterface {
+  public createVisualization(visualization: VisualizationEnum): ChartObjectInterface {
     switch (visualization) {
-      case VisualizationEnum.TIMELINES: return new TimelinesGraph(fontService);
+      case VisualizationEnum.TIMELINES: return new TimelinesGraph();
       case VisualizationEnum.HEATMAP: return new HeatmapGraph();
-      case VisualizationEnum.PATHWAYS: return new PathwaysGraph(fontService);
+      case VisualizationEnum.PATHWAYS: return new PathwaysGraph();
       case VisualizationEnum.EDGES: return new EdgesGraph();
-      case VisualizationEnum.PCA: return new PcaGraph(fontService);
-      case VisualizationEnum.CHROMOSOME: return new ChromosomeGraph(fontService);
-      case VisualizationEnum.GENOME: return new GenomeGraph(fontService);
-      case VisualizationEnum.TSNE: return new TsneGraph(fontService);
+      case VisualizationEnum.PCA: return new PcaGraph();
+      case VisualizationEnum.CHROMOSOME: return new ChromosomeGraph();
+      case VisualizationEnum.GENOME: return new GenomeGraph();
+      case VisualizationEnum.TSNE: return new TsneGraph();
       case VisualizationEnum.PLS: return new PlsGraph();
-      case VisualizationEnum.MDS: return new MdsGraph(fontService);
-      case VisualizationEnum.FA: return new FaGraph(fontService);
+      case VisualizationEnum.MDS: return new MdsGraph();
+      case VisualizationEnum.FA: return new FaGraph();
       case VisualizationEnum.LINKED_GENE: return new LinkedGeneGraph();
-      case VisualizationEnum.HIC: return new HicGraph(fontService);
+      case VisualizationEnum.HIC: return new HicGraph();
       case VisualizationEnum.PARALLEL_COORDS: return new ParallelCoordsGraph();
-      case VisualizationEnum.BOX_WHISKERS: return new BoxWhiskersGraph(fontService);
+      case VisualizationEnum.BOX_WHISKERS: return new BoxWhiskersGraph();
       case VisualizationEnum.SOM: return new SomGraph();
-      case VisualizationEnum.TRUNCATED_SVD: return new TruncatedSvdGraph(fontService);
-      case VisualizationEnum.FAST_ICA: return new FastIcaGraph(fontService);
-      case VisualizationEnum.DICTIONARY_LEARNING: return new DictionaryLearningGraph(fontService);
-      case VisualizationEnum.LDA: return new LdaGraph(fontService);
-      case VisualizationEnum.NMF: return new NmfGraph(fontService);
-      case VisualizationEnum.LOCALLY_LINEAR_EMBEDDING: return new LocalLinearEmbeddingGraph(fontService);
-      case VisualizationEnum.ISOMAP: return new IsoMapGraph(fontService);
-      case VisualizationEnum.SPECTRAL_EMBEDDING: return new SpectralEmbeddingGraph(fontService);
-      case VisualizationEnum.KERNAL_PCA: return new PcaKernalGraph(fontService);
-      case VisualizationEnum.SPARSE_PCA: return new PcaSparseGraph(fontService);
-      case VisualizationEnum.INCREMENTAL_PCA: return new PcaIncrementalGraph(fontService);
-      case VisualizationEnum.MINI_BATCH_SPARSE_PCA: return new MiniBatchSparsePcaGraph(fontService);
-      case VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING: return new MiniBatchDictionaryLearningGraph(fontService);
-      case VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS: return new LinearDiscriminantAnalysisGraph(fontService);
-      case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS: return new QuadradicDiscriminantAnalysisGraph(fontService);
-      case VisualizationEnum.SURVIVAL: return new SurvivalGraph(fontService);
-      case VisualizationEnum.HAZARD: return new HazardGraph(fontService);
+      case VisualizationEnum.TRUNCATED_SVD: return new TruncatedSvdGraph();
+      case VisualizationEnum.FAST_ICA: return new FastIcaGraph();
+      case VisualizationEnum.DICTIONARY_LEARNING: return new DictionaryLearningGraph();
+      case VisualizationEnum.LDA: return new LdaGraph();
+      case VisualizationEnum.NMF: return new NmfGraph();
+      case VisualizationEnum.LOCALLY_LINEAR_EMBEDDING: return new LocalLinearEmbeddingGraph();
+      case VisualizationEnum.ISOMAP: return new IsoMapGraph();
+      case VisualizationEnum.SPECTRAL_EMBEDDING: return new SpectralEmbeddingGraph();
+      case VisualizationEnum.KERNAL_PCA: return new PcaKernalGraph();
+      case VisualizationEnum.SPARSE_PCA: return new PcaSparseGraph();
+      case VisualizationEnum.INCREMENTAL_PCA: return new PcaIncrementalGraph();
+      case VisualizationEnum.MINI_BATCH_SPARSE_PCA: return new MiniBatchSparsePcaGraph();
+      case VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING: return new MiniBatchDictionaryLearningGraph();
+      case VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS: return new LinearDiscriminantAnalysisGraph();
+      case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS: return new QuadradicDiscriminantAnalysisGraph();
+      case VisualizationEnum.SURVIVAL: return new SurvivalGraph();
+      case VisualizationEnum.HAZARD: return new HazardGraph();
       case VisualizationEnum.DENDOGRAM: return new DendogramGraph();
-      case VisualizationEnum.HISTOGRAM: return new HistogramGraph(fontService);
+      case VisualizationEnum.HISTOGRAM: return new HistogramGraph();
     }
   }
 
   constructor(private ngZone: NgZone,
     private store: Store<any>,
     private cdr: ChangeDetectorRef,
-    private chartFactory: ChartFactory,
-    private fontService: FontService) { }
+    private chartFactory: ChartFactory) { }
 }
