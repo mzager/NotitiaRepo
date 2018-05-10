@@ -10,23 +10,23 @@
         <p class='help-link'>
           <a class='os-link' href='{{url}}' target='_blank'>{{urlparagraph}}</a>
         </p>
-        <h1 class='panel-header' style='padding-bottom: 10px;'>Method Settings</h1>
-        <div *ngFor='let attr of params; let i = index'>
-          <p class='help-name'>{{ attr.name }}</p>
+        <h1 class='panel-header' style='padding-bottom: 25px; padding-top: 25px '>Method Settings</h1>
+        <div *ngFor=' let attr of params; let i=i ndex '>
+          <p class='help-name '>{{ attr.name }}</p>
           <p>{{ attr.desc }}</p>
         </div>
-        <h1 class='panel-header' style='padding-bottom: 25px; padding-top: 25px'>Returned Values
-          <span class='file-span'> (as viewed in chart legend)</span>
+        <h1 class='panel-header ' style='padding-bottom: 25px; padding-top: 25px '>Returned Values
+          <span class='file-span '> (as viewed in chart legend)</span>
         </h1>
-        <div *ngFor='let attr of attrs; let i = index'>
-          <p class='help-name'>{{ attr.name }}</p>
+        <div *ngFor='let attr of attrs; let i=i ndex '>
+          <p class='help-name '>{{ attr.name }}</p>
           <p>{{ attr.desc }}</p>
         </div>
-        <h1 class='panel-header' style='padding-bottom: 25px; padding-top: 25px'>Method Citations</h1>
-        <div *ngFor='let attr of citations; let i = index'>
-          <p class='help-name' style='padding-top: 10px;'>{{ attr.name }}</p>
+        <h1 class='panel-header ' style='padding-bottom: 25px; padding-top: 25px '>Method Citations</h1>
+        <div *ngFor='let attr of citations; let i=i ndex '>
+          <p class='help-name ' style='padding-top: 10px; '>{{ attr.name }}</p>
           <p>{{ attr.desc }}</p>
-          <a class='os-link' href='{{ attr.url }}' target='_blank'>Link to Pub</a>
+          <a class='os-link ' href='{{ attr.url }} ' target='_blank '>Link to Pub</a>
         </div>
       </div>
     </div>
