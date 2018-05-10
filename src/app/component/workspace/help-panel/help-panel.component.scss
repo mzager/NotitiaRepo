@@ -1,26 +1,4 @@
-// // Responsive Mobile First
-// /* Selectors and styles affecting screens SMALLER THAN 767px (Phones) */
-// Responsive Mobile First
 @import 'src/theme.scss';
 .file-span {
-  font-size: 1.2rem;
+  font-size: 0.8rem;
 }
-
-// @media (min-width: 979px) {
-//     .help-modal-panel {
-//         padding: 60px;
-//     }
-//     .modalClose {
-//         height: 50px;
-//         right: 60px;
-//     }
-//     .help-h1 {
-//         font-size: 3rem;
-//         margin-bottom: 0px;
-//         padding-bottom: 0px;
-//     }
-//     .help-h2 {
-//         font-size: 1.2rem;
-//         margin-bottom: 30px;
-//     }
-// }
