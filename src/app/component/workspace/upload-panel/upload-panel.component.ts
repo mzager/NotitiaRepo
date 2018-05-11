@@ -1,11 +1,13 @@
+
 import { INSERT_ANNOTATION } from './../../../action/graph.action';
 import { StatsInterface } from './../../../model/stats.interface';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GraphConfig } from './../../../model/graph-config.model';
 import {
-  Component, ComponentFactoryResolver, Input, Output, ViewContainerRef,
+  Component, ComponentFactoryResolver, Input, Output, ViewContainerRef, Renderer,
   ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild, ViewEncapsulation
 } from '@angular/core';
+import { PanelEnum } from '../../../model/enum.model';
 
 @Component({
   selector: 'app-workspace-upload-panel',
@@ -13,11 +15,12 @@ import {
   styleUrls: ['./upload-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
-
 })
 export class UploadPanelComponent {
 
-  documentationTypes = [
+  @ViewChild('fileInput') fileInput: ElementRef;
+
+  reviewTypes = [
     { name: 'IRB', requiresNumber: true },
     { name: 'IEC', requiresNumber: true },
     { name: 'Exempt With Waiver', requiresNumber: true },
@@ -30,11 +33,21 @@ export class UploadPanelComponent {
   closeClick(): void {
     this.hide.emit();
   }
+  uploadFile(): void {
+    this.renderer.invokeElementMethod(this.fileInput.nativeElement, 'dispatchEvent',
+      [new MouseEvent('click', { bubbles: true })]);
+    this.fileInput.nativeElement.trigger('click');
+  }
 
-  constructor(fb: FormBuilder) {
+  constructor(fb: FormBuilder, private renderer: Renderer) {
     this.formGroup = fb.group({
-      hideRequired: false,
-      floatLabel: 'auto',
+      name: [null, Validators.required],
+      description: [null, Validators.required],
+      reviewType: [],
+      reviewNumber: [],
+      isPhi: [null, Validators.requiredTrue],
+      isHuman: [],
+      isPublic: [],
     });
   }
 }

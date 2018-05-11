@@ -13,7 +13,7 @@ export interface IToolTip {
 export class TooltipOptions {
 
     classes: Array<string> = [];    // CSS Classes To Apply
-    fontsize = 10;
+    fontsize = 12;
     offsetX = 0;                    // Offset Computed X Position By Amount After 2D Transform
     offsetY = 0;                    // Offset Computed Y Position By Amount After 2D Transform
     offsetX3d = 1;                  // Offset Computed X Position By Amount Before 2D Transform

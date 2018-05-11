@@ -8,7 +8,10 @@
   <div fxLayout.xs='column'>
     <div fxFlex.sm='1 1 30%' fxFlex.md='1 1 20%' fxFlex.lg='1 1 25%' fxFlex.xl='1 1 10%'>
       <h2 class='panel-column-title'>My Datasets</h2>
-      <button mat-raised-button color='primary' (click)='signIn()'>Sign In</button>
+      <app-workspace-user-panel (showPanel)='this.showPanel.emit($event)'></app-workspace-user-panel>
+      <!-- <button mat-raised-button color='primary' (click)='signIn()'>Sign In</button> -->
+      <!-- <button mat-raised-button color='primary' (click)='addDataset()'>Upload Dataset</button> -->
+      <!-- <amplify-authenticator></amplify-authenticator> -->
     </div>
     <div fxFlex.sm='1 1 70%' fxFlex.md='1 1 80%' fxFlex.lg='1 1 75%' fxFlex.xl='1 1 90%'>
       <h2 class='panel-column-title '>Public Data Sets</h2>

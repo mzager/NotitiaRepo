@@ -1,96 +1,53 @@
-<!-- <div class="panel g">
-        <div class='os-sm-1-24 sm-22-24'>
-                <a href='#' class='modalClose' (click)='closeClick()'></a>
+<div class='panel'>
+        <div>
+                <a href='#' class='modalClose' (click)='closeClick()'>
+                </a>
                 <h1 class='panel-header'>Data Upload</h1>
-                <p class='panel-header-desc'>Upload and share your data sets to our private cloud.</p>
+                <h2 class='panel-header-desc'>Upload and share your data sets to our private cloud</h2>
         </div>
-        <div class='os-sm-1-24 sm-7-24'>
-                <h2 class='panel-column-title'>My Datasets</h2>
-                <a class='panel-button-image' (click)='uploadExcelClick() '>
-                        <img src='./assets/logo-excel.png'>
-                        <span>Upload an Excel File</span>
-                </a>
-                <a class='panel-button-image ' (click)='uploadHubClick() '>
-                        <img src='./assets/logo-cloud.png '>
-                        <span>Upload to Data Hub</span>
-                </a>
-        </div>
-        <div class='sm-15-24'>
-                <h2 class='panel-column-title'>Public Data Sets</h2>
-                <div class='g'>
-                        <div class='sm-1-3' *ngFor='let dataset of datasets; let i=i ndex '>
-                                <a class='panel-button-image' (click)='this.loadTcga.emit(dataset) '>
-                                        <img src='./assets/disease/img{{dataset.img}}.png '>
-                                        <span>{{dataset.name}}</span>
-                                </a>
+        <!-- My Cohorts -->
+        <div fxLayout.xs='column'>
+                <div fxFlex.sm='1 1 30%' fxFlex.md='1 1 20%' fxFlex.lg='1 1 25%' fxFlex.xl='1 1 20%'>
+                        <h2 class='panel-column-title'>My Datasets</h2>
+                        <div *ngFor='let option of cohorts' (click)='geneSetDel(option)' class='panel-config-row-del'>
+                                <i class='material-icons md-18'>remove_circle_outline</i>
+                                <div>{{option.n}}</div>
                         </div>
                 </div>
-        </div>
-</div> -->
-<div class="file-modal-panel">
-        <div class="row">
-                <a href='#' class='modalClose' (click)='closeClick()'></a>
-                <div class="col s12">
-                        <h1 class='file-h1'>Data Hub</h1>
-                        <h2 class='file-h2'>Upload and share your data sets to our private cloud.
-                                <a href='https://www.youtube.com/embed/XQu8TTBmGhA' target='_blank'>
-                                        <i class='small material-icons modalWatchVideoIcon'>ondemand_video</i>Watch Tutorial</a>
-                        </h2>
-                </div>
-        </div>
-        <div class='row'>
-                <!-- My Pathways -->
-                <div class='col s12 l3 pathways-my-list'>
-                        <span>My Data Sets</span>
-                        <div>
-                                <div class='pathways-my-row'>
-                                        <i class='material-icons pathways-my-row-delete'>remove_circle_outline</i>
-                                        <span class='pathways-my-name'>Some Dataset</span>
-                                </div>
-                                <div class='pathways-my-row'>
-                                        <i class='material-icons pathways-my-row-delete'>remove_circle_outline</i>
-                                        <span class='pathways-my-name'>Some Other Dataset</span>
-                                </div>
-                        </div>
-                        <!-- <div *ngFor='let myPathway of pathways' (click)='pathwayDel(myPathway)'>
-                                        <div class='pathways-my-row'>
-                                                <i class='material-icons pathways-my-row-delete'>remove_circle_outline</i>
-                                                <span class='pathways-my-name'>{{myPathway.n}}</span>
-                                        </div>
-                                </div> -->
-                </div>
-                <div class='col s12 l9 pathways-public-datasets upload-container'>
-                        <span class="pathways-public-span" style='padding-left:10px;'>Upload a Dataset</span>
+                <!-- Create Dataset -->
+                <div fxFlex.sm='1 1 70%' fxFlex.md='1 1 80%' fxFlex.lg='1 1 75%' fxFlex.xl='1 1 80%'>
+                        <h2 class='panel-column-title' style='margin-bottom:10px;'>Upload A Dataset</h2>
+                        <form [formGroup]="formGroup">
+                                <mat-form-field>
+                                        <input matInput placeholder="Name" formControlName='name'>
+                                </mat-form-field>
+                                <br />
+                                <mat-form-field>
+                                        <input matInput placeholder="Description" formControlName='description'>
+                                </mat-form-field>
+                                <br />
+                                <mat-form-field>
+                                        <mat-select placeholder="IRB" formControlName='reviewType'>
+                                                <mat-option *ngFor="let reviewType of reviewTypes" [value]="reviewType">
+                                                        {{ reviewType.name }}
+                                                </mat-option>
+                                        </mat-select>
+                                </mat-form-field>
+                                <br />
+                                <mat-form-field>
+                                        <input matInput placeholder="IRB Number" formControlName='reviewNumber'>
+                                </mat-form-field>
+                                <br />
+                                <mat-checkbox class='uploadPanelCbx' formControlName='isPhi'>I certify this data set does not contain any Personal Health Information</mat-checkbox>
+                                <mat-checkbox class='uploadPanelCbx' formControlName='isHuman'>Select if data set is derived from Human Subjects</mat-checkbox>
+                                <mat-checkbox class='uploadPanelCbx' formControlName='isPublic'>I want to make my dataset availible to the public</mat-checkbox>
 
 
-
-                        <div class='col s12'>
-                                <label>Data Set Name</label>
-                                <input type='text' placeholder='Name Your Dataset Name'>
-                        </div>
-                        <div class='col s12'>
-                                <label>Dataset Description</label>
-                                <input type='text' placeholder='Describe Your Data Set'>
-                        </div>
-                        <div class='col s12'>
-                                <mat-checkbox>I certify this data set does not contain any Personal Health Information</mat-checkbox>
-                        </div>
-                        <div class='col s12'>
-                                <mat-checkbox>Select if data set is derived from Human Subjects</mat-checkbox>
-                        </div>
-                        <div class='col s12'>
-                                <label>Protocol Approval Documentation</label>
-                                <mat-select placeholder="Select One">
-                                        <mat-option *ngFor="let documentationType of documentationTypes" [value]="documentationType">
-                                                {{ documentationType.name }}
-                                        </mat-option>
-                                </mat-select>
-                        </div>
-                        <div class='col s12'>
-                                <button mat-raised-button>Upload Excel File</button>
-                        </div>
-
-
+                                <input type='file' style='display:none' #fileInput accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel">
+                                <button mat-raised-button (click)='uploadFile()'>Select File</button>
+                                <br />
+                                <button mat-raised-button color='primary' [disabled]="formGroup.invalid || formGroup.prestine">Save</button>
+                        </form>
                 </div>
         </div>
 </div>
