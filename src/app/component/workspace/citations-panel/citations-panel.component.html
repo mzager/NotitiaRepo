@@ -28,14 +28,14 @@
           <div *ngFor='let citation of result.citations'>
             <h2 class='citations-name'>{{citation.name}}</h2>
             <p class='citations-desc'> {{citation.desc}}</p>
-            <p class='citations-link'>
-              <a href='{{citation.url}}' target='_blank'>{{citation.url}}</a>
+            <p>
+              <a class='citations-link' href='{{citation.url}}' target='_blank'>{{citation.url}}</a>
             </p>
-            <p class='citations-link-2'>
-              <a href='{{citation.url}}' target='_blank'>{{citation.url2}}</a>
+            <p>
+              <a class='citations-link' href='{{citation.url}}' target='_blank'>{{citation.url2}}</a>
             </p>
-            <p class='citations-link-2'>
-              <a href='{{citation.url}}' target='_blank'>{{citation.url3}}</a>
+            <p>
+              <a class='citations-link' href='{{citation.url}}' target='_blank'>{{citation.url3}}</a>
             </p>
           </div>
         </span>
