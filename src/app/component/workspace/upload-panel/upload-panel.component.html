@@ -9,6 +9,7 @@
         <div fxLayout.xs='column'>
                 <div fxFlex.sm='1 1 30%' fxFlex.md='1 1 20%' fxFlex.lg='1 1 25%' fxFlex.xl='1 1 20%'>
                         <h2 class='panel-column-title'>My Datasets</h2>
+                        <div *ngIf='cohorts.length===0'>No Datasets Availible</div>
                         <div *ngFor='let option of cohorts' (click)='geneSetDel(option)' class='panel-config-row-del'>
                                 <i class='material-icons md-18'>remove_circle_outline</i>
                                 <div>{{option.n}}</div>
@@ -44,9 +45,9 @@
 
 
                                 <input type='file' style='display:none' #fileInput accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel">
-                                <button mat-raised-button (click)='uploadFile()'>Select File</button>
-                                <br />
-                                <button mat-raised-button color='primary' [disabled]="formGroup.invalid || formGroup.prestine">Save</button>
+                                <button mat-raised-button (click)='uploadFile()' style='margin-right:20px;'>Select File</button>
+
+                                <button mat-raised-button color='primary'>Create Project</button>
                         </form>
                 </div>
         </div>
