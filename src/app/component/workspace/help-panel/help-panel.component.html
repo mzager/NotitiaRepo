@@ -3,28 +3,30 @@
     <a href='#' class='modalClose' (click)='closeClick()'>
     </a>
     <h1 class='panel-header'>{{method}}</h1>
-  </div>
-  <div>
-    <p class='' [innerHTML]='desc'></p>
-    <p class='' [innerHTML]='learn'></p>
-    <a mat-button color="primary" href='{{url}}' target='_blank'>{{urlparagraph}}</a>
-    <h2 class='panel-sub-header'>Method Settings</h2>
-    <div *ngFor='let attr of params; let i = index'>
-      <h3 class='panel-column-title'>{{ attr.name }}</h3>
-      <p class=''>{{ attr.desc }}</p>
+    <div fxLayout.xs='column'>
+      <div fxFlex.sm='1 1 80%' fxFlex.md='1 1 80%' fxFlex.lg='1 1 80%' fxFlex.xl='1 1 80%'>
+        <p class='help-intro' [innerHTML]='desc'></p>
+        <p [innerHTML]='learn'></p>
+        <p class='help-link'>
+          <a class='os-link' href='{{url}}' target='_blank'>{{urlparagraph}}</a>
+        </p>
+        <h1 class='panel-header' style='padding-bottom: 25px; padding-top: 25px '>Method Settings</h1>
+        <div *ngFor=' let attr of params; let i=i ndex '>
+          <p class='help-name '>{{ attr.name }}</p>
+          <p>{{ attr.desc }}</p>
+        </div>
+        <h1 class='panel-header ' style='padding-bottom: 25px; padding-top: 25px '>Returned Values
+          <span class='file-span '> (as viewed in chart legend)</span>
+        </h1>
+        <div *ngFor='let attr of attrs; let i=i ndex '>
+          <p class='help-name '>{{ attr.name }}</p>
+          <p>{{ attr.desc }}</p>
+        </div>
+        <h1 class='panel-header ' style='padding-bottom: 25px; padding-top: 25px '>Method Citations</h1>
+        <div *ngFor='let attr of citations; let i=i ndex '>
+          <p class='help-name ' style='padding-top: 10px; '>{{ attr.name }}</p>
+          <p>{{ attr.desc }}</p>
+          <a class='os-link ' href='{{ attr.url }} ' target='_blank '>Link to Pub</a>
+        </div>
+      </div>
     </div>
-    <h2 class='panel-sub-header'>Returned Values
-      <span class="file-span"> (as viewed in chart legend)</span>
-    </h2>
-    <div *ngFor='let attr of attrs; let i = index'>
-      <p class='panel-column-title'>{{ attr.name }}</p>
-      <p class=''>{{ attr.desc }}</p>
-    </div>
-    <h2 class='panel-sub-header'>Method Citations</h2>
-    <div *ngFor='let attr of citations; let i = index'>
-      <p class='panel-column-title'>{{ attr.name }}</p>
-      <p class=''>{{ attr.desc }}</p>
-      <a mat-button color="primary" href='{{ attr.url }}' target='_blank'>Link to Pub</a>
-    </div>
-  </div>
-</div>
