@@ -8,6 +8,7 @@ import {
   ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild, ViewEncapsulation
 } from '@angular/core';
 import { Legend } from 'app/model/legend.model';
+import { PanelEnum } from '../../../model/enum.model';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class FilePanelComponent {
   @Output() uploadExcel = new EventEmitter<any>();
   @Output() loadTcga = new EventEmitter<any>();
   @Output() hide = new EventEmitter<any>();
-
+  @Output() showPanel = new EventEmitter<PanelEnum>();
   datasets = [
     { 'name': 'Adrenocortical carcinoma', 'disease': 'acc', 'img': 'DSadrenal' },
     { 'name': 'Bladder urothelial carcinoma', 'disease': 'blca', 'img': 'DSbladder' },
@@ -64,10 +65,9 @@ export class FilePanelComponent {
     this.uploadExcel.emit();
   }
 
-  signIn(): void {
-    this.datahubService.signIn();
+  addDataset(): void {
+    this.showPanel.emit(PanelEnum.UPLOAD);
   }
-
   // onLogout(): void {
   //   // this.datahubService.logout();
   // }

@@ -1,5 +1,5 @@
 export interface Project {
-    id: string;
+    _id: string;
     datsetName: string;
     datasetDesc: string;
     datasetOwnerEmail: string;
@@ -13,9 +13,10 @@ export interface Project {
 }
 
 export interface Permission {
+    _id: string;
     permissionProjectId: string;
     permissionEmail: string;
-    permissionType: string; // ADMIN / READONLY
+    permissionType: 'ADMIN' | 'READONLY';
 }
 
 export interface User {
