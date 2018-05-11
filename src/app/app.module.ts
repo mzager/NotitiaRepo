@@ -1,3 +1,4 @@
+import { UserPanelComponent } from './component/workspace/user-panel/user-panel.component';
 import { DataHubService } from './service/datahub.service';
 import { MaterialModule } from './material.module';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -18,14 +19,17 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { HotTableModule } from '@handsontable/angular';
 
 // Google
-import {
-  GoogleApiModule,
-  GoogleApiService,
-  GoogleAuthService,
-  NgGapiClientConfig,
-  NG_GAPI_CONFIG,
-  GoogleApiConfig
-} from 'ng-gapi';
+// import {
+//   GoogleApiModule,
+//   GoogleApiService,
+//   GoogleAuthService,
+//   NgGapiClientConfig,
+//   NG_GAPI_CONFIG,
+//   GoogleApiConfig
+// } from 'ng-gapi';
+import Amplify from 'aws-amplify';
+import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
+
 
 // Components
 import { AppComponent } from './app.component';
@@ -124,15 +128,16 @@ import { ModalService } from './service/modal-service';
 import { reducers } from './reducer/index.reducer';
 import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph-panel-data.component';
 
-const gapiClientConfig: NgGapiClientConfig = {
-  client_id: '459144121975-lp2p5kahpqahm2gffgtl31vv0nes9hj4.apps.googleusercontent.com',
-  discoveryDocs: ['https://analyticsreporting.googleapis.com/$discovery/rest?version=v4'],
-  scope: [
-    'profile', 'email'
-    // 'https://www.googleapis.com/auth/analytics.readonly',
-    // 'https://www.googleapis.com/auth/analytics'
-  ].join(' ')
-};
+
+// const gapiClientConfig: NgGapiClientConfig = {
+//   client_id: '459144121975-lp2p5kahpqahm2gffgtl31vv0nes9hj4.apps.googleusercontent.com',
+//   discoveryDocs: ['https://analyticsreporting.googleapis.com/$discovery/rest?version=v4'],
+//   scope: [
+//     'profile', 'email'
+//     // 'https://www.googleapis.com/auth/analytics.readonly',
+//     // 'https://www.googleapis.com/auth/analytics'
+//   ].join(' ')
+// };
 
 @NgModule({
   declarations: [
@@ -208,16 +213,19 @@ const gapiClientConfig: NgGapiClientConfig = {
     QueryBuilderComponent,
     GraphPanelAnalysisComponent,
     GraphPanelVisualizationComponent,
-    GraphPanelDataComponent
+    GraphPanelDataComponent,
+    UserPanelComponent
+
 
   ],
   entryComponents: [
   ],
   imports: [
-    GoogleApiModule.forRoot({
-      provide: NG_GAPI_CONFIG,
-      useValue: gapiClientConfig
-    }),
+    // GoogleApiModule.forRoot({
+    //   provide: NG_GAPI_CONFIG,
+    //   useValue: gapiClientConfig
+    // }),
+    AmplifyAngularModule,
     HotTableModule.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,
@@ -245,8 +253,9 @@ const gapiClientConfig: NgGapiClientConfig = {
     HttpClient,
     ModalService,
     DataHubService,
-    GoogleApiService,
-    GoogleAuthService,
+    // GoogleApiService,
+    // GoogleAuthService,
+    AmplifyService
   ],
   bootstrap: [AppComponent]
 })

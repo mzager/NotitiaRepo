@@ -31,8 +31,8 @@
 <!-- Panels -->
 <app-workspace-landing-panel *ngIf='(modalPanel | async) === 2' class='modal-panel' style='z-index:999999' (onGetStarted)='setPanel(4)'></app-workspace-landing-panel>
 
-<app-workspace-file-panel *ngIf='(modalPanel | async) === 4' (hide)='setPanel(1)' class='modal-panel' (uploadExcel)='uploadExcel($event)'
-  (loadTcga)='fileLoadTcga($event)'></app-workspace-file-panel>
+<app-workspace-file-panel *ngIf='(modalPanel | async) === 4' (hide)='setPanel(4)' class='modal-panel' (uploadExcel)='uploadExcel($event)'
+  (loadTcga)='fileLoadTcga($event)' (showPanel)='setPanel($event)'></app-workspace-file-panel>
 <app-workspace-cohort-panel *ngIf='(modalPanel | async) === 16' (hide)='setPanel(1)' (addCohort)='addCohort($event)' (delCohort)='delCohort($event)'
   [cohorts]='cohorts | async' [config]='graphAConfig | async' class='modal-panel'></app-workspace-cohort-panel>
 <app-workspace-geneset-panel *ngIf='(modalPanel | async) === 32' (hide)='setPanel(1)' (addGeneset)='addGeneset($event)' (delGeneset)='delGeneset($event)'

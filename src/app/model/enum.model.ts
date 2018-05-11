@@ -49,18 +49,17 @@ export const enum DirtyEnum {
     ALL = LAYOUT & COLOR & SIZE & SHAPE & INTERSECT & OPTIONS
 }
 
-// export class LogicalOperatorEnum {
-//     static readonly AND = 'AND';
-//     static readonly OR = 'OR';
-// }
-// export class ConditionalOperatorEnum {
-//     static readonly GT = '>';
-//     static readonly LT = '<';
-//     static readonly GTE = '>=';
-//     static readonly LTE = '<=';
-//     static readonly IN = 'In';
-//     static readonly NOT = 'Not';
-// }
+export class UserPanelFormEnum {
+    static readonly SIGN_IN = 'SIGN_IN';
+    static readonly SIGN_UP = 'SIGN_UP';
+    static readonly SIGN_IN_CONFIRM = 'SIGN_IN_CONFIRM';
+    static readonly SIGN_UP_CONFIRM = 'SIGN_UP_CONFIRM';
+    static readonly CHANGE_PASSWORD = 'CHANGE_PASSWORD';
+    static readonly FORGOT_PASSWORD = 'FORGOT_PASSWORD';
+    static readonly PROJECT_LIST = 'PROJECT_LIST';
+    static readonly BLANK = 'BLANK';
+}
+
 export class SpriteMaterialEnum {
     static readonly BLAST = './assets/shapes/shape-blast-solid-legend.png';
     static readonly BLOB = './assets/shapes/shape-blob-solid-legend.png';

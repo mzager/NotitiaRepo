@@ -39,6 +39,42 @@ $custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $hea
   -moz-box-shadow: none !important;
   box-shadow: none !important;
 }
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px white inset;
+  box-shadow: 0 0 0 30px white inset;;
+}
+
+.z-tooltip {
+  padding-right: 5px;
+  padding-left: 5px;
+  position: relative;
+	background: #fff;
+  border: 3px solid #fff;
+  box-shadow: 0px 2px 4px #ddd;
+}
+.z-tooltip:after, .z-tooltip:before {
+	right: 100%;
+	top: 18px;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.z-tooltip:after {
+  border-color: rgba(255, 255, 255, 0);
+	border-right-color: #fff;
+	border-width: 10px;
+	margin-top: -10px;
+}
+.z-tooltip:before {
+	border-color: rgba(255, 255, 255, 0);
+	border-right-color: #fff;
+	border-width: 16px;
+	margin-top: -16px;
+}
 
 // Material Overrides
 .mat-expansion-panel {

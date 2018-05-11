@@ -1,0 +1,116 @@
+<div>
+        <!-- Sign In -->
+        <div *ngIf='activeForm==="SIGN_IN"'>
+                <form [formGroup]="formGroupSignIn" (submit)='signIn()'>
+                        <mat-form-field>
+                                <input matInput placeholder="Username" formControlName='username'>
+                        </mat-form-field>
+                        <mat-form-field>
+                                <input matInput placeholder="Password" formControlName='password' type='password'>
+                        </mat-form-field>
+                        <br />
+                        <button mat-raised-button type="submit" color='primary' style='vertical-align: text-bottom;margin-right:10px;'>Sign In</button>
+                        <div class='user-panel-links'>
+                                <div class='user-panel-link'>
+                                        <a class='os-link' href='#' (click)='setForm(4)'>Reset Password</a>
+                                </div>
+                                <div class='user-panel-link'>
+                                        <a class='os-link' href='#' (click)='setForm(1)'>Sign Up</a>
+                                </div>
+                        </div>
+                </form>
+        </div>
+
+        <!-- Sign In Confirmation -->
+        <div *ngIf='activeForm==="SIGN_IN_CONFIRM"'>
+                <form [formGroup]="formGroupSignInConfirm" (submit)='signInConfirm()'>
+                        <mat-form-field>
+                                <input matInput placeholder="Username" formControlName='username'>
+                        </mat-form-field>
+                        <mat-form-field>
+                                <input matInput placeholder="Code" formControlName='code'>
+                        </mat-form-field>
+                        <br />
+                        <button mat-raised-button type="submit" color='primary'>Verify Code</button>
+                </form>
+        </div>
+
+        <!-- Sign Up -->
+        <div *ngIf='activeForm==="SIGN_UP"'>
+                <form [formGroup]="formGroupSignUp" (submit)='signUp()'>
+                        <mat-form-field>
+                                <input matInput placeholder="First Name" formControlName='firstName'>
+                        </mat-form-field>
+                        <mat-form-field>
+                                <input matInput placeholder="Last Name" formControlName='lastName'>
+                        </mat-form-field>
+                        <mat-form-field>
+                                <input matInput placeholder="Username" formControlName='username'>
+                        </mat-form-field>
+                        <mat-form-field>
+                                <input matInput placeholder="Email" formControlName='email' type='email'>
+                        </mat-form-field>
+                        <mat-form-field>
+                                <input matInput placeholder="Phone" formControlName='phone'>
+                        </mat-form-field>
+                        <mat-form-field>
+                                <input matInput placeholder="Password" formControlName='password' type='password'>
+                        </mat-form-field>
+                        <br />
+                        <button mat-raised-button type="submit" color='primary' style='margin-right:10px;'>Sign Up</button>
+                        <div class='user-panel-links'>
+                                <div class='user-panel-link'>
+                                        <a class='os-link' href='#' (click)='setForm(0)'>Sign In</a>
+                                </div>
+                        </div>
+                </form>
+        </div>
+
+        <!-- Sign Up Confirmation -->
+        <div *ngIf='activeForm==="SIGN_UP_CONFIRM"'>
+                <form [formGroup]="formGroupSignUpConfirm" (submit)='signUpConfirm()'>
+                        <mat-form-field>
+                                <input matInput placeholder="Username" formControlName='username'>
+                        </mat-form-field>
+                        <mat-form-field>
+                                <input matInput placeholder="Code" formControlName='code'>
+                        </mat-form-field>
+                        <br />
+                        <button mat-raised-button type="submit" color='primary'>Verify Code</button>
+                </form>
+        </div>
+
+        <!-- Forgot Password -->
+        <div *ngIf='activeForm==="FORGOT_PASSWORD"'>
+                <form [formGroup]="formGroupForgotPassword" (submit)='forgotPassword()'>
+                        <mat-form-field>
+                                <input matInput placeholder="Username" formControlName='username'>
+                        </mat-form-field>
+                        <br />
+                        <button mat-raised-button type="submit" color='primary' style='margin-right:10px;'>Reset Password</button>
+                        <div class='user-panel-links'>
+                                <div class='user-panel-link'>
+                                        <a class='os-link' href='#' (click)='setForm(0)'>Sign In</a>
+                                </div>
+                        </div>
+                </form>
+        </div>
+
+        <!-- Sign Up Update Password -->
+        <div *ngIf='activeForm==="UPDATE_PASSWORD"'>
+                <form [formGroup]="formGroupUpdatePassword" (submit)='updatePassword()'>
+                        Your password has expired. Please enter a new password.
+                        <br />
+                        <mat-form-field>
+                                <input matInput placeholder="Password" formControlName='password'>
+                        </mat-form-field>
+                        <br />
+                        <button mat-raised-button type="submit" color='primary'>Update Password</button>
+                </form>
+        </div>
+
+        <!-- Add Data Set -->
+        <div *ngIf='activeForm==="PROJECT_LIST"'>
+                <button mat-raised-button type="submit" color='primary' (click)='addDataSet()'>Add Data Set</button>
+        </div>
+</div>
