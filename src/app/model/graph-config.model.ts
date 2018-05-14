@@ -27,6 +27,7 @@ export class GraphConfig {
     enableCohorts = true;
     enableGenesets = true;
     enablePathways = false;
+    enableSupplemental = true;
 
     patientSelect: Array<string> = [];
     patientFilter: Array<string> = [];

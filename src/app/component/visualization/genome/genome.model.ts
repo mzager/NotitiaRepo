@@ -11,6 +11,7 @@ export class GenomeConfigModel extends GraphConfig {
         this.visualization = VisualizationEnum.GENOME;
         this.label = 'Genome';
         this.enableCohorts = false;
+        this.enableSupplemental = false;
     }
 
     displayType: DimensionEnum = DimensionEnum.THREE_D;

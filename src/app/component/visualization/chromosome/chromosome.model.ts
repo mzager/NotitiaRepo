@@ -11,6 +11,7 @@ export class ChromosomeConfigModel extends GraphConfig {
         this.visualization = VisualizationEnum.CHROMOSOME;
         this.label = 'Chromosome';
         this.enableCohorts = false;
+        this.enableSupplemental = false;
     }
 
     displayType: DimensionEnum = DimensionEnum.THREE_D;
