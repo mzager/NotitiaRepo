@@ -20,6 +20,7 @@ export class TimelinesConfigModel extends GraphConfig {
         this.dirtyFlag = DirtyEnum.LAYOUT;
         this.label = 'Timelines';
         this.enableGenesets = false;
+        this.enableSupplemental = false;
     }
 
     attrs = [];

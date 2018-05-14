@@ -13,6 +13,7 @@ export class HicConfigModel extends GraphConfig {
         this.showChromosome = true;
         this.label = 'Force Directed Graph';
         this.enableCohorts = false;
+        this.enableSupplemental = false;
     }
     dimensions = DimensionEnum.THREE_D;
     gene = 'fgf1';

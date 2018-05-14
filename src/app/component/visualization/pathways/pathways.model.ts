@@ -15,6 +15,7 @@ export class PathwaysConfigModel extends GraphConfig {
         this.enableGenesets = false;
         this.enableCohorts = false;
         this.enablePathways = true;
+        this.enableSupplemental = false;
     }
 
     displayType: DimensionEnum = DimensionEnum.THREE_D;
