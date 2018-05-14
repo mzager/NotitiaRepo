@@ -97,7 +97,7 @@
                 </mat-expansion-panel-header>
                 <app-workspace-legend-panel [legends]='data.legends' [decorators]='decoratorsWithLegends'></app-workspace-legend-panel>
             </mat-expansion-panel>
-            <mat-expansion-panel expanded='true'>
+            <mat-expansion-panel expanded='true' *ngIf='config.enableSupplemental'>
                 <mat-expansion-panel-header expandedHeight='40px' collapsedHeight='40px'>
                     <mat-panel-title>
                         Supplemental

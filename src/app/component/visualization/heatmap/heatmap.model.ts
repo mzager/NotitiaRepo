@@ -50,6 +50,7 @@ export class HeatmapConfigModel extends GraphConfig {
         this.entity = EntityTypeEnum.SAMPLE;
         this.visualization = VisualizationEnum.HEATMAP;
         this.label = 'Heatmap';
+        this.enableSupplemental = false;
     }
 
     order = false;
