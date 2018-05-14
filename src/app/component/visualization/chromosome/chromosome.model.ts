@@ -10,6 +10,7 @@ export class ChromosomeConfigModel extends GraphConfig {
         this.entity = EntityTypeEnum.GENE;
         this.visualization = VisualizationEnum.CHROMOSOME;
         this.label = 'Chromosome';
+        this.enableCohorts = false;
     }
 
     displayType: DimensionEnum = DimensionEnum.THREE_D;

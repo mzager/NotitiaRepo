@@ -25,6 +25,7 @@ import { PcaConfigModel } from './../component/visualization/pca/pca.model';
 import * as _ from 'lodash';
 import * as compute from './../action/compute.action';
 import * as data from 'app/action/data.action';
+import * as user from 'app/action/user.action';
 import * as select from 'app/action/select.action';
 import * as fromRoot from 'app/reducer/index.reducer';
 import * as moment from 'moment';

@@ -6,6 +6,7 @@ import * as fromRouter from '@ngrx/router-store';
 import * as fromSelect from './select.reducer';
 import * as fromEdges from './edges.reducer';
 import * as fromSpreadsheet from './spreadsheet.reducer';
+import * as fromUser from './user.reducer';
 import { ActionReducer } from '@ngrx/store';
 import { combineReducers } from '@ngrx/store';
 import { compose } from '@ngrx/core/compose';
@@ -23,6 +24,7 @@ export interface State {
   data: fromData.State;
   selected: fromSelect.State;
   spreadsheet: fromSpreadsheet.State;
+  user: fromUser.State;
 }
 const graphAReducer = fromGraph.graphReducerA;
 const graphBReducer = fromGraph.graphReducerB;
@@ -35,7 +37,8 @@ export let reducers = {
   edges: fromEdges.reducer,
   selected: fromSelect.reducer,
   data: fromData.reducer,
-  spreadsheet: fromSpreadsheet.reducer
+  spreadsheet: fromSpreadsheet.reducer,
+  user: fromUser.reducer
 };
 
 // const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
@@ -100,3 +103,8 @@ export const getDataTable = createSelector(getSpreadsheetState, fromSpreadsheet.
 // Help Reducer
 export const getHelpState = (state: State) => state.help;
 export const getHelpConfigState = createSelector(getHelpState, fromHelp.getHelpConfigState);
+
+// User Reducer
+export const getUserState = (state: State) => state.user;
+export const getUserData = createSelector(getUserState, fromUser.getUserData);
+export const getUserDataSets = createSelector(getUserState, fromUser.getUserDataSets);
