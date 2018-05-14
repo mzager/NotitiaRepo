@@ -11,6 +11,7 @@ export class SurvivalConfigModel extends GraphConfig {
         this.entity = EntityTypeEnum.PATIENT;
         this.visualization = VisualizationEnum.SURVIVAL;
         this.label = 'Survival';
+        this.enableGenesets = false;
     }
     censorEvent: string;
 

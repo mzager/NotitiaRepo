@@ -79,7 +79,8 @@ export class TimelinesGraph extends AbstractVisualization {
         this.labelXAxis.ignoreFrustumY = true;
         this.labelXAxis.align = 'LEFT';
         this.labelXAxis.origin = 'RIGHT';
-        this.labelXAxis.postfix = ' Times';
+        // this.labelXAxis.css = 'width:300px;';
+        // this.labelXAxis.postfix = ' Times';
         this.labelXAxis.fontsize = 0;
 
         // y labels
@@ -90,6 +91,7 @@ export class TimelinesGraph extends AbstractVisualization {
         this.labelYAxis.origin = 'LEFT';
         this.labelYAxis.align = 'RIGHT';
         this.labelYAxis.fontsize = 0;
+        // this.labelYAxis.css = 'width:300px;';
         return this;
     }
 
@@ -429,8 +431,8 @@ export class TimelinesGraph extends AbstractVisualization {
         // label when rows are too small
         if (this.view.camera.position.z > 1400) {
             this.labels.innerHTML =
-                '<div style="position:fixed;bottom:10px;left:50%; font-size: 1.2rem;">Time</div>' +
-                '<div style="position:fixed;right:10px;top:50%; transform: rotate(90deg);font-size: 1.2rem;">Patients</div>';
+                '<div style="position:fixed;bottom:10px;left:50%; font-size: 15px;">Time</div>' +
+                '<div style="position:fixed;right:10px;top:50%; transform: rotate(90deg); font-size: 15px;">Patients</div>';
 
         } else if (this.view.camera.position.z > 1100) {
             this.labelXAxis.fontsize = 8;
@@ -447,8 +449,8 @@ export class TimelinesGraph extends AbstractVisualization {
                 LabelController.generateHtml(this.yAxis, this.labelYAxis);
 
         } else if (this.view.camera.position.z > 50) {
-            this.labelXAxis.fontsize = 15;
-            this.labelYAxis.fontsize = 15;
+            this.labelXAxis.fontsize = 10;
+            this.labelYAxis.fontsize = 10;
             this.labels.innerHTML =
                 LabelController.generateHtml(this.xAxis, this.labelXAxis) +
                 LabelController.generateHtml(this.yAxis, this.labelYAxis);

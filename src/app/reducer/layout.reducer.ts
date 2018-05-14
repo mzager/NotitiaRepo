@@ -46,7 +46,6 @@ export function reducer(state = initialState, action: UnsafeAction): State {
     }
 }
 
-
 export const getGraphPanelAState = (state: State) => state.graphPanelA;
 export const getGraphPanelBState = (state: State) => state.graphPanelB;
 export const getModalPanelState = (state: State) => state.modalPanel;

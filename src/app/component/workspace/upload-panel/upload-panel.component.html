@@ -9,8 +9,8 @@
         <div fxLayout.xs='column'>
                 <div fxFlex.sm='1 1 30%' fxFlex.md='1 1 20%' fxFlex.lg='1 1 25%' fxFlex.xl='1 1 20%'>
                         <h2 class='panel-column-title'>My Datasets</h2>
-                        <div *ngIf='cohorts.length===0'>No Datasets Availible</div>
-                        <div *ngFor='let option of cohorts' (click)='geneSetDel(option)' class='panel-config-row-del'>
+                        <div *ngIf='datasets.length===0'>No Datasets Availible</div>
+                        <div *ngFor='let option of datasets' (click)='datasetDel(option)' class='panel-config-row-del'>
                                 <i class='material-icons md-18'>remove_circle_outline</i>
                                 <div>{{option.n}}</div>
                         </div>
@@ -18,7 +18,7 @@
                 <!-- Create Dataset -->
                 <div fxFlex.sm='1 1 70%' fxFlex.md='1 1 80%' fxFlex.lg='1 1 75%' fxFlex.xl='1 1 80%'>
                         <h2 class='panel-column-title' style='margin-bottom:10px;'>Upload A Dataset</h2>
-                        <form [formGroup]="formGroup">
+                        <form [formGroup]="formGroup" (ngSubmit)='formSubmit(formGroup.value, formGroup.valid)'>
                                 <mat-form-field>
                                         <input matInput placeholder="Name" formControlName='name'>
                                 </mat-form-field>
@@ -44,10 +44,13 @@
                                 <mat-checkbox class='uploadPanelCbx' formControlName='isPublic'>I want to make my dataset availible to the public</mat-checkbox>
 
 
-                                <input type='file' style='display:none' #fileInput accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel">
-                                <button mat-raised-button (click)='uploadFile()' style='margin-right:20px;'>Select File</button>
-
-                                <button mat-raised-button color='primary'>Create Project</button>
+                                <input type='file' style='display:none;' #fileInput accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel">
+                                <div style='padding-bottom: 10px;padding-top: 10px;'>
+                                        <a mat-raised-button (click)='uploadFile()' style='margin-right:20px;width:120px;' href='#'>Select File</a>
+                                        <a href='#' class='os-link'>XLS Documentation</a>&nbsp;|&nbsp;
+                                        <a href='#' class='os-link'>XLS Template</a>
+                                </div>
+                                <button style='width:120px;' mat-raised-button color='primary'>Create Project</button>
                         </form>
                 </div>
         </div>
