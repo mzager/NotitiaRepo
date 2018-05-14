@@ -24,6 +24,9 @@ export class GraphConfig {
     graph: GraphEnum;
     table: DataTable;
     label = '';
+    enableCohorts = true;
+    enableGenesets = true;
+    enablePathways = false;
 
     patientSelect: Array<string> = [];
     patientFilter: Array<string> = [];

@@ -17,7 +17,7 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   template: `
-  <mat-form-field class='form-field-1-2'>
+  <mat-form-field class='form-field-1-2' *ngIf='config.enableCohorts'>
   <mat-select placeholder='Cohort' (selectionChange)='setCohortOption($event)'
       [value]='cohortSelected' [compareWith]='byName'>
       <mat-option *ngFor='let option of cohortOptions' [value]='option'>
@@ -28,7 +28,7 @@ import * as _ from 'lodash';
       </mat-option>
   </mat-select>
 </mat-form-field>
-<mat-form-field class='form-field-1-2'>
+<mat-form-field class='form-field-1-2' *ngIf='config.enableGenesets'>
   <mat-select placeholder='Geneset' (selectionChange)='setGenesetOption($event)'
       [value]='genesetSelected' [compareWith]='byName'>
       <mat-option *ngFor='let option of genesetOptions' [value]='option'>
@@ -39,7 +39,7 @@ import * as _ from 'lodash';
       </mat-option>
   </mat-select>
 </mat-form-field>
-<mat-form-field class='form-field' >
+<mat-form-field class='form-field' *ngIf='config.enablePathways'>
   <mat-select placeholder='Pathway' (selectionChange)='setPathwayOption($event)'
       [value]='pathwaySelected' [compareWith]='byName'>
       <mat-option *ngFor='let option of pathwayOptions' [value]='option'>

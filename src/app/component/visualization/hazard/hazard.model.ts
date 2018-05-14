@@ -11,6 +11,7 @@ export class HazardConfigModel extends GraphConfig {
         this.entity = EntityTypeEnum.PATIENT;
         this.visualization = VisualizationEnum.HAZARD;
         this.label = 'Hazard';
+        this.enableGenesets = false;
     }
     censorEvent: string;
 

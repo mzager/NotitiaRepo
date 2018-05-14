@@ -12,6 +12,9 @@ export class PathwaysConfigModel extends GraphConfig {
         this.visualization = VisualizationEnum.PATHWAYS;
         this.dirtyFlag = DirtyEnum.LAYOUT;
         this.label = 'Pathways';
+        this.enableGenesets = false;
+        this.enableCohorts = false;
+        this.enablePathways = true;
     }
 
     displayType: DimensionEnum = DimensionEnum.THREE_D;

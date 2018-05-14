@@ -19,6 +19,7 @@ export class TimelinesConfigModel extends GraphConfig {
         this.entity = EntityTypeEnum.PATIENT;
         this.dirtyFlag = DirtyEnum.LAYOUT;
         this.label = 'Timelines';
+        this.enableGenesets = false;
     }
 
     attrs = [];

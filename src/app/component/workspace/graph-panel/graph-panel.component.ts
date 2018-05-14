@@ -177,6 +177,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
         });
       });
     }
+    requestAnimationFrame(() => {
+      this.cd.markForCheck();
+    });
   }
 
   toggleClick(): void {
