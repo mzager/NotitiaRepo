@@ -34,21 +34,21 @@ import * as _ from 'lodash';
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field class='form-field'>
+  <mat-form-field class='form-field-1-3'>
     <mat-select placeholder='Y Axis' formControlName='pcy'>
         <mat-option *ngFor='let option of PcOptions' [value]='option'>
             PC {{ option }}
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field class='form-field'>
+  <mat-form-field class='form-field-1-3'>
     <mat-select placeholder='Z Axis' formControlName='pcz'>
         <mat-option *ngFor='let option of PcOptions' [value]='option'>
             PC {{ option }}
         </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field class='form-field'>
+  <mat-form-field class='form-field-1-3'>
     <mat-select placeholder='Learning Method' formControlName='learning_method'>
       <mat-option *ngFor='let option of LdaLearningMethodOpitions' [value]='option'>
           {{ option }}
