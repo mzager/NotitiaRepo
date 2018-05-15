@@ -238,12 +238,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       case VisualizationEnum.DASHBOARD:
         this.showPanel.emit(2048);
         return;
-      case VisualizationEnum.DECOMPOSITION:
-        this.setVisualization(VisualizationEnum.INCREMENTAL_PCA);
-        return;
-      case VisualizationEnum.MANIFOLDLEARNING:
-        this.setVisualization(VisualizationEnum.TSNE);
-        return;
       case VisualizationEnum.TIMELINES:
         gc = new TimelinesConfigModel();
         break;
@@ -365,13 +359,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     gc.graph = (this.title === 'Graph A') ? GraphEnum.GRAPH_A : GraphEnum.GRAPH_B;
     this.configChange.emit(gc);
   }
-
-  // graphPanelSelectClusteringAlgorithm(value: GraphConfig) {
-  //   this.selectClusteringAlgorithm.emit(value);
-  // }
-  // graphPanelSelecteGeneSignature(value: GraphConfig) {
-  //   this.selectGeneSignature.emit(value);
-  // }
   graphPanelSetConfig(value: GraphConfig) {
     this.configChange.emit(value);
   }
