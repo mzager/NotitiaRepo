@@ -92,8 +92,6 @@ export class LabelController {
                 this.layoutObjectsPixel(objects, options);
     }
     public static createMap2D(objects: Array<Object3D>, view: VisualizationView): Object {
-
-
         const viewport = view.viewport;
         const width = viewport.width;
         const height = viewport.height;
@@ -161,14 +159,14 @@ export class LabelController {
 
     private static styleObjects(objects: Array<ILabel>, options: LabelOptions): string {
         const css = options.generateCss();
-        const alignmentOffset = (options.align === 'LEFT') ? 0 : (options.align === 'CENTER') ? 50 : -100;
-        const alignText = (options.align === 'LEFT') ? 'text-align:left;' :
-            (options.align === 'CENTER') ? 'text-align:center;' : 'text-align:right;';
+        // const alignmentOffset = (options.align === 'LEFT') ? 0 : (options.align === 'CENTER') ? 150 : 0;
+        // const alignText = (options.align === 'LEFT') ? 'text-align:left;' :
+        //     (options.align === 'CENTER') ? 'text-align:center;' : 'text-align:right;';
         return objects.reduce((p, c) => {
             const translate = 'left:' +
-                Math.round(c.position.x + alignmentOffset + options.offsetX) +
+                Math.round(c.position.x + options.offsetX) +
                 'px; top:' + Math.round(c.position.y + options.offsetY) + 'px;';
-            return p += '<div class="z-label" style="' + css + translate + alignText + '">' +
+            return p += '<div class="z-label" style="' + css + translate + '">' +
                 options.prefix + c.userData.tooltip + options.postfix + '</div>';
         }, '');
     }
@@ -191,15 +189,15 @@ export class LabelController {
     static reduceHtml(data: Array<{ x: number, y: number, name: string }>, align: 'RIGHT' | 'LEFT' | 'CENTER' = 'LEFT'): string {
         return (align === 'LEFT') ? data.reduce(
             (p, c) => {
-                return p += '<div class="z-tooltip" style="left:' +
+                return p += '<div class="z-label" style="left:' +
                     c.x + 'px;top:' + c.y + 'px;">' + c.name + '</div>';
             }, '') :
             (align === 'RIGHT') ? data.reduce((p, c) => {
-                return p += '<div class="z-tooltip" style="text-align:right; width:300px; display:inline-block; left:' +
+                return p += '<div class="z-label" style="text-align:right; width:300px; display:inline-block; left:' +
                     (c.x - 300) + 'px;top:' + c.y + 'px;">' + c.name + '</div>';
             }, '') :
                 data.reduce((p, c) => {
-                    return p += '<div class="z-tooltip" style="text-align:center; width:300px; display:inline-block; left:' +
+                    return p += '<div class="z-label" style="text-align:center; width:300px; display:inline-block; left:' +
                         (c.x - 150) + 'px;top:' + c.y + 'px;">' + c.name + '</div>';
                 }, '');
     }
