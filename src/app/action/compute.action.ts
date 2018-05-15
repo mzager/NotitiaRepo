@@ -183,18 +183,18 @@ export class EdgesCompleteAction implements Action {
     readonly type: string = COMPUTE_EDGES_COMPLETE;
     constructor(public payload: { config: EdgeConfigModel, data: EdgeDataModel }) { }
 }
-export class DecoratorAddAction implements Action {
-    readonly type: string = COMPUTE_DECORATOR_ADD;
-    constructor(public payload: { decorator: DataDecorator, decorators: Array<DataDecorator> }) { }
-}
-export class DecoratorDelAction implements Action {
-    readonly type: string = COMPUTE_DECORATOR_DEL;
-    constructor(public payload: { decorator: DataDecorator, decorators: Array<DataDecorator> }) { }
-}
-export class DecoratorUpdateAction implements Action {
-    readonly type: string = COMPUTE_DECORATOR_UPDATE;
-    constructor(public payload: { config: GraphConfig, decorators: Array<DataDecorator> }) { }
-}
+// export class DecoratorAddAction implements Action {
+//     readonly type: string = COMPUTE_DECORATOR_ADD;
+//     constructor(public payload: { decorator: DataDecorator, decorators: Array<DataDecorator> }) { }
+// }
+// export class DecoratorDelAction implements Action {
+//     readonly type: string = COMPUTE_DECORATOR_DEL;
+//     constructor(public payload: { decorator: DataDecorator, decorators: Array<DataDecorator> }) { }
+// }
+// export class DecoratorUpdateAction implements Action {
+//     readonly type: string = COMPUTE_DECORATOR_UPDATE;
+//     constructor(public payload: { config: GraphConfig, decorators: Array<DataDecorator> }) { }
+// }
 export class NoneAction implements Action {
     readonly type: string = COMPUTE_NONE;
     constructor(public payload: { config: GraphConfig }) { }
@@ -603,5 +603,4 @@ export type Actions =
     SampleSummaryAction | SampleSummaryCompleteAction |
     GraphColorAction | GraphShapeAction | GraphSizeAction |
     GraphColorCompleteAction | GraphShapeCompleteAction | GraphSizeCompleteAction |
-    DecoratorAddAction | DecoratorDelAction |
     SelectSamplesAction | SelectMarkersAction;

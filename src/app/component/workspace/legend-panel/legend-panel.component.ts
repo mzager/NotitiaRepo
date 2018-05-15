@@ -33,7 +33,7 @@ export class LegendPanelComponent implements AfterViewInit {
   @Input() public set decorators(value: Array<DataDecorator>) {
     if (value === undefined) { return; }
     if (value === null) { return; }
-    if (value.length === 0) { return; }
+    // if (value.length === 0) { return; }
     this._decorators = value.map(decorator => {
       if (decorator.legend !== null) {
         this.formatValues(decorator.legend);

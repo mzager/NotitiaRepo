@@ -53,9 +53,6 @@ import {
   QuadraticDiscriminantAnalysisCompleteAction,
   SurvivalCompleteAction,
   HazardCompleteAction,
-  DecoratorAddAction,
-  DecoratorDelAction,
-  DecoratorUpdateAction
 } from './../action/compute.action';
 import { ComputeService } from './../service/compute.service';
 import { DataService } from './../service/data.service';
@@ -531,29 +528,6 @@ export class ComputeEffect {
       });
     });
 
-  // @Effect() decoratorAdd: Observable<any> = this.actions$
-  //   .ofType(compute.COMPUTE_DECORATOR_ADD)
-  //   .map((action: UnsafeAction) => action.payload)
-
-
-  // @Effect() decoratorDel: Observable<any> = this.actions$
-  //   .ofType(compute.COMPUTE_DECORATOR_ADD)
-  //   .map((action: UnsafeAction) => action.payload)
-  //   .switchMap(payload => {
-  //     return new LoaderHideAction();
-  //     //return new DecoratorUpdateAction(payload);
-  //   });
-
-  // visualizationToComputeAction(config: any): Action {
-  //   switch (config.visualization) {
-  //     case VisualizationEnum.CHROMOSOME:
-  //       return new compute.ChromosomeAction({ config: config });
-  //     case VisualizationEnum.PCA:
-  //       return new compute.PcaAction({ config: config });
-  //     case VisualizationEnum.HEATMAP:
-  //       return new compute.HeatmapAction({ config: config });
-  //   }
-  // }
 
   constructor(
     private actions$: Actions,

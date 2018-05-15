@@ -108,6 +108,8 @@ function processAction(action: UnsafeAction, state: State): State {
             return Object.assign({}, state, { decorators: decorators });
         case graph.DATA_DECORATOR_DEL:
             return Object.assign({}, state, { decorators: state.decorators.filter(v => v.type !== action.payload.decorator.type) });
+        case graph.DATA_DECORATOR_DEL_ALL:
+            return Object.assign({}, state, { decorators: [] });
         default:
             return state;
     }

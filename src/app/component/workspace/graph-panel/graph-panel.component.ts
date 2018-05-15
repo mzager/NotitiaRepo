@@ -89,6 +89,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Output() selectCohort: EventEmitter<any> = new EventEmitter();
   @Output() decoratorAdd: EventEmitter<{ config: GraphConfig, decorator: DataDecorator }> = new EventEmitter();
   @Output() decoratorDel: EventEmitter<{ config: GraphConfig, decorator: DataDecorator }> = new EventEmitter();
+  @Output() decoratorDelAll: EventEmitter<{ config: GraphConfig }> = new EventEmitter();
   @Output() workspaceConfigChange: EventEmitter<{ config: WorkspaceConfigModel }> = new EventEmitter();
   @Output() edgeConfigChange: EventEmitter<{ config: EdgeConfigModel }> = new EventEmitter();
 
@@ -148,27 +149,18 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  // This is a very important setter + is probably doing to much work.
+  // It is comparing the previous config with the proposed config.
+  // If the vis changes it updates the help
+  // If the entity changes it updates the edges
+  // If the matrix changes it reruns the decorators
   private _config: GraphConfig = null;
   get config(): GraphConfig { return this._config; }
   @Input() set config(value: GraphConfig) {
-    let updateEdges = false;
-    let updateHelp = false;
     if (value === null) { return; }
-    if (this._config === null) {
-      updateHelp = true;
-    } else if (this._config.visualization !== value.visualization) {
-      updateHelp = true;
-    }
-    if (value.graph === GraphEnum.GRAPH_B) {
-      if (this._config === null) {
-        updateEdges = true;
-      } else if (this._config.entity !== value.entity) {
-        updateEdges = true;
-      }
-    }
 
-    this._config = value;
-    if (updateHelp) {
+    // Update Help
+    if (this._config === null || (this._config.visualization !== value.visualization)) {
       this.dataService.getHelpInfo(value).then(v => {
         this.methodName = v.method;
         this.methodSummary = v.summary;
@@ -177,6 +169,18 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
         });
       });
     }
+
+    // If entity changed and change involved a gene ... remove all decorators
+    if (this._config !== null) {
+      if (this._config.entity !== value.entity) {
+        if (this._config.entity === EntityTypeEnum.GENE || value.entity === EntityTypeEnum.GENE) {
+          this.decoratorDelAll.emit({ config: this._config });
+        }
+      }
+    }
+
+    // Finally Update Config
+    this._config = value;
     requestAnimationFrame(() => {
       this.cd.markForCheck();
     });
