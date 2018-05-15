@@ -1,3 +1,4 @@
+
 import { Store } from '@ngrx/store';
 import { HazardConfigModel } from './../visualization/hazard/hazard.model';
 import { Pathway } from './../../model/pathway.model';
@@ -82,8 +83,8 @@ import { SpectralEmbeddingConfigModel } from './../visualization/spectralembeddi
 import { TruncatedSvdConfigModel } from './../visualization/truncatedsvd/truncatedsvd.model';
 import { TsneConfigModel } from './../visualization/tsne/tsne.model';
 import {
-  VisibilityToggleAction, VisualizationSetAction,
-  WorkspaceConfigAction, DataDecoratorCreateAction, DataDecoratorDelAction
+  VisibilityToggleAction, VisualizationSetAction, WorkspaceConfigAction,
+  DataDecoratorCreateAction, DataDecoratorDelAction, DataDecoratorDelAllAction
 } from './../../action/graph.action';
 import { WorkspaceConfigModel } from './../../model/workspace.model';
 // tslint:disable-next-line:max-line-length
@@ -312,6 +313,9 @@ export class WorkspaceComponent {
   }
   graphPanelDelDecorator(e: { config: GraphConfig, decorator: DataDecorator }): void {
     this.store.dispatch(new DataDecoratorDelAction({ config: e.config, decorator: e.decorator }));
+  }
+  graphPanelDelAllDecorators(e: { config: GraphConfig }): void {
+    this.store.dispatch(new DataDecoratorDelAllAction({ config: e.config }));
   }
   addPathway(value: { database: string, pathway: Pathway }): void {
     this.store.dispatch(new DataAddPathwayAction(value));
