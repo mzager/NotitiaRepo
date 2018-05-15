@@ -1,5 +1,5 @@
 <form [formGroup]='form' novalidate>
-    <mat-form-field class='form-field-1-2'>
+    <mat-form-field class='form-field'>
         <mat-select placeholder='Align By' formControlName='align'>
             <mat-optgroup *ngFor='let group of eventGroups' [label]='group.label'>
                 <mat-option *ngFor='let evt of group.events' [value]='evt.label'>
@@ -8,7 +8,7 @@
             </mat-optgroup>
         </mat-select>
     </mat-form-field>
-    <mat-form-field class='form-field-1-2'>
+    <mat-form-field class='form-field'>
         <mat-select placeholder='Sort By' formControlName='sort'>
             <mat-optgroup *ngFor='let group of sortOptions' [label]='group.label'>
                 <mat-option *ngFor='let item of group.items' [value]='item'>
@@ -17,7 +17,7 @@
             </mat-optgroup>
         </mat-select>
     </mat-form-field>
-    <mat-form-field class='form-field-1-2'>
+    <mat-form-field class='form-field'>
         <mat-select placeholder='Group By' formControlName='group'>
             <mat-optgroup *ngFor='let group of groupOptions' [label]='group.label'>
                 <mat-option *ngFor='let item of group.items' [value]='item'>
@@ -26,7 +26,7 @@
             </mat-optgroup>
         </mat-select>
     </mat-form-field>
-    <mat-form-field class='form-field-1-2'>
+    <mat-form-field class='form-field'>
         <mat-select multiple placeholder='Heat Map' formControlName='attrs'>
             <mat-option *ngFor='let item of patientAttributes' [value]='item.label'>
                 {{ item.label }}
@@ -40,7 +40,7 @@
               text-align:left;width:100%;font-weight:700;padding:10px 0px 0px 0px;font-size:.9rem;font-weight: 300;'>
                     {{ctrls[i].get('label').value}} Events</span>
                 <div class='form-group'>
-                    <mat-form-field class='form-field-1-2'>
+                    <mat-form-field class='form-field'>
                         <mat-select placeholder='Visualize' formControlName='style'>
                             <mat-option *ngFor='let item of styleOptions' [value]='item'>
                                 {{ item }}
@@ -49,7 +49,7 @@
                     </mat-form-field>
                 </div>
                 <div class='form-group'>
-                    <mat-form-field class='form-field-1-2'>
+                    <mat-form-field class='form-field'>
                         <mat-select multiple placeholder='Visible' formControlName='events' multipile>
                             <mat-option *ngFor='let item of eventTypes[ctrls[i].get("label").value]' [value]='item.subtype'>
                                 {{ item.subtype }}
