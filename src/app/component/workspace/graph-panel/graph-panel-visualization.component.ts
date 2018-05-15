@@ -13,7 +13,7 @@ import * as _ from 'lodash';
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     template: `
-    <mat-form-field class='form-field-1-3'>
+    <mat-form-field class='form-field'>
         <mat-select placeholder='Label' (selectionChange)='setLabelOption($event)'
             [(value)]='labelSelected' [compareWith]='byKey'>
             <mat-option *ngFor='let option of labelOptions' [value]='option'>
@@ -21,7 +21,7 @@ import * as _ from 'lodash';
             </mat-option>
         </mat-select>
     </mat-form-field>
-    <mat-form-field class='form-field-1-3'>
+    <mat-form-field class='form-field'>
         <mat-select placeholder='Color' (selectionChange)='setColorOption($event)'
             [(value)]='colorSelected' [compareWith]='byKey'>
             <mat-option *ngFor='let option of colorOptions' [value]='option'>
@@ -29,7 +29,7 @@ import * as _ from 'lodash';
             </mat-option>
         </mat-select>
     </mat-form-field>
-    <mat-form-field class='form-field-1-3'>
+    <mat-form-field class='form-field'>
         <mat-select placeholder='Shape' (selectionChange)='setShapeOption($event)'
             [(value)]='shapeSelected' [compareWith]='byKey'>
             <mat-option *ngFor='let option of shapeOptions' [value]='option'>
