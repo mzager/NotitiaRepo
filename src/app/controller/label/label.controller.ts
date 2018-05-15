@@ -40,7 +40,7 @@ export class LabelOptions {
     pointRadius = 3;                // How Big Is The Point...
     background: string = null;      // Background Color
     // margin: number = null;
-    css: string;
+    css = '';
     view: VisualizationView;
 
 
