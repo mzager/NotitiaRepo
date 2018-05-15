@@ -19,6 +19,7 @@ export const VISUALIZATION_COMPLETE = '[GRAPH] Visualization Complete';
 export const DATA_DECORATOR_ADD = '[GRAPH] Data Decorator Add';
 export const DATA_DECORATOR_DEL = '[GRAPH] Data Decorator Remove';
 export const DATA_DECORATOR_CREATE = '[GRAPH] Data Decorator Create';
+export const DATA_DECORATOR_DEL_ALL = '[GRAPH] Data Decorator Remove All';
 
 // Action Classes
 export class WorkspaceConfigAction implements Action {
@@ -53,6 +54,10 @@ export class DataDecoratorDelAction implements Action {
     readonly type: string = DATA_DECORATOR_DEL;
     constructor(public payload: { config: GraphConfig, decorator: DataDecorator }) { }
 }
+export class DataDecoratorDelAllAction implements Action {
+    readonly type: string = DATA_DECORATOR_DEL_ALL;
+    constructor(public payload: { config: GraphConfig }) { }
+}
 export class DataDecoratorAddAction implements Action {
     readonly type: string = DATA_DECORATOR_ADD;
     constructor(public payload: { config: GraphConfig, decorator: DataDecorator }) { }
@@ -63,4 +68,5 @@ export type Actions =
     DataSetAction | VisualizationSetAction |
     VisibilityToggleAction | DepthToggleAction |
     VisualizationCompleteAction |
-    DataDecoratorCreateAction | DataDecoratorDelAction | DataDecoratorAddAction;
+    DataDecoratorCreateAction | DataDecoratorAddAction |
+    DataDecoratorDelAction | DataDecoratorDelAllAction;
