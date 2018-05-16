@@ -33,6 +33,10 @@ $custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $hea
   user-select: none;
 }
 
+body{
+  max-height: 100vh;
+}
+
 * :focus {
   outline: 0;
   -webkit-box-shadow: none !important;
@@ -85,6 +89,8 @@ input:-webkit-autofill {
 
 .mat-expansion-panel-body {
   padding-top: 10px !important;
+  border: 0px solid #eeeeee;
+  border-bottom-width: 1px;
 }
 
 .mat-form-field-underline {
@@ -94,7 +100,6 @@ input:-webkit-autofill {
 .mat-expansion-panel-header {
   background: #fafafa !important;
   border: 0px solid #eeeeee !important;
-  border-top-width: 1px !important;
   border-bottom-width: 1px !important;
 }
 

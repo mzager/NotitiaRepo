@@ -72,7 +72,6 @@ export class HazardGraph extends AbstractVisualization {
 
     addObjects(type: EntityTypeEnum): void {
 
-
         if (this.data.result.hazard === undefined) {
             return;
         }
@@ -88,11 +87,9 @@ export class HazardGraph extends AbstractVisualization {
                 p[1] = Math.max(p[1], c.range[1][1]);
                 return p;
             }, [Infinity, -Infinity]));
-
         this.data.result.hazard.forEach((result, i) => {
             this.drawLine(0, 0, result, hX, hY, i, 'Hazard');
         });
-
         for (let x = -500; x <= 500; x += 100) {
             this.labelsForTimes.push(
                 {
@@ -102,15 +99,6 @@ export class HazardGraph extends AbstractVisualization {
             );
         }
         this.drawGrid(0, 0);
-
-        // ChartFactory.decorateDataGroups(this.meshes, this.decorators);
-
-        // const geo = new THREE.CubeGeometry(2200, 1000, 10, 1, 1, 1);
-        // const mesh = new THREE.Mesh(geo, ChartFactory.getColorBasic(0x333333));
-        // mesh.position.set(0, 0, 0);
-        // const box: THREE.BoxHelper = new THREE.BoxHelper(mesh, new THREE.Color(0xFF0000));
-        // this.view.scene.add(box);
-
         ChartFactory.configPerspectiveOrbit(this.view,
             new THREE.Box3(
                 new THREE.Vector3(-500, -500, -5),
@@ -152,24 +140,8 @@ export class HazardGraph extends AbstractVisualization {
         this.confidences.push(mesh);
         this.view.scene.add(mesh);
 
-
-        // pts = cohort.upper.map(v => new Vector2(xScale(v[0]) + xOffset, yScale(v[1]) + yOffset));
-        // line = ChartFactory.linesAllocate(cohort.color, pts, {});
-        // this.lines.push(line);
-        // this.view.scene.add(line);
-
-        // pts = cohort.lower.map(v => new Vector2(xScale(v[0]) + xOffset, yScale(v[1]) + yOffset));
-        // line = ChartFactory.linesAllocate(cohort.color, pts, {});
-        // this.lines.push(line);
-        // this.view.scene.add(line);
-
         // Line
         pts = cohort.line.map(v => new Vector2(xScale(v[0]) + xOffset, yScale(v[1]) + yOffset));
-        // const geo = new THREE.Geometry().setFromPoints(pts);
-        // const mline = new MeshLine();
-        // mline.setGeometry(geo);
-        // const meshLine = new THREE.Mesh(line.geometry,
-        //     ChartFactory.getMeshLine(cohort.color, 5));
 
         line = ChartFactory.linesAllocate(cohort.color, pts, {});
         this.lines.push(line);
@@ -221,11 +193,9 @@ export class HazardGraph extends AbstractVisualization {
     onMouseUp(e: ChartEvent): void { }
     onMouseMove(e: ChartEvent): void { }
 
-
     // Label Options
     onShowLabels(): void {
 
-        // Step 1 - Create Options
         const optionsForPercents = new LabelOptions(this.view, 'PIXEL');
         optionsForPercents.fontsize = 10;
         optionsForPercents.origin = 'RIGHT';
@@ -234,8 +204,6 @@ export class HazardGraph extends AbstractVisualization {
 
         const optionsForTimes = new LabelOptions(this.view, 'PIXEL');
         optionsForTimes.fontsize = 10;
-
-
 
         if (this.view.camera.position.z > 10000) {
             this.labels.innerHTML = '';
@@ -250,7 +218,5 @@ export class HazardGraph extends AbstractVisualization {
             // '<div style="position:fixed;bottom:50px;left:30%; font-size: 1.2rem;">Time</div>' +
             // '<div style="position:fixed;left:200px;top:50%; transform: rotate(90deg);font-size: 1.2rem;">Percent</div>';
         }
-
     }
-
 }
