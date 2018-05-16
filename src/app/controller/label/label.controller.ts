@@ -127,7 +127,6 @@ export class LabelController {
             position.z = 0;
             if (options.absoluteY !== null) { position.y = options.absoluteY; }
             if (options.absoluteX !== null) { position.x = options.absoluteX; }
-
             return {
                 position: position,
                 userData: { tooltip: obj.userData.tooltip }
@@ -158,7 +157,13 @@ export class LabelController {
     }
 
     private static styleObjects(objects: Array<ILabel>, options: LabelOptions): string {
-        const css = options.generateCss();
+        let css = options.generateCss();
+        if (options.align === 'RIGHT') {
+            css += 'text-align:right;width: 300px;';
+            options.offsetX -= 300;
+
+
+        }
         // const alignmentOffset = (options.align === 'LEFT') ? 0 : (options.align === 'CENTER') ? 150 : 0;
         // const alignText = (options.align === 'LEFT') ? 'text-align:left;' :
         //     (options.align === 'CENTER') ? 'text-align:center;' : 'text-align:right;';
@@ -186,21 +191,21 @@ export class LabelController {
         return this.filterObjectsInFrustum(objects, options.view);
     }
 
-    static reduceHtml(data: Array<{ x: number, y: number, name: string }>, align: 'RIGHT' | 'LEFT' | 'CENTER' = 'LEFT'): string {
-        return (align === 'LEFT') ? data.reduce(
-            (p, c) => {
-                return p += '<div class="z-label" style="left:' +
-                    c.x + 'px;top:' + c.y + 'px;">' + c.name + '</div>';
-            }, '') :
-            (align === 'RIGHT') ? data.reduce((p, c) => {
-                return p += '<div class="z-label" style="text-align:right; width:300px; display:inline-block; left:' +
-                    (c.x - 300) + 'px;top:' + c.y + 'px;">' + c.name + '</div>';
-            }, '') :
-                data.reduce((p, c) => {
-                    return p += '<div class="z-label" style="text-align:center; width:300px; display:inline-block; left:' +
-                        (c.x - 150) + 'px;top:' + c.y + 'px;">' + c.name + '</div>';
-                }, '');
-    }
+    // static reduceHtml(data: Array<{ x: number, y: number, name: string }>, align: 'RIGHT' | 'LEFT' | 'CENTER' = 'LEFT'): string {
+    //     return (align === 'LEFT') ? data.reduce(
+    //         (p, c) => {
+    //             return p += '<div class="z-label" style="left:' +
+    //                 c.x + 'px;top:' + c.y + 'px;">' + c.name + '</div>';
+    //         }, '') :
+    //         (align === 'RIGHT') ? data.reduce((p, c) => {
+    //             return p += '<div class="z-label" style="text-align:right; width:300px; display:inline-block; left:' +
+    //                 (c.x - 300) + 'px;top:' + c.y + 'px;">' + c.name + '</div>';
+    //         }, '') :
+    //             data.reduce((p, c) => {
+    //                 return p += '<div class="z-label" style="text-align:center; width:300px; display:inline-block; left:' +
+    //                     (c.x - 150) + 'px;top:' + c.y + 'px;">' + c.name + '</div>';
+    //             }, '');
+    // }
 
     /*
         Logic To Show Hide On Move

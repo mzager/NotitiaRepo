@@ -95,20 +95,11 @@ export class SurvivalGraph extends AbstractVisualization {
             this.labelsForTimes.push(
                 {
                     position: new THREE.Vector3(x, -500, 0),
-                    userData: { tooltip: Math.round(sX.invert(x)).toString() + ' Days' }
+                    userData: { tooltip: Math.round(sX.invert(x)).toString() }
                 }
             );
         }
         this.drawGrid(0, 0);
-        this.onRequestRender.emit(this.config.graph);
-
-        // ChartFactory.decorateDataGroups(this.meshes, this.decorators);
-        // const geo = new THREE.CubeGeometry(2200, 1000, 10, 1, 1, 1);
-        // const mesh = new THREE.Mesh(geo, ChartFactory.getColorBasic(0x333333));
-        // mesh.position.set(0, 0, 0);
-        // const box: THREE.BoxHelper = new THREE.BoxHelper(mesh, new THREE.Color(0xFF0000));
-        // this.view.scene.add(box);
-
         ChartFactory.configPerspectiveOrbit(this.view,
             new THREE.Box3(
                 new THREE.Vector3(-500, -500, -5),
@@ -149,23 +140,8 @@ export class SurvivalGraph extends AbstractVisualization {
         this.confidences.push(mesh);
         this.view.scene.add(mesh);
 
-        // pts = cohort.upper.map(v => new Vector2(xScale(v[0]) + xOffset, yScale(v[1]) + yOffset));
-        // line = ChartFactory.linesAllocate(cohort.color, pts, {});
-        // this.lines.push(line);
-        // this.view.scene.add(line);
-
-        // pts = cohort.lower.map(v => new Vector2(xScale(v[0]) + xOffset, yScale(v[1]) + yOffset));
-        // line = ChartFactory.linesAllocate(cohort.color, pts, {});
-        // this.lines.push(line);
-        // this.view.scene.add(line);
-
         // Line
         pts = cohort.line.map(v => new Vector2(xScale(v[0]) + xOffset, yScale(v[1]) + yOffset));
-        // const geo = new THREE.Geometry().setFromPoints(pts);
-        // const mline = new MeshLine();
-        // mline.setGeometry(geo);
-        // const meshLine = new THREE.Mesh(line.geometry,
-        //     ChartFactory.getMeshLine(cohort.color, 5));
 
         line = ChartFactory.linesAllocate(cohort.color, pts, {});
         this.lines.push(line);
@@ -190,11 +166,13 @@ export class SurvivalGraph extends AbstractVisualization {
                 new Vector2(500 + xOffset, y + yOffset));
             this.grid.push(line);
             this.view.scene.add(line);
-            // position: new THREE.Vector3(-510 + xOffset, y + 6 + yOffset, 0),
-            this.labelsForPercents.push({
-                position: new THREE.Vector3(-500, y + 6 + yOffset, 0),
-                userData: { tooltip: percent.toString() + '%' }
-            });
+
+            if (percent > 0) {
+                this.labelsForPercents.push({
+                    position: new THREE.Vector3(-510 + xOffset, y + 6 + yOffset, 0),
+                    userData: { tooltip: percent.toString() + '%' }
+                });
+            }
             percent += 10;
         }
     }
@@ -215,23 +193,19 @@ export class SurvivalGraph extends AbstractVisualization {
     onMouseUp(e: ChartEvent): void { }
     onMouseMove(e: ChartEvent): void { }
 
-
     // Label Options
     onShowLabels(): void {
 
-        // Step 1 - Create Options
         const optionsForPercents = new LabelOptions(this.view, 'PIXEL');
         optionsForPercents.fontsize = 10;
-        // optionsForPercents.origin = 'RIGHT';
-        // optionsForPercents.align = 'RIGHT';
+        optionsForPercents.origin = 'RIGHT';
+        optionsForPercents.align = 'RIGHT';
+        optionsForPercents.fontsize = 10;
 
         const optionsForTimes = new LabelOptions(this.view, 'PIXEL');
         optionsForTimes.fontsize = 10;
-        // optionsForTimes.rotate = 30;
 
         if (this.view.camera.position.z > 10000) {
-            optionsForPercents.fontsize = 8;
-            optionsForTimes.fontsize = 8;
             this.labels.innerHTML = '';
             // '<div style="position:fixed;bottom:50px;left:30%; font-size: 1.2rem;">Time</div>' +
             // '<div style="position:fixed;left:275px;top:50%; transform: rotate(90deg);font-size: 1.2rem;">Percent</div>';
@@ -245,7 +219,5 @@ export class SurvivalGraph extends AbstractVisualization {
             // '<div style="position:fixed;bottom:50px;left:30%; font-size: 1.2rem;">Time</div>' +
             // '<div style="position:fixed;left:200px;top:50%; transform: rotate(90deg);font-size: 1.2rem;">Percent</div>';
         }
-
     }
-
 }
