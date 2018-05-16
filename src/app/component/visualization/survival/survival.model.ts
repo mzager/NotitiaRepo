@@ -12,6 +12,10 @@ export class SurvivalConfigModel extends GraphConfig {
         this.visualization = VisualizationEnum.SURVIVAL;
         this.label = 'Survival';
         this.enableGenesets = false;
+        this.enableLabel = false;
+        this.enableColor = false;
+        this.enableShape = false;
+        this.enableSupplemental = false;
     }
     censorEvent: string;
 
