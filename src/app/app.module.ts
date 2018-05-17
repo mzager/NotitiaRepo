@@ -128,17 +128,6 @@ import { ModalService } from './service/modal-service';
 import { reducers } from './reducer/index.reducer';
 import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph-panel-data.component';
 
-
-// const gapiClientConfig: NgGapiClientConfig = {
-//   client_id: '459144121975-lp2p5kahpqahm2gffgtl31vv0nes9hj4.apps.googleusercontent.com',
-//   discoveryDocs: ['https://analyticsreporting.googleapis.com/$discovery/rest?version=v4'],
-//   scope: [
-//     'profile', 'email'
-//     // 'https://www.googleapis.com/auth/analytics.readonly',
-//     // 'https://www.googleapis.com/auth/analytics'
-//   ].join(' ')
-// };
-
 @NgModule({
   declarations: [
     AppComponent,
