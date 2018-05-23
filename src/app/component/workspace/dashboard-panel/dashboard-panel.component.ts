@@ -61,9 +61,9 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
                     const div = cohortDiv.append('<div id="' + id2 +
                         '" style="display:inline-block;padding-bottom:40px;padding-right:20px;"></div>');
                     this.statVegaFactory.drawChartObject(stat, stat.charts[0], id2, div);
-
                 });
             });
+            // console.log(results);
         });
     }
 
