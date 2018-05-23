@@ -1,4 +1,3 @@
-import { AmplifyService } from 'aws-amplify-angular';
 import { ChartComponent } from './../workspace/chart/chart.component';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -56,27 +55,9 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(public amplifyService: AmplifyService) {
+  constructor() {
     this.filesSubject = new Subject();
 
-
-    this.amplifyService.authStateChange$
-      .subscribe(authState => {
-        // debugger;
-        if (authState.state === 'signedIn') {
-          // alert('signed in');
-        } else {
-          // alert('not signed in');
-        }
-        // if (!authState.user) {
-
-        //   this.user = null;
-        // } else {
-        //   this.user = authState.user;
-        //   this.greeting = "Hello " + this.user.username;
-        // }
-        // alert('I JUST LOGGED IN');
-      });
 
   }
   viewPanel(panel: PanelEnum): void {

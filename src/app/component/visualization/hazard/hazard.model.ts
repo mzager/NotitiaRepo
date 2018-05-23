@@ -12,6 +12,10 @@ export class HazardConfigModel extends GraphConfig {
         this.visualization = VisualizationEnum.HAZARD;
         this.label = 'Hazard';
         this.enableGenesets = false;
+        this.enableLabel = false;
+        this.enableColor = false;
+        this.enableShape = false;
+        this.enableSupplemental = false;
     }
     censorEvent: string;
 
