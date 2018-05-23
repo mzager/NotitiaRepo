@@ -1,68 +1,26 @@
-// Responsive Mobile First
-
-/* Selectors and styles affecting screens SMALLER THAN 767px (Phones) */
-.landing-h1 {
-  color: #039be5;
-  letter-spacing: 10px;
-  text-transform: uppercase;
-  font-weight: 300;
-  font-size: 2.5rem;
-  margin-right: 0px;
-  margin-top: 0px;
-}
-.landing-h2 {
-  text-transform: uppercase;
-  color: #666666;
-  font-weight: 500;
-  font-size: 1.2rem;
-  letter-spacing: 5px;
-  padding-bottom: 0px;
-  margin-bottom: 0px;
-  padding-bottom: 1rem;
-}
-
-
-.landing-images {
-  line-height: 0;
-  font-size: 0px;
-}
-.landing-image-container { 
+@import '~@angular/material/theming';
+@import 'src/theme.scss';
+.landing-image-container {
   display: inline-block;
-  width: 18% !important;
+  width: 100% !important;
   height: 55vh !important;
   max-height: 420px !important;
   padding: 0px;
   margin: 0px;
-  margin-right: 2%;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
   border: 1px solid #9e9e9e;
-}
-.landing-image-container :last-child { 
-  padding-right: 0px;
-}
-
-
-.landing-link {
-  color: #fff;
-  letter-spacing: 10px;
-  line-height: 2rem;
-  text-transform: uppercase;
-  font-weight: 500;
-  font-size: 1.2rem;
-  background: #039be5;
-  padding: 7px 25px;
-  margin-top: 8px;
-  display: inline-block;
-  width: 18%;
-  cursor: pointer;
-  margin-top: -30px;
+  margin-bottom: 30px;
+  margin-top: 30px;
 }
 
-.landing-link:hover {
- background:#5e35b1;
+// .landing-link:hover {
+//   background: #5e35b1;
+// }
+.landing-headers {
+  margin-bottom: 30px;
 }
 
 .landing-link-copy {
@@ -76,53 +34,44 @@
   display: inline-block;
 }
 
-
-
-
-// .landing-copy-desc { 
-//     position: absolute;
-//     left: 20px;
-//     top:50px;
-//     padding-right:50px;
-//     font-size: 1.2rem;
-//     line-height: 2rem;
-// }
-
-
-
 .landing-section-title {
   color: #666;
-  letter-spacing: 10px;
+  letter-spacing: 5px;
   text-transform: uppercase;
-  font-weight: 300;
-  font-size: 2.5rem;
+  font-size: 2rem;
   margin-right: 0px;
   margin-top: 0px;
+  margin-bottom: 50px;
+  font-weight: 100;
 }
 
 .landing-copy {
   display: block;
   position: relative;
-  
   margin-bottom: 20px;
   padding: 0px;
-  padding-right:10px;
+  padding-right: 10px;
 }
-.landing-tool-image { 
+
+.landing-tool-image {
   border: 1px solid #9e9e9e;
   width: 100px;
   height: 100px;
-  float:left;
+  float: left;
   background-size: 100px 100px !important;
-  margin-right:20px;
-
+  margin-right: 20px;
 }
-.landing-copy-title { 
+
+.landing-copy-title {
   text-transform: uppercase;
   color: #039be5;
-  font-weight: 500;
-  font-size: 1.2rem;
-  letter-spacing: 5px;
+  font-weight: 300;
+  font-size: 1rem;
+  letter-spacing: 8px;
   display: block;
+  margin-bottom: 10px;
 }
 
+.landing-copy-desc {
+  line-height: 20px;
+}
