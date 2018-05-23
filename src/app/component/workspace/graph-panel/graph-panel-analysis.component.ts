@@ -15,7 +15,7 @@ import * as _ from 'lodash';
   </mat-menu>
   <mat-menu #analysisStructuralMenu='matMenu'>
   <button mat-menu-item (click)='select.emit(2147483648)'>Genome</button>
-  <button mat-menu-item (click)='select.emit(3)'>Chromosome</button>
+  <!--<button mat-menu-item (click)='select.emit(3)'>Chromosome</button>-->
   <button mat-menu-item (click)='select.emit(17179869184)'>Force Directed Graph</button>
   <button mat-menu-item (click)='select.emit(256)'>Pathways</button>
   </mat-menu>

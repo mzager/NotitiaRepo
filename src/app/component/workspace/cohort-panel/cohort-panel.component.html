@@ -20,7 +20,7 @@
 
       <label class='panel-builder-label'>create</label>
       <mat-form-field>
-        <input placeholder='Enter Cohort Name' matInput type='text' [(value)]='activeCohort.n'>
+        <input placeholder='Enter Cohort Name' matInput type='text' [(ngModel)]='activeCohort.n'>
       </mat-form-field>
       <div class='panel-builder-criteria-row' [class.cohort-field-or]='condition.condition==="or"' *ngFor='let condition of activeCohort.conditions'>
         <label class='panel-builder-label'>{{condition.condition}}</label>

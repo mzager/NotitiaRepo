@@ -76,13 +76,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.points = this.meshes.map(v => v.children[0]);
         this.tooltipController.targets = this.points;
 
-
-        // const geo = new THREE.CubeGeometry(500, 500, 500, 1, 1, 1);
-        // const mesh = new THREE.Mesh(geo, ChartFactory.getColorBasic(0x333333));
-        // mesh.position.set(0, 0, 0);
-        // const boxH: BoxHelper = new BoxHelper(mesh, new THREE.Color(0xFF0000));
-        // this.view.scene.add(boxH);
-
         ChartFactory.configPerspectiveOrbit(this.view,
             new THREE.Box3(
                 new Vector3(-250, -250, -250),

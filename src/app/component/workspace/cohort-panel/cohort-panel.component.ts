@@ -70,9 +70,13 @@ export class CohortPanelComponent implements AfterViewInit {
   }
 
   saveClick() {
-    if (!this.isValid()) {
-      return;
-    }
+    // debugger;
+    // const me = this;
+    // if (!this.isValid()) {
+    //   return;
+    // }
+    if (this.activeCohort.n === '') { alert('Please specify a cohort name'); return; }
+    // debugger;
     this.addCohort.emit({ cohort: this.activeCohort, database: this.config.database });
   }
   deleteClick(cohort: Cohort): void {
