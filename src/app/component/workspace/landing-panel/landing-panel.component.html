@@ -1,192 +1,193 @@
-<div class="landing-modal-panel">
-  <div class="row">
-    <div class="col s12" style="padding-left:0px;">
-      <!-- <a style='float:right;margin-right:1%' href="#" (click)="getStartedClick()" class='landing-link'>Get Started</a> -->
-      <h1 class='landing-h1'>Oncoscape</h1>
-      <h2 class='landing-h2'>Acclerate your research</h2>
+<div class="panel">
+  <div>
+    <a href='#' class='modalClose' (click)='closeClick()'>
+    </a>
+    <div style='letter-spacing: 8px;
+    font-weight: 200;
+    font-size: 2.5rem;
+    color: #1e88e5;
+    text-transform: uppercase;'>Oncoscape</div>
+    <div style='font-size: 1rem; text-transform: uppercase; color: #666; letter-spacing: 5px; padding-top: 30px;'>Accelerate your research </div>
+  </div>
+
+  <div fxLayout.xs='column'>
+    <div fxFlex.sm='1 1 100%' fxFlex.md='1 1 100%' fxFlex.lg='1 1 100%' fxFlex.xl='1 1 100%'>
+      <section>
+        <div fxFlex="20%" class='landing-image-container' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position: 20% 8%; -webkit-background-size: 100% auto;'></div>
+        <div fxFlex="20%" fxFlexOffset='20px' class='landing-image-container' style='background: url(assets/landing/img-4.jpg) no-repeat; background-position: 50% 50%; -webkit-background-size: 100% auto;'></div>
+        <div fxFlex="20%" fxFlexOffset='20px' class='landing-image-container' style='background: url(assets/landing/img-chromo.jpg) no-repeat; background-position: 0% 0%; -webkit-background-size: 100% auto;'></div>
+        <div fxFlex="20%" fxFlexOffset='20px' class='landing-image-container' style='background: url(assets/landing/img-genome.jpg) no-repeat; background-position: 0% 0%; -webkit-background-size: 150% auto;'></div>
+        <div fxFlex="20%" fxFlexOffset='20px' class='landing-image-container' style='background: url(assets/landing/img-scatter.jpg) no-repeat; background-position: 20% 50%; -webkit-background-size: 150% auto;'></div>
+      </section>
     </div>
   </div>
-  <div class="row">
-    <section class='landing-images'>
-      <div class='landing-image-container' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position: 20% 8%; -webkit-background-size: 100% auto;'></div>
-      <div class='landing-image-container' style='background: url(assets/landing/img-4.jpg) no-repeat; background-position: 50% 50%; -webkit-background-size: 100% auto;'></div>
-      <div class='landing-image-container' style='background: url(assets/landing/img-chromo.jpg) no-repeat; background-position: 0% 0%; -webkit-background-size: 100% auto;'></div>
-      <div class='landing-image-container' style='background: url(assets/landing/img-genome.jpg) no-repeat; background-position: 0% 0%; -webkit-background-size: 150% auto;
-      background-attachment: scroll;'></div>
-      <div class='landing-image-container' style='background: url(assets/landing/img-scatter.jpg) no-repeat; background-position: 20% 50%; -webkit-background-size: 150% auto;'></div>
+
+  <div>
+    <section style='padding-bottom: 30px;' fxFlex.sm='1 1 100%' fxFlex.md='1 1 100%' fxFlex.lg='1 1 100%' fxFlex.xl='1 1 100%'>
+      <button fxFlex='15%' (click)="getStartedClick()" class='button' style='letter-spacing: 5px; line-height: 25px;
+      text-transform: uppercase; text-align: left; font-size: 1rem; font-weight: 100;' mat-button>Get
+        <br /> Started
+      </button>
+
+      <div fxFlexOffset='20px' fxFlex='85%' style='line-height: 25px;'>
+        <span>Maximize the potential of your clinical and genomic data by combining it with best-in-class analysis, reference data
+          sets and domain-specific visualizations. To request training or a custom solution contact us at
+          <a style='color: #1e88e5; text-decoration: none;' href='mailto:contact@oncoscape.org'>contact@oncoscape.org</a>.
+        </span>
+      </div>
     </section>
   </div>
 
-  <section class='row' style='font-size:0px;margin-bottom:60px;margin-top:10px;'>
-    <a href="#" (click)="getStartedClick()" class='landing-link waves-effect waves-light'>Get
-      <br />Started</a>
 
-    <!-- <span class='landing-link-copy'>Oncoscape helps researchers conduct primary translational clinical research by analyzing and visualizing large-scale
-            genomic and clinical data. By combining proprietary and public datasets with renowned analytic libraries, novel
-            visualizations and cloud computing, our solution will accelerate your research.</span> -->
-
-    <span class='landing-link-copy'>Maximize the potential of your clinical and genomic data by combining it with best-in-class analysis, reference data
-      sets and domain-specific visualizations. To request training or a custom solution contact us at
-      <a href='mailto:contact@oncoscape.org' style='letter-spacing: 1px;'>contact@oncoscape.org</a>.
-    </span>
-  </section>
-  <div class="divider" style='margin-bottom: 30px;'></div>
-  <section class=' row'>
-    <h2 class='landing-section-title'>Analysis</h2>
-
-    <div class='landing-copy col s12 m6'>
-      <div class='landing-copy-thumb' style='background: url(assets/landing/opensource.jpg) no-repeat;' class='landing-tool-image'></div>
+  <div class='landing-headers'></div>
+  <div class='landing-section-title'>Analysis</div>
+  <section fxLayout.xs='column'>
+    <div fxFlex.sm='1 1 100%' fxFlex.md='1 1 100%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+      <div style='background: url(assets/landing/opensource.jpg) no-repeat;' class='landing-tool-image'></div>
       <span class='landing-copy-title'>Reliable</span>
       <span class='landing-copy-desc'>All data manipulation and augmentation is done using established open source libraries and public stores with citations.
       </span>
     </div>
 
-    <div class='landing-copy col s12 m6'>
-      <div class='landing-copy-thumb' style='background: url(assets/landing/reproducible.jpg) no-repeat;' class='landing-tool-image'></div>
+    <div fxFlex.sm='1 1 100%' fxFlex.md='1 1 100%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+      <div style='background: url(assets/landing/reproducible.jpg) no-repeat;' class='landing-tool-image'></div>
       <span class='landing-copy-title'>Reproducible</span>
       <span class='landing-copy-desc'>All analysis in Oncoscape is fully reproducible. Pause, rewind and interrogate every variable and result.</span>
     </div>
-
-
-
-    <!-- <div class='landing-copy col s12 m6'>
-            <div class='landing-copy-thumb' style='background: url(assets/landing/img-1.jpg) no-repeat;' class='landing-tool-image'></div>
-            <span class='landing-copy-title'>Real Time</span>
-            <span class='landing-copy-desc'>Backed by the latest in serverless cloud compute technologies, Oncoscape automatically scales to meet the your
-                demanding computational needs in real time.</span>
-        </div> -->
-
-    <!-- <div class='landing-copy col s12 m6'>
-            <div class='landing-copy-thumb' style='background: url(assets/landing/img-1.jpg) no-repeat;
-        50%'></div>
-            <span class='landing-copy-title'>Relative</span>
-            <span class='landing-copy-desc'>Relate multiple analysis through links... </span>
-        </div> -->
   </section>
-  <div class='divider' style='margin-bottom: 30px;'></div>
-  <section class='row'>
-    <h2 class='landing-section-title'>Data</h2>
-    <div class='landing-copy col s12 m6'>
-      <div class='landing-copy-thumb' style='background: url(assets/landing/tcga.jpg) no-repeat;' class='landing-tool-image'></div>
+  <div class='landing-headers'></div>
+  <div class='landing-section-title'>Data</div>
+  <section fxLayout.xs='column'>
+    <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+      <div style='background: url(assets/landing/tcga.jpg) no-repeat;' class='landing-tool-image'></div>
       <span class='landing-copy-title'>Public Data Sets</span>
       <span class='landing-copy-desc'>Explore The Cancer Genome Atlas (TCGA) and other curated data from our growing list of reference libraries.</span>
     </div>
-    <div class='landing-copy col s12 m6'>
-      <div class='landing-copy-thumb' style='background: url(assets/landing/datahub.jpg) no-repeat;' class='landing-tool-image'></div>
+    <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+      <div style='background: url(assets/landing/datahub.jpg) no-repeat;' class='landing-tool-image'></div>
       <span class='landing-copy-title'>Private Data Upload</span>
       <span class='landing-copy-desc'>
         Securely manage and analyze your clinical and genomics data, then share results with colleges.
       </span>
     </div>
-    <div class='landing-copy col s12 m6'>
-      <div class='landing-copy-thumb' style='background: url(assets/landing/genesets2.jpg) no-repeat;' class='landing-tool-image'></div>
+  </section>
+  <section fxLayout.xs='column'>
+    <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+      <div style='background: url(assets/landing/genesets2.jpg) no-repeat;' class='landing-tool-image'></div>
       <span class='landing-copy-title'>Gene Sets</span>
       <span class='landing-copy-desc'>Select from thousands of curated gene sets from MSigDB or create your own.</span>
     </div>
-    <div class='landing-copy col s12 m6'>
-      <div class='landing-copy-thumb' style='background: url(assets/landing/pathway-commons.jpg) no-repeat;' class='landing-tool-image'></div>
+    <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+      <div style='background: url(assets/landing/pathway-commons.jpg) no-repeat;' class='landing-tool-image'></div>
       <span class='landing-copy-title'>Pathways</span>
       <span class='landing-copy-desc'>Select from thousands of top level pathways from Reactome, PathwayCommons, and more. </span>
     </div>
   </section>
-  <div class="divider" style='margin-bottom: 30px;'></div>
-  <section class='row'>
-    <h2 class='landing-section-title'>Visualization</h2>
-    <div class='landing-copy col s12 m6'>
-      <div class='landing-copy-thumb' style='background: url(assets/landing/dashboard.jpg) no-repeat;' class='landing-tool-image'></div>
+  <div class='landing-headers'></div>
+  <div class='landing-section-title'>Visualization</div>
+  <section fxLayout.xs='column'>
+    <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy ' class='landing-copy '>
+      <div style='background: url(assets/landing/dashboard.jpg) no-repeat;' class='landing-tool-image'></div>
       <span class='landing-copy-title'>Clinical Dashboard</span>
       <span class='landing-copy-desc'>Compare cohorts at a glance</span>
     </div>
-    <div class='landing-copy col s12 m6'>
-      <div class='landing-copy-thumb' style='background: url(assets/landing/spreadsheet.jpg) no-repeat;' class='landing-tool-image'></div>
+    <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy ' class='landing-copy'>
+      <div style='background: url(assets/landing/spreadsheet.jpg) no-repeat;' class='landing-tool-image'></div>
       <span class='landing-copy-title'>Spreadsheet</span>
       <span class='landing-copy-desc'>Sort and export your data, cohorts and genes of interest in tabular format.</span>
     </div>
-
-    <div class='landing-copy col s12 m6'>
-      <div class='landing-copy-thumb' style='background: url(assets/landing/decomp.jpg) no-repeat;' class='landing-tool-image'></div>
+  </section>
+  <section fxLayout.xs='column'>
+    <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy ' class='landing-copy '>
+      <div style='background: url(assets/landing/decomp.jpg) no-repeat;' class='landing-tool-image'></div>
       <span class='landing-copy-title'>Matrix Decomposition</span>
       <span class='landing-copy-desc'>Visualize the inherent spatial structure of high dimensional datasets in 3D. With 13 fully customizable linear dimension
         reduction algorithm, select from 5 variants of PCA, Factor Analysis, LDA, SVD and more.</span>
     </div>
-    <div class='landing-copy col s12 m6'>
-      <div class='landing-copy-thumb' style='background: url(assets/landing/manifoldlearning.jpg) no-repeat;' class='landing-tool-image'></div>
+    <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy ' class='landing-copy '>
+      <div style='background: url(assets/landing/manifoldlearning.jpg) no-repeat;' class='landing-tool-image'></div>
       <span class='landing-copy-title'>Manifold Learning</span>
       <span class='landing-copy-desc'>Like Matrix Decomposition, Manifold Learning seeks to unveil the spatial structure of high dimensional datasets. Unlike
         Matrix Decomposition the dimension reduction process is non-linear. Available methods include T-SNE, MDS, IsoMap,
         Local Linear and Spectral Embedding.</span>
     </div>
-    <div class='landing-copy col s12 m6'>
-      <div class='landing-copy-thumb' style='background: url(assets/landing/heatmap3.jpg) no-repeat;' class='landing-tool-image'></div>
+  </section>
+  <section fxLayout.xs='column'>
+    <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy ' class='landing-copy '>
+      <div style='background: url(assets/landing/heatmap3.jpg) no-repeat;' class='landing-tool-image'></div>
       <span class='landing-copy-title'>Heat map</span>
       <span class='landing-copy-desc'>Sort, group and visualize your data using 7 agglomerative clustering algorithms in conjunction with 20 distance metrics.
         Leverage dendrogram to sub select populations of samples or markers for further investigation.</span>
     </div>
-    <div class='landing-copy col s12 m6'>
-      <div class='landing-copy-thumb' style='background: url(assets/landing/genome.jpg) no-repeat;' class='landing-tool-image'></div>
+    <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+      <div style='background: url(assets/landing/genome.jpg) no-repeat;' class='landing-tool-image'></div>
       <span class='landing-copy-title'>Genome</span>
       <span class='landing-copy-desc'>Identify chromosomal regions of interest by projecting your data onto a visual representation of the genome. Overlay
         CNV, Gistic or expression data along with Topically Aligned Domains and Cytobands. Explore thousands of curated gene
         sets or create your own.</span>
     </div>
-    <div class='landing-copy col s12 m6'>
-      <div class='landing-copy-thumb' style='background: url(assets/landing/chromosome.jpg) no-repeat;' class='landing-tool-image'></div>
+  </section>
+  <section fxLayout.xs='column'>
+    <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+      <div style='background: url(assets/landing/chromosome.jpg) no-repeat;' class='landing-tool-image'></div>
       <span class='landing-copy-title'>Chromosome</span>
       <span class='landing-copy-desc'>Compare datasets at the chromosomal level with circos and linear visualizations. Overlay pathways or topically aligned
         domains.
       </span>
     </div>
-    <div class='landing-copy col s12 m6'>
-      <div class='landing-copy-thumb' style='background: url(assets/landing/pathways-tool.jpg) no-repeat;' class='landing-tool-image'></div>
+    <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+      <div style='background: url(assets/landing/pathways-tool.jpg) no-repeat;' class='landing-tool-image'></div>
       <span class='landing-copy-title'>Pathways</span>
       <span class='landing-copy-desc'>Overlay your data on over 5,900 pathways curated from Kegg, Panther, Reactome, SMPDB, WikiPathways and Pathway Commons.
       </span>
     </div>
-    <div class='landing-copy col s12 m6'>
-      <div class='landing-copy-thumb' style='background: url(assets/landing/survival.jpg) no-repeat;' class='landing-tool-image'></div>
+  </section>
+  <section fxLayout.xs='column'>
+    <div class='landing-copy '>
+      <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' style='background: url(assets/landing/survival.jpg) no-repeat;'
+        class='landing-tool-image'></div>
       <span class='landing-copy-title'>Survival</span>
       <span class='landing-copy-desc'>Estimate and compare survival and hazard rates for patient populations using Kaplin Kaplan-Meier, Nelson-Aalen, Aalen,
         Weibull and Cox models. </span>
     </div>
-    <div class='landing-copy col s12 m6'>
-      <div class='landing-copy-thumb' style='background: url(assets/landing/hazard.jpg) no-repeat;' class='landing-tool-image'></div>
+    <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+      <div style='background: url(assets/landing/hazard.jpg) no-repeat;' class='landing-tool-image'></div>
       <span class='landing-copy-title'>Hazard</span>
       <span class='landing-copy-desc'>Estimate and compare survival and hazard rates for patient populations using Kaplin Kaplan-Meier, Nelson-Aalen, Aalen,
         Weibull and Cox models. </span>
     </div>
-    <div class='landing-copy col s12 m6'>
-      <div class='landing-copy-thumb' style='background: url(assets/landing/timelines.jpg) no-repeat;' class='landing-tool-image'></div>
+  </section>
+  <section fxLayout.xs='column'>
+    <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+      <div style='background: url(assets/landing/timelines.jpg) no-repeat;' class='landing-tool-image'></div>
       <span class='landing-copy-title'>Timelines</span>
       <span class='landing-copy-desc'>Visualize patterns in time series data with an interactive swimmer plot. Sort, group and highlight patients using clinical
         attributes.
       </span>
     </div>
-    <div class='landing-copy col s12 m6'>
-      <div class='landing-copy-thumb' style='background: url(assets/landing/box-whiskers.jpg) no-repeat;' class='landing-tool-image'></div>
+    <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+      <div style='background: url(assets/landing/box-whiskers.jpg) no-repeat;' class='landing-tool-image'></div>
       <span class='landing-copy-title'>Box + Whisker</span>
       <span class='landing-copy-desc'>Gain insights into the distribution of your data by visualizing the minimum, first quartile, median, 3rd quartile and
         maximum values.</span>
     </div>
-    <div class='landing-copy col s12 m6'>
-      <div class='landing-copy-thumb' style='background: url(assets/landing/forcedirected.jpg) no-repeat;' class='landing-tool-image'></div>
+  </section>
+  <section fxLayout.xs='column'>
+    <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+      <div style='background: url(assets/landing/forcedirected.jpg) no-repeat;' class='landing-tool-image'></div>
       <span class='landing-copy-title'>Force Directed Graph</span>
       <span class='landing-copy-desc'>Visualize graph data in three-dimensions using a class of algorithms called "force directed graphs." These algorithms
         use the number and strength of connections to position nodes.</span>
     </div>
-
-    <div class='landing-copy col s12 m6'>
-      <div class='landing-copy-thumb' style='background: url(assets/landing/edges.jpg) no-repeat;' class='landing-tool-image'></div>
+    <div class='landing-copy '>
+      <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' style='background: url(assets/landing/edges.jpg) no-repeat;'
+        class='landing-tool-image'></div>
       <span class='landing-copy-title'>Edges</span>
       <span class='landing-copy-desc'>Connect multiple graphs with edges. Link tumor/normal samples or visualize mutations.</span>
     </div>
   </section>
-
 </div>
-<!-- <div class="row">
-        <div class="col s12" style="padding-left:0px;">
-            <a href="#" (click)="getStartedClick()" class='landing-link'>Get Started</a>
-        </div>
-    </div> -->
+
 
 
 <!-- Through a suite of interoperable tools, researchers can develop cohorts and test hypothoses and enrich their
