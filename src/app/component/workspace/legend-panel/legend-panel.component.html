@@ -15,10 +15,10 @@
         <div *ngFor='let label of legend.labels; let i = index;' class='legendItem'>
             <div class='swatch' [style.background-color]='legend.values[i]'></div>
             {{label}}
-            <div class='swatchButtons'>
+            <!-- <div class='swatchButtons'>
                 <a href='#' class='os-link' (click)='select()' class=''>Select</a> |
                 <a href='#' class='os-link' (click)='deselect()' class=''>Deselect</a>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

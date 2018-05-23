@@ -89,11 +89,6 @@ export class GenomeGraph extends AbstractVisualization {
         if (this.config.showTads) { this.addTads(); }
         this.addGenes();
 
-        // const geo = new THREE.CubeGeometry(2200, 1000, 10, 1, 1, 1);
-        // const mesh = new THREE.Mesh(geo, ChartFactory.getColorBasic(0x333333));
-        // mesh.position.set(0, 0, 0);
-        // const box: THREE.BoxHelper = new THREE.BoxHelper(mesh, new THREE.Color(0xFF0000));
-        // this.view.scene.add(box);
 
         ChartFactory.configPerspectiveOrbit(this.view,
             new THREE.Box3(
@@ -193,6 +188,7 @@ export class GenomeGraph extends AbstractVisualization {
 
         ChartFactory.decorateDataGroups(this.meshes, this.decorators, this.renderer);
         this.points = this.meshes.map(v => v.children[0]);
+        this.tooltipController.targets = this.bands.concat(this.points);
     }
     removeChromosomes() {
         this.view.scene.remove(... this.chromosomes);

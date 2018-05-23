@@ -1,3 +1,4 @@
+import { MatSelectChange } from '@angular/material';
 import { DataTable } from './../../../model/data-field.model';
 import { ComputeWorkerUtil } from './../../../service/compute.worker.util';
 import { DataField } from 'app/model/data-field.model';
@@ -30,6 +31,7 @@ export class DataPanelComponent implements AfterViewInit {
   @Output() hide: EventEmitter<any> = new EventEmitter();
 
   public _tables: Array<DataTable> = [];
+  public _table: DataTable;
   public columns: Array<any> = [];
   public columnsToDisplay: Array<string> = [];
   public dataSource: Array<any> = [];
@@ -38,28 +40,36 @@ export class DataPanelComponent implements AfterViewInit {
   public colHeaders = [];
   public settings = {
     width: window.innerWidth,
-    height: window.innerHeight - 150,
-    colWidths: 200,
+    height: window.innerHeight - 180,
+    colWidths: 150,
     rowHeights: 23,
     autoRowSize: false,
-    autoColSize: false
+    autoColSize: true,
+    columnSorting: true,
+    contextMenu: true,
+    stretchH: 'all',
+    manualRowResize: true,
+    manualColumnResize: true,
+    rowHeaders: true,
+    manualRowMove: true,
+    manualColumnMove: true,
+    sortIndicator: true,
   };
+
 
   closeClick() {
     this.hide.emit();
   }
 
   @Input() set tables(v: Array<DataTable>) {
-    this._tables = v.concat([
-      { tbl: 'configA', label: 'Chart A', map: '', ctype: CollectionTypeEnum.UNDEFINED },
-      { tbl: 'configB', label: 'Chart B', map: '', ctype: CollectionTypeEnum.UNDEFINED }
-    ]);
-    this._tables.push(...this._tables.splice(0, 2));
+    //   { tbl: 'configA', label: 'Chart A', map: '', ctype: CollectionTypeEnum.UNDEFINED },
+    //   { tbl: 'configB', label: 'Chart B', map: '', ctype: CollectionTypeEnum.UNDEFINED }
+    // ]);
+    // this._tables.push(...this._tables.splice(0, 2));
+    // TODO: Add mutations, events, cohorts in list
+    this._tables = v.filter(tbl => (tbl.tbl !== 'mutations' && tbl.tbl !== 'events'));
   }
 
-  tableChange(table: DataTable): void {
-    this.loadTable(table);
-  }
 
   openDatabase(): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -74,70 +84,52 @@ export class DataPanelComponent implements AfterViewInit {
     });
   }
 
+  tableChange(e: MatSelectChange): void {
+    this.loadTable(e.value);
+  }
   loadTable(table: DataTable): void {
-    // const hot = this.hotRegisterer.getInstance('hotInstance');
+    this._table = table;
     if (table.ctype === CollectionTypeEnum.UNDEFINED) {
-      // const config: GraphConfig = (table.tbl === 'configA') ? this.configA : this.configB;
-      // const markers: Array<any> = config.markerFilter.map(v =>
-      //   ([v, 'Gene', (config.markerSelect.indexOf(v) !== -1)]));
-      // const samples: Array<any> = config.sampleFilter.map(v =>
-      //   ([v, 'Sample', (config.sampleSelect.indexOf(v) !== -1)]));
-      // const data = markers.concat(samples);
-      // const colHeaders = ['Name', 'Type', 'Selected'];
       const data = [];
-
-      // hot.updateSettings({
-      //   manualColumnResize: true,
-      //   columnSorting: true,
-      //   sortIndicator: true,
-      //   width: window.innerWidth,
-      //   height: window.innerHeight - 60,
-      //   colWidths: 200,
-      //   rowHeights: 23,
-      //   rowHeaderWidth: 150,
-      //   colHeaders: colHeaders,
-      //   rowHeaders: null,
-      //   autoRowSize: false,
-      //   autoColSize: false,
-      //   contextMenu: true
-      // }, true);
-      // hot.loadData(data);
-      // return;
       this.dataSource = data;
       return;
     }
+
     this.openDatabase().then(() => {
-      Promise.all([
-        this.db.table(table.tbl.replace(/\s/gi, '')).limit(100).toArray(),
-        this.db.table(table.map).toArray()
-      ]).then(result => {
-        this.colHeaders = result[1].map(v => v.s);
-        this.rowHeaders = result[0].map(v => v.m);
-        this.dataSource = result[0].map(v => v.d);
-        this.cd.markForCheck();
-        //   hot.updateSettings({
-        //     manualColumnResize: true,
-        //     columnSorting: true,
-        //     sortIndicator: true,
-        //     width: window.innerWidth,
-        //     height: window.innerHeight - 60,
-        //     colWidths: 100,
-        //     rowHeights: 23,
-        //     rowHeaderWidth: 150,
-        //     colHeaders: colHeaders,
-        //     rowHeaders: rowHeaders,
-        //     autoRowSize: false,
-        //     autoColSize: false,
-        //     contextMenu: true
-        //   }, true);
-        //   hot.loadData(data);
-      });
+      switch (table.ctype) {
+        case CollectionTypeEnum.MUTATION:
+        case CollectionTypeEnum.EVENT:
+          break;
+        case CollectionTypeEnum.PATIENT:
+          this.db.table(table.tbl).limit(50).toArray().then(result => {
+            const keys = Object.keys(result[0]);
+            this.colHeaders = Object.keys(result[0]).map(v => v.replace(/\_/gi, ' '));
+            this.rowHeaders = result.map(v => v['p']);
+            this.dataSource = result.map(v => keys.map(w => v[w]));
+            this.cd.markForCheck();
+          });
+          break;
+        default:
+          if (table.tbl === 'mutations') { table.tbl = 'mut'; }
+          Promise.all([
+            this.db.table(table.tbl.replace(/\s/gi, '')).limit(300).toArray(),
+            this.db.table(table.map.replace(/\s/gi, '')).toArray()
+          ]).then(result => {
+            this.colHeaders = result[1].map(v => v.s);
+            this.rowHeaders = result[0].map(v => v.m);
+            this.dataSource = result[0].map(v => v.d);
+            this.cd.markForCheck();
+          });
+          break;
+      }
+
     });
   }
 
   ngAfterViewInit() {
-    // $(this.tabs.nativeElement).tabs();
-    this.loadTable(this._tables[0]);
+    const patientTable = this._tables.filter(t => t.ctype === CollectionTypeEnum.PATIENT);
+    const tbl: DataTable = (patientTable.length > 0) ? patientTable[0] : this._tables[0];
+    this.loadTable(tbl);
   }
 
   constructor(private cd: ChangeDetectorRef) {

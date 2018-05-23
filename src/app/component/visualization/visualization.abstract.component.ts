@@ -123,6 +123,7 @@ export class AbstractVisualization implements ChartObjectInterface {
     public onMouseDown(e: ChartEvent): void { }
     public onMouseUp(e: ChartEvent): void { }
     public onMouseMove(e: ChartEvent): void {
+
         if (this.tooltip === '') { return; }
 
         let x = e.event.clientX;
