@@ -1,2 +1,6 @@
 <form [formGroup]='form' novalidate>
+    Display cohorts
+    <div *ngFor='let cohort of cohorts'>
+        <mat-checkbox>{{cohort.n}}</mat-checkbox>
+    </div>
 </form>

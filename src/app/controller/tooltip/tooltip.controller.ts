@@ -115,6 +115,7 @@ export class TooltipController {
         } else {
             this._mouseMoveSubscription.unsubscribe();
         }
+        console.log("::::  TTC  :::: " + value.toString());
 
     }
     public getIntersects(
@@ -126,13 +127,15 @@ export class TooltipController {
     }
 
     public onMouseMove(e: ChartEvent): void {
-
+        console.log(this._targets.length + "!!!!");
         const intersects = this.getIntersects(this._view, e.mouse, this._targets);
+
         if (intersects.length === 0) {
             if (this._hoverObjectId !== -1) { this.onHide.emit(); }
             this._hoverObjectId = -1;
             return;
         }
+        console.dir(intersects[0].object);
         if (this._hoverObjectId === intersects[0].object.id) { return; }
         this._hoverObjectId = intersects[0].object.id;
         const data = intersects[0].object.userData;

@@ -1,23 +1,21 @@
 {
-    "method": "Force Directed Graph (HIC)",
+    "method": "Force Directed Graph",
     "summary": "",
-    "desc": "<span class='help-method'>Force Directed Graph (HIC)</span> Coming Soon",
+    "desc": "<span class='help-method'>Force Directed Graph</span>",
     "url": "",
     "params": [
         {
-            "name": "n components",
-            "type": "int or None",
-            "desc": "Coming Soon"
-        }
-        
-    ],
-    "attrs": [
+            "name": "Show Links",
+            "type": "boolean, optional",
+            "desc": "Display edges between nodes that drive the graphs layout "
+        },
         {
-            "name": "components",
-            "type": "array, [n_components, n_features]",
-            "desc": "Coming Soon"
+            "name": "Show Chromosome",
+            "type": "boolean, optional",
+            "desc": "Blue line represents chromosome(s)"
         }
     ],
+    "attrs": [],
     "citations": [
         {
             "name": "",

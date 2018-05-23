@@ -1,11 +1,35 @@
-<div class='panel'>
+<div class="dashboard-modal-panel">
     <div>
         <a href='#' class='modalClose' (click)='closeClick()'>
         </a>
-        <h1 class='panel-header'>Speadsheet</h1>
-        <h2 class='panel-header-desc'>Select from public data sets, or visualize your own</h2>
+        <h1 class='panel-header' style='display:inline-block'>Spreadsheet</h1>
+
+        <h2 class='panel-header-desc' style='width:180px;display: inline-block;padding-left:20px;'>
+            <mat-form-field class='form-field'>
+                <mat-select placeholder='Data Table' (selectionChange)='tableChange($event);' [(value)]="_table">
+                    <mat-option *ngFor='let table of _tables' [value]='table'>
+                        {{ table.label }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </h2>
     </div>
-    <div style='position: absolute; left:0px;'>
+    <!-- <div>
+        <a href='#' class='modalClose' (click)='closeClick()'>
+        </a>
+        <h1 class='panel-header' style='display: inline-block;'>Speadsheet</h1>
+        <h2 class='panel-header-desc' style='width:180px;display: inline-block;padding-left:20px;'>
+            <mat-form-field class='form-field'>
+                <mat-select placeholder='Data Table' (selectionChange)='tableChange($event);' [(value)]="_table">
+                    <mat-option *ngFor='let table of _tables' [value]='table'>
+                        {{ table.label }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </h2>
+
+    </div> -->
+    <div style='position: absolute; left:0px; top:150px;'>
         <hot-table [settings]='settings' [colHeaders]='colHeaders' [rowHeaders]='rowHeaders' [data]='dataSource'></hot-table>
     </div>
 </div>
