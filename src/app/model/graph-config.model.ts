@@ -28,6 +28,9 @@ export class GraphConfig {
     enableGenesets = true;
     enablePathways = false;
     enableSupplemental = true;
+    enableLabel = true;
+    enableColor = true;
+    enableShape = true;
 
     patientSelect: Array<string> = [];
     patientFilter: Array<string> = [];
