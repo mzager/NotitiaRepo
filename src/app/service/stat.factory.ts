@@ -38,11 +38,13 @@ export class StatFactory {
                             stats: cohortStat
                         }
                     ));
+                    console.log(results);
                     resolve(results);
                 });
             });
         });
     }
+
     public getGenesetsStats(config: GraphConfig): Promise<any> {
         return new Promise((resolve, reject) => {
             this.dataService.getCustomGenesets(config.database).then(genesets => {
