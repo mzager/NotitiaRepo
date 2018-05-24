@@ -65,7 +65,15 @@ export class QuadradicDiscriminantAnalysisFormComponent extends AbstractScatterF
       // priors
       // reg_param
       store_covariance: [],
-      tol: []
+      tol: [],
+
+      enableCohorts: [],
+      enableGenesets: [],
+      enablePathways: [],
+      enableSupplemental: [],
+      enableLabel: [],
+      enableColor: [],
+      enableShape: []
     });
     this.registerFormChange();
   }

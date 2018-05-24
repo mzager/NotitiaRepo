@@ -66,7 +66,15 @@ export class LinearDiscriminantAnalysisFormComponent extends AbstractScatterForm
       shrinkage: [],
       // priors =
       store_covariance: [],
-      tol: []
+      tol: [],
+
+      enableCohorts: [],
+      enableGenesets: [],
+      enablePathways: [],
+      enableSupplemental: [],
+      enableLabel: [],
+      enableColor: [],
+      enableShape: []
     });
 
     this.registerFormChange();

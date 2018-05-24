@@ -56,7 +56,15 @@ export class PcaSparseFormComponent extends AbstractScatterForm {
       ridge_alpha: [],
       max_iter: [],
       tol: [],
-      method: []
+      method: [],
+
+      enableCohorts: [],
+      enableGenesets: [],
+      enablePathways: [],
+      enableSupplemental: [],
+      enableLabel: [],
+      enableColor: [],
+      enableShape: []
     });
 
     this.registerFormChange();

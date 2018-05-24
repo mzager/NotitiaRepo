@@ -109,7 +109,15 @@ export class MiniBatchSparsePcaFormComponent extends AbstractScatterForm {
       n_iter: [],
       batch_size: [],
       shuffle: [],
-      sk_method: []
+      sk_method: [],
+
+      enableCohorts: [],
+      enableGenesets: [],
+      enablePathways: [],
+      enableSupplemental: [],
+      enableLabel: [],
+      enableColor: [],
+      enableShape: []
     });
 
     this.registerFormChange();

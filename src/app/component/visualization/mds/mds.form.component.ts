@@ -106,7 +106,15 @@ export class MdsFormComponent extends AbstractScatterForm {
       metric: [],
       eps: [],
       dimension: [],
-      dissimilarity: []
+      dissimilarity: [],
+
+      enableCohorts: [],
+      enableGenesets: [],
+      enablePathways: [],
+      enableSupplemental: [],
+      enableLabel: [],
+      enableColor: [],
+      enableShape: []
     });
 
     this.registerFormChange();

@@ -145,6 +145,14 @@ export class LocalLinearEmbeddingFormComponent extends AbstractScatterForm {
       tol: [],
       hessian_tol: [],
       modified_tol: [],
+
+      enableCohorts: [],
+      enableGenesets: [],
+      enablePathways: [],
+      enableSupplemental: [],
+      enableLabel: [],
+      enableColor: [],
+      enableShape: []
     });
 
     this.registerFormChange();

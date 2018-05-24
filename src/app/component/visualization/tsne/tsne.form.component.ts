@@ -68,7 +68,15 @@ export class TsneFormComponent extends AbstractScatterForm {
       n_iter: [],
       metric: [],
       sk_method: [],
-      min_grad_norm: []
+      min_grad_norm: [],
+
+      enableCohorts: [],
+      enableGenesets: [],
+      enablePathways: [],
+      enableSupplemental: [],
+      enableLabel: [],
+      enableColor: [],
+      enableShape: []
     });
 
     this.registerFormChange();

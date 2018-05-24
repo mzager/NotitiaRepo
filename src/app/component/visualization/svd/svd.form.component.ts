@@ -73,7 +73,15 @@ export class SvdFormComponent {
       perpexity: 10, // *>1
       learningRate: 500, // 100-1000
       nIter: 200, // Maximum Number of itterations >200
-      density: DenseSparseEnum.DENSE
+      density: DenseSparseEnum.DENSE,
+
+      enableCohorts: [],
+      enableGenesets: [],
+      enablePathways: [],
+      enableSupplemental: [],
+      enableLabel: [],
+      enableColor: [],
+      enableShape: []
     });
 
     // Update When Form Changes

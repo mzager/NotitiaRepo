@@ -61,7 +61,15 @@ export class FastIcaFormComponent extends AbstractScatterForm {
       algorithm: [],
       fun: [],
       whiten: [],
-      tol: []
+      tol: [],
+
+      enableCohorts: [],
+      enableGenesets: [],
+      enablePathways: [],
+      enableSupplemental: [],
+      enableLabel: [],
+      enableColor: [],
+      enableShape: []
     });
 
     this.registerFormChange();
