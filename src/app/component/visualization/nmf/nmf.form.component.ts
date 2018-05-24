@@ -127,7 +127,15 @@ export class NmfFormComponent extends AbstractScatterForm {
       init: [],
       solver: [],
       beta_loss: [],
-      tol: []
+      tol: [],
+
+      enableCohorts: [],
+      enableGenesets: [],
+      enablePathways: [],
+      enableSupplemental: [],
+      enableLabel: [],
+      enableColor: [],
+      enableShape: []
     });
 
     this.registerFormChange();

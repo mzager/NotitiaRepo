@@ -154,6 +154,13 @@ export class KmedianFormComponent {
       isCovarianceMatrix: [],
       isCentered: [],
       isScaled: [],
+      enableCohorts: [],
+      enableGenesets: [],
+      enablePathways: [],
+      enableSupplemental: [],
+      enableLabel: [],
+      enableColor: [],
+      enableShape: []
     });
 
     // Update When Form Changes

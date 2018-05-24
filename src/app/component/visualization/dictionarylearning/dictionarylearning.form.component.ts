@@ -67,7 +67,15 @@ export class DictionaryLearningFormComponent extends AbstractScatterForm {
       tol: [],
       fit_algorithm: [],
       transform_algorithm: [],
-      split_sign: []
+      split_sign: [],
+
+      enableCohorts: [],
+      enableGenesets: [],
+      enablePathways: [],
+      enableSupplemental: [],
+      enableLabel: [],
+      enableColor: [],
+      enableShape: []
     });
 
     this.registerFormChange();

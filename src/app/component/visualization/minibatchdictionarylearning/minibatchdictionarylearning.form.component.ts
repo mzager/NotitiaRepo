@@ -128,7 +128,15 @@ export class MiniBatchDictionaryLearningFormComponent extends AbstractScatterFor
       batch_size: [],
       shuffle: [],
       transform_algorithm: [],
-      split_sign: []
+      split_sign: [],
+
+      enableCohorts: [],
+      enableGenesets: [],
+      enablePathways: [],
+      enableSupplemental: [],
+      enableLabel: [],
+      enableColor: [],
+      enableShape: []
     });
 
     this.registerFormChange();
