@@ -48,7 +48,15 @@ export class PcaIncrementalFormComponent extends AbstractScatterForm {
       dimension: [],
       whiten: [],
       batch_size: [],
-      copy: []
+      copy: [],
+
+      enableCohorts: [],
+      enableGenesets: [],
+      enablePathways: [],
+      enableSupplemental: [],
+      enableLabel: [],
+      enableColor: [],
+      enableShape: []
     });
 
     this.registerFormChange();

@@ -155,6 +155,13 @@ export class KmedoidFormComponent {
       isCovarianceMatrix: [],
       isCentered: [],
       isScaled: [],
+      enableCohorts: [],
+      enableGenesets: [],
+      enablePathways: [],
+      enableSupplemental: [],
+      enableLabel: [],
+      enableColor: [],
+      enableShape: []
     });
 
     // Update When Form Changes

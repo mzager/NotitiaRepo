@@ -1,6 +1,11 @@
-<form [formGroup]='form' novalidate>
-    Display cohorts
-    <div *ngFor='let cohort of cohorts'>
-        <mat-checkbox>{{cohort.n}}</mat-checkbox>
-    </div>
-</form>
+<mat-form-field class='form-field'>
+    <mat-select placeholder='Cohort' [value]='_cohortSelected' (selectionChange)='cohortChange($event)'>
+        <mat-option *ngFor='let option of _cohorts' [value]='option'>
+            {{ option.n }}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+<span style='color:rgba(0, 0, 0, 0.87);font-size:13px'>Compare To</span>
+<div *ngFor='let cohort of _cohortOptions' style='padding-bottom:3px;'>
+    <mat-checkbox (change)='compareChange($event)' [checked]='cohort.sel'>{{cohort.n}}</mat-checkbox>
+</div>

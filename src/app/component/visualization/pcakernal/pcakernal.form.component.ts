@@ -67,7 +67,15 @@ export class PcaKernalFormComponent extends AbstractScatterForm {
       fit_inverse_transform: [],
       eigen_solver: [],
       tol: [],
-      remove_zero_eig: []
+      remove_zero_eig: [],
+
+      enableCohorts: [],
+      enableGenesets: [],
+      enablePathways: [],
+      enableSupplemental: [],
+      enableLabel: [],
+      enableColor: [],
+      enableShape: []
     });
 
     this.registerFormChange();

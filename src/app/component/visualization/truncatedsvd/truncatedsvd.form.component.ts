@@ -55,7 +55,15 @@ export class TruncatedSvdFormComponent extends AbstractScatterForm {
       dimension: [],
       algorithm: [],
       tol: [],
-      n_iter: []
+      n_iter: [],
+
+      enableCohorts: [],
+      enableGenesets: [],
+      enablePathways: [],
+      enableSupplemental: [],
+      enableLabel: [],
+      enableColor: [],
+      enableShape: []
     });
 
     this.registerFormChange();

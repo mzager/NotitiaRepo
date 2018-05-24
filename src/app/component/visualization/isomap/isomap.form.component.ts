@@ -69,7 +69,15 @@ export class IsoMapFormComponent extends AbstractScatterForm {
       n_neighbors: [],
       eigen_solver: [],
       path_method: [],
-      neighbors_algorithm: []
+      neighbors_algorithm: [],
+
+      enableCohorts: [],
+      enableGenesets: [],
+      enablePathways: [],
+      enableSupplemental: [],
+      enableLabel: [],
+      enableColor: [],
+      enableShape: []
     });
 
     this.registerFormChange();

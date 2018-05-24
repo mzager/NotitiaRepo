@@ -165,7 +165,15 @@ export class SomFormComponent {
       xCells: 2,
       yCells: 1,
       weight: [],
-      entity: EntityTypeEnum.SAMPLE
+      entity: EntityTypeEnum.SAMPLE,
+
+      enableCohorts: [],
+      enableGenesets: [],
+      enablePathways: [],
+      enableSupplemental: [],
+      enableLabel: [],
+      enableColor: [],
+      enableShape: []
     });
 
     // Update When Form Changes

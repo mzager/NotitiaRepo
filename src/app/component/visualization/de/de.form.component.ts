@@ -147,7 +147,14 @@ export class DeFormComponent {
       domain: [],
       showVectors: [],
       latientVectors: [],
-      tolerance: []
+      tolerance: [],
+      enableCohorts: [],
+      enableGenesets: [],
+      enablePathways: [],
+      enableSupplemental: [],
+      enableLabel: [],
+      enableColor: [],
+      enableShape: []
     });
 
     // Update When Form Changes

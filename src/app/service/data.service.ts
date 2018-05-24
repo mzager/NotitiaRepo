@@ -646,7 +646,7 @@ export class DataService {
 
       const db = new Dexie('notitia-' + database);
       db.open().then(connection => {
-
+debugger;
         Promise.all(criteria.rules.map(rule => {
           console.log(config.fields[rule.field].type);
           switch (config.fields[rule.field].type) {

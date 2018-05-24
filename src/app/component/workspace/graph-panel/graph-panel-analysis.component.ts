@@ -28,6 +28,7 @@ import * as _ from 'lodash';
   <button mat-menu-item (click)='select.emit(134217728)'>Isomap</button>
   <button mat-menu-item (click)='select.emit(268435456)'>Locally Linear Embedding</button>
   <button mat-menu-item (click)='select.emit(536870912)'>Spectral Embedding</button>
+  <button mat-menu-item (click)='select.emit(4)'>T-SNE</button>
   </mat-menu>
   <mat-menu #analysisMatrixDecompositionMenu='matMenu'>
   <button mat-menu-item (click)='select.emit(16777216)'>Dictionary Learning</button>

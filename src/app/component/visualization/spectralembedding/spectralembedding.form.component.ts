@@ -68,7 +68,15 @@ export class SpectralEmbeddingFormComponent extends AbstractScatterForm {
       eigen_solver: [],
       n_neighbors: [],
       gamma: [],
-      affinity: []
+      affinity: [],
+
+      enableCohorts: [],
+      enableGenesets: [],
+      enablePathways: [],
+      enableSupplemental: [],
+      enableLabel: [],
+      enableColor: [],
+      enableShape: []
     });
 
     this.registerFormChange();

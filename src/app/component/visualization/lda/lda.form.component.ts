@@ -99,7 +99,15 @@ export class LdaFormComponent extends AbstractScatterForm {
       learning_method: [],
       learning_decay: [],
       learning_offset: [],
-      mean_change_tol: []
+      mean_change_tol: [],
+
+      enableCohorts: [],
+      enableGenesets: [],
+      enablePathways: [],
+      enableSupplemental: [],
+      enableLabel: [],
+      enableColor: [],
+      enableShape: []
     });
 
     this.registerFormChange();
