@@ -354,15 +354,24 @@ export class ComputeWorkerUtil {
         });
     }
 
-    getCohorts(db: string): Promise<any> {
+    getCohorts(db: string, cohortNames: Array<string> = []): Promise<any> {
         return new Promise((resolve, reject) => {
             this.openDatabaseData(db).then(v => {
-                this.dbData.table('cohorts').toArray().then(_cohorts => {
-                    resolve(_cohorts);
-                });
+                if (cohortNames.length > 0) {
+                    this.dbData.table('cohorts').where('n').anyOfIgnoreCase(cohortNames)
+                        .toArray().then(_cohorts => {
+                            resolve(_cohorts);
+                        });
+
+                } else {
+                    this.dbData.table('cohorts').toArray().then(_cohorts => {
+                        resolve(_cohorts);
+                    });
+                }
             });
         });
     }
+
 
     getTads(): Promise<any> {
         return new Promise((resolve, reject) => {
@@ -1098,6 +1107,7 @@ export class ComputeWorkerUtil {
         // return fetch('https://python.os.sttrcancer.io/py', {
         // python.os.sttrcancer.io/py
         return fetch('http://localhost/py', {
+            // return fetch('http://ec2co-ecsel-o24jnaxn2aat-1883605559.us-west-2.elb.amazonaws.com/py', {
             headers: headers,
             method: 'POST',
             body: JSON.stringify(config)

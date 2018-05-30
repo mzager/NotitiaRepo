@@ -7,7 +7,7 @@ import { DataField, DataFieldFactory } from './../../../model/data-field.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as _ from 'lodash';
-import { MatCheckboxChange, MatSelectChange } from '@angular/material';
+import { MatCheckboxChange, MatSelectChange, MatSliderChange } from '@angular/material';
 
 @Component({
   selector: 'app-survival-form',
@@ -17,64 +17,45 @@ import { MatCheckboxChange, MatSelectChange } from '@angular/material';
 })
 export class SurvivalFormComponent implements OnDestroy {
 
-
-  form: FormGroup;
-  @Input() set config(v: SurvivalConfigModel) {
-    // if (v === null) { return; }
-    // this.form.patchValue(v, { emitEvent: false });
-  }
-
-
-
-
   @Output() configChange = new EventEmitter<GraphConfig>();
 
   _cohortSelected: any;
   _cohortOptions: Array<any>;
-
   _cohorts: Array<any>;
+  list = 'asdf';
+
+  private _config: SurvivalConfigModel;
+  @Input() set config(v: SurvivalConfigModel) {
+    this._config = v;
+    if (this._cohorts !== undefined) {
+      this.updateOptions();
+    }
+  }
+
   public get cohorts(): Array<any> { return this._cohorts; }
   @Input() public set cohorts(value: Array<any>) {
     this._cohorts = value;
-    this._cohortSelected = this._cohorts[0];
-    this._cohortOptions = this.cohorts.filter(v => v !== this._cohortSelected).map(v => ({ n: v.n, sel: true }));
+    if (this._config !== undefined) {
+      this.updateOptions();
+    }
+  }
 
+  updateOptions(): void {
+    const me = this;
+    this._cohortOptions = this._cohorts
+      .filter(v => (v.n !== this._config.cohortName))
+      .map(v => ({ n: v.n, sel: false }));
     requestAnimationFrame(() => {
       this.cd.markForCheck();
     });
+  }
+
+  compareChange(e: MatSliderChange): void {
+    this._config.cohortsToCompare = this._cohortOptions.filter(v => v.sel).map(v => v.n);
+    this.configChange.emit(this._config);
   }
 
   ngOnDestroy(): void { }
-  cohortChange(e: MatSelectChange): void {
-    this._cohortOptions = this.cohorts.filter(v => v !== this._cohortSelected).map(v => ({ n: v.n, sel: true }));
-    requestAnimationFrame(() => {
-      this.cd.markForCheck();
-    });
-    console.log("RE RUN");
-  }
-  compareChange(e: MatCheckboxChange): void {
-    debugger
-  }
-
-  constructor(private fb: FormBuilder, public cd: ChangeDetectorRef) {
-
-
-    // this.form = this.fb.group({
-    //   visualization: [],
-    //   graph: [],
-    //   database: [],
-    //   table: [],
-    //   markerFilter: [],
-    //   markerSelect: [],
-    //   sampleFilter: [],
-    //   sampleSelect: [],
-    //   patientFilter: [],
-    //   patientSelect: [],
-    //   pointData: [],
-
-    //   censorEvent: [],
-    //   cohorts: []
-
-    // });
+  constructor(public cd: ChangeDetectorRef) {
   }
 }

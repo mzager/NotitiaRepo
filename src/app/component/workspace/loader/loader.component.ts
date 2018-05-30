@@ -39,7 +39,7 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
             { q: 'Science and everyday life cannot and should not be separated', a: 'Rosalind Franklin' },
             { q: 'If your experiment needs statistics, you ought to have done a better experiment', a: 'Ernest Rutherford' },
             { q: 'Statistics are no substitute for judgement', a: 'Henry Clay' },
-            { q: 'Fasts are stubborn, but statistics are pliable', a: 'Mark Twain' },
+            { q: 'Facts are stubborn, but statistics are pliable', a: 'Mark Twain' },
             { q: 'The minimum we should hope for with any display technology is that it should do no harm', a: 'Edward Tufte' },
             { q: 'The commonality between science and art is in trying to see profoundly', a: 'Edward Tufte' },
             { q: 'Science is beautiful when it makes simple explanations', a: 'Stephen Hawking' },

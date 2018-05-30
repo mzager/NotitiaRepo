@@ -110,12 +110,14 @@ export class GraphPanelDataComponent {
       this.showPanel.emit(PanelEnum.PATHWAYS);
       return;
     }
+    this.config.pathwayName = e.value.n;
   }
   public setGenesetOption(e: MatSelectChange): void {
     if (e.value === 'CUSTOM') {
       this.showPanel.emit(PanelEnum.GENESET);
       return;
     }
+    this.config.markerName = e.value.n;
     this.config.markerFilter = e.value.g;
     this.config.dirtyFlag = DirtyEnum.LAYOUT;
     this.configChange.emit(this.config);
@@ -126,6 +128,7 @@ export class GraphPanelDataComponent {
       this.showPanel.emit(PanelEnum.COHORT);
       return;
     }
+    this.config.cohortName = e.value.n;
     this.config.patientFilter = e.value.pids;
     this.config.sampleFilter = e.value.sids;
     this.config.dirtyFlag = DirtyEnum.LAYOUT;
