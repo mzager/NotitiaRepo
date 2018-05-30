@@ -41,33 +41,39 @@ export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWo
 
 
     const cohortNames = Array.from(new Set([...config.cohortsToCompare, config.cohortName]));
-debugger;
     Promise.all([
         worker.util.getCohorts(config.database, cohortNames),
         worker.util.getPatients([], config.database, 'patient')
     ]).then(results => {
+
+
         debugger;
         // TODO: Fix Setting Time To 1 When null
         const cohorts = results[0];
         const patients = results[1];
+
+        // Extract Events And Times From Patient Data
         const e = patients.map(v => (v.vital_status === 'dead') ? 1 : 0);
         const t = patients.map(v => (v.vital_status === 'dead') ?
             v.days_to_death : v.days_to_last_follow_up)
             .map(v => (v === null) ? 1 : Math.max(1, v));
         const p = patients.map((v, i) => ({ p: v.p, e: e[i], t: t[i] }));
 
-        const promises = [
-            worker.util.fetchResult({
-                method: 'survival_ll_kaplan_meier',
-                times: t,
-                events: e
-            })
-        ];
-
-        const cohortPatientData = [{
-            name: 'All',
-            patients: p
-        }];
+        const promises = [];
+        const cohortPatientData = [];
+        if (cohortNames.indexOf('All Patients') !== -1) {
+            promises.push(
+                worker.util.fetchResult({
+                    method: 'survival_ll_kaplan_meier',
+                    times: t,
+                    events: e
+                })
+            );
+            cohortPatientData.push({
+                name: 'All',
+                patients: p
+            });
+        }
 
         cohorts.forEach(cohort => {
             const cohortSet = new Set(cohort.pids);
