@@ -37,6 +37,35 @@ export class DataService {
     'Accept-Encoding': 'gzip',
     'Access-Control-Allow-Origin': '*'
   };
+
+  private _privateData = {
+    database: '',
+    map: [],
+    data: []
+  };
+
+  getPatientData(database, tbl): Promise<any> {
+    return new Promise((resolve, reject) => {
+      if (this._privateData.database === database) {
+        resolve(this._privateData);
+      } else {
+        new Dexie(database).open().then(db => {
+          Promise.all([
+            db.table(tbl).toArray(),
+            db.table('patientSampleMap').toArray()
+          ]).then(results => {
+            this._privateData.database = database;
+            this._privateData.data = results[0];
+            this._privateData.map = results[1].reduce((p, c) => { p[c.p] = c.s; return p; }, {});
+            db.close();
+            resolve(this._privateData);
+          });
+        });
+      }
+    });
+  }
+
+
   private getGroupScale(items: Array<any>, field: DataField): Function {
     if (field.type !== 'STRING') {
       // // Determine IQR
@@ -56,8 +85,6 @@ export class DataService {
     }
     return ChartFactory.getScaleGroupOrdinal(field.values);
   }
-
-
   private getShapeScale(items: Array<any>, field: DataField): Function {
     if (field.type !== 'STRING') {
 
@@ -101,8 +128,6 @@ export class DataService {
 
   }
 
-
-
   private createMolecularDataDecorator(config: GraphConfig, decorator: DataDecorator): Observable<DataDecorator> {
 
     if (decorator.field.ctype === CollectionTypeEnum.GENE_NAME) {
@@ -117,6 +142,7 @@ export class DataService {
               label: v.gene,
               value: v.gene
             })).filter(v => v.label);
+            // db.close();
             resolve(decorator);
             return;
           });
@@ -145,6 +171,7 @@ export class DataService {
                 value: DataService.biotypeMap[v.type]
               })).filter(v => v.label);
               // Labels don't need legends
+              // db.close();
               resolve(decorator);
               return;
             }
@@ -167,6 +194,7 @@ export class DataService {
             if (decorator.type === DataDecoratorTypeEnum.COLOR) {
               decorator.legend.values = decorator.legend.values.map(v => '#' + v.toString(16));
             }
+            // db.close();
             resolve(decorator);
           });
         });
@@ -219,159 +247,174 @@ export class DataService {
               decorator.legend.values = scale['range']().concat([SpriteMaterialEnum.NA]);
               break;
           }
+          // db.close();
           resolve(decorator);
         });
       });
     }));
   }
+
   private createSampleDataDecorator(config: GraphConfig, decorator: DataDecorator): Observable<DataDecorator> {
+
     return Observable.fromPromise(new Promise((resolve, reject) => {
-      new Dexie('notitia-' + config.database).open().then(db => {
-        Promise.all([
-          db.table(decorator.field.tbl).toArray(),
-          db.table('patientSampleMap').toArray()
-        ])
-          .then(results => {
-            const items = results[0];
-            const psMap = results[1].reduce((p, c) => { p[c.p] = c.s; return p; }, {});
+      // new Dexie('notitia-' + config.database).open().then(db => {
+      //   console.log("end-open");
+      //   console.log("start-query");
+      //   // Save Result ***
+      //   debugger;
+      // Promise.all([
+      //   db.table(decorator.field.tbl).toArray(),
+      //   db.table('patientSampleMap').toArray()
+      // ])
+      //   .then(results => {
+      // console.log("end-query");
+      // const items = results[0];
+      // const psMap = results[1].reduce((p, c) => { p[c.p] = c.s; return p; }, {});
+      this.getPatientData('notitia-' + config.database, decorator.field.tbl).then(result => {
+        const items = result.data;
+        const psMap = result.map;
+        let scale: Function;
+        // let legend: Legend;
+        switch (decorator.type) {
 
-            let scale: Function;
-            // let legend: Legend;
-            switch (decorator.type) {
-
-              case DataDecoratorTypeEnum.LABEL:
-                if (decorator.field.key === 'pid') {
-                  decorator.values = items.map(v => ({
-                    pid: v.p,
-                    sid: psMap[v.p],
-                    mid: null,
-                    key: EntityTypeEnum.PATIENT,
-                    label: v.p,
-                    value: v.p
-                  }));
-                } else if (decorator.field.key === 'sid') {
-                  decorator.values = items.map(v => ({
-                    pid: v.p,
-                    sid: psMap[v.p],
-                    mid: null,
-                    key: EntityTypeEnum.PATIENT,
-                    label: psMap[v.p],
-                    value: psMap[v.p]
-                  }));
-                } else {
-                  decorator.values = items.map(v => ({
-                    pid: v.p,
-                    sid: psMap[v.p],
-                    mid: null,
-                    key: EntityTypeEnum.PATIENT,
-                    label: v[decorator.field.key],
-                    value: v[decorator.field.key]
-                  }));
-                }
-                resolve(decorator);
-                break;
-
-              case DataDecoratorTypeEnum.GROUP:
-                scale = this.getGroupScale(items, decorator.field);
-                decorator.values = items.map(v => ({
-                  pid: v.p,
-                  sid: psMap[v.p],
-                  mid: null,
-                  key: EntityTypeEnum.PATIENT,
-                  label: v[decorator.field.key],
-                  value: scale(v[decorator.field.key])
-                }));
-                // decorator.legend = new Legend();
-                // decorator.legend.type = 'COLOR';
-                // decorator.legend.display = 'DISCRETE';
-                // decorator.legend.name = (config.entity === EntityTypeEnum.SAMPLE) ? 'Sample ' + decorator.field.label :
-                //   (config.entity === EntityTypeEnum.GENE) ? 'Gene ' + decorator.field.label : 'Patient ' + decorator.field.label;
-                // if (decorator.field.type === 'STRING') {
-                //   decorator.legend.labels = scale['domain']().concat(['Unknown']);
-                //   decorator.legend.values = scale['range']().concat([0xDDDDDD]);
-                // } else {
-                //   decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v)
-                //     .map(w => Math.round(w)).join(' to ')).concat(['Unknown']);
-                //   decorator.legend.values = scale['range']().concat([0xFF0000]);
-                // }
-                resolve(decorator);
-                break;
-
-              case DataDecoratorTypeEnum.COLOR:
-                scale = this.getColorScale(items, decorator.field);
-                decorator.values = items.map(v => ({
-                  pid: v.p,
-                  sid: psMap[v.p],
-                  mid: null,
-                  key: EntityTypeEnum.PATIENT,
-                  label: v[decorator.field.key],
-                  value: scale(v[decorator.field.key])
-                }));
-                decorator.legend = new Legend();
-                decorator.legend.type = 'COLOR';
-                decorator.legend.display = 'DISCRETE';
-                decorator.legend.name = (config.entity === EntityTypeEnum.SAMPLE) ? 'Sample ' + decorator.field.label :
-                  (config.entity === EntityTypeEnum.GENE) ? 'Gene ' + decorator.field.label : 'Patient ' + decorator.field.label;
-                if (decorator.field.type === 'STRING') {
-                  decorator.legend.labels = scale['domain']().concat(['Unknown']);
-                  decorator.legend.values = scale['range']().concat([0xDDDDDD]);
-                } else {
-                  decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v)
-                    .map(w => Math.round(w)).join(' to ')).concat(['Unknown']);
-                  decorator.legend.values = scale['range']().concat([0xFF0000]);
-                }
-                resolve(decorator);
-                break;
-
-              case DataDecoratorTypeEnum.SHAPE:
-                scale = this.getShapeScale(items, decorator.field);
-                decorator.values = items.map(v => ({
-                  pid: v.p,
-                  sid: psMap[v.p],
-                  mid: null,
-                  key: EntityTypeEnum.PATIENT,
-                  label: v[decorator.field.key],
-                  value: scale(v[decorator.field.key])
-                }));
-                decorator.legend = new Legend();
-                decorator.legend.type = 'SHAPE';
-                decorator.legend.display = 'DISCRETE';
-                decorator.legend.name = (config.entity === EntityTypeEnum.SAMPLE) ? 'Sample ' + decorator.field.label :
-                  (config.entity === EntityTypeEnum.GENE) ? 'Gene ' + decorator.field.label : 'Patient ' + decorator.field.label;
-                if (decorator.field.type === 'STRING') {
-                  decorator.legend.labels = scale['domain']().concat(['Unknown']);
-                  decorator.legend.values = scale['range']().concat([SpriteMaterialEnum.NA]);
-                } else {
-                  decorator.legend.labels = scale['range']()
-                    .map(v => scale['invertExtent'](v).map(w => Math.round(w)).join(' to '))
-                    .concat(['Unknown']);
-                  decorator.legend.values = scale['range']().concat([SpriteMaterialEnum.NA]);
-                }
-                resolve(decorator);
-                break;
-
-              case DataDecoratorTypeEnum.SIZE:
-                scale = (decorator.field.type === 'STRING') ?
-                  ChartFactory.getScaleSizeOrdinal(decorator.field.values) :
-                  ChartFactory.getScaleSizeLinear(decorator.field.values.min, decorator.field.values.max);
-                decorator.values = items.map(v => ({
-                  pid: v.p,
-                  sid: psMap[v.p],
-                  mid: null,
-                  key: EntityTypeEnum.PATIENT,
-                  label: v[decorator.field.key],
-                  value: scale(v[decorator.field.key])
-                }));
-                resolve(decorator);
-                break;
-
-              case DataDecoratorTypeEnum.TOOLTIP:
-                break;
-              case DataDecoratorTypeEnum.SELECT:
-                break;
+          case DataDecoratorTypeEnum.LABEL:
+            if (decorator.field.key === 'pid') {
+              decorator.values = items.map(v => ({
+                pid: v.p,
+                sid: psMap[v.p],
+                mid: null,
+                key: EntityTypeEnum.PATIENT,
+                label: v.p,
+                value: v.p
+              }));
+            } else if (decorator.field.key === 'sid') {
+              decorator.values = items.map(v => ({
+                pid: v.p,
+                sid: psMap[v.p],
+                mid: null,
+                key: EntityTypeEnum.PATIENT,
+                label: psMap[v.p],
+                value: psMap[v.p]
+              }));
+            } else {
+              decorator.values = items.map(v => ({
+                pid: v.p,
+                sid: psMap[v.p],
+                mid: null,
+                key: EntityTypeEnum.PATIENT,
+                label: v[decorator.field.key],
+                value: v[decorator.field.key]
+              }));
             }
-          });
+            // db.close();
+            resolve(decorator);
+            break;
+
+          case DataDecoratorTypeEnum.GROUP:
+            scale = this.getGroupScale(items, decorator.field);
+            decorator.values = items.map(v => ({
+              pid: v.p,
+              sid: psMap[v.p],
+              mid: null,
+              key: EntityTypeEnum.PATIENT,
+              label: v[decorator.field.key],
+              value: scale(v[decorator.field.key])
+            }));
+            // decorator.legend = new Legend();
+            // decorator.legend.type = 'COLOR';
+            // decorator.legend.display = 'DISCRETE';
+            // decorator.legend.name = (config.entity === EntityTypeEnum.SAMPLE) ? 'Sample ' + decorator.field.label :
+            //   (config.entity === EntityTypeEnum.GENE) ? 'Gene ' + decorator.field.label : 'Patient ' + decorator.field.label;
+            // if (decorator.field.type === 'STRING') {
+            //   decorator.legend.labels = scale['domain']().concat(['Unknown']);
+            //   decorator.legend.values = scale['range']().concat([0xDDDDDD]);
+            // } else {
+            //   decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v)
+            //     .map(w => Math.round(w)).join(' to ')).concat(['Unknown']);
+            //   decorator.legend.values = scale['range']().concat([0xFF0000]);
+            // }
+            // db.close();
+            resolve(decorator);
+            break;
+
+          case DataDecoratorTypeEnum.COLOR:
+            scale = this.getColorScale(items, decorator.field);
+            decorator.values = items.map(v => ({
+              pid: v.p,
+              sid: psMap[v.p],
+              mid: null,
+              key: EntityTypeEnum.PATIENT,
+              label: v[decorator.field.key],
+              value: scale(v[decorator.field.key])
+            }));
+            decorator.legend = new Legend();
+            decorator.legend.type = 'COLOR';
+            decorator.legend.display = 'DISCRETE';
+            decorator.legend.name = (config.entity === EntityTypeEnum.SAMPLE) ? 'Sample ' + decorator.field.label :
+              (config.entity === EntityTypeEnum.GENE) ? 'Gene ' + decorator.field.label : 'Patient ' + decorator.field.label;
+            if (decorator.field.type === 'STRING') {
+              decorator.legend.labels = scale['domain']().concat(['Unknown']);
+              decorator.legend.values = scale['range']().concat([0xDDDDDD]);
+            } else {
+              decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v)
+                .map(w => Math.round(w)).join(' to ')).concat(['Unknown']);
+              decorator.legend.values = scale['range']().concat([0xFF0000]);
+            }
+            // db.close();
+            resolve(decorator);
+            break;
+
+          case DataDecoratorTypeEnum.SHAPE:
+            scale = this.getShapeScale(items, decorator.field);
+            decorator.values = items.map(v => ({
+              pid: v.p,
+              sid: psMap[v.p],
+              mid: null,
+              key: EntityTypeEnum.PATIENT,
+              label: v[decorator.field.key],
+              value: scale(v[decorator.field.key])
+            }));
+            decorator.legend = new Legend();
+            decorator.legend.type = 'SHAPE';
+            decorator.legend.display = 'DISCRETE';
+            decorator.legend.name = (config.entity === EntityTypeEnum.SAMPLE) ? 'Sample ' + decorator.field.label :
+              (config.entity === EntityTypeEnum.GENE) ? 'Gene ' + decorator.field.label : 'Patient ' + decorator.field.label;
+            if (decorator.field.type === 'STRING') {
+              decorator.legend.labels = scale['domain']().concat(['Unknown']);
+              decorator.legend.values = scale['range']().concat([SpriteMaterialEnum.NA]);
+            } else {
+              decorator.legend.labels = scale['range']()
+                .map(v => scale['invertExtent'](v).map(w => Math.round(w)).join(' to '))
+                .concat(['Unknown']);
+              decorator.legend.values = scale['range']().concat([SpriteMaterialEnum.NA]);
+            }
+            // db.close();
+            resolve(decorator);
+            break;
+
+          case DataDecoratorTypeEnum.SIZE:
+            scale = (decorator.field.type === 'STRING') ?
+              ChartFactory.getScaleSizeOrdinal(decorator.field.values) :
+              ChartFactory.getScaleSizeLinear(decorator.field.values.min, decorator.field.values.max);
+            decorator.values = items.map(v => ({
+              pid: v.p,
+              sid: psMap[v.p],
+              mid: null,
+              key: EntityTypeEnum.PATIENT,
+              label: v[decorator.field.key],
+              value: scale(v[decorator.field.key])
+            }));
+            // db.close();
+            resolve(decorator);
+            break;
+
+          case DataDecoratorTypeEnum.TOOLTIP:
+            break;
+          case DataDecoratorTypeEnum.SELECT:
+            break;
+        }
       });
+      // });
     }));
   }
   createDataDecorator(config: GraphConfig, decorator: DataDecorator): Observable<DataDecorator> {
@@ -428,14 +471,18 @@ export class DataService {
   }
 
   getDatasetInfo(database: string): Promise<any> {
-    return new Promise((resolve, reject) => {
-      const db = new Dexie('notitia-' + database);
-      db.open().then(v => {
-        v.table('dataset').toArray().then(result => {
-          resolve(result[0]);
-        });
-      });
-    });
+    console.log('::::DATASET INFO');
+    return DataService.db.table('dataset').toArray();
+
+    // return new Promise((resolve, reject) => {
+    //   const db = new Dexie('notitia-' + database);
+    //   db.open().then(v => {
+    //     v.table('dataset').toArray().then(result => {
+    //       // db.close();
+    //       resolve(result[0]);
+    //     });
+    //   });
+    // });
   }
 
   getHelpInfo(config: GraphConfig): Promise<any> {
@@ -507,6 +554,7 @@ export class DataService {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
         v.table('dataset').toArray().then(result => {
+          // db.close();
           resolve(result[0].events);
         });
       });
@@ -536,6 +584,7 @@ export class DataService {
                 return fields;
             }
           }, {});
+          // db.close();
           resolve({ fields: config });
         });
       });
@@ -547,6 +596,7 @@ export class DataService {
       const db = new Dexie('notitia-' + database);
       db.open().then(connection => {
         connection.table('patientSampleMap').where('p').anyOf(patientIds).toArray().then(result => {
+          // db.close();
           resolve(Array.from(new Set(result.map(v => v.s))));
         });
       });
@@ -572,6 +622,7 @@ export class DataService {
 
           Promise.all(queries.map(query => query.toArray())).then(results => {
             // Do your math...
+            // db.close();
             resolve(results);
           });
 
@@ -633,6 +684,7 @@ export class DataService {
               const stats = bins.map((v, j) => ({ label: Math.round(first + (j * binWidth)).toString(), value: v }));
               return Object.assign(f, { stat: stats });
             });
+            // db.close();
             resolve(num.concat(cat));
           });
         });
@@ -646,7 +698,6 @@ export class DataService {
 
       const db = new Dexie('notitia-' + database);
       db.open().then(connection => {
-debugger;
         Promise.all(criteria.rules.map(rule => {
           console.log(config.fields[rule.field].type);
           switch (config.fields[rule.field].type) {
@@ -704,6 +755,7 @@ debugger;
               ids = ids.filter(item => set.has(item));
             }
           }
+          // db.close();
           resolve(ids);
         });
 

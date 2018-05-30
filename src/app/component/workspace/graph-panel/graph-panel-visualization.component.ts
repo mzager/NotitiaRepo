@@ -13,7 +13,6 @@ import * as _ from 'lodash';
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     template: `
-    asdfasdf
     <mat-form-field class='form-field' *ngIf='config.enableLabel'>
         <mat-select placeholder='Label' (selectionChange)='setLabelOption($event)'
             [(value)]='labelSelected' [compareWith]='byKey'>
@@ -71,7 +70,6 @@ export class GraphPanelVisualizationComponent {
     private _config: GraphConfig;
     public get config(): GraphConfig { return this._config; }
     @Input() public set config(config: GraphConfig) {
-        debugger;
         if (!this._config) {
             this._config = config;
             this.updateFields();
@@ -111,13 +109,12 @@ export class GraphPanelVisualizationComponent {
             // this.sizeOptions = this.clinicalSizeOptions;
             this.labelOptions = this.clinicalLabelOptions;
         }
-        debugger;
         this.colorSelected = DataFieldFactory.getUndefined();
         this.shapeSelected = DataFieldFactory.getUndefined();
         this.labelSelected = DataFieldFactory.getUndefined();
-        requestAnimationFrame(() => {
-            this.cd.markForCheck();
-        });
+        // requestAnimationFrame(() => {
+        this.cd.markForCheck();
+        // });
     }
 
     setColorOption(event: MatSelectChange): void {

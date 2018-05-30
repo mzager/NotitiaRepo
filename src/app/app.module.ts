@@ -19,16 +19,9 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { HotTableModule } from '@handsontable/angular';
 
 // Google
-// import {
-//   GoogleApiModule,
-//   GoogleApiService,
-//   GoogleAuthService,
-//   NgGapiClientConfig,
-//   NG_GAPI_CONFIG,
-//   GoogleApiConfig
-// } from 'ng-gapi';
 import Amplify from 'aws-amplify';
-import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
+import { AmplifyService, AmplifyAngularModule } from 'aws-amplify-angular';
+
 
 
 // Components
@@ -204,17 +197,9 @@ import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph
     GraphPanelVisualizationComponent,
     GraphPanelDataComponent,
     UserPanelComponent
-
-
   ],
-  entryComponents: [
-  ],
+
   imports: [
-    // GoogleApiModule.forRoot({
-    //   provide: NG_GAPI_CONFIG,
-    //   useValue: gapiClientConfig
-    // }),
-    AmplifyAngularModule,
     HotTableModule.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,
@@ -231,7 +216,8 @@ import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({
       maxAge: 25 //  Retains last 25 states
-    })
+    }),
+    AmplifyAngularModule
   ],
   providers: [
     Title,
@@ -242,8 +228,6 @@ import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph
     HttpClient,
     ModalService,
     DataHubService,
-    // GoogleApiService,
-    // GoogleAuthService,
     AmplifyService
   ],
   bootstrap: [AppComponent]
