@@ -136,6 +136,7 @@ export class UserPanelComponent {
   }
 
   constructor(public amplifyService: AmplifyService, public fb: FormBuilder, public cd: ChangeDetectorRef) {
+
     this.formGroupSignIn = fb.group({
       username: [null, Validators.required],
       password: [null, Validators.required],
@@ -164,8 +165,10 @@ export class UserPanelComponent {
     });
 
     // Check If User Is Logged In
+
     this.amplifyService.authStateChange$
       .subscribe(state => {
+        console.log(state);
         this.activeForm =
           (state.state === 'signIn') ? UserPanelFormEnum.SIGN_IN :
             (state.state === 'requireNewPassword') ? UserPanelFormEnum.CHANGE_PASSWORD :

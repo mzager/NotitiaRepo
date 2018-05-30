@@ -39,11 +39,14 @@ export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWo
         };
     };
 
+
+    const cohortNames = Array.from(new Set([...config.cohortsToCompare, config.cohortName]));
+debugger;
     Promise.all([
-        worker.util.getCohorts(config.database),
+        worker.util.getCohorts(config.database, cohortNames),
         worker.util.getPatients([], config.database, 'patient')
     ]).then(results => {
-
+        debugger;
         // TODO: Fix Setting Time To 1 When null
         const cohorts = results[0];
         const patients = results[1];

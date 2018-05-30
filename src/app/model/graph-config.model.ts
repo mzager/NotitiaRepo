@@ -38,6 +38,11 @@ export class GraphConfig {
     markerSelect: Array<string> = [];
     sampleFilter: Array<string> = [];
 
+    cohortName = 'All Patients';
+    markerName = 'Pathways in Cancer';
+    pathwayName = '';
+
+
     // Default Genes Listed Are 'KEGG Pathways In Cancer'
     markerFilter: Array<string> = ['ABL1', 'AKT1', 'AKT2', 'AKT3', 'APC', 'APC2', 'APPL1', 'AR', 'ARAF', 'ARNT', 'ARNT2', 'AXIN1',
         'AXIN2', 'BAD', 'BAX', 'BCL2', 'BCL2L1', 'BCR', 'BID', 'BIRC2', 'BIRC3', 'BIRC5', 'BMP2', 'BMP4', 'BRAF', 'BRCA2', 'CASP3',

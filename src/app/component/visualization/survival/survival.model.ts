@@ -11,22 +11,24 @@ export class SurvivalConfigModel extends GraphConfig {
         this.entity = EntityTypeEnum.PATIENT;
         this.visualization = VisualizationEnum.SURVIVAL;
         this.label = 'Survival';
-        this.enableCohorts = false;
+        this.enableCohorts = true;
         this.enableGenesets = false;
         this.enableLabel = false;
         this.enableColor = false;
         this.enableShape = false;
         this.enableSupplemental = false;
+
     }
     censorEvent: string;
-    cohort: {
-        name: string,
-        sampleIds: Array<any>
-    }
-    cohorts: Array<{
-        name: string,
-        sampleIds: Array<any>
-    }>;
+    cohortsToCompare: Array<string> = [];
+    // cohort: {
+    //     name: string,
+    //     sampleIds: Array<any>
+    // };
+    // cohorts: Array<{
+    //     name: string,
+    //     sampleIds: Array<any>
+    // }>;
 }
 export interface SurvivalDatumModel {
     line: Array<[number, number]>;
