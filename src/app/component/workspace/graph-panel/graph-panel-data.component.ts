@@ -20,33 +20,33 @@ import * as _ from 'lodash';
   <mat-form-field class='form-field' *ngIf='config.enableCohorts'>
   <mat-select placeholder='Cohort' (selectionChange)='setCohortOption($event)'
       [value]='cohortSelected' [compareWith]='byName'>
+      <mat-option value='CUSTOM' class='os-link'>
+        <mat-icon class='material-icons md-18' style='transform:translate(0px, 2px);margin-right:0px;'>settings</mat-icon>Create Cohort
+      </mat-option>
       <mat-option *ngFor='let option of cohortOptions' [value]='option'>
           {{ option.n }}
-      </mat-option>
-      <mat-option value='CUSTOM'>
-        Customize List
       </mat-option>
   </mat-select>
 </mat-form-field>
 <mat-form-field class='form-field' *ngIf='config.enableGenesets'>
   <mat-select placeholder='Geneset' (selectionChange)='setGenesetOption($event)'
       [value]='genesetSelected' [compareWith]='byName'>
+      <mat-option value='CUSTOM' class='os-link'>
+        <mat-icon class='material-icons md-18' style='transform:translate(0px, 2px);margin-right:0px;'>settings</mat-icon>Customize List
+      </mat-option>
       <mat-option *ngFor='let option of genesetOptions' [value]='option'>
           {{ option.n }}
-      </mat-option>
-      <mat-option value='CUSTOM'>
-        Customize List
       </mat-option>
   </mat-select>
 </mat-form-field>
 <mat-form-field class='form-field' *ngIf='config.enablePathways'>
   <mat-select placeholder='Pathway' (selectionChange)='setPathwayOption($event)'
       [value]='pathwaySelected' [compareWith]='byName'>
+      <mat-option value='CUSTOM' class='os-link'>
+      <mat-icon class='material-icons md-18' style='transform:translate(0px, 2px);margin-right:0px;'>settings</mat-icon>Customize List
+      </mat-option>
       <mat-option *ngFor='let option of pathwayOptions' [value]='option'>
           {{ option.n }}
-      </mat-option>
-      <mat-option value='CUSTOM'>
-        Customize List
       </mat-option>
   </mat-select>
 </mat-form-field>

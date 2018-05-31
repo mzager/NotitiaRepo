@@ -95,13 +95,22 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
         this.cd.markForCheck();
     }
     geneSetDel(v: any): void {
+        if (this.genesets.length === 1) {
+            alert('Please keep at least one geneset in your list of options.');
+            return;
+        }
         this.delGeneset.emit({ database: this.config.database, geneset: v });
     }
 
     geneSetAdd(v: any): void {
+        const name = v.name.toLowerCase();
+        if (this.genesets.find(gs => gs.n === name)) {
+            alert(name + ' has already been added to your list of options.');
+            return;
+        }
         this.addGeneset.emit({
             database: this.config.database,
-            geneset: { n: v.name.toLowerCase(), g: v.genes.map(w => w.toUpperCase()) }
+            geneset: { n: name, g: v.genes.map(w => w.toUpperCase()) }
         });
     }
 

@@ -17,18 +17,9 @@ export class SurvivalConfigModel extends GraphConfig {
         this.enableColor = false;
         this.enableShape = false;
         this.enableSupplemental = false;
-
     }
     censorEvent: string;
     cohortsToCompare: Array<string> = [];
-    // cohort: {
-    //     name: string,
-    //     sampleIds: Array<any>
-    // };
-    // cohorts: Array<{
-    //     name: string,
-    //     sampleIds: Array<any>
-    // }>;
 }
 export interface SurvivalDatumModel {
     line: Array<[number, number]>;

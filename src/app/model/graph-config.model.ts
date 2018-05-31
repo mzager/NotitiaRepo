@@ -40,7 +40,7 @@ export class GraphConfig {
 
     cohortName = 'All Patients';
     markerName = 'Pathways in Cancer';
-    pathwayName = '';
+    pathwayName = 'integrated cancer pathway';
 
 
     // Default Genes Listed Are 'KEGG Pathways In Cancer'
