@@ -37,7 +37,12 @@
         <div *ngFor='let bar of ctrls; let i=index'>
             <div [formGroupName]='i'>
                 <span class='form-label' style='
-              text-align:left;width:100%;font-weight:700;padding:10px 0px 0px 0px;font-size:.9rem;font-weight: 300;'>
+                text-align: left;
+                width: 100%;
+                padding: 10px 0px 10px 0px;
+                font-size: 12px;
+                font-weight: 500;
+                display: inline-block'>
                     {{ctrls[i].get('label').value}} Events</span>
                 <div class='form-group'>
                     <mat-form-field class='form-field'>

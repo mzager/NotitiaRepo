@@ -90,6 +90,10 @@ input:-webkit-autofill {
 }
 
 // Material Overrides
+.mat-menu-item {
+  height: 25px;
+  line-height: 25px;
+}
 .mat-expansion-panel {
   box-shadow: none !important;
 }
