@@ -11,6 +11,7 @@ export class HazardConfigModel extends GraphConfig {
         this.entity = EntityTypeEnum.PATIENT;
         this.visualization = VisualizationEnum.HAZARD;
         this.label = 'Hazard';
+        this.enableCohorts = true;
         this.enableGenesets = false;
         this.enableLabel = false;
         this.enableColor = false;
@@ -18,11 +19,7 @@ export class HazardConfigModel extends GraphConfig {
         this.enableSupplemental = false;
     }
     censorEvent: string;
-
-    cohorts: Array<{
-        name: string,
-        sampleIds: Array<number>
-    }>;
+    cohortsToCompare: Array<string> = [];
 }
 export interface HazardDatumModel {
     line: Array<[number, number]>;

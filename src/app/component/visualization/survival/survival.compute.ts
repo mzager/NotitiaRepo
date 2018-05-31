@@ -46,8 +46,6 @@ export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWo
         worker.util.getPatients([], config.database, 'patient')
     ]).then(results => {
 
-
-        debugger;
         // TODO: Fix Setting Time To 1 When null
         const cohorts = results[0];
         const patients = results[1];
@@ -98,8 +96,8 @@ export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWo
                 survivalResults.push(
                     Object.assign(
                         processSurvival(survivalData[i]),
-                        cohortPatientData[Math.ceil(i / 2)],
-                        { color: colors[Math.ceil(i / 2)] }
+                        cohortPatientData[i],
+                        { color: colors[i] }
                     )
                 );
             });

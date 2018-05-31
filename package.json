@@ -84,7 +84,7 @@
     "rxjs": "^6.2.0",
     "rxjs-compat": "^6.2.0",
     "strip-ansi": "^4.0.0",
-    "three": "^0.92.0",
+    "three": "^0.93.0",
     "three-bmfont-text": "^2.3.0",
     "three-effectcomposer": "0.0.1",
     "three-orbitcontrols-ts": "^0.1.2",

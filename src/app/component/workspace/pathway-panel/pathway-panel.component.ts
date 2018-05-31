@@ -71,13 +71,22 @@ export class PathwayPanelComponent implements AfterViewInit, OnDestroy {
     }
 
     pathwayDel(v: any): void {
+        // if (this.pathways.length === 1) {
+        //     alert('Please keep at least one pathway in your list of options.');
+        //     return;
+        // }
         this.delPathway.emit({ database: this.config.database, pathway: v });
     }
 
     pathwayAdd(v: any): void {
+        const name = v.name.toLowerCase();
+        if (this.pathways.find(gs => gs.n === name)) {
+            alert(name + ' has already been added to your list of options.');
+            return;
+        }
         this.addPathway.emit({
             database: this.config.database,
-            pathway: { n: v.name.toLowerCase(), uri: v.uri }
+            pathway: { n: name, uri: v.uri }
         });
     }
 

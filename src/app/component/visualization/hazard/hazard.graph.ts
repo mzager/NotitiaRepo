@@ -131,7 +131,7 @@ export class HazardGraph extends AbstractVisualization {
         const material = new THREE.MeshPhongMaterial({
             color: cohort.color,
             transparent: true,
-            opacity: 0.3,
+            opacity: 0.1,
             blending: THREE.NormalBlending
         });
 

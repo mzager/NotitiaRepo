@@ -17,9 +17,13 @@ export class TimelinesConfigModel extends GraphConfig {
         super();
         this.visualization = VisualizationEnum.TIMELINES;
         this.entity = EntityTypeEnum.PATIENT;
-        this.dirtyFlag = DirtyEnum.LAYOUT;
+        // this.dirtyFlag = DirtyEnum.LAYOUT;
         this.label = 'Timelines';
+        this.enableCohorts = true;
         this.enableGenesets = false;
+        this.enableLabel = false;
+        this.enableColor = false;
+        this.enableShape = false;
         this.enableSupplemental = false;
     }
 

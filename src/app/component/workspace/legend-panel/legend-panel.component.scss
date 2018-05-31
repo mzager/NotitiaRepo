@@ -1,3 +1,4 @@
+@import 'src/theme.scss';
 // .legend-header {
 //     font-weight: 500;
 //     font-size: 10px;
@@ -10,9 +11,13 @@
     
 }
 .legendHeader { 
-    padding-top: 10px;
-    padding-bottom: 10px;
     text-transform: capitalize;
+    text-align: left;
+    width: 100%;
+    padding: 10px 0px 10px 0px;
+    font-size: 12px;
+    font-weight: 500;
+    display: inline-block
 }
 .legendItem { 
     position: relative;
@@ -39,12 +44,17 @@
     display: none;
     background: #FFF;
     position: absolute;
-    right: 0px;
-    top: 0px;
+    right: 15px;
+    top: 2px;
+    line-height: 24px;
+    a {
+        color: mat-color($primary);
+    }
 }
 
 .legendItem:hover { 
     .swatchButtons {
         display: block;
+        font-size: .8rem;
     }
 }
