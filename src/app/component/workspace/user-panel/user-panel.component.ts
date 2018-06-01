@@ -1,5 +1,3 @@
-import { AmplifyService } from 'aws-amplify-angular';
-import { Auth } from 'aws-amplify';
 import { INSERT_ANNOTATION } from './../../../action/graph.action';
 import { StatsInterface } from './../../../model/stats.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -35,107 +33,107 @@ export class UserPanelComponent {
     this.showPanel.emit(PanelEnum.UPLOAD);
   }
   setForm(form: UserPanelFormEnum): void {
-    this.activeForm = form;
-    this.cd.markForCheck();
+    // this.activeForm = form;
+    // this.cd.markForCheck();
   }
   signIn(): void {
-    const form = this.formGroupSignIn;
-    if (form.status === 'INVALID') { return; }
-    Auth.signIn(form.get('username').value, form.get('password').value)
-      .then(user => {
-        this.user = user;
-        if (user.challengeName === 'SMS_MFA' || user.challengeName === 'SOFTWARE_TOKEN_MFA') {
-          this.amplifyService.setAuthState({ state: 'confirmSignIn', user: user });
-        } else if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
-          this.amplifyService.setAuthState({ state: 'requireNewPassword', user: user });
-        } else {
-          this.amplifyService.setAuthState({ state: 'signedIn', user: user });
-        }
-      }).catch(err => {
-        this.errorMessage = err.message;
-        this.cd.markForCheck();
-      });
+    // const form = this.formGroupSignIn;
+    // if (form.status === 'INVALID') { return; }
+    // Auth.signIn(form.get('username').value, form.get('password').value)
+    //   .then(user => {
+    //     this.user = user;
+    //     if (user.challengeName === 'SMS_MFA' || user.challengeName === 'SOFTWARE_TOKEN_MFA') {
+    //       this.amplifyService.setAuthState({ state: 'confirmSignIn', user: user });
+    //     } else if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
+    //       this.amplifyService.setAuthState({ state: 'requireNewPassword', user: user });
+    //     } else {
+    //       this.amplifyService.setAuthState({ state: 'signedIn', user: user });
+    //     }
+    //   }).catch(err => {
+    //     this.errorMessage = err.message;
+    //     this.cd.markForCheck();
+    //   });
   }
   signInConfirm(): void {
-    const form = this.formGroupSignInConfirm;
-    const mfaType = this.user === 'SOFTWARE_TOKEN_MFA' ? 'SOFTWARE_TOKEN_MFA' : null;
-    this.amplifyService.auth()
-      .confirmSignIn(
-        this.user,
-        form.get('code').value,
-        mfaType
-      )
-      .then(() => {
-        this.amplifyService.setAuthState({ state: 'signedIn', user: this.user });
-      }).catch(err => {
-        this.errorMessage = err.messsage;
-        this.cd.markForCheck();
-      });
+    // const form = this.formGroupSignInConfirm;
+    // const mfaType = this.user === 'SOFTWARE_TOKEN_MFA' ? 'SOFTWARE_TOKEN_MFA' : null;
+    // this.amplifyService.auth()
+    //   .confirmSignIn(
+    //     this.user,
+    //     form.get('code').value,
+    //     mfaType
+    //   )
+    //   .then(() => {
+    //     this.amplifyService.setAuthState({ state: 'signedIn', user: this.user });
+    //   }).catch(err => {
+    //     this.errorMessage = err.messsage;
+    //     this.cd.markForCheck();
+    //   });
   }
   signUp(): void {
-    const form = this.formGroupSignUp;
-    if (form.status === 'INVALID') { return; }
-    Auth.signUp({
-      username: form.get('username').value,
-      password: form.get('password').value,
-      attributes: {
-        email: form.get('email').value,
-        phone_number: form.get('phone').value, // +12069481992
-        given_name: form.get('firstName').value,
-        family_name: form.get('lastName').value
-      }
-    }).then(user => {
-      this.amplifyService.setAuthState({ state: 'confirmSignUp', user: null });
-    }).catch(err => {
-      this.errorMessage = err.message;
-      this.cd.markForCheck();
-    });
+    // const form = this.formGroupSignUp;
+    // if (form.status === 'INVALID') { return; }
+    // Auth.signUp({
+    //   username: form.get('username').value,
+    //   password: form.get('password').value,
+    //   attributes: {
+    //     email: form.get('email').value,
+    //     phone_number: form.get('phone').value, // +12069481992
+    //     given_name: form.get('firstName').value,
+    //     family_name: form.get('lastName').value
+    //   }
+    // }).then(user => {
+    //   this.amplifyService.setAuthState({ state: 'confirmSignUp', user: null });
+    // }).catch(err => {
+    //   this.errorMessage = err.message;
+    //   this.cd.markForCheck();
+    // });
   }
   signUpConfirm(): void {
-    const form = this.formGroupSignUpConfirm;
-    if (form.status === 'INVALID') { return; }
-    Auth.confirmSignUp(form.get('username').value, form.get('code').value)
-      .then(data => {
-        this.activeForm = UserPanelFormEnum.PROJECT_LIST;
-        this.cd.markForCheck();
-      })
-      .catch(err => {
-        this.errorMessage = err.message;
-        this.cd.markForCheck();
-      });
+    // const form = this.formGroupSignUpConfirm;
+    // if (form.status === 'INVALID') { return; }
+    // Auth.confirmSignUp(form.get('username').value, form.get('code').value)
+    //   .then(data => {
+    //     this.activeForm = UserPanelFormEnum.PROJECT_LIST;
+    //     this.cd.markForCheck();
+    //   })
+    //   .catch(err => {
+    //     this.errorMessage = err.message;
+    //     this.cd.markForCheck();
+    //   });
   }
 
 
   forgotPassword(): void {
-    const form = this.formGroupForgotPassword;
-    if (form.status === 'INVALID') { return; }
-    Auth.forgotPasswordSubmit(form.get('username').value, form.get('code').value, form.get('password').value)
-      .then(data => {
-        alert('Password sent');
-        const user = { username: form.get('username').value };
-        this.amplifyService.setAuthState({ state: 'signIn', user: user });
-        this.cd.markForCheck();
-      })
-      .catch(err => {
-        this.errorMessage = err.message;
-        this.cd.markForCheck();
-      });
+    // const form = this.formGroupForgotPassword;
+    // if (form.status === 'INVALID') { return; }
+    // Auth.forgotPasswordSubmit(form.get('username').value, form.get('code').value, form.get('password').value)
+    //   .then(data => {
+    //     alert('Password sent');
+    //     const user = { username: form.get('username').value };
+    //     this.amplifyService.setAuthState({ state: 'signIn', user: user });
+    //     this.cd.markForCheck();
+    //   })
+    //   .catch(err => {
+    //     this.errorMessage = err.message;
+    //     this.cd.markForCheck();
+    //   });
   }
 
   updatePassword(): void {
-    const form = this.formGroupForgotPassword;
-    if (form.status === 'INVALID') { return; }
-    Auth.completeNewPassword(this.user, form.get('password').value, this.user.challengeParam)
-      .then(() => {
-        this.amplifyService.setAuthState({ state: 'signIn', user: this.user });
-      })
-      .catch(err => {
-        this.errorMessage = err.message;
-        this.cd.markForCheck();
-      });
+    // const form = this.formGroupForgotPassword;
+    // if (form.status === 'INVALID') { return; }
+    // Auth.completeNewPassword(this.user, form.get('password').value, this.user.challengeParam)
+    //   .then(() => {
+    //     this.amplifyService.setAuthState({ state: 'signIn', user: this.user });
+    //   })
+    //   .catch(err => {
+    //     this.errorMessage = err.message;
+    //     this.cd.markForCheck();
+    //   });
   }
 
-  constructor(public amplifyService: AmplifyService, public fb: FormBuilder, public cd: ChangeDetectorRef) {
+  constructor(public fb: FormBuilder, public cd: ChangeDetectorRef) {
 
     this.formGroupSignIn = fb.group({
       username: [null, Validators.required],
@@ -166,22 +164,22 @@ export class UserPanelComponent {
 
     // Check If User Is Logged In
 
-    this.amplifyService.authStateChange$
-      .subscribe(state => {
-        console.log(state);
-        this.activeForm =
-          (state.state === 'signIn') ? UserPanelFormEnum.SIGN_IN :
-            (state.state === 'requireNewPassword') ? UserPanelFormEnum.CHANGE_PASSWORD :
-              (state.state === 'signedIn') ? UserPanelFormEnum.PROJECT_LIST :
-                (state.state === 'confirmSignUp') ? UserPanelFormEnum.SIGN_UP_CONFIRM :
-                  (state.state === 'confirmSignIn') ? UserPanelFormEnum.SIGN_IN_CONFIRM :
-                    UserPanelFormEnum.BLANK;
-        if (this.activeForm === UserPanelFormEnum.BLANK) {
+    // this.amplifyService.authStateChange$
+    //   .subscribe(state => {
+    //     console.log(state);
+    //     this.activeForm =
+    //       (state.state === 'signIn') ? UserPanelFormEnum.SIGN_IN :
+    //         (state.state === 'requireNewPassword') ? UserPanelFormEnum.CHANGE_PASSWORD :
+    //           (state.state === 'signedIn') ? UserPanelFormEnum.PROJECT_LIST :
+    //             (state.state === 'confirmSignUp') ? UserPanelFormEnum.SIGN_UP_CONFIRM :
+    //               (state.state === 'confirmSignIn') ? UserPanelFormEnum.SIGN_IN_CONFIRM :
+    //                 UserPanelFormEnum.BLANK;
+    //     if (this.activeForm === UserPanelFormEnum.BLANK) {
 
-        }
-        this.user = state.user;
-        this.cd.markForCheck();
-      });
+    //     }
+    //     this.user = state.user;
+    //     this.cd.markForCheck();
+    //   });
 
     this.activeForm = UserPanelFormEnum.SIGN_IN;
   }
