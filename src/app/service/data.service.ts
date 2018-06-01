@@ -846,6 +846,10 @@ export class DataService {
       db.open().then(v => {
         v.table('pathways').toArray().then(result => {
           const pathways = result;
+          pathways.unshift({
+            'n': 'integrated cancer pathway',
+            'uri': 'https://s3-us-west-2.amazonaws.com/notitia/pathways/http___identifiers.org_wikipathways_WP1971.json.gz'
+          });
           resolve(result);
         });
       });
@@ -936,8 +940,9 @@ export class DataService {
     return new Promise((resolve, reject) => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
-        v.table('genesets').where('n').equalsIgnoreCase(geneset.n).delete().then(w => {
-          resolve(w);
+        v.table('genesets').where('n').equalsIgnoreCase(geneset.n).delete().then(result => {
+          const genesets = result;
+          resolve(result);
         });
       });
     });

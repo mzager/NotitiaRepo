@@ -66,7 +66,7 @@ export class PathwaysGraph extends AbstractVisualization {
 
     enable(truthy: boolean) {
         super.enable(truthy);
-        this.view.controls.enableRotate = true;
+        this.view.controls.enableRotate = false;
     }
 
     onMouseDown(e: ChartEvent): void { }
@@ -192,9 +192,17 @@ export class PathwaysGraph extends AbstractVisualization {
     }
 
     addObjects(entity: EntityTypeEnum) {
+        this.labels.innerHTML = '';
+        this.lblGenes = [];
+        this.lblNetwork = [];
         this.addEdges(this.data.layout.sbgn.map.arc);
         this.addNodes(this.data.layout.sbgn.map.glyph);
         ChartFactory.decorateDataGroups(this.dataGroups, this.decorators, null, 6);
+        ChartFactory.configPerspectiveOrbit(this.view,
+            new THREE.Box3(
+                new THREE.Vector3(-1500, -1500, -5),
+                new THREE.Vector3(1500, 1500, 5)));
+
     }
 
     removeObjects() {
