@@ -4,6 +4,7 @@
             <i class="material-icons small" style='color:rgba(0, 0, 0, 0.54);'>expand_less</i>
         </a>
     </div> -->
+
     <div #panel class="graphPanelExpanded">
         <mat-accordion multi="true" displayMode='flat'>
             <mat-expansion-panel expanded='true'>
@@ -28,8 +29,7 @@
                     (configChange)='graphPanelSetConfig($event)'></app-graph-panel-data>
                 <app-graph-panel-visualization [config]='config' [tables]='tables' [fields]='fields' (decoratorAdd)='decoratorAdd.emit($event)'
                     (decoratorDel)='decoratorDel.emit($event)'></app-graph-panel-visualization>
-                <app-pathways-form *ngIf='config && config.visualization === 256' (configChange)='graphPanelSetConfig($event)' [fields]='fields'
-                    [config]='config'></app-pathways-form>
+                <app-pathways-form *ngIf='config && config.visualization === 256' (configChange)='graphPanelSetConfig($event)' [config]='config'></app-pathways-form>
                 <app-timelines-form *ngIf='config && config.visualization === 128' (configChange)='graphPanelSetConfig($event)' [fields]='fields'
                     [events]='events' [config]='config'></app-timelines-form>
                 <app-genome-form *ngIf='config && config.visualization === 2147483648' (configChange)='graphPanelSetConfig($event)' [fields]='fields'
@@ -95,7 +95,7 @@
                         Legend
                     </mat-panel-title>
                 </mat-expansion-panel-header>
-                <app-workspace-legend-panel [legends]='data.legends' [decorators]='decoratorsWithLegends'></app-workspace-legend-panel>
+                <app-workspace-legend-panel [config]='_config' [legends]='data.legends' [decorators]='decoratorsWithLegends'></app-workspace-legend-panel>
             </mat-expansion-panel>
             <mat-expansion-panel expanded='true' *ngIf='config.enableSupplemental'>
                 <mat-expansion-panel-header expandedHeight='40px' collapsedHeight='40px'>

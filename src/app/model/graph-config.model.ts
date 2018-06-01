@@ -41,7 +41,7 @@ export class GraphConfig {
     cohortName = 'All Patients';
     markerName = 'Pathways in Cancer';
     pathwayName = 'integrated cancer pathway';
-
+    pathwayUri = 'https://s3-us-west-2.amazonaws.com/notitia/pathways/http___identifiers.org_panther.pathway_P02742.json.gz';
 
     // Default Genes Listed Are 'KEGG Pathways In Cancer'
     markerFilter: Array<string> = ['ABL1', 'AKT1', 'AKT2', 'AKT3', 'APC', 'APC2', 'APPL1', 'AR', 'ARAF', 'ARNT', 'ARNT2', 'AXIN1',
