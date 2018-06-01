@@ -1102,15 +1102,7 @@ export class ComputeWorkerUtil {
             'Accept-Encoding': 'gzip',
             'Access-Control-Allow-Origin': '*'
         };
-
-        // return fetch('http://oncoscape-opencpu.sttrcancer.io/py', {
-        // return fetch('https://python.os.sttrcancer.io/py', {
-        // python.os.sttrcancer.io/py
-        // return fetch('http://ec2co-ecsel-o24jnaxn2aat-1883605559.us-west-2.elb.amazonaws.com/py', {
-        // return fetch('https://jff1qhlc62.execute-api.us-west-2.amazonaws.com/production/scikit-dev-sklearn/', {
-        return fetch('http://oncoscape.us-west-2.elasticbeanstalk.com/cpu', {
-            // return fetch('http://localhost/py', {
-            // return fetch('http://python.jennylou.info/py', {
+        return fetch('http://oncoscape.v3.sttrcancer.org/cpu', {
             headers: headers,
             method: 'POST',
             body: JSON.stringify(config)
