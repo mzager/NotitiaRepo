@@ -81,6 +81,7 @@ export class GraphPanelDataComponent {
   @Input() set pathways(v: Array<Pathway>) {
     this.pathwayOptions = v;
     this.pathwaySelected = this.pathwayOptions[0];
+
     this.cd.markForCheck();
   }
   @Input() set cohorts(v: Array<Cohort>) {
@@ -110,7 +111,10 @@ export class GraphPanelDataComponent {
       this.showPanel.emit(PanelEnum.PATHWAYS);
       return;
     }
+    this.config.pathwayUri = e.value.uri;
     this.config.pathwayName = e.value.n;
+    this.config.dirtyFlag = DirtyEnum.LAYOUT;
+    this.configChange.emit(this.config);
   }
   public setGenesetOption(e: MatSelectChange): void {
     if (e.value === 'CUSTOM') {

@@ -29,11 +29,20 @@ export class LegendPanelComponent implements AfterViewInit {
   public allLegends: Array<Legend> = [];
   // public items: Array<{ label: string, value: string }>;
 
+  private _config: GraphConfig;
+  @Input() public set config(value: GraphConfig) {
+    console.log(value);
+    // if (value === undefined) { return; }
+    // if (value === null) { return; }
+    // this._config = value;
+    // this.updateLegend();
+  }
+
   private _decorators: Array<Legend> = [];
   @Input() public set decorators(value: Array<DataDecorator>) {
+    console.log("----");
     if (value === undefined) { return; }
     if (value === null) { return; }
-    // if (value.length === 0) { return; }
     this._decorators = value.map(decorator => {
       if (decorator.legend !== null) {
         this.formatValues(decorator.legend);
@@ -45,6 +54,7 @@ export class LegendPanelComponent implements AfterViewInit {
 
   public _legends: Array<Legend> = [];
   @Input() public set legends(value: Array<Legend>) {
+    console.log("----");
     if (value === undefined) { return; }
     if (value === null) { return; }
     if (value.length === 0) { return; }
@@ -81,10 +91,14 @@ export class LegendPanelComponent implements AfterViewInit {
   }
 
   public updateLegend(): void {
+    // if (!this._config) { return; }
+    // console.dir(this._config);
     this.allLegends = [].concat(...this._decorators, ...this._legends);
-    requestAnimationFrame(v => {
-      this.cd.markForCheck();
-    });
+    // requestAnimationFrame(v => {
+    //   console.log("!!!");
+    //   this.cd.markForCheck();
+    // });
+    console.log("!!!!");
   }
 
   constructor(public cd: ChangeDetectorRef) { }

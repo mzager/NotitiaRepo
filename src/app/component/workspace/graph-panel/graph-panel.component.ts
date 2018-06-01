@@ -350,6 +350,8 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
 
     const prevConfig = this.config;
     gc.table = prevConfig.table;
+    gc.pathwayUri = prevConfig.pathwayUri;
+    gc.pathwayName = prevConfig.pathwayName;
     gc.sampleFilter = prevConfig.sampleFilter;
     gc.markerFilter = prevConfig.markerFilter;
     gc.patientFilter = prevConfig.patientFilter;

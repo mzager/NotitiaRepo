@@ -71,10 +71,10 @@ export class PathwayPanelComponent implements AfterViewInit, OnDestroy {
     }
 
     pathwayDel(v: any): void {
-        // if (this.pathways.length === 1) {
-        //     alert('Please keep at least one pathway in your list of options.');
-        //     return;
-        // }
+        if (this.pathways.length === 1) {
+            alert('Please keep at least one pathway in your list of options.');
+            return;
+        }
         this.delPathway.emit({ database: this.config.database, pathway: v });
     }
 
@@ -112,6 +112,7 @@ export class PathwayPanelComponent implements AfterViewInit, OnDestroy {
                 summary: v.numParticipants + ' Participants | ' +
                     v.numProcesses + ' Processes'
             }));
+
             const pathwayCode = this.pathwayCategories[0].c;
             this.pathwayOptionsFilter = this.pathwayOptions.filter(v => v.dataSource === pathwayCode);
             this.cd.markForCheck();
