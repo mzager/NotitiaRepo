@@ -49,31 +49,8 @@
       "desc": "The number of parallel jobs to run. If -1, then the number of jobs is set to the number of CPU cores."
     }
   ],
-  "attrs": [{
-      "name": "embedding",
-      "type": "array-like, shape (n_samples, n_components)",
-      "desc": "Stores the embedding vectors."
-    },
-    {
-      "name": "kernel pca",
-      "type": "object",
-      "desc": "KernelPCA object used to implement the embedding."
-    },
-    {
-      "name": "training data",
-      "type": "array-like, shape (n_samples, n_features)",
-      "desc": "Stores the training data."
-    },
-    {
-      "name": "nbrs",
-      "type": "sklearn.neighbors.NearestNeighbors instance",
-      "desc": "Stores nearest neighbors instance, including BallTree or KDtree if applicable."
-    },
-    {
-      "name": "dist matrix",
-      "type": "array-like, shape (n_samples, n_samples)",
-      "desc": "Stores the geodesic distance matrix of training data."
-    }
+  "attrs": [
+
   ],
   "citations": [{
       "name": " A global geometric framework for nonlinear dimensionality reduction",
