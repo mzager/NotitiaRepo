@@ -70,7 +70,8 @@ export const pathwaysCompute = (config: PathwaysConfigModel, worker: DedicatedWo
         legendOps
     ];
 
-    fetch('https://s3-us-west-2.amazonaws.com/notitia/pathways/' + config.pathway + '.json.gz', requestInit)
+
+    fetch(config.pathwayUri, requestInit)
         .then(response => response.json())
         .then(response => {
             worker.postMessage({
