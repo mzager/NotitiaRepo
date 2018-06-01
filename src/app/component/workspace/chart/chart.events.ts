@@ -48,7 +48,7 @@ export class ChartEvents {
         this.mouse = { x: 0, y: 0, xs: 0, ys: 0 };
         this.dimensions = container.getBoundingClientRect();
 
-        window.addEventListener('resize', this.onResize.bind(this));
+        // window.addEventListener('resize', this.onResize.bind(this));
 
         // Low Level Dom Events
         this.mouseUp = Observable.fromEvent<MouseEvent>(container, 'mouseup');

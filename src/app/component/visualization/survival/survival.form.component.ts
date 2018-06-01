@@ -22,7 +22,6 @@ export class SurvivalFormComponent implements OnDestroy {
   _cohortSelected: any;
   _cohortOptions: Array<any>;
   _cohorts: Array<any>;
-  list = 'asdf';
 
   private _config: SurvivalConfigModel;
   @Input() set config(v: SurvivalConfigModel) {
