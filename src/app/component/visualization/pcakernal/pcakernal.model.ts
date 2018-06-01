@@ -25,6 +25,7 @@ export class PcaKernalConfigModel extends GraphConfig {
         this.entity = EntityTypeEnum.SAMPLE;
         this.visualization = VisualizationEnum.KERNAL_PCA;
         this.label = 'PCA Kernal';
+        this.enableSupplemental = false;
     }
     n_components = 10;
     dimension = DimensionEnum.THREE_D;
