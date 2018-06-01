@@ -1,119 +1,103 @@
 {
-    "method": "Dictionary Learning",
-    "summary": "Dictionary learning is a branch of signal processing and machine learning that aims at finding a frame (called dictionary) in which some training data admits a sparse representation. The sparser the representation, the better the dictionary.",
-    "desc": "<span class='help-method'>Dictionary learning</span>Finds a dictionary (a set of atoms) that can best be used to represent data using a sparse code. Solves the optimization problem: (U^*,V^*) = argmin 0.5 || Y - U V ||_2^2 + alpha * || U ||_1 (U,V) with || V_k ||_2 = 1 for all  0 <= k < n_components. ",
-    "urlparagraph":"Read more in the scikit-learn user guide.",
-    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.DictionaryLearning.html#sklearn.decomposition.DictionaryLearning",
-    "tutorial": [
-        {
-            "desc": "Learn more on Oncoscape + Sci-Kit clustering methods",
-            "url": "https://www.youtube.com/embed/XQu8TTBmGhA"  
-        }
-    ],
-    "params": [
-        {
-            "name": "n components",
-            "type": "int,",
-            "desc": "number of dictionary elements to extract"
-        },
-        {
-            "name": "alpha",
-            "type": "float,",
-            "desc": "sparsity controlling parameter"
-        },
-        {
-            "name": "max iter",
-            "type": "int,",
-            "desc": "maximum number of iterations to perform"
-        },
-        {
-            "name": "tol",
-            "type": "float,",
-            "desc": "tolerance for numerical error"
-        },
-        {
-            "name": "fit algorithm",
-            "type": "{‘lars’, ‘cd’}",
-            "desc": "lars: uses the least angle regression method to solve the lasso problem (linear_model.lars_path) cd: uses the coordinate descent method to compute the Lasso solution (linear_model.Lasso). Lars will be faster if the estimated components are sparse.  New in version 0.17: cd coordinate descent method to improve speed."
-        },
-        {
-            "name": "transform algorithm",
-            "type": "{‘lasso_lars’, ‘lasso_cd’, ‘lars’, ‘omp’,     ‘threshold’}",
-            "desc": "Algorithm used to transform the data lars: uses the least angle regression method (linear_model.lars_path) lasso_lars: uses Lars to compute the Lasso solution lasso_cd: uses the coordinate descent method to compute the Lasso solution (linear_model.Lasso). lasso_lars will be faster if the estimated components are sparse. omp: uses orthogonal matching pursuit to estimate the sparse solution threshold: squashes to zero all coefficients less than alpha from the projection dictionary * X'  New in version 0.17: lasso_cd coordinate descent method to improve speed."
-        },
-        {
-            "name": "transform n nonzero coefs",
-            "type": "int, 0.1 * n_features by default",
-            "desc": "Number of nonzero coefficients to target in each column of the solution. This is only used by algorithm=’lars’ and algorithm=’omp’ and is overridden by alpha in the omp case."
-        },
-        {
-            "name": "transform alpha",
-            "type": "float, 1. by default",
-            "desc": "If algorithm=’lasso_lars’ or algorithm=’lasso_cd’, alpha is the penalty applied to the L1 norm. If algorithm=’threshold’, alpha is the absolute value of the threshold below which coefficients will be squashed to zero. If algorithm=’omp’, alpha is the tolerance parameter: the value of the reconstruction error targeted. In this case, it overrides n_nonzero_coefs."
-        },
-        {
-            "name": "n jobs",
-            "type": "int,",
-            "desc": "number of parallel jobs to run"
-        },
-        {
-            "name": "code init",
-            "type": "array of shape (n_samples, n_components),",
-            "desc": "initial value for the code, for warm restart"
-        },
-        {
-            "name": "dict init",
-            "type": "array of shape (n_components, n_features),",
-            "desc": "initial values for the dictionary, for warm restart"
-        },
-        {
-            "name": "verbose",
-            "type": "bool, optional (default",
-            "desc": "To control the verbosity of the procedure."
-        },
-        {
-            "name": "split sign",
-            "type": "bool, False by default",
-            "desc": "Whether to split the sparse feature vector into the concatenation of its negative part and its positive part. This can improve the performance of downstream classifiers."
-        },
-        {
-            "name": "random state",
-            "type": "int, RandomState instance or None, optional (default=None)",
-            "desc": "If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random."
-        }
-    ],
-    "attrs": [
-        {
-            "name": "components",
-            "type": "array, [n_components, n_features]",
-            "desc": "dictionary atoms extracted from the data"
-        },
-        {
-            "name": "error",
-            "type": "array",
-            "desc": "vector of errors at each iteration"
-        },
-        {
-            "name": "n iter",
-            "type": "int",
-            "desc": "Number of iterations run."
-        }
-    ],
-    "citations": [
-        {
-            "name": "API design for machine learning software: experiences from the scikit-learn project",
-            "desc": "API design for machine learning software: experiences from the scikit-learn project, Buitinck et al., 2013.",
-            "url": "http://www.di.ens.fr/sierra/pdfs/icml09.pdf"
-        },
-        {
-            "name": "Scikit-learn: Machine Learning in Python",
-            "desc": "Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.",
-            "url": "http://www.jmlr.org/papers/volume12/pedregosa11a/pedregosa11a.pdf"
-        },
-        {
-            "name": "Online dictionary learning for sparse coding",
-            "desc": "J. Mairal, F. Bach, J. Ponce, G. Sapiro, 2009: Online dictionary learning for sparse coding ",
-            "url": "http://www.di.ens.fr/sierra/pdfs/icml09.pdf"
-        }
-    ]
+  "method": "Dictionary Learning",
+  "summary": "Dictionary learning is a branch of signal processing and machine learning that aims at finding a frame (called dictionary) in which some training data admits a sparse representation. The sparser the representation, the better the dictionary.",
+  "desc": "<span class='help-method'>Dictionary learning</span>Finds a dictionary (a set of atoms) that can best be used to represent data using a sparse code. Solves the optimization problem: (U^*,V^*) = argmin 0.5 || Y - U V ||_2^2 + alpha * || U ||_1 (U,V) with || V_k ||_2 = 1 for all  0 <= k < n_components. ",
+  "urlparagraph": "Read more in the scikit-learn user guide.",
+  "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.DictionaryLearning.html#sklearn.decomposition.DictionaryLearning",
+  "tutorial": [{
+    "desc": "Learn more on Oncoscape + Sci-Kit clustering methods",
+    "url": "https://www.youtube.com/embed/XQu8TTBmGhA"
+  }],
+  "params": [{
+      "name": "n components",
+      "type": "int,",
+      "desc": "number of dictionary elements to extract"
+    },
+    {
+      "name": "alpha",
+      "type": "float,",
+      "desc": "sparsity controlling parameter"
+    },
+    {
+      "name": "max iter",
+      "type": "int,",
+      "desc": "maximum number of iterations to perform"
+    },
+    {
+      "name": "tol",
+      "type": "float,",
+      "desc": "tolerance for numerical error"
+    },
+    {
+      "name": "fit algorithm",
+      "type": "{‘lars’, ‘cd’}",
+      "desc": "lars: uses the least angle regression method to solve the lasso problem (linear_model.lars_path) cd: uses the coordinate descent method to compute the Lasso solution (linear_model.Lasso). Lars will be faster if the estimated components are sparse.  New in version 0.17: cd coordinate descent method to improve speed."
+    },
+    {
+      "name": "transform algorithm",
+      "type": "{‘lasso_lars’, ‘lasso_cd’, ‘lars’, ‘omp’,     ‘threshold’}",
+      "desc": "Algorithm used to transform the data lars: uses the least angle regression method (linear_model.lars_path) lasso_lars: uses Lars to compute the Lasso solution lasso_cd: uses the coordinate descent method to compute the Lasso solution (linear_model.Lasso). lasso_lars will be faster if the estimated components are sparse. omp: uses orthogonal matching pursuit to estimate the sparse solution threshold: squashes to zero all coefficients less than alpha from the projection dictionary * X'  New in version 0.17: lasso_cd coordinate descent method to improve speed."
+    },
+    {
+      "name": "transform n nonzero coefs",
+      "type": "int, 0.1 * n_features by default",
+      "desc": "Number of nonzero coefficients to target in each column of the solution. This is only used by algorithm=’lars’ and algorithm=’omp’ and is overridden by alpha in the omp case."
+    },
+    {
+      "name": "transform alpha",
+      "type": "float, 1. by default",
+      "desc": "If algorithm=’lasso_lars’ or algorithm=’lasso_cd’, alpha is the penalty applied to the L1 norm. If algorithm=’threshold’, alpha is the absolute value of the threshold below which coefficients will be squashed to zero. If algorithm=’omp’, alpha is the tolerance parameter: the value of the reconstruction error targeted. In this case, it overrides n_nonzero_coefs."
+    },
+    {
+      "name": "n jobs",
+      "type": "int,",
+      "desc": "number of parallel jobs to run"
+    },
+    {
+      "name": "code init",
+      "type": "array of shape (n_samples, n_components),",
+      "desc": "initial value for the code, for warm restart"
+    },
+    {
+      "name": "dict init",
+      "type": "array of shape (n_components, n_features),",
+      "desc": "initial values for the dictionary, for warm restart"
+    },
+    {
+      "name": "verbose",
+      "type": "bool, optional (default",
+      "desc": "To control the verbosity of the procedure."
+    },
+    {
+      "name": "split sign",
+      "type": "bool, False by default",
+      "desc": "Whether to split the sparse feature vector into the concatenation of its negative part and its positive part. This can improve the performance of downstream classifiers."
+    },
+    {
+      "name": "random state",
+      "type": "int, RandomState instance or None, optional (default=None)",
+      "desc": "If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random."
+    }
+  ],
+  "attrs": [{
+    "name": "n iter",
+    "type": "int",
+    "desc": "Number of iterations run."
+  }],
+  "citations": [{
+      "name": "API design for machine learning software: experiences from the scikit-learn project",
+      "desc": "API design for machine learning software: experiences from the scikit-learn project, Buitinck et al., 2013.",
+      "url": "http://www.di.ens.fr/sierra/pdfs/icml09.pdf"
+    },
+    {
+      "name": "Scikit-learn: Machine Learning in Python",
+      "desc": "Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.",
+      "url": "http://www.jmlr.org/papers/volume12/pedregosa11a/pedregosa11a.pdf"
+    },
+    {
+      "name": "Online dictionary learning for sparse coding",
+      "desc": "J. Mairal, F. Bach, J. Ponce, G. Sapiro, 2009: Online dictionary learning for sparse coding ",
+      "url": "http://www.di.ens.fr/sierra/pdfs/icml09.pdf"
+    }
+  ]
 }
