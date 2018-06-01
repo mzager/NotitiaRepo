@@ -216,8 +216,7 @@ import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({
       maxAge: 25 //  Retains last 25 states
-    }),
-    AmplifyAngularModule
+    })
   ],
   providers: [
     Title,
@@ -227,8 +226,7 @@ import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph
     ChartFactory,
     HttpClient,
     ModalService,
-    DataHubService,
-    AmplifyService
+    DataHubService
   ],
   bootstrap: [AppComponent]
 })
