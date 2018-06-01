@@ -1,99 +1,89 @@
 {
-    "method": "Sparse PCA",
-    "summary": "Sparse principal component analysis is a specialised technique used in statistical analysis and, in particular, in the analysis of multivariate data sets. It extends the classic method of PCA for the reduction of dimensionality of data by adding sparsity constraint on the input variables.",
-    "desc": "<span class='help-method'>Sparse Principal Components Analysis (SparsePCA)</span>Finds the set of sparse components that can optimally reconstruct the data.  The amount of sparseness is controllable by the coefficient of the L1 penalty, given by the parameter alpha. ",
-    "urlparagraph":"Read more in the scikit-learn user guide.",
-    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.SparsePCA.html#sklearn.decomposition.SparsePCA",
-    "tutorial": [
-        {
-            "desc": "Learn more on Oncoscape + Sci-Kit clustering methods",
-            "url": "https://www.youtube.com/embed/XQu8TTBmGhA"  
-        }
-    ],
-    "params": [
-        {
-            "name": "n components",
-            "type": "int,",
-            "desc": "Number of sparse atoms to extract."
-        },
-        {
-            "name": "alpha",
-            "type": "float,",
-            "desc": "Sparsity controlling parameter. Higher values lead to sparser components."
-        },
-        {
-            "name": "ridge alpha",
-            "type": "float,",
-            "desc": "Amount of ridge shrinkage to apply in order to improve conditioning when calling the transform method."
-        },
-        {
-            "name": "max iter",
-            "type": "int,",
-            "desc": "Maximum number of iterations to perform."
-        },
-        {
-            "name": "tol",
-            "type": "float,",
-            "desc": "Tolerance for the stopping condition."
-        },
-        {
-            "name": "method",
-            "type": "{‘lars’, ‘cd’}",
-            "desc": "lars: uses the least angle regression method to solve the lasso problem (linear_model.lars_path) cd: uses the coordinate descent method to compute the Lasso solution (linear_model.Lasso). Lars will be faster if the estimated components are sparse."
-        },
-        {
-            "name": "n jobs",
-            "type": "int,",
-            "desc": "Number of parallel jobs to run."
-        },
-        {
-            "name": "U init",
-            "type": "array of shape (n_samples, n_components),",
-            "desc": "Initial values for the loadings for warm restart scenarios."
-        },
-        {
-            "name": "V init",
-            "type": "array of shape (n_components, n_features),",
-            "desc": "Initial values for the components for warm restart scenarios."
-        },
-        {
-            "name": "verbose",
-            "type": "int",
-            "desc": "Controls the verbosity; the higher, the more messages. Defaults to 0."
-        },
-        {
-            "name": "random state",
-            "type": "int, RandomState instance or None, optional (default=None)",
-            "desc": "If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random."
-        }
-    ],
-    "attrs": [
-        {
-            "name": "components",
-            "type": "array, [n_components, n_features]",
-            "desc": "Sparse components extracted from the data."
-        },
-        {
-            "name": "error",
-            "type": "array",
-            "desc": "Vector of errors at each iteration."
-        },
-        {
-            "name": "n iter",
-            "type": "int",
-            "desc": "Number of iterations run."
-        }
-    ],
-    "citations": [
-        {
-            "name": "Scikit-learn: Machine Learning in Python",
-            "desc": "Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.",
-            "url": "http://www.jmlr.org/papers/volume12/pedregosa11a/pedregosa11a.pdf"
-        },
-        {
-            "name": "API design for machine learning software: experiences from the scikit-learn project",
-            "desc": "API design for machine learning software: experiences from the scikit-learn project, Buitinck et al., 2013.",
-            "url": "http://www.di.ens.fr/sierra/pdfs/icml09.pdf"
-        }
-    ]
+  "method": "Sparse PCA",
+  "summary": "Sparse principal component analysis is a specialised technique used in statistical analysis and, in particular, in the analysis of multivariate data sets. It extends the classic method of PCA for the reduction of dimensionality of data by adding sparsity constraint on the input variables.",
+  "desc": "<span class='help-method'>Sparse Principal Components Analysis (SparsePCA)</span>Finds the set of sparse components that can optimally reconstruct the data.  The amount of sparseness is controllable by the coefficient of the L1 penalty, given by the parameter alpha. ",
+  "urlparagraph": "Read more in the scikit-learn user guide.",
+  "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.SparsePCA.html#sklearn.decomposition.SparsePCA",
+  "tutorial": [{
+    "desc": "Learn more on Oncoscape + Sci-Kit clustering methods",
+    "url": "https://www.youtube.com/embed/XQu8TTBmGhA"
+  }],
+  "params": [{
+      "name": "n components",
+      "type": "int,",
+      "desc": "Number of sparse atoms to extract."
+    },
+    {
+      "name": "alpha",
+      "type": "float,",
+      "desc": "Sparsity controlling parameter. Higher values lead to sparser components."
+    },
+    {
+      "name": "ridge alpha",
+      "type": "float,",
+      "desc": "Amount of ridge shrinkage to apply in order to improve conditioning when calling the transform method."
+    },
+    {
+      "name": "max iter",
+      "type": "int,",
+      "desc": "Maximum number of iterations to perform."
+    },
+    {
+      "name": "tol",
+      "type": "float,",
+      "desc": "Tolerance for the stopping condition."
+    },
+    {
+      "name": "method",
+      "type": "{‘lars’, ‘cd’}",
+      "desc": "lars: uses the least angle regression method to solve the lasso problem (linear_model.lars_path) cd: uses the coordinate descent method to compute the Lasso solution (linear_model.Lasso). Lars will be faster if the estimated components are sparse."
+    },
+    {
+      "name": "n jobs",
+      "type": "int,",
+      "desc": "Number of parallel jobs to run."
+    },
+    {
+      "name": "U init",
+      "type": "array of shape (n_samples, n_components),",
+      "desc": "Initial values for the loadings for warm restart scenarios."
+    },
+    {
+      "name": "V init",
+      "type": "array of shape (n_components, n_features),",
+      "desc": "Initial values for the components for warm restart scenarios."
+    },
+    {
+      "name": "verbose",
+      "type": "int",
+      "desc": "Controls the verbosity; the higher, the more messages. Defaults to 0."
+    },
+    {
+      "name": "random state",
+      "type": "int, RandomState instance or None, optional (default=None)",
+      "desc": "If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random."
+    }
+  ],
+  "attrs": [{
+      "name": "components",
+      "type": "array, [n_components, n_features]",
+      "desc": "Sparse components extracted from the data."
+    },
+    {
+      "name": "error",
+      "type": "array",
+      "desc": "Vector of errors at each iteration."
+    }
+  ],
+  "citations": [{
+      "name": "Scikit-learn: Machine Learning in Python",
+      "desc": "Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.",
+      "url": "http://www.jmlr.org/papers/volume12/pedregosa11a/pedregosa11a.pdf"
+    },
+    {
+      "name": "API design for machine learning software: experiences from the scikit-learn project",
+      "desc": "API design for machine learning software: experiences from the scikit-learn project, Buitinck et al., 2013.",
+      "url": "http://www.di.ens.fr/sierra/pdfs/icml09.pdf"
+    }
+  ]
 }
