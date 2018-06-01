@@ -158,7 +158,7 @@ export class StatFactory {
         const stats = [
             new StatKeyValues('', ([
                 { mylabel: 'Noise Variance:', myvalue: data.noiseVariance.toFixed(2) },
-                { mylabel: 'Components:', myvalue: data.nComponents.toString() }
+                { mylabel: 'nComponents:', myvalue: data.nComponents.toString() }
             ])),
             new StatOneD('Explained Variance', this.formatPrincipleComponents(data.explainedVariance)),
             new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.explainedVarianceRatio)),
@@ -173,7 +173,8 @@ export class StatFactory {
                 { mylabel: 'Components:', myvalue: data.components },
                 { mylabel: 'Error:', myvalue: data.error }
             ])),
-            new StatTwoD('PCA Loadings', this.formatPCALoadings(data.mide, data.components))
+            new StatOneD('PCA Loadings', this.formatError(data.error)),
+            new StatTwoD('PCA Loadings', this.formatPCALoadings(data.mid, data.components))
         ];
         return stats;
     }
@@ -260,6 +261,11 @@ export class StatFactory {
             .sort((a, b) => (b.pc1 - a.pc1))
             .map(v => ({ mylabel: v.marker, myvalue: Math.round(v.pc1 * 1e2) / 1e2 })).splice(0, 11);
         return r;
+    }
+    private formatError(data: Array<number>): Array<{ mylabel: string, myvalue: number, color?: number }> {
+        const rv = data.map((v, i) => ({ mylabel: 'Error' + (i + 1), myvalue: (Math.round(v * 100) / 100) }));
+        rv.push({ mylabel: 'Other', myvalue: rv.reduce((p, c) => { p -= c.myvalue; return (Math.round(p * 100) / 100); }, 100) });
+        return rv;
     }
     // endregion
 }
