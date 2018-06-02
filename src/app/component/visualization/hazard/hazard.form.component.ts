@@ -41,13 +41,10 @@ export class HazardFormComponent implements OnDestroy {
 
   updateOptions(): void {
     const me = this;
-
     this._cohortOptions = this._cohorts
       .filter(v => (v.n !== this._config.cohortName))
       .map(v => ({ n: v.n, sel: (this._config.cohortsToCompare.indexOf(v.n) !== -1) }));
-    requestAnimationFrame(() => {
-      this.cd.markForCheck();
-    });
+    this.cd.detectChanges(); // Mod
   }
 
   compareChange(e: MatSliderChange): void {

@@ -45,9 +45,7 @@ export class SurvivalFormComponent implements OnDestroy {
     this._cohortOptions = this._cohorts
       .filter(v => (v.n !== this._config.cohortName))
       .map(v => ({ n: v.n, sel: (this._config.cohortsToCompare.indexOf(v.n) !== -1) }));
-    requestAnimationFrame(() => {
-      this.cd.markForCheck();
-    });
+    this.cd.detectChanges();
   }
 
   compareChange(e: MatSliderChange): void {

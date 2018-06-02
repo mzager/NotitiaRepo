@@ -40,7 +40,6 @@ export class LegendPanelComponent implements AfterViewInit {
 
   private _decorators: Array<Legend> = [];
   @Input() public set decorators(value: Array<DataDecorator>) {
-    console.log("----");
     if (value === undefined) { return; }
     if (value === null) { return; }
     this._decorators = value.map(decorator => {
@@ -54,7 +53,6 @@ export class LegendPanelComponent implements AfterViewInit {
 
   public _legends: Array<Legend> = [];
   @Input() public set legends(value: Array<Legend>) {
-    console.log("----");
     if (value === undefined) { return; }
     if (value === null) { return; }
     if (value.length === 0) { return; }
@@ -95,10 +93,9 @@ export class LegendPanelComponent implements AfterViewInit {
     // console.dir(this._config);
     this.allLegends = [].concat(...this._decorators, ...this._legends);
     // requestAnimationFrame(v => {
-    //   console.log("!!!");
+    console.log("!!!");
     //   this.cd.markForCheck();
     // });
-    console.log("!!!!");
   }
 
   constructor(public cd: ChangeDetectorRef) { }

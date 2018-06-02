@@ -22,7 +22,7 @@
         </div>
 
         <!-- Sign In Confirmation -->
-        <div *ngIf='activeForm==="SIGN_IN_CONFIRM"'>
+        <div *ngIf='activeForm==="SIGN_UP_CONFIRM"'>
                 <form [formGroup]="formGroupSignInConfirm" (submit)='signInConfirm()'>
                         <mat-form-field>
                                 <input matInput placeholder="Username" formControlName='username'>

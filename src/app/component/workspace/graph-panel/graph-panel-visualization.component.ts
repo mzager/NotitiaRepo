@@ -112,9 +112,6 @@ export class GraphPanelVisualizationComponent {
         this.colorSelected = DataFieldFactory.getUndefined();
         this.shapeSelected = DataFieldFactory.getUndefined();
         this.labelSelected = DataFieldFactory.getUndefined();
-        // requestAnimationFrame(() => {
-        this.cd.markForCheck();
-        // });
     }
 
     setColorOption(event: MatSelectChange): void {

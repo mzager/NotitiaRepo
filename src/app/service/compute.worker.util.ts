@@ -1102,7 +1102,7 @@ export class ComputeWorkerUtil {
             'Accept-Encoding': 'gzip',
             'Access-Control-Allow-Origin': '*'
         };
-        return fetch('http://oncoscape.v3.sttrcancer.org/cpu', {
+        return fetch('http://oncoscape.us-west-2.elasticbeanstalk.com/cpu', {
             headers: headers,
             method: 'POST',
             body: JSON.stringify(config)
