@@ -1,6 +1,0 @@
-{
-	"SourceDir": "src",
-	"DistributionDir": "dist",
-	"BuildCommand": "ng build --prod --aot=false --build-optimizer=false",
-	"StartCommand": "ng serve"
-}
