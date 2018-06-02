@@ -49,17 +49,18 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
 
   @Input() set config(value: GraphConfig) {
     if (value === null) { return; }
-    this._config = value; this.$configChange.next();
+    this._config = value;
+    this.$configChange.next();
   }
   @Input() set graphData(value: GraphData) {
     if (value === null) { return; }
-    this._data = value; this.$dataChange.next();
+    this._data = value;
+    this.$dataChange.next();
   }
 
   update(): void {
-
+    console.log("???");
     if (this._config === null || this._data === null) { return; }
-
     this.container.empty();
     this.statFactory.getComputeStats(this._data, this._config).then(stats => {
       stats.forEach((stat) => {
