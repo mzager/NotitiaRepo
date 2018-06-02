@@ -106,7 +106,7 @@ export class DataPanelComponent implements AfterViewInit {
             this.colHeaders = Object.keys(result[0]).map(v => v.replace(/\_/gi, ' '));
             this.rowHeaders = result.map(v => v['p']);
             this.dataSource = result.map(v => keys.map(w => v[w]));
-            this.cd.markForCheck();
+            this.cd.detectChanges();
           });
           break;
         default:
@@ -118,7 +118,7 @@ export class DataPanelComponent implements AfterViewInit {
             this.colHeaders = result[1].map(v => v.s);
             this.rowHeaders = result[0].map(v => v.m);
             this.dataSource = result[0].map(v => v.d);
-            this.cd.markForCheck();
+            this.cd.detectChanges();
           });
           break;
       }

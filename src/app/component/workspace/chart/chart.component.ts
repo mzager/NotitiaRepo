@@ -128,7 +128,7 @@ export class ChartComponent implements AfterViewInit {
         .filter(v => v[0] !== null);
       updateDataGraphA.subscribe(v => {
         this.labelA = v[1].label;
-        this.cdr.markForCheck();
+        this.cdr.detectChanges();
         const coi = this.createVisualization((v[1] as GraphConfig).visualization);
         return chartScene.updateData(GraphEnum.GRAPH_A, v[1], v[0], coi);
       });
@@ -149,7 +149,7 @@ export class ChartComponent implements AfterViewInit {
         .filter(v => v[0] !== null);
       updateDataGraphB.subscribe(v => {
         this.labelB = v[1].label;
-        this.cdr.markForCheck();
+        this.cdr.detectChanges();
         const coi = this.createVisualization((v[1] as GraphConfig).visualization);
         return chartScene.updateData(GraphEnum.GRAPH_B, v[1], v[0], coi);
       });

@@ -26,7 +26,7 @@ export class ToolBarComponent implements OnInit {
   // @Output() graphAction = new EventEmitter();
   @Input() set workspaceConfig(value: WorkspaceConfigModel) {
     this.hideButtons = (value.layout === WorkspaceLayoutEnum.SINGLE);
-    this.cd.markForCheck();
+    this.cd.detectChanges();
   }
 
   @Output() graphAToggle = new EventEmitter();

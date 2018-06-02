@@ -35,7 +35,6 @@ export class EdgePanelComponent implements OnDestroy {
   edgeConfig: EdgeConfigModel = new EdgeConfigModel();
   _graphAConfig: GraphConfig;
   _graphBConfig: GraphConfig;
-  _decorators: Array<DataDecorator>;
   $graphAChange: Subject<GraphConfig> = new Subject();
   $graphBChange: Subject<GraphConfig> = new Subject();
   $graphChange: Subscription;
@@ -55,7 +54,6 @@ export class EdgePanelComponent implements OnDestroy {
   @Output() decoratorAdd: EventEmitter<{ config: GraphConfig, decorator: DataDecorator }> = new EventEmitter();
   @Output() decoratorDel: EventEmitter<{ config: GraphConfig, decorator: DataDecorator }> = new EventEmitter();
 
-  // focusSubscription: Subscription;
   layoutSelected: string;
   edgeSelected: DataField;
   colorSelected: DataField;
@@ -65,13 +63,7 @@ export class EdgePanelComponent implements OnDestroy {
   colorOptions: Array<DataField>;
   groupOptions: Array<DataField>;
 
-  get decorators(): Array<DataDecorator> { return this._decorators; }
-  @Input() set decorators(value: Array<DataDecorator>) {
-    this._decorators = value;
-    // requestAnimationFrame(() => {
-    //   this.cd.markForCheck();
-    // });
-  }
+  @Input() decorators: Array<DataDecorator>;
 
   // edgePanelSetConfig(value: GraphConfig): void {
   //   const ecm: EdgeConfigModel = (value as EdgeConfigModel);
@@ -85,6 +77,7 @@ export class EdgePanelComponent implements OnDestroy {
   layoutOptionChange(e: MatSelectChange): void {
 
   }
+
   edgeOptionChange(e: MatSelectChange): void {
     const optionLabel = e.value;
     const option = this.edgeOptions.find(v => v.label === optionLabel);
@@ -100,9 +93,10 @@ export class EdgePanelComponent implements OnDestroy {
       this.tables,
       this._graphAConfig.entity,
       this._graphBConfig.entity);
-    this.cd.markForCheck();
+    this.cd.detectChanges();
     this.edgeConfigChange.emit(this.edgeConfig);
   }
+
   colorOptionChange(e: MatSelectChange): void {
     const colorLabel = e.value;
     const field = this.colorOptions.find(v => v.label === colorLabel);
@@ -135,6 +129,43 @@ export class EdgePanelComponent implements OnDestroy {
     }
   }
 
+  graphConfigChange(graphConfig: GraphConfig): void {
+    if (graphConfig.graph === GraphEnum.GRAPH_A) {
+      this.edgeConfig.markerFilterA = this._graphAConfig.markerFilter;
+      this.edgeConfig.sampleFitlerA = this._graphAConfig.sampleFilter;
+      this.edgeConfig.patientFilterA = this._graphAConfig.patientFilter;
+      if (this.edgeConfig.entityA !== graphConfig.entity) {
+        this.edgeConfig.entityA = graphConfig.entity;
+        this.edgeOptions = DataFieldFactory.getConnectionDataFields(this.fields, this.tables,
+          this.edgeConfig.entityA, this.edgeConfig.entityB);
+        // dispatch hide edges config
+        this.edgeConfig.field = DataFieldFactory.defaultDataField;
+        this.edgeConfigChange.emit(this.edgeConfig);
+      }
+    }
+    if (graphConfig.graph === GraphEnum.GRAPH_B) {
+      this.edgeConfig.markerFilterB = this._graphBConfig.markerFilter;
+      this.edgeConfig.sampleFitlerB = this._graphBConfig.sampleFilter;
+      this.edgeConfig.patientFilterB = this._graphBConfig.patientFilter;
+      if (this.edgeConfig.entityB !== graphConfig.entity) {
+        this.edgeConfig.entityB = graphConfig.entity;
+        this.edgeOptions = DataFieldFactory.getConnectionDataFields(this.fields, this.tables,
+          this.edgeConfig.entityA, this.edgeConfig.entityB);
+        // dispatch hide edges config
+        this.edgeConfig.field = DataFieldFactory.defaultDataField;
+        this.edgeConfigChange.emit(this.edgeConfig);
+      }
+    }
+    this.layoutSelected = this.layoutOptionChange[0];
+    this.edgeSelected = this.edgeOptions[0];
+    this.colorSelected = this.colorOptions[0];
+    this.groupSelected = this.groupOptions[0];
+    this.cd.detectChanges();
+  }
+
+  ngOnDestroy() {
+    this.$graphChange.unsubscribe();
+  }
   constructor(private componentFactoryResolver: ComponentFactoryResolver,
     public ms: ModalService, private cd: ChangeDetectorRef) {
     this.layoutOptions = [
@@ -150,47 +181,4 @@ export class EdgePanelComponent implements OnDestroy {
     this.$graphChange = this.$graphAChange.merge(
       this.$graphBChange).subscribe(this.graphConfigChange.bind(this));
   }
-  graphConfigChange(graphConfig: GraphConfig): void {
-    // DataFieldFactory.getMolecularColorFields(tables);
-    if (graphConfig.graph === GraphEnum.GRAPH_A) {
-      this.edgeConfig.markerFilterA = this._graphAConfig.markerFilter;
-      this.edgeConfig.sampleFitlerA = this._graphAConfig.sampleFilter;
-      this.edgeConfig.patientFilterA = this._graphAConfig.patientFilter;
-      if (this.edgeConfig.entityA !== graphConfig.entity) {
-        this.edgeConfig.entityA = graphConfig.entity;
-        this.edgeOptions = DataFieldFactory.getConnectionDataFields(this.fields, this.tables,
-          this.edgeConfig.entityA, this.edgeConfig.entityB);
-        // dispatch hide edges config
-        this.edgeConfig.field = DataFieldFactory.defaultDataField;
-        this.edgeConfigChange.emit(this.edgeConfig);
-        this.cd.markForCheck();
-      }
-    }
-    if (graphConfig.graph === GraphEnum.GRAPH_B) {
-      this.edgeConfig.markerFilterB = this._graphBConfig.markerFilter;
-      this.edgeConfig.sampleFitlerB = this._graphBConfig.sampleFilter;
-      this.edgeConfig.patientFilterB = this._graphBConfig.patientFilter;
-      if (this.edgeConfig.entityB !== graphConfig.entity) {
-        this.edgeConfig.entityB = graphConfig.entity;
-        this.edgeOptions = DataFieldFactory.getConnectionDataFields(this.fields, this.tables,
-          this.edgeConfig.entityA, this.edgeConfig.entityB);
-        // dispatch hide edges config
-        this.edgeConfig.field = DataFieldFactory.defaultDataField;
-        this.edgeConfigChange.emit(this.edgeConfig);
-        this.cd.markForCheck();
-      }
-    }
-    this.layoutSelected = this.layoutOptionChange[0];
-    this.edgeSelected = this.edgeOptions[0];
-    this.colorSelected = this.colorOptions[0];
-    this.groupSelected = this.groupOptions[0];
-    this.cd.markForCheck();
-  }
-
-  ngOnDestroy() {
-    // this.focusSubscription.unsubscribe();
-    this.$graphChange.unsubscribe();
-  }
-
-
 }

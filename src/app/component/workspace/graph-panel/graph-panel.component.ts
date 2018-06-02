@@ -101,53 +101,17 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   ];
   workspaceEdgeOptions: Array<DataField> = [];
 
-  _decorators: Array<DataDecorator>;
+
   get decoratorsWithLegends(): Array<DataDecorator> {
-    return this._decorators.filter(v => v.legend);
+    return this.decorators.filter(v => v.legend);
   }
-  get decorators(): Array<DataDecorator> { return this._decorators; }
-  @Input() set decorators(value: Array<DataDecorator>) {
-    this._decorators = value;
-    requestAnimationFrame(() => {
-      this.cd.markForCheck();
-    });
-  }
+  @Input() decorators: Array<DataDecorator>;
+  @Input() data: GraphData;
+  @Input() genesets: Array<any>;
+  @Input() cohorts: Array<any>;
+  @Input() pathways: Array<any>;
 
-  _data: GraphData;
-  get data(): GraphData { return this._data; }
-  @Input() set data(value: GraphData) {
-    this._data = value;
-    requestAnimationFrame(() => {
-      this.cd.markForCheck();
-    });
-  }
 
-  public _genesets: Array<any>;
-  public get genesets(): Array<any> { return this._genesets; }
-  @Input() public set genesets(value: Array<any>) {
-    this._genesets = value;
-    requestAnimationFrame(() => {
-      this.cd.markForCheck();
-    });
-  }
-
-  _cohorts: Array<any>;
-  public get cohorts(): Array<any> { return this._cohorts; }
-  @Input() public set cohorts(value: Array<any>) {
-    this._cohorts = value;
-    requestAnimationFrame(() => {
-      this.cd.markForCheck();
-    });
-  }
-
-  _pathways: Array<any>;
-  public get pathways(): Array<any> { return this._pathways; }
-  @Input() public set pathways(value: Array<any>) {
-    this._pathways = value;
-    requestAnimationFrame(() => {
-      this.cd.markForCheck();
-    });
-  }
 
   // This is a very important setter + is probably doing to much work.
   // It is comparing the previous config with the proposed config.
@@ -164,9 +128,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       this.dataService.getHelpInfo(value).then(v => {
         this.methodName = v.method;
         this.methodSummary = v.summary;
-        requestAnimationFrame(() => {
-          this.cd.markForCheck();
-        });
+        this.cd.detectChanges();
       });
     }
 
@@ -181,9 +143,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
 
     // Finally Update Config
     this._config = value;
-    requestAnimationFrame(() => {
-      this.cd.markForCheck();
-    });
   }
 
   toggleClick(): void {
