@@ -38,7 +38,7 @@ export class QueryPanelComponent implements AfterViewInit, OnDestroy {
         rules: [{ field: fieldKey, operator: '<=' }]
       };
       this.showForm = true;
-      this.cd.markForCheck();
+      this.cd.detectChanges();
     });
   }
 

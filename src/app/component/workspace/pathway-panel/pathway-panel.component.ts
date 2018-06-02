@@ -55,7 +55,7 @@ export class PathwayPanelComponent implements AfterViewInit, OnDestroy {
     pathwayCategoryChange(e: MatSelectChange): void {
         const pathwayCode = e.value.c;
         this.pathwayOptionsFilter = this.pathwayOptions.filter(v => (v.dataSource === pathwayCode));
-        this.cd.markForCheck();
+        this.cd.detectChanges();
     }
 
     onPathwayFilterChange(criteria: string): void {
@@ -67,7 +67,7 @@ export class PathwayPanelComponent implements AfterViewInit, OnDestroy {
             }
             return true;
         });
-        this.cd.markForCheck();
+        this.cd.detectChanges();
     }
 
     pathwayDel(v: any): void {
@@ -115,7 +115,7 @@ export class PathwayPanelComponent implements AfterViewInit, OnDestroy {
 
             const pathwayCode = this.pathwayCategories[0].c;
             this.pathwayOptionsFilter = this.pathwayOptions.filter(v => v.dataSource === pathwayCode);
-            this.cd.markForCheck();
+            this.cd.detectChanges();
         });
         this.$pathwayFilter = new Subject();
         this.$pathwayFilter.debounceTime(300).distinctUntilChanged().subscribe(this.onPathwayFilterChange.bind(this));

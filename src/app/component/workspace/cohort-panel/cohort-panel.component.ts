@@ -34,7 +34,6 @@ export class CohortPanelComponent implements AfterViewInit {
   defaultCondition: CohortCondition;
   activeCohort: Cohort;
 
-
   private _config: GraphConfig;
   get config(): GraphConfig { return this._config; }
   @Input() set config(config: GraphConfig) {
@@ -70,29 +69,25 @@ export class CohortPanelComponent implements AfterViewInit {
   }
 
   saveClick() {
-    // debugger;
-    // const me = this;
-    // if (!this.isValid()) {
-    //   return;
-    // }
     if (this.activeCohort.n === '') { alert('Please specify a cohort name'); return; }
-    // debugger;
     this.addCohort.emit({ cohort: this.activeCohort, database: this.config.database });
   }
+
   deleteClick(cohort: Cohort): void {
     this.delCohort.emit({ database: this.config.database, cohort: cohort });
   }
+
   resetForm(): void {
     this.activeCohort.n = '';
     this.activeCohort.conditions.push(this.defaultCondition);
-    this.cd.markForCheck();
+    this.cd.detectChanges();
   }
 
   fieldAnd(item: any): void {
     const newField = Object.assign({}, item);
     newField.condition = 'and';
     this.activeCohort.conditions.push(newField);
-    this.cd.markForCheck();
+    this.cd.detectChanges();
   }
 
   fieldOr(item: any): void {
@@ -100,13 +95,13 @@ export class CohortPanelComponent implements AfterViewInit {
     const newField = Object.assign({}, item);
     newField.condition = 'or';
     this.activeCohort.conditions.splice(insIndex + 1, 0, newField);
-    this.cd.markForCheck();
+    this.cd.detectChanges();
   }
 
   fieldDel(item: any): void {
     const delIndex = this.activeCohort.conditions.indexOf(item);
     this.activeCohort.conditions.splice(delIndex, 1);
-    this.cd.markForCheck();
+    this.cd.detectChanges();
   }
 
   constructor(private cd: ChangeDetectorRef, private fb: FormBuilder, private dataService: DataService) {

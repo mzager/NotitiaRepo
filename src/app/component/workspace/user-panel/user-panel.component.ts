@@ -7,6 +7,7 @@ import {
   ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild, ViewEncapsulation, ChangeDetectorRef
 } from '@angular/core';
 import { UserPanelFormEnum, PanelEnum } from '../../../model/enum.model';
+import { Auth } from 'aws-amplify';
 
 @Component({
   selector: 'app-workspace-user-panel',
@@ -33,8 +34,8 @@ export class UserPanelComponent {
     this.showPanel.emit(PanelEnum.UPLOAD);
   }
   setForm(form: UserPanelFormEnum): void {
-    // this.activeForm = form;
-    // this.cd.markForCheck();
+    this.activeForm = form;
+    this.cd.detectChanges();
   }
   signIn(): void {
     // const form = this.formGroupSignIn;
@@ -51,7 +52,7 @@ export class UserPanelComponent {
     //     }
     //   }).catch(err => {
     //     this.errorMessage = err.message;
-    //     this.cd.markForCheck();
+    //     this.cd.detectChanges();
     //   });
   }
   signInConfirm(): void {
@@ -67,40 +68,41 @@ export class UserPanelComponent {
     //     this.amplifyService.setAuthState({ state: 'signedIn', user: this.user });
     //   }).catch(err => {
     //     this.errorMessage = err.messsage;
-    //     this.cd.markForCheck();
+    //     this.cd.detectChanges();
     //   });
   }
   signUp(): void {
-    // const form = this.formGroupSignUp;
-    // if (form.status === 'INVALID') { return; }
-    // Auth.signUp({
-    //   username: form.get('username').value,
-    //   password: form.get('password').value,
-    //   attributes: {
-    //     email: form.get('email').value,
-    //     phone_number: form.get('phone').value, // +12069481992
-    //     given_name: form.get('firstName').value,
-    //     family_name: form.get('lastName').value
-    //   }
-    // }).then(user => {
-    //   this.amplifyService.setAuthState({ state: 'confirmSignUp', user: null });
-    // }).catch(err => {
-    //   this.errorMessage = err.message;
-    //   this.cd.markForCheck();
-    // });
+    const form = this.formGroupSignUp;
+    if (form.status === 'INVALID') { return; }
+    Auth.signUp({
+      username: form.get('username').value,
+      password: form.get('password').value,
+      attributes: {
+        email: form.get('email').value,
+        phone_number: form.get('phone').value, // +12069481992
+        given_name: form.get('firstName').value,
+        family_name: form.get('lastName').value
+      }
+    }).then(user => {
+      this.setForm(UserPanelFormEnum.SIGN_UP_CONFIRM);
+      this.cd.detectChanges();
+    }).catch(err => {
+      this.errorMessage = err.message;
+      this.cd.detectChanges();
+    });
   }
   signUpConfirm(): void {
-    // const form = this.formGroupSignUpConfirm;
-    // if (form.status === 'INVALID') { return; }
-    // Auth.confirmSignUp(form.get('username').value, form.get('code').value)
-    //   .then(data => {
-    //     this.activeForm = UserPanelFormEnum.PROJECT_LIST;
-    //     this.cd.markForCheck();
-    //   })
-    //   .catch(err => {
-    //     this.errorMessage = err.message;
-    //     this.cd.markForCheck();
-    //   });
+    const form = this.formGroupSignUpConfirm;
+    if (form.status === 'INVALID') { return; }
+    Auth.confirmSignUp(form.get('username').value, form.get('code').value)
+      .then(data => {
+        this.activeForm = UserPanelFormEnum.PROJECT_LIST;
+        this.cd.detectChanges();
+      })
+      .catch(err => {
+        this.errorMessage = err.message;
+        this.cd.detectChanges();
+      });
   }
 
 
@@ -112,11 +114,11 @@ export class UserPanelComponent {
     //     alert('Password sent');
     //     const user = { username: form.get('username').value };
     //     this.amplifyService.setAuthState({ state: 'signIn', user: user });
-    //     this.cd.markForCheck();
+    //     this.cd.detectChanges();
     //   })
     //   .catch(err => {
     //     this.errorMessage = err.message;
-    //     this.cd.markForCheck();
+    //     this.cd.detectChanges();
     //   });
   }
 
@@ -129,7 +131,7 @@ export class UserPanelComponent {
     //   })
     //   .catch(err => {
     //     this.errorMessage = err.message;
-    //     this.cd.markForCheck();
+    //     this.cd.detectChanges();
     //   });
   }
 
@@ -143,11 +145,12 @@ export class UserPanelComponent {
       username: [null, Validators.required],
       code: [null, Validators.required]
     });
+    // Validators.compose([Validators.required, Validators.pattern(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/)])],
     this.formGroupSignUp = fb.group({
       username: [null, Validators.compose([Validators.required, Validators.minLength(5)])],
       password: [null, Validators.required],
       email: [null, Validators.compose([Validators.required, Validators.email])],
-      phone: [null, Validators.compose([Validators.required, Validators.pattern(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/)])],
+      phone: [null, Validators.required],
       firstName: [null, Validators.required],
       lastName: [null, Validators.required]
     });
@@ -178,7 +181,7 @@ export class UserPanelComponent {
 
     //     }
     //     this.user = state.user;
-    //     this.cd.markForCheck();
+    //     this.cd.detectChanges();
     //   });
 
     this.activeForm = UserPanelFormEnum.SIGN_IN;
