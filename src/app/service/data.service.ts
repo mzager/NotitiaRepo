@@ -654,12 +654,9 @@ export class DataService {
         db.open().then(connection => {
           const query = (pids.length === 0) ?
             connection.table('patient') :
-
             connection.table('patient').where('p').anyOfIgnoreCase(pids);
+
           query.toArray().then(result => {
-
-
-
 
             const cat = fields.filter(v => v.type === 'category').map(f => {
               const arr = result.map(v => v[f.field]);
@@ -815,7 +812,7 @@ export class DataService {
     });
   }
   getPathways(): Promise<Array<any>> {
-    return fetch('https://s3-us-west-2.amazonaws.com/notitia/pwc/pathways.json.gz', {
+    return fetch('http://oncoscape.v3.sttrcancer.org/data/pathways/pathways.json.gz', {
       method: 'GET',
       headers: DataService.headersJson
     }).then(res => res.json());
@@ -848,7 +845,7 @@ export class DataService {
           const pathways = result;
           pathways.unshift({
             'n': 'integrated cancer pathway',
-            'uri': 'https://s3-us-west-2.amazonaws.com/notitia/pathways/http___identifiers.org_wikipathways_WP1971.json.gz'
+            'uri': 'http://oncoscape.v3.sttrcancer.org/data/pathways/http___identifiers.org_wikipathways_WP1971.json.gz'
           });
           resolve(result);
         });
@@ -856,13 +853,13 @@ export class DataService {
     });
   }
   getGenesetCategories(): Promise<Array<{ c: string, n: string, d: string }>> {
-    return fetch('https://s3-us-west-2.amazonaws.com/notitia/reference/genesets.json.gz', {
+    return fetch('http://oncoscape.v3.sttrcancer.org/data/reference/genesets.json.gz', {
       method: 'GET',
       headers: DataService.headersJson
     }).then(res => res.json());
   }
   getGenesets(category: string): Promise<Array<any>> {
-    return fetch('https://s3-us-west-2.amazonaws.com/notitia/reference/geneset-' + category.toLowerCase() + '.json.gz', {
+    return fetch('http://oncoscape.v3.sttrcancer.org/data/reference/geneset-' + category.toLowerCase() + '.json.gz', {
       method: 'GET',
       headers: DataService.headersJson
     }).then(res => res.json());
@@ -1041,8 +1038,7 @@ export class DataService {
         bandcoords: '++id',
         genemap: 'hugo',
         genelinks: '++id, source, target',
-        genetrees: '++id',
-        docs: '++id, method'
+        genetrees: '++id'
       });
       DataService.db.open();
       DataService.db.on('versionchange', function (event) { });
@@ -1051,27 +1047,23 @@ export class DataService {
       requestAnimationFrame(v => {
         DataService.db.table('genemap').count().then(count => {
           if (count > 0) { return; }
-          const docs = fetch('https://s3-us-west-2.amazonaws.com/notitia/reference/scikit.json.gz', {
+          const genecoords = fetch('http://oncoscape.v3.sttrcancer.org/data/reference/genecoords.json.gz', {
             method: 'GET',
             headers: DataService.headersJson
           }).then(res => res.json());
-          const genecoords = fetch('https://s3-us-west-2.amazonaws.com/notitia/reference/genecoords.json.gz', {
+          const bandcoords = fetch('http://oncoscape.v3.sttrcancer.org/data/reference/bandcoords.json.gz', {
             method: 'GET',
             headers: DataService.headersJson
           }).then(res => res.json());
-          const bandcoords = fetch('https://s3-us-west-2.amazonaws.com/notitia/reference/bandcoords.json.gz', {
+          const genemap = fetch('http://oncoscape.v3.sttrcancer.org/data/reference/genemap.json.gz', {
             method: 'GET',
             headers: DataService.headersJson
           }).then(res => res.json());
-          const genemap = fetch('https://s3-us-west-2.amazonaws.com/notitia/reference/genemap.json.gz', {
+          const genelinks = fetch('http://oncoscape.v3.sttrcancer.org/data/reference/genelinks.json.gz', {
             method: 'GET',
             headers: DataService.headersJson
           }).then(res => res.json());
-          const genelinks = fetch('https://s3-us-west-2.amazonaws.com/notitia/reference/genelinks.json.gz', {
-            method: 'GET',
-            headers: DataService.headersJson
-          }).then(res => res.json());
-          Observable.zip(genecoords, bandcoords, genemap, genelinks, docs).subscribe(result => {
+          Observable.zip(genecoords, bandcoords, genemap, genelinks).subscribe(result => {
             const hugoLookup = result[2];
             hugoLookup.forEach(gene => {
               gene.hugo = gene.hugo.toUpperCase();
@@ -1118,7 +1110,6 @@ export class DataService {
             DataService.db.table('bandcoords').bulkAdd(result[1]);
             DataService.db.table('genemap').bulkAdd(result[2]);
             DataService.db.table('genelinks').bulkAdd(links);
-            DataService.db.table('docs').bulkAdd(result[4]);
           });
         });
       });
