@@ -1,3 +1,5 @@
+import { Subscription } from 'rxjs/Subscription';
+import { DatasetService } from './../../../service/dataset.service';
 import {
     Component, Input, Output, EventEmitter, AfterViewInit, OnDestroy, ViewEncapsulation,
     OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef
@@ -14,15 +16,20 @@ import {
 export class LoaderComponent implements AfterViewInit, OnDestroy {
 
     public quote: any;
-
     public quotes: any;
+    private loaderStatusUpdateSubscription: Subscription;
     @Input() set visbibility(value: boolean) { }
-
-    ngOnDestroy(): void { }
+    onLoaderStatusUpdate(): void {
+        alert("!!!!!!! LOADER STATUS SUBSCRIPTION UPDATE");
+    }
+    ngOnDestroy(): void {
+        this.loaderStatusUpdateSubscription.unsubscribe();
+    }
     ngAfterViewInit(): void {
 
     }
-    constructor() {
+    constructor(public datasetService: DatasetService) {
+        this.loaderStatusUpdateSubscription = this.datasetService.loaderStatusUpdate.subscribe(this.onLoaderStatusUpdate);
         this.quotes = [
 
             // { q: 'Only two things are infinite, the universe and human stupidity', a: 'Albert Einstein' },

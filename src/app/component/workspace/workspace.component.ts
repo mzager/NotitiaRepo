@@ -355,5 +355,6 @@ export class WorkspaceComponent {
   fileLoadTcga(value: string) {
     this.store.dispatch(new data.DataLoadFromTcga(value));
     this.store.dispatch(new ModalPanelAction(enums.PanelEnum.NONE));
+    this.store.dispatch(new LoaderShowAction());
   }
 }

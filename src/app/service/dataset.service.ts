@@ -19,6 +19,8 @@ export class DatasetService {
   public static dataTables: Array<{ tbl: string, map: string, label: string, type: CollectionTypeEnum }>;
   private loader: Worker = null;
   private loader$ = new Subject<any>();
+  public loaderStatusUpdate = new Subject<string>();
+
 
   public getDataset(dataset: string): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -42,7 +44,8 @@ export class DatasetService {
   //   return new Worker(url);
   // }
   private onMessage(msg: Object): void {
-
+    console.dir(msg);
+    debugger;
   }
   public createStore(): void {
 
@@ -88,7 +91,7 @@ export class DatasetService {
             }));
 
             const events = Object.keys(response.events).map(key => ({ type: response.events[key], subtype: key }));
-
+            debugger;
             const tbls = response.files.map(v => {
               const dt = v.dataType.toLowerCase();
               return (dt === 'clinical') ?
@@ -115,7 +118,7 @@ export class DatasetService {
             // Add Dataset + Meta Info
             db.table('dataset').add(dataset);
             db.table('patientMeta').bulkAdd(fields);
-
+            debugger;
             Promise.all(
               response.files.filter(file => file.name !== 'manifest.json').map(file => {
                 return new Promise((resolve, reject) => {
@@ -134,6 +137,7 @@ export class DatasetService {
                 });
               })
             ).then(v => {
+              debugger;
               this.loader$.next(manifest);
               console.log('done: ' + new Date().getTime());
             });
