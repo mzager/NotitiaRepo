@@ -54,13 +54,12 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
     }
     setBuildType(e: any): void {
         this.buildType = e.target.value;
-        this.cd.markForCheck();
+        // this.cd.detectChanges();
     }
 
     genesetCategoryChange(e: MatSelectChange): void {
         const genesetCode = e.value.c;
         this.genesetOptions = [];
-        this.cd.markForCheck();
         this.dataService.getGeneSetByCategory(genesetCode)
             .toPromise().then(v => {
                 v.forEach(geneset => {
@@ -69,7 +68,7 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
                 });
                 this.genesetOptions = v;
                 this.genesetOptionsFilter = this.genesetOptions;
-                this.cd.markForCheck();
+                this.cd.detectChanges();
             });
     }
 
@@ -92,7 +91,7 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
             }
             return true;
         });
-        this.cd.markForCheck();
+        this.cd.detectChanges();
     }
     geneSetDel(v: any): void {
         if (this.genesets.length === 1) {
@@ -122,7 +121,6 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
     ngAfterViewInit(): void { }
 
     constructor(private cd: ChangeDetectorRef, private dataService: DataService, public ms: ModalService) {
-
         const categories = this.dataService.getGenesetCategories();
         const geneset = this.dataService.getGeneSetByCategory('H').toPromise();
         Promise.all([categories, geneset]).then(response => {
@@ -134,10 +132,9 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
             this.genesetCategory = this.genesetCategories[0];
             this.genesetOptions = response[1];
             this.genesetOptionsFilter = this.genesetOptions;
-            this.cd.markForCheck();
+            this.cd.detectChanges();
         });
         this.$genesetFilter = new Subject();
         this.$genesetFilter.debounceTime(300).distinctUntilChanged().subscribe(this.onGenesetFilterChange.bind(this));
-
     }
 }

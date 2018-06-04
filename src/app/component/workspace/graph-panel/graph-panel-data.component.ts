@@ -70,35 +70,19 @@ export class GraphPanelDataComponent {
   private _config: GraphConfig;
   public get config(): GraphConfig { return this._config; }
   @Input() public set config(config: GraphConfig) {
-    if (!this._config) {
-      this._config = config;
-      this.updateFields();
-    } else if (this._config.entity !== config.entity) {
-      this._config = config;
-      this.updateFields();
-    }
+    this._config = config;
   }
   @Input() set pathways(v: Array<Pathway>) {
     this.pathwayOptions = v;
     this.pathwaySelected = this.pathwayOptions[0];
-
-    this.cd.markForCheck();
   }
   @Input() set cohorts(v: Array<Cohort>) {
     this.cohortOptions = v;
     this.cohortSelected = this.cohortOptions[0];
-    this.cd.markForCheck();
-
   }
   @Input() set genesets(v: Array<GeneSet>) {
     this.genesetOptions = v;
     this.genesetSelected = this.genesetOptions[0];
-    this.cd.markForCheck();
-
-  }
-  updateFields(): void {
-    if (!this._config) { return; }
-    this.cd.markForCheck();
   }
 
   byName(p1: any, p2: any) {
