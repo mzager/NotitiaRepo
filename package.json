@@ -83,6 +83,7 @@
     "reselect": "^3.0.1",
     "rxjs": "^6.2.0",
     "rxjs-compat": "^6.2.0",
+    "save": "^2.3.2",
     "strip-ansi": "^4.0.0",
     "three": "^0.93.0",
     "three-bmfont-text": "^2.3.0",
@@ -128,6 +129,6 @@
     "ts-node": "^6.0.5",
     "tslint": "~5.10.0",
     "typescript": "^2.7.2",
-    "webpack-cli": "^2.1.5"
+    "webpack-cli": "^3.0.1"
   }
 }
