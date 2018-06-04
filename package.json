@@ -45,9 +45,8 @@
     "@ngrx/store": "^6.0.1",
     "@ngrx/store-devtools": "^6.0.1",
     "@types/three": "^0.92.3",
-    "aws-amplify": "^0.4.1",
-    "aws-amplify-angular": "^0.1.1",
-    "aws-sdk": "^2.249.1",
+    "aws-amplify": "^0.4.2",
+    "aws-sdk": "^2.250.1",
     "axios": "^0.18.0",
     "balloon-css": "^0.5.0",
     "bmfont-lato": "^2.1.1",
@@ -84,6 +83,7 @@
     "reselect": "^3.0.1",
     "rxjs": "^6.2.0",
     "rxjs-compat": "^6.2.0",
+    "save": "^2.3.2",
     "strip-ansi": "^4.0.0",
     "three": "^0.93.0",
     "three-bmfont-text": "^2.3.0",
@@ -129,6 +129,6 @@
     "ts-node": "^6.0.5",
     "tslint": "~5.10.0",
     "typescript": "^2.7.2",
-    "webpack-cli": "^2.1.5"
+    "webpack-cli": "^3.0.1"
   }
 }

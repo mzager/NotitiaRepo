@@ -27,6 +27,7 @@ export class FilePanelComponent {
   datasets = [
     { 'name': 'Adrenocortical carcinoma', 'disease': 'acc', 'img': 'DSadrenal' },
     { 'name': 'Bladder urothelial carcinoma', 'disease': 'blca', 'img': 'DSbladder' },
+    { 'name': 'Brain', 'disease': 'brain', 'img': 'DSbrain' },
     { 'name': 'Breast', 'disease': 'brca', 'img': 'DSbreast' },
     { 'name': 'Cervical', 'disease': 'cesc', 'img': 'DSuterine' },
     { 'name': 'Cholangiocarcinoma', 'disease': 'chol', 'img': 'DSbile' },

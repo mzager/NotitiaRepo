@@ -92,6 +92,10 @@ export class HeatmapFormComponent {
     if (p2 === null) { return false; }
     return p1.key === p2.key;
   }
+  byTbl(p1: any, p2: any) {
+    if (p2 === null) { return false; }
+    return p1.tbl === p2.tbl;
+  }
 
   constructor(private fb: FormBuilder) {
 

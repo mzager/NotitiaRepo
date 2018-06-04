@@ -55,7 +55,7 @@ export class PathwayPanelComponent implements AfterViewInit, OnDestroy {
     pathwayCategoryChange(e: MatSelectChange): void {
         const pathwayCode = e.value.c;
         this.pathwayOptionsFilter = this.pathwayOptions.filter(v => (v.dataSource === pathwayCode));
-        this.cd.markForCheck();
+        this.cd.detectChanges();
     }
 
     onPathwayFilterChange(criteria: string): void {
@@ -67,7 +67,7 @@ export class PathwayPanelComponent implements AfterViewInit, OnDestroy {
             }
             return true;
         });
-        this.cd.markForCheck();
+        this.cd.detectChanges();
     }
 
     pathwayDel(v: any): void {
@@ -107,7 +107,7 @@ export class PathwayPanelComponent implements AfterViewInit, OnDestroy {
             this.pathwayCategory = this.pathwayCategories[0];
             this.pathwayOptions = results[1]['searchHit'].map(v => ({
                 name: v.name,
-                uri: 'https://s3-us-west-2.amazonaws.com/notitia/pathways/' + v.uri.replace(/\//gi, '_').replace(':', '_') + '.json.gz',
+                uri: 'http://oncoscape.v3.sttrcancer.org/data/pathways/' + v.uri.replace(/\//gi, '_').replace(':', '_') + '.json.gz',
                 dataSource: v.dataSource[0],
                 summary: v.numParticipants + ' Participants | ' +
                     v.numProcesses + ' Processes'
@@ -115,7 +115,7 @@ export class PathwayPanelComponent implements AfterViewInit, OnDestroy {
 
             const pathwayCode = this.pathwayCategories[0].c;
             this.pathwayOptionsFilter = this.pathwayOptions.filter(v => v.dataSource === pathwayCode);
-            this.cd.markForCheck();
+            this.cd.detectChanges();
         });
         this.$pathwayFilter = new Subject();
         this.$pathwayFilter.debounceTime(300).distinctUntilChanged().subscribe(this.onPathwayFilterChange.bind(this));

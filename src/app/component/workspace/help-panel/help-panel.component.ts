@@ -69,7 +69,6 @@ export class HelpPanelComponent implements AfterViewInit, OnDestroy {
 
 
   @Input() set config(config: GraphConfig) {
-
     this.dataService.getHelpInfo(config).then(result => {
       this.method = result.method;
       this.desc = result.desc;
@@ -80,7 +79,7 @@ export class HelpPanelComponent implements AfterViewInit, OnDestroy {
       this.citations = result.citations;
       this.tutorial = result.tutorial;
       this.learn = '';
-      this.cd.markForCheck();
+      this.cd.detectChanges();
     });
   }
 

@@ -96,7 +96,7 @@ export class EdgesGraph implements ChartObjectInterface {
             if (!obj2dMapA.hasOwnProperty(v.a) || !obj2dMapB.hasOwnProperty(v.b)) {
                 return null;
             }
-            const color = (!hasColorDecorator) ? 0xb3e5fc :
+            const color = (!hasColorDecorator) ? 0xe91e63 :
                 colorMap.hasOwnProperty(v.a) ? colorMap[v.a].value :
                     colorMap.hasOwnProperty(v.b) ? colorMap[v.b].value :
                         0xeeeeee;
