@@ -7,22 +7,13 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material';
-import { MatSelectModule } from '@angular/material/select';
-// import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
-
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import { FileUploadModule } from 'ng2-file-upload';
 import { HotTableModule } from '@handsontable/angular';
-
-// Google
 import Amplify from 'aws-amplify';
-import { AmplifyService, AmplifyAngularModule } from 'aws-amplify-angular';
-
-
 
 // Components
 import { AppComponent } from './app.component';
@@ -205,8 +196,6 @@ import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph
     BrowserAnimationsModule,
     FlexLayoutModule,
     MaterialModule,
-    MatInputModule,
-    MatSelectModule,
     FileUploadModule,
     FormsModule,
     HttpModule,
@@ -216,8 +205,7 @@ import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({
       maxAge: 25 //  Retains last 25 states
-    }),
-    AmplifyAngularModule
+    })
   ],
   providers: [
     Title,
@@ -227,8 +215,7 @@ import { GraphPanelDataComponent } from './component/workspace/graph-panel/graph
     ChartFactory,
     HttpClient,
     ModalService,
-    DataHubService,
-    AmplifyService
+    DataHubService
   ],
   bootstrap: [AppComponent]
 })

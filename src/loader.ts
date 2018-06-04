@@ -35,7 +35,7 @@ const mutationType = {
     33554432: 'R'
 };
 
-const baseUrl = 'https://s3-us-west-2.amazonaws.com/notitia/tcga/';
+const baseUrl = 'http://oncoscape.v3.sttrcancer.org/data/tcga/';
 const headers = new Headers();
 headers.append('Content-Type', 'application/json');
 headers.append('Accept-Encoding', 'gzip');
@@ -49,6 +49,8 @@ const startTime: number = new Date().getTime();
 
 const report = (msg: string) => {
     const date = new Date();
+    const me = self as LoaderWorkerGlobalScope;
+    // me.postMessage({ msg: msg, mins: date.getMinutes(), secs: date.getSeconds() }, null);
     console.log(msg + ' : ' + date.getMinutes() + ':' + date.getSeconds());
 };
 
@@ -190,8 +192,8 @@ const loadPatientSampleMap = (name: string, file: string): Promise<any> => {
         .then(response => { report('PS Map Loaded'); return response.json(); })
         .then(response => {
             report('Patient Sample Map Parsed');
-            const data = Object.keys(response).reduce( (p, c) => {
-                response[c].forEach( v => { p.push( {p: c, s: v} ); });
+            const data = Object.keys(response).reduce((p, c) => {
+                response[c].forEach(v => { p.push({ p: c, s: v }); });
                 return p;
             }, []);
             report('Patient Sample Map Processed');
@@ -219,9 +221,9 @@ const loadMutation = (name: string, file: string): Promise<any> => {
                 .map((v2, i) => (i === 0) ? genes[v2] : (i === 1) ? ids[v2] : v2)
             ).reduce((p, c) => {
                 p.push(...lookup
-                    .filter(v => (parseInt(v, 10) & c[2]) )
-                    .map(v => ({m: c[0], s: c[1], t: mType[v]})));
-                    return p;
+                    .filter(v => (parseInt(v, 10) & c[2]))
+                    .map(v => ({ m: c[0], s: c[1], t: mType[v] })));
+                return p;
             }, []);
             report('Mutation Processed');
             return new Promise((resolve, reject) => {

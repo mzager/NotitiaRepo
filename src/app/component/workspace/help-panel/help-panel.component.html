@@ -16,8 +16,13 @@
           <p class='help-name '>{{ attr.name }}</p>
           <p>{{ attr.desc }}</p>
         </div>
+<<<<<<< HEAD
         <!-- 0 return values no show -->
         <h1 *ngIf="attrs.length > 0" class='panel-header ' style='padding-bottom: 25px; padding-top: 25px '>Returned Values
+=======
+
+        <h1 *ngIf='attrs.length>0' class='panel-header ' style='padding-bottom: 25px; padding-top: 25px '>Returned Values
+>>>>>>> 067c2c0d062fa26c17888b6a77f931a735fd4027
           <span class='file-span '> (as viewed in chart legend)</span>
         </h1>
         <div *ngFor='let attr of attrs; let i=i ndex '>

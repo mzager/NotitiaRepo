@@ -134,7 +134,7 @@ export class DataEffect {
         .ofType(data.DATA_LOAD_FROM_TCGA)
         .map((action: UnsafeAction) => action.payload)
         .switchMap((args) => {
-            args['manifest'] = 'https://s3-us-west-2.amazonaws.com/notitia/tcga/tcga_' + args['disease'] + '_manifest.json.gz';
+            args['manifest'] = 'http://oncoscape.v3.sttrcancer.org/data/tcga/tcga_' + args['disease'] + '_manifest.json.gz';
             return this.datasetService.load(args);
         }).
         mergeMap((args) => {
