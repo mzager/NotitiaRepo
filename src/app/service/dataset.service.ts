@@ -79,7 +79,7 @@ export class DatasetService {
             DatasetService.db.on('versionchange', function (event) { });
             DatasetService.db.on('blocked', () => { });
             db.version(1).stores(response.schema);
-
+            this.loaderStatusUpdate.next('creating local copy');
             // Patient Meta Data
             const fields = Object.keys(response.fields).map(v => ({
               ctype: CollectionTypeEnum.PATIENT,
@@ -91,7 +91,6 @@ export class DatasetService {
             }));
 
             const events = Object.keys(response.events).map(key => ({ type: response.events[key], subtype: key }));
-            debugger;
             const tbls = response.files.map(v => {
               const dt = v.dataType.toLowerCase();
               return (dt === 'clinical') ?
@@ -133,11 +132,13 @@ export class DatasetService {
                     resolve();
                   };
                   loader.addEventListener('message', onMessage);
+                  this.loaderStatusUpdate.next(file);
                   loader.postMessage({ cmd: 'load', disease: manifest.disease, file: file });
                 });
               })
             ).then(v => {
               debugger;
+
               this.loader$.next(manifest);
               console.log('done: ' + new Date().getTime());
             });

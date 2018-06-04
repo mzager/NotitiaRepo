@@ -812,7 +812,7 @@ export class DataService {
     });
   }
   getPathways(): Promise<Array<any>> {
-    return fetch('http://oncoscape.v3.sttrcancer.org/data/pathways/pathways.json.gz', {
+    return fetch('http://oncoscape.v3.sttrcancer.org/data/reference/pathways.json.gz', {
       method: 'GET',
       headers: DataService.headersJson
     }).then(res => res.json());

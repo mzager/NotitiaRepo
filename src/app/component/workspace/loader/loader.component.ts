@@ -20,7 +20,7 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
     private loaderStatusUpdateSubscription: Subscription;
     @Input() set visbibility(value: boolean) { }
     onLoaderStatusUpdate(): void {
-        alert("!!!!!!! LOADER STATUS SUBSCRIPTION UPDATE");
+        console.log("!!!!!!! LOADER STATUS SUBSCRIPTION UPDATE");
     }
     ngOnDestroy(): void {
         this.loaderStatusUpdateSubscription.unsubscribe();
