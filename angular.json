@@ -42,6 +42,7 @@
               "src/theme.scss"
             ],
             "scripts": [
+              // "node_modules/default-passive-events/dist/index.js",
               "node_modules/jquery/dist/jquery.js",
               "node_modules/numbro/dist/numbro.min.js",
               "node_modules/moment/min/moment.min.js",
@@ -100,6 +101,7 @@
               "src/theme.scss"
             ],
             "scripts": [
+              // "node_modules/default-passive-events/dist/index.js",
               "node_modules/jquery/dist/jquery.js",
               "node_modules/numbro/dist/numbro.min.js",
               "node_modules/moment/min/moment.min.js",

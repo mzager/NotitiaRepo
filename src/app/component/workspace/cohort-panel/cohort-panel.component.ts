@@ -70,6 +70,7 @@ export class CohortPanelComponent implements AfterViewInit {
 
   saveClick() {
     if (this.activeCohort.n === '') { alert('Please specify a cohort name'); return; }
+    if (this.cohorts.find(v => v.n === this.activeCohort.n)) { alert('Please specify a unique cohort name'); return; }
     this.addCohort.emit({ cohort: this.activeCohort, database: this.config.database });
   }
 
