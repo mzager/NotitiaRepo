@@ -1,7 +1,7 @@
 {
   "method": "Sparse PCA",
   "summary": "Sparse principal component analysis is a specialised technique used in statistical analysis and, in particular, in the analysis of multivariate data sets. It extends the classic method of PCA for the reduction of dimensionality of data by adding sparsity constraint on the input variables.",
-  "desc": "<span class='help-method'>Sparse Principal Components Analysis (SparsePCA)</span>Finds the set of sparse components that can optimally reconstruct the data.  The amount of sparseness is controllable by the coefficient of the L1 penalty, given by the parameter alpha. ",
+  "desc": "<span class='help-method'>Finds the set of sparse components that can optimally reconstruct the data.  The amount of sparseness is controllable by the coefficient of the L1 penalty, given by the parameter alpha.</span> ",
   "urlparagraph": "Read more in the scikit-learn user guide.",
   "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.SparsePCA.html#sklearn.decomposition.SparsePCA",
   "tutorial": [{
@@ -65,16 +65,10 @@
     }
   ],
   "attrs": [{
-      "name": "components",
-      "type": "array, [n_components, n_features]",
-      "desc": "Sparse components extracted from the data."
-    },
-    {
-      "name": "error",
-      "type": "array",
-      "desc": "Vector of errors at each iteration."
-    }
-  ],
+    "name": "n_iter",
+    "type": "int",
+    "desc": "Number of iterations run."
+  }],
   "citations": [{
       "name": "Scikit-learn: Machine Learning in Python",
       "desc": "Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.",
