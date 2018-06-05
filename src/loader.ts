@@ -1,4 +1,6 @@
-declare var Dexie: any;
+import Dexie from 'dexie';
+
+// declare var Dexie: any;
 
 /* Patient Sample Map, Dataset, Mutation */
 /* Add Compounind index For Mut */
@@ -35,7 +37,7 @@ const mutationType = {
     33554432: 'R'
 };
 
-const baseUrl = 'http://oncoscape.v3.sttrcancer.org/data/tcga/';
+const baseUrl = 'https://oncoscape.v3.sttrcancer.org/data/tcga/';
 const headers = new Headers();
 headers.append('Content-Type', 'application/json');
 headers.append('Accept-Encoding', 'gzip');
@@ -45,13 +47,17 @@ const requestInit: RequestInit = {
     mode: 'cors',
     cache: 'default'
 };
-const startTime: number = new Date().getTime();
 
 const report = (msg: string) => {
     const date = new Date();
     const me = self as LoaderWorkerGlobalScope;
-    // me.postMessage({ msg: msg, mins: date.getMinutes(), secs: date.getSeconds() }, null);
-    console.log(msg + ' : ' + date.getMinutes() + ':' + date.getSeconds());
+    me.postMessage(
+        JSON.stringify({
+            cmd: 'msg',
+            msg: msg,
+
+        })
+    );
 };
 
 const loadManifest = (manifestUri: string): Promise<Array<{ name: string, type: string, url: string }>> => {
@@ -60,6 +66,7 @@ const loadManifest = (manifestUri: string): Promise<Array<{ name: string, type: 
         .then(response => {
             Promise.all(response.map(processResource));
         });
+    report('Processing Manifest');
     return null;
 };
 
@@ -78,7 +85,7 @@ const processResource = (resource: { name: string, dataType: string, file: strin
 // Complete
 const loadEvents = (name: string, file: string): Promise<any> => {
     return fetch(baseUrl + file + '.gz', requestInit)
-        .then(response => { report('Events Loaded'); return response.json(); })
+        .then(response => { report('Loading Events'); return response.json(); })
         .then(response => {
             report('Events Parsed');
             const eventTable = [];
@@ -90,7 +97,7 @@ const loadEvents = (name: string, file: string): Promise<any> => {
                 end: datum[3], // * 86400000,
                 data: datum[4]
             }, lookup[datum[1]]));
-            report('Events Processed');
+            report('Processing Events');
             return new Promise((resolve, reject) => {
                 resolve([
                     { tbl: name, data: data },
@@ -101,11 +108,11 @@ const loadEvents = (name: string, file: string): Promise<any> => {
 
 // Complete
 const loadClinical = (name: string, file: string): Promise<any> => {
-    report('Clinical Requested');
+    report('Loading Clinical');
     return fetch(baseUrl + file + '.gz', requestInit)
         .then(response => { report('Clinical Loaded'); return response.json(); })
         .then(response => {
-            report('Clinical Parsed');
+            report('Parsing Clinical');
             const patientMetaTable = Object.keys(response.fields).map((key, index) => ({
                 ctype: 2,
                 key: key,
@@ -121,7 +128,7 @@ const loadClinical = (name: string, file: string): Promise<any> => {
                     return p;
                 }, { p: id });
             });
-            report('Clinical Processed');
+            report('Processing Clinical');
             return new Promise((resolve, reject) => {
                 resolve([
                     // { tbl: 'patientMeta', data: patientMetaTable },
@@ -133,11 +140,11 @@ const loadClinical = (name: string, file: string): Promise<any> => {
 
 // Complete
 const loadGisticThreshold = (name: string, file: string): Promise<any> => {
-    report('Gistic Threshold Requested');
+    report('Loading Gistic Threshold');
     return fetch(baseUrl + file + '.gz', requestInit)
         .then(response => { report('Gistic Threshold Loaded'); return response.json(); })
         .then(response => {
-            report('Gistic Threshold Parsed');
+            report('Parsing Gistic Threshold');
             const gisticThresholdSampleIds = response.ids.map((s, i) => ({ i: i, s: s }));
             const gisticThresholdTable = response.values.map((v, i) => {
                 const obj = v.reduce((p, c) => {
@@ -149,7 +156,7 @@ const loadGisticThreshold = (name: string, file: string): Promise<any> => {
                 obj.mean /= v.length;
                 return obj;
             });
-            report('Gistic Threshold Processed');
+            report('Processing Gistic Threshold');
             return new Promise((resolve, reject) => {
                 resolve([
                     { tbl: name, data: gisticThresholdTable },
@@ -161,11 +168,11 @@ const loadGisticThreshold = (name: string, file: string): Promise<any> => {
 
 // Complete
 const loadGistic = (name: string, file: string): Promise<any> => {
-    report('Gistic Requested');
+    report('Loading Gistic Scores');
     return fetch(baseUrl + file + '.gz', requestInit)
         .then(response => { report('Gistic Loaded'); return response.json(); })
         .then(response => {
-            report('Gistic Parsed');
+            report('Parsing Gistic Scores');
             const gisticSampleIds = response.ids.map((s, i) => ({ i: i, s: s }));
             const gisticTable = response.values.map((v, i) => {
                 const obj = v.reduce((p, c) => {
@@ -177,7 +184,7 @@ const loadGistic = (name: string, file: string): Promise<any> => {
                 obj.mean /= v.length;
                 return obj;
             });
-            report('Gistic Processed');
+            report('Processing Gistic Scores');
             return new Promise((resolve, reject) => {
                 resolve([
                     { tbl: name, data: gisticTable },
@@ -188,15 +195,15 @@ const loadGistic = (name: string, file: string): Promise<any> => {
 };
 
 const loadPatientSampleMap = (name: string, file: string): Promise<any> => {
+    report('Loading Patient Sample Maps');
     return fetch(baseUrl + file + '.gz', requestInit)
-        .then(response => { report('PS Map Loaded'); return response.json(); })
+        .then(response => { report('Parsing Patient Sample Maps'); return response.json(); })
         .then(response => {
-            report('Patient Sample Map Parsed');
+            report('Processing Patient Sample Maps');
             const data = Object.keys(response).reduce((p, c) => {
                 response[c].forEach(v => { p.push({ p: c, s: v }); });
                 return p;
             }, []);
-            report('Patient Sample Map Processed');
             return new Promise((resolve, reject) => {
                 resolve([
                     { tbl: 'patientSampleMap', data: data },
@@ -206,11 +213,11 @@ const loadPatientSampleMap = (name: string, file: string): Promise<any> => {
 };
 
 const loadMutation = (name: string, file: string): Promise<any> => {
-    report('Mutation Requested');
+    report('Loading Mutation Data');
     return fetch(baseUrl + file + '.gz', requestInit)
-        .then(response => { report('Mutation Loaded'); return response.json(); })
+        .then(response => { report('Parsing Mutation Data'); return response.json(); })
         .then(response => {
-            report('Mutation Parsed');
+            report('Processing Mutation Data');
             const ids = response.ids;
             const genes = response.genes;
             const mType = mutationType;
@@ -225,7 +232,6 @@ const loadMutation = (name: string, file: string): Promise<any> => {
                     .map(v => ({ m: c[0], s: c[1], t: mType[v] })));
                 return p;
             }, []);
-            report('Mutation Processed');
             return new Promise((resolve, reject) => {
                 // TODO: This is a bug.  Need to replace token mut with value from result
                 resolve([
@@ -237,11 +243,11 @@ const loadMutation = (name: string, file: string): Promise<any> => {
 
 // Complete
 const loadRna = (name: string, file: string): Promise<any> => {
-    report('RNA Requested');
+    report('Loading RNA Data');
     return fetch(baseUrl + file + '.gz', requestInit)
-        .then(response => { report('RNA Loaded'); return response.json(); })
+        .then(response => { report('Parsing Rna Data'); return response.json(); })
         .then(response => {
-            report('RNA Parsed');
+            report('Processing RNA Data');
             const rnaSampleIds = response.ids.map((s, i) => ({ i: i, s: s }));
             const rnaTable = response.values.map((v, i) => {
                 const obj = v.reduce((p, c) => {
@@ -253,7 +259,6 @@ const loadRna = (name: string, file: string): Promise<any> => {
                 obj.mean /= v.length;
                 return obj;
             });
-            report('RNA Processed');
             return new Promise((resolve, reject) => {
                 resolve([
                     { tbl: name, data: rnaTable },
@@ -266,10 +271,24 @@ const loadRna = (name: string, file: string): Promise<any> => {
 
 onmessage = function (e) {
     const me = self as LoaderWorkerGlobalScope;
+
     switch (e.data.cmd) {
         case 'load':
-            processResource(e.data.file).then(v => {
-                me.postMessage(JSON.stringify(v));
+            const db = new Dexie('notitia-' + e.data.disease);
+            db.open().then(v => {
+                processResource(e.data.file).then(values => {
+                    const tables: Array<{ tbl: string, data: Array<any> }> = values;
+                    Promise.all(
+                        tables.map(tbl => db.table(tbl.tbl).bulkAdd(tbl.data))
+                    ).then(() => {
+                        report('Data Loading Complete');
+                        me.postMessage(
+                            JSON.stringify({
+                                cmd: 'terminate'
+                            })
+                        );
+                    });
+                });
             });
             break;
     }

@@ -59,7 +59,6 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
   }
 
   update(): void {
-    console.log("???");
     if (this._config === null || this._data === null) { return; }
     this.container.empty();
     this.statFactory.getComputeStats(this._data, this._config).then(stats => {
