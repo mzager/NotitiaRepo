@@ -5,9 +5,9 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 import 'hammerjs';
 import Amplify from 'aws-amplify';
-if (environment.production) {
-  enableProdMode();
-}
+// if (environment.production) {
+enableProdMode();
+// }
 
 Amplify.configure({
   Auth: {
@@ -24,7 +24,7 @@ Amplify.configure({
     // OPTIONAL - Configuration for cookie storage
     cookieStorage: {
       // REQUIRED - Cookie domain (only required if cookieStorage is provided)
-      domain: 'http://oncoscape.v3.sttrcancer.org/',
+      domain: 'https://oncoscape.v3.sttrcancer.org/',
       // OPTIONAL - Cookie path
       path: '/',
       // OPTIONAL - Cookie expiration in days

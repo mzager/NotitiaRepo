@@ -812,7 +812,7 @@ export class DataService {
     });
   }
   getPathways(): Promise<Array<any>> {
-    return fetch('http://oncoscape.v3.sttrcancer.org/data/reference/pathways.json.gz', {
+    return fetch('https://oncoscape.v3.sttrcancer.org/data/reference/pathways.json.gz', {
       method: 'GET',
       headers: DataService.headersJson
     }).then(res => res.json());
@@ -845,7 +845,7 @@ export class DataService {
           const pathways = result;
           pathways.unshift({
             'n': 'integrated cancer pathway',
-            'uri': 'http://oncoscape.v3.sttrcancer.org/data/pathways/http___identifiers.org_wikipathways_WP1971.json.gz'
+            'uri': 'https://oncoscape.v3.sttrcancer.org/data/pathways/http___identifiers.org_wikipathways_WP1971.json.gz'
           });
           resolve(result);
         });
@@ -853,13 +853,13 @@ export class DataService {
     });
   }
   getGenesetCategories(): Promise<Array<{ c: string, n: string, d: string }>> {
-    return fetch('http://oncoscape.v3.sttrcancer.org/data/reference/genesets.json.gz', {
+    return fetch('https://oncoscape.v3.sttrcancer.org/data/reference/genesets.json.gz', {
       method: 'GET',
       headers: DataService.headersJson
     }).then(res => res.json());
   }
   getGenesets(category: string): Promise<Array<any>> {
-    return fetch('http://oncoscape.v3.sttrcancer.org/data/reference/geneset-' + category.toLowerCase() + '.json.gz', {
+    return fetch('https://oncoscape.v3.sttrcancer.org/data/reference/geneset-' + category.toLowerCase() + '.json.gz', {
       method: 'GET',
       headers: DataService.headersJson
     }).then(res => res.json());
@@ -1047,19 +1047,19 @@ export class DataService {
       requestAnimationFrame(v => {
         DataService.db.table('genemap').count().then(count => {
           if (count > 0) { return; }
-          const genecoords = fetch('http://oncoscape.v3.sttrcancer.org/data/reference/genecoords.json.gz', {
+          const genecoords = fetch('https://oncoscape.v3.sttrcancer.org/data/reference/genecoords.json.gz', {
             method: 'GET',
             headers: DataService.headersJson
           }).then(res => res.json());
-          const bandcoords = fetch('http://oncoscape.v3.sttrcancer.org/data/reference/bandcoords.json.gz', {
+          const bandcoords = fetch('https://oncoscape.v3.sttrcancer.org/data/reference/bandcoords.json.gz', {
             method: 'GET',
             headers: DataService.headersJson
           }).then(res => res.json());
-          const genemap = fetch('http://oncoscape.v3.sttrcancer.org/data/reference/genemap.json.gz', {
+          const genemap = fetch('https://oncoscape.v3.sttrcancer.org/data/reference/genemap.json.gz', {
             method: 'GET',
             headers: DataService.headersJson
           }).then(res => res.json());
-          const genelinks = fetch('http://oncoscape.v3.sttrcancer.org/data/reference/genelinks.json.gz', {
+          const genelinks = fetch('https://oncoscape.v3.sttrcancer.org/data/reference/genelinks.json.gz', {
             method: 'GET',
             headers: DataService.headersJson
           }).then(res => res.json());

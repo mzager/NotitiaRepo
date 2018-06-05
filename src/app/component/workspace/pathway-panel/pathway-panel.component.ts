@@ -107,7 +107,7 @@ export class PathwayPanelComponent implements AfterViewInit, OnDestroy {
             this.pathwayCategory = this.pathwayCategories[0];
             this.pathwayOptions = results[1]['searchHit'].map(v => ({
                 name: v.name,
-                uri: 'http://oncoscape.v3.sttrcancer.org/data/pathways/' + v.uri.replace(/\//gi, '_').replace(':', '_') + '.json.gz',
+                uri: 'https://oncoscape.v3.sttrcancer.org/data/pathways/' + v.uri.replace(/\//gi, '_').replace(':', '_') + '.json.gz',
                 dataSource: v.dataSource[0],
                 summary: v.numParticipants + ' Participants | ' +
                     v.numProcesses + ' Processes'

@@ -100,7 +100,8 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     }
 
     onMouseDown(e: ChartEvent): void {
-        // const hit = CxhartUtil.getIntersects(this.view, e.mouse, this.points);
+
+        // const hit = ChartUtil.getIntersects(this.view, e.mouse, this.points);
         // if (hit.length > 0) {
         //     this.tooltips.innerHTML = '';
         //     this.mouseMode = 'SELECTION';
@@ -150,7 +151,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     onMouseMove(e: ChartEvent): void {
         super.onMouseMove(e);
         // console.log(this.view.camera.position.z);
-        // // Selection
+        // // // Selection
         // if (this.mouseMode === 'SELECTION') {
         //     const event: MouseEvent = e.event as MouseEvent;
         //     const mousePos = new Vector2(event.clientX, event.clientY);
