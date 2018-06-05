@@ -17,10 +17,13 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
 
     public quote: any;
     public quotes: any;
+    public showEllipsis = true;
     private loaderStatusUpdateSubscription: Subscription;
     @Input() set visbibility(value: boolean) { }
-    onLoaderStatusUpdate(): void {
-        console.log("!!!!!!! LOADER STATUS SUBSCRIPTION UPDATE");
+    onLoaderStatusUpdate(msg: string): void {
+        this.showEllipsis = false;
+        this.quote = { q: 'Getting data for the 1st time', a: msg };
+        this.cd.detectChanges();
     }
     ngOnDestroy(): void {
         this.loaderStatusUpdateSubscription.unsubscribe();
@@ -28,8 +31,8 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
     ngAfterViewInit(): void {
 
     }
-    constructor(public datasetService: DatasetService) {
-        this.loaderStatusUpdateSubscription = this.datasetService.loaderStatusUpdate.subscribe(this.onLoaderStatusUpdate);
+    constructor(public datasetService: DatasetService, private cd: ChangeDetectorRef) {
+        this.loaderStatusUpdateSubscription = this.datasetService.loaderStatusUpdate.subscribe(this.onLoaderStatusUpdate.bind(this));
         this.quotes = [
 
             // { q: 'Only two things are infinite, the universe and human stupidity', a: 'Albert Einstein' },
@@ -106,5 +109,7 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
         ];
         const i = Math.floor(Math.random() * ((this.quotes.length)));
         this.quote = this.quotes[i];
+
+
     }
 }
