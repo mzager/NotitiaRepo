@@ -20,7 +20,7 @@
 
       <label class='panel-builder-label'>create</label>
       <mat-form-field>
-        <input placeholder='Enter Cohort Name' matInput type='text' [(ngModel)]='activeCohort.n'>
+        <input placeholder='Enter Cohort Name' matInput type='text' autocomplete='off' [(ngModel)]='activeCohort.n'>
       </mat-form-field>
       <div class='panel-builder-criteria-row' [class.cohort-field-or]='condition.condition==="or"' *ngFor='let condition of activeCohort.conditions'>
         <label class='panel-builder-label'>{{condition.condition}}</label>
@@ -42,10 +42,10 @@
         </span>
         <span *ngIf='condition.field.type==="number"'>
           <mat-form-field style='width:75px;margin-left:5px;'>
-            <input matInput type='number' [(value)]='condition.min' placeholder='Min'>
+            <input matInput type='number' [(value)]='condition.min' autocomplete='off' placeholder='Min'>
           </mat-form-field>
           <mat-form-field style='width:75px;margin-left:5px;'>
-            <input matInput type='number' [(value)]='condition.max' placeholder='Max'>
+            <input matInput type='number' [(value)]='condition.max' autocomplete='off' placeholder='Max'>
           </mat-form-field>
         </span>
         <span class='panel-builder-buttons'>
