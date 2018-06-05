@@ -38,18 +38,7 @@ export class DatasetService {
       });
     });
   }
-  // createWorker(fn): Worker {
-  //   const blob = new Blob(['self.onmessage = ', fn.toString()], { type: 'text/javascript' });
-  //   const url = URL.createObjectURL(blob);
-  //   return new Worker(url);
-  // }
-  // private onMessage(msg: Object): void {
-  //   // console.dir(msg);
-  //   // debugger;
-  // }
-  // public createStore(): void {
 
-  // }
   public load(manifest: any): Observable<any> {
     const headers = new Headers();
     // headers.append('Content-Type', 'application/json');
@@ -75,7 +64,7 @@ export class DatasetService {
             response.schema.cohorts = '++, n';
             response.schema.genesets = '++, n';
             const db = DatasetService.db = new Dexie('notitia-' + manifest.disease);
-            this.loaderStatusUpdate.next('Loading Matadata');
+            this.loaderStatusUpdate.next('Loading Metadata');
             DatasetService.db.on('versionchange', function (event) { });
             DatasetService.db.on('blocked', () => { });
             db.version(1).stores(response.schema);
@@ -116,7 +105,7 @@ export class DatasetService {
             // Add Dataset + Meta Info
             db.table('dataset').add(dataset);
             db.table('patientMeta').bulkAdd(fields);
-            this.loaderStatusUpdate.next('Matadata Loaded');
+            this.loaderStatusUpdate.next('Metadata Loaded');
             Promise.all(
               response.files.filter(file => file.name !== 'manifest.json').map(file => {
                 return new Promise((resolve, reject) => {

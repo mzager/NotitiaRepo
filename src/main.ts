@@ -12,26 +12,26 @@ enableProdMode();
 Amplify.configure({
   Auth: {
     // REQUIRED - Amazon Cognito Identity Pool ID
-    identityPoolId: 'us-west-2:ae6c7447-b915-4e5b-b369-c103f6fdfa81',
+    identityPoolId: 'us-west-2:f7633bab-f981-4137-8e53-5f005397381e',
     // REQUIRED - Amazon Cognito Region
     region: 'us-west-2',
     // OPTIONAL - Amazon Cognito User Pool ID
-    userPoolId: 'us-west-2_ChZkbi2c9',
+    userPoolId: 'us-west-2_vZoFLrJAL',
     // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
-    userPoolWebClientId: '2ge2vnueo2e7mkv99u23tctgjf',
+    userPoolWebClientId: '1qpigbpbkf9vru262ci78pckng',
     // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
-    mandatorySignIn: false,
+    // mandatorySignIn: false,
     // OPTIONAL - Configuration for cookie storage
-    cookieStorage: {
-      // REQUIRED - Cookie domain (only required if cookieStorage is provided)
-      domain: 'https://oncoscape.v3.sttrcancer.org/',
-      // OPTIONAL - Cookie path
-      path: '/',
-      // OPTIONAL - Cookie expiration in days
-      expires: 365,
-      // OPTIONAL - Cookie secure flag
-      secure: true
-    }
+    // cookieStorage: {
+    //   // REQUIRED - Cookie domain (only required if cookieStorage is provided)
+    //   domain: 'https://oncoscape.v3.sttrcancer.org/',
+    //   // OPTIONAL - Cookie path
+    //   path: '/',
+    //   // OPTIONAL - Cookie expiration in days
+    //   expires: 365,
+    //   // OPTIONAL - Cookie secure flag
+    //   secure: true
+    // }
   }
 });
 
