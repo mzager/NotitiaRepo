@@ -5,4 +5,3 @@ https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css
 https://dev.oncoscape.sttrcancer.io/api/z_ifo_gene
 https://dev.oncoscape.sttrcancer.io/api/z_ifo_band
 https://dev.oncoscape.sttrcancer.io/api/z_lookup_genemap
-http://localhost:4200/assets/ml220.js

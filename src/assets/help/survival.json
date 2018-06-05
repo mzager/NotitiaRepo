@@ -1,35 +1,23 @@
 {
-    "method": "Survival",
-    "desc": "<span class='help-method'>Survival</span> Survival analysis is a branch of statistics for analyzing the expected duration of time until one or more events happen",
-    "summary": "Survival analysis is a branch of statistics for analyzing the expected duration of time until one or more events happen",
-    "urlparagraph":"Read more about the methods used to build survival",
-    "url": "http://lifelines.readthedocs.io/en/latest/",
-    "tutorial": [
-        {
-            "desc": "View tutorial on Survival",
-            "url": "https://www.youtube.com/embed/XQu8TTBmGhA"  
-        }
-    ],
-    "params": [
-        {
-            "name": "n components",
-            "type": "int or None",
-            "desc": "Coming Soon"
-        }
-        
-    ],
-    "attrs": [
-        {
-            "name": "components",
-            "type": "array, [n_components, n_features]",
-            "desc": "Coming Soon"
-        }
-    ],
-    "citations": [
-        {
-            "name": "lifelines is a implementation of survival analysis in Python",
-            "desc": "lifelines is a implementation of survival analysis in Python",
-            "url": "http://lifelines.readthedocs.io/en/latest/"
-        }
-    ]
+  "method": "Survival",
+  "desc": "<span class='help-method'>Survival</span> Survival analysis is a branch of statistics for analyzing the expected duration of time until one or more events happen",
+  "summary": "Survival analysis is a branch of statistics for analyzing the expected duration of time until one or more events happen",
+  "urlparagraph": "Read more about the methods used to build survival",
+  "url": "http://lifelines.readthedocs.io/en/latest/",
+  "tutorial": [{
+    "desc": "View tutorial on Survival",
+    "url": "https://www.youtube.com/embed/XQu8TTBmGhA"
+  }],
+  "params": [
+
+
+  ],
+  "attrs": [
+
+  ],
+  "citations": [{
+    "name": "lifelines is a implementation of survival analysis in Python",
+    "desc": "lifelines is a implementation of survival analysis in Python",
+    "url": "http://lifelines.readthedocs.io/en/latest/"
+  }]
 }

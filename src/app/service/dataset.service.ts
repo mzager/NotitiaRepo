@@ -43,13 +43,13 @@ export class DatasetService {
   //   const url = URL.createObjectURL(blob);
   //   return new Worker(url);
   // }
-  private onMessage(msg: Object): void {
-    console.dir(msg);
-    debugger;
-  }
-  public createStore(): void {
+  // private onMessage(msg: Object): void {
+  //   // console.dir(msg);
+  //   // debugger;
+  // }
+  // public createStore(): void {
 
-  }
+  // }
   public load(manifest: any): Observable<any> {
     const headers = new Headers();
     // headers.append('Content-Type', 'application/json');
@@ -60,7 +60,7 @@ export class DatasetService {
       mode: 'cors',
       cache: 'default'
     };
-    console.log('start: ' + new Date().getTime());
+    this.loaderStatusUpdate.next('Creating Local Database');
     fetch(manifest.manifest, requestInit)
       .then(response => response.json())
       .then(response => {
@@ -75,11 +75,10 @@ export class DatasetService {
             response.schema.cohorts = '++, n';
             response.schema.genesets = '++, n';
             const db = DatasetService.db = new Dexie('notitia-' + manifest.disease);
-            console.log('start: ' + new Date().getTime());
+            this.loaderStatusUpdate.next('Loading Matadata');
             DatasetService.db.on('versionchange', function (event) { });
             DatasetService.db.on('blocked', () => { });
             db.version(1).stores(response.schema);
-            this.loaderStatusUpdate.next('creating local copy');
             // Patient Meta Data
             const fields = Object.keys(response.fields).map(v => ({
               ctype: CollectionTypeEnum.PATIENT,
@@ -117,30 +116,28 @@ export class DatasetService {
             // Add Dataset + Meta Info
             db.table('dataset').add(dataset);
             db.table('patientMeta').bulkAdd(fields);
-            debugger;
+            this.loaderStatusUpdate.next('Matadata Loaded');
             Promise.all(
               response.files.filter(file => file.name !== 'manifest.json').map(file => {
                 return new Promise((resolve, reject) => {
                   const loader = new Worker('/assets/loader.js');
-                  const onMessage = (msg) => {
-                    loader.removeEventListener('message', onMessage);
-                    loader.terminate();
-                    const tables: Array<{ tbl: string, data: Array<any> }> = JSON.parse(msg.data);
-                    tables.forEach(table => {
-                      db.table(table.tbl).bulkAdd(table.data);
-                    });
-                    resolve();
+                  const onMessage = (msgEvent) => {
+                    const msg = JSON.parse(msgEvent.data);
+                    if (msg.cmd === 'terminate') {
+                      loader.removeEventListener('message', onMessage);
+                      loader.terminate();
+                      resolve();
+                    } else {
+                      this.loaderStatusUpdate.next(msg.msg);
+                    }
                   };
                   loader.addEventListener('message', onMessage);
-                  this.loaderStatusUpdate.next(file);
                   loader.postMessage({ cmd: 'load', disease: manifest.disease, file: file });
                 });
               })
             ).then(v => {
-              debugger;
-
               this.loader$.next(manifest);
-              console.log('done: ' + new Date().getTime());
+              this.loaderStatusUpdate.next('Preforming Initial Analysis');
             });
           });
       });

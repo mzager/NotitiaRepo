@@ -20,11 +20,11 @@
                         <h2 class='panel-column-title' style='margin-bottom:10px;'>Upload A Dataset</h2>
                         <form [formGroup]="formGroup" (ngSubmit)='formSubmit(formGroup.value, formGroup.valid)'>
                                 <mat-form-field>
-                                        <input matInput placeholder="Name" formControlName='name'>
+                                        <input matInput placeholder="Name" formControlName='name' autocomplete='off'>
                                 </mat-form-field>
                                 <br />
                                 <mat-form-field>
-                                        <input matInput placeholder="Description" formControlName='description'>
+                                        <input matInput placeholder="Description" formControlName='description' autocomplete='off'>
                                 </mat-form-field>
                                 <br />
                                 <mat-form-field>
@@ -36,7 +36,7 @@
                                 </mat-form-field>
                                 <br />
                                 <mat-form-field>
-                                        <input matInput placeholder="IRB Number" formControlName='reviewNumber'>
+                                        <input matInput placeholder="IRB Number" formControlName='reviewNumber' autocomplete='off'>
                                 </mat-form-field>
                                 <br />
                                 <mat-checkbox class='uploadPanelCbx' formControlName='isPhi'>I certify this data set does not contain any Personal Health Information</mat-checkbox>
