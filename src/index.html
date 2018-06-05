@@ -12,11 +12,19 @@
   <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,500" rel="stylesheet">
 </head>
 
-<body style="padding:0px;margin:0px; " class='mat-typography'>
+<body style="padding:0px;margin:0px;overflow:hidden;max-height:100vh;" class='mat-typography'>
   <app-root>
     <!-- Loading... -->
   </app-root>
-  <script> var global = global || window; if (global === undefined) { var global = window; } document.oncontextmenu = () => false; </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-55684588-3"></script>
+  <script>
+    var global = global || window; if (global === undefined) { var global = window; } document.oncontextmenu = () => false;
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-55684588-3');
+  </script>
+
 </body>
 
 </html>

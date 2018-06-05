@@ -42,10 +42,10 @@
         </span>
         <span *ngIf='condition.field.type==="number"'>
           <mat-form-field style='width:75px;margin-left:5px;'>
-            <input matInput type='number' [(value)]='condition.min' autocomplete='off' placeholder='Min'>
+            <input matInput type='number' [(ngModel)]='condition.min' autocomplete='off' placeholder='Min'>
           </mat-form-field>
           <mat-form-field style='width:75px;margin-left:5px;'>
-            <input matInput type='number' [(value)]='condition.max' autocomplete='off' placeholder='Max'>
+            <input matInput type='number' [(ngModel)]='condition.max' autocomplete='off' placeholder='Max'>
           </mat-form-field>
         </span>
         <span class='panel-builder-buttons'>
