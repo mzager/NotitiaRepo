@@ -5,7 +5,7 @@
         <div class='loader-copy'>
             <div class='loader-quote'>&lsquo;{{quote.q}}&rsquo;
                 <div class='loader-author'>{{quote.a}}
-                    <div class="lds-ellipsis" style='height:15px;top:-20px;left:10px;'>
+                    <div *ngIf='showEllipsis' class="lds-ellipsis" style='height:15px;top:-20px;left:10px;'>
                         <div></div>
                         <div></div>
                         <div></div>

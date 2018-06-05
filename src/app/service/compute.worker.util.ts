@@ -268,14 +268,14 @@ export class ComputeWorkerUtil {
         });
     }
     getCytobands(alignment: string): Promise<any> {
-        return fetch('http://oncoscape.v3.sttrcancer.org/data/reference/hg-' + alignment + '-cytoband.json.gz', {
+        return fetch('https://oncoscape.v3.sttrcancer.org/data/reference/hg-' + alignment + '-cytoband.json.gz', {
             method: 'GET',
             headers: this.headersJson
         }).then(res => res.json());
     }
 
     getGenes(alignment: string): Promise<any> {
-        return fetch('http://oncoscape.v3.sttrcancer.org/data/reference/hg-' + alignment + '-genes.json.gz', {
+        return fetch('https://oncoscape.v3.sttrcancer.org/data/reference/hg-' + alignment + '-genes.json.gz', {
             method: 'GET',
             headers: this.headersJson
         }).then(res => res.json());
@@ -375,7 +375,7 @@ export class ComputeWorkerUtil {
 
     getTads(): Promise<any> {
         return new Promise((resolve, reject) => {
-            fetch('http://oncoscape.v3.sttrcancer.org/data/reference/tads.json.gz', {
+            fetch('https://oncoscape.v3.sttrcancer.org/data/reference/tads.json.gz', {
                 method: 'GET',
                 headers: this.headersJson
             }).then(res => { res.json().then(resolve); });
