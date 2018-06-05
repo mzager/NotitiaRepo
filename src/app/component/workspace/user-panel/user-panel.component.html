@@ -3,7 +3,7 @@
         <div *ngIf='activeForm==="SIGN_IN"'>
                 <form [formGroup]="formGroupSignIn" (submit)='signIn()'>
                         <mat-form-field>
-                                <input matInput placeholder="Username" formControlName='username' autocomplete='off'>
+                                <input matInput placeholder="Username" formControlName='username' autocomplete='email'>
                         </mat-form-field>
                         <mat-form-field>
                                 <input matInput placeholder="Password" formControlName='password' type='password' autocomplete='off'>
@@ -15,43 +15,31 @@
                                         <a class='os-link' href='#' (click)='setForm("FORGOT_PASSWORD")'>Forgot Password</a>
                                 </div>
                                 <div class='user-panel-link'>
-                                        <a class='os-link' href='#' (click)='setForm("SIGN_UP")'>Sign Up</a>
+                                        <a class='os-link' href='#' (click)='setForm("SIGN_UP")'>Sign Up</a> |
+                                        <a class='os-link' href='#' (click)='setForm("SIGN_UP_CONFIRM")'>Verify Code</a>
                                 </div>
                         </div>
                 </form>
         </div>
 
-        <!-- Sign In Confirmation -->
-        <div *ngIf='activeForm==="SIGN_UP_CONFIRM"'>
-                <form [formGroup]="formGroupSignInConfirm" (submit)='signInConfirm()'>
-                        <mat-form-field>
-                                <input matInput placeholder="Username" formControlName='username' autocomplete='off'>
-                        </mat-form-field>
-                        <mat-form-field>
-                                <input matInput placeholder="Code" formControlName='code' autocomplete='off'>
-                        </mat-form-field>
-                        <br />
-                        <button mat-raised-button type="submit" color='primary'>Verify Code</button>
-                </form>
-        </div>
 
         <!-- Sign Up -->
         <div *ngIf='activeForm==="SIGN_UP"'>
                 <form [formGroup]="formGroupSignUp" (submit)='signUp()'>
                         <mat-form-field>
-                                <input matInput placeholder="First Name" formControlName='firstName' autocomplete='off'>
+                                <input matInput placeholder="First Name" formControlName='firstName' autocomplete='given-name'>
                         </mat-form-field>
                         <mat-form-field>
-                                <input matInput placeholder="Last Name" formControlName='lastName' autocomplete='off'>
+                                <input matInput placeholder="Last Name" formControlName='lastName' autocomplete='family-name'>
                         </mat-form-field>
                         <mat-form-field>
-                                <input matInput placeholder="Username" formControlName='username' autocomplete='off'>
+                                <input matInput placeholder="Username" formControlName='username' autocomplete='email'>
                         </mat-form-field>
                         <mat-form-field>
-                                <input matInput placeholder="Email" formControlName='email' type='email' autocomplete='off'>
+                                <input matInput placeholder="Email" formControlName='email' type='email' autocomplete='email'>
                         </mat-form-field>
                         <mat-form-field>
-                                <input matInput placeholder="Phone" formControlName='phone' autocomplete='off'>
+                                <input matInput placeholder="Phone" formControlName='phone' autocomplete='tel'>
                         </mat-form-field>
                         <mat-form-field>
                                 <input matInput placeholder="Password" formControlName='password' type='password' autocomplete='off'>
@@ -70,7 +58,7 @@
         <div *ngIf='activeForm==="SIGN_UP_CONFIRM"'>
                 <form [formGroup]="formGroupSignUpConfirm" (submit)='signUpConfirm()'>
                         <mat-form-field>
-                                <input matInput placeholder="Username" formControlName='username' autocomplete='off'>
+                                <input matInput placeholder="Username" formControlName='username' autocomplete='email'>
                         </mat-form-field>
                         <mat-form-field>
                                 <input matInput placeholder="Code" formControlName='code' autocomplete='off'>
@@ -84,7 +72,7 @@
         <div *ngIf='activeForm==="FORGOT_PASSWORD"'>
                 <form [formGroup]="formGroupForgotPassword" (submit)='forgotPassword()'>
                         <mat-form-field>
-                                <input matInput placeholder="Username" formControlName='username' autocomplete='off'>
+                                <input matInput placeholder="Username" formControlName='username' autocomplete='email'>
                         </mat-form-field>
                         <br />
                         <button mat-raised-button type="submit" color='primary' style='margin-right:10px;'>Reset Password</button>

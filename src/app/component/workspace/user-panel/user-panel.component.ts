@@ -38,22 +38,24 @@ export class UserPanelComponent {
     this.cd.detectChanges();
   }
   signIn(): void {
-    // const form = this.formGroupSignIn;
-    // if (form.status === 'INVALID') { return; }
-    // Auth.signIn(form.get('username').value, form.get('password').value)
-    //   .then(user => {
-    //     this.user = user;
-    //     if (user.challengeName === 'SMS_MFA' || user.challengeName === 'SOFTWARE_TOKEN_MFA') {
-    //       this.amplifyService.setAuthState({ state: 'confirmSignIn', user: user });
-    //     } else if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
-    //       this.amplifyService.setAuthState({ state: 'requireNewPassword', user: user });
-    //     } else {
-    //       this.amplifyService.setAuthState({ state: 'signedIn', user: user });
-    //     }
-    //   }).catch(err => {
-    //     this.errorMessage = err.message;
-    //     this.cd.detectChanges();
-    //   });
+    const form = this.formGroupSignIn;
+    if (form.status === 'INVALID') { return; }
+
+    Auth.signIn(form.get('username').value, form.get('password').value)
+      .then(user => {
+        this.user = user;
+        if (user.challengeName === 'SMS_MFA' || user.challengeName === 'SOFTWARE_TOKEN_MFA') {
+          // this.amplifyService.setAuthState({ state: 'confirmSignIn', user: user });
+        } else if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
+          // this.amplifyService.setAuthState({ state: 'requireNewPassword', user: user });
+        } else {
+          // this.amplifyService.setAuthState({ state: 'signedIn', user: user });
+          this.setForm(UserPanelFormEnum.PROJECT_LIST);
+        }
+      }).catch(err => {
+        this.errorMessage = err.message;
+        this.cd.detectChanges();
+      });
   }
   signInConfirm(): void {
     // const form = this.formGroupSignInConfirm;
@@ -107,19 +109,19 @@ export class UserPanelComponent {
 
 
   forgotPassword(): void {
-    // const form = this.formGroupForgotPassword;
-    // if (form.status === 'INVALID') { return; }
-    // Auth.forgotPasswordSubmit(form.get('username').value, form.get('code').value, form.get('password').value)
-    //   .then(data => {
-    //     alert('Password sent');
-    //     const user = { username: form.get('username').value };
-    //     this.amplifyService.setAuthState({ state: 'signIn', user: user });
-    //     this.cd.detectChanges();
-    //   })
-    //   .catch(err => {
-    //     this.errorMessage = err.message;
-    //     this.cd.detectChanges();
-    //   });
+    const form = this.formGroupForgotPassword;
+    if (form.status === 'INVALID') { return; }
+    Auth.forgotPasswordSubmit(form.get('username').value, form.get('code').value, form.get('password').value)
+      .then(data => {
+        alert('Password sent');
+        const user = { username: form.get('username').value };
+        this.setForm(UserPanelFormEnum.SIGN_IN);
+        this.cd.detectChanges();
+      })
+      .catch(err => {
+        this.errorMessage = err.message;
+        this.cd.detectChanges();
+      });
   }
 
   updatePassword(): void {
@@ -148,9 +150,12 @@ export class UserPanelComponent {
     // Validators.compose([Validators.required, Validators.pattern(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/)])],
     this.formGroupSignUp = fb.group({
       username: [null, Validators.compose([Validators.required, Validators.minLength(5)])],
-      password: [null, Validators.required],
+      password: [null, Validators.compose([Validators.required, Validators.minLength(8)])],
       email: [null, Validators.compose([Validators.required, Validators.email])],
-      phone: [null, Validators.required],
+      phone: [null, Validators.compose([Validators.required, Validators.pattern(
+        // tslint:disable-next-line:max-line-length
+        /\+(9[976]\d|8[987530]\d|6[987]\d|5[90]\d|42\d|3[875]\d|2[98654321]\d|9[8543210]|8[6421]|6[6543210]|5[87654321]|4[987654310]|3[9643210]|2[70]|7|1)\d{1,14}$/
+      )])],
       firstName: [null, Validators.required],
       lastName: [null, Validators.required]
     });
@@ -162,7 +167,7 @@ export class UserPanelComponent {
       username: [null, Validators.required]
     });
     this.formGroupUpdatePassword = fb.group({
-      password: [null, Validators.required]
+      password: [null, Validators.compose([Validators.required, Validators.minLength(8)])]
     });
 
     // Check If User Is Logged In
