@@ -1,26 +1,23 @@
 {
-    "method": "Force Directed Graph",
-    "summary": "",
-    "desc": "<span class='help-method'>Force Directed Graph</span>",
-    "url": "",
-    "params": [
-        {
-            "name": "Show Links",
-            "type": "boolean, optional",
-            "desc": "Display edges between nodes that drive the graphs layout "
-        },
-        {
-            "name": "Show Chromosome",
-            "type": "boolean, optional",
-            "desc": "Blue line represents chromosome(s)"
-        }
-    ],
-    "attrs": [],
-    "citations": [
-        {
-            "name": "",
-            "desc": "",
-            "url": ""
-        }
-    ]
+  "method": "Force Directed Graph",
+  "summary": "Visualize graph data in three dimensions using a class of algorithms called force-directed graphs. These algorithms use the number and strength of connections to position nodes.",
+  "desc": "<span class='help-method'>Visualize graph data in three dimensions using a class of algorithms called force-directed graphs. These algorithms use the number and strength of connections to position nodes.  </span>",
+  "url": "",
+  "params": [{
+      "name": "Show Links",
+      "type": "boolean, optional",
+      "desc": "Display edges between nodes that drive the graphs layout "
+    },
+    {
+      "name": "Show Chromosome",
+      "type": "boolean, optional",
+      "desc": "Blue line represents chromosome(s)"
+    }
+  ],
+  "attrs": [],
+  "citations": [{
+    "name": "",
+    "desc": "",
+    "url": ""
+  }]
 }
