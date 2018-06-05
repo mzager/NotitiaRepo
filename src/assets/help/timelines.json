@@ -8,44 +8,8 @@
     "desc": "View tutorial on Timelines",
     "url": "https://www.youtube.com/embed/XQu8TTBmGhA"
   }],
-  "params": [{
-      "name": "n components",
-      "type": "int or None",
-      "desc": "Coming Soon"
-    },
-    {
-      "name": "categories",
-      "type": "int or None",
-      "desc": "Coming Soon"
-    },
-    {
-      "name": "types",
-      "type": "int or None",
-      "desc": "Coming Soon"
-    }
-
-  ],
-  "attrs": [{
-      "name": "components",
-      "type": "array, [n_components, n_features]",
-      "desc": "Coming Soon"
-    },
-    {
-      "name": "symbols",
-      "type": "symbols",
-      "desc": "Coming Soon"
-    },
-    {
-      "name": "color",
-      "type": "color",
-      "desc": "Coming Soon"
-    },
-    {
-      "name": "size",
-      "type": "size",
-      "desc": "Coming Soon"
-    }
-  ],
+  "params": [],
+  "attrs": [],
   "citations": [{
     "name": "",
     "desc": "",
