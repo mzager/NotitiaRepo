@@ -1,6 +1,6 @@
 {
   "method": "Survival",
-  "desc": "<span class='help-method'>Survival</span> Survival analysis is a branch of statistics for analyzing the expected duration of time until one or more events happen",
+  "desc": "<span class='help-method'>Survival analysis is a branch of statistics for analyzing the expected duration of time until one or more events happen</span>",
   "summary": "Survival analysis is a branch of statistics for analyzing the expected duration of time until one or more events happen",
   "urlparagraph": "Read more about the methods used to build survival",
   "url": "http://lifelines.readthedocs.io/en/latest/",
