@@ -961,20 +961,25 @@ export class DataService {
     return new Promise((resolve, reject) => {
       const db = new Dexie('notitia-' + database);
       db.open().then(conn => {
-        Promise.all(
-          cohort.conditions.map(condition => {
-            if (condition.field.type === 'number') {
-              if (condition.min !== null && condition.max !== null) {
-                return conn.table('patient').where(condition.field.key).between(condition.min, condition.max).toArray();
-              }
-              if (condition.min !== null) {
-                return conn.table('patient').where(condition.field.key).aboveOrEqual(condition.min).toArray();
-              }
-              return conn.table('patient').where(condition.field.key).aboveOrEqual(condition.max).toArray();
+
+        const queries = cohort.conditions.map(condition => {
+          if (condition.field.type === 'number') {
+            if (condition.min !== null && condition.max !== null) {
+              return conn.table('patient').where(condition.field.key).between(condition.min, condition.max).toArray();
             }
-            return conn.table('patient').where(condition.field.key).equalsIgnoreCase(condition.value).toArray();
-          })
-        ).then(conditions => {
+            if (condition.min !== null) {
+              return conn.table('patient').where(condition.field.key).aboveOrEqual(condition.min).toArray();
+            }
+            if (condition.max !== null) {
+              return conn.table('patient').where(condition.field.key).belowOrEqual(condition.max).toArray();
+            }
+            return null;
+          }
+          return conn.table('patient').where(condition.field.key).equalsIgnoreCase(condition.value).toArray();
+        }).filter(q => q);
+
+        Promise.all(queries).then(conditions => {
+
           if (!cohort.n.trim().length) {
             const d = new Date();
             cohort.n = d.toLocaleDateString + ' ' + d.toLocaleTimeString();
