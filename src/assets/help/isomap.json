@@ -49,7 +49,9 @@
       "desc": "The number of parallel jobs to run. If -1, then the number of jobs is set to the number of CPU cores."
     }
   ],
+  "attrs": [
 
+  ],
   "citations": [{
       "name": " A global geometric framework for nonlinear dimensionality reduction",
       "desc": "Tenenbaum, J.B.; De Silva, V.; & Langford, J.C. A global geometric framework for nonlinear dimensionality reduction. Science 290 (5500)",
