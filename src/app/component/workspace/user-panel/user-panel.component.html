@@ -99,6 +99,10 @@
 
         <!-- Add Data Set -->
         <div *ngIf='activeForm==="PROJECT_LIST"'>
-                <button mat-raised-button type="submit" color='primary' (click)='addDataSet()'>Add Data Set</button>
+                <button mat-raised-button type="submit" color='primary' (click)='addDataSet()' style='margin-bottom:10px;'>Add Data Set</button>
+                <div *ngFor='let option of datasets' class='panel-config-row-del'>
+                        <i class='material-icons md-18'>info_outline</i>
+                        <div>{{option.content.name}} &mdash; {{option.content.status}}</div>
+                </div>
         </div>
 </div>
