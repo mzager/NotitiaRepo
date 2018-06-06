@@ -11,14 +11,12 @@ enableProdMode();
 
 Amplify.configure({
   Auth: {
-    // REQUIRED - Amazon Cognito Identity Pool ID
-    identityPoolId: 'us-west-2:f7633bab-f981-4137-8e53-5f005397381e',
-    // REQUIRED - Amazon Cognito Region
+    mandatorySignIn: false,
     region: 'us-west-2',
-    // OPTIONAL - Amazon Cognito User Pool ID
-    userPoolId: 'us-west-2_vZoFLrJAL',
-    // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
-    userPoolWebClientId: '1qpigbpbkf9vru262ci78pckng',
+    userPoolId: 'us-west-2_09KsqtrrT',
+    userPoolWebClientId: '3lqgr051gsupoa8jo24n1kugfd',
+    identityPoolId: 'us-west-2:109beda4-7960-4451-8697-bbbbfb0278ea',
+
     // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
     // mandatorySignIn: false,
     // OPTIONAL - Configuration for cookie storage
@@ -32,6 +30,20 @@ Amplify.configure({
     //   // OPTIONAL - Cookie secure flag
     //   secure: true
     // }
+  },
+  Storage: {
+    region: 'us-west-2',
+    bucket: 'oncoscape-user-data',
+    identityPoolId: 'us-west-2:109beda4-7960-4451-8697-bbbbfb0278ea'
+  },
+  API: {
+    endpoints: [
+      {
+        name: 'dataset',
+        endpoint: 'https://ce50ir0brf.execute-api.us-west-2.amazonaws.com/prod',
+        region: 'us-west-2'
+      },
+    ]
   }
 });
 

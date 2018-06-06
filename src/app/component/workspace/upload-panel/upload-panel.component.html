@@ -12,7 +12,7 @@
                         <div *ngIf='datasets.length===0'>No Datasets Availible</div>
                         <div *ngFor='let option of datasets' (click)='datasetDel(option)' class='panel-config-row-del'>
                                 <i class='material-icons md-18'>remove_circle_outline</i>
-                                <div>{{option.n}}</div>
+                                <div>{{option.content.name}}</div>
                         </div>
                 </div>
                 <!-- Create Dataset -->
@@ -20,37 +20,37 @@
                         <h2 class='panel-column-title' style='margin-bottom:10px;'>Upload A Dataset</h2>
                         <form [formGroup]="formGroup" (ngSubmit)='formSubmit(formGroup.value, formGroup.valid)'>
                                 <mat-form-field>
-                                        <input matInput placeholder="Name" formControlName='name' autocomplete='off'>
+                                        <input matInput placeholder="Name" formControlName='name' autocomplete='off' [errorStateMatcher]="matcher">
+                                        <mat-error *ngIf="formGroup.controls['name'].hasError('required')">Required</mat-error>
                                 </mat-form-field>
                                 <br />
                                 <mat-form-field>
-                                        <input matInput placeholder="Description" formControlName='description' autocomplete='off'>
+                                        <input matInput placeholder="Description" formControlName='description' autocomplete='off' [errorStateMatcher]="matcher">
+                                        <mat-error *ngIf="formGroup.controls['description'].hasError('required')">Required</mat-error>
                                 </mat-form-field>
                                 <br />
                                 <mat-form-field>
-                                        <mat-select placeholder="IRB" formControlName='reviewType'>
+                                        <mat-select placeholder="Institutional Review" formControlName='reviewType'>
                                                 <mat-option *ngFor="let reviewType of reviewTypes" [value]="reviewType">
-                                                        {{ reviewType.name }}
+                                                        {{ reviewType }}
                                                 </mat-option>
                                         </mat-select>
                                 </mat-form-field>
                                 <br />
-                                <mat-form-field>
-                                        <input matInput placeholder="IRB Number" formControlName='reviewNumber' autocomplete='off'>
+                                <mat-form-field *ngIf='this.showReviewNumber'>
+                                        <input matInput placeholder="Institutional Review Id" formControlName='reviewNumber' autocomplete='off'>
                                 </mat-form-field>
                                 <br />
                                 <mat-checkbox class='uploadPanelCbx' formControlName='isPhi'>I certify this data set does not contain any Personal Health Information</mat-checkbox>
                                 <mat-checkbox class='uploadPanelCbx' formControlName='isHuman'>Select if data set is derived from Human Subjects</mat-checkbox>
                                 <mat-checkbox class='uploadPanelCbx' formControlName='isPublic'>I want to make my dataset availible to the public</mat-checkbox>
-
-
                                 <input type='file' style='display:none;' #fileInput accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel">
                                 <div style='padding-bottom: 10px;padding-top: 10px;'>
                                         <a mat-raised-button (click)='uploadFile()' style='margin-right:20px;width:120px;' href='#'>Select File</a>
                                         <a href='#' class='os-link'>XLS Documentation</a>&nbsp;|&nbsp;
                                         <a href='#' class='os-link'>XLS Template</a>
                                 </div>
-                                <button style='width:120px;' mat-raised-button color='primary'>Create Project</button>
+                                <button [disabled]="formGroup.pristine || formGroup.invalid" style='width:120px;' mat-raised-button color='primary'>Submit Project</button>
                         </form>
                 </div>
         </div>

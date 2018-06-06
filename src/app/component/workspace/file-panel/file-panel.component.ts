@@ -5,11 +5,10 @@ import { FormBuilder } from '@angular/forms';
 import { GraphConfig } from './../../../model/graph-config.model';
 import {
   Component, ComponentFactoryResolver, Input, Output, ViewContainerRef,
-  ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild, ViewEncapsulation
+  ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild, ViewEncapsulation, ChangeDetectorRef
 } from '@angular/core';
 import { Legend } from 'app/model/legend.model';
 import { PanelEnum } from '../../../model/enum.model';
-
 
 @Component({
   selector: 'app-workspace-file-panel',
@@ -20,6 +19,8 @@ import { PanelEnum } from '../../../model/enum.model';
 })
 export class FilePanelComponent {
 
+  // todo: This needs to be revisited post launch.  Should be doing this in redux state.
+  myDatasets: Array<any> = [];
   @Output() uploadExcel = new EventEmitter<any>();
   @Output() loadTcga = new EventEmitter<any>();
   @Output() hide = new EventEmitter<any>();
