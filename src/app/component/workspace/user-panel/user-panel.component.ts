@@ -7,7 +7,7 @@ import {
   ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild, ViewEncapsulation, ChangeDetectorRef
 } from '@angular/core';
 import { UserPanelFormEnum, PanelEnum } from '../../../model/enum.model';
-import { Auth } from 'aws-amplify';
+import { Auth, API } from 'aws-amplify';
 
 @Component({
   selector: 'app-workspace-user-panel',
@@ -18,6 +18,7 @@ import { Auth } from 'aws-amplify';
 })
 export class UserPanelComponent {
 
+  datasets: Array<any>;
   user: any;
   activeForm: UserPanelFormEnum = UserPanelFormEnum.BLANK;
   errorMessage = '';
@@ -50,6 +51,7 @@ export class UserPanelComponent {
           // this.amplifyService.setAuthState({ state: 'requireNewPassword', user: user });
         } else {
           // this.amplifyService.setAuthState({ state: 'signedIn', user: user });
+          this.fetchDatasets();
           this.setForm(UserPanelFormEnum.PROJECT_LIST);
         }
       }).catch(err => {
@@ -58,6 +60,7 @@ export class UserPanelComponent {
       });
   }
   signInConfirm(): void {
+    // Auth.
     // const form = this.formGroupSignInConfirm;
     // const mfaType = this.user === 'SOFTWARE_TOKEN_MFA' ? 'SOFTWARE_TOKEN_MFA' : null;
     // this.amplifyService.auth()
@@ -135,6 +138,14 @@ export class UserPanelComponent {
     //     this.errorMessage = err.message;
     //     this.cd.detectChanges();
     //   });
+  }
+
+
+  fetchDatasets(): void {
+    API.get('dataset', '/dataset', {}).then(datasets => {
+      this.datasets = datasets;
+      this.cd.detectChanges();
+    });
   }
 
   constructor(public fb: FormBuilder, public cd: ChangeDetectorRef) {

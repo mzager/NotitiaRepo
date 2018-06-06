@@ -26,17 +26,17 @@ import * as _ from 'lodash';
   </mat-menu>
   <mat-menu #analysisManifoldLearningMenu='matMenu'>
   <button mat-menu-item (click)='select.emit(134217728)'>Isomap</button>
-  <button mat-menu-item (click)='select.emit(268435456)'>Locally Linear Embedding</button>
+  <!--<button mat-menu-item (click)='select.emit(268435456)'>Locally Linear Embedding</button>-->
   <button mat-menu-item (click)='select.emit(536870912)'>Spectral Embedding</button>
   <button mat-menu-item (click)='select.emit(4)'>T-SNE</button>
   </mat-menu>
   <mat-menu #analysisMatrixDecompositionMenu='matMenu'>
   <button mat-menu-item (click)='select.emit(16777216)'>Dictionary Learning</button>
-  <button mat-menu-item (click)='select.emit(34359738368)'>Dictionary Learning - Mini Batch</button>
+  <!--<button mat-menu-item (click)='select.emit(34359738368)'>Dictionary Learning - Mini Batch</button>-->
   <button mat-menu-item (click)='select.emit(65536)'>Factor Analysis</button>
   <button mat-menu-item (click)='select.emit(8388608)'>Fast ICA</button>
-  <button mat-menu-item (click)='select.emit(33554432)'>Latent Dirichlet Allocation</button>
-  <button mat-menu-item (click)='select.emit(67108864)'>Non-Negative Matrix Factorization</button>
+  <!--<button mat-menu-item (click)='select.emit(33554432)'>Latent Dirichlet Allocation</button>-->
+  <!--<button mat-menu-item (click)='select.emit(67108864)'>Non-Negative Matrix Factorization</button>-->
   <button mat-menu-item (click)='select.emit(1)'>PCA</button>
   <button mat-menu-item (click)='select.emit(262144)'>PCA - Incremental</button>
   <button mat-menu-item (click)='select.emit(524288)'>PCA - Kernel</button>
