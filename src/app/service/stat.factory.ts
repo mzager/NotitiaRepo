@@ -169,11 +169,11 @@ export class StatFactory {
     private createSparse_PCA(data: any): Array<Stat> {
         const stats = [
             new StatKeyValues('', ([
-                { mylabel: 'nIter:', myvalue: data.iter },
-                { mylabel: 'Components:', myvalue: data.components },
-                { mylabel: 'Error:', myvalue: data.error }
+                { mylabel: 'nIter:', myvalue: data.iter }
+                // { mylabel: 'Components:', myvalue: data.components },
+                // { mylabel: 'Error:', myvalue: data.error }
             ])),
-            new StatOneD('PCA Loadings', this.formatError(data.error)),
+
             new StatTwoD('PCA Loadings', this.formatPCALoadings(data.mid, data.components))
         ];
         return stats;
@@ -262,10 +262,6 @@ export class StatFactory {
             .map(v => ({ mylabel: v.marker, myvalue: Math.round(v.pc1 * 1e2) / 1e2 })).splice(0, 11);
         return r;
     }
-    private formatError(data: Array<number>): Array<{ mylabel: string, myvalue: number, color?: number }> {
-        const rv = data.map((v, i) => ({ mylabel: 'Error' + (i + 1), myvalue: (Math.round(v * 100) / 100) }));
-        rv.push({ mylabel: 'Other', myvalue: rv.reduce((p, c) => { p -= c.myvalue; return (Math.round(p * 100) / 100); }, 100) });
-        return rv;
-    }
+
     // endregion
 }

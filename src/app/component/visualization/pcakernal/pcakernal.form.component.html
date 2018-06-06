@@ -1,53 +1,53 @@
 <form [formGroup]='form' novalidate>
-    <mat-form-field class='form-field'>
-        <mat-select placeholder='Data' formControlName='table' [compareWith]='byTbl'>
-            <mat-option *ngFor='let option of dataOptions' [value]='option'>
-                {{ option.label }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field class='form-field'>
-        <mat-select placeholder='Visualize' formControlName='entity'>
-            <mat-option *ngFor='let option of displayOptions' [value]='option'>
-                {{ option }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field class='form-field-1-3'>
-        <mat-select placeholder='X Axis' formControlName='pcx'>
-            <mat-option *ngFor='let option of PcOptions' [value]='option'>
-                PC {{ option }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field class='form-field-1-3'>
-        <mat-select placeholder='Y Axis' formControlName='pcy'>
-            <mat-option *ngFor='let option of PcOptions' [value]='option'>
-                PC {{ option }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field class='form-field-1-3'>
-        <mat-select placeholder='Z Axis' formControlName='pcz'>
-            <mat-option *ngFor='let option of PcOptions' [value]='option'>
-                PC {{ option }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field class='form-field'>
-        <mat-select placeholder='Kernal' formControlName='kernel'>
-            <mat-option *ngFor='let option of kernalOptions' [value]='option'>
-                {{ option }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field class='form-field'>
-        <mat-select placeholder='Eigen Solver' formControlName='eigen_solver'>
-            <mat-option *ngFor='let option of eigenSolverOptions' [value]='option'>
-                {{ option }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-slide-toggle formControlName='fit_inverse_transform'>Fit Inverse</mat-slide-toggle>
-    <mat-slide-toggle formControlName='remove_zero_eig'>Remove 0 Eig</mat-slide-toggle>
+  <mat-form-field class='form-field'>
+    <mat-select placeholder='Data' formControlName='table' [compareWith]='byTbl'>
+      <mat-option *ngFor='let option of dataOptions' [value]='option'>
+        {{ option.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class='form-field'>
+    <mat-select placeholder='Visualize' formControlName='entity'>
+      <mat-option *ngFor='let option of displayOptions' [value]='option'>
+        {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class='form-field-1-3'>
+    <mat-select placeholder='X Axis' formControlName='pcx'>
+      <mat-option *ngFor='let option of PcOptions' [value]='option'>
+        PC {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class='form-field-1-3'>
+    <mat-select placeholder='Y Axis' formControlName='pcy'>
+      <mat-option *ngFor='let option of PcOptions' [value]='option'>
+        PC {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class='form-field-1-3'>
+    <mat-select placeholder='Z Axis' formControlName='pcz'>
+      <mat-option *ngFor='let option of PcOptions' [value]='option'>
+        PC {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class='form-field'>
+    <mat-select placeholder='Kernal' formControlName='kernel'>
+      <mat-option *ngFor='let option of kernalOptions' [value]='option'>
+        {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class='form-field'>
+    <mat-select placeholder='Eigen Solver' formControlName='eigen_solver'>
+      <mat-option *ngFor='let option of eigenSolverOptions' [value]='option'>
+        {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-slide-toggle formControlName='fit_inverse_transform'>Fit Inverse</mat-slide-toggle>
+  <mat-slide-toggle formControlName='remove_zero_eig'>Remove 0 Eig</mat-slide-toggle>
 </form>
