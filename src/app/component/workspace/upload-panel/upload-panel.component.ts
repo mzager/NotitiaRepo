@@ -88,6 +88,7 @@ export class UploadPanelComponent {
     ]).then(results => {
       // tslint:disable-next-line:max-line-length
       alert('Thank you for submitting your dataset.  During our beta, we will be manually overseeing the ingestion process.  You will recieve an email when your dataset is ready explore.  For questions or status updates please contact: info@oncoscape.sttrcancer.org.');
+      this.closeClick();
       this.fetchDatasets();
     }).catch(errors => {
 

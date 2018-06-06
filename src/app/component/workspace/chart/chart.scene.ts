@@ -41,7 +41,6 @@ export class ChartScene {
     private events: ChartEvents;
     public renderer: WebGLRenderer;
     private views: Array<VisualizationView>;
-    // private edges: EdgesGraph;
     private centerLine: Line;
 
     private workspace: WorkspaceConfigModel;

@@ -55,6 +55,7 @@ export class UserPanelFormEnum {
     static readonly SIGN_IN_CONFIRM = 'SIGN_IN_CONFIRM';
     static readonly SIGN_UP_CONFIRM = 'SIGN_UP_CONFIRM';
     static readonly CHANGE_PASSWORD = 'CHANGE_PASSWORD';
+    static readonly UPDATE_PASSWORD = 'UPDATE_PASSWORD';
     static readonly FORGOT_PASSWORD = 'FORGOT_PASSWORD';
     static readonly PROJECT_LIST = 'PROJECT_LIST';
     static readonly BLANK = 'BLANK';
