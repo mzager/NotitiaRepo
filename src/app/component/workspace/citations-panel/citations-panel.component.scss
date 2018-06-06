@@ -33,31 +33,37 @@
 .citations-name {
   margin-top: 0px;
   margin-bottom: 0px;
+  font-size: 1rem;
+  padding-top: 10px;
 }
 
 .citations-desc {
   margin-top: 0px;
   margin-bottom: 0px;
+  font-style: italic;
 }
 
 .citations-main-link {
   cursor: pointer;
-  color: #039be5;
+  color: #1e88e5;
   margin-top: 0px;
   word-wrap: break-word;
+  text-decoration: none;
+  font-size: 1.5rem;
 }
 
 .citations-link {
   cursor: pointer;
-  color: #039be5;
+  color: #1e88e5;
   margin-top: 5px;
   margin-bottom: 0px;
   word-wrap: break-word;
+  text-decoration: none;
 }
 
 .citations-link-2 {
   cursor: pointer;
-  color: #039be5;
+  color: #1e88e5;
   margin-top: 0px;
   word-wrap: break-word;
 }
