@@ -22,11 +22,13 @@
       <div *ngFor='let result of results'>
         <span *ngIf='result.visible'>
           <div *ngFor='let method of result.methods'>
-            <h1 class='citations-h2'>{{method.method}}</h1>
-            <p class='citations-main-link'>{{method.url}}</p>
+            <h2 class='citations-h2'>
+              <a class='citations-main-link' href="{{method.url}}" target="_blank">{{method.method}}</a>
+            </h2>
+            <!-- <p >{{method.url}}</p> -->
           </div>
           <div *ngFor='let citation of result.citations'>
-            <h2 class='citations-name'>{{citation.name}}</h2>
+            <p class='citations-name'>{{citation.name}}</p>
             <p class='citations-desc'> {{citation.desc}}</p>
             <p>
               <a class='citations-link' href='{{citation.url}}' target='_blank'>{{citation.url}}</a>
