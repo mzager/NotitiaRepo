@@ -1,51 +1,53 @@
 <form [formGroup]='form' novalidate>
-    <mat-form-field class='form-field'>
-        <mat-select placeholder='Data' formControlName='table' [compareWith]='byTbl'>
-            <mat-option *ngFor='let option of dataOptions' [value]='option'>
-                {{ option.label }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field class='form-field'>
-        <mat-select placeholder='Visualize' formControlName='entity'>
-            <mat-option *ngFor='let option of displayOptions' [value]='option'>
-                {{ option }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field class='form-field'>
-        <mat-select placeholder='X Axis' formControlName='pcx'>
-            <mat-option *ngFor='let option of PcOptions' [value]='option'>
-                PC {{ option }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field class='form-field'>
-        <mat-select placeholder='Y Axis' formControlName='pcy'>
-            <mat-option *ngFor='let option of PcOptions' [value]='option'>
-                PC {{ option }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field class='form-field'>
-        <mat-select placeholder='Z Axis' formControlName='pcz'>
-            <mat-option *ngFor='let option of PcOptions' [value]='option'>
-                PC {{ option }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field class='form-field'>
-        <mat-select placeholder='Fit Algo' formControlName='fit_algorithm'>
-            <mat-option *ngFor='let option of fitAlgorithemOptions' [value]='option'>
-                {{ option }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field class='form-field'>
-        <mat-select placeholder='Transform Algo' formControlName='fit_algorithm'>
-            <mat-option *ngFor='let option of transformAlgorithemOptions' [value]='option'>
-                {{ option }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
+  <mat-form-field class='form-field'>
+    <mat-select placeholder='Data' formControlName='table' [compareWith]='byTbl'>
+      <mat-option *ngFor='let option of dataOptions' [value]='option'>
+        {{ option.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class='form-field'>
+    <mat-select placeholder='Visualize' formControlName='entity'>
+      <mat-option *ngFor='let option of displayOptions' [value]='option'>
+        {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class='form-field-1-3'>
+    <mat-select placeholder='X Axis' formControlName='pcx'>
+      <mat-option *ngFor='let option of PcOptions' [value]='option'>
+        PC {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class='form-field-1-3'>
+    <mat-select placeholder='Y Axis' formControlName='pcy'>
+      <mat-option *ngFor='let option of PcOptions' [value]='option'>
+        PC {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class='form-field-1-3'>
+    <mat-select placeholder='Z Axis' formControlName='pcz'>
+      <mat-option *ngFor='let option of PcOptions' [value]='option'>
+        PC {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class='form-field'>
+    <mat-select placeholder='Fit Algo' formControlName='fit_algorithm'>
+      <mat-option *ngFor='let option of fitAlgorithemOptions' [value]='option'>
+        {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class='form-field'>
+    <mat-select placeholder='Transform Algo' formControlName='transform_algorithm'>
+      <mat-option *ngFor='let option of transformAlgorithemOptions' [value]='option'>
+        {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
 </form>
