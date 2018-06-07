@@ -92,7 +92,8 @@ export class DataEffect {
         .ofType(data.DATA_ADD_COHORT)
         .switchMap((args: DataAddCohortAction) => {
             return Observable.fromPromise(this.dataService.createCustomCohort(args.payload.database, args.payload.cohort)
-                .then(v => this.dataService.getCustomCohorts(args.payload.database)));
+                .then(v => this.dataService.getCustomCohorts(args.payload.database))
+            );
         }).switchMap((args: any) => {
             return Observable.of(new DataUpdateCohortsAction(args));
         });
