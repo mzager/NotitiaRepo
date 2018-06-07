@@ -11,14 +11,15 @@
     </mat-form-field>
   </div> -->
   <div fxLayout.xs='column'>
-    <div fxFlex.sm='1 1 30%' fxFlex.md='1 1 20%' fxFlex.lg='1 1 25%' fxFlex.xl='1 1 10%'>
+    <!-- <div fxFlex.sm='1 1 30%' fxFlex.md='1 1 20%' fxFlex.lg='1 1 25%' fxFlex.xl='1 1 10%'>
       <div>cat</div>
       <div>cat</div>
       <div>cat</div>
       <div>cat</div>
       <div>cat</div>
     </div>
-    <div fxFlex.sm='1 1 70%' fxFlex.md='1 1 80%' fxFlex.lg='1 1 75%' fxFlex.xl='1 1 90%'>
+    <div fxFlex.sm='1 1 70%' fxFlex.md='1 1 80%' fxFlex.lg='1 1 75%' fxFlex.xl='1 1 90%'> -->
+    <div fxFlex.sm='1 1 100%'>
       <div *ngFor='let result of results'>
         <span *ngIf='result.visible'>
           <div *ngFor='let method of result.methods'>

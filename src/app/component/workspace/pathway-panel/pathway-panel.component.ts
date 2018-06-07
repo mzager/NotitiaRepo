@@ -103,7 +103,10 @@ export class PathwayPanelComponent implements AfterViewInit, OnDestroy {
             categories,
             pathways
         ]).then(results => {
-            this.pathwayCategories = results[0];
+            this.pathwayCategories = results[0].filter(v =>
+                v.n !== 'KEGG Pathway'
+            );
+
             this.pathwayCategory = this.pathwayCategories[0];
             this.pathwayOptions = results[1]['searchHit'].map(v => ({
                 name: v.name,
