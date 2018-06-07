@@ -10,8 +10,6 @@ import { Component } from '@angular/core';
 export class TsneMetric {
     public static EUCLIDEAN = 'euclidean';
     public static MANHATTAN = 'manhattan';
-    public static JACCARD = 'jaccard';
-    public static DICE = 'dice';
     public static CITYBLOCK = 'cityblock';
     public static COSINE = 'cosine';
     public static L1 = 'l1';
@@ -19,19 +17,13 @@ export class TsneMetric {
     public static BRAYCURTIS = 'braycurtis';
     public static CANBERRA = 'canberra';
     public static CHEBYSHEV = 'chebyshev';
-    public static CORRELATION = 'correlation';
     public static HAMMING = 'hamming';
-    public static KULSINSKI = 'kulsinski';
-    public static MAHALANOBIS = 'mahalanobis';
     public static CMATCHING = 'matching';
     public static MINKOWSKI = 'minkowski';
     public static ROGERSTANIMOTO = 'rogerstanimoto';
     public static RUSSELLRAO = 'russellrao';
-    public static SEUCLIDEAN = 'seuclidean';
     public static SOKALMICHENER = 'sokalmichener';
-    public static SOKALSNEATH = 'sokalsneath';
     public static SQEUCLIDEAN = 'sqeuclidean';
-    public static YULE = 'yule';
 }
 
 export class TsneMethod {
