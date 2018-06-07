@@ -8,28 +8,28 @@
     <div style='font-size: 1rem; text-transform: uppercase; color: #666; letter-spacing: 5px; padding-top: 30px;'>Accelerate your research </div>
   </div>
 
-  <div fxLayout.xs='column'>
+  <div fxLayout.xs="column">
     <div fxFlex.sm='1 1 100%' fxFlex.md='1 1 100%' fxFlex.lg='1 1 100%' fxFlex.xl='1 1 100%'>
       <section>
-        <div fxFlex="20%" class='landing-image-container' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position: 20% 8%; -webkit-background-size: 100% auto;'></div>
-        <div fxFlex="20%" fxFlexOffset='20px' class='landing-image-container' style='background: url(assets/landing/img-4.jpg) no-repeat; background-position: 50% 50%; -webkit-background-size: 100% auto;'></div>
-        <div fxFlex="20%" fxFlexOffset='20px' class='landing-image-container' style='background: url(assets/landing/img-chromo.jpg) no-repeat; background-position: 0% 0%; -webkit-background-size: 100% auto;'></div>
-        <div fxFlex="20%" fxFlexOffset='20px' class='landing-image-container' style='background: url(assets/landing/img-genome.jpg) no-repeat; background-position: 0% 0%; -webkit-background-size: 150% auto;'></div>
-        <div fxFlex="20%" fxFlexOffset='20px' class='landing-image-container' style='background: url(assets/landing/img-scatter.jpg) no-repeat; background-position: 20% 50%; -webkit-background-size: 150% auto;'></div>
+        <div fxFlex.xs="50%" fxFlex="20%" class='landing-image-container' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position: 20% 8%; -webkit-background-size: 100% auto;'></div>
+        <div fxHide.xs fxFlex="20%" fxFlexOffset='20px' class='landing-image-container' style='background: url(assets/landing/img-4.jpg) no-repeat; background-position: 50% 50%; -webkit-background-size: 100% auto;'></div>
+        <div fxHide.xs fxFlex="20%" fxFlexOffset='20px' class='landing-image-container' style='background: url(assets/landing/img-chromo.jpg) no-repeat; background-position: 0% 0%; -webkit-background-size: 100% auto;'></div>
+        <div fxHide.xs fxFlex="20%" fxFlexOffset='20px' class='landing-image-container' style='background: url(assets/landing/img-genome.jpg) no-repeat; background-position: 0% 0%; -webkit-background-size: 150% auto;'></div>
+        <div fxFlex.xs="50%" fxFlex="20%" fxFlexOffset='20px' class='landing-image-container' style='background: url(assets/landing/img-scatter.jpg) no-repeat; background-position: 20% 50%; -webkit-background-size: 150% auto;'></div>
       </section>
     </div>
   </div>
 
-
-  <div style='padding-bottom: 30px;' fxLayout="row">
-    <button mat-button (click)="getStartedClick()" class='button button-shrink'>Get Started
-    </button>
-    <span class='landing-span'>Maximize the potential of your clinical and genomic data by combining it with best-in-class analysis, reference data
-      sets and domain-specific visualizations. To request training or a custom solution contact us at
-      <a style='color: #1e88e5; text-decoration: none;' href='mailto:contact-sttr@fredhutch.org '>contact-sttr@fredhutch.org.</a>
-    </span>
+  <div fxLayout.xs="column">
+    <div style='padding-bottom: 30px;' fxLayout="row">
+      <button mat-button (click)="getStartedClick()" class='button button-shrink'>Get Started
+      </button>
+      <span [fxFlex.xs]="box1Width" class='landing-span'>Maximize the potential of your clinical and genomic data by combining it with best-in-class analysis, reference data
+        sets and domain-specific visualizations. To request training or a custom solution contact us at
+        <a style='color: #1e88e5; text-decoration: none;' href='mailto:contact-sttr@fredhutch.org '>contact-sttr@fredhutch.org.</a>
+      </span>
+    </div>
   </div>
-
 
 
 
@@ -199,21 +199,37 @@
     </div>
   </section>
   <footer class='landing-footer'>
-    <p fxFlex="50%" class='footer-text'>To request training or a custom solution contact us at:</p>
-    <section fxFlex="50%" class='section-footer'>
-      <a href="https://twitter.com/oncoscape" target="_blank">
-        <i class="fa fa-twitter-square fa-3x social"></i>
-      </a>
-      <a href="https://www.instagram.com/oncoscape/ " target="_blank">
-        <i class="fa fa-instagram fa-3x social"></i>
-      </a>
-      <a href="https://www.facebook.com/STTRCancer/" target="_blank">
-        <i class="fa fa-facebook-square fa-3x social"></i>
-      </a>
-      <a href="mailto:contact-sttr@fredhutch.org" target="_blank">
-        <i class="fa fa-envelope-square fa-3x social"></i>
-      </a>
-    </section>
+
+    <div fxLayout="row">
+      <div fxFlex='30%' class="address-text">
+        <p>
+          2018 Fred Hutchinson Cancer Research Center 1100 Fairview Ave. N.
+        </p>
+        <p>P.O. Box 19024, Seattle, WA 98109</p>
+        <p>
+          <a style='color:#fff; text-decoration: none;' href="http://www.fredhutch.org/en/util/terms-privacy.html ">Terms of Use &amp; Privacy Policy</a>
+        </p>
+      </div>
+      <div fxFlex='70%' fxFlexOffset="15">
+        <section class='section-footer'>
+          <span class='footer-text'>To request training or a custom solution contact us at:
+            <a href=" https://twitter.com/oncoscape " target="_blank ">
+              <i class="fa fa-twitter-square fa-3x social "></i>
+            </a>
+            <a href="https://www.instagram.com/oncoscape/ " target="_blank ">
+              <i class="fa fa-instagram fa-3x social "></i>
+            </a>
+            <a href="https://www.facebook.com/STTRCancer/ " target="_blank ">
+              <i class="fa fa-facebook-square fa-3x social "></i>
+            </a>
+            <a href="mailto:contact-sttr@fredhutch.org " target="_blank ">
+              <i class="fa fa-envelope-square fa-3x social "></i>
+            </a>
+          </span>
+        </section>
+      </div>
+    </div>
+
   </footer>
 </div>
 
