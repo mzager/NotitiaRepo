@@ -10,6 +10,7 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,500" rel="stylesheet">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 
 <body style="padding:0px;margin:0px;overflow:hidden;max-height:100vh;height:100vh;overflow-y:hidden;" class='mat-typography'>
@@ -18,11 +19,19 @@
   </app-root>
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-55684588-3"></script>
   <script>
-    var global = global || window; if (global === undefined) { var global = window; } document.oncontextmenu = () => false;
+    var global = global || window;
+    if (global === undefined) {
+      var global = window;
+    }
+    document.oncontextmenu = () => false;
     window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
     gtag('js', new Date());
     gtag('config', 'UA-55684588-3');
+
   </script>
 
 </body>

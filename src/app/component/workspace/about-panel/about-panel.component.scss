@@ -8,11 +8,12 @@
 }
 
 .about-h2 {
-  font-size: 1.2rem;
-  line-height: 150%;
-  font-weight: 300;
-  margin-top: 0px;
-  margin-bottom: 10px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+md-card {
+  margin: 12px;
 }
 
 .team-copy {
@@ -24,20 +25,20 @@
   // font-size: 1.2rem;
 }
 
-.team-copy-thumb {
-  // position: absolute;
-  // left: 0px;
-  // top: 0px;
-  // display: inline-block;
-  float: left;
-  width: 15%; // height: 225px;
-  // -webkit-background-size: cover;
-  // -moz-background-size: cover;
-  // -o-background-size: cover;
-  // background-size: cover; // border: 1px solid #666666;
-  margin-right: 20px;
-}
-
+// .team-copy-thumb {
+//   // position: absolute;
+//   // left: 0px;
+//   // top: 0px;
+//   // display: inline-block;
+//   width: 50%; // -webkit-background-size: cover;
+//   // -moz-background-size: cover;
+//   // -o-background-size: cover;
+//   // background-size: cover; // border: 1px solid #666666;
+//   // margin-right: 20px;
+//   align-items: center;
+//   float: left; // margin: 2px;
+//   padding-left: 10px;
+// }
 .team-copy-title {
   font-weight: 400;
   font-size: 1.2rem;
@@ -53,4 +54,27 @@
 .left {
   float: left;
   margin-right: 1em;
+}
+
+.card-buttons {
+  position: absolute;
+  bottom: 30px;
+}
+
+.item {
+  width: 50px;
+  height: 50px;
+  background-color: tomato;
+  width: 100%;
+  margin: 8px;
+}
+
+@media (min-width: 720px) {
+  .list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .item {
+    width: calc(33% - 16px);
+  }
 }
