@@ -5,11 +5,10 @@ import { FormBuilder } from '@angular/forms';
 import { GraphConfig } from './../../../model/graph-config.model';
 import {
   Component, ComponentFactoryResolver, Input, Output, ViewContainerRef,
-  ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild, ViewEncapsulation
+  ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild, ViewEncapsulation, ChangeDetectorRef
 } from '@angular/core';
 import { Legend } from 'app/model/legend.model';
 import { PanelEnum } from '../../../model/enum.model';
-
 
 @Component({
   selector: 'app-workspace-file-panel',
@@ -20,6 +19,8 @@ import { PanelEnum } from '../../../model/enum.model';
 })
 export class FilePanelComponent {
 
+  // todo: This needs to be revisited post launch.  Should be doing this in redux state.
+  myDatasets: Array<any> = [];
   @Output() uploadExcel = new EventEmitter<any>();
   @Output() loadTcga = new EventEmitter<any>();
   @Output() hide = new EventEmitter<any>();
@@ -32,7 +33,7 @@ export class FilePanelComponent {
     { 'name': 'Cervical', 'disease': 'cesc', 'img': 'DSuterine' },
     { 'name': 'Cholangiocarcinoma', 'disease': 'chol', 'img': 'DSbile' },
     { 'name': 'Colon', 'disease': 'coad', 'img': 'DScoadread' },
-    { 'name': 'Colorectal', 'disease': 'coadread', 'img': 'DScoadread' },
+    // { 'name': 'Colorectal', 'disease': 'coadread', 'img': 'DScoadread' },
     { 'name': 'Diffuse large B Cell', 'disease': 'dlbc', 'img': 'DSblood' },
     { 'name': 'Esophageal', 'disease': 'esca', 'img': 'DSheadneck' },
     { 'name': 'Glioblastoma', 'disease': 'gbm', 'img': 'DSbrain' },
@@ -40,7 +41,7 @@ export class FilePanelComponent {
     { 'name': 'Kidney chromophobe', 'disease': 'kich', 'img': 'DSkidney' },
     { 'name': 'Kidney renal clear cell', 'disease': 'kirc', 'img': 'DSkidney' },
     { 'name': 'Kidney renal papillary cell', 'disease': 'kirp', 'img': 'DSkidney' },
-    { 'name': 'Acute Myeloid Leukemia', 'disease': 'laml', 'img': 'DSblood' },
+    // { 'name': 'Acute Myeloid Leukemia', 'disease': 'laml', 'img': 'DSblood' },
     { 'name': 'Lower grade glioma', 'disease': 'lgg', 'img': 'DSbrain' },
     { 'name': 'Liver', 'disease': 'lihc', 'img': 'DSliver' },
     { 'name': 'Lung adenocarcinoma', 'disease': 'luad', 'img': 'DSlung' },
