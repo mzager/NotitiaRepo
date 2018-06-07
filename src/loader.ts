@@ -281,7 +281,7 @@ onmessage = function (e) {
                     Promise.all(
                         tables.map(tbl => db.table(tbl.tbl).bulkAdd(tbl.data))
                     ).then(() => {
-                        report('Data Loading Complete');
+                        report('Saving ' + tables[0].tbl);
                         me.postMessage(
                             JSON.stringify({
                                 cmd: 'terminate'
