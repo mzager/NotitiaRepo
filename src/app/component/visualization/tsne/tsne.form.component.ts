@@ -24,11 +24,11 @@ export class TsneFormComponent extends AbstractScatterForm {
 
   TsneMetricOptions = [
     TsneMetric.CANBERRA, TsneMetric.CHEBYSHEV, TsneMetric.CITYBLOCK, TsneMetric.CMATCHING,
-    TsneMetric.CORRELATION, TsneMetric.COSINE, TsneMetric.DICE, TsneMetric.EUCLIDEAN,
-    TsneMetric.HAMMING, TsneMetric.JACCARD, TsneMetric.KULSINSKI, TsneMetric.KULSINSKI, TsneMetric.L1,
-    TsneMetric.L2, TsneMetric.MAHALANOBIS, TsneMetric.MANHATTAN, TsneMetric.MINKOWSKI,
-    TsneMetric.ROGERSTANIMOTO, TsneMetric.RUSSELLRAO, TsneMetric.SEUCLIDEAN, TsneMetric.SOKALMICHENER,
-    TsneMetric.SOKALSNEATH, TsneMetric.SQEUCLIDEAN, TsneMetric.YULE];
+    TsneMetric.COSINE, TsneMetric.EUCLIDEAN,
+    TsneMetric.HAMMING, TsneMetric.L1,
+    TsneMetric.L2, TsneMetric.MANHATTAN, TsneMetric.MINKOWSKI,
+    TsneMetric.ROGERSTANIMOTO, TsneMetric.RUSSELLRAO, TsneMetric.SOKALMICHENER,
+    TsneMetric.SQEUCLIDEAN];
 
   TsneMethodOptions = [
     TsneMethod.BARNES_HUT, TsneMethod.EXACT];
