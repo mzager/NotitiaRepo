@@ -1,16 +1,14 @@
-import { MatSelectChange } from '@angular/material';
+
+import { MatSelectChange, MatSelect } from '@angular/material';
 import { Pathway } from './../../../model/pathway.model';
-import { CollectionTypeEnum, DirtyEnum, PanelEnum } from 'app/model/enum.model';
 import { GeneSet } from './../../../model/gene-set.model';
 import { Cohort } from './../../../model/cohort.model';
-import { EntityTypeEnum } from './../../../model/enum.model';
-import { DataTable } from 'app/model/data-field.model';
 import { GraphConfig } from 'app/model/graph-config.model';
-import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
-import { DataField, DataFieldFactory } from './../../../model/data-field.model';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import * as _ from 'lodash';
+import {
+  Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef,
+  ViewEncapsulation, ElementRef, ViewChild
+} from '@angular/core';
+import { PanelEnum, DirtyEnum } from '../../../model/enum.model';
 
 @Component({
   selector: 'app-graph-panel-data',
@@ -18,33 +16,33 @@ import * as _ from 'lodash';
   encapsulation: ViewEncapsulation.None,
   template: `
   <mat-form-field class='form-field' *ngIf='config.enableCohorts'>
-  <mat-select placeholder='Cohort' (selectionChange)='setCohortOption($event)'
-      [value]='cohortSelected' [compareWith]='byCohortName'>
-      <mat-option value='CUSTOM' class='os-link'>
-        <mat-icon class='material-icons md-18' style='transform:translate(0px, 2px);margin-right:0px;'>settings</mat-icon>Create Cohort
-      </mat-option>
+  <mat-select #cohortSelectComponent placeholder='Cohort' (selectionChange)='setCohortOption($event)'
+      [value]='cohortSelected' [compareWith]='byName'>
+      <button mat-button style='color:#1e88e5;width:100%;' (click)='customizeCohorts($event)'>
+      <mat-icon class='material-icons md-18' style='transform:translate(0px, 2px);margin-right:0px;'>settings</mat-icon>Modify List
+      </button>
       <mat-option *ngFor='let option of cohortOptions' [value]='option'>
           {{ option.n }}
       </mat-option>
   </mat-select>
 </mat-form-field>
 <mat-form-field class='form-field' *ngIf='config.enableGenesets'>
-  <mat-select placeholder='Geneset' (selectionChange)='setGenesetOption($event)'
+  <mat-select #genesetSelectComponent placeholder='Geneset' (selectionChange)='setGenesetOption($event)'
       [value]='genesetSelected' [compareWith]='byName'>
-      <mat-option value='CUSTOM' class='os-link'>
-        <mat-icon class='material-icons md-18' style='transform:translate(0px, 2px);margin-right:0px;'>settings</mat-icon>Customize List
-      </mat-option>
+      <button mat-button style='color:#1e88e5;width:100%;' (click)='customizeGenesets()'>
+      <mat-icon class='material-icons md-18' style='transform:translate(0px, 2px);margin-right:0px;'>settings</mat-icon>Modify List
+      </button>
       <mat-option *ngFor='let option of genesetOptions' [value]='option'>
           {{ option.n }}
       </mat-option>
   </mat-select>
 </mat-form-field>
 <mat-form-field class='form-field' *ngIf='config.enablePathways'>
-  <mat-select placeholder='Pathway' (selectionChange)='setPathwayOption($event)'
+  <mat-select #pathwaySelectComponent placeholder='Pathway' (selectionChange)='setPathwayOption($event)'
       [value]='pathwaySelected' [compareWith]='byName'>
-      <mat-option value='CUSTOM' class='os-link'>
-      <mat-icon class='material-icons md-18' style='transform:translate(0px, 2px);margin-right:0px;'>settings</mat-icon>Customize List
-      </mat-option>
+      <button mat-button style='color:#1e88e5;width:100%;' (click)='customizePathways()'>
+      <mat-icon class='material-icons md-18' style='transform:translate(0px, 2px);margin-right:0px;'>settings</mat-icon>Modify List
+      </button>
       <mat-option *ngFor='let option of pathwayOptions' [value]='option'>
           {{ option.n }}
       </mat-option>
@@ -53,6 +51,10 @@ import * as _ from 'lodash';
   `
 })
 export class GraphPanelDataComponent {
+
+  @ViewChild('cohortSelectComponent') cohortSelectComponent: MatSelect;
+  @ViewChild('genesetSelectComponent') genesetSelectComponent: MatSelect;
+  @ViewChild('pathwaySelectComponent') pathwaySelectComponent: MatSelect;
 
   @Output() showPanel: EventEmitter<PanelEnum> = new EventEmitter();
   @Output() configChange: EventEmitter<GraphConfig> = new EventEmitter();
@@ -85,27 +87,32 @@ export class GraphPanelDataComponent {
     this.genesetSelected = this.genesetOptions[0];
   }
 
-  byCohortName(p1: any, p2: any) {
-    // debugger;
-    if (p2 === null) { return false; }
-    return p1.n === p2.n;
+  public customizeCohorts(e: any): void {
+    if (this.cohortSelectComponent.panelOpen) {
+      this.cohortSelectComponent.toggle();
+    }
+    this.showPanel.emit(PanelEnum.COHORT);
   }
+  public customizeGenesets(): void {
+    if (this.genesetSelectComponent.panelOpen) {
+      this.genesetSelectComponent.toggle();
+    }
+    this.showPanel.emit(PanelEnum.GENESET);
+  }
+  public customizePathways(): void {
+    if (this.pathwaySelectComponent.panelOpen) {
+      this.pathwaySelectComponent.toggle();
+    }
+    this.showPanel.emit(PanelEnum.PATHWAYS);
+  }
+
+
   byName(p1: any, p2: any) {
     if (p2 === null) { return false; }
     return p1.n === p2.n;
   }
-  public customClick(): void {
-    console.log("CC");
-  }
+
   public setPathwayOption(e: MatSelectChange): void {
-    if (e.value === 'CUSTOM') {
-
-      this.pathwaySelected = this.pathwayOptions.find(v => v.n === this.config.pathwayName);
-      this.cd.detectChanges();
-
-      this.showPanel.emit(PanelEnum.PATHWAYS);
-      return;
-    }
     if (this.config.pathwayName === e.value.n) {
       return;
     }
@@ -115,12 +122,6 @@ export class GraphPanelDataComponent {
     this.configChange.emit(this.config);
   }
   public setGenesetOption(e: MatSelectChange): void {
-    if (e.value === 'CUSTOM') {
-      this.genesetSelected = this.genesetOptions.find(v => v.n === this.config.markerName);
-      this.cd.detectChanges();
-      this.showPanel.emit(PanelEnum.GENESET);
-      return;
-    }
     if (this.config.markerName === e.value.n) {
       return;
     }
@@ -131,16 +132,6 @@ export class GraphPanelDataComponent {
 
   }
   public setCohortOption(e: MatSelectChange): void {
-    if (e.value === 'CUSTOM') {
-
-      this.cohortSelected = this.cohortOptions.find(v => v.n === this.config.cohortName);
-      // this.cd.detectChanges();
-      this.cd.markForCheck();
-
-
-      this.showPanel.emit(PanelEnum.COHORT);
-      return;
-    }
     if (this.config.cohortName === e.value.n) {
       return;
     }
