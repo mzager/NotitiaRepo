@@ -1,11 +1,11 @@
 <form novalidate>
-    <mat-form-field class='form-field'>
+    <!-- <mat-form-field class='form-field'>
         <mat-select [value]='layoutSelected' placeholder='Layout' (selectionChange)='layoutOptionChange($event)'>
             <mat-option *ngFor='let option of layoutOptions' [value]='option'>
                 {{ option }}
             </mat-option>
         </mat-select>
-    </mat-form-field>
+    </mat-form-field> -->
     <mat-form-field class='form-field'>
         <mat-select [value]='edgeSelected' placeholder='Connect' (selectionChange)='edgeOptionChange($event)'>
             <mat-option *ngFor='let option of edgeOptions' [value]='option.label'>
