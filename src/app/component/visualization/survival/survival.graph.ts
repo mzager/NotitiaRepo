@@ -215,8 +215,8 @@ export class SurvivalGraph extends AbstractVisualization {
             this.labels.innerHTML =
                 LabelController.generateHtml(this.labelsForPercents, optionsForPercents) +
                 LabelController.generateHtml(this.labelsForTimes, optionsForTimes);
-            //  +
-            // '<div style="position:fixed;bottom:50px;left:30%; font-size: 1.2rem;">Time</div>' +
+
+            // '<div style="position:fixed;bottom:50px;left:30%; font-size: 1.2rem;">Days</div>'
             // '<div style="position:fixed;left:200px;top:50%; transform: rotate(90deg);font-size: 1.2rem;">Percent</div>';
         }
     }
