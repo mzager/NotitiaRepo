@@ -301,6 +301,7 @@ input:-webkit-autofill {
   overflow-y: scroll;
   padding: 50px 10px;
   background: #FFF;
+  z-index: 1;
 }
 
 .panel-header {
