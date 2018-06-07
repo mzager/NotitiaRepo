@@ -20,21 +20,35 @@
     </div>
   </div>
 
-  <div>
-    <section style='padding-bottom: 30px;' fxFlex.sm='1 1 100%' fxFlex.md='1 1 100%' fxFlex.lg='1 1 100%' fxFlex.xl='1 1 100%'>
-      <button fxFlex='15%' (click)="getStartedClick()" class='button' style='letter-spacing: 5px; line-height: 25px;
-      text-transform: uppercase; text-align: left; font-size: 1rem; font-weight: 100;' mat-button>Get
-        <br /> Started
-      </button>
 
-      <div fxFlexOffset='20px' fxFlex='85%' style='line-height: 25px;'>
-        <span>Maximize the potential of your clinical and genomic data by combining it with best-in-class analysis, reference data
-          sets and domain-specific visualizations. To request training or a custom solution contact us at
-          <a style='color: #1e88e5; text-decoration: none;' href='mailto:contact@oncoscape.org'>contact@oncoscape.org</a>.
-        </span>
-      </div>
-    </section>
+  <div style='padding-bottom: 30px;' fxLayout="row">
+    <button mat-button (click)="getStartedClick()" class='button button-shrink'>Get Started
+    </button>
+    <span class='landing-span'>Maximize the potential of your clinical and genomic data by combining it with best-in-class analysis, reference data
+      sets and domain-specific visualizations. To request training or a custom solution contact us at
+      <a style='color: #1e88e5; text-decoration: none;' href='mailto:contact-sttr@fredhutch.org '>contact-sttr@fredhutch.org.</a>
+    </span>
   </div>
+
+
+
+
+
+  <!-- <div>
+      <section style='padding-bottom: 30px;' fxFlex.sm='1 1 100%' fxFlex.md='1 1 100%' fxFlex.lg='1 1 100%' fxFlex.xl='1 1 100%'>
+        <button fxFlex='15%' (click)="getStartedClick()" class='button' style='letter-spacing: 5px; line-height: 25px;
+        text-transform: uppercase; text-align: left; font-size: 1rem; font-weight: 100;' mat-button>Get
+          <br /> Started
+        </button>
+  
+        <div fxFlexOffset='20px' fxFlex='85%' style='line-height: 25px;'>
+          <span>Maximize the potential of your clinical and genomic data by combining it with best-in-class analysis, reference data
+            sets and domain-specific visualizations. To request training or a custom solution contact us at
+            <a style='color: #1e88e5; text-decoration: none;' href='mailto:contact@oncoscape.org'>contact@oncoscape.org</a>.
+          </span>
+        </div>
+      </section>
+    </div> -->
 
 
   <div class='landing-headers'></div>
@@ -184,10 +198,27 @@
       <span class='landing-copy-desc'>Connect multiple graphs with edges. Link tumor/normal samples or visualize mutations.</span>
     </div>
   </section>
-  <footer style='background-color:#1e88e5;color:#FFF;position: relative;left: -20%;width: 140%;padding: 20px 20%;'>
-    This iss some footer text
+  <footer class='landing-footer'>
+    <p fxFlex="50%" class='footer-text'>To request training or a custom solution contact us at:</p>
+    <section fxFlex="50%" class='section-footer'>
+      <a href="https://twitter.com/oncoscape" target="_blank">
+        <i class="fa fa-twitter-square fa-3x social"></i>
+      </a>
+      <a href="https://www.instagram.com/oncoscape/ " target="_blank">
+        <i class="fa fa-instagram fa-3x social"></i>
+      </a>
+      <a href="https://www.facebook.com/STTRCancer/" target="_blank">
+        <i class="fa fa-facebook-square fa-3x social"></i>
+      </a>
+      <a href="mailto:contact-sttr@fredhutch.org" target="_blank">
+        <i class="fa fa-envelope-square fa-3x social"></i>
+      </a>
+    </section>
   </footer>
 </div>
+
+
+
 
 
 
