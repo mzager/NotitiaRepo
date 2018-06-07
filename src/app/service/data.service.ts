@@ -980,35 +980,45 @@ export class DataService {
 
         Promise.all(queries).then(conditions => {
 
-          if (!cohort.n.trim().length) {
-            const d = new Date();
-            cohort.n = d.toLocaleDateString + ' ' + d.toLocaleTimeString();
-          }
-          conditions.forEach((patients, i) => {
-            cohort.conditions[i].pids = patients.map(v => v.p);
-          });
-          const orGroups = cohort.conditions.reduce((p, c) => {
-            if (c.condition === 'where' || c.condition === 'and') {
-              p.push([c]);
-            } else { p[p.length - 1].push(c); }
-            return p;
-          }, []);
-          const andGroups = orGroups.map(group => group.reduce((p, c) => {
-            return Array.from(new Set([...p, ...c.pids]));
-          }, []));
-          const pids = (andGroups.length === 1) ? andGroups[0] :
-            Array.from(andGroups.reduce((p, c) => {
-              const cSet = new Set(c);
-              return new Set([...p].filter(x => cSet.has(x)));
-            }, andGroups.shift()));
-          cohort.pids = pids;
-          conn.table('patientSampleMap').toArray().then(ps => {
-            const pids2 = new Set(cohort.pids);
-            cohort.sids = ps.filter(v => pids2.has(v.p)).map(v => v.s);
-            conn.table('cohorts').add(cohort).then(v => {
-              resolve(v);
+          try {
+            if (!cohort.n.trim().length) {
+              const d = new Date();
+              cohort.n = d.toLocaleDateString + ' ' + d.toLocaleTimeString();
+            }
+            conditions.forEach((patients, i) => {
+              cohort.conditions[i].pids = patients.map(v => v.p);
             });
-          });
+            const orGroups = cohort.conditions.reduce((p, c) => {
+              if (c.condition === 'where' || c.condition === 'and') {
+                p.push([c]);
+              } else { p[p.length - 1].push(c); }
+              return p;
+            }, []);
+            const andGroups = orGroups.map(group => group.reduce((p, c) => {
+              return Array.from(new Set([...p, ...c.pids]));
+            }, []));
+            const pids = (andGroups.length === 1) ? andGroups[0] :
+              Array.from(andGroups.reduce((p, c) => {
+                const cSet = new Set(c);
+                return new Set([...p].filter(x => cSet.has(x)));
+              }, andGroups.shift()));
+            cohort.pids = pids;
+            conn.table('patientSampleMap').toArray().then(ps => {
+              const pids2 = new Set(cohort.pids);
+              cohort.sids = ps.filter(v => pids2.has(v.p)).map(v => v.s);
+              if (cohort.sids.length === 0) {
+                alert('Your query did not match any samples');
+                reject('Your query did not match any samples');
+                return;
+              }
+              conn.table('cohorts').add(cohort).then(v => {
+                resolve(v);
+              });
+            });
+          } catch (e) {
+            alert('Your query did not match any samples');
+            reject('Your query did not match any samples');
+          }
         });
       });
     });

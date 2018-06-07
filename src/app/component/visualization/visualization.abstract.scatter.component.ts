@@ -54,7 +54,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
 
     }
     private onShow(e: any): void {
-        debugger;
+
     }
 
     updateData(config: GraphConfig, data: any) {
