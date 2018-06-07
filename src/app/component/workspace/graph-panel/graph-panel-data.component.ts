@@ -16,7 +16,7 @@ import { PanelEnum, DirtyEnum } from '../../../model/enum.model';
   encapsulation: ViewEncapsulation.None,
   template: `
   <mat-form-field class='form-field' *ngIf='config.enableCohorts'>
-  <mat-select #cohortSelectComponent placeholder='Cohort' (selectionChanges)='setCohortOption($event)'
+  <mat-select #cohortSelectComponent placeholder='Cohort' (selectionChange)='setCohortOption($event)'
       [value]='cohortSelected' [compareWith]='byName'>
       <button mat-button style='color:#1e88e5;width:100%;' (click)='customizeCohorts($event)'>
       <mat-icon class='material-icons md-18' style='transform:translate(0px, 2px);margin-right:0px;'>settings</mat-icon>Modify List
