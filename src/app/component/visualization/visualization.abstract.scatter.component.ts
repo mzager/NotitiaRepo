@@ -50,6 +50,11 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.onShowLabels();
         this.points = this.meshes.map(v => v.children[0]);
         this.tooltipController.targets = this.points;
+        this.tooltipController.onShow.subscribe(this.onShow);
+
+    }
+    private onShow(e: any): void {
+        debugger;
     }
 
     updateData(config: GraphConfig, data: any) {
@@ -100,6 +105,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     }
 
     onMouseDown(e: ChartEvent): void {
+
 
         // const hit = ChartUtil.getIntersects(this.view, e.mouse, this.points);
         // if (hit.length > 0) {

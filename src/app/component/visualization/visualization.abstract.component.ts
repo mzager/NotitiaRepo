@@ -42,6 +42,7 @@ export class AbstractVisualization implements ChartObjectInterface {
     public events: ChartEvents;
     public view: VisualizationView;
     public isEnabled: boolean;
+    public isVisible: boolean;
     public meshes: THREE.Object3D[];
     protected labelController: LabelController;
     protected tooltipOptions: TooltipOptions;
@@ -151,7 +152,6 @@ export class AbstractVisualization implements ChartObjectInterface {
         this.labels.innerHTML = '';
     }
     constructor() {
-
     }
 
 }
