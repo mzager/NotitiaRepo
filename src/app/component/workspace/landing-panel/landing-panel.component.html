@@ -20,20 +20,34 @@
     </div>
   </div>
 
-  <div>
-    <section style='padding-bottom: 30px;' fxFlex.sm='1 1 100%' fxFlex.md='1 1 100%' fxFlex.lg='1 1 100%' fxFlex.xl='1 1 100%'>
-      <button fxFlex='15%' (click)="getStartedClick()" class='button' style='letter-spacing: 5px; line-height: 25px;
-      text-transform: uppercase; text-align: left; font-size: 1rem; font-weight: 100;' mat-button>Get Started
-      </button>
 
-      <div fxFlexOffset='20px' fxFlex='85%' style='line-height: 25px;'>
-        <span>Maximize the potential of your clinical and genomic data by combining it with best-in-class analysis, reference data
-          sets and domain-specific visualizations. To request training or a custom solution contact us at
-          <a style='color: #1e88e5; text-decoration: none;' href='mailto:contact@oncoscape.org'>contact@oncoscape.org</a>.
-        </span>
-      </div>
-    </section>
+  <div style='padding-bottom: 30px;' fxLayout="row">
+    <button mat-button (click)="getStartedClick()" class='button button-shrink'>Get Started
+    </button>
+    <span class='landing-span'>Maximize the potential of your clinical and genomic data by combining it with best-in-class analysis, reference data
+      sets and domain-specific visualizations. To request training or a custom solution contact us at
+      <a style='color: #1e88e5; text-decoration: none;' href='mailto:contact@oncoscape.org'>contact@oncoscape.org</a>. </span>
   </div>
+
+
+
+
+
+  <!-- <div>
+      <section style='padding-bottom: 30px;' fxFlex.sm='1 1 100%' fxFlex.md='1 1 100%' fxFlex.lg='1 1 100%' fxFlex.xl='1 1 100%'>
+        <button fxFlex='15%' (click)="getStartedClick()" class='button' style='letter-spacing: 5px; line-height: 25px;
+        text-transform: uppercase; text-align: left; font-size: 1rem; font-weight: 100;' mat-button>Get
+          <br /> Started
+        </button>
+  
+        <div fxFlexOffset='20px' fxFlex='85%' style='line-height: 25px;'>
+          <span>Maximize the potential of your clinical and genomic data by combining it with best-in-class analysis, reference data
+            sets and domain-specific visualizations. To request training or a custom solution contact us at
+            <a style='color: #1e88e5; text-decoration: none;' href='mailto:contact@oncoscape.org'>contact@oncoscape.org</a>.
+          </span>
+        </div>
+      </section>
+    </div> -->
 
 
   <div class='landing-headers'></div>
@@ -184,6 +198,7 @@
     </div>
   </section>
 </div>
+
 
 
 
