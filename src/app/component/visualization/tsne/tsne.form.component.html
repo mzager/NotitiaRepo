@@ -41,37 +41,20 @@
             </mat-option>
         </mat-select>
     </mat-form-field>
-    <mat-slider tickInterval="auto" formControlName='perplexity' thumbLabel='true'></mat-slider>
-    <div class='form-group'>
-        <label class='center-block'>
-            <span class='form-label'>Perplexity</span>
-            <p class='range-field'>
-                <input type='range' min='5' max='50' formControlName='perplexity' />
-            </p>
-        </label>
-    </div>
-    <div class='form-group'>
-        <label class='center-block'>
-            <span class='form-label'>Early Exaggeration</span>
-            <p class='range-field'>
-                <input type='range' min='3' max='24' step='.1' formControlName='early_exaggeration' />
-            </p>
-        </label>
-    </div>
-    <div class='form-group'>
-        <label class='center-block'>
-            <span class='form-label'>Learning Rate</span>
-            <p class='range-field'>
-                <input type='range' min='1' max='1000' formControlName='learning_rate' />
-            </p>
-        </label>
-    </div>
-    <div class='form-group'>
-        <label class='center-block'>
-            <span class='form-label'>Max Iterations</span>
-            <p class='range-field'>
-                <input type='range' min='250' max='2000' formControlName='n_iter' />
-            </p>
-        </label>
-    </div>
+    <mat-label>Perplexity</mat-label>
+    <br />
+    <mat-slider min='1' max='50' formControlName='perplexity' thumbLabel='true'></mat-slider>
+    <br />
+    <mat-label>Early Exaggeration</mat-label>
+    <br />
+    <mat-slider min='3' max='24' formControlName='early_exaggeration' thumbLabel='true'></mat-slider>
+    <br />
+    <mat-label>Learning Rate</mat-label>
+    <br />
+    <mat-slider min='1' max='1000' formControlName='learning_rate' thumbLabel='true'></mat-slider>
+    <br />
+    <mat-label>Max Iterations</mat-label>
+    <br />
+    <mat-slider min='1' max='1000' formControlName='n_iter' thumbLabel='true'></mat-slider>
+    <br />
 </form>
