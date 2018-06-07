@@ -128,7 +128,7 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
                 v.name = v.name.replace(/_/gi, ' ');
                 v.genes = v.hugo.split(',');
             });
-            this.genesetCategories = response[0];
+            this.genesetCategories = response[0].filter(v => v.n !== 'KEGG').filter(v => v.n.indexOf('HI-C'));
             this.genesetCategory = this.genesetCategories[0];
             this.genesetOptions = response[1];
             this.genesetOptionsFilter = this.genesetOptions;
