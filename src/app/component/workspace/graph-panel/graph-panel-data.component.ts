@@ -19,7 +19,7 @@ import * as _ from 'lodash';
   template: `
   <mat-form-field class='form-field' *ngIf='config.enableCohorts'>
   <mat-select placeholder='Cohort' (selectionChange)='setCohortOption($event)'
-      [value]='cohortSelected' [compareWith]='byName'>
+      [value]='cohortSelected' [compareWith]='byCohortName'>
       <mat-option value='CUSTOM' class='os-link'>
         <mat-icon class='material-icons md-18' style='transform:translate(0px, 2px);margin-right:0px;'>settings</mat-icon>Create Cohort
       </mat-option>
@@ -85,14 +85,28 @@ export class GraphPanelDataComponent {
     this.genesetSelected = this.genesetOptions[0];
   }
 
+  byCohortName(p1: any, p2: any) {
+    // debugger;
+    if (p2 === null) { return false; }
+    return p1.n === p2.n;
+  }
   byName(p1: any, p2: any) {
     if (p2 === null) { return false; }
     return p1.n === p2.n;
   }
-
+  public customClick(): void {
+    console.log("CC");
+  }
   public setPathwayOption(e: MatSelectChange): void {
     if (e.value === 'CUSTOM') {
+
+      this.pathwaySelected = this.pathwayOptions.find(v => v.n === this.config.pathwayName);
+      this.cd.detectChanges();
+
       this.showPanel.emit(PanelEnum.PATHWAYS);
+      return;
+    }
+    if (this.config.pathwayName === e.value.n) {
       return;
     }
     this.config.pathwayUri = e.value.uri;
@@ -102,7 +116,12 @@ export class GraphPanelDataComponent {
   }
   public setGenesetOption(e: MatSelectChange): void {
     if (e.value === 'CUSTOM') {
+      this.genesetSelected = this.genesetOptions.find(v => v.n === this.config.markerName);
+      this.cd.detectChanges();
       this.showPanel.emit(PanelEnum.GENESET);
+      return;
+    }
+    if (this.config.markerName === e.value.n) {
       return;
     }
     this.config.markerName = e.value.n;
@@ -113,9 +132,19 @@ export class GraphPanelDataComponent {
   }
   public setCohortOption(e: MatSelectChange): void {
     if (e.value === 'CUSTOM') {
+
+      this.cohortSelected = this.cohortOptions.find(v => v.n === this.config.cohortName);
+      // this.cd.detectChanges();
+      this.cd.markForCheck();
+
+
       this.showPanel.emit(PanelEnum.COHORT);
       return;
     }
+    if (this.config.cohortName === e.value.n) {
+      return;
+    }
+    console.log('Config Change');
     this.config.cohortName = e.value.n;
     this.config.patientFilter = e.value.pids;
     this.config.sampleFilter = e.value.sids;
