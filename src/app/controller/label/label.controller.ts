@@ -1,16 +1,11 @@
-import { GraphEnum } from 'app/model/enum.model';
-import { ChartEvents } from './../../component/workspace/chart/chart.events';
-import { textAlign } from 'three-text2d';
-import { ILabel } from './label.controller';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Rx';
 import { EventEmitter } from '@angular/core';
+import { GraphEnum } from 'app/model/enum.model';
+import * as THREE from 'three';
+import { Matrix4, Object3D } from 'three';
+import { ChartEvents } from './../../component/workspace/chart/chart.events';
 import { LabelForce } from './../../controller/label/label.force';
 import { VisualizationView } from './../../model/chart-view.model';
-import * as THREE from 'three';
-import * as _ from 'lodash';
-import { debounceTime, skipWhile } from 'rxjs/operators';
-import { Vector3, Matrix4, Object3D } from 'three';
+import { ILabel } from './label.controller';
 
 export interface ILabel {
     position: THREE.Vector3;

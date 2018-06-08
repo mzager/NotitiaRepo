@@ -1,10 +1,8 @@
-import { DataTable } from './../../../model/data-field.model';
-import { GraphData } from './../../../model/graph-data.model';
-import { GraphConfig } from 'app/model/graph-config.model';
-import { Legend } from './../../../model/legend.model';
-import { VisualizationEnum, ShapeEnum, GraphEnum, EntityTypeEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory } from 'app/model/data-field.model';
-import { DimensionEnum } from './../../../model/enum.model';
+import { EntityTypeEnum, GraphEnum, VisualizationEnum } from 'app/model/enum.model';
+import { GraphConfig } from 'app/model/graph-config.model';
+import { GraphData } from './../../../model/graph-data.model';
+import { Legend } from './../../../model/legend.model';
 
 export class EdgeConfigModel extends GraphConfig {
 

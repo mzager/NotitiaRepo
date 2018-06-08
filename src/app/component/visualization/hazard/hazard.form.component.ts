@@ -1,13 +1,8 @@
-import { MatCheckboxChange, MatSelectChange, MatSliderChange } from '@angular/material';
-import { HazardConfigModel } from './hazard.model';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
-import { ChromosomeConfigModel } from './../chromosome/chromosome.model';
+import { MatSliderChange } from '@angular/material';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { DimensionEnum, DataTypeEnum, VisualizationEnum } from 'app/model/enum.model';
-import { DataField, DataFieldFactory } from './../../../model/data-field.model';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import * as _ from 'lodash';
+import { HazardConfigModel } from './hazard.model';
 
 @Component({
   selector: 'app-hazard-form',

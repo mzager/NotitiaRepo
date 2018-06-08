@@ -1,4 +1,3 @@
-import { ShapeEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 
 export interface GraphData {

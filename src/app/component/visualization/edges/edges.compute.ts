@@ -1,12 +1,6 @@
-import { DirtyEnum, EntityTypeEnum } from './../../../model/enum.model';
-import { interpolateRdBu, interpolateSpectral } from 'd3-scale-chromatic';
-import { scaleLinear } from 'd3-scale';
-import * as d3Scale from 'd3-scale';
-import * as d3Color from 'd3-color';
-import { Legend } from './../../../model/legend.model';
 import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
+import { EntityTypeEnum } from './../../../model/enum.model';
 import { EdgeConfigModel } from './edges.model';
-import * as _ from 'lodash';
 
 export const edgesCompute = (config: EdgeConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 

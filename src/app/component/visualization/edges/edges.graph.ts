@@ -1,17 +1,16 @@
-import { scaleOrdinal } from 'd3-scale';
-import { LabelController } from './../../../controller/label/label.controller';
-import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
-import { ChartFactory } from './../../workspace/chart/chart.factory';
-import { EdgeDataModel, EdgeConfigModel } from './edges.model';
-import { VisualizationView } from './../../../model/chart-view.model';
-import { ChartEvents } from './../../workspace/chart/chart.events';
+import { EventEmitter } from '@angular/core';
+import { GraphEnum } from 'app/model/enum.model';
 import { GraphConfig } from 'app/model/graph-config.model';
-import { EntityTypeEnum, WorkspaceLayoutEnum, CollectionTypeEnum, VisualizationEnum } from './../../../model/enum.model';
-import { GraphEnum, DirtyEnum, ShapeEnum } from 'app/model/enum.model';
-import { EventEmitter, Output, Injectable, ReflectiveInjector, ViewChild } from '@angular/core';
-import { ChartObjectInterface } from './../../../model/chart.object.interface';
-import * as THREE from 'three';
 import * as _ from 'lodash';
+import * as THREE from 'three';
+import { LabelController } from './../../../controller/label/label.controller';
+import { VisualizationView } from './../../../model/chart-view.model';
+import { ChartObjectInterface } from './../../../model/chart.object.interface';
+import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
+import { EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
+import { ChartEvents } from './../../workspace/chart/chart.events';
+import { ChartFactory } from './../../workspace/chart/chart.factory';
+import { EdgeConfigModel, EdgeDataModel } from './edges.model';
 
 export class EdgesGraph implements ChartObjectInterface {
 

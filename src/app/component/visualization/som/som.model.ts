@@ -1,10 +1,6 @@
-import { EntityTypeEnum } from './../../../model/enum.model';
-import { GraphData } from './../../../model/graph-data.model';
-import { Legend } from './../../../model/legend.model';
-import { DataFieldFactory } from './../../../model/data-field.model';
+import { DimensionEnum, DistanceEnum } from 'app/model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { VisualizationEnum, ShapeEnum, GraphEnum, DimensionEnum, DistanceEnum } from 'app/model/enum.model';
-import { DataField } from 'app/model/data-field.model';
+import { GraphData } from './../../../model/graph-data.model';
 
 export class SomConfigModel extends GraphConfig {
 

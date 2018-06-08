@@ -27,11 +27,3 @@ export class Legend {
   }
 }
 
-// export interface LegendItem {
-//   name: string;
-//   description?: string;
-// }
-// export interface DiscreteLegendItem extends LegendItem{
-//   labels: Array<string>;
-//   values:
-// }

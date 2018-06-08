@@ -1,27 +1,16 @@
-import { LabelController, LabelOptions } from './../../../controller/label/label.controller';
-import { ChromosomeDataModel } from './../chromosome/chromosome.model';
-import { AbstractVisualization } from './../visualization.abstract.component';
-import { DataDecorator } from './../../../model/data-map.model';
-// import { Tween, Easing } from 'es6-tween';
-import { Colors, EntityTypeEnum, WorkspaceLayoutEnum, DirtyEnum, CollectionTypeEnum } from './../../../model/enum.model';
-import { OrbitControls } from 'three-orbitcontrols-ts';
-import { Subscription } from 'rxjs/Subscription';
-import { ChartObjectInterface } from './../../../model/chart.object.interface';
-import { ChartEvent, ChartEvents } from './../../workspace/chart/chart.events';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { VisualizationView } from './../../../model/chart-view.model';
-import { Injectable, EventEmitter, Output } from '@angular/core';
-import { ShapeEnum, ColorEnum, GraphEnum, GenomicEnum } from 'app/model/enum.model';
-import { ChartFactory, DataDecoatorRenderer } from './../../workspace/chart/chart.factory';
-import { GenomeConfigModel, GenomeDataModel } from './genome.model';
-import { GraphConfig } from './../../../model/graph-config.model';
-import * as scale from 'd3-scale';
-import * as _ from 'lodash';
+import { GenomicEnum, ShapeEnum } from 'app/model/enum.model';
 import * as THREE from 'three';
-import { scaleLinear, scaleOrdinal } from 'd3-scale';
-import { ChromosomeConfigModel } from 'app/component/visualization/chromosome/chromosome.model';
-import { DataTable } from 'app/model/data-field.model';
-import { Group, Vector3, Object3D } from 'three';
+import { Vector3 } from 'three';
+import { LabelController, LabelOptions } from './../../../controller/label/label.controller';
+import { VisualizationView } from './../../../model/chart-view.model';
+import { ChartObjectInterface } from './../../../model/chart.object.interface';
+import { DataDecorator } from './../../../model/data-map.model';
+import { EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
+import { GraphConfig } from './../../../model/graph-config.model';
+import { ChartEvents } from './../../workspace/chart/chart.events';
+import { ChartFactory, DataDecoatorRenderer } from './../../workspace/chart/chart.factory';
+import { AbstractVisualization } from './../visualization.abstract.component';
+import { GenomeConfigModel, GenomeDataModel } from './genome.model';
 
 export class GenomeGraph extends AbstractVisualization {
 

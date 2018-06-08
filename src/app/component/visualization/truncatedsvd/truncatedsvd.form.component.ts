@@ -1,13 +1,7 @@
-import { TruncatedSvdConfigModel, TruncatedSvdAlgorithem } from './truncatedsvd.model';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
-import { DimensionEnum, EntityTypeEnum, CollectionTypeEnum } from './../../../model/enum.model';
-import { GraphConfig } from './../../../model/graph-config.model';
-import { DataTypeEnum, DirtyEnum } from 'app/model/enum.model';
-import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import * as _ from 'lodash';
-import { TruncatedSvdAction } from '../../../action/compute.action';
+import { TruncatedSvdAlgorithem, TruncatedSvdConfigModel } from './truncatedsvd.model';
 
 @Component({
   selector: 'app-truncatedsvd-form',

@@ -1,11 +1,9 @@
-import { AbstractScatterVisualization } from './visualization.abstract.scatter.component';
 import { DimensionEnum } from './../../model/enum.model';
 import { FormGroup } from '@angular/forms';
 import { GraphConfig } from './../../model/graph-config.model';
 import { Input, Output, EventEmitter } from '@angular/core';
-import { CollectionTypeEnum, EntityTypeEnum, DataTypeEnum, DirtyEnum } from 'app/model/enum.model';
+import { CollectionTypeEnum, EntityTypeEnum } from 'app/model/enum.model';
 import { DataField, DataTable } from './../../model/data-field.model';
-import { DataFieldFactory } from 'app/model/data-field.model';
 export class AbstractScatterForm {
 
     PcOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
