@@ -1,7 +1,5 @@
-import { KmedoidConfigModel } from './kmedoids.model';
-import { Legend } from 'app/model/legend.model';
 import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
-import * as _ from 'lodash';
+import { KmedoidConfigModel } from './kmedoids.model';
 declare var ML: any;
 
 // Internal Caches

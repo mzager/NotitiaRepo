@@ -1,15 +1,12 @@
-import { HistogramDataModel, HistogramConfigModel } from './histogram.model';
-import { GraphEnum } from 'app/model/enum.model';
-import { EventEmitter } from '@angular/core';
+import { GraphConfig } from 'app/model/graph-config.model';
+import { VisualizationView } from './../../../model/chart-view.model';
+import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { DataDecorator } from './../../../model/data-map.model';
 import { EntityTypeEnum } from './../../../model/enum.model';
-import { ChartFactory } from './../../workspace/chart/chart.factory';
-import { GraphConfig } from 'app/model/graph-config.model';
-import { ChartObjectInterface } from './../../../model/chart.object.interface';
-import { VisualizationView } from './../../../model/chart-view.model';
 import { ChartEvent, ChartEvents } from './../../workspace/chart/chart.events';
+import { ChartFactory } from './../../workspace/chart/chart.factory';
 import { AbstractVisualization } from './../visualization.abstract.component';
-import * as THREE from 'three';
+import { HistogramConfigModel, HistogramDataModel } from './histogram.model';
 export class HistogramGraph extends AbstractVisualization {
 
     public set data(data: HistogramDataModel) { this._data = data; }

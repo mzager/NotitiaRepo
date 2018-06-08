@@ -1,6 +1,5 @@
-import { Object3D, Vector3 } from 'three';
+import { AbstractMouseController } from './../abstract.mouse.controller';
 import { IToolTip } from './tooltip.controller';
-import { Subscription } from 'rxjs/Subscription';
 import { ChartEvent, ChartEvents } from './../../component/workspace/chart/chart.events';
 import { VisualizationView } from './../../model/chart-view.model';
 import { EventEmitter } from '@angular/core';
@@ -38,24 +37,14 @@ export class TooltipOptions {
     }
 }
 
-export class TooltipController {
+export class TooltipController extends AbstractMouseController {
 
     // State
-    protected _view: VisualizationView;
-    protected _enabled: boolean;
-    protected _debounce: number;
-    protected _mouseOver: boolean;
-    protected _events: ChartEvents;
-    protected _mouseMoveSubscription: Subscription;
-    protected _targets: Array<Object3D>;
     protected _options; TooltipOptions;
     protected _hoverObjectId: number;
-    protected _raycaster: THREE.Raycaster;
     public onShow: EventEmitter<{ text: string, color: string, event: ChartEvent }>;
     public onHide: EventEmitter<any>;
-
     public static generateHtml(object: IToolTip, options: TooltipOptions): string {
-
         const css = 'border-right-color:' + object.userData.color + ';' + options.generateCss();
         const alignmentOffset = (options.align === 'LEFT') ? 0 : (options.align === 'CENTER') ? 50 : -100;
         const translate = 'left:' +
@@ -71,23 +60,14 @@ export class TooltipController {
 
 
     constructor(view: VisualizationView, events: ChartEvents, debounce: number = 10) {
-        this._events = events;
-        this._targets = [];
-        this._view = view;
+        super(view, events, debounce);
         this._options = new TooltipOptions();
         this.onShow = new EventEmitter();
         this.onHide = new EventEmitter();
-        this._enabled = this._enabled;
-        this._debounce = debounce;
-        this._mouseOver = false;
         this._hoverObjectId = -1;
-        this._raycaster = new THREE.Raycaster();
     }
 
-    public get targets(): Array<Object3D> { return this._targets; }
-    public set targets(value: Array<Object3D>) {
-        this._targets = value;
-    }
+
     public get options(): TooltipOptions { return this._options; }
     public set options(value: TooltipOptions) {
         this._options = value;
@@ -95,33 +75,10 @@ export class TooltipController {
 
 
     public destroy(): void {
-        this._events = null;
-        this._mouseMoveSubscription.unsubscribe();
+        super.destroy();
         this.onShow.unsubscribe();
         this.onHide.unsubscribe();
-        this._targets = null;
         this._options = null;
-    }
-    public get enable(): boolean { return this._enabled; }
-    public set enable(value: boolean) {
-        if (value === this._enabled) {
-            return;
-        }
-        this._enabled = value;
-        if (value) {
-            this._mouseMoveSubscription = this._events.chartMouseMove
-                .debounceTime(this._debounce)
-                .subscribe(this.onMouseMove.bind(this));
-        } else {
-            this._mouseMoveSubscription.unsubscribe();
-        }
-    }
-    public getIntersects(
-        view: VisualizationView,
-        pos: { x: number, y: number, xs: number, ys: number },
-        objects: Array<THREE.Object3D>): Array<THREE.Intersection> {
-        this._raycaster.setFromCamera(pos, view.camera);
-        return this._raycaster.intersectObjects(objects, false);
     }
 
     public onMouseMove(e: ChartEvent): void {

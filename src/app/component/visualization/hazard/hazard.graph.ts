@@ -1,19 +1,16 @@
-import { HazardDataModel, HazardConfigModel, HazardDatumModel } from './hazard.model';
-import { LabelController, ILabel, LabelOptions } from './../../../controller/label/label.controller';
-import { MeshLine } from 'three.meshline';
-import { scaleLinear, ScaleContinuousNumeric } from 'd3-scale';
-import { GraphEnum } from 'app/model/enum.model';
-import { EventEmitter } from '@angular/core';
+import { GraphConfig } from 'app/model/graph-config.model';
+import { ScaleContinuousNumeric, scaleLinear } from 'd3-scale';
+import * as THREE from 'three';
+import { Mesh, Shape, ShapeGeometry, Vector2 } from 'three';
+import { ILabel, LabelController, LabelOptions } from './../../../controller/label/label.controller';
+import { VisualizationView } from './../../../model/chart-view.model';
+import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { DataDecorator } from './../../../model/data-map.model';
 import { EntityTypeEnum } from './../../../model/enum.model';
-import { ChartFactory } from './../../workspace/chart/chart.factory';
-import { GraphConfig } from 'app/model/graph-config.model';
-import { ChartObjectInterface } from './../../../model/chart.object.interface';
-import { VisualizationView } from './../../../model/chart-view.model';
 import { ChartEvent, ChartEvents } from './../../workspace/chart/chart.events';
+import { ChartFactory } from './../../workspace/chart/chart.factory';
 import { AbstractVisualization } from './../visualization.abstract.component';
-import * as THREE from 'three';
-import { Vector2, Shape, ShapeGeometry, MeshPhongMaterial, Mesh, PerspectiveCamera } from 'three';
+import { HazardConfigModel, HazardDataModel, HazardDatumModel } from './hazard.model';
 
 export class HazardGraph extends AbstractVisualization {
 

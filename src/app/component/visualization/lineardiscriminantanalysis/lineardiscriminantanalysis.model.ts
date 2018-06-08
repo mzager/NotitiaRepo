@@ -1,10 +1,6 @@
-import { VisualizationEnum, GraphEnum, EntityTypeEnum, DimensionEnum, ShapeEnum } from 'app/model/enum.model';
-import { GraphData } from './../../../model/graph-data.model';
-import { Legend } from './../../../model/legend.model';
-import { DataFieldFactory } from './../../../model/data-field.model';
+import { DimensionEnum, EntityTypeEnum, VisualizationEnum } from 'app/model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { DataField } from 'app/model/data-field.model';
-import { linearDiscriminantAnalysisCompute } from './lineardiscriminantanalysis.compute';
+import { GraphData } from './../../../model/graph-data.model';
 
 export class LinearDiscriminantAnalysisSolver {
     public static SVD = 'svd';

@@ -1,12 +1,7 @@
 import { TsneConfigModel, TsneMetric, TsneMethod } from './tsne.model';
-import { DimensionEnum, DistanceEnum, DenseSparseEnum } from './../../../model/enum.model';
 import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
-import { GraphConfig } from './../../../model/graph-config.model';
-import { DataTypeEnum, DirtyEnum } from 'app/model/enum.model';
-import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import * as _ from 'lodash';
+import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-tsne-form',

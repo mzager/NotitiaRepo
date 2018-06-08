@@ -399,6 +399,7 @@ input:-webkit-autofill {
   top: 0px;
   width: 100%;
   overflow: scroll;
+  z-index: 1;
 }
 
 .modalClose {

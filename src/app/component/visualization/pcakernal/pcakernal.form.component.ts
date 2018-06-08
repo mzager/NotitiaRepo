@@ -1,12 +1,7 @@
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
-import { PcaKernalConfigModel, PcaKernalMethods, PcaKernalEigenSolver } from './pcakernal.model';
-import { DimensionEnum, EntityTypeEnum, CollectionTypeEnum } from './../../../model/enum.model';
-import { GraphConfig } from './../../../model/graph-config.model';
-import { DataTypeEnum, DirtyEnum } from 'app/model/enum.model';
-import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import * as _ from 'lodash';
+import { PcaKernalConfigModel, PcaKernalEigenSolver, PcaKernalMethods } from './pcakernal.model';
 
 @Component({
   selector: 'app-pcakernal-form',

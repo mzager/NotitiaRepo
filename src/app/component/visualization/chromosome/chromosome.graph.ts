@@ -1,20 +1,15 @@
-import { DataService } from './../../../service/data.service';
-import { GraphEnum, WorkspaceLayoutEnum, SpriteMaterialEnum } from 'app/model/enum.model';
-import { EventEmitter } from '@angular/core';
+import { GraphConfig } from 'app/model/graph-config.model';
+import { scaleLinear } from 'd3-scale';
+import * as THREE from 'three';
+import { VisualizationView } from './../../../model/chart-view.model';
+import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { DataDecorator } from './../../../model/data-map.model';
 import { EntityTypeEnum } from './../../../model/enum.model';
-import { ChartFactory, DataDecoatorRenderer } from './../../workspace/chart/chart.factory';
-import { GraphConfig } from 'app/model/graph-config.model';
-import { ChartObjectInterface } from './../../../model/chart.object.interface';
-import { VisualizationView } from './../../../model/chart-view.model';
+import { DataService } from './../../../service/data.service';
 import { ChartEvent, ChartEvents } from './../../workspace/chart/chart.events';
+import { ChartFactory, DataDecoatorRenderer } from './../../workspace/chart/chart.factory';
 import { AbstractVisualization } from './../visualization.abstract.component';
-import * as THREE from 'three';
-import { ChromosomeDataModel, ChromosomeConfigModel } from './chromosome.model';
-import { scaleLinear, scaleOrdinal } from 'd3-scale';
-import { arc } from 'd3-shape';
-import * as complex from 'three-simplicial-complex';
-import { Geometry } from 'three';
+import { ChromosomeConfigModel, ChromosomeDataModel } from './chromosome.model';
 
 /*
  const biotypeCat = {

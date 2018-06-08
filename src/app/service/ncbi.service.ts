@@ -1,8 +1,7 @@
-import { DataCollection } from './../model/data-collection.model';
-import 'rxjs/add/operator/map';
 import { Injectable } from '@angular/core';
-import { HttpClient } from './http.client';
+import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
+import { HttpClient } from './http.client';
 
 
 @Injectable()
