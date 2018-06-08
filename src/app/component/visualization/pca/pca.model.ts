@@ -1,11 +1,6 @@
-import { VisualizationEnum, GraphEnum, EntityTypeEnum, DimensionEnum, ShapeEnum } from 'app/model/enum.model';
-import { GraphData } from './../../../model/graph-data.model';
-import { Legend } from './../../../model/legend.model';
-import { DataFieldFactory, DataTable } from './../../../model/data-field.model';
+import { DimensionEnum, EntityTypeEnum, VisualizationEnum } from 'app/model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { DataField } from 'app/model/data-field.model';
-import { Component } from '@angular/core';
-import { DataDecorator } from '../../../model/data-map.model';
+import { GraphData } from './../../../model/graph-data.model';
 
 export class PcaSvdSolver {
     public static AUTO = 'auto';

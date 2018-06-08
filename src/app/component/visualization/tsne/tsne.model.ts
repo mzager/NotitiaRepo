@@ -1,12 +1,6 @@
-import { VisualizationEnum, GraphEnum, EntityTypeEnum, DimensionEnum, ShapeEnum } from 'app/model/enum.model';
+import { VisualizationEnum, EntityTypeEnum, DimensionEnum } from 'app/model/enum.model';
 import { GraphData } from './../../../model/graph-data.model';
-import { Legend } from './../../../model/legend.model';
-import { DataFieldFactory } from './../../../model/data-field.model';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { DataField } from 'app/model/data-field.model';
-import { DistanceEnum, DenseSparseEnum } from './../../../model/enum.model';
-import { Component } from '@angular/core';
-
 export class TsneMetric {
     public static EUCLIDEAN = 'euclidean';
     public static MANHATTAN = 'manhattan';

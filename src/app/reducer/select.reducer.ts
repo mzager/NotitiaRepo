@@ -1,11 +1,8 @@
-import { UnsafeAction } from './../action/unsafe.action';
-import { SELECT_GRAPH_COMPLETE } from './../action/select.action';
-import { COMPUTE_PCA } from './../action/compute.action';
-import { GraphConfig } from './../model/graph-config.model';
-import * as e from 'app/model/enum.model';
 import * as select from 'app/action/select.action';
-import * as compute from 'app/action/compute.action';
-import { Action } from '@ngrx/store';
+import * as e from 'app/model/enum.model';
+import { SELECT_GRAPH_COMPLETE } from './../action/select.action';
+import { UnsafeAction } from './../action/unsafe.action';
+import { GraphConfig } from './../model/graph-config.model';
 
 export interface State {
     selectedTool: e.ToolEnum;

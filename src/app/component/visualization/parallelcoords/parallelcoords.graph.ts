@@ -1,22 +1,15 @@
-import { DataDecorator } from './../../../model/data-map.model';
-import { ParallelCoordsDataModel, ParallelCoordsConfigModel } from './parallelcoords.model';
-import { DirtyEnum } from 'app/model/enum.model';
-// import { Tween, Easing } from 'es6-tween';
-import { Colors, EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
-import { OrbitControls } from 'three-orbitcontrols-ts';
+import { EventEmitter } from '@angular/core';
+import { DirtyEnum, GraphEnum } from 'app/model/enum.model';
 import { Subscription } from 'rxjs/Subscription';
-import { ChartObjectInterface } from './../../../model/chart.object.interface';
-import { ChartEvent, ChartEvents } from './../../workspace/chart/chart.events';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { VisualizationView } from './../../../model/chart-view.model';
-import { Injectable, EventEmitter, Output } from '@angular/core';
-import { ShapeEnum, ColorEnum, GraphEnum, GenomicEnum } from 'app/model/enum.model';
-import { ChartFactory } from './../../workspace/chart/chart.factory';
-import { GraphConfig } from './../../../model/graph-config.model';
-import * as scale from 'd3-scale';
-import * as _ from 'lodash';
 import * as THREE from 'three';
-import { scaleLinear, scaleOrdinal } from 'd3-scale';
+import { VisualizationView } from './../../../model/chart-view.model';
+import { ChartObjectInterface } from './../../../model/chart.object.interface';
+import { DataDecorator } from './../../../model/data-map.model';
+// import { Tween, Easing } from 'es6-tween';
+import { EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
+import { GraphConfig } from './../../../model/graph-config.model';
+import { ChartEvent, ChartEvents } from './../../workspace/chart/chart.events';
+import { ParallelCoordsConfigModel, ParallelCoordsDataModel } from './parallelcoords.model';
 
 export class ParallelCoordsGraph implements ChartObjectInterface {
 
@@ -25,12 +18,6 @@ export class ParallelCoordsGraph implements ChartObjectInterface {
     public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{ type: GraphConfig }>();
     public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
         new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
-    private overMaterial = new THREE.LineBasicMaterial({ color: 0x039BE5 });
-    private outMaterial = new THREE.LineBasicMaterial({ color: 0xDDDDDD });
-
-
-    // Chart Elements
-    private labels: HTMLElement;
     private events: ChartEvents;
     private view: VisualizationView;
     private data: ParallelCoordsDataModel;
@@ -40,11 +27,6 @@ export class ParallelCoordsGraph implements ChartObjectInterface {
     // Objects
     public meshes: Array<THREE.Mesh>;
     public decorators: DataDecorator[];
-    private arms: any;
-    private chromosomes: any;
-    private selector: THREE.Mesh;
-    private selectorOrigin: { x: number, y: number, yInit: number };
-    private selectorScale: any;
     private group: THREE.Group;
     private lineMaterial;
     private geneLines: Array<THREE.Line>;
@@ -56,7 +38,7 @@ export class ParallelCoordsGraph implements ChartObjectInterface {
     private sMouseUp: Subscription;
 
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
-        this.labels = labels;
+        // this.labels = labels;
         this.events = events;
         this.view = view;
         this.isEnabled = false;
@@ -74,7 +56,7 @@ export class ParallelCoordsGraph implements ChartObjectInterface {
         this.enable(false);
         this.removeObjects();
     }
-    updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
+    updateDecorator() {
         throw new Error('Method not implemented.');
     }
     updateData(config: GraphConfig, data: any) {
@@ -121,7 +103,7 @@ export class ParallelCoordsGraph implements ChartObjectInterface {
             this.sMouseMove.unsubscribe();
         }
     }
-    preRender(views: Array<VisualizationView>, layout: WorkspaceLayoutEnum, renderer: THREE.WebGLRenderer) {
+    preRender() {
 
     }
 
@@ -153,7 +135,7 @@ export class ParallelCoordsGraph implements ChartObjectInterface {
             this.group.add(mesh);
         });
 
-        links.forEach((link, i) => {
+        links.forEach((link) => {
 
             // Adjust Height According To Size - So the tall ones project out both from the ring and also from the center
             // const curve = new THREE.CatmullRomCurve3( [
@@ -211,14 +193,14 @@ export class ParallelCoordsGraph implements ChartObjectInterface {
 
 
 
-    private onMouseMove(e: ChartEvent): void {
+    private onMouseMove(): void {
     }
 
-    private onMouseUp(e: ChartEvent): void {
+    private onMouseUp(): void {
 
     }
 
-    private onMouseDown(e: ChartEvent): void {
+    private onMouseDown(): void {
 
     }
 
@@ -230,11 +212,6 @@ export class ParallelCoordsGraph implements ChartObjectInterface {
         // this.labels.innerHTML = '';
     }
 
-    // // Events
-    private molabels(e: ChartEvent): void {
-
-
-    }
 
     constructor() { }
 }

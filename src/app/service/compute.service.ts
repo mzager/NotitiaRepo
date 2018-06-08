@@ -1,50 +1,45 @@
+import { Injectable } from '@angular/core';
+import { MiniBatchSparsePcaConfigModel } from 'app/component/visualization/minibatchsparsepca/minibatchsparsepca.model';
+import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
+// tslint:disable-next-line:max-line-length
+import { QuadradicDiscriminantAnalysisConfigModel } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
+import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
+import { GraphEnum, VisualizationEnum } from 'app/model/enum.model';
+import { GraphConfig } from 'app/model/graph-config.model';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { BoxWhiskersConfigModel } from './../component/visualization/boxwhiskers/boxwhiskers.model';
+import { ChromosomeConfigModel } from './../component/visualization/chromosome/chromosome.model';
+import { DendogramConfigModel } from './../component/visualization/dendogram/dendogram.model';
+import { DictionaryLearningConfigModel } from './../component/visualization/dictionarylearning/dictionarylearning.model';
+import { EdgeConfigModel } from './../component/visualization/edges/edges.model';
+import { FaConfigModel } from './../component/visualization/fa/fa.model';
+import { FastIcaConfigModel } from './../component/visualization/fastica/fastica.model';
+import { GenomeConfigModel } from './../component/visualization/genome/genome.model';
 import { HazardConfigModel } from './../component/visualization/hazard/hazard.model';
+import { HeatmapConfigModel } from './../component/visualization/heatmap/heatmap.model';
+import { HicConfigModel } from './../component/visualization/hic/hic.model';
 import { HistogramConfigModel } from './../component/visualization/histogram/histogram.model';
+import { IsoMapConfigModel } from './../component/visualization/isomap/isomap.model';
+import { LdaConfigModel } from './../component/visualization/lda/lda.model';
+// tslint:disable-next-line:max-line-length
+import { LinearDiscriminantAnalysisConfigModel } from './../component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
+import { LinkedGeneConfigModel } from './../component/visualization/linkedgenes/linkedgenes.model';
+import { LocalLinearEmbeddingConfigModel } from './../component/visualization/locallinearembedding/locallinearembedding.model';
+import { MdsConfigModel } from './../component/visualization/mds/mds.model';
 // tslint:disable:max-line-length
 import { MiniBatchDictionaryLearningConfigModel } from './../component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
-import { LinearDiscriminantAnalysisConfigModel } from './../component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
-import { DendogramConfigModel } from './../component/visualization/dendogram/dendogram.model';
-import { SurvivalConfigModel } from './../component/visualization/survival/survival.model';
-import { miniBatchSparsePcaCompute } from './../component/visualization/minibatchsparsepca/minibatchsparsepca.compute';
-import { COMPUTE_MINI_BATCH_SPARSE_PCA } from './../action/compute.action';
-import { graph } from 'ngraph.graph';
-import { HicConfigModel } from './../component/visualization/hic/hic.model';
-import { ParallelCoordsConfigModel } from './../component/visualization/parallelcoords/parallelcoords.model';
-import { BoxWhiskersConfigModel } from './../component/visualization/boxwhiskers/boxwhiskers.model';
-import { Subject } from 'rxjs/Subject';
-import { GenomeConfigModel } from './../component/visualization/genome/genome.model';
-import { LinkedGeneConfigModel } from './../component/visualization/linkedgenes/linkedgenes.model';
-import { PcaSparseConfigModel } from './../component/visualization/pcasparse/pcasparse.model';
-import { PcaKernalConfigModel } from './../component/visualization/pcakernal/pcakernal.model';
-import { PcaIncrementalConfigModel } from './../component/visualization/pcaincremental/pcaincremental.model';
-import { SpectralEmbeddingConfigModel } from './../component/visualization/spectralembedding/spectralembedding.model';
-import { LocalLinearEmbeddingConfigModel } from './../component/visualization/locallinearembedding/locallinearembedding.model';
-import { IsoMapConfigModel } from './../component/visualization/isomap/isomap.model';
-import { FastIcaConfigModel } from './../component/visualization/fastica/fastica.model';
-import { TruncatedSvdDataModel, TruncatedSvdConfigModel } from './../component/visualization/truncatedsvd/truncatedsvd.model';
 import { NmfConfigModel } from './../component/visualization/nmf/nmf.model';
-import { LdaConfigModel } from './../component/visualization/lda/lda.model';
-import { DictionaryLearningConfigModel } from './../component/visualization/dictionarylearning/dictionarylearning.model';
-import { FaConfigModel } from './../component/visualization/fa/fa.model';
-import { MdsConfigModel } from './../component/visualization/mds/mds.model';
-import { SomConfigModel } from './../component/visualization/som/som.model';
-import { HeatmapConfigModel } from './../component/visualization/heatmap/heatmap.model';
-import { EdgeConfigModel } from './../component/visualization/edges/edges.model';
-import { GraphConfig } from 'app/model/graph-config.model';
-import { chromosomeCompute } from './../component/visualization/chromosome/chromosome.compute';
-import { ChromosomeConfigModel } from './../component/visualization/chromosome/chromosome.model';
-import { GraphEnum, VisualizationEnum, DirtyEnum } from 'app/model/enum.model';
-import { Injectable, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { pcaCompute } from './../component/visualization/pca/pca.compute';
+import { ParallelCoordsConfigModel } from './../component/visualization/parallelcoords/parallelcoords.model';
 import { PcaConfigModel } from './../component/visualization/pca/pca.model';
-import { tsneCompute } from './../component/visualization/tsne/tsne.compute';
+import { PcaIncrementalConfigModel } from './../component/visualization/pcaincremental/pcaincremental.model';
+import { PcaKernalConfigModel } from './../component/visualization/pcakernal/pcakernal.model';
+import { PcaSparseConfigModel } from './../component/visualization/pcasparse/pcasparse.model';
+import { SomConfigModel } from './../component/visualization/som/som.model';
+import { SpectralEmbeddingConfigModel } from './../component/visualization/spectralembedding/spectralembedding.model';
+import { SurvivalConfigModel } from './../component/visualization/survival/survival.model';
+import { TruncatedSvdConfigModel } from './../component/visualization/truncatedsvd/truncatedsvd.model';
 import { TsneConfigModel } from './../component/visualization/tsne/tsne.model';
-import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
-import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
-import { QuadradicDiscriminantAnalysisConfigModel } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
-import { MiniBatchSparsePcaConfigModel } from 'app/component/visualization/minibatchsparsepca/minibatchsparsepca.model';
-declare var thread;
 
 /*
 When samples and genes are specified empty arrays == all
@@ -52,7 +47,6 @@ When samples and genes are specified empty arrays == all
 @Injectable()
 export class ComputeService {
 
-    private workers: Array<Worker>;
     private isoMap$ = new Subject<any>();
     private localLinearEmbedding$ = new Subject<any>();
     private spectralEmbedding$ = new Subject<any>();

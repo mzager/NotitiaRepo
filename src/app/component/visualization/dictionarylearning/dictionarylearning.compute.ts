@@ -1,9 +1,7 @@
-import { DictionaryLearningConfigModel } from './dictionarylearning.model';
-import { EntityTypeEnum, DirtyEnum, SpriteMaterialEnum } from './../../../model/enum.model';
-import { Legend } from './../../../model/legend.model';
 import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
-import * as _ from 'lodash';
-import { SpriteMaterial } from 'three';
+import { EntityTypeEnum, SpriteMaterialEnum } from './../../../model/enum.model';
+import { Legend } from './../../../model/legend.model';
+import { DictionaryLearningConfigModel } from './dictionarylearning.model';
 declare var ML: any;
 
 export const dictionaryLearningCompute = (config: DictionaryLearningConfigModel, worker: DedicatedWorkerGlobalScope): void => {

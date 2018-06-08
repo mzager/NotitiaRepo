@@ -1,8 +1,7 @@
-import { EntityTypeEnum, DirtyEnum, SpriteMaterialEnum } from './../../../model/enum.model';
-import { Legend } from './../../../model/legend.model';
-import { FaConfigModel, FaDataModel } from './fa.model';
 import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
-import * as _ from 'lodash';
+import { EntityTypeEnum, SpriteMaterialEnum } from './../../../model/enum.model';
+import { Legend } from './../../../model/legend.model';
+import { FaConfigModel } from './fa.model';
 declare var ML: any;
 
 export const faCompute = (config: FaConfigModel, worker: DedicatedWorkerGlobalScope): void => {

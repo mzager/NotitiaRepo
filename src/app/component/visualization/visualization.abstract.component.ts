@@ -1,9 +1,7 @@
-import { IToolTip, TooltipOptions } from './../../controller/tooltip/tooltip.controller';
+import { TooltipOptions } from './../../controller/tooltip/tooltip.controller';
 import { LabelController } from './../../controller/label/label.controller';
-import { OrbitControls } from 'three-orbitcontrols-ts';
-import { Vector3, Object3D } from 'three';
+import { Vector3 } from 'three';
 import { GraphData } from 'app/model/graph-data.model';
-import { DataField } from './../../model/data-field.model';
 import { DataDecorator } from './../../model/data-map.model';
 import { Subscription } from 'rxjs/Subscription';
 import { WorkspaceLayoutEnum } from './../../model/enum.model';
@@ -13,7 +11,6 @@ import { GraphConfig } from './../../model/graph-config.model';
 import { EventEmitter } from '@angular/core';
 import { GraphEnum, EntityTypeEnum } from 'app/model/enum.model';
 import { ChartObjectInterface } from './../../model/chart.object.interface';
-import * as _ from 'lodash';
 import { TooltipController } from '../../controller/tooltip/tooltip.controller';
 export class AbstractVisualization implements ChartObjectInterface {
 

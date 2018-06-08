@@ -1,16 +1,8 @@
-import { BoxWhiskersConfigModel } from './boxwhiskers.model';
-import { Legend } from 'app/model/legend.model';
-import { ColorEnum, DirtyEnum, CollectionTypeEnum } from 'app/model/enum.model';
-import * as util from 'app/service/compute.worker.util';
-import { scaleLinear, scaleQuantize, scaleQuantile, scaleOrdinal, scaleThreshold } from 'd3-scale';
-import { schemeRdBu, interpolateRdBu } from 'd3-scale-chromatic';
-import * as _ from 'lodash';
-import * as d3Interpolate from 'd3-interpolate';
-import * as d3Scale from 'd3-scale';
-import * as d3Color from 'd3-color';
-import * as d3Array from 'd3-array';
-import * as JStat from 'jstat';
+import { CollectionTypeEnum } from 'app/model/enum.model';
 import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
+import * as JStat from 'jstat';
+import * as _ from 'lodash';
+import { BoxWhiskersConfigModel } from './boxwhiskers.model';
 
 export const boxwhiskersCompute = (config: BoxWhiskersConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
