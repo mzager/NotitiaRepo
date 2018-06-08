@@ -1,12 +1,11 @@
 import { EventEmitter } from '@angular/core';
+import { GraphEnum } from 'app/model/enum.model';
+import * as THREE from 'three';
+import { ChartEvents } from './../component/workspace/chart/chart.events';
+import { VisualizationView } from './chart-view.model';
 import { DataDecorator } from './data-map.model';
 import { EntityTypeEnum, WorkspaceLayoutEnum } from './enum.model';
-import { GraphEnum } from 'app/model/enum.model';
-import { VisualizationView } from './chart-view.model';
-import { OrbitControls } from 'three-orbitcontrols-ts';
-import { ChartEvents } from './../component/workspace/chart/chart.events';
 import { GraphConfig } from './graph-config.model';
-import * as THREE from 'three';
 
 export interface ChartObjectInterface {
     meshes: Array<THREE.Object3D>;

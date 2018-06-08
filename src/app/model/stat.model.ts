@@ -1,18 +1,4 @@
-import { PcaDataModel } from './../component/visualization/pca/pca.model';
-import { COMPUTE_QUADRATIC_DISCRIMINANT_ANALYSIS } from './../action/compute.action';
-import { DataService } from 'app/service/data.service';
-import { GraphConfig } from './graph-config.model';
-import { GraphData } from './graph-data.model';
-import {
-    VisualizationEnum, StatTypeEnum, ChartTypeEnum, StatRendererEnum, StatRendererColumns, GraphEnum,
-    Colors
-} from 'app/model/enum.model';
-import * as data from 'app/action/data.action';
-import { multicast } from 'rxjs/operator/multicast';
-import { single } from 'rxjs/operator/single';
-import { values } from 'd3';
-import { TruncatedSvdDataModel } from '../component/visualization/truncatedsvd/truncatedsvd.model';
-import { PcaIncrementalDataModel } from '../component/visualization/pcaincremental/pcaincremental.model';
+import { ChartTypeEnum, StatRendererColumns, StatRendererEnum, StatTypeEnum } from 'app/model/enum.model';
 
 
 /* GENERAL note: Visualization = is the graph A/B, example PCA Fast ICA, PCA. Stat = result data coming from ski-kit

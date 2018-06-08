@@ -1,10 +1,9 @@
-import { LinkedGeneConfigModel } from './linkedgenes.model';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { DimensionEnum, DirtyEnum } from 'app/model/enum.model';
+import { DataField, DataFieldFactory } from './../../../model/data-field.model';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { DimensionEnum, DataTypeEnum, VisualizationEnum, DirtyEnum, CollectionTypeEnum } from 'app/model/enum.model';
-import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import * as _ from 'lodash';
+import { LinkedGeneConfigModel } from './linkedgenes.model';
 
 @Component({
   selector: 'app-linked-gene-form',

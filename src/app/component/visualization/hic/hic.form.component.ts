@@ -1,10 +1,9 @@
-import { HicConfigModel } from './hic.model';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { DimensionEnum, DirtyEnum } from 'app/model/enum.model';
+import { DataField } from './../../../model/data-field.model';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { DimensionEnum, DataTypeEnum, VisualizationEnum, DirtyEnum, CollectionTypeEnum, EntityTypeEnum } from 'app/model/enum.model';
-import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import * as _ from 'lodash';
+import { HicConfigModel } from './hic.model';
 
 @Component({
   selector: 'app-hic-form',

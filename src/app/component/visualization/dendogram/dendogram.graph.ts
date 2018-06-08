@@ -1,22 +1,15 @@
-import { DataDecorator } from './../../../model/data-map.model';
-import { DendogramDataModel, DendogramConfigModel } from './dendogram.model';
-import { NoneAction } from './../../../action/compute.action';
-import { EventEmitter, Output } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { EventEmitter } from '@angular/core';
+import { GraphEnum } from 'app/model/enum.model';
 import { GraphConfig } from 'app/model/graph-config.model';
-import { OrbitControls } from 'three-orbitcontrols-ts';
-import { ChartObjectInterface } from './../../../model/chart.object.interface';
-import { ChartEvents, ChartEvent } from './../../workspace/chart/chart.events';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { VisualizationView } from './../../../model/chart-view.model';
-import { ChartFactory } from './../../workspace/chart/chart.factory';
-import { DimensionEnum, EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
-import * as scale from 'd3-scale';
-import * as _ from 'lodash';
+import { Subscription } from 'rxjs/Subscription';
 import * as THREE from 'three';
-import { ShapeEnum, GraphEnum } from 'app/model/enum.model';
-import { Vector2, Vector3 } from 'three';
-import * as d3 from 'd3';
+import { VisualizationView } from './../../../model/chart-view.model';
+import { ChartObjectInterface } from './../../../model/chart.object.interface';
+import { DataDecorator } from './../../../model/data-map.model';
+import { EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
+import { ChartEvents } from './../../workspace/chart/chart.events';
+import { ChartFactory } from './../../workspace/chart/chart.factory';
+import { DendogramConfigModel, DendogramDataModel } from './dendogram.model';
 
 export class DendogramGraph implements ChartObjectInterface {
 

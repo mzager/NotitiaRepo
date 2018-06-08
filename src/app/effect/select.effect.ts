@@ -1,23 +1,14 @@
-import { GraphConfig } from 'app/model/graph-config.model';
-import { SelectGraphCompleteAction } from './../action/select.action';
-import { State } from './../reducer/layout.reducer';
-import { ChromosomeConfigModel } from './../component/visualization/chromosome/chromosome.model';
-import { PcaConfigModel } from './../component/visualization/pca/pca.model';
-import * as compute from './../action/compute.action';
-import * as select from 'app/action/select.action';
-import * as service from 'app/service/http.client';
-import { Action, Store } from '@ngrx/store';
-import { Actions, Effect } from '@ngrx/effects';
-import { GraphEnum } from 'app/model/enum.model';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/takeUntil';
-import 'rxjs/add/operator/skip';
+import { Actions } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/skip';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/takeUntil';
+import 'rxjs/add/operator/withLatestFrom';
+import { State } from './../reducer/layout.reducer';
 
 @Injectable()
 export class SelectEffect {
@@ -39,7 +30,7 @@ export class SelectEffect {
     //     });
 
     constructor(
-        private actions$: Actions,
-        private store$: Store<State>
+        // private actions$: Actions,
+        // private store$: Store<State>
     ) { }
 }

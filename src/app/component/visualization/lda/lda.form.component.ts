@@ -1,12 +1,7 @@
-import { LdaConfigModel, LdaLearningMethod } from './lda.model';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
-import { DimensionEnum, EntityTypeEnum, CollectionTypeEnum } from './../../../model/enum.model';
-import { GraphConfig } from './../../../model/graph-config.model';
-import { DataTypeEnum, DirtyEnum } from 'app/model/enum.model';
-import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import * as _ from 'lodash';
+import { LdaConfigModel, LdaLearningMethod } from './lda.model';
 
 @Component({
   selector: 'app-lda-form',

@@ -1,14 +1,8 @@
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
 // tslint:disable-next-line:max-line-length
 import { MiniBatchDictionaryLearningConfigModel, MiniBatchDictionaryLearningFit, MiniBatchDictionaryTransform } from './minibatchdictionarylearning.model';
-import { DimensionEnum, EntityTypeEnum, CollectionTypeEnum } from './../../../model/enum.model';
-import { GraphConfig } from './../../../model/graph-config.model';
-import { DataTypeEnum, DirtyEnum } from 'app/model/enum.model';
-import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import * as _ from 'lodash';
-import { SvmCompleteAction } from '../../../action/compute.action';
 
 
 @Component({

@@ -1,9 +1,6 @@
-import { UnsafeAction } from './../action/unsafe.action';
-import { VIEW_DATA_TABLE } from './../action/spreadsheet.action';
-import * as e from 'app/model/enum.model';
-import * as spreadsheet from 'app/action/spreadsheet.action';
 import * as data from 'app/action/data.action';
-import { Action } from '@ngrx/store';
+import * as spreadsheet from 'app/action/spreadsheet.action';
+import { UnsafeAction } from './../action/unsafe.action';
 
 export interface State {
     data: Array<any>;

@@ -1,19 +1,14 @@
-import { DataDecorator, DataDecoratorTypeEnum, DataDecoratorValue } from './../model/data-map.model';
-import { EdgeConfigModel } from './../component/visualization/edges/edges.model';
-import { interpolateRdBu, interpolateSpectral } from 'd3-scale-chromatic';
 import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
-import { scaleLinear, InterpolatorFactory, scaleSequential, scaleQuantize, scaleQuantile } from 'd3-scale';
-import { interpolateRgb, interpolateHcl } from 'd3-interpolate';
-import { rgb } from 'd3-color';
+import { scaleLinear, scaleSequential } from 'd3-scale';
+import { interpolateSpectral } from 'd3-scale-chromatic';
+import Dexie from 'dexie';
+import * as _ from 'lodash';
+import { EdgeConfigModel } from './../component/visualization/edges/edges.model';
+import { DataField } from './../model/data-field.model';
+import { DataDecorator, DataDecoratorTypeEnum, DataDecoratorValue } from './../model/data-map.model';
+import { CollectionTypeEnum, DataTypeEnum, EntityTypeEnum, ShapeEnum, SpriteMaterialEnum } from './../model/enum.model';
 import { GraphConfig } from './../model/graph-config.model';
 import { Legend } from './../model/legend.model';
-import { DataTypeEnum, ShapeEnum, EntityTypeEnum, CollectionTypeEnum, DirtyEnum, SpriteMaterialEnum } from './../model/enum.model';
-import { DataField } from './../model/data-field.model';
-import * as _ from 'lodash';
-import Dexie from 'dexie';
-import * as uuids from 'uuid-by-string';
-import { Md5 } from 'ts-md5/dist/md5';
-import { sample } from 'rxjs/operator/sample';
 
 export class ComputeWorkerUtil {
 
@@ -22,7 +17,7 @@ export class ComputeWorkerUtil {
 
 
     private sizes = [1, 2, 3, 4];
-    private shapes = [ShapeEnum.CIRCLE, ShapeEnum.SQUARE, ShapeEnum.TRIANGLE, ShapeEnum.CONE];
+    // private shapes = [ShapeEnum.CIRCLE, ShapeEnum.SQUARE, ShapeEnum.TRIANGLE, ShapeEnum.CONE];
     private sprites = [SpriteMaterialEnum.BLAST, SpriteMaterialEnum.BLOB, SpriteMaterialEnum.CIRCLE, SpriteMaterialEnum.DIAMOND,
     SpriteMaterialEnum.POLYGON, SpriteMaterialEnum.SQUARE, SpriteMaterialEnum.STAR, SpriteMaterialEnum.TRIANGLE];
 

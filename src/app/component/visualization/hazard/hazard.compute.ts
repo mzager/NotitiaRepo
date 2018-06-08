@@ -1,7 +1,6 @@
-import { Legend } from './../../../model/legend.model';
 import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
+import { Legend } from './../../../model/legend.model';
 import { HazardConfigModel } from './hazard.model';
-import { ChromosomeConfigModel } from './../chromosome/chromosome.model';
 
 export const hazardCompute = (config: HazardConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 

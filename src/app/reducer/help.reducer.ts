@@ -1,11 +1,7 @@
+import { Action } from '@ngrx/store';
+import * as help from 'app/action/help.action';
 import { HelpSetConfigAction } from './../action/help.action';
 import { GraphConfig } from './../model/graph-config.model';
-import { DataLoadedAction, DataLoadFromDexieAction } from './../action/data.action';
-import { DataChromosome } from './../model/data-chromosome.model';
-import { DataField, DataTable } from './../model/data-field.model';
-import * as e from 'app/model/enum.model';
-import * as help from 'app/action/help.action';
-import { Action } from '@ngrx/store';
 
 export interface State {
     helpConfig: GraphConfig;

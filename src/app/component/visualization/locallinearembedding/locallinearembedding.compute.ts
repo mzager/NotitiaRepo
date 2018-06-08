@@ -1,7 +1,7 @@
-import { Legend } from './../../../model/legend.model';
-import { LocalLinearEmbeddingConfigModel, LocalLinearEmbeddingDataModel } from './locallinearembedding.model';
-import { EntityTypeEnum, DirtyEnum, SpriteMaterialEnum } from './../../../model/enum.model';
 import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
+import { EntityTypeEnum, SpriteMaterialEnum } from './../../../model/enum.model';
+import { Legend } from './../../../model/legend.model';
+import { LocalLinearEmbeddingConfigModel } from './locallinearembedding.model';
 
 export const localLinearEmbeddingCompute = (config: LocalLinearEmbeddingConfigModel, worker: DedicatedWorkerGlobalScope): void => {
     worker.util.getDataMatrix(config).then(matrix => {

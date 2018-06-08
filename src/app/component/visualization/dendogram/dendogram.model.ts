@@ -1,14 +1,9 @@
-import { HeatmapDistance, HeatmapMethod } from './../heatmap/heatmap.model';
+import { VisualizationEnum } from 'app/model/enum.model';
+import { EntityTypeEnum } from './../../../model/enum.model';
+import { GraphConfig } from './../../../model/graph-config.model';
 import { GraphData } from './../../../model/graph-data.model';
 import { Legend } from './../../../model/legend.model';
-import { DataFieldFactory } from './../../../model/data-field.model';
-import { GraphConfig } from './../../../model/graph-config.model';
-import { VisualizationEnum, ShapeEnum, GraphEnum } from 'app/model/enum.model';
-import { DataField } from 'app/model/data-field.model';
-import {
-    DimensionEnum, DistanceEnum, DenseSparseEnum,
-    HClustMethodEnum, HClustDistanceEnum, EntityTypeEnum
-} from './../../../model/enum.model';
+import { HeatmapDistance, HeatmapMethod } from './../heatmap/heatmap.model';
 
 
 export class DendogramConfigModel extends GraphConfig {

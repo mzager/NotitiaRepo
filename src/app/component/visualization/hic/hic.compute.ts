@@ -1,20 +1,11 @@
-import { Legend } from './../../../model/legend.model';
-import { DimensionEnum, EntityTypeEnum, ColorEnum, DirtyEnum, SpriteMaterialEnum } from './../../../model/enum.model';
-import { ComputeWorkerUtil } from './../../../service/compute.worker.util';
-import { HicConfigModel } from './hic.model';
-import * as util from 'app/service/compute.worker.util';
-import { scaleLinear, scaleQuantize, scaleQuantile, scaleOrdinal, scaleThreshold } from 'd3-scale';
-import { schemeRdBu, interpolateGnBu, interpolateYlGnBu } from 'd3-scale-chromatic';
-import * as _ from 'lodash';
-import * as d3Interpolate from 'd3-interpolate';
-import * as d3Scale from 'd3-scale';
-import * as d3Color from 'd3-color';
-import * as d3Force from 'd3-force';
-import * as d3Array from 'd3-array';
-import * as JStat from 'jstat';
 import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 import * as d3_force from 'd3-force-3d';
-import graph from 'ngraph.graph';
+import * as d3Scale from 'd3-scale';
+import { interpolateGnBu } from 'd3-scale-chromatic';
+import { DimensionEnum, SpriteMaterialEnum } from './../../../model/enum.model';
+import { Legend } from './../../../model/legend.model';
+import { ComputeWorkerUtil } from './../../../service/compute.worker.util';
+import { HicConfigModel } from './hic.model';
 
 export const hicComputeFn = (config: HicConfigModel): Promise<any> => {
     return new Promise((resolve, reject) => {

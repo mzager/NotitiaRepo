@@ -1,24 +1,19 @@
+import { Injectable } from '@angular/core';
+import { QueryBuilderConfig } from 'app/component/workspace/query-panel/query-builder/query-builder.interfaces';
+import { CollectionTypeEnum, EntityTypeEnum, SpriteMaterialEnum, VisualizationEnum } from 'app/model/enum.model';
+import { GraphConfig } from 'app/model/graph-config.model';
+import * as d3 from 'd3';
+import Dexie from 'dexie';
+import * as JStat from 'jstat';
 import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs/Observable';
+import { Legend } from '../model/legend.model';
+import { Pathway } from '../model/pathway.model';
 import { ChartFactory } from './../component/workspace/chart/chart.factory';
+import { Cohort } from './../model/cohort.model';
+import { DataField } from './../model/data-field.model';
 import { DataDecorator, DataDecoratorTypeEnum } from './../model/data-map.model';
 import { GeneSet } from './../model/gene-set.model';
-import { Cohort } from './../model/cohort.model';
-import { GraphConfig } from 'app/model/graph-config.model';
-import { VisualizationEnum, EntityTypeEnum, CollectionTypeEnum, SpriteMaterialEnum } from 'app/model/enum.model';
-import { DataFieldFactory } from 'app/model/data-field.model';
-import { DataField } from './../model/data-field.model';
-import { DataCollection } from './../model/data-collection.model';
-import { Injectable } from '@angular/core';
-import { HttpClient } from './http.client';
-import { Observable } from 'rxjs/Observable';
-import Dexie from 'dexie';
-import * as _ from 'lodash';
-import * as JStat from 'jstat';
-import { QueryBuilderConfig } from 'app/component/workspace/query-panel/query-builder/query-builder.interfaces';
-import { Legend } from '../model/legend.model';
-import { CitationsPanelComponent } from '../component/workspace/citations-panel/citations-panel.component';
-import * as d3 from 'd3';
-import { Pathway } from '../model/pathway.model';
 
 
 @Injectable()
@@ -980,35 +975,45 @@ export class DataService {
 
         Promise.all(queries).then(conditions => {
 
-          if (!cohort.n.trim().length) {
-            const d = new Date();
-            cohort.n = d.toLocaleDateString + ' ' + d.toLocaleTimeString();
-          }
-          conditions.forEach((patients, i) => {
-            cohort.conditions[i].pids = patients.map(v => v.p);
-          });
-          const orGroups = cohort.conditions.reduce((p, c) => {
-            if (c.condition === 'where' || c.condition === 'and') {
-              p.push([c]);
-            } else { p[p.length - 1].push(c); }
-            return p;
-          }, []);
-          const andGroups = orGroups.map(group => group.reduce((p, c) => {
-            return Array.from(new Set([...p, ...c.pids]));
-          }, []));
-          const pids = (andGroups.length === 1) ? andGroups[0] :
-            Array.from(andGroups.reduce((p, c) => {
-              const cSet = new Set(c);
-              return new Set([...p].filter(x => cSet.has(x)));
-            }, andGroups.shift()));
-          cohort.pids = pids;
-          conn.table('patientSampleMap').toArray().then(ps => {
-            const pids2 = new Set(cohort.pids);
-            cohort.sids = ps.filter(v => pids2.has(v.p)).map(v => v.s);
-            conn.table('cohorts').add(cohort).then(v => {
-              resolve(v);
+          try {
+            if (!cohort.n.trim().length) {
+              const d = new Date();
+              cohort.n = d.toLocaleDateString + ' ' + d.toLocaleTimeString();
+            }
+            conditions.forEach((patients, i) => {
+              cohort.conditions[i].pids = patients.map(v => v.p);
             });
-          });
+            const orGroups = cohort.conditions.reduce((p, c) => {
+              if (c.condition === 'where' || c.condition === 'and') {
+                p.push([c]);
+              } else { p[p.length - 1].push(c); }
+              return p;
+            }, []);
+            const andGroups = orGroups.map(group => group.reduce((p, c) => {
+              return Array.from(new Set([...p, ...c.pids]));
+            }, []));
+            const pids = (andGroups.length === 1) ? andGroups[0] :
+              Array.from(andGroups.reduce((p, c) => {
+                const cSet = new Set(c);
+                return new Set([...p].filter(x => cSet.has(x)));
+              }, andGroups.shift()));
+            cohort.pids = pids;
+            conn.table('patientSampleMap').toArray().then(ps => {
+              const pids2 = new Set(cohort.pids);
+              cohort.sids = ps.filter(v => pids2.has(v.p)).map(v => v.s);
+              if (cohort.sids.length === 0) {
+                alert('Your query did not match any samples');
+                reject('Your query did not match any samples');
+                return;
+              }
+              conn.table('cohorts').add(cohort).then(v => {
+                resolve(v);
+              });
+            });
+          } catch (e) {
+            alert('Your query did not match any samples');
+            reject('Your query did not match any samples');
+          }
         });
       });
     });

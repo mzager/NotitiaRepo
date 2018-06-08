@@ -1,6 +1,5 @@
 import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 import { Legend } from './../../../model/legend.model';
-import { DirtyEnum } from 'app/model/enum.model';
 import { PathwaysConfigModel } from './pathways.model';
 
 export const pathwaysCompute = (config: PathwaysConfigModel, worker: DedicatedWorkerGlobalScope): void => {

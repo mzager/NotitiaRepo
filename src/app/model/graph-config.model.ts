@@ -1,9 +1,8 @@
-import { GraphData } from './graph-data.model';
 import { DataField } from 'app/model/data-field.model';
-import { DataTable, DataFieldFactory } from './data-field.model';
+import { GraphEnum, VisualizationEnum } from 'app/model/enum.model';
+import { DataFieldFactory, DataTable } from './data-field.model';
 import { EntityTypeEnum } from './enum.model';
-import { Legend } from './legend.model';
-import { VisualizationEnum, GraphEnum, ShapeEnum } from 'app/model/enum.model';
+import { GraphData } from './graph-data.model';
 
 /**
  * Represents The Graph Config

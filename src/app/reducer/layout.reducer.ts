@@ -1,11 +1,10 @@
-import { WORKSPACE_CONFIG } from './../action/graph.action';
-import { WorkspaceConfigModel } from './../model/workspace.model';
-import { ModalPanelAction, GraphPanelToggleAction, LOADER_HIDE } from './../action/layout.action';
-import { UnsafeAction } from './../action/unsafe.action';
-import * as e from 'app/model/enum.model';
 import * as layout from 'app/action/layout.action';
-import { Action } from '@ngrx/store';
+import * as e from 'app/model/enum.model';
 import { GraphPanelEnum } from 'app/model/enum.model';
+import { WORKSPACE_CONFIG } from './../action/graph.action';
+import { GraphPanelToggleAction } from './../action/layout.action';
+import { UnsafeAction } from './../action/unsafe.action';
+import { WorkspaceConfigModel } from './../model/workspace.model';
 
 export interface State {
     graphPanelA: e.GraphPanelEnum;

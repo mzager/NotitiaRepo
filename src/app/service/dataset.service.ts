@@ -1,14 +1,10 @@
-import { CollectionTypeEnum } from './../model/enum.model';
-import { Observable } from 'rxjs/Observable';
-import { DataFieldFactory } from 'app/model/data-field.model';
-import { DataField } from './../model/data-field.model';
-import { DataCollection } from './../model/data-collection.model';
-import 'rxjs/add/operator/map';
 import { Injectable } from '@angular/core';
-import { HttpClient } from './http.client';
-import * as jstat from 'jstat';
 import Dexie from 'dexie';
+import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { CollectionTypeEnum } from './../model/enum.model';
+import { HttpClient } from './http.client';
 
 @Injectable()
 export class DatasetService {
@@ -17,7 +13,6 @@ export class DatasetService {
   public static API_PATH = '/assets/tcga/';
   public static db: Dexie;
   public static dataTables: Array<{ tbl: string, map: string, label: string, type: CollectionTypeEnum }>;
-  private loader: Worker = null;
   private loader$ = new Subject<any>();
   public loaderStatusUpdate = new Subject<string>();
 
