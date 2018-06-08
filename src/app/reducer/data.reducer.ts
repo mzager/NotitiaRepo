@@ -1,12 +1,7 @@
-import {
-    DataLoadedAction, DATA_UPDATE_COHORTS, DataUpdateCohortsAction,
-    DATA_UPDATE_GENESETS, DataUpdatePathwayAction, DataUpdateGenesetsAction
-} from './../action/data.action';
-import { DataChromosome } from './../model/data-chromosome.model';
-import { DataField, DataTable } from './../model/data-field.model';
-import * as e from 'app/model/enum.model';
-import * as data from 'app/action/data.action';
 import { Action } from '@ngrx/store';
+import * as data from 'app/action/data.action';
+import { DataLoadedAction, DataUpdateCohortsAction, DataUpdateGenesetsAction, DataUpdatePathwayAction } from './../action/data.action';
+import { DataField, DataTable } from './../model/data-field.model';
 
 export interface State {
     // chromosome: DataChromosome;

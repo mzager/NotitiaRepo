@@ -1,6 +1,5 @@
-import { GraphConfig } from 'app/model/graph-config.model';
-import { CollectionTypeEnum, DataTypeEnum, EntityTypeEnum, ConnectionTypeEnum } from './enum.model';
 import { DataField, DataTable } from './data-field.model';
+import { CollectionTypeEnum, ConnectionTypeEnum, DataTypeEnum, EntityTypeEnum } from './enum.model';
 
 /**
 * Represents A Field In A DataSet

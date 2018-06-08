@@ -1,8 +1,5 @@
-import { Legend } from 'app/model/legend.model';
-import { SomConfigModel } from './som.model';
 import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
-import * as _ from 'lodash';
-declare var ML: any;
+import { SomConfigModel } from './som.model';
 
 export const somCompute = (config: SomConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 

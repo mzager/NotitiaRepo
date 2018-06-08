@@ -1,71 +1,26 @@
-import { DataDecoratorCreateAction, DataDecoratorAddAction, DATA_DECORATOR_CREATE } from './../action/graph.action';
-import { LoaderHideAction } from './../action/layout.action';
-import { UnsafeAction } from './../action/unsafe.action';
-import { boxwhiskersCompute } from './../component/visualization/boxwhiskers/boxwhiskers.compute';
-import { GraphData } from './../model/graph-data.model';
-import { EdgeConfigModel, EdgeDataModel } from './../component/visualization/edges/edges.model';
-import { edgesCompute } from './../component/visualization/edges/edges.compute';
-import { State } from './../reducer/index.reducer';
-import * as compute from 'app/action/compute.action';
-import * as data from 'app/action/data.action';
-import * as graph from 'app/action/graph.action';
-import * as moment from 'moment';
-import { Action, Store } from '@ngrx/store';
-import { Actions, Effect } from '@ngrx/effects';
-import {
-  COMPUTE_CHROMOSOME,
-  COMPUTE_CHROMOSOME_COMPLETE,
-  COMPUTE_PCA,
-  COMPUTE_EDGES,
-  PcaCompleteAction,
-  SomCompleteAction,
-  ChromosomeCompleteAction,
-  HistogramCompleteAction,
-  GenomeCompleteAction,
-  TsneCompleteAction,
-  EdgesCompleteAction,
-  DendogramCompleteAction,
-  HeatmapCompleteAction,
-  PathwaysCompleteAction,
-  ParallelCoordsCompleteAction,
-  BoxWhiskersCompleteAction,
-  LinkedGeneCompleteAction,
-  TimelinesCompleteAction,
-  HicCompleteAction,
-  MdsCompleteAction,
-  FaCompleteAction,
-  DictionaryLearningCompleteAction,
-  NmfCompleteAction,
-  LdaCompleteAction,
-  FastIcaCompleteAction,
-  TruncatedSvdCompleteAction,
-  LocalLinearEmbeddingCompleteAction,
-  SpectralEmbeddingCompleteAction,
-  IsoMapCompleteAction,
-  PcaIncrementalCompleteAction,
-  PcaKernalCompleteAction,
-  PcaSparseCompleteAction,
-  NoneCompleteAction,
-  NullDataAction,
-  MiniBatchDictionaryLearningCompleteAction,
-  MiniBatchSparsePcaCompleteAction,
-  LinearDiscriminantAnalysisCompleteAction,
-  QuadraticDiscriminantAnalysisCompleteAction,
-  SurvivalCompleteAction,
-  HazardCompleteAction,
-} from './../action/compute.action';
-import { ComputeService } from './../service/compute.service';
-import { DataService } from './../service/data.service';
-import { GraphEnum, VisualizationEnum } from 'app/model/enum.model';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Actions, Effect } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+import * as compute from 'app/action/compute.action';
+import * as graph from 'app/action/graph.action';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/skip';
-import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/takeUntil';
+import 'rxjs/add/operator/withLatestFrom';
+import { Observable } from 'rxjs/Observable';
+// tslint:disable-next-line:max-line-length
+import { BoxWhiskersCompleteAction, ChromosomeCompleteAction, DendogramCompleteAction, DictionaryLearningCompleteAction, EdgesCompleteAction, FaCompleteAction, FastIcaCompleteAction, GenomeCompleteAction, HazardCompleteAction, HeatmapCompleteAction, HicCompleteAction, HistogramCompleteAction, IsoMapCompleteAction, LdaCompleteAction, LinearDiscriminantAnalysisCompleteAction, LinkedGeneCompleteAction, LocalLinearEmbeddingCompleteAction, MdsCompleteAction, MiniBatchDictionaryLearningCompleteAction, MiniBatchSparsePcaCompleteAction, NmfCompleteAction, NoneCompleteAction, NullDataAction, ParallelCoordsCompleteAction, PathwaysCompleteAction, PcaCompleteAction, PcaIncrementalCompleteAction, PcaKernalCompleteAction, PcaSparseCompleteAction, QuadraticDiscriminantAnalysisCompleteAction, SomCompleteAction, SpectralEmbeddingCompleteAction, SurvivalCompleteAction, TimelinesCompleteAction, TruncatedSvdCompleteAction, TsneCompleteAction } from './../action/compute.action';
+import { DataDecoratorAddAction, DataDecoratorCreateAction } from './../action/graph.action';
+import { LoaderHideAction } from './../action/layout.action';
+import { UnsafeAction } from './../action/unsafe.action';
+import { EdgeConfigModel } from './../component/visualization/edges/edges.model';
+import { GraphData } from './../model/graph-data.model';
+import { State } from './../reducer/index.reducer';
+import { ComputeService } from './../service/compute.service';
+import { DataService } from './../service/data.service';
 
 @Injectable()
 export class ComputeEffect {
@@ -74,7 +29,6 @@ export class ComputeEffect {
     .ofType(compute.COMPUTE_EDGES)
     .map((action: UnsafeAction) => action.payload)
     .switchMap((payload: any) => {
-      const config: EdgeConfigModel = payload['config'];
       return this.computeService.edges(payload['config'])
         .switchMap(result => {
           return Observable.of((result === null) ? new NullDataAction() :

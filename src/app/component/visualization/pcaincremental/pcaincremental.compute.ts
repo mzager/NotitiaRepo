@@ -1,11 +1,7 @@
-import { DirtyEnum, ShapeEnum } from 'app/model/enum.model';
-import Dexie from 'dexie';
-import { PcaIncrementalConfigModel } from './pcaincremental.model';
+import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 import { EntityTypeEnum, SpriteMaterialEnum } from './../../../model/enum.model';
 import { Legend } from './../../../model/legend.model';
-import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
-import * as _ from 'lodash';
-declare var ML: any;
+import { PcaIncrementalConfigModel } from './pcaincremental.model';
 
 export const pcaIncrementalCompute = (config: PcaIncrementalConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 

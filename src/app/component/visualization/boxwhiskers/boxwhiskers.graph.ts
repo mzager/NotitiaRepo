@@ -1,20 +1,18 @@
-import { LabelController, ILabel, LabelOptions } from './../../../controller/label/label.controller';
-import { MeshLine } from 'three.meshline';
+import { GraphConfig } from 'app/model/graph-config.model';
 import { scaleLinear } from 'd3-scale';
-import { BoxWhiskersDataModel, BoxWhiskersConfigModel } from './boxwhiskers.model';
-import { GraphEnum } from 'app/model/enum.model';
-import { EventEmitter } from '@angular/core';
+import * as THREE from 'three';
+import { MeshPhongMaterial, Vector2, Vector3 } from 'three';
+import { MeshText2D } from 'three-text2d';
+import { MeshLine } from 'three.meshline';
+import { ILabel, LabelController, LabelOptions } from './../../../controller/label/label.controller';
+import { VisualizationView } from './../../../model/chart-view.model';
+import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { DataDecorator } from './../../../model/data-map.model';
 import { EntityTypeEnum } from './../../../model/enum.model';
-import { ChartFactory, DataDecoatorRenderer } from './../../workspace/chart/chart.factory';
-import { GraphConfig } from 'app/model/graph-config.model';
-import { ChartObjectInterface } from './../../../model/chart.object.interface';
-import { VisualizationView } from './../../../model/chart-view.model';
 import { ChartEvent, ChartEvents } from './../../workspace/chart/chart.events';
+import { ChartFactory, DataDecoatorRenderer } from './../../workspace/chart/chart.factory';
 import { AbstractVisualization } from './../visualization.abstract.component';
-import * as THREE from 'three';
-import { Vector2, MeshPhongMaterial, Vector3 } from 'three';
-import { MeshText2D, textAlign } from 'three-text2d';
+import { BoxWhiskersConfigModel, BoxWhiskersDataModel } from './boxwhiskers.model';
 
 
 export class BoxWhiskersGraph extends AbstractVisualization {

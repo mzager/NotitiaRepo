@@ -1,7 +1,7 @@
-import { Legend } from './../../../model/legend.model';
-import { EntityTypeEnum, DirtyEnum, SpriteMaterialEnum } from './../../../model/enum.model';
-import { LinearDiscriminantAnalysisConfigModel, LinearDiscriminantAnalysisDataModel } from './lineardiscriminantanalysis.model';
 import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
+import { EntityTypeEnum, SpriteMaterialEnum } from './../../../model/enum.model';
+import { Legend } from './../../../model/legend.model';
+import { LinearDiscriminantAnalysisConfigModel } from './lineardiscriminantanalysis.model';
 
 // tslint:disable-next-line:max-line-length
 export const linearDiscriminantAnalysisCompute = (config: LinearDiscriminantAnalysisConfigModel, worker: DedicatedWorkerGlobalScope): void => {

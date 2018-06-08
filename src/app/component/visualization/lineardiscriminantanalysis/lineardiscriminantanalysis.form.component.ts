@@ -1,14 +1,8 @@
-import { DimensionEnum, EntityTypeEnum, CollectionTypeEnum } from './../../../model/enum.model';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
-import { GraphConfig } from './../../../model/graph-config.model';
 // tslint:disable-next-line:max-line-length
-import { LinearDiscriminantAnalysisConfigModel, LinearDiscriminantAnalysisSolver, LinearDiscriminantAnalysisShrinkage } from './lineardiscriminantanalysis.model';
-import { DataTypeEnum, DirtyEnum } from 'app/model/enum.model';
-import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import * as _ from 'lodash';
-import { SvmCompleteAction } from '../../../action/compute.action';
+import { LinearDiscriminantAnalysisConfigModel, LinearDiscriminantAnalysisShrinkage, LinearDiscriminantAnalysisSolver } from './lineardiscriminantanalysis.model';
 
 @Component({
   selector: 'app-lineardiscriminantanalysis-form',

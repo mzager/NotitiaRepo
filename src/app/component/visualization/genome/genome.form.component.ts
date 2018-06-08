@@ -1,11 +1,10 @@
-import { EntityTypeEnum } from './../../../model/enum.model';
-import { GenomeConfigModel } from './genome.model';
-import { GraphConfig } from './../../../model/graph-config.model';
-import { DimensionEnum, DataTypeEnum, VisualizationEnum, DirtyEnum, CollectionTypeEnum } from 'app/model/enum.model';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { CollectionTypeEnum, DimensionEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import * as _ from 'lodash';
+import { EntityTypeEnum } from './../../../model/enum.model';
+import { GraphConfig } from './../../../model/graph-config.model';
+import { GenomeConfigModel } from './genome.model';
 
 @Component({
   selector: 'app-genome-form',

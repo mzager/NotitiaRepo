@@ -1,18 +1,12 @@
-import { NoneAction } from './../../../action/compute.action';
-import { Observable } from 'rxjs/Observable';
-import { DataService } from './../../../service/data.service';
-import { TimelinesConfigModel, TimelinesStyle } from './timelines.model';
-import { GraphConfig } from './../../../model/graph-config.model';
-import { DimensionEnum, DataTypeEnum, VisualizationEnum, DirtyEnum, EntityTypeEnum } from 'app/model/enum.model';
-import { DataField, DataFieldFactory } from './../../../model/data-field.model';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnDestroy, ElementRef, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import * as _ from 'lodash';
+import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
-import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
-declare var $: any;
-declare var noUiSlider;
+import { DataField } from './../../../model/data-field.model';
+import { GraphConfig } from './../../../model/graph-config.model';
+import { TimelinesConfigModel, TimelinesStyle } from './timelines.model';
 
 @Component({
   selector: 'app-timelines-form',
@@ -39,7 +33,6 @@ export class TimelinesFormComponent implements OnDestroy {
   @Input() set fields(fields: Array<DataField>) {
     if (fields === null) { return; }
     if (fields.length === 0) { return; }
-    const defaultDataField: DataField = DataFieldFactory.getUndefined();
     this.patientAttributes = fields;
     this.$fields.next(fields);
   }
@@ -82,8 +75,6 @@ export class TimelinesFormComponent implements OnDestroy {
   }
 
   setOptions(options: any): void {
-    const clinical = options[0];
-    const events = options[1];
     options[0].filter(w => w.type === 'NUMBER');
     const sort = options[1].map(v => ({
       label: v.label,
@@ -113,7 +104,7 @@ export class TimelinesFormComponent implements OnDestroy {
     this.$options.unsubscribe();
   }
 
-  constructor(private fb: FormBuilder, private dataService: DataService) {
+  constructor(private fb: FormBuilder) {
 
     // Init Form
     this.form = this.fb.group({

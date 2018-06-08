@@ -1,12 +1,7 @@
-import { NmfConfigModel, NmfInit, NmfSolver, NmfBetaLoss } from './nmf.model';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
-import { DimensionEnum, EntityTypeEnum } from './../../../model/enum.model';
-import { GraphConfig } from './../../../model/graph-config.model';
-import { DataTypeEnum, DirtyEnum } from 'app/model/enum.model';
-import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import * as _ from 'lodash';
+import { NmfBetaLoss, NmfConfigModel, NmfInit, NmfSolver } from './nmf.model';
 
 @Component({
   selector: 'app-nmf-form',

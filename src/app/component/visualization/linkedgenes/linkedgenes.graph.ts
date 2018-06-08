@@ -1,25 +1,17 @@
-import { DataDecorator } from './../../../model/data-map.model';
-import { linkedGeneComputeFn } from './linkedgenes.compute';
-import { ComputeWorkerUtil } from './../../../service/compute.worker.util';
-import { LinkedGeneConfigModel, LinkedGeneDataModel } from './linkedgenes.model';
-import { Colors, EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
-import { OrbitControls } from 'three-orbitcontrols-ts';
-import { Subscription } from 'rxjs/Subscription';
-import { ChartObjectInterface } from './../../../model/chart.object.interface';
-import { ChartEvent, ChartEvents } from './../../workspace/chart/chart.events';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { VisualizationView } from './../../../model/chart-view.model';
-import { Injectable, EventEmitter, Output } from '@angular/core';
-import { ShapeEnum, ColorEnum, GraphEnum } from 'app/model/enum.model';
-import { ChartFactory } from './../../workspace/chart/chart.factory';
-import { GraphConfig } from './../../../model/graph-config.model';
-import * as scale from 'd3-scale';
-import * as _ from 'lodash';
-import * as THREE from 'three';
-import graph from 'ngraph.graph';
+import { EventEmitter } from '@angular/core';
+import { GraphEnum } from 'app/model/enum.model';
 import forcelayout3d from 'ngraph.forcelayout3d';
+import graph from 'ngraph.graph';
+import * as THREE from 'three';
+import { VisualizationView } from './../../../model/chart-view.model';
+import { ChartObjectInterface } from './../../../model/chart.object.interface';
+import { DataDecorator } from './../../../model/data-map.model';
+import { EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
+import { GraphConfig } from './../../../model/graph-config.model';
+import { ChartEvents } from './../../workspace/chart/chart.events';
+import { linkedGeneComputeFn } from './linkedgenes.compute';
+import { LinkedGeneConfigModel, LinkedGeneDataModel } from './linkedgenes.model';
 
-import { scaleLinear, scaleOrdinal } from 'd3-scale';
 
 export class LinkedGeneGraph implements ChartObjectInterface {
 

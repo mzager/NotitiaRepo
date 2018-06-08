@@ -1,11 +1,9 @@
-import { OrbitControls } from 'three-orbitcontrols-ts';
 import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
 import { VisualizationView } from './../../model/chart-view.model';
 import { GraphConfig } from './../../model/graph-config.model';
 import { GraphData } from 'app/model/graph-data.model';
 import * as THREE from 'three';
-import * as scale from 'd3-scale';
-import { CircleGeometry, SphereGeometry, Vector2, MeshPhongMaterial, Vector3, BoxHelper } from 'three';
+import { Vector3 } from 'three';
 import { ChartEvent, ChartEvents } from '../workspace/chart/chart.events';
 import { ChartObjectInterface } from '../../model/chart.object.interface';
 import { AbstractVisualization } from './visualization.abstract.component';
@@ -22,12 +20,8 @@ export class AbstractScatterVisualization extends AbstractVisualization {
 
     // Objects
     private lines: Array<THREE.Line>;
-    private mouseMode: 'CONTROL' | 'SELECTION' = 'CONTROL';
     private points: Array<THREE.Object3D>;
     private selectionMeshes: Array<THREE.Mesh>;
-    private selectionMesh: THREE.Mesh;
-    private selectionOrigin2d: Vector2;
-    private selectionScale: scale.ScaleLinear<number, number>;
 
     // Private Subscriptions
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
@@ -50,6 +44,11 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.onShowLabels();
         this.points = this.meshes.map(v => v.children[0]);
         this.tooltipController.targets = this.points;
+        this.tooltipController.onShow.subscribe(this.onShow);
+
+    }
+    private onShow(e: any): void {
+
     }
 
     updateData(config: GraphConfig, data: any) {
@@ -100,6 +99,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     }
 
     onMouseDown(e: ChartEvent): void {
+
 
         // const hit = ChartUtil.getIntersects(this.view, e.mouse, this.points);
         // if (hit.length > 0) {

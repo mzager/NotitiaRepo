@@ -1,17 +1,7 @@
-import { DirtyEnum } from 'app/model/enum.model';
-import { HeatmapConfigModel } from './heatmap.model';
 import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
-import { DimensionEnum, HClustMethodEnum, HClustDistanceEnum } from './../../../model/enum.model';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Rx';
-import { Legend } from 'app/model/legend.model';
-import { schemeRdBu, interpolateRdBu, interpolateSpectral } from 'd3-scale-chromatic';
-import * as d3Interpolate from 'd3-interpolate';
-import * as d3Scale from 'd3-scale';
-import * as d3Color from 'd3-color';
-import * as util from 'app/service/compute.worker.util';
-import * as _ from 'lodash';
 import { interpolateViridis } from 'd3';
+import * as d3Scale from 'd3-scale';
+import { HeatmapConfigModel } from './heatmap.model';
 
 export const heatmapCompute = (config: HeatmapConfigModel, worker: DedicatedWorkerGlobalScope): void => {
     worker.util.getDataMatrix(config).then(matrix => {

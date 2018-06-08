@@ -1,68 +1,35 @@
-import { histogramCompute } from './../component/visualization/histogram/histogram.compute';
-import { HistogramConfigModel } from './../component/visualization/histogram/histogram.model';
-import { SurvivalConfigModel } from './../component/visualization/survival/survival.model';
-import { genomeCompute } from './../component/visualization/genome/genome.compute';
-import { HeatmapConfigModel } from './../component/visualization/heatmap/heatmap.model';
-import { HicConfigModel } from './../component/visualization/hic/hic.model';
-import { BoxWhiskersConfigModel } from './../component/visualization/boxwhiskers/boxwhiskers.model';
-import { GenomeConfigModel } from './../component/visualization/genome/genome.model';
-import { graph } from 'ngraph.graph';
-import { LinkedGeneConfigModel } from './../component/visualization/linkedgenes/linkedgenes.model';
-import { FaConfigModel } from './../component/visualization/fa/fa.model';
-import { PcaKernalConfigModel } from './../component/visualization/pcakernal/pcakernal.model';
-import { PcaIncrementalConfigModel } from './../component/visualization/pcaincremental/pcaincremental.model';
-import { GraphPanelToggleAction, LoaderShowAction } from './../action/layout.action';
-import { DatasetService } from './../service/dataset.service';
-import { EdgeConfigModel } from './../component/visualization/edges/edges.model';
-import { WorkspaceConfigAction } from './../action/graph.action';
-import { WorkspaceConfigModel } from './../model/workspace.model';
-import { UnsafeAction } from './../action/unsafe.action';
-import { PlsConfigModel } from './../component/visualization/pls/pls.model';
-import { GraphConfig } from 'app/model/graph-config.model';
-import { SelectGraphAction, SelectToolAction } from './../action/select.action';
-import { ChromosomeConfigModel } from './../component/visualization/chromosome/chromosome.model';
-import { PcaConfigModel } from './../component/visualization/pca/pca.model';
-import * as _ from 'lodash';
-import * as compute from './../action/compute.action';
-import * as data from 'app/action/data.action';
-import * as user from 'app/action/user.action';
-import * as select from 'app/action/select.action';
-import * as fromRoot from 'app/reducer/index.reducer';
-import * as moment from 'moment';
-import * as service from 'app/service/http.client';
-import { Action, Store } from '@ngrx/store';
-import { Actions, Effect } from '@ngrx/effects';
-import { ComputeService } from './../service/compute.service';
-import { DataField } from 'app/model/data-field.model';
-import {
-    DataLoadedAction,
-    DataLoadIlluminaVcfAction,
-    DataUpdateGenesetsAction,
-    DataLoadFromDexieAction,
-    DataUpdateCohortsAction,
-    DataAddCohortAction,
-    DataDelCohortAction,
-    DataAddGenesetAction,
-    DataDelGenesetAction,
-    DataAddPathwayAction,
-    DataDelPathwayAction,
-    DataUpdatePathwayAction
-} from './../action/data.action';
-import { DataService } from './../service/data.service';
-import { DataTypeEnum, WorkspaceLayoutEnum, CollectionTypeEnum, GraphPanelEnum } from './../model/enum.model';
-import { GraphEnum, ToolEnum } from 'app/model/enum.model';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/takeUntil';
-import 'rxjs/add/operator/skip';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/withLatestFrom';
-import 'rxjs/add/operator/debounceTime';
-import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
+import { Actions, Effect } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
+import * as data from 'app/action/data.action';
 import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
-import { single } from 'rxjs/operator/single';
+import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
+import { GraphEnum } from 'app/model/enum.model';
+import { GraphConfig } from 'app/model/graph-config.model';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/skip';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/takeUntil';
+import 'rxjs/add/operator/withLatestFrom';
+import { Observable } from 'rxjs/Observable';
+import * as compute from './../action/compute.action';
+// tslint:disable-next-line:max-line-length
+import { DataAddCohortAction, DataAddGenesetAction, DataAddPathwayAction, DataDelCohortAction, DataDelGenesetAction, DataDelPathwayAction, DataLoadedAction, DataLoadFromDexieAction, DataUpdateCohortsAction, DataUpdateGenesetsAction, DataUpdatePathwayAction } from './../action/data.action';
+import { WorkspaceConfigAction } from './../action/graph.action';
+import { LoaderShowAction } from './../action/layout.action';
+import { UnsafeAction } from './../action/unsafe.action';
+import { BoxWhiskersConfigModel } from './../component/visualization/boxwhiskers/boxwhiskers.model';
+import { EdgeConfigModel } from './../component/visualization/edges/edges.model';
+import { GenomeConfigModel } from './../component/visualization/genome/genome.model';
+import { PcaIncrementalConfigModel } from './../component/visualization/pcaincremental/pcaincremental.model';
+import { SurvivalConfigModel } from './../component/visualization/survival/survival.model';
+import { CollectionTypeEnum, WorkspaceLayoutEnum } from './../model/enum.model';
+import { WorkspaceConfigModel } from './../model/workspace.model';
+import { ComputeService } from './../service/compute.service';
+import { DataService } from './../service/data.service';
+import { DatasetService } from './../service/dataset.service';
 
 @Injectable()
 export class DataEffect {
@@ -92,7 +59,8 @@ export class DataEffect {
         .ofType(data.DATA_ADD_COHORT)
         .switchMap((args: DataAddCohortAction) => {
             return Observable.fromPromise(this.dataService.createCustomCohort(args.payload.database, args.payload.cohort)
-                .then(v => this.dataService.getCustomCohorts(args.payload.database)));
+                .then(v => this.dataService.getCustomCohorts(args.payload.database))
+            );
         }).switchMap((args: any) => {
             return Observable.of(new DataUpdateCohortsAction(args));
         });
