@@ -1,11 +1,7 @@
-import { Legend } from './../../../model/legend.model';
-import { DirtyEnum, SpriteMaterialEnum } from './../../../model/enum.model';
-import Dexie from 'dexie';
-import { MiniBatchDictionaryLearningConfigModel } from './minibatchdictionarylearning.model';
-import { EntityTypeEnum } from './../../../model/enum.model';
 import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
-import * as _ from 'lodash';
-declare var ML: any;
+import { EntityTypeEnum, SpriteMaterialEnum } from './../../../model/enum.model';
+import { Legend } from './../../../model/legend.model';
+import { MiniBatchDictionaryLearningConfigModel } from './minibatchdictionarylearning.model';
 
 export const miniBatchDictionaryLearningCompute =
     (config: MiniBatchDictionaryLearningConfigModel, worker: DedicatedWorkerGlobalScope): void => {

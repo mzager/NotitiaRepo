@@ -1,12 +1,9 @@
-import { HeatmapAction } from './../../../action/compute.action';
-import { HeatmapConfigModel, HeatmapMethod, HeatmapDistance, HeatmapDataModel } from './heatmap.model';
-import { DimensionEnum, DistanceEnum, DenseSparseEnum, HClustMethodEnum, HClustDistanceEnum } from './../../../model/enum.model';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { CollectionTypeEnum, DirtyEnum } from 'app/model/enum.model';
+import { DataField, DataTable } from './../../../model/data-field.model';
 import { GraphConfig } from './../../../model/graph-config.model';
-import { DataTypeEnum, CollectionTypeEnum, DirtyEnum } from 'app/model/enum.model';
-import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import * as _ from 'lodash';
+import { HeatmapConfigModel, HeatmapDistance, HeatmapMethod } from './heatmap.model';
 
 @Component({
   selector: 'app-heatmap-form',

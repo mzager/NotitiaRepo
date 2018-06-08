@@ -1,19 +1,13 @@
-import * as fromHelp from './help.reducer';
+import { ActionReducer, combineReducers } from '@ngrx/store';
+import { createSelector } from 'reselect';
 import * as fromData from './data.reducer';
-import * as fromGraph from './graph.reducer';
-import * as fromLayout from './layout.reducer';
-import * as fromRouter from '@ngrx/router-store';
-import * as fromSelect from './select.reducer';
 import * as fromEdges from './edges.reducer';
+import * as fromGraph from './graph.reducer';
+import * as fromHelp from './help.reducer';
+import * as fromLayout from './layout.reducer';
+import * as fromSelect from './select.reducer';
 import * as fromSpreadsheet from './spreadsheet.reducer';
 import * as fromUser from './user.reducer';
-import { ActionReducer } from '@ngrx/store';
-import { combineReducers } from '@ngrx/store';
-import { compose } from '@ngrx/core/compose';
-import { createSelector } from 'reselect';
-import { environment } from '../../environments/environment';
-import { GraphEnum } from 'app/model/enum.model';
-import { storeFreeze } from 'ngrx-store-freeze';
 
 export interface State {
   layout: fromLayout.State;

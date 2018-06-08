@@ -1,13 +1,7 @@
-import { DataDecorator } from './../model/data-map.model';
-import { COMPUTE_EDGES_COMPLETE } from './../action/compute.action';
-import { EdgeDataModel, EdgeConfigModel } from './../component/visualization/edges/edges.model';
-import { GraphConfig } from './../model/graph-config.model';
-import { DataLoadedAction } from './../action/data.action';
-import { DataChromosome } from './../model/data-chromosome.model';
-import { DataField } from './../model/data-field.model';
 import * as e from 'app/model/enum.model';
-import * as data from 'app/action/data.action';
-import { Action } from '@ngrx/store';
+import { COMPUTE_EDGES_COMPLETE } from './../action/compute.action';
+import { EdgeConfigModel, EdgeDataModel } from './../component/visualization/edges/edges.model';
+import { DataDecorator } from './../model/data-map.model';
 
 export const DATA_DECORATOR_ADD = '[GRAPH] Data Decorator Add';
 export const DATA_DECORATOR_DEL = '[GRAPH] Data Decorator Remove';

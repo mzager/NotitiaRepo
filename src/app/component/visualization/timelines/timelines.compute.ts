@@ -1,12 +1,9 @@
-import { interpolateSpectral } from 'd3-scale-chromatic';
-import { EntityTypeEnum } from './../../../model/enum.model';
-import { Legend } from './../../../model/legend.model';
-import { DirtyEnum, Colors } from 'app/model/enum.model';
-import { TimelinesConfigModel } from './timelines.model';
 import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
+import { scaleSequential } from 'd3-scale';
+import { interpolateSpectral } from 'd3-scale-chromatic';
 import * as _ from 'lodash';
-import { color } from 'd3';
-import { scaleLinear, scaleLog, InterpolatorFactory, scaleSequential, scaleQuantize, scaleQuantile } from 'd3-scale';
+import { Legend } from './../../../model/legend.model';
+import { TimelinesConfigModel } from './timelines.model';
 
 export const timelinesCompute = (config: TimelinesConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 

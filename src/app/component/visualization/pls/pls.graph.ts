@@ -1,16 +1,14 @@
+import { EventEmitter } from '@angular/core';
+import { GraphEnum, ShapeEnum } from 'app/model/enum.model';
+import * as THREE from 'three';
+import { OrbitControls } from 'three-orbitcontrols-ts';
+import { VisualizationView } from './../../../model/chart-view.model';
+import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { DataDecorator } from './../../../model/data-map.model';
 import { EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
-import { EventEmitter } from '@angular/core';
-import { OrbitControls } from 'three-orbitcontrols-ts';
-import { ChartObjectInterface } from './../../../model/chart.object.interface';
-import { ChartEvent, ChartEvents } from './../../workspace/chart/chart.events';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { VisualizationView } from './../../../model/chart-view.model';
-import { PlsConfigModel, PlsDataModel } from './pls.model';
 import { GraphConfig } from './../../../model/graph-config.model';
-import * as _ from 'lodash';
-import * as THREE from 'three';
-import { ShapeEnum, GraphEnum } from 'app/model/enum.model';
+import { ChartEvents } from './../../workspace/chart/chart.events';
+import { PlsConfigModel, PlsDataModel } from './pls.model';
 
 export class PlsGraph implements ChartObjectInterface {
 

@@ -1,9 +1,8 @@
+import { EntityTypeEnum, VisualizationEnum } from 'app/model/enum.model';
+import { GraphConfig } from 'app/model/graph-config.model';
+import { GraphData } from 'app/model/graph-data.model';
 import { Legend } from './../../../model/legend.model';
 
-import { GraphConfig } from 'app/model/graph-config.model';
-import { VisualizationEnum, DimensionEnum, GraphEnum, EntityTypeEnum } from 'app/model/enum.model';
-import { DataField, DataFieldFactory } from 'app/model/data-field.model';
-import { GraphData } from 'app/model/graph-data.model';
 
 export class HazardConfigModel extends GraphConfig {
     constructor() {

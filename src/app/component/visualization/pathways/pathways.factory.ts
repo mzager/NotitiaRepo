@@ -1,9 +1,7 @@
-import { Injectable } from '@angular/core';
-import { GraphEnum, ShapeEnum, SizeEnum, ColorEnum } from 'app/model/enum.model';
-import { GraphConfig } from './../../../model/graph-config.model';
-import * as THREE from 'three';
-import { Vector2, Object3D } from 'three';
 import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
+import { ColorEnum } from 'app/model/enum.model';
+import * as THREE from 'three';
+import { Object3D, Vector2 } from 'three';
 
 export class PathwayNodeEnum {
     static readonly COMPARTMENT = 'compartment';

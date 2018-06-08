@@ -1,7 +1,7 @@
-import { Legend } from './../../../model/legend.model';
-import { EntityTypeEnum, DirtyEnum, SpriteMaterialEnum } from './../../../model/enum.model';
-import { IsoMapConfigModel, IsoMapDataModel } from './isomap.model';
 import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
+import { EntityTypeEnum, SpriteMaterialEnum } from './../../../model/enum.model';
+import { Legend } from './../../../model/legend.model';
+import { IsoMapConfigModel } from './isomap.model';
 
 export const isoMapCompute = (config: IsoMapConfigModel, worker: DedicatedWorkerGlobalScope): void => {
     worker.util.getDataMatrix(config).then(matrix => {

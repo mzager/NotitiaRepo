@@ -1,7 +1,7 @@
-import { Legend } from './../../../model/legend.model';
-import { EntityTypeEnum, DirtyEnum, SpriteMaterialEnum } from './../../../model/enum.model';
-import { NmfConfigModel, NmfDataModel } from './nmf.model';
 import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
+import { EntityTypeEnum, SpriteMaterialEnum } from './../../../model/enum.model';
+import { Legend } from './../../../model/legend.model';
+import { NmfConfigModel } from './nmf.model';
 
 export const nmfCompute = (config: NmfConfigModel, worker: DedicatedWorkerGlobalScope): void => {
     worker.util.getDataMatrix(config).then(matrix => {

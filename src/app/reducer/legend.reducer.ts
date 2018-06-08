@@ -1,6 +1,4 @@
 import { UnsafeAction } from './../action/unsafe.action';
-import { Action, ActionReducer } from '@ngrx/store';
-import { Legend } from '../model/legend.model';
 
 export const createLegendReducer = (type: String) => {
     const ADD = `${type}_ADD_LEGEND`;

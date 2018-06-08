@@ -1,7 +1,6 @@
+import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 import { Legend } from './../../../model/legend.model';
 import { SurvivalConfigModel } from './survival.model';
-import { ChromosomeConfigModel } from './../chromosome/chromosome.model';
-import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 export const survivalCompute = (config: SurvivalConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
 
