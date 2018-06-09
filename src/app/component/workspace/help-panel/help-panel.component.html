@@ -27,12 +27,13 @@
             <p>{{ attr.desc }}</p>
           </div>
         </div>
-
-        <h1 class='panel-header ' style='padding-bottom: 25px; padding-top: 25px '>Method Citations</h1>
-        <div *ngFor='let attr of citations; let i=i ndex '>
-          <p class='help-name ' style='padding-top: 10px; '>{{ attr.name }}</p>
-          <p>{{ attr.desc }}</p>
-          <a class='os-link ' href='{{ attr.url }} ' target='_blank '>Link to Pub</a>
+        <div *ngIf='citations.length > 0'>
+          <h1 class='panel-header ' style='padding-bottom: 25px; padding-top: 25px '>Method Citations</h1>
+          <div *ngFor='let attr of citations; let i=i ndex '>
+            <p class='help-name ' style='padding-top: 10px; '>{{ attr.name }}</p>
+            <p>{{ attr.desc }}</p>
+            <a class='os-link ' href='{{ attr.url }} ' target='_blank '>Link to Pub</a>
+          </div>
         </div>
       </div>
     </div>
