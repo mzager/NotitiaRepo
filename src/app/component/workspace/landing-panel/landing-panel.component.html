@@ -20,37 +20,18 @@
     </div>
   </div>
 
-  <div fxLayout.xs="column">
-    <div style='padding-bottom: 30px;' fxLayout="row">
-      <button mat-button (click)="getStartedClick()" class='button button-shrink'>Get Started
+  <div fxLayout='row' fxLayout.sm='column' fxLayout.xs='column' fxLayoutAlign="space-between start" style='padding-bottom: 30px;'>
+    <div>
+      <button style='line-height: 40px;' mat-button (click)="getStartedClick()" class='button landing-button'>Get Started
       </button>
-      <span class='landing-span'>Maximize the potential of your clinical and genomic data by combining it with best-in-class analysis, reference data
+    </div>
+    <div>
+      <span ngClass.xs="xs-button " ngClass.sm="xs-button " fxFlexOffset='20px' fxFlexOffset.sm='0px' fxFlexOffset.xs='0px' class='landing-span'>Maximize the potential of your clinical and genomic data by combining it with best-in-class analysis, reference data
         sets and domain-specific visualizations. To request training or a custom solution contact us at
         <a style='color: #1e88e5; text-decoration: none;' href='mailto:contact-sttr@fredhutch.org '>contact-sttr@fredhutch.org.</a>
       </span>
     </div>
   </div>
-
-
-
-
-  <!-- <div>
-      <section style='padding-bottom: 30px;' fxFlex.sm='1 1 100%' fxFlex.md='1 1 100%' fxFlex.lg='1 1 100%' fxFlex.xl='1 1 100%'>
-        <button fxFlex='15%' (click)="getStartedClick()" class='button' style='letter-spacing: 5px; line-height: 25px;
-        text-transform: uppercase; text-align: left; font-size: 1rem; font-weight: 100;' mat-button>Get
-          <br /> Started
-        </button>
-  
-        <div fxFlexOffset='20px' fxFlex='85%' style='line-height: 25px;'>
-          <span>Maximize the potential of your clinical and genomic data by combining it with best-in-class analysis, reference data
-            sets and domain-specific visualizations. To request training or a custom solution contact us at
-            <a style='color: #1e88e5; text-decoration: none;' href='mailto:contact@oncoscape.org'>contact@oncoscape.org</a>.
-          </span>
-        </div>
-      </section>
-    </div> -->
-
-
   <div class='landing-headers'></div>
   <div class='landing-section-title'>Analysis</div>
   <section fxLayout.xs='column'>
@@ -199,20 +180,19 @@
     </div>
   </section>
   <footer class='landing-footer'>
-
-    <div fxLayout="row">
-      <div fxFlex='30%' class="address-text">
+    <div fxLayout='row' fxLayout.sm='column' fxLayout.xs='column' fxLayoutAlign="space-between center">
+      <div class="footer-text">
         <p>
-          2018 Fred Hutchinson Cancer Research Center 1100 Fairview Ave. N.
+          2018 Fred Hutch 1100 Fairview Ave. N.
         </p>
         <p>P.O. Box 19024, Seattle, WA 98109</p>
         <p>
           <a style='color:#fff; text-decoration: none;' href="http://www.fredhutch.org/en/util/terms-privacy.html ">Terms of Use &amp; Privacy Policy</a>
         </p>
       </div>
-      <div fxFlex='70%' fxFlexOffset="15">
-        <section class='section-footer'>
-          <span class='footer-text'>To request training or a custom solution contact us at:
+      <div>
+        <div class='section-footer'>
+          <span class='footer-text'>Let's Connect:
             <a href=" https://twitter.com/oncoscape " target="_blank ">
               <i class="fa fa-twitter-square fa-3x social "></i>
             </a>
@@ -226,12 +206,12 @@
               <i class="fa fa-envelope-square fa-3x social "></i>
             </a>
           </span>
-        </section>
+        </div>
       </div>
     </div>
-
   </footer>
 </div>
+
 
 
 
