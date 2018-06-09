@@ -1,23 +1,17 @@
-import { DataFieldFactory } from './../../../model/data-field.model';
-import { PcaIncrementalConfigModel, PcaIncrementalDataModel } from './../../visualization/pcaincremental/pcaincremental.model';
-import { PcaIncrementalCompleteAction } from './../../../action/compute.action';
-import { Store } from '@ngrx/store';
-import { getGraphAData } from './../../../reducer/index.reducer';
-import { GraphData } from './../../../model/graph-data.model';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { DataService } from './../../../service/data.service';
-import { GraphConfig } from './../../../model/graph-config.model';
-import { EntityTypeEnum } from './../../../model/enum.model';
-import { DataField } from 'app/model/data-field.model';
 import {
-  Component, Input, Output, EventEmitter, AfterViewInit,
-  OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef
+  AfterViewInit, ChangeDetectionStrategy,
+  ChangeDetectorRef, Component, ElementRef,
+  EventEmitter, Input, Output, ViewChild
 } from '@angular/core';
-import { VisualizationEnum, DirtyEnum, GraphEnum } from 'app/model/enum.model';
-import { Legend } from 'app/model/legend.model';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { DirtyEnum, GraphEnum } from 'app/model/enum.model';
+import { GraphConfig } from './../../../model/graph-config.model';
+import { GraphData } from './../../../model/graph-data.model';
+import { getGraphAData } from './../../../reducer/index.reducer';
+import { DataService } from './../../../service/data.service';
 declare var $: any;
 declare var ML: any;
-
 @Component({
   selector: 'app-workspace-clustering-algorithm-panel',
   template: `

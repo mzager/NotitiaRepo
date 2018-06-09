@@ -1,46 +1,11 @@
-import { ModalService } from './../../../service/modal-service';
-import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
-import { HicConfigModel } from './../../visualization/hic/hic.model';
-import { ParallelCoordsConfigModel } from './../../visualization/parallelcoords/parallelcoords.model';
-import { BoxWhiskersConfigModel } from './../../visualization/boxwhiskers/boxwhiskers.model';
-import { GenomeConfigModel } from './../../visualization/genome/genome.model';
-import { LinkedGeneConfigModel } from './../../visualization/linkedgenes/linkedgenes.model';
-import { PlsAction } from './../../../action/compute.action';
-import { DataTable } from './../../../model/data-field.model';
-import { PcaSparseConfigModel } from './../../visualization/pcasparse/pcasparse.model';
-import { PcaKernalConfigModel } from './../../visualization/pcakernal/pcakernal.model';
-import { PcaIncrementalConfigModel } from './../../visualization/pcaincremental/pcaincremental.model';
-import { SpectralEmbeddingConfigModel } from './../../visualization/spectralembedding/spectralembedding.model';
-import { LocalLinearEmbeddingConfigModel } from './../../visualization/locallinearembedding/locallinearembedding.model';
-import { IsoMapConfigModel } from './../../visualization/isomap/isomap.model';
-import { TruncatedSvdConfigModel } from './../../visualization/truncatedsvd/truncatedsvd.model';
-import { DictionaryLearningConfigModel } from './../../visualization/dictionarylearning/dictionarylearning.model';
-import { FastIcaConfigModel } from './../../visualization/fastica/fastica.model';
-import { NmfConfigModel } from './../../visualization/nmf/nmf.model';
-import { LdaConfigModel } from './../../visualization/lda/lda.model';
-import { FaConfigModel } from './../../visualization/fa/fa.model';
-import { MdsConfigModel } from './../../visualization/mds/mds.model';
-import { DeConfigModel } from './../../visualization/de/de.model';
-import { DaConfigModel } from './../../visualization/da/da.model';
-import { SomConfigModel } from './../../visualization/som/som.model';
-import { HeatmapConfigModel } from './../../visualization/heatmap/heatmap.model';
-import { TsneConfigModel } from './../../visualization/tsne/tsne.model';
-import { PlsConfigModel } from './../../visualization/pls/pls.model';
-import { PcaConfigModel } from './../../visualization/pca/pca.model';
-import { ChromosomeConfigModel } from './../../visualization/chromosome/chromosome.model';
-import { GraphConfig } from './../../../model/graph-config.model';
-import { EntityTypeEnum } from './../../../model/enum.model';
-import { DataField } from 'app/model/data-field.model';
 import {
-  Component, Input, Output, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy,
-  EventEmitter, AfterViewInit, OnInit, ViewChild, ElementRef, ViewEncapsulation
+  AfterViewInit, ChangeDetectionStrategy,
+  ChangeDetectorRef, Component, EventEmitter,
+  Input, OnDestroy, Output, ViewEncapsulation
 } from '@angular/core';
-import { VisualizationEnum, GraphEnum, DirtyEnum } from 'app/model/enum.model';
-import { Legend } from 'app/model/legend.model';
-import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
-import { GraphData } from 'app/model/graph-data.model';
 import { DataService } from 'app/service/data.service';
-import { Subscription } from 'rxjs/Subscription';
+import { GraphConfig } from './../../../model/graph-config.model';
+import { ModalService } from './../../../service/modal-service';
 declare var $: any;
 
 @Component({

@@ -1,62 +1,59 @@
-import { EdgeConfigModel } from './../../visualization/edges/edges.model';
-import { HazardConfigModel } from './../../visualization/hazard/hazard.model';
-import { ChartScene } from './../chart/chart.scene';
-import { DataDecorator } from './../../../model/data-map.model';
-import { DataService } from 'app/service/data.service';
-import { DendogramConfigModel } from './../../visualization/dendogram/dendogram.model';
-import { SurvivalConfigModel } from './../../visualization/survival/survival.model';
-import { ModalService } from './../../../service/modal-service';
-// tslint:disable-next-line:max-line-length
-import { QuadradicDiscriminantAnalysisConfigModel } from './../../visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
+import {
+  AfterViewInit, ChangeDetectionStrategy,
+  ChangeDetectorRef, Component, ElementRef,
+  EventEmitter, Input, OnDestroy, Output,
+  ViewChild, ViewEncapsulation
+} from '@angular/core';
 // tslint:disable-next-line:max-line-length
 import { LinearDiscriminantAnalysisConfigModel } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
+import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
+import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
+import { DataField } from 'app/model/data-field.model';
+import { DirtyEnum, GraphEnum, VisualizationEnum } from 'app/model/enum.model';
+import { GraphData } from 'app/model/graph-data.model';
+import { DataService } from 'app/service/data.service';
+import { WorkspaceConfigModel } from '../../../model/workspace.model';
+import { HistogramConfigModel } from '../../visualization/histogram/histogram.model';
+import { DataTable } from './../../../model/data-field.model';
+import { DataDecorator } from './../../../model/data-map.model';
+import { EntityTypeEnum, PanelEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
+import { GraphConfig } from './../../../model/graph-config.model';
+import { ModalService } from './../../../service/modal-service';
+import { BoxWhiskersConfigModel } from './../../visualization/boxwhiskers/boxwhiskers.model';
+import { ChromosomeConfigModel } from './../../visualization/chromosome/chromosome.model';
+import { DaConfigModel } from './../../visualization/da/da.model';
+import { DeConfigModel } from './../../visualization/de/de.model';
+import { DendogramConfigModel } from './../../visualization/dendogram/dendogram.model';
+import { DictionaryLearningConfigModel } from './../../visualization/dictionarylearning/dictionarylearning.model';
+import { EdgeConfigModel } from './../../visualization/edges/edges.model';
+import { FaConfigModel } from './../../visualization/fa/fa.model';
+import { FastIcaConfigModel } from './../../visualization/fastica/fastica.model';
+import { GenomeConfigModel } from './../../visualization/genome/genome.model';
+import { HazardConfigModel } from './../../visualization/hazard/hazard.model';
+import { HeatmapConfigModel } from './../../visualization/heatmap/heatmap.model';
+import { HicConfigModel } from './../../visualization/hic/hic.model';
+import { IsoMapConfigModel } from './../../visualization/isomap/isomap.model';
+import { LdaConfigModel } from './../../visualization/lda/lda.model';
+import { LinkedGeneConfigModel } from './../../visualization/linkedgenes/linkedgenes.model';
+import { LocalLinearEmbeddingConfigModel } from './../../visualization/locallinearembedding/locallinearembedding.model';
+import { MdsConfigModel } from './../../visualization/mds/mds.model';
 // tslint:disable-next-line:max-line-length
 import { MiniBatchDictionaryLearningConfigModel } from './../../visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
 import { MiniBatchSparsePcaConfigModel } from './../../visualization/minibatchsparsepca/minibatchsparsepca.model';
-import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
-import { HicConfigModel } from './../../visualization/hic/hic.model';
-import { ParallelCoordsConfigModel } from './../../visualization/parallelcoords/parallelcoords.model';
-import { BoxWhiskersConfigModel } from './../../visualization/boxwhiskers/boxwhiskers.model';
-import { GenomeConfigModel } from './../../visualization/genome/genome.model';
-import { LinkedGeneConfigModel } from './../../visualization/linkedgenes/linkedgenes.model';
-import { PlsAction } from './../../../action/compute.action';
-import { DataTable, DataFieldFactory } from './../../../model/data-field.model';
-import { PcaSparseConfigModel } from './../../visualization/pcasparse/pcasparse.model';
-import { PcaKernalConfigModel } from './../../visualization/pcakernal/pcakernal.model';
-import { PcaIncrementalConfigModel } from './../../visualization/pcaincremental/pcaincremental.model';
-import { SpectralEmbeddingConfigModel } from './../../visualization/spectralembedding/spectralembedding.model';
-import { LocalLinearEmbeddingConfigModel } from './../../visualization/locallinearembedding/locallinearembedding.model';
-import { IsoMapConfigModel } from './../../visualization/isomap/isomap.model';
-import { TruncatedSvdConfigModel } from './../../visualization/truncatedsvd/truncatedsvd.model';
-import { DictionaryLearningConfigModel } from './../../visualization/dictionarylearning/dictionarylearning.model';
-import { FastIcaConfigModel } from './../../visualization/fastica/fastica.model';
 import { NmfConfigModel } from './../../visualization/nmf/nmf.model';
-import { LdaConfigModel } from './../../visualization/lda/lda.model';
-import { FaConfigModel } from './../../visualization/fa/fa.model';
-import { MdsConfigModel } from './../../visualization/mds/mds.model';
-import { DeConfigModel } from './../../visualization/de/de.model';
-import { DaConfigModel } from './../../visualization/da/da.model';
-import { SomConfigModel } from './../../visualization/som/som.model';
-import { HeatmapConfigModel } from './../../visualization/heatmap/heatmap.model';
-import { TsneConfigModel } from './../../visualization/tsne/tsne.model';
-import { PlsConfigModel } from './../../visualization/pls/pls.model';
+import { ParallelCoordsConfigModel } from './../../visualization/parallelcoords/parallelcoords.model';
 import { PcaConfigModel } from './../../visualization/pca/pca.model';
-import { ChromosomeConfigModel } from './../../visualization/chromosome/chromosome.model';
-import { GraphConfig } from './../../../model/graph-config.model';
-import { EntityTypeEnum, GraphPanelEnum, PanelEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
-import { DataField } from 'app/model/data-field.model';
-import {
-  Component, Input, Output, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy,
-  EventEmitter, AfterViewInit, OnInit, ViewChild, ElementRef, ViewEncapsulation
-} from '@angular/core';
-import { VisualizationEnum, GraphEnum, DirtyEnum } from 'app/model/enum.model';
-import { Legend } from 'app/model/legend.model';
-import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
-import { GraphData } from 'app/model/graph-data.model';
-import { Subscription } from 'rxjs/Subscription';
-import { Cohort } from '../../../model/cohort.model';
-import { HistogramConfigModel } from '../../visualization/histogram/histogram.model';
-import { WorkspaceConfigModel } from '../../../model/workspace.model';
+import { PcaIncrementalConfigModel } from './../../visualization/pcaincremental/pcaincremental.model';
+import { PcaKernalConfigModel } from './../../visualization/pcakernal/pcakernal.model';
+import { PcaSparseConfigModel } from './../../visualization/pcasparse/pcasparse.model';
+import { PlsConfigModel } from './../../visualization/pls/pls.model';
+// tslint:disable-next-line:max-line-length
+import { QuadradicDiscriminantAnalysisConfigModel } from './../../visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
+import { SomConfigModel } from './../../visualization/som/som.model';
+import { SpectralEmbeddingConfigModel } from './../../visualization/spectralembedding/spectralembedding.model';
+import { SurvivalConfigModel } from './../../visualization/survival/survival.model';
+import { TruncatedSvdConfigModel } from './../../visualization/truncatedsvd/truncatedsvd.model';
+import { TsneConfigModel } from './../../visualization/tsne/tsne.model';
 declare var $: any;
 
 @Component({

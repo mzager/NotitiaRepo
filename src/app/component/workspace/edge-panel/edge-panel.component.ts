@@ -1,26 +1,20 @@
-import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
-import { GraphColorAction } from './../../../action/compute.action';
-import { Subject } from 'rxjs/Subject';
-import { ModalService } from 'app/service/modal-service';
-import { WorkspaceConfigModel } from './../../../model/workspace.model';
-import { WorkspaceLayoutEnum, VisualizationEnum, ConnectionTypeEnum } from './../../../model/enum.model';
-import { DataTable, DataFieldFactory } from './../../../model/data-field.model';
-import { DataField } from 'app/model/data-field.model';
-import { INSERT_ANNOTATION } from './../../../action/graph.action';
-import { StatsInterface } from './../../../model/stats.interface';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { GraphConfig } from './../../../model/graph-config.model';
-import { GraphData } from './../../../model/graph-data.model';
 import {
-  Component, ComponentFactoryResolver, Input, Output, ViewContainerRef,
-  ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild,
-  OnDestroy, ChangeDetectorRef, ViewEncapsulation
+  ChangeDetectionStrategy, ChangeDetectorRef,
+  Component, ComponentFactoryResolver, EventEmitter,
+  Input, OnDestroy, Output, ViewEncapsulation
 } from '@angular/core';
-import { GraphEnum } from 'app/model/enum.model';
-import { Legend } from 'app/model/legend.model';
-import { Subscription } from 'rxjs/Subscription';
-import { EdgeConfigModel } from 'app/component/visualization/edges/edges.model';
 import { MatSelectChange } from '@angular/material';
+import { EdgeConfigModel } from 'app/component/visualization/edges/edges.model';
+import { DataField } from 'app/model/data-field.model';
+import { GraphEnum } from 'app/model/enum.model';
+import { ModalService } from 'app/service/modal-service';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
+import { DataFieldFactory, DataTable } from './../../../model/data-field.model';
+import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
+import { WorkspaceLayoutEnum } from './../../../model/enum.model';
+import { GraphConfig } from './../../../model/graph-config.model';
+import { WorkspaceConfigModel } from './../../../model/workspace.model';
 declare var $: any;
 
 @Component({

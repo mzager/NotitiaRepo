@@ -1,18 +1,13 @@
-import { Cohort, CohortCondition, CohortField } from './../../../model/cohort.model';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatInputModule } from '@angular/material';
-import { MatSelectModule } from '@angular/material/select';
-import { DataService } from './../../../service/data.service';
-import { GraphConfig } from './../../../model/graph-config.model';
-import { EntityTypeEnum } from './../../../model/enum.model';
-import { DataField } from 'app/model/data-field.model';
-
 import {
-  Component, Input, Output, EventEmitter, AfterViewInit,
-  OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef, ViewEncapsulation
+  AfterViewInit, ChangeDetectionStrategy,
+  ChangeDetectorRef, Component, EventEmitter,
+  Input, Output, ViewEncapsulation
 } from '@angular/core';
-import { VisualizationEnum, DirtyEnum } from 'app/model/enum.model';
-import { Legend } from 'app/model/legend.model';
+import { FormBuilder } from '@angular/forms';
+import { Cohort, CohortCondition, CohortField } from './../../../model/cohort.model';
+import { GraphConfig } from './../../../model/graph-config.model';
+import { DataService } from './../../../service/data.service';
+
 declare var $: any;
 
 @Component({

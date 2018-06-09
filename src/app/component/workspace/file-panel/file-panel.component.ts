@@ -1,14 +1,9 @@
-import { DataHubService } from './../../../service/datahub.service';
-import { INSERT_ANNOTATION } from './../../../action/graph.action';
-import { StatsInterface } from './../../../model/stats.interface';
-import { FormBuilder } from '@angular/forms';
-import { GraphConfig } from './../../../model/graph-config.model';
 import {
-  Component, ComponentFactoryResolver, Input, Output, ViewContainerRef,
-  ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild, ViewEncapsulation, ChangeDetectorRef
+  ChangeDetectionStrategy, Component,
+  EventEmitter, Output, ViewEncapsulation
 } from '@angular/core';
-import { Legend } from 'app/model/legend.model';
 import { PanelEnum } from '../../../model/enum.model';
+import { DataHubService } from './../../../service/datahub.service';
 
 @Component({
   selector: 'app-workspace-file-panel',

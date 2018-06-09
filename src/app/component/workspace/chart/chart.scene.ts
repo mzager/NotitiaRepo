@@ -1,26 +1,21 @@
-import { EdgesGraph } from './../../visualization/edges/edges.graph';
-import { DataDecorator } from './../../../model/data-map.model';
+import { EventEmitter, Injectable } from '@angular/core';
+import { GraphEnum, VisualizationEnum } from 'app/model/enum.model';
 import { GraphConfig } from 'app/model/graph-config.model';
-import { ChartFactory } from './chart.factory';
-import { EdgeConfigModel } from './../../visualization/edges/edges.model';
-import { WorkspaceConfigModel } from './../../../model/workspace.model';
-import { EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
-import { ChartObjectInterface } from './../../../model/chart.object.interface';
-import { ChartEvents, ChartEvent } from './chart.events';
-import { VisualizationView } from './../../../model/chart-view.model';
-import { Observable } from 'rxjs/Observable';
-import { Injectable, EventEmitter } from '@angular/core';
-import { ChartControls } from './chart.controls';
-import { GraphPanelEnum, ToolEnum, GraphEnum, VisualizationEnum, DimensionEnum, VisibilityEnum } from 'app/model/enum.model';
-import { GraphTool } from 'app/model/graph-tool.model';
-import { Subscription } from 'rxjs/Subscription';
-import { OrbitControls } from 'three-orbitcontrols-ts';
 import {
-    WebGLRenderer, PerspectiveCamera, HemisphereLight, Vector3, Line,
-    AmbientLight, OrthographicCamera, Camera, Scene, Vector2
+    AmbientLight, Camera, HemisphereLight, Line,
+    OrthographicCamera, PerspectiveCamera, Scene,
+    Vector2, Vector3, WebGLRenderer
 } from 'three';
-// import { EffectComposer, GlitchPass, RenderPass } from 'postprocessing';
-// import { EffectComposer, RenderPass } from 'postprocessing';
+import { OrbitControls } from 'three-orbitcontrols-ts';
+import { VisualizationView } from './../../../model/chart-view.model';
+import { ChartObjectInterface } from './../../../model/chart.object.interface';
+import { DataDecorator } from './../../../model/data-map.model';
+import { EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
+import { WorkspaceConfigModel } from './../../../model/workspace.model';
+import { EdgesGraph } from './../../visualization/edges/edges.graph';
+import { EdgeConfigModel } from './../../visualization/edges/edges.model';
+import { ChartEvent, ChartEvents } from './chart.events';
+import { ChartFactory } from './chart.factory';
 
 @Injectable()
 export class ChartScene {
