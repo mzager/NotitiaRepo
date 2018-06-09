@@ -27,7 +27,6 @@ export class LinearDiscriminantAnalysisConfigModel extends GraphConfig {
     dimension = DimensionEnum.THREE_D;
     solver = LinearDiscriminantAnalysisSolver.SVD;
     shrinkage = LinearDiscriminantAnalysisShrinkage.NONE;
-    // priors =
     store_covariance = false;
     tol = 1.0e-4;
 

@@ -5,12 +5,15 @@ import { VisualizationView } from './../model/chart-view.model';
 
 export class AbstractMouseController {
 
+    protected data: any = {};
     protected _view: VisualizationView;
     protected _enabled: boolean;
     protected _debounce: number;
     protected _mouseOver: boolean;
     protected _events: ChartEvents;
     protected _mouseMoveSubscription: Subscription;
+    protected _mouseDownSubscription: Subscription;
+    protected _mouseUpSubscription: Subscription;
     protected _targets: Array<Object3D>;
     protected _raycaster: THREE.Raycaster;
 
@@ -28,10 +31,14 @@ export class AbstractMouseController {
         }
         this._enabled = value;
         if (value) {
+            this._mouseUpSubscription = this._events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
+            this._mouseDownSubscription = this._events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
             this._mouseMoveSubscription = this._events.chartMouseMove
                 .debounceTime(this._debounce)
                 .subscribe(this.onMouseMove.bind(this));
         } else {
+            this._mouseUpSubscription.unsubscribe();
+            this._mouseDownSubscription.unsubscribe();
             this._mouseMoveSubscription.unsubscribe();
         }
     }
@@ -41,8 +48,9 @@ export class AbstractMouseController {
         this._targets = value;
     }
 
-    public onMouseMove(e: ChartEvent): void {
-    }
+    public onMouseMove(e: ChartEvent): void { }
+    public onMouseDown(e: ChartEvent): void { }
+    public onMouseUp(e: ChartEvent): void { }
 
     public destroy(): void {
         this._events = null;
