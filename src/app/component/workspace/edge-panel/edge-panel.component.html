@@ -6,22 +6,22 @@
             </mat-option>
         </mat-select>
     </mat-form-field> -->
-    <mat-form-field class='form-field'>
-        <mat-select [value]='edgeSelected' placeholder='Connect' (selectionChange)='edgeOptionChange($event)'>
+    <mat-form-field class='form-field' *ngIf='showEdgeConnect'>
+        <mat-select [value]='edgeSelected' placeholder='Edge Connections' (selectionChange)='edgeOptionChange($event)'>
             <mat-option *ngFor='let option of edgeOptions' [value]='option.label'>
                 {{ option.label }}
             </mat-option>
         </mat-select>
     </mat-form-field>
-    <mat-form-field class='form-field'>
-        <mat-select [value]='colorSelected' placeholder='Color' (selectionChange)='colorOptionChange($event)'>
+    <mat-form-field class='form-field' *ngIf='showEdgeColor'>
+        <mat-select [value]='colorSelected' placeholder='Edge Color' (selectionChange)='colorOptionChange($event)'>
             <mat-option *ngFor='let option of colorOptions' [value]='option.label'>
                 {{ option.label }}
             </mat-option>
         </mat-select>
     </mat-form-field>
-    <mat-form-field class='form-field'>
-        <mat-select [value]='groupSelected' placeholder='Group By' (selectionChange)='groupOptionChange($event)'>
+    <mat-form-field class='form-field' *ngIf='showEdgeGroup'>
+        <mat-select [value]='groupSelected' placeholder='Edge Group By' (selectionChange)='groupOptionChange($event)'>
             <mat-option *ngFor='let option of groupOptions' [value]='option.label'>
                 {{ option.label }}
             </mat-option>

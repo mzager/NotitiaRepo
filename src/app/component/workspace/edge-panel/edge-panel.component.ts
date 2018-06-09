@@ -6,7 +6,7 @@ import {
 import { MatSelectChange } from '@angular/material';
 import { EdgeConfigModel } from 'app/component/visualization/edges/edges.model';
 import { DataField } from 'app/model/data-field.model';
-import { GraphEnum } from 'app/model/enum.model';
+import { GraphEnum, ConnectionTypeEnum } from 'app/model/enum.model';
 import { ModalService } from 'app/service/modal-service';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
@@ -26,12 +26,19 @@ declare var $: any;
 })
 export class EdgePanelComponent implements OnDestroy {
 
+
   edgeConfig: EdgeConfigModel = new EdgeConfigModel();
+  _workspaceConfig: WorkspaceConfigModel;
   _graphAConfig: GraphConfig;
   _graphBConfig: GraphConfig;
   $graphAChange: Subject<GraphConfig> = new Subject();
   $graphBChange: Subject<GraphConfig> = new Subject();
   $graphChange: Subscription;
+
+  showEdgeConnect = true;
+  showEdgeColor = true;
+  showEdgeGroup = true;
+
   @Input() set graphAConfig(v: GraphConfig) {
     this._graphAConfig = v;
     this.$graphAChange.next(v);
@@ -40,7 +47,10 @@ export class EdgePanelComponent implements OnDestroy {
     this._graphBConfig = v;
     this.$graphBChange.next(v);
   }
-  @Input() workspaceConfig: WorkspaceConfigModel;
+  get workspaceConfig(): WorkspaceConfigModel { return this._workspaceConfig; }
+  @Input() set workspaceConfig(value: WorkspaceConfigModel) {
+    this._workspaceConfig = value;
+  }
   @Input() tables: Array<DataTable>;
   @Input() fields: Array<DataField>;
   @Output() workspaceConfigChange: EventEmitter<{ config: WorkspaceConfigModel }> = new EventEmitter();
@@ -150,6 +160,34 @@ export class EdgePanelComponent implements OnDestroy {
         this.edgeConfigChange.emit(this.edgeConfig);
       }
     }
+    const connectionType = ConnectionTypeEnum.createFromEntities(this.edgeConfig.entityA, this.edgeConfig.entityB);
+    switch (connectionType) {
+      case ConnectionTypeEnum.GENES_GENES:
+        this.showEdgeColor = false;
+        this.showEdgeGroup = false;
+        break;
+      case ConnectionTypeEnum.GENES_PATIENTS:
+        this.showEdgeColor = true;
+        this.showEdgeGroup = true;
+        break;
+      case ConnectionTypeEnum.GENES_SAMPLES:
+        this.showEdgeColor = true;
+        this.showEdgeGroup = true;
+        break;
+      case ConnectionTypeEnum.PATIENTS_PATIENTS:
+        this.showEdgeColor = true;
+        this.showEdgeGroup = true;
+        break;
+      case ConnectionTypeEnum.SAMPLES_SAMPLES:
+        this.showEdgeColor = true;
+        this.showEdgeGroup = true;
+        break;
+      case ConnectionTypeEnum.SAMPLES_PATIENTS:
+        this.showEdgeColor = true;
+        this.showEdgeGroup = true;
+        break;
+    }
+
     this.layoutSelected = this.layoutOptionChange[0];
     this.edgeSelected = this.edgeOptions[0];
     this.colorSelected = this.colorOptions[0];
@@ -160,8 +198,7 @@ export class EdgePanelComponent implements OnDestroy {
   ngOnDestroy() {
     this.$graphChange.unsubscribe();
   }
-  constructor(private componentFactoryResolver: ComponentFactoryResolver,
-    public ms: ModalService, private cd: ChangeDetectorRef) {
+  constructor(public ms: ModalService, private cd: ChangeDetectorRef) {
     this.layoutOptions = [
       WorkspaceLayoutEnum.HORIZONTAL, WorkspaceLayoutEnum.VERTICAL, WorkspaceLayoutEnum.OVERLAY
     ];
