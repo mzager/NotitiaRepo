@@ -1,13 +1,12 @@
-import { ChartComponent } from './../workspace/chart/chart.component';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription';
-import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
-import { Component, Input, Output, ChangeDetectionStrategy, EventEmitter, HostListener, OnInit, OnDestroy } from '@angular/core';
-import { GraphPanelEnum, PanelEnum } from 'app/model/enum.model';
-import { Legend } from 'app/model/legend.model';
-import * as downloadjs from 'downloadjs';
+import { GraphConfig } from 'app/model/graph-config.model';
+import {
+  ChangeDetectionStrategy, Component, EventEmitter,
+  HostListener, OnDestroy, OnInit, Output, Input, ChangeDetectorRef
+} from '@angular/core';
 import { ChartScene } from 'app/component/workspace/chart/chart.scene';
+import { PanelEnum } from 'app/model/enum.model';
+import * as downloadjs from 'downloadjs';
+import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 declare var $: any;
 
 @Component({
@@ -21,22 +20,20 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   // TODO:  COME BACK AND CLEAN OUT
   @Output() splitScreenChange = new EventEmitter<boolean>();
   @Output() showPanel = new EventEmitter<PanelEnum>();
-
+  public datasetSelected = false;
+  @Input() set config(config: GraphConfig) {
+    this.datasetSelected = (config !== null);
+    this.cd.detectChanges();
+  }
 
   // @Output() graphPanelToggle = new EventEmitter<GraphPanelEnum>();
-  // @Output() genesetPanelToggle = new EventEmitter();
-  // @Output() toolPanelToggle = new EventEmitter();
-  // @Output() queryPanelToggle = new EventEmitter();
-  // @Output() historyPanelToggle = new EventEmitter();
-  // @Output() dataPanelToggle = new EventEmitter();
-  // @Output() cohortPanelToggle = new EventEmitter();
-  // @Output() workspacePanelToggle = new EventEmitter();
-  // @Output() filePanelToggle = new EventEmitter();
-  // @Output() fileOpen = new EventEmitter<DataTransfer>();
+  @Output() genesetPanelToggle = new EventEmitter();
+  @Output() dataPanelToggle = new EventEmitter();
+  @Output() pathwayPanelToggle = new EventEmitter();
+
   private split = false;
   public uploader: FileUploader = new FileUploader({ url: '' });
-  private filesSubject: Subject<File>;
-  private color = 0xFFFFFF;
+
 
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
@@ -44,9 +41,10 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
     switch (event.key.toLowerCase()) {
       // case 'a': this.graphPanelToggle.emit(1); break;
       // case 'b': this.graphPanelToggle.emit(2); break;
-      // case 'g': this.genesetPanelToggle.emit(); break;
-      // case 'd': this.dataPanelToggle.emit(); break;
-      case 'c': this.viewPanel(PanelEnum.COHORT); break;
+      case 'g': this.genesetPanelToggle.emit(); break;
+      case 'd': this.dataPanelToggle.emit(); break;
+      case 'p': this.pathwayPanelToggle.emit(); break;
+      case 'e': this.viewPanel(PanelEnum.COHORT); break;
       case 'p': this.exportImage(); break;
       case 'i': this.toggleBackgroundColor(); break;
       case 'd': this.viewPanel(PanelEnum.DASHBOARD); break;
@@ -55,10 +53,10 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor() {
-    this.filesSubject = new Subject();
 
 
+  reload(): void {
+    window.location.reload(true);
   }
   viewPanel(panel: PanelEnum): void {
     this.showPanel.emit(panel);
@@ -91,5 +89,7 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+  }
+  constructor(public cd: ChangeDetectorRef) {
   }
 }
