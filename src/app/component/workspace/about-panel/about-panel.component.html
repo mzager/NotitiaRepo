@@ -1,196 +1,217 @@
-<div class='panel'>
+<div class='panel' style='position:absolute;top:0px;z-index:1;padding-bottom:0px;'>
   <div>
     <a href='#' class='modalClose' (click)='closeClick()'>
     </a>
     <h1 class='panel-header'>About</h1>
   </div>
-
-
-
-  <h2 class="about-h2">Seattle Tumor Translation Research (STTR) assists cancer researchers and clinicians to extract biological meaning through
+  <p class="about-h2">Seattle Tumor Translation Research (STTR) assists cancer researchers and clinicians to extract biological meaning through
     the development of custom software solutions. The rapid growth of both public datasets and analytic methods presents
     challenges and opportunities. To maximize impact researchers often need to enlist the support of biostatisticians, data
     scientists and software engineers that specialize in cloud technologies. To help mitigate these challenges, STTR has
     built a cloud-based platform called Oncoscape.  Our solution allows users to upload clinical and molecular data; leverage
     industry standard analytic libraries; augment with NCI sponsored data sets; and visualize with dozens of novel online
-    interactive tools. Our mission is to accelerate your science.</h2>
-
-
+    interactive tools. Our mission is to accelerate your science.</p>
   <h1 class='about-h1'>Meet the Team</h1>
-
-
-
-  <div fxLayout.xs='column'>
-    <div fxFlex="40%">
-      <mat-card class="example-card">
-        <mat-card-header>
-          <mat-card-title>Eric Holland</mat-card-title>
-          <mat-card-subtitle>Neurosurgeon</mat-card-subtitle>
-        </mat-card-header>
-
-        <img style="width: 150px; height: 150px; border-radius: 50%;" src='assets/about/holland.jpg' alt="Eric Holland">
-        <mat-card-content>
-          <p>
-            Dr. Holland is an internationally renowned neurosurgeon and brain cancer researcher. As senior vice president and director
-            of the Human Biology Division of the Fred Hutchinson Cancer Research Center, Dr. Holland encourages collaboration
-            among faculty with a broad range of expertise – from molecular and cellular biology to genetics and clinical
-            research. Working with the STTR team he established Oncoscape, the connection between molecular/clinical data
-            and technology. Today Oncoscape is accelerating research.
-          </p>
-        </mat-card-content>
-        <mat-card-actions class="card-buttons">
-          <button mat-button class='button'>
-            <a style="color: #fff; text-decoration: none;" href="https://www.linkedin.com/in/rachel-galbraith-3304b052/" target="_blank">LAB</a>
-          </button>
-          <button mat-button class='button'>
-            <a style="color: #fff; text-decoration: none;" href="http://www.sttrcancer.org/en/contact-us.html" target="_blank">BIO</a>
-          </button>
-        </mat-card-actions>
-      </mat-card>
+  <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="space-between start" style='margin-bottom: 50px;'
+    class="containercards">
+    <div class="team-container" fxFlexOffset='40px' fxFlex='33'>
+      <div fxLayout="row" fxLayoutGap='20px'>
+        <img mat-card-image style="width:100px; height: 100px; border-radius: 50%;" src="assets/about/holland.jpg">
+        <div fxLayout="column">
+          <div style='font-size:1rem;margin-bottom: 5px;text-transform: uppercase; letter-spacing: 1px; margin-top:15px;' class='about-name'>Eric Holland</div>
+          <div style='font-size: 0.6rem;margin-bottom:5px;text-transform: uppercase; letter-spacing: 1px; ' class='about-title'>Neurosurgeon</div>
+          <div fxLayout="row" fxLayoutGap='10px'>
+            <a href="https://github.com/mzager" target="_blank ">
+              <i style='color: #1e88e5;' class="fa fa-github-square fa-2x "></i>
+            </a>
+            <a href="https://www.linkedin.com/in/zager/" target="_blank ">
+              <i style='color: #1e88e5;' class="fa fa-linkedin-square fa-2x "></i>
+            </a>
+            <a href="mailto:mzager@fredhutch.org " target="_blank ">
+              <i style='color: #1e88e5;' class="fa fa-envelope-o fa-2x "></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <p style="padding-top: 10px;"> Dr. Holland is an internationally renowned neurosurgeon and brain cancer researcher. As senior vice president and director
+        of the Human Biology Division of the Fred Hutchinson Cancer Research Center, Dr. Holland encourages collaboration
+        among faculty with a broad range of expertise – from molecular and cellular biology to genetics and clinical research.
+        Working with the STTR team he established Oncoscape, the connection between molecular/clinical data and technology.
+        Today Oncoscape is accelerating research.
+      </p>
     </div>
-    <div fxFlex="40%" fxFlexOffset='20px'>
-      <mat-card style="margin-bottom:20px;">
-        <mat-card-header>
-          <mat-card-title>Michael Zager</mat-card-title>
-          <mat-card-subtitle>Lead Architect Engineer</mat-card-subtitle>
-        </mat-card-header>
-        <img style="width: 150px; height: 150px; border-radius: 50%;" src='assets/about/zager.jpg' alt="Michael Zager">
-        <mat-card-content>
-          <p>
-            Mr. Zager has been crafting digital strategies and executions for the past 15 years. He has served in leadership roles at
-            several notable experiential and digital agencies and partnered with bio-tech, start-up and Fortune 500 companies
-            such as Proctor &amp; Gamble, Toyota and Coca-Cola. Prior to joining the Fred Hutch, Michael was responsible
-            for evolving and supporting all digital marketing platforms in T-Mobile’s retail stores. Michael’s passionate
-            for transforming people’s lives with cutting edge technology lead him to the Fred Hutchinson. Today, he contributes
-            enterprise architecture, software development best practices and big data expertise to Oncoscape
-          </p>
-        </mat-card-content>
-        <mat-card-actions class="card-buttons">
-          <button mat-button class='button'>
-            <a style="color: #fff; text-decoration: none;" href="https://www.linkedin.com/in/zager/" target="_blank">LINKEDIN</a>
-          </button>
-          <button mat-button class='button'>
-            <a style="color: #fff; text-decoration: none;" href="https://github.com/mzager" target="_blank">GITHUB</a>
-          </button>
-        </mat-card-actions>
-      </mat-card>
+    <div class="team-container" fxFlexOffset='40px' fxFlex='33'>
+      <div fxLayout="row" fxLayoutGap='20px'>
+        <img mat-card-image style="width:100px; height: 100px; border-radius: 50%;" src="assets/about/zager.jpg">
+        <div fxLayout="column">
+          <div style='font-size:1rem;margin-bottom: 5px;text-transform: uppercase; letter-spacing: 1px; margin-top:15px;' class='about-name'>Michael Zager</div>
+          <div style='font-size: 0.6rem;margin-bottom:5px;text-transform: uppercase; letter-spacing: 1px; ' class='about-title'>Architect Engineer</div>
+          <div fxLayout="row" fxLayoutGap='10px'>
+            <a href="https://github.com/mzager" target="_blank ">
+              <i style='color: #1e88e5;' class="fa fa-github-square fa-2x "></i>
+            </a>
+            <a href="https://www.linkedin.com/in/zager/" target="_blank ">
+              <i style='color: #1e88e5;' class="fa fa-linkedin-square fa-2x "></i>
+            </a>
+            <a href="mailto:mzager@fredhutch.org " target="_blank ">
+              <i style='color: #1e88e5;' class="fa fa-envelope-o fa-2x "></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <p style="padding-top: 10px;"> Mr. Zager has been crafting digital strategies and executions for the past 15 years. He has served in leadership roles
+        at several notable experiential and digital agencies and partnered with bio-tech, start-up and Fortune 500 companies
+        such as Proctor &amp; Gamble, Toyota and Coca-Cola. Prior to joining the Fred Hutch, Michael was responsible for
+        evolving and supporting all digital marketing platforms in T-Mobile’s retail stores. Michael’s passionate for transforming
+        people’s lives with cutting edge technology lead him to the Fred Hutchinson. Today, he contributes enterprise architecture,
+        software development best practices and big data expertise to Oncoscape.
+      </p>
     </div>
-
-
-    <div fxFlex="40%" fxFlexOffset='20px'>
-      <mat-card class="card">
-        <mat-card-header>
-
-          <mat-card-title>Gretchen Krenn</mat-card-title>
-          <mat-card-subtitle>Software Engineer</mat-card-subtitle>
-        </mat-card-header>
-        <img style="width: 150px; height: 150px; border-radius: 50%;" src='assets/about/gretty.jpg' alt="gretchen krenn">
-        <mat-card-content>
-          <p>
-            Ms. Krenn started her research career on the bench and eventually moved to a program management role assisting in the establishment
-            of a central tissue repository for several national clinical trials. Motivated by the massive amounts of data
-            being generated she started to further develop her programming skills to focus on front-end development and data
-            visualization. Her experiences in the many facets of research provide insight into the limitations we face as
-            researchers and helps to establish software application solutions at Fred Hutch, such as Oncoscape.
-          </p>
-        </mat-card-content>
-        <mat-card-actions class="card-buttons">
-          <button mat-button class='button'>
-            <a style="color: #fff; text-decoration: none;" href="https://www.linkedin.com/in/gretchenh/" target="_blank">LINKEDIN</a>
-          </button>
-          <button mat-button class='button'>
-            <a style="color: #fff; text-decoration: none;" href="https://github.com/grettygoose" target="_blank">GITHUB</a>
-          </button>
-        </mat-card-actions>
-      </mat-card>
+    <div class="team-container" fxFlexOffset='40px' fxFlex='33'>
+      <div fxLayout="row" fxLayoutGap='20px'>
+        <img mat-card-image style="width:100px; height: 100px; border-radius: 50%;" src="assets/about/gretty.png">
+        <div fxLayout="column">
+          <div style='font-size:1rem;margin-bottom: 5px;text-transform: uppercase; letter-spacing: 1px; margin-top:15px;' class='about-name'>Gretchen Krenn</div>
+          <div style='font-size: 0.6rem;margin-bottom:5px;text-transform: uppercase; letter-spacing: 1px; ' class='about-title'>Software Engineer</div>
+          <div fxLayout="row" fxLayoutGap='10px'>
+            <a href="https://github.com/grettygoose" target="_blank ">
+              <i style='color: #1e88e5;' class="fa fa-github-square fa-2x "></i>
+            </a>
+            <a href="https://www.linkedin.com/in/gretchenh/" target="_blank ">
+              <i style='color: #1e88e5;' class="fa fa-linkedin-square fa-2x "></i>
+            </a>
+            <a href="mailto:gheinric@fredhutch.org " target="_blank ">
+              <i style='color: #1e88e5;' class="fa fa-envelope-o fa-2x "></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <p style="padding-top: 10px;">Ms. Krenn started her research career on the bench and eventually moved to a program management role assisting in the
+        establishment of a central tissue repository for several national clinical trials. Motivated by the massive amounts
+        of data being generated she started to further develop her programming skills to focus on front-end development and
+        data visualization. Her experiences in the many facets of research provide insight into the limitations we face as
+        researchers and helps to establish software application solutions at Fred Hutch, such as Oncoscape.
+      </p>
     </div>
   </div>
-  <div fxLayout.xs='column'>
-    <div fxFlex="40%">
-      <mat-card class="card">
-        <mat-card-header>
-
-          <mat-card-title>Jenny Zhang</mat-card-title>
-          <mat-card-subtitle>Research Technician/Programmer</mat-card-subtitle>
-        </mat-card-header>
-        <img style="width: 150px; height: 150px; border-radius: 50%;" src='assets/about/zhang.jpg' alt="Photo of a Shiba Inu">
-        <mat-card-content>
-          <p>
-            A founding member of the Oncoscape team, Ms. Zhang has been involved in all phases of the products lifecycle. With a master’s
-            degree in biomedical science and over 3 years of continued education in computer science her contributions are
-            often most impactful at the intersection between biology, statistics and software engineering. Most recently
-            Jenny has been involved in evaluating multiple cloud and data platforms, developing data pipelines and contributing
-            to the development of an Omics workflow to bring data into Oncoscape.
-          </p>
-        </mat-card-content>
-        <mat-card-actions class="card-buttons">
-          <button mat-button class='button'>
-            <a style="color: #fff; text-decoration: none;" href="https://www.linkedin.com/in/jenny-zhang-ba62a2104/" target="_blank">LINKEDIN</a>
-          </button>
-          <button mat-button class='button'>
-            <a style="color: #fff; text-decoration: none;" href="https://github.com/canaantt" target="_blank">GITHUB</a>
-          </button>
-        </mat-card-actions>
-      </mat-card>
+  <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="space-between start" style='margin-bottom: 50px;'
+    class="containercards">
+    <div class="team-container" fxFlexOffset='40px' fxFlex='33'>
+      <div fxLayout="row" fxLayoutGap='20px'>
+        <img mat-card-image style="width:100px; height: 100px; border-radius: 50%;" src="assets/about/zhang.jpg">
+        <div fxLayout="column">
+          <div style='font-size:1rem;margin-bottom: 5px;text-transform: uppercase; letter-spacing: 1px; margin-top:15px;' class='about-name'>Jenny Zhang</div>
+          <div style='font-size: 0.6rem;margin-bottom:5px;text-transform: uppercase; letter-spacing: 1px; ' class='about-title'>Research Scientist</div>
+          <div fxLayout="row" fxLayoutGap='10px'>
+            <a href="https://github.com/mzager" target="_blank ">
+              <i style='color: #1e88e5;' class="fa fa-github-square fa-2x "></i>
+            </a>
+            <a href="https://www.linkedin.com/in/zager/" target="_blank ">
+              <i style='color: #1e88e5;' class="fa fa-linkedin-square fa-2x "></i>
+            </a>
+            <a href="mailto:mzager@fredhutch.org " target="_blank ">
+              <i style='color: #1e88e5;' class="fa fa-envelope-o fa-2x "></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <p style="padding-top: 10px;"> A founding member of the Oncoscape team, Ms. Zhang has been involved in all phases of the products lifecycle. With
+        a master’s degree in biomedical science and over 3 years of continued education in computer science her contributions
+        are often most impactful at the intersection between biology, statistics and software engineering. Most recently
+        Jenny has been involved in evaluating multiple cloud and data platforms, developing data pipelines and contributing
+        to the development of an Omics workflow to bring data into Oncoscape.
+      </p>
     </div>
-    <div fxFlex="40%" fxFlexOffset='20px'>
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>Rachel Galbraith</mat-card-title>
-          <mat-card-subtitle>STTR Operations Director </mat-card-subtitle>
-        </mat-card-header>
-        <img class="team-copy-thumb" style="float: left; padding-right:10px" src='assets/about/galbraith.jpg' alt="Photo of a Shiba Inu">
-        <mat-card-content>
-          <p>
-            Ms. Galbraith is the Operations Director for Seattle Translational Tumor Research (STTR). Bringing together over 500 faculty
-            spanning oncology research efforts at Fred Hutch, UW Medicine, Seattle Cancer Care Alliance, Seattle Children’s
-            Research Institute and several other Seattle-area translational research institutions. Her goal through this
-            effort is to enhance collaborative scientific effort, eliminate barriers to cancer research and facilitate access
-            to clinical specimens, data, and technology that will speed research and improve cancer prevention, treatment
-            and detection. With a background in molecular genetics and cell biology, and research experience in genetic factors
-            contributing to cancer risk, she can understand the challenges researchers face in analyzing large-scale data
-            and leverage that insight to inform the development of tools within Oncoscape.
-          </p>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-button class='button'>
-            <a style="color: #fff; text-decoration: none;" href="https://www.fredhutch.org/en/labs/profiles/holland-eric.html" target="_blank">LAB</a>
-          </button>
-          <button mat-button class='button'>
-            <a style="color: #fff; text-decoration: none;" href="https://www.fredhutch.org/en/news/media-relations/bios-photos/holland-eric.html"
-              target="_blank">BIO</a>
-          </button>
-        </mat-card-actions>
-      </mat-card>
+    <div class="team-container" fxFlexOffset='40px' fxFlex='33'>
+      <div fxLayout="row" fxLayoutGap='20px'>
+        <img mat-card-image style="width:100px; height: 100px; border-radius: 50%;" src="assets/about/mcdermott.jpg">
+        <div fxLayout="column">
+          <div style='font-size:1rem;margin-bottom: 5px;text-transform: uppercase; letter-spacing: 1px; margin-top:15px;' class='about-name'>Robert McDermott</div>
+          <div style='font-size: 0.6rem;margin-bottom:5px;text-transform: uppercase; letter-spacing: 1px; ' class='about-title'>IT Solutions Architect</div>
+          <div fxLayout="row" fxLayoutGap='10px'>
+            <a href="https://github.com/robert-mcdermott" target="_blank ">
+              <i style='color: #1e88e5;' class="fa fa-github-square fa-2x "></i>
+            </a>
+            <a href="https://www.linkedin.com/in/robert-mcdermott-a77b9011/" target="_blank ">
+              <i style='color: #1e88e5;' class="fa fa-linkedin-square fa-2x "></i>
+            </a>
+            <a href="mailto:mzager@fredhutch.org " target="_blank ">
+              <i style='color: #1e88e5;' class="fa fa-envelope-o fa-2x "></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <p style="padding-top: 10px;"> Mr. McDermott started his career at the Fred Hutch in 2000 as an IT professional in Center IT. During that time, he
+        has been involved with the design, implementation and administration of many IT systems including email, server virtualization,
+        storage, cloud computing and more. He’s most interested in working on projects that have a direct and positive impact
+        on the important research that is happening at the Center.
+      </p>
     </div>
-    <div fxFlex="40%" fxFlexOffset='20px'>
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>Robert McDermott</mat-card-title>
-          <mat-card-subtitle>IT Solutions Architect</mat-card-subtitle>
-        </mat-card-header>
-        <img src='assets/about/mcdermott.jpg' alt="Photo of a Shiba Inu">
-        <mat-card-content>
-          <p>
-            Mr. McDermott started his career at the Fred Hutch in 2000 as an IT professional in Center IT. During that time, he has been
-            involved with the design, implementation and administration of many IT systems including email, server virtualization,
-            storage, cloud computing and more. He’s most interested in working on projects that have a direct and positive
-            impact on the important research that is happening at the Center.
-          </p>
-        </mat-card-content>
-        <mat-card-actions class="card-buttons">
-          <button mat-button class='button'>
-            <a style="color: #fff; text-decoration: none;" href="https://www.linkedin.com/in/robert-mcdermott-a77b9011/" target="_blank">LINKEDIN</a>
-          </button>
-          <button mat-button class='button'>
-            <a style="color: #fff; text-decoration: none;" href="https://github.com/robert-mcdermott" target="_blank">GITHUB</a>
-          </button>
-        </mat-card-actions>
-      </mat-card>
+    <div class="team-container" fxFlexOffset='40px' fxFlex='33'>
+      <div fxLayout="row" fxLayoutGap='20px'>
+        <img mat-card-image style="width:100px; height: 100px; border-radius: 50%;" src="assets/about/galbraith.jpg">
+        <div fxLayout="column">
+          <div style='font-size:1rem;margin-bottom: 5px;text-transform: uppercase; letter-spacing: 1px; margin-top:15px;' class='about-name'>Rachel Galbraith</div>
+          <div style='font-size: 0.6rem;margin-bottom:5px;text-transform: uppercase; letter-spacing: 1px; ' class='about-title'>STTR Director</div>
+          <div fxLayout="row" fxLayoutGap='10px'>
+            <a href="https://github.com/grettygoose" target="_blank ">
+              <i style='color: #1e88e5;' class="fa fa-github-square fa-2x "></i>
+            </a>
+            <a href="https://www.linkedin.com/in/gretchenh/" target="_blank ">
+              <i style='color: #1e88e5;' class="fa fa-linkedin-square fa-2x "></i>
+            </a>
+            <a href="mailto:gheinric@fredhutch.org " target="_blank ">
+              <i style='color: #1e88e5;' class="fa fa-envelope-o fa-2x "></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <p style="padding-top: 10px;"> Ms. Galbraith is the Operations Director for Seattle Translational Tumor Research (STTR). Bringing together over 500
+        faculty spanning oncology research efforts at Fred Hutch, UW Medicine, Seattle Cancer Care Alliance, Seattle Children’s
+        Research Institute and several other Seattle-area translational research institutions. Her goal through this effort
+        is to enhance collaborative scientific effort, eliminate barriers to cancer research and facilitate access to clinical
+        specimens, data, and technology that will speed research and improve cancer prevention, treatment and detection.
+        With a background in molecular genetics and cell biology, and research experience in genetic factors contributing
+        to cancer risk, she can understand the challenges researchers face in analyzing large-scale data and leverage that
+        insight to inform the development of tools within Oncoscape.
+      </p>
     </div>
   </div>
 
 
+  <h1 class='about-h1 '>Special Thanks</h1>
+  <footer class='landing-footer '>
+    <div fxLayout='row ' fxLayout.sm='column ' fxLayout.xs='column ' fxLayoutAlign="space-between center">
+      <div class="footer-text">
+        <p>
+          2018 Fred Hutch 1100 Fairview Ave. N.
+        </p>
+        <p>P.O. Box 19024, Seattle, WA 98109</p>
+        <p>
+          <a style='color:#fff; text-decoration: none; ' href="http://www.fredhutch.org/en/util/terms-privacy.html ">Terms of Use &amp; Privacy Policy</a>
+        </p>
+      </div>
+      <div>
+        <div class='section-footer '>
+          <span class='footer-text '>Let's Connect:
+            <a href=" https://twitter.com/oncoscape " target="_blank ">
+              <i class="fa fa-twitter-square fa-3x social "></i>
+            </a>
+            <a href="https://www.instagram.com/oncoscape/ " target="_blank ">
+              <i class="fa fa-instagram fa-3x social "></i>
+            </a>
+            <a href="https://www.facebook.com/STTRCancer/ " target="_blank ">
+              <i class="fa fa-facebook-square fa-3x social "></i>
+            </a>
+            <a href="mailto:contact-sttr@fredhutch.org " target="_blank ">
+              <i class="fa fa-envelope-square fa-3x social "></i>
+            </a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
 
 
 
@@ -199,7 +220,18 @@
 
 
 
-  <!-- <div class='team-copy '>
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class='team-copy '>
     <img class='team-copy-thumb responsive-img' src='assets/about/holland.jpg'>
     <p class='team-copy-title'>Eric Holland</p>
     <div class='team-copy-desc'>Dr. Holland is an internationally renowned neurosurgeon and brain cancer researcher. As senior vice president and director
@@ -267,39 +299,3 @@
         on the important research that is happening at the Center.
       </div>
     </div> -->
-
-  <h1 class='about-h1'>Special Thanks</h1>
-
-  <div class='team-copy-desc'>
-    <span class='team-copy-title'>Steering</span>
-    Eric Holland, Raquel Sanchez, Elizabeth Krakow, Michael Zager
-    <br />
-    <span class='team-copy-title'>Biostats</span>
-    Hamid Bolouri, Ilsa Coleman, Emily Kohlbrenner, Navonil De Sarkar, Lisa McFerrin, Chad He
-    <br />
-    <span class='team-copy-title'>Interns</span>
-    Adam Samir Alayli, Vaishnavi Phadnis
-    <br />
-  </div>
-
-
-  <h1 class='about-h1'>Institutional Support</h1>
-
-  <div class='team-copy '>
-    <img src='assets/about/fhcrc.jpg' height='100px' width='100px;'>
-    <p class='team-copy-title'>Fred Hutchinson Cancer Research Center</p>
-    <div class='team-copy-desc'></div>
-  </div>
-
-  <div class='team-copy'>
-    <img src='assets/about/fhcrc.jpg' height='100px' width='100px;'>
-    <p class='team-copy-title'>Seattle Translational Tumor Research</p>
-    <div class='team-copy-desc'></div>
-  </div>
-
-  <div class='team-copy '>
-    <img src='assets/about/sarc.jpg' height='100px' width='100px;'>
-    <p class='team-copy-title'>Sarcoma Alliance for Research Through Collaboration</p>
-    <div class='team-copy-desc'></div>
-
-  </div>
