@@ -52,6 +52,10 @@ export class EdgesGraph implements ChartObjectInterface {
 
     drawEdges(views: Array<VisualizationView>, layout, renderer) {
 
+        if (layout === WorkspaceLayoutEnum.SINGLE) {
+            this.decorators = [];
+            return;
+        }
         if (this.data.result.length === 0) {
             return;
         }
