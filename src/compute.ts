@@ -48,7 +48,7 @@ onmessage = (e) => {
     const me = self as DedicatedWorkerGlobalScope;
     if (!me.hasOwnProperty('util')) {
         console.log('Init Thread');
-        me.importScripts('ml220.js');
+        // me.importScripts('ml220.js');
         me.util = new ComputeWorkerUtil();
     }
 

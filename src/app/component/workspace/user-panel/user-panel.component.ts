@@ -1,13 +1,10 @@
-import { INSERT_ANNOTATION } from './../../../action/graph.action';
-import { StatsInterface } from './../../../model/stats.interface';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { GraphConfig } from './../../../model/graph-config.model';
 import {
-  Component, ComponentFactoryResolver, Input, Output, ViewContainerRef,
-  ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild, ViewEncapsulation, ChangeDetectorRef
+  ChangeDetectionStrategy, ChangeDetectorRef, Component,
+  EventEmitter, Output, ViewEncapsulation
 } from '@angular/core';
-import { UserPanelFormEnum, PanelEnum } from '../../../model/enum.model';
-import { Auth, API } from 'aws-amplify';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { API, Auth } from 'aws-amplify';
+import { PanelEnum, UserPanelFormEnum } from '../../../model/enum.model';
 
 @Component({
   selector: 'app-workspace-user-panel',

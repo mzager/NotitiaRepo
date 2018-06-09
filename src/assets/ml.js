@@ -4089,7 +4089,7 @@ function add(a,b) {
 		default:
 			error("Error in add(A,b): a is a matrix and B is a " + tb + ".");
 			return undefined;
-			break;			
+			// break;			
 		}		
 	}
 	else if ( ta == "spvector" ) {
