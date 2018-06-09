@@ -16,22 +16,8 @@
   margin-top: 30px;
 }
 
-// .landing-link:hover {
-//   background: #5e35b1;
-// }
 .landing-headers {
   margin-bottom: 30px;
-}
-
-.landing-link-copy {
-  width: 82%;
-  line-height: 2rem;
-  font-weight: 500;
-  font-size: 1.2rem;
-  background: #FFF;
-  padding: 7px 20px;
-  margin-top: 8px;
-  display: inline-block;
 }
 
 .landing-section-title {
@@ -72,21 +58,19 @@
   margin-bottom: 10px;
 }
 
-.landing-copy-desc {
-  line-height: 20px;
-}
-
-.button-shrink {
+.landing-button {
   letter-spacing: 5px;
   text-transform: uppercase;
   font-size: 1rem;
   font-weight: 100;
-  flex: none;
 }
 
 .landing-span {
-  margin-left: 20px;
-  line-height: 25px;
+  line-height: 20px;
+}
+
+.xs-button {
+  margin-top: 20px;
 }
 
 .landing-footer {
@@ -94,8 +78,16 @@
   color: #FFF;
   position: relative;
   left: -20%;
-  width: 140%;
+  width: 100%;
   padding: 20px 20%;
+}
+
+.footer-text {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 100;
+  line-height: 10px;
 }
 
 .section-footer {
@@ -115,20 +107,4 @@
     -moz-transition-duration: 0.5s;
     -o-transition-duration: 0.5s;
   }
-}
-
-.footer-text {
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  font-size: 0.6rem;
-  font-weight: 100;
-  line-height: 10px;
-}
-
-.address-text {
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  font-size: 0.6rem;
-  font-weight: 100;
-  line-height: 5px;
 }

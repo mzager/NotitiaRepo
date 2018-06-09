@@ -90,10 +90,15 @@ input:-webkit-autofill {
 }
 
 // Material Overrides
+body .mat-button-focus-overlay {
+  background-color: transparent;
+}
+
 .mat-menu-item {
   height: 25px;
   line-height: 25px;
 }
+
 .mat-expansion-panel {
   box-shadow: none !important;
 }

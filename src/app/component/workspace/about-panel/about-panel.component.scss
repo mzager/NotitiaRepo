@@ -10,10 +10,27 @@
 .about-h2 {
   margin-top: 25px;
   margin-bottom: 25px;
+  line-height: 25px;
 }
 
-md-card {
-  margin: 12px;
+.about-name {
+  font-size: 1rem;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #1e88e5;
+}
+
+.about-title {
+  font-size: .8rem;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #1e88e5;
+}
+
+.fa {
+  color: #1e88e5;
 }
 
 .team-copy {
@@ -51,30 +68,34 @@ md-card {
   line-height: 150%;
 }
 
-.left {
-  float: left;
-  margin-right: 1em;
+.footer-text {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 100;
+  line-height: 10px;
 }
 
-.card-buttons {
-  position: absolute;
-  bottom: 30px;
-}
-
-.item {
-  width: 50px;
-  height: 50px;
-  background-color: tomato;
-  width: 100%;
-  margin: 8px;
-}
-
-@media (min-width: 720px) {
-  .list {
-    display: flex;
-    flex-wrap: wrap;
+.section-footer {
+  a {
+    color: #fff;
   }
-  .item {
-    width: calc(33% - 16px);
+  .social:hover {
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -o-transform: scale(1.1);
   }
+  .social {
+    -webkit-transform: scale(0.8);
+    -moz-transform: scale(0.8);
+    -o-transform: scale(0.8);
+    -webkit-transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+  }
+}
+
+.containercards {
+  margin-bottom: 25px;
+  padding-bottom: 25px;
 }
