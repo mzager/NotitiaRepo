@@ -1,26 +1,14 @@
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewEncapsulation } from '@angular/core';
+import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Observable } from 'rxjs/Rx';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
+import { GraphConfig } from './../../../model/graph-config.model';
+import { GraphData } from './../../../model/graph-data.model';
 import { Stat } from './../../../model/stat.model';
+import { DataService } from './../../../service/data.service';
 import { StatFactory } from './../../../service/stat.factory';
 import { StatVegaFactory } from './../../../service/stat.vega.factory';
-import { DataService } from './../../../service/data.service';
-import { Subscription } from 'rxjs/Subscription';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Rx';
-import { ChartTypeEnum, StatRendererEnum, StatRendererColumns, Colors } from './../../../model/enum.model';
-import { GraphData } from './../../../model/graph-data.model';
-import { INSERT_ANNOTATION } from './../../../action/graph.action';
-import { StatsInterface } from './../../../model/stats.interface';
-import { FormBuilder } from '@angular/forms';
-import { GraphConfig } from './../../../model/graph-config.model';
-import {
-  Component, ComponentFactoryResolver, Input, Output, ViewContainerRef, ViewEncapsulation,
-  ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild
-} from '@angular/core';
-import { VisualizationEnum } from 'app/model/enum.model';
-import { Legend } from 'app/model/legend.model';
-import { values } from 'd3';
-import { Element } from '@angular/compiler';
-import { combineLatest } from 'rxjs/observable/combineLatest';
-import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 
 declare var $: any;
 declare var vega: any;
