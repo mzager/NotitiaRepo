@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -103,6 +103,7 @@ import { DataHubService } from './service/datahub.service';
 import { DatasetService } from './service/dataset.service';
 import { HttpClient } from './service/http.client';
 import { ModalService } from './service/modal-service';
+import { ErrorService } from './service/error.service';
 
 
 
@@ -198,7 +199,7 @@ import { ModalService } from './service/modal-service';
     EffectsModule.forRoot([DataEffect, ComputeEffect, SelectEffect]),
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({
-      maxAge: 25 //  Retains last 25 states
+      maxAge: 10 //  Retains last 25 states
     })
   ],
   providers: [
@@ -209,7 +210,11 @@ import { ModalService } from './service/modal-service';
     ChartFactory,
     HttpClient,
     ModalService,
-    DataHubService
+    DataHubService,
+    {
+      provide: ErrorHandler,
+      useClass: ErrorService
+    }
   ],
   bootstrap: [AppComponent]
 })

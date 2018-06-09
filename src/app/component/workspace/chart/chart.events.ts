@@ -1,9 +1,7 @@
-import { WorkspaceLayoutEnum } from './../../../model/enum.model';
 import { GraphEnum } from 'app/model/enum.model';
-import { VisualizationView } from './../../../model/chart-view.model';
-import { Observable } from 'rxjs/Rx';
-import { Subject } from 'rxjs/Subject';
 import { WorkspaceConfigModel } from 'app/model/workspace.model';
+import { Observable } from 'rxjs/Rx';
+import { WorkspaceLayoutEnum } from './../../../model/enum.model';
 
 export class ChartEvent {
     public event: MouseEvent;
@@ -24,12 +22,16 @@ export class ChartEvents {
     public chartMouseDown: Observable<ChartEvent>;
     public chartMouseUp: Observable<ChartEvent>;
     public chartKeyPress: Observable<KeyboardEvent>;
+    public chartKeyDown: Observable<KeyboardEvent>;
+    public chartKeyUp: Observable<KeyboardEvent>;
     public isMouseDown: Boolean;
 
     public mouseUp: Observable<MouseEvent>;
     public mouseMove: Observable<MouseEvent>;
     public mouseDown: Observable<MouseEvent>;
     public keyPress: Observable<KeyboardEvent>;
+    public keyDown: Observable<KeyboardEvent>;
+    public keyUp: Observable<KeyboardEvent>;
     private mouse: { x: number, y: number, xs: number, ys: number };
     public chart: GraphEnum;
 
@@ -54,10 +56,15 @@ export class ChartEvents {
         this.mouseUp = Observable.fromEvent<MouseEvent>(container, 'mouseup');
         this.mouseMove = Observable.fromEvent<MouseEvent>(container, 'mousemove');
         this.mouseDown = Observable.fromEvent<MouseEvent>(container, 'mousedown');
-        this.keyPress = Observable.fromEvent<KeyboardEvent>(window, 'keypress');
+        this.keyPress = Observable.fromEvent<KeyboardEvent>(window, 'keypres');
+        this.keyDown = Observable.fromEvent<KeyboardEvent>(window, 'keydown');
+        this.keyUp = Observable.fromEvent<KeyboardEvent>(window, 'keyup');
 
 
         // Higher Order Chart Events
+        this.chartKeyPress = this.keyPress;
+        this.chartKeyDown = this.keyDown;
+        this.chartKeyUp = this.keyUp;
         this.chartMouseUp = this.mouseUp.map(e => new ChartEvent(e, this.mouse, this.chart));
         this.chartMouseDown = this.mouseDown.map(e => new ChartEvent(e, this.mouse, this.chart));
         this.chartMouseMove = this.mouseMove

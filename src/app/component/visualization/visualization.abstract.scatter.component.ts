@@ -10,6 +10,7 @@ import { AbstractVisualization } from './visualization.abstract.component';
 import { DataDecorator } from '../../model/data-map.model';
 import { EntityTypeEnum } from '../../model/enum.model';
 import { LabelOptions, LabelController } from '../../controller/label/label.controller';
+declare var $;
 
 export class AbstractScatterVisualization extends AbstractVisualization {
 
@@ -45,6 +46,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
         this.points = this.meshes.map(v => v.children[0]);
         this.tooltipController.targets = this.points;
         this.tooltipController.onShow.subscribe(this.onShow);
+        this.selectionController.targets = this.points;
 
     }
     private onShow(e: any): void {
@@ -59,6 +61,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
 
     enable(truthy: boolean) {
         super.enable(truthy);
+        this.view.renderer.domElement.style.setProperty('cursor', 'move');
         this.view.controls.enableRotate = true;
     }
 
@@ -91,113 +94,137 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     }
 
     onShowLabels(): void {
-        // const zoom = this.view.camera.position.z;
         const labelOptions = new LabelOptions(this.view, 'FORCE');
         labelOptions.offsetX3d = 1;
         labelOptions.maxLabels = 100;
         this.labels.innerHTML = LabelController.generateHtml(this.meshes, labelOptions);
     }
 
-    onMouseDown(e: ChartEvent): void {
 
-
-        // const hit = ChartUtil.getIntersects(this.view, e.mouse, this.points);
-        // if (hit.length > 0) {
-        //     this.tooltips.innerHTML = '';
-        //     this.mouseMode = 'SELECTION';
-        //     this.view.controls.enabled = false;
-        //     const target: THREE.Vector3 = hit[0].object.parent.position.clone();
-        //     const event: MouseEvent = e.event as MouseEvent;
-        //     const geometry = new THREE.SphereGeometry(3, 30, 30);
-        //     const material = new THREE.MeshPhongMaterial({ color: 0x029BE5, opacity: 0.1, transparent: true, depthWrite: false });
-        //     this.selectionMesh = new THREE.Mesh(geometry, material);
-        //     this.selectionMesh.position.set(target.x, target.y, target.z);
-        //     this.selectionMeshes.push(this.selectionMesh);
-        //     this.selectionOrigin2d = new Vector2(event.clientX, event.clientY);
-        //     this.selectionScale = scale.scaleLinear();
-        //     this.selectionScale.range([1, 200]);
-        //     this.selectionScale.domain([0, this.view.viewport.width]);
-        //     this.view.scene.add(this.selectionMesh);
-        //     this.onRequestRender.emit(this._config.graph);
-        // }
+    onKeyDown(e: KeyboardEvent): void {
+        if (e.key === 'Shift') {
+            if (this.isEnabled) {
+                this.view.renderer.domElement.style.setProperty('cursor', 'crosshair');
+                this.view.controls.enabled = false;
+                this.tooltipController.enable = false;
+                this.selectionController.setup(this.config, this.onRequestRender, this.points);
+                this.selectionController.enable = true;
+            }
+        }
+    }
+    onKeyUp(e: KeyboardEvent): void {
+        if (e.key === 'Shift') {
+            if (this.isEnabled) {
+                this.view.renderer.domElement.style.setProperty('cursor', 'move');
+                this.view.controls.enabled = true;
+                this.tooltipController.enable = true;
+                this.selectionController.enable = false;
+                this.selectionController.teardown();
+            }
+        }
     }
 
+    // onMouseDown(e: ChartEvent): void {
 
-    onMouseUp(e: ChartEvent): void {
-        // this.mouseMode = 'CONTROL';
-        // this.view.controls.enabled = true;
-        // if (!(e.event as MouseEvent).shiftKey) {
-        //     this.selectionMeshes.forEach(mesh => this.view.scene.remove(mesh));
-        //     this.onRequestRender.emit(this._config.graph);
-        //     this.meshes
-        //         .forEach(o3d => {
-        //             const mesh = o3d.children[0] as THREE.Mesh;
-        //             mesh.userData.selectionLocked = false;
-        //         });
-        // } else {
-        //     const radius = this.selectionMesh.geometry.boundingSphere.radius * this.selectionMesh.scale.x;
-        //     const position = this.selectionMesh.position;
-        //     this.meshes
-        //         .forEach(o3d => {
-        //             const mesh = o3d.children[0] as THREE.Mesh;
-        //             const material: THREE.MeshPhongMaterial = mesh.material as THREE.MeshPhongMaterial;
-        //             if (o3d.position.distanceTo(position) < radius) {
-        //                 mesh.userData.selectionLocked = true;
-        //             }
-        //         });
-        // }
-    }
 
-    onMouseMove(e: ChartEvent): void {
-        super.onMouseMove(e);
-        // console.log(this.view.camera.position.z);
-        // // // Selection
-        // if (this.mouseMode === 'SELECTION') {
-        //     const event: MouseEvent = e.event as MouseEvent;
-        //     const mousePos = new Vector2(event.clientX, event.clientY);
-        //     const delta = mousePos.distanceTo(this.selectionOrigin2d);
-        //     const scale = this.selectionScale(delta);
-        //     this.selectionMesh.scale.set(scale, scale, scale);
+    //     // const hit = ChartUtil.getIntersects(this.view, e.mouse, this.points);
+    //     // if (hit.length > 0) {
+    //     //     this.tooltips.innerHTML = '';
+    //     //     this.mouseMode = 'SELECTION';
+    //     //     this.view.controls.enabled = false;
+    //     //     const target: THREE.Vector3 = hit[0].object.parent.position.clone();
+    //     //     const event: MouseEvent = e.event as MouseEvent;
+    //     //     const geometry = new THREE.SphereGeometry(3, 30, 30);
+    //     //     const material = new THREE.MeshPhongMaterial({ color: 0x029BE5, opacity: 0.1, transparent: true, depthWrite: false });
+    //     //     this.selectionMesh = new THREE.Mesh(geometry, material);
+    //     //     this.selectionMesh.position.set(target.x, target.y, target.z);
+    //     //     this.selectionMeshes.push(this.selectionMesh);
+    //     //     this.selectionOrigin2d = new Vector2(event.clientX, event.clientY);
+    //     //     this.selectionScale = scale.scaleLinear();
+    //     //     this.selectionScale.range([1, 200]);
+    //     //     this.selectionScale.domain([0, this.view.viewport.width]);
+    //     //     this.view.scene.add(this.selectionMesh);
+    //     //     this.onRequestRender.emit(this._config.graph);
+    //     // }
+    // }
 
-        //     const radius = this.selectionMesh.geometry.boundingSphere.radius * this.selectionMesh.scale.x;
-        //     const position = this.selectionMesh.position;
-        //     this.meshes
-        //         .forEach(o3d => {
-        //             const mesh = o3d.children[0] as THREE.Mesh;
-        //             const material: THREE.MeshPhongMaterial = mesh.material as THREE.MeshPhongMaterial;
-        //             if (o3d.position.distanceTo(position) < radius) {
-        //                 material.color.set(0x000000);
-        //                 material.transparent = false;
-        //             } else {
-        //                 if (!mesh.userData.selectionLocked) {
-        //                     material.color.set(mesh.userData.color);
-        //                     material.transparent = true;
-        //                     material.opacity = 0.7;
-        //                 }
-        //             }
-        //         });
-        //     this.onRequestRender.emit(this._config.graph);
-        //     return;
-        // }
 
-        // SECOND HALF
-        // Hit Test
-        // const hit = CxhartUtil.getIntersects(this.view, e.mouse, this.points);
-        // console.log(hit.length);
-        // if (hit.length > 0) {
+    // onMouseUp(e: ChartEvent): void {
+    //     this.view.renderer.domElement.style.setProperty('cursor', 'grab');
+    //     // this.mouseMode = 'CONTROL';
+    //     // this.view.controls.enabled = true;
+    //     // if (!(e.event as MouseEvent).shiftKey) {
+    //     //     this.selectionMeshes.forEach(mesh => this.view.scene.remove(mesh));
+    //     //     this.onRequestRender.emit(this._config.graph);
+    //     //     this.meshes
+    //     //         .forEach(o3d => {
+    //     //             const mesh = o3d.children[0] as THREE.Mesh;
+    //     //             mesh.userData.selectionLocked = false;
+    //     //         });
+    //     // } else {
+    //     //     const radius = this.selectionMesh.geometry.boundingSphere.radius * this.selectionMesh.scale.x;
+    //     //     const position = this.selectionMesh.position;
+    //     //     this.meshes
+    //     //         .forEach(o3d => {
+    //     //             const mesh = o3d.children[0] as THREE.Mesh;
+    //     //             const material: THREE.MeshPhongMaterial = mesh.material as THREE.MeshPhongMaterial;
+    //     //             if (o3d.position.distanceTo(position) < radius) {
+    //     //                 mesh.userData.selectionLocked = true;
+    //     //             }
+    //     //         });
+    //     // }
+    // }
 
-        //     if (hit[0].object.userData === undefined) {
-        //         return;
-        //     }
-        //     const xPos = e.mouse.xs + 10;
-        //     const yPos = e.mouse.ys;
-        //     this.tooltips.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#FFF;padding:3px;border-radius:' +
-        //         '3px;z-index:9999;position:absolute;left:' +
-        //         xPos + 'px;top:' +
-        //         yPos + 'px;">' +
-        //         hit[0].object.userData.tooltip + '</div>';
-        //     return;
-        // }
-        // this.tooltips.innerHTML = '';
-    }
+    // onMouseMove(e: ChartEvent): void {
+    //     super.onMouseMove(e);
+    //     // console.log(this.view.camera.position.z);
+    //     // // // Selection
+    //     // if (this.mouseMode === 'SELECTION') {
+    //     //     const event: MouseEvent = e.event as MouseEvent;
+    //     //     const mousePos = new Vector2(event.clientX, event.clientY);
+    //     //     const delta = mousePos.distanceTo(this.selectionOrigin2d);
+    //     //     const scale = this.selectionScale(delta);
+    //     //     this.selectionMesh.scale.set(scale, scale, scale);
+
+    //     //     const radius = this.selectionMesh.geometry.boundingSphere.radius * this.selectionMesh.scale.x;
+    //     //     const position = this.selectionMesh.position;
+    //     //     this.meshes
+    //     //         .forEach(o3d => {
+    //     //             const mesh = o3d.children[0] as THREE.Mesh;
+    //     //             const material: THREE.MeshPhongMaterial = mesh.material as THREE.MeshPhongMaterial;
+    //     //             if (o3d.position.distanceTo(position) < radius) {
+    //     //                 material.color.set(0x000000);
+    //     //                 material.transparent = false;
+    //     //             } else {
+    //     //                 if (!mesh.userData.selectionLocked) {
+    //     //                     material.color.set(mesh.userData.color);
+    //     //                     material.transparent = true;
+    //     //                     material.opacity = 0.7;
+    //     //                 }
+    //     //             }
+    //     //         });
+    //     //     this.onRequestRender.emit(this._config.graph);
+    //     //     return;
+    //     // }
+
+    //     // SECOND HALF
+    //     // Hit Test
+    //     // const hit = CxhartUtil.getIntersects(this.view, e.mouse, this.points);
+    //     // console.log(hit.length);
+    //     // if (hit.length > 0) {
+
+    //     //     if (hit[0].object.userData === undefined) {
+    //     //         return;
+    //     //     }
+    //     //     const xPos = e.mouse.xs + 10;
+    //     //     const yPos = e.mouse.ys;
+    //     //     this.tooltips.innerHTML = '<div style="background:rgba(0,0,0,.8);color:#FFF;padding:3px;border-radius:' +
+    //     //         '3px;z-index:9999;position:absolute;left:' +
+    //     //         xPos + 'px;top:' +
+    //     //         yPos + 'px;">' +
+    //     //         hit[0].object.userData.tooltip + '</div>';
+    //     //     return;
+    //     // }
+    //     // this.tooltips.innerHTML = '';
+    // }
 }
