@@ -1,14 +1,11 @@
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { DataService } from './../../../service/data.service';
-import { GraphConfig } from './../../../model/graph-config.model';
-import { EntityTypeEnum } from './../../../model/enum.model';
-import { DataField } from 'app/model/data-field.model';
 import {
-  Component, Input, Output, EventEmitter, AfterViewInit,
-  OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef
+  AfterViewInit, ChangeDetectionStrategy,
+  ChangeDetectorRef, Component, ElementRef,
+  EventEmitter, Input, Output, ViewChild
 } from '@angular/core';
-import {VisualizationEnum, DirtyEnum } from 'app/model/enum.model';
-import { Legend } from 'app/model/legend.model';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { GraphConfig } from './../../../model/graph-config.model';
+import { DataService } from './../../../service/data.service';
 declare var $: any;
 
 @Component({
@@ -63,7 +60,7 @@ export class GeneSignaturePanelComponent implements AfterViewInit {
       .distinctUntilChanged()
       .subscribe(data => {
         const form = this.form;
-       // this.configChange.emit(this.configB);
+        // this.configChange.emit(this.configB);
       });
   }
 

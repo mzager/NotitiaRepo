@@ -1,7 +1,7 @@
 import {
     AfterViewInit, ChangeDetectionStrategy,
-    ChangeDetectorRef, Component, EventEmitter, Input,
-    OnDestroy, Output, ViewChild, ViewContainerRef, ViewEncapsulation
+    ChangeDetectorRef, Component, EventEmitter,
+    Input, OnDestroy, Output, ViewChild, ViewContainerRef, ViewEncapsulation
 } from '@angular/core';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DataService } from './../../../service/data.service';

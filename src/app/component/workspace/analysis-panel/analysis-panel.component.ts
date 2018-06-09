@@ -1,6 +1,6 @@
 import {
-  Component, Input, Output, ChangeDetectionStrategy,
-  EventEmitter, AfterViewInit, OnInit, ViewChild, ElementRef, ViewEncapsulation
+  AfterViewInit, ChangeDetectionStrategy,
+  Component, ViewEncapsulation
 } from '@angular/core';
 
 @Component({

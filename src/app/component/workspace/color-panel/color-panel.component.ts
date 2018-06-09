@@ -1,7 +1,4 @@
-import {
-  Component, Input, Output, ChangeDetectionStrategy,
-  EventEmitter, AfterViewInit, OnInit, ViewChild, ElementRef
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-workspace-color-panel',
