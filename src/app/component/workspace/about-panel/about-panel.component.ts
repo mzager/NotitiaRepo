@@ -5,6 +5,7 @@ import {
 } from '@angular/core';
 import { ModalService } from 'app/service/modal-service';
 import { DataService } from './../../../service/data.service';
+import { GraphConfig } from '../../../model/graph-config.model';
 
 @Component({
     selector: 'app-workspace-about-panel',

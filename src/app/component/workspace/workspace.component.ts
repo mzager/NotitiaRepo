@@ -104,7 +104,8 @@ export class WorkspaceComponent {
   // Components
   @ViewChild('panelContainer') public panelContainer: ElementRef;
 
-  // graphTool: Observable<GraphTool>;
+  overrideShowPanel = true;
+
   pathways: Observable<Array<any>>;
   genesets: Observable<Array<any>>;
   cohorts: Observable<Array<any>>;
@@ -346,6 +347,9 @@ export class WorkspaceComponent {
     this.store.dispatch(new GraphPanelToggleAction(enums.GraphPanelEnum.GRAPH_B));
   }
   setPanel(value: enums.PanelEnum): void {
+    if (value === enums.PanelEnum.NONE && this.overrideShowPanel) {
+      value = enums.PanelEnum.DATA;
+    }
     this.store.dispatch(new ModalPanelAction(value));
   }
 
@@ -353,6 +357,7 @@ export class WorkspaceComponent {
     this.store.dispatch(new WorkspaceConfigAction(value));
   }
   fileLoadTcga(value: string) {
+    this.overrideShowPanel = false;
     this.store.dispatch(new data.DataLoadFromTcga(value));
     this.store.dispatch(new ModalPanelAction(enums.PanelEnum.NONE));
     this.store.dispatch(new LoaderShowAction());

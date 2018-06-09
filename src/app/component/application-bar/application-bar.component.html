@@ -1,16 +1,16 @@
 <div class='application-bar-menu'>
   <span class='application-bar-buttons'>
 
-    <span class='application-bar-button' (click)='onSplitScreenChange()'>
+    <span *ngIf='datasetSelected' class='application-bar-button' (click)='onSplitScreenChange()'>
       <mat-icon class='material-icons md-18' style='transform:translate(0px, 4px)'>tv</mat-icon>
       <span class='copy'>Split Screen</span>
     </span>
     <mat-menu #appMenu="matMenu">
-      <button mat-menu-item (click)='viewPanel(4)'>Data Sets</button>
       <button mat-menu-item (click)='viewPanel(16384)'>Feedback</button>
       <button mat-menu-item (click)='viewPanel(1024)'>Citations</button>
       <button mat-menu-item (click)='viewPanel(512)'>About</button>
       <!-- <button mat-menu-item (click)='toggleBackgroundColor()'>BG Color</button> -->
+      <button *ngIf='datasetSelected' mat-menu-item (click)='reload()'>Data Sets</button>
     </mat-menu>
     <span class='application-bar-menu-button' class='application-bar-button' style='padding-left:10px;' [matMenuTriggerFor]="appMenu">
       <mat-icon class='material-icons md-18 ' style='transform:translate(0px, 4px) '>more_vert</mat-icon>
