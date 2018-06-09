@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import * as _ from 'lodash';
+import {
+    ChangeDetectionStrategy, Component, EventEmitter,
+    Output, ViewEncapsulation
+} from '@angular/core';
 
 @Component({
     selector: 'app-graph-panel-analysis',

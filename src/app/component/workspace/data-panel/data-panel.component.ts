@@ -1,17 +1,13 @@
-import { MatSelectChange } from '@angular/material';
-import { DataTable } from './../../../model/data-field.model';
-import { ComputeWorkerUtil } from './../../../service/compute.worker.util';
-import { DataField } from 'app/model/data-field.model';
 import {
-  ChangeDetectorRef, ViewChild, Component, Input, Output, ElementRef,
-  ChangeDetectionStrategy, EventEmitter, AfterViewInit, NgZone, ViewEncapsulation
+  AfterViewInit, ChangeDetectionStrategy,
+  ChangeDetectorRef, Component, EventEmitter,
+  Input, Output, ViewEncapsulation
 } from '@angular/core';
+import { MatSelectChange } from '@angular/material';
 import { CollectionTypeEnum } from 'app/model/enum.model';
-import { Legend } from 'app/model/legend.model';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import * as util from 'app/service/compute.worker.util';
-import Dexie from 'dexie';
 import { GraphConfig } from 'app/model/graph-config.model';
+import Dexie from 'dexie';
+import { DataTable } from './../../../model/data-field.model';
 declare var $: any;
 
 @Component({

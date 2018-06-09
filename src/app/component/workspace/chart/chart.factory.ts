@@ -1,17 +1,12 @@
-import { OrbitControls } from 'three-orbitcontrols-ts';
-import { VisualizationView } from './../../../service/chart-view.model';
-import { QuadradicDiscriminantAnalysisGraph } from './../../visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis';
-import { ChartObjectInterface } from './../../../model/chart.object.interface';
-import { EntityTypeEnum, SpriteMaterialEnum } from './../../../model/enum.model';
-import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
-import { MeshLine, MeshLineMaterial } from 'three.meshline';
-import { Injectable } from '@angular/core';
-import { GraphEnum, ShapeEnum, SizeEnum, VisualizationEnum } from 'app/model/enum.model';
-import { GraphConfig } from './../../../model/graph-config.model';
-import * as THREE from 'three';
-import { Vector3, Vector2, Shading, SmoothShading, Geometry, Mesh, Object3D, PerspectiveCamera } from 'three';
+import { ShapeEnum, SizeEnum } from 'app/model/enum.model';
 import * as scale from 'd3-scale';
-import { schemeRdBu, interpolateRdBu, interpolateSpectral } from 'd3-scale-chromatic';
+import * as THREE from 'three';
+import { PerspectiveCamera, Vector3 } from 'three';
+import { OrbitControls } from 'three-orbitcontrols-ts';
+import { MeshLine, MeshLineMaterial } from 'three.meshline';
+import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
+import { EntityTypeEnum, SpriteMaterialEnum } from './../../../model/enum.model';
+import { VisualizationView } from './../../../service/chart-view.model';
 
 
 export type DataDecoatorRenderer = (group: THREE.Group, mesh: THREE.Sprite, decorators: Array<DataDecorator>,

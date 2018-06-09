@@ -23,8 +23,8 @@ export class EdgesGraph implements ChartObjectInterface {
     // Chart Elements
     private data: EdgeDataModel;
     private config: EdgeConfigModel;
-    private labels: HTMLElement;
-    private events: ChartEvents;
+    // private labels: HTMLElement;
+    // private events: ChartEvents;
     private view: VisualizationView;
 
     public meshes: Array<THREE.Mesh>;
@@ -32,12 +32,12 @@ export class EdgesGraph implements ChartObjectInterface {
     public lines: Array<THREE.Line> = [];
     private drawEdgesDebounce: Function;
     public updateEdges: Boolean = false;
-    private edges: Array<any>;
-    private commonKeys: any;
-    private patientSampleMap: { s: string, p: string };
+    // private edges: Array<any>;
+    // private commonKeys: any;
+    // private patientSampleMap: { s: string, p: string };
 
     enable(truthy: Boolean) {
-        throw new Error('Method not implemented.');
+        // throw new Error('Method not implemented.');
     }
 
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
@@ -91,11 +91,11 @@ export class EdgesGraph implements ChartObjectInterface {
             groupY = Array.from({ length: binCount }, (v, k) => k + 1).map(v => (v * binHeight) - vphHalf - (binHeight * .5));
         }
 
-        const visibleEdges = this.data.result.map(v => {
+        this.data.result.map(v => {
             if (!obj2dMapA.hasOwnProperty(v.a) || !obj2dMapB.hasOwnProperty(v.b)) {
                 return null;
             }
-            const color = (!hasColorDecorator) ? 0xe91e63 :
+            const color = (!hasColorDecorator) ? 0x81D4FA :
                 colorMap.hasOwnProperty(v.a) ? colorMap[v.a].value :
                     colorMap.hasOwnProperty(v.b) ? colorMap[v.b].value :
                         0xeeeeee;
@@ -111,10 +111,6 @@ export class EdgesGraph implements ChartObjectInterface {
                 return ChartFactory.lineAllocateCurve(color, obj2dMapA[v.a], obj2dMapB[v.b],
                     new THREE.Vector2(0, yPos));
             } else {
-                // if (views[1].config.visualization === VisualizationEnum.TIMELINES) {
-                //     debugger;
-                // }
-
                 line = ChartFactory.lineAllocate(color, obj2dMapA[v.a], obj2dMapB[v.b]);
             }
 
@@ -178,8 +174,8 @@ export class EdgesGraph implements ChartObjectInterface {
         this.drawEdgesDebounce(views, layout, renderer);
     }
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
-        this.labels = labels;
-        this.events = events;
+        // this.labels = labels;
+        // this.events = events;
         this.view = view;
         this.drawEdgesDebounce = _.debounce(this.drawEdges, 600);
         return this;

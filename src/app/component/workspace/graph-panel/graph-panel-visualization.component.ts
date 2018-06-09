@@ -1,12 +1,14 @@
+import {
+    ChangeDetectionStrategy, ChangeDetectorRef,
+    Component, EventEmitter, Input, Output,
+    ViewEncapsulation
+} from '@angular/core';
 import { MatSelectChange } from '@angular/material';
-import { EntityTypeEnum } from './../../../model/enum.model';
 import { DataTable } from 'app/model/data-field.model';
 import { GraphConfig } from 'app/model/graph-config.model';
-import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
 import { DataField, DataFieldFactory } from './../../../model/data-field.model';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import * as _ from 'lodash';
+import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
+import { EntityTypeEnum } from './../../../model/enum.model';
 
 @Component({
     selector: 'app-graph-panel-visualization',

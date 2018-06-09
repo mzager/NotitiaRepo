@@ -1,14 +1,15 @@
 
-import { MatSelectChange, MatSelect } from '@angular/material';
-import { Pathway } from './../../../model/pathway.model';
-import { GeneSet } from './../../../model/gene-set.model';
-import { Cohort } from './../../../model/cohort.model';
-import { GraphConfig } from 'app/model/graph-config.model';
 import {
-  Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef,
-  ViewEncapsulation, ElementRef, ViewChild
+  ChangeDetectionStrategy, ChangeDetectorRef,
+  Component, EventEmitter, Input, Output,
+  ViewChild, ViewEncapsulation
 } from '@angular/core';
-import { PanelEnum, DirtyEnum } from '../../../model/enum.model';
+import { MatSelect, MatSelectChange } from '@angular/material';
+import { GraphConfig } from 'app/model/graph-config.model';
+import { DirtyEnum, PanelEnum } from '../../../model/enum.model';
+import { Cohort } from './../../../model/cohort.model';
+import { GeneSet } from './../../../model/gene-set.model';
+import { Pathway } from './../../../model/pathway.model';
 
 @Component({
   selector: 'app-graph-panel-data',

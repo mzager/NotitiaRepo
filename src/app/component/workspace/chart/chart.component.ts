@@ -1,67 +1,56 @@
-import { EdgeConfigModel } from 'app/component/visualization/edges/edges.model';
-import { HazardGraph } from './../../visualization/hazard/hazard.graph';
-
-import { ChartObjectInterface } from './../../../model/chart.object.interface';
-import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
-import { WorkspaceConfigModel } from './../../../model/workspace.model';
-import { EntityTypeEnum } from './../../../model/enum.model';
-import { getGraphAConfig, getEdgesData } from './../../../reducer/index.reducer';
-import * as e from 'app/model/enum.model';
-import * as fromRoot from 'app/reducer/index.reducer';
-import * as select from 'app/action/select.action';
-import { Action, Store } from '@ngrx/store';
 import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Input,
-  NgZone,
-  ViewChild,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  EventEmitter,
-  Output
+  AfterViewInit, ChangeDetectionStrategy,
+  ChangeDetectorRef, Component, ElementRef,
+  EventEmitter, NgZone, Output, ViewChild
 } from '@angular/core';
-import { ChartScene } from './chart.scene';
-import { GraphConfig } from './../../../model/graph-config.model';
-import { Observable } from 'rxjs/Observable';
-import { GraphEnum, VisualizationEnum } from 'app/model/enum.model';
-import { PcaIncrementalGraph } from './../../visualization/pcaincremental/pcaincremental.graph';
-import { PcaSparseGraph } from './../../visualization/pcasparse/pcasparse.graph';
-import { PcaKernalGraph } from './../../visualization/pcakernal/pcakernal.graph';
-import { SpectralEmbeddingGraph } from './../../visualization/spectralembedding/spectralembedding.graph';
-import { IsoMapGraph } from './../../visualization/isomap/isomap.graph';
-import { IsoMapFormComponent } from './../../visualization/isomap/isomap.form.component';
-import { LocalLinearEmbeddingGraph } from './../../visualization/locallinearembedding/locallinearembedding.graph';
-import { NmfGraph } from './../../visualization/nmf/nmf.graph';
-import { LdaGraph } from './../../visualization/lda/lda.graph';
-import { DictionaryLearningGraph } from './../../visualization/dictionarylearning/dictionarylearning.graph';
-import { FastIcaGraph } from './../../visualization/fastica/fastica.graph';
-import { TruncatedSvdGraph } from './../../visualization/truncatedsvd/truncatedsvd.graph';
-import { FaGraph } from './../../visualization/fa/fa.graph';
-import { MdsGraph } from './../../visualization/mds/mds.graph';
-import { SomGraph } from './../../visualization/som/som.graph';
-import { HeatmapGraph } from './../../visualization/heatmap/heatmap.graph';
-import { EdgesGraph } from './../../visualization/edges/edges.graph';
-import { PlsGraph } from './../../visualization/pls/pls.graph';
-import { TsneGraph } from './../../visualization/tsne/tsne.graph';
-import { ChromosomeGraph } from './../../visualization/chromosome/chromosome.graph';
-import { HistogramGraph } from './../../visualization/histogram/histogram.graph';
-import { BoxWhiskersGraph } from './../../visualization/boxwhiskers/boxwhiskers.graph';
-import { DendogramGraph } from './../../visualization/dendogram/dendogram.graph';
-import { SurvivalGraph } from './../../visualization/survival/survival.graph';
-import { LinearDiscriminantAnalysisGraph } from './../../visualization/lineardiscriminantanalysis/lineardiscriminantanalysis';
-import { MiniBatchDictionaryLearningGraph } from './../../visualization/minibatchdictionarylearning/minibatchdictionarylearning';
-import { MiniBatchSparsePcaGraph } from './../../visualization/minibatchsparsepca/minibatchsparsepca';
-import { PathwaysGraph } from './../../visualization/pathways/pathways.graph';
-import { TimelinesGraph } from './../../visualization/timelines/timelines.graph';
-import { HicGraph } from './../../visualization/hic/hic.graph';
-import { ParallelCoordsGraph } from './../../visualization/parallelcoords/parallelcoords.graph';
-import { GenomeGraph } from './../../visualization/genome/genome.graph';
-import { LinkedGeneGraph } from './../../visualization/linkedgenes/linkedgenes.graph';
-import { PcaGraph } from '../../visualization/pca/pca.graph';
+import { Store } from '@ngrx/store';
+import { EdgeConfigModel } from 'app/component/visualization/edges/edges.model';
 // tslint:disable-next-line:max-line-length
 import { QuadradicDiscriminantAnalysisGraph } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis';
+import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
+import { GraphEnum, VisualizationEnum } from 'app/model/enum.model';
+import * as fromRoot from 'app/reducer/index.reducer';
+import { Observable } from 'rxjs/Observable';
+import { PcaGraph } from '../../visualization/pca/pca.graph';
+import { ChartObjectInterface } from './../../../model/chart.object.interface';
+import { EntityTypeEnum } from './../../../model/enum.model';
+import { GraphConfig } from './../../../model/graph-config.model';
+import { WorkspaceConfigModel } from './../../../model/workspace.model';
+import { BoxWhiskersGraph } from './../../visualization/boxwhiskers/boxwhiskers.graph';
+import { ChromosomeGraph } from './../../visualization/chromosome/chromosome.graph';
+import { DendogramGraph } from './../../visualization/dendogram/dendogram.graph';
+import { DictionaryLearningGraph } from './../../visualization/dictionarylearning/dictionarylearning.graph';
+import { EdgesGraph } from './../../visualization/edges/edges.graph';
+import { FaGraph } from './../../visualization/fa/fa.graph';
+import { FastIcaGraph } from './../../visualization/fastica/fastica.graph';
+import { GenomeGraph } from './../../visualization/genome/genome.graph';
+import { HazardGraph } from './../../visualization/hazard/hazard.graph';
+import { HeatmapGraph } from './../../visualization/heatmap/heatmap.graph';
+import { HicGraph } from './../../visualization/hic/hic.graph';
+import { HistogramGraph } from './../../visualization/histogram/histogram.graph';
+import { IsoMapGraph } from './../../visualization/isomap/isomap.graph';
+import { LdaGraph } from './../../visualization/lda/lda.graph';
+import { LinearDiscriminantAnalysisGraph } from './../../visualization/lineardiscriminantanalysis/lineardiscriminantanalysis';
+import { LinkedGeneGraph } from './../../visualization/linkedgenes/linkedgenes.graph';
+import { LocalLinearEmbeddingGraph } from './../../visualization/locallinearembedding/locallinearembedding.graph';
+import { MdsGraph } from './../../visualization/mds/mds.graph';
+import { MiniBatchDictionaryLearningGraph } from './../../visualization/minibatchdictionarylearning/minibatchdictionarylearning';
+import { MiniBatchSparsePcaGraph } from './../../visualization/minibatchsparsepca/minibatchsparsepca';
+import { NmfGraph } from './../../visualization/nmf/nmf.graph';
+import { ParallelCoordsGraph } from './../../visualization/parallelcoords/parallelcoords.graph';
+import { PathwaysGraph } from './../../visualization/pathways/pathways.graph';
+import { PcaIncrementalGraph } from './../../visualization/pcaincremental/pcaincremental.graph';
+import { PcaKernalGraph } from './../../visualization/pcakernal/pcakernal.graph';
+import { PcaSparseGraph } from './../../visualization/pcasparse/pcasparse.graph';
+import { PlsGraph } from './../../visualization/pls/pls.graph';
+import { SomGraph } from './../../visualization/som/som.graph';
+import { SpectralEmbeddingGraph } from './../../visualization/spectralembedding/spectralembedding.graph';
+import { SurvivalGraph } from './../../visualization/survival/survival.graph';
+import { TimelinesGraph } from './../../visualization/timelines/timelines.graph';
+import { TruncatedSvdGraph } from './../../visualization/truncatedsvd/truncatedsvd.graph';
+import { TsneGraph } from './../../visualization/tsne/tsne.graph';
+import { ChartScene } from './chart.scene';
+
 
 @Component({
   selector: 'app-workspace-chart',
