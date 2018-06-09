@@ -60,13 +60,12 @@ input:-webkit-autofill {
   position: relative;
   background: #fff;
   border: 3px solid #fff;
-  box-shadow: 0px 2px 4px #ddd;
 }
 
 .z-tooltip:after,
 .z-tooltip:before {
   right: 100%;
-  top: 18px;
+  top: 12px;
   border: solid transparent;
   content: " ";
   height: 0;

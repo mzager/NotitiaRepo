@@ -1,16 +1,12 @@
-import { DataService } from './../../../service/data.service';
-
-import { INSERT_ANNOTATION } from './../../../action/graph.action';
-import { StatsInterface } from './../../../model/stats.interface';
-import { FormBuilder, FormGroup, Validators, FormGroupDirective, FormControl, NgForm } from '@angular/forms';
-import { GraphConfig } from './../../../model/graph-config.model';
 import {
-  Component, ComponentFactoryResolver, Input, Output, ViewContainerRef, Renderer,
-  ChangeDetectionStrategy, EventEmitter, AfterViewInit, ElementRef, ViewChild, ViewEncapsulation, ChangeDetectorRef
+  ChangeDetectionStrategy, ChangeDetectorRef,
+  Component, ElementRef, EventEmitter, Output,
+  Renderer, ViewChild, ViewEncapsulation
 } from '@angular/core';
-import { PanelEnum } from '../../../model/enum.model';
-import { Storage, API } from 'aws-amplify';
+import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material';
+import { API, Storage } from 'aws-amplify';
+
 
 export class OncoscapeErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
