@@ -4,7 +4,7 @@ import { GraphConfig } from 'app/model/graph-config.model';
 import {
     AmbientLight, Camera, HemisphereLight, Line,
     OrthographicCamera, PerspectiveCamera, Scene,
-    Vector2, Vector3, WebGLRenderer
+    Vector2, Vector3, WebGLRenderer, DirectionalLight, SpotLight
 } from 'three';
 import { OrbitControls } from 'three-orbitcontrols-ts';
 import { VisualizationView } from './../../../model/chart-view.model';
@@ -132,7 +132,7 @@ export class ChartScene {
 
             // Lighting
             view.scene.add(new HemisphereLight(0x999999, 0xFFFFFF, 1));
-
+            // view.scene.add(new SpotLight(0XFFFFFF, 1, 600));
             return view;
         });
 

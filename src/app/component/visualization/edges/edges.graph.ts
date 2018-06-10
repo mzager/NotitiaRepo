@@ -23,8 +23,6 @@ export class EdgesGraph implements ChartObjectInterface {
     // Chart Elements
     private data: EdgeDataModel;
     private config: EdgeConfigModel;
-    // private labels: HTMLElement;
-    // private events: ChartEvents;
     private view: VisualizationView;
 
     public meshes: Array<THREE.Mesh>;
@@ -32,9 +30,6 @@ export class EdgesGraph implements ChartObjectInterface {
     public lines: Array<THREE.Line> = [];
     private drawEdgesDebounce: Function;
     public updateEdges: Boolean = false;
-    // private edges: Array<any>;
-    // private commonKeys: any;
-    // private patientSampleMap: { s: string, p: string };
 
     enable(truthy: Boolean) {
         // throw new Error('Method not implemented.');
