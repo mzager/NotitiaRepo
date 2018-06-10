@@ -49,7 +49,6 @@ export class AbstractVisualization implements ChartObjectInterface {
     protected labelController: LabelController;
     protected tooltipOptions: TooltipOptions;
     protected tooltipController: TooltipController;
-    protected selectionController: SelectionController;
 
     enable(truthy: boolean) {
         if (this.isEnabled === truthy) { return; }
@@ -110,7 +109,7 @@ export class AbstractVisualization implements ChartObjectInterface {
 
         this.labelController = new LabelController(view, events);
         this.tooltipController = new TooltipController(view, events);
-        this.selectionController = new SelectionController(view, events);
+        // this.selectionController = new SelectionController(view, events);
 
         this.$onShowLabels = this.labelController.onShow.subscribe(this.onShowLabels.bind(this));
         this.$onHideLabels = this.labelController.onHide.subscribe(this.onHideLabels.bind(this));
@@ -132,7 +131,6 @@ export class AbstractVisualization implements ChartObjectInterface {
         this.$onHideTooltip.unsubscribe();
         this.labelController.destroy();
         this.tooltipController.destroy();
-        this.selectionController.destroy();
         this.enable(false);
     }
     preRender(views: VisualizationView[], layout: WorkspaceLayoutEnum, renderer: THREE.Renderer): void { }
