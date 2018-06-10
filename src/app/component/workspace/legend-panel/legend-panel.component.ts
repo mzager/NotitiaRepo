@@ -1,24 +1,9 @@
-import { Observable } from 'rxjs/Rx';
-import { Subscription } from 'rxjs/Subscription';
-import { Subject } from 'rxjs/Subject';
-import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
-import { Legend } from './../../../model/legend.model';
-import { GraphData } from './../../../model/graph-data.model';
-import { scaleSequential } from 'd3-scale';
-import { interpolateSpectral } from 'd3-scale-chromatic';
-
-import {
-  Component, Input, Output, ChangeDetectionStrategy, EventEmitter, AfterViewInit,
-  ViewChild, ElementRef, ChangeDetectorRef, ViewEncapsulation, OnDestroy
-} from '@angular/core';
-import { ShapeEnum, SizeEnum, DataTypeEnum } from 'app/model/enum.model';
-import * as d3Interpolate from 'd3-interpolate';
-import * as d3Color from 'd3-color';
-import * as d3Shape from 'd3-shape';
-import * as d3 from 'd3';
-import { GraphConfig } from '../../../model/graph-config.model';
-import { DomSanitizer } from '@angular/platform-browser';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
 import * as _ from 'lodash';
+import { GraphConfig } from '../../../model/graph-config.model';
+import { DataDecorator } from './../../../model/data-map.model';
+import { Legend } from './../../../model/legend.model';
+
 
 
 @Component({
@@ -34,7 +19,8 @@ export class LegendPanelComponent implements AfterViewInit, OnDestroy {
   public updateLegend = _.debounce(this.update, 600);
 
   private _config: GraphConfig;
-  @Input() public set config(value: GraphConfig) {
+  get config(): GraphConfig { return this._config; }
+  @Input() set config(value: GraphConfig) {
     if (value === null) { return; }
     this._config = value;
     this.updateLegend();
