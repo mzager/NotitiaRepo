@@ -1,17 +1,18 @@
-import { SelectionController } from './../../controller/selection/selection.controller';
+import { EventEmitter } from '@angular/core';
 import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
-import { VisualizationView } from './../../model/chart-view.model';
-import { GraphConfig } from './../../model/graph-config.model';
 import { GraphData } from 'app/model/graph-data.model';
 import * as THREE from 'three';
 import { Vector3 } from 'three';
-import { ChartEvent, ChartEvents } from '../workspace/chart/chart.events';
+import { LabelController, LabelOptions } from '../../controller/label/label.controller';
 import { ChartObjectInterface } from '../../model/chart.object.interface';
-import { AbstractVisualization } from './visualization.abstract.component';
 import { DataDecorator } from '../../model/data-map.model';
 import { EntityTypeEnum } from '../../model/enum.model';
-import { LabelOptions, LabelController } from '../../controller/label/label.controller';
-import { emitKeypressEvents } from 'readline';
+import { ChartEvents } from '../workspace/chart/chart.events';
+import { SelectionController } from './../../controller/selection/selection.controller';
+import { ChartSelection } from './../../model/chart-selection.model';
+import { VisualizationView } from './../../model/chart-view.model';
+import { GraphConfig } from './../../model/graph-config.model';
+import { AbstractVisualization } from './visualization.abstract.component';
 declare var $;
 
 export class AbstractScatterVisualization extends AbstractVisualization {
@@ -26,10 +27,16 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     private points: Array<THREE.Object3D>;
     protected selectionController: SelectionController;
 
+    public get onSelection(): EventEmitter<ChartSelection> {
+        return this.selectionController.onSelection;
+    }
+
+
     // Private Subscriptions
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         super.create(labels, events, view);
         this.selectionController = new SelectionController(view, events);
+
         this.meshes = [];
         this.points = [];
         this.lines = [];
@@ -38,8 +45,8 @@ export class AbstractScatterVisualization extends AbstractVisualization {
 
     destroy() {
         super.destroy();
+        this.selectionController.destroy();
         this.removeObjects();
-
     }
 
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
