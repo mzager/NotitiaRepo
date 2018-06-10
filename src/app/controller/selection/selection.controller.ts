@@ -66,6 +66,7 @@ export class SelectionController extends AbstractMouseController {
             });
         this._onRequestRender.emit(this._config.graph);
         const selection: ChartSelection = { type: type, ids: ids };
+        console.log('on selection');
         this.onSelection.emit(selection);
     }
 
