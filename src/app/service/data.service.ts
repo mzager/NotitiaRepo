@@ -974,7 +974,6 @@ export class DataService {
     return new Promise((resolve, reject) => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
-        debugger;
         v.table('genesets').add(geneset).then(w => {
           resolve(w);
         });

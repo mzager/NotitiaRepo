@@ -145,12 +145,12 @@ export class StatVegaFactory {
                 {
                     'name': 'signal_selected_myvalue',
                     'value': null,
-                    'update': "signal_hover_arc ? signal_hover_arc['myvalue'] : (signal_hover_legend ? scale('scale_lookup_mylabel_myvalue', signal_hover_legend['value']) : signal_sums)"
+                    'update': "round(signal_hover_arc ? signal_hover_arc['myvalue'] : (signal_hover_legend ? scale('scale_lookup_mylabel_myvalue', signal_hover_legend['value']) : signal_sums))"
                 },
                 {
                     'name': 'signal_selected_mylabel',
                     'value': null,
-                    'update': "signal_hover_arc ? signal_hover_arc['mylabel'] : (signal_hover_legend ? signal_hover_legend['value'] : null)"
+                    'update': "round(signal_hover_arc ? signal_hover_arc['mylabel'] : (signal_hover_legend ? signal_hover_legend['value'] : null))"
                 }
             ],
             'scales': [

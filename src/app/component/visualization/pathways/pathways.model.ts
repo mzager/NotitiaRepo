@@ -12,6 +12,7 @@ export class PathwaysConfigModel extends GraphConfig {
         this.enableGenesets = false;
         this.enableCohorts = false;
         this.enablePathways = true;
+        this.enableLabel = false;
         this.enableSupplemental = false;
     }
 
