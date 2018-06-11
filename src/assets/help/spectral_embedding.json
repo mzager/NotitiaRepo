@@ -20,13 +20,13 @@
     },
     {
       "name": "eigen solver",
-      "type": "{None, ‘arpack’, ‘lobpcg’, or ‘amg’}, default None",
-      "desc": "The eigenvalue decomposition strategy to use. AMG requires pyamg to be installed. It can be faster on very large, sparse problems, but may also lead to instabilities."
+      "type": "None, default None",
+      "desc": "The eigenvalue decomposition strategy to use."
     },
     {
       "name": "random state",
       "type": "int, RandomState instance or None, optional, default",
-      "desc": "A pseudo random number generator used for the initialization of the lobpcg eigenvectors decomposition.  If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random. Used when solver == ‘amg’."
+      "desc": "A pseudo random number generator used for the initialization of the lobpcg eigenvectors decomposition.  If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random."
     },
     {
       "name": "eigen tol",

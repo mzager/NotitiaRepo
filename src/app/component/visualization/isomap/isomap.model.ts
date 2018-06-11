@@ -10,15 +10,15 @@ export class IsoMapEigenSolver {
 
 export class IsoMapPathMethod {
     public static AUTO = 'auto';
-    public static FW = 'FW';
-    public static D = 'D';
+    // public static FW = 'FW';
+    // public static D = 'D';
 }
 
 export class IsoMapNeighborsAlgorithm {
     public static AUTO = 'auto';
-    public static BRUTE = 'brute';
-    public static KD_TREE = 'kd_tree';
-    public static BALL_TREE = 'ball_tree';
+    // public static BRUTE = 'brute';
+    // public static KD_TREE = 'kd_tree';
+    // public static BALL_TREE = 'ball_tree';
 }
 
 export class IsoMapConfigModel extends GraphConfig {
