@@ -35,13 +35,13 @@
     },
     {
       "name": "path method",
-      "type": "string [‘auto’|’FW’|’D’]",
-      "desc": "Method to use in finding shortest path. ‘auto’ : attempt to choose the best algorithm automatically. ‘FW’ : Floyd-Warshall algorithm. ‘D’ : Dijkstra’s algorithm."
+      "type": "string auto",
+      "desc": "Method to use in finding shortest path. ‘auto’ : attempt to choose the best algorithm automatically."
     },
     {
       "name": "neighbors algorithm",
-      "type": "string [‘auto’|’brute’|’kd_tree’|’ball_tree’]",
-      "desc": "Algorithm to use for nearest neighbors search, passed to neighbors.NearestNeighbors instance."
+      "type": "string auto",
+      "desc": "Algorithm to use for nearest neighbors search, passed to neighbors. NearestNeighbors instance."
     },
     {
       "name": "n jobs",

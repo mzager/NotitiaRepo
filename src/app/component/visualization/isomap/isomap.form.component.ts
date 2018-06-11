@@ -25,16 +25,16 @@ export class IsoMapFormComponent extends AbstractScatterForm {
   ];
 
   IsoMapPathMethodOpitions = [
-    IsoMapPathMethod.AUTO,
-    IsoMapPathMethod.D,
-    IsoMapPathMethod.FW
+    IsoMapPathMethod.AUTO
+    // IsoMapPathMethod.D,
+    // IsoMapPathMethod.FW
   ];
 
   IsoMapNeighborsAlgorithmOpitions = [
-    IsoMapNeighborsAlgorithm.AUTO,
-    IsoMapNeighborsAlgorithm.BALL_TREE,
-    IsoMapNeighborsAlgorithm.KD_TREE,
-    IsoMapNeighborsAlgorithm.BRUTE
+    IsoMapNeighborsAlgorithm.AUTO
+    // IsoMapNeighborsAlgorithm.BALL_TREE,
+    // IsoMapNeighborsAlgorithm.KD_TREE,
+    // IsoMapNeighborsAlgorithm.BRUTE
   ];
 
   constructor(private fb: FormBuilder) {
