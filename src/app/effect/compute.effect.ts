@@ -1,9 +1,9 @@
-import { EntityTypeEnum } from 'app/model/enum.model';
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import * as compute from 'app/action/compute.action';
 import * as graph from 'app/action/graph.action';
+import { EntityTypeEnum } from 'app/model/enum.model';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
@@ -13,11 +13,25 @@ import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/withLatestFrom';
 import { Observable } from 'rxjs/Observable';
 // tslint:disable-next-line:max-line-length
-import { BoxWhiskersCompleteAction, ChromosomeCompleteAction, DendogramCompleteAction, DictionaryLearningCompleteAction, EdgesCompleteAction, FaCompleteAction, FastIcaCompleteAction, GenomeCompleteAction, HazardCompleteAction, HeatmapCompleteAction, HicCompleteAction, HistogramCompleteAction, IsoMapCompleteAction, LdaCompleteAction, LinearDiscriminantAnalysisCompleteAction, LinkedGeneCompleteAction, LocalLinearEmbeddingCompleteAction, MdsCompleteAction, MiniBatchDictionaryLearningCompleteAction, MiniBatchSparsePcaCompleteAction, NmfCompleteAction, NoneCompleteAction, NullDataAction, ParallelCoordsCompleteAction, PathwaysCompleteAction, PcaCompleteAction, PcaIncrementalCompleteAction, PcaKernalCompleteAction, PcaSparseCompleteAction, QuadraticDiscriminantAnalysisCompleteAction, SomCompleteAction, SpectralEmbeddingCompleteAction, SurvivalCompleteAction, TimelinesCompleteAction, TruncatedSvdCompleteAction, TsneCompleteAction } from './../action/compute.action';
+import {
+  BoxWhiskersCompleteAction, ChromosomeCompleteAction,
+  DendogramCompleteAction, DictionaryLearningCompleteAction,
+  EdgesCompleteAction, FaCompleteAction, FastIcaCompleteAction,
+  GenomeCompleteAction, HazardCompleteAction, HeatmapCompleteAction,
+  HicCompleteAction, HistogramCompleteAction, IsoMapCompleteAction,
+  LdaCompleteAction, LinearDiscriminantAnalysisCompleteAction,
+  LinkedGeneCompleteAction, LocalLinearEmbeddingCompleteAction,
+  MdsCompleteAction, MiniBatchDictionaryLearningCompleteAction,
+  MiniBatchSparsePcaCompleteAction, NmfCompleteAction, NoneCompleteAction,
+  NullDataAction, ParallelCoordsCompleteAction, PathwaysCompleteAction,
+  PcaCompleteAction, PcaIncrementalCompleteAction, PcaKernalCompleteAction,
+  PcaSparseCompleteAction, QuadraticDiscriminantAnalysisCompleteAction,
+  SomCompleteAction, SpectralEmbeddingCompleteAction, SurvivalCompleteAction,
+  TimelinesCompleteAction, TruncatedSvdCompleteAction, TsneCompleteAction
+} from './../action/compute.action';
 import { DataDecoratorAddAction, DataDecoratorCreateAction } from './../action/graph.action';
 import { LoaderHideAction } from './../action/layout.action';
 import { UnsafeAction } from './../action/unsafe.action';
-import { EdgeConfigModel } from './../component/visualization/edges/edges.model';
 import { GraphData } from './../model/graph-data.model';
 import { State } from './../reducer/index.reducer';
 import { ComputeService } from './../service/compute.service';
@@ -38,7 +52,7 @@ export class ComputeEffect {
     });
 
   @Effect() selectMarkers: Observable<any> = this.actions$
-    .ofType(compute.SELECT_MARKERS)
+    .ofType(compute.COMPUTE_SELECT_MARKERS)
     .map((action: UnsafeAction) => action.payload)
     .withLatestFrom(this.store$)
     .switchMap((value: [any, State], index: number) => {
@@ -46,7 +60,6 @@ export class ComputeEffect {
       const database = value[1].graphA.config.database;
       return Observable.fromPromise(this.dataService.getMarkerStatsText(database, markerIds))
         .mergeMap(data => {
-          debugger;
           return [
             new compute.SelectMarkersCompleteAction({ selection: { ids: value[0].markers, type: EntityTypeEnum.GENE }, stats: data })
           ];
@@ -54,7 +67,7 @@ export class ComputeEffect {
     });
 
   @Effect() selectSamples: Observable<any> = this.actions$
-    .ofType(compute.SELECT_SAMPLES)
+    .ofType(compute.COMPUTE_SELECT_SAMPLES)
     .map((action: UnsafeAction) => action.payload)
     .withLatestFrom(this.store$)
     .switchMap((value: [any, State], index: number) => {
