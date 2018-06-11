@@ -4,7 +4,7 @@ import { GraphData } from './../../../model/graph-data.model';
 
 export class TruncatedSvdAlgorithm {
     public static RANDOMIZED = 'randomized';
-    // public static ARPACK = 'arpack';
+
 }
 
 export class TruncatedSvdConfigModel extends GraphConfig {
