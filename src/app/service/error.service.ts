@@ -11,8 +11,9 @@ export class ErrorService implements ErrorHandler {
                     return sf.toString();
                 }).join('\n');
 
-            console.log(error + '\n\n' + stackString, 'background: #000; color: red;');
+            // console.log(error + '\n\n' + stackString, 'background: #000; color: red;');
             // alert(error + '\n:' + stackString);
+            throw (error);
         });
     }
     contructor() { }
