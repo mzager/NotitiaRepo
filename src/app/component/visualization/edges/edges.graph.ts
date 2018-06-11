@@ -52,6 +52,13 @@ export class EdgesGraph implements ChartObjectInterface {
             return;
         }
         if (this.data.result.length === 0) {
+            this.view.scene.children = this.view.scene.children.splice(0, 2);
+            this.view.scene.add(ChartFactory.lineAllocate(0x039BE5, new THREE.Vector2(0, -1000), new THREE.Vector2(0, 1000)));
+            renderer.clear();
+            views.forEach((view) => {
+                renderer.setViewport(view.viewport.x, view.viewport.y, view.viewport.width, view.viewport.height);
+                renderer.render(view.scene, view.camera);
+            });
             return;
         }
         this.view.scene.children = this.view.scene.children.splice(0, 2);

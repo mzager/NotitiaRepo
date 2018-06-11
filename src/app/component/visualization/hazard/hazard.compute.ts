@@ -49,9 +49,9 @@ export const hazardCompute = (config: HazardConfigModel, worker: DedicatedWorker
         const patients = results[1];
 
         // Extract Events And Times From Patient Data
-        const e = patients.map(v => (v.vital_status === 'dead') ? 1 : 0);
-        const t = patients.map(v => (v.vital_status === 'dead') ?
-            v.days_to_death : v.days_to_last_follow_up)
+        const e = patients.map(v => (v.vital_status === 'dead' || v.vital_status === 1) ? 1 : 0);
+        const t = patients.map(v => (v.vital_status === 'dead' || v.vital_status === 1) ?
+            v.days_to_death : (v.days_to_last_follow_up === undefined) ? v.days_to_last_followup : v.days_to_last_follow_up)
             .map(v => (v === null) ? 1 : Math.max(1, v));
         const p = patients.map((v, i) => ({ p: v.p, e: e[i], t: t[i] }));
 
