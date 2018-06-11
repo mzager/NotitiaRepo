@@ -1,6 +1,6 @@
 <form [formGroup]='form' novalidate>
     <mat-form-field class='form-field'>
-        <mat-select placeholder='Align By' formControlName='align'>
+        <mat-select placeholder='Align By' formControlName='align' [compareWith]='byLabel'>
             <mat-optgroup *ngFor='let group of eventGroups' [label]='group.label'>
                 <mat-option *ngFor='let evt of group.events' [value]='evt.label'>
                     {{ evt.label }}
@@ -9,7 +9,7 @@
         </mat-select>
     </mat-form-field>
     <mat-form-field class='form-field'>
-        <mat-select placeholder='Sort By' formControlName='sort'>
+        <mat-select placeholder='Sort By' formControlName='sort' [compareWith]='byLabel'>
             <mat-optgroup *ngFor='let group of sortOptions' [label]='group.label'>
                 <mat-option *ngFor='let item of group.items' [value]='item'>
                     {{ item.label }}
@@ -18,7 +18,7 @@
         </mat-select>
     </mat-form-field>
     <mat-form-field class='form-field'>
-        <mat-select placeholder='Group By' formControlName='group'>
+        <mat-select placeholder='Group By' formControlName='group' [compareWith]='byLabel'>
             <mat-optgroup *ngFor='let group of groupOptions' [label]='group.label'>
                 <mat-option *ngFor='let item of group.items' [value]='item'>
                     {{ item.label }}

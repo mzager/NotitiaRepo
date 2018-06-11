@@ -176,7 +176,7 @@ export class GenomeGraph extends AbstractVisualization {
 
         ChartFactory.decorateDataGroups(this.meshes, this.decorators, this.renderer);
         this.points = this.meshes.map(v => {
-            v.children[0].userData.tooltip = v.userData.tooltip + "!!!!!";
+            v.children[0].userData.tooltip = v.userData.tooltip;
             return v.children[0];
         });
         this.tooltipController.targets = this.bands.concat(this.points);
