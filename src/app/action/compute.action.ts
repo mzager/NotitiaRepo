@@ -158,10 +158,11 @@ export const COMPUTE_GRAPH_SHAPE_COMPLETE = '[Compute] Graph Shape Complete';
 export const COMPUTE_DECORATOR_ADD = '[Compute] Decorator Add';
 export const COMPUTE_DECORATOR_DEL = '[Compute] Decorator Del';
 export const COMPUTE_DECORATOR_UPDATE = '[Compute] Decorator Update';
-export const SELECT_SAMPLES = '[Compute] Select Samples';
-export const SELECT_SAMPLES_COMPLETE = '[Compute] Select Samples Complete';
-export const SELECT_MARKERS = '[Compute] Select Markers';
-export const SELECT_MARKERS_COMPLETE = '[Compute] Select Markers Complete';
+export const COMPUTE_SELECT_SAMPLES = '[Compute] Select Samples';
+export const COMPUTE_SELECT_SAMPLES_COMPLETE = '[Compute] Select Samples Complete';
+export const COMPUTE_SELECT_MARKERS = '[Compute] Select Markers';
+export const COMPUTE_SELECT_MARKERS_COMPLETE = '[Compute] Select Markers Complete';
+export const COMPUTE_SELECT_HIDE = '[Compute] Select Hide';
 
 export class NullDataAction implements Action {
     readonly type = 'NULL';
@@ -554,20 +555,24 @@ export class GraphSizeCompleteAction implements Action {
     constructor(public payload: { graph: GraphEnum, data: any }) { }
 }
 export class SelectSamplesAction implements Action {
-    readonly type: string = SELECT_SAMPLES;
+    readonly type: string = COMPUTE_SELECT_SAMPLES;
     constructor(public payload: { samples: Array<string> }) { }
 }
 export class SelectSamplesCompleteAction implements Action {
-    readonly type: string = SELECT_SAMPLES_COMPLETE;
+    readonly type: string = COMPUTE_SELECT_SAMPLES_COMPLETE;
     constructor(public payload: { selection: ChartSelection, stats: string }) { }
 }
 export class SelectMarkersAction implements Action {
-    readonly type: string = SELECT_MARKERS;
+    readonly type: string = COMPUTE_SELECT_MARKERS;
     constructor(public payload: { markers: Array<string> }) { }
 }
 export class SelectMarkersCompleteAction implements Action {
-    readonly type: string = SELECT_MARKERS_COMPLETE;
+    readonly type: string = COMPUTE_SELECT_MARKERS_COMPLETE;
     constructor(public payload: { selection: ChartSelection, stats: string }) { }
+}
+export class SelectHideAction implements Action {
+    readonly type: string = COMPUTE_SELECT_HIDE;
+    constructor(public payload: {}) { }
 }
 
 // Action Type
@@ -615,4 +620,5 @@ export type Actions =
     GraphColorAction | GraphShapeAction | GraphSizeAction |
     GraphColorCompleteAction | GraphShapeCompleteAction | GraphSizeCompleteAction |
     SelectSamplesAction | SelectSamplesCompleteAction |
-    SelectMarkersAction | SelectMarkersCompleteAction;
+    SelectMarkersAction | SelectMarkersCompleteAction |
+    SelectHideAction;

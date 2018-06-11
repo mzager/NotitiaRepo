@@ -1,5 +1,5 @@
 import { EntityTypeEnum } from './../model/enum.model';
-import { SELECT_SAMPLES_COMPLETE, SELECT_MARKERS_COMPLETE } from './../action/compute.action';
+import { COMPUTE_SELECT_SAMPLES_COMPLETE, COMPUTE_SELECT_MARKERS_COMPLETE, COMPUTE_SELECT_HIDE } from './../action/compute.action';
 import { UnsafeAction } from './../action/unsafe.action';
 import { ChartSelection } from './../model/chart-selection.model';
 
@@ -17,12 +17,15 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: UnsafeAction): State {
     switch (action.type) {
-        case SELECT_SAMPLES_COMPLETE:
+        case COMPUTE_SELECT_SAMPLES_COMPLETE:
             return Object.assign({}, state,
                 { selection: action.payload.selection, stats: action.payload.stats, visible: true });
-        case SELECT_MARKERS_COMPLETE:
+        case COMPUTE_SELECT_MARKERS_COMPLETE:
             return Object.assign({}, state,
                 { selection: action.payload.selection, stats: action.payload.stats, visible: true });
+        case COMPUTE_SELECT_HIDE:
+            return Object.assign({}, state,
+                { selection: { type: EntityTypeEnum.NONE, ids: [] }, stats: [], visible: false });
         default:
             return state;
     }

@@ -1,13 +1,9 @@
-import { EntityTypeEnum } from 'app/model/enum.model';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ChartSelection } from './../../../model/chart-selection.model';
-import {
-    AfterViewInit, ChangeDetectionStrategy, Component,
-    ViewEncapsulation, Input, ChangeDetectorRef,
-    ViewChild, ViewContainerRef
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, ViewEncapsulation, EventEmitter, Output } from '@angular/core';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { EntityTypeEnum } from 'app/model/enum.model';
 import { StatVegaFactory } from '../../../service/stat.vega.factory';
+import { ChartSelection } from './../../../model/chart-selection.model';
 declare var $: any;
 @Component({
     selector: 'app-workspace-selection-panel',
@@ -20,13 +16,16 @@ export class SelectionPanelComponent implements OnDestroy {
 
     // @ViewChild('chartContainer', { read: ViewContainerRef }) chartContainer: ViewContainerRef;
 
+    @Output() hide = new EventEmitter<any>();
+    @Output() save = new EventEmitter<any>();
+
     container: any;
     statVegaFactory: StatVegaFactory;
     _selection: ChartSelection = { type: EntityTypeEnum.NONE, ids: [] };
     _stats: Array<any> = [];
     form: FormGroup;
     closeClick(): void {
-        alert('close');
+        this.hide.emit();
     }
     @Input() set selection(value: ChartSelection) {
         if (value === null) { return; }
@@ -39,13 +38,7 @@ export class SelectionPanelComponent implements OnDestroy {
         this._stats = value;
     }
     ngOnDestroy(): void {
-        // throw new Error("Method not implemented.");
     }
-    // ngAfterViewInit(): void {
-    //     alert('hi');
-    //     this.container = $(this.chartContainer.element.nativeElement);
-    //     this.statVegaFactory = StatVegaFactory.getInstance();
-    // }
     constructor(public fb: FormBuilder, public cd: ChangeDetectorRef) {
         this.form = fb.group({
             selectionName: [null, Validators.required]
