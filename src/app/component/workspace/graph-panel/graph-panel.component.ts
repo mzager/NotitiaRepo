@@ -101,7 +101,11 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
 
   get decoratorsWithLegends(): Array<DataDecorator> {
     const edges = this.edgeDecorators.filter(v => v.legend);
-    edges.forEach(v => { v.legend.name = 'Edge // ' + v.legend.name; });
+    edges.forEach(v => {
+      if (v.legend.name.indexOf('Edge //') === -1) {
+        v.legend.name = 'Edge // ' + v.legend.name;
+      }
+    });
     return edges.concat(this.decorators.filter(v => v.legend));
   }
   @Input() decorators: Array<DataDecorator>;

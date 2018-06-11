@@ -129,11 +129,11 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
             events: patients[key]
         }));
         if (config.sort.label !== 'None') {
-            patients = patients.filter(p => p.sort !== null);
+            // patients = patients.filter(p => p.sort !== null);
             patients = patients.sort((a, b) => b.sort - a.sort);
         }
         if (config.group.label !== 'None') {
-            patients = patients.filter(p => p.group !== null);
+            // patients = patients.filter(p => p.group !== null);
             patients = _.groupBy(patients, 'group');
             patients = Object.keys(patients).reduce((p, c) => p.concat(patients[c]), []);
         }
