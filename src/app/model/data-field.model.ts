@@ -8,8 +8,9 @@ export class DataFieldFactory {
 
   public static defaultDataField: DataField = DataFieldFactory.getUndefined();
   public static getMolecularLabelOptions(tables: Array<DataTable>): Array<DataField> {
-    const lbls = DataFieldFactory.getMolecularColorFields(tables);
+    let lbls = DataFieldFactory.getMolecularColorFields(tables);
     lbls.splice(1, 0, DataFieldFactory.getGeneId());
+    lbls = lbls.filter(v => !(v.key === 'Mean' || v.key === 'Minimum' || v.key === 'Maximum'));
     return lbls;
   }
   public static getConnectionColorFields(
