@@ -86,27 +86,27 @@
     }
   ],
   "citations": [{
-      "name": "Visualizing High-Dimensional Data Using t-SNE",
+      "name": "[1] Visualizing High-Dimensional Data Using t-SNE",
       "desc": "van der Maaten, L.J.P.; Hinton, G.E. Visualizing High-Dimensional Data Using t-SNE. Journal of Machine Learning Research 9:2579-2605, 2008.",
       "url": "http://www.jmlr.org/papers/volume9/vandermaaten08a/vandermaaten08a.pdf"
     },
     {
-      "name": "t-Distributed Stochastic Neighbor Embedding",
+      "name": "[2] t-Distributed Stochastic Neighbor Embedding",
       "desc": "van der Maaten, L.J.P. t-Distributed Stochastic Neighbor Embedding",
       "url": "http://lvdmaaten.github.io/tsne/"
     },
     {
-      "name": "Accelerating t-SNE using Tree-Based Algorithms",
+      "name": "[3] Accelerating t-SNE using Tree-Based Algorithms",
       "desc": "L.J.P. van der Maaten. Accelerating t-SNE using Tree-Based Algorithms. Journal of Machine Learning Research 15(Oct):3221-3245, 2014.",
       "url": "http://lvdmaaten.github.io/publications/papers/JMLR_2014.pdf"
     },
     {
-      "name": "Scikit-learn: Machine Learning in Python",
+      "name": "[4] Scikit-learn: Machine Learning in Python",
       "desc": "Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.",
       "url": "http://www.jmlr.org/papers/volume12/pedregosa11a/pedregosa11a.pdf"
     },
     {
-      "name": "API design for machine learning software: experiences from the scikit-learn project",
+      "name": "[5] API design for machine learning software: experiences from the scikit-learn project",
       "desc": "API design for machine learning software: experiences from the scikit-learn project, Buitinck et al., 2013.",
       "url": "http://www.di.ens.fr/sierra/pdfs/icml09.pdf"
     }
