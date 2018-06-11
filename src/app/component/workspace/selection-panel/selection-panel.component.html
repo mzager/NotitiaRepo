@@ -8,7 +8,7 @@
         </div>
         <div style='width:229px;padding-left:20px;display: inline-block;vertical-align: top;border: solid 0px #EEE; border-left-width: 1px;'>
             To save this selection as a cohort, specify a name and click create.
-            <form [formGroup]="form">
+            <form [formGroup]="form" (submit)='submit()'>
                 <mat-form-field>
                     <input matInput placeholder="Name" formControlName='selectionName' autocomplete='email'>
                     <!-- <mat-error *ngIf="form.controls['selectionName'].hasError( 'required') ">Required</mat-error> -->

@@ -77,8 +77,6 @@ export class GenomeGraph extends AbstractVisualization {
         if (this.chromosomes.length === 0) { this.addChromosomes(); }
         if (this.config.showTads) { this.addTads(); }
         this.addGenes();
-
-
         ChartFactory.configPerspectiveOrbit(this.view,
             new THREE.Box3(
                 new THREE.Vector3(-200, -100, -5),
@@ -170,13 +168,17 @@ export class GenomeGraph extends AbstractVisualization {
             data.genes[chromosome].forEach(gene => {
                 const group = ChartFactory.createDataGroup(gene.gene, EntityTypeEnum.GENE,
                     new Vector3(xPos, gene.tss - centro, 0));
+                group.userData.tooltip = gene.gene;
                 this.meshes.push(group);
                 this.view.scene.add(group);
             });
         });
 
         ChartFactory.decorateDataGroups(this.meshes, this.decorators, this.renderer);
-        this.points = this.meshes.map(v => v.children[0]);
+        this.points = this.meshes.map(v => {
+            v.children[0].userData.tooltip = v.userData.tooltip + "!!!!!";
+            return v.children[0];
+        });
         this.tooltipController.targets = this.bands.concat(this.points);
     }
     removeChromosomes() {
