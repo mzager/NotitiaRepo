@@ -16,12 +16,9 @@ const _pointShape: Array<number> = [];
 export const svdCompute = (config: SvdConfigModel): Promise<any> => {
 
     // return new Promise(function (resolve: any, reject: any) {
-
     //     util.loadData(config.dataKey).then((data) => {
-
     //         const legendItems: Array<Legend> = [];
     //         const molecularData = data.molecularData[0];
-
     //         let matrix = molecularData.data;
     //         if (config.markerFilter.length > 0) {
     //             const genesOfInterest = molecularData.markers
@@ -29,12 +26,10 @@ export const svdCompute = (config: SvdConfigModel): Promise<any> => {
     //                 .filter(v => v !== -1);
     //             matrix = genesOfInterest.map(v => molecularData.data[v.i]);
     //         }
-
     //         const pointColor: { legend: Legend, value: number[] } = util.createPatientColorMap(data, config.pointColor);
     //         const pointSize: { legend: Legend, value: number[] } = util.createPatientSizeMap(data, config.pointSize);
     //         const pointShape: { legend: Legend, value: number[] } = util.createPatientShapeMap(data, config.pointShape);
     //         legendItems.push(pointColor.legend, pointSize.legend, pointShape.legend);
-
     //         resolve({
     //             config: config,
     //             data: {
@@ -46,7 +41,6 @@ export const svdCompute = (config: SvdConfigModel): Promise<any> => {
     //                 markerIds: util.createMarkerMap(molecularData)
     //             }
     //         });
-
     //     }, (e) => reject());
     // });
     return null;

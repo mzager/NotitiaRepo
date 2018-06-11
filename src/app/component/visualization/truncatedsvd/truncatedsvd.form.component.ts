@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
-import { TruncatedSvdAlgorithem, TruncatedSvdConfigModel } from './truncatedsvd.model';
+import { TruncatedSvdAlgorithm, TruncatedSvdConfigModel } from './truncatedsvd.model';
 
 @Component({
   selector: 'app-truncatedsvd-form',
@@ -19,9 +19,9 @@ export class TruncatedSvdFormComponent extends AbstractScatterForm {
     }
   }
 
-  TruncatedSvdAlgorithemOptions = [
-    TruncatedSvdAlgorithem.RANDOMIZED,
-    TruncatedSvdAlgorithem.ARPACK
+  TruncatedSvdAlgorithmOptions = [
+    TruncatedSvdAlgorithm.RANDOMIZED,
+    // TruncatedSvdAlgorithm.ARPACK
   ];
 
   constructor(private fb: FormBuilder) {
