@@ -21,11 +21,12 @@ export class DictionaryLearningFormComponent extends AbstractScatterForm {
     }
   }
 
-  fitAlgorithemOptions = [
-    DictionaryLearningFitAlgorithm.CD, DictionaryLearningFitAlgorithm.LARS
+  fitAlgorithmOptions = [
+    DictionaryLearningFitAlgorithm.CD,
+    // DictionaryLearningFitAlgorithm.LARS
   ];
 
-  transformAlgorithemOptions = [
+  transformAlgorithmOptions = [
     DictionaryLearningTransformAlgorithm.LASSO_LARS,
     DictionaryLearningTransformAlgorithm.LASSO_CD,
     DictionaryLearningTransformAlgorithm.LARS,
