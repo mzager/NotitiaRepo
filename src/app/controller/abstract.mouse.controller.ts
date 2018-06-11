@@ -62,11 +62,21 @@ export class AbstractMouseController {
 
     public destroy(): void {
         this._events = null;
-        this._keyUpSubscription.unsubscribe();
-        this._keyDownSubscription.unsubscribe();
-        this._mouseUpSubscription.unsubscribe();
-        this._mouseDownSubscription.unsubscribe();
-        this._mouseMoveSubscription.unsubscribe();
+        try {
+            this._keyUpSubscription.unsubscribe();
+        } catch (e) { }
+        try {
+            this._keyDownSubscription.unsubscribe();
+        } catch (e) { }
+        try {
+            this._mouseUpSubscription.unsubscribe();
+        } catch (e) { }
+        try {
+            this._mouseDownSubscription.unsubscribe();
+        } catch (e) { }
+        try {
+            this._mouseMoveSubscription.unsubscribe();
+        } catch (e) { }
         this._targets = null;
     }
 
