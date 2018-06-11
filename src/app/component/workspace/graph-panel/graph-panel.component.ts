@@ -100,9 +100,12 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
 
 
   get decoratorsWithLegends(): Array<DataDecorator> {
-    return this.decorators.filter(v => v.legend);
+    const edges = this.edgeDecorators.filter(v => v.legend);
+    edges.forEach(v => { v.legend.name = 'Edge // ' + v.legend.name; });
+    return edges.concat(this.decorators.filter(v => v.legend));
   }
   @Input() decorators: Array<DataDecorator>;
+  @Input() edgeDecorators: Array<DataDecorator> = [];
   @Input() data: GraphData;
   @Input() genesets: Array<any>;
   @Input() cohorts: Array<any>;

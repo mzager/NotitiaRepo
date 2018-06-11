@@ -49,7 +49,7 @@ export const edgesCompute = (config: EdgeConfigModel, worker: DedicatedWorkerGlo
                 resolve([...cfg.markerFilterA].filter(x => b.has(x)).map(g => ({
                     a: g,
                     b: g,
-                    c: 0xFF0000,
+                    c: 0x81d4fa,
                     i: null
                 })));
             });
@@ -69,7 +69,7 @@ export const edgesCompute = (config: EdgeConfigModel, worker: DedicatedWorkerGlo
                         const data = result.map(v => ({
                             a: (cfg.entityA === EntityTypeEnum.GENE) ? v.m : v.s,
                             b: (cfg.entityB === EntityTypeEnum.GENE) ? v.m : v.s,
-                            c: 0xFF0000,
+                            c: 0x81d4fa,
                             i: null
                         }));
                         resolve(data);
