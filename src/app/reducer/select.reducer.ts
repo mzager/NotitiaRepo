@@ -1,32 +1,36 @@
-import * as select from 'app/action/select.action';
-import * as e from 'app/model/enum.model';
-import { SELECT_GRAPH_COMPLETE } from './../action/select.action';
+import { EntityTypeEnum } from './../model/enum.model';
+import { COMPUTE_SELECT_SAMPLES_COMPLETE, COMPUTE_SELECT_MARKERS_COMPLETE, COMPUTE_SELECT_HIDE } from './../action/compute.action';
 import { UnsafeAction } from './../action/unsafe.action';
-import { GraphConfig } from './../model/graph-config.model';
+import { ChartSelection } from './../model/chart-selection.model';
 
 export interface State {
-    selectedTool: e.ToolEnum;
-    selectedGraph: e.GraphEnum;
-    selectedConfig: GraphConfig;
+    visible: boolean;
+    selection: ChartSelection;
+    stats: Array<any>;
 }
 
 const initialState: State = {
-    selectedTool: e.ToolEnum.MOVE,
-    selectedGraph: e.GraphEnum.GRAPH_A,
-    selectedConfig: null
+    visible: false,
+    selection: { type: EntityTypeEnum.NONE, ids: [] },
+    stats: []
 };
 
 export function reducer(state = initialState, action: UnsafeAction): State {
     switch (action.type) {
-        case select.SELECT_TOOL:
-            return Object.assign({}, state, { selectedTool: action.payload });
-        case SELECT_GRAPH_COMPLETE:
-            return Object.assign({}, state, { selectedGraph: action.payload.graph, selectedConfig: action.payload.config });
+        case COMPUTE_SELECT_SAMPLES_COMPLETE:
+            return Object.assign({}, state,
+                { selection: action.payload.selection, stats: action.payload.stats, visible: true });
+        case COMPUTE_SELECT_MARKERS_COMPLETE:
+            return Object.assign({}, state,
+                { selection: action.payload.selection, stats: action.payload.stats, visible: true });
+        case COMPUTE_SELECT_HIDE:
+            return Object.assign({}, state,
+                { selection: { type: EntityTypeEnum.NONE, ids: [] }, stats: [], visible: false });
         default:
             return state;
     }
 }
 
-export const getSelectedTool = (state: State) => state.selectedTool;
-export const getSelectedGraph = (state: State) => state.selectedGraph;
-export const getSelectedConfig = (state: State) => state.selectedConfig;
+export const getVisible = (state: State) => state.visible;
+export const getSelection = (state: State) => state.selection;
+export const getStats = (state: State) => state.stats;

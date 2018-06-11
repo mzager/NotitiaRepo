@@ -293,7 +293,49 @@ body .mat-button-focus-overlay {
   }
 }
 
+.modalCloseSmall {
+  $size: 20px;
+  height: $size;
+  width: $size;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  box-sizing: border-box;
+  line-height: $size;
+  display: inline-block;
+  color: black;
+  &:before,
+  &:after {
+    $width: 20px;
+    $height: 2px;
+    transform: rotate(-45deg);
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -$height/2;
+    margin-left: -$width/2;
+    display: block;
+    height: $height;
+    width: $width;
+    background-color: mat-color($primary);
+    transition: all 0.25s ease-out;
+  }
+  &:after {
+    transform: rotate(-135deg);
+  }
+  &:hover {
+    &:before,
+    &:after {
+      transform: rotate(0deg);
+    }
+  }
+}
+
 // Main Themes XS 
+.panel { 
+
+}
 .panel {
   position: absolute;
   left: 0px;
@@ -308,12 +350,6 @@ body .mat-button-focus-overlay {
   z-index: 1;
 }
 
-.panel-header {
-  padding: 0px;
-  margin-bottom: 5px !important;
-  line-height: 10px;
-  letter-spacing: 2px;
-}
 
 .panel-sub-header {
   padding: 0px;
@@ -326,11 +362,14 @@ body .mat-button-focus-overlay {
   line-height: 22px !important;
   ;
 }
-
+.panel-header {
+  padding-bottom: 0px;
+  margin-bottom: 10px;
+}
 .panel-header-desc {
   padding: 0px;
   margin: 0px;
-  padding-top: 5px !important;
+  padding-top: 0px !important;
   margin-bottom: 10px !important;
 }
 
