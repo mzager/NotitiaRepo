@@ -306,7 +306,7 @@ body .mat-button-focus-overlay {
   color: black;
   &:before,
   &:after {
-    $width: 50px;
+    $width: 20px;
     $height: 2px;
     transform: rotate(-45deg);
     content: '';
