@@ -341,7 +341,6 @@ export class ComputeWorkerUtil {
     getPatients(samples: Array<string>, db: string, tbl: string): Promise<any> {
         return new Promise((resolve, reject) => {
             this.openDatabaseData(db).then(v => {
-                console.log('Filter by Seleted Patients / Samples');
                 this.dbData.table(tbl).toArray().then(_patients => {
                     resolve(_patients);
                 });

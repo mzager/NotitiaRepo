@@ -38,7 +38,6 @@ export class StatFactory {
                             stats: cohortStat
                         }
                     ));
-                    console.log(results);
                     resolve(results);
                 });
             });
