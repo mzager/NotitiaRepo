@@ -7,25 +7,25 @@
   </div>
   <div class="feedback-container">
     <mat-form-field>
-      <input matInput placeholder="Name" autocomplete='off'>
+      <input matInput placeholder="Name" autocomplete='off' [(value)]='fbName'>
     </mat-form-field>
     <!-- fix email -->
-    <mat-form-field>
+    <!-- <mat-form-field>
       <input matInput placeholder="Email" autocomplete='off'>
     </mat-form-field>
     <mat-form-field>
       <input matInput placeholder="Institution" autocomplete='off'>
-    </mat-form-field>
+    </mat-form-field> -->
     <mat-form-field>
-      <mat-select placeholder="Choose One">
+      <mat-select placeholder="Choose One" [(value)]='fbType'>
         <mat-option value="option">General Inquiry</mat-option>
         <mat-option value="option">Developer Collaboration</mat-option>
         <mat-option value="option">Research Collaboration</mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field>
-      <textarea matInput placeholder="Comments" autocomplete='off'></textarea>
+      <textarea matInput placeholder="Comments" autocomplete='off' [(value)]='fbComments'></textarea>
     </mat-form-field>
   </div>
-  <button class='button' mat-raised-button>Send Message!</button>
+  <a class='button' mat-raised-button>Send Message!</a>
 </div>
