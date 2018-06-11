@@ -77,7 +77,7 @@ export class LegendPanelComponent implements AfterViewInit, OnDestroy {
     } else if (legend.type === 'SHAPE') {
       for (let i = 0; i < rv.values.length; i++) {
         if (!isNaN(rv.values[i])) {
-          legend.values[i] = './assets/shapes/shape-' + legend.values[i] + '-solid-legend.png';
+          legend.values[i] = 'https://oncoscape.v3.sttrcancer.org/assets/shapes/shape-' + legend.values[i] + '-solid-legend.png';
         }
       }
     }

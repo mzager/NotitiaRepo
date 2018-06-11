@@ -17,7 +17,8 @@ export class SelectionPanelComponent implements OnDestroy {
     // @ViewChild('chartContainer', { read: ViewContainerRef }) chartContainer: ViewContainerRef;
 
     @Output() hide = new EventEmitter<any>();
-    @Output() save = new EventEmitter<any>();
+    @Output() saveCohort = new EventEmitter<any>();
+    @Output() saveGeneset = new EventEmitter<any>();
 
     container: any;
     statVegaFactory: StatVegaFactory;
@@ -25,6 +26,17 @@ export class SelectionPanelComponent implements OnDestroy {
     _stats: Array<any> = [];
     form: FormGroup;
     closeClick(): void {
+        this.hide.emit();
+    }
+    submit(): void {
+        if (this.form.status === 'INVALID') { return; }
+        const payload = { name: this.form.get('selectionName').value, selection: this._selection };
+        if (this._selection.type === EntityTypeEnum.SAMPLE) {
+            this.saveCohort.emit(payload);
+        }
+        if (this._selection.type === EntityTypeEnum.GENE) {
+            this.saveGeneset.emit(payload);
+        }
         this.hide.emit();
     }
     @Input() set selection(value: ChartSelection) {
