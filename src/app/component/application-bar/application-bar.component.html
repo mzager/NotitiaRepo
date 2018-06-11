@@ -1,9 +1,14 @@
 <div class='application-bar-menu'>
   <span class='application-bar-buttons'>
 
-    <span *ngIf='datasetSelected' class='application-bar-button' (click)='onSplitScreenChange()'>
+
+    <span *ngIf='datasetSelected' class='application-bar-button' (click)='onSplitScreenChange()' style='padding-right:20px;'>
       <mat-icon class='material-icons md-18' style='transform:translate(0px, 4px)'>tv</mat-icon>
       <span class='copy'>Split Screen</span>
+    </span>
+    <span *ngIf='datasetSelected' class='application-bar-button' (click)='toggleBackgroundColor()' style='padding-right:20px;'>
+      <mat-icon class='material-icons md-18' style='transform:translate(0px, 4px)'>invert_colors</mat-icon>
+      Invert Color
     </span>
     <mat-menu #appMenu="matMenu">
       <button mat-menu-item (click)='viewPanel(16384)'>Feedback</button>
@@ -12,7 +17,7 @@
       <!-- <button mat-menu-item (click)='toggleBackgroundColor()'>BG Color</button> -->
       <button *ngIf='datasetSelected' mat-menu-item (click)='reload()'>Data Sets</button>
     </mat-menu>
-    <span class='application-bar-menu-button' class='application-bar-button' style='padding-left:10px;' [matMenuTriggerFor]="appMenu">
+    <span class='application-bar-menu-button' class='application-bar-button' [matMenuTriggerFor]="appMenu">
       <mat-icon class='material-icons md-18 ' style='transform:translate(0px, 4px) '>more_vert</mat-icon>
     </span>
   </span>
