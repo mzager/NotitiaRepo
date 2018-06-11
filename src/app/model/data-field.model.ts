@@ -11,7 +11,6 @@ export class DataFieldFactory {
     let lbls = DataFieldFactory.getMolecularColorFields(tables);
     lbls.splice(1, 0, DataFieldFactory.getGeneId());
     lbls = lbls.filter(v => !(v.key === 'Mean' || v.key === 'Minimum' || v.key === 'Maximum'));
-    debugger;
     return lbls;
   }
   public static getConnectionColorFields(
