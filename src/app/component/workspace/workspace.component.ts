@@ -1,3 +1,4 @@
+import { ChartSelection } from './../../model/chart-selection.model';
 
 import { Store } from '@ngrx/store';
 import { HazardConfigModel } from './../visualization/hazard/hazard.model';
@@ -122,6 +123,10 @@ export class WorkspaceComponent {
   graphBDecorators: Observable<Array<DataDecorator>>;
   edgeDecorators: Observable<Array<DataDecorator>>;
 
+  selectVisible: Observable<boolean>;
+  selectSelection: Observable<ChartSelection>;
+  selectStats: Observable<Array<any>>;
+
   edgeConfig: Observable<EdgeConfigModel>;
   edgeLegend: Observable<Array<Legend>>;
   $configChangeA: Subscription;
@@ -165,12 +170,16 @@ export class WorkspaceComponent {
     this.graphBDecorators = store.select(fromRoot.getGraphBDecorators);
     this.edgeDecorators = store.select(fromRoot.getEdgeDecorators);
 
+    this.selectVisible = store.select(fromRoot.getSelectVisible);
+    this.selectSelection = store.select(fromRoot.getSelectSelection);
+    this.selectStats = store.select(fromRoot.getSelectStats);
+
     this.tables = store.select(fromRoot.getTables);
     this.fields = store.select(fromRoot.getFields);
     this.events = store.select(fromRoot.getEvents);
   }
 
-  select(selection: { type: EntityTypeEnum, ids: Array<string> }): void {
+  select(selection: ChartSelection): void {
     switch (selection.type) {
       case EntityTypeEnum.SAMPLE:
         this.store.dispatch(new compute.SelectSamplesAction({ samples: selection.ids }));
@@ -180,9 +189,9 @@ export class WorkspaceComponent {
         break;
     }
   }
-  uploadExcel(): void {
-    alert('upload a file');
-  }
+  // uploadExcel(): void {
+  //   alert('upload a file');
+  // }
   // fileOpen(value: DataTransfer) {
   //   this.store.dispatch(new data.DataLoadFromFileAction(value));
   // }

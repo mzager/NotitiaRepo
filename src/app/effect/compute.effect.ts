@@ -1,3 +1,4 @@
+import { EntityTypeEnum } from 'app/model/enum.model';
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -36,27 +37,38 @@ export class ComputeEffect {
         });
     });
 
-  // @Effect() selectMarkers: Observable<any> = this.actions$
-  //   .ofType(compute.SELECT_MARKERS)
-  //   .withLatestFrom(this.store$)
-  //   .switchMap((value: [any, State], index: number) => {
-  //     const markers = value[0].payload.markers;
-  //     return [
-  //       this.visualizationToComputeAction(Object.assign({}, value[1].graphA.config, { markerFilter: markers })),
-  //       this.visualizationToComputeAction(Object.assign({}, value[1].graphB.config, { markerFilter: markers }))
-  //     ];
-  //   });
+  @Effect() selectMarkers: Observable<any> = this.actions$
+    .ofType(compute.SELECT_MARKERS)
+    .map((action: UnsafeAction) => action.payload)
+    .withLatestFrom(this.store$)
+    .switchMap((value: [any, State], index: number) => {
+      const markerIds = value[0].markers;
+      const database = value[1].graphA.config.database;
+      return Observable.fromPromise(this.dataService.getMarkerStats(database, markerIds))
+        .mergeMap(data => {
+          return [
+            new compute.SelectSamplesCompleteAction({ selection: { ids: value[0].markers, type: EntityTypeEnum.SAMPLE }, stats: data })
+          ];
+        });
+    });
 
-  // @Effect() selectSamples: Observable<any> = this.actions$
-  //   .ofType(compute.SELECT_SAMPLES)
-  //   .withLatestFrom(this.store$)
-  //   .switchMap((value: [any, State], index: number) => {
-  //     const samples = value[0].payload.samples;
-  //     return [
-  //       this.visualizationToComputeAction(Object.assign({}, value[1].graphA.config, { sampleFilter: samples })),
-  //       this.visualizationToComputeAction(Object.assign({}, value[1].graphB.config, { sampleFilter: samples }))
-  //     ];
-  //   });
+  @Effect() selectSamples: Observable<any> = this.actions$
+    .ofType(compute.SELECT_SAMPLES)
+    .map((action: UnsafeAction) => action.payload)
+    .withLatestFrom(this.store$)
+    .switchMap((value: [any, State], index: number) => {
+      const sampleIds = value[0].samples;
+      const database = value[1].graphA.config.database;
+      return Observable.fromPromise(this.dataService.getPatientIdsWithSampleIds(database, sampleIds))
+        .switchMap(patientIds => {
+          return Observable.fromPromise(this.dataService.getPatientStatsText(database, patientIds, sampleIds))
+            .mergeMap(data => {
+              return [
+                new compute.SelectSamplesCompleteAction({ selection: { ids: value[0].samples, type: EntityTypeEnum.SAMPLE }, stats: data })
+              ];
+            });
+        });
+    });
 
   // @Effect() edgeChange: Observable<any> = this.actions$
   //   .ofType(compute.)

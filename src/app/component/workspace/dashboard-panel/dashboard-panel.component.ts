@@ -7,9 +7,10 @@ import { GraphConfig } from './../../../model/graph-config.model';
 import { DataService } from './../../../service/data.service';
 import { StatFactory } from './../../../service/stat.factory';
 import { StatVegaFactory } from './../../../service/stat.vega.factory';
+import { ChartTypeEnum } from '../../../model/enum.model';
 declare var $: any;
-declare var vega: any;
-declare var vegaTooltip: any;
+// declare var vega: any;
+// declare var vegaTooltip: any;
 
 @Component({
     selector: 'app-workspace-dashboard-panel',
@@ -33,7 +34,6 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
         this._config = value;
         if (this.container === undefined) { return; }
         this.drawStats();
-
     }
 
     drawStats(): void {
@@ -44,17 +44,16 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
         ]).then(results => {
             const allResults = results.reduce((p, c) => p.concat(...c), []);
             allResults.forEach(result => {
-
                 // TODO : Need to figure out what's wrong with the data for year of death.
                 result.stats = result.stats.filter(v => v.name !== 'year of death');
-                const id = 'cc' + Math.random().toString(36).substring(7);
+                // const id = 'cc' + Math.random().toString(36).substring(7);
                 // tslint:disable-next-line:max-line-length
                 const cohortDiv = this.container.append('<div style="font-size:2rem; font-weight: 300; margin-bottom:20px; margin-top:10px;">' + result.cohort.n + '</div>');
                 result.stats.forEach(stat => {
                     const id2 = 'cc' + Math.random().toString(36).substring(7);
                     const div = cohortDiv.append('<div id="' + id2 +
                         '" style="display:inline-block;padding-bottom:40px;padding-right:20px;"></div>');
-                    this.statVegaFactory.drawChartObject(stat, stat.charts[0], id2, div);
+                    this.statVegaFactory.drawChartObject(stat, ChartTypeEnum.HISTOGRAM, id2, div);
                 });
             });
             // console.log(results);

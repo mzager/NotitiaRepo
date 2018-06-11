@@ -1,5 +1,5 @@
 .graphPanel {
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: visible;
     position: absolute;
     top: 0px;
@@ -12,7 +12,7 @@
 .graphPanelExpanded {
     width: 267px;
     border: 0px solid #eee;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
     -webkit-transition: width .3s;
     transition: width .3s;

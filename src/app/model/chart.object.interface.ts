@@ -1,3 +1,4 @@
+import { ChartSelection } from './chart-selection.model';
 import { EventEmitter } from '@angular/core';
 import { GraphEnum } from 'app/model/enum.model';
 import * as THREE from 'three';
@@ -11,7 +12,7 @@ export interface ChartObjectInterface {
     meshes: Array<THREE.Object3D>;
     decorators: Array<DataDecorator>;
     onRequestRender: EventEmitter<GraphEnum>;
-    onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>;
+    onSelect: EventEmitter<ChartSelection>;
     onConfigEmit: EventEmitter<{ type: GraphConfig }>;
     enable(truthy: Boolean);
     updateDecorator(config: GraphConfig, decorators: Array<DataDecorator>);

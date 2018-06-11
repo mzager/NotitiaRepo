@@ -1,6 +1,6 @@
-import { EventEmitter } from '@angular/core';
 import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
 import { GraphData } from 'app/model/graph-data.model';
+import { Subscription } from 'rxjs';
 import * as THREE from 'three';
 import { Vector3 } from 'three';
 import { LabelController, LabelOptions } from '../../controller/label/label.controller';
@@ -26,10 +26,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     private lines: Array<THREE.Line>;
     private points: Array<THREE.Object3D>;
     protected selectionController: SelectionController;
-
-    public get onSelection(): EventEmitter<ChartSelection> {
-        return this.selectionController.onSelection;
-    }
 
 
     // Private Subscriptions
@@ -115,7 +111,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
                 this.view.renderer.domElement.style.setProperty('cursor', 'crosshair');
                 this.view.controls.enabled = false;
                 this.tooltipController.enable = false;
-                this.selectionController.setup(this.config, this.onRequestRender, this.points);
+                this.selectionController.setup(this.config, this.onRequestRender, this.onSelect, this.points);
                 this.selectionController.enable = true;
             }
         }
