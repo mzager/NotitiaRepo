@@ -95,7 +95,6 @@ export class SvdGraph implements ChartObjectInterface {
 
         // const weightLength = this.data.loadingsScaled.length;
         // const layoutLength = this.data.eigenvectorsScaled.length;
-
         // if (this.config.showVectors) {
         //     const lineMaterial = new THREE.LineBasicMaterial({ color: 0x0091EA, linewidth: 2 });
         //     for (let i = 0; i < weightLength; i++) {
@@ -108,7 +107,6 @@ export class SvdGraph implements ChartObjectInterface {
         //         this.view.scene.add(line);
         //     }
         // }
-
         // for (let i = 0; i < layoutLength; i++) {
         //     const position = this.data.eigenvectorsScaled[i];
         //     let size = (i < sizeLength) ? this.data.pointSize[i] : 1;
