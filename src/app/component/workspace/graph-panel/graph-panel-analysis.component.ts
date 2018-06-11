@@ -32,8 +32,8 @@ import {
   <button mat-menu-item (click)='select.emit(4)'>T-SNE</button>
   </mat-menu>
   <mat-menu #analysisMatrixDecompositionMenu='matMenu'>
-  <!--<button mat-menu-item (click)='select.emit(16777216)'>Dictionary Learning</button>-->
-  <button mat-menu-item (click)='select.emit(34359738368)'>Dictionary Learning - Mini Batch</button>
+    <button mat-menu-item (click)='select.emit(16777216)'>Dictionary Learning</button>
+  <!--<button mat-menu-item (click)='select.emit(34359738368)'>Dictionary Learning - Mini Batch</button>-->
   <button mat-menu-item (click)='select.emit(65536)'>Factor Analysis</button>
   <button mat-menu-item (click)='select.emit(8388608)'>Fast ICA</button>
   <!--<button mat-menu-item (click)='select.emit(33554432)'>Latent Dirichlet Allocation</button>-->
@@ -42,7 +42,7 @@ import {
   <button mat-menu-item (click)='select.emit(262144)'>PCA - Incremental</button>
   <button mat-menu-item (click)='select.emit(524288)'>PCA - Kernel</button>
   <button mat-menu-item (click)='select.emit(1048576)'>PCA - Sparse</button>
-  <button mat-menu-item (click)='select.emit(68719476736)'>PCA - Sparse - Mini Batch</button>
+  <!--<button mat-menu-item (click)='select.emit(68719476736)'>PCA - Sparse - Mini Batch</button>
   <!--<button mat-menu-item (click)='select.emit(2199023255552)'>PCA - Sparse Coder</button>-->
   <button mat-menu-item (click)='select.emit(131072)'>Truncated SVD</button>
   </mat-menu>

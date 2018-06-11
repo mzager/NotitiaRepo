@@ -1,3 +1,4 @@
+import { SelectSaveSamplesAction, SelectSaveMarkersAction } from './../../action/compute.action';
 import { ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as compute from 'app/action/compute.action';
@@ -163,19 +164,16 @@ export class WorkspaceComponent {
     }
   }
 
-  saveSelection(event: any): void {
-    this.store.dispatch(new compute.SelectHideAction({}));
+  saveCohort(event: any): void {
+    this.store.dispatch(new compute.SelectSaveSamplesAction(event));
   }
+  saveGeneset(event: any): void {
+    this.store.dispatch(new compute.SelectSaveMarkersAction(event));
+  }
+
   hideSelectionPanel(): void {
     this.store.dispatch(new compute.SelectHideAction({}));
   }
-
-  // uploadExcel(): void {
-  //   alert('upload a file');
-  // }
-  // fileOpen(value: DataTransfer) {
-  //   this.store.dispatch(new data.DataLoadFromFileAction(value));
-  // }
 
   edgeConfigChange(value: EdgeConfigModel): void {
     this.store.dispatch(new compute.EdgesAction({ config: value }));

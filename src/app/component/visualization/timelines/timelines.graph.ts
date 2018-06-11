@@ -216,9 +216,12 @@ export class TimelinesGraph extends AbstractVisualization {
 
     addAttrs(rowHeight, rowCount, pidMap): void {
         const d = this.data;
+        const chartHeight = rowHeight * rowCount;
+        const chartHeightHalf = chartHeight * .5;
+
         this.data.result.attrs.pids.forEach((pid, pidIndex) => {
             const rowIndex = pidMap[pid];
-            const yPos = (rowHeight * rowIndex) - (rowHeight * -0.5);
+            const yPos = (rowHeight * rowIndex) - chartHeightHalf;// - (rowHeight * -0.5);
             this.data.result.attrs.attrs.forEach((attr, attrIndex) => {
                 const value = attr.values[pidIndex].label;
                 const col = attr.values[pidIndex].color;
@@ -291,6 +294,7 @@ export class TimelinesGraph extends AbstractVisualization {
         const rowCount = pts.length;
         const chartHeight = rowHeight * rowCount;
         const chartHeightHalf = chartHeight * .5;
+
         // Grid
         this.addLines(rowHeight, rowCount, chartHeight, chartHeightHalf);
 
@@ -315,7 +319,7 @@ export class TimelinesGraph extends AbstractVisualization {
             this.xAxis.push(
                 {
                     position: new THREE.Vector3(i, 0, 0),
-                    userData: { tooltip: scale.invert(i).toString() }
+                    userData: { tooltip: Math.round(scale.invert(i)).toString() }
                 }
             );
         }
