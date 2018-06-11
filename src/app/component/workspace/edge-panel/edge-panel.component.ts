@@ -161,30 +161,42 @@ export class EdgePanelComponent implements OnDestroy {
       }
     }
     const connectionType = ConnectionTypeEnum.createFromEntities(this.edgeConfig.entityA, this.edgeConfig.entityB);
+
     switch (connectionType) {
       case ConnectionTypeEnum.GENES_GENES:
+        this.showEdgeConnect = true;
         this.showEdgeColor = false;
         this.showEdgeGroup = false;
         break;
       case ConnectionTypeEnum.GENES_PATIENTS:
+        this.showEdgeConnect = true;
         this.showEdgeColor = true;
         this.showEdgeGroup = true;
         break;
       case ConnectionTypeEnum.GENES_SAMPLES:
+        this.showEdgeConnect = true;
         this.showEdgeColor = true;
         this.showEdgeGroup = true;
         break;
       case ConnectionTypeEnum.PATIENTS_PATIENTS:
+        this.showEdgeConnect = true;
         this.showEdgeColor = true;
         this.showEdgeGroup = true;
         break;
       case ConnectionTypeEnum.SAMPLES_SAMPLES:
+        this.showEdgeConnect = true;
         this.showEdgeColor = true;
         this.showEdgeGroup = true;
         break;
       case ConnectionTypeEnum.SAMPLES_PATIENTS:
+        this.showEdgeConnect = true;
         this.showEdgeColor = true;
         this.showEdgeGroup = true;
+        break;
+      default:
+        this.showEdgeConnect = false;
+        this.showEdgeColor = false;
+        this.showEdgeGroup = false;
         break;
     }
 

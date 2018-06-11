@@ -7,6 +7,7 @@
                                 <mat-error *ngIf="formGroupSignUp.controls['firstName'].hasError('required')">Required</mat-error>
                                 <!-- <mat-error *ngIf="formGroupSignUp.controls['firstName'].hasError('email')">Required</mat-error> -->
                         </mat-form-field>
+                        <br />
                         <mat-form-field>
                                 <input matInput placeholder="Password" formControlName='password' type='password' autocomplete='off'>
                                 <mat-error *ngIf="formGroupSignUp.controls['password'].hasError('required')">Required</mat-error>
