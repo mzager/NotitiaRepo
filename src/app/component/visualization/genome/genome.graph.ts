@@ -210,6 +210,8 @@ export class GenomeGraph extends AbstractVisualization {
             // debugger;
         } else {
             labelOptions = new LabelOptions(this.view, 'FORCE');
+            labelOptions.offsetX3d = -4;
+            // labelOptions.offsetY3d = 1;
             labelOptions.align = 'RIGHT';
             labelOptions.maxLabels = 500;
             // labelOptions.offsetX = -30;
