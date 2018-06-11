@@ -210,6 +210,8 @@ export class HazardGraph extends AbstractVisualization {
             optionsForPercents.fontsize = 10;
             optionsForTimes.fontsize = 10;
             this.labels.innerHTML =
+                '<div style="position:fixed;bottom:10px;left:50%; font-size: 15px;">Time (Days)</div>' +
+                '<div style="position:fixed;right:10px;top:50%; transform: rotate(90deg); font-size: 15px;">Percent</div>' +
                 LabelController.generateHtml(this.labelsForPercents, optionsForPercents) +
                 LabelController.generateHtml(this.labelsForTimes, optionsForTimes);
             // '<div style="position:fixed;bottom:50px;left:30%; font-size: 1.2rem;">Time</div>' +

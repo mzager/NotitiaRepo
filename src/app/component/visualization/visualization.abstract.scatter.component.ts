@@ -67,7 +67,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
 
     enable(truthy: boolean) {
         super.enable(truthy);
-        this.view.renderer.domElement.style.setProperty('cursor', 'move');
+        this.view.renderer.domElement.style.setProperty('cursor', 'default');
         this.view.controls.enableRotate = true;
     }
 
@@ -119,7 +119,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     onKeyUp(e: KeyboardEvent): void {
         if (e.key === 'Meta') {
             if (this.isEnabled) {
-                this.view.renderer.domElement.style.setProperty('cursor', 'move');
+                this.view.renderer.domElement.style.setProperty('cursor', 'default');
                 this.view.controls.enabled = true;
                 this.tooltipController.enable = true;
                 this.selectionController.enable = false;
