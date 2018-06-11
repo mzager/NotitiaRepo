@@ -10,7 +10,7 @@
       <app-workspace-user-panel (showPanel)='this.showPanel.emit($event)'></app-workspace-user-panel>
     </div>
     <div fxFlex.sm='1 1 70%' fxFlex.md='1 1 80%' fxFlex.lg='1 1 75%' fxFlex.xl='1 1 90%'>
-      <h2 class='panel-column-title '>Public Data Sets</h2>
+      <h2 class='panel-column-title '>TCGA Data Sets</h2>
       <div>
         <div class='panel-button-link' *ngFor='let dataset of datasets; let i=index'>
           <a class='panel-button-image ' (click)='this.loadTcga.emit(dataset) '>

@@ -1,3 +1,4 @@
+import { ChartSelection } from './../../model/chart-selection.model';
 import { EventEmitter } from '@angular/core';
 import { EntityTypeEnum, GraphEnum } from 'app/model/enum.model';
 import { GraphData } from 'app/model/graph-data.model';
@@ -5,7 +6,6 @@ import { Subscription } from 'rxjs/Subscription';
 import { Vector3 } from 'three';
 import { TooltipController } from '../../controller/tooltip/tooltip.controller';
 import { LabelController } from './../../controller/label/label.controller';
-import { SelectionController } from './../../controller/selection/selection.controller';
 import { TooltipOptions } from './../../controller/tooltip/tooltip.controller';
 import { VisualizationView } from './../../model/chart-view.model';
 import { ChartObjectInterface } from './../../model/chart.object.interface';
@@ -19,8 +19,7 @@ export class AbstractVisualization implements ChartObjectInterface {
     // Emitters
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
     public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{ type: GraphConfig }>();
-    public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
-        new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
+    public onSelect: EventEmitter<ChartSelection> = new EventEmitter<ChartSelection>();
 
     // Common Objects
     public _data: GraphData;
@@ -49,7 +48,6 @@ export class AbstractVisualization implements ChartObjectInterface {
     protected labelController: LabelController;
     protected tooltipOptions: TooltipOptions;
     protected tooltipController: TooltipController;
-    protected selectionController: SelectionController;
 
     enable(truthy: boolean) {
         if (this.isEnabled === truthy) { return; }
@@ -110,7 +108,7 @@ export class AbstractVisualization implements ChartObjectInterface {
 
         this.labelController = new LabelController(view, events);
         this.tooltipController = new TooltipController(view, events);
-        this.selectionController = new SelectionController(view, events);
+        // this.selectionController = new SelectionController(view, events);
 
         this.$onShowLabels = this.labelController.onShow.subscribe(this.onShowLabels.bind(this));
         this.$onHideLabels = this.labelController.onHide.subscribe(this.onHideLabels.bind(this));
@@ -132,7 +130,6 @@ export class AbstractVisualization implements ChartObjectInterface {
         this.$onHideTooltip.unsubscribe();
         this.labelController.destroy();
         this.tooltipController.destroy();
-        this.selectionController.destroy();
         this.enable(false);
     }
     preRender(views: VisualizationView[], layout: WorkspaceLayoutEnum, renderer: THREE.Renderer): void { }

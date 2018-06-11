@@ -466,18 +466,7 @@ export class DataService {
   }
 
   getDatasetInfo(database: string): Promise<any> {
-    console.log('::::DATASET INFO');
     return DataService.db.table('dataset').toArray();
-
-    // return new Promise((resolve, reject) => {
-    //   const db = new Dexie('notitia-' + database);
-    //   db.open().then(v => {
-    //     v.table('dataset').toArray().then(result => {
-    //       // db.close();
-    //       resolve(result[0]);
-    //     });
-    //   });
-    // });
   }
 
   getHelpInfo(config: GraphConfig): Promise<any> {
@@ -585,6 +574,17 @@ export class DataService {
       });
     });
   }
+  getPatientIdsWithSampleIds(database: string, sampleIds: Array<string>): Promise<Array<string>> {
+    return new Promise((resolve, reject) => {
+      const db = new Dexie('notitia-' + database);
+      db.open().then(connection => {
+        connection.table('patientSampleMap').where('s').anyOf(sampleIds).toArray().then(result => {
+          // db.close();
+          resolve(Array.from(new Set(result.map(v => v.p))));
+        });
+      });
+    });
+  }
 
   getSampleIdsWithPatientIds(database: string, patientIds: Array<string>): Promise<Array<string>> {
     return new Promise((resolve, reject) => {
@@ -622,6 +622,60 @@ export class DataService {
           });
 
 
+        });
+      });
+    });
+  }
+  getMarkerStats(database: string, mids: Array<string>): Promise<any> {
+    if (mids === undefined || mids === null) {
+      mids = [];
+    }
+    return new Promise((resolve, reject) => {
+      resolve([]);
+    });
+  }
+  getMarkerStatsText(database: string, mids: Array<string>): Promise<any> {
+    if (mids === undefined || mids === null) {
+      mids = [];
+    }
+    return new Promise((resolve, reject) => {
+      let text = '<p>You selected ' + mids.length + ' markers including:</p>';
+      text += mids.join(', ');
+      resolve(text);
+    });
+  }
+  getPatientStatsText(database: string, pids: Array<string>, sids: Array<string>): Promise<any> {
+    if (pids === undefined || pids === null) {
+      pids = [];
+    }
+
+    return new Promise((resolve, reject) => {
+
+      // This builds a "sql" query
+      this.getQueryBuilderConfig(database).then(config => {
+
+        // Pull field Meta Data
+        const fields = Object.keys(config.fields)
+          .map(field => Object.assign(config.fields[field], { field: field }))
+          .filter(item => item.type !== 'string')
+          .sort((a, b) => (a.type !== b.type) ? a.type.localeCompare(b.type) : a.name.localeCompare(b.name));
+
+        const db = new Dexie('notitia-' + database);
+        db.open().then(connection => {
+          const query = (pids.length === 0) ?
+            connection.table('patient') :
+            connection.table('patient').where('p').anyOfIgnoreCase(pids);
+
+          let text = '<p>You selected ' + pids.length + ' patients ' + ' from ' + sids.length + ' samples ';
+          query.toArray().then(result => {
+            text += 'with the following averages:</p>' + fields.filter(v => v.type === 'number').map(f => {
+              const arr = result.map(v => v[f.field]);
+              return f.name + ' = ' + Math.round(JStat.mean(arr));
+            }).join('<br />');
+
+            // // db.close();
+            resolve(text);
+          });
         });
       });
     });

@@ -1,3 +1,4 @@
+import { SelectionPanelComponent } from './component/workspace/selection-panel/selection-panel.component';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -182,7 +183,8 @@ import { ErrorService } from './service/error.service';
     GraphPanelAnalysisComponent,
     GraphPanelVisualizationComponent,
     GraphPanelDataComponent,
-    UserPanelComponent
+    UserPanelComponent,
+    SelectionPanelComponent
   ],
 
   imports: [

@@ -1,3 +1,4 @@
+import { ChartSelection } from './../../../model/chart-selection.model';
 import { EventEmitter, Injectable } from '@angular/core';
 import { GraphEnum, VisualizationEnum } from 'app/model/enum.model';
 import { GraphConfig } from 'app/model/graph-config.model';
@@ -25,8 +26,9 @@ export class ChartScene {
     // Events
     public onConfigEmit: EventEmitter<{ type: GraphConfig }> =
         new EventEmitter<{ type: GraphConfig }>();
-    public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
-        new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
+    public onSelect: EventEmitter<ChartSelection> =
+        new EventEmitter<ChartSelection>();
+
 
     // Instances
     public labelsA: HTMLElement;
@@ -49,7 +51,7 @@ export class ChartScene {
     config = (e: { type: GraphConfig }) => {
         this.onConfigEmit.next(e);
     }
-    select = (e: { type: EntityTypeEnum, ids: Array<string> }) => {
+    select = (e: ChartSelection) => {
         this.onSelect.next(e);
     }
 
@@ -171,7 +173,7 @@ export class ChartScene {
                 this.renderer.render(view.scene, view.camera);
             }
         } catch (e) {
-            console.log('resolve init');
+
         }
     }
 
@@ -282,6 +284,7 @@ export class ChartScene {
                         decorators = view.chart.decorators;
                         view.chart.onRequestRender.unsubscribe();
                         view.chart.onConfigEmit.unsubscribe();
+                        view.chart.onSelect.unsubscribe();
                         view.chart.destroy();
                         view.controls.minDistance = 0;
                         view.controls.maxDistance = Infinity;
@@ -299,11 +302,14 @@ export class ChartScene {
                     if (!entityChanged) {
                         view.chart.decorators = decorators;
                     } else { view.chart.decorators = []; }
+
                     view.chart.onRequestRender.subscribe(this.render);
                     view.chart.onConfigEmit.subscribe(this.config);
+                    view.chart.onSelect.subscribe(this.select);
                     view.controls.enableRotate = false;
                     view.controls.reset();
                     view.chart.enable(true);
+
                     try {
                         ((graph === GraphEnum.GRAPH_A) ? this.views[1] : this.views[0]).chart.enable(false);
                     } catch (e) { }
@@ -324,16 +330,8 @@ export class ChartScene {
         this.render();
     }
 
-
-
-    // animate = (time) => {
-    //     requestAnimationFrame(this.animate);
-    //     TWEEN.update(time);
-    // }
-
     constructor() {
         ChartScene.instance = this;
-        // requestAnimationFrame(this.animate);
     }
 }
 

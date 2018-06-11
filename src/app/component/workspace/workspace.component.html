@@ -49,6 +49,8 @@
 <app-workspace-dashboard-panel *ngIf='(modalPanel | async) === 2048' (hide)='setPanel(1)' class='modal-panel' [config]='graphAConfig | async'></app-workspace-dashboard-panel>
 <app-workspace-data-panel *ngIf='(modalPanel | async) === 1099511627776' (hide)='setPanel(1)' class='modal-panel' [tables]='tables | async'
   [configA]='graphAConfig | async' [configB]='graphBConfig | async'></app-workspace-data-panel>
+<app-workspace-selection-panel *ngIf='selectVisible | async' (hide)='hideSelectionPanel()' (save)='saveSelection($event)'
+  [selection]='selectSelection | async' [stats]='selectStats | async'></app-workspace-selection-panel>
 
 <!-- Loader -->
 <!--  *ngIf='(loader | async) ' -->
