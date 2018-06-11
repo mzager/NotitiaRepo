@@ -17,14 +17,17 @@ export class SelectionController extends AbstractMouseController {
     protected _config: GraphConfig;
     protected _options: SelectionOptions;
     protected _onRequestRender: EventEmitter<GraphEnum>;
-    public onSelection: EventEmitter<ChartSelection>;
+    protected _onSelect: EventEmitter<ChartSelection>;
 
     public teardown(): void {
         this._config = null;
         this._onRequestRender = null;
+        this._onSelect = null;
     }
-    public setup(config: GraphConfig, onRequestRender: EventEmitter<GraphEnum>, targets: Array<Object3D>): void {
+    public setup(config: GraphConfig, onRequestRender: EventEmitter<GraphEnum>,
+        onSelect: EventEmitter<ChartSelection>, targets: Array<Object3D>): void {
         this._config = config;
+        this._onSelect = onSelect;
         this._onRequestRender = onRequestRender;
         this.targets = targets;
     }
@@ -35,6 +38,7 @@ export class SelectionController extends AbstractMouseController {
 
     public destroy(): void {
         super.destroy();
+        this.teardown();
     }
 
     public onKeyUp(e: KeyboardEvent): void {
@@ -66,8 +70,7 @@ export class SelectionController extends AbstractMouseController {
             });
         this._onRequestRender.emit(this._config.graph);
         const selection: ChartSelection = { type: type, ids: ids };
-        console.log('on selection');
-        this.onSelection.emit(selection);
+        this._onSelect.emit(selection);
     }
 
     public onMouseUp(e: ChartEvent): void {
@@ -150,7 +153,6 @@ export class SelectionController extends AbstractMouseController {
 
     constructor(view: VisualizationView, events: ChartEvents, debounce: number = 10) {
         super(view, events, debounce);
-        this.onSelection = new EventEmitter();
         this._options = {};
     }
 }

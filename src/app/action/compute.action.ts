@@ -1,66 +1,66 @@
-import { HazardConfigModel, HazardDataModel } from './../component/visualization/hazard/hazard.model';
-import { DataDecorator } from './../model/data-map.model';
-import { DendogramConfigModel, DendogramDataModel } from './../component/visualization/dendogram/dendogram.model';
-import {
-    MiniBatchSparsePcaConfigModel,
-    MiniBatchSparsePcaDataModel
-} from 'app/component/visualization/minibatchsparsepca/minibatchsparsepca.model';
-import { HicConfigModel, HicDataModel } from './../component/visualization/hic/hic.model';
-import { BoxWhiskersDataModel, BoxWhiskersConfigModel } from './../component/visualization/boxwhiskers/boxwhiskers.model';
-import { ParallelCoordsConfigModel, ParallelCoordsDataModel } from './../component/visualization/parallelcoords/parallelcoords.model';
-import { GenomeConfigModel, GenomeDataModel } from './../component/visualization/genome/genome.model';
-import { LinkedGeneConfigModel, LinkedGeneDataModel } from './../component/visualization/linkedgenes/linkedgenes.model';
-import { GraphData } from './../model/graph-data.model';
-import { GraphConfig } from 'app/model/graph-config.model';
-import { PcaSparseConfigModel, PcaSparseDataModel } from './../component/visualization/pcasparse/pcasparse.model';
-import { IsoMapConfigModel, IsoMapDataModel } from './../component/visualization/isomap/isomap.model';
-import { PcaKernalConfigModel, PcaKernalDataModel } from './../component/visualization/pcakernal/pcakernal.model';
-import { PcaIncrementalConfigModel, PcaIncrementalDataModel } from './../component/visualization/pcaincremental/pcaincremental.model';
-import { TruncatedSvdConfigModel, TruncatedSvdDataModel } from './../component/visualization/truncatedsvd/truncatedsvd.model';
-import { NmfConfigModel, NmfDataModel } from './../component/visualization/nmf/nmf.model';
-import { LdaConfigModel, LdaDataModel } from './../component/visualization/lda/lda.model';
-import { FastIcaConfigModel, FastIcaDataModel } from './../component/visualization/fastica/fastica.model';
-import { FaConfigModel, FaDataModel } from './../component/visualization/fa/fa.model';
-import { MdsConfigModel, MdsDataModel } from './../component/visualization/mds/mds.model';
-import { DeConfigModel, DeDataModel } from './../component/visualization/de/de.model';
-import { DaConfigModel, DaDataModel } from './../component/visualization/da/da.model';
-import { SomConfigModel, SomDataModel } from './../component/visualization/som/som.model';
-import { SurvivalConfigModel, SurvivalDataModel } from './../component/visualization/survival/survival.model';
-import { PathwaysConfigModel, PathwaysDataModel } from './../component/visualization/pathways/pathways.model';
-import { TimelinesConfigModel, TimelinesDataModel } from './../component/visualization/timelines/timelines.model';
-import { HistogramConfigModel, HistogramDataModel } from './../component/visualization/histogram/histogram.model';
-import { HeatmapConfigModel, HeatmapDataModel } from './../component/visualization/heatmap/heatmap.model';
-import { EdgeConfigModel, EdgeDataModel } from './../component/visualization/edges/edges.model';
-import { TsneConfigModel, TsneDataModel } from './../component/visualization/tsne/tsne.model';
-import { PlsConfigModel, PlsDataModel } from './../component/visualization/pls/pls.model';
-import { ChromosomeConfigModel, ChromosomeDataModel } from './../component/visualization/chromosome/chromosome.model';
-import { PcaConfigModel, PcaDataModel } from './../component/visualization/pca/pca.model';
-import { GraphEnum } from 'app/model/enum.model';
 import { Action } from '@ngrx/store';
 import {
-    SpectralEmbeddingDataModel,
-    SpectralEmbeddingConfigModel
-} from './../component/visualization/spectralembedding/spectralembedding.model';
-import {
-    LocalLinearEmbeddingConfigModel,
-    LocalLinearEmbeddingDataModel
-} from './../component/visualization/locallinearembedding/locallinearembedding.model';
-import {
-    DictionaryLearningConfigModel,
-    DictionaryLearningDataModel
-} from './../component/visualization/dictionarylearning/dictionarylearning.model';
-import {
-    QuadradicDiscriminantAnalysisConfigModel,
-    QuadradicDiscriminantAnalysisDataModel
-} from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
+    LinearDiscriminantAnalysisConfigModel,
+    LinearDiscriminantAnalysisDataModel
+} from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
 import {
     MiniBatchDictionaryLearningConfigModel,
     MiniBatchDictionaryLearningDataModel
 } from 'app/component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
 import {
-    LinearDiscriminantAnalysisConfigModel,
-    LinearDiscriminantAnalysisDataModel
-} from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
+    MiniBatchSparsePcaConfigModel,
+    MiniBatchSparsePcaDataModel
+} from 'app/component/visualization/minibatchsparsepca/minibatchsparsepca.model';
+import {
+    QuadradicDiscriminantAnalysisConfigModel,
+    QuadradicDiscriminantAnalysisDataModel
+} from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
+import {
+    DictionaryLearningConfigModel,
+    DictionaryLearningDataModel
+} from './../component/visualization/dictionarylearning/dictionarylearning.model';
+import {
+    LocalLinearEmbeddingConfigModel,
+    LocalLinearEmbeddingDataModel
+} from './../component/visualization/locallinearembedding/locallinearembedding.model';
+import {
+    SpectralEmbeddingConfigModel,
+    SpectralEmbeddingDataModel
+} from './../component/visualization/spectralembedding/spectralembedding.model';
+import { GraphEnum } from 'app/model/enum.model';
+import { GraphConfig } from 'app/model/graph-config.model';
+import { BoxWhiskersConfigModel, BoxWhiskersDataModel } from './../component/visualization/boxwhiskers/boxwhiskers.model';
+import { ChromosomeConfigModel, ChromosomeDataModel } from './../component/visualization/chromosome/chromosome.model';
+import { DaConfigModel, DaDataModel } from './../component/visualization/da/da.model';
+import { DeConfigModel, DeDataModel } from './../component/visualization/de/de.model';
+import { DendogramConfigModel, DendogramDataModel } from './../component/visualization/dendogram/dendogram.model';
+import { EdgeConfigModel, EdgeDataModel } from './../component/visualization/edges/edges.model';
+import { FaConfigModel, FaDataModel } from './../component/visualization/fa/fa.model';
+import { FastIcaConfigModel, FastIcaDataModel } from './../component/visualization/fastica/fastica.model';
+import { GenomeConfigModel, GenomeDataModel } from './../component/visualization/genome/genome.model';
+import { HazardConfigModel, HazardDataModel } from './../component/visualization/hazard/hazard.model';
+import { HeatmapConfigModel, HeatmapDataModel } from './../component/visualization/heatmap/heatmap.model';
+import { HicConfigModel, HicDataModel } from './../component/visualization/hic/hic.model';
+import { HistogramConfigModel, HistogramDataModel } from './../component/visualization/histogram/histogram.model';
+import { IsoMapConfigModel, IsoMapDataModel } from './../component/visualization/isomap/isomap.model';
+import { LdaConfigModel, LdaDataModel } from './../component/visualization/lda/lda.model';
+import { LinkedGeneConfigModel } from './../component/visualization/linkedgenes/linkedgenes.model';
+import { MdsConfigModel, MdsDataModel } from './../component/visualization/mds/mds.model';
+import { NmfConfigModel, NmfDataModel } from './../component/visualization/nmf/nmf.model';
+import { ParallelCoordsConfigModel, ParallelCoordsDataModel } from './../component/visualization/parallelcoords/parallelcoords.model';
+import { PathwaysConfigModel, PathwaysDataModel } from './../component/visualization/pathways/pathways.model';
+import { PcaConfigModel, PcaDataModel } from './../component/visualization/pca/pca.model';
+import { PcaIncrementalConfigModel, PcaIncrementalDataModel } from './../component/visualization/pcaincremental/pcaincremental.model';
+import { PcaKernalConfigModel, PcaKernalDataModel } from './../component/visualization/pcakernal/pcakernal.model';
+import { PcaSparseConfigModel, PcaSparseDataModel } from './../component/visualization/pcasparse/pcasparse.model';
+import { PlsConfigModel, PlsDataModel } from './../component/visualization/pls/pls.model';
+import { SomConfigModel, SomDataModel } from './../component/visualization/som/som.model';
+import { SurvivalConfigModel, SurvivalDataModel } from './../component/visualization/survival/survival.model';
+import { TimelinesConfigModel, TimelinesDataModel } from './../component/visualization/timelines/timelines.model';
+import { TruncatedSvdConfigModel, TruncatedSvdDataModel } from './../component/visualization/truncatedsvd/truncatedsvd.model';
+import { TsneConfigModel, TsneDataModel } from './../component/visualization/tsne/tsne.model';
+import { ChartSelection } from './../model/chart-selection.model';
+import { GraphData } from './../model/graph-data.model';
 
 // Action Constants
 export const COMPUTE_EDGES = '[Compute] Edges';
@@ -159,7 +159,9 @@ export const COMPUTE_DECORATOR_ADD = '[Compute] Decorator Add';
 export const COMPUTE_DECORATOR_DEL = '[Compute] Decorator Del';
 export const COMPUTE_DECORATOR_UPDATE = '[Compute] Decorator Update';
 export const SELECT_SAMPLES = '[Compute] Select Samples';
+export const SELECT_SAMPLES_COMPLETE = '[Compute] Select Samples Complete';
 export const SELECT_MARKERS = '[Compute] Select Markers';
+export const SELECT_MARKERS_COMPLETE = '[Compute] Select Markers Complete';
 
 export class NullDataAction implements Action {
     readonly type = 'NULL';
@@ -195,6 +197,7 @@ export class EdgesCompleteAction implements Action {
 //     readonly type: string = COMPUTE_DECORATOR_UPDATE;
 //     constructor(public payload: { config: GraphConfig, decorators: Array<DataDecorator> }) { }
 // }
+
 export class NoneAction implements Action {
     readonly type: string = COMPUTE_NONE;
     constructor(public payload: { config: GraphConfig }) { }
@@ -554,9 +557,17 @@ export class SelectSamplesAction implements Action {
     readonly type: string = SELECT_SAMPLES;
     constructor(public payload: { samples: Array<string> }) { }
 }
+export class SelectSamplesCompleteAction implements Action {
+    readonly type: string = SELECT_SAMPLES_COMPLETE;
+    constructor(public payload: { selection: ChartSelection, stats: string }) { }
+}
 export class SelectMarkersAction implements Action {
     readonly type: string = SELECT_MARKERS;
     constructor(public payload: { markers: Array<string> }) { }
+}
+export class SelectMarkersCompleteAction implements Action {
+    readonly type: string = SELECT_MARKERS_COMPLETE;
+    constructor(public payload: { selection: ChartSelection, stats: string }) { }
 }
 
 // Action Type
@@ -603,4 +614,5 @@ export type Actions =
     SampleSummaryAction | SampleSummaryCompleteAction |
     GraphColorAction | GraphShapeAction | GraphSizeAction |
     GraphColorCompleteAction | GraphShapeCompleteAction | GraphSizeCompleteAction |
-    SelectSamplesAction | SelectMarkersAction;
+    SelectSamplesAction | SelectSamplesCompleteAction |
+    SelectMarkersAction | SelectMarkersCompleteAction;

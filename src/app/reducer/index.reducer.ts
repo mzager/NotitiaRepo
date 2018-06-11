@@ -16,7 +16,7 @@ export interface State {
   graphB: fromGraph.State;
   edges: fromEdges.State;
   data: fromData.State;
-  selected: fromSelect.State;
+  select: fromSelect.State;
   spreadsheet: fromSpreadsheet.State;
   user: fromUser.State;
 }
@@ -29,7 +29,7 @@ export let reducers = {
   graphA: graphAReducer,
   graphB: graphBReducer,
   edges: fromEdges.reducer,
-  selected: fromSelect.reducer,
+  select: fromSelect.reducer,
   data: fromData.reducer,
   spreadsheet: fromSpreadsheet.reducer,
   user: fromUser.reducer
@@ -89,6 +89,12 @@ export const getEvents = createSelector(getDataState, fromData.getEvents);
 export const getPathways = createSelector(getDataState, fromData.getPathways);
 export const getGenesets = createSelector(getDataState, fromData.getGenesets);
 export const getCohorts = createSelector(getDataState, fromData.getCohorts);
+
+// Select Reducer
+export const getSelectState = (state: State) => state.select;
+export const getSelectVisible = createSelector(getSelectState, fromSelect.getVisible);
+export const getSelectSelection = createSelector(getSelectState, fromSelect.getSelection);
+export const getSelectStats = createSelector(getSelectState, fromSelect.getStats);
 
 // Spreadsheet Reducer
 export const getSpreadsheetState = (state: State) => state.spreadsheet;
