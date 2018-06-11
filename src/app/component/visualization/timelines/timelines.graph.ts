@@ -221,7 +221,7 @@ export class TimelinesGraph extends AbstractVisualization {
 
         this.data.result.attrs.pids.forEach((pid, pidIndex) => {
             const rowIndex = pidMap[pid];
-            const yPos = (rowHeight * rowIndex) - chartHeightHalf;// - (rowHeight * -0.5);
+            const yPos = (rowHeight * rowIndex) - chartHeightHalf;
             this.data.result.attrs.attrs.forEach((attr, attrIndex) => {
                 const value = attr.values[pidIndex].label;
                 const col = attr.values[pidIndex].color;
