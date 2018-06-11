@@ -1,3 +1,6 @@
+import { GeneSet } from './../model/gene-set.model';
+import { Cohort } from './../model/cohort.model';
+import { DataAddCohortAction, DataUpdateCohortsAction, DataUpdateGenesetsAction } from './../action/data.action';
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -22,11 +25,12 @@ import {
   LdaCompleteAction, LinearDiscriminantAnalysisCompleteAction,
   LinkedGeneCompleteAction, LocalLinearEmbeddingCompleteAction,
   MdsCompleteAction, MiniBatchDictionaryLearningCompleteAction,
-  MiniBatchSparsePcaCompleteAction, NmfCompleteAction, NoneCompleteAction,
-  NullDataAction, ParallelCoordsCompleteAction, PathwaysCompleteAction,
-  PcaCompleteAction, PcaIncrementalCompleteAction, PcaKernalCompleteAction,
-  PcaSparseCompleteAction, QuadraticDiscriminantAnalysisCompleteAction,
-  SomCompleteAction, SpectralEmbeddingCompleteAction, SurvivalCompleteAction,
+  MiniBatchSparsePcaCompleteAction, NmfCompleteAction,
+  NoneCompleteAction, NullDataAction, ParallelCoordsCompleteAction,
+  PathwaysCompleteAction, PcaCompleteAction, PcaIncrementalCompleteAction,
+  PcaKernalCompleteAction, PcaSparseCompleteAction,
+  QuadraticDiscriminantAnalysisCompleteAction, SomCompleteAction,
+  SpectralEmbeddingCompleteAction, SurvivalCompleteAction,
   TimelinesCompleteAction, TruncatedSvdCompleteAction, TsneCompleteAction
 } from './../action/compute.action';
 import { DataDecoratorAddAction, DataDecoratorCreateAction } from './../action/graph.action';
@@ -84,8 +88,56 @@ export class ComputeEffect {
         });
     });
 
-  // @Effect() edgeChange: Observable<any> = this.actions$
-  //   .ofType(compute.)
+
+  @Effect() saveSampleSelection: Observable<any> = this.actions$
+    .ofType(compute.COMPUTE_SELECT_SAMPLES_SAVE)
+    .map((action: UnsafeAction) => action.payload)
+    .withLatestFrom(this.store$)
+    .switchMap((value: [any, State], index: number) => {
+      const payload = {
+        database: value[1].graphA.config.database,
+        cohort: {
+          n: value[0].name,
+          pids: [],
+          sids: value[0].selection.ids,
+          conditions: {}
+        }
+      };
+      return Observable.fromPromise(this.dataService.getPatientIdsWithSampleIds(payload.database, payload.cohort.sids))
+        .switchMap(data => {
+          payload.cohort.pids = data;
+          return Observable.fromPromise(
+            this.dataService.createCustomCohortFromSelect(
+              payload.database,
+              payload.cohort as Cohort
+            ).then(v => this.dataService.getCustomCohorts(payload.database))
+          ).mergeMap((args: any) => {
+            return Observable.of(new DataUpdateCohortsAction(args));
+          });
+        });
+    });
+
+  @Effect() saveMarkerSelection: Observable<any> = this.actions$
+    .ofType(compute.COMPUTE_SELECT_MARKERS_SAVE)
+    .map((action: UnsafeAction) => action.payload)
+    .withLatestFrom(this.store$)
+    .switchMap((value: [any, State], index: number) => {
+      const payload = {
+        database: value[1].graphA.config.database,
+        geneset: {
+          n: value[0].name,
+          g: value[0].selection.ids
+        }
+      };
+      return Observable.fromPromise(
+        this.dataService.createCustomGenesetFromSelect(
+          payload.database,
+          payload.geneset as GeneSet)
+          .then(v => this.dataService.getCustomGenesets(payload.database))
+      ).mergeMap((args: any) => {
+        return Observable.of(new DataUpdateGenesetsAction(args));
+      });
+    });
 
   @Effect() loadNone: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_NONE)
