@@ -18,7 +18,7 @@ export class LegendPanelComponent implements AfterViewInit, OnDestroy {
   public allLegends: Array<Legend> = [];
   public updateLegend = _.debounce(this.update, 600);
 
-  private _config: GraphConfig;
+  public _config: GraphConfig;
   get config(): GraphConfig { return this._config; }
   @Input() set config(value: GraphConfig) {
     if (value === null) { return; }

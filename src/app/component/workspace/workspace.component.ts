@@ -1,97 +1,71 @@
-
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { HazardConfigModel } from './../visualization/hazard/hazard.model';
-import { Pathway } from './../../model/pathway.model';
-import { HistogramConfigModel } from './../visualization/histogram/histogram.model';
-import { DataDecorator } from './../../model/data-map.model';
-import { Cohort } from './../../model/cohort.model';
-import { GeneSet } from './../../model/gene-set.model';
-import { HelpSetConfigAction } from './../../action/help.action';
-import { SurvivalConfigModel } from './../visualization/survival/survival.model';
-import { DendogramConfigModel } from './../visualization/dendogram/dendogram.model';
-import { MiniBatchSparsePcaConfigModel } from 'app/component/visualization/minibatchsparsepca/minibatchsparsepca.model';
-// tslint:disable-next-line:max-line-length
-import { MiniBatchDictionaryLearningConfigModel } from 'app/component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
-import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
-import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
-import { HicConfigModel } from './../visualization/hic/hic.model';
-import { BoxWhiskersConfigModel } from './../visualization/boxwhiskers/boxwhiskers.model';
-import { ParallelCoordsConfigModel } from './../visualization/parallelcoords/parallelcoords.model';
-import { GenomeConfigModel } from './../visualization/genome/genome.model';
-import { LinkedGeneConfigModel } from './../visualization/linkedgenes/linkedgenes.model';
 import * as compute from 'app/action/compute.action';
 import * as data from 'app/action/data.action';
+// tslint:disable-next-line:max-line-length
+import { LinearDiscriminantAnalysisConfigModel } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
+// tslint:disable-next-line:max-line-length
+import { MiniBatchDictionaryLearningConfigModel } from 'app/component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
+import { MiniBatchSparsePcaConfigModel } from 'app/component/visualization/minibatchsparsepca/minibatchsparsepca.model';
+import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
+// tslint:disable-next-line:max-line-length
+import { QuadradicDiscriminantAnalysisConfigModel } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
+import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
+import { DataField } from 'app/model/data-field.model';
 import * as enums from 'app/model/enum.model';
+import { Legend } from 'app/model/legend.model';
 import * as fromRoot from 'app/reducer/index.reducer';
-import * as graph from 'app/action/graph.action';
-import * as layout from 'app/action/layout.action';
-import * as select from 'app/action/select.action';
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import {
-  ChromosomeAction,
-  GenomeAction,
-  GraphColorAction,
-  GraphSizeAction,
-  PcaAction,
-  SelectMarkersAction,
-  TsneAction,
-} from './../../action/compute.action';
-import { ChromosomeConfigModel } from './../visualization/chromosome/chromosome.model';
-import { GraphPanelToggleAction, ModalPanelAction, LoaderHideAction, LoaderShowAction } from './../../action/layout.action';
-import { DataField, DataFieldFactory } from 'app/model/data-field.model';
-import {
-  DataLoadedAction,
-  DataLoadFromDexieAction,
-  DataLoadFromFileAction,
-  DataLoadIlluminaVcfAction,
-  DataUpdateGenesetsAction,
-  DataUpdateCohortsAction,
-  DataUpdatePathwayAction,
-  DataAddPathwayAction,
-  DataDelPathwayAction,
-  DataAddGenesetAction,
-  DataDelGenesetAction,
-  DataAddCohortAction,
-  DataDelCohortAction
+  DataAddCohortAction, DataAddGenesetAction,
+  DataAddPathwayAction, DataDelCohortAction,
+  DataDelGenesetAction, DataDelPathwayAction
 } from './../../action/data.action';
+import {
+  DataDecoratorCreateAction, DataDecoratorDelAction,
+  DataDecoratorDelAllAction, WorkspaceConfigAction
+} from './../../action/graph.action';
+import { HelpSetConfigAction } from './../../action/help.action';
+import { GraphPanelToggleAction, LoaderShowAction, ModalPanelAction } from './../../action/layout.action';
+import { ChartSelection } from './../../model/chart-selection.model';
+import { Cohort } from './../../model/cohort.model';
 import { DataTable } from './../../model/data-field.model';
+import { DataDecorator } from './../../model/data-map.model';
+import { EntityTypeEnum } from './../../model/enum.model';
+import { GeneSet } from './../../model/gene-set.model';
+import { GraphConfig } from './../../model/graph-config.model';
+import { Pathway } from './../../model/pathway.model';
+import { WorkspaceConfigModel } from './../../model/workspace.model';
+import { BoxWhiskersConfigModel } from './../visualization/boxwhiskers/boxwhiskers.model';
+import { ChromosomeConfigModel } from './../visualization/chromosome/chromosome.model';
+import { DendogramConfigModel } from './../visualization/dendogram/dendogram.model';
 import { DictionaryLearningConfigModel } from './../visualization/dictionarylearning/dictionarylearning.model';
 import { EdgeConfigModel } from './../visualization/edges/edges.model';
-import { EntityTypeEnum, GraphEnum } from './../../model/enum.model';
 import { FaConfigModel } from './../visualization/fa/fa.model';
 import { FastIcaConfigModel } from './../visualization/fastica/fastica.model';
-import {
-  getFields,
-  getGraphAConfig
-} from './../../reducer/index.reducer';
-import { GraphConfig } from './../../model/graph-config.model';
-import { GraphTool } from 'app/model/graph-tool.model';
+import { GenomeConfigModel } from './../visualization/genome/genome.model';
+import { HazardConfigModel } from './../visualization/hazard/hazard.model';
 import { HeatmapConfigModel } from './../visualization/heatmap/heatmap.model';
+import { HicConfigModel } from './../visualization/hic/hic.model';
+import { HistogramConfigModel } from './../visualization/histogram/histogram.model';
 import { IsoMapConfigModel } from './../visualization/isomap/isomap.model';
 import { LdaConfigModel } from './../visualization/lda/lda.model';
-import { Legend } from 'app/model/legend.model';
+import { LinkedGeneConfigModel } from './../visualization/linkedgenes/linkedgenes.model';
 import { LocalLinearEmbeddingConfigModel } from './../visualization/locallinearembedding/locallinearembedding.model';
 import { MdsConfigModel } from './../visualization/mds/mds.model';
 import { NmfConfigModel } from './../visualization/nmf/nmf.model';
-import { Observable } from 'rxjs/Observable';
+import { ParallelCoordsConfigModel } from './../visualization/parallelcoords/parallelcoords.model';
 import { PcaConfigModel } from './../visualization/pca/pca.model';
 import { PcaIncrementalConfigModel } from './../visualization/pcaincremental/pcaincremental.model';
 import { PcaKernalConfigModel } from './../visualization/pcakernal/pcakernal.model';
 import { PcaSparseConfigModel } from './../visualization/pcasparse/pcasparse.model';
 import { SomConfigModel } from './../visualization/som/som.model';
 import { SpectralEmbeddingConfigModel } from './../visualization/spectralembedding/spectralembedding.model';
+import { SurvivalConfigModel } from './../visualization/survival/survival.model';
 import { TruncatedSvdConfigModel } from './../visualization/truncatedsvd/truncatedsvd.model';
 import { TsneConfigModel } from './../visualization/tsne/tsne.model';
-import {
-  VisibilityToggleAction, VisualizationSetAction, WorkspaceConfigAction,
-  DataDecoratorCreateAction, DataDecoratorDelAction, DataDecoratorDelAllAction
-} from './../../action/graph.action';
-import { WorkspaceConfigModel } from './../../model/workspace.model';
-// tslint:disable-next-line:max-line-length
-import { LinearDiscriminantAnalysisConfigModel } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
-// tslint:disable-next-line:max-line-length
-import { QuadradicDiscriminantAnalysisConfigModel } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
-import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-workspace',
@@ -121,6 +95,10 @@ export class WorkspaceComponent {
   graphADecorators: Observable<Array<DataDecorator>>;
   graphBDecorators: Observable<Array<DataDecorator>>;
   edgeDecorators: Observable<Array<DataDecorator>>;
+
+  selectVisible: Observable<boolean>;
+  selectSelection: Observable<ChartSelection>;
+  selectStats: Observable<Array<any>>;
 
   edgeConfig: Observable<EdgeConfigModel>;
   edgeLegend: Observable<Array<Legend>>;
@@ -165,12 +143,16 @@ export class WorkspaceComponent {
     this.graphBDecorators = store.select(fromRoot.getGraphBDecorators);
     this.edgeDecorators = store.select(fromRoot.getEdgeDecorators);
 
+    this.selectVisible = store.select(fromRoot.getSelectVisible);
+    this.selectSelection = store.select(fromRoot.getSelectSelection);
+    this.selectStats = store.select(fromRoot.getSelectStats);
+
     this.tables = store.select(fromRoot.getTables);
     this.fields = store.select(fromRoot.getFields);
     this.events = store.select(fromRoot.getEvents);
   }
 
-  select(selection: { type: EntityTypeEnum, ids: Array<string> }): void {
+  select(selection: ChartSelection): void {
     switch (selection.type) {
       case EntityTypeEnum.SAMPLE:
         this.store.dispatch(new compute.SelectSamplesAction({ samples: selection.ids }));
@@ -180,9 +162,17 @@ export class WorkspaceComponent {
         break;
     }
   }
-  uploadExcel(): void {
-    alert('upload a file');
+
+  saveSelection(event: any): void {
+    this.store.dispatch(new compute.SelectHideAction({}));
   }
+  hideSelectionPanel(): void {
+    this.store.dispatch(new compute.SelectHideAction({}));
+  }
+
+  // uploadExcel(): void {
+  //   alert('upload a file');
+  // }
   // fileOpen(value: DataTransfer) {
   //   this.store.dispatch(new data.DataLoadFromFileAction(value));
   // }

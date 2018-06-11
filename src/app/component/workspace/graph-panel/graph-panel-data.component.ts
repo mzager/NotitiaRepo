@@ -136,7 +136,6 @@ export class GraphPanelDataComponent {
     if (this.config.cohortName === e.value.n) {
       return;
     }
-    console.log('Config Change');
     this.config.cohortName = e.value.n;
     this.config.patientFilter = e.value.pids;
     this.config.sampleFilter = e.value.sids;
