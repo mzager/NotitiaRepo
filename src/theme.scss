@@ -162,6 +162,8 @@ body .mat-button-focus-overlay {
   cursor: pointer;
   height: 45px;
   text-transform: capitalize;
+  overflow: hidden;
+  text-overflow: ellipsis;
   i {
     color: mat-color($primary);
     margin-right: 10px;
@@ -179,8 +181,11 @@ body .mat-button-focus-overlay {
   position: relative;
   cursor: pointer;
   height: 26px;
-  line-height: 12px;
+  line-height: 14px;
   text-transform: capitalize;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 28px;
   i {
     color: mat-color($primary);
     margin-right: 10px;
