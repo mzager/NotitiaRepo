@@ -11,11 +11,11 @@
       Invert Color
     </span>
     <mat-menu #appMenu="matMenu">
-      <button mat-menu-item (click)='viewPanel(16384)'>Feedback</button>
-      <button mat-menu-item (click)='viewPanel(1024)'>Citations</button>
-      <button mat-menu-item (click)='viewPanel(512)'>About</button>
-      <!-- <button mat-menu-item (click)='toggleBackgroundColor()'>BG Color</button> -->
+      <!--<button mat-menu-item (click)='viewPanel(16384)'>Feedback</button>-->
       <button *ngIf='datasetSelected' mat-menu-item (click)='reload()'>Data Sets</button>
+      <button mat-menu-item (click)='viewPanel(512)'>About</button>
+      <button mat-menu-item (click)='viewPanel(1024)'>Citations</button>
+      <a mat-menu-item href='mailto:contact-sttr@fredhutch.org'>Feedback</a>
     </mat-menu>
     <span class='application-bar-menu-button' class='application-bar-button' [matMenuTriggerFor]="appMenu">
       <mat-icon class='material-icons md-18 ' style='transform:translate(0px, 4px) '>more_vert</mat-icon>

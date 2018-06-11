@@ -12,10 +12,16 @@ declare var $: any;
     selector: 'app-workspace-feedback-panel',
     templateUrl: './feedback-panel.component.html',
     styleUrls: ['./feedback-panel.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.Default,
     encapsulation: ViewEncapsulation.None
 })
 export class FeedbackPanelComponent implements AfterViewInit, OnDestroy {
+
+
+    fbName = '';
+    fbInstition = '';
+    fbType = '';
+    fbComments = '';
 
 
     // Attributes
