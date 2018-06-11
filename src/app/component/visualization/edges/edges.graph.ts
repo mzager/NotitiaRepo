@@ -106,7 +106,6 @@ export class EdgesGraph implements ChartObjectInterface {
 
             let line;
             if (hasGroupDecorator) {
-
                 return ChartFactory.lineAllocateCurve(color, obj2dMapA[v.a], obj2dMapB[v.b],
                     new THREE.Vector2(0, yPos));
             } else {
