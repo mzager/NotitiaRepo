@@ -620,8 +620,6 @@ export class DataService {
             // db.close();
             resolve(results);
           });
-
-
         });
       });
     });
@@ -639,7 +637,7 @@ export class DataService {
       mids = [];
     }
     return new Promise((resolve, reject) => {
-      let text = '<p>You selected ' + mids.length + ' markers including:</p>';
+      let text = '<p>You selected ' + mids.length + ' genes including:</p>';
       text += mids.join(', ');
       resolve(text);
     });
@@ -976,8 +974,19 @@ export class DataService {
     return new Promise((resolve, reject) => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
+        debugger;
         v.table('genesets').add(geneset).then(w => {
           resolve(w);
+        });
+      });
+    });
+  }
+  createCustomGenesetFromSelect(database: string, geneset: GeneSet): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const db = new Dexie('notitia-' + database);
+      db.open().then(conn => {
+        conn.table('genesets').add(geneset).then(v => {
+          resolve(v);
         });
       });
     });
@@ -1002,6 +1011,16 @@ export class DataService {
           // if (result[0] === undefined) { result[0] = []; }
           cohorts.unshift({ n: 'All Patients', pids: [], sids: [] });
           resolve(cohorts);
+        });
+      });
+    });
+  }
+  createCustomCohortFromSelect(database: string, cohort: Cohort): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const db = new Dexie('notitia-' + database);
+      db.open().then(conn => {
+        conn.table('cohorts').add(cohort).then(v => {
+          resolve(v);
         });
       });
     });

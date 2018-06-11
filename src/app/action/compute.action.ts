@@ -163,6 +163,8 @@ export const COMPUTE_SELECT_SAMPLES_COMPLETE = '[Compute] Select Samples Complet
 export const COMPUTE_SELECT_MARKERS = '[Compute] Select Markers';
 export const COMPUTE_SELECT_MARKERS_COMPLETE = '[Compute] Select Markers Complete';
 export const COMPUTE_SELECT_HIDE = '[Compute] Select Hide';
+export const COMPUTE_SELECT_SAMPLES_SAVE = '[Compute] Select Samples Save';
+export const COMPUTE_SELECT_MARKERS_SAVE = '[Compute] Select Markers Save';
 
 export class NullDataAction implements Action {
     readonly type = 'NULL';
@@ -574,6 +576,14 @@ export class SelectHideAction implements Action {
     readonly type: string = COMPUTE_SELECT_HIDE;
     constructor(public payload: {}) { }
 }
+export class SelectSaveSamplesAction implements Action {
+    readonly type: string = COMPUTE_SELECT_SAMPLES_SAVE;
+    constructor(public payload: { name: string, selection: ChartSelection }) { }
+}
+export class SelectSaveMarkersAction implements Action {
+    readonly type: string = COMPUTE_SELECT_MARKERS_SAVE;
+    constructor(public payload: { name: string, selection: ChartSelection }) { }
+}
 
 // Action Type
 export type Actions =
@@ -621,4 +631,5 @@ export type Actions =
     GraphColorCompleteAction | GraphShapeCompleteAction | GraphSizeCompleteAction |
     SelectSamplesAction | SelectSamplesCompleteAction |
     SelectMarkersAction | SelectMarkersCompleteAction |
+    SelectSaveSamplesAction | SelectSaveMarkersAction |
     SelectHideAction;

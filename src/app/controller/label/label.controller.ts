@@ -155,9 +155,7 @@ export class LabelController {
         let css = options.generateCss();
         if (options.align === 'RIGHT') {
             css += 'text-align:right;width: 300px;';
-            options.offsetX -= 300;
-
-
+            options.offsetX = -300;
         }
         // const alignmentOffset = (options.align === 'LEFT') ? 0 : (options.align === 'CENTER') ? 150 : 0;
         // const alignText = (options.align === 'LEFT') ? 'text-align:left;' :

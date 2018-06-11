@@ -70,7 +70,9 @@ export class SelectionController extends AbstractMouseController {
             });
         this._onRequestRender.emit(this._config.graph);
         const selection: ChartSelection = { type: type, ids: ids };
-        this._onSelect.emit(selection);
+        if (selection.ids.length > 0) {
+            this._onSelect.emit(selection);
+        }
     }
 
     public onMouseUp(e: ChartEvent): void {
