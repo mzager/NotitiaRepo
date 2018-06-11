@@ -634,7 +634,16 @@ export class DataService {
       resolve([]);
     });
   }
-
+  getMarkerStatsText(database: string, mids: Array<string>): Promise<any> {
+    if (mids === undefined || mids === null) {
+      mids = [];
+    }
+    return new Promise((resolve, reject) => {
+      let text = '<p>You selected ' + mids.length + ' markers including:</p>';
+      text += mids.join(', ');
+      resolve(text);
+    });
+  }
   getPatientStatsText(database: string, pids: Array<string>, sids: Array<string>): Promise<any> {
     if (pids === undefined || pids === null) {
       pids = [];

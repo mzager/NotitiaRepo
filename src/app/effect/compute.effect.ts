@@ -44,10 +44,11 @@ export class ComputeEffect {
     .switchMap((value: [any, State], index: number) => {
       const markerIds = value[0].markers;
       const database = value[1].graphA.config.database;
-      return Observable.fromPromise(this.dataService.getMarkerStats(database, markerIds))
+      return Observable.fromPromise(this.dataService.getMarkerStatsText(database, markerIds))
         .mergeMap(data => {
+          debugger;
           return [
-            new compute.SelectSamplesCompleteAction({ selection: { ids: value[0].markers, type: EntityTypeEnum.SAMPLE }, stats: data })
+            new compute.SelectMarkersCompleteAction({ selection: { ids: value[0].markers, type: EntityTypeEnum.GENE }, stats: data })
           ];
         });
     });
