@@ -30,8 +30,8 @@
     },
     {
       "name": "fit algorithm",
-      "type": "{‘lars’, ‘cd’}",
-      "desc": "lars: uses the least angle regression method to solve the lasso problem (linear_model.lars_path) cd: uses the coordinate descent method to compute the Lasso solution (linear_model.Lasso). Lars will be faster if the estimated components are sparse.  New in version 0.17: cd coordinate descent method to improve speed."
+      "type": "cd",
+      "desc": "cd: uses the coordinate descent method to compute the Lasso solution (linear_model.Lasso). New in version 0.17: cd coordinate descent method to improve speed."
     },
     {
       "name": "transform algorithm",

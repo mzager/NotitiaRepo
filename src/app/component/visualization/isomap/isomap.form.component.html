@@ -1,60 +1,60 @@
 <form [formGroup]='form' novalidate>
-    <mat-form-field class='form-field'>
-        <mat-select placeholder='Data' formControlName='table' [compareWith]='byTbl'>
-            <mat-option *ngFor='let option of dataOptions' [value]='option'>
-                {{ option.label }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field class='form-field'>
-        <mat-select placeholder='Visualize' formControlName='entity'>
-            <mat-option *ngFor='let option of displayOptions' [value]='option'>
-                {{ option }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field class='form-field-1-3'>
-        <mat-select placeholder='X Axis' formControlName='pcx'>
-            <mat-option *ngFor='let option of PcOptions' [value]='option'>
-                PC {{ option }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field class='form-field-1-3'>
-        <mat-select placeholder='Y Axis' formControlName='pcy'>
-            <mat-option *ngFor='let option of PcOptions' [value]='option'>
-                PC {{ option }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field class='form-field-1-3'>
-        <mat-select placeholder='Z Axis' formControlName='pcz'>
-            <mat-option *ngFor='let option of PcOptions' [value]='option'>
-                PC {{ option }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field class='form-field'>
-        <mat-select placeholder='Eigen Solver' formControlName='eigen_solver'>
-            <mat-option *ngFor='let option of IsoMapEigenSolverOpitions' [value]='option'>
-                {{ option }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field class='form-field'>
-        <mat-select placeholder='Path Method' formControlName='eigen_solver'>
-            <mat-option *ngFor='let option of IsoMapPathMethodOpitions' [value]='option'>
-                {{ option }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field class='form-field'>
-        <mat-select placeholder='Neighbors Algorithm' formControlName='eigen_solver'>
-            <mat-option *ngFor='let option of IsoMapNeighborsAlgorithmOpitions' [value]='option'>
-                {{ option }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-label>Neighbors</mat-label>
-    <mat-slider min="1" max="20" step="1" formControlName='n_neighbors' thumbLabel='true'></mat-slider>
+  <mat-form-field class='form-field'>
+    <mat-select placeholder='Data' formControlName='table' [compareWith]='byTbl'>
+      <mat-option *ngFor='let option of dataOptions' [value]='option'>
+        {{ option.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class='form-field'>
+    <mat-select placeholder='Visualize' formControlName='entity'>
+      <mat-option *ngFor='let option of displayOptions' [value]='option'>
+        {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class='form-field-1-3'>
+    <mat-select placeholder='X Axis' formControlName='pcx'>
+      <mat-option *ngFor='let option of PcOptions' [value]='option'>
+        PC {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class='form-field-1-3'>
+    <mat-select placeholder='Y Axis' formControlName='pcy'>
+      <mat-option *ngFor='let option of PcOptions' [value]='option'>
+        PC {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class='form-field-1-3'>
+    <mat-select placeholder='Z Axis' formControlName='pcz'>
+      <mat-option *ngFor='let option of PcOptions' [value]='option'>
+        PC {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class='form-field'>
+    <mat-select placeholder='Eigen Solver' formControlName='eigen_solver'>
+      <mat-option *ngFor='let option of IsoMapEigenSolverOpitions' [value]='option'>
+        {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class='form-field'>
+    <mat-select placeholder='Path Method' formControlName='eigen_solver'>
+      <mat-option *ngFor='let option of IsoMapPathMethodOpitions' [value]='option'>
+        {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class='form-field'>
+    <mat-select placeholder='Neighbors Algorithm' formControlName='eigen_solver'>
+      <mat-option *ngFor='let option of IsoMapNeighborsAlgorithmOpitions' [value]='option'>
+        {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-label>Neighbors</mat-label>
+  <mat-slider min="1" max="20" step="1" formControlName='n_neighbors' thumbLabel='true'></mat-slider>
 </form>

@@ -36,7 +36,7 @@
   </mat-form-field>
   <mat-form-field class='form-field'>
     <mat-select placeholder='Fit Algo' formControlName='fit_algorithm'>
-      <mat-option *ngFor='let option of fitAlgorithemOptions' [value]='option'>
+      <mat-option *ngFor='let option of fitAlgorithmOptions' [value]='option'>
         {{ option }}
       </mat-option>
     </mat-select>
@@ -44,7 +44,7 @@
 
   <mat-form-field class='form-field'>
     <mat-select placeholder='Transform Algo' formControlName='transform_algorithm'>
-      <mat-option *ngFor='let option of transformAlgorithemOptions' [value]='option'>
+      <mat-option *ngFor='let option of transformAlgorithmOptions' [value]='option'>
         {{ option }}
       </mat-option>
     </mat-select>

@@ -4,16 +4,16 @@ import { GraphData } from './../../../model/graph-data.model';
 
 export class SpectralEmbeddingEigenSolver {
     public static NONE = 'None';
-    public static LOBPCG = 'lobpcg';
-    public static ARPACK = 'arpack';
-    public static AMG = 'amg';
+    // public static LOBPCG = 'lobpcg';
+    // public static ARPACK = 'arpack';
+    // public static AMG = 'amg';
 }
 
 export class SpectralEmbeddingAffinity {
     public static NEAREST_NEIGHBORS = 'nearest_neighbors';
-    public static RBF = 'rbf';
-    public static PRECOMPUTED = 'precomputed';
-    public static CALLABLE = 'callable';
+    // public static RBF = 'rbf';
+    // public static PRECOMPUTED = 'precomputed';
+    // public static CALLABLE = 'callable';
 }
 
 export class SpectralEmbeddingConfigModel extends GraphConfig {

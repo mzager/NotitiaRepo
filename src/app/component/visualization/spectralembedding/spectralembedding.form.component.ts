@@ -20,17 +20,17 @@ export class SpectralEmbeddingFormComponent extends AbstractScatterForm {
   }
 
   SpectralEmbeddingEigenSolverOpitions = [
-    SpectralEmbeddingEigenSolver.NONE,
-    SpectralEmbeddingEigenSolver.AMG,
-    SpectralEmbeddingEigenSolver.ARPACK,
-    SpectralEmbeddingEigenSolver.LOBPCG
+    SpectralEmbeddingEigenSolver.NONE
+    // SpectralEmbeddingEigenSolver.AMG,
+    // SpectralEmbeddingEigenSolver.ARPACK,
+    // SpectralEmbeddingEigenSolver.LOBPCG
   ];
 
   SpectralEmbeddingAffinityOpitions = [
-    SpectralEmbeddingAffinity.NEAREST_NEIGHBORS,
-    SpectralEmbeddingAffinity.PRECOMPUTED,
-    SpectralEmbeddingAffinity.RBF,
-    SpectralEmbeddingAffinity.CALLABLE
+    SpectralEmbeddingAffinity.NEAREST_NEIGHBORS
+    // SpectralEmbeddingAffinity.PRECOMPUTED,
+    // SpectralEmbeddingAffinity.RBF,
+    // SpectralEmbeddingAffinity.CALLABLE
   ];
 
   constructor(private fb: FormBuilder) {
