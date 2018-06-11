@@ -102,6 +102,7 @@ export const edgesCompute = (config: EdgeConfigModel, worker: DedicatedWorkerGlo
         },
         getSamplesSamples(cfg: EdgeConfigModel): Promise<any> {
             return new Promise((resolve, reject) => {
+                if (this.edgeOptions === 'None') { resolve([]); return; }
                 switch (cfg.field.type) {
                     case 'UNDEFINED':
                         resolve([]);
