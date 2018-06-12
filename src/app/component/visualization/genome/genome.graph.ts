@@ -1,3 +1,4 @@
+import { SelectionBoxController } from './../../../controller/selection/selection.box.controller';
 import { GenomicEnum, ShapeEnum } from 'app/model/enum.model';
 import * as THREE from 'three';
 import { Vector3 } from 'three';
@@ -11,6 +12,7 @@ import { ChartEvents } from './../../workspace/chart/chart.events';
 import { ChartFactory, DataDecoatorRenderer } from './../../workspace/chart/chart.factory';
 import { AbstractVisualization } from './../visualization.abstract.component';
 import { GenomeConfigModel, GenomeDataModel } from './genome.model';
+import { SelectionController } from '../../../controller/selection/selection.controller';
 
 export class GenomeGraph extends AbstractVisualization {
 
@@ -25,6 +27,7 @@ export class GenomeGraph extends AbstractVisualization {
     public chromosomes: Array<THREE.Object3D> = [];
     public meres: Array<THREE.Object3D> = [];
     public bands: Array<THREE.Object3D> = [];
+    protected selectionController: SelectionBoxController;
 
     public renderer: DataDecoatorRenderer = (group: THREE.Group, mesh: THREE.Sprite, decorators: Array<DataDecorator>,
         i: number, count: number): void => {
@@ -48,6 +51,8 @@ export class GenomeGraph extends AbstractVisualization {
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
         super.updateDecorator(config, decorators);
         ChartFactory.decorateDataGroups(this.meshes, this.decorators, this.renderer);
+        this.selectionController.targets = this.points;
+        debugger;
         this.onShowLabels();
     }
     updateData(config: GraphConfig, data: any) {
@@ -57,11 +62,13 @@ export class GenomeGraph extends AbstractVisualization {
     }
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
         super.create(labels, events, view);
+        this.selectionController = new SelectionBoxController(view, events);
         this.tooltipController.targets = this.bands;
         return this;
     }
     destroy() {
         super.destroy();
+        this.selectionController.destroy();
         this.removeChromosomes();
         this.removeTads();
         this.removeGenes();
@@ -175,9 +182,10 @@ export class GenomeGraph extends AbstractVisualization {
         });
 
         ChartFactory.decorateDataGroups(this.meshes, this.decorators, this.renderer);
+        // debugger;
         this.points = this.meshes.map(v => {
-            v.children[0].userData.tooltip = v.userData.tooltip;
-            return v.children[0];
+            v.children[1].userData.tooltip = v.userData.tooltip;
+            return v.children[1];
         });
         this.tooltipController.targets = this.bands.concat(this.points);
     }
@@ -218,5 +226,26 @@ export class GenomeGraph extends AbstractVisualization {
             this.labels.innerHTML = LabelController.generateHtml(this.meshes, labelOptions);
         }
     }
-
+    onKeyDown(e: KeyboardEvent): void {
+        if (e.key === 'Meta') {
+            if (this.isEnabled) {
+                this.view.renderer.domElement.style.setProperty('cursor', 'crosshair');
+                this.view.controls.enabled = false;
+                this.tooltipController.enable = false;
+                this.selectionController.setup(this.config, this.onRequestRender, this.onSelect, this.points);
+                this.selectionController.enable = true;
+            }
+        }
+    }
+    onKeyUp(e: KeyboardEvent): void {
+        if (e.key === 'Meta') {
+            if (this.isEnabled) {
+                this.view.renderer.domElement.style.setProperty('cursor', 'default');
+                this.view.controls.enabled = true;
+                this.tooltipController.enable = true;
+                this.selectionController.enable = false;
+                this.selectionController.teardown();
+            }
+        }
+    }
 }

@@ -11,8 +11,9 @@ import { EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model
 import { ChartEvents } from './../../workspace/chart/chart.events';
 import { ChartFactory } from './../../workspace/chart/chart.factory';
 import { HeatmapConfigModel, HeatmapDataModel } from './heatmap.model';
+import { AbstractVisualization } from '../visualization.abstract.component';
 
-export class HeatmapGraph implements ChartObjectInterface {
+export class HeatmapGraph extends AbstractVisualization {
 
     // Emitters
     public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
@@ -21,12 +22,12 @@ export class HeatmapGraph implements ChartObjectInterface {
         new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
 
     // Chart Elements
-    private labels: HTMLElement;
-    private events: ChartEvents;
-    private view: VisualizationView;
+    // private labels: HTMLElement;
+    // private events: ChartEvents;
+    // private view: VisualizationView;
     private data: HeatmapDataModel;
     private config: HeatmapConfigModel;
-    private isEnabled: boolean;
+    // private isEnabled: boolean;
 
     // Objects
     pointSize = 1;
@@ -43,10 +44,10 @@ export class HeatmapGraph implements ChartObjectInterface {
     private group: THREE.Group;
 
 
-    // Private Subscriptions
-    private sMouseMove: Subscription;
-    private sMouseDown: Subscription;
-    private sMouseUp: Subscription;
+    // // Private Subscriptions
+    // private sMouseMove: Subscription;
+    // private sMouseDown: Subscription;
+    // private sMouseUp: Subscription;
 
     create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
 
@@ -65,6 +66,13 @@ export class HeatmapGraph implements ChartObjectInterface {
         this.enable(false);
     }
 
+    // Label Options
+    onShowLabels(): void {
+        this.labels.innerHTML =
+            '<div style="position:fixed;bottom:10px;left:50%; font-size: 15px;">Samples</div>' +
+            '<div style="position:fixed;right:10px;top:50%; transform: rotate(90deg); font-size: 15px;">Genes</div>';
+
+    }
     updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
         throw new Error('Method not implemented.');
     }
@@ -92,7 +100,6 @@ export class HeatmapGraph implements ChartObjectInterface {
 
         const dendrogram = new THREE.Group;
         this.group.add(dendrogram);
-
 
         if (horizontal) {
             dendrogram.rotateZ(Math.PI * 0.5);
@@ -145,7 +152,10 @@ export class HeatmapGraph implements ChartObjectInterface {
         this.drawDendogram(this.data.y, true);
         this.drawDendogram(this.data.x, false);
         this.onRequestRender.next();
-        // debugger;
+        requestAnimationFrame(v => {
+            this.onShowLabels();
+        });
+
     }
 
     createLine(node) {
@@ -153,6 +163,6 @@ export class HeatmapGraph implements ChartObjectInterface {
     }
 
     constructor() {
-
+        super();
     }
 }
