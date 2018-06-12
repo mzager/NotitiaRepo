@@ -1,0 +1,142 @@
+.sprite {
+    background-image: url(/assets/spritesheet.png);
+    background-repeat: no-repeat;
+    display: block;
+}
+    @media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min--moz-device-pixel-ratio: 1.5),only screen and (min-resolution: 240dpi) {
+        .sprite {
+                background-image: url(/assets/spritesheet@2x.png);
+            }
+
+        }
+.sprite-imgDSbile {
+    width: 60px;
+    height: 60px;
+    background-position: -5px -5px;
+}
+
+.sprite-imgDSbladder {
+    width: 60px;
+    height: 60px;
+    background-position: -75px -5px;
+}
+
+.sprite-imgDSblood {
+    width: 60px;
+    height: 60px;
+    background-position: -145px -5px;
+}
+
+.sprite-imgDSbrain {
+    width: 60px;
+    height: 60px;
+    background-position: -215px -5px;
+}
+
+.sprite-imgDSbreast {
+    width: 60px;
+    height: 60px;
+    background-position: -5px -75px;
+}
+
+.sprite-imgDScoadread {
+    width: 60px;
+    height: 60px;
+    background-position: -75px -75px;
+}
+
+.sprite-imgDSeye {
+    width: 60px;
+    height: 60px;
+    background-position: -145px -75px;
+}
+
+.sprite-imgDSheadneck {
+    width: 60px;
+    height: 60px;
+    background-position: -215px -75px;
+}
+
+.sprite-imgDSkidney {
+    width: 60px;
+    height: 60px;
+    background-position: -5px -145px;
+}
+
+.sprite-imgDSliver {
+    width: 60px;
+    height: 60px;
+    background-position: -75px -145px;
+}
+
+.sprite-imgDSlung {
+    width: 60px;
+    height: 60px;
+    background-position: -145px -145px;
+}
+
+.sprite-imgDSovary {
+    width: 60px;
+    height: 60px;
+    background-position: -215px -145px;
+}
+
+.sprite-imgDSpancreas {
+    width: 60px;
+    height: 60px;
+    background-position: -5px -215px;
+}
+
+.sprite-imgDSprostate {
+    width: 60px;
+    height: 60px;
+    background-position: -75px -215px;
+}
+
+.sprite-imgDSsarc {
+    width: 60px;
+    height: 60px;
+    background-position: -145px -215px;
+}
+
+.sprite-imgDSsarcoma {
+    width: 60px;
+    height: 60px;
+    background-position: -215px -215px;
+}
+
+.sprite-imgDSskin {
+    width: 60px;
+    height: 60px;
+    background-position: -285px -5px;
+}
+
+.sprite-imgDSstomach {
+    width: 60px;
+    height: 60px;
+    background-position: -285px -75px;
+}
+
+.sprite-imgDStesticules {
+    width: 60px;
+    height: 60px;
+    background-position: -285px -145px;
+}
+
+.sprite-imgDSthymus {
+    width: 60px;
+    height: 60px;
+    background-position: -285px -215px;
+}
+
+.sprite-imgDSthyroid {
+    width: 60px;
+    height: 60px;
+    background-position: -5px -285px;
+}
+
+.sprite-imgDSuterine {
+    width: 60px;
+    height: 60px;
+    background-position: -75px -285px;
+}

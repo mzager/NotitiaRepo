@@ -143,29 +143,29 @@ export class DataEffect {
 
             const edgeConfig = new EdgeConfigModel();
 
-            const survivalConfig = new SurvivalConfigModel();
-            survivalConfig.graph = GraphEnum.GRAPH_A;
-            survivalConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
+            // const survivalConfig = new SurvivalConfigModel();
+            // survivalConfig.graph = GraphEnum.GRAPH_A;
+            // survivalConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
 
             // const pathwaysConfig = new PathwaysConfigModel();
             // pathwaysConfig.graph = GraphEnum.GRAPH_A;
             // pathwaysConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
 
             const genomeConfig = new GenomeConfigModel();
-            genomeConfig.graph = GraphEnum.GRAPH_A;
+            genomeConfig.graph = GraphEnum.GRAPH_B;
             genomeConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
 
             // const chromosomeConfig = new ChromosomeConfigModel();
             // chromosomeConfig.graph = GraphEnum.GRAPH_A;
             // chromosomeConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
 
-            const boxWhiskersConfig = new BoxWhiskersConfigModel();
-            boxWhiskersConfig.graph = GraphEnum.GRAPH_B;
-            boxWhiskersConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[0];
+            // const boxWhiskersConfig = new BoxWhiskersConfigModel();
+            // boxWhiskersConfig.graph = GraphEnum.GRAPH_B;
+            // boxWhiskersConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[0];
 
-            const timelinesConfigA = new TimelinesConfigModel();
-            timelinesConfigA.graph = GraphEnum.GRAPH_A;
-            timelinesConfigA.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[0];
+            // const timelinesConfigA = new TimelinesConfigModel();
+            // timelinesConfigA.graph = GraphEnum.GRAPH_A;
+            // timelinesConfigA.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[0];
 
             // const timelinesConfigB = new TimelinesConfigModel();
             // timelinesConfigB.graph = GraphEnum.GRAPH_B;
@@ -191,9 +191,6 @@ export class DataEffect {
             pcaIncConfig.graph = GraphEnum.GRAPH_A;
             pcaIncConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
 
-            // const pcaIncConfigB = new PcaIncrementalConfigModel();
-            // pcaIncConfig.graph = GraphEnum.GRAPH_B;
-            // pcaIncConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
 
             // const graphBConfig = new PcaIncrementalConfigModel();
             // graphBConfig.graph = GraphEnum.GRAPH_A;
