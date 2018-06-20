@@ -37,6 +37,41 @@ export class ComputeWorkerUtil {
         'Access-Control-Allow-Origin': '*'
     };
 
+    colorToHex(n): string {
+        n = parseInt(n, 10);
+        if (isNaN(n)) { return '00'; }
+        n = Math.max(0, Math.min(n, 255));
+        return '0123456789ABCDEF'.charAt((n - n % 16) / 16)
+            + '0123456789ABCDEF'.charAt(n % 16);
+    }
+    colorRgbToHex(R, G, B): string { return this.colorToHex(R) + this.colorToHex(G) + this.colorToHex(B); }
+
+    interpolateColor(color1, color2, factor) {
+        if (arguments.length < 3) {
+            factor = 0.5;
+        }
+        const result = color1.slice();
+        for (let i = 0; i < 3; i++) {
+            result[i] = Math.round(result[i] + factor * (color2[i] - color1[i]));
+        }
+        return result;
+    }
+    interpolateColors(color1, color2, steps, hex = false): Array<any> {
+        const stepFactor = 1 / (steps - 1),
+            interpolatedColorArray = [];
+
+        color1 = color1.match(/\d+/g).map(Number);
+        color2 = color2.match(/\d+/g).map(Number);
+
+        for (let i = 0; i < steps; i++) {
+            interpolatedColorArray.push(this.interpolateColor(color1, color2, stepFactor * i));
+        }
+
+        if (hex) {
+            return interpolatedColorArray.map(v => parseInt('0x' + this.colorRgbToHex(v[0], v[1], v[2]), 16));
+        }
+        return interpolatedColorArray;
+    }
 
     // Returns Data Matrix That Matches Filters + Sorted By Entity Type
     getDataMatrix(config: GraphConfig): Promise<any> {
