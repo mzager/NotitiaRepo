@@ -344,9 +344,9 @@ export class WorkspaceComponent {
   workspacePanelSetConfig(value: WorkspaceConfigModel) {
     this.store.dispatch(new WorkspaceConfigAction(value));
   }
-  fileLoadTcga(value: string) {
+  fileLoadPublic(value: any) {
     this.overrideShowPanel = false;
-    this.store.dispatch(new data.DataLoadFromTcga(value));
+    this.store.dispatch(new data.DataLoadFromPublic(value));
     this.store.dispatch(new ModalPanelAction(enums.PanelEnum.NONE));
     this.store.dispatch(new LoaderShowAction());
   }

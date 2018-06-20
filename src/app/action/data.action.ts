@@ -11,7 +11,7 @@ import { Action } from '@ngrx/store';
 // Action Constants
 export const DATA_LOAD_FROM_DEXIE = '[Data] Load From Dexie';
 export const DATA_LOAD_FROM_FILE = '[Data] Load From File';
-export const DATA_LOAD_FROM_TCGA = '[Data] Load From TCGA';
+export const DATA_LOAD_FROM_PUBLIC = '[Data] Load From Public';
 export const DATA_LOAD_ILLUMINA_VCF = '[Data] Load Illumina VCF';
 export const DATA_LOADED = '[Data] Loaded';
 export const DATA_UPDATE_GENESETS = '[Data] Update Genesets';
@@ -81,8 +81,8 @@ export class DataLoadFromFileAction implements Action {
     constructor(public payload: DataTransfer) { }
 }
 
-export class DataLoadFromTcga implements Action {
-    readonly type: string = DATA_LOAD_FROM_TCGA;
+export class DataLoadFromPublic implements Action {
+    readonly type: string = DATA_LOAD_FROM_PUBLIC;
     constructor(public payload: String) { }
 }
 
@@ -103,7 +103,7 @@ export class DataLoadIlluminaVcfAction implements UnsafeAction {
 // Action Type
 export type Actions =
     DataLoadFromFileAction | DataLoadFromDexieAction |
-    DataLoadedAction | DataLoadIlluminaVcfAction | DataLoadFromTcga |
+    DataLoadedAction | DataLoadIlluminaVcfAction | DataLoadFromPublic |
     DataAddPathwayAction | DataDelPathwayAction | DataUpdatePathwayAction |
     DataAddGenesetAction | DataDelGenesetAction | DataUpdateGenesetsAction |
     DataAddCohortAction | DataDelCohortAction | DataUpdateCohortsAction | DataQueryCohortAction;

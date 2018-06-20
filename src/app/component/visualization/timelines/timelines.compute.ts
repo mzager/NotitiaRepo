@@ -20,12 +20,53 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
     };
 
     const colors = [
-        [0x90caf9, 0x0d47a1, 0x64b5f6], // Start Stop Restart
-        [0xff5722, 0xffc107, 0xcddc39, 0x4caf50],
-        [0xa5d6a7, 0xb39ddb, 0x311b92, 0x1b5e20], // Death Stuff
-        [0x795548, 0xff9800, 0xffeb3b, 0x8bc34a,
-            0x009688, 0x03a9f4, 0x3f51b5, 0x9c27b0,
-            0xf44336, 0x607d8b, 0x673ab7, 0xe91e63]
+        [   // Blues
+            0x1A237E,
+            0x27358B,
+            0x344899,
+            0x415AA7,
+            0x4E6DB4,
+            0x5B7FC2,
+            0x6892D0,
+            0x75A4DD,
+            0x82B7EB,
+            0x90CAF9
+        ],  // Start Stop Restart
+        [   // Greens
+            0x1B5E20,
+            0x2B6B2A,
+            0x3B7835,
+            0x4C8540,
+            0x5C924B,
+            0x6CA055,
+            0x7DAD60,
+            0x8DBA6B,
+            0x9DC776
+        ],
+        [   // Oranges
+            0xE65100,
+            0xE85D00,
+            0xEB6901,
+            0xEE7602,
+            0xF18203,
+            0xF38F03,
+            0xF69B04,
+            0xF9A805,
+            0xFCB406,
+            0xFFC107,
+        ],  // Death Stuff
+        [
+            0xB71C1C,
+            0xB7242F,
+            0xB72C42,
+            0xB83555,
+            0xB83D68,
+            0xB8467B,
+            0xB94E8E,
+            0xB957A1,
+            0xB95FB4,
+            0xBA68C8
+        ]
     ];
 
     const getPatientInfo = function (db: string, tbl: string): Promise<any> {
@@ -72,6 +113,10 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
             .map(v => v.toString());
         eventData = eventData.filter(v => events.indexOf(v.subtype) !== -1);
 
+
+        const cols = worker.util.interpolateColors('rgb(94, 79, 162)', 'rgb(247, 148, 89)', config.bars.length, true);
+
+        debugger;
         const colorMap = config.bars.map((v, i) =>
             v.events.reduce((p, c, j) => {
                 p[c] = colors[i][j];

@@ -93,7 +93,7 @@ export class SelectionBoxController extends AbstractMouseController {
         const intersects = this.getIntersects(this._view, e.mouse, this._targets);
         if (intersects.length > 0) {
             const event: MouseEvent = e.event as MouseEvent;
-            const target: Vector3 = intersects[0].object.position.clone();
+            const target: Vector3 = intersects[0].point.clone();//.object.position.clone();
             const geometry = new SphereGeometry(3, 30, 30);
             const material = new MeshPhongMaterial({ color: 0x029BE5, opacity: 0.1, transparent: true, depthWrite: false });
             this.data.selectionMesh = new Mesh(geometry, material);
@@ -137,6 +137,7 @@ export class SelectionBoxController extends AbstractMouseController {
             .forEach(o3d => {
                 const mesh = o3d as Mesh;
                 const material = mesh.material as THREE.MeshPhongMaterial;
+                console.dir(o3d.position);
 
                 if (sphere.containsPoint(o3d.position)) {
                     mesh.userData.selected = true;
