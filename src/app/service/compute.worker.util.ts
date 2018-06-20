@@ -66,7 +66,6 @@ export class ComputeWorkerUtil {
         for (let i = 0; i < steps; i++) {
             interpolatedColorArray.push(this.interpolateColor(color1, color2, stepFactor * i));
         }
-
         if (hex) {
             return interpolatedColorArray.map(v => parseInt('0x' + this.colorRgbToHex(v[0], v[1], v[2]), 16));
         }

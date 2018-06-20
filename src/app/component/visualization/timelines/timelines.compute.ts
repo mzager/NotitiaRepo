@@ -114,15 +114,19 @@ export const timelinesCompute = (config: TimelinesConfigModel, worker: Dedicated
         eventData = eventData.filter(v => events.indexOf(v.subtype) !== -1);
 
 
-        const cols = worker.util.interpolateColors('rgb(94, 79, 162)', 'rgb(247, 148, 89)', config.bars.length, true);
-
-        debugger;
-        const colorMap = config.bars.map((v, i) =>
-            v.events.reduce((p, c, j) => {
-                p[c] = colors[i][j];
+        const colorRanges = [
+            ['rgb(233,30,99)', 'rgb(74,20,140)'],
+            ['rgb(255,213,79)', 'rgb(230,81,0)'],
+            ['rgb(165,214,167)', 'rgb(27,94,32)']
+        ];
+        const colorMap = config.bars.map((v, i) => {
+            const cols = worker.util.interpolateColors(colorRanges[i][0], colorRanges[i][1], v.events.length, true);
+            return v.events.reduce((p, c, j) => {
+                // p[c] = colors[i][j];
+                p[c] = cols[j];
                 return p;
-            }, {})
-        ).reduce((p, c) => Object.assign(p, c), {});
+            }, {});
+        }).reduce((p, c) => Object.assign(p, c), {});
 
         // Associate Bar + Color To Event
         eventData = eventData.map(v => {
