@@ -97,7 +97,7 @@ export class DataPanelComponent implements AfterViewInit {
         case CollectionTypeEnum.EVENT:
           break;
         case CollectionTypeEnum.PATIENT:
-          this.db.table(table.tbl).limit(50).toArray().then(result => {
+          this.db.table(table.tbl).limit(300).toArray().then(result => {
             const keys = Object.keys(result[0]);
             this.colHeaders = Object.keys(result[0]).map(v => v.replace(/\_/gi, ' '));
             this.dataSource = result.map(v => keys.map(w => v[w]));
@@ -111,9 +111,10 @@ export class DataPanelComponent implements AfterViewInit {
             this.db.table(table.map.replace(/\s/gi, '')).toArray()
           ]).then(result => {
             this.colHeaders = result[1].map(v => v.s);
-            this.rowHeaders = result[0].map(v => v.m);
-            this.dataSource = result[0].map(v => v.d);
+            this.colHeaders.unshift('m');
+            this.dataSource = result[0].map(v => [v.m, ...v.d]);
             this.cd.detectChanges();
+
           });
           break;
       }
