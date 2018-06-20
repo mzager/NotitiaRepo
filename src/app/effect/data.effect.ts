@@ -98,17 +98,18 @@ export class DataEffect {
 
 
     // Load Data From TCGA
-    @Effect() dataLoadFromTcga$: Observable<any> = this.actions$
-        .ofType(data.DATA_LOAD_FROM_TCGA)
+    @Effect() dataLoadFromPublic$: Observable<any> = this.actions$
+        .ofType(data.DATA_LOAD_FROM_PUBLIC)
         .map((action: UnsafeAction) => action.payload)
         .switchMap((args) => {
-            args['manifest'] = 'https://oncoscape.v3.sttrcancer.org/data/tcga/tcga_' + args['disease'] + '_manifest.json.gz';
+            args['baseUrl'] = 'https://oncoscape.v3.sttrcancer.org/data/' + args['src'] + '/';
+            args['manifest'] = 'https://oncoscape.v3.sttrcancer.org/data/' + args['src'] + '/' + args['prefix'] + 'manifest.json.gz';
             return this.datasetService.load(args);
         }).
         mergeMap((args) => {
             return [
                 // new FilePanelToggleAction(),
-                new DataLoadFromDexieAction(args.disease)
+                new DataLoadFromDexieAction(args.uid)
             ];
         });
 

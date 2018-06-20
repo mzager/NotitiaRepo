@@ -12,7 +12,6 @@ import { ChartEvents } from './../../workspace/chart/chart.events';
 import { ChartFactory, DataDecoatorRenderer } from './../../workspace/chart/chart.factory';
 import { AbstractVisualization } from './../visualization.abstract.component';
 import { GenomeConfigModel, GenomeDataModel } from './genome.model';
-import { SelectionController } from '../../../controller/selection/selection.controller';
 
 export class GenomeGraph extends AbstractVisualization {
 
@@ -52,7 +51,6 @@ export class GenomeGraph extends AbstractVisualization {
         super.updateDecorator(config, decorators);
         ChartFactory.decorateDataGroups(this.meshes, this.decorators, this.renderer);
         this.selectionController.targets = this.points;
-        debugger;
         this.onShowLabels();
     }
     updateData(config: GraphConfig, data: any) {

@@ -48,7 +48,8 @@ export class DatasetService {
     fetch(manifest.manifest, requestInit)
       .then(response => response.json())
       .then(response => {
-        Dexie.exists('notitia-' + manifest.disease)
+
+        Dexie.exists('notitia-' + manifest.uid)
           .then(exists => {
             if (exists) {
               this.loader$.next(manifest);
@@ -58,7 +59,7 @@ export class DatasetService {
             response.schema.pathways = '++, n';
             response.schema.cohorts = '++, n';
             response.schema.genesets = '++, n';
-            const db = DatasetService.db = new Dexie('notitia-' + manifest.disease);
+            const db = DatasetService.db = new Dexie('notitia-' + manifest.uid);
             this.loaderStatusUpdate.next('Loading Metadata');
             DatasetService.db.on('versionchange', function (event) { });
             DatasetService.db.on('blocked', () => { });
@@ -76,22 +77,23 @@ export class DatasetService {
             const events = Object.keys(response.events).map(key => ({ type: response.events[key], subtype: key }));
             const tbls = response.files.map(v => {
               const dt = v.dataType.toLowerCase();
+              const name = v.name.replace('matrix ', '');
               return (dt === 'clinical') ?
                 { tbl: 'patient', map: 'patientMap', label: 'Patient', ctype: CollectionTypeEnum.PATIENT } :
                 (dt === 'events') ?
-                  { tbl: v.name, map: v.name + 'Map', label: v.name, ctype: CollectionTypeEnum.EVENT } :
+                  { tbl: name, map: name + 'Map', label: name, ctype: CollectionTypeEnum.EVENT } :
                   (dt === 'gistic') ?
-                    { tbl: v.name, map: v.name + 'Map', label: v.name, ctype: CollectionTypeEnum.GISTIC } :
+                    { tbl: name, map: name + 'Map', label: name, ctype: CollectionTypeEnum.GISTIC } :
                     (dt === 'gistic_threshold') ?
-                      { tbl: v.name, map: v.name + 'Map', label: v.name, ctype: CollectionTypeEnum.GISTIC_THRESHOLD } :
+                      { tbl: name, map: name + 'Map', label: name, ctype: CollectionTypeEnum.GISTIC_THRESHOLD } :
                       (dt === 'mut') ?
-                        { tbl: v.name, map: v.name + 'Map', label: v.name, ctype: CollectionTypeEnum.MUTATION } :
+                        { tbl: name, map: name + 'Map', label: name, ctype: CollectionTypeEnum.MUTATION } :
                         (dt === 'rna') ?
-                          { tbl: v.name, map: v.name + 'Map', label: v.name, ctype: CollectionTypeEnum.RNA } :
+                          { tbl: name, map: name + 'Map', label: name, ctype: CollectionTypeEnum.RNA } :
                           null;
             }).filter(v => v);
             const dataset = {
-              name: manifest.disease,
+              name: manifest.uid,
               events: events,
               fields: fields,
               tables: tbls
@@ -116,7 +118,7 @@ export class DatasetService {
                     }
                   };
                   loader.addEventListener('message', onMessage);
-                  loader.postMessage({ cmd: 'load', disease: manifest.disease, file: file });
+                  loader.postMessage({ cmd: 'load', disease: manifest.disease, uid: manifest.uid, baseUrl: manifest.baseUrl, file: file });
                 });
               })
             ).then(v => {

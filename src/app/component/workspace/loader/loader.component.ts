@@ -22,7 +22,7 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
     @Input() set visbibility(value: boolean) { }
     onLoaderStatusUpdate(msg: string): void {
         this.showEllipsis = false;
-        this.quote = { q: 'Getting data for the 1st time', a: msg };
+        this.quote = { q: 'Hang tight, we\'re loading your dataset for the 1st time', a: msg };
         this.cd.detectChanges();
     }
     ngOnDestroy(): void {
@@ -41,6 +41,8 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
             // { q: 'Biology is the least of what makes someone a mother', a: 'Oprah Winfrey' },
             // { q: 'Don\'t quote me on this', a: '  Zhang' },
             // { q: 'Art is the tree of life. Science is the tree of death.', a: 'William Blake' },
+            { q: 'All models are wrong, but some are useful', a: 'George Box' },
+            { q: 'The best model of a cat is another cat, preferably the same cat', a: 'Norbert Wiener' },
             { q: 'You cannot teach a man anything; you can only help him discover it in himself', a: 'Galileo' },
             { q: 'A man with a watch knows what time it is. A man with two watches is never sure', a: 'Arthur Block' },
             { q: 'Never be limited by other people\'s limited imaginations', a: 'Mae Jemison' },

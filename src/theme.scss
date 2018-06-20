@@ -23,6 +23,22 @@ $custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $hea
 @include angular-material-typography($custom-typography);
 /* Disable Text Select */
 
+
+// Twitter Overrides
+// .timeline-Header { 
+//   display: none !important;
+// }
+// .timeline-Widget {
+//   font-family: 'Lato' !important;
+//   max-height: 405px !important;
+//   overflow: scroll !important;
+// }
+#twitter-widget-holder{ 
+  max-height:405px;
+  background:#fff; 
+  overflow: scroll;
+}
+
 // Global Styles
 * {
   -webkit-touch-callout: none;

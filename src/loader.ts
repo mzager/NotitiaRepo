@@ -37,7 +37,7 @@ const mutationType = {
     33554432: 'R'
 };
 
-const baseUrl = 'https://oncoscape.v3.sttrcancer.org/data/tcga/';
+let baseUrl = 'https://oncoscape.v3.sttrcancer.org/data/tcga/';
 const headers = new Headers();
 headers.append('Content-Type', 'application/json');
 headers.append('Accept-Encoding', 'gzip');
@@ -92,7 +92,7 @@ const loadEvents = (name: string, file: string): Promise<any> => {
             const mult = 86400000;
             const lookup = Object.keys(response.map).reduce((p, c) => { p.push({ type: response.map[c], subtype: c }); return p; }, []);
             const data = response.data.map(datum => Object.assign({
-                p: datum[0],
+                p: datum[0].toLowerCase(),
                 start: datum[2], // * 86400000,
                 end: datum[3], // * 86400000,
                 data: datum[4]
@@ -115,7 +115,7 @@ const loadClinical = (name: string, file: string): Promise<any> => {
             report('Parsing Clinical');
             const patientMetaTable = Object.keys(response.fields).map((key, index) => ({
                 ctype: 2,
-                key: key,
+                key: key.toLowerCase(),
                 label: key.replace(/_/gi, ' '),
                 tbl: 'patient',
                 type: Array.isArray(response.fields[key]) ? 'STRING' : 'NUMBER',
@@ -126,7 +126,7 @@ const loadClinical = (name: string, file: string): Promise<any> => {
                     const value = response.values[index][i];
                     p[v.key] = (v.type === 'NUMBER') ? value : v.values[value];
                     return p;
-                }, { p: id });
+                }, { p: id.toLowerCase() });
             });
             report('Processing Clinical');
             return new Promise((resolve, reject) => {
@@ -145,7 +145,7 @@ const loadGisticThreshold = (name: string, file: string): Promise<any> => {
         .then(response => { report('Gistic Threshold Loaded'); return response.json(); })
         .then(response => {
             report('Parsing Gistic Threshold');
-            const gisticThresholdSampleIds = response.ids.map((s, i) => ({ i: i, s: s }));
+            const gisticThresholdSampleIds = response.ids.map((s, i) => ({ i: i, s: s.toLowerCase() }));
             const gisticThresholdTable = response.values.map((v, i) => {
                 const obj = v.reduce((p, c) => {
                     p.min = Math.min(p.min, c);
@@ -173,7 +173,7 @@ const loadGistic = (name: string, file: string): Promise<any> => {
         .then(response => { report('Gistic Loaded'); return response.json(); })
         .then(response => {
             report('Parsing Gistic Scores');
-            const gisticSampleIds = response.ids.map((s, i) => ({ i: i, s: s }));
+            const gisticSampleIds = response.ids.map((s, i) => ({ i: i, s: s.toLowerCase() }));
             const gisticTable = response.values.map((v, i) => {
                 const obj = v.reduce((p, c) => {
                     p.min = Math.min(p.min, c);
@@ -201,7 +201,7 @@ const loadPatientSampleMap = (name: string, file: string): Promise<any> => {
         .then(response => {
             report('Processing Patient Sample Maps');
             const data = Object.keys(response).reduce((p, c) => {
-                response[c].forEach(v => { p.push({ p: c, s: v }); });
+                response[c].forEach(v => { p.push({ p: c.toLowerCase(), s: v.toLowerCase() }); });
                 return p;
             }, []);
             return new Promise((resolve, reject) => {
@@ -229,7 +229,7 @@ const loadMutation = (name: string, file: string): Promise<any> => {
             ).reduce((p, c) => {
                 p.push(...lookup
                     .filter(v => (parseInt(v, 10) & c[2]))
-                    .map(v => ({ m: c[0], s: c[1], t: mType[v] })));
+                    .map(v => ({ m: c[0], s: c[1].toLowerCase(), t: mType[v] })));
                 return p;
             }, []);
             return new Promise((resolve, reject) => {
@@ -248,7 +248,7 @@ const loadRna = (name: string, file: string): Promise<any> => {
         .then(response => { report('Parsing Rna Data'); return response.json(); })
         .then(response => {
             report('Processing RNA Data');
-            const rnaSampleIds = response.ids.map((s, i) => ({ i: i, s: s }));
+            const rnaSampleIds = response.ids.map((s, i) => ({ i: i, s: s.toLowerCase() }));
             const rnaTable = response.values.map((v, i) => {
                 const obj = v.reduce((p, c) => {
                     p.min = Math.min(p.min, c);
@@ -271,24 +271,34 @@ const loadRna = (name: string, file: string): Promise<any> => {
 
 onmessage = function (e) {
     const me = self as LoaderWorkerGlobalScope;
-
     switch (e.data.cmd) {
         case 'load':
-            const db = new Dexie('notitia-' + e.data.disease);
+            const db = new Dexie('notitia-' + e.data.uid);
+            baseUrl = e.data.baseUrl;
             db.open().then(v => {
-                processResource(e.data.file).then(values => {
-                    const tables: Array<{ tbl: string, data: Array<any> }> = values;
-                    Promise.all(
-                        tables.map(tbl => db.table(tbl.tbl).bulkAdd(tbl.data))
-                    ).then(() => {
-                        report('Saving ' + tables[0].tbl);
-                        me.postMessage(
-                            JSON.stringify({
-                                cmd: 'terminate'
-                            })
-                        );
+                try {
+                    processResource(e.data.file).then(values => {
+                        const tables: Array<{ tbl: string, data: Array<any> }> = values;
+                        tables.forEach(v => {
+                            if (v.tbl.indexOf('matrix') === 0) {
+                                v.tbl = v.tbl.replace('matrix', '');
+                            }
+                        })
+                        debugger;
+                        Promise.all(
+                            tables.map(tbl => db.table(tbl.tbl).bulkAdd(tbl.data))
+                        ).then(() => {
+                            report('Saving ' + tables[0].tbl);
+                            me.postMessage(
+                                JSON.stringify({
+                                    cmd: 'terminate'
+                                })
+                            );
+                        });
                     });
-                });
+                } catch (e) {
+                    debugger;
+                }
             });
             break;
     }

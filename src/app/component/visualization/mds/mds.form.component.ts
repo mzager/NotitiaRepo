@@ -9,8 +9,8 @@ import { MdsConfigModel, MdsDissimilarity } from './mds.model';
   template: `
 <form [formGroup]="form" novalidate>
   <mat-form-field class='form-field'>
-    <mat-select placeholder='Data' formControlName='table'>
-      <mat-option *ngFor='let option of dataOptions' [value]='option.label'>
+    <mat-select placeholder='Data' formControlName='table' [compareWith]='byTbl'>
+      <mat-option *ngFor='let option of dataOptions' [value]='option'>
           {{ option.label }}
       </mat-option>
     </mat-select>
@@ -43,6 +43,7 @@ import { MdsConfigModel, MdsDissimilarity } from './mds.model';
         </mat-option>
     </mat-select>
   </mat-form-field>
+  <!--
   <mat-form-field class='form-field'>
     <mat-select placeholder='Dissimilarity' formControlName='dissimilarity'>
         <mat-option *ngFor='let option of MdsDissimilarityOpitions' [value]='option'>
@@ -59,6 +60,7 @@ import { MdsConfigModel, MdsDissimilarity } from './mds.model';
       </label>
     </div>
   </div>
+  -->
 </form>
   `
 })
