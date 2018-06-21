@@ -117,12 +117,6 @@ export class BoxWhiskersFormComponent {
       graph: [],
       database: [],
       entity: [],     // *
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
       continuousVariable: [],
       categoricalVariable1: [],
       categoricalVariable2: [],

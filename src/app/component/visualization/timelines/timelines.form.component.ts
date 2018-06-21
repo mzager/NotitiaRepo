@@ -113,12 +113,6 @@ export class TimelinesFormComponent implements OnDestroy {
       graph: [],
       database: [],
       entity: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
 
       sort: [],
       group: [],

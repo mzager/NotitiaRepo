@@ -33,12 +33,6 @@ export class PcaSparseFormComponent extends AbstractScatterForm {
       graph: [],
       database: [],
       entity: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
       table: [],
 
       pcx: [],
@@ -51,15 +45,7 @@ export class PcaSparseFormComponent extends AbstractScatterForm {
       ridge_alpha: [],
       max_iter: [],
       tol: [],
-      method: [],
-
-      enableCohorts: [],
-      enableGenesets: [],
-      enablePathways: [],
-      enableSupplemental: [],
-      enableLabel: [],
-      enableColor: [],
-      enableShape: []
+      method: []
     });
 
     this.registerFormChange();

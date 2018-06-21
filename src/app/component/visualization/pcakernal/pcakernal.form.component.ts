@@ -42,12 +42,6 @@ export class PcaKernalFormComponent extends AbstractScatterForm {
       graph: [],
       database: [],
       entity: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
       table: [],
 
       pcx: [],
@@ -62,15 +56,7 @@ export class PcaKernalFormComponent extends AbstractScatterForm {
       fit_inverse_transform: [],
       eigen_solver: [],
       tol: [],
-      remove_zero_eig: [],
-
-      enableCohorts: [],
-      enableGenesets: [],
-      enablePathways: [],
-      enableSupplemental: [],
-      enableLabel: [],
-      enableColor: [],
-      enableShape: []
+      remove_zero_eig: []
     });
 
     this.registerFormChange();

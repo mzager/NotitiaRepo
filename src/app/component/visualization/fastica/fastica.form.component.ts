@@ -40,12 +40,6 @@ export class FastIcaFormComponent extends AbstractScatterForm {
       database: [],
       entity: [],
       table: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
       dataOption: [],
 
       pcx: [],
@@ -56,15 +50,7 @@ export class FastIcaFormComponent extends AbstractScatterForm {
       algorithm: [],
       fun: [],
       whiten: [],
-      tol: [],
-
-      enableCohorts: [],
-      enableGenesets: [],
-      enablePathways: [],
-      enableSupplemental: [],
-      enableLabel: [],
-      enableColor: [],
-      enableShape: []
+      tol: []
     });
 
     this.registerFormChange();

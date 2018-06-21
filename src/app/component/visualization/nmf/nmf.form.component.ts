@@ -106,12 +106,6 @@ export class NmfFormComponent extends AbstractScatterForm {
       graph: [],
       database: [],
       entity: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
       table: [],
       pcx: [],
       pcy: [],
@@ -122,15 +116,7 @@ export class NmfFormComponent extends AbstractScatterForm {
       init: [],
       solver: [],
       beta_loss: [],
-      tol: [],
-
-      enableCohorts: [],
-      enableGenesets: [],
-      enablePathways: [],
-      enableSupplemental: [],
-      enableLabel: [],
-      enableColor: [],
-      enableShape: []
+      tol: []
     });
 
     this.registerFormChange();

@@ -54,8 +54,8 @@ export class FilePanelComponent {
     { 'name': 'Thymoma', 'prefix': 'tcga_thym_', 'img': 'DSthymus', 'src': 'tcga', 'uid': 'tcga_thym' },
     { 'name': 'Uterine corpus endometrial', 'prefix': 'tcga_ucec_', 'img': 'DSuterine', 'src': 'tcga', 'uid': 'tcga_ucec' },
     { 'name': 'Uterine carcinosarcoma', 'prefix': 'tcga_ucs_', 'img': 'DSuterine', 'src': 'tcga', 'uid': 'tcga_ucs' },
-    { 'name': 'Uveal melanoma', 'prefix': 'tcga_uvm_', 'img': 'DSeye', 'src': 'tcga', 'uid': 'tcga_uvm' },
-    { 'name': 'Metastatic Breast Cancer Project', 'prefix': '', 'img': 'DSbreast', 'src': 'broad', 'uid': 'broad_mbcp' }
+    { 'name': 'Uveal melanoma', 'prefix': 'tcga_uvm_', 'img': 'DSeye', 'src': 'tcga', 'uid': 'tcga_uvm' }
+    // { 'name': 'Metastatic Breast Cancer Project', 'prefix': '', 'img': 'DSbreast', 'src': 'broad', 'uid': 'broad_mbcp' }
     // { 'name': 'AML Krakow', 'disease': 'ek', 'img': 'DSblood' }
   ].sort((a, b) => a.img.toUpperCase() < b.img.toUpperCase() ? -1 : 1);
 

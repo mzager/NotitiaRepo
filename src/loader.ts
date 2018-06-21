@@ -279,12 +279,12 @@ onmessage = function (e) {
                 try {
                     processResource(e.data.file).then(values => {
                         const tables: Array<{ tbl: string, data: Array<any> }> = values;
-                        tables.forEach(v => {
-                            if (v.tbl.indexOf('matrix') === 0) {
-                                v.tbl = v.tbl.replace('matrix', '');
+                        tables.forEach(w => {
+                            if (w.tbl.indexOf('matrix') === 0) {
+                                w.tbl = w.tbl.replace('matrix', '');
                             }
-                        })
-                        debugger;
+                        });
+                        // debugger;
                         Promise.all(
                             tables.map(tbl => db.table(tbl.tbl).bulkAdd(tbl.data))
                         ).then(() => {
@@ -297,7 +297,7 @@ onmessage = function (e) {
                         });
                     });
                 } catch (e) {
-                    debugger;
+                    // debugger;
                 }
             });
             break;

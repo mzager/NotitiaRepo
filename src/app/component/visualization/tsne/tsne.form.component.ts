@@ -40,12 +40,6 @@ export class TsneFormComponent extends AbstractScatterForm {
       graph: [],
       database: [],
       table: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
       pointData: [],
       // pointColor: [],
       // pointShape: [],
@@ -63,15 +57,7 @@ export class TsneFormComponent extends AbstractScatterForm {
       n_iter: [],
       metric: [],
       sk_method: [],
-      min_grad_norm: [],
-
-      enableCohorts: [],
-      enableGenesets: [],
-      enablePathways: [],
-      enableSupplemental: [],
-      enableLabel: [],
-      enableColor: [],
-      enableShape: []
+      min_grad_norm: []
     });
 
     this.registerFormChange();
