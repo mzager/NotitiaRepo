@@ -40,12 +40,6 @@ export class HicFormComponent {
       graph: [],
       database: [],
       entity: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
       table: [],
 
       gene: [],

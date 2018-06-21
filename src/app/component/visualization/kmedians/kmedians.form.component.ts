@@ -137,12 +137,6 @@ export class KmedianFormComponent {
       graph: [],
       database: [],
       dataKey: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
       molecularTable: [],
       pointData: [],
       pointColor: [],
@@ -153,14 +147,7 @@ export class KmedianFormComponent {
       showVectors: [],
       isCovarianceMatrix: [],
       isCentered: [],
-      isScaled: [],
-      enableCohorts: [],
-      enableGenesets: [],
-      enablePathways: [],
-      enableSupplemental: [],
-      enableLabel: [],
-      enableColor: [],
-      enableShape: []
+      isScaled: []
     });
 
     // Update When Form Changes

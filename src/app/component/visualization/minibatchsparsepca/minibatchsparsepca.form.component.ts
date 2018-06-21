@@ -86,12 +86,6 @@ export class MiniBatchSparsePcaFormComponent extends AbstractScatterForm {
       graph: [],
       database: [],
       entity: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
       table: [],
 
       pcx: [],
@@ -103,15 +97,7 @@ export class MiniBatchSparsePcaFormComponent extends AbstractScatterForm {
       n_iter: [],
       batch_size: [],
       shuffle: [],
-      sk_method: [],
-
-      enableCohorts: [],
-      enableGenesets: [],
-      enablePathways: [],
-      enableSupplemental: [],
-      enableLabel: [],
-      enableColor: [],
-      enableShape: []
+      sk_method: []
     });
 
     this.registerFormChange();

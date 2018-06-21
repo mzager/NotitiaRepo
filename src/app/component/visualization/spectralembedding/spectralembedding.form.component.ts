@@ -43,12 +43,6 @@ export class SpectralEmbeddingFormComponent extends AbstractScatterForm {
       graph: [],
       database: [],
       entity: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
       table: [],
 
       pcx: [],
@@ -60,15 +54,7 @@ export class SpectralEmbeddingFormComponent extends AbstractScatterForm {
       eigen_solver: [],
       n_neighbors: [],
       gamma: [],
-      affinity: [],
-
-      enableCohorts: [],
-      enableGenesets: [],
-      enablePathways: [],
-      enableSupplemental: [],
-      enableLabel: [],
-      enableColor: [],
-      enableShape: []
+      affinity: []
     });
 
     this.registerFormChange();

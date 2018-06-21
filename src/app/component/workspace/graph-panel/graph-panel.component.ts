@@ -315,6 +315,8 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     gc.table = prevConfig.table;
     gc.pathwayUri = prevConfig.pathwayUri;
     gc.pathwayName = prevConfig.pathwayName;
+    gc.cohortName = prevConfig.cohortName;
+    gc.markerName = prevConfig.markerName;
     gc.sampleFilter = prevConfig.sampleFilter;
     gc.markerFilter = prevConfig.markerFilter;
     gc.patientFilter = prevConfig.patientFilter;
@@ -325,6 +327,24 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.configChange.emit(gc);
   }
   graphPanelSetConfig(value: GraphConfig) {
+
+    value.enableCohorts = this._config.enableCohorts;
+    value.enableGenesets = this._config.enableGenesets;
+    value.enablePathways = this._config.enablePathways;
+    value.enableSupplemental = this._config.enableSupplemental;
+    value.enableLabel = this._config.enableLabel;
+    value.enableColor = this._config.enableColor;
+    value.enableShape = this._config.enableShape;
+    value.pathwayUri = this._config.pathwayUri;
+    value.pathwayName = this._config.pathwayName;
+    value.cohortName = this._config.cohortName;
+    value.markerName = this._config.markerName;
+    value.sampleFilter = this._config.sampleFilter;
+    value.markerFilter = this._config.markerFilter;
+    value.patientFilter = this._config.patientFilter;
+    value.sampleSelect = this._config.sampleSelect;
+    value.markerSelect = this._config.markerSelect;
+    value.patientSelect = this._config.patientSelect;
     this.configChange.emit(value);
   }
 

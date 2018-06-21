@@ -78,12 +78,6 @@ export class LdaFormComponent extends AbstractScatterForm {
       graph: [],
       database: [],
       entity: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
       table: [],
 
       pcx: [],
@@ -94,15 +88,7 @@ export class LdaFormComponent extends AbstractScatterForm {
       learning_method: [],
       learning_decay: [],
       learning_offset: [],
-      mean_change_tol: [],
-
-      enableCohorts: [],
-      enableGenesets: [],
-      enablePathways: [],
-      enableSupplemental: [],
-      enableLabel: [],
-      enableColor: [],
-      enableShape: []
+      mean_change_tol: []
     });
 
     this.registerFormChange();

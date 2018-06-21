@@ -35,24 +35,12 @@ export class FaFormComponent extends AbstractScatterForm {
       graph: [],
       database: [],
       entity: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
       table: [],
 
       n_components: [],
       dimension: [],
       tol: [],
-      svd_method: [],
-
-      enableCohorts: [],
-      enableGenesets: [],
-      enablePathways: [],
-      enableSupplemental: [],
-      enableLabel: [],
-      enableColor: [],
-      enableShape: []
+      svd_method: []
     });
 
     this.registerFormChange();

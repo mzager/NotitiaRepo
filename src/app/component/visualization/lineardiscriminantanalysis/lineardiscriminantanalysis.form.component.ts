@@ -43,12 +43,7 @@ export class LinearDiscriminantAnalysisFormComponent extends AbstractScatterForm
       graph: [],
       database: [],
       entity: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
+
       table: [],
       pcx: [],
       pcy: [],
@@ -60,15 +55,7 @@ export class LinearDiscriminantAnalysisFormComponent extends AbstractScatterForm
       shrinkage: [],
       // priors =
       store_covariance: [],
-      tol: [],
-
-      enableCohorts: [],
-      enableGenesets: [],
-      enablePathways: [],
-      enableSupplemental: [],
-      enableLabel: [],
-      enableColor: [],
-      enableShape: []
+      tol: []
     });
 
     this.registerFormChange();

@@ -34,12 +34,6 @@ export class TruncatedSvdFormComponent extends AbstractScatterForm {
       graph: [],
       database: [],
       entity: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
       table: [],
 
       pcx: [],
@@ -49,15 +43,7 @@ export class TruncatedSvdFormComponent extends AbstractScatterForm {
       dimension: [],
       algorithm: [],
       tol: [],
-      n_iter: [],
-
-      enableCohorts: [],
-      enableGenesets: [],
-      enablePathways: [],
-      enableSupplemental: [],
-      enableLabel: [],
-      enableColor: [],
-      enableShape: []
+      n_iter: []
     });
 
     this.registerFormChange();

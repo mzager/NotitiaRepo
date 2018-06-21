@@ -47,12 +47,6 @@ export class IsoMapFormComponent extends AbstractScatterForm {
       graph: [],
       database: [],
       entity: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
       table: [],
 
       pcx: [],
@@ -64,15 +58,7 @@ export class IsoMapFormComponent extends AbstractScatterForm {
       n_neighbors: [],
       eigen_solver: [],
       path_method: [],
-      neighbors_algorithm: [],
-
-      enableCohorts: [],
-      enableGenesets: [],
-      enablePathways: [],
-      enableSupplemental: [],
-      enableLabel: [],
-      enableColor: [],
-      enableShape: []
+      neighbors_algorithm: []
     });
 
     this.registerFormChange();

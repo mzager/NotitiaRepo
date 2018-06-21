@@ -28,12 +28,6 @@ export class PcaIncrementalFormComponent extends AbstractScatterForm {
       graph: [],
       database: [],
       entity: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
       table: [],
 
       pcx: [],
@@ -43,15 +37,7 @@ export class PcaIncrementalFormComponent extends AbstractScatterForm {
       dimension: [],
       whiten: [],
       batch_size: [],
-      copy: [],
-
-      enableCohorts: [],
-      enableGenesets: [],
-      enablePathways: [],
-      enableSupplemental: [],
-      enableLabel: [],
-      enableColor: [],
-      enableShape: []
+      copy: []
     });
 
     this.registerFormChange();

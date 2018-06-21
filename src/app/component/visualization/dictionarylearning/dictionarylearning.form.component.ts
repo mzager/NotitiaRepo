@@ -45,12 +45,6 @@ export class DictionaryLearningFormComponent extends AbstractScatterForm {
       graph: [],
       database: [],
       entity: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
       table: [],
 
       pcx: [],
@@ -63,15 +57,7 @@ export class DictionaryLearningFormComponent extends AbstractScatterForm {
       tol: [],
       fit_algorithm: [],
       transform_algorithm: [],
-      split_sign: [],
-
-      enableCohorts: [],
-      enableGenesets: [],
-      enablePathways: [],
-      enableSupplemental: [],
-      enableLabel: [],
-      enableColor: [],
-      enableShape: []
+      split_sign: []
     });
 
     this.registerFormChange();

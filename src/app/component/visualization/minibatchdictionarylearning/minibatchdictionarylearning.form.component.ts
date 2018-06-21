@@ -103,12 +103,6 @@ export class MiniBatchDictionaryLearningFormComponent extends AbstractScatterFor
       graph: [],
       database: [],
       entity: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
       table: [],
 
       pcx: [],
@@ -122,15 +116,7 @@ export class MiniBatchDictionaryLearningFormComponent extends AbstractScatterFor
       batch_size: [],
       shuffle: [],
       transform_algorithm: [],
-      split_sign: [],
-
-      enableCohorts: [],
-      enableGenesets: [],
-      enablePathways: [],
-      enableSupplemental: [],
-      enableLabel: [],
-      enableColor: [],
-      enableShape: []
+      split_sign: []
     });
 
     this.registerFormChange();

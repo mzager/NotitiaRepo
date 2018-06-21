@@ -132,13 +132,7 @@ export class DeFormComponent {
       graph: [],
       database: [],
       dataKey: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
-      molecularTable: [],
+      table: [],
       pointData: [],
       pointColor: [],
       pointShape: [],
@@ -147,14 +141,7 @@ export class DeFormComponent {
       domain: [],
       showVectors: [],
       latientVectors: [],
-      tolerance: [],
-      enableCohorts: [],
-      enableGenesets: [],
-      enablePathways: [],
-      enableSupplemental: [],
-      enableLabel: [],
-      enableColor: [],
-      enableShape: []
+      tolerance: []
     });
 
     // Update When Form Changes

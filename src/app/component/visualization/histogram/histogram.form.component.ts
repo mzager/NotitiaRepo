@@ -49,7 +49,7 @@ export class HistogramFormComponent {
       dataKey: [],
       markerList: [],
       sampleList: [],
-      molecularTable: this.dataOptions[0],
+      table: this.dataOptions[0],
       dimension: [],
 
     });

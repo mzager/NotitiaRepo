@@ -146,13 +146,8 @@ export class SomFormComponent {
       graph: [],
       database: [],
       dataKey: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
-      molecularTable: [],
+
+      table: [],
       pointData: [],
       pointColor: [],
       pointShape: [],
@@ -165,15 +160,7 @@ export class SomFormComponent {
       xCells: 2,
       yCells: 1,
       weight: [],
-      entity: EntityTypeEnum.SAMPLE,
-
-      enableCohorts: [],
-      enableGenesets: [],
-      enablePathways: [],
-      enableSupplemental: [],
-      enableLabel: [],
-      enableColor: [],
-      enableShape: []
+      entity: EntityTypeEnum.SAMPLE
     });
 
     // Update When Form Changes
