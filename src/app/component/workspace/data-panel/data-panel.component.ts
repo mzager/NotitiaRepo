@@ -100,6 +100,7 @@ export class DataPanelComponent implements AfterViewInit {
           this.db.table(table.tbl).limit(300).toArray().then(result => {
             const keys = Object.keys(result[0]);
             this.colHeaders = Object.keys(result[0]).map(v => v.replace(/\_/gi, ' '));
+            this.colHeaders[0] = 'Patient';
             this.dataSource = result.map(v => keys.map(w => v[w]));
             this.cd.detectChanges();
           });
@@ -111,7 +112,7 @@ export class DataPanelComponent implements AfterViewInit {
             this.db.table(table.map.replace(/\s/gi, '')).toArray()
           ]).then(result => {
             this.colHeaders = result[1].map(v => v.s);
-            this.colHeaders.unshift('m');
+            this.colHeaders.unshift('Markers');
             this.dataSource = result[0].map(v => [v.m, ...v.d]);
             this.cd.detectChanges();
 

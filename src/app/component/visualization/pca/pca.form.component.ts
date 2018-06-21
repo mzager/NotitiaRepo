@@ -36,12 +36,6 @@ export class PcaFormComponent extends AbstractScatterForm {
       graph: [],
       database: [],
       entity: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
       table: [],
 
       n_components: [],
@@ -54,15 +48,7 @@ export class PcaFormComponent extends AbstractScatterForm {
       random_state: [],
       pcx: [],
       pcy: [],
-      pcz: [],
-
-      enableCohorts: [],
-      enableGenesets: [],
-      enablePathways: [],
-      enableSupplemental: [],
-      enableLabel: [],
-      enableColor: [],
-      enableShape: []
+      pcz: []
     });
 
     this.registerFormChange();

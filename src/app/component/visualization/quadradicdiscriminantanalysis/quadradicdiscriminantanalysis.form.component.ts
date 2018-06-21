@@ -46,12 +46,7 @@ export class QuadradicDiscriminantAnalysisFormComponent extends AbstractScatterF
       graph: [],
       database: [],
       entity: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
+
       table: [],
 
       n_components: [],
@@ -59,15 +54,7 @@ export class QuadradicDiscriminantAnalysisFormComponent extends AbstractScatterF
       // priors
       // reg_param
       store_covariance: [],
-      tol: [],
-
-      enableCohorts: [],
-      enableGenesets: [],
-      enablePathways: [],
-      enableSupplemental: [],
-      enableLabel: [],
-      enableColor: [],
-      enableShape: []
+      tol: []
     });
     this.registerFormChange();
   }

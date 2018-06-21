@@ -88,12 +88,6 @@ export class MdsFormComponent extends AbstractScatterForm {
       graph: [],
       database: [],
       entity: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
       table: [],
 
       pcx: [],
@@ -103,15 +97,7 @@ export class MdsFormComponent extends AbstractScatterForm {
       metric: [],
       eps: [],
       dimension: [],
-      dissimilarity: [],
-
-      enableCohorts: [],
-      enableGenesets: [],
-      enablePathways: [],
-      enableSupplemental: [],
-      enableLabel: [],
-      enableColor: [],
-      enableShape: []
+      dissimilarity: []
     });
 
     this.registerFormChange();

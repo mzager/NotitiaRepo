@@ -119,12 +119,6 @@ export class LocalLinearEmbeddingFormComponent extends AbstractScatterForm {
       graph: [],
       database: [],
       entity: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
       table: [],
 
       pcx: [],
@@ -139,15 +133,7 @@ export class LocalLinearEmbeddingFormComponent extends AbstractScatterForm {
       lle_method: [],
       tol: [],
       hessian_tol: [],
-      modified_tol: [],
-
-      enableCohorts: [],
-      enableGenesets: [],
-      enablePathways: [],
-      enableSupplemental: [],
-      enableLabel: [],
-      enableColor: [],
-      enableShape: []
+      modified_tol: []
     });
 
     this.registerFormChange();

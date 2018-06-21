@@ -138,13 +138,7 @@ export class KmedoidFormComponent {
       graph: [],
       database: [],
       dataKey: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
-      molecularTable: [],
+      table: [],
       pointData: [],
       pointColor: [],
       pointShape: [],
@@ -154,14 +148,7 @@ export class KmedoidFormComponent {
       showVectors: [],
       isCovarianceMatrix: [],
       isCentered: [],
-      isScaled: [],
-      enableCohorts: [],
-      enableGenesets: [],
-      enablePathways: [],
-      enableSupplemental: [],
-      enableLabel: [],
-      enableColor: [],
-      enableShape: []
+      isScaled: []
     });
 
     // Update When Form Changes

@@ -132,13 +132,8 @@ export class DaFormComponent {
       graph: [],
       database: [],
       dataKey: [],
-      markerFilter: [],
-      markerSelect: [],
-      sampleFilter: [],
-      sampleSelect: [],
-      patientFilter: [],
-      patientSelect: [],
-      molecularTable: [],
+
+      table: [],
       pointData: [],
       pointColor: [],
       pointShape: [],
@@ -147,15 +142,8 @@ export class DaFormComponent {
       domain: [],
       showVectors: [],
       latientVectors: [],
-      tolerance: [],
+      tolerance: []
 
-      enableCohorts: [],
-      enableGenesets: [],
-      enablePathways: [],
-      enableSupplemental: [],
-      enableLabel: [],
-      enableColor: [],
-      enableShape: []
     });
 
     // Update When Form Changes
