@@ -74,13 +74,16 @@ import { BoxWhiskersConfigModel } from './../boxwhiskers/boxwhiskers.model';
   `
 })
 export class BoxWhiskersFormComponent {
-
-  @Input() set tables(tables: Array<DataTable>) {
-    this.dataOptions = tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0));
+  @Input()
+  set tables(tables: Array<DataTable>) {
+    this.dataOptions = tables.filter(v => (v.ctype & CollectionTypeEnum.MOLECULAR) > 0);
   }
 
-  @Input() set fields(fields: Array<DataField>) {
-    if (fields.length === 0) { return; }
+  @Input()
+  set fields(fields: Array<DataField>) {
+    if (fields.length === 0) {
+      return;
+    }
     const defaultDataField: DataField = DataFieldFactory.getUndefined();
     this.continuousOptions = DataFieldFactory.getContinuousFields(fields);
     this.categoricalOptions = DataFieldFactory.getCategoricalFields(fields);
@@ -89,8 +92,11 @@ export class BoxWhiskersFormComponent {
     this.colorOptions = DataFieldFactory.getSampleColorFields(fields);
   }
 
-  @Input() set config(v: BoxWhiskersConfigModel) {
-    if (v === null) { return; }
+  @Input()
+  set config(v: BoxWhiskersConfigModel) {
+    if (v === null) {
+      return;
+    }
     this.form.patchValue(v, { emitEvent: false });
   }
 
@@ -104,19 +110,20 @@ export class BoxWhiskersFormComponent {
   dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D];
 
   byKey(p1: DataField, p2: DataField) {
-    if (p2 === null) { return false; }
+    if (p2 === null) {
+      return false;
+    }
     return p1.label === p2.label;
   }
 
   constructor(private fb: FormBuilder) {
-
     // Init Form
     this.form = this.fb.group({
       dirtyFlag: [0],
       visualization: [],
       graph: [],
       database: [],
-      entity: [],     // *
+      entity: [], // *
       continuousVariable: [],
       categoricalVariable1: [],
       categoricalVariable2: [],
@@ -137,11 +144,12 @@ export class BoxWhiskersFormComponent {
       .subscribe(data => {
         let dirty = 0;
         const form = this.form;
-        if (form.get('sort').dirty) { dirty |= DirtyEnum.NO_COMPUTE; }
+        if (form.get('sort').dirty) {
+          dirty |= DirtyEnum.NO_COMPUTE;
+        }
         form.markAsPristine();
         data.dirtyFlag = dirty;
         this.configChange.emit(data);
       });
   }
-
 }

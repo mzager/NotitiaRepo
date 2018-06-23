@@ -8,62 +8,66 @@ import { ChartFactory } from './../../workspace/chart/chart.factory';
 import { AbstractVisualization } from './../visualization.abstract.component';
 import { HistogramConfigModel, HistogramDataModel } from './histogram.model';
 export class HistogramGraph extends AbstractVisualization {
+  public set data(data: HistogramDataModel) {
+    this._data = data;
+  }
+  public get data(): HistogramDataModel {
+    return this._data as HistogramDataModel;
+  }
+  public set config(config: HistogramConfigModel) {
+    this._config = config;
+  }
+  public get config(): HistogramConfigModel {
+    return this._config as HistogramConfigModel;
+  }
 
-    public set data(data: HistogramDataModel) { this._data = data; }
-    public get data(): HistogramDataModel { return this._data as HistogramDataModel; }
-    public set config(config: HistogramConfigModel) { this._config = config; }
-    public get config(): HistogramConfigModel { return this._config as HistogramConfigModel; }
+  // Create - Initialize Mesh Arrays
+  create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
+    super.create(labels, events, view);
+    this.meshes = [];
+    return this;
+  }
 
+  destroy() {
+    super.destroy();
+    this.removeObjects();
+  }
 
-    // Create - Initialize Mesh Arrays
-    create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
-        super.create(labels, events, view);
-        this.meshes = [];
-        return this;
-    }
+  updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
+    super.updateDecorator(config, decorators);
+    ChartFactory.decorateDataGroups(this.meshes, this.decorators);
+  }
 
-    destroy() {
-        super.destroy();
-        this.removeObjects();
-    }
+  updateData(config: GraphConfig, data: any) {
+    super.updateData(config, data);
+    this.removeObjects();
+    this.addObjects(this.config.entity);
+  }
 
-    updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-        super.updateDecorator(config, decorators);
-        ChartFactory.decorateDataGroups(this.meshes, this.decorators);
-    }
+  enable(truthy: boolean) {
+    super.enable(truthy);
+    this.view.controls.enableRotate = true;
+  }
 
-    updateData(config: GraphConfig, data: any) {
-        super.updateData(config, data);
-        this.removeObjects();
-        this.addObjects(this.config.entity);
-    }
+  addObjects(type: EntityTypeEnum): void {
+    const propertyId = this.config.entity === EntityTypeEnum.GENE ? 'mid' : 'sid';
+    const objectIds = this.data[propertyId];
 
-    enable(truthy: boolean) {
-        super.enable(truthy);
-        this.view.controls.enableRotate = true;
-    }
+    // this.data.nodes.forEach((node, index) => {
+    //     const group = ChartFactory.createDataGroup(
+    //         objectIds[index], this.config.entity, new THREE.Vector3(node.x, node.y, node.z));
+    //     this.meshes.push(group);
+    //     this.view.scene.add(group);
+    // });
+    ChartFactory.decorateDataGroups(this.meshes, this.decorators);
+  }
 
+  removeObjects(): void {
+    this.view.scene.remove(...this.meshes);
+    this.meshes.length = 0;
+  }
 
-    addObjects(type: EntityTypeEnum): void {
-
-        const propertyId = (this.config.entity === EntityTypeEnum.GENE) ? 'mid' : 'sid';
-        const objectIds = this.data[propertyId];
-
-        // this.data.nodes.forEach((node, index) => {
-        //     const group = ChartFactory.createDataGroup(
-        //         objectIds[index], this.config.entity, new THREE.Vector3(node.x, node.y, node.z));
-        //     this.meshes.push(group);
-        //     this.view.scene.add(group);
-        // });
-        ChartFactory.decorateDataGroups(this.meshes, this.decorators);
-    }
-
-    removeObjects(): void {
-        this.view.scene.remove(...this.meshes);
-        this.meshes.length = 0;
-    }
-
-    onMouseDown(e: ChartEvent): void { }
-    onMouseUp(e: ChartEvent): void { }
-    onMouseMove(e: ChartEvent): void { }
+  onMouseDown(e: ChartEvent): void {}
+  onMouseUp(e: ChartEvent): void {}
+  onMouseMove(e: ChartEvent): void {}
 }

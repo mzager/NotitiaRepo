@@ -13,7 +13,6 @@ import { EntityTypeEnum } from './../../../model/enum.model';
 import { ChartEvent, ChartEvents } from './../../workspace/chart/chart.events';
 import { AbstractVisualization } from './../visualization.abstract.component';
 import { TimelinesStyle } from './timelines.model';
-// import MeshLine from 'three.meshline';
 
 export class TimelinesGraph extends AbstractVisualization {
 

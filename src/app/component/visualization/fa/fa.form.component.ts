@@ -1,4 +1,3 @@
-
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
@@ -11,22 +10,19 @@ import { FaConfigModel, FaSvdMethod } from './fa.model';
   templateUrl: './fa.form.component.html'
 })
 export class FaFormComponent extends AbstractScatterForm {
-
-  @Input() set config(v: FaConfigModel) {
-    if (v === null) { return; }
+  @Input()
+  set config(v: FaConfigModel) {
+    if (v === null) {
+      return;
+    }
     if (this.form.value.visualization === null) {
       this.form.patchValue(v, { emitEvent: false });
     }
   }
 
-  FaSvdMethodOptions = [
-    FaSvdMethod.RANDOMIZED,
-    FaSvdMethod.LAPACK
-  ];
-
+  FaSvdMethodOptions = [FaSvdMethod.RANDOMIZED, FaSvdMethod.LAPACK];
 
   constructor(private fb: FormBuilder) {
-
     super();
 
     this.form = this.fb.group({

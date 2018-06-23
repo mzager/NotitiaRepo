@@ -5,18 +5,15 @@
   <app-workspace-graph-panel style='position:absolute;top:30px;left:0px;bottom:0px;' *ngIf='graphPanelATab | async' [title]='"Graph A"'
     [events]='events | async' [tables]='tables | async' [fields]='fields | async' [pathways]='pathways | async' [genesets]='genesets | async'
     [cohorts]='cohorts | async' [decorators]='graphADecorators | async' (decoratorAdd)='graphPanelAddDecorator($event)' (decoratorDel)='graphPanelDelDecorator($event)'
-    (decoratorDelAll)='graphPanelDelAllDecorators($event)' [molecularData]='molecularData | async' [config]='graphAConfig | async'
-    [data]='graphAData | async' (hide)='graphPanelToggle(1)' (help)='helpPanelToggle($event)' (configChange)='graphPanelSetConfig($event)'
-    (selectGeneset)='genesetPanelToggle($event)' (selectCohort)='queryPanelToggle($event)' (showPanel)='setPanel($event)'>
+    (decoratorDelAll)='graphPanelDelAllDecorators($event)' [config]='graphAConfig | async' [data]='graphAData | async' (help)='helpPanelToggle($event)'
+    (configChange)='graphPanelSetConfig($event)' (showPanel)='setPanel($event)'>
   </app-workspace-graph-panel>
 
   <app-workspace-graph-panel style='position:absolute;top:30px;right:0px;bottom:0px;' *ngIf='graphPanelBTab | async' [title]='"Graph B"'
     [events]='events | async' [tables]='tables | async' [fields]='fields | async' [pathways]='pathways | async' [genesets]='genesets | async'
     [cohorts]='cohorts | async' [decorators]='graphBDecorators | async' (decoratorAdd)='graphPanelAddDecorator($event)' (decoratorDel)='graphPanelDelDecorator($event)'
-    [edgeDecorators]='edgeDecorators | async' (decoratorDelAll)='graphPanelDelAllDecorators($event)' [molecularData]='molecularData | async'
-    [config]='graphBConfig | async' [data]='graphBData | async' (hide)='graphPanelToggle(2)' (help)='helpPanelToggle($event)'
-    (configChange)='graphPanelSetConfig($event)' (selectGeneset)='genesetPanelToggle($event)' (selectCohort)='queryPanelToggle($event)'
-    (showPanel)='setPanel($event)'>
+    [edgeDecorators]='edgeDecorators | async' (decoratorDelAll)='graphPanelDelAllDecorators($event)' [config]='graphBConfig | async'
+    [data]='graphBData | async' (help)='helpPanelToggle($event)' (configChange)='graphPanelSetConfig($event)' (showPanel)='setPanel($event)'>
 
     <app-workspace-edge-panel [graphAConfig]='graphAConfig | async' [graphBConfig]='graphBConfig | async' [workspaceConfig]='workspaceConfig'
       [tables]='tables | async' [fields]='fields | async' (edgeConfigChange)='edgeConfigChange($event)' [decorators]='edgeDecorators | async'
@@ -32,8 +29,8 @@
 <!-- Panels -->
 <app-workspace-landing-panel *ngIf='(modalPanel | async) === 2' class='modal-panel' style='z-index:999999' (onGetStarted)='setPanel(4)'></app-workspace-landing-panel>
 
-<app-workspace-file-panel *ngIf='(modalPanel | async) === 4' (hide)='setPanel(4)' class='modal-panel' (uploadExcel)='uploadExcel($event)'
-  (loadPublic)='fileLoadPublic($event)' (showPanel)='setPanel($event)'></app-workspace-file-panel>
+<app-workspace-file-panel *ngIf='(modalPanel | async) === 4' (hide)='setPanel(4)' class='modal-panel' (loadPublic)='fileLoadPublic($event)'
+  (showPanel)='setPanel($event)'></app-workspace-file-panel>
 <app-workspace-cohort-panel *ngIf='(modalPanel | async) === 16' (hide)='setPanel(1)' (addCohort)='addCohort($event)' (delCohort)='delCohort($event)'
   [cohorts]='cohorts | async' [config]='graphAConfig | async' class='modal-panel'></app-workspace-cohort-panel>
 <app-workspace-geneset-panel *ngIf='(modalPanel | async) === 32' (hide)='setPanel(1)' (addGeneset)='addGeneset($event)' (delGeneset)='delGeneset($event)'

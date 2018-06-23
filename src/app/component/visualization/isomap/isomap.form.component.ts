@@ -1,7 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
-import { IsoMapConfigModel, IsoMapEigenSolver, IsoMapNeighborsAlgorithm, IsoMapPathMethod } from './isomap.model';
+import {
+  IsoMapConfigModel,
+  IsoMapEigenSolver,
+  IsoMapNeighborsAlgorithm,
+  IsoMapPathMethod
+} from './isomap.model';
 
 @Component({
   selector: 'app-isomap-form',
@@ -10,9 +15,11 @@ import { IsoMapConfigModel, IsoMapEigenSolver, IsoMapNeighborsAlgorithm, IsoMapP
   templateUrl: './isomap.form.component.html'
 })
 export class IsoMapFormComponent extends AbstractScatterForm {
-
-  @Input() set config(v: IsoMapConfigModel) {
-    if (v === null) { return; }
+  @Input()
+  set config(v: IsoMapConfigModel) {
+    if (v === null) {
+      return;
+    }
     if (this.form.value.visualization === null) {
       this.form.patchValue(v, { emitEvent: false });
     }
@@ -21,7 +28,7 @@ export class IsoMapFormComponent extends AbstractScatterForm {
   IsoMapEigenSolverOpitions = [
     IsoMapEigenSolver.AUTO,
     IsoMapEigenSolver.DENSE,
-    IsoMapEigenSolver.ARPACK,
+    IsoMapEigenSolver.ARPACK
   ];
 
   IsoMapPathMethodOpitions = [
@@ -38,7 +45,6 @@ export class IsoMapFormComponent extends AbstractScatterForm {
   ];
 
   constructor(private fb: FormBuilder) {
-
     super();
 
     this.form = this.fb.group({

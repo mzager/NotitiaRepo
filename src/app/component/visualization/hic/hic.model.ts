@@ -4,25 +4,25 @@ import { GraphData } from './../../../model/graph-data.model';
 import { Legend } from './../../../model/legend.model';
 
 export class HicConfigModel extends GraphConfig {
-    constructor() {
-        super();
-        this.entity = EntityTypeEnum.GENE;
-        this.visualization = VisualizationEnum.HIC;
-        this.showLinks = false;
-        this.showChromosome = true;
-        this.label = 'Force Directed Graph';
-        this.enableCohorts = false;
-        this.enableSupplemental = false;
-    }
-    dimensions = DimensionEnum.THREE_D;
-    gene = 'fgf1';
-    showLabels = false;
-    showLinks = false;
-    showChromosome = true;
+  constructor() {
+    super();
+    this.entity = EntityTypeEnum.GENE;
+    this.visualization = VisualizationEnum.HIC;
+    this.showLinks = false;
+    this.showChromosome = true;
+    this.label = 'Force Directed Graph';
+    this.enableCohorts = false;
+    this.enableSupplemental = false;
+  }
+  dimensions = DimensionEnum.THREE_D;
+  gene = 'fgf1';
+  showLabels = false;
+  showLinks = false;
+  showChromosome = true;
 }
 
 export interface HicDataModel extends GraphData {
-    legends: Array<Legend>;
-    nodes: Array<any>;
-    edges: Array<any>;
+  legends: Array<Legend>;
+  nodes: Array<any>;
+  edges: Array<any>;
 }

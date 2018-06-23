@@ -12,8 +12,8 @@ import { HistogramConfigModel } from './histogram.model';
 <form [formGroup]='form' novalidate>
   <mat-form-field class='form-field'>
     <mat-select placeholder='Data' formControlName='table'>
-      <mat-option *ngFor='let option of dataOptions' [value]='option.label'>
-          {{ option.label }}
+      <mat-option *ngFor='let option of dataOptions' [value]='option'>
+          {{ option }}
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -37,8 +37,8 @@ import { HistogramConfigModel } from './histogram.model';
   `
 })
 export class HistogramFormComponent {
-
-  @Input() set molecularData(tables: Array<string>) {
+  @Input()
+  set molecularData(tables: Array<string>) {
     this.dataOptions = tables;
 
     // Init Form
@@ -50,8 +50,7 @@ export class HistogramFormComponent {
       markerList: [],
       sampleList: [],
       table: this.dataOptions[0],
-      dimension: [],
-
+      dimension: []
     });
 
     // Update When Form Changes
@@ -63,8 +62,11 @@ export class HistogramFormComponent {
       });
   }
 
-  @Input() set config(v: HistogramConfigModel) {
-    if (v === null) { return; }
+  @Input()
+  set config(v: HistogramConfigModel) {
+    if (v === null) {
+      return;
+    }
     this.form.patchValue(v, { emitEvent: false });
   }
 
@@ -75,11 +77,11 @@ export class HistogramFormComponent {
   dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D];
 
   byKey(p1: DataField, p2: DataField) {
-    if (p2 === null) { return false; }
+    if (p2 === null) {
+      return false;
+    }
     return p1.key === p2.key;
   }
 
-  constructor(private fb: FormBuilder) {
-
-  }
+  constructor(private fb: FormBuilder) {}
 }
