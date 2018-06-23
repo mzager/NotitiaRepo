@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
 import { FormBuilder } from '@angular/forms';
 import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
 import {
-  DictionaryLearningConfigModel, DictionaryLearningFitAlgorithm,
+  DictionaryLearningConfigModel,
+  DictionaryLearningFitAlgorithm,
   DictionaryLearningTransformAlgorithm
 } from './dictionarylearning.model';
 
@@ -13,16 +14,18 @@ import {
   templateUrl: './dictionarylearning.form.component.html'
 })
 export class DictionaryLearningFormComponent extends AbstractScatterForm {
-
-  @Input() set config(v: DictionaryLearningConfigModel) {
-    if (v === null) { return; }
+  @Input()
+  set config(v: DictionaryLearningConfigModel) {
+    if (v === null) {
+      return;
+    }
     if (this.form.value.visualization === null) {
       this.form.patchValue(v, { emitEvent: false });
     }
   }
 
   fitAlgorithmOptions = [
-    DictionaryLearningFitAlgorithm.CD,
+    DictionaryLearningFitAlgorithm.CD
     // DictionaryLearningFitAlgorithm.LARS
   ];
 
@@ -34,9 +37,7 @@ export class DictionaryLearningFormComponent extends AbstractScatterForm {
     DictionaryLearningTransformAlgorithm.THRESHOLD
   ];
 
-
   constructor(private fb: FormBuilder) {
-
     super();
 
     this.form = this.fb.group({

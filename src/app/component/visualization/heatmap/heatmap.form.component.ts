@@ -36,14 +36,16 @@ import { HeatmapConfigModel, HeatmapDistance, HeatmapMethod } from './heatmap.mo
   `
 })
 export class HeatmapFormComponent {
-
-
-  @Input() set tables(tables: Array<DataTable>) {
-    this.dataOptions = tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0));
+  @Input()
+  set tables(tables: Array<DataTable>) {
+    this.dataOptions = tables.filter(v => (v.ctype & CollectionTypeEnum.MOLECULAR) > 0);
   }
 
-  @Input() set config(v: HeatmapConfigModel) {
-    if (v === null) { return; }
+  @Input()
+  set config(v: HeatmapConfigModel) {
+    if (v === null) {
+      return;
+    }
     this.form.patchValue(v, { emitEvent: false });
   }
 
@@ -59,7 +61,8 @@ export class HeatmapFormComponent {
     HeatmapMethod.WEIGHTED,
     HeatmapMethod.CENTROID,
     HeatmapMethod.MEDIAN,
-    HeatmapMethod.WARD];
+    HeatmapMethod.WARD
+  ];
 
   distanceOptions = [
     HeatmapDistance.BRAYCURTIS,
@@ -86,16 +89,19 @@ export class HeatmapFormComponent {
   ];
 
   byKey(p1: DataField, p2: DataField) {
-    if (p2 === null) { return false; }
+    if (p2 === null) {
+      return false;
+    }
     return p1.key === p2.key;
   }
   byTbl(p1: any, p2: any) {
-    if (p2 === null) { return false; }
+    if (p2 === null) {
+      return false;
+    }
     return p1.tbl === p2.tbl;
   }
 
   constructor(private fb: FormBuilder) {
-
     this.form = this.fb.group({
       dirtyFlag: [0],
       visualization: [],

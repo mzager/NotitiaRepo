@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewEncapsulation
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CollectionTypeEnum, DimensionEnum, EntityTypeEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
@@ -12,22 +19,29 @@ import { ChromosomeConfigModel } from './chromosome.model';
   templateUrl: './chromosome.form.component.html'
 })
 export class ChromosomeFormComponent {
-
-  @Input() set fields(fields: Array<DataField>) {
-    if (fields === null) { return; }
-    if (fields.length === 0) { return; }
+  @Input()
+  set fields(fields: Array<DataField>) {
+    if (fields === null) {
+      return;
+    }
+    if (fields.length === 0) {
+      return;
+    }
     const defaultDataField: DataField = DataFieldFactory.getUndefined();
     this.colorOptions = DataFieldFactory.getSampleColorFields(fields, EntityTypeEnum.GENE);
     this.shapeOptions = DataFieldFactory.getSampleShapeFields(fields, EntityTypeEnum.GENE);
     this.sizeOptions = DataFieldFactory.getSampleSizeFields(fields, EntityTypeEnum.GENE);
   }
-  @Input() set tables(tables: Array<DataTable>) {
-    this.dataOptions = tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0));
+  @Input()
+  set tables(tables: Array<DataTable>) {
+    this.dataOptions = tables.filter(v => (v.ctype & CollectionTypeEnum.MOLECULAR) > 0);
   }
 
-
-  @Input() set config(v: ChromosomeConfigModel) {
-    if (v === null) { return; }
+  @Input()
+  set config(v: ChromosomeConfigModel) {
+    if (v === null) {
+      return;
+    }
     this.form.patchValue(v, { emitEvent: false });
   }
 
@@ -41,12 +55,33 @@ export class ChromosomeFormComponent {
   dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D];
   layoutOptions = ['Circle', 'Line'];
   spacingOptions = ['Translational Start Site', 'Linear'];
-  chromosomeOptions = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
-    '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', 'X', 'Y'];
-  chordOptions = [
-    { label: 'None', key: 'none' },
-    { label: 'Hi-C', key: 'hic' }
+  chromosomeOptions = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15',
+    '16',
+    '17',
+    '18',
+    '19',
+    '20',
+    '21',
+    '22',
+    'X',
+    'Y'
   ];
+  chordOptions = [{ label: 'None', key: 'none' }, { label: 'Hi-C', key: 'hic' }];
 
   geneOptions = [
     { label: 'All Genes', key: 'all' },
@@ -73,12 +108,13 @@ export class ChromosomeFormComponent {
   ];
 
   byKey(p1: DataField, p2: DataField) {
-    if (p2 === null) { return false; }
+    if (p2 === null) {
+      return false;
+    }
     return p1.key === p2.key;
   }
 
   constructor(private fb: FormBuilder) {
-
     // Init Form
     this.form = this.fb.group({
       dirtyFlag: [0],
@@ -107,5 +143,4 @@ export class ChromosomeFormComponent {
         this.configChange.emit(data);
       });
   }
-
 }

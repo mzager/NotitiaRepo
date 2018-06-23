@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewEncapsulation
+} from '@angular/core';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { MatSliderChange } from '@angular/material';
 import { GraphConfig } from './../../../model/graph-config.model';
@@ -11,7 +19,6 @@ import { HazardConfigModel } from './hazard.model';
   encapsulation: ViewEncapsulation.None
 })
 export class HazardFormComponent implements OnDestroy {
-
   @Output() configChange = new EventEmitter<GraphConfig>();
 
   _cohortSelected: any;
@@ -19,15 +26,19 @@ export class HazardFormComponent implements OnDestroy {
   _cohorts: Array<any>;
 
   private _config: HazardConfigModel;
-  @Input() set config(v: HazardConfigModel) {
+  @Input()
+  set config(v: HazardConfigModel) {
     this._config = v;
     if (this._cohorts !== undefined) {
       this.updateOptions();
     }
   }
 
-  public get cohorts(): Array<any> { return this._cohorts; }
-  @Input() public set cohorts(value: Array<any>) {
+  public get cohorts(): Array<any> {
+    return this._cohorts;
+  }
+  @Input()
+  public set cohorts(value: Array<any>) {
     this._cohorts = value;
     if (this._config !== undefined) {
       this.updateOptions();
@@ -37,8 +48,8 @@ export class HazardFormComponent implements OnDestroy {
   updateOptions(): void {
     const me = this;
     this._cohortOptions = this._cohorts
-      .filter(v => (v.n !== this._config.cohortName))
-      .map(v => ({ n: v.n, sel: (this._config.cohortsToCompare.indexOf(v.n) !== -1) }));
+      .filter(v => v.n !== this._config.cohortName)
+      .map(v => ({ n: v.n, sel: this._config.cohortsToCompare.indexOf(v.n) !== -1 }));
     this.cd.detectChanges(); // Mod
   }
 
@@ -47,8 +58,7 @@ export class HazardFormComponent implements OnDestroy {
     this.configChange.emit(this._config);
   }
 
-  ngOnDestroy(): void { }
+  ngOnDestroy(): void {}
 
-  constructor(public cd: ChangeDetectorRef) {
-  }
+  constructor(public cd: ChangeDetectorRef) {}
 }

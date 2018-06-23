@@ -1,4 +1,4 @@
 <span style='color:rgba(0, 0, 0, 0.87);font-size:10px;padding-bottom:5px;'>Compare To</span>
 <div *ngFor='let cohort of _cohortOptions' style='padding-bottom:3px;'>
-    <mat-slide-toggle (change)='compareChange($event)' [(ngModel)]='cohort.sel' [(checked)]='cohort.sel'>{{cohort.n}}</mat-slide-toggle>
+  <mat-slide-toggle (change)='compareChange($event)' [(ngModel)]='cohort.sel' [(checked)]='cohort.sel'>{{cohort.n}}</mat-slide-toggle>
 </div>

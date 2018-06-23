@@ -1,6 +1,14 @@
 <div class='application-bar-menu'>
   <span class='application-bar-buttons'>
 
+    <span *ngIf='datasetSelected' class='application-bar-button' (click)='onViewCohort()' style='padding-right:20px;'>
+      <mat-icon class='material-icons md-18' style='transform:translate(0px, 4px)'>group</mat-icon>
+      <span class='copy'>Cohort</span>
+    </span>
+    <span *ngIf='datasetSelected' class='application-bar-button' (click)='onViewGeneset()' style='padding-right:20px;'>
+      <mat-icon class='material-icons md-18' style='transform:translate(0px, 4px)'>fingerprint</mat-icon>
+      <span class='copy'>Geneset</span>
+    </span>
 
     <span *ngIf='datasetSelected' class='application-bar-button' (click)='onSplitScreenChange()' style='padding-right:20px;'>
       <mat-icon class='material-icons md-18' style='transform:translate(0px, 4px)'>tv</mat-icon>
@@ -16,12 +24,14 @@
       <button mat-menu-item (click)='viewPanel(512)'>The Team</button>
       <button mat-menu-item (click)='viewPanel(1024)'>Citations</button>
       <a mat-menu-item href='mailto:contact-sttr@fredhutch.org'>Feedback</a>
+      <button mat-menu-item (click)='toggleBackgroundColor()'>Invert Color</button>
+      <button mat-menu-item (click)='exportImage()'>Print</button>
     </mat-menu>
     <span class='application-bar-menu-button' class='application-bar-button' [matMenuTriggerFor]="appMenu">
       <mat-icon class='material-icons md-18 ' style='transform:translate(0px, 4px) '>more_vert</mat-icon>
     </span>
   </span>
   <span class='application-bar-logo ' (click)='viewPanel(1) '>Oncoscape
-    <span style='letter-spacing: 1px;color: #EEE;'>(v3.6.20 beta)</span>
+    <span style='letter-spacing: 1px;color: #EEE;'>(v3.6.21 beta)</span>
   </span>
 </div>

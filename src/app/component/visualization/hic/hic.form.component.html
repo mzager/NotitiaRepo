@@ -1,11 +1,11 @@
 <form [formGroup]='form' novalidate>
-    <mat-form-field class='form-field'>
-        <mat-select placeholder='Dimensions' formControlName='dimensions'>
-            <mat-option *ngFor='let option of dimensionOptions' [value]='option'>
-                {{ option }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-slide-toggle formControlName='showLinks'>Show Links</mat-slide-toggle>
-    <mat-slide-toggle formControlName='showChromosome'>Show Chromosome</mat-slide-toggle>
+  <mat-form-field class='form-field'>
+    <mat-select placeholder='Dimensions' formControlName='dimensions'>
+      <mat-option *ngFor='let option of dimensionOptions' [value]='option'>
+        {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-slide-toggle formControlName='showLinks'>Show Links</mat-slide-toggle>
+  <mat-slide-toggle formControlName='showChromosome'>Show Chromosome</mat-slide-toggle>
 </form>

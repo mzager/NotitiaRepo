@@ -47,14 +47,16 @@ import { DendogramConfigModel } from './dendogram.model';
   `
 })
 export class DendogramFormComponent {
-
-
-  @Input() set tables(tables: Array<DataTable>) {
-    this.dataOptions = tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0));
+  @Input()
+  set tables(tables: Array<DataTable>) {
+    this.dataOptions = tables.filter(v => (v.ctype & CollectionTypeEnum.MOLECULAR) > 0);
   }
 
-  @Input() set config(v: DendogramConfigModel) {
-    if (v === null) { return; }
+  @Input()
+  set config(v: DendogramConfigModel) {
+    if (v === null) {
+      return;
+    }
     this.form.patchValue(v, { emitEvent: false });
   }
 
@@ -70,7 +72,8 @@ export class DendogramFormComponent {
     HeatmapMethod.WEIGHTED,
     HeatmapMethod.CENTROID,
     HeatmapMethod.MEDIAN,
-    HeatmapMethod.WARD];
+    HeatmapMethod.WARD
+  ];
 
   distanceOptions = [
     HeatmapDistance.BRAYCURTIS,
@@ -97,12 +100,13 @@ export class DendogramFormComponent {
   ];
 
   byKey(p1: DataField, p2: DataField) {
-    if (p2 === null) { return false; }
+    if (p2 === null) {
+      return false;
+    }
     return p1.key === p2.key;
   }
 
   constructor(private fb: FormBuilder) {
-
     this.form = this.fb.group({
       dirtyFlag: [0],
       visualization: [],

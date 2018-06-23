@@ -92,22 +92,27 @@ import { DaConfigModel } from './da.model';
   `
 })
 export class DaFormComponent {
-
-  @Input() set molecularData(tables: Array<string>) {
+  @Input()
+  set molecularData(tables: Array<string>) {
     this.dataOptions = tables.map(v => ({ key: v, label: _.startCase(_.toLower(v)) }));
   }
 
-  @Input() set clinicalFields(fields: Array<DataField>) {
-
-    if (fields.length === 0) { return; }
+  @Input()
+  set clinicalFields(fields: Array<DataField>) {
+    if (fields.length === 0) {
+      return;
+    }
     const defaultDataField: DataField = DataFieldFactory.getUndefined();
     this.colorOptions = DataFieldFactory.getSampleColorFields(fields);
     this.shapeOptions = DataFieldFactory.getSampleShapeFields(fields);
     this.sizeOptions = DataFieldFactory.getSampleShapeFields(fields);
   }
 
-  @Input() set config(v: DaConfigModel) {
-    if (v === null) { return; }
+  @Input()
+  set config(v: DaConfigModel) {
+    if (v === null) {
+      return;
+    }
     this.form.patchValue(v, { emitEvent: false });
   }
 
@@ -117,16 +122,17 @@ export class DaFormComponent {
   colorOptions: Array<DataField>;
   shapeOptions: Array<DataField>;
   sizeOptions: Array<DataField>;
-  dataOptions: Array<{ key: string, label: string }>;
+  dataOptions: Array<{ key: string; label: string }>;
   dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D, DimensionEnum.ONE_D];
 
   byKey(p1: DataField, p2: DataField) {
-    if (p2 === null) { return false; }
+    if (p2 === null) {
+      return false;
+    }
     return p1.key === p2.key;
   }
 
   constructor(private fb: FormBuilder) {
-
     this.form = this.fb.group({
       visualization: [],
       graph: [],
@@ -143,7 +149,6 @@ export class DaFormComponent {
       showVectors: [],
       latientVectors: [],
       tolerance: []
-
     });
 
     // Update When Form Changes
