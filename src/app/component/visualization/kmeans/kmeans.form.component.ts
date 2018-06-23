@@ -1,10 +1,9 @@
 import { DimensionEnum } from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { KmeansConfigModel } from './kmeans.model';
-import { DataTypeEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory } from './../../../model/data-field.model';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import * as _ from 'lodash';
 
 @Component({
@@ -93,25 +92,29 @@ import * as _ from 'lodash';
   `
 })
 export class KMeansFormComponent {
-
-  @Input() set molecularData(tables: Array<string>) {
+  @Input()
+  set molecularData(tables: Array<string>) {
     this.dataOptions = tables.map(v => {
       const rv = { key: v, label: _.startCase(_.toLower(v)) };
       return rv;
     });
   }
 
-  @Input() set clinicalFields(fields: Array<DataField>) {
-
-    if (fields.length === 0) { return; }
-    const defaultDataField: DataField = DataFieldFactory.getUndefined();
+  @Input()
+  set clinicalFields(fields: Array<DataField>) {
+    if (fields.length === 0) {
+      return;
+    }
     this.colorOptions = DataFieldFactory.getSampleColorFields(fields);
     this.shapeOptions = DataFieldFactory.getSampleShapeFields(fields);
     this.sizeOptions = DataFieldFactory.getSampleShapeFields(fields);
   }
 
-  @Input() set config(v: KmeansConfigModel) {
-    if (v === null) { return; }
+  @Input()
+  set config(v: KmeansConfigModel) {
+    if (v === null) {
+      return;
+    }
     if (this.form.value.visualization === null) {
       this.form.patchValue(v, { emitEvent: false });
     }
@@ -123,16 +126,17 @@ export class KMeansFormComponent {
   colorOptions: Array<DataField>;
   shapeOptions: Array<DataField>;
   sizeOptions: Array<DataField>;
-  dataOptions: Array<{ key: string, label: string }>;
+  dataOptions: Array<{ key: string; label: string }>;
   dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D, DimensionEnum.ONE_D];
 
   byKey(p1: DataField, p2: DataField) {
-    if (p2 === null) { return false; }
+    if (p2 === null) {
+      return false;
+    }
     return p1.key === p2.key;
   }
 
   constructor(private fb: FormBuilder) {
-
     this.form = this.fb.group({
       visualization: [],
       graph: [],

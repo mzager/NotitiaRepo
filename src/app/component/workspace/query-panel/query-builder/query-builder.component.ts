@@ -8,15 +8,15 @@ import { Field, Option, QueryBuilderConfig, Rule, RuleSet } from './query-builde
 })
 export class QueryBuilderComponent implements OnInit, OnChanges {
 
-  @Input() operatorMap: {[key: string]: string[]};
-  @Input() typeMap: {[key: string]: string};
+  @Input() operatorMap: { [key: string]: string[] };
+  @Input() typeMap: { [key: string]: string };
   @Input() parentData: RuleSet;
   @Input() data: RuleSet = { condition: 'and', rules: [] };
   @Input() config: QueryBuilderConfig = { fields: {} };
 
   public fieldNames: string[];
   private defaultEmptyList: any[] = [];
-  private operatorsCache: {[key: string]: string[]};
+  private operatorsCache: { [key: string]: string[] };
   public customCohortName = '';
 
   constructor() {
@@ -55,7 +55,7 @@ export class QueryBuilderComponent implements OnInit, OnChanges {
     }
     let operators = this.defaultEmptyList;
     if (this.config.getOperators) {
-        operators = this.config.getOperators(field);
+      operators = this.config.getOperators(field);
     }
     const fieldObject = this.config.fields[field];
     const type = fieldObject.type;
@@ -75,7 +75,7 @@ export class QueryBuilderComponent implements OnInit, OnChanges {
 
   getInputType(field: string, operator: string): string {
     if (this.config.getInputType) {
-        return this.config.getInputType(field, operator);
+      return this.config.getInputType(field, operator);
     }
     const type = this.config.fields[field].type;
     switch (operator) {
@@ -124,7 +124,7 @@ export class QueryBuilderComponent implements OnInit, OnChanges {
     if (this.config.addRuleSet) {
       this.config.addRuleSet(parent);
     } else {
-      parent.rules = parent.rules.concat([{condition: 'and', rules: []}]);
+      parent.rules = parent.rules.concat([{ condition: 'and', rules: [] }]);
     }
   }
 
@@ -142,5 +142,4 @@ export class QueryBuilderComponent implements OnInit, OnChanges {
     rule.operator = this.operatorMap[fieldObject.type][0];
   }
 
-  
 }

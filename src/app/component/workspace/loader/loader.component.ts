@@ -1,8 +1,8 @@
 import { Subscription } from 'rxjs/Subscription';
 import { DatasetService } from './../../../service/dataset.service';
 import {
-    Component, Input, Output, EventEmitter, AfterViewInit, OnDestroy, ViewEncapsulation,
-    OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef
+    Component, Input, AfterViewInit, OnDestroy, ViewEncapsulation,
+    ChangeDetectionStrategy, ChangeDetectorRef
 } from '@angular/core';
 
 @Component({
@@ -22,7 +22,7 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
     @Input() set visbibility(value: boolean) { }
     onLoaderStatusUpdate(msg: string): void {
         this.showEllipsis = false;
-        this.quote = { q: 'Hang tight, we\'re loading your dataset for the 1st time', a: msg };
+        this.quote = { q: 'Hang tight... Loading this dataset for the first time', a: msg };
         this.cd.detectChanges();
     }
     ngOnDestroy(): void {
@@ -35,12 +35,8 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
         this.loaderStatusUpdateSubscription = this.datasetService.loaderStatusUpdate.subscribe(this.onLoaderStatusUpdate.bind(this));
         this.quotes = [
 
-            // { q: 'Only two things are infinite, the universe and human stupidity', a: 'Albert Einstein' },
-            // { q: 'It takes a smart man to play dumb', a: 'Mr. T' },
-            // { q: 'The goal is to provide analytical tools that will last students a lifetime', a: 'Edward Tufte' },
-            // { q: 'Biology is the least of what makes someone a mother', a: 'Oprah Winfrey' },
-            // { q: 'Don\'t quote me on this', a: '  Zhang' },
-            // { q: 'Art is the tree of life. Science is the tree of death.', a: 'William Blake' },
+            { q: 'Only two things are infinite, the universe and human stupidity', a: 'Albert Einstein' },
+            { q: 'Biology is the least of what makes someone a mother', a: 'Oprah Winfrey' },
             { q: 'All models are wrong, but some are useful', a: 'George Box' },
             { q: 'The best model of a cat is another cat, preferably the same cat', a: 'Norbert Wiener' },
             { q: 'You cannot teach a man anything; you can only help him discover it in himself', a: 'Galileo' },

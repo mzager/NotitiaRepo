@@ -1,7 +1,14 @@
 import { GraphConfig } from 'app/model/graph-config.model';
 import {
-  ChangeDetectionStrategy, Component, EventEmitter,
-  HostListener, OnDestroy, OnInit, Output, Input, ChangeDetectorRef
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  Output,
+  Input,
+  ChangeDetectorRef
 } from '@angular/core';
 import { ChartScene } from 'app/component/workspace/chart/chart.scene';
 import { PanelEnum } from 'app/model/enum.model';
@@ -16,13 +23,13 @@ declare var $: any;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ApplicationBarComponent implements OnInit, OnDestroy {
-
   // TODO:  COME BACK AND CLEAN OUT
   @Output() splitScreenChange = new EventEmitter<boolean>();
   @Output() showPanel = new EventEmitter<PanelEnum>();
   public datasetSelected = false;
-  @Input() set config(config: GraphConfig) {
-    this.datasetSelected = (config !== null);
+  @Input()
+  set config(config: GraphConfig) {
+    this.datasetSelected = config !== null;
     this.cd.detectChanges();
   }
 
@@ -34,26 +41,50 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   private split = false;
   public uploader: FileUploader = new FileUploader({ url: '' });
 
-
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if (!event.ctrlKey) { return; }
+    if (!event.ctrlKey) {
+      return;
+    }
     switch (event.key.toLowerCase()) {
       // case 'a': this.graphPanelToggle.emit(1); break;
       // case 'b': this.graphPanelToggle.emit(2); break;
-      case 'g': this.genesetPanelToggle.emit(); break;
-      case 'd': this.dataPanelToggle.emit(); break;
-      case 'p': this.pathwayPanelToggle.emit(); break;
-      case 'e': this.viewPanel(PanelEnum.COHORT); break;
-      case 'p': this.exportImage(); break;
-      case 'i': this.toggleBackgroundColor(); break;
-      case 'd': this.viewPanel(PanelEnum.DASHBOARD); break;
-      case 's': this.viewPanel(PanelEnum.CITATION); break;
-      case 'f': this.viewPanel(PanelEnum.FEEDBACK); break;
+      case 'g':
+        this.genesetPanelToggle.emit();
+        break;
+      case 'd':
+        this.dataPanelToggle.emit();
+        break;
+      case 'p':
+        this.pathwayPanelToggle.emit();
+        break;
+      case 'e':
+        this.viewPanel(PanelEnum.COHORT);
+        break;
+      case 'p':
+        this.exportImage();
+        break;
+      case 'i':
+        this.toggleBackgroundColor();
+        break;
+      case 'd':
+        this.viewPanel(PanelEnum.DASHBOARD);
+        break;
+      case 's':
+        this.viewPanel(PanelEnum.CITATION);
+        break;
+      case 'f':
+        this.viewPanel(PanelEnum.FEEDBACK);
+        break;
     }
   }
 
-
+  onViewCohort(): void {
+    this.viewPanel(PanelEnum.COHORT);
+  }
+  onViewGeneset(): void {
+    this.viewPanel(PanelEnum.GENESET);
+  }
 
   reload(): void {
     window.location.reload(true);
@@ -67,7 +98,7 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   }
   toggleBackgroundColor(): void {
     const isBlack = ChartScene.instance.renderer.getClearColor().r === 0;
-    ChartScene.instance.renderer.setClearColor(isBlack ? 0xFFFFFF : 0x000000, 1);
+    ChartScene.instance.renderer.setClearColor(isBlack ? 0xffffff : 0x000000, 1);
     ChartScene.instance.render();
   }
 
@@ -83,13 +114,10 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
     downloadjs(jpg, 'test.jpg', 'image/jpeg');
   }
   exportImage() {
+    this.exportJpg();
+  }
+  ngOnInit() {}
 
-  }
-  ngOnInit() {
-  }
-
-  ngOnDestroy() {
-  }
-  constructor(public cd: ChangeDetectorRef) {
-  }
+  ngOnDestroy() {}
+  constructor(public cd: ChangeDetectorRef) {}
 }

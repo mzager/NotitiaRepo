@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewEncapsulation
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DimensionEnum, DirtyEnum } from 'app/model/enum.model';
 import { DataField } from './../../../model/data-field.model';
@@ -12,10 +19,11 @@ import { HicConfigModel } from './hic.model';
   templateUrl: './hic.form.component.html'
 })
 export class HicFormComponent {
-
-
-  @Input() set config(v: HicConfigModel) {
-    if (v === null) { return; }
+  @Input()
+  set config(v: HicConfigModel) {
+    if (v === null) {
+      return;
+    }
     this.form.patchValue(v, { emitEvent: false });
   }
 
@@ -26,13 +34,13 @@ export class HicFormComponent {
   dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D, DimensionEnum.ONE_D];
 
   byKey(p1: DataField, p2: DataField) {
-    if (p2 === null) { return false; }
+    if (p2 === null) {
+      return false;
+    }
     return p1.key === p2.key;
   }
 
   constructor(private fb: FormBuilder) {
-
-
     // Init Form
     this.form = this.fb.group({
       dirtyFlag: [0],
@@ -61,5 +69,4 @@ export class HicFormComponent {
         this.configChange.emit(data);
       });
   }
-
 }
