@@ -1,10 +1,16 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  ViewEncapsulation
+} from '@angular/core';
 import * as _ from 'lodash';
 import { GraphConfig } from '../../../model/graph-config.model';
 import { DataDecorator } from './../../../model/data-map.model';
 import { Legend } from './../../../model/legend.model';
-
-
 
 @Component({
   selector: 'app-workspace-legend-panel',
@@ -14,28 +20,38 @@ import { Legend } from './../../../model/legend.model';
   encapsulation: ViewEncapsulation.None
 })
 export class LegendPanelComponent implements AfterViewInit, OnDestroy {
-
   public allLegends: Array<Legend> = [];
   public updateLegend = _.debounce(this.update, 600);
 
   public _config: GraphConfig;
-  get config(): GraphConfig { return this._config; }
-  @Input() set config(value: GraphConfig) {
-    if (value === null) { return; }
+  get config(): GraphConfig {
+    return this._config;
+  }
+  @Input()
+  set config(value: GraphConfig) {
+    if (value === null) {
+      return;
+    }
     this._config = value;
     this.updateLegend();
   }
 
   private _decorators: Array<DataDecorator> = [];
-  @Input() public set decorators(value: Array<DataDecorator>) {
-    if (value === null) { return; }
+  @Input()
+  public set decorators(value: Array<DataDecorator>) {
+    if (value === null) {
+      return;
+    }
     this._decorators = value;
     this.updateLegend();
   }
 
   public _legends: Array<Legend> = [];
-  @Input() public set legends(value: Array<Legend>) {
-    if (value === null) { return; }
+  @Input()
+  public set legends(value: Array<Legend>) {
+    if (value === null) {
+      return;
+    }
     this._legends = value;
     this.updateLegend();
   }
@@ -53,18 +69,13 @@ export class LegendPanelComponent implements AfterViewInit, OnDestroy {
   //   }
   // }
   // }
-  public select(): void {
-  }
+  public select(): void {}
 
-  public deselect(): void {
-  }
+  public deselect(): void {}
 
-  ngAfterViewInit(): void {
-  }
+  ngAfterViewInit(): void {}
 
-  ngOnDestroy() {
-
-  }
+  ngOnDestroy() {}
 
   legendFormatter(legend: Legend): Legend {
     const rv = Object.assign({}, legend);
@@ -77,7 +88,10 @@ export class LegendPanelComponent implements AfterViewInit, OnDestroy {
     } else if (legend.type === 'SHAPE') {
       for (let i = 0; i < rv.values.length; i++) {
         if (!isNaN(rv.values[i])) {
-          legend.values[i] = 'https://oncoscape.v3.sttrcancer.org/assets/shapes/shape-' + legend.values[i] + '-solid-legend.png';
+          legend.values[i] =
+            'https://oncoscape.v3.sttrcancer.org/assets/shapes/shape-' +
+            legend.values[i] +
+            '-solid-legend.png';
         }
       }
     }
@@ -91,5 +105,5 @@ export class LegendPanelComponent implements AfterViewInit, OnDestroy {
     this.cd.detectChanges();
   }
 
-  constructor(public cd: ChangeDetectorRef) { }
+  constructor(public cd: ChangeDetectorRef) {}
 }
