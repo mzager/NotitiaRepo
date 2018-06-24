@@ -94,7 +94,7 @@ export class DataService {
   };
 
   getPatientData(database, tbl): Promise<any> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       if (this._privateData.database === database) {
         resolve(this._privateData);
       } else {
@@ -187,7 +187,7 @@ export class DataService {
   ): Observable<DataDecorator> {
     if (decorator.field.ctype === CollectionTypeEnum.GENE_NAME) {
       return Observable.fromPromise(
-        new Promise((resolve, reject) => {
+        new Promise(resolve => {
           new Dexie('notitia').open().then(db => {
             db.table('genecoords')
               .where('gene')
@@ -216,20 +216,13 @@ export class DataService {
     // Type Dec
     if (decorator.field.ctype === CollectionTypeEnum.GENE_TYPE) {
       return Observable.fromPromise(
-        new Promise((resolve, reject) => {
+        new Promise(resolve => {
           new Dexie('notitia').open().then(db => {
             db.table('genecoords')
               .where('gene')
               .anyOfIgnoreCase(...config.markerFilter)
               .toArray()
               .then(results => {
-                const bioTypes: Array<string> = Array.from(
-                  results.reduce((p, c) => {
-                    p.add(c.type.toLowerCase());
-                    return p;
-                  }, new Set())
-                );
-
                 if (decorator.type === DataDecoratorTypeEnum.LABEL) {
                   decorator.values = results
                     .map(v => ({
@@ -279,7 +272,7 @@ export class DataService {
 
     // Min Max Dec
     return Observable.fromPromise(
-      new Promise((resolve, reject) => {
+      new Promise(resolve => {
         new Dexie('notitia-' + config.database).open().then(db => {
           db.table(decorator.field.tbl.replace(/\s/gi, ''))
             .where('m')
@@ -311,13 +304,14 @@ export class DataService {
                   decorator.legend.type = 'COLOR';
                   decorator.legend.display = 'DISCRETE';
                   decorator.legend.name = 'Gene ' + decorator.field.label;
-                  decorator.legend.labels = scale['range']()
-                    .map(v =>
-                      scale['invertExtent'](v)
-                        .map(w => Math.round(w))
-                        .join(' to ')
-                    )
-                    .concat(['NA']);
+                  decorator.legend.labels = scale['range']().map(v =>
+                    scale['invertExtent'](v)
+                      .map(w => Math.round(w))
+                      .join(' to ')
+                  );
+                  if (!decorator.legend.labels.find(v => v === 'NA')) {
+                    decorator.legend.labels.concat(['NA']);
+                  }
                   decorator.legend.values = scale['range']().concat(['#DDDDDD']);
                   break;
 
@@ -339,13 +333,14 @@ export class DataService {
                   decorator.legend.type = 'SHAPE';
                   decorator.legend.display = 'DISCRETE';
                   decorator.legend.name = 'Gene ' + decorator.field.label;
-                  decorator.legend.labels = scale['range']()
-                    .map(v =>
-                      scale['invertExtent'](v)
-                        .map(w => Math.round(w))
-                        .join(' to ')
-                    )
-                    .concat(['NA']);
+                  decorator.legend.labels = scale['range']().map(v =>
+                    scale['invertExtent'](v)
+                      .map(w => Math.round(w))
+                      .join(' to ')
+                  );
+                  if (!decorator.legend.labels.find(v => v === 'NA')) {
+                    decorator.legend.labels.concat(['NA']);
+                  }
                   decorator.legend.values = scale['range']().concat([SpriteMaterialEnum.NA]);
                   break;
               }
@@ -369,13 +364,29 @@ export class DataService {
           break;
         case DataTypeEnum.STRING:
           rv = String(rv).trim();
+          if (rv === 'undefined') {
+            rv = 'NA';
+          }
           break;
       }
       return rv;
     };
+    const formatValue = (field: DataField, value: any): string => {
+      let rv = value;
+      switch (field.type) {
+        case DataTypeEnum.STRING:
+          rv = String(rv).trim();
+          if (rv === 'undefined') {
+            rv = 'NA';
+          }
+          break;
+      }
+      return rv;
+    };
+    decorator.field.key = decorator.field.key.toLowerCase().trim();
 
     return Observable.fromPromise(
-      new Promise((resolve, reject) => {
+      new Promise(resolve => {
         // new Dexie('notitia-' + config.database).open().then(db => {
         //   console.log("end-open");
         //   console.log("start-query");
@@ -421,7 +432,7 @@ export class DataService {
                   mid: null,
                   key: EntityTypeEnum.PATIENT,
                   label: formatLabel(decorator.field, v[decorator.field.key]),
-                  value: formatLabel(decorator.field, v[decorator.field.key])
+                  value: formatValue(decorator.field, v[decorator.field.key])
                 }));
               }
               // db.close();
@@ -435,8 +446,8 @@ export class DataService {
                 sid: psMap[v.p],
                 mid: null,
                 key: EntityTypeEnum.PATIENT,
-                label: v[decorator.field.key],
-                value: scale(v[decorator.field.key])
+                label: formatLabel(decorator.field, v[decorator.field.key]),
+                value: scale(formatValue(decorator.field, v[decorator.field.key]))
               }));
               // decorator.legend = new Legend();
               // decorator.legend.type = 'COLOR';
@@ -463,8 +474,8 @@ export class DataService {
                 sid: psMap[v.p],
                 mid: null,
                 key: EntityTypeEnum.PATIENT,
-                label: v[decorator.field.key],
-                value: scale(v[decorator.field.key])
+                label: formatLabel(decorator.field, v[decorator.field.key]),
+                value: scale(formatValue(decorator.field, v[decorator.field.key]))
               }));
               decorator.legend = new Legend();
               decorator.legend.type = 'COLOR';
@@ -476,7 +487,9 @@ export class DataService {
                     ? 'Gene ' + decorator.field.label
                     : 'Patient ' + decorator.field.label;
               if (decorator.field.type === 'STRING') {
-                decorator.legend.labels = scale['domain']().filter(v => v).concat(['NA']);
+                decorator.legend.labels = scale['domain']()
+                  .filter(v => v)
+                  .concat(['NA']);
                 decorator.legend.values = scale['range']().concat([0xdddddd]);
               } else {
                 decorator.legend.labels = scale['range']()
@@ -498,8 +511,8 @@ export class DataService {
                 sid: psMap[v.p],
                 mid: null,
                 key: EntityTypeEnum.PATIENT,
-                label: v[decorator.field.key],
-                value: scale(v[decorator.field.key])
+                label: formatLabel(decorator.field, v[decorator.field.key]),
+                value: scale(formatValue(decorator.field, v[decorator.field.key]))
               }));
               decorator.legend = new Legend();
               decorator.legend.type = 'SHAPE';
@@ -524,31 +537,6 @@ export class DataService {
                 decorator.legend.values = scale['range']().concat([SpriteMaterialEnum.NA]);
               }
               resolve(decorator);
-              break;
-
-            case DataDecoratorTypeEnum.SIZE:
-              scale =
-                decorator.field.type === 'STRING'
-                  ? ChartFactory.getScaleSizeOrdinal(decorator.field.values)
-                  : ChartFactory.getScaleSizeLinear(
-                      decorator.field.values.min,
-                      decorator.field.values.max
-                    );
-              decorator.values = items.map(v => ({
-                pid: v.p,
-                sid: psMap[v.p],
-                mid: null,
-                key: EntityTypeEnum.PATIENT,
-                label: v[decorator.field.key],
-                value: scale(v[decorator.field.key])
-              }));
-              // db.close();
-              resolve(decorator);
-              break;
-
-            case DataDecoratorTypeEnum.TOOLTIP:
-              break;
-            case DataDecoratorTypeEnum.SELECT:
               break;
           }
         });
@@ -644,7 +632,7 @@ export class DataService {
     );
   }
 
-  getDatasetInfo(database: string): Promise<any> {
+  getDatasetInfo(): Promise<any> {
     return DataService.db.table('dataset').toArray();
   }
 
@@ -717,7 +705,7 @@ export class DataService {
                                                                   : '';
 
     if (method === '') {
-      return new Promise((resolve, reject) => {
+      return new Promise(resolve => {
         resolve({
           method: 'NA',
           desc: 'Comming Soon',
@@ -743,7 +731,7 @@ export class DataService {
   }
 
   getEvents(database: string): Promise<Array<any>> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
         v.table('dataset')
@@ -757,7 +745,7 @@ export class DataService {
   }
 
   getQueryBuilderConfig(database: string): Promise<any> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
         console.log('need to ensure it has the table');
@@ -770,15 +758,15 @@ export class DataService {
                   fields[field.key] = { name: field.label, type: field.type.toLowerCase() };
                   return fields;
                 case 'STRING':
-                  if (field.values.length <= 10) {
-                    fields[field.key] = {
-                      name: field.label,
-                      type: 'category',
-                      options: field.values.map(val => ({ name: val, value: val }))
-                    };
-                  } else {
-                    fields[field.key] = { name: field.label, type: 'string' };
-                  }
+                  // if (field.values.length <= 10) {
+                  fields[field.key] = {
+                    name: field.label,
+                    type: 'category',
+                    options: field.values.map(val => ({ name: val, value: val }))
+                  };
+                  // } else {
+                  //   fields[field.key] = { name: field.label, type: 'string' };
+                  // }
                   return fields;
               }
             }, {});
@@ -789,7 +777,7 @@ export class DataService {
     });
   }
   getPatientIdsWithSampleIds(database: string, sampleIds: Array<string>): Promise<Array<string>> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const db = new Dexie('notitia-' + database);
       db.open().then(connection => {
         connection
@@ -806,7 +794,7 @@ export class DataService {
   }
 
   getSampleIdsWithPatientIds(database: string, patientIds: Array<string>): Promise<Array<string>> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const db = new Dexie('notitia-' + database);
       db.open().then(connection => {
         connection
@@ -826,7 +814,7 @@ export class DataService {
     if (mids === undefined || mids === null) {
       mids = [];
     }
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const db = new Dexie('notitia-' + database);
       db.open().then(connection => {
         connection
@@ -858,19 +846,19 @@ export class DataService {
       });
     });
   }
-  getMarkerStats(database: string, mids: Array<string>): Promise<any> {
+  getMarkerStats(mids: Array<string>): Promise<any> {
     if (mids === undefined || mids === null) {
       mids = [];
     }
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       resolve([]);
     });
   }
-  getMarkerStatsText(database: string, mids: Array<string>): Promise<any> {
+  getMarkerStatsText(mids: Array<string>): Promise<any> {
     if (mids === undefined || mids === null) {
       mids = [];
     }
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       let text = '<p>You selected ' + mids.length + ' genes including:</p>';
       text += mids.join(', ');
       resolve(text);
@@ -881,7 +869,7 @@ export class DataService {
       pids = [];
     }
 
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       // This builds a "sql" query
       this.getQueryBuilderConfig(database).then(config => {
         // Pull field Meta Data
@@ -928,7 +916,7 @@ export class DataService {
       pids = [];
     }
 
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       // This builds a "sql" query
       this.getQueryBuilderConfig(database).then(config => {
         // Pull field Meta Data
@@ -999,7 +987,7 @@ export class DataService {
     config: QueryBuilderConfig,
     criteria: { condition: string; rules: Array<{ field: string; operator: string; value: any }> }
   ): Promise<Array<string>> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const db = new Dexie('notitia-' + database);
       db.open().then(connection => {
         Promise.all(
@@ -1118,7 +1106,7 @@ export class DataService {
   }
 
   getPathwayCategories(): Promise<Array<{ c: string; n: string; d: string }>> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       resolve([
         {
           c: 'http://pathwaycommons.org/pc2/pid',
@@ -1175,7 +1163,7 @@ export class DataService {
     }).then(res => res.json());
   }
   createCustomPathway(database: string, pathway: Pathway): Promise<any> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
         v.table('pathways')
@@ -1187,7 +1175,7 @@ export class DataService {
     });
   }
   deleteCustomPathway(database: string, pathway: Pathway): Promise<any> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
         v.table('pathways')
@@ -1201,7 +1189,7 @@ export class DataService {
     });
   }
   getCustomPathways(database: string): Promise<any> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
         v.table('pathways')
@@ -1236,7 +1224,7 @@ export class DataService {
     ).then(res => res.json());
   }
   getCustomGenesets(database: string): Promise<any> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
         v.table('genesets')
@@ -1603,7 +1591,7 @@ export class DataService {
     });
   }
   createCustomGeneset(database: string, geneset: GeneSet): Promise<any> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
         v.table('genesets')
@@ -1615,7 +1603,7 @@ export class DataService {
     });
   }
   createCustomGenesetFromSelect(database: string, geneset: GeneSet): Promise<any> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const db = new Dexie('notitia-' + database);
       db.open().then(conn => {
         conn
@@ -1628,7 +1616,7 @@ export class DataService {
     });
   }
   deleteCustomGeneset(database: string, geneset: GeneSet): Promise<any> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
         v.table('genesets')
@@ -1636,14 +1624,13 @@ export class DataService {
           .equalsIgnoreCase(geneset.n)
           .delete()
           .then(result => {
-            const genesets = result;
             resolve(result);
           });
       });
     });
   }
   getCustomCohorts(database: string): Promise<any> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
         v.table('cohorts')
@@ -1658,7 +1645,7 @@ export class DataService {
     });
   }
   createCustomCohortFromSelect(database: string, cohort: Cohort): Promise<any> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const db = new Dexie('notitia-' + database);
       db.open().then(conn => {
         conn
@@ -1767,7 +1754,7 @@ export class DataService {
     });
   }
   deleteCustomCohort(database: string, cohort: Cohort): Promise<any> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const db = new Dexie('notitia-' + database);
       db.open().then(v => {
         v.table('cohorts')
@@ -1789,7 +1776,7 @@ export class DataService {
 
       if (exists) {
         DataService.db.open();
-        DataService.db.on('versionchange', function(event) {});
+        DataService.db.on('versionchange', function() {});
         DataService.db.on('blocked', () => {});
         return;
       }
@@ -1802,10 +1789,10 @@ export class DataService {
         genetrees: '++id'
       });
       DataService.db.open();
-      DataService.db.on('versionchange', function(event) {});
+      DataService.db.on('versionchange', function() {});
       DataService.db.on('blocked', () => {});
 
-      requestAnimationFrame(v => {
+      requestAnimationFrame(() => {
         DataService.db
           .table('genemap')
           .count()
@@ -1847,9 +1834,7 @@ export class DataService {
                 gene.hugo = gene.hugo.toUpperCase();
                 gene.symbols = gene.symbols.map(sym => sym.toUpperCase());
               });
-
               const validHugoGenes = new Set(hugoLookup.map(gene => gene.hugo));
-
               const geneLinksData = result[3].map(d => ({
                 source: d[0].toUpperCase(),
                 target: d[1].toUpperCase(),
@@ -1861,7 +1846,6 @@ export class DataService {
                   ...Array.from(new Set(geneLinksData.map(gene => gene.target)))
                 ])
               );
-
               const missingGenes = allGenes.filter(gene => !validHugoGenes.has(gene));
               const missingMap = missingGenes.reduce((p, c) => {
                 const value = hugoLookup.find(v2 => v2.symbols.indexOf(c) >= 0);
@@ -1870,7 +1854,6 @@ export class DataService {
                 }
                 return p;
               }, {});
-
               geneLinksData.forEach(link => {
                 link.target = validHugoGenes.has(link.target)
                   ? link.target
@@ -1883,13 +1866,11 @@ export class DataService {
                     ? missingMap[link.source].hugo
                     : null;
               });
-
               // Filter Out Links That Could Not Be Resolved + Suplement With Additonal Data
               const geneLookup = result[0].reduce((p, c) => {
                 p[c.gene] = c;
                 return p;
               }, {});
-
               const links = geneLinksData
                 .filter(link => link.source !== null && link.target !== null)
                 .map(link => {
@@ -1897,7 +1878,6 @@ export class DataService {
                   link.targetData = geneLookup[link.target];
                   return link;
                 });
-
               DataService.db.table('genecoords').bulkAdd(result[0]);
               DataService.db.table('bandcoords').bulkAdd(result[1]);
               DataService.db.table('genemap').bulkAdd(result[2]);
