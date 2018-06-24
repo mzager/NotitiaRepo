@@ -8,53 +8,49 @@
 //     padding: 0px;
 // }
 .legend {
-    
 }
-.legendHeader { 
-    text-transform: capitalize;
-    text-align: left;
-    width: 100%;
-    padding: 10px 0px 10px 0px;
-    font-size: 12px;
-    font-weight: 500;
-    display: inline-block
+.legendHeader {
+  text-transform: capitalize;
+  text-align: left;
+  width: 100%;
+  padding: 10px 0px 10px 0px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-block;
 }
-.legendItem { 
-    position: relative;
-    padding-left: 30px;
-    width :100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 20px;
-    padding-bottom:2px;
-    padding-top: 2px;
-    text-transform: capitalize;
-}   
+.legendItem {
+  position: relative;
+  padding-left: 25px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 15px;
+  padding-bottom: 10px;
+  text-transform: capitalize;
+}
 
 .swatch {
-    height: 20px;
-    width: 20px;
-    position: absolute;
-    left: 0px;
+  height: 15px;
+  width: 15px;
+  position: absolute;
+  left: 0px;
 }
 
 .swatchButtons {
-    padding: 0px 0px 0px 10px;
-    display: none;
-    background: #FFF;
-    position: absolute;
-    right: 15px;
-    top: 2px;
-    line-height: 24px;
-    a {
-        color: mat-color($primary);
-    }
+  padding: 0px 0px 0px 10px;
+  display: none;
+  background: #fff;
+  position: absolute;
+  right: 15px;
+  top: 2px;
+  line-height: 24px;
+  a {
+    color: mat-color($primary);
+  }
 }
 
-.legendItem:hover { 
-    .swatchButtons {
-        display: block;
-        font-size: .8rem;
-    }
+.legendItem:hover {
+  .swatchButtons {
+    display: block;
+    font-size: 0.8rem;
+  }
 }

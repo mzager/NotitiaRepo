@@ -97,7 +97,7 @@ export class GenomeGraph extends AbstractVisualization {
     this.addGenes();
     ChartFactory.configPerspectiveOrbit(
       this.view,
-      new THREE.Box3(new THREE.Vector3(-200, -100, -5), new THREE.Vector3(200, 100, 5))
+      new THREE.Box3(new THREE.Vector3(-400, -200, -5), new THREE.Vector3(400, 200, 5))
     );
 
     requestAnimationFrame(v => {

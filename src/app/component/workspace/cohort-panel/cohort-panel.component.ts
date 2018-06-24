@@ -1,7 +1,12 @@
 import {
-  AfterViewInit, ChangeDetectionStrategy,
-  ChangeDetectorRef, Component, EventEmitter,
-  Input, Output, ViewEncapsulation
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewEncapsulation
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Cohort, CohortCondition, CohortField } from './../../../model/cohort.model';
@@ -18,11 +23,10 @@ declare var $: any;
   encapsulation: ViewEncapsulation.None
 })
 export class CohortPanelComponent implements AfterViewInit {
-
   @Input() cohorts: Array<Cohort> = [];
-  @Output() addCohort: EventEmitter<{ database: string, cohort: Cohort }> = new EventEmitter();
-  @Output() delCohort: EventEmitter<{ database: string, cohort: Cohort }> = new EventEmitter();
-  @Output() queryCohort: EventEmitter<{ database: string, cohort: Cohort }> = new EventEmitter();
+  @Output() addCohort: EventEmitter<{ database: string; cohort: Cohort }> = new EventEmitter();
+  @Output() delCohort: EventEmitter<{ database: string; cohort: Cohort }> = new EventEmitter();
+  @Output() queryCohort: EventEmitter<{ database: string; cohort: Cohort }> = new EventEmitter();
   @Output() hide: EventEmitter<any> = new EventEmitter();
 
   fields: Array<CohortField>;
@@ -30,16 +34,29 @@ export class CohortPanelComponent implements AfterViewInit {
   activeCohort: Cohort;
 
   private _config: GraphConfig;
-  get config(): GraphConfig { return this._config; }
-  @Input() set config(config: GraphConfig) {
-    if (config === null) { return; }
+  get config(): GraphConfig {
+    return this._config;
+  }
+  @Input()
+  set config(config: GraphConfig) {
+    if (config === null) {
+      return;
+    }
     this._config = config;
     this.dataService.getQueryBuilderConfig(config.database).then(result => {
       const fields = result.fields;
-      this.fields = Object.keys(fields).map(key => (fields[key].type === 'number') ?
-        { key: key, name: fields[key].name, type: fields[key].type } :
-        { key: key, name: fields[key].name, type: fields[key].type, options: fields[key].options }
+      this.fields = Object.keys(fields).map(
+        key =>
+          fields[key].type === 'number'
+            ? { key: key, name: fields[key].name, type: fields[key].type }
+            : {
+                key: key,
+                name: fields[key].name,
+                type: fields[key].type,
+                options: fields[key].options
+              }
       );
+      debugger;
       const field = this.fields[0];
       this.defaultCondition = {
         field: field,
@@ -47,13 +64,13 @@ export class CohortPanelComponent implements AfterViewInit {
         condition: 'where',
         min: null,
         max: null,
-        value: (field.type === 'category') ? field.options[0] : null
+        value: field.type === 'category' ? field.options[0] : null
       };
       this.resetForm();
     });
   }
 
-  ngAfterViewInit(): void { }
+  ngAfterViewInit(): void {}
 
   closeClick() {
     this.hide.emit();
@@ -64,8 +81,14 @@ export class CohortPanelComponent implements AfterViewInit {
   }
 
   saveClick() {
-    if (this.activeCohort.n === '') { alert('Please specify a cohort name'); return; }
-    if (this.cohorts.find(v => v.n === this.activeCohort.n)) { alert('Please specify a unique cohort name'); return; }
+    if (this.activeCohort.n === '') {
+      alert('Please specify a cohort name');
+      return;
+    }
+    if (this.cohorts.find(v => v.n === this.activeCohort.n)) {
+      alert('Please specify a unique cohort name');
+      return;
+    }
     this.addCohort.emit({ cohort: this.activeCohort, database: this.config.database });
   }
 
@@ -100,8 +123,11 @@ export class CohortPanelComponent implements AfterViewInit {
     this.cd.detectChanges();
   }
 
-  constructor(private cd: ChangeDetectorRef, private fb: FormBuilder, private dataService: DataService) {
+  constructor(
+    private cd: ChangeDetectorRef,
+    private fb: FormBuilder,
+    private dataService: DataService
+  ) {
     this.activeCohort = { n: '', pids: [], sids: [], conditions: [] };
   }
-
 }
