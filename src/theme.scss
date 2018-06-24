@@ -19,13 +19,31 @@ $theme: mat-light-theme($primary, $accent, $warn);
 @include angular-material-theme($theme);
 // Define a custom typography config that overrides the font-family as well as the
 // `headlines` and `body-1` levels.
-$custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $headline: mat-typography-level(32px, 32px, 300), $title: mat-typography-level(13px, 16px, 300), $body-1: mat-typography-level(13px, 16px, 300), $body-2: mat-typography-level(13px, 16px, 300), $button: mat-typography-level(13px, 16px, 300), $input: mat-typography-level(1em, 1, 300), $subheading-2: mat-typography-level(13px, 16px, 300));
+$custom-typography: mat-typography-config(
+  $font-family: 'Lato, monospace',
+  $headline: mat-typography-level(32px, 32px, 300),
+  $title: mat-typography-level(13px, 16px, 300),
+  $body-1: mat-typography-level(13px, 16px, 300),
+  $body-2: mat-typography-level(13px, 16px, 300),
+  $button: mat-typography-level(13px, 16px, 300),
+  $input: mat-typography-level(1em, 1, 300),
+  $subheading-2: mat-typography-level(13px, 16px, 300)
+);
 @include angular-material-typography($custom-typography);
 /* Disable Text Select */
 
+// Hover Ellispe
+.ellipsis {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-right: 20px;
+}
 
 // Twitter Overrides
-// .timeline-Header { 
+// .timeline-Header {
 //   display: none !important;
 // }
 // .timeline-Widget {
@@ -33,9 +51,9 @@ $custom-typography: mat-typography-config( $font-family: 'Lato, monospace', $hea
 //   max-height: 405px !important;
 //   overflow: scroll !important;
 // }
-#twitter-widget-holder{ 
-  max-height:405px;
-  background:#fff; 
+#twitter-widget-holder {
+  max-height: 405px;
+  background: #fff;
   overflow: scroll;
 }
 
@@ -63,7 +81,6 @@ body {
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 30px white inset;
   box-shadow: 0 0 0 30px white inset;
-  ;
 }
 
 .z-label {
@@ -83,7 +100,7 @@ input:-webkit-autofill {
   right: 100%;
   top: 12px;
   border: solid transparent;
-  content: " ";
+  content: ' ';
   height: 0;
   width: 0;
   position: absolute;
@@ -236,7 +253,7 @@ body .mat-button-focus-overlay {
 
 /* Popup Panel */
 
-/* Angular Mobile First Cheat Sheet 
+/* Angular Mobile First Cheat Sheet
 {
   xs: 'screen and (max-width: 599px)'
   sm: 'screen and (min-width: 600px) and (max-width: 959px)'
@@ -354,8 +371,9 @@ body .mat-button-focus-overlay {
   }
 }
 
-// Main Themes XS 
-.panel {}
+// Main Themes XS
+.panel {
+}
 
 .panel {
   position: absolute;
@@ -367,7 +385,7 @@ body .mat-button-focus-overlay {
   padding-top: 50px;
   overflow-y: scroll;
   padding: 50px 10px;
-  background: #FFF;
+  background: #fff;
   z-index: 1;
 }
 
@@ -378,9 +396,7 @@ body .mat-button-focus-overlay {
   line-height: 10px;
   letter-spacing: 2px;
   font-size: 18px !important;
-  ;
   line-height: 22px !important;
-  ;
 }
 
 .panel-header {
@@ -415,7 +431,7 @@ body .mat-button-focus-overlay {
 //footer (Landing/About)
 .landing-footer {
   background-color: #1e88e5;
-  color: #FFF;
+  color: #fff;
   position: relative;
   left: -20%;
   width: 100%;
@@ -490,10 +506,10 @@ body .mat-button-focus-overlay {
 }
 
 // Responsive Mobile First
-// Selectors and styles affecting screens SMALLER THAN 360px (smallPhones) 
+// Selectors and styles affecting screens SMALLER THAN 360px (smallPhones)
 .dashboard-modal-panel {
   padding: 20px;
-  background: #FFF;
+  background: #fff;
   width: 100%;
   height: 100vh;
   position: absolute;
@@ -561,3 +577,5 @@ body .mat-button-focus-overlay {
     margin-bottom: 30px;
   }
 }
+
+// Ballon JS
