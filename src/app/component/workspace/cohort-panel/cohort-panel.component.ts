@@ -56,7 +56,6 @@ export class CohortPanelComponent implements AfterViewInit {
                 options: fields[key].options
               }
       );
-      debugger;
       const field = this.fields[0];
       this.defaultCondition = {
         field: field,
