@@ -1,3 +1,4 @@
+import { DataService } from 'app/service/data.service';
 import { SelectSaveSamplesAction, SelectSaveMarkersAction } from './../../action/compute.action';
 import { ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -19,16 +20,25 @@ import * as fromRoot from 'app/reducer/index.reducer';
 import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 import {
-  DataAddCohortAction, DataAddGenesetAction,
-  DataAddPathwayAction, DataDelCohortAction,
-  DataDelGenesetAction, DataDelPathwayAction
+  DataAddCohortAction,
+  DataAddGenesetAction,
+  DataAddPathwayAction,
+  DataDelCohortAction,
+  DataDelGenesetAction,
+  DataDelPathwayAction
 } from './../../action/data.action';
 import {
-  DataDecoratorCreateAction, DataDecoratorDelAction,
-  DataDecoratorDelAllAction, WorkspaceConfigAction
+  DataDecoratorCreateAction,
+  DataDecoratorDelAction,
+  DataDecoratorDelAllAction,
+  WorkspaceConfigAction
 } from './../../action/graph.action';
 import { HelpSetConfigAction } from './../../action/help.action';
-import { GraphPanelToggleAction, LoaderShowAction, ModalPanelAction } from './../../action/layout.action';
+import {
+  GraphPanelToggleAction,
+  LoaderShowAction,
+  ModalPanelAction
+} from './../../action/layout.action';
 import { ChartSelection } from './../../model/chart-selection.model';
 import { Cohort } from './../../model/cohort.model';
 import { DataTable } from './../../model/data-field.model';
@@ -67,7 +77,6 @@ import { SurvivalConfigModel } from './../visualization/survival/survival.model'
 import { TruncatedSvdConfigModel } from './../visualization/truncatedsvd/truncatedsvd.model';
 import { TsneConfigModel } from './../visualization/tsne/tsne.model';
 
-
 @Component({
   selector: 'app-workspace',
   templateUrl: './workspace.component.html',
@@ -75,7 +84,6 @@ import { TsneConfigModel } from './../visualization/tsne/tsne.model';
   styleUrls: ['./workspace.component.scss']
 })
 export class WorkspaceComponent {
-
   // Components
   @ViewChild('panelContainer') public panelContainer: ElementRef;
 
@@ -117,12 +125,11 @@ export class WorkspaceComponent {
   selectedGraph: Observable<enums.GraphEnum>;
   fields: Observable<Array<DataField>>;
   tables: Observable<Array<DataTable>>;
-  events: Observable<Array<{ type: string, subtype: string }>>;
+  events: Observable<Array<{ type: string; subtype: string }>>;
   queryData: Observable<any>;
   _selectedGraph: enums.GraphEnum; // This is super wrong
 
-  constructor(private store: Store<fromRoot.State>) {
-
+  constructor(private store: Store<fromRoot.State>, public ds: DataService) {
     this.pathways = store.select(fromRoot.getPathways);
     this.genesets = store.select(fromRoot.getGenesets);
     this.cohorts = store.select(fromRoot.getCohorts);
@@ -195,7 +202,9 @@ export class WorkspaceComponent {
         this.store.dispatch(new compute.PathwaysAction({ config: value as PathwaysConfigModel }));
         break;
       case enums.VisualizationEnum.CHROMOSOME:
-        this.store.dispatch(new compute.ChromosomeAction({ config: value as ChromosomeConfigModel }));
+        this.store.dispatch(
+          new compute.ChromosomeAction({ config: value as ChromosomeConfigModel })
+        );
         break;
       case enums.VisualizationEnum.GENOME:
         this.store.dispatch(new compute.GenomeAction({ config: value as GenomeConfigModel }));
@@ -213,13 +222,19 @@ export class WorkspaceComponent {
         this.store.dispatch(new compute.DendogramAction({ config: value as DendogramConfigModel }));
         break;
       case enums.VisualizationEnum.PARALLEL_COORDS:
-        this.store.dispatch(new compute.ParallelCoordsAction({ config: value as ParallelCoordsConfigModel }));
+        this.store.dispatch(
+          new compute.ParallelCoordsAction({ config: value as ParallelCoordsConfigModel })
+        );
         break;
       case enums.VisualizationEnum.BOX_WHISKERS:
-        this.store.dispatch(new compute.BoxWhiskersAction({ config: value as BoxWhiskersConfigModel }));
+        this.store.dispatch(
+          new compute.BoxWhiskersAction({ config: value as BoxWhiskersConfigModel })
+        );
         break;
       case enums.VisualizationEnum.LINKED_GENE:
-        this.store.dispatch(new compute.LinkedGeneAction({ config: value as LinkedGeneConfigModel }));
+        this.store.dispatch(
+          new compute.LinkedGeneAction({ config: value as LinkedGeneConfigModel })
+        );
         break;
       case enums.VisualizationEnum.HIC:
         this.store.dispatch(new compute.HicAction({ config: value as HicConfigModel }));
@@ -240,25 +255,37 @@ export class WorkspaceComponent {
         this.store.dispatch(new compute.FastIcaAction({ config: value as FastIcaConfigModel }));
         break;
       case enums.VisualizationEnum.DICTIONARY_LEARNING:
-        this.store.dispatch(new compute.DictionaryLearningAction({ config: value as DictionaryLearningConfigModel }));
+        this.store.dispatch(
+          new compute.DictionaryLearningAction({ config: value as DictionaryLearningConfigModel })
+        );
         break;
       case enums.VisualizationEnum.NMF:
         this.store.dispatch(new compute.NmfAction({ config: value as NmfConfigModel }));
         break;
       case enums.VisualizationEnum.TRUNCATED_SVD:
-        this.store.dispatch(new compute.TruncatedSvdAction({ config: value as TruncatedSvdConfigModel }));
+        this.store.dispatch(
+          new compute.TruncatedSvdAction({ config: value as TruncatedSvdConfigModel })
+        );
         break;
       case enums.VisualizationEnum.ISOMAP:
         this.store.dispatch(new compute.IsoMapAction({ config: value as IsoMapConfigModel }));
         break;
       case enums.VisualizationEnum.LOCALLY_LINEAR_EMBEDDING:
-        this.store.dispatch(new compute.LocalLinearEmbeddingAction({ config: value as LocalLinearEmbeddingConfigModel }));
+        this.store.dispatch(
+          new compute.LocalLinearEmbeddingAction({
+            config: value as LocalLinearEmbeddingConfigModel
+          })
+        );
         break;
       case enums.VisualizationEnum.SPECTRAL_EMBEDDING:
-        this.store.dispatch(new compute.SpectralEmbeddingAction({ config: value as SpectralEmbeddingConfigModel }));
+        this.store.dispatch(
+          new compute.SpectralEmbeddingAction({ config: value as SpectralEmbeddingConfigModel })
+        );
         break;
       case enums.VisualizationEnum.INCREMENTAL_PCA:
-        this.store.dispatch(new compute.PcaIncrementalAction({ config: value as PcaIncrementalConfigModel }));
+        this.store.dispatch(
+          new compute.PcaIncrementalAction({ config: value as PcaIncrementalConfigModel })
+        );
         break;
       case enums.VisualizationEnum.KERNAL_PCA:
         this.store.dispatch(new compute.PcaKernalAction({ config: value as PcaKernalConfigModel }));
@@ -267,13 +294,23 @@ export class WorkspaceComponent {
         this.store.dispatch(new compute.PcaSparseAction({ config: value as PcaSparseConfigModel }));
         break;
       case enums.VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING:
-        this.store.dispatch(new compute.MiniBatchDictionaryLearningAction({ config: value as MiniBatchDictionaryLearningConfigModel }));
+        this.store.dispatch(
+          new compute.MiniBatchDictionaryLearningAction({
+            config: value as MiniBatchDictionaryLearningConfigModel
+          })
+        );
         break;
       case enums.VisualizationEnum.MINI_BATCH_SPARSE_PCA:
-        this.store.dispatch(new compute.MiniBatchSparsePcaAction({ config: value as MiniBatchSparsePcaConfigModel }));
+        this.store.dispatch(
+          new compute.MiniBatchSparsePcaAction({ config: value as MiniBatchSparsePcaConfigModel })
+        );
         break;
       case enums.VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS:
-        this.store.dispatch(new compute.LinearDiscriminantAnalysisAction({ config: value as LinearDiscriminantAnalysisConfigModel }));
+        this.store.dispatch(
+          new compute.LinearDiscriminantAnalysisAction({
+            config: value as LinearDiscriminantAnalysisConfigModel
+          })
+        );
         break;
       case enums.VisualizationEnum.SURVIVAL:
         this.store.dispatch(new compute.SurvivalAction({ config: value as SurvivalConfigModel }));
@@ -285,43 +322,50 @@ export class WorkspaceComponent {
         this.store.dispatch(new compute.HistogramAction({ config: value as HistogramConfigModel }));
         break;
       case enums.VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS:
-        this.store.dispatch(new compute.QuadraticDiscriminantAnalysisAction(
-          { config: value as QuadradicDiscriminantAnalysisConfigModel }));
+        this.store.dispatch(
+          new compute.QuadraticDiscriminantAnalysisAction({
+            config: value as QuadradicDiscriminantAnalysisConfigModel
+          })
+        );
         break;
     }
   }
 
-  edgeAddDecorator(e: { config: EdgeConfigModel, decorator: DataDecorator }): void {
-    this.store.dispatch(new DataDecoratorCreateAction({ config: e.config, decorator: e.decorator }));
+  edgeAddDecorator(e: { config: EdgeConfigModel; decorator: DataDecorator }): void {
+    this.store.dispatch(
+      new DataDecoratorCreateAction({ config: e.config, decorator: e.decorator })
+    );
   }
-  edgeDelDecorator(e: { config: EdgeConfigModel, decorator: DataDecorator }): void {
+  edgeDelDecorator(e: { config: EdgeConfigModel; decorator: DataDecorator }): void {
     this.store.dispatch(new DataDecoratorDelAction({ config: e.config, decorator: e.decorator }));
   }
-  graphPanelAddDecorator(e: { config: GraphConfig, decorator: DataDecorator }): void {
-    this.store.dispatch(new DataDecoratorCreateAction({ config: e.config, decorator: e.decorator }));
+  graphPanelAddDecorator(e: { config: GraphConfig; decorator: DataDecorator }): void {
+    this.store.dispatch(
+      new DataDecoratorCreateAction({ config: e.config, decorator: e.decorator })
+    );
   }
-  graphPanelDelDecorator(e: { config: GraphConfig, decorator: DataDecorator }): void {
+  graphPanelDelDecorator(e: { config: GraphConfig; decorator: DataDecorator }): void {
     this.store.dispatch(new DataDecoratorDelAction({ config: e.config, decorator: e.decorator }));
   }
   graphPanelDelAllDecorators(e: { config: GraphConfig }): void {
     this.store.dispatch(new DataDecoratorDelAllAction({ config: e.config }));
   }
-  addPathway(value: { database: string, pathway: Pathway }): void {
+  addPathway(value: { database: string; pathway: Pathway }): void {
     this.store.dispatch(new DataAddPathwayAction(value));
   }
-  delPathway(value: { database: string, pathway: Pathway }): void {
+  delPathway(value: { database: string; pathway: Pathway }): void {
     this.store.dispatch(new DataDelPathwayAction(value));
   }
-  addGeneset(value: { database: string, geneset: GeneSet }): void {
+  addGeneset(value: { database: string; geneset: GeneSet }): void {
     this.store.dispatch(new DataAddGenesetAction(value));
   }
-  delGeneset(value: { database: string, geneset: GeneSet }): void {
+  delGeneset(value: { database: string; geneset: GeneSet }): void {
     this.store.dispatch(new DataDelGenesetAction(value));
   }
-  addCohort(value: { database: string, cohort: Cohort }): void {
+  addCohort(value: { database: string; cohort: Cohort }): void {
     this.store.dispatch(new DataAddCohortAction(value));
   }
-  delCohort(value: { database: string, cohort: Cohort }): void {
+  delCohort(value: { database: string; cohort: Cohort }): void {
     this.store.dispatch(new DataDelCohortAction(value));
   }
   helpPanelToggle(config: GraphConfig): void {
@@ -330,7 +374,7 @@ export class WorkspaceComponent {
   }
   splitScreenChange(value: boolean): void {
     const model = new WorkspaceConfigModel();
-    model.layout = (value) ? enums.WorkspaceLayoutEnum.HORIZONTAL : enums.WorkspaceLayoutEnum.SINGLE;
+    model.layout = value ? enums.WorkspaceLayoutEnum.HORIZONTAL : enums.WorkspaceLayoutEnum.SINGLE;
     this.store.dispatch(new WorkspaceConfigAction(model));
     this.store.dispatch(new GraphPanelToggleAction(enums.GraphPanelEnum.GRAPH_B));
   }
@@ -345,6 +389,7 @@ export class WorkspaceComponent {
     this.store.dispatch(new WorkspaceConfigAction(value));
   }
   fileLoadPublic(value: any) {
+    this.ds.resolveGeneSymbols();
     this.overrideShowPanel = false;
     this.store.dispatch(new data.DataLoadFromPublic(value));
     this.store.dispatch(new ModalPanelAction(enums.PanelEnum.NONE));

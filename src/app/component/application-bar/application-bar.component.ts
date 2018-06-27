@@ -27,9 +27,11 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   @Output() splitScreenChange = new EventEmitter<boolean>();
   @Output() showPanel = new EventEmitter<PanelEnum>();
   public datasetSelected = false;
+  public _config: GraphConfig;
   @Input()
   set config(config: GraphConfig) {
     this.datasetSelected = config !== null;
+    this._config = config;
     this.cd.detectChanges();
   }
 

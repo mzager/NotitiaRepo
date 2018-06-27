@@ -10,6 +10,7 @@
   <meta name="author" content="Michael Zager">
   <meta name="keywords" content="Oncoscape, Cancer, Visualization, CBio, Xena, GDC">
   <meta name="description" content="Maximize the potential of your clinical and genomic data by combining it with best-in-class analysis, reference data sets and domain-specific visualizations.">
+  <script type="application/ld+json">{"@context":"http://schema.org","@type":"WebApplication","name":"Oncoscape","url":"https://oncoscape.v3.sttrcancer.org/","keywords":"Data Visualization, Genomics, Cancer, Biology, Fred Hutchinson","description":"Maximize the potential of your clinical and genomic data by combining it with best-in-class analysis, reference data sets and domain-specific visualizations.","applicationCategory":"Data Visualization","genre":"Genomics","sameAs":["https://twitter.com/oncoscape","https://www.linkedin.com/company/oncoscape/","https://www.instagram.com/oncoscape/","https://www.youtube.com/channel/UCHaDnB41FEkOxu_W9a_C9dQ?view_as=subscriber"],"screenshot":"https://oncoscape.v3.sttrcancer.org/screenshot.jpg","about":{"@type":"Thing","description":"Maximize the potential of your clinical and genomic data by combining it with best-in-class analysis, reference data sets and domain-specific visualizations.","name":"Oncoscape"},"author":{"@type":"Person","email":"mzager@fredhutch.org","familyName":"Zager","givenName":"Michael","jobTitle":"Developer / Designer / Director","address":"Seattle, WA"},"funder":{"@type":"Organization","url":"http://www.fredhutch.org/","address":"1100 Fairview Ave. N., #E3-300 PO Box 19024 Seattle, WA 98109-1024","knowsAbout":"Cancer Research","legalName":"Fred Hutchinson Cancer Research Center","logo":"http://www.fredhutch.org/etc/designs/public/img/logos/fred_hutch_logo.png"},"sponsor":{"@type":"Person","familyName":"Holland","givenName":"Eric","jobTitle":"Neurosurgeon"},"contributor":{"@type":"Person","familyName":"Krenn","givenName":"Gretchen","jobTitle":"Developer"},"browserRequirements":"Requires Javscript. Requires HTML5. Build For Google Chrome.","softwareVersion":"3.0","operatingSystem":"All","version":"3.0"}</script>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,500" rel="stylesheet">
@@ -18,7 +19,235 @@
 
 <body style="padding:0px;margin:0px;overflow:hidden;max-height:100vh;height:100vh;overflow-y:hidden;" class='mat-typography'>
   <app-root>
-    <!-- Loading... -->
+    <div class="panel" style='position:absolute;top:0px;z-index:99999;padding-bottom:0px;'>
+      <div>
+        <div style='letter-spacing: 8px;
+        font-weight: 200;
+        font-size: 2.5rem;
+        color: #1e88e5;
+        text-transform: uppercase;'>Oncoscape</div>
+        <div style='font-size: 1rem; text-transform: uppercase; color: #666; letter-spacing: 5px; padding-top: 30px;'>Accelerate your research </div>
+      </div>
+
+      <div fxLayout.xs="column">
+        <div fxFlex.sm='1 1 100%' fxFlex.md='1 1 100%' fxFlex.lg='1 1 100%' fxFlex.xl='1 1 100%'>
+          <section>
+            <div fxFlex.xs="50%" fxFlex="20%" class='landing-image-container' style='background: url(assets/landing/img-1.jpg) no-repeat; background-position: 20% 8%; -webkit-background-size: 100% auto;'></div>
+            <div fxHide.xs fxFlex="20%" fxFlexOffset='20px' class='landing-image-container' style='background: url(assets/landing/img-4.jpg) no-repeat; background-position: 50% 50%; -webkit-background-size: 100% auto;'></div>
+            <div fxHide.xs fxFlex="20%" fxFlexOffset='20px' class='landing-image-container' style='background: url(assets/landing/img-chromo.jpg) no-repeat; background-position: 0% 0%; -webkit-background-size: 100% auto;'></div>
+            <div fxHide.xs fxFlex="20%" fxFlexOffset='20px' class='landing-image-container' style='background: url(assets/landing/img-genome.jpg) no-repeat; background-position: 0% 0%; -webkit-background-size: 150% auto;'></div>
+            <div fxFlex.xs="50%" fxFlex="20%" fxFlexOffset='20px' class='landing-image-container' style='background: url(assets/landing/img-scatter.jpg) no-repeat; background-position: 20% 50%; -webkit-background-size: 150% auto;'></div>
+          </section>
+        </div>
+      </div>
+
+      <div fxLayout='row' fxLayout.sm='column' fxLayout.xs='column' fxLayoutAlign="space-between start" style='padding-bottom: 30px;'>
+        <div>
+          <button mat-raised-button color='primary' style='line-height: 40px;' (click)="getStartedClick()" class='button landing-button'>Get Started
+          </button>
+        </div>
+        <div>
+          <span ngClass.xs="xs-button" ngClass.sm="xs-button " fxFlexOffset.gt-sm='40px' class='landing-span'>Maximize the potential of your clinical and genomic data by combining it with best-in-class analysis, reference
+            data sets and domain-specific visualizations. To request training or a custom solution contact us at
+            <a style='color: #1e88e5; text-decoration: none;' href='mailto:contact-sttr@fredhutch.org '>contact-sttr@fredhutch.org.</a>
+          </span>
+        </div>
+      </div>
+
+      <div class='landing-headers' style='padding-top:20px;'></div>
+      <div class='landing-section-title'>Analysis</div>
+      <section fxLayout.xs='column'>
+        <div fxFlex.sm='1 1 100%' fxFlex.md='1 1 100%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+          <div style='background: url(assets/landing/opensource.jpg) no-repeat;' class='landing-tool-image'></div>
+          <span class='landing-copy-title'>Reliable</span>
+          <span class='landing-copy-desc'>All data manipulation and augmentation is done using established open source libraries and public stores with citations.
+          </span>
+        </div>
+
+        <div fxFlex.sm='1 1 100%' fxFlex.md='1 1 100%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+          <div style='background: url(assets/landing/reproducible.jpg) no-repeat;' class='landing-tool-image'></div>
+          <span class='landing-copy-title'>Reproducible</span>
+          <span class='landing-copy-desc'>All analysis in Oncoscape is fully reproducible. Pause, rewind and interrogate every variable and result.</span>
+        </div>
+      </section>
+      <div class='landing-headers'></div>
+      <div class='landing-section-title'>Data</div>
+      <section fxLayout.xs='column'>
+        <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+          <div style='background: url(assets/landing/tcga.jpg) no-repeat;' class='landing-tool-image'></div>
+          <span class='landing-copy-title'>Public Data Sets</span>
+          <span class='landing-copy-desc'>Explore The Cancer Genome Atlas (TCGA) and other curated data from our growing list of reference libraries.</span>
+        </div>
+        <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+          <div style='background: url(assets/landing/datahub.jpg) no-repeat;' class='landing-tool-image'></div>
+          <span class='landing-copy-title'>Private Data Upload</span>
+          <span class='landing-copy-desc'>
+            Securely manage and analyze your clinical and genomics data, then share results with colleges.
+          </span>
+        </div>
+      </section>
+      <section fxLayout.xs='column'>
+        <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+          <div style='background: url(assets/landing/genesets2.jpg) no-repeat;' class='landing-tool-image'></div>
+          <span class='landing-copy-title'>Gene Sets</span>
+          <span class='landing-copy-desc'>Select from thousands of curated gene sets from MSigDB or create your own.</span>
+        </div>
+        <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+          <div style='background: url(assets/landing/pathway-commons.jpg) no-repeat;' class='landing-tool-image'></div>
+          <span class='landing-copy-title'>Pathways</span>
+          <span class='landing-copy-desc'>Select from thousands of top level pathways from Reactome, PathwayCommons, and more. </span>
+        </div>
+      </section>
+      <div class='landing-headers'></div>
+      <div class='landing-section-title'>Visualization</div>
+      <section fxLayout.xs='column'>
+        <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy ' class='landing-copy '>
+          <div style='background: url(assets/landing/dashboard.jpg) no-repeat;' class='landing-tool-image'></div>
+          <span class='landing-copy-title'>Clinical Dashboard</span>
+          <span class='landing-copy-desc'>Compare cohorts at a glance</span>
+        </div>
+        <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy ' class='landing-copy'>
+          <div style='background: url(assets/landing/spreadsheet.jpg) no-repeat;' class='landing-tool-image'></div>
+          <span class='landing-copy-title'>Spreadsheet</span>
+          <span class='landing-copy-desc'>Sort and export your data, cohorts and genes of interest in tabular format.</span>
+        </div>
+      </section>
+      <section fxLayout.xs='column'>
+        <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy ' class='landing-copy '>
+          <div style='background: url(assets/landing/decomp.jpg) no-repeat;' class='landing-tool-image'></div>
+          <span class='landing-copy-title'>Matrix Decomposition</span>
+          <span class='landing-copy-desc'>Visualize the inherent spatial structure of high dimensional datasets in 3D. With 13 fully customizable linear
+            dimension reduction algorithm, select from 5 variants of PCA, Factor Analysis, LDA, SVD and more.</span>
+        </div>
+        <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy ' class='landing-copy '>
+          <div style='background: url(assets/landing/manifoldlearning.jpg) no-repeat;' class='landing-tool-image'></div>
+          <span class='landing-copy-title'>Manifold Learning</span>
+          <span class='landing-copy-desc'>Like Matrix Decomposition, Manifold Learning seeks to unveil the spatial structure of high dimensional datasets.
+            Unlike Matrix Decomposition the dimension reduction process is non-linear. Available methods include T-SNE, MDS,
+            IsoMap, Local Linear and Spectral Embedding.</span>
+        </div>
+      </section>
+      <section fxLayout.xs='column'>
+        <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy ' class='landing-copy '>
+          <div style='background: url(assets/landing/heatmap3.jpg) no-repeat;' class='landing-tool-image'></div>
+          <span class='landing-copy-title'>Heat map</span>
+          <span class='landing-copy-desc'>Sort, group and visualize your data using 7 agglomerative clustering algorithms in conjunction with 20 distance
+            metrics. Leverage dendrogram to sub select populations of samples or markers for further investigation.</span>
+        </div>
+        <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+          <div style='background: url(assets/landing/genome.jpg) no-repeat;' class='landing-tool-image'></div>
+          <span class='landing-copy-title'>Genome</span>
+          <span class='landing-copy-desc'>Identify chromosomal regions of interest by projecting your data onto a visual representation of the genome. Overlay
+            CNV, Gistic or expression data along with Topically Aligned Domains and Cytobands. Explore thousands of curated
+            gene sets or create your own.</span>
+        </div>
+      </section>
+      <section fxLayout.xs='column'>
+        <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+          <div style='background: url(assets/landing/chromosome.jpg) no-repeat;' class='landing-tool-image'></div>
+          <span class='landing-copy-title'>Chromosome</span>
+          <span class='landing-copy-desc'>Compare datasets at the chromosomal level with circos and linear visualizations. Overlay pathways or topically
+            aligned domains.
+          </span>
+        </div>
+        <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+          <div style='background: url(assets/landing/pathways-tool.jpg) no-repeat;' class='landing-tool-image'></div>
+          <span class='landing-copy-title'>Pathways</span>
+          <span class='landing-copy-desc'>Overlay your data on over 5,900 pathways curated from Kegg, Panther, Reactome, SMPDB, WikiPathways and Pathway
+            Commons.
+          </span>
+        </div>
+      </section>
+      <section fxLayout.xs='column'>
+        <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+          <div style='background: url(assets/landing/survival.jpg) no-repeat;' class='landing-tool-image'></div>
+          <span class='landing-copy-title'>Survival</span>
+          <span class='landing-copy-desc'>Estimate and compare survival rates for patient populations using Kaplin Kaplan-Meier, Nelson-Aalen, Aalen, Weibull
+            and Cox models.
+          </span>
+        </div>
+        <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+          <div style='background: url(assets/landing/hazard.jpg) no-repeat;' class='landing-tool-image'></div>
+          <span class='landing-copy-title'>HAzard</span>
+          <span class='landing-copy-desc'>Estimate and compare hazard rates for patient populations using Kaplin Kaplan-Meier, Nelson-Aalen, Aalen, Weibull
+            and Cox models.
+          </span>
+        </div>
+      </section>
+      <section fxLayout.xs='column'>
+        <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+          <div style='background: url(assets/landing/timelines.jpg) no-repeat;' class='landing-tool-image'></div>
+          <span class='landing-copy-title'>Timelines</span>
+          <span class='landing-copy-desc'>Visualize patterns in time series data with an interactive swimmer plot. Sort, group and highlight patients using
+            clinical attributes.
+          </span>
+        </div>
+        <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+          <div style='background: url(assets/landing/box-whiskers.jpg) no-repeat;' class='landing-tool-image'></div>
+          <span class='landing-copy-title'>Box + Whisker</span>
+          <span class='landing-copy-desc'>Gain insights into the distribution of your data by visualizing the minimum, first quartile, median, 3rd quartile
+            and maximum values.</span>
+        </div>
+      </section>
+      <section fxLayout.xs='column'>
+        <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+          <div style='background: url(assets/landing/forcedirected.jpg) no-repeat;' class='landing-tool-image'></div>
+          <span class='landing-copy-title'>Force Directed Graph</span>
+          <span class='landing-copy-desc'>Visualize graph data in three-dimensions using a class of algorithms called "force directed graphs. " These algorithms
+            use the number and strength of connections to position nodes.</span>
+        </div>
+        <div fxFlex.sm='1 1 50%' fxFlex.md='1 1 50%' fxFlex.lg='1 1 50%' fxFlex.xl='1 1 50%' class='landing-copy '>
+          <div style='background: url(assets/landing/edges.jpg) no-repeat;' class='landing-tool-image'></div>
+          <span class='landing-copy-title'>Edges</span>
+          <span class='landing-copy-desc'>Connect multiple graphs with edges. Link tumor/normal samples or visualize mutations.</span>
+        </div>
+      </section>
+
+      <div class='landing-headers'></div>
+
+      <section fxLayout.xs='column' style='padding-bottom:60px;padding-top:20px;'>
+        <div fxFlex.sm='1 1 100%' fxFlex.md='1 1 100%' fxFlex.lg='1 1 100%' fxFlex.xl='1 1 50%' class='landing-copy ' class='landing-copy '>
+          <div class='landing-section-title'>Overview</div>
+          <iframe style='border: 1px solid #9e9e9e;' id="ytplayer" type="text/html" width="720" height="405" src="https://www.youtube.com/embed/VfKFbri7XfQ?loop=1&modestbranding=1&playsinline=1&rel=0&showinfo=0&color=white"
+            frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div fxFlex.sm='1 1 100%' fxFlex.md='1 1 100%' fxFlex.lg='1 1 100%' fxFlex.xl='1 1 50%' class='landing-copy ' class='landing-copy '>
+          <div class='landing-section-title'>News</div>
+          <div id="twitter-widget-holder" style='border: 1px solid #9e9e9e;'>
+            <a class="twitter-timeline" data-theme="light" data-link-color="#1e88e5" href="https://twitter.com/oncoscape?ref_src=twsrc%5Etfw">Tweets by oncoscape</a>
+          </div>
+        </div>
+      </section>
+
+      <footer class='landing-footer'>
+        <div fxLayout='row' fxLayout.sm='column' fxLayout.xs='column' fxLayoutAlign="space-between center ">
+          <div class="footer-text ">
+            Fred Hutch 1100 Fairview Ave. N.
+            <br /> P.O. Box 19024, Seattle, WA 98109
+            <br />
+            <a style='color:#fff; text-decoration: none;' href="http://www.fredhutch.org/en/util/terms-privacy.html ">Terms of Use &amp; Privacy Policy</a>
+          </div>
+          <div>
+            <div class='section-footer'>
+              <span class='footer-text'>
+                <a href=" https://twitter.com/oncoscape " target="_blank ">
+                  <i class="fa fa-twitter-square fa-3x social "></i>
+                </a>
+                <a href="https://www.instagram.com/oncoscape/ " target="_blank ">
+                  <i class="fa fa-instagram fa-3x social "></i>
+                </a>
+                <a href="https://www.facebook.com/STTRCancer/ " target="_blank ">
+                  <i class="fa fa-facebook-square fa-3x social "></i>
+                </a>
+                <a href="mailto:contact-sttr@fredhutch.org " target="_blank ">
+                  <i class="fa fa-envelope-square fa-3x social "></i>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
   </app-root>
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-55684588-3"></script>
   <script>
@@ -28,15 +257,12 @@
     }
     document.oncontextmenu = () => false;
     window.dataLayer = window.dataLayer || [];
-
     function gtag() {
       dataLayer.push(arguments);
     }
     gtag('js', new Date());
     gtag('config', 'UA-55684588-3');
-
   </script>
-
 </body>
 
 </html>

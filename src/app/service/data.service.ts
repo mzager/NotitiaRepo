@@ -1,3 +1,4 @@
+/// <reference types="aws-sdk" />
 import { Injectable } from '@angular/core';
 import { QueryBuilderConfig } from 'app/component/workspace/query-panel/query-builder/query-builder.interfaces';
 import {
@@ -20,6 +21,8 @@ import { Cohort } from './../model/cohort.model';
 import { DataField } from './../model/data-field.model';
 import { DataDecorator, DataDecoratorTypeEnum } from './../model/data-map.model';
 import { GeneSet } from './../model/gene-set.model';
+import { DynamoDB } from 'aws-sdk';
+import { API } from 'aws-amplify';
 
 @Injectable()
 export class DataService {
@@ -160,11 +163,12 @@ export class DataService {
   }
   private getColorScale(items: Array<any>, field: DataField): Function {
     // let scale;
+
     if (field.type !== 'STRING') {
       // // Determine IQR
       const data = items.map(v => v[field.key]);
-      const upperLimit = Math.max.apply(Math, data);
-      const lowerLimit = Math.min.apply(Math, data);
+      const upperLimit = field.values.max; // Math.max.apply(Math, data);
+      const lowerLimit = field.values.min; // Math.min.apply(Math, data);
       // const bins = d3.thresholdFreedmanDiaconis(data, lowerLimit, upperLimit);
       // const bins = d3.thresholdScott(data, lowerLimit, upperLimit);
       let bins = 0;
@@ -357,11 +361,13 @@ export class DataService {
     decorator: DataDecorator
   ): Observable<DataDecorator> {
     const formatLabel = (field: DataField, value: any): string => {
+      if (value === null || value === undefined) {
+        return 'NA';
+      }
       let rv = value;
       switch (field.type) {
         case DataTypeEnum.NUMBER:
-          rv = Math.round(100 * rv) / 100;
-          break;
+          return (Math.round(1000 * rv) / 1000).toString();
         case DataTypeEnum.STRING:
           rv = String(rv).trim();
           if (rv === 'undefined') {
@@ -371,7 +377,7 @@ export class DataService {
       }
       return rv;
     };
-    const formatValue = (field: DataField, value: any): string => {
+    const formatValue = (field: DataField, value: any): any => {
       let rv = value;
       switch (field.type) {
         case DataTypeEnum.STRING:
@@ -383,6 +389,7 @@ export class DataService {
       }
       return rv;
     };
+
     decorator.field.key = decorator.field.key.toLowerCase().trim();
 
     return Observable.fromPromise(
@@ -468,7 +475,6 @@ export class DataService {
 
             case DataDecoratorTypeEnum.COLOR:
               scale = this.getColorScale(items, decorator.field);
-
               decorator.values = items.map(v => ({
                 pid: v.p,
                 sid: psMap[v.p],
@@ -487,19 +493,26 @@ export class DataService {
                     ? 'Gene ' + decorator.field.label
                     : 'Patient ' + decorator.field.label;
               if (decorator.field.type === 'STRING') {
-                decorator.legend.labels = scale['domain']()
-                  .filter(v => v)
-                  .concat(['NA']);
+                decorator.legend.labels = scale['domain']().filter(v => v);
+                if (!decorator.legend.labels.find(v => v === 'NA')) {
+                  decorator.legend.labels.concat(['NA']);
+                }
                 decorator.legend.values = scale['range']().concat([0xdddddd]);
               } else {
-                decorator.legend.labels = scale['range']()
-                  .map(v =>
-                    scale['invertExtent'](v)
-                      .map(w => Math.round(w))
-                      .join(' to ')
-                  )
-                  .concat(['NA']);
-                decorator.legend.values = scale['range']().concat([0xff0000]);
+                decorator.legend.labels = scale['range']().map(v =>
+                  scale['invertExtent'](v)
+                    .map(w => Math.round(w))
+                    .join(' to ')
+                );
+                if (!decorator.legend.labels.find(v => v === 'NA')) {
+                  decorator.legend.labels.concat(['NA']);
+                }
+                decorator.values.forEach(v => {
+                  if (v.label === 'NA') {
+                    v.value = 0xdddddd;
+                  }
+                });
+                decorator.legend.values = scale['range']().concat([0xdddddd]);
               }
               resolve(decorator);
               break;
@@ -524,16 +537,20 @@ export class DataService {
                     ? 'Gene ' + decorator.field.label
                     : 'Patient ' + decorator.field.label;
               if (decorator.field.type === 'STRING') {
-                decorator.legend.labels = scale['domain']().concat(['NA']);
+                decorator.legend.labels = scale['domain']();
+                if (!decorator.legend.labels.find(v => v === 'NA')) {
+                  decorator.legend.labels.concat(['NA']);
+                }
                 decorator.legend.values = scale['range']().concat([SpriteMaterialEnum.NA]);
               } else {
-                decorator.legend.labels = scale['range']()
-                  .map(v =>
-                    scale['invertExtent'](v)
-                      .map(w => Math.round(w))
-                      .join(' to ')
-                  )
-                  .concat(['NA']);
+                decorator.legend.labels = scale['range']().map(v =>
+                  scale['invertExtent'](v)
+                    .map(w => Math.round(w))
+                    .join(' to ')
+                );
+                if (!decorator.legend.labels.find(v => v === 'NA')) {
+                  decorator.legend.labels.concat(['NA']);
+                }
                 decorator.legend.values = scale['range']().concat([SpriteMaterialEnum.NA]);
               }
               resolve(decorator);
@@ -1735,7 +1752,7 @@ export class DataService {
                 cohort.sids = ps.filter(v => pids2.has(v.p)).map(v => v.s);
                 if (cohort.sids.length === 0) {
                   alert('Your query did not match any samples');
-                  reject('Your query did not match any samples');
+                  // reject('Your query did not match any samples');
                   return;
                 }
                 conn
@@ -1747,7 +1764,7 @@ export class DataService {
               });
           } catch (e) {
             alert('Your query did not match any samples');
-            reject('Your query did not match any samples');
+            // reject('Your query did not match any samples');
           }
         });
       });
@@ -1766,6 +1783,31 @@ export class DataService {
           });
       });
     });
+  }
+
+  resolveGeneSymbols(): void {
+    // debugger;
+    // API.get('dataset', '/alias/idh1', {}).then(v => {
+    //   debugger;
+    // }).catch(e => {
+    //   debugger;
+    // };
+    // const dc = new DynamoDB.DocumentClient({ apiVersion: '2012-08-10' });
+    // const q = {
+    //   TableName: 'dataset',
+    //   KeyConditionExpression: '#did = :did and #uid = :uid',
+    //   ExpressionAttributeNames: {
+    //     '#uid': 'userId',
+    //     '#did': 'datasetId'
+    //   },
+    //   ExpressionAttributeValues: {
+    //     ':uid': 'us-west-2:35741391-ccbb-4ef4-a686-a667a2c4b6b9',
+    //     ':did': 'a5434010-6a86-11e8-9813-ab4170836103'
+    //   }
+    // };
+    // dc.query(q, (err, data) => {
+    //   debugger;
+    // });
   }
 
   constructor() {
