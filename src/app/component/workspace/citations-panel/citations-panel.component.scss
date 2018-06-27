@@ -6,7 +6,7 @@
   flex-direction: column;
 }
 
-.citations-container>* {
+.citations-container > * {
   width: 100%;
 }
 
@@ -67,43 +67,3 @@
   margin-top: 0px;
   word-wrap: break-word;
 }
-
-// @media (min-width: 1200px) {
-//   /* Selectors and styles affecting screens WIDER THAN 1200px (Desktop) */
-//   .citations-modal-panel {
-//     padding: 60px;
-//     background: #FFF;
-//     width: 100%;
-//     height: 100vh;
-//     position: absolute;
-//     left: 0px;
-//     top: 0px;
-//     width: 100%;
-//     overflow: scroll;
-//   }
-//   .modalClose {
-//     height: 115px;
-//     width: 50px;
-//     position: fixed;
-//     right: 15px;
-//     -webkit-box-sizing: border-box;
-//     box-sizing: border-box;
-//     line-height: 50px;
-//     display: inline-block;
-//   }
-//   .citations-search {
-//     margin-top: 40px;
-//     margin-bottom: 40px;
-//   }
-//   .citations-h1 {
-//     font-size: 3rem;
-//     margin-bottom: 0px;
-//     padding-bottom: 0px;
-//   }
-//   .citations-h2 {
-//     font-weight: 300;
-//     padding-top: 25px;
-//     font-size: 2.5rem;
-//     margin-bottom: 0px;
-//   }
-// }
