@@ -216,7 +216,7 @@ export class ChartFactory {
     const labelMap = !labelDecorator.length
       ? null
       : labelDecorator[0].values.reduce((p, c) => {
-          p[c[idProperty]] = c.value;
+          p[c[idProperty]] = c.label;
           return p;
         }, {});
 

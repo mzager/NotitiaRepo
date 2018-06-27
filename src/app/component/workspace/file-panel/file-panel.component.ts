@@ -242,14 +242,15 @@ export class FilePanelComponent {
       img: 'DSeye',
       src: 'tcga',
       uid: 'tcga_uvm'
-    },
-    {
-      name: 'Metastatic Breast Cancer Project',
-      prefix: '',
-      img: 'DSbreast',
-      src: 'broad',
-      uid: 'broad_mbcp'
     }
+    // ,
+    // {
+    //   name: 'Metastatic Breast Cancer Project',
+    //   prefix: '',
+    //   img: 'DSbreast',
+    //   src: 'broad',
+    //   uid: 'broad_mbcp'
+    // }
     // { 'name': 'AML Krakow', 'disease': 'ek', 'img': 'DSblood' }
   ];
 

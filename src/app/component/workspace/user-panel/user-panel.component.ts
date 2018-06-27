@@ -1,6 +1,10 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component,
-  EventEmitter, Output, ViewEncapsulation
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Output,
+  ViewEncapsulation
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { API, Auth } from 'aws-amplify';
@@ -14,15 +18,15 @@ import { PanelEnum, UserPanelFormEnum } from '../../../model/enum.model';
   encapsulation: ViewEncapsulation.None
 })
 export class UserPanelComponent {
-
   datasets: Array<any>;
   user: any;
-  activeForm: UserPanelFormEnum = UserPanelFormEnum.BLANK;
+  activeForm = UserPanelFormEnum.BLANK.toString();
   errorMessage = '';
   formGroupSignUp: FormGroup;
   formGroupSignUpConfirm: FormGroup;
   formGroupSignIn: FormGroup;
   formGroupSignInConfirm: FormGroup;
+  formGroupResendCode: FormGroup;
   formGroupForgotPassword: FormGroup;
   formGroupUpdatePassword: FormGroup;
 
@@ -32,12 +36,25 @@ export class UserPanelComponent {
     this.showPanel.emit(PanelEnum.UPLOAD);
   }
   setForm(form: UserPanelFormEnum): void {
-    this.activeForm = form;
+    this.activeForm = form.toString();
     this.cd.detectChanges();
+  }
+
+  resendCode(): void {
+    const form = this.formGroupResendCode;
+    if (form.status === 'INVALID') {
+      return;
+    }
+    Auth.resendSignUp(form.get('email').value).then(user => {
+      this.setForm(UserPanelFormEnum.SIGN_UP_CONFIRM);
+      this.cd.detectChanges();
+    });
   }
   signIn(): void {
     const form = this.formGroupSignIn;
-    if (form.status === 'INVALID') { return; }
+    if (form.status === 'INVALID') {
+      return;
+    }
 
     Auth.signIn(form.get('email').value, form.get('password').value)
       .then(user => {
@@ -51,7 +68,8 @@ export class UserPanelComponent {
           this.fetchDatasets();
           this.setForm(UserPanelFormEnum.PROJECT_LIST);
         }
-      }).catch(err => {
+      })
+      .catch(err => {
         alert(err.message);
         this.errorMessage = err.message;
         this.cd.detectChanges();
@@ -60,7 +78,9 @@ export class UserPanelComponent {
 
   signUp(): void {
     const form = this.formGroupSignUp;
-    if (form.status === 'INVALID') { return; }
+    if (form.status === 'INVALID') {
+      return;
+    }
     Auth.signUp({
       username: form.get('email').value,
       password: form.get('password').value,
@@ -69,18 +89,22 @@ export class UserPanelComponent {
         'custom:firstname': form.get('firstName').value,
         'custom:lastname': form.get('lastName').value
       }
-    }).then(user => {
-      this.setForm(UserPanelFormEnum.SIGN_UP_CONFIRM);
-      this.cd.detectChanges();
-    }).catch(err => {
-      alert(err.message);
-      this.errorMessage = err.message;
-      this.cd.detectChanges();
-    });
+    })
+      .then(user => {
+        this.setForm(UserPanelFormEnum.SIGN_UP_CONFIRM);
+        this.cd.detectChanges();
+      })
+      .catch(err => {
+        alert(err.message);
+        this.errorMessage = err.message;
+        this.cd.detectChanges();
+      });
   }
   signUpConfirm(): void {
     const form = this.formGroupSignUpConfirm;
-    if (form.status === 'INVALID') { return; }
+    if (form.status === 'INVALID') {
+      return;
+    }
     Auth.confirmSignUp(form.get('email').value, form.get('code').value)
       .then(data => {
         this.activeForm = UserPanelFormEnum.PROJECT_LIST;
@@ -93,28 +117,33 @@ export class UserPanelComponent {
       });
   }
 
-
   forgotPassword(): void {
     const form = this.formGroupForgotPassword;
-    if (form.status === 'INVALID') { return; }
+    if (form.status === 'INVALID') {
+      return;
+    }
     Auth.forgotPassword(form.get('email').value)
       .then(data => {
         alert('Password sent');
-        const user = { username: form.get('email').value };
+        // const user = { username: form.get('email').value };
         this.setForm(UserPanelFormEnum.UPDATE_PASSWORD);
         this.cd.detectChanges();
       })
       .catch(err => {
         const errMsg = err.message.replace('Username', 'Email').replace('username', 'email');
-        alert(err.message);
-        this.errorMessage = err.message;
+        alert(errMsg);
+        this.errorMessage = errMsg;
         this.cd.detectChanges();
       });
   }
 
   updatePassword(): void {
     const form = this.formGroupUpdatePassword;
-    Auth.forgotPasswordSubmit(form.get('email').value, form.get('code').value, form.get('password').value)
+    Auth.forgotPasswordSubmit(
+      form.get('email').value,
+      form.get('code').value,
+      form.get('password').value
+    )
       .then(data => {
         alert('Password updated');
         this.setForm(UserPanelFormEnum.SIGN_IN);
@@ -124,7 +153,6 @@ export class UserPanelComponent {
       });
   }
 
-
   fetchDatasets(): void {
     API.get('dataset', '/dataset', {}).then(datasets => {
       this.datasets = datasets;
@@ -133,10 +161,9 @@ export class UserPanelComponent {
   }
 
   constructor(public fb: FormBuilder, public cd: ChangeDetectorRef) {
-
     this.formGroupSignIn = fb.group({
       email: [null, Validators.compose([Validators.required, Validators.email])],
-      password: [null, Validators.required],
+      password: [null, Validators.required]
     });
 
     this.formGroupSignUp = fb.group({
@@ -150,6 +177,10 @@ export class UserPanelComponent {
     this.formGroupSignUpConfirm = fb.group({
       email: [null, Validators.compose([Validators.required, Validators.email])],
       code: [null, Validators.required]
+    });
+
+    this.formGroupResendCode = fb.group({
+      email: [null, Validators.compose([Validators.required, Validators.email])]
     });
 
     this.formGroupForgotPassword = fb.group({
