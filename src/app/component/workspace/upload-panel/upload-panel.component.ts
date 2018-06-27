@@ -1,12 +1,24 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
-  Component, ElementRef, EventEmitter, Output,
-  Renderer, ViewChild, ViewEncapsulation
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Output,
+  Renderer,
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  NgForm,
+  Validators
+} from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material';
 import { API, Storage } from 'aws-amplify';
-
 
 export class OncoscapeErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -14,7 +26,6 @@ export class OncoscapeErrorStateMatcher implements ErrorStateMatcher {
     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
   }
 }
-
 
 @Component({
   selector: 'app-workspace-upload-panel',
@@ -24,7 +35,6 @@ export class OncoscapeErrorStateMatcher implements ErrorStateMatcher {
   encapsulation: ViewEncapsulation.None
 })
 export class UploadPanelComponent {
-
   @ViewChild('fileInput') fileInput: ElementRef;
 
   formGroup: FormGroup;
@@ -36,24 +46,31 @@ export class UploadPanelComponent {
   @Output() hide = new EventEmitter<any>();
 
   datasetDel(dataset: any): void {
-    API.del('dataset', '/dataset/' + dataset.datasetId, {}).then(
-      v => {
-        this.fetchDatasets();
-      });
+    API.del('dataset', '/dataset/' + dataset.datasetId, {}).then(v => {
+      this.fetchDatasets();
+    });
   }
 
   closeClick(): void {
     this.hide.emit();
   }
   uploadFile(): void {
-    this.renderer.invokeElementMethod(this.fileInput.nativeElement, 'dispatchEvent',
-      [new MouseEvent('click', { bubbles: true })]);
+    this.renderer.invokeElementMethod(this.fileInput.nativeElement, 'dispatchEvent', [
+      new MouseEvent('click', { bubbles: true })
+    ]);
   }
 
   formSubmit(model: any, isValid: boolean): void {
-    if (!isValid) { return; }
-    if (this.fileInput.nativeElement.files.length === 0) { return; }
-    const filename = (this.formGroup.get('name').value + Date.now().toString() + '.xls').replace(/\s+/gi, '');
+    if (!isValid) {
+      return;
+    }
+    if (this.fileInput.nativeElement.files.length === 0) {
+      return;
+    }
+    const filename = (this.formGroup.get('name').value + Date.now().toString() + '.xls').replace(
+      /\s+/gi,
+      ''
+    );
     Storage.configure({ track: true });
     const dataset = {
       name: this.formGroup.get('name').value,
@@ -71,24 +88,23 @@ export class UploadPanelComponent {
       API.post('dataset', '/dataset', {
         body: { content: dataset }
       }),
-      Storage.vault.put(
-        filename,
-        this.fileInput.nativeElement.files[0],
-        {
-          contentType: 'application/vnd.ms-excel',
-          progress: (progress, total) => {
-            console.log(progress + '/' + total);
-          }
+      Storage.vault.put(filename, this.fileInput.nativeElement.files[0], {
+        contentType: 'application/vnd.ms-excel',
+        progress: (progress, total) => {
+          console.log(progress + '/' + total);
         }
-      )
-    ]).then(results => {
-      // tslint:disable-next-line:max-line-length
-      alert('Thank you for submitting your dataset.  During our beta, we will be manually overseeing the ingestion process.  You will recieve an email when your dataset is ready explore.  For questions or status updates please contact: info@oncoscape.sttrcancer.org.');
-      this.closeClick();
-      this.fetchDatasets();
-    }).catch(errors => {
-
-    });
+      })
+    ])
+      .then(results => {
+        // tslint:disable-next-line:max-line-length
+        alert(
+          // tslint:disable-next-line:max-line-length
+          'Thank you for submitting your dataset.  During our beta, we will be manually overseeing the ingestion process.  You will recieve an email when your dataset is ready explore.  For questions or status updates please contact: info@oncoscape.sttrcancer.org.'
+        );
+        this.closeClick();
+        this.fetchDatasets();
+      })
+      .catch(errors => {});
   }
   fetchDatasets(): void {
     API.get('dataset', '/dataset', {}).then(datasets => {
@@ -96,7 +112,6 @@ export class UploadPanelComponent {
       this.cd.detectChanges();
     });
   }
-
 
   constructor(fb: FormBuilder, public cd: ChangeDetectorRef, private renderer: Renderer) {
     this.formGroup = fb.group({
@@ -106,21 +121,20 @@ export class UploadPanelComponent {
       reviewNumber: [null, Validators.required],
       isPhi: [false, Validators.requiredTrue],
       isHuman: [false],
-      isPublic: [false],
+      isPublic: [false]
     });
 
-    this.formGroup.get('reviewType').valueChanges.subscribe(
-      (mode: string) => {
-        const reviewNumberControl = this.formGroup.controls['reviewNumber'];
-        if (mode === 'Exempt') {
-          reviewNumberControl.clearValidators();
-          this.showReviewNumber = false;
-        } else {
-          reviewNumberControl.setValidators([Validators.required]);
-          this.showReviewNumber = true;
-        }
-        reviewNumberControl.updateValueAndValidity();
-      });
+    this.formGroup.get('reviewType').valueChanges.subscribe((mode: string) => {
+      const reviewNumberControl = this.formGroup.controls['reviewNumber'];
+      if (mode === 'Exempt') {
+        reviewNumberControl.clearValidators();
+        this.showReviewNumber = false;
+      } else {
+        reviewNumberControl.setValidators([Validators.required]);
+        this.showReviewNumber = true;
+      }
+      reviewNumberControl.updateValueAndValidity();
+    });
 
     this.fetchDatasets();
   }
