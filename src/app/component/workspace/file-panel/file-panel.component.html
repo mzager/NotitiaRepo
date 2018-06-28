@@ -14,7 +14,7 @@
       <div>
         <div class='panel-button-link' *ngFor='let dataset of datasets; let i=index'>
           <a class='panel-button-image ' (click)='this.loadPublic.emit(dataset) '>
-            <div class='bg-img{{dataset.img}}'></div>
+            <div class='disease-img disease-img{{dataset.img}}'></div>
             <span>{{dataset.name}}</span>
           </a>
         </div>

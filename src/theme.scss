@@ -577,3 +577,296 @@ body .mat-button-focus-overlay {
     margin-bottom: 30px;
   }
 }
+
+.tool {
+  border: 1px solid #9e9e9e;
+  float: left;
+  margin-right: 20px;
+  background-image: url('/assets/sprite-tools-2x.png');
+}
+
+@media (min--moz-device-pixel-ratio: 1.5),
+  (-o-min-device-pixel-ratio: 3/2),
+  (-webkit-min-device-pixel-ratio: 1.5),
+  (min-device-pixel-ratio: 1.5),
+  (min-resolution: 1.5dppx) {
+  .tool {
+    background-image: url('/assets/sprite-tools.png');
+    background-size: 2000px 100px;
+  }
+}
+
+.tool-box-whiskers {
+  width: 100px;
+  height: 100px;
+  background-position: 0 0;
+}
+
+.tool-chromosome {
+  width: 100px;
+  height: 100px;
+  background-position: -100px 0;
+}
+
+.tool-dashboard {
+  width: 100px;
+  height: 100px;
+  background-position: -200px 0;
+}
+
+.tool-datahub {
+  width: 100px;
+  height: 100px;
+  background-position: -300px 0;
+}
+
+.tool-decomp {
+  width: 100px;
+  height: 100px;
+  background-position: -400px 0;
+}
+
+.tool-edges {
+  width: 100px;
+  height: 100px;
+  background-position: -500px 0;
+}
+
+.tool-forcedirected {
+  width: 100px;
+  height: 100px;
+  background-position: -600px 0;
+}
+
+.tool-genesets2 {
+  width: 100px;
+  height: 100px;
+  background-position: -700px 0;
+}
+
+.tool-genome {
+  width: 100px;
+  height: 100px;
+  background-position: -800px 0;
+}
+
+.tool-hazard {
+  width: 100px;
+  height: 100px;
+  background-position: -900px 0;
+}
+
+.tool-heatmap3 {
+  width: 100px;
+  height: 100px;
+  background-position: -1000px 0;
+}
+
+.tool-manifoldlearning {
+  width: 100px;
+  height: 100px;
+  background-position: -1100px 0;
+}
+
+.tool-opensource {
+  width: 100px;
+  height: 100px;
+  background-position: -1200px 0;
+}
+
+.tool-pathway-commons {
+  width: 100px;
+  height: 100px;
+  background-position: -1300px 0;
+}
+
+.tool-pathways-tool {
+  width: 100px;
+  height: 100px;
+  background-position: -1400px 0;
+}
+
+.tool-reproducible {
+  width: 100px;
+  height: 100px;
+  background-position: -1500px 0;
+}
+
+.tool-spreadsheet {
+  width: 100px;
+  height: 100px;
+  background-position: -1600px 0;
+}
+
+.tool-survival {
+  width: 100px;
+  height: 100px;
+  background-position: -1700px 0;
+}
+
+.tool-tcga {
+  width: 100px;
+  height: 100px;
+  background-position: -1800px 0;
+}
+
+.tool-timelines {
+  width: 100px;
+  height: 100px;
+  background-position: -1900px 0;
+}
+
+/* Be sure that you replace data URIs with generated images */
+.disease-img {
+  background-image: url('/assets/sprite-disease.png');
+  display: inline-block;
+}
+
+@media (min--moz-device-pixel-ratio: 1.5),
+  (-o-min-device-pixel-ratio: 3/2),
+  (-webkit-min-device-pixel-ratio: 1.5),
+  (min-device-pixel-ratio: 1.5),
+  (min-resolution: 1.5dppx) {
+  .disease-img {
+    background-image: url('/assets/sprite-disease-2x.png');
+    background-size: 690px 30px;
+  }
+}
+
+.disease-imgDSadrenal {
+  width: 30px;
+  height: 30px;
+  background-position: 0 0;
+}
+
+.disease-imgDSbile {
+  width: 30px;
+  height: 30px;
+  background-position: -30px 0;
+}
+
+.disease-imgDSbladder {
+  width: 30px;
+  height: 30px;
+  background-position: -60px 0;
+}
+
+.disease-imgDSblood {
+  width: 30px;
+  height: 30px;
+  background-position: -90px 0;
+}
+
+.disease-imgDSbrain {
+  width: 30px;
+  height: 30px;
+  background-position: -120px 0;
+}
+
+.disease-imgDSbreast {
+  width: 30px;
+  height: 30px;
+  background-position: -150px 0;
+}
+
+.disease-imgDScoadread {
+  width: 30px;
+  height: 30px;
+  background-position: -180px 0;
+}
+
+.disease-imgDSeye {
+  width: 30px;
+  height: 30px;
+  background-position: -210px 0;
+}
+
+.disease-imgDSheadneck {
+  width: 30px;
+  height: 30px;
+  background-position: -240px 0;
+}
+
+.disease-imgDSkidney {
+  width: 30px;
+  height: 30px;
+  background-position: -270px 0;
+}
+
+.disease-imgDSliver {
+  width: 30px;
+  height: 30px;
+  background-position: -300px 0;
+}
+
+.disease-imgDSlung {
+  width: 30px;
+  height: 30px;
+  background-position: -330px 0;
+}
+
+.disease-imgDSovary {
+  width: 30px;
+  height: 30px;
+  background-position: -360px 0;
+}
+
+.disease-imgDSpancreas {
+  width: 30px;
+  height: 30px;
+  background-position: -390px 0;
+}
+
+.disease-imgDSprostate {
+  width: 30px;
+  height: 30px;
+  background-position: -420px 0;
+}
+
+.disease-imgDSsarc {
+  width: 30px;
+  height: 30px;
+  background-position: -450px 0;
+}
+
+.disease-imgDSsarcoma {
+  width: 30px;
+  height: 30px;
+  background-position: -480px 0;
+}
+
+.disease-imgDSskin {
+  width: 30px;
+  height: 30px;
+  background-position: -510px 0;
+}
+
+.disease-imgDSstomach {
+  width: 30px;
+  height: 30px;
+  background-position: -540px 0;
+}
+
+.disease-imgDStesticules {
+  width: 30px;
+  height: 30px;
+  background-position: -570px 0;
+}
+
+.disease-imgDSthymus {
+  width: 30px;
+  height: 30px;
+  background-position: -600px 0;
+}
+
+.disease-imgDSthyroid {
+  width: 30px;
+  height: 30px;
+  background-position: -630px 0;
+}
+
+.disease-imgDSuterine {
+  width: 30px;
+  height: 30px;
+  background-position: -660px 0;
+}
