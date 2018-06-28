@@ -4,17 +4,10 @@
   cursor: pointer;
   display: block;
   position: relative;
-  padding-left: 40px;
-  padding-bottom: 8px;
-  img {
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    left: 0px;
-    top: -3px;
-  }
+
   span {
-    line-height: 20px;
+    line-height: 30px;
     vertical-align: top;
+    padding-left: 10px;
   }
 }
