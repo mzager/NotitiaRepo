@@ -167,8 +167,9 @@ export class DataService {
     if (field.type !== 'STRING') {
       // // Determine IQR
       const data = items.map(v => v[field.key]);
-      const upperLimit = field.values.max; // Math.max.apply(Math, data);
-      const lowerLimit = field.values.min; // Math.min.apply(Math, data);
+
+      const upperLimit = field.values ? field.values.max : Math.max.apply(Math, data);
+      const lowerLimit = field.values ? field.values.min : Math.min.apply(Math, data);
       // const bins = d3.thresholdFreedmanDiaconis(data, lowerLimit, upperLimit);
       // const bins = d3.thresholdScott(data, lowerLimit, upperLimit);
       let bins = 0;
@@ -407,6 +408,7 @@ export class DataService {
         // console.log("end-query");
         // const items = results[0];
         // const psMap = results[1].reduce((p, c) => { p[c.p] = c.s; return p; }, {});
+
         this.getPatientData('notitia-' + config.database, decorator.field.tbl).then(result => {
           const items = result.data;
           const psMap = result.map;
@@ -424,14 +426,16 @@ export class DataService {
                   value: v.p
                 }));
               } else if (decorator.field.key === 'sid') {
-                decorator.values = items.map(v => ({
-                  pid: v.p,
-                  sid: psMap[v.p],
-                  mid: null,
-                  key: EntityTypeEnum.PATIENT,
-                  label: psMap[v.p],
-                  value: psMap[v.p]
-                }));
+                debugger;
+                //   decorator.values = items.map(v => ({
+                //     pid: v.p,
+                //     sid: psMap[v.p],
+                //     mid: null,
+                //     key: EntityTypeEnum.PATIENT,
+                //     label: psMap[v.p],
+                //     value: psMap[v.p]
+                //   }));
+                // }
               } else {
                 decorator.values = items.map(v => ({
                   pid: v.p,
@@ -557,7 +561,6 @@ export class DataService {
               break;
           }
         });
-        // });
       })
     );
   }
