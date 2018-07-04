@@ -1,9 +1,12 @@
+import { getTipVisualization } from './../reducer/tip.reducer';
+import { TipSetVisualizationAction } from './../action/tip.action';
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import * as data from 'app/action/data.action';
+import * as tip from 'app/action/tip.action';
 import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
-import { GraphEnum } from 'app/model/enum.model';
+import { GraphEnum, VisibilityEnum, VisualizationEnum } from 'app/model/enum.model';
 import { GraphConfig } from 'app/model/graph-config.model';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/catch';
@@ -54,6 +57,16 @@ export class DataEffect {
     })
     .switchMap((args: any) => {
       return Observable.of(new DataUpdatePathwayAction(args));
+    });
+
+  @Effect()
+  loadVisualizationTip: Observable<Action> = this.actions$
+    .ofType(tip.TIP_SET_VISUALIZATION)
+    .switchMap((args: TipSetVisualizationAction) => {
+      return Observable.fromPromise(this.dataService.getVisualizationTip(args.payload));
+    })
+    .switchMap((args: any) => {
+      return Observable.of(new tip.TipSetVisualizationCompleteAction(args));
     });
 
   @Effect()
@@ -287,7 +300,8 @@ export class DataEffect {
         new compute.PcaIncrementalAction({ config: pcaIncConfig2 }),
         // new GraphPanelToggleAction( GraphPanelEnum.GRAPH_A )
         // new compute.PcaAction({ config: pcaConfig }),
-        new LoaderShowAction()
+        new LoaderShowAction(),
+        new TipSetVisualizationAction(VisualizationEnum.INCREMENTAL_PCA)
       ];
     });
 
