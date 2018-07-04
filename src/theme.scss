@@ -720,6 +720,7 @@ body .mat-button-focus-overlay {
 .disease-img {
   background-image: url('/assets/sprite-disease.png');
   display: inline-block;
+  line-height: 30px;
 }
 
 @media (min--moz-device-pixel-ratio: 1.5),

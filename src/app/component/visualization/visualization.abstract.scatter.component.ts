@@ -78,7 +78,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
   addObjects(type: EntityTypeEnum) {
     const propertyId = this._config.entity === EntityTypeEnum.GENE ? 'mid' : 'sid';
     const objectIds = this._data[propertyId];
-    debugger;
     this._data.resultScaled.forEach((point, index) => {
       const group = ChartFactory.createDataGroup(
         objectIds[index],
