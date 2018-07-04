@@ -1,3 +1,4 @@
+import { getTipVisible, getTipEnabled } from './../../reducer/index.reducer';
 import { DataService } from 'app/service/data.service';
 import { SelectSaveSamplesAction, SelectSaveMarkersAction } from './../../action/compute.action';
 import { ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
@@ -76,6 +77,11 @@ import { SpectralEmbeddingConfigModel } from './../visualization/spectralembeddi
 import { SurvivalConfigModel } from './../visualization/survival/survival.model';
 import { TruncatedSvdConfigModel } from './../visualization/truncatedsvd/truncatedsvd.model';
 import { TsneConfigModel } from './../visualization/tsne/tsne.model';
+import {
+  TipSetVisualizationAction,
+  TipSetEnabledAction,
+  TipSetVisibleAction
+} from '../../action/tip.action';
 
 @Component({
   selector: 'app-workspace',
@@ -129,6 +135,11 @@ export class WorkspaceComponent {
   queryData: Observable<any>;
   _selectedGraph: enums.GraphEnum; // This is super wrong
 
+  tip: Observable<any>;
+  tipVisible: Observable<boolean>;
+  tipEnabled: Observable<boolean>;
+  tipVisualization: Observable<enums.VisualizationEnum>;
+
   constructor(private store: Store<fromRoot.State>, public ds: DataService) {
     this.pathways = store.select(fromRoot.getPathways);
     this.genesets = store.select(fromRoot.getGenesets);
@@ -158,6 +169,11 @@ export class WorkspaceComponent {
     this.tables = store.select(fromRoot.getTables);
     this.fields = store.select(fromRoot.getFields);
     this.events = store.select(fromRoot.getEvents);
+
+    this.tip = store.select(fromRoot.getTip);
+    this.tipVisible = store.select(fromRoot.getTipVisible);
+    this.tipEnabled = store.select(fromRoot.getTipEnabled);
+    this.tipVisualization = store.select(fromRoot.getTipVisualization);
   }
 
   select(selection: ChartSelection): void {
@@ -188,6 +204,7 @@ export class WorkspaceComponent {
 
   graphPanelSetConfig(value: GraphConfig) {
     this.store.dispatch(new LoaderShowAction());
+    this.store.dispatch(new TipSetVisualizationAction(value.visualization));
     switch (value.visualization) {
       case enums.VisualizationEnum.NONE:
         this.store.dispatch(new compute.NoneAction({ config: value as GraphConfig }));
@@ -331,6 +348,9 @@ export class WorkspaceComponent {
     }
   }
 
+  tipHide(): void {
+    this.store.dispatch(new TipSetVisibleAction(false));
+  }
   edgeAddDecorator(e: { config: EdgeConfigModel; decorator: DataDecorator }): void {
     this.store.dispatch(
       new DataDecoratorCreateAction({ config: e.config, decorator: e.decorator })

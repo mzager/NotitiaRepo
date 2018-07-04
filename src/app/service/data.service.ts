@@ -21,8 +21,6 @@ import { Cohort } from './../model/cohort.model';
 import { DataField } from './../model/data-field.model';
 import { DataDecorator, DataDecoratorTypeEnum } from './../model/data-map.model';
 import { GeneSet } from './../model/gene-set.model';
-import { DynamoDB } from 'aws-sdk';
-import { API } from 'aws-amplify';
 
 @Injectable()
 export class DataService {
@@ -95,6 +93,23 @@ export class DataService {
     map: [],
     data: []
   };
+
+  getVisualizationTip(v: VisualizationEnum): Promise<any> {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept-Encoding', 'gzip');
+    const requestInit: RequestInit = {
+      method: 'GET',
+      headers: headers,
+      mode: 'cors',
+      cache: 'default'
+    };
+
+    // Make map from VisualizationEnum To FileName
+    // const jsonFile = this.getJsonFileFromVisualization(v);
+    const jsonFile = 'pca.json';
+    return fetch('./assets/tips/' + jsonFile, requestInit).then(res => res.json());
+  }
 
   getPatientData(database, tbl): Promise<any> {
     return new Promise(resolve => {
@@ -426,7 +441,8 @@ export class DataService {
                   value: v.p
                 }));
               } else if (decorator.field.key === 'sid') {
-                debugger;
+                // debugger;
+                // 02-0439
                 //   decorator.values = items.map(v => ({
                 //     pid: v.p,
                 //     sid: psMap[v.p],
@@ -656,74 +672,74 @@ export class DataService {
     return DataService.db.table('dataset').toArray();
   }
 
+  getJsonFileFromVisualization(v: VisualizationEnum): string {
+    return v === VisualizationEnum.BOX_WHISKERS
+      ? 'box_whiskers.json'
+      : v === VisualizationEnum.CHROMOSOME
+        ? 'chromosome.json'
+        : v === VisualizationEnum.DICTIONARY_LEARNING
+          ? 'dictionary_learning.json'
+          : v === VisualizationEnum.FA
+            ? 'factor_analysis.json'
+            : v === VisualizationEnum.FAST_ICA
+              ? 'fast_ica.json'
+              : v === VisualizationEnum.HIC
+                ? 'force_directed_graph.json'
+                : v === VisualizationEnum.GENOME
+                  ? 'genome.json'
+                  : v === VisualizationEnum.DENDOGRAM
+                    ? 'dendogram.json'
+                    : v === VisualizationEnum.HEATMAP
+                      ? 'heatmap.json'
+                      : v === VisualizationEnum.HISTOGRAM
+                        ? 'histogram.json'
+                        : v === VisualizationEnum.INCREMENTAL_PCA
+                          ? 'incremental_pca.json'
+                          : v === VisualizationEnum.ISOMAP
+                            ? 'isomap.json'
+                            : v === VisualizationEnum.KERNAL_PCA
+                              ? 'kernal_pca.json'
+                              : v === VisualizationEnum.LDA
+                                ? 'latent_dirichlet_allocation.json'
+                                : v === VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS
+                                  ? 'linear_discriminant_analysis.json'
+                                  : v === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING
+                                    ? 'locally_linear_embedding.json'
+                                    : v === VisualizationEnum.MDS
+                                      ? 'mds.json'
+                                      : v === VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING
+                                        ? 'mini_batch_dictionary_learning.json'
+                                        : v === VisualizationEnum.MINI_BATCH_SPARSE_PCA
+                                          ? 'mini_batch_sparse_pca.json'
+                                          : v === VisualizationEnum.NMF
+                                            ? 'nmf.json'
+                                            : v === VisualizationEnum.PATHWAYS
+                                              ? 'pathways.json'
+                                              : v === VisualizationEnum.PCA
+                                                ? 'pca.json'
+                                                : // tslint:disable-next-line:max-line-length
+                                                  v ===
+                                                  VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS
+                                                  ? 'quadratic_discriminant_analysis.json)'
+                                                  : v === VisualizationEnum.SPARSE_PCA
+                                                    ? 'sparse_pca.json'
+                                                    : v === VisualizationEnum.SPECTRAL_EMBEDDING
+                                                      ? 'spectral_embedding.json'
+                                                      : v === VisualizationEnum.SURVIVAL
+                                                        ? 'survival.json'
+                                                        : v === VisualizationEnum.HAZARD
+                                                          ? 'hazard.json'
+                                                          : v === VisualizationEnum.TIMELINES
+                                                            ? 'timelines.json'
+                                                            : v === VisualizationEnum.TRUNCATED_SVD
+                                                              ? 'truncated_svd.json'
+                                                              : v === VisualizationEnum.TSNE
+                                                                ? 'tsne.json'
+                                                                : '';
+  }
   getHelpInfo(config: GraphConfig): Promise<any> {
     const v = config.visualization;
-    const method =
-      v === VisualizationEnum.BOX_WHISKERS
-        ? 'box_whiskers.json'
-        : v === VisualizationEnum.CHROMOSOME
-          ? 'chromosome.json'
-          : v === VisualizationEnum.DICTIONARY_LEARNING
-            ? 'dictionary_learning.json'
-            : v === VisualizationEnum.FA
-              ? 'factor_analysis.json'
-              : v === VisualizationEnum.FAST_ICA
-                ? 'fast_ica.json'
-                : v === VisualizationEnum.HIC
-                  ? 'force_directed_graph.json'
-                  : v === VisualizationEnum.GENOME
-                    ? 'genome.json'
-                    : v === VisualizationEnum.DENDOGRAM
-                      ? 'dendogram.json'
-                      : v === VisualizationEnum.HEATMAP
-                        ? 'heatmap.json'
-                        : v === VisualizationEnum.HISTOGRAM
-                          ? 'histogram.json'
-                          : v === VisualizationEnum.INCREMENTAL_PCA
-                            ? 'incremental_pca.json'
-                            : v === VisualizationEnum.ISOMAP
-                              ? 'isomap.json'
-                              : v === VisualizationEnum.KERNAL_PCA
-                                ? 'kernal_pca.json'
-                                : v === VisualizationEnum.LDA
-                                  ? 'latent_dirichlet_allocation.json'
-                                  : v === VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS
-                                    ? 'linear_discriminant_analysis.json'
-                                    : v === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING
-                                      ? 'locally_linear_embedding.json'
-                                      : v === VisualizationEnum.MDS
-                                        ? 'mds.json'
-                                        : v === VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING
-                                          ? 'mini_batch_dictionary_learning.json'
-                                          : v === VisualizationEnum.MINI_BATCH_SPARSE_PCA
-                                            ? 'mini_batch_sparse_pca.json'
-                                            : v === VisualizationEnum.NMF
-                                              ? 'nmf.json'
-                                              : v === VisualizationEnum.PATHWAYS
-                                                ? 'pathways.json'
-                                                : v === VisualizationEnum.PCA
-                                                  ? 'pca.json'
-                                                  : // tslint:disable-next-line:max-line-length
-                                                    v ===
-                                                    VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS
-                                                    ? 'quadratic_discriminant_analysis.json)'
-                                                    : v === VisualizationEnum.SPARSE_PCA
-                                                      ? 'sparse_pca.json'
-                                                      : v === VisualizationEnum.SPECTRAL_EMBEDDING
-                                                        ? 'spectral_embedding.json'
-                                                        : v === VisualizationEnum.SURVIVAL
-                                                          ? 'survival.json'
-                                                          : v === VisualizationEnum.HAZARD
-                                                            ? 'hazard.json'
-                                                            : v === VisualizationEnum.TIMELINES
-                                                              ? 'timelines.json'
-                                                              : v ===
-                                                                VisualizationEnum.TRUNCATED_SVD
-                                                                ? 'truncated_svd.json'
-                                                                : v === VisualizationEnum.TSNE
-                                                                  ? 'tsne.json'
-                                                                  : '';
-
+    const method = this.getJsonFileFromVisualization(v);
     if (method === '') {
       return new Promise(resolve => {
         resolve({

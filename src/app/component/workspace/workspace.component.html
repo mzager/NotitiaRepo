@@ -29,6 +29,8 @@
 <!-- Panels -->
 <app-workspace-landing-panel *ngIf='(modalPanel | async) === 2' class='modal-panel' style='z-index:999999' (onGetStarted)='setPanel(4)'></app-workspace-landing-panel>
 
+<app-workspace-tip-panel *ngIf='(tipVisible | async) && (tipEnabled | async)' (hide)='tipHide()' [tips]='tip | async'></app-workspace-tip-panel>
+
 <app-workspace-file-panel *ngIf='(modalPanel | async) === 4' (hide)='setPanel(4)' class='modal-panel' (loadPublic)='fileLoadPublic($event)'
   (showPanel)='setPanel($event)'></app-workspace-file-panel>
 <app-workspace-cohort-panel *ngIf='(modalPanel | async) === 16' (hide)='setPanel(1)' (addCohort)='addCohort($event)' (delCohort)='delCohort($event)'

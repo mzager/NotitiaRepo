@@ -1,3 +1,4 @@
+import { TipPanelComponent } from './component/workspace/tip-panel/tip-panel.component';
 import { SelectionPanelComponent } from './component/workspace/selection-panel/selection-panel.component';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -106,8 +107,6 @@ import { HttpClient } from './service/http.client';
 import { ModalService } from './service/modal-service';
 import { ErrorService } from './service/error.service';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -183,6 +182,7 @@ import { ErrorService } from './service/error.service';
     GraphPanelAnalysisComponent,
     GraphPanelVisualizationComponent,
     GraphPanelDataComponent,
+    TipPanelComponent,
     UserPanelComponent,
     SelectionPanelComponent
   ],
@@ -220,5 +220,4 @@ import { ErrorService } from './service/error.service';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule {}
