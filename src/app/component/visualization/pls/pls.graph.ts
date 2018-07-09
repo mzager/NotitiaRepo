@@ -21,63 +21,64 @@ export class PlsGraph implements ChartObjectInterface {
     ids: Array<string>;
   }>();
 
-  // Private Members
-  public meshes: Array<THREE.Mesh>;
-  public decorators: DataDecorator[];
-  private container: THREE.Object3D;
-  private layout: any;
-  private sizes: Array<any>;
-  private shapes: Array<any>;
-  private colors: Array<any>;
-  private config: PlsConfigModel;
 
-  create(label: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
-    return this;
-  }
-  updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
-    throw new Error('Method not implemented.');
-  }
-  updateData(config: GraphConfig, data: any) {}
-  preRender(
-    views: Array<VisualizationView>,
-    layout: WorkspaceLayoutEnum,
-    renderer: THREE.WebGLRenderer
-  ) {}
-  enable(truthy: Boolean) {}
+    // Emitters
+    public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
+    public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{ type: GraphConfig }>();
+    public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
+        new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
 
-  // Interface
-  setContainer(container: THREE.Object3D) {
-    this.container = container;
-    this.meshes = [];
-  }
-  setConfig(config: PlsConfigModel): void {
-    this.config = config;
-  }
-  setData(data: PlsDataModel): void {
-    // this.layout = data.eigenvectorsScaled;
-    this.draw();
-  }
-  activate(events: ChartEvents, controls: OrbitControls): void {}
-  deactivate(events: ChartEvents, controls: OrbitControls): void {}
-  prerender() {}
-  destroy() {
-    this.meshes.forEach(v => this.container.remove(v));
-    this.meshes.length = 0;
-  }
-  private colorFactory(color): THREE.MeshPhongMaterial {
-    const rv = new THREE.MeshPhongMaterial({ color: color, specular: color, shininess: 100 });
-    return rv;
-  }
-  private shapeFactory(shape): THREE.Geometry {
-    switch (shape) {
-      case ShapeEnum.CIRCLE:
-        return new THREE.SphereGeometry(3);
-      case ShapeEnum.SQUARE:
-        return new THREE.CubeGeometry(3, 3, 3);
-      case ShapeEnum.TRIANGLE:
-        return new THREE.TetrahedronGeometry(3);
-      case ShapeEnum.CONE:
-        return new THREE.ConeGeometry(3, 3);
+
+    // Private Members
+    public meshes: Array<THREE.Mesh>;
+    public decorators: DataDecorator[];
+    private container: THREE.Object3D;
+    private layout: any;
+    private sizes: Array<any>;
+    private shapes: Array<any>;
+    private colors: Array<any>;
+    private config: PlsConfigModel;
+
+    create(label: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
+        return this;
+    }
+    updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
+        throw new Error('Method not implemented.');
+    }
+    updateData(config: GraphConfig, data: any) {
+    }
+    preRender(views: Array<VisualizationView>, layout: WorkspaceLayoutEnum, renderer: THREE.WebGLRenderer) {
+
+    }
+    enable(truthy: Boolean) {
+    }
+
+    // Interface
+    setContainer(container: THREE.Object3D) {
+        this.container = container;
+        this.meshes = [];
+    }
+    setConfig(config: PlsConfigModel): void {
+        this.config = config;
+    }
+    setData(data: PlsDataModel): void {
+        // this.layout = data.eigenvectorsScaled;
+        this.draw();
+    }
+    activate(events: ChartEvents, controls: OrbitControls): void {
+    }
+    deactivate(events: ChartEvents, controls: OrbitControls): void {
+    }
+    prerender() {
+
+    }
+    destroy() {
+        this.meshes.forEach(v => this.container.remove(v));
+        this.meshes.length = 0;
+    }
+    private colorFactory(color): THREE.Material {
+        const rv = new THREE.MeshPhongMaterial({ color: color, specular: color, shininess: 100 });
+        return rv;
     }
   }
   draw() {
@@ -109,12 +110,14 @@ export class PlsGraph implements ChartObjectInterface {
     }
   }
 
-  // Lifecycle Methods
-  constructor() {}
-  // constructor() {
-  //     this.sizes = [];
-  //     this.shapes = [];
-  //     this.colors = [];
-  //     this.intersect = new BehaviorSubject<Array<any>>([]);
-  // }
+
+    // Lifecycle Methods
+    constructor() { }
+    // constructor() {
+    //     this.sizes = [];
+    //     this.shapes = [];
+    //     this.colors = [];
+    //     this.intersect = new BehaviorSubject<Array<any>>([]);
+    // }
+
 }

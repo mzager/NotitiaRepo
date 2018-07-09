@@ -165,7 +165,11 @@ export class ChartFactory {
     return group;
   }
   public static decorateDataGroups(
+<<<<<<< HEAD
     groups: Array<any>, // groups: Array<THREE.Group>,
+=======
+    groups: Array<THREE.Group>,
+>>>>>>> 2c71aebe4fb37f4ac62d626666ce10b693235fc5
     decorators: Array<DataDecorator>,
     renderer: DataDecoatorRenderer = null,
     scaleFactor: number = 2
@@ -458,7 +462,11 @@ export class ChartFactory {
   }
 
   // @memoize
+<<<<<<< HEAD
   public static getColorPhong(color: number): THREE.MeshBasicMaterial {
+=======
+  public static getColorPhong(color: number): THREE.Material {
+>>>>>>> 2c71aebe4fb37f4ac62d626666ce10b693235fc5
     return new THREE.MeshBasicMaterial({
       color: color
     });
