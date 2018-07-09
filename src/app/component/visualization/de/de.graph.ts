@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 import { ChartFactory } from './../../workspace/chart/chart.factory';
-=======
->>>>>>> 2c71aebe4fb37f4ac62d626666ce10b693235fc5
 import { EventEmitter } from '@angular/core';
 import { GraphEnum, ShapeEnum } from 'app/model/enum.model';
 import * as THREE from 'three';
