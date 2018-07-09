@@ -64,24 +64,12 @@ export class UserPanelComponent {
         } else if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
           // this.amplifyService.setAuthState({ state: 'requireNewPassword', user: user });
         } else {
-<<<<<<< HEAD
           // this.amplifyService.setAuthState({ state: 'signedIn', user: user });
-          debugger;
           const a = Auth.currentSession().then(v => {
             console.dir(v.idToken.jwtToken);
-            debugger;
             this.fetchDatasets();
             this.setForm(UserPanelFormEnum.PROJECT_LIST);
           });
-=======
-          // // this.amplifyService.setAuthState({ state: 'signedIn', user: user });
-          // debugger;
-          // const a = Auth.currentSession().then(v => {
-          //   v.idToken.jwtToken
-          //   this.fetchDatasets();
-          //   this.setForm(UserPanelFormEnum.PROJECT_LIST);
-          // });
->>>>>>> 2c71aebe4fb37f4ac62d626666ce10b693235fc5
         }
       })
       .catch(err => {
