@@ -1,3 +1,4 @@
+import { ChartFactory } from './../../workspace/chart/chart.factory';
 import { EventEmitter } from '@angular/core';
 import { GraphEnum, ShapeEnum } from 'app/model/enum.model';
 import * as THREE from 'three';
@@ -64,8 +65,8 @@ export class DeGraph implements ChartObjectInterface {
     this.meshes.forEach(v => this.container.remove(v));
     this.meshes.length = 0;
   }
-  private colorFactory(color): THREE.Material {
-    const rv = new THREE.MeshPhongMaterial({ color: color, specular: color, shininess: 100 });
+  private colorFactory(color): THREE.MeshBasicMaterial {
+    const rv = ChartFactory.getColorPhong(color); // new THREE.MeshPhongMaterial({ color: color, specular: color, shininess: 100 });
     return rv;
   }
   private shapeFactory(shape): THREE.Geometry {

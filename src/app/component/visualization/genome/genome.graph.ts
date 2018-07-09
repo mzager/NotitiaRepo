@@ -162,7 +162,7 @@ export class GenomeGraph extends AbstractVisualization {
       band.forEach(cyto => {
         const centro = data.chromo[i].C;
         const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(0.5, cyto.l);
-        const material: THREE.Material = ChartFactory.getColorPhong(cyto.c);
+        const material: THREE.MeshBasicMaterial = ChartFactory.getColorPhong(cyto.c);
         const mesh: THREE.Mesh = new THREE.Mesh(geometry, material);
         mesh.userData.type = GenomicEnum.CYTOBAND;
         mesh.position.set(xPos, yPos + cyto.l / 2 - centro, 0);
