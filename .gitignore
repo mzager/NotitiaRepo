@@ -51,7 +51,10 @@ aws-exports.*
 awsmobilejs/.awsmobile/backend-build
 awsmobilejs/\#current-backend-info
 ~awsmobilejs-*/
+<<<<<<< HEAD
 
 *.csv
 *.xls
 *.xlsx
+=======
+>>>>>>> 2c71aebe4fb37f4ac62d626666ce10b693235fc5

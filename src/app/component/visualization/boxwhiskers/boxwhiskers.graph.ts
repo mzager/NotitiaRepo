@@ -56,7 +56,8 @@ export class BoxWhiskersGraph extends AbstractVisualization {
     this.bars[x * 2].material = m;
     this.bars[x * 2 + 1].material = m;
     this.lines[x].material = ChartFactory.getLineColor(color);
-  };
+
+  }
 
   // Create - Initialize Mesh Arrays
   create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
