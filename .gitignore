@@ -53,3 +53,5 @@ awsmobilejs/\#current-backend-info
 ~awsmobilejs-*/
 
 *.csv
+*.xls
+*.xlsx
