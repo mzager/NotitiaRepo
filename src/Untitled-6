@@ -1,0 +1,17 @@
+import urllib
+import urllib.request
+import json
+import time
+from jose import jwk, jwt
+from jose.utils import base64url_decode
+
+# Config
+region = 'us-west-2'
+userpool_id = 'us-west-2_09KsqtrrT'
+app_client_id = '3lqgr051gsupoa8jo24n1kugfd'
+keys_url = 'http://cognito-idp.{}.amazonaws.com/{}/.well-known/jwks.json'.format(region, userpool_id)
+
+# Cold Load Keys At Start Up
+response = urllib.request.urlopen(keys_url)
+keys = json.loads(response.read())['keys']
+

@@ -26,7 +26,6 @@ export class TipPanelComponent {
     this.tipIndex = 1;
     this.tipCount = value.length;
     this._tips = value;
-    debugger;
     this.cd.markForCheck();
   }
   get tips(): Array<any> {
