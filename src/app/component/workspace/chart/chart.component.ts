@@ -131,7 +131,6 @@ export class ChartComponent implements AfterViewInit {
         .withLatestFrom(selectedGraphAConfig)
         .filter(v => v[0] !== null);
       updateDecoratorGraphA.subscribe(v => {
-        debugger;
         return chartScene.updateDecorators(GraphEnum.GRAPH_A, v[1], v[0]);
       });
 
