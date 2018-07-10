@@ -107,7 +107,7 @@ export class DataService {
 
     // Make map from VisualizationEnum To FileName
     // const jsonFile = this.getJsonFileFromVisualization(v);
-    const jsonFile = 'pca.json';
+    const jsonFile = 'timelines.json';
     return fetch('./assets/tips/' + jsonFile, requestInit).then(res => res.json());
   }
 
