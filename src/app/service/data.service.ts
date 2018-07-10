@@ -159,8 +159,13 @@ export class DataService {
     if (field.type !== 'STRING') {
       // // Determine IQR
       const data = items.map(v => v[field.key]);
-      const upperLimit = Math.max.apply(Math, data);
-      const lowerLimit = Math.min.apply(Math, data);
+      let upperLimit = field.values ? field.values.max : Math.max.apply(Math, data);
+      let lowerLimit = field.values ? field.values.min : Math.min.apply(Math, data);
+      if (upperLimit < lowerLimit) {
+        const temp = upperLimit;
+        upperLimit = lowerLimit;
+        lowerLimit = temp;
+      }
       // const bins = d3.thresholdFreedmanDiaconis(data, lowerLimit, upperLimit);
       // const bins = d3.thresholdScott(data, lowerLimit, upperLimit);
       let bins = 0;
@@ -182,9 +187,13 @@ export class DataService {
     if (field.type !== 'STRING') {
       // // Determine IQR
       const data = items.map(v => v[field.key]);
-
-      const upperLimit = field.values ? field.values.max : Math.max.apply(Math, data);
-      const lowerLimit = field.values ? field.values.min : Math.min.apply(Math, data);
+      let upperLimit = field.values ? field.values.max : Math.max.apply(Math, data);
+      let lowerLimit = field.values ? field.values.min : Math.min.apply(Math, data);
+      if (upperLimit < lowerLimit) {
+        const temp = upperLimit;
+        upperLimit = lowerLimit;
+        lowerLimit = temp;
+      }
       // const bins = d3.thresholdFreedmanDiaconis(data, lowerLimit, upperLimit);
       // const bins = d3.thresholdScott(data, lowerLimit, upperLimit);
       let bins = 0;
@@ -410,25 +419,10 @@ export class DataService {
 
     return Observable.fromPromise(
       new Promise(resolve => {
-        // new Dexie('notitia-' + config.database).open().then(db => {
-        //   console.log("end-open");
-        //   console.log("start-query");
-        //   // Save Result ***
-        //   debugger;
-        // Promise.all([
-        //   db.table(decorator.field.tbl).toArray(),
-        //   db.table('patientSampleMap').toArray()
-        // ])
-        //   .then(results => {
-        // console.log("end-query");
-        // const items = results[0];
-        // const psMap = results[1].reduce((p, c) => { p[c.p] = c.s; return p; }, {});
-
         this.getPatientData('notitia-' + config.database, decorator.field.tbl).then(result => {
           const items = result.data;
           const psMap = result.map;
           let scale: Function;
-          // let legend: Legend;
           switch (decorator.type) {
             case DataDecoratorTypeEnum.LABEL:
               if (decorator.field.key === 'pid') {
@@ -441,17 +435,14 @@ export class DataService {
                   value: v.p
                 }));
               } else if (decorator.field.key === 'sid') {
-                // debugger;
-                // 02-0439
-                //   decorator.values = items.map(v => ({
-                //     pid: v.p,
-                //     sid: psMap[v.p],
-                //     mid: null,
-                //     key: EntityTypeEnum.PATIENT,
-                //     label: psMap[v.p],
-                //     value: psMap[v.p]
-                //   }));
-                // }
+                decorator.values = items.map(v => ({
+                  pid: v.p,
+                  sid: psMap[v.p],
+                  mid: null,
+                  key: EntityTypeEnum.PATIENT,
+                  label: psMap[v.p],
+                  value: psMap[v.p]
+                }));
               } else {
                 decorator.values = items.map(v => ({
                   pid: v.p,

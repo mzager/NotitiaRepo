@@ -1,7 +1,13 @@
 import {
-  AfterViewInit, ChangeDetectionStrategy,
-  ChangeDetectorRef, Component, ElementRef,
-  EventEmitter, NgZone, Output, ViewChild
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  NgZone,
+  Output,
+  ViewChild
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { EdgeConfigModel } from 'app/component/visualization/edges/edges.model';
@@ -51,7 +57,6 @@ import { TruncatedSvdGraph } from './../../visualization/truncatedsvd/truncateds
 import { TsneGraph } from './../../visualization/tsne/tsne.graph';
 import { ChartScene } from './chart.scene';
 
-
 @Component({
   selector: 'app-workspace-chart',
   templateUrl: './chart.component.html',
@@ -60,57 +65,56 @@ import { ChartScene } from './chart.scene';
   providers: [ChartScene]
 })
 export class ChartComponent implements AfterViewInit {
-
   labelA = '';
   labelB = '';
 
   @Output()
-  public onSelect: EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }> =
-    new EventEmitter<{ type: EntityTypeEnum, ids: Array<string> }>();
-  @Output()
-  public configChange: EventEmitter<GraphConfig> =
-    new EventEmitter<GraphConfig>();
+  public onSelect: EventEmitter<{ type: EntityTypeEnum; ids: Array<string> }> = new EventEmitter<{
+    type: EntityTypeEnum;
+    ids: Array<string>;
+  }>();
+  @Output() public configChange: EventEmitter<GraphConfig> = new EventEmitter<GraphConfig>();
 
   // Components
-  @ViewChild('container')
-  private container: ElementRef;
+  @ViewChild('container') private container: ElementRef;
 
-  @ViewChild('labelsA')
-  private labelsA: ElementRef;
+  @ViewChild('labelsA') private labelsA: ElementRef;
 
-  @ViewChild('labelsB')
-  private labelsB: ElementRef;
+  @ViewChild('labelsB') private labelsB: ElementRef;
 
-  @ViewChild('labelsE')
-  private labelsE: ElementRef;
+  @ViewChild('labelsE') private labelsE: ElementRef;
 
-  @ViewChild('labelAContainer')
-  private labelsAContainer: ElementRef;
+  @ViewChild('labelAContainer') private labelsAContainer: ElementRef;
 
-  @ViewChild('labelBContainer')
-  private labelsBContainer: ElementRef;
+  @ViewChild('labelBContainer') private labelsBContainer: ElementRef;
 
   /* LIFECYCLE */
   ngAfterViewInit() {
     this.ngZone.runOutsideAngular(() => {
-
-
       // }
       const chartScene: ChartScene = new ChartScene();
-      chartScene.init(this.container.nativeElement, this.labelsA.nativeElement,
-        this.labelsB.nativeElement, this.labelsE.nativeElement);
+      chartScene.init(
+        this.container.nativeElement,
+        this.labelsA.nativeElement,
+        this.labelsB.nativeElement,
+        this.labelsE.nativeElement
+      );
 
-      chartScene.onSelect.subscribe((evt) => {
+      chartScene.onSelect.subscribe(evt => {
         this.onSelect.next(evt);
       });
-      chartScene.onConfigEmit.subscribe((evt) => {
+      chartScene.onConfigEmit.subscribe(evt => {
         this.configChange.next(evt.type);
       });
 
-      const workspaceConfig: Observable<WorkspaceConfigModel> = this.store.select(fromRoot.getWorkspaceConfig);
-      workspaceConfig.subscribe(v => chartScene.workspaceConfig = v);
+      const workspaceConfig: Observable<WorkspaceConfigModel> = this.store.select(
+        fromRoot.getWorkspaceConfig
+      );
+      workspaceConfig.subscribe(v => (chartScene.workspaceConfig = v));
 
-      const selectedGraphAConfig: Observable<GraphConfig> = this.store.select(fromRoot.getGraphAConfig);
+      const selectedGraphAConfig: Observable<GraphConfig> = this.store.select(
+        fromRoot.getGraphAConfig
+      );
       const updateDataGraphA: Observable<any> = this.store
         .select(fromRoot.getGraphAData)
         .withLatestFrom(selectedGraphAConfig)
@@ -127,11 +131,13 @@ export class ChartComponent implements AfterViewInit {
         .withLatestFrom(selectedGraphAConfig)
         .filter(v => v[0] !== null);
       updateDecoratorGraphA.subscribe(v => {
+        debugger;
         return chartScene.updateDecorators(GraphEnum.GRAPH_A, v[1], v[0]);
       });
 
-
-      const selectedGraphBConfig: Observable<GraphConfig> = this.store.select(fromRoot.getGraphBConfig);
+      const selectedGraphBConfig: Observable<GraphConfig> = this.store.select(
+        fromRoot.getGraphBConfig
+      );
       const updateDataGraphB: Observable<any> = this.store
         .select(fromRoot.getGraphBData)
         .withLatestFrom(selectedGraphBConfig)
@@ -151,7 +157,9 @@ export class ChartComponent implements AfterViewInit {
         return chartScene.updateDecorators(GraphEnum.GRAPH_B, v[1], v[0]);
       });
 
-      const selectedEdgeConfig: Observable<EdgeConfigModel> = this.store.select(fromRoot.getEdgesConfig);
+      const selectedEdgeConfig: Observable<EdgeConfigModel> = this.store.select(
+        fromRoot.getEdgesConfig
+      );
       const updateDecoratorEdge: Observable<any> = this.store
         .select(fromRoot.getEdgeDecorators)
         .withLatestFrom(selectedEdgeConfig)
@@ -160,12 +168,13 @@ export class ChartComponent implements AfterViewInit {
         return chartScene.updateDecorators(GraphEnum.EDGES, v[1], v[0]);
       });
 
-
-      const selectedEdgesConfig: Observable<GraphConfig> = this.store.select(fromRoot.getEdgesConfig);
+      const selectedEdgesConfig: Observable<GraphConfig> = this.store.select(
+        fromRoot.getEdgesConfig
+      );
       const updateEdges: Observable<any> = this.store
         .select(fromRoot.getEdgesData)
         .withLatestFrom(selectedEdgesConfig)
-        .filter(v => (v[0] !== null) && (v[0] !== null));
+        .filter(v => v[0] !== null && v[0] !== null);
       updateEdges.subscribe(v => {
         const coi = this.createVisualization((v[1] as GraphConfig).visualization);
         chartScene.updateData(GraphEnum.EDGES, v[1], v[0], coi);
@@ -173,49 +182,85 @@ export class ChartComponent implements AfterViewInit {
     });
   }
 
-
   public createVisualization(visualization: VisualizationEnum): ChartObjectInterface {
     switch (visualization) {
-      case VisualizationEnum.TIMELINES: return new TimelinesGraph();
-      case VisualizationEnum.HEATMAP: return new HeatmapGraph();
-      case VisualizationEnum.PATHWAYS: return new PathwaysGraph();
-      case VisualizationEnum.EDGES: return new EdgesGraph();
-      case VisualizationEnum.PCA: return new PcaGraph();
-      case VisualizationEnum.CHROMOSOME: return new ChromosomeGraph();
-      case VisualizationEnum.GENOME: return new GenomeGraph();
-      case VisualizationEnum.TSNE: return new TsneGraph();
-      case VisualizationEnum.PLS: return new PlsGraph();
-      case VisualizationEnum.MDS: return new MdsGraph();
-      case VisualizationEnum.FA: return new FaGraph();
-      case VisualizationEnum.LINKED_GENE: return new LinkedGeneGraph();
-      case VisualizationEnum.HIC: return new HicGraph();
-      case VisualizationEnum.PARALLEL_COORDS: return new ParallelCoordsGraph();
-      case VisualizationEnum.BOX_WHISKERS: return new BoxWhiskersGraph();
-      case VisualizationEnum.SOM: return new SomGraph();
-      case VisualizationEnum.TRUNCATED_SVD: return new TruncatedSvdGraph();
-      case VisualizationEnum.FAST_ICA: return new FastIcaGraph();
-      case VisualizationEnum.DICTIONARY_LEARNING: return new DictionaryLearningGraph();
-      case VisualizationEnum.LDA: return new LdaGraph();
-      case VisualizationEnum.NMF: return new NmfGraph();
-      case VisualizationEnum.LOCALLY_LINEAR_EMBEDDING: return new LocalLinearEmbeddingGraph();
-      case VisualizationEnum.ISOMAP: return new IsoMapGraph();
-      case VisualizationEnum.SPECTRAL_EMBEDDING: return new SpectralEmbeddingGraph();
-      case VisualizationEnum.KERNAL_PCA: return new PcaKernalGraph();
-      case VisualizationEnum.SPARSE_PCA: return new PcaSparseGraph();
-      case VisualizationEnum.INCREMENTAL_PCA: return new PcaIncrementalGraph();
-      case VisualizationEnum.MINI_BATCH_SPARSE_PCA: return new MiniBatchSparsePcaGraph();
-      case VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING: return new MiniBatchDictionaryLearningGraph();
-      case VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS: return new LinearDiscriminantAnalysisGraph();
-      case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS: return new QuadradicDiscriminantAnalysisGraph();
-      case VisualizationEnum.SURVIVAL: return new SurvivalGraph();
-      case VisualizationEnum.HAZARD: return new HazardGraph();
-      case VisualizationEnum.DENDOGRAM: return new DendogramGraph();
-      case VisualizationEnum.HISTOGRAM: return new HistogramGraph();
+      case VisualizationEnum.TIMELINES:
+        return new TimelinesGraph();
+      case VisualizationEnum.HEATMAP:
+        return new HeatmapGraph();
+      case VisualizationEnum.PATHWAYS:
+        return new PathwaysGraph();
+      case VisualizationEnum.EDGES:
+        return new EdgesGraph();
+      case VisualizationEnum.PCA:
+        return new PcaGraph();
+      case VisualizationEnum.CHROMOSOME:
+        return new ChromosomeGraph();
+      case VisualizationEnum.GENOME:
+        return new GenomeGraph();
+      case VisualizationEnum.TSNE:
+        return new TsneGraph();
+      case VisualizationEnum.PLS:
+        return new PlsGraph();
+      case VisualizationEnum.MDS:
+        return new MdsGraph();
+      case VisualizationEnum.FA:
+        return new FaGraph();
+      case VisualizationEnum.LINKED_GENE:
+        return new LinkedGeneGraph();
+      case VisualizationEnum.HIC:
+        return new HicGraph();
+      case VisualizationEnum.PARALLEL_COORDS:
+        return new ParallelCoordsGraph();
+      case VisualizationEnum.BOX_WHISKERS:
+        return new BoxWhiskersGraph();
+      case VisualizationEnum.SOM:
+        return new SomGraph();
+      case VisualizationEnum.TRUNCATED_SVD:
+        return new TruncatedSvdGraph();
+      case VisualizationEnum.FAST_ICA:
+        return new FastIcaGraph();
+      case VisualizationEnum.DICTIONARY_LEARNING:
+        return new DictionaryLearningGraph();
+      case VisualizationEnum.LDA:
+        return new LdaGraph();
+      case VisualizationEnum.NMF:
+        return new NmfGraph();
+      case VisualizationEnum.LOCALLY_LINEAR_EMBEDDING:
+        return new LocalLinearEmbeddingGraph();
+      case VisualizationEnum.ISOMAP:
+        return new IsoMapGraph();
+      case VisualizationEnum.SPECTRAL_EMBEDDING:
+        return new SpectralEmbeddingGraph();
+      case VisualizationEnum.KERNAL_PCA:
+        return new PcaKernalGraph();
+      case VisualizationEnum.SPARSE_PCA:
+        return new PcaSparseGraph();
+      case VisualizationEnum.INCREMENTAL_PCA:
+        return new PcaIncrementalGraph();
+      case VisualizationEnum.MINI_BATCH_SPARSE_PCA:
+        return new MiniBatchSparsePcaGraph();
+      case VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING:
+        return new MiniBatchDictionaryLearningGraph();
+      case VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS:
+        return new LinearDiscriminantAnalysisGraph();
+      case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS:
+        return new QuadradicDiscriminantAnalysisGraph();
+      case VisualizationEnum.SURVIVAL:
+        return new SurvivalGraph();
+      case VisualizationEnum.HAZARD:
+        return new HazardGraph();
+      case VisualizationEnum.DENDOGRAM:
+        return new DendogramGraph();
+      case VisualizationEnum.HISTOGRAM:
+        return new HistogramGraph();
     }
   }
 
-  constructor(private ngZone: NgZone,
+  constructor(
+    private ngZone: NgZone,
     private store: Store<any>,
     private cdr: ChangeDetectorRef,
-    private chartFactory: ChartFactory) { }
+    private chartFactory: ChartFactory
+  ) {}
 }
