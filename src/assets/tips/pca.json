@@ -1,31 +1,31 @@
 [{
     "type": "image",
     "src": "scatter.jpg",
-    "title": "Pca",
+    "title": "PCA",
     "desc": "PCA Incremental is one of many dimension reduction techniques that attempts to cluster patients based on similarity. The dots in the graph represent samples and the distance between them their molecular similarity."
   },
   {
     "type": "image",
     "src": "scatter-color-shape.jpg",
-    "title": "Pca",
+    "title": "PCA",
     "desc": "Gain additional insights by applying colors and shapes to each data point."
   },
   {
     "type": "image",
     "src": "scatter-genes.jpg",
-    "title": "Pca",
+    "title": "PCA",
     "desc": "Cluster genes, change datasources and apply labels."
   },
   {
     "type": "image",
     "src": "scatter.jpg",
-    "title": "Pca",
+    "title": "PCA",
     "desc": "Modify genesets + samples"
   },
   {
     "type": "image",
     "src": "stat-explained-variance.jpg",
-    "title": "Pca",
+    "title": "PCA",
     "desc": "View Numerous Summary Statistics like Variance Explained"
   }
 ]
