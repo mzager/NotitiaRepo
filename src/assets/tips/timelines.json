@@ -2,31 +2,31 @@
     {
     "type": "image",
     "src": "timelines.png",
-    "title": "timelines",
-    "desc": "Timelines allows users to visualize clinical information linearly to help establish patient treatment timelines. Patient timelines can be aligned and ordered by different patient events can operate over specific events, various patient cohorts and different plotting mechanisms."
+    "title": "Timelines",
+    "desc": "Use timelines to visualize patterns in time series data with an interactive swimmer plot. Sort, group and highlight patients using clinical attributes."
   },
   {
     "type": "image",
     "src": "timelinesSort.png",
-    "title": "timelines",
-    "desc": "Align, sort and group by patient treatments or patient status."
+    "title": "Timelines",
+    "desc": "Align, sort and group by patient treatments or statuses."
   },
   {
     "type": "image",
     "src": "timelinesHeatmap.png",
-    "title": "timelines",
-    "desc": "Use heatmaps for a quicker snapshot of timelines data."
+    "title": "Timelines",
+    "desc": "Use heatmaps feature for snapshots of patient timeline data."
   },
   {
     "type": "image",
     "src": "timelinesSymbols.png",
-    "title": "timelines",
-    "desc": "Select how to view data wtih customizable data points."
+    "title": "Timelines",
+    "desc": "View data your way with customizable data points (arcs, bars, symbols)."
   },
   {
     "type": "image",
     "src": "timelinesSplit.png",
-    "title": "timelines",
+    "title": "Timelines",
     "desc": "Use split screen to connect timelines to other graphs to find patterns in treatments or correlations in survival."
   }
 ]
