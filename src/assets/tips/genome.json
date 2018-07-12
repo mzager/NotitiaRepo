@@ -1,0 +1,14 @@
+[
+    {
+    "type": "image",
+    "src": "genome.jpg",
+    "title": "Genome",
+    "desc": "Identify chromosomal regions of interest by projecting data onto a visual representation of the genome. Overlay CNV, Gistic or expression data along with TAD’s and Cytobands."
+  },
+  {
+    "type": "image",
+    "src": "genomeGenes.png",
+    "title": "Genome",
+    "desc": "Interactivaly select and view thousands of different genes"
+  }
+]
