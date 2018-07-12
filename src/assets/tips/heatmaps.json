@@ -9,7 +9,7 @@
     "type": "image",
     "src": "heatmapDistance.png",
     "title": "Heatmap",
-    "desc": "Select a particluar method or distance function to cut hierarchical clusterings into flat clusterings."
+    "desc": "Select a particluar method or distance function to cut hierarchical clusterings into flat clusterings. Read more about these functions by clicking Learn More under the tool title in the parameters panel."
   },
   {
     "type": "image",
