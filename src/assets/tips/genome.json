@@ -7,8 +7,38 @@
   },
   {
     "type": "image",
-    "src": "genomeGenes.png",
+    "src": "genomeGene.jpg",
     "title": "Genome",
-    "desc": "Interactivaly select and view thousands of different genes"
+    "desc": "Under the parameters panel, in the geneset dropdown select from thousands of genesets and dynamically apply them to the chromosomes."
+  },
+  {
+    "type": "image",
+    "src": "genomeLabel.jpg",
+    "title": "Genome",
+    "desc": "Using HGNC as a reference click the label dropdown and add HUGO gene symbol or label genes on the chromosome by type."
+  },
+  {
+    "type": "image",
+    "src": "genomeColorShape.jpg",
+    "title": "Genome",
+    "desc": "Add dimensions by labeling gene type, mean scores, max/min values and more with the color and shape dropdown menus, all references appear in the legend parameters section."
+  },
+  {
+    "type": "image",
+    "src": "genomeAlign.jpg",
+    "title": "Genome",
+    "desc": "Select which genome reference alignment to view, hg19 or hg38."
+  },
+  {
+    "type": "image",
+    "src": "genomeTads.jpg",
+    "title": "Genome",
+    "desc": "Toggle Hg19 topologically associating domains (TADs) ON or OFF"
+  },
+  {
+    "type": "image",
+    "src": "genomeSplit.jpg",
+    "title": "Genome",
+    "desc": "Click split screen (upper right hand corner) to connect the chromosomes to other visualiztions, e.g. various clustering methods."
   }
 ]

@@ -1,6 +1,6 @@
 [{
     "type": "image",
-    "src": "scatter.jpg",
+    "src": "/scatter.jpg",
     "title": "PCA",
     "desc": "PCA Incremental is one of many dimension reduction techniques that attempts to cluster patients based on similarity. The dots in the graph represent samples and the distance between them their molecular similarity."
   },
