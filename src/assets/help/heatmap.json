@@ -3,12 +3,48 @@
   "summary": "These functions cut hierarchical clusterings into flat clusterings or find the roots of the forest formed by a cut by providing the flat cluster ids of each observation",
   "desc": "<span class='help-method'>Heatmap</span> These functions cut hierarchical clusterings into flat clusterings or find the roots of the forest formed by a cut by providing the flat cluster ids of each observation",
   "urlparagraph": "Read more about the methods used to build heatmap.",
-  "url": "",
+  "url": "https://docs.scipy.org/doc/scipy/reference/cluster.hierarchy.html#references",
   "tutorial": [{
     "desc": "View tutorial on Heatmap",
     "url": "https://www.youtube.com/embed/XQu8TTBmGhA"
   }],
-  "params": [],
+  "params": [{
+    "name": "single",
+    "type": "",
+    "desc": "Perform single/min/nearest linkage on the condensed distance matrix y"
+  },
+  {
+    "name": "complete",
+    "type": "",
+    "desc": "Perform complete/max/farthest point linkage on a condensed distance matrix"
+  },
+  {
+    "name": "average",
+    "type": "",
+    "desc": "Perform average/UPGMA linkage on a condensed distance matrix"
+  },
+  {
+    "name": "weighted",
+    "type": "",
+    "desc": "Perform weighted/WPGMA linkage on the condensed distance matrix"
+  },
+  {
+    "name": "centroid",
+    "type": "",
+    "desc": "Perform centroid/UPGMC linkage."
+  },
+  {
+    "name": "median",
+    "type": "",
+    "desc": "Perform median/WPGMC linkage"
+  },
+  {
+    "name": "ward",
+    "type": "",
+    "desc": "Perform Ward’s linkage on a condensed distance matrix"
+  }
+
+],
   "attrs": [],
   "citations": [{
       "name": "Hierarchical clustering",
