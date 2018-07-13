@@ -1,31 +1,31 @@
 [
     {
     "type": "image",
-    "src": "timelines.png",
+    "src": "timelines.jpg",
     "title": "Timelines",
-    "desc": "Use timelines to visualize patterns in time series data with an interactive swimmer plot. Sort, group and highlight patients using clinical attributes."
+    "desc": "Use timelines to visualize patterns in time series data with an interactive swimmer plot."
   },
   {
     "type": "image",
-    "src": "timelinesSort.png",
+    "src": "timelinesSort.jpg",
     "title": "Timelines",
     "desc": "Align, sort and group by patient treatments or statuses."
   },
   {
     "type": "image",
-    "src": "timelinesHeatmap.png",
+    "src": "timelinesHeatmap.jpg",
     "title": "Timelines",
     "desc": "Use heatmaps feature for snapshots of patient timeline data."
   },
   {
     "type": "image",
-    "src": "timelinesSymbols.png",
+    "src": "timelinesSymbols.jpg",
     "title": "Timelines",
     "desc": "View data your way with customizable data points (arcs, bars, symbols)."
   },
   {
     "type": "image",
-    "src": "timelinesSplit.png",
+    "src": "timelinesSplit.jpg",
     "title": "Timelines",
     "desc": "Use split screen to connect timelines to other graphs to find patterns in treatments or correlations in survival."
   }
