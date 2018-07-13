@@ -2,7 +2,7 @@
     "type": "image",
     "src": "cluster.jpg",
     "title": "Clustering",
-    "desc": "Choose from eight dimension reduction and four manifold learning techniques that attempt to cluster patients based on similarity. The dots in the graph represent samples and the distance between them their molecular similarity."
+    "desc": "Clustering based on patient similarity. Dots = samples/genes and distance = molecular similarity."
   },
   {
     "type": "image",
@@ -14,13 +14,25 @@
     "type": "image",
     "src": "clusterLabel.jpg",
     "title": "Clustering",
-    "desc": "Change genesets and apply labels."
+    "desc": "Apply various labels from the label dropdown."
+  },
+  {
+    "type": "image",
+    "src": "clusterGenesets.jpg",
+    "title": "Clustering",
+    "desc": "Select from thousands of genesets"
   },
   {
     "type": "image",
     "src": "clusterGenes.jpg",
     "title": "Clustering",
-    "desc": "Cluster genes"
+    "desc": "Switch data elements and visualize clustered genes instead of samples"
+  },
+  {
+    "type": "image",
+    "src": "clusterMetric.jpg",
+    "title": "Clustering",
+    "desc": "Adjust method specific parameters"
   },
   {
     "type": "image",
