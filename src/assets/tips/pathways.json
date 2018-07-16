@@ -1,0 +1,26 @@
+[
+    {
+    "type": "image",
+    "src": "pathways.jpg",
+    "title": "Pathways",
+    "desc": "Overlay data on over 1,500 top-level pathways curated from 25 registries including: Panther, Reactome, SMPDB, WikiPathways and Pathway Commons."
+  },
+  {
+    "type": "image",
+    "src": "pathwaysGene.jpg",
+    "title": "Pathways",
+    "desc": "Select from thousands of pathways."
+  },
+  {
+    "type": "image",
+    "src": "pathwaysLegend.jpg",
+    "title": "Pathways",
+    "desc": "Identify nodes, edges and operations for each interaction in the legend panel."
+  },
+  {
+    "type": "image",
+    "src": "pathwaysOverlay.jpg",
+    "title": "Pathways",
+    "desc": "Overlay gene sets and add color/shape for quick identification."
+  }
+]
