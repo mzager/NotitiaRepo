@@ -1,19 +1,19 @@
 [
     {
     "type": "image",
-    "src": "heatmaps.png",
+    "src": "heatmap.jpg",
     "title": "Heatmap",
     "desc": "Visualize data using seven agglomerative clustering algorithms in conjunction with 20 distance metrics.  Further investigate samples or markers through interactive dendrograms."
   },
   {
     "type": "image",
-    "src": "heatmapDistance.png",
+    "src": "heatmapMethod.jpg",
     "title": "Heatmap",
     "desc": "Select a particluar method or distance function to cut hierarchical clusterings into flat clusterings. Read more about these functions by clicking Learn More under the tool title in the parameters panel."
   },
   {
     "type": "image",
-    "src": "heatmapDendo.png",
+    "src": "heatmapDendo.jpg",
     "title": "Heatmap",
     "desc": "Further investigate samples or markers through interactive dendrograms."
   }

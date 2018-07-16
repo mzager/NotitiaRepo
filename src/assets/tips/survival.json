@@ -1,0 +1,14 @@
+[
+    {
+    "type": "image",
+    "src": "survival.jpg",
+    "title": "Survival",
+    "desc": "Estimate and compare survival and hazard rates for patient populations using Kaplin Kaplan-Meier, Nelson-Aalen, Aalen, Weibull and Cox models."
+  },
+  {
+    "type": "image",
+    "src": "survivalCohort.jpg",
+    "title": "Survival",
+    "desc": "Select particluar cohorts to compare."
+  }
+]
