@@ -32,7 +32,7 @@
 <app-workspace-tip-panel *ngIf='(tipVisible | async) && (tipEnabled | async)' (hide)='tipHide()' [tips]='tip | async'></app-workspace-tip-panel>
 
 <app-workspace-file-panel *ngIf='(modalPanel | async) === 4' (hide)='setPanel(4)' class='modal-panel' (loadPublic)='fileLoadPublic($event)'
-  (showPanel)='setPanel($event)'></app-workspace-file-panel>
+  (loadPrivate)='fileLoadPrivate($event)' (showPanel)='setPanel($event)'></app-workspace-file-panel>
 <app-workspace-cohort-panel *ngIf='(modalPanel | async) === 16' (hide)='setPanel(1)' (addCohort)='addCohort($event)' (delCohort)='delCohort($event)'
   [cohorts]='cohorts | async' [config]='graphAConfig | async' class='modal-panel'></app-workspace-cohort-panel>
 <app-workspace-geneset-panel *ngIf='(modalPanel | async) === 32' (hide)='setPanel(1)' (addGeneset)='addGeneset($event)' (delGeneset)='delGeneset($event)'

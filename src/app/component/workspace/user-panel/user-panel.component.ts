@@ -1,3 +1,5 @@
+import { getUserDataSets } from './../../../reducer/user.reducer';
+import { DataService } from './../../../service/data.service';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -29,8 +31,10 @@ export class UserPanelComponent {
   formGroupResendCode: FormGroup;
   formGroupForgotPassword: FormGroup;
   formGroupUpdatePassword: FormGroup;
+  token: string;
 
   @Output() showPanel = new EventEmitter<PanelEnum>();
+  @Output() loadPrivate = new EventEmitter<{ bucket: string; token: string }>();
 
   addDataSet(): void {
     this.showPanel.emit(PanelEnum.UPLOAD);
@@ -64,10 +68,8 @@ export class UserPanelComponent {
         } else if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
           // this.amplifyService.setAuthState({ state: 'requireNewPassword', user: user });
         } else {
-          // this.amplifyService.setAuthState({ state: 'signedIn', user: user });
           const a = Auth.currentSession().then(v => {
-            console.dir(v.idToken.jwtToken);
-            this.fetchDatasets();
+            this.fetchDatasets(v.idToken.jwtToken);
             this.setForm(UserPanelFormEnum.PROJECT_LIST);
           });
         }
@@ -156,14 +158,29 @@ export class UserPanelComponent {
       });
   }
 
-  fetchDatasets(): void {
-    API.get('dataset', '/dataset', {}).then(datasets => {
-      this.datasets = datasets;
+  loadDataset(option): void {
+    const bucket = option.project.split('|')[0];
+    const token = this.token;
+    this.loadPrivate.emit({ bucket: bucket, token: token });
+  }
+
+  fetchDatasets(token): void {
+    console.log('USER TOKEN');
+    console.log(token);
+    console.log('DATASET TOKEN');
+    this.dataService.getUserDatasets(token).then(v => {
+      console.dir(v);
+      this.token = v.token;
+      this.datasets = v.datasets.datasets;
       this.cd.detectChanges();
     });
   }
 
-  constructor(public fb: FormBuilder, public cd: ChangeDetectorRef) {
+  constructor(
+    public fb: FormBuilder,
+    public cd: ChangeDetectorRef,
+    public dataService: DataService
+  ) {
     this.formGroupSignIn = fb.group({
       email: [null, Validators.compose([Validators.required, Validators.email])],
       password: [null, Validators.required]

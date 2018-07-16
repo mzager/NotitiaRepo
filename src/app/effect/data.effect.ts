@@ -163,6 +163,25 @@ export class DataEffect {
       ];
     });
 
+  // Load Data From Public
+  @Effect()
+  dataLoadFromPrivate$: Observable<any> = this.actions$
+    .ofType(data.DATA_LOAD_FROM_PRIVATE)
+    .map((action: UnsafeAction) => action.payload)
+    .switchMap(args => {
+      args['uid'] = args['bucket'];
+      args['baseUrl'] = 'https://oncoscape.v3.sttrcancer.org/datasets/' + args['bucket'] + '/';
+      args['manifest'] =
+        'https://oncoscape.v3.sttrcancer.org/datasets/' + args['bucket'] + '/manifest.json.gz';
+      return this.datasetService.load(args);
+    })
+    .mergeMap(args => {
+      return [
+        // new FilePanelToggleAction(),
+        new DataLoadFromDexieAction(args.uid)
+      ];
+    });
+
   // Load Data From Dexie
   @Effect()
   dataLoadFromDexie$: Observable<DataLoadedAction> = this.actions$
