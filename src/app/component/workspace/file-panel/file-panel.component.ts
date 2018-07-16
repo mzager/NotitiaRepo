@@ -20,6 +20,7 @@ export class FilePanelComponent {
   myDatasets: Array<any> = [];
   @Output() uploadExcel = new EventEmitter<any>();
   @Output() loadPublic = new EventEmitter<any>();
+  @Output() loadPrivate = new EventEmitter<{ bucket: string; token: string }>();
   @Output() hide = new EventEmitter<any>();
   @Output() showPanel = new EventEmitter<PanelEnum>();
   datasets = [

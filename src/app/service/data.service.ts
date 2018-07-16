@@ -1819,6 +1819,25 @@ export class DataService {
     //   debugger;
     // });
   }
+  getUserDatasets(token: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      fetch('https://oncoscape.v3.sttrcancer.org/dataset', {
+        method: 'GET',
+        headers: {
+          zager: token
+        }
+      })
+        .then(res => res.text())
+        .then(value => {
+          console.log(value);
+          const base64Url = value.split('.')[1];
+          const base64 = base64Url.replace('-', '+').replace('_', '/');
+          const ds = JSON.parse(window.atob(base64));
+          const rv = { token: value, datasets: ds };
+          resolve(rv);
+        });
+    });
+  }
 
   constructor() {
     DataService.instance = this;
