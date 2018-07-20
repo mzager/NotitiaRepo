@@ -17,9 +17,9 @@ z-index: 99999;'>
         {{tip.desc}}
       </p>
     </mat-card-content>
-    <mat-card-actions>
-      <button mat-button (click)='nextClick();'>Next Tip</button>
-      <button mat-button (click)='hideClick();'>Close</button>
+    <mat-card-actions style='text-align:center;padding-top: 0px;padding-bottom: 10px;'>
+      <button mat-raised-button color="primary" (click)='nextClick();'>Next Tip</button>
+      <button mat-raised-button color="primary" (click)='hideClick();'>Close</button>
     </mat-card-actions>
   </mat-card>
   <!-- <div style='background:#FFF;position:absolute;left:5%;top:5%;right:5%;bottom:5%;border:5px solid #1e88e5;'>

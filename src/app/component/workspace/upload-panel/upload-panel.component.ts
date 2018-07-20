@@ -1,4 +1,3 @@
-import { HttpClient } from './../../../service/http.client';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -19,9 +18,7 @@ import {
   Validators
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material';
-import { API, Storage } from 'aws-amplify';
-import { RequestOptions } from '@angular/http';
-import { HttpHeaders } from '@angular/common/http';
+import { API } from 'aws-amplify';
 import { Http, Headers } from '@angular/http';
 
 export class OncoscapeErrorStateMatcher implements ErrorStateMatcher {
