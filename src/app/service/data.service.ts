@@ -106,8 +106,10 @@ export class DataService {
     };
 
     // Make map from VisualizationEnum To FileName
-    // const jsonFile = this.getJsonFileFromVisualization(v);
-    const jsonFile = 'pathways.json';
+    let jsonFile = this.getTipFileFromVisualization(v);
+    if (jsonFile === null) {
+      jsonFile = 'pathways.json';
+    }
     return fetch('./assets/tips/' + jsonFile, requestInit).then(res => res.json());
   }
 
@@ -667,6 +669,66 @@ export class DataService {
 
   getDatasetInfo(): Promise<any> {
     return DataService.db.table('dataset').toArray();
+  }
+
+  getTipFileFromVisualization(v: VisualizationEnum): string {
+    switch (v) {
+      case VisualizationEnum.LINKED_GENE:
+      case VisualizationEnum.BOX_WHISKERS:
+      case VisualizationEnum.PARALLEL_COORDS:
+      case VisualizationEnum.HIC:
+      case VisualizationEnum.DENDOGRAM:
+      case VisualizationEnum.SPREADSHEET:
+      case VisualizationEnum.SPARSE_CODER:
+      case VisualizationEnum.HAZARD:
+      case VisualizationEnum.DASHBOARD:
+      case VisualizationEnum.HISTOGRAM:
+      case VisualizationEnum.CHROMOSOME:
+        return null;
+      case VisualizationEnum.SURVIVAL:
+        return 'survival.json';
+      case VisualizationEnum.HEATMAP:
+          return 'heatmap.json';
+      case VisualizationEnum.TIMELINES:
+        return 'timelines.json';
+      case VisualizationEnum.PATHWAYS:
+        return 'pathways.json';
+      case VisualizationEnum.DECOMPOSITION:
+      case VisualizationEnum.MANIFOLDLEARNING:
+      case VisualizationEnum.SUPPORT_VECTOR_MACHINES:
+      case VisualizationEnum.PCA:
+      case VisualizationEnum.PLS:
+      case VisualizationEnum.TSNE:
+      case VisualizationEnum.KMEANS:
+      case VisualizationEnum.KMEDIAN:
+      case VisualizationEnum.KMEDOIDS:
+      case VisualizationEnum.SOM:
+      case VisualizationEnum.MDS:
+      case VisualizationEnum.DA:
+      case VisualizationEnum.DE:
+      case VisualizationEnum.FA:
+      case VisualizationEnum.TRUNCATED_SVD:
+      case VisualizationEnum.INCREMENTAL_PCA:
+      case VisualizationEnum.KERNAL_PCA:
+      case VisualizationEnum.SPARSE_PCA:
+      case VisualizationEnum.PROBABILISTIC_PCA:
+      case VisualizationEnum.RANDOMIZED_PCA:
+      case VisualizationEnum.FAST_ICA:
+      case VisualizationEnum.DICTIONARY_LEARNING:
+      case VisualizationEnum.LDA:
+      case VisualizationEnum.NMF:
+      case VisualizationEnum.ISOMAP:
+      case VisualizationEnum.LOCALLY_LINEAR_EMBEDDING:
+      case VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING:
+      case VisualizationEnum.MINI_BATCH_SPARSE_PCA:
+      case VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS:
+      case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS:
+      case VisualizationEnum.SPARSE_CODER:
+      case VisualizationEnum.SPECTRAL_EMBEDDING:
+        return 'clustering.json';
+      case VisualizationEnum.GENOME:
+        return 'genome.json';
+    }
   }
 
   getJsonFileFromVisualization(v: VisualizationEnum): string {

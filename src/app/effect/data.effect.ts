@@ -1,4 +1,3 @@
-import { getTipVisualization } from './../reducer/tip.reducer';
 import { TipSetVisualizationAction } from './../action/tip.action';
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';

@@ -23,7 +23,7 @@ export class TipSetEnabledAction implements Action {
 }
 
 export class TipSetVisibleAction implements Action {
-  readonly type: string = TIP_SET_ENABLED;
+  readonly type: string = TIP_SET_VISIBLE;
   constructor(public payload: boolean) {}
 }
 
