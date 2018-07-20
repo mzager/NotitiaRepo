@@ -223,7 +223,6 @@ export class DataEffect {
     .mergeMap((args: DataLoadedAction) => {
       const workspaceConfig = new WorkspaceConfigModel();
       workspaceConfig.layout = WorkspaceLayoutEnum.SINGLE;
-
       const edgeConfig = new EdgeConfigModel();
 
       // const survivalConfig = new SurvivalConfigModel();
@@ -236,7 +235,7 @@ export class DataEffect {
 
       const genomeConfig = new GenomeConfigModel();
       genomeConfig.graph = GraphEnum.GRAPH_B;
-      genomeConfig.table = args.tables.filter(v => (v.ctype & CollectionTypeEnum.MOLECULAR) > 0)[1];
+      genomeConfig.table = args.tables.filter(v => (v.ctype & CollectionTypeEnum.MOLECULAR) > 0)[0];
 
       // const chromosomeConfig = new ChromosomeConfigModel();
       // chromosomeConfig.graph = GraphEnum.GRAPH_A;
@@ -274,7 +273,7 @@ export class DataEffect {
 
       const pcaIncConfig = new PcaIncrementalConfigModel();
       pcaIncConfig.graph = GraphEnum.GRAPH_A;
-      pcaIncConfig.table = args.tables.filter(v => (v.ctype & CollectionTypeEnum.MOLECULAR) > 0)[1];
+      pcaIncConfig.table = args.tables.filter(v => (v.ctype & CollectionTypeEnum.MOLECULAR) > 0)[0];
 
       // const graphBConfig = new PcaIncrementalConfigModel();
       // graphBConfig.graph = GraphEnum.GRAPH_A;
