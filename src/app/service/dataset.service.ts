@@ -59,6 +59,24 @@ export class DatasetService {
     fetch(manifest.manifest, requestInit)
       .then(response => response.json())
       .then(response => {
+        // Ensure all matrices are in schema
+        response.files
+          .filter(v => !v.name.toLowerCase().indexOf('matrix'))
+          .map(v => {
+            return v.name
+              .replace('matrix ', '')
+              .replace('matrix_', '')
+              .toLowerCase()
+              .replace(/_/gi, '');
+          })
+          .forEach(matrix => {
+            response.schema[matrix] = 'm';
+            response.schema[matrix + 'Map'] = 's';
+          });
+        // Ensure Patient Keys Are LCase
+        if (response.schema.hasOwnProperty('patient')) {
+          response.schema.patient = response.schema.patient.toLowerCase();
+        }
         Dexie.exists('notitia-' + manifest.uid).then(exists => {
           if (exists) {
             this.loader$.next(manifest);
@@ -76,7 +94,7 @@ export class DatasetService {
           // Patient Meta Data
           const fields = Object.keys(response.fields).map(v => ({
             ctype: CollectionTypeEnum.PATIENT,
-            key: v,
+            key: v.toLowerCase(),
             label: v.replace(/_/gi, ' '),
             tbl: 'patient',
             type: Array.isArray(response.fields[v]) ? 'STRING' : 'NUMBER',
@@ -90,7 +108,11 @@ export class DatasetService {
           const tbls = response.files
             .map(v => {
               const dt = v.dataType.toLowerCase();
-              const name = v.name.replace('matrix ', '');
+              const name = v.name
+                .replace('matrix ', '')
+                .replace('matrix_', '')
+                .toLowerCase()
+                .replace(/_/gi, '');
               return dt === 'clinical'
                 ? {
                     tbl: 'patient',
@@ -100,35 +122,42 @@ export class DatasetService {
                   }
                 : dt === 'events'
                   ? { tbl: name, map: name + 'Map', label: name, ctype: CollectionTypeEnum.EVENT }
-                  : dt === 'gistic'
+                  : dt === 'matrix'
                     ? {
                         tbl: name,
                         map: name + 'Map',
                         label: name,
-                        ctype: CollectionTypeEnum.GISTIC
+                        ctype: CollectionTypeEnum.MATRIX
                       }
-                    : dt === 'gistic_threshold'
+                    : dt === 'gistic'
                       ? {
                           tbl: name,
                           map: name + 'Map',
                           label: name,
-                          ctype: CollectionTypeEnum.GISTIC_THRESHOLD
+                          ctype: CollectionTypeEnum.GISTIC
                         }
-                      : dt === 'mut'
+                      : dt === 'gistic_threshold'
                         ? {
                             tbl: name,
                             map: name + 'Map',
                             label: name,
-                            ctype: CollectionTypeEnum.MUTATION
+                            ctype: CollectionTypeEnum.GISTIC_THRESHOLD
                           }
-                        : dt === 'rna'
+                        : dt === 'mut'
                           ? {
                               tbl: name,
                               map: name + 'Map',
                               label: name,
-                              ctype: CollectionTypeEnum.RNA
+                              ctype: CollectionTypeEnum.MUTATION
                             }
-                          : null;
+                          : dt === 'rna'
+                            ? {
+                                tbl: name,
+                                map: name + 'Map',
+                                label: name,
+                                ctype: CollectionTypeEnum.RNA
+                              }
+                            : null;
             })
             .filter(v => v);
           const dataset = {
@@ -144,7 +173,9 @@ export class DatasetService {
           this.loaderStatusUpdate.next('Metadata Loaded');
           Promise.all(
             response.files.filter(file => file.name !== 'manifest.json').map(file => {
-              debugger;
+              if (file.dataType === '') {
+                file.dataType = 'matrix';
+              }
               return new Promise((resolve, reject) => {
                 const loader = new Worker('/assets/loader.js');
                 const onMessage = msgEvent => {

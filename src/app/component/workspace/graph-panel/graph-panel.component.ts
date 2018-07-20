@@ -1,8 +1,15 @@
 import {
-  AfterViewInit, ChangeDetectionStrategy,
-  ChangeDetectorRef, Component, ElementRef,
-  EventEmitter, Input, OnDestroy, Output,
-  ViewChild, ViewEncapsulation
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
 // tslint:disable-next-line:max-line-length
 import { LinearDiscriminantAnalysisConfigModel } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
@@ -64,8 +71,6 @@ declare var $: any;
   encapsulation: ViewEncapsulation.None
 })
 export class GraphPanelComponent implements AfterViewInit, OnDestroy {
-
-
   @ViewChild('panel') panel: ElementRef;
   @ViewChild('panelButton') panelButton: ElementRef;
 
@@ -73,7 +78,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Input() cid: string;
   @Input() tables: Array<DataTable>;
   @Input() fields: Array<DataField>;
-  @Input() events: Array<{ type: string, subtype: string }>;
+  @Input() events: Array<{ type: string; subtype: string }>;
   @Input() molecularData: Array<string>;
   @Input() entityType: EntityTypeEnum;
   @Output() hide: EventEmitter<any> = new EventEmitter();
@@ -84,20 +89,29 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Output() selectGeneSignature: EventEmitter<GraphConfig> = new EventEmitter();
   @Output() selectGeneset: EventEmitter<any> = new EventEmitter();
   @Output() selectCohort: EventEmitter<any> = new EventEmitter();
-  @Output() decoratorAdd: EventEmitter<{ config: GraphConfig, decorator: DataDecorator }> = new EventEmitter();
-  @Output() decoratorDel: EventEmitter<{ config: GraphConfig, decorator: DataDecorator }> = new EventEmitter();
+  @Output()
+  decoratorAdd: EventEmitter<{
+    config: GraphConfig;
+    decorator: DataDecorator;
+  }> = new EventEmitter();
+  @Output()
+  decoratorDel: EventEmitter<{
+    config: GraphConfig;
+    decorator: DataDecorator;
+  }> = new EventEmitter();
   @Output() decoratorDelAll: EventEmitter<{ config: GraphConfig }> = new EventEmitter();
-  @Output() workspaceConfigChange: EventEmitter<{ config: WorkspaceConfigModel }> = new EventEmitter();
+  @Output()
+  workspaceConfigChange: EventEmitter<{ config: WorkspaceConfigModel }> = new EventEmitter();
   @Output() edgeConfigChange: EventEmitter<{ config: EdgeConfigModel }> = new EventEmitter();
-
 
   methodName = '';
   methodSummary = '';
   workspaceLayoutOptions = [
-    WorkspaceLayoutEnum.HORIZONTAL, WorkspaceLayoutEnum.VERTICAL, WorkspaceLayoutEnum.OVERLAY
+    WorkspaceLayoutEnum.HORIZONTAL,
+    WorkspaceLayoutEnum.VERTICAL,
+    WorkspaceLayoutEnum.OVERLAY
   ];
   workspaceEdgeOptions: Array<DataField> = [];
-
 
   get decoratorsWithLegends(): Array<DataDecorator> {
     const edges = this.edgeDecorators.filter(v => v.legend);
@@ -115,20 +129,23 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Input() cohorts: Array<any>;
   @Input() pathways: Array<any>;
 
-
-
   // This is a very important setter + is probably doing to much work.
   // It is comparing the previous config with the proposed config.
   // If the vis changes it updates the help
   // If the entity changes it updates the edges
   // If the matrix changes it reruns the decorators
   private _config: GraphConfig = null;
-  get config(): GraphConfig { return this._config; }
-  @Input() set config(value: GraphConfig) {
-    if (value === null) { return; }
+  get config(): GraphConfig {
+    return this._config;
+  }
+  @Input()
+  set config(value: GraphConfig) {
+    if (value === null) {
+      return;
+    }
 
     // Update Help
-    if (this._config === null || (this._config.visualization !== value.visualization)) {
+    if (this._config === null || this._config.visualization !== value.visualization) {
       this.dataService.getHelpInfo(value).then(v => {
         this.methodName = v.method;
         this.methodSummary = v.summary;
@@ -192,6 +209,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   onDecoratorDel(decorator: DataDecorator) {
     this.decoratorDel.emit({ config: this.config, decorator: decorator });
   }
+
   setVisualization(visualizationEnumValue): void {
     let gc: GraphConfig;
     switch (visualizationEnumValue) {
@@ -323,11 +341,10 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     gc.sampleSelect = prevConfig.sampleSelect;
     gc.markerSelect = prevConfig.markerSelect;
     gc.patientSelect = prevConfig.patientSelect;
-    gc.graph = (this.title === 'Graph A') ? GraphEnum.GRAPH_A : GraphEnum.GRAPH_B;
+    gc.graph = this.title === 'Graph A' ? GraphEnum.GRAPH_A : GraphEnum.GRAPH_B;
     this.configChange.emit(gc);
   }
   graphPanelSetConfig(value: GraphConfig) {
-
     value.enableCohorts = this._config.enableCohorts;
     value.enableGenesets = this._config.enableGenesets;
     value.enablePathways = this._config.enablePathways;
@@ -348,15 +365,20 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.configChange.emit(value);
   }
 
-  ngAfterViewInit(): void { }
+  ngAfterViewInit(): void {}
 
-  ngOnDestroy(): void { }
+  ngOnDestroy(): void {}
 
-  constructor(private ms: ModalService, private cd: ChangeDetectorRef, private dataService: DataService) {
-
+  constructor(
+    private ms: ModalService,
+    private cd: ChangeDetectorRef,
+    private dataService: DataService
+  ) {
     this.genesets = [];
     this.cohorts = [];
 
-    this.cid = Math.random().toString(36).replace(/[^a-z]+/g, '');
+    this.cid = Math.random()
+      .toString(36)
+      .replace(/[^a-z]+/g, '');
   }
 }

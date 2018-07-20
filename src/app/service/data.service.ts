@@ -80,7 +80,7 @@ export class DataService {
     'Short Noncoding',
     'Other'
   ];
-  public static API_PATH = 'https://dev.oncoscape.sttrcancer.io/api/';
+
   public static headersJson = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
@@ -588,71 +588,77 @@ export class DataService {
     return Observable.fromPromise(DataService.db.table('bandcoords').toArray());
   }
   getGeneSetByCategory(categoryCode: string): Observable<any> {
-    const subcats = [
-      'CGP',
-      'CP',
-      'CP:BIOCARTA',
-      'CP:KEGG',
-      'CP:REACTOME',
-      'MIR',
-      'TFT',
-      'CGN',
-      'CM',
-      'BP',
-      'CC',
-      'MF',
-      'C6',
-      'c7'
-    ];
-    const field = subcats.indexOf(categoryCode) === -1 ? 'category' : 'subcategory';
     return Observable.fromPromise(
-      fetch(
-        DataService.API_PATH +
-          'z_lookup_geneset/%7B%22$fields%22:[%22name%22,%22hugo%22,%22summary%22],%20%22$query%22:%7B%22' +
-          field +
-          '%22:%22' +
-          categoryCode +
-          '%22%7D%20%7D',
-        {
-          method: 'GET',
-          headers: DataService.headersJson
-        }
-      ).then(res => res.json())
+      fetch('https://oncoscape.v3.sttrcancer.org/data/genesets/' + categoryCode + '.json.gz', {
+        method: 'GET',
+        headers: DataService.headersJson
+      }).then(res => res.json())
     );
+    // const subcats = [
+    //   'CGP',
+    //   'CP',
+    //   'CP:BIOCARTA',
+    //   'CP:KEGG',
+    //   'CP:REACTOME',
+    //   'MIR',
+    //   'TFT',
+    //   'CGN',
+    //   'CM',
+    //   'BP',
+    //   'CC',
+    //   'MF',
+    //   'C6',
+    //   'c7'
+    // ];
+    // const field = subcats.indexOf(categoryCode) === -1 ? 'category' : 'subcategory';
+    // return Observable.fromPromise(
+    //   fetch(
+    //     DataService.API_PATH +
+    //       'z_lookup_geneset/%7B%22$fields%22:[%22name%22,%22hugo%22,%22summary%22],%20%22$query%22:%7B%22' +
+    //       field +
+    //       '%22:%22' +
+    //       categoryCode +
+    //       '%22%7D%20%7D',
+    //     {
+    //       method: 'GET',
+    //       headers: DataService.headersJson
+    //     }
+    //   ).then(res => res.json())
+    // );
   }
-  getGeneSetQuery(categoryCode: string, searchTerm: string): Observable<any> {
-    return Observable.fromPromise(
-      fetch(
-        DataService.API_PATH +
-          'z_lookup_geneset/%20%7B%22category%22%3A%22' +
-          categoryCode +
-          '%22%2C%20%20%22%24text%22%3A%20%7B%20%22%24search%22%3A%20%22' +
-          searchTerm +
-          '%22%20%7D%20%20%7D',
-        {
-          method: 'GET',
-          headers: DataService.headersJson
-        }
-      ).then(res => res.json())
-    );
-  }
-  getGenesetBySearchTerm(searchTerm: string): Observable<any> {
-    return Observable.fromPromise(
-      fetch(
-        DataService.API_PATH +
-          'z_lookup_geneset/%7B%22%24text%22%3A%7B%22%24search%22%3A%22' +
-          searchTerm +
-          '%22%7D%7D',
-        {
-          method: 'GET',
-          headers: DataService.headersJson
-        }
-      ).then(res => res.json())
-    );
-  }
+  // getGeneSetQuery(categoryCode: string, searchTerm: string): Observable<any> {
+  //   return Observable.fromPromise(
+  //     fetch(
+  //       DataService.API_PATH +
+  //         'z_lookup_geneset/%20%7B%22category%22%3A%22' +
+  //         categoryCode +
+  //         '%22%2C%20%20%22%24text%22%3A%20%7B%20%22%24search%22%3A%20%22' +
+  //         searchTerm +
+  //         '%22%20%7D%20%20%7D',
+  //       {
+  //         method: 'GET',
+  //         headers: DataService.headersJson
+  //       }
+  //     ).then(res => res.json())
+  //   );
+  // }
+  // getGenesetBySearchTerm(searchTerm: string): Observable<any> {
+  //   return Observable.fromPromise(
+  //     fetch(
+  //       DataService.API_PATH +
+  //         'z_lookup_geneset/%7B%22%24text%22%3A%7B%22%24search%22%3A%22' +
+  //         searchTerm +
+  //         '%22%7D%7D',
+  //       {
+  //         method: 'GET',
+  //         headers: DataService.headersJson
+  //       }
+  //     ).then(res => res.json())
+  //   );
+  // }
   getGeneSetCategories(): Observable<any> {
     return Observable.fromPromise(
-      fetch(DataService.API_PATH + 'z_lookup_geneset_categories', {
+      fetch('https://oncoscape.v3.sttrcancer.org/data/genesets/categories.json.gz', {
         method: 'GET',
         headers: DataService.headersJson
       }).then(res => res.json())
@@ -1233,8 +1239,8 @@ export class DataService {
       });
     });
   }
-  getGenesetCategories(): Promise<Array<{ c: string; n: string; d: string }>> {
-    return fetch('https://oncoscape.v3.sttrcancer.org/data/reference/genesets.json.gz', {
+  getGenesetCategories(): Promise<Array<{ code: string; name: string; desc: string }>> {
+    return fetch('https://oncoscape.v3.sttrcancer.org/data/genesets/categories.json.gz', {
       method: 'GET',
       headers: DataService.headersJson
     }).then(res => res.json());

@@ -152,6 +152,7 @@ export const enum CollectionTypeEnum {
   RNA = 1 << 15,
   TAD = 1 << 16,
   GENE_NAME = 1 << 17,
+  MATRIX = 1 << 18,
   // tslint:disable-next-line:no-bitwise
   EXP = CollectionTypeEnum.PROTEIN | CollectionTypeEnum.MIRNA | CollectionTypeEnum.MRNA,
   // Molec Data Field Tables (use to determine the color options and decorators)
@@ -169,7 +170,8 @@ export const enum CollectionTypeEnum {
     CollectionTypeEnum.MRNA |
     CollectionTypeEnum.EXP |
     CollectionTypeEnum.METH |
-    CollectionTypeEnum.RNA
+    CollectionTypeEnum.RNA |
+    CollectionTypeEnum.MATRIX
 }
 
 export class DataTypeEnum {
@@ -217,7 +219,7 @@ export class MutationTypeEnum {
   static readonly SPLICE_SITE_DEL = 'Splice_Site_Del';
   static readonly SPLICE_SITE_INS = 'Splice_Site_Ins';
   static readonly INDEL = 'Indel';
-  static readonly R = 'R';
+  static readonly OTHER = 'Other';
 }
 export class ConnectionTypeEnum {
   static readonly NONE = 'None';
