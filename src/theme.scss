@@ -125,7 +125,12 @@ input:-webkit-autofill {
 body .mat-button-focus-overlay {
   background-color: transparent;
 }
-
+.mat-radio-outer-circle {
+  border-width: 1px;
+}
+.mat-checkbox-frame {
+  border-width: 1px;
+}
 .mat-menu-item {
   height: 25px;
   line-height: 25px;
@@ -159,6 +164,7 @@ body .mat-button-focus-overlay {
 }
 
 .mat-select {
+  padding-top: 3px;
   .mat-select-arrow {
     opacity: 0;
   }

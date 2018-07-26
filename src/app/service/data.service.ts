@@ -679,12 +679,11 @@ export class DataService {
       case VisualizationEnum.HIC:
       case VisualizationEnum.DENDOGRAM:
       case VisualizationEnum.SPREADSHEET:
-      case VisualizationEnum.SPARSE_CODER:
-      case VisualizationEnum.HAZARD:
       case VisualizationEnum.DASHBOARD:
       case VisualizationEnum.HISTOGRAM:
       case VisualizationEnum.CHROMOSOME:
         return null;
+      case VisualizationEnum.HAZARD:
       case VisualizationEnum.SURVIVAL:
         return 'survival.json';
       case VisualizationEnum.HEATMAP:
@@ -693,6 +692,7 @@ export class DataService {
         return 'timelines.json';
       case VisualizationEnum.PATHWAYS:
         return 'pathways.json';
+      case VisualizationEnum.SPARSE_CODER:
       case VisualizationEnum.DECOMPOSITION:
       case VisualizationEnum.MANIFOLDLEARNING:
       case VisualizationEnum.SUPPORT_VECTOR_MACHINES:

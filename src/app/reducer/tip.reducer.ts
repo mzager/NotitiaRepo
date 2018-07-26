@@ -19,6 +19,10 @@ const initialState: State = {
 export function reducer(state = initialState, action: UnsafeAction): State {
   switch (action.type) {
     case tip.TIP_SET_VISUALIZATION_COMPLETE:
+      debugger;
+      if (action.payload === state.tip) {
+        return state;
+      }
       return Object.assign({}, state, { tip: action.payload, visible: true });
     case tip.TIP_SET_ENABLED:
       return Object.assign({}, state, { enabled: action.payload });

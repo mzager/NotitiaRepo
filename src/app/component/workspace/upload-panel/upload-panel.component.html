@@ -3,61 +3,158 @@
     <a href='#' class='modalClose' (click)='closeClick()'>
     </a>
     <h1 class='panel-header'>Data Upload</h1>
-    <h2 class='panel-header-desc'>Upload and share your data sets to our private cloud</h2>
+    <h2 class='panel-header-desc'>Complete the four steps below to visualize your own data</h2>
   </div>
-  <!-- My Cohorts -->
-  <div fxLayout.xs='column'>
-    <div fxFlex.sm='1 1 30%' fxFlex.md='1 1 20%' fxFlex.lg='1 1 25%' fxFlex.xl='1 1 20%'>
-      <h2 class='panel-column-title'>My Datasets</h2>
-      <div *ngIf='datasets.length===0'>No Datasets Availible</div>
-      <div *ngFor='let option of datasets' (click)='datasetDel(option)' class='panel-config-row-del'>
-        <i class='material-icons md-18'>remove_circle_outline</i>
-        <div>{{option.content.name}}</div>
-      </div>
-    </div>
-    <!-- Create Dataset -->
-    <div fxFlex.sm='1 1 70%' fxFlex.md='1 1 80%' fxFlex.lg='1 1 75%' fxFlex.xl='1 1 80%'>
-      <h2 class='panel-column-title' style='margin-bottom:10px;'>Upload A Dataset</h2>
-      <form [formGroup]="formGroup">
-        <mat-form-field>
-          <input matInput placeholder="Dataset Name" formControlName='name' autocomplete='off' [errorStateMatcher]="matcher">
-          <mat-error *ngIf="formGroup.controls['name'].hasError('required')">Required</mat-error>
-        </mat-form-field>
-        <br />
-        <mat-form-field>
-          <input matInput placeholder="Disease Site" formControlName='site' autocomplete='off' [errorStateMatcher]="matcher">
-          <mat-error *ngIf="formGroup.controls['site'].hasError('required')">Required</mat-error>
-        </mat-form-field>
-        <br />
-        <mat-form-field>
-          <input matInput placeholder="Description" formControlName='description' autocomplete='off' [errorStateMatcher]="matcher">
-          <mat-error *ngIf="formGroup.controls['description'].hasError('required')">Required</mat-error>
-        </mat-form-field>
-        <br />
-        <mat-form-field>
-          <mat-select placeholder="Institutional Review" formControlName='reviewType'>
-            <mat-option *ngFor="let reviewType of reviewTypes" [value]="reviewType">
-              {{ reviewType }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <br />
-        <mat-form-field *ngIf='this.showReviewNumber'>
-          <input matInput placeholder="Institutional Review Id" formControlName='reviewNumber' autocomplete='off'>
-        </mat-form-field>
-        <br />
-        <mat-checkbox class='uploadPanelCbx' formControlName='isPhi'>I certify this data set does not contain any Personal Health Information</mat-checkbox>
-        <mat-checkbox class='uploadPanelCbx' formControlName='isHuman'>Select if data set is derived from Human Subjects</mat-checkbox>
-        <mat-checkbox class='uploadPanelCbx' formControlName='isPublic'>I want to make my dataset availible to the public</mat-checkbox>
-        <input type='file' style='display:none;' #fileInput accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel">
-        <div style='padding-bottom: 10px;padding-top: 10px;'>
-          <a mat-raised-button (click)='uploadFile()' style='margin-right:20px;width:120px;' href='#'>Select File</a>
-          <a href='#' class='os-link'>XLS Documentation</a>&nbsp;|&nbsp;
-          <a href='#' class='os-link'>XLS Template</a>
+
+  <!-- Create Dataset -->
+  <mat-vertical-stepper linear='true' style='transform: translateX(-24px);width:60%;display:inline-block;'>
+
+    <mat-step label='Step 1: Accept Our Terms of Use' completed='true'>
+      <p>
+        Oncoscape requires all Protected Health Information (PHI) be removed from datasets prior to upload. PHI is defined and regulated
+        under United States Public Law 104-191 under the Health Insurance Portability and Accountability Act of 1996 (HIPPA).
+        For a detailed description of what constitutes PHI please visit the
+        <a class='os-link' target='_blank' href='https://www.hhs.gov/hipaa/for-professionals/privacy/laws-regulations/index.html'>
+          United States Health and Human Services (HHS)</a> website.
+      </p>
+      <p>
+        By clicking I Agree, you certify that your dataset is free of PHI and conforms with all United States laws and regulations
+        as well as the Fred Hutchinson Cancer Research Center's
+        <a class='os-link' target='_blank' href='http://www.fredhutch.org/en/util/terms-privacy.html'>Terms of Use and Privacy Policy</a>.
+      </p>
+      <button mat-raised-button matStepperNext color='primary'>I Accept</button>
+    </mat-step>
+
+    <mat-step label='Step 2: Upload Your Data' completed='true'>
+      <p>
+        The easiest way to view your data in Oncoscape is to upload it using our Excel template. For detailed instructions or to
+        download the template click the links below. If you dataset is too large for excel or you would you have a number
+        of datasets you would like to ingest in bulk, please contact us at
+        <a href='mailto:contact-sttr@fredhutch.org' class='os-link'>contact-sttr@fredhutch.org</a>
+      </p>
+      <p>
+        <a href='/assets/oncoscape-upload-instructions.pdf' class='os-link' target='_blank'>Download XLSX Instructions</a>
+      </p>
+      <p>
+        <a href='/assets/oncoscape-upload-template.xltx' class='os-link' target='_blank'>Download XLTX Template</a>
+      </p>
+      <p>
+        <!-- <a mat-raised-button color='primary' (click)='uploadFile()' style='margin-right:20px;width:120px;' href='#'>Select File</a> -->
+        <button mat-raised-button matStepperNext color='primary'>Select File</button>
+      </p>
+    </mat-step>
+
+
+    <mat-step label='Step 3: Annotate Your Dataset' completed='true'>
+      <form [formGroup]='formGroup'>
+        <div class='forms-container'>
+
+          <div class="form-container">
+
+            <mat-form-field>
+              <input matInput placeholder='Dataset Name' formControlName='name' autocomplete='off' [errorStateMatcher]='matcher'>
+              <!-- <mat-error *ngIf='formGroup.controls["name"].hasError("required")'>Required</mat-error> -->
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput placeholder='Description' formControlName='description' autocomplete='off' [errorStateMatcher]='matcher'>
+              <!-- <mat-error *ngIf='formGroup.controls["description"].hasError("required")'>Required</mat-error> -->
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-select placeholder='Institutional Review' formControlName='reviewType'>
+                <mat-option *ngFor='let reviewType of reviewTypes' [value]='reviewType'>
+                  {{ reviewType }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field *ngIf='this.showReviewNumber'>
+              <input matInput placeholder='Institutional Review Id' formControlName='reviewNumber' autocomplete='off'>
+            </mat-form-field>
+
+          </div>
+          <div class="form-container">
+
+            <mat-form-field>
+              <mat-select placeholder='Disease Site' formControlName='site'>
+                <mat-option *ngFor='let siteType of siteTypes' [value]='siteType'>
+                  {{ siteType }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-select placeholder='Species' formControlName='species'>
+                <mat-option *ngFor='let speciesType of speciesTypes' [value]='speciesType'>
+                  {{ speciesType }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput placeholder='Lab' formControlName='lab' autocomplete='off'>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput placeholder='Institution' formControlName='institution' autocomplete='off'>
+            </mat-form-field>
+
+          </div>
+          <div class="form-container">
+
+            <mat-form-field>
+              <input matInput placeholder='Contact Name' formControlName='contactName' autocomplete='off'>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput placeholder='Contact Email' formControlName='contactName' autocomplete='off'>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput placeholder='Contact Phone' formControlName='contactName' autocomplete='off'>
+            </mat-form-field>
+
+            <!-- <mat-checkbox formControlName='contactAllow'>Permit Contact</mat-checkbox> -->
+
+          </div>
         </div>
-        <button (click)='formSubmit()' [disabled]="formGroup.pristine || formGroup.invalid" style='width:120px;' mat-raised-button
-          color='primary'>Submit Project</button>
+
+
+        <button (click)='formSubmit()' style='width:120px;' mat-raised-button color='primary'>Next</button>
       </form>
+    </mat-step>
+
+    <mat-step label='Step 4: Configure Access' completed='true'>
+      <div style='display:inline-block'>
+        <mat-radio-group (change)='accessChange($event)' [(ngModel)]='accessOption' style='display: inline-flex;flex-direction: column;'>
+          <mat-radio-button class='radiobtn' value="private">Do not allow anyone else to view this dataset</mat-radio-button>
+          <mat-radio-button class='radiobtn' value="protected">Specify a list of authorized users</mat-radio-button>
+          <mat-radio-button class='radiobtn' value="public">Allow anyone to view this dataset</mat-radio-button>
+        </mat-radio-group>
+        <p>
+          <button (click)='formSubmit()' style='width:120px;margin-top:10px;' mat-raised-button color='primary'>Done</button>
+        </p>
+      </div>
+      <div *ngIf='accessOption==="protected"' style='display:inline-block;padding-left: 20px;margin-left:20px;
+      vertical-align: top;border:0px solid #eee; border-left-width:1px;'>
+
+        <mat-form-field>
+          <input [(ngModel)]='collaborator' matInput placeholder='Enter Collaborator Email' autocomplete='off'>
+        </mat-form-field>
+        <i class="material-icons md-18" (click)='addCollaborator()' style='color:#1e88e5 !important'>add_circle_outline</i>
+        <div *ngFor='let option of collaborators' class='panel-config-row-del' (click)='removeCollaborator(option)'>
+          <div style='width:180px'>{{option.email}}</div>
+          <i class='material-icons md-18' style='color:#1e88e5'>remove_circle_outline</i>
+        </div>
+      </div>
+    </mat-step>
+
+  </mat-vertical-stepper>
+  <div style='display:inline-block;width:30%;margin-left:5%;vertical-align:top;text-align: center;'>
+    <div class="video-responsive">
+      <iframe width="420" height="315" src="https://www.youtube.com/embed/VfKFbri7XfQ?loop=1&modestbranding=1&playsinline=1&rel=0&showinfo=0&color=white"
+        frameborder="0" allowfullscreen></iframe>
     </div>
   </div>
 </div>

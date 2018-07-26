@@ -1,4 +1,61 @@
-.uploadPanelCbx {
-    display: block;
-    margin-bottom: 10px;
+// .uploadPanelCbx {
+//   display: block;
+//   margin-bottom: 10px;
+// }
+
+.forms-container {
+  display: flex;
+  flex-direction: row;
+}
+.form-container {
+  display: flex;
+  flex-direction: column;
+  width: 33%;
+}
+
+.form-container > * {
+  width: 98%;
+  height: 40px;
+}
+
+.video-responsive {
+  border: 1px solid #eee;
+  overflow: hidden;
+  padding-bottom: 56.25%;
+  position: relative;
+  height: 0;
+}
+.video-responsive iframe {
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+.media {
+  max-width: 800px;
+  width: 100%;
+  &__video {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px;
+    height: 0;
+    width: 100%;
+    overflow: hidden;
+    background: gray;
+    iframe,
+    object,
+    embed {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.radiobtn {
+  margin: 5px;
 }
