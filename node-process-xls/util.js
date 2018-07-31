@@ -30,12 +30,33 @@ const mutationType = {
     'R' : 1 << 25
 };
 exports.loadCsv = (file) => { 
-    let data = fs.readFileSync( process.cwd()+'/data/'+file, 'UTF-8').split('\n').map(v => v.split('","'));
-    data.forEach(v => { 
-        v[0] = v[0].substring(1);
-        v[v.length-1] =  v[v.length-1].substr(0,-1);
-    });
+    // let data = fs.readFileSync( process.cwd()+'/data/'+file, 'UTF-8').split('\n').map(v => v.split('","'));
+    let data = fs.readFileSync( process.cwd()+'/data/'+file, 'UTF-8').replace(/"/g, '').split('\n').map(v => v.split(','));
+    // data.forEach(v => { 
+    //     v[0] = v[0].substring(1);
+    //     v[v.length-1] =  v[v.length-1].substr(0,-1);
+    // });
     return data;
+}
+
+exports.removeExtraCols = (data, colLength) => {
+    return data.map(d => {
+        d.splice(colLength-1, d.length-colLength)
+        return d;
+    });
+}
+
+exports.fillBlankNull = (data) => {
+    return data.map(row => {
+        return row.map(d => {
+            if (d === '' || d === 'NA'){ return null;
+            } else { return d;}
+        })
+    });
+}
+
+exports.removeExtraRows = (data, colLength) => {
+    return data.filter(d => d.length === colLength);
 }
 
 exports.extractColumnValues = (data, columnIndex, formatter) => { 
@@ -43,13 +64,16 @@ exports.extractColumnValues = (data, columnIndex, formatter) => {
 }
 
 exports.formatHgnc = (value) => { 
-    return value.toUpperCase().trim();
+    if (value === undefined || value === null || value === '') { return null; }
+    else {
+        return value.toUpperCase().trim();
+    }
 };
 
 exports.formatKey = (value) => {
     if (value === undefined || value === null || value === '') { return null; }
     else {
-        return value.trim().toLowerCase().replace(/\s/gi,'_');
+        return value.trim().toUpperCase().replace(/\s/gi,'_');
     } 
 }
 
@@ -69,6 +93,10 @@ exports.formatMut = (value) => {
 exports.shiftColumns = (value) => { 
     const rv = value.shift().map(v => exports.formatColumn(v)).filter(v => v !== '');
     return rv;
+}
+
+exports.getRowNames = (data) => {
+    return data.map(d => d[0]);
 }
 /**
  * Input: Columns, Array of column names

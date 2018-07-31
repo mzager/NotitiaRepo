@@ -34,6 +34,7 @@ npm-debug.log
 testem.log
 /typings
 /server/python/load_testing/
+/node-process-xls/node_modules/
 
 # e2e
 /e2e/*.js

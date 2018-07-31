@@ -1,0 +1,57 @@
+{
+  "cancer type detailed": ["brcanos", "idc", "mdlc", "ilc"],
+  "path sample treatment naive": ["yes", "no", "unknown", "n/a"],
+  "path sample in metastatic setting": [
+    "metastatic disease present",
+    "no metastatic disease present",
+    "unknown",
+    "n/a"
+  ],
+  "path sample collection time": { "min": 0, "max": 940 },
+  "path procedure location": [
+    "bone",
+    "breast",
+    "liver",
+    "axillary lymph node",
+    "lung",
+    "chest wall",
+    "omentum",
+    "regional lymph node",
+    "axilla",
+    "soft tissue",
+    "brain-cns"
+  ],
+  "path breast procedure laterality": ["n/a", "left", "right", "not applicable"],
+  "path procedure type": [
+    "fna",
+    "core",
+    "lumpectomy",
+    "mastectomy",
+    "punch",
+    "other",
+    "excision",
+    "wedge",
+    "re-excision",
+    "dissection",
+    "resection",
+    "unknown"
+  ],
+  "path sample histology": ["adenocarcinoma", "idc", "mixed idlc", "ilc", "carcinoma"],
+  "path dcis reported": ["no", "yes", "n/a"],
+  "path lcis reported": ["no", "yes", "n/a"],
+  "path sample grade": [
+    "unknown",
+    "ii intermediate grade (moderately differentiated)",
+    "iii high grade (poorly differentiated)",
+    "not done",
+    "i-ii",
+    "i low grade (well differentiated)",
+    "ii-iii",
+    "n/a"
+  ],
+  "path estrogen receptor status": ["positive", "unknown", "negative", "not done"],
+  "path progesterone receptor status": ["positive", "unknown", "negative", "not done"],
+  "path her2 status": ["unknown", "negative", "not done", "positive", "equivocal"],
+  "path her2 ihc": ["unknown", "0", "1+", "not done", "3+", "2+", "negative"],
+  "path her2 fish": ["unknown", "negative", "not done", "positive", "equivocal"]
+}

@@ -1,0 +1,22 @@
+01 - Split XLS                    - Once Complete Start 02
+02 -- Validate Files              - Once Patient.CSV Confirmed Start 03
+02 -- Validate Hugo Matrix (x)
+02 -- Validate Hugo Mutation (x)
+02 -- Validate Mut Mutation
+03 --- Validate Ids Patient       - Generates _patient-ids.json to trigger Start 04
+04 ---- Validate Ids Event
+04 ---- Validate Ids Mutation
+04 ---- Validate Ids Matrix
+04 ---- Validate Ids Sample
+05 ----- Metadata Patient (x)
+05 ----- Metadata Sample (x)
+05 ----- Metadata Event (x)
+05 ----- Metadata Mutation (x)
+05 ----- Metadata Matrix (x)
+06 ------ Format Patient (x)
+06 ------ Format Sample (x)
+06 ------ Format Event (x)
+06 ------ Format Mutation (x)
+06 ------ Format Matrix (x)
+07 ------- Format Metadata (x)
+08 ------- Format Error Warn Report (x)
