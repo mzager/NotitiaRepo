@@ -877,3 +877,40 @@ body .mat-button-focus-overlay {
   height: 30px;
   background-position: -660px 0;
 }
+
+.social {
+  // border: 1px solid #9e9e9e;
+  // float: left;
+  // margin-right: 20px;
+  background-image: url('/assets/sprite-social.png');
+}
+
+@media (min--moz-device-pixel-ratio: 1.5),
+  (-o-min-device-pixel-ratio: 3/2),
+  (-webkit-min-device-pixel-ratio: 1.5),
+  (min-device-pixel-ratio: 1.5),
+  (min-resolution: 1.5dppx) {
+  .social {
+    background-image: url('/assets/sprite-social.png');
+    // background-size: 2000px 100px;
+  }
+}
+
+
+.social-facebook {
+	width: 30px;
+	height: 30px;
+	background-position: 0 0;
+}
+
+.social-ig {
+	width: 30px;
+	height: 30px;
+	background-position: -125px 0;
+}
+
+.social-twitter {
+	width: 30px;
+	height: 30px;
+	background-position: -200px 0;
+}
