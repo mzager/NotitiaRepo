@@ -14,10 +14,10 @@
       <mat-icon class='material-icons md-18' style='transform:translate(0px, 4px)'>tv</mat-icon>
       <span class='copy'>Split Screen</span>
     </span>
-    <!-- <span *ngIf='datasetSelected' class='application-bar-button' (click)='toggleBackgroundColor()' style='padding-right:20px;'>
+    <span *ngIf='datasetSelected' class='application-bar-button' (click)='toggleBackgroundColor()' style='padding-right:20px;'>
       <mat-icon class='material-icons md-18' style='transform:translate(0px, 4px)'>invert_colors</mat-icon>
       Invert Color
-    </span> -->
+    </span>
     <mat-menu #appMenu="matMenu">
       <!--<button mat-menu-item (click)='viewPanel(16384)'>Feedback</button>-->
       <button *ngIf='datasetSelected' mat-menu-item (click)='reload()'>Data Sets</button>
@@ -26,6 +26,7 @@
       <a mat-menu-item href='mailto:contact-sttr@fredhutch.org'>Feedback</a>
       <button mat-menu-item (click)='toggleBackgroundColor()'>Invert Color</button>
       <button mat-menu-item (click)='exportImage()'>Print</button>
+      <button mat-menu-item (click)='deleteAllCaches()'>Reset Oncoscape</button>
     </mat-menu>
     <span class='application-bar-menu-button' class='application-bar-button' [matMenuTriggerFor]="appMenu">
       <mat-icon class='material-icons md-18 ' style='transform:translate(0px, 4px) '>more_vert</mat-icon>

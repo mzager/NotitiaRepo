@@ -1,94 +1,99 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  Output,
-  ViewChild,
-  ViewEncapsulation
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild, ViewEncapsulation } from "@angular/core";
 // tslint:disable-next-line:max-line-length
-import { LinearDiscriminantAnalysisConfigModel } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
-import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathways.model';
-import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
-import { DataField } from 'app/model/data-field.model';
-import { DirtyEnum, GraphEnum, VisualizationEnum } from 'app/model/enum.model';
-import { GraphData } from 'app/model/graph-data.model';
-import { DataService } from 'app/service/data.service';
-import { WorkspaceConfigModel } from '../../../model/workspace.model';
-import { HistogramConfigModel } from '../../visualization/histogram/histogram.model';
-import { DataTable } from './../../../model/data-field.model';
-import { DataDecorator } from './../../../model/data-map.model';
-import { EntityTypeEnum, PanelEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
-import { GraphConfig } from './../../../model/graph-config.model';
-import { ModalService } from './../../../service/modal-service';
-import { BoxWhiskersConfigModel } from './../../visualization/boxwhiskers/boxwhiskers.model';
-import { ChromosomeConfigModel } from './../../visualization/chromosome/chromosome.model';
-import { DaConfigModel } from './../../visualization/da/da.model';
-import { DeConfigModel } from './../../visualization/de/de.model';
-import { DendogramConfigModel } from './../../visualization/dendogram/dendogram.model';
-import { DictionaryLearningConfigModel } from './../../visualization/dictionarylearning/dictionarylearning.model';
-import { EdgeConfigModel } from './../../visualization/edges/edges.model';
-import { FaConfigModel } from './../../visualization/fa/fa.model';
-import { FastIcaConfigModel } from './../../visualization/fastica/fastica.model';
-import { GenomeConfigModel } from './../../visualization/genome/genome.model';
-import { HazardConfigModel } from './../../visualization/hazard/hazard.model';
-import { HeatmapConfigModel } from './../../visualization/heatmap/heatmap.model';
-import { HicConfigModel } from './../../visualization/hic/hic.model';
-import { IsoMapConfigModel } from './../../visualization/isomap/isomap.model';
-import { LdaConfigModel } from './../../visualization/lda/lda.model';
-import { LinkedGeneConfigModel } from './../../visualization/linkedgenes/linkedgenes.model';
-import { LocalLinearEmbeddingConfigModel } from './../../visualization/locallinearembedding/locallinearembedding.model';
-import { MdsConfigModel } from './../../visualization/mds/mds.model';
+import { LinearDiscriminantAnalysisConfigModel } from "app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model";
+import { PathwaysConfigModel } from "app/component/visualization/pathways/pathways.model";
+import { TimelinesConfigModel } from "app/component/visualization/timelines/timelines.model";
+import { DataField } from "app/model/data-field.model";
+import { DirtyEnum, GraphEnum, VisualizationEnum } from "app/model/enum.model";
+import { GraphData } from "app/model/graph-data.model";
+import { DataService } from "app/service/data.service";
+import { WorkspaceConfigModel } from "../../../model/workspace.model";
+import { HistogramConfigModel } from "../../visualization/histogram/histogram.model";
+import { DataTable } from "./../../../model/data-field.model";
+import { DataDecorator } from "./../../../model/data-map.model";
+import { EntityTypeEnum, PanelEnum, WorkspaceLayoutEnum } from "./../../../model/enum.model";
+import { GraphConfig } from "./../../../model/graph-config.model";
+import { ModalService } from "./../../../service/modal-service";
+import { BoxWhiskersConfigModel } from "./../../visualization/boxwhiskers/boxwhiskers.model";
+import { ChromosomeConfigModel } from "./../../visualization/chromosome/chromosome.model";
+import { DaConfigModel } from "./../../visualization/da/da.model";
+import { DeConfigModel } from "./../../visualization/de/de.model";
+import { DendogramConfigModel } from "./../../visualization/dendogram/dendogram.model";
+import { DictionaryLearningConfigModel } from "./../../visualization/dictionarylearning/dictionarylearning.model";
+import { EdgeConfigModel } from "./../../visualization/edges/edges.model";
+import { FaConfigModel } from "./../../visualization/fa/fa.model";
+import { FastIcaConfigModel } from "./../../visualization/fastica/fastica.model";
+import { GenomeConfigModel } from "./../../visualization/genome/genome.model";
+import { HazardConfigModel } from "./../../visualization/hazard/hazard.model";
+import { HeatmapConfigModel } from "./../../visualization/heatmap/heatmap.model";
+import { HicConfigModel } from "./../../visualization/hic/hic.model";
+import { IsoMapConfigModel } from "./../../visualization/isomap/isomap.model";
+import { LdaConfigModel } from "./../../visualization/lda/lda.model";
+import { LinkedGeneConfigModel } from "./../../visualization/linkedgenes/linkedgenes.model";
+import { LocalLinearEmbeddingConfigModel } from "./../../visualization/locallinearembedding/locallinearembedding.model";
+import { MdsConfigModel } from "./../../visualization/mds/mds.model";
 // tslint:disable-next-line:max-line-length
-import { MiniBatchDictionaryLearningConfigModel } from './../../visualization/minibatchdictionarylearning/minibatchdictionarylearning.model';
-import { MiniBatchSparsePcaConfigModel } from './../../visualization/minibatchsparsepca/minibatchsparsepca.model';
-import { NmfConfigModel } from './../../visualization/nmf/nmf.model';
-import { ParallelCoordsConfigModel } from './../../visualization/parallelcoords/parallelcoords.model';
-import { PcaConfigModel } from './../../visualization/pca/pca.model';
-import { PcaIncrementalConfigModel } from './../../visualization/pcaincremental/pcaincremental.model';
-import { PcaKernalConfigModel } from './../../visualization/pcakernal/pcakernal.model';
-import { PcaSparseConfigModel } from './../../visualization/pcasparse/pcasparse.model';
-import { PlsConfigModel } from './../../visualization/pls/pls.model';
+import { MiniBatchDictionaryLearningConfigModel } from "./../../visualization/minibatchdictionarylearning/minibatchdictionarylearning.model";
+import { MiniBatchSparsePcaConfigModel } from "./../../visualization/minibatchsparsepca/minibatchsparsepca.model";
+import { NmfConfigModel } from "./../../visualization/nmf/nmf.model";
+import { ParallelCoordsConfigModel } from "./../../visualization/parallelcoords/parallelcoords.model";
+import { PcaConfigModel } from "./../../visualization/pca/pca.model";
+import { PcaIncrementalConfigModel } from "./../../visualization/pcaincremental/pcaincremental.model";
+import { PcaKernalConfigModel } from "./../../visualization/pcakernal/pcakernal.model";
+import { PcaSparseConfigModel } from "./../../visualization/pcasparse/pcasparse.model";
+import { PlsConfigModel } from "./../../visualization/pls/pls.model";
 // tslint:disable-next-line:max-line-length
-import { QuadradicDiscriminantAnalysisConfigModel } from './../../visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
-import { SomConfigModel } from './../../visualization/som/som.model';
-import { SpectralEmbeddingConfigModel } from './../../visualization/spectralembedding/spectralembedding.model';
-import { SurvivalConfigModel } from './../../visualization/survival/survival.model';
-import { TruncatedSvdConfigModel } from './../../visualization/truncatedsvd/truncatedsvd.model';
-import { TsneConfigModel } from './../../visualization/tsne/tsne.model';
+import { QuadradicDiscriminantAnalysisConfigModel } from "./../../visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model";
+import { SomConfigModel } from "./../../visualization/som/som.model";
+import { SpectralEmbeddingConfigModel } from "./../../visualization/spectralembedding/spectralembedding.model";
+import { SurvivalConfigModel } from "./../../visualization/survival/survival.model";
+import { TruncatedSvdConfigModel } from "./../../visualization/truncatedsvd/truncatedsvd.model";
+import { TsneConfigModel } from "./../../visualization/tsne/tsne.model";
 declare var $: any;
 
 @Component({
-  selector: 'app-workspace-graph-panel',
-  templateUrl: './graph-panel.component.html',
-  styleUrls: ['./graph-panel.component.scss'],
+  selector: "app-workspace-graph-panel",
+  templateUrl: "./graph-panel.component.html",
+  styleUrls: ["./graph-panel.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
 export class GraphPanelComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('panel') panel: ElementRef;
-  @ViewChild('panelButton') panelButton: ElementRef;
+  @ViewChild("panel")
+  panel: ElementRef;
+  @ViewChild("panelButton")
+  panelButton: ElementRef;
 
-  @Input() title: string;
-  @Input() cid: string;
-  @Input() tables: Array<DataTable>;
-  @Input() fields: Array<DataField>;
-  @Input() events: Array<{ type: string; subtype: string }>;
-  @Input() molecularData: Array<string>;
-  @Input() entityType: EntityTypeEnum;
-  @Output() hide: EventEmitter<any> = new EventEmitter();
-  @Output() help: EventEmitter<GraphConfig> = new EventEmitter();
-  @Output() showPanel: EventEmitter<PanelEnum> = new EventEmitter();
-  @Output() configChange: EventEmitter<GraphConfig> = new EventEmitter();
-  @Output() selectClusteringAlgorithm: EventEmitter<GraphConfig> = new EventEmitter();
-  @Output() selectGeneSignature: EventEmitter<GraphConfig> = new EventEmitter();
-  @Output() selectGeneset: EventEmitter<any> = new EventEmitter();
-  @Output() selectCohort: EventEmitter<any> = new EventEmitter();
+  @Input()
+  title: string;
+  @Input()
+  cid: string;
+  @Input()
+  tables: Array<DataTable>;
+  @Input()
+  fields: Array<DataField>;
+  @Input()
+  events: Array<{ type: string; subtype: string }>;
+  @Input()
+  molecularData: Array<string>;
+  @Input()
+  entityType: EntityTypeEnum;
+  @Output()
+  hide: EventEmitter<any> = new EventEmitter();
+  @Output()
+  help: EventEmitter<GraphConfig> = new EventEmitter();
+  @Output()
+  showPanel: EventEmitter<PanelEnum> = new EventEmitter();
+  @Output()
+  configChange: EventEmitter<GraphConfig> = new EventEmitter();
+  @Output()
+  selectClusteringAlgorithm: EventEmitter<GraphConfig> = new EventEmitter();
+  @Output()
+  selectGeneSignature: EventEmitter<GraphConfig> = new EventEmitter();
+  @Output()
+  selectGeneset: EventEmitter<any> = new EventEmitter();
+  @Output()
+  selectCohort: EventEmitter<any> = new EventEmitter();
   @Output()
   decoratorAdd: EventEmitter<{
     config: GraphConfig;
@@ -99,35 +104,39 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     config: GraphConfig;
     decorator: DataDecorator;
   }> = new EventEmitter();
-  @Output() decoratorDelAll: EventEmitter<{ config: GraphConfig }> = new EventEmitter();
+  @Output()
+  decoratorDelAll: EventEmitter<{ config: GraphConfig }> = new EventEmitter();
   @Output()
   workspaceConfigChange: EventEmitter<{ config: WorkspaceConfigModel }> = new EventEmitter();
-  @Output() edgeConfigChange: EventEmitter<{ config: EdgeConfigModel }> = new EventEmitter();
+  @Output()
+  edgeConfigChange: EventEmitter<{ config: EdgeConfigModel }> = new EventEmitter();
 
-  methodName = '';
-  methodSummary = '';
-  workspaceLayoutOptions = [
-    WorkspaceLayoutEnum.HORIZONTAL,
-    WorkspaceLayoutEnum.VERTICAL,
-    WorkspaceLayoutEnum.OVERLAY
-  ];
+  methodName = "";
+  methodSummary = "";
+  workspaceLayoutOptions = [WorkspaceLayoutEnum.HORIZONTAL, WorkspaceLayoutEnum.VERTICAL, WorkspaceLayoutEnum.OVERLAY];
   workspaceEdgeOptions: Array<DataField> = [];
 
   get decoratorsWithLegends(): Array<DataDecorator> {
     const edges = this.edgeDecorators.filter(v => v.legend);
     edges.forEach(v => {
-      if (v.legend.name.indexOf('Edge //') === -1) {
-        v.legend.name = 'Edge // ' + v.legend.name;
+      if (v.legend.name.indexOf("Edge //") === -1) {
+        v.legend.name = "Edge // " + v.legend.name;
       }
     });
     return edges.concat(this.decorators.filter(v => v.legend));
   }
-  @Input() decorators: Array<DataDecorator>;
-  @Input() edgeDecorators: Array<DataDecorator> = [];
-  @Input() data: GraphData;
-  @Input() genesets: Array<any>;
-  @Input() cohorts: Array<any>;
-  @Input() pathways: Array<any>;
+  @Input()
+  decorators: Array<DataDecorator>;
+  @Input()
+  edgeDecorators: Array<DataDecorator> = [];
+  @Input()
+  data: GraphData;
+  @Input()
+  genesets: Array<any>;
+  @Input()
+  cohorts: Array<any>;
+  @Input()
+  pathways: Array<any>;
 
   // This is a very important setter + is probably doing to much work.
   // It is comparing the previous config with the proposed config.
@@ -167,12 +176,12 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   }
 
   toggleClick(): void {
-    if (this.panel.nativeElement.classList.contains('graphPanelCollapsed')) {
-      this.panel.nativeElement.classList.remove('graphPanelCollapsed');
-      this.panelButton.nativeElement.classList.remove('graphPanelCollapsedButton');
+    if (this.panel.nativeElement.classList.contains("graphPanelCollapsed")) {
+      this.panel.nativeElement.classList.remove("graphPanelCollapsed");
+      this.panelButton.nativeElement.classList.remove("graphPanelCollapsedButton");
     } else {
-      this.panel.nativeElement.classList.add('graphPanelCollapsed');
-      this.panelButton.nativeElement.classList.add('graphPanelCollapsedButton');
+      this.panel.nativeElement.classList.add("graphPanelCollapsed");
+      this.panelButton.nativeElement.classList.add("graphPanelCollapsedButton");
     }
   }
 
@@ -181,14 +190,14 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   }
 
   onCohortChange($event: Event) {
-    const selected = this.cohorts.find(v => v.n === $event.target['value']);
+    const selected = this.cohorts.find(v => v.n === $event.target["value"]);
     this.config.patientFilter = selected.pids;
     this.config.sampleFilter = selected.sids;
     this.config.dirtyFlag = DirtyEnum.LAYOUT;
     this.configChange.emit(this.config);
   }
   onGenesetChange($event: Event) {
-    const selected = this.genesets.find(v => v.n === $event.target['value']);
+    const selected = this.genesets.find(v => v.n === $event.target["value"]);
     this.config.markerFilter = selected.g;
     this.config.dirtyFlag = DirtyEnum.LAYOUT;
     this.configChange.emit(this.config);
@@ -341,7 +350,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     gc.sampleSelect = prevConfig.sampleSelect;
     gc.markerSelect = prevConfig.markerSelect;
     gc.patientSelect = prevConfig.patientSelect;
-    gc.graph = this.title === 'Graph A' ? GraphEnum.GRAPH_A : GraphEnum.GRAPH_B;
+    gc.graph = this.title === "Graph A" ? GraphEnum.GRAPH_A : GraphEnum.GRAPH_B;
     this.configChange.emit(gc);
   }
   graphPanelSetConfig(value: GraphConfig) {
@@ -352,6 +361,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     value.enableLabel = this._config.enableLabel;
     value.enableColor = this._config.enableColor;
     value.enableShape = this._config.enableShape;
+    value.enableSize = this._config.enableSize;
     value.pathwayUri = this._config.pathwayUri;
     value.pathwayName = this._config.pathwayName;
     value.cohortName = this._config.cohortName;
@@ -369,16 +379,12 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {}
 
-  constructor(
-    private ms: ModalService,
-    private cd: ChangeDetectorRef,
-    private dataService: DataService
-  ) {
+  constructor(private ms: ModalService, private cd: ChangeDetectorRef, private dataService: DataService) {
     this.genesets = [];
     this.cohorts = [];
 
     this.cid = Math.random()
       .toString(36)
-      .replace(/[^a-z]+/g, '');
+      .replace(/[^a-z]+/g, "");
   }
 }

@@ -20,6 +20,13 @@ export class DatasetService {
   private loader$ = new Subject<any>();
   public loaderStatusUpdate = new Subject<string>();
 
+  public deleteAllDataSets(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      Dexie.getDatabaseNames().then((dbNames: Array<string>) => {
+        Promise.all(dbNames.map(dbName => Dexie.delete(dbName))).then(resolve);
+      });
+    });
+  }
   public getDataset(dataset: string): Promise<any> {
     return new Promise((resolve, reject) => {
       Dexie.exists('notitia-' + dataset).then(exists => {
