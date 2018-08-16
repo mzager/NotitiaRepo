@@ -1,0 +1,29 @@
+
+Matrix
+-- HGNC x Sample
+:: HGNC x HGNC
+:: Sample x Sample
+
+Events
+-- Patient
+:: Sample
+
+
+Meta
+-- Patients
+:: Sample
+:: Mutation
+:: Gene
+
+Mutations
+:: Allow Multiple?
+:: Mutation Types - Fixed vs Flex
+:: What about Mut with multiple of the same variant types
+
+
+-- -- -- -- 
+Proteins
+Motabolites
+Splicing
+Mass Spec
+-- -- -- -- 

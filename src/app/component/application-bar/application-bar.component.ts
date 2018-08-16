@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { GraphConfig } from 'app/model/graph-config.model';
 import {
   ChangeDetectionStrategy,
@@ -14,18 +15,35 @@ import { ChartScene } from 'app/component/workspace/chart/chart.scene';
 import { PanelEnum } from 'app/model/enum.model';
 import * as downloadjs from 'downloadjs';
 import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
+=======
+import { DatasetService } from "./../../service/dataset.service";
+import { DataService } from "app/service/data.service";
+import { GraphConfig } from "app/model/graph-config.model";
+import { ChangeDetectionStrategy, Component, EventEmitter, HostListener, OnDestroy, OnInit, Output, Input, ChangeDetectorRef } from "@angular/core";
+import { ChartScene } from "app/component/workspace/chart/chart.scene";
+import { PanelEnum } from "app/model/enum.model";
+import * as downloadjs from "downloadjs";
+import { FileUploader } from "ng2-file-upload/ng2-file-upload";
+>>>>>>> a947a94743ca0203655e535e63bac428d1227be3
 declare var $: any;
 
 @Component({
-  selector: 'app-application-bar',
-  templateUrl: './application-bar.component.html',
-  styleUrls: ['./application-bar.component.scss'],
+  selector: "app-application-bar",
+  templateUrl: "./application-bar.component.html",
+  styleUrls: ["./application-bar.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ApplicationBarComponent implements OnInit, OnDestroy {
   // TODO:  COME BACK AND CLEAN OUT
+<<<<<<< HEAD
   @Output() splitScreenChange = new EventEmitter<boolean>();
   @Output() showPanel = new EventEmitter<PanelEnum>();
+=======
+  @Output()
+  splitScreenChange = new EventEmitter<boolean>();
+  @Output()
+  showPanel = new EventEmitter<PanelEnum>();
+>>>>>>> a947a94743ca0203655e535e63bac428d1227be3
   public datasetSelected = false;
   public _config: GraphConfig;
   @Input()
@@ -36,14 +54,26 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   }
 
   // @Output() graphPanelToggle = new EventEmitter<GraphPanelEnum>();
+<<<<<<< HEAD
   @Output() genesetPanelToggle = new EventEmitter();
   @Output() dataPanelToggle = new EventEmitter();
   @Output() pathwayPanelToggle = new EventEmitter();
 
   private split = false;
   public uploader: FileUploader = new FileUploader({ url: '' });
+=======
+  @Output()
+  genesetPanelToggle = new EventEmitter();
+  @Output()
+  dataPanelToggle = new EventEmitter();
+  @Output()
+  pathwayPanelToggle = new EventEmitter();
 
-  @HostListener('document:keypress', ['$event'])
+  private split = false;
+  public uploader: FileUploader = new FileUploader({ url: "" });
+>>>>>>> a947a94743ca0203655e535e63bac428d1227be3
+
+  @HostListener("document:keypress", ["$event"])
   handleKeyboardEvent(event: KeyboardEvent) {
     if (!event.ctrlKey) {
       return;
@@ -51,6 +81,7 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
     switch (event.key.toLowerCase()) {
       // case 'a': this.graphPanelToggle.emit(1); break;
       // case 'b': this.graphPanelToggle.emit(2); break;
+<<<<<<< HEAD
       case 'g':
         this.genesetPanelToggle.emit();
         break;
@@ -76,6 +107,33 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
         this.viewPanel(PanelEnum.CITATION);
         break;
       case 'f':
+=======
+      case "g":
+        this.genesetPanelToggle.emit();
+        break;
+      case "d":
+        this.dataPanelToggle.emit();
+        break;
+      case "p":
+        this.pathwayPanelToggle.emit();
+        break;
+      case "e":
+        this.viewPanel(PanelEnum.COHORT);
+        break;
+      case "p":
+        this.exportImage();
+        break;
+      case "i":
+        this.toggleBackgroundColor();
+        break;
+      case "d":
+        this.viewPanel(PanelEnum.DASHBOARD);
+        break;
+      case "s":
+        this.viewPanel(PanelEnum.CITATION);
+        break;
+      case "f":
+>>>>>>> a947a94743ca0203655e535e63bac428d1227be3
         this.viewPanel(PanelEnum.FEEDBACK);
         break;
     }
@@ -102,6 +160,15 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
     const isBlack = ChartScene.instance.renderer.getClearColor().r === 0;
     ChartScene.instance.renderer.setClearColor(isBlack ? 0xffffff : 0x000000, 1);
     ChartScene.instance.render();
+<<<<<<< HEAD
+=======
+  }
+
+  deleteAllCaches(): void {
+    this.dataService.deleteAllDataSets().then(v => {
+      window.location.reload(true);
+    });
+>>>>>>> a947a94743ca0203655e535e63bac428d1227be3
   }
 
   changeFile(evt: any) {
@@ -112,8 +179,13 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   }
 
   exportJpg() {
+<<<<<<< HEAD
     const jpg = $('canvas')[0].toDataURL('image/jpeg', 1);
     downloadjs(jpg, 'test.jpg', 'image/jpeg');
+=======
+    const jpg = $("canvas")[0].toDataURL("image/jpeg", 1);
+    downloadjs(jpg, "test.jpg", "image/jpeg");
+>>>>>>> a947a94743ca0203655e535e63bac428d1227be3
   }
   exportImage() {
     this.exportJpg();
@@ -121,5 +193,9 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   ngOnInit() {}
 
   ngOnDestroy() {}
+<<<<<<< HEAD
   constructor(public cd: ChangeDetectorRef) {}
+=======
+  constructor(public cd: ChangeDetectorRef, protected dataService: DatasetService) {}
+>>>>>>> a947a94743ca0203655e535e63bac428d1227be3
 }

@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 import { UnsafeAction } from './../action/unsafe.action';
 import { VisualizationEnum } from '../model/enum.model';
 import * as tip from 'app/action/tip.action';
+=======
+import { UnsafeAction } from "./../action/unsafe.action";
+import { VisualizationEnum } from "../model/enum.model";
+import * as tip from "app/action/tip.action";
+>>>>>>> a947a94743ca0203655e535e63bac428d1227be3
 
 export interface State {
   tipVisualization: VisualizationEnum;
@@ -19,8 +25,12 @@ const initialState: State = {
 export function reducer(state = initialState, action: UnsafeAction): State {
   switch (action.type) {
     case tip.TIP_SET_VISUALIZATION_COMPLETE:
+<<<<<<< HEAD
       debugger;
       if (action.payload === state.tip) {
+=======
+      if (JSON.stringify(action.payload) === JSON.stringify(state.tip)) {
+>>>>>>> a947a94743ca0203655e535e63bac428d1227be3
         return state;
       }
       return Object.assign({}, state, { tip: action.payload, visible: true });

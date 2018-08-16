@@ -81,9 +81,13 @@ const report = (msg: string) => {
   );
 };
 
+<<<<<<< HEAD
 const loadManifest = (
   manifestUri: string
 ): Promise<Array<{ name: string; type: string; url: string }>> => {
+=======
+const loadManifest = (manifestUri: string): Promise<Array<{ name: string; type: string; url: string }>> => {
+>>>>>>> a947a94743ca0203655e535e63bac428d1227be3
   fetch(manifestUri, requestInit())
     .then(response => response.json())
     .then(response => {
@@ -93,11 +97,15 @@ const loadManifest = (
   return null;
 };
 
+<<<<<<< HEAD
 const processResource = (resource: {
   name: string;
   dataType: string;
   file: string;
 }): Promise<any> => {
+=======
+const processResource = (resource: { name: string; dataType: string; file: string }): Promise<any> => {
+>>>>>>> a947a94743ca0203655e535e63bac428d1227be3
   resource.name = resource.name.replace(/ /gi, '').toLowerCase();
   return resource.dataType === 'clinical' || resource.dataType === 'patient'
     ? loadClinical(resource.name, resource.file)
@@ -294,11 +302,15 @@ const loadMutation = (name: string, file: string): Promise<any> => {
             .map((v2, i) => (i === 0 ? genes[v2] : i === 1 ? ids[v2] : v2))
         )
         .reduce((p, c) => {
+<<<<<<< HEAD
           p.push(
             ...lookup
               .filter(v => parseInt(v, 10) & c[2])
               .map(v => ({ m: c[0], s: c[1].toLowerCase(), t: mType[v] }))
           );
+=======
+          p.push(...lookup.filter(v => parseInt(v, 10) & c[2]).map(v => ({ m: c[0], s: c[1].toLowerCase(), t: mType[v] })));
+>>>>>>> a947a94743ca0203655e535e63bac428d1227be3
           return p;
         }, []);
 
@@ -309,6 +321,42 @@ const loadMutation = (name: string, file: string): Promise<any> => {
     });
 };
 
+<<<<<<< HEAD
+=======
+const loadMutationV3 = (name: string, file: string): Promise<any> => {
+  report('Loading Mutation Data');
+  return fetch(baseUrl + file + '.gz', requestInit())
+    .then(response => {
+      report('Parsing Mutation Data');
+      return response.json();
+    })
+    .then(response => {
+      report('Processing Mutation Data');
+      // const ids = response.ids;
+      // const genes = response.genes;
+      // const mType = mutationType;
+      // const lookup = Object.keys(mType);
+
+      // const data = response.values
+      //   .map(v =>
+      //     v
+      //       .split('-')
+      //       .map(v1 => parseInt(v1, 10))
+      //       .map((v2, i) => (i === 0 ? genes[v2] : i === 1 ? ids[v2] : v2))
+      //   )
+      //   .reduce((p, c) => {
+      //     p.push(...lookup.filter(v => parseInt(v, 10) & c[2]).map(v => ({ m: c[0], s: c[1].toLowerCase(), t: mType[v] })));
+      //     return p;
+      //   }, []);
+
+      // return new Promise((resolve, reject) => {
+      //   // TODO: This is a bug.  Need to replace token mut with value from result
+      //   resolve([{ tbl: 'mut', data: data }]);
+      // });
+    });
+};
+
+>>>>>>> a947a94743ca0203655e535e63bac428d1227be3
 // Complete
 const loadRna = (name: string, file: string): Promise<any> => {
   report('Loading RNA Data');
@@ -339,14 +387,41 @@ const loadRna = (name: string, file: string): Promise<any> => {
     });
 };
 
+<<<<<<< HEAD
 onmessage = function(e) {
   const me = self as LoaderWorkerGlobalScope;
+=======
+const processV31 = (resource: { name: string; dataType: string; file: string }): Promise<any> => {
+  switch (resource.dataType.toLowerCase().trim()) {
+    case 'patient':
+    case 'sample':
+      return loadClinical(resource.name, resource.file);
+    case 'matrix':
+      return loadMatrix(resource.name, resource.file);
+    case 'events':
+      return loadEvents(resource.name, resource.file);
+    case 'mut':
+      return loadMutationV3(resource.name, resource.file);
+    case 'psmap':
+      return loadPatientSampleMap(resource.name, resource.file);
+    default:
+      return new Promise((resolve, reject) => {
+        resolve();
+      });
+  }
+};
+
+onmessage = function(e) {
+  const me = self as LoaderWorkerGlobalScope;
+
+>>>>>>> a947a94743ca0203655e535e63bac428d1227be3
   switch (e.data.cmd) {
     case 'load':
       const db = new Dexie('notitia-' + e.data.uid);
       baseUrl = e.data.baseUrl;
       token = e.data.token;
       db.open().then(v => {
+<<<<<<< HEAD
         try {
           processResource(e.data.file).then(values => {
             const tables: Array<{ tbl: string; data: Array<any> }> = values;
@@ -366,6 +441,56 @@ onmessage = function(e) {
           });
         } catch (e) {
           // debugger;
+=======
+        if (e.data.hasOwnProperty('version')) {
+          if (e.data.version === '3.1') {
+            try {
+              processV31(e.data.file).then(values => {
+                const tables: Array<{ tbl: string; data: Array<any> }> = values;
+
+                // tables.forEach(w => {
+                //   if (w.tbl.indexOf('matrix') === 0) {
+                //     w.tbl = w.tbl.replace('matrix', '').replace(/_/gi, '');
+                //   }
+                // });
+
+                // Promise.all(tables.map(tbl => db.table(tbl.tbl).bulkAdd(tbl.data))).then(() => {
+                //   report('Saving ' + tables[0].tbl);
+                //   me.postMessage(
+                //     JSON.stringify({
+                //       cmd: 'terminate'
+                //     })
+                //   );
+                // });
+              });
+            } catch (e) {
+              debugger;
+            }
+          }
+          console.log('hi');
+        } else {
+          try {
+            processResource(e.data.file).then(values => {
+              const tables: Array<{ tbl: string; data: Array<any> }> = values;
+              tables.forEach(w => {
+                if (w.tbl.indexOf('matrix') === 0) {
+                  w.tbl = w.tbl.replace('matrix', '').replace(/_/gi, '');
+                }
+              });
+
+              Promise.all(tables.map(tbl => db.table(tbl.tbl).bulkAdd(tbl.data))).then(() => {
+                report('Saving ' + tables[0].tbl);
+                me.postMessage(
+                  JSON.stringify({
+                    cmd: 'terminate'
+                  })
+                );
+              });
+            });
+          } catch (e) {
+            debugger;
+          }
+>>>>>>> a947a94743ca0203655e535e63bac428d1227be3
         }
       });
       break;
