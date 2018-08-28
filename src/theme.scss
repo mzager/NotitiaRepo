@@ -455,10 +455,6 @@ body .mat-button-focus-overlay {
 .section-footer {
   a {
     color: #fff;
-<<<<<<< HEAD
-
-=======
->>>>>>> a947a94743ca0203655e535e63bac428d1227be3
   }
   .social:hover {
     -webkit-transform: scale(1.1);
@@ -881,41 +877,3 @@ body .mat-button-focus-overlay {
   height: 30px;
   background-position: -660px 0;
 }
-<<<<<<< HEAD
-
-.social {
-  float: right;
-  // margin-right: 20px;
-  background-image: url('/assets/sprite-social-standard.png');
-}
-@media (min--moz-device-pixel-ratio: 1.5),
-  (-o-min-device-pixel-ratio: 3/2),
-  (-webkit-min-device-pixel-ratio: 1.5),
-  (min-device-pixel-ratio: 1.5),
-  (min-resolution: 1.5dppx) {
-  .social-img {
-    background-image: url('/assets/sprite-social.png');
-    background-size: 690px 30px;
-  }
-}
-
-
-.social-facebook {
-	width: 15px;
-	height: 15px;
-	background-position: 0 0;
-}
-
-.social-ig {
-	width: 15px;
-	height: 15px;
-	background-position: -125px 0;
-}
-
-.social-twitter {
-	width: 15px;
-	height: 15px;
-	background-position: -200px 0;
-}
-=======
->>>>>>> a947a94743ca0203655e535e63bac428d1227be3

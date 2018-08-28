@@ -1,19 +1,3 @@
-<<<<<<< HEAD
-import { SelectionBoxController } from './../../../controller/selection/selection.box.controller';
-import { GenomicEnum, ShapeEnum } from 'app/model/enum.model';
-import * as THREE from 'three';
-import { Vector3 } from 'three';
-import { LabelController, LabelOptions } from './../../../controller/label/label.controller';
-import { VisualizationView } from './../../../model/chart-view.model';
-import { ChartObjectInterface } from './../../../model/chart.object.interface';
-import { DataDecorator } from './../../../model/data-map.model';
-import { EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
-import { GraphConfig } from './../../../model/graph-config.model';
-import { ChartEvents } from './../../workspace/chart/chart.events';
-import { ChartFactory, DataDecoatorRenderer } from './../../workspace/chart/chart.factory';
-import { AbstractVisualization } from './../visualization.abstract.component';
-import { GenomeConfigModel, GenomeDataModel } from './genome.model';
-=======
 import { SelectionBoxController } from "./../../../controller/selection/selection.box.controller";
 import { GenomicEnum, ShapeEnum } from "app/model/enum.model";
 import * as THREE from "three";
@@ -28,7 +12,6 @@ import { ChartEvents } from "./../../workspace/chart/chart.events";
 import { ChartFactory, DataDecoatorRenderer } from "./../../workspace/chart/chart.factory";
 import { AbstractVisualization } from "./../visualization.abstract.component";
 import { GenomeConfigModel, GenomeDataModel } from "./genome.model";
->>>>>>> a947a94743ca0203655e535e63bac428d1227be3
 
 export class GenomeGraph extends AbstractVisualization {
   public meshes: THREE.Object3D[] = [];
@@ -65,11 +48,7 @@ export class GenomeGraph extends AbstractVisualization {
   chromosomeToNumber(chromosome: string, x: boolean = true): number {
     let rv = parseInt(chromosome, 10);
     if (isNaN(rv)) {
-<<<<<<< HEAD
-      rv = chromosome.toLowerCase() === 'x' ? 23 : 24;
-=======
       rv = chromosome.toLowerCase() === "x" ? 23 : 24;
->>>>>>> a947a94743ca0203655e535e63bac428d1227be3
     }
     return x ? rv * 20 : rv;
   }
@@ -102,15 +81,7 @@ export class GenomeGraph extends AbstractVisualization {
     super.enable(truthy);
   }
 
-<<<<<<< HEAD
-  preRender(
-    views: VisualizationView[],
-    layout: WorkspaceLayoutEnum,
-    renderer: THREE.Renderer
-  ): void {
-=======
   preRender(views: VisualizationView[], layout: WorkspaceLayoutEnum, renderer: THREE.Renderer): void {
->>>>>>> a947a94743ca0203655e535e63bac428d1227be3
     super.preRender(views, layout, renderer);
   }
   addObjects() {
@@ -121,14 +92,7 @@ export class GenomeGraph extends AbstractVisualization {
       this.addTads();
     }
     this.addGenes();
-<<<<<<< HEAD
-    ChartFactory.configPerspectiveOrbit(
-      this.view,
-      new THREE.Box3(new THREE.Vector3(-400, -200, -5), new THREE.Vector3(400, 200, 5))
-    );
-=======
     ChartFactory.configPerspectiveOrbit(this.view, new THREE.Box3(new THREE.Vector3(-400, -200, -5), new THREE.Vector3(400, 200, 5)));
->>>>>>> a947a94743ca0203655e535e63bac428d1227be3
 
     requestAnimationFrame(v => {
       this.onShowLabels();
@@ -146,60 +110,24 @@ export class GenomeGraph extends AbstractVisualization {
       const xPos = this.chromosomeToNumber(chromosome.chr);
 
       // Centromere
-<<<<<<< HEAD
-      const centro: THREE.Mesh = ChartFactory.meshAllocate(
-        0x0091ea,
-        ShapeEnum.CIRCLE,
-        0.5,
-        new THREE.Vector3(xPos - 230, 0, 0),
-        {}
-      );
-=======
       const centro: THREE.Mesh = ChartFactory.meshAllocate(0x0091ea, ShapeEnum.CIRCLE, 0.5, new THREE.Vector3(xPos - 230, 0, 0), {});
->>>>>>> a947a94743ca0203655e535e63bac428d1227be3
       centro.userData.tooltip = chromosome.chr;
       this.meres.push(centro);
       this.view.scene.add(centro);
 
       // Tele Q
-<<<<<<< HEAD
-      const teleQ: THREE.Mesh = ChartFactory.meshAllocate(
-        0x0091ea,
-        ShapeEnum.CIRCLE,
-        0.5,
-        new THREE.Vector3(xPos - 230, chromosome.Q - chromosome.C, 0),
-        {}
-      );
-      teleQ.userData.chr = chromosome.chr;
-      teleQ.userData.type = GenomicEnum.Q_TELOMERE;
-      teleQ.userData.tooltip = 'Q' + chromosome.chr; // Telemere
-=======
       const teleQ: THREE.Mesh = ChartFactory.meshAllocate(0x0091ea, ShapeEnum.CIRCLE, 0.5, new THREE.Vector3(xPos - 230, chromosome.Q - chromosome.C, 0), {});
       teleQ.userData.chr = chromosome.chr;
       teleQ.userData.type = GenomicEnum.Q_TELOMERE;
       teleQ.userData.tooltip = "Q" + chromosome.chr; // Telemere
->>>>>>> a947a94743ca0203655e535e63bac428d1227be3
       this.meres.push(teleQ);
       this.view.scene.add(teleQ);
 
       // Tele P
-<<<<<<< HEAD
-      const teleP: THREE.Mesh = ChartFactory.meshAllocate(
-        0x0091ea,
-        ShapeEnum.CIRCLE,
-        0.5,
-        new THREE.Vector3(xPos - 230, chromosome.P - chromosome.C, 0),
-        {}
-      );
-      teleP.userData.chr = chromosome.chr;
-      teleP.userData.type = GenomicEnum.P_TELOMERE;
-      teleP.userData.tooltip = 'P' + chromosome.chr; // Telemere
-=======
       const teleP: THREE.Mesh = ChartFactory.meshAllocate(0x0091ea, ShapeEnum.CIRCLE, 0.5, new THREE.Vector3(xPos - 230, chromosome.P - chromosome.C, 0), {});
       teleP.userData.chr = chromosome.chr;
       teleP.userData.type = GenomicEnum.P_TELOMERE;
       teleP.userData.tooltip = "P" + chromosome.chr; // Telemere
->>>>>>> a947a94743ca0203655e535e63bac428d1227be3
       this.meres.push(teleP);
       this.view.scene.add(teleP);
     });
@@ -215,16 +143,7 @@ export class GenomeGraph extends AbstractVisualization {
         mesh.userData.type = GenomicEnum.CYTOBAND;
         mesh.position.set(xPos, yPos + cyto.l / 2 - centro, 0);
         mesh.userData.color = cyto.c;
-<<<<<<< HEAD
-        mesh.userData.tooltip =
-          cyto.chr +
-          cyto.arm.toLowerCase() +
-          (cyto.subband ? '.' + cyto.subband : '') +
-          ' | ' +
-          cyto.tag.replace('neg', '-').replace('pos', '+');
-=======
         mesh.userData.tooltip = cyto.chr + cyto.arm.toLowerCase() + (cyto.subband ? "." + cyto.subband : "") + " | " + cyto.tag.replace("neg", "-").replace("pos", "+");
->>>>>>> a947a94743ca0203655e535e63bac428d1227be3
         yPos += cyto.l;
         this.bands.push(mesh);
         this.view.scene.add(mesh);
@@ -237,16 +156,7 @@ export class GenomeGraph extends AbstractVisualization {
       const chr = this.chromosomeToNumber(tad.chr, false);
       const xPos = chr * 20 - 230;
       const centro = data.chromo[chr - 1].C;
-<<<<<<< HEAD
-      const line = ChartFactory.lineAllocateCurve(
-        0x9c27b0,
-        new THREE.Vector2(xPos, tad.s - centro),
-        new THREE.Vector2(xPos, tad.e - centro),
-        new THREE.Vector2(xPos + 20 * 0.2, Math.abs(tad.e - tad.s) * 0.5 + tad.s - centro)
-      );
-=======
       const line = ChartFactory.lineAllocateCurve(0x9c27b0, new THREE.Vector2(xPos, tad.s - centro), new THREE.Vector2(xPos, tad.e - centro), new THREE.Vector2(xPos + 20 * 0.2, Math.abs(tad.e - tad.s) * 0.5 + tad.s - centro));
->>>>>>> a947a94743ca0203655e535e63bac428d1227be3
       this.tads.push(line);
       this.view.scene.add(line);
     });
@@ -258,15 +168,7 @@ export class GenomeGraph extends AbstractVisualization {
       const xPos = chr * 20 - 230;
       const centro = data.chromo[chr - 1].C;
       data.genes[chromosome].forEach(gene => {
-<<<<<<< HEAD
-        const group = ChartFactory.createDataGroup(
-          gene.gene,
-          EntityTypeEnum.GENE,
-          new Vector3(xPos, gene.tss - centro, 0)
-        );
-=======
         const group = ChartFactory.createDataGroup(gene.gene, EntityTypeEnum.GENE, new Vector3(xPos, gene.tss - centro, 0));
->>>>>>> a947a94743ca0203655e535e63bac428d1227be3
         group.userData.tooltip = gene.gene;
         this.meshes.push(group);
         this.view.scene.add(group);
@@ -302,53 +204,28 @@ export class GenomeGraph extends AbstractVisualization {
     const zoom = this.view.camera.position.z;
     let labelOptions;
     if (zoom > 600) {
-<<<<<<< HEAD
-      labelOptions = new LabelOptions(this.view, 'PIXEL');
-=======
       labelOptions = new LabelOptions(this.view, "PIXEL");
->>>>>>> a947a94743ca0203655e535e63bac428d1227be3
       // labelOptions.offsetX3d = -2;
       // labelOptions.align = 'RIGHT';
       this.labels.innerHTML = LabelController.generateHtml(this.meres, labelOptions);
       // debugger;
     } else {
-<<<<<<< HEAD
-      labelOptions = new LabelOptions(this.view, 'FORCE');
-      labelOptions.offsetX3d = -4;
-      // labelOptions.offsetY3d = 1;
-      labelOptions.align = 'RIGHT';
-=======
       labelOptions = new LabelOptions(this.view, "FORCE");
       labelOptions.offsetX3d = -4;
       // labelOptions.offsetY3d = 1;
       labelOptions.align = "RIGHT";
->>>>>>> a947a94743ca0203655e535e63bac428d1227be3
       labelOptions.maxLabels = 500;
       // labelOptions.offsetX = -30;
       this.labels.innerHTML = LabelController.generateHtml(this.meshes, labelOptions);
     }
   }
   onKeyDown(e: KeyboardEvent): void {
-<<<<<<< HEAD
-    if (e.key === 'Meta') {
-      if (this.isEnabled) {
-        this.view.renderer.domElement.style.setProperty('cursor', 'crosshair');
-        this.view.controls.enabled = false;
-        this.tooltipController.enable = false;
-        this.selectionController.setup(
-          this.config,
-          this.onRequestRender,
-          this.onSelect,
-          this.points
-        );
-=======
     if (e.key === "Meta") {
       if (this.isEnabled) {
         this.view.renderer.domElement.style.setProperty("cursor", "crosshair");
         this.view.controls.enabled = false;
         this.tooltipController.enable = false;
         this.selectionController.setup(this.config, this.onRequestRender, this.onSelect, this.points);
->>>>>>> a947a94743ca0203655e535e63bac428d1227be3
         this.selectionController.enable = true;
       }
     }
