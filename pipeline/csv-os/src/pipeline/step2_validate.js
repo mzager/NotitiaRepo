@@ -22,7 +22,6 @@ var Validate = /** @class */ (function () {
                                 Promise.all(files.map(function (file) {
                                     return _this.Mutation('./src/output/', file, sampleIds, genes, mutations);
                                 })).then(function (v) {
-                                    console.log('mtx');
                                     IO_1.IO.ReadMatrixFiles('./src/output').then(function (files) {
                                         Promise.all(files.map(function (file) {
                                             return _this.Matrix('./src/output/', file, sampleIds, genes);
@@ -60,7 +59,7 @@ var Validate = /** @class */ (function () {
             var results = IO_1.IO.loadCsv(path + file)
                 .map(Test.requireProperties(['sample id', 'hgnc', 'variant']))
                 .map(Test.propertyValuesInSet('sample id', sampleIds))
-                .map(Test.propertyValuesInSet('type', mutations))
+                // .map<iTest>(Test.propertyValuesInSet('variant', mutations))
                 .map(Test.resolveGenes());
             // Write Initial Data
             IO_1.IO.WriteLog(baseFileName + '.data.log.json', results.observe());
@@ -94,7 +93,7 @@ var Validate = /** @class */ (function () {
             console.log(baseFileName + '.data.log.json');
             console.log(baseFileName + '.data.raw.json');
             // Load Meta Data
-            IO_1.IO.loadMetadata(results, ['patient id', 'start', 'end']).then(function (metadata) {
+            IO_1.IO.loadMetadata(results.fork(), ['patient id', 'start', 'end']).then(function (metadata) {
                 var results = metadata
                     .map(Test.metaFieldsWithOneValue())
                     .map(Test.metaFieldLabels())

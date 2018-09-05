@@ -7,9 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-
-  constructor(private store: Store<any>) {
-
-  }
-
+  constructor(private store: Store<any>) {}
 }

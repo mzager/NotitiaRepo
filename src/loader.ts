@@ -94,7 +94,7 @@ const loadManifest = (manifestUri: string): Promise<Array<{ name: string; type: 
 const processResource = (resource: { name: string; dataType: string; file: string }): Promise<any> => {
   resource.name = resource.name.replace(/ /gi, '').toLowerCase();
   return resource.dataType === 'clinical' || resource.dataType === 'patient'
-    ? loadClinical(resource.name, resource.file)
+    ? loadPatient(resource.name, resource.file)
     : resource.dataType === 'psmap'
       ? loadPatientSampleMap(resource.name, resource.file)
       : resource.dataType === 'matrix'
@@ -146,15 +146,15 @@ const loadEvents = (name: string, file: string): Promise<any> => {
 };
 
 // Complete
-const loadClinical = (name: string, file: string): Promise<any> => {
-  report('Loading Clinical');
+const loadPatient = (name: string, file: string): Promise<any> => {
+  report('Loading Subjects');
   return fetch(baseUrl + file + '.gz', requestInit())
     .then(response => {
-      report('Clinical Loaded');
+      report('Subjects Loaded');
       return response.json();
     })
     .then(response => {
-      report('Parsing Clinical');
+      report('Parsing Subjects');
       const patientMetaTable = Object.keys(response.fields).map((key, index) => ({
         ctype: 2,
         key: key.toLowerCase(),
@@ -183,6 +183,43 @@ const loadClinical = (name: string, file: string): Promise<any> => {
     });
 };
 
+const loadSample = (name: string, file: string): Promise<any> => {
+  report('Loading Samples');
+  return fetch(baseUrl + file + '.gz', requestInit())
+    .then(response => {
+      report('Samples Loaded');
+      return response.json();
+    })
+    .then(response => {
+      report('Parsing Samples');
+      const sampleMetaTable = Object.keys(response.fields).map((key, index) => ({
+        ctype: 1,
+        key: key.toLowerCase(),
+        label: key.replace(/_/gi, ' '),
+        tbl: 'sample',
+        type: Array.isArray(response.fields[key]) ? 'STRING' : 'NUMBER',
+        values: response.fields[key]
+      }));
+      const sampleTable = response.ids.map((id, index) => {
+        return sampleMetaTable.reduce(
+          (p, v, i) => {
+            const value = response.values[index][i];
+            p[v.key.toLowerCase().replace(/\s/gi, '_')] = v.type === 'NUMBER' ? value : v.values[value];
+            return p;
+          },
+          { s: id.toLowerCase() }
+        );
+      });
+      report('Processing Samples');
+      return new Promise((resolve, reject) => {
+        resolve([
+          // { tbl: 'patientMeta', data: patientMetaTable },
+          { tbl: 'sample', data: sampleTable }
+        ]);
+      });
+    });
+};
+
 // Complete
 const loadMatrix = (name: string, file: string): Promise<any> => {
   report('Loading Molecular Matrix');
@@ -194,6 +231,9 @@ const loadMatrix = (name: string, file: string): Promise<any> => {
     .then(response => {
       report('Parsing Molecular Matrix');
       const sampleIds = response.ids.map((s, i) => ({ i: i, s: s.toLowerCase() }));
+      if (response.values === undefined) {
+        response.values = response.data;
+      }
       const sampleTable = response.values.map((v, i) => {
         const obj = v.reduce(
           (p, c) => {
@@ -308,27 +348,30 @@ const loadMutationV3 = (name: string, file: string): Promise<any> => {
     })
     .then(response => {
       report('Processing Mutation Data');
-      // const ids = response.ids;
-      // const genes = response.genes;
-      // const mType = mutationType;
-      // const lookup = Object.keys(mType);
+      const muts = Object.keys(response.muts).reduce((p, c) => {
+        p[response.muts[c]] = c;
+        return p;
+      }, {});
+      const ids = response.ids;
+      const genes = response.genes;
+      const mType = muts;
+      const lookup = Object.keys(mType);
+      const data = response.values
+        .map(v =>
+          v
+            .split('-')
+            .map(v1 => parseInt(v1, 10))
+            .map((v2, i) => (i === 0 ? genes[v2] : i === 1 ? ids[v2] : v2))
+        )
+        .reduce((p, c) => {
+          p.push(...lookup.filter(v => parseInt(v, 10) & c[2]).map(v => ({ m: c[0], s: c[1].toLowerCase(), t: mType[v] })));
+          return p;
+        }, []);
 
-      // const data = response.values
-      //   .map(v =>
-      //     v
-      //       .split('-')
-      //       .map(v1 => parseInt(v1, 10))
-      //       .map((v2, i) => (i === 0 ? genes[v2] : i === 1 ? ids[v2] : v2))
-      //   )
-      //   .reduce((p, c) => {
-      //     p.push(...lookup.filter(v => parseInt(v, 10) & c[2]).map(v => ({ m: c[0], s: c[1].toLowerCase(), t: mType[v] })));
-      //     return p;
-      //   }, []);
-
-      // return new Promise((resolve, reject) => {
-      //   // TODO: This is a bug.  Need to replace token mut with value from result
-      //   resolve([{ tbl: 'mut', data: data }]);
-      // });
+      return new Promise((resolve, reject) => {
+        // TODO: This is a bug.  Need to replace token mut with value from result
+        resolve([{ tbl: 'mut', data: data }]);
+      });
     });
 };
 
@@ -365,8 +408,9 @@ const loadRna = (name: string, file: string): Promise<any> => {
 const processV31 = (resource: { name: string; dataType: string; file: string }): Promise<any> => {
   switch (resource.dataType.toLowerCase().trim()) {
     case 'patient':
+      return loadPatient(resource.name, resource.file);
     case 'sample':
-      return loadClinical(resource.name, resource.file);
+      return loadSample(resource.name, resource.file);
     case 'matrix':
       return loadMatrix(resource.name, resource.file);
     case 'events':
@@ -396,25 +440,16 @@ onmessage = function(e) {
             try {
               processV31(e.data.file).then(values => {
                 const tables: Array<{ tbl: string; data: Array<any> }> = values;
-
-                // tables.forEach(w => {
-                //   if (w.tbl.indexOf('matrix') === 0) {
-                //     w.tbl = w.tbl.replace('matrix', '').replace(/_/gi, '');
-                //   }
-                // });
-
-                // Promise.all(tables.map(tbl => db.table(tbl.tbl).bulkAdd(tbl.data))).then(() => {
-                //   report('Saving ' + tables[0].tbl);
-                //   me.postMessage(
-                //     JSON.stringify({
-                //       cmd: 'terminate'
-                //     })
-                //   );
-                // });
+                Promise.all(tables.map(tbl => db.table(tbl.tbl).bulkAdd(tbl.data))).then(() => {
+                  report('Saving ' + tables[0].tbl);
+                  me.postMessage(
+                    JSON.stringify({
+                      cmd: 'terminate'
+                    })
+                  );
+                });
               });
-            } catch (e) {
-              debugger;
-            }
+            } catch (e) {}
           }
           console.log('hi');
         } else {
@@ -436,9 +471,7 @@ onmessage = function(e) {
                 );
               });
             });
-          } catch (e) {
-            debugger;
-          }
+          } catch (e) {}
         }
       });
       break;

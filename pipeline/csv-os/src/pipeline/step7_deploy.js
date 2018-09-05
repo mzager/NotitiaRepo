@@ -14,16 +14,21 @@ var Deploy = /** @class */ (function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             IO_1.IO.DeleteArtifacts().then(function () {
-                var projectId = '31-' + uuidv1().replace(/\s/gi, '');
+                var projectId = 'mz-' + uuidv1().replace(/\s/gi, '');
                 // const projectId = 'acsp-e484b460-a0bf-11e8-9654-2973b6f27a97';
-                _this.CreateDynamoRecord('michael@zager.co', projectId, 'name', 'site', 'desc', false, true, false, 'Exempt');
+                _this.CreateDynamoRecord('michael@zager.co', projectId, 'CBIO', 'site', 'desc', false, true, false, 'Exempt');
                 _this.CreateS3Bucket(projectId);
             });
         });
     };
     Deploy.CreateS3Bucket = function (projectId) {
         return new Promise(function (resolve, reject) {
-            s3.listObjectsV2({ Bucket: 'oncoscape-datasets', Delimiter: '/', Prefix: 'datasets/', EncodingType: 'url' }, function (err, data) {
+            s3.listObjectsV2({
+                Bucket: 'oncoscape-datasets',
+                Delimiter: '/',
+                Prefix: 'datasets/',
+                EncodingType: 'url'
+            }, function (err, data) {
                 var folderNames = data.CommonPrefixes.map(function (v) { return v.Prefix.split('/')[1]; });
                 if (folderNames.indexOf(projectId)) {
                     console.log('GUID ALREADY EXISTS.. This is pretty much impossible other than during testing');
@@ -32,7 +37,14 @@ var Deploy = /** @class */ (function () {
                 Promise.all(files.map(function (file) {
                     return new Promise(function (resolve, reject) {
                         var rstream = fs.createReadStream('./src/output/' + file);
-                        var params = { Bucket: 'oncoscape-datasets', Key: 'datasets/' + projectId + '/' + file, ContentType: 'application/json', ContentEncoding: 'gzip', ACL: 'public-read', Body: rstream }; // Remove ACL For Production
+                        var params = {
+                            Bucket: 'oncoscape-datasets',
+                            Key: 'datasets/' + projectId + '/' + file,
+                            ContentType: 'application/json',
+                            ContentEncoding: 'gzip',
+                            ACL: 'public-read',
+                            Body: rstream
+                        }; // Remove ACL For Production
                         var options = { partSize: 10 * 1024 * 1024, queueSize: 5 };
                         s3.upload(params, options, function (err, data) {
                             console.log(data.Location);
@@ -55,7 +67,18 @@ var Deploy = /** @class */ (function () {
                     email: { S: email },
                     project: { S: projectId + '|' + role },
                     status: { S: 'UPLOAD' },
-                    content: { M: { site: { S: site }, name: { S: name }, description: { S: description }, isPublic: { BOOL: isPublic }, reviewType: { S: reviewType }, isHuman: { BOOL: isHuman }, isPhi: { BOOL: isPhi }, reviewNumber: { S: reviewNumber } } }
+                    content: {
+                        M: {
+                            site: { S: site },
+                            name: { S: name },
+                            description: { S: description },
+                            isPublic: { BOOL: isPublic },
+                            reviewType: { S: reviewType },
+                            isHuman: { BOOL: isHuman },
+                            isPhi: { BOOL: isPhi },
+                            reviewNumber: { S: reviewNumber }
+                        }
+                    }
                 }
             };
             ddb.putItem(ddbItem, function (err, data) {

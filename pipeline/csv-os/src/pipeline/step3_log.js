@@ -16,9 +16,16 @@ var WriteLog = /** @class */ (function () {
             var files = fs_1.default.readdirSync('./src/output'); // Jenny, Please Move This Into IO
             var log = new Array();
             // Patients
-            files.filter(function (v) { return v.startsWith('patient') && v.endsWith('log.json'); }).forEach(function (fileName) {
+            files
+                .filter(function (v) { return v.startsWith('patient') && v.endsWith('log.json'); })
+                .forEach(function (fileName) {
                 var file = IO_1.IO.ReadJson('./src/output/', fileName);
-                var sheet = { sheet: InterfacesAndEnums_1.eSheet.PATIENT, file: fileName, error: [], info: [] };
+                var sheet = {
+                    sheet: InterfacesAndEnums_1.eSheet.PATIENT,
+                    file: fileName,
+                    error: [],
+                    info: []
+                };
                 file.forEach(function (record) {
                     var _a, _b;
                     (_a = sheet.error).push.apply(_a, record.error);
@@ -27,9 +34,16 @@ var WriteLog = /** @class */ (function () {
                 log.push(sheet);
             });
             // Samples
-            files.filter(function (v) { return v.startsWith('sample') && v.endsWith('log.json'); }).forEach(function (fileName) {
+            files
+                .filter(function (v) { return v.startsWith('sample') && v.endsWith('log.json'); })
+                .forEach(function (fileName) {
                 var file = IO_1.IO.ReadJson('./src/output/', fileName);
-                var sheet = { sheet: InterfacesAndEnums_1.eSheet.SAMPLE, file: fileName, error: [], info: [] };
+                var sheet = {
+                    sheet: InterfacesAndEnums_1.eSheet.SAMPLE,
+                    file: fileName,
+                    error: [],
+                    info: []
+                };
                 file.forEach(function (record) {
                     var _a, _b;
                     (_a = sheet.error).push.apply(_a, record.error);
@@ -38,9 +52,16 @@ var WriteLog = /** @class */ (function () {
                 log.push(sheet);
             });
             // Events
-            files.filter(function (v) { return v.startsWith('event') && v.endsWith('log.json'); }).forEach(function (fileName) {
+            files
+                .filter(function (v) { return v.startsWith('event') && v.endsWith('log.json'); })
+                .forEach(function (fileName) {
                 var file = IO_1.IO.ReadJson('./src/output/', fileName);
-                var sheet = { sheet: InterfacesAndEnums_1.eSheet.EVENT, file: fileName, error: [], info: [] };
+                var sheet = {
+                    sheet: InterfacesAndEnums_1.eSheet.EVENT,
+                    file: fileName,
+                    error: [],
+                    info: []
+                };
                 file.forEach(function (record) {
                     var _a, _b;
                     (_a = sheet.error).push.apply(_a, record.error);
@@ -49,9 +70,16 @@ var WriteLog = /** @class */ (function () {
                 log.push(sheet);
             });
             // Mutations
-            files.filter(function (v) { return v.startsWith('mutation') && v.endsWith('log.json'); }).forEach(function (fileName) {
+            files
+                .filter(function (v) { return v.startsWith('mutation') && v.endsWith('log.json'); })
+                .forEach(function (fileName) {
                 var file = IO_1.IO.ReadJson('./src/output/', fileName);
-                var sheet = { sheet: InterfacesAndEnums_1.eSheet.MUTATION, file: fileName, error: [], info: [] };
+                var sheet = {
+                    sheet: InterfacesAndEnums_1.eSheet.MUTATION,
+                    file: fileName,
+                    error: [],
+                    info: []
+                };
                 file.forEach(function (record) {
                     var _a, _b;
                     (_a = sheet.error).push.apply(_a, record.error);
@@ -60,9 +88,16 @@ var WriteLog = /** @class */ (function () {
                 log.push(sheet);
             });
             // Matrix
-            files.filter(function (v) { return v.startsWith('matrix-') && v.endsWith('log.json'); }).forEach(function (fileName) {
+            files
+                .filter(function (v) { return v.startsWith('matrix-') && v.endsWith('log.json'); })
+                .forEach(function (fileName) {
                 var file = IO_1.IO.ReadJson('./src/output/', fileName);
-                var sheet = { sheet: InterfacesAndEnums_1.eSheet.MATRIX, file: fileName, error: [], info: [] };
+                var sheet = {
+                    sheet: InterfacesAndEnums_1.eSheet.MATRIX,
+                    file: fileName,
+                    error: [],
+                    info: []
+                };
                 file.forEach(function (record) {
                     var _a, _b;
                     (_a = sheet.error).push.apply(_a, record.error);
@@ -85,7 +120,12 @@ var WriteLog = /** @class */ (function () {
             report += '### Records Removed \n';
             sheet.error.forEach(function (v, i) {
                 if (v.constraint === InterfacesAndEnums_1.eConstraint.UNIQUE) {
-                    report += '* Column ' + v.prop + " : contains duplicate values, removing subsequent instances of '" + v.value + "'\n";
+                    report +=
+                        '* Column ' +
+                            v.prop +
+                            " : contains duplicate values, removing subsequent instances of '" +
+                            v.value +
+                            "'\n";
                 }
                 else if (v.constraint === InterfacesAndEnums_1.eConstraint.INVALID_VALUE) {
                     if (v.element === InterfacesAndEnums_1.eElement.GENE) {
@@ -101,7 +141,12 @@ var WriteLog = /** @class */ (function () {
             });
         }
         Object.keys(invalidValues).forEach(function (key) {
-            report += '* Column ' + key + ' contains invalid values: ' + lodash_1.default.uniq(invalidValues[key]).join(', ') + ' \n';
+            report +=
+                '* Column ' +
+                    key +
+                    ' contains invalid values: ' +
+                    lodash_1.default.uniq(invalidValues[key]).join(', ') +
+                    ' \n';
         });
         if (unidentifiedGenes.length > 0) {
             report += '### Removed Data Associate With Unidentified Genes: \n';
@@ -121,23 +166,36 @@ var WriteLog = /** @class */ (function () {
                     report += '* ' + v.prop + ' : is required \n';
                 }
                 if (v.constraint === InterfacesAndEnums_1.eConstraint.SINGLE_VALUE) {
-                    report += '* ' + v.prop + " : contains only one value '" + v.value + "' \n";
+                    report +=
+                        '* ' + v.prop + " : contains only one value '" + v.value + "' \n";
                 }
                 if (v.constraint === InterfacesAndEnums_1.eConstraint.UNINFORMATIVE) {
-                    report += '* ' + v.prop + ' : contains ' + v.value + ', not suitable for visualization \n';
+                    report +=
+                        '* ' +
+                            v.prop +
+                            ' : contains ' +
+                            v.value +
+                            ', not suitable for visualization \n';
                 }
             });
         }
         if (sheet.info.length > 0) {
-            sheet.info.filter(function (v) { return v.constraint === InterfacesAndEnums_1.eConstraint.INVALID_VALUE; }).forEach(function (v, i) {
+            sheet.info
+                .filter(function (v) { return v.constraint === InterfacesAndEnums_1.eConstraint.INVALID_VALUE; })
+                .forEach(function (v, i) {
                 if (i === 0)
                     report += '### Columns Renamed \n';
                 report += '* ' + v.prop + ' : is now ' + v.value + ' \n';
             });
-            sheet.info.filter(function (v) { return v.constraint === InterfacesAndEnums_1.eConstraint.INVALID_VALUE; }).forEach(function (v, i) {
+            sheet.info
+                .filter(function (v) { return v.constraint === InterfacesAndEnums_1.eConstraint.INVALID_VALUE; })
+                .forEach(function (v, i) {
                 if (i === 0)
                     report += '### Column Data Type \n';
-                report += '* ' + v.prop + ' : appears to be numeric, nullifying alpha-numeric values \n';
+                report +=
+                    '* ' +
+                        v.prop +
+                        ' : appears to be numeric, nullifying alpha-numeric values \n';
             });
         }
         return report;
@@ -148,7 +206,19 @@ var WriteLog = /** @class */ (function () {
         var tmp = sheets.filter(function (v) { return v.file.endsWith('data.log.json'); });
         report += '# ' + tmp.length + ' files processed on ';
         var currentdate = new Date();
-        report += currentdate.getDate() + '/' + (currentdate.getMonth() + 1) + '/' + currentdate.getFullYear() + ' @ ' + currentdate.getHours() + ':' + currentdate.getMinutes() + ':' + currentdate.getSeconds() + '\n';
+        report +=
+            currentdate.getDate() +
+                '/' +
+                (currentdate.getMonth() + 1) +
+                '/' +
+                currentdate.getFullYear() +
+                ' @ ' +
+                currentdate.getHours() +
+                ':' +
+                currentdate.getMinutes() +
+                ':' +
+                currentdate.getSeconds() +
+                '\n';
         // const meta = sheets.filter(v => v.file.endsWith("meta.log.json"));
         // meta.forEach(sheet => {
         //   report += this.writeMetaLog(sheet);

@@ -5,7 +5,14 @@ import fs from 'fs';
 export class WriteJson {
   public static Run(): Promise<any> {
     // Write All Json Files, Then Create Manifest
-    return Promise.all([this.writePatientJson('patient.json'), this.writeSampleJson('sample.json'), this.writePatientSampleJson('psmap.json'), this.writeMatriciesJson(), this.writeMutationJson(), this.writeEventsJson()]).then(() => {
+    return Promise.all([
+      this.writePatientJson('patient.json'),
+      this.writeSampleJson('sample.json'),
+      this.writePatientSampleJson('psmap.json'),
+      this.writeMatriciesJson(),
+      this.writeMutationJson(),
+      this.writeEventsJson()
+    ]).then(() => {
       this.writeManifestJson();
     });
   }
@@ -65,7 +72,11 @@ export class WriteJson {
       if (dir.indexOf('mut.json')) {
         manifest.events = IO.ReadJson('./src/output/', 'events.json').map;
         manifest.schema.mut = '++, m, p, t';
-        manifest.files.push({ name: 'mutations', dataType: 'mut', file: 'mut.json' });
+        manifest.files.push({
+          name: 'mutations',
+          dataType: 'mut',
+          file: 'mut.json'
+        });
       }
 
       dir
@@ -93,18 +104,28 @@ export class WriteJson {
     return new Promise((resolve, reject) => {
       const files = fs
         .readdirSync('./src/output')
-        .filter(v => v.indexOf('mutation.data.raw.json') === 0)
-        .filter(v => v.indexOf('raw.json') !== -1);
+        .filter(v => v.indexOf('mutation') === 0)
+        .filter(v => v.indexOf('data.raw.json') !== -1);
+
       files.forEach(v => {
-        const data = IO.ReadJson('./src/output/', v).filter((v: iTest) => v.error.length === 0) as Array<iTest>;
+        const data = IO.ReadJson('./src/output/', v).filter(
+          (v: iTest) => v.error.length === 0
+        ) as Array<iTest>;
         // gene-id-mut
-        let agg = data.filter(v => v.error.length === 0).map(v => ({ hgnc: v.data.symbol, sid: v.data['sample id'], type: v.data.type }));
+        let agg = data.filter(v => v.error.length === 0).map(v => ({
+          hgnc: v.data.symbol,
+          sid: v.data['sample id'],
+          type: v.data.variant
+        }));
         const genes = Array.from(new Set(agg.map(v => v.hgnc)));
         const sids = Array.from(new Set(agg.map(v => v.sid)));
-        const muts = Array.from(new Set(agg.map(v => v.type))).reduce((p: any, c, i) => {
-          p[c] = 1 * Math.pow(2, i);
-          return p;
-        }, {});
+        const muts = Array.from(new Set(agg.map(v => v.type))).reduce(
+          (p: any, c, i) => {
+            p[c] = 1 * Math.pow(2, i);
+            return p;
+          },
+          {}
+        );
         const values = agg.reduce((p: any, c) => {
           // dont map this pass
           const gid = genes.indexOf(c.hgnc);
@@ -160,7 +181,9 @@ export class WriteJson {
       Promise.all(
         files.map<Promise<any>>(file => {
           return new Promise((resolve, reject) => {
-            const events = IO.ReadJson('./src/output/', file).filter((v: iTest) => v.error.length === 0) as Array<iTest>;
+            const events = IO.ReadJson('./src/output/', file).filter(
+              (v: iTest) => v.error.length === 0
+            ) as Array<iTest>;
             const eventType = file.split('.')[0].split('-');
             // This event has no subcategory
             if (eventType.length === 2) {
@@ -176,7 +199,9 @@ export class WriteJson {
               ...events.map(event => {
                 const data = Object.keys(event.data)
                   .filter(key => {
-                    return key !== 'patient id' && key !== 'start' && key !== 'end';
+                    return (
+                      key !== 'patient id' && key !== 'start' && key !== 'end'
+                    );
                   })
                   .reduce((p: any, c: any) => {
                     if (event.data[c].toString().trim() !== '') {
@@ -184,7 +209,13 @@ export class WriteJson {
                     }
                     return p;
                   }, {});
-                return [event.data['patient id'], currentEventIndex, parseFloat(event.data.start), parseFloat(event.data.end), data];
+                return [
+                  event.data['patient id'],
+                  currentEventIndex,
+                  parseFloat(event.data.start),
+                  parseFloat(event.data.end),
+                  data
+                ];
               })
             );
             resolve();
@@ -212,17 +243,34 @@ export class WriteJson {
       Promise.all(
         files.map<Promise<any>>(v => {
           return new Promise<any>((resolve, reject) => {
-            const matrix = IO.ReadJson('./src/output/', v).filter((v: iTest) => v.error.length === 0) as Array<iTest>;
+            // IO.ReadLargeJson('./src/output/', v).then(data => {
+            //   debugger;
+            // });
+            const matrix = IO.ReadJson('./src/output/', v).filter(
+              (v: iTest) => v.error.length === 0
+            ) as Array<iTest>;
             const dataGenes = matrix.reduce(
-              (p: { data: Array<Array<number>>; genes: Array<string> }, c: iTest) => {
+              (
+                p: { data: Array<Array<number>>; genes: Array<string> },
+                c: iTest
+              ) => {
                 const datum = c.data;
                 p.genes.push(datum.symbol);
-                p.data.push(samples.map((sample: string) => parseFloat(datum[sample])));
+                p.data.push(
+                  samples.map((sample: string) => parseFloat(datum[sample]))
+                );
                 return p;
               },
               { data: [], genes: [] }
             );
-            IO.WriteString(v.replace('data.raw.json', 'data.json'), JSON.stringify({ ids: samples, genes: dataGenes.genes, data: dataGenes.data })).then(() => {
+            IO.WriteString(
+              v.replace('data.raw.json', 'data.json'),
+              JSON.stringify({
+                ids: samples,
+                genes: dataGenes.genes,
+                data: dataGenes.data
+              })
+            ).then(() => {
               console.log(v.replace('data.raw.json', 'data.json'));
               resolve();
             });
@@ -235,28 +283,42 @@ export class WriteJson {
   }
   public static writeSampleJson(uri: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      const meta = IO.ReadJson('./src/output/', 'sample.meta.log.json') as Array<iTest>;
-      const fields = meta.filter(v => v.error.length === 0).reduce((p: any, c: iTest) => {
-        if (c.data.type === eDataType.Number) {
-          const numericValues = c.data.values.map((v: any) => parseFloat(v)).filter((v: any) => !isNaN(v));
-          const max = Math.max.apply(null, numericValues);
-          const min = Math.min.apply(null, numericValues);
-          p[c.data.label.trim().toLowerCase()] = { min: min, max: max };
-        } else if (c.data.type === eDataType.String) {
-          const stringValues = c.data.values.map((v: any) =>
-            v
-              .toString()
-              .trim()
-              .toLowerCase()
-          );
-          p[c.data.label.trim().toLowerCase()] = stringValues;
-        }
-        return p;
-      }, {});
-      const data = IO.ReadJson('./src/output/', 'sample.data.raw.json') as Array<iTest>;
+      const meta = IO.ReadJson(
+        './src/output/',
+        'sample.meta.log.json'
+      ) as Array<iTest>;
+      const fields = meta
+        .filter(v => v.error.length === 0)
+        .reduce((p: any, c: iTest) => {
+          if (c.data.type === eDataType.Number) {
+            const numericValues = c.data.values
+              .map((v: any) => parseFloat(v))
+              .filter((v: any) => !isNaN(v));
+            const max = Math.max.apply(null, numericValues);
+            const min = Math.min.apply(null, numericValues);
+            p[c.data.label.trim().toLowerCase()] = { min: min, max: max };
+          } else if (c.data.type === eDataType.String) {
+            const stringValues = c.data.values.map((v: any) =>
+              v
+                .toString()
+                .trim()
+                .toLowerCase()
+            );
+            p[c.data.label.trim().toLowerCase()] = stringValues;
+          }
+          return p;
+        }, {});
+      const data = IO.ReadJson(
+        './src/output/',
+        'sample.data.raw.json'
+      ) as Array<iTest>;
       const ids = data.map(v => v.data['sample id'].toLowerCase().trim());
-      const fieldNames = meta.filter(v => v.error.length === 0).map(v => v.data.name.trim().toLowerCase());
-      const fieldLabels = meta.filter(v => v.error.length === 0).map(v => v.data.label);
+      const fieldNames = meta
+        .filter(v => v.error.length === 0)
+        .map(v => v.data.name.trim().toLowerCase());
+      const fieldLabels = meta
+        .filter(v => v.error.length === 0)
+        .map(v => v.data.label);
       const values = data.map(datum => {
         return fieldNames.map((fieldName, i) => {
           const lbl = fieldLabels[i];
@@ -277,28 +339,42 @@ export class WriteJson {
   }
   public static writePatientJson(uri: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      const meta = IO.ReadJson('./src/output/', 'patient.meta.log.json') as Array<iTest>;
-      const fields = meta.filter(v => v.error.length === 0).reduce((p: any, c: iTest) => {
-        if (c.data.type === eDataType.Number) {
-          const numericValues = c.data.values.map((v: any) => parseFloat(v)).filter((v: any) => !isNaN(v));
-          const max = Math.max.apply(null, numericValues);
-          const min = Math.min.apply(null, numericValues);
-          p[c.data.label.trim().toLowerCase()] = { min: min, max: max };
-        } else if (c.data.type === eDataType.String) {
-          const stringValues = c.data.values.map((v: any) =>
-            v
-              .toString()
-              .trim()
-              .toLowerCase()
-          );
-          p[c.data.label.trim().toLowerCase()] = stringValues;
-        }
-        return p;
-      }, {});
-      const data = IO.ReadJson('./src/output/', 'patient.data.raw.json') as Array<iTest>;
+      const meta = IO.ReadJson(
+        './src/output/',
+        'patient.meta.log.json'
+      ) as Array<iTest>;
+      const fields = meta
+        .filter(v => v.error.length === 0)
+        .reduce((p: any, c: iTest) => {
+          if (c.data.type === eDataType.Number) {
+            const numericValues = c.data.values
+              .map((v: any) => parseFloat(v))
+              .filter((v: any) => !isNaN(v));
+            const max = Math.max.apply(null, numericValues);
+            const min = Math.min.apply(null, numericValues);
+            p[c.data.label.trim().toLowerCase()] = { min: min, max: max };
+          } else if (c.data.type === eDataType.String) {
+            const stringValues = c.data.values.map((v: any) =>
+              v
+                .toString()
+                .trim()
+                .toLowerCase()
+            );
+            p[c.data.label.trim().toLowerCase()] = stringValues;
+          }
+          return p;
+        }, {});
+      const data = IO.ReadJson(
+        './src/output/',
+        'patient.data.raw.json'
+      ) as Array<iTest>;
       const ids = data.map(v => v.data['patient id'].toLowerCase().trim());
-      const fieldNames = meta.filter(v => v.error.length === 0).map(v => v.data.name.trim().toLowerCase());
-      const fieldLabels = meta.filter(v => v.error.length === 0).map(v => v.data.label);
+      const fieldNames = meta
+        .filter(v => v.error.length === 0)
+        .map(v => v.data.name.trim().toLowerCase());
+      const fieldLabels = meta
+        .filter(v => v.error.length === 0)
+        .map(v => v.data.label);
       const values = data.map(datum => {
         return fieldNames.map((fieldName, i) => {
           const lbl = fieldLabels[i];
@@ -320,16 +396,21 @@ export class WriteJson {
   }
   public static writePatientSampleJson(uri: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      const data = IO.ReadJson('./src/output/', 'sample.data.raw.json') as Array<iTest>;
-      const psMap = data.filter(v => v.error.length === 0).reduce((p: any, c: iTest) => {
-        const pid = c.data['patient id'].trim().toLowerCase();
-        const sid = c.data['sample id'].trim().toLowerCase();
-        if (!p.hasOwnProperty(pid)) {
-          p[pid] = [];
-        }
-        p[pid].push(sid);
-        return p;
-      }, {});
+      const data = IO.ReadJson(
+        './src/output/',
+        'sample.data.raw.json'
+      ) as Array<iTest>;
+      const psMap = data
+        .filter(v => v.error.length === 0)
+        .reduce((p: any, c: iTest) => {
+          const pid = c.data['patient id'].trim().toLowerCase();
+          const sid = c.data['sample id'].trim().toLowerCase();
+          if (!p.hasOwnProperty(pid)) {
+            p[pid] = [];
+          }
+          p[pid].push(sid);
+          return p;
+        }, {});
 
       IO.WriteString('psmap.json', JSON.stringify(psMap)).then(() => {
         console.log('psmap.json');

@@ -12,7 +12,14 @@ var WriteJson = /** @class */ (function () {
     WriteJson.Run = function () {
         var _this = this;
         // Write All Json Files, Then Create Manifest
-        return Promise.all([this.writePatientJson('patient.json'), this.writeSampleJson('sample.json'), this.writePatientSampleJson('psmap.json'), this.writeMatriciesJson(), this.writeMutationJson(), this.writeEventsJson()]).then(function () {
+        return Promise.all([
+            this.writePatientJson('patient.json'),
+            this.writeSampleJson('sample.json'),
+            this.writePatientSampleJson('psmap.json'),
+            this.writeMatriciesJson(),
+            this.writeMutationJson(),
+            this.writeEventsJson()
+        ]).then(function () {
             _this.writeManifestJson();
         });
     };
@@ -67,7 +74,11 @@ var WriteJson = /** @class */ (function () {
             if (dir.indexOf('mut.json')) {
                 manifest.events = IO_1.IO.ReadJson('./src/output/', 'events.json').map;
                 manifest.schema.mut = '++, m, p, t';
-                manifest.files.push({ name: 'mutations', dataType: 'mut', file: 'mut.json' });
+                manifest.files.push({
+                    name: 'mutations',
+                    dataType: 'mut',
+                    file: 'mut.json'
+                });
             }
             dir
                 .filter(function (v) { return v.indexOf('matrix') === 0; })
@@ -93,12 +104,16 @@ var WriteJson = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             var files = fs_1.default
                 .readdirSync('./src/output')
-                .filter(function (v) { return v.indexOf('mutation.data.raw.json') === 0; })
-                .filter(function (v) { return v.indexOf('raw.json') !== -1; });
+                .filter(function (v) { return v.indexOf('mutation') === 0; })
+                .filter(function (v) { return v.indexOf('data.raw.json') !== -1; });
             files.forEach(function (v) {
                 var data = IO_1.IO.ReadJson('./src/output/', v).filter(function (v) { return v.error.length === 0; });
                 // gene-id-mut
-                var agg = data.filter(function (v) { return v.error.length === 0; }).map(function (v) { return ({ hgnc: v.data.symbol, sid: v.data['sample id'], type: v.data.type }); });
+                var agg = data.filter(function (v) { return v.error.length === 0; }).map(function (v) { return ({
+                    hgnc: v.data.symbol,
+                    sid: v.data['sample id'],
+                    type: v.data.variant
+                }); });
                 var genes = Array.from(new Set(agg.map(function (v) { return v.hgnc; })));
                 var sids = Array.from(new Set(agg.map(function (v) { return v.sid; })));
                 var muts = Array.from(new Set(agg.map(function (v) { return v.type; }))).reduce(function (p, c, i) {
@@ -174,7 +189,7 @@ var WriteJson = /** @class */ (function () {
                     allEvents.push.apply(allEvents, events.map(function (event) {
                         var data = Object.keys(event.data)
                             .filter(function (key) {
-                            return key !== 'patient id' && key !== 'start' && key !== 'end';
+                            return (key !== 'patient id' && key !== 'start' && key !== 'end');
                         })
                             .reduce(function (p, c) {
                             if (event.data[c].toString().trim() !== '') {
@@ -182,7 +197,13 @@ var WriteJson = /** @class */ (function () {
                             }
                             return p;
                         }, {});
-                        return [event.data['patient id'], currentEventIndex, parseFloat(event.data.start), parseFloat(event.data.end), data];
+                        return [
+                            event.data['patient id'],
+                            currentEventIndex,
+                            parseFloat(event.data.start),
+                            parseFloat(event.data.end),
+                            data
+                        ];
                     }));
                     resolve();
                 });
@@ -207,6 +228,9 @@ var WriteJson = /** @class */ (function () {
             var samples = IO_1.IO.ReadJson('./src/output/', 'sample.data.id.json');
             Promise.all(files.map(function (v) {
                 return new Promise(function (resolve, reject) {
+                    // IO.ReadLargeJson('./src/output/', v).then(data => {
+                    //   debugger;
+                    // });
                     var matrix = IO_1.IO.ReadJson('./src/output/', v).filter(function (v) { return v.error.length === 0; });
                     var dataGenes = matrix.reduce(function (p, c) {
                         var datum = c.data;
@@ -214,7 +238,11 @@ var WriteJson = /** @class */ (function () {
                         p.data.push(samples.map(function (sample) { return parseFloat(datum[sample]); }));
                         return p;
                     }, { data: [], genes: [] });
-                    IO_1.IO.WriteString(v.replace('data.raw.json', 'data.json'), JSON.stringify({ ids: samples, genes: dataGenes.genes, data: dataGenes.data })).then(function () {
+                    IO_1.IO.WriteString(v.replace('data.raw.json', 'data.json'), JSON.stringify({
+                        ids: samples,
+                        genes: dataGenes.genes,
+                        data: dataGenes.data
+                    })).then(function () {
                         console.log(v.replace('data.raw.json', 'data.json'));
                         resolve();
                     });
@@ -227,9 +255,13 @@ var WriteJson = /** @class */ (function () {
     WriteJson.writeSampleJson = function (uri) {
         return new Promise(function (resolve, reject) {
             var meta = IO_1.IO.ReadJson('./src/output/', 'sample.meta.log.json');
-            var fields = meta.filter(function (v) { return v.error.length === 0; }).reduce(function (p, c) {
+            var fields = meta
+                .filter(function (v) { return v.error.length === 0; })
+                .reduce(function (p, c) {
                 if (c.data.type === InterfacesAndEnums_1.eDataType.Number) {
-                    var numericValues = c.data.values.map(function (v) { return parseFloat(v); }).filter(function (v) { return !isNaN(v); });
+                    var numericValues = c.data.values
+                        .map(function (v) { return parseFloat(v); })
+                        .filter(function (v) { return !isNaN(v); });
                     var max = Math.max.apply(null, numericValues);
                     var min = Math.min.apply(null, numericValues);
                     p[c.data.label.trim().toLowerCase()] = { min: min, max: max };
@@ -247,8 +279,12 @@ var WriteJson = /** @class */ (function () {
             }, {});
             var data = IO_1.IO.ReadJson('./src/output/', 'sample.data.raw.json');
             var ids = data.map(function (v) { return v.data['sample id'].toLowerCase().trim(); });
-            var fieldNames = meta.filter(function (v) { return v.error.length === 0; }).map(function (v) { return v.data.name.trim().toLowerCase(); });
-            var fieldLabels = meta.filter(function (v) { return v.error.length === 0; }).map(function (v) { return v.data.label; });
+            var fieldNames = meta
+                .filter(function (v) { return v.error.length === 0; })
+                .map(function (v) { return v.data.name.trim().toLowerCase(); });
+            var fieldLabels = meta
+                .filter(function (v) { return v.error.length === 0; })
+                .map(function (v) { return v.data.label; });
             var values = data.map(function (datum) {
                 return fieldNames.map(function (fieldName, i) {
                     var lbl = fieldLabels[i];
@@ -270,9 +306,13 @@ var WriteJson = /** @class */ (function () {
     WriteJson.writePatientJson = function (uri) {
         return new Promise(function (resolve, reject) {
             var meta = IO_1.IO.ReadJson('./src/output/', 'patient.meta.log.json');
-            var fields = meta.filter(function (v) { return v.error.length === 0; }).reduce(function (p, c) {
+            var fields = meta
+                .filter(function (v) { return v.error.length === 0; })
+                .reduce(function (p, c) {
                 if (c.data.type === InterfacesAndEnums_1.eDataType.Number) {
-                    var numericValues = c.data.values.map(function (v) { return parseFloat(v); }).filter(function (v) { return !isNaN(v); });
+                    var numericValues = c.data.values
+                        .map(function (v) { return parseFloat(v); })
+                        .filter(function (v) { return !isNaN(v); });
                     var max = Math.max.apply(null, numericValues);
                     var min = Math.min.apply(null, numericValues);
                     p[c.data.label.trim().toLowerCase()] = { min: min, max: max };
@@ -290,8 +330,12 @@ var WriteJson = /** @class */ (function () {
             }, {});
             var data = IO_1.IO.ReadJson('./src/output/', 'patient.data.raw.json');
             var ids = data.map(function (v) { return v.data['patient id'].toLowerCase().trim(); });
-            var fieldNames = meta.filter(function (v) { return v.error.length === 0; }).map(function (v) { return v.data.name.trim().toLowerCase(); });
-            var fieldLabels = meta.filter(function (v) { return v.error.length === 0; }).map(function (v) { return v.data.label; });
+            var fieldNames = meta
+                .filter(function (v) { return v.error.length === 0; })
+                .map(function (v) { return v.data.name.trim().toLowerCase(); });
+            var fieldLabels = meta
+                .filter(function (v) { return v.error.length === 0; })
+                .map(function (v) { return v.data.label; });
             var values = data.map(function (datum) {
                 return fieldNames.map(function (fieldName, i) {
                     var lbl = fieldLabels[i];
@@ -314,7 +358,9 @@ var WriteJson = /** @class */ (function () {
     WriteJson.writePatientSampleJson = function (uri) {
         return new Promise(function (resolve, reject) {
             var data = IO_1.IO.ReadJson('./src/output/', 'sample.data.raw.json');
-            var psMap = data.filter(function (v) { return v.error.length === 0; }).reduce(function (p, c) {
+            var psMap = data
+                .filter(function (v) { return v.error.length === 0; })
+                .reduce(function (p, c) {
                 var pid = c.data['patient id'].trim().toLowerCase();
                 var sid = c.data['sample id'].trim().toLowerCase();
                 if (!p.hasOwnProperty(pid)) {

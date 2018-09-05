@@ -1,13 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewEncapsulation } from "@angular/core";
-import { MatSelectChange } from "@angular/material";
-import { DataTable } from "app/model/data-field.model";
-import { GraphConfig } from "app/model/graph-config.model";
-import { DataField, DataFieldFactory } from "./../../../model/data-field.model";
-import { DataDecorator, DataDecoratorTypeEnum } from "./../../../model/data-map.model";
-import { EntityTypeEnum } from "./../../../model/enum.model";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { MatSelectChange } from '@angular/material';
+import { DataTable } from 'app/model/data-field.model';
+import { GraphConfig } from 'app/model/graph-config.model';
+import { DataField, DataFieldFactory } from './../../../model/data-field.model';
+import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
+import { EntityTypeEnum } from './../../../model/enum.model';
 
 @Component({
-  selector: "app-graph-panel-visualization",
+  selector: 'app-graph-panel-visualization',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   template: `
@@ -135,7 +135,7 @@ export class GraphPanelVisualizationComponent {
 
   setColorOption(event: MatSelectChange): void {
     this.colorSelected = event.value;
-    if (this.colorSelected.key === "None") {
+    if (this.colorSelected.key === 'None') {
       this.decoratorDel.emit({
         config: this.config,
         decorator: { type: DataDecoratorTypeEnum.COLOR, values: null, field: null, legend: null }
@@ -149,7 +149,7 @@ export class GraphPanelVisualizationComponent {
   }
   setShapeOption(event: MatSelectChange): void {
     this.shapeSelected = event.value;
-    if (this.shapeSelected.key === "None") {
+    if (this.shapeSelected.key === 'None') {
       this.decoratorDel.emit({
         config: this.config,
         decorator: { type: DataDecoratorTypeEnum.SHAPE, values: null, field: null, legend: null }
@@ -163,7 +163,7 @@ export class GraphPanelVisualizationComponent {
   }
   setSizeOption(event: MatSelectChange): void {
     this.sizeSelected = event.value;
-    if (this.sizeSelected.key === "None") {
+    if (this.sizeSelected.key === 'None') {
       this.decoratorDel.emit({
         config: this.config,
         decorator: { type: DataDecoratorTypeEnum.SIZE, values: null, field: null, legend: null }
@@ -177,7 +177,7 @@ export class GraphPanelVisualizationComponent {
   }
   setLabelOption(event: MatSelectChange): void {
     this.labelSelected = event.value;
-    if (this.labelSelected.key === "None") {
+    if (this.labelSelected.key === 'None') {
       this.decoratorDel.emit({
         config: this.config,
         decorator: { type: DataDecoratorTypeEnum.LABEL, values: null, field: null, legend: null }

@@ -12,6 +12,7 @@ var InterfacesAndEnums_1 = require("./InterfacesAndEnums");
 var hl = __importStar(require("highland"));
 var fs = __importStar(require("fs"));
 var csv = __importStar(require("fast-csv"));
+var json = require('big-json');
 var IO = /** @class */ (function () {
     function IO() {
     }
@@ -34,6 +35,18 @@ var IO = /** @class */ (function () {
             fs.readdir(path, function (err, files) {
                 resolve(files.filter(function (v) { return v.indexOf('matrix') === 0; }));
             });
+        });
+    };
+    IO.ReadLargeJson = function (path, file) {
+        return new Promise(function (resolve, reject) {
+            var readStream = fs.createReadStream(path + file);
+            var parseStream = json.createParseStream();
+            debugger;
+            parseStream.on('data', function (pojo) {
+                // => receive reconstructed POJO
+                debugger;
+            });
+            readStream.pipe(parseStream);
         });
     };
     IO.ReadJson = function (path, file) {
@@ -128,7 +141,14 @@ var IO = /** @class */ (function () {
             .default(fs
             .createReadStream(uri)
             .pipe(new ToLowerCase_1.TransformToLowerCase())
-            .pipe(csv.default({ headers: true, ignoreEmpty: true, discardUnmappedColumns: true, strictColumnHandling: false, trim: true, objectMode: true })))
+            .pipe(csv.default({
+            headers: true,
+            ignoreEmpty: true,
+            discardUnmappedColumns: true,
+            strictColumnHandling: false,
+            trim: true,
+            objectMode: true
+        })))
             .map(function (obj) {
             return { data: obj, info: [], error: [] };
         });
@@ -175,7 +195,10 @@ var IO = /** @class */ (function () {
                 .filter(function (v) { return v.data.type !== InterfacesAndEnums_1.eDataType.ID; })
                 .map(function (v) {
                 var obj = {};
-                obj[v.data.name] = v.data.type === InterfacesAndEnums_1.eDataType.Number ? v.data.values : v.data.values.string;
+                obj[v.data.name] =
+                    v.data.type === InterfacesAndEnums_1.eDataType.Number
+                        ? v.data.values
+                        : v.data.values.string;
                 return JSON.stringify(obj);
             })
                 .intersperse(',')

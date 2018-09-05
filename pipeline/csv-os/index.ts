@@ -12,14 +12,14 @@ class Startup {
     Validate.Run().then(() => {
       WriteLog.Run().then(() => {
         WriteJson.Run().then(v => {
-          WriteParquet.All().then(v => {
-            WriteZips.All().then(v => {
-              // Deploy.All().then(v => {
-              //   console.log('done');
-              //   EXIT = true;
-              // });
+          // WriteParquet.All().then(v => {
+          WriteZips.All().then(v => {
+            Deploy.All().then(v => {
+              console.log('done');
+              EXIT = true;
             });
           });
+          // });
         });
       });
     });
