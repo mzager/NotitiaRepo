@@ -107,12 +107,11 @@ export class SelectionController extends AbstractMouseController {
   public onMouseMove(e: ChartEvent): void {
     console.log('...');
     super.onMouseMove(e);
-
-    // const intersects = this.getIntersects(this._view, e.mouse, this._targets);
-    // if (intersects.length > 0) {
-    //   intersects[0].object['material'].color.setRGB(255, 0, 0);
-    //   this._onRequestRender.emit(this._config.graph);
-    // }
+    const intersects = this.getIntersects(this._view, e.mouse, this._targets);
+    if (intersects.length > 0) {
+      intersects[0].object['material'].color.setRGB(255, 0, 0);
+      this._onRequestRender.emit(this._config.graph);
+    }
   }
 
   constructor(

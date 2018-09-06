@@ -1,3 +1,4 @@
+import { UmapFormComponent } from './component/visualization/umap/umap.form.component';
 import { TipPanelComponent } from './component/workspace/tip-panel/tip-panel.component';
 import { SelectionPanelComponent } from './component/workspace/selection-panel/selection-panel.component';
 import { NgModule, ErrorHandler } from '@angular/core';
@@ -131,6 +132,7 @@ import { ErrorService } from './service/error.service';
     DeFormComponent,
     FaFormComponent,
     PcaFormComponent,
+    UmapFormComponent,
     PlsFormComponent,
     TsneFormComponent,
     KMeansFormComponent,
