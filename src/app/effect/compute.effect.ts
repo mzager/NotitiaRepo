@@ -58,7 +58,10 @@ import {
   TruncatedSvdCompleteAction,
   TsneCompleteAction
 } from './../action/compute.action';
-import { DataDecoratorAddAction, DataDecoratorCreateAction } from './../action/graph.action';
+import {
+  DataDecoratorAddAction,
+  DataDecoratorCreateAction
+} from './../action/graph.action';
 import { LoaderHideAction } from './../action/layout.action';
 import { UnsafeAction } from './../action/unsafe.action';
 import { GraphData } from './../model/graph-data.model';
@@ -77,7 +80,10 @@ export class ComputeEffect {
         return Observable.of(
           result === null
             ? new NullDataAction()
-            : new EdgesCompleteAction({ config: result.config, data: result.data })
+            : new EdgesCompleteAction({
+                config: result.config,
+                data: result.data
+              })
         );
       });
     });
@@ -137,12 +143,18 @@ export class ComputeEffect {
         }
       };
       return Observable.fromPromise(
-        this.dataService.getPatientIdsWithSampleIds(payload.database, payload.cohort.sids)
+        this.dataService.getPatientIdsWithSampleIds(
+          payload.database,
+          payload.cohort.sids
+        )
       ).switchMap(data => {
         payload.cohort.pids = data;
         return Observable.fromPromise(
           this.dataService
-            .createCustomCohortFromSelect(payload.database, payload.cohort as Cohort)
+            .createCustomCohortFromSelect(
+              payload.database,
+              payload.cohort as Cohort
+            )
             .then(v => this.dataService.getCustomCohorts(payload.database))
         ).mergeMap((args: any) => {
           return Observable.of(new DataUpdateCohortsAction(args));
@@ -165,7 +177,10 @@ export class ComputeEffect {
       };
       return Observable.fromPromise(
         this.dataService
-          .createCustomGenesetFromSelect(payload.database, payload.geneset as GeneSet)
+          .createCustomGenesetFromSelect(
+            payload.database,
+            payload.geneset as GeneSet
+          )
           .then(v => this.dataService.getCustomGenesets(payload.database))
       ).mergeMap((args: any) => {
         return Observable.of(new DataUpdateGenesetsAction(args));
@@ -185,7 +200,9 @@ export class ComputeEffect {
         pid: [],
         legends: []
       };
-      return Observable.of(new NoneCompleteAction({ config: payload['config'], data: graphData }));
+      return Observable.of(
+        new NoneCompleteAction({ config: payload['config'], data: graphData })
+      );
     });
 
   @Effect()
@@ -197,7 +214,10 @@ export class ComputeEffect {
         return [
           result === null
             ? new NullDataAction()
-            : new FaCompleteAction({ config: result.config, data: result.data }),
+            : new FaCompleteAction({
+                config: result.config,
+                data: result.data
+              }),
           new LoaderHideAction()
         ];
       });
@@ -212,7 +232,10 @@ export class ComputeEffect {
         return [
           result === null
             ? new NullDataAction()
-            : new MdsCompleteAction({ config: result.config, data: result.data }),
+            : new MdsCompleteAction({
+                config: result.config,
+                data: result.data
+              }),
           new LoaderHideAction()
         ];
       });
@@ -223,17 +246,19 @@ export class ComputeEffect {
     .ofType(compute.COMPUTE_MINI_BATCH_DICTIONARY_LEARNING)
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.miniBatchDictionaryLearning(payload['config']).mergeMap(result => {
-        return [
-          result === null
-            ? new NullDataAction()
-            : new MiniBatchDictionaryLearningCompleteAction({
-                config: result.config,
-                data: result.data
-              }),
-          new LoaderHideAction()
-        ];
-      });
+      return this.computeService
+        .miniBatchDictionaryLearning(payload['config'])
+        .mergeMap(result => {
+          return [
+            result === null
+              ? new NullDataAction()
+              : new MiniBatchDictionaryLearningCompleteAction({
+                  config: result.config,
+                  data: result.data
+                }),
+            new LoaderHideAction()
+          ];
+        });
     });
 
   @Effect()
@@ -241,14 +266,19 @@ export class ComputeEffect {
     .ofType(compute.COMPUTE_MINI_BATCH_SPARSE_PCA)
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.miniBatchSparsePca(payload['config']).mergeMap(result => {
-        return [
-          result === null
-            ? new NullDataAction()
-            : new MiniBatchSparsePcaCompleteAction({ config: result.config, data: result.data }),
-          new LoaderHideAction()
-        ];
-      });
+      return this.computeService
+        .miniBatchSparsePca(payload['config'])
+        .mergeMap(result => {
+          return [
+            result === null
+              ? new NullDataAction()
+              : new MiniBatchSparsePcaCompleteAction({
+                  config: result.config,
+                  data: result.data
+                }),
+            new LoaderHideAction()
+          ];
+        });
     });
 
   @Effect()
@@ -256,34 +286,38 @@ export class ComputeEffect {
     .ofType(compute.COMPUTE_LINEAR_DISCRIMINANT_ANALYSIS)
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.linearDiscriminantAnalysis(payload['config']).mergeMap(result => {
-        return [
-          result === null
-            ? new NullDataAction()
-            : new LinearDiscriminantAnalysisCompleteAction({
-                config: result.config,
-                data: result.data
-              }),
-          new LoaderHideAction()
-        ];
-      });
+      return this.computeService
+        .linearDiscriminantAnalysis(payload['config'])
+        .mergeMap(result => {
+          return [
+            result === null
+              ? new NullDataAction()
+              : new LinearDiscriminantAnalysisCompleteAction({
+                  config: result.config,
+                  data: result.data
+                }),
+            new LoaderHideAction()
+          ];
+        });
     });
   @Effect()
   loadQuadraticDiscriminantAnalysis: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_QUADRATIC_DISCRIMINANT_ANALYSIS)
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.linearDiscriminantAnalysis(payload['config']).mergeMap(result => {
-        return [
-          result === null
-            ? new NullDataAction()
-            : new QuadraticDiscriminantAnalysisCompleteAction({
-                config: result.config,
-                data: result.data
-              }),
-          new LoaderHideAction()
-        ];
-      });
+      return this.computeService
+        .linearDiscriminantAnalysis(payload['config'])
+        .mergeMap(result => {
+          return [
+            result === null
+              ? new NullDataAction()
+              : new QuadraticDiscriminantAnalysisCompleteAction({
+                  config: result.config,
+                  data: result.data
+                }),
+            new LoaderHideAction()
+          ];
+        });
     });
 
   @Effect()
@@ -295,7 +329,28 @@ export class ComputeEffect {
         return [
           result === null
             ? new NullDataAction()
-            : new TsneCompleteAction({ config: result.config, data: result.data }),
+            : new TsneCompleteAction({
+                config: result.config,
+                data: result.data
+              }),
+          new LoaderHideAction()
+        ];
+      });
+    });
+
+  @Effect()
+  loadUmap: Observable<any> = this.actions$
+    .ofType(compute.COMPUTE_UMAP)
+    .map((action: UnsafeAction) => action.payload)
+    .switchMap(payload => {
+      return this.computeService.umap(payload['config']).mergeMap(result => {
+        return [
+          result === null
+            ? new NullDataAction()
+            : new compute.UmapCompleteAction({
+                config: result.config,
+                data: result.data
+              }),
           new LoaderHideAction()
         ];
       });
@@ -310,7 +365,10 @@ export class ComputeEffect {
         return [
           result === null
             ? new NullDataAction()
-            : new PcaCompleteAction({ config: result.config, data: result.data }),
+            : new PcaCompleteAction({
+                config: result.config,
+                data: result.data
+              }),
           new LoaderHideAction()
         ];
       });
@@ -321,14 +379,19 @@ export class ComputeEffect {
     .ofType(compute.COMPUTE_PATHWAYS)
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.pathways(payload['config']).mergeMap(result => {
-        return [
-          result === null
-            ? new NullDataAction()
-            : new PathwaysCompleteAction({ config: result.config, data: result.data }),
-          new LoaderHideAction()
-        ];
-      });
+      return this.computeService
+        .pathways(payload['config'])
+        .mergeMap(result => {
+          return [
+            result === null
+              ? new NullDataAction()
+              : new PathwaysCompleteAction({
+                  config: result.config,
+                  data: result.data
+                }),
+            new LoaderHideAction()
+          ];
+        });
     });
 
   @Effect()
@@ -336,14 +399,19 @@ export class ComputeEffect {
     .ofType(compute.COMPUTE_SURVIVAL)
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.survival(payload['config']).mergeMap(result => {
-        return [
-          result === null
-            ? new NullDataAction()
-            : new SurvivalCompleteAction({ config: result.config, data: result.data }),
-          new LoaderHideAction()
-        ];
-      });
+      return this.computeService
+        .survival(payload['config'])
+        .mergeMap(result => {
+          return [
+            result === null
+              ? new NullDataAction()
+              : new SurvivalCompleteAction({
+                  config: result.config,
+                  data: result.data
+                }),
+            new LoaderHideAction()
+          ];
+        });
     });
   @Effect()
   loadHazard: Observable<any> = this.actions$
@@ -354,7 +422,10 @@ export class ComputeEffect {
         return [
           result === null
             ? new NullDataAction()
-            : new HazardCompleteAction({ config: result.config, data: result.data }),
+            : new HazardCompleteAction({
+                config: result.config,
+                data: result.data
+              }),
           new LoaderHideAction()
         ];
       });
@@ -365,14 +436,19 @@ export class ComputeEffect {
     .ofType(compute.COMPUTE_HISTOGRAM)
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.histogram(payload['config']).mergeMap(result => {
-        return [
-          result === null
-            ? new NullDataAction()
-            : new HistogramCompleteAction({ config: result.config, data: result.data }),
-          new LoaderHideAction()
-        ];
-      });
+      return this.computeService
+        .histogram(payload['config'])
+        .mergeMap(result => {
+          return [
+            result === null
+              ? new NullDataAction()
+              : new HistogramCompleteAction({
+                  config: result.config,
+                  data: result.data
+                }),
+            new LoaderHideAction()
+          ];
+        });
     });
 
   @Effect()
@@ -384,7 +460,10 @@ export class ComputeEffect {
         return [
           result === null
             ? new NullDataAction()
-            : new SomCompleteAction({ config: result.config, data: result.data }),
+            : new SomCompleteAction({
+                config: result.config,
+                data: result.data
+              }),
           new LoaderHideAction()
         ];
       });
@@ -395,14 +474,19 @@ export class ComputeEffect {
     .ofType(compute.COMPUTE_CHROMOSOME)
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.chromosome(payload['config']).mergeMap(result => {
-        return [
-          result === null
-            ? new NullDataAction()
-            : new ChromosomeCompleteAction({ config: result.config, data: result.data }),
-          new LoaderHideAction()
-        ];
-      });
+      return this.computeService
+        .chromosome(payload['config'])
+        .mergeMap(result => {
+          return [
+            result === null
+              ? new NullDataAction()
+              : new ChromosomeCompleteAction({
+                  config: result.config,
+                  data: result.data
+                }),
+            new LoaderHideAction()
+          ];
+        });
     });
 
   @Effect()
@@ -414,7 +498,10 @@ export class ComputeEffect {
         return [
           result === null
             ? new NullDataAction()
-            : new GenomeCompleteAction({ config: result.config, data: result.data }),
+            : new GenomeCompleteAction({
+                config: result.config,
+                data: result.data
+              }),
           new LoaderHideAction()
         ];
       });
@@ -425,14 +512,19 @@ export class ComputeEffect {
     .ofType(compute.COMPUTE_TIMELINES)
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.timelines(payload['config']).mergeMap(result => {
-        return [
-          result === null
-            ? new NullDataAction()
-            : new TimelinesCompleteAction({ config: result.config, data: result.data }),
-          new LoaderHideAction()
-        ];
-      });
+      return this.computeService
+        .timelines(payload['config'])
+        .mergeMap(result => {
+          return [
+            result === null
+              ? new NullDataAction()
+              : new TimelinesCompleteAction({
+                  config: result.config,
+                  data: result.data
+                }),
+            new LoaderHideAction()
+          ];
+        });
     });
 
   @Effect()
@@ -444,7 +536,10 @@ export class ComputeEffect {
         return [
           result === null
             ? new NullDataAction()
-            : new HeatmapCompleteAction({ config: result.config, data: result.data }),
+            : new HeatmapCompleteAction({
+                config: result.config,
+                data: result.data
+              }),
           new LoaderHideAction()
         ];
       });
@@ -455,14 +550,19 @@ export class ComputeEffect {
     .ofType(compute.COMPUTE_DENDOGRAM)
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.dendogram(payload['config']).mergeMap(result => {
-        return [
-          result === null
-            ? new NullDataAction()
-            : new DendogramCompleteAction({ config: result.config, data: result.data }),
-          new LoaderHideAction()
-        ];
-      });
+      return this.computeService
+        .dendogram(payload['config'])
+        .mergeMap(result => {
+          return [
+            result === null
+              ? new NullDataAction()
+              : new DendogramCompleteAction({
+                  config: result.config,
+                  data: result.data
+                }),
+            new LoaderHideAction()
+          ];
+        });
     });
 
   @Effect()
@@ -470,14 +570,19 @@ export class ComputeEffect {
     .ofType(compute.COMPUTE_BOX_WHISKERS)
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.boxWhiskers(payload['config']).mergeMap(result => {
-        return [
-          result === null
-            ? new NullDataAction()
-            : new BoxWhiskersCompleteAction({ config: result.config, data: result.data }),
-          new LoaderHideAction()
-        ];
-      });
+      return this.computeService
+        .boxWhiskers(payload['config'])
+        .mergeMap(result => {
+          return [
+            result === null
+              ? new NullDataAction()
+              : new BoxWhiskersCompleteAction({
+                  config: result.config,
+                  data: result.data
+                }),
+            new LoaderHideAction()
+          ];
+        });
     });
 
   @Effect()
@@ -485,14 +590,19 @@ export class ComputeEffect {
     .ofType(compute.COMPUTE_PARALLEL_COORDS)
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.boxWhiskers(payload['config']).mergeMap(result => {
-        return [
-          result === null
-            ? new NullDataAction()
-            : new ParallelCoordsCompleteAction({ config: result.config, data: result.data }),
-          new LoaderHideAction()
-        ];
-      });
+      return this.computeService
+        .boxWhiskers(payload['config'])
+        .mergeMap(result => {
+          return [
+            result === null
+              ? new NullDataAction()
+              : new ParallelCoordsCompleteAction({
+                  config: result.config,
+                  data: result.data
+                }),
+            new LoaderHideAction()
+          ];
+        });
     });
 
   @Effect()
@@ -500,14 +610,19 @@ export class ComputeEffect {
     .ofType(compute.COMPUTE_LINKED_GENE)
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.linkedGene(payload['config']).mergeMap(result => {
-        return [
-          result === null
-            ? new NullDataAction()
-            : new LinkedGeneCompleteAction({ config: result.config, data: result.data }),
-          new LoaderHideAction()
-        ];
-      });
+      return this.computeService
+        .linkedGene(payload['config'])
+        .mergeMap(result => {
+          return [
+            result === null
+              ? new NullDataAction()
+              : new LinkedGeneCompleteAction({
+                  config: result.config,
+                  data: result.data
+                }),
+            new LoaderHideAction()
+          ];
+        });
     });
 
   @Effect()
@@ -519,7 +634,10 @@ export class ComputeEffect {
         return [
           result === null
             ? new NullDataAction()
-            : new HicCompleteAction({ config: result.config, data: result.data }),
+            : new HicCompleteAction({
+                config: result.config,
+                data: result.data
+              }),
           new LoaderHideAction()
         ];
       });
@@ -530,14 +648,19 @@ export class ComputeEffect {
     .ofType(compute.COMPUTE_DICTIONARY_LEARNING)
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.dictionaryLearning(payload['config']).mergeMap(result => {
-        return [
-          result === null
-            ? new NullDataAction()
-            : new DictionaryLearningCompleteAction({ config: result.config, data: result.data }),
-          new LoaderHideAction()
-        ];
-      });
+      return this.computeService
+        .dictionaryLearning(payload['config'])
+        .mergeMap(result => {
+          return [
+            result === null
+              ? new NullDataAction()
+              : new DictionaryLearningCompleteAction({
+                  config: result.config,
+                  data: result.data
+                }),
+            new LoaderHideAction()
+          ];
+        });
     });
 
   @Effect()
@@ -545,14 +668,19 @@ export class ComputeEffect {
     .ofType(compute.COMPUTE_TRUNCATED_SVD)
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.truncatedSvd(payload['config']).mergeMap(result => {
-        return [
-          result === null
-            ? new NullDataAction()
-            : new TruncatedSvdCompleteAction({ config: result.config, data: result.data }),
-          new LoaderHideAction()
-        ];
-      });
+      return this.computeService
+        .truncatedSvd(payload['config'])
+        .mergeMap(result => {
+          return [
+            result === null
+              ? new NullDataAction()
+              : new TruncatedSvdCompleteAction({
+                  config: result.config,
+                  data: result.data
+                }),
+            new LoaderHideAction()
+          ];
+        });
     });
 
   @Effect()
@@ -564,7 +692,10 @@ export class ComputeEffect {
         return [
           result === null
             ? new NullDataAction()
-            : new FastIcaCompleteAction({ config: result.config, data: result.data }),
+            : new FastIcaCompleteAction({
+                config: result.config,
+                data: result.data
+              }),
           new LoaderHideAction()
         ];
       });
@@ -579,7 +710,10 @@ export class ComputeEffect {
         return [
           result === null
             ? new NullDataAction()
-            : new LdaCompleteAction({ config: result.config, data: result.data }),
+            : new LdaCompleteAction({
+                config: result.config,
+                data: result.data
+              }),
           new LoaderHideAction()
         ];
       });
@@ -594,7 +728,10 @@ export class ComputeEffect {
         return [
           result === null
             ? new NullDataAction()
-            : new NmfCompleteAction({ config: result.config, data: result.data }),
+            : new NmfCompleteAction({
+                config: result.config,
+                data: result.data
+              }),
           new LoaderHideAction()
         ];
       });
@@ -609,7 +746,10 @@ export class ComputeEffect {
         return [
           result === null
             ? new NullDataAction()
-            : new LocalLinearEmbeddingCompleteAction({ config: result.config, data: result.data }),
+            : new LocalLinearEmbeddingCompleteAction({
+                config: result.config,
+                data: result.data
+              }),
           new LoaderHideAction()
         ];
       });
@@ -624,7 +764,10 @@ export class ComputeEffect {
         return [
           result === null
             ? new NullDataAction()
-            : new IsoMapCompleteAction({ config: result.config, data: result.data }),
+            : new IsoMapCompleteAction({
+                config: result.config,
+                data: result.data
+              }),
           new LoaderHideAction()
         ];
       });
@@ -635,14 +778,19 @@ export class ComputeEffect {
     .ofType(compute.COMPUTE_SPECTRAL_EMBEDDING)
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.spectralEmbedding(payload['config']).mergeMap(result => {
-        return [
-          result === null
-            ? new NullDataAction()
-            : new SpectralEmbeddingCompleteAction({ config: result.config, data: result.data }),
-          new LoaderHideAction()
-        ];
-      });
+      return this.computeService
+        .spectralEmbedding(payload['config'])
+        .mergeMap(result => {
+          return [
+            result === null
+              ? new NullDataAction()
+              : new SpectralEmbeddingCompleteAction({
+                  config: result.config,
+                  data: result.data
+                }),
+            new LoaderHideAction()
+          ];
+        });
     });
 
   @Effect()
@@ -650,14 +798,19 @@ export class ComputeEffect {
     .ofType(compute.COMPUTE_PCA_INCREMENTAL)
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.pcaIncremental(payload['config']).mergeMap(result => {
-        return [
-          result === null
-            ? new NullDataAction()
-            : new PcaIncrementalCompleteAction({ config: result.config, data: result.data }),
-          new LoaderHideAction()
-        ];
-      });
+      return this.computeService
+        .pcaIncremental(payload['config'])
+        .mergeMap(result => {
+          return [
+            result === null
+              ? new NullDataAction()
+              : new PcaIncrementalCompleteAction({
+                  config: result.config,
+                  data: result.data
+                }),
+            new LoaderHideAction()
+          ];
+        });
     });
 
   @Effect()
@@ -665,14 +818,19 @@ export class ComputeEffect {
     .ofType(compute.COMPUTE_PCA_KERNAL)
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.pcaKernal(payload['config']).mergeMap(result => {
-        return [
-          result === null
-            ? new NullDataAction()
-            : new PcaKernalCompleteAction({ config: result.config, data: result.data }),
-          new LoaderHideAction()
-        ];
-      });
+      return this.computeService
+        .pcaKernal(payload['config'])
+        .mergeMap(result => {
+          return [
+            result === null
+              ? new NullDataAction()
+              : new PcaKernalCompleteAction({
+                  config: result.config,
+                  data: result.data
+                }),
+            new LoaderHideAction()
+          ];
+        });
     });
 
   @Effect()
@@ -680,14 +838,19 @@ export class ComputeEffect {
     .ofType(compute.COMPUTE_PCA_SPARSE)
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
-      return this.computeService.pcaSparse(payload['config']).mergeMap(result => {
-        return [
-          result === null
-            ? new NullDataAction()
-            : new PcaSparseCompleteAction({ config: result.config, data: result.data }),
-          new LoaderHideAction()
-        ];
-      });
+      return this.computeService
+        .pcaSparse(payload['config'])
+        .mergeMap(result => {
+          return [
+            result === null
+              ? new NullDataAction()
+              : new PcaSparseCompleteAction({
+                  config: result.config,
+                  data: result.data
+                }),
+            new LoaderHideAction()
+          ];
+        });
     });
 
   @Effect()
@@ -699,7 +862,10 @@ export class ComputeEffect {
         .createDataDecorator(payload.config, payload.decorator)
         .mergeMap(result => {
           return [
-            new DataDecoratorAddAction({ config: payload.config, decorator: result }),
+            new DataDecoratorAddAction({
+              config: payload.config,
+              decorator: result
+            }),
             new LoaderHideAction()
           ];
         });

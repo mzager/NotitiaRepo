@@ -1,13 +1,16 @@
 import {
-    ChangeDetectionStrategy, Component, EventEmitter,
-    Output, ViewEncapsulation
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Output,
+  ViewEncapsulation
 } from '@angular/core';
 
 @Component({
-    selector: 'app-graph-panel-analysis',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
-    template: `
+  selector: 'app-graph-panel-analysis',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  template: `
   <mat-menu #analysisSummaryMenu='matMenu'>
   <button mat-menu-item (click)='select.emit(8796093022208)'>Dashboard</button>
   <!--<button mat-menu-item (click)='select.emit(4294967296)'>Box + Whiskers</button>-->
@@ -30,6 +33,7 @@ import {
   <!--<button mat-menu-item (click)='select.emit(268435456)'>Locally Linear Embedding</button>-->
   <button mat-menu-item (click)='select.emit(536870912)'>Spectral Embedding</button>
   <button mat-menu-item (click)='select.emit(8192)'>MDS</button>
+  <button mat-menu-item (click)='select.emit(17592186044416)'>UMap</button>
   <button mat-menu-item (click)='select.emit(4)'>T-SNE</button>
   </mat-menu>
   <mat-menu #analysisMatrixDecompositionMenu='matMenu'>
@@ -77,5 +81,6 @@ import {
   `
 })
 export class GraphPanelAnalysisComponent {
-    @Output() select: EventEmitter<any> = new EventEmitter();
+  @Output()
+  select: EventEmitter<any> = new EventEmitter();
 }

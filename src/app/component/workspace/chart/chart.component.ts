@@ -1,3 +1,4 @@
+import { UmapGraph } from './../../visualization/umap/umap.graph';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -69,24 +70,36 @@ export class ChartComponent implements AfterViewInit {
   labelB = '';
 
   @Output()
-  public onSelect: EventEmitter<{ type: EntityTypeEnum; ids: Array<string> }> = new EventEmitter<{
+  public onSelect: EventEmitter<{
+    type: EntityTypeEnum;
+    ids: Array<string>;
+  }> = new EventEmitter<{
     type: EntityTypeEnum;
     ids: Array<string>;
   }>();
-  @Output() public configChange: EventEmitter<GraphConfig> = new EventEmitter<GraphConfig>();
+  @Output()
+  public configChange: EventEmitter<GraphConfig> = new EventEmitter<
+    GraphConfig
+  >();
 
   // Components
-  @ViewChild('container') private container: ElementRef;
+  @ViewChild('container')
+  private container: ElementRef;
 
-  @ViewChild('labelsA') private labelsA: ElementRef;
+  @ViewChild('labelsA')
+  private labelsA: ElementRef;
 
-  @ViewChild('labelsB') private labelsB: ElementRef;
+  @ViewChild('labelsB')
+  private labelsB: ElementRef;
 
-  @ViewChild('labelsE') private labelsE: ElementRef;
+  @ViewChild('labelsE')
+  private labelsE: ElementRef;
 
-  @ViewChild('labelAContainer') private labelsAContainer: ElementRef;
+  @ViewChild('labelAContainer')
+  private labelsAContainer: ElementRef;
 
-  @ViewChild('labelBContainer') private labelsBContainer: ElementRef;
+  @ViewChild('labelBContainer')
+  private labelsBContainer: ElementRef;
 
   /* LIFECYCLE */
   ngAfterViewInit() {
@@ -107,9 +120,9 @@ export class ChartComponent implements AfterViewInit {
         this.configChange.next(evt.type);
       });
 
-      const workspaceConfig: Observable<WorkspaceConfigModel> = this.store.select(
-        fromRoot.getWorkspaceConfig
-      );
+      const workspaceConfig: Observable<
+        WorkspaceConfigModel
+      > = this.store.select(fromRoot.getWorkspaceConfig);
       workspaceConfig.subscribe(v => (chartScene.workspaceConfig = v));
 
       const selectedGraphAConfig: Observable<GraphConfig> = this.store.select(
@@ -122,7 +135,9 @@ export class ChartComponent implements AfterViewInit {
       updateDataGraphA.subscribe(v => {
         this.labelA = v[1].label;
         this.cdr.detectChanges();
-        const coi = this.createVisualization((v[1] as GraphConfig).visualization);
+        const coi = this.createVisualization(
+          (v[1] as GraphConfig).visualization
+        );
         return chartScene.updateData(GraphEnum.GRAPH_A, v[1], v[0], coi);
       });
 
@@ -144,7 +159,9 @@ export class ChartComponent implements AfterViewInit {
       updateDataGraphB.subscribe(v => {
         this.labelB = v[1].label;
         this.cdr.detectChanges();
-        const coi = this.createVisualization((v[1] as GraphConfig).visualization);
+        const coi = this.createVisualization(
+          (v[1] as GraphConfig).visualization
+        );
         return chartScene.updateData(GraphEnum.GRAPH_B, v[1], v[0], coi);
       });
 
@@ -175,13 +192,17 @@ export class ChartComponent implements AfterViewInit {
         .withLatestFrom(selectedEdgesConfig)
         .filter(v => v[0] !== null && v[0] !== null);
       updateEdges.subscribe(v => {
-        const coi = this.createVisualization((v[1] as GraphConfig).visualization);
+        const coi = this.createVisualization(
+          (v[1] as GraphConfig).visualization
+        );
         chartScene.updateData(GraphEnum.EDGES, v[1], v[0], coi);
       });
     });
   }
 
-  public createVisualization(visualization: VisualizationEnum): ChartObjectInterface {
+  public createVisualization(
+    visualization: VisualizationEnum
+  ): ChartObjectInterface {
     switch (visualization) {
       case VisualizationEnum.TIMELINES:
         return new TimelinesGraph();
@@ -199,6 +220,8 @@ export class ChartComponent implements AfterViewInit {
         return new GenomeGraph();
       case VisualizationEnum.TSNE:
         return new TsneGraph();
+      case VisualizationEnum.UMAP:
+        return new UmapGraph();
       case VisualizationEnum.PLS:
         return new PlsGraph();
       case VisualizationEnum.MDS:

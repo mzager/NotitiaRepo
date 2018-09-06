@@ -1,0 +1,2 @@
+import { AbstractScatterVisualization } from './../visualization.abstract.scatter.component';
+export class UmapGraph extends AbstractScatterVisualization {}

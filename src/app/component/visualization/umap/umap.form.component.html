@@ -1,0 +1,9 @@
+<form [formGroup]='form' novalidate>
+  <mat-form-field class='form-field'>
+    <mat-select placeholder='Metric' formControlName='metric'>
+      <mat-option *ngFor='let option of UmapMetricOption' [value]='option'>
+        {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</form>

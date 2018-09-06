@@ -1,110 +1,113 @@
-<div class='graphPanel' *ngIf='config' [ngClass]="title === 'Graph B' ? 'graphPanelRight' : 'graphPanelLeft'" style='pointer-events:all;'>
-    <!-- <div #panelButton class="graphPanelExpandedButton">
+<div class='graphPanel' *ngIf='config' [ngClass]="title === 'Graph B' ? 'graphPanelRight' : 'graphPanelLeft'"
+  style='pointer-events:all;'>
+  <!-- <div #panelButton class="graphPanelExpandedButton">
         <a (click)='toggleClick()'>
             <i class="material-icons small" style='color:rgba(0, 0, 0, 0.54);'>expand_less</i>
         </a>
     </div> -->
 
-    <div #panel class="graphPanelExpanded">
-        <mat-accordion multi="true" displayMode='flat'>
-            <mat-expansion-panel expanded='true'>
-                <mat-expansion-panel-header expandedHeight='40px' collapsedHeight='40px'>
-                    <mat-panel-title>
-                        {{methodName}}
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-                <p>{{methodSummary}}</p>
-                <app-graph-panel-analysis (select)='setVisualization($event)'></app-graph-panel-analysis>
-                <a class='os-link' style='padding-left:20px;' href='#' (click)='helpClick()'>Learn More</a>
-                <!-- <button mat-button color="primary" (click)='helpClick()'>Learn More</button> -->
-            </mat-expansion-panel>
-            <mat-expansion-panel expanded='true'>
-                <mat-expansion-panel-header expandedHeight='40px' collapsedHeight='40px'>
-                    <mat-panel-title>
-                        Parameters
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-                <ng-content></ng-content>
-                <app-graph-panel-data [config]='config' [genesets]='genesets' [cohorts]='cohorts' [pathways]='pathways' (showPanel)='showPanel.emit($event);'
-                    (configChange)='graphPanelSetConfig($event)'></app-graph-panel-data>
-                <app-graph-panel-visualization [config]='config' [tables]='tables' [fields]='fields' (decoratorAdd)='decoratorAdd.emit($event)'
-                    (decoratorDel)='decoratorDel.emit($event)'></app-graph-panel-visualization>
-                <app-pathways-form *ngIf='config && config.visualization === 256' (configChange)='graphPanelSetConfig($event)' [config]='config'></app-pathways-form>
-                <app-timelines-form *ngIf='config && config.visualization === 128' (configChange)='graphPanelSetConfig($event)' [fields]='fields'
-                    [events]='events' [config]='config'></app-timelines-form>
-                <app-genome-form *ngIf='config && config.visualization === 2147483648' (configChange)='graphPanelSetConfig($event)' [fields]='fields'
-                    [config]='config' [tables]='tables'></app-genome-form>
-                <app-chromosome-form *ngIf='config && config.visualization === 3' (configChange)='graphPanelSetConfig($event)' [fields]='fields'
-                    [tables]='tables' [config]='config'></app-chromosome-form>
-                <app-survival-form *ngIf='config && config.visualization === 16' (configChange)='graphPanelSetConfig($event)' (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
-                    [config]='config' [cohorts]='cohorts'></app-survival-form>
-                <app-hazard-form *ngIf='config && config.visualization === 4398046511104' (configChange)='graphPanelSetConfig($event)' (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
-                    [config]='config' [cohorts]='cohorts'></app-hazard-form>
-                <app-pca-form *ngIf='config && config.visualization === 1' (configChange)='graphPanelSetConfig($event)' (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
-                    (selectGeneSignature)='graphPanelSelecteGeneSignature($event)' [config]='config' [tables]='tables' [fields]='fields'></app-pca-form>
-                <app-tsne-form *ngIf='config && config.visualization === 4' (configChange)='graphPanelSetConfig($event)' (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
-                    (selectGeneSignature)='graphPanelSelecteGeneSignature($event)' [config]='config' [tables]='tables' [fields]='fields'></app-tsne-form>
-                <app-pls-form *ngIf='config && config.visualization === 2' [config]='config' [clinicalFields]='clinicalFields'></app-pls-form>
-                <app-heatmap-form *ngIf='config && config.visualization === 32' (configChange)='graphPanelSetConfig($event)' [config]='config'
-                    [tables]='tables'></app-heatmap-form>
-                <app-dendogram-form *ngIf='config && config.visualization === 549755813888' (configChange)='graphPanelSetConfig($event)'
-                    [config]='config' [tables]='tables'></app-dendogram-form>
-                <app-boxwhiskers-form *ngIf='config && config.visualization === 4294967296' (configChange)='graphPanelSetConfig($event)'
-                    [config]='config' [tables]='tables' [fields]='fields'></app-boxwhiskers-form>
-                <app-parallelcoords-form *ngIf='config && config.visualization === 8589934592' (configChange)='graphPanelSetConfig($event)'
-                    [config]='config' [tables]='tables' [fields]='fields'></app-parallelcoords-form>
-                <app-linked-gene-form *ngIf='config && config.visualization === 1073741824' (configChange)='graphPanelSetConfig($event)'
-                    [config]='config'></app-linked-gene-form>
-                <app-histogram-form *ngIf='config && config.visualization === 65' (configChange)='graphPanelSetConfig($event)' [config]='config'></app-histogram-form>
-                <app-hic-form *ngIf='config && config.visualization === 17179869184' (configChange)='graphPanelSetConfig($event)' [config]='config'></app-hic-form>
-                <app-som-form *ngIf='config && config.visualization === 4096' (configChange)='graphPanelSetConfig($event)' [config]='config'
-                    [molecularData]='molecularData' [clinicalFields]='clinicalFields'></app-som-form>
-                <app-mds-form *ngIf='config && config.visualization === 8192' (configChange)='graphPanelSetConfig($event)' (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
-                    (selectGeneSignature)='graphPanelSelecteGeneSignature($event)' [config]='config' [tables]='tables' [fields]='fields'></app-mds-form>
-                <app-fa-form *ngIf='config && config.visualization === 65536' (configChange)='graphPanelSetConfig($event)' (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
-                    (selectGeneSignature)='graphPanelSelecteGeneSignature($event)' [config]='config' [tables]='tables' [fields]='fields'></app-fa-form>
-                <app-fastica-form *ngIf='config && config.visualization === 8388608' (configChange)='graphPanelSetConfig($event)' (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
-                    (selectGeneSignature)='graphPanelSelecteGeneSignature($event)' [config]='config' [tables]='tables' [fields]='fields'></app-fastica-form>
-                <app-truncatedsvd-form *ngIf='config && config.visualization === 131072' (configChange)='graphPanelSetConfig($event)' (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
-                    (selectGeneSignature)='graphPanelSelecteGeneSignature($event)' [config]='config' [tables]='tables' [fields]='fields'></app-truncatedsvd-form>
-                <app-lda-form *ngIf='config && config.visualization === 33554432' (configChange)='graphPanelSetConfig($event)' (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
-                    (selectGeneSignature)='graphPanelSelecteGeneSignature($event)' [config]='config' [tables]='tables' [fields]='fields'></app-lda-form>
-                <app-nmf-form *ngIf='config && config.visualization === 67108864' (configChange)='graphPanelSetConfig($event)' (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
-                    (selectGeneSignature)='graphPanelSelecteGeneSignature($event)' [config]='config' [tables]='tables' [fields]='fields'></app-nmf-form>
-                <app-dictionarylearning-form *ngIf='config && config.visualization === 16777216' (configChange)='graphPanelSetConfig($event)'
-                    (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)' (selectGeneSignature)='graphPanelSelecteGeneSignature($event)'
-                    [config]='config' [tables]='tables' [fields]='fields'></app-dictionarylearning-form>
-                <app-pcakernal-form *ngIf='config && config.visualization === 524288' (configChange)='graphPanelSetConfig($event)' (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
-                    (selectGeneSignature)='graphPanelSelecteGeneSignature($event)' [config]='config' [tables]='tables' [fields]='fields'></app-pcakernal-form>
-                <app-pcaincremental-form *ngIf='config && config.visualization === 262144' (configChange)='graphPanelSetConfig($event)' (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
-                    (selectGeneSignature)='graphPanelSelecteGeneSignature($event)' [config]='config' [tables]='tables' [fields]='fields'></app-pcaincremental-form>
-                <app-pcasparse-form *ngIf='config && config.visualization === 1048576' (configChange)='graphPanelSetConfig($event)' (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
-                    (selectGeneSignature)='graphPanelSelecteGeneSignature($event)' [config]='config' [tables]='tables' [fields]='fields'></app-pcasparse-form>
-                <app-isomap-form *ngIf='config && config.visualization === 134217728' (configChange)='graphPanelSetConfig($event)' (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)'
-                    (selectGeneSignature)='graphPanelSelecteGeneSignature($event)' [config]='config' [tables]='tables' [fields]='fields'></app-isomap-form>
-                <app-locallinearembedding-form *ngIf='config && config.visualization === 268435456' (configChange)='graphPanelSetConfig($event)'
-                    (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)' (selectGeneSignature)='graphPanelSelecteGeneSignature($event)'
-                    [config]='config' [tables]='tables' [fields]='fields'></app-locallinearembedding-form>
-                <app-spectralembedding-form *ngIf='config && config.visualization === 536870912' (configChange)='graphPanelSetConfig($event)'
-                    (selectClusteringAlgorithm)='graphPanelSelectClusteringAlgorithm($event)' (selectGeneSignature)='graphPanelSelecteGeneSignature($event)'
-                    [config]='config' [tables]='tables' [fields]='fields'></app-spectralembedding-form>
-            </mat-expansion-panel>
-            <mat-expansion-panel expanded='true'>
-                <mat-expansion-panel-header expandedHeight='40px' collapsedHeight='40px'>
-                    <mat-panel-title>
-                        Legend
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-                <app-workspace-legend-panel [config]='config' [legends]='data.legends' [decorators]='decoratorsWithLegends'></app-workspace-legend-panel>
-            </mat-expansion-panel>
-            <mat-expansion-panel expanded='true' *ngIf='config.enableSupplemental'>
-                <mat-expansion-panel-header expandedHeight='40px' collapsedHeight='40px'>
-                    <mat-panel-title>
-                        Supplemental
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-                <app-workspace-stat-panel [config]='config' [graphData]='data'></app-workspace-stat-panel>
-            </mat-expansion-panel>
-        </mat-accordion>
-    </div>
+  <div #panel class="graphPanelExpanded">
+    <mat-accordion multi="true" displayMode='flat'>
+      <mat-expansion-panel expanded='true'>
+        <mat-expansion-panel-header expandedHeight='40px' collapsedHeight='40px'>
+          <mat-panel-title>
+            {{methodName}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>{{methodSummary}}</p>
+        <app-graph-panel-analysis (select)='setVisualization($event)'></app-graph-panel-analysis>
+        <a class='os-link' style='padding-left:20px;' href='#' (click)='helpClick()'>Learn More</a>
+        <!-- <button mat-button color="primary" (click)='helpClick()'>Learn More</button> -->
+      </mat-expansion-panel>
+      <mat-expansion-panel expanded='true'>
+        <mat-expansion-panel-header expandedHeight='40px' collapsedHeight='40px'>
+          <mat-panel-title>
+            Parameters
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ng-content></ng-content>
+        <app-graph-panel-data [config]='config' [genesets]='genesets' [cohorts]='cohorts' [pathways]='pathways'
+          (showPanel)='showPanel.emit($event);' (configChange)='graphPanelSetConfig($event)'></app-graph-panel-data>
+        <app-graph-panel-visualization [config]='config' [tables]='tables' [fields]='fields' (decoratorAdd)='decoratorAdd.emit($event)'
+          (decoratorDel)='decoratorDel.emit($event)'></app-graph-panel-visualization>
+        <app-pathways-form *ngIf='config && config.visualization === 256' (configChange)='graphPanelSetConfig($event)'
+          [config]='config'></app-pathways-form>
+        <app-timelines-form *ngIf='config && config.visualization === 128' (configChange)='graphPanelSetConfig($event)'
+          [fields]='fields' [events]='events' [config]='config'></app-timelines-form>
+        <app-genome-form *ngIf='config && config.visualization === 2147483648' (configChange)='graphPanelSetConfig($event)'
+          [fields]='fields' [config]='config' [tables]='tables'></app-genome-form>
+        <app-chromosome-form *ngIf='config && config.visualization === 3' (configChange)='graphPanelSetConfig($event)'
+          [fields]='fields' [tables]='tables' [config]='config'></app-chromosome-form>
+        <app-survival-form *ngIf='config && config.visualization === 16' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [cohorts]='cohorts'></app-survival-form>
+        <app-hazard-form *ngIf='config && config.visualization === 4398046511104' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [cohorts]='cohorts'></app-hazard-form>
+        <app-pca-form *ngIf='config && config.visualization === 1' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables' [fields]='fields'></app-pca-form>
+        <app-tsne-form *ngIf='config && config.visualization === 4' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables' [fields]='fields'></app-tsne-form>
+        <app-umap-form *ngIf='config && config.visualization === 17592186044416' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables' [fields]='fields'></app-umap-form>
+        <app-pls-form *ngIf='config && config.visualization === 2' [config]='config'></app-pls-form>
+        <app-heatmap-form *ngIf='config && config.visualization === 32' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables'></app-heatmap-form>
+        <app-dendogram-form *ngIf='config && config.visualization === 549755813888' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables'></app-dendogram-form>
+        <app-boxwhiskers-form *ngIf='config && config.visualization === 4294967296' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables' [fields]='fields'></app-boxwhiskers-form>
+        <app-parallelcoords-form *ngIf='config && config.visualization === 8589934592' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables' [fields]='fields'></app-parallelcoords-form>
+        <app-linked-gene-form *ngIf='config && config.visualization === 1073741824' (configChange)='graphPanelSetConfig($event)'
+          [config]='config'></app-linked-gene-form>
+        <app-histogram-form *ngIf='config && config.visualization === 65' (configChange)='graphPanelSetConfig($event)'
+          [config]='config'></app-histogram-form>
+        <app-hic-form *ngIf='config && config.visualization === 17179869184' (configChange)='graphPanelSetConfig($event)'
+          [config]='config'></app-hic-form>
+        <app-som-form *ngIf='config && config.visualization === 4096' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [molecularData]='molecularData'></app-som-form>
+        <app-mds-form *ngIf='config && config.visualization === 8192' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables' [fields]='fields'></app-mds-form>
+        <app-fa-form *ngIf='config && config.visualization === 65536' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables' [fields]='fields'></app-fa-form>
+        <app-fastica-form *ngIf='config && config.visualization === 8388608' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables' [fields]='fields'></app-fastica-form>
+        <app-truncatedsvd-form *ngIf='config && config.visualization === 131072' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables' [fields]='fields'></app-truncatedsvd-form>
+        <app-lda-form *ngIf='config && config.visualization === 33554432' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables' [fields]='fields'></app-lda-form>
+        <app-nmf-form *ngIf='config && config.visualization === 67108864' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables' [fields]='fields'></app-nmf-form>
+        <app-dictionarylearning-form *ngIf='config && config.visualization === 16777216' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables' [fields]='fields'></app-dictionarylearning-form>
+        <app-pcakernal-form *ngIf='config && config.visualization === 524288' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables' [fields]='fields'></app-pcakernal-form>
+        <app-pcaincremental-form *ngIf='config && config.visualization === 262144' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables' [fields]='fields'></app-pcaincremental-form>
+        <app-pcasparse-form *ngIf='config && config.visualization === 1048576' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables' [fields]='fields'></app-pcasparse-form>
+        <app-isomap-form *ngIf='config && config.visualization === 134217728' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables' [fields]='fields'></app-isomap-form>
+        <app-locallinearembedding-form *ngIf='config && config.visualization === 268435456' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables' [fields]='fields'></app-locallinearembedding-form>
+        <app-spectralembedding-form *ngIf='config && config.visualization === 536870912' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables' [fields]='fields'></app-spectralembedding-form>
+      </mat-expansion-panel>
+      <mat-expansion-panel expanded='true'>
+        <mat-expansion-panel-header expandedHeight='40px' collapsedHeight='40px'>
+          <mat-panel-title>
+            Legend
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-workspace-legend-panel [config]='config' [legends]='data.legends' [decorators]='decoratorsWithLegends'></app-workspace-legend-panel>
+      </mat-expansion-panel>
+      <mat-expansion-panel expanded='true' *ngIf='config.enableSupplemental'>
+        <mat-expansion-panel-header expandedHeight='40px' collapsedHeight='40px'>
+          <mat-panel-title>
+            Supplemental
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-workspace-stat-panel [config]='config' [graphData]='data'></app-workspace-stat-panel>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
 </div>
