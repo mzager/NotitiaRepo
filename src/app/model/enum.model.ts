@@ -154,7 +154,9 @@ export const enum CollectionTypeEnum {
   GENE_NAME = 1 << 17,
   MATRIX = 1 << 18,
   // tslint:disable-next-line:no-bitwise
-  EXP = CollectionTypeEnum.PROTEIN | CollectionTypeEnum.MIRNA | CollectionTypeEnum.MRNA,
+  EXP = CollectionTypeEnum.PROTEIN |
+    CollectionTypeEnum.MIRNA |
+    CollectionTypeEnum.MRNA,
   // Molec Data Field Tables (use to determine the color options and decorators)
   MOLEC_DATA_FIELD_TABLES = CollectionTypeEnum.RNA |
     CollectionTypeEnum.MRNA |
@@ -230,7 +232,10 @@ export class ConnectionTypeEnum {
   static readonly SAMPLES_PATIENTS = 'PATIENTS-SAMPLES';
   static readonly GENES_SAMPLES = 'GENES-SAMPLES';
   static readonly GENES_PATIENTS = 'GENES-PATIENTS';
-  static createFromEntities(entityA: EntityTypeEnum, entityB: EntityTypeEnum): ConnectionTypeEnum {
+  static createFromEntities(
+    entityA: EntityTypeEnum,
+    entityB: EntityTypeEnum
+  ): ConnectionTypeEnum {
     const entities = [entityA, entityB]
       .sort()
       .map(v => v.toString().toUpperCase())
@@ -336,7 +341,8 @@ export const enum VisualizationEnum {
   SPREADSHEET = 1099511627776,
   SPARSE_CODER = 2199023255552,
   HAZARD = 4398046511104,
-  DASHBOARD = 8796093022208
+  DASHBOARD = 8796093022208,
+  UMAP = 17592186044416
 }
 
 // Visibility

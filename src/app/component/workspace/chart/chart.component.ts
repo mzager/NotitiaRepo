@@ -1,3 +1,4 @@
+import { UmapGraph } from './../../visualization/umap/umap.graph';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -219,6 +220,8 @@ export class ChartComponent implements AfterViewInit {
         return new GenomeGraph();
       case VisualizationEnum.TSNE:
         return new TsneGraph();
+      case VisualizationEnum.UMAP:
+        return new UmapGraph();
       case VisualizationEnum.PLS:
         return new PlsGraph();
       case VisualizationEnum.MDS:

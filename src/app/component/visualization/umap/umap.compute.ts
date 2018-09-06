@@ -6,7 +6,7 @@ import {
 import { Legend } from './../../../model/legend.model';
 import { UmapConfigModel } from './umap.model';
 
-export const pcaCompute = (
+export const umapCompute = (
   config: UmapConfigModel,
   worker: DedicatedWorkerGlobalScope
 ): void => {
