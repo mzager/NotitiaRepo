@@ -63,7 +63,18 @@ export class UmapFormComponent extends AbstractScatterForm {
 
       n_neighbors: [],
       min_dist: [],
-      metric: []
+      metric: [],
+      learning_rate: [],
+      n_components: [],
+      spread: [],
+      set_op_mix_ratio: [],
+      local_connectivity: [],
+      repulsion_strength: [],
+      negative_sample_rate: [],
+      transform_queue_size: [],
+      angular_rp_forest: [],
+      target_n_neighbors: [],
+      target_weight: []
     });
 
     this.registerFormChange();

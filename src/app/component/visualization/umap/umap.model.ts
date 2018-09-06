@@ -34,12 +34,22 @@ export class UmapConfigModel extends GraphConfig {
   constructor() {
     super();
     this.entity = EntityTypeEnum.SAMPLE;
-    this.visualization = VisualizationEnum.PCA;
+    this.visualization = VisualizationEnum.UMAP;
     this.label = 'UMAP';
   }
-
+  learning_rate = 1.0;
+  n_components = 3;
   n_neighbors = 5;
   min_dist = 0.3;
+  spread = 1;
+  set_op_mix_ratio = 1;
+  local_connectivity = 1;
+  repulsion_strength = 1;
+  negative_sample_rate = 5;
+  transform_queue_size = 4;
+  angular_rp_forest = false;
+  target_n_neighbors = -1;
+  target_weight = 0.5;
   metric = UmapMetric.CORRELATION;
 }
 
