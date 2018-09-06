@@ -7,7 +7,7 @@ import { QuadradicDiscriminantAnalysisConfigModel } from 'app/component/visualiz
 import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
 import { GraphEnum, VisualizationEnum } from 'app/model/enum.model';
 import { GraphConfig } from 'app/model/graph-config.model';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import { Subject } from 'rxjs/Subject';
 import { BoxWhiskersConfigModel } from './../component/visualization/boxwhiskers/boxwhiskers.model';
 import { ChromosomeConfigModel } from './../component/visualization/chromosome/chromosome.model';

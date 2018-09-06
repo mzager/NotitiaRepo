@@ -1,7 +1,14 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output
+} from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import * as _ from 'lodash';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import { DataField } from './../../../model/data-field.model';
@@ -14,10 +21,13 @@ import { TimelinesConfigModel, TimelinesStyle } from './timelines.model';
   templateUrl: './timelines.form.component.html'
 })
 export class TimelinesFormComponent implements OnDestroy {
-
   public rv = [0, 100];
-  public styleOptions = [TimelinesStyle.NONE, TimelinesStyle.ARCS,
-  TimelinesStyle.TICKS, TimelinesStyle.SYMBOLS];
+  public styleOptions = [
+    TimelinesStyle.NONE,
+    TimelinesStyle.ARCS,
+    TimelinesStyle.TICKS,
+    TimelinesStyle.SYMBOLS
+  ];
   public eventGroups = [];
   public eventTypes = {};
   public patientAttributes = [];
@@ -26,20 +36,31 @@ export class TimelinesFormComponent implements OnDestroy {
   public sortOptions = [];
   public groupOptions = [];
   public $fields: Subject<Array<DataField>> = new Subject();
-  public $events: Subject<Array<{ type: string, subtype: string }>> = new Subject();
+  public $events: Subject<
+    Array<{ type: string; subtype: string }>
+  > = new Subject();
   public $options: Subscription;
 
-
-  @Input() set fields(fields: Array<DataField>) {
-    if (fields === null) { return; }
-    if (fields.length === 0) { return; }
+  @Input()
+  set fields(fields: Array<DataField>) {
+    if (fields === null) {
+      return;
+    }
+    if (fields.length === 0) {
+      return;
+    }
     this.patientAttributes = fields;
     this.$fields.next(fields);
   }
 
-  @Input() set events(events: Array<{ type: string, subtype: string }>) {
-    if (events === null) { return; }
-    if (events.length === 0) { return; }
+  @Input()
+  set events(events: Array<{ type: string; subtype: string }>) {
+    if (events === null) {
+      return;
+    }
+    if (events.length === 0) {
+      return;
+    }
     const groups = _.groupBy(events, 'type');
     const control = <FormArray>this.form.controls['bars'];
     Object.keys(groups).forEach(group => {
@@ -56,22 +77,30 @@ export class TimelinesFormComponent implements OnDestroy {
     this.ctrls = control.controls;
     this.eventTypes = groups;
     this.eventGroups = Object.keys(groups).map(lbl => ({
-      label: lbl, events: groups[lbl].map(evt => ({ label: evt.subtype }))
+      label: lbl,
+      events: groups[lbl].map(evt => ({ label: evt.subtype }))
     }));
     this.$events.next(this.eventGroups);
   }
 
-  @Input() set config(v: TimelinesConfigModel) {
-    if (v === null) { return; }
+  @Input()
+  set config(v: TimelinesConfigModel) {
+    if (v === null) {
+      return;
+    }
     this.form.patchValue(v, { emitEvent: false });
   }
 
-  @Output() configChange = new EventEmitter<GraphConfig>();
+  @Output()
+  configChange = new EventEmitter<GraphConfig>();
 
   form: FormGroup;
 
   rangeChange(): void {
-    this.form.patchValue({ range: this.rv }, { onlySelf: true, emitEvent: true });
+    this.form.patchValue(
+      { range: this.rv },
+      { onlySelf: true, emitEvent: true }
+    );
   }
 
   setOptions(options: any): void {
@@ -82,21 +111,35 @@ export class TimelinesFormComponent implements OnDestroy {
     }));
     sort.unshift({
       label: 'Patient',
-      items: [{ label: 'None' }].concat(options[0].filter(w => w.type === 'NUMBER').map(w => Object.assign(w, { type: 'patient' })))
+      items: [{ label: 'None' }].concat(
+        options[0]
+          .filter(w => w.type === 'NUMBER')
+          .map(w => Object.assign(w, { type: 'patient' }))
+      )
     });
-    const group = [{
-      label: 'Patient',
-      items: [{ label: 'None' }].concat(options[0].filter(w => w.type === 'STRING').map(w => Object.assign(w, { type: 'patient' })))
-    }];
+    const group = [
+      {
+        label: 'Patient',
+        items: [{ label: 'None' }].concat(
+          options[0]
+            .filter(w => w.type === 'STRING')
+            .map(w => Object.assign(w, { type: 'patient' }))
+        )
+      }
+    ];
     this.sortOptions = sort;
     this.groupOptions = group;
   }
   byKey(p1: DataField, p2: DataField) {
-    if (p2 === null) { return false; }
+    if (p2 === null) {
+      return false;
+    }
     return p1.key === p2.key;
   }
   byLabel(p1: any, p2: any) {
-    if (p2 === null) { return false; }
+    if (p2 === null) {
+      return false;
+    }
     return p1.label === p2.label;
   }
 
@@ -105,7 +148,6 @@ export class TimelinesFormComponent implements OnDestroy {
   }
 
   constructor(private fb: FormBuilder) {
-
     // Init Form
     this.form = this.fb.group({
       dirtyFlag: [0],
@@ -139,7 +181,6 @@ export class TimelinesFormComponent implements OnDestroy {
     //     this.configChange.emit(data);
     //   });
 
-
     // Update When Form Changes
     this.form.valueChanges
       .debounceTime(500)
@@ -152,7 +193,9 @@ export class TimelinesFormComponent implements OnDestroy {
         }
       });
 
-    this.$options = Observable.combineLatest(this.$fields, this.$events).subscribe(this.setOptions.bind(this));
-
+    this.$options = Observable.combineLatest(
+      this.$fields,
+      this.$events
+    ).subscribe(this.setOptions.bind(this));
   }
 }

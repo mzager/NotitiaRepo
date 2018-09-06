@@ -18,7 +18,7 @@ import 'rxjs/add/operator/skip';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/withLatestFrom';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 // tslint:disable-next-line:max-line-length
 import {
   BoxWhiskersCompleteAction,

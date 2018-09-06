@@ -27,7 +27,7 @@ import * as enums from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
 import * as fromRoot from 'app/reducer/index.reducer';
 import { Subscription } from 'rxjs';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import {
   DataAddCohortAction,
   DataAddGenesetAction,

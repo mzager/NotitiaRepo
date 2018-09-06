@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import Dexie from 'dexie';
 import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import { Subject } from 'rxjs/Subject';
 import { CollectionTypeEnum } from './../model/enum.model';
 import { HttpClient } from './http.client';
@@ -193,34 +193,36 @@ export class DatasetService {
             this.loaderStatusUpdate.next('Metadata Loaded');
 
             Promise.all(
-              response.files.filter(file => file.name !== 'manifest.json').map(file => {
-                if (file.dataType === '') {
-                  file.dataType = 'matrix';
-                }
-                return new Promise((resolve, reject) => {
-                  const loader = new Worker('/assets/loader.js');
-                  const onMessage = msgEvent => {
-                    const msg = JSON.parse(msgEvent.data);
-                    if (msg.cmd === 'terminate') {
-                      loader.removeEventListener('message', onMessage);
-                      loader.terminate();
-                      resolve();
-                    } else {
-                      this.loaderStatusUpdate.next(msg.msg);
-                    }
-                  };
-                  loader.addEventListener('message', onMessage);
-                  loader.postMessage({
-                    cmd: 'load',
-                    version: response.version,
-                    disease: manifest.disease,
-                    uid: manifest.uid,
-                    baseUrl: manifest.baseUrl,
-                    file: file,
-                    token: manifest.token ? manifest.token : ''
+              response.files
+                .filter(file => file.name !== 'manifest.json')
+                .map(file => {
+                  if (file.dataType === '') {
+                    file.dataType = 'matrix';
+                  }
+                  return new Promise((resolve, reject) => {
+                    const loader = new Worker('/assets/loader.js');
+                    const onMessage = msgEvent => {
+                      const msg = JSON.parse(msgEvent.data);
+                      if (msg.cmd === 'terminate') {
+                        loader.removeEventListener('message', onMessage);
+                        loader.terminate();
+                        resolve();
+                      } else {
+                        this.loaderStatusUpdate.next(msg.msg);
+                      }
+                    };
+                    loader.addEventListener('message', onMessage);
+                    loader.postMessage({
+                      cmd: 'load',
+                      version: response.version,
+                      disease: manifest.disease,
+                      uid: manifest.uid,
+                      baseUrl: manifest.baseUrl,
+                      file: file,
+                      token: manifest.token ? manifest.token : ''
+                    });
                   });
-                });
-              })
+                })
             ).then(v => {
               this.loader$.next(manifest);
               this.loaderStatusUpdate.next('Preforming Initial Analysis');
@@ -257,7 +259,12 @@ export class DatasetService {
                       ctype: CollectionTypeEnum.PATIENT
                     }
                   : dt === 'events'
-                    ? { tbl: name, map: name + 'Map', label: name, ctype: CollectionTypeEnum.EVENT }
+                    ? {
+                        tbl: name,
+                        map: name + 'Map',
+                        label: name,
+                        ctype: CollectionTypeEnum.EVENT
+                      }
                     : dt === 'matrix'
                       ? {
                           tbl: name,
@@ -308,33 +315,35 @@ export class DatasetService {
             db.table('patientMeta').bulkAdd(fields);
             this.loaderStatusUpdate.next('Metadata Loaded');
             Promise.all(
-              response.files.filter(file => file.name !== 'manifest.json').map(file => {
-                if (file.dataType === '') {
-                  file.dataType = 'matrix';
-                }
-                return new Promise((resolve, reject) => {
-                  const loader = new Worker('/assets/loader.js');
-                  const onMessage = msgEvent => {
-                    const msg = JSON.parse(msgEvent.data);
-                    if (msg.cmd === 'terminate') {
-                      loader.removeEventListener('message', onMessage);
-                      loader.terminate();
-                      resolve();
-                    } else {
-                      this.loaderStatusUpdate.next(msg.msg);
-                    }
-                  };
-                  loader.addEventListener('message', onMessage);
-                  loader.postMessage({
-                    cmd: 'load',
-                    disease: manifest.disease,
-                    uid: manifest.uid,
-                    baseUrl: manifest.baseUrl,
-                    file: file,
-                    token: manifest.token ? manifest.token : ''
+              response.files
+                .filter(file => file.name !== 'manifest.json')
+                .map(file => {
+                  if (file.dataType === '') {
+                    file.dataType = 'matrix';
+                  }
+                  return new Promise((resolve, reject) => {
+                    const loader = new Worker('/assets/loader.js');
+                    const onMessage = msgEvent => {
+                      const msg = JSON.parse(msgEvent.data);
+                      if (msg.cmd === 'terminate') {
+                        loader.removeEventListener('message', onMessage);
+                        loader.terminate();
+                        resolve();
+                      } else {
+                        this.loaderStatusUpdate.next(msg.msg);
+                      }
+                    };
+                    loader.addEventListener('message', onMessage);
+                    loader.postMessage({
+                      cmd: 'load',
+                      disease: manifest.disease,
+                      uid: manifest.uid,
+                      baseUrl: manifest.baseUrl,
+                      file: file,
+                      token: manifest.token ? manifest.token : ''
+                    });
                   });
-                });
-              })
+                })
             ).then(v => {
               this.loader$.next(manifest);
               this.loaderStatusUpdate.next('Preforming Initial Analysis');

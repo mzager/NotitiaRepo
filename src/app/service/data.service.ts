@@ -13,7 +13,7 @@ import * as d3 from 'd3';
 import Dexie from 'dexie';
 import * as JStat from 'jstat';
 import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import { Legend } from '../model/legend.model';
 import { Pathway } from '../model/pathway.model';
 import { ChartFactory } from './../component/workspace/chart/chart.factory';

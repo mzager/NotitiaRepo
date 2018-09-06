@@ -17,7 +17,8 @@ import { QuadradicDiscriminantAnalysisGraph } from 'app/component/visualization/
 import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
 import { GraphEnum, VisualizationEnum } from 'app/model/enum.model';
 import * as fromRoot from 'app/reducer/index.reducer';
-import { Observable } from 'rxjs/Observable';
+
+import { Observable } from 'rxjs/Rx';
 import { PcaGraph } from '../../visualization/pca/pca.graph';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { EntityTypeEnum } from './../../../model/enum.model';
