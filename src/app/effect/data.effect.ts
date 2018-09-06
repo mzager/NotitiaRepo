@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Rx';
 import { TipSetVisualizationAction } from './../action/tip.action';
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
@@ -18,7 +19,6 @@ import 'rxjs/add/operator/skip';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/withLatestFrom';
-import { Observable } from 'rxjs/Observable';
 import * as compute from './../action/compute.action';
 // tslint:disable-next-line:max-line-length
 import {
