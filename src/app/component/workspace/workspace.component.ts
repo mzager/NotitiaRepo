@@ -572,7 +572,7 @@ export class WorkspaceComponent {
     this.ds.resolveGeneSymbols();
 
     if (value.hasOwnProperty('content')) {
-      const v = { bucket: value.project.split('|')[0], token: '' };
+      const v = { bucket: 'zbd' + value.project.split('|')[0], token: '' };
       this.overrideShowPanel = false;
       this.store.dispatch(new data.DataLoadFromPrivate(v));
       this.store.dispatch(new ModalPanelAction(enums.PanelEnum.NONE));

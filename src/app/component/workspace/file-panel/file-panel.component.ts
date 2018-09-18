@@ -285,13 +285,61 @@ export class FilePanelComponent {
         ds['isPublic'] = true;
         return ds;
       });
+
+      const imgMap = {
+        acbc: 'DSbreast',
+        acc: 'DSadrenal',
+        acyc: 'DSheadneck',
+        all: 'na',
+        aml: 'DSblood',
+        angs: 'DSsarcoma',
+        blca: 'DSbladder',
+        brca: 'DSbreast',
+        ccrcc: 'DSkidney',
+        chol: 'DSbile',
+        chrcc: 'DSkidney',
+        difg: 'DSbrain',
+        dlbcl: 'DSblood',
+        dlbclnos: 'DSblood',
+        esca: 'DSheadneck',
+        gbm: 'DSbrain',
+        gct: 'na',
+        hcc: 'DSliver',
+        hnsc: 'DSheadneck',
+        luad: 'DSlung',
+        prc: 'DSkidney',
+        prcc: 'DSkidney'
+      };
       const publicSets = v.map(x => {
-        x.name = x.content.name.replace('(', '(CBio ');
-        x.img = x.content.site;
+        if (x.content.name.indexOf('(') === -1) {
+          x.name = x.content.name + '(CBio)';
+        } else {
+          x.name = x.content.name.replace('(', '(CBio ');
+        }
+        x.img = imgMap[x.content.site.toLowerCase()];
         return x;
       });
 
-      this.datasets = tcgaSets.concat(publicSets);
+      const uniq = [];
+      this.datasets = tcgaSets
+        .concat(publicSets)
+        .filter(v => {
+          if (uniq.indexOf(v.name) === -1) {
+            uniq.push(v.name);
+            return true;
+          }
+          return false;
+        })
+        .sort((a: any, b: any) => (a.img < b.img ? 1 : -1));
+      console.dir(this.datasets);
+      // const imgs = Object.keys(
+      //   this.datasets.reduce((p, c, i) => {
+      //     p[c.img] = 'x';
+      //     return p;
+      //   }, {})
+      // );
+      // console.log(imgs);
+      // debugger;
     });
   }
 }
