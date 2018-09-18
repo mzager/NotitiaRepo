@@ -210,9 +210,11 @@ export class ChartFactory {
     scaleFactor: number = 3
   ): void {
     // Retrieve Id
+    
     if (groups.length === 0) {
       return;
     }
+    
     const idType = groups[0].userData.idType;
     const idProperty =
       idType === EntityTypeEnum.PATIENT

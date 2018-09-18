@@ -33,8 +33,10 @@ export class UserPanelComponent {
   formGroupUpdatePassword: FormGroup;
   token: string;
 
-  @Output() showPanel = new EventEmitter<PanelEnum>();
-  @Output() loadPrivate = new EventEmitter<{ bucket: string; token: string }>();
+  @Output()
+  showPanel = new EventEmitter<PanelEnum>();
+  @Output()
+  loadPrivate = new EventEmitter<{ bucket: string; token: string }>();
 
   addDataSet(): void {
     this.showPanel.emit(PanelEnum.UPLOAD);
@@ -63,16 +65,17 @@ export class UserPanelComponent {
     Auth.signIn(form.get('email').value, form.get('password').value)
       .then(user => {
         this.user = user;
-        if (user.challengeName === 'SMS_MFA' || user.challengeName === 'SOFTWARE_TOKEN_MFA') {
-          // this.amplifyService.setAuthState({ state: 'confirmSignIn', user: user });
-        } else if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
-          // this.amplifyService.setAuthState({ state: 'requireNewPassword', user: user });
-        } else {
-          const a = Auth.currentSession().then(v => {
-            this.fetchDatasets(v.idToken.jwtToken);
-            this.setForm(UserPanelFormEnum.PROJECT_LIST);
-          });
-        }
+
+        // if (user.challengeName === 'SMS_MFA' || user.challengeName === 'SOFTWARE_TOKEN_MFA') {
+        //   // this.amplifyService.setAuthState({ state: 'confirmSignIn', user: user });
+        // } else if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
+        //   // this.amplifyService.setAuthState({ state: 'requireNewPassword', user: user });
+        // } else {
+        const a = Auth.currentSession().then(v => {
+          this.fetchDatasets(v.getIdToken().getJwtToken());
+          this.setForm(UserPanelFormEnum.PROJECT_LIST);
+        });
+        // }
       })
       .catch(err => {
         alert(err.message);
@@ -135,7 +138,9 @@ export class UserPanelComponent {
         this.cd.detectChanges();
       })
       .catch(err => {
-        const errMsg = err.message.replace('Username', 'Email').replace('username', 'email');
+        const errMsg = err.message
+          .replace('Username', 'Email')
+          .replace('username', 'email');
         alert(errMsg);
         this.errorMessage = errMsg;
         this.cd.detectChanges();
@@ -182,20 +187,32 @@ export class UserPanelComponent {
     public dataService: DataService
   ) {
     this.formGroupSignIn = fb.group({
-      email: [null, Validators.compose([Validators.required, Validators.email])],
+      email: [
+        null,
+        Validators.compose([Validators.required, Validators.email])
+      ],
       password: [null, Validators.required]
     });
 
     this.formGroupSignUp = fb.group({
-      password: [null, Validators.compose([Validators.required, Validators.minLength(8)])],
-      email: [null, Validators.compose([Validators.required, Validators.email])],
+      password: [
+        null,
+        Validators.compose([Validators.required, Validators.minLength(8)])
+      ],
+      email: [
+        null,
+        Validators.compose([Validators.required, Validators.email])
+      ],
       mailinglist: [null],
       firstName: [null, Validators.required],
       lastName: [null, Validators.required]
     });
 
     this.formGroupSignUpConfirm = fb.group({
-      email: [null, Validators.compose([Validators.required, Validators.email])],
+      email: [
+        null,
+        Validators.compose([Validators.required, Validators.email])
+      ],
       code: [null, Validators.required]
     });
 
@@ -208,9 +225,15 @@ export class UserPanelComponent {
     });
 
     this.formGroupUpdatePassword = fb.group({
-      email: [null, Validators.compose([Validators.required, Validators.email])],
+      email: [
+        null,
+        Validators.compose([Validators.required, Validators.email])
+      ],
       code: [null, Validators.required],
-      password: [null, Validators.compose([Validators.required, Validators.minLength(8)])]
+      password: [
+        null,
+        Validators.compose([Validators.required, Validators.minLength(8)])
+      ]
     });
 
     this.activeForm = UserPanelFormEnum.SIGN_IN;

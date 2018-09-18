@@ -4,7 +4,6 @@ import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Rx';
 import { Subject } from 'rxjs/Subject';
 import { CollectionTypeEnum } from './../model/enum.model';
-import { HttpClient } from './http.client';
 
 @Injectable()
 export class DatasetService {
@@ -354,5 +353,5 @@ export class DatasetService {
     return this.loader$;
   }
 
-  constructor(private http: HttpClient) {}
+  constructor() {}
 }

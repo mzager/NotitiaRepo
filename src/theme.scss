@@ -379,9 +379,6 @@ body .mat-button-focus-overlay {
 
 // Main Themes XS
 .panel {
-}
-
-.panel {
   position: absolute;
   left: 0px;
   right: 0px;
@@ -460,6 +457,7 @@ body .mat-button-focus-overlay {
     -webkit-transform: scale(1.1);
     -moz-transform: scale(1.1);
     -o-transform: scale(1.1);
+    transform: scale(1.1);
   }
   .social {
     -webkit-transform: scale(0.8);
@@ -468,24 +466,24 @@ body .mat-button-focus-overlay {
     -webkit-transition-duration: 0.5s;
     -moz-transition-duration: 0.5s;
     -o-transition-duration: 0.5s;
+    transform: scale(0.8);
+    transition-duration: 0.5s;
   }
 }
 
-// SM
 @media screen and (min-width: 600px) and (max-width: 959px) {
   .panel {
     padding: 50px 50px;
   }
 }
 
-// MD
 @media screen and (min-width: 960px) and (max-width: 1279px) {
   .panel {
     padding: 50px 75px;
   }
   .panel-button-link {
     display: inline-block;
-    width: 300px;
+    width: 400px;
   }
 }
 
@@ -496,7 +494,7 @@ body .mat-button-focus-overlay {
   }
   .panel-button-link {
     display: inline-block;
-    width: 300px;
+    width: 400px;
   }
 }
 
@@ -507,7 +505,7 @@ body .mat-button-focus-overlay {
   }
   .panel-button-link {
     display: inline-block;
-    width: 300px;
+    width: 400px;
   }
 }
 

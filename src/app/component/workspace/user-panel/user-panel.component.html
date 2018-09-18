@@ -9,11 +9,13 @@
       </mat-form-field>
       <br />
       <mat-form-field>
-        <input matInput placeholder="Password" formControlName='password' type='password' autocomplete='off'>
+        <input matInput placeholder="Password" formControlName='password' type='password'
+          autocomplete='off'>
         <mat-error *ngIf="formGroupSignUp.controls['password'].hasError('required')">Required</mat-error>
       </mat-form-field>
       <br />
-      <button mat-raised-button type="submit" color='primary' style='vertical-align: text-bottom;margin-right:10px;'>Sign In</button>
+      <button mat-raised-button type="submit" color='primary' style='vertical-align: text-bottom;margin-right:10px;'>Sign
+        In</button>
       <div class='user-panel-links'>
         <div class='user-panel-link'>
           <a class='os-link' href='#' (click)='setForm("FORGOT_PASSWORD")'>Forgot Password</a>
@@ -40,7 +42,8 @@
         <input matInput placeholder="Email" formControlName='email' type='email' autocomplete='email'>
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Password" formControlName='password' type='password' autocomplete='off'>
+        <input matInput placeholder="Password" formControlName='password' type='password'
+          autocomplete='off'>
       </mat-form-field>
       <br />
       <mat-checkbox class='uploadPanelCbx' formControlName='mailinglist'>Join Mailing List</mat-checkbox>
@@ -76,7 +79,8 @@
         <input matInput placeholder="Email" formControlName='email' autocomplete='email'>
       </mat-form-field>
       <br />
-      <button mat-raised-button type="submit" color='primary' style='margin-right:10px;'>Reset Password</button>
+      <button mat-raised-button type="submit" color='primary' style='margin-right:10px;'>Reset
+        Password</button>
       <div class='user-panel-links'>
         <div class='user-panel-link'>
           <a class='os-link' href='#' (click)='setForm("SIGN_IN")'>Sign In</a> |
@@ -93,7 +97,8 @@
         <input matInput placeholder="Email" formControlName='email' autocomplete='email'>
       </mat-form-field>
       <br />
-      <button mat-raised-button type="submit" color='primary' style='margin-right:10px;'>Reset Password</button>
+      <button mat-raised-button type="submit" color='primary' style='margin-right:10px;'>Reset
+        Password</button>
       <div class='user-panel-links'>
         <div class='user-panel-link'>
           <a class='os-link' href='#' (click)='setForm("SIGN_IN")'>Sign In</a> |
@@ -116,7 +121,8 @@
         <input matInput placeholder="Code" formControlName='code' autocomplete='off'>
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Password" formControlName='password' type='password' autocomplete='off'>
+        <input matInput placeholder="Password" formControlName='password' type='password'
+          autocomplete='off'>
       </mat-form-field>
       <br />
       <button mat-raised-button type="submit" color='primary'>Update Password</button>
@@ -125,10 +131,11 @@
 
   <!-- Add Data Set -->
   <div *ngIf='activeForm==="PROJECT_LIST"'>
-    <button mat-raised-button type='submit' color='primary' (click)='addDataSet()' style='margin-bottom:20px;'>Add Data Set</button>
+    <button mat-raised-button type='submit' color='primary' (click)='addDataSet()' style='margin-bottom:20px;'>Add
+      Data Set</button>
     <div *ngFor='let option of datasets' class='panel-config-row-del' (click)='loadDataset(option)'>
       <i class='material-icons md-18'>info_outline</i>
-      <div>{{option.content.name}} &mdash; {{option.content.status}}</div>
+      <div>{{option.content.name}}</div>
     </div>
 
   </div>

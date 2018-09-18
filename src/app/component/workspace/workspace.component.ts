@@ -570,9 +570,18 @@ export class WorkspaceComponent {
   }
   fileLoadPublic(value: any) {
     this.ds.resolveGeneSymbols();
-    this.overrideShowPanel = false;
-    this.store.dispatch(new data.DataLoadFromPublic(value));
-    this.store.dispatch(new ModalPanelAction(enums.PanelEnum.NONE));
-    this.store.dispatch(new LoaderShowAction());
+
+    if (value.hasOwnProperty('content')) {
+      const v = { bucket: value.project.split('|')[0], token: '' };
+      this.overrideShowPanel = false;
+      this.store.dispatch(new data.DataLoadFromPrivate(v));
+      this.store.dispatch(new ModalPanelAction(enums.PanelEnum.NONE));
+      this.store.dispatch(new LoaderShowAction());
+    } else {
+      this.overrideShowPanel = false;
+      this.store.dispatch(new data.DataLoadFromPublic(value));
+      this.store.dispatch(new ModalPanelAction(enums.PanelEnum.NONE));
+      this.store.dispatch(new LoaderShowAction());
+    }
   }
 }

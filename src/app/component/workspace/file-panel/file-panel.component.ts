@@ -1,3 +1,4 @@
+import { DataService } from 'app/service/data.service';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -18,242 +19,18 @@ import { DataHubService } from './../../../service/datahub.service';
 export class FilePanelComponent {
   // todo: This needs to be revisited post launch.  Should be doing this in redux state.
   myDatasets: Array<any> = [];
-  @Output() uploadExcel = new EventEmitter<any>();
-  @Output() loadPublic = new EventEmitter<any>();
-  @Output() loadPrivate = new EventEmitter<{ bucket: string; token: string }>();
-  @Output() hide = new EventEmitter<any>();
-  @Output() showPanel = new EventEmitter<PanelEnum>();
-  datasets = [
-    {
-      name: 'Adrenocortical carcinoma',
-      prefix: 'tcga_acc_',
-      img: 'DSadrenal',
-      src: 'tcga',
-      uid: 'tcga_acc'
-    },
-    // {
-    //   name: 'Acute Myeloid Leukemia',
-    //   prefix: 'tcga_laml_',
-    //   src: 'tcga',
-    //   img: 'DSblood',
-    //   uid: 'tcga_laml'
-    // },
-    {
-      name: 'Bladder urothelial carcinoma',
-      prefix: 'tcga_blca_',
-      img: 'DSbladder',
-      src: 'tcga',
-      uid: 'tcga_blca'
-    },
-    {
-      name: 'Breast',
-      prefix: 'tcga_brca_',
-      img: 'DSbreast',
-      src: 'tcga',
-      uid: 'tcga_brca'
-    },
-    {
-      name: 'Cervical',
-      prefix: 'tcga_cesc_',
-      img: 'DSuterine',
-      src: 'tcga',
-      uid: 'tcga_cesc'
-    },
-    {
-      name: 'Cholangiocarcinoma',
-      prefix: 'tcga_chol_',
-      img: 'DSbile',
-      src: 'tcga',
-      uid: 'tcga_chol'
-    },
-    {
-      name: 'Colon',
-      prefix: 'tcga_coad_',
-      img: 'DScoadread',
-      src: 'tcga',
-      uid: 'tcga_coad'
-    },
-    // {
-    //   name: 'Colorectal',
-    //   prefix: 'tcga_coadread_',
-    //   img: 'DScoadread',
-    //   src: 'tcga',
-    //   uid: 'tcga_coadread'
-    // },
-    {
-      name: 'Diffuse large B Cell',
-      prefix: 'tcga_dlbc_',
-      img: 'DSblood',
-      src: 'tcga',
-      uid: 'tcga_dlbc'
-    },
-    {
-      name: 'Esophageal',
-      prefix: 'tcga_esca_',
-      img: 'DSheadneck',
-      src: 'tcga',
-      uid: 'tcga_esca'
-    },
-    {
-      name: 'Glioblastoma',
-      prefix: 'tcga_gbm_',
-      img: 'DSbrain',
-      src: 'tcga',
-      uid: 'tcga_gbm'
-    },
-    {
-      name: 'Glioma',
-      prefix: 'tcga_brain_',
-      img: 'DSbrain',
-      src: 'tcga',
-      uid: 'tcga_brain'
-    },
-    {
-      name: 'Head and Neck',
-      prefix: 'tcga_hnsc_',
-      img: 'DSheadneck',
-      src: 'tcga',
-      uid: 'tcga_hnsc'
-    },
-    {
-      name: 'Kidney chromophobe',
-      prefix: 'tcga_kich_',
-      img: 'DSkidney',
-      src: 'tcga',
-      uid: 'tcga_kich'
-    },
-    {
-      name: 'Kidney renal clear cell',
-      prefix: 'tcga_kirc_',
-      img: 'DSkidney',
-      src: 'tcga',
-      uid: 'tcga_kirc'
-    },
-    {
-      name: 'Kidney renal papillary cell',
-      prefix: 'tcga_kirp_',
-      img: 'DSkidney',
-      src: 'tcga',
-      uid: 'tcga_kirp'
-    },
-    {
-      name: 'Lower grade glioma',
-      prefix: 'tcga_lgg_',
-      img: 'DSbrain',
-      src: 'tcga',
-      uid: 'tcga_lgg'
-    },
-    {
-      name: 'Liver',
-      prefix: 'tcga_lihc_',
-      img: 'DSliver',
-      src: 'tcga',
-      uid: 'tcga_lihc'
-    },
-    {
-      name: 'Lung adenocarcinoma',
-      prefix: 'tcga_luad_',
-      img: 'DSlung',
-      src: 'tcga',
-      uid: 'tcga_luad'
-    },
-    {
-      name: 'Lung squamous cell',
-      prefix: 'tcga_lusc_',
-      img: 'DSlung',
-      src: 'tcga',
-      uid: 'tcga_lusc'
-    },
-    {
-      name: 'Mesothelioma',
-      prefix: 'tcga_meso_',
-      img: 'DSlung',
-      src: 'tcga',
-      uid: 'tcga_meso'
-    },
-    {
-      name: 'Ovarian',
-      prefix: 'tcga_ov_',
-      img: 'DSovary',
-      src: 'tcga',
-      uid: 'tcga_ov'
-    },
-    {
-      name: 'Pancreas',
-      prefix: 'tcga_paad_',
-      img: 'DSpancreas',
-      src: 'tcga',
-      uid: 'tcga_paad'
-    },
-    {
-      name: 'Prostate',
-      prefix: 'tcga_prad_',
-      img: 'DSprostate',
-      src: 'tcga',
-      uid: 'tcga_prad'
-    },
-    {
-      name: 'Pheochromocytoma + Paraganglioma',
-      prefix: 'tcga_pcpg_',
-      img: 'DSadrenal',
-      src: 'tcga',
-      uid: 'tcga_pcpg'
-    },
-    { name: 'Rectal', prefix: 'tcga_read_', img: 'DScoadread', src: 'tcga', uid: 'tcga_read' },
-    { name: 'Sarcoma', prefix: 'tcga_sarc_', img: 'DSsarcoma', src: 'tcga', uid: 'tcga_sarc' },
-    { name: 'Stomach', prefix: 'tcga_stad_', img: 'DSstomach', src: 'tcga', uid: 'tcga_stad' },
-    {
-      name: 'Testicular germ cell',
-      prefix: 'tcga_tgct_',
-      img: 'DStesticules',
-      src: 'tcga',
-      uid: 'tcga_tgct'
-    },
-    {
-      name: 'Thyroid carcinoma',
-      prefix: 'tcga_thca_',
-      img: 'DSthyroid',
-      src: 'tcga',
-      uid: 'tcga_thca'
-    },
-    {
-      name: 'Thymoma',
-      prefix: 'tcga_thym_',
-      img: 'DSthymus',
-      src: 'tcga',
-      uid: 'tcga_thym'
-    },
-    {
-      name: 'Uterine corpus endometrial',
-      prefix: 'tcga_ucec_',
-      img: 'DSuterine',
-      src: 'tcga',
-      uid: 'tcga_ucec'
-    },
-    {
-      name: 'Uterine carcinosarcoma',
-      prefix: 'tcga_ucs_',
-      img: 'DSuterine',
-      src: 'tcga',
-      uid: 'tcga_ucs'
-    },
-    {
-      name: 'Uveal melanoma',
-      prefix: 'tcga_uvm_',
-      img: 'DSeye',
-      src: 'tcga',
-      uid: 'tcga_uvm'
-    }
-    // ,
-    // {
-    //   name: 'Metastatic Breast Cancer Project',
-    //   prefix: '',
-    //   img: 'DSbreast',
-    //   src: 'broad',
-    //   uid: 'broad_mbcp'
-    // }
-    // { 'name': 'AML Krakow', 'disease': 'ek', 'img': 'DSblood' }
-  ];
+  @Output()
+  uploadExcel = new EventEmitter<any>();
+  @Output()
+  loadPublic = new EventEmitter<any>();
+  @Output()
+  loadPrivate = new EventEmitter<{ bucket: string; token: string }>();
+  @Output()
+  hide = new EventEmitter<any>();
+  @Output()
+  showPanel = new EventEmitter<PanelEnum>();
+  datasets = [];
+  filter = '';
 
   uploadExcelClick(): void {
     this.uploadExcel.emit();
@@ -269,5 +46,252 @@ export class FilePanelComponent {
   closeClick(): void {
     this.hide.emit();
   }
-  constructor(public datahubService: DataHubService) {}
+  constructor(public dataService: DataService) {
+    dataService.getPublicDatasets().then(v => {
+      const tcgaSets = [
+        {
+          name: 'Adrenocortical carcinoma',
+          prefix: 'tcga_acc_',
+          img: 'DSadrenal',
+          src: 'tcga',
+          uid: 'tcga_acc'
+        },
+        {
+          name: 'Bladder urothelial carcinoma',
+          prefix: 'tcga_blca_',
+          img: 'DSbladder',
+          src: 'tcga',
+          uid: 'tcga_blca'
+        },
+        {
+          name: 'Breast',
+          prefix: 'tcga_brca_',
+          img: 'DSbreast',
+          src: 'tcga',
+          uid: 'tcga_brca'
+        },
+        {
+          name: 'Cervical',
+          prefix: 'tcga_cesc_',
+          img: 'DSuterine',
+          src: 'tcga',
+          uid: 'tcga_cesc'
+        },
+        {
+          name: 'Cholangiocarcinoma',
+          prefix: 'tcga_chol_',
+          img: 'DSbile',
+          src: 'tcga',
+          uid: 'tcga_chol'
+        },
+        {
+          name: 'Colon',
+          prefix: 'tcga_coad_',
+          img: 'DScoadread',
+          src: 'tcga',
+          uid: 'tcga_coad'
+        },
+        // {
+        //   name: 'Colorectal',
+        //   prefix: 'tcga_coadread_',
+        //   img: 'DScoadread',
+        //   src: 'tcga',
+        //   uid: 'tcga_coadread'
+        // },
+        {
+          name: 'Diffuse large B Cell',
+          prefix: 'tcga_dlbc_',
+          img: 'DSblood',
+          src: 'tcga',
+          uid: 'tcga_dlbc'
+        },
+        {
+          name: 'Esophageal',
+          prefix: 'tcga_esca_',
+          img: 'DSheadneck',
+          src: 'tcga',
+          uid: 'tcga_esca'
+        },
+        {
+          name: 'Glioblastoma',
+          prefix: 'tcga_gbm_',
+          img: 'DSbrain',
+          src: 'tcga',
+          uid: 'tcga_gbm'
+        },
+        {
+          name: 'Glioma',
+          prefix: 'tcga_brain_',
+          img: 'DSbrain',
+          src: 'tcga',
+          uid: 'tcga_brain'
+        },
+        {
+          name: 'Head and Neck',
+          prefix: 'tcga_hnsc_',
+          img: 'DSheadneck',
+          src: 'tcga',
+          uid: 'tcga_hnsc'
+        },
+        {
+          name: 'Kidney chromophobe',
+          prefix: 'tcga_kich_',
+          img: 'DSkidney',
+          src: 'tcga',
+          uid: 'tcga_kich'
+        },
+        {
+          name: 'Kidney renal clear cell',
+          prefix: 'tcga_kirc_',
+          img: 'DSkidney',
+          src: 'tcga',
+          uid: 'tcga_kirc'
+        },
+        {
+          name: 'Kidney renal papillary cell',
+          prefix: 'tcga_kirp_',
+          img: 'DSkidney',
+          src: 'tcga',
+          uid: 'tcga_kirp'
+        },
+        {
+          name: 'Lower grade glioma',
+          prefix: 'tcga_lgg_',
+          img: 'DSbrain',
+          src: 'tcga',
+          uid: 'tcga_lgg'
+        },
+        {
+          name: 'Liver',
+          prefix: 'tcga_lihc_',
+          img: 'DSliver',
+          src: 'tcga',
+          uid: 'tcga_lihc'
+        },
+        {
+          name: 'Lung adenocarcinoma',
+          prefix: 'tcga_luad_',
+          img: 'DSlung',
+          src: 'tcga',
+          uid: 'tcga_luad'
+        },
+        {
+          name: 'Lung squamous cell',
+          prefix: 'tcga_lusc_',
+          img: 'DSlung',
+          src: 'tcga',
+          uid: 'tcga_lusc'
+        },
+        {
+          name: 'Mesothelioma',
+          prefix: 'tcga_meso_',
+          img: 'DSlung',
+          src: 'tcga',
+          uid: 'tcga_meso'
+        },
+        {
+          name: 'Ovarian',
+          prefix: 'tcga_ov_',
+          img: 'DSovary',
+          src: 'tcga',
+          uid: 'tcga_ov'
+        },
+        {
+          name: 'Pancreas',
+          prefix: 'tcga_paad_',
+          img: 'DSpancreas',
+          src: 'tcga',
+          uid: 'tcga_paad'
+        },
+        {
+          name: 'Prostate',
+          prefix: 'tcga_prad_',
+          img: 'DSprostate',
+          src: 'tcga',
+          uid: 'tcga_prad'
+        },
+        {
+          name: 'Pheochromocytoma + Paraganglioma',
+          prefix: 'tcga_pcpg_',
+          img: 'DSadrenal',
+          src: 'tcga',
+          uid: 'tcga_pcpg'
+        },
+        {
+          name: 'Rectal',
+          prefix: 'tcga_read_',
+          img: 'DScoadread',
+          src: 'tcga',
+          uid: 'tcga_read'
+        },
+        {
+          name: 'Sarcoma',
+          prefix: 'tcga_sarc_',
+          img: 'DSsarcoma',
+          src: 'tcga',
+          uid: 'tcga_sarc'
+        },
+        {
+          name: 'Stomach',
+          prefix: 'tcga_stad_',
+          img: 'DSstomach',
+          src: 'tcga',
+          uid: 'tcga_stad'
+        },
+        {
+          name: 'Testicular germ cell',
+          prefix: 'tcga_tgct_',
+          img: 'DStesticules',
+          src: 'tcga',
+          uid: 'tcga_tgct'
+        },
+        {
+          name: 'Thyroid carcinoma',
+          prefix: 'tcga_thca_',
+          img: 'DSthyroid',
+          src: 'tcga',
+          uid: 'tcga_thca'
+        },
+        {
+          name: 'Thymoma',
+          prefix: 'tcga_thym_',
+          img: 'DSthymus',
+          src: 'tcga',
+          uid: 'tcga_thym'
+        },
+        {
+          name: 'Uterine corpus endometrial',
+          prefix: 'tcga_ucec_',
+          img: 'DSuterine',
+          src: 'tcga',
+          uid: 'tcga_ucec'
+        },
+        {
+          name: 'Uterine carcinosarcoma',
+          prefix: 'tcga_ucs_',
+          img: 'DSuterine',
+          src: 'tcga',
+          uid: 'tcga_ucs'
+        },
+        {
+          name: 'Uveal melanoma',
+          prefix: 'tcga_uvm_',
+          img: 'DSeye',
+          src: 'tcga',
+          uid: 'tcga_uvm'
+        }
+      ].map((ds: any) => {
+        ds.name += ' (Oncoscape TCGA)';
+        ds['isPublic'] = true;
+        return ds;
+      });
+      const publicSets = v.map(x => {
+        x.name = x.content.name.replace('(', '(CBio ');
+        x.img = x.content.site;
+        return x;
+      });
+
+      this.datasets = tcgaSets.concat(publicSets);
+    });
+  }
 }

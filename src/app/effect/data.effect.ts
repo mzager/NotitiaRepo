@@ -218,6 +218,7 @@ export class DataEffect {
       const fields = args[0].hasOwnProperty('fields')
         ? args[0].fields
         : args[0].patients.concat(args[0].samples);
+
       return Observable.of(
         new DataLoadedAction(
           args[0].name,

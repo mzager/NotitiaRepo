@@ -473,14 +473,29 @@ export class DataService {
                   value: psMap[v.p]
                 }));
               } else {
-                decorator.values = items.map(v => ({
-                  pid: v.p,
-                  sid: psMap[v.p],
-                  mid: null,
-                  key: EntityTypeEnum.PATIENT,
-                  label: formatLabel(decorator.field, v[decorator.field.key]),
-                  value: formatValue(decorator.field, v[decorator.field.key])
-                }));
+                if (decorator.field.tbl === 'sample') {
+                  const spMap = Object.keys(result.map).reduce((p, c) => {
+                    p[result.map[c]] = c;
+                    return p;
+                  }, {});
+                  decorator.values = items.map(v => ({
+                    pid: spMap[v.s],
+                    sid: v.s,
+                    mid: null,
+                    key: EntityTypeEnum.SAMPLE,
+                    label: formatLabel(decorator.field, v[decorator.field.key]),
+                    value: formatValue(decorator.field, v[decorator.field.key])
+                  }));
+                } else {
+                  decorator.values = items.map(v => ({
+                    pid: v.p,
+                    sid: psMap[v.p],
+                    mid: null,
+                    key: EntityTypeEnum.PATIENT,
+                    label: formatLabel(decorator.field, v[decorator.field.key]),
+                    value: formatValue(decorator.field, v[decorator.field.key])
+                  }));
+                }
               }
               // db.close();
               resolve(decorator);
@@ -517,16 +532,34 @@ export class DataService {
 
             case DataDecoratorTypeEnum.COLOR:
               scale = this.getColorScale(items, decorator.field);
-              decorator.values = items.map(v => ({
-                pid: v.p,
-                sid: psMap[v.p],
-                mid: null,
-                key: EntityTypeEnum.PATIENT,
-                label: formatLabel(decorator.field, v[decorator.field.key]),
-                value: scale(
-                  formatValue(decorator.field, v[decorator.field.key])
-                )
-              }));
+
+              if (decorator.field.tbl === 'sample') {
+                const spMap = Object.keys(result.map).reduce((p, c) => {
+                  p[result.map[c]] = c;
+                  return p;
+                }, {});
+                decorator.values = items.map(v => ({
+                  pid: spMap[v.s],
+                  sid: v.s,
+                  mid: null,
+                  key: EntityTypeEnum.PATIENT,
+                  label: formatLabel(decorator.field, v[decorator.field.key]),
+                  value: scale(
+                    formatValue(decorator.field, v[decorator.field.key])
+                  )
+                }));
+              } else {
+                decorator.values = items.map(v => ({
+                  pid: v.p,
+                  sid: psMap[v.p],
+                  mid: null,
+                  key: EntityTypeEnum.PATIENT,
+                  label: formatLabel(decorator.field, v[decorator.field.key]),
+                  value: scale(
+                    formatValue(decorator.field, v[decorator.field.key])
+                  )
+                }));
+              }
               decorator.legend = new Legend();
               decorator.legend.type = 'COLOR';
               decorator.legend.display = 'DISCRETE';
@@ -563,16 +596,33 @@ export class DataService {
 
             case DataDecoratorTypeEnum.SHAPE:
               scale = this.getShapeScale(items, decorator.field);
-              decorator.values = items.map(v => ({
-                pid: v.p,
-                sid: psMap[v.p],
-                mid: null,
-                key: EntityTypeEnum.PATIENT,
-                label: formatLabel(decorator.field, v[decorator.field.key]),
-                value: scale(
-                  formatValue(decorator.field, v[decorator.field.key])
-                )
-              }));
+              if (decorator.field.tbl === 'sample') {
+                const spMap = Object.keys(result.map).reduce((p, c) => {
+                  p[result.map[c]] = c;
+                  return p;
+                }, {});
+                decorator.values = items.map(v => ({
+                  pid: spMap[v.s],
+                  sid: v.s,
+                  mid: null,
+                  key: EntityTypeEnum.PATIENT,
+                  label: formatLabel(decorator.field, v[decorator.field.key]),
+                  value: scale(
+                    formatValue(decorator.field, v[decorator.field.key])
+                  )
+                }));
+              } else {
+                decorator.values = items.map(v => ({
+                  pid: v.p,
+                  sid: psMap[v.p],
+                  mid: null,
+                  key: EntityTypeEnum.PATIENT,
+                  label: formatLabel(decorator.field, v[decorator.field.key]),
+                  value: scale(
+                    formatValue(decorator.field, v[decorator.field.key])
+                  )
+                }));
+              }
               decorator.legend = new Legend();
               decorator.legend.type = 'SHAPE';
               decorator.legend.display = 'DISCRETE';
@@ -1403,6 +1453,12 @@ export class DataService {
           });
       });
     });
+  }
+  getPublicDatasets(): Promise<Array<any>> {
+    return fetch('https://oncoscape.v3.sttrcancer.org/public/datasets', {
+      method: 'GET',
+      headers: DataService.headersJson
+    }).then(res => res.json());
   }
   getGenesetCategories(): Promise<
     Array<{ code: string; name: string; desc: string }>
