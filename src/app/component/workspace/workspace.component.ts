@@ -1,3 +1,4 @@
+import { ScatterConfigModel } from './../visualization/scatter/scatter.model';
 import { getTipVisible, getTipEnabled } from './../../reducer/index.reducer';
 import { DataService } from 'app/service/data.service';
 import {
@@ -273,6 +274,13 @@ export class WorkspaceComponent {
         this.store.dispatch(
           new compute.UmapAction({
             config: value as UmapConfigModel
+          })
+        );
+        break;
+      case enums.VisualizationEnum.SCATTER:
+        this.store.dispatch(
+          new compute.ScatterAction({
+            config: value as ScatterConfigModel
           })
         );
         break;

@@ -287,10 +287,22 @@ export class FilePanelComponent {
       });
 
       const imgMap = {
+        plmeso: 'DSlung',
+        paad: 'DSpancreas',
+        prad: 'DSprostate',
+        odg: 'DSbrain',
+        nbl: 'DSbrain',
+        nsclc: 'DSlung',
+        mpnst: 'DSbrain',
         acbc: 'DSbreast',
         acc: 'DSadrenal',
         acyc: 'DSheadneck',
+        soft_tissue: 'DSsarcoma',
+        mnet: 'DSbrain',
+        hgsoc: 'DSovary',
         all: 'na',
+        mixed: 'na',
+        mrt: 'na',
         aml: 'DSblood',
         angs: 'DSsarcoma',
         blca: 'DSbladder',
@@ -298,6 +310,7 @@ export class FilePanelComponent {
         ccrcc: 'DSkidney',
         chol: 'DSbile',
         chrcc: 'DSkidney',
+        dsbrain: 'DSbrain',
         difg: 'DSbrain',
         dlbcl: 'DSblood',
         dlbclnos: 'DSblood',
@@ -308,24 +321,43 @@ export class FilePanelComponent {
         hnsc: 'DSheadneck',
         luad: 'DSlung',
         prc: 'DSkidney',
-        prcc: 'DSkidney'
+        prcc: 'DSkidney',
+        DSbrain: 'DSbrain',
+        read: 'DScoadread'
       };
       const publicSets = v.map(x => {
-        if (x.content.name.indexOf('(') === -1) {
+        if (
+          x.content.name.indexOf('(FHCRC)') !== -1 ||
+          x.content.name.indexOf('(Broad)') !== -1 ||
+          x.content.name.indexOf('(UW)') !== -1 ||
+          x.content.name.indexOf('(Robert Debré)')
+        ) {
+          x.name = x.content.name;
+        } else if (x.content.name.indexOf('(') === -1) {
           x.name = x.content.name + '(CBio)';
         } else {
           x.name = x.content.name.replace('(', '(CBio ');
         }
-        x.img = imgMap[x.content.site.toLowerCase()];
+
+        if (!imgMap.hasOwnProperty(x.content.site.toLowerCase())) {
+          console.log(x.content.site.toLowerCase());
+          x.img = 'DScancer';
+        } else {
+          x.img = imgMap[x.content.site.toLowerCase()];
+        }
+
         return x;
       });
 
       const uniq = [];
       this.datasets = tcgaSets
         .concat(publicSets)
-        .filter(v => {
-          if (uniq.indexOf(v.name) === -1) {
-            uniq.push(v.name);
+        .filter(v2 => {
+          if (v2.name.toLowerCase().indexOf('kim') !== -1) {
+            return false;
+          }
+          if (uniq.indexOf(v2.name) === -1) {
+            uniq.push(v2.name);
             return true;
           }
           return false;

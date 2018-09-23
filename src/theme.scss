@@ -483,7 +483,9 @@ body .mat-button-focus-overlay {
   }
   .panel-button-link {
     display: inline-block;
-    width: 400px;
+    width: 340px;
+    max-width: 340px;
+    text-overflow: ellipsis;
   }
 }
 
@@ -494,7 +496,7 @@ body .mat-button-focus-overlay {
   }
   .panel-button-link {
     display: inline-block;
-    width: 400px;
+    width: 340px;
   }
 }
 
@@ -833,8 +835,17 @@ body .mat-button-focus-overlay {
   height: 30px;
   background-position: -450px 0;
 }
-
 .disease-imgDSsarcoma {
+  width: 30px;
+  height: 30px;
+  background-position: -450px 0;
+}
+.disease-imgna {
+  width: 30px;
+  height: 30px;
+  background-position: -480px 0;
+}
+.disease-imgDScancer {
   width: 30px;
   height: 30px;
   background-position: -480px 0;

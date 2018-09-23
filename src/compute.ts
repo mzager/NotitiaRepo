@@ -1,3 +1,4 @@
+import { scatterCompute } from './app/component/visualization/scatter/scatter.compute';
 import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 import { hazardCompute } from './app/component/visualization/hazard/hazard.compute';
 import { histogramCompute } from './app/component/visualization/histogram/histogram.compute';
@@ -91,6 +92,9 @@ onmessage = e => {
       break;
     case VisualizationEnum.UMAP:
       umapCompute(e.data, me);
+      break;
+    case VisualizationEnum.SCATTER:
+      scatterCompute(e.data, me);
       break;
     case VisualizationEnum.EDGES:
       edgesCompute(e.data, me);

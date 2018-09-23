@@ -1,3 +1,7 @@
+import {
+  ScatterConfigModel,
+  ScatterDataModel
+} from './../component/visualization/scatter/scatter.model';
 import { UmapDataModel } from './../component/visualization/umap/umap.model';
 import { Action } from '@ngrx/store';
 import {
@@ -223,6 +227,8 @@ export const COMPUTE_TSNE = '[Compute] Tsne';
 export const COMPUTE_TSNE_COMPLETE = '[Compute] Tsne Complete';
 export const COMPUTE_UMAP = '[Compute] Umap';
 export const COMPUTE_UMAP_COMPLETE = '[Compute] Umap Complete';
+export const COMPUTE_SCATTER = '[Compute] Scatter';
+export const COMPUTE_SCATTER_COMPLETE = '[Compute] Scatter Complete';
 export const COMPUTE_PLSR = '[Compute] Plsr';
 export const COMPUTE_PLSR_COMPLETE = '[Compute] Plsr Complete';
 export const COMPUTE_SVM = '[Compute] SVM';
@@ -491,6 +497,16 @@ export class UmapCompleteAction implements Action {
   readonly type: string = COMPUTE_UMAP_COMPLETE;
   constructor(
     public payload: { config: UmapConfigModel; data: UmapDataModel }
+  ) {}
+}
+export class ScatterAction implements Action {
+  readonly type: string = COMPUTE_SCATTER;
+  constructor(public payload: { config: ScatterConfigModel }) {}
+}
+export class ScatterCompleteAction implements Action {
+  readonly type: string = COMPUTE_SCATTER_COMPLETE;
+  constructor(
+    public payload: { config: ScatterConfigModel; data: ScatterDataModel }
   ) {}
 }
 export class PlsAction implements Action {
@@ -842,6 +858,8 @@ export type Actions =
   | TsneCompleteAction
   | UmapAction
   | UmapCompleteAction
+  | ScatterAction
+  | ScatterCompleteAction
   | SurvivalAction
   | SurvivalCompleteAction
   | HazardAction

@@ -763,6 +763,31 @@
   {
     "methods": [
       {
+        "method": "SCATTER",
+        "url": "https://umap-learn.readthedocs.io/en/latest/"
+      }
+    ],
+    "citations": [
+      {
+        "name": "The Journal of Open Source Software",
+        "desc": "",
+        "url": ""
+      },
+      {
+        "name": "Uniform Manifold Approximation and Projection for Dimension Reduction",
+        "desc": "",
+        "url": ""
+      },
+      {
+        "name": "Accelerating t-SNE using Tree-Based Algorithms",
+        "desc": "L.J.P. van der Maaten. Accelerating t-SNE using Tree-Based Algorithms. Journal of Machine Learning Research 15(Oct):3221-3245, 2014.",
+        "url": "http://lvdmaaten.github.io/publications/papers/JMLR_2014.pdf"
+      }
+    ]
+  },
+  {
+    "methods": [
+      {
         "method": "Oncocape 3rd Party Licenses",
         "url": ""
       }

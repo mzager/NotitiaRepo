@@ -1,3 +1,4 @@
+import { ScatterGraph } from './../../visualization/scatter/scatter.graph';
 import { UmapGraph } from './../../visualization/umap/umap.graph';
 import {
   AfterViewInit,
@@ -223,6 +224,8 @@ export class ChartComponent implements AfterViewInit {
         return new TsneGraph();
       case VisualizationEnum.UMAP:
         return new UmapGraph();
+      case VisualizationEnum.SCATTER:
+        return new ScatterGraph();
       case VisualizationEnum.PLS:
         return new PlsGraph();
       case VisualizationEnum.MDS:

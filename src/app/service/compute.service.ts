@@ -1,3 +1,4 @@
+import { ScatterConfigModel } from './../component/visualization/scatter/scatter.model';
 import { UmapConfigModel } from './../component/visualization/umap/umap.model';
 import { Injectable } from '@angular/core';
 import { MiniBatchSparsePcaConfigModel } from 'app/component/visualization/minibatchsparsepca/minibatchsparsepca.model';
@@ -71,6 +72,7 @@ export class ComputeService {
   private genome$ = new Subject<any>();
   private tsne$ = new Subject<any>();
   private umap$ = new Subject<any>();
+  private scatter$ = new Subject<any>();
   private edges$ = new Subject<any>();
   private heatmap$ = new Subject<any>();
   private dendogram$ = new Subject<any>();
@@ -164,39 +166,42 @@ export class ComputeService {
                                                         VisualizationEnum.UMAP
                                                         ? this.umap$
                                                         : v ===
-                                                          VisualizationEnum.HEATMAP
-                                                          ? this.heatmap$
+                                                          VisualizationEnum.SCATTER
+                                                          ? this.scatter$
                                                           : v ===
-                                                            VisualizationEnum.DENDOGRAM
-                                                            ? this.dendogram$
+                                                            VisualizationEnum.HEATMAP
+                                                            ? this.heatmap$
                                                             : v ===
-                                                              VisualizationEnum.PARALLEL_COORDS
-                                                              ? this
-                                                                  .parallelCoords$
+                                                              VisualizationEnum.DENDOGRAM
+                                                              ? this.dendogram$
                                                               : v ===
-                                                                VisualizationEnum.LINKED_GENE
+                                                                VisualizationEnum.PARALLEL_COORDS
                                                                 ? this
-                                                                    .linkedGene$
+                                                                    .parallelCoords$
                                                                 : v ===
-                                                                  VisualizationEnum.HIC
-                                                                  ? this.hic$
+                                                                  VisualizationEnum.LINKED_GENE
+                                                                  ? this
+                                                                      .linkedGene$
                                                                   : v ===
-                                                                    VisualizationEnum.SURVIVAL
-                                                                    ? this
-                                                                        .survival$
+                                                                    VisualizationEnum.HIC
+                                                                    ? this.hic$
                                                                     : v ===
-                                                                      VisualizationEnum.HAZARD
+                                                                      VisualizationEnum.SURVIVAL
                                                                       ? this
-                                                                          .hazard$
+                                                                          .survival$
                                                                       : v ===
-                                                                        VisualizationEnum.EDGES
+                                                                        VisualizationEnum.HAZARD
                                                                         ? this
-                                                                            .edges$
+                                                                            .hazard$
                                                                         : v ===
-                                                                          VisualizationEnum.HISTOGRAM
+                                                                          VisualizationEnum.EDGES
                                                                           ? this
-                                                                              .histogram$
-                                                                          : null;
+                                                                              .edges$
+                                                                          : v ===
+                                                                            VisualizationEnum.HISTOGRAM
+                                                                            ? this
+                                                                                .histogram$
+                                                                            : null;
   }
   onMessage(v) {
     if (v.data === 'TERMINATE') {
@@ -289,6 +294,10 @@ export class ComputeService {
 
   umap(config: UmapConfigModel): Observable<any> {
     return this.execute(config, this.umap$);
+  }
+
+  scatter(config: ScatterConfigModel): Observable<any> {
+    return this.execute(config, this.scatter$);
   }
 
   pathways(config: PathwaysConfigModel): Observable<any> {

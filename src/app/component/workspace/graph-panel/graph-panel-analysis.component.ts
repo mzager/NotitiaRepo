@@ -35,6 +35,7 @@ import {
   <button mat-menu-item (click)='select.emit(8192)'>MDS</button>
   <button mat-menu-item (click)='select.emit(17592186044416)'>UMap</button>
   <button mat-menu-item (click)='select.emit(4)'>T-SNE</button>
+  <button mat-menu-item (click)='select.emit(35184372088832)'>Precomputed</button>
   </mat-menu>
   <mat-menu #analysisMatrixDecompositionMenu='matMenu'>
     <button mat-menu-item (click)='select.emit(16777216)'>Dictionary Learning</button>

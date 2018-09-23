@@ -1,7 +1,13 @@
 import {
-  AfterViewInit, ChangeDetectionStrategy,
-  ChangeDetectorRef, Component, ElementRef,
-  EventEmitter, Input, Output, ViewChild
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -70,20 +76,26 @@ declare var ML: any;
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class ClusteringAlgorithmPanelComponent implements AfterViewInit {
-
   form: FormGroup;
 
   graphOptions = ['Graph A', 'Graph B'];
 
-  @ViewChild('tabs') tabs: ElementRef;
-  @Input() bounds: ElementRef;
+  @ViewChild('tabs')
+  tabs: ElementRef;
+  @Input()
+  bounds: ElementRef;
 
-  @Input() configA: GraphConfig;
-  @Input() configB: GraphConfig;
-  @Input() graphAData: GraphData;
-  @Input() graphBData: GraphData;
+  @Input()
+  configA: GraphConfig;
+  @Input()
+  configB: GraphConfig;
+  @Input()
+  graphAData: GraphData;
+  @Input()
+  graphBData: GraphData;
 
-  @Output() configChange = new EventEmitter<GraphConfig>();
+  @Output()
+  configChange = new EventEmitter<GraphConfig>();
 
   applyCluster(type: string) {
     const f = this.form;
@@ -93,10 +105,28 @@ export class ClusteringAlgorithmPanelComponent implements AfterViewInit {
     const kmeans = ML.Clust.kmeans(data, this.form.getRawValue().nClusters);
     const clusts = kmeans.clusters;
 
-    const colors = [0x039BE5, 0x4A148C, 0x880E4F, 0x0D47A1, 0x00B8D4,
-      0xAA00FF, 0x6200EA, 0x304FFE, 0x2196F3, 0x0091EA,
-      0x00B8D4, 0x00BFA5, 0x64DD17, 0xAEEA00, 0xFFD600, 0xFFAB00, 0xFF6D00, 0xDD2C00,
-      0x5D4037, 0x455A64];
+    const colors = [
+      0x039be5,
+      0x4a148c,
+      0x880e4f,
+      0x0d47a1,
+      0x00b8d4,
+      0xaa00ff,
+      0x6200ea,
+      0x304ffe,
+      0x2196f3,
+      0x0091ea,
+      0x00b8d4,
+      0x00bfa5,
+      0x64dd17,
+      0xaeea00,
+      0xffd600,
+      0xffab00,
+      0xff6d00,
+      0xdd2c00,
+      0x5d4037,
+      0x455a64
+    ];
     this.configA.dirtyFlag = DirtyEnum.COLOR;
 
     // this.graphAData.pointColor = this.graphAData.patientIds.reduce( (p, c, i) => { p[c] = colors[clusts[i]]; return p; }, {});
@@ -112,14 +142,19 @@ export class ClusteringAlgorithmPanelComponent implements AfterViewInit {
     $(this.tabs.nativeElement).tabs();
   }
 
-
   byName(p1: any, p2: any) {
-    if (p2 === null) { return false; }
+    if (p2 === null) {
+      return false;
+    }
     return p1.name === p2.name;
   }
 
-  constructor(private store: Store<any>, private cd: ChangeDetectorRef, private fb: FormBuilder, private dataService: DataService) {
-
+  constructor(
+    private store: Store<any>,
+    private cd: ChangeDetectorRef,
+    private fb: FormBuilder,
+    private dataService: DataService
+  ) {
     this.form = this.fb.group({
       nClusters: 3,
       graph: GraphEnum.GRAPH_A
@@ -133,5 +168,4 @@ export class ClusteringAlgorithmPanelComponent implements AfterViewInit {
         // this.configChange.emit(this.configB);
       });
   }
-
 }

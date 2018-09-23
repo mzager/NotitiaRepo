@@ -5,7 +5,7 @@
     <h2 class='panel-header-desc'>Select from public data sets, or visualize your own</h2>
   </div>
   <div fxLayout.xs='column'>
-    <div fxFlex.sm='1 1 40%' fxFlex.md='1 1 30%' fxFlex.lg='1 1 35%' fxFlex.xl='1 1 15%'>
+    <div fxFlex.sm='1 1 40%' fxFlex.md='1 1 30%' fxFlex.lg='1 1 25%' fxFlex.xl='1 1 15%'>
       <h2 class='panel-column-title'>My Datasets</h2>
       <!-- <mat-form-field class="example-form-field">
         <input matInput type="text" placeholder="Clearable input" [(ngModel)]="filter">
@@ -15,7 +15,7 @@
       </mat-form-field> -->
       <app-workspace-user-panel (showPanel)='this.showPanel.emit($event)' (loadPrivate)='this.loadPrivate.emit($event)'></app-workspace-user-panel>
     </div>
-    <div fxFlex.sm='1 1 60%' fxFlex.md='1 1 70%' fxFlex.lg='1 1 65%' fxFlex.xl='1 1 85%'>
+    <div fxFlex.sm='1 1 60%' fxFlex.md='1 1 70%' fxFlex.lg='1 1 75%' fxFlex.xl='1 1 85%'>
       <h2 class='panel-column-title '>Public Data Sets</h2>
       <div>
         <div class='panel-button-link' *ngFor='let dataset of datasets; let i=index'>

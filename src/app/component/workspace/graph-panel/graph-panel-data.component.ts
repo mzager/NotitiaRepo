@@ -1,8 +1,12 @@
-
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
-  Component, EventEmitter, Input, Output,
-  ViewChild, ViewEncapsulation
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
 import { MatSelect, MatSelectChange } from '@angular/material';
 import { GraphConfig } from 'app/model/graph-config.model';
@@ -52,13 +56,17 @@ import { Pathway } from './../../../model/pathway.model';
   `
 })
 export class GraphPanelDataComponent {
+  @ViewChild('cohortSelectComponent')
+  cohortSelectComponent: MatSelect;
+  @ViewChild('genesetSelectComponent')
+  genesetSelectComponent: MatSelect;
+  @ViewChild('pathwaySelectComponent')
+  pathwaySelectComponent: MatSelect;
 
-  @ViewChild('cohortSelectComponent') cohortSelectComponent: MatSelect;
-  @ViewChild('genesetSelectComponent') genesetSelectComponent: MatSelect;
-  @ViewChild('pathwaySelectComponent') pathwaySelectComponent: MatSelect;
-
-  @Output() showPanel: EventEmitter<PanelEnum> = new EventEmitter();
-  @Output() configChange: EventEmitter<GraphConfig> = new EventEmitter();
+  @Output()
+  showPanel: EventEmitter<PanelEnum> = new EventEmitter();
+  @Output()
+  configChange: EventEmitter<GraphConfig> = new EventEmitter();
   public cohortOptions = [];
   public genesetOptions = [];
   public pathwayOptions = [];
@@ -69,23 +77,28 @@ export class GraphPanelDataComponent {
   public genesetOptionsVisible = true;
   public pathwayOptionsVisible = true;
 
-
   private _config: GraphConfig;
-  public get config(): GraphConfig { return this._config; }
-  @Input() public set config(config: GraphConfig) {
+  public get config(): GraphConfig {
+    return this._config;
+  }
+  @Input()
+  public set config(config: GraphConfig) {
     this._config = config;
   }
-  @Input() set pathways(v: Array<Pathway>) {
+  @Input()
+  set pathways(v: Array<Pathway>) {
     this.pathwayOptions = v;
-    this.pathwaySelected = this.pathwayOptions[0];
+    this.pathwaySelected = this.pathwayOptions[1];
   }
-  @Input() set cohorts(v: Array<Cohort>) {
+  @Input()
+  set cohorts(v: Array<Cohort>) {
     this.cohortOptions = v;
     this.cohortSelected = this.cohortOptions[0];
   }
-  @Input() set genesets(v: Array<GeneSet>) {
-    this.genesetOptions = v;
-    this.genesetSelected = this.genesetOptions[0];
+  @Input()
+  set genesets(v: Array<GeneSet>) {
+    this.genesetOptions = [{ n: 'All Genes', g: [] }, ...v];
+    this.genesetSelected = this.genesetOptions[1];
   }
 
   public customizeCohorts(e: any): void {
@@ -107,9 +120,10 @@ export class GraphPanelDataComponent {
     this.showPanel.emit(PanelEnum.PATHWAYS);
   }
 
-
   byName(p1: any, p2: any) {
-    if (p2 === null) { return false; }
+    if (p2 === null) {
+      return false;
+    }
     return p1.n === p2.n;
   }
 
@@ -130,7 +144,6 @@ export class GraphPanelDataComponent {
     this.config.markerFilter = e.value.g;
     this.config.dirtyFlag = DirtyEnum.LAYOUT;
     this.configChange.emit(this.config);
-
   }
   public setCohortOption(e: MatSelectChange): void {
     if (this.config.cohortName === e.value.n) {
@@ -142,5 +155,5 @@ export class GraphPanelDataComponent {
     this.config.dirtyFlag = DirtyEnum.LAYOUT;
     this.configChange.emit(this.config);
   }
-  constructor(private cd: ChangeDetectorRef) { }
+  constructor(private cd: ChangeDetectorRef) {}
 }

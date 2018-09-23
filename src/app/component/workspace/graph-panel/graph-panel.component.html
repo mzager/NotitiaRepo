@@ -26,10 +26,10 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <ng-content></ng-content>
-        <app-graph-panel-data [config]='config' [genesets]='genesets' [cohorts]='cohorts' [pathways]='pathways'
-          (showPanel)='showPanel.emit($event);' (configChange)='graphPanelSetConfig($event)'></app-graph-panel-data>
-        <app-graph-panel-visualization [config]='config' [tables]='tables' [fields]='fields' (decoratorAdd)='decoratorAdd.emit($event)'
-          (decoratorDel)='decoratorDel.emit($event)'></app-graph-panel-visualization>
+        <app-graph-panel-data [config]='config' [genesets]='genesets' [cohorts]='cohorts'
+          [pathways]='pathways' (showPanel)='showPanel.emit($event);' (configChange)='graphPanelSetConfig($event)'></app-graph-panel-data>
+        <app-graph-panel-visualization [config]='config' [tables]='tables' [fields]='fields'
+          (decoratorAdd)='decoratorAdd.emit($event)' (decoratorDel)='decoratorDel.emit($event)'></app-graph-panel-visualization>
         <app-pathways-form *ngIf='config && config.visualization === 256' (configChange)='graphPanelSetConfig($event)'
           [config]='config'></app-pathways-form>
         <app-timelines-form *ngIf='config && config.visualization === 128' (configChange)='graphPanelSetConfig($event)'
@@ -48,6 +48,8 @@
           [config]='config' [tables]='tables' [fields]='fields'></app-tsne-form>
         <app-umap-form *ngIf='config && config.visualization === 17592186044416' (configChange)='graphPanelSetConfig($event)'
           [config]='config' [tables]='tables' [fields]='fields'></app-umap-form>
+        <app-scatter-form *ngIf='config && config.visualization === 35184372088832' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables' [fields]='fields'></app-scatter-form>
         <app-pls-form *ngIf='config && config.visualization === 2' [config]='config'></app-pls-form>
         <app-heatmap-form *ngIf='config && config.visualization === 32' (configChange)='graphPanelSetConfig($event)'
           [config]='config' [tables]='tables'></app-heatmap-form>
@@ -55,8 +57,8 @@
           [config]='config' [tables]='tables'></app-dendogram-form>
         <app-boxwhiskers-form *ngIf='config && config.visualization === 4294967296' (configChange)='graphPanelSetConfig($event)'
           [config]='config' [tables]='tables' [fields]='fields'></app-boxwhiskers-form>
-        <app-parallelcoords-form *ngIf='config && config.visualization === 8589934592' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-parallelcoords-form>
+        <app-parallelcoords-form *ngIf='config && config.visualization === 8589934592'
+          (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-parallelcoords-form>
         <app-linked-gene-form *ngIf='config && config.visualization === 1073741824' (configChange)='graphPanelSetConfig($event)'
           [config]='config'></app-linked-gene-form>
         <app-histogram-form *ngIf='config && config.visualization === 65' (configChange)='graphPanelSetConfig($event)'
@@ -77,8 +79,8 @@
           [config]='config' [tables]='tables' [fields]='fields'></app-lda-form>
         <app-nmf-form *ngIf='config && config.visualization === 67108864' (configChange)='graphPanelSetConfig($event)'
           [config]='config' [tables]='tables' [fields]='fields'></app-nmf-form>
-        <app-dictionarylearning-form *ngIf='config && config.visualization === 16777216' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-dictionarylearning-form>
+        <app-dictionarylearning-form *ngIf='config && config.visualization === 16777216'
+          (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-dictionarylearning-form>
         <app-pcakernal-form *ngIf='config && config.visualization === 524288' (configChange)='graphPanelSetConfig($event)'
           [config]='config' [tables]='tables' [fields]='fields'></app-pcakernal-form>
         <app-pcaincremental-form *ngIf='config && config.visualization === 262144' (configChange)='graphPanelSetConfig($event)'
@@ -87,10 +89,10 @@
           [config]='config' [tables]='tables' [fields]='fields'></app-pcasparse-form>
         <app-isomap-form *ngIf='config && config.visualization === 134217728' (configChange)='graphPanelSetConfig($event)'
           [config]='config' [tables]='tables' [fields]='fields'></app-isomap-form>
-        <app-locallinearembedding-form *ngIf='config && config.visualization === 268435456' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-locallinearembedding-form>
-        <app-spectralembedding-form *ngIf='config && config.visualization === 536870912' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-spectralembedding-form>
+        <app-locallinearembedding-form *ngIf='config && config.visualization === 268435456'
+          (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-locallinearembedding-form>
+        <app-spectralembedding-form *ngIf='config && config.visualization === 536870912'
+          (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-spectralembedding-form>
       </mat-expansion-panel>
       <mat-expansion-panel expanded='true'>
         <mat-expansion-panel-header expandedHeight='40px' collapsedHeight='40px'>

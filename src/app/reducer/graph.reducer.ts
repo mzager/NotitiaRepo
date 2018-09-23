@@ -34,7 +34,8 @@ import {
   COMPUTE_TIMELINES_COMPLETE,
   COMPUTE_TRUNCATED_SVD_COMPLETE,
   COMPUTE_TSNE_COMPLETE,
-  COMPUTE_UMAP_COMPLETE
+  COMPUTE_UMAP_COMPLETE,
+  COMPUTE_SCATTER_COMPLETE
 } from './../action/compute.action';
 import { UnsafeAction } from './../action/unsafe.action';
 import { DataCollection } from './../model/data-collection.model';
@@ -84,6 +85,7 @@ function processAction(action: UnsafeAction, state: State): State {
     case COMPUTE_MDS_COMPLETE:
     case COMPUTE_TSNE_COMPLETE:
     case COMPUTE_UMAP_COMPLETE:
+    case COMPUTE_SCATTER_COMPLETE:
     case COMPUTE_DA_COMPLETE:
     case COMPUTE_DE_COMPLETE:
     case COMPUTE_FA_COMPLETE:

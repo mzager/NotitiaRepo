@@ -1,3 +1,4 @@
+import { ScatterConfigModel } from './../../visualization/scatter/scatter.model';
 import { UmapConfigModel } from './../../visualization/umap/umap.model';
 import {
   AfterViewInit,
@@ -290,6 +291,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
         break;
       case VisualizationEnum.UMAP:
         gc = new UmapConfigModel();
+        break;
+      case VisualizationEnum.SCATTER:
+        gc = new ScatterConfigModel();
         break;
       case VisualizationEnum.HEATMAP:
         gc = new HeatmapConfigModel();

@@ -357,6 +357,24 @@ export class ComputeEffect {
     });
 
   @Effect()
+  loadScatter: Observable<any> = this.actions$
+    .ofType(compute.COMPUTE_SCATTER)
+    .map((action: UnsafeAction) => action.payload)
+    .switchMap(payload => {
+      return this.computeService.scatter(payload['config']).mergeMap(result => {
+        return [
+          result === null
+            ? new NullDataAction()
+            : new compute.ScatterCompleteAction({
+                config: result.config,
+                data: result.data
+              }),
+          new LoaderHideAction()
+        ];
+      });
+    });
+
+  @Effect()
   loadPca: Observable<any> = this.actions$
     .ofType(compute.COMPUTE_PCA)
     .map((action: UnsafeAction) => action.payload)

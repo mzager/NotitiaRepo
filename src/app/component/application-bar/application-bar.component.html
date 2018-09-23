@@ -10,11 +10,13 @@
       <span class='copy'>Geneset</span>
     </span> -->
 
-    <span *ngIf='datasetSelected' class='application-bar-button' (click)='onSplitScreenChange()' style='padding-right:20px;'>
+    <span *ngIf='datasetSelected' class='application-bar-button' (click)='onSplitScreenChange()'
+      style='padding-right:20px;'>
       <mat-icon class='material-icons md-18' style='transform:translate(0px, 4px)'>tv</mat-icon>
       <span class='copy'>Split Screen</span>
     </span>
-    <span *ngIf='datasetSelected' class='application-bar-button' (click)='toggleBackgroundColor()' style='padding-right:20px;'>
+    <span *ngIf='datasetSelected' class='application-bar-button' (click)='toggleBackgroundColor()'
+      style='padding-right:20px;'>
       <mat-icon class='material-icons md-18' style='transform:translate(0px, 4px)'>invert_colors</mat-icon>
       Invert Color
     </span>
@@ -33,7 +35,7 @@
     </span>
   </span>
   <span class='application-bar-logo ' (click)='viewPanel(1) '>Oncoscape
-    <span style='letter-spacing: 1px;color: #EEE;'>(v3.7.10 beta
+    <span style='letter-spacing: 1px;color: #EEE;'>(v3.10.20 beta
       <span *ngIf='datasetSelected'> - {{this._config.database}}</span>)
     </span>
   </span>

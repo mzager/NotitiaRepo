@@ -1,3 +1,4 @@
+import { ScatterFormComponent } from './component/visualization/scatter/scatter.form.component';
 import { UmapFormComponent } from './component/visualization/umap/umap.form.component';
 import { TipPanelComponent } from './component/workspace/tip-panel/tip-panel.component';
 import { SelectionPanelComponent } from './component/workspace/selection-panel/selection-panel.component';
@@ -133,6 +134,7 @@ import { ErrorService } from './service/error.service';
     FaFormComponent,
     PcaFormComponent,
     UmapFormComponent,
+    ScatterFormComponent,
     PlsFormComponent,
     TsneFormComponent,
     KMeansFormComponent,

@@ -1,17 +1,27 @@
-import { DatasetService } from "./../../service/dataset.service";
-import { DataService } from "app/service/data.service";
-import { GraphConfig } from "app/model/graph-config.model";
-import { ChangeDetectionStrategy, Component, EventEmitter, HostListener, OnDestroy, OnInit, Output, Input, ChangeDetectorRef } from "@angular/core";
-import { ChartScene } from "app/component/workspace/chart/chart.scene";
-import { PanelEnum } from "app/model/enum.model";
-import * as downloadjs from "downloadjs";
-import { FileUploader } from "ng2-file-upload/ng2-file-upload";
+import { DatasetService } from './../../service/dataset.service';
+import { DataService } from 'app/service/data.service';
+import { GraphConfig } from 'app/model/graph-config.model';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  Output,
+  Input,
+  ChangeDetectorRef
+} from '@angular/core';
+import { ChartScene } from 'app/component/workspace/chart/chart.scene';
+import { PanelEnum } from 'app/model/enum.model';
+import * as downloadjs from 'downloadjs';
+import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 declare var $: any;
 
 @Component({
-  selector: "app-application-bar",
-  templateUrl: "./application-bar.component.html",
-  styleUrls: ["./application-bar.component.scss"],
+  selector: 'app-application-bar',
+  templateUrl: './application-bar.component.html',
+  styleUrls: ['./application-bar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ApplicationBarComponent implements OnInit, OnDestroy {
@@ -38,9 +48,9 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   pathwayPanelToggle = new EventEmitter();
 
   private split = false;
-  public uploader: FileUploader = new FileUploader({ url: "" });
+  public uploader: FileUploader = new FileUploader({ url: '' });
 
-  @HostListener("document:keypress", ["$event"])
+  @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     if (!event.ctrlKey) {
       return;
@@ -48,31 +58,31 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
     switch (event.key.toLowerCase()) {
       // case 'a': this.graphPanelToggle.emit(1); break;
       // case 'b': this.graphPanelToggle.emit(2); break;
-      case "g":
+      case 'g':
         this.genesetPanelToggle.emit();
         break;
-      case "d":
+      case 'd':
         this.dataPanelToggle.emit();
         break;
-      case "p":
+      case 'p':
         this.pathwayPanelToggle.emit();
         break;
-      case "e":
+      case 'e':
         this.viewPanel(PanelEnum.COHORT);
         break;
-      case "p":
+      case 'p':
         this.exportImage();
         break;
-      case "i":
+      case 'i':
         this.toggleBackgroundColor();
         break;
-      case "d":
+      case 'd':
         this.viewPanel(PanelEnum.DASHBOARD);
         break;
-      case "s":
+      case 's':
         this.viewPanel(PanelEnum.CITATION);
         break;
-      case "f":
+      case 'f':
         this.viewPanel(PanelEnum.FEEDBACK);
         break;
     }
@@ -97,7 +107,10 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   }
   toggleBackgroundColor(): void {
     const isBlack = ChartScene.instance.renderer.getClearColor().r === 0;
-    ChartScene.instance.renderer.setClearColor(isBlack ? 0xffffff : 0x000000, 1);
+    ChartScene.instance.renderer.setClearColor(
+      isBlack ? 0xffffff : 0x000000,
+      1
+    );
     ChartScene.instance.render();
   }
 
@@ -115,8 +128,8 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   }
 
   exportJpg() {
-    const jpg = $("canvas")[0].toDataURL("image/jpeg", 1);
-    downloadjs(jpg, "test.jpg", "image/jpeg");
+    const jpg = $('canvas')[0].toDataURL('image/jpeg', 1);
+    downloadjs(jpg, 'test.jpg', 'image/jpeg');
   }
   exportImage() {
     this.exportJpg();
@@ -124,5 +137,8 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   ngOnInit() {}
 
   ngOnDestroy() {}
-  constructor(public cd: ChangeDetectorRef, protected dataService: DatasetService) {}
+  constructor(
+    public cd: ChangeDetectorRef,
+    protected dataService: DatasetService
+  ) {}
 }

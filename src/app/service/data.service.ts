@@ -798,6 +798,7 @@ export class DataService {
       case VisualizationEnum.PLS:
       case VisualizationEnum.TSNE:
       case VisualizationEnum.UMAP:
+      case VisualizationEnum.SCATTER:
       case VisualizationEnum.KMEANS:
       case VisualizationEnum.KMEDIAN:
       case VisualizationEnum.KMEDOIDS:
@@ -907,7 +908,10 @@ export class DataService {
                                                                 : v ===
                                                                   VisualizationEnum.UMAP
                                                                   ? 'umap.json'
-                                                                  : '';
+                                                                  : v ===
+                                                                    VisualizationEnum.SCATTER
+                                                                    ? 'scatter.json'
+                                                                    : '';
   }
   getHelpInfo(config: GraphConfig): Promise<any> {
     const v = config.visualization;
