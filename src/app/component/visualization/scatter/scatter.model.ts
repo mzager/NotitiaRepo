@@ -15,7 +15,7 @@ export class ScatterConfigModel extends GraphConfig {
     this.visualization = VisualizationEnum.SCATTER;
     this.label = 'Scatter';
   }
-  uri: string;
+  uri = 'tsne.json';
 }
 
 export interface ScatterDataModel extends GraphData {

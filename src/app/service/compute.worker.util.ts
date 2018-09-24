@@ -1554,6 +1554,18 @@ export class ComputeWorkerUtil {
       body: JSON.stringify(config)
     }).then(res => res.json());
   }
+  fetchUri(uri: string, cache: boolean = false): Promise<any> {
+    const headers = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Accept-Encoding': 'gzip',
+      'Access-Control-Allow-Origin': '*'
+    };
+    return fetch(uri, {
+      headers: headers,
+      method: 'GET'
+    }).then(res => res.json());
+  }
 
   processMolecularData(molecularData: any, config: GraphConfig): any {
     let matrix = molecularData.data;

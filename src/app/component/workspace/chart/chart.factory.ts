@@ -210,11 +210,11 @@ export class ChartFactory {
     scaleFactor: number = 3
   ): void {
     // Retrieve Id
-    
+
     if (groups.length === 0) {
       return;
     }
-    
+
     const idType = groups[0].userData.idType;
     const idProperty =
       idType === EntityTypeEnum.PATIENT
@@ -295,13 +295,13 @@ export class ChartFactory {
           ? shapeMap[id]
           : SpriteMaterialEnum.NA
         : SpriteMaterialEnum.CIRCLE;
-      const size = sizeMap
+      let size = sizeMap
         ? sizeMap[id]
           ? sizeMap[id]
           : scaleFactor
         : scaleFactor;
       const group = groupMap ? (groupMap[id] ? groupMap[id] : 0) : 0;
-
+      // size = 1;
       const spriteMaterial = ChartFactory.getSpriteMaterial(shape, color);
       spriteMaterial.opacity = 0.8;
       const mesh: THREE.Sprite = new THREE.Sprite(spriteMaterial);

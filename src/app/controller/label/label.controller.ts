@@ -38,7 +38,10 @@ export class LabelOptions {
   css = '';
   view: VisualizationView;
 
-  constructor(view: VisualizationView, algorithm: 'FORCE' | 'GRID' | 'PIXEL' = 'PIXEL') {
+  constructor(
+    view: VisualizationView,
+    algorithm: 'FORCE' | 'GRID' | 'PIXEL' = 'PIXEL'
+  ) {
     this.view = view;
     this.algorithm = algorithm;
   }
@@ -47,7 +50,11 @@ export class LabelOptions {
     css += 'font-size:' + this.fontsize + 'px;';
     css +=
       'transform-origin: ' +
-      (this.origin === 'LEFT' ? '0%' : this.origin === 'RIGHT' ? '100%' : '50%') +
+      (this.origin === 'LEFT'
+        ? '0%'
+        : this.origin === 'RIGHT'
+          ? '100%'
+          : '50%') +
       ' 50%';
     css += ';text-align: ' + this.align.toLocaleLowerCase();
     css += ';transform: rotate(' + this.rotate + 'deg) ';
@@ -73,7 +80,10 @@ export class LabelController {
   public onShow: EventEmitter<any>;
   public onHide: EventEmitter<any>;
 
-  public static generateHtml(objects: Array<any>, options: LabelOptions): string {
+  public static generateHtml(
+    objects: Array<any>,
+    options: LabelOptions
+  ): string {
     if (!options.ignoreFrustumX && !options.ignoreFrustumY) {
       objects = LabelController.filterObjects(objects, options);
     }
@@ -82,14 +92,20 @@ export class LabelController {
     return html;
   }
 
-  private static layoutObjects(objects: Array<ILabel>, options: LabelOptions): Array<ILabel> {
+  private static layoutObjects(
+    objects: Array<ILabel>,
+    options: LabelOptions
+  ): Array<ILabel> {
     return options.algorithm === 'FORCE'
       ? this.layoutObjectsForce(objects, options)
       : options.algorithm === 'GRID'
         ? this.layoutObjectsGrid(objects, options)
         : this.layoutObjectsPixel(objects, options);
   }
-  public static createMap2D(objects: Array<Object3D>, view: VisualizationView): Object {
+  public static createMap2D(
+    objects: Array<Object3D>,
+    view: VisualizationView
+  ): Object {
     const viewport = view.viewport;
     const width = viewport.width;
     const height = viewport.height;
@@ -109,7 +125,10 @@ export class LabelController {
       return p;
     }, {});
   }
-  private static layoutObjectsPixel(objects: Array<ILabel>, options: LabelOptions): Array<ILabel> {
+  private static layoutObjectsPixel(
+    objects: Array<ILabel>,
+    options: LabelOptions
+  ): Array<ILabel> {
     const viewport = options.view.viewport;
     const width = viewport.width;
     const height = viewport.height;
@@ -118,7 +137,11 @@ export class LabelController {
 
     // var vector = new THREE.Vector3();
     const camera = options.view.camera;
-    const offset = new THREE.Vector3(options.offsetX3d, options.offsetY3d, options.offsetZ3d);
+    const offset = new THREE.Vector3(
+      options.offsetX3d,
+      options.offsetY3d,
+      options.offsetZ3d
+    );
     let data = objects.map(obj => {
       const position = obj.position
         .clone()
@@ -140,7 +163,11 @@ export class LabelController {
     });
     if (options.ignoreFrustumX || options.ignoreFrustumY) {
       data = data.filter(
-        v => v.position.x > 0 && v.position.y > 0 && v.position.x < width && v.position.y < height
+        v =>
+          v.position.x > 0 &&
+          v.position.y > 0 &&
+          v.position.x < width &&
+          v.position.y < height
       );
     }
 
@@ -150,7 +177,10 @@ export class LabelController {
     }
     return data;
   }
-  private static layoutObjectsForce(objects: Array<ILabel>, options: LabelOptions): Array<ILabel> {
+  private static layoutObjectsForce(
+    objects: Array<ILabel>,
+    options: LabelOptions
+  ): Array<ILabel> {
     const data = this.layoutObjectsPixel(objects, options);
     new LabelForce()
       .label(data)
@@ -160,11 +190,17 @@ export class LabelController {
     return data;
   }
 
-  private static layoutObjectsGrid(objects: Array<ILabel>, options: LabelOptions): Array<ILabel> {
+  private static layoutObjectsGrid(
+    objects: Array<ILabel>,
+    options: LabelOptions
+  ): Array<ILabel> {
     return [];
   }
 
-  private static styleObjects(objects: Array<ILabel>, options: LabelOptions): string {
+  private static styleObjects(
+    objects: Array<ILabel>,
+    options: LabelOptions
+  ): string {
     let css = options.generateCss();
     if (options.align === 'RIGHT') {
       css += 'text-align:right;width: 300px;';
@@ -200,13 +236,19 @@ export class LabelController {
     camera.updateMatrixWorld(true);
     camera.matrixWorldInverse.getInverse(camera.matrixWorld);
     const cameraViewProjectionMatrix: Matrix4 = new Matrix4();
-    cameraViewProjectionMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+    cameraViewProjectionMatrix.multiplyMatrices(
+      camera.projectionMatrix,
+      camera.matrixWorldInverse
+    );
     const frustum = new THREE.Frustum();
     frustum.setFromMatrix(cameraViewProjectionMatrix);
     return objects.filter(obj => frustum.containsPoint(obj.position));
   }
 
-  private static filterObjects(objects: Array<ILabel>, options: LabelOptions): Array<any> {
+  private static filterObjects(
+    objects: Array<ILabel>,
+    options: LabelOptions
+  ): Array<any> {
     return this.filterObjectsInFrustum(objects, options.view);
   }
 
@@ -230,7 +272,11 @@ export class LabelController {
         Logic To Show Hide On Move
     */
 
-  constructor(view: VisualizationView, events: ChartEvents, debounce: number = 300) {
+  constructor(
+    view: VisualizationView,
+    events: ChartEvents,
+    debounce: number = 300
+  ) {
     this._view = view;
     this._enabled = this._enabled;
     this._debounce = debounce;
@@ -266,17 +312,17 @@ export class LabelController {
     return this._enabled;
   }
   public set enable(value: boolean) {
-    if (value === this._enabled) {
-      return;
-    }
-    this._enabled = value;
-    if (value) {
-      this._view.controls.addEventListener('change', this.onChange.bind(this));
-      this.onShow.emit();
-    } else {
-      this._view.controls.removeEventListener('change', this.onChange);
-      clearTimeout(this._timeout);
-      this.onHide.emit();
-    }
+    // if (value === this._enabled) {
+    //   return;
+    // }
+    // this._enabled = value;
+    // if (value) {
+    //   this._view.controls.addEventListener('change', this.onChange.bind(this));
+    //   this.onShow.emit();
+    // } else {
+    //   this._view.controls.removeEventListener('change', this.onChange);
+    //   clearTimeout(this._timeout);
+    //   this.onHide.emit();
+    // }
   }
 }

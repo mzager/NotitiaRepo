@@ -29,16 +29,14 @@ import {
   <button mat-menu-item (click)='select.emit(128)'>Timelines</button>
   </mat-menu>
   <mat-menu #analysisManifoldLearningMenu='matMenu'>
+  <button mat-menu-item (click)='select.emit(35184372088832)'>Precomputed</button>
   <button mat-menu-item (click)='select.emit(134217728)'>Isomap</button>
   <!--<button mat-menu-item (click)='select.emit(268435456)'>Locally Linear Embedding</button>-->
   <button mat-menu-item (click)='select.emit(536870912)'>Spectral Embedding</button>
   <button mat-menu-item (click)='select.emit(8192)'>MDS</button>
   <button mat-menu-item (click)='select.emit(17592186044416)'>UMap</button>
   <button mat-menu-item (click)='select.emit(4)'>T-SNE</button>
-  <button mat-menu-item (click)='select.emit(35184372088832)'>Precomputed</button>
-  </mat-menu>
-  <mat-menu #analysisMatrixDecompositionMenu='matMenu'>
-    <button mat-menu-item (click)='select.emit(16777216)'>Dictionary Learning</button>
+  <button mat-menu-item (click)='select.emit(16777216)'>Dictionary Learning</button>
   <!--<button mat-menu-item (click)='select.emit(34359738368)'>Dictionary Learning - Mini Batch</button>-->
   <button mat-menu-item (click)='select.emit(65536)'>Factor Analysis</button>
   <button mat-menu-item (click)='select.emit(8388608)'>Fast ICA</button>
@@ -52,6 +50,11 @@ import {
   <!--<button mat-menu-item (click)='select.emit(2199023255552)'>PCA - Sparse Coder</button>-->
   <button mat-menu-item (click)='select.emit(131072)'>Truncated SVD</button>
   </mat-menu>
+  <!--
+  <mat-menu #analysisMatrixDecompositionMenu='matMenu'>
+
+  </mat-menu>
+  -->
   <!--
   <mat-menu #analysisDiscriminantAnalysisMenu='matMenu'>
   <button mat-menu-item>Linear Discriminant Analysis</button>
@@ -68,12 +71,14 @@ import {
   </mat-menu>
   -->
   <mat-menu #analysisMenu='matMenu'>
+  <button mat-menu-item [matMenuTriggerFor]='analysisManifoldLearningMenu'>Dimension Reduction</button>
   <button mat-menu-item [matMenuTriggerFor]='analysisSummaryMenu'>Summary</button>
   <button mat-menu-item [matMenuTriggerFor]='analysisStructuralMenu'>Structural</button>
   <button mat-menu-item [matMenuTriggerFor]='analysisTreatmentMenu'>Treatment</button>
-  <button mat-menu-item [matMenuTriggerFor]='analysisManifoldLearningMenu'>Manifold Learning</button>
-  <button mat-menu-item [matMenuTriggerFor]='analysisMatrixDecompositionMenu'>Matrix Decomposition</button>
+
+
   <!--
+  <button mat-menu-item [matMenuTriggerFor]='analysisMatrixDecompositionMenu'>Matrix Decomposition</button>
   <button mat-menu-item [matMenuTriggerFor]='analysisDiscriminantAnalysisMenu'>Discriminant Analysis</button>
   <button mat-menu-item [matMenuTriggerFor]='analysisSupportVectorMachinesMenu'>Support Vector Machines</button>
   -->
