@@ -1,0 +1,19 @@
+{
+  "method": "Precompute",
+  "desc": "<span class='help-method'>Sparse coding</span>Finds a sparse representation of data against a fixed, precomputed dictionary. Each row of the result is the solution to a sparse coding problem. The goal is to find a sparse array code such that: X ~= code * dictionary Read more in the scikit-learn user guide. ",
+  "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.SparseCoder.html#sklearn.decomposition.SparseCoder",
+  "params": [
+    {
+      "name": "n jobs",
+      "type": "int,",
+      "desc": "number of parallel jobs to run"
+    }
+  ],
+  "attrs": [
+    {
+      "name": "components",
+      "type": "array, [n_components, n_features]",
+      "desc": "The unchanged dictionary atoms"
+    }
+  ]
+}

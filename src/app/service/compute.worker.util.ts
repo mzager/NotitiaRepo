@@ -173,8 +173,6 @@ export class ComputeWorkerUtil {
     return new Promise((resolve, reject) => {
       const map = config.table.map.replace(/ /gi, '');
       const tbl = config.table.tbl.replace(/ /gi, '');
-
-      debugger;
       Promise.all([
         config.sampleFilter.length
           ? connection
@@ -648,7 +646,6 @@ export class ComputeWorkerUtil {
                 .where('s')
                 .anyOfIgnoreCase(samples);
         sampleQuery.toArray().then(_samples => {
-          debugger;
           const query =
             markers.length === 0
               ? this.dbData.table(tbl)

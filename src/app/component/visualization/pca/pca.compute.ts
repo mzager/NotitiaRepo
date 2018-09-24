@@ -25,7 +25,6 @@ export const pcaCompute = (
         iterated_power: config.iterated_power
       })
       .then(result => {
-        debugger;
         result.resultScaled = worker.util.scale3d(
           result.result,
           config.pcx - 1,

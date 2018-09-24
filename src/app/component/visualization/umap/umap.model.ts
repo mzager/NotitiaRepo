@@ -54,7 +54,6 @@ export class UmapConfigModel extends GraphConfig {
 }
 
 export interface UmapDataModel extends GraphData {
-  debugger;
   result: any;
   // resultScaled: Array<Array<number>>;
   sid: Array<string>;

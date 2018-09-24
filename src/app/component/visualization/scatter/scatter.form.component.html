@@ -1,10 +1,10 @@
 <form [formGroup]='form' novalidate>
-  <!-- <mat-form-field class='form-field'>
-        <mat-select placeholder='Data' formControlName='table' [compareWith]='byTbl'>
-            <mat-option *ngFor='let option of dataOptions' [value]='option'>
-                {{ option.label }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    -->
+  <mat-form-field class='form-field'>
+    <mat-select placeholder='Data' formControlName='file'>
+      <mat-option *ngFor='let file of files' [value]='file'>
+        {{ file }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
 </form>

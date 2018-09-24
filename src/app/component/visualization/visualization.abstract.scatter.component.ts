@@ -3,7 +3,10 @@ import { GraphData } from 'app/model/graph-data.model';
 import { Subscription } from 'rxjs';
 import * as THREE from 'three';
 import { Vector3 } from 'three';
-import { LabelController, LabelOptions } from '../../controller/label/label.controller';
+import {
+  LabelController,
+  LabelOptions
+} from '../../controller/label/label.controller';
 import { ChartObjectInterface } from '../../model/chart.object.interface';
 import { DataDecorator } from '../../model/data-map.model';
 import { EntityTypeEnum } from '../../model/enum.model';
@@ -35,7 +38,11 @@ export class AbstractScatterVisualization extends AbstractVisualization {
   protected selectionController: SelectionController;
 
   // Private Subscriptions
-  create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
+  create(
+    labels: HTMLElement,
+    events: ChartEvents,
+    view: VisualizationView
+  ): ChartObjectInterface {
     super.create(labels, events, view);
     this.selectionController = new SelectionController(view, events);
 
@@ -76,7 +83,8 @@ export class AbstractScatterVisualization extends AbstractVisualization {
   }
 
   addObjects(type: EntityTypeEnum) {
-    const propertyId = this._config.entity === EntityTypeEnum.GENE ? 'mid' : 'sid';
+    const propertyId =
+      this._config.entity === EntityTypeEnum.GENE ? 'mid' : 'sid';
     const objectIds = this._data[propertyId];
     this._data.resultScaled.forEach((point, index) => {
       const group = ChartFactory.createDataGroup(
@@ -93,7 +101,10 @@ export class AbstractScatterVisualization extends AbstractVisualization {
 
     ChartFactory.configPerspectiveOrbit(
       this.view,
-      new THREE.Box3(new Vector3(-250, -250, -250), new THREE.Vector3(250, 250, 250))
+      new THREE.Box3(
+        new Vector3(-250, -250, -250),
+        new THREE.Vector3(250, 250, 250)
+      )
     );
   }
 
@@ -108,7 +119,10 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     const labelOptions = new LabelOptions(this.view, 'FORCE');
     labelOptions.offsetX3d = 1;
     labelOptions.maxLabels = 100;
-    this.labels.innerHTML = LabelController.generateHtml(this.meshes, labelOptions);
+    this.labels.innerHTML = LabelController.generateHtml(
+      this.meshes,
+      labelOptions
+    );
   }
 
   onKeyDown(e: KeyboardEvent): void {
