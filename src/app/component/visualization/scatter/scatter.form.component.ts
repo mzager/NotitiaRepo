@@ -23,7 +23,10 @@ export class ScatterFormComponent extends AbstractScatterForm {
     this.form.patchValue(v, { emitEvent: false });
   }
 
-  files = ['tsne.json', 'pca.json'];
+  files = [
+    { name: 'TSNE', uri: 'http://localhost:4200/assets/tsne.json' },
+    { name: 'PCA', uri: 'http://localhost:4200/assets/pca.json' }
+  ];
 
   constructor(private fb: FormBuilder) {
     super();
@@ -34,7 +37,7 @@ export class ScatterFormComponent extends AbstractScatterForm {
       database: [],
       table: [],
       pointData: [],
-      file: []
+      uri: []
     });
     this.registerFormChange();
 

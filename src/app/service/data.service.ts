@@ -93,7 +93,8 @@ export class DataService {
 
   private _privateData = {
     database: '',
-    map: [],
+    patientMap: {},
+    sampleMap: {},
     data: []
   };
 
@@ -130,8 +131,13 @@ export class DataService {
           ]).then(results => {
             this._privateData.database = database;
             this._privateData.data = results[0];
-            this._privateData.map = results[1].reduce((p, c) => {
+            this._privateData.sampleMap = results[1].reduce((p, c) => {
+              p[c.s] = c.p;
+              return p;
+            });
+            this._privateData.patientMap = results[1].reduce((p, c) => {
               p[c.p] = c.s;
+
               return p;
             }, {});
             db.close();
@@ -450,51 +456,96 @@ export class DataService {
           decorator.field.tbl
         ).then(result => {
           const items = result.data;
-          const psMap = result.map;
+          const psMap = result.patientMap;
+
           let scale: Function;
           switch (decorator.type) {
             case DataDecoratorTypeEnum.LABEL:
               if (decorator.field.key === 'pid') {
-                decorator.values = items.map(v => ({
-                  pid: v.p,
-                  sid: psMap[v.p],
-                  mid: null,
-                  key: EntityTypeEnum.PATIENT,
-                  label: v.p,
-                  value: v.p
-                }));
-              } else if (decorator.field.key === 'sid') {
-                decorator.values = items.map(v => ({
-                  pid: v.p,
-                  sid: psMap[v.p],
-                  mid: null,
-                  key: EntityTypeEnum.PATIENT,
-                  label: psMap[v.p],
-                  value: psMap[v.p]
-                }));
-              } else {
-                if (decorator.field.tbl === 'sample') {
-                  const spMap = Object.keys(result.map).reduce((p, c) => {
-                    p[result.map[c]] = c;
-                    return p;
-                  }, {});
-                  decorator.values = items.map(v => ({
-                    pid: spMap[v.s],
-                    sid: v.s,
+                decorator.values = Object.keys(result.sampleMap).map(sid => {
+                  return {
+                    sid: sid,
+                    pid: result.sampleMap[sid],
                     mid: null,
                     key: EntityTypeEnum.SAMPLE,
-                    label: formatLabel(decorator.field, v[decorator.field.key]),
-                    value: formatValue(decorator.field, v[decorator.field.key])
-                  }));
-                } else {
-                  decorator.values = items.map(v => ({
-                    pid: v.p,
-                    sid: psMap[v.p],
+                    label: result.sampleMap[sid],
+                    value: result.sampleMap[sid]
+                  };
+                });
+              } else if (decorator.field.key === 'sid') {
+                decorator.values = Object.keys(result.sampleMap).map(sid => {
+                  return {
+                    sid: sid,
+                    pid: result.sampleMap[sid],
                     mid: null,
-                    key: EntityTypeEnum.PATIENT,
-                    label: formatLabel(decorator.field, v[decorator.field.key]),
-                    value: formatValue(decorator.field, v[decorator.field.key])
-                  }));
+                    key: EntityTypeEnum.SAMPLE,
+                    label: sid,
+                    value: sid
+                  };
+                });
+              } else {
+                if (decorator.field.tbl === 'sample') {
+                  const data = items.reduce((p, c) => {
+                    p[c.s] = c;
+                    return p;
+                  }, {});
+                  decorator.values = Object.keys(result.sampleMap).map(sid => {
+                    if (!data.hasOwnProperty(sid)) {
+                      return {
+                        sid: sid,
+                        pid: result.sampleMap[sid],
+                        mid: null,
+                        key: EntityTypeEnum.SAMPLE,
+                        label: 'NA',
+                        value: 'NA'
+                      };
+                    }
+                    return {
+                      sid: sid,
+                      pid: result.sampleMap[sid],
+                      mid: null,
+                      key: EntityTypeEnum.SAMPLE,
+                      label: formatLabel(
+                        decorator.field,
+                        data[sid][decorator.field.key]
+                      ),
+                      value: formatValue(
+                        decorator.field,
+                        data[sid][decorator.field.key]
+                      )
+                    };
+                  });
+                } else {
+                  const data = items.reduce((p, c) => {
+                    p[c.p] = c;
+                    return p;
+                  }, {});
+                  decorator.values = Object.keys(result.sampleMap).map(sid => {
+                    if (!data.hasOwnProperty(result.sampleMap[sid])) {
+                      return {
+                        sid: sid,
+                        pid: result.sampleMap[sid],
+                        mid: null,
+                        key: EntityTypeEnum.SAMPLE,
+                        label: 'NA',
+                        value: 'NA'
+                      };
+                    }
+                    return {
+                      sid: sid,
+                      pid: result.sampleMap[sid],
+                      mid: null,
+                      key: EntityTypeEnum.SAMPLE,
+                      label: formatLabel(
+                        decorator.field,
+                        data[result.sampleMap[sid]][decorator.field.key]
+                      ),
+                      value: formatValue(
+                        decorator.field,
+                        data[result.sampleMap[sid]][decorator.field.key]
+                      )
+                    };
+                  });
                 }
               }
               // db.close();
@@ -532,33 +583,74 @@ export class DataService {
 
             case DataDecoratorTypeEnum.COLOR:
               scale = this.getColorScale(items, decorator.field);
-
               if (decorator.field.tbl === 'sample') {
-                const spMap = Object.keys(result.map).reduce((p, c) => {
-                  p[result.map[c]] = c;
+                const data = items.reduce((p, c) => {
+                  p[c.s] = c;
                   return p;
                 }, {});
-                decorator.values = items.map(v => ({
-                  pid: spMap[v.s],
-                  sid: v.s,
-                  mid: null,
-                  key: EntityTypeEnum.PATIENT,
-                  label: formatLabel(decorator.field, v[decorator.field.key]),
-                  value: scale(
-                    formatValue(decorator.field, v[decorator.field.key])
-                  )
-                }));
+                decorator.values = Object.keys(result.sampleMap).map(sid => {
+                  if (!data.hasOwnProperty(sid)) {
+                    return {
+                      sid: sid,
+                      pid: result.sampleMap[sid],
+                      mid: null,
+                      key: EntityTypeEnum.SAMPLE,
+                      label: 'NA',
+                      value: 'NA'
+                    };
+                  }
+                  return {
+                    sid: sid,
+                    pid: result.sampleMap[sid],
+                    mid: null,
+                    key: EntityTypeEnum.SAMPLE,
+                    label: formatLabel(
+                      decorator.field,
+                      data[sid][decorator.field.key]
+                    ),
+                    value: scale(
+                      formatValue(
+                        decorator.field,
+                        data[sid][decorator.field.key]
+                      )
+                    )
+                  };
+                });
               } else {
-                decorator.values = items.map(v => ({
-                  pid: v.p,
-                  sid: psMap[v.p],
-                  mid: null,
-                  key: EntityTypeEnum.PATIENT,
-                  label: formatLabel(decorator.field, v[decorator.field.key]),
-                  value: scale(
-                    formatValue(decorator.field, v[decorator.field.key])
-                  )
-                }));
+                const data = items.reduce((p, c) => {
+                  p[c.p] = c;
+                  return p;
+                }, {});
+                decorator.values = Object.keys(result.sampleMap).map(sid => {
+                  if (!data.hasOwnProperty(result.sampleMap[sid])) {
+                    return {
+                      sid: sid,
+                      pid: result.sampleMap[sid],
+                      mid: null,
+                      key: EntityTypeEnum.SAMPLE,
+                      label: 'NA',
+                      value: 0xdddddd
+                    };
+                  }
+                  return {
+                    sid: sid,
+                    pid: result.sampleMap[sid],
+                    mid: null,
+                    key: EntityTypeEnum.SAMPLE,
+                    label: scale(
+                      formatLabel(
+                        decorator.field,
+                        data[result.sampleMap[sid]][decorator.field.key]
+                      )
+                    ),
+                    value: scale(
+                      formatValue(
+                        decorator.field,
+                        data[result.sampleMap[sid]][decorator.field.key]
+                      )
+                    )
+                  };
+                });
               }
               decorator.legend = new Legend();
               decorator.legend.type = 'COLOR';
@@ -597,31 +689,73 @@ export class DataService {
             case DataDecoratorTypeEnum.SHAPE:
               scale = this.getShapeScale(items, decorator.field);
               if (decorator.field.tbl === 'sample') {
-                const spMap = Object.keys(result.map).reduce((p, c) => {
-                  p[result.map[c]] = c;
+                const data = items.reduce((p, c) => {
+                  p[c.s] = c;
                   return p;
                 }, {});
-                decorator.values = items.map(v => ({
-                  pid: spMap[v.s],
-                  sid: v.s,
-                  mid: null,
-                  key: EntityTypeEnum.PATIENT,
-                  label: formatLabel(decorator.field, v[decorator.field.key]),
-                  value: scale(
-                    formatValue(decorator.field, v[decorator.field.key])
-                  )
-                }));
+                decorator.values = Object.keys(result.sampleMap).map(sid => {
+                  if (!data.hasOwnProperty(sid)) {
+                    return {
+                      sid: sid,
+                      pid: result.sampleMap[sid],
+                      mid: null,
+                      key: EntityTypeEnum.SAMPLE,
+                      label: 'NA',
+                      value: 'NA'
+                    };
+                  }
+                  return {
+                    sid: sid,
+                    pid: result.sampleMap[sid],
+                    mid: null,
+                    key: EntityTypeEnum.SAMPLE,
+                    label: formatLabel(
+                      decorator.field,
+                      data[sid][decorator.field.key]
+                    ),
+                    value: scale(
+                      formatValue(
+                        decorator.field,
+                        data[sid][decorator.field.key]
+                      )
+                    )
+                  };
+                });
               } else {
-                decorator.values = items.map(v => ({
-                  pid: v.p,
-                  sid: psMap[v.p],
-                  mid: null,
-                  key: EntityTypeEnum.PATIENT,
-                  label: formatLabel(decorator.field, v[decorator.field.key]),
-                  value: scale(
-                    formatValue(decorator.field, v[decorator.field.key])
-                  )
-                }));
+                const data = items.reduce((p, c) => {
+                  p[c.p] = c;
+                  return p;
+                }, {});
+                decorator.values = Object.keys(result.sampleMap).map(sid => {
+                  if (!data.hasOwnProperty(result.sampleMap[sid])) {
+                    return {
+                      sid: sid,
+                      pid: result.sampleMap[sid],
+                      mid: null,
+                      key: EntityTypeEnum.SAMPLE,
+                      label: 'NA',
+                      value: 'NA'
+                    };
+                  }
+                  return {
+                    sid: sid,
+                    pid: result.sampleMap[sid],
+                    mid: null,
+                    key: EntityTypeEnum.SAMPLE,
+                    label: scale(
+                      formatLabel(
+                        decorator.field,
+                        data[result.sampleMap[sid]][decorator.field.key]
+                      )
+                    ),
+                    value: scale(
+                      formatValue(
+                        decorator.field,
+                        data[result.sampleMap[sid]][decorator.field.key]
+                      )
+                    )
+                  };
+                });
               }
               decorator.legend = new Legend();
               decorator.legend.type = 'SHAPE';

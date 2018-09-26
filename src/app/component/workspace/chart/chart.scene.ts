@@ -1,3 +1,4 @@
+import * as TWEEN from '@tweenjs/tween.js';
 import { ChartSelection } from './../../../model/chart-selection.model';
 import { EventEmitter, Injectable } from '@angular/core';
 import { GraphEnum, VisualizationEnum } from 'app/model/enum.model';
@@ -413,7 +414,12 @@ export class ChartScene {
     this.render();
   }
 
+  animate() {
+    requestAnimationFrame(this.animate.bind(this));
+    TWEEN.update();
+  }
   constructor() {
     ChartScene.instance = this;
+    this.animate();
   }
 }

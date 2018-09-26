@@ -312,17 +312,17 @@ export class LabelController {
     return this._enabled;
   }
   public set enable(value: boolean) {
-    // if (value === this._enabled) {
-    //   return;
-    // }
-    // this._enabled = value;
-    // if (value) {
-    //   this._view.controls.addEventListener('change', this.onChange.bind(this));
-    //   this.onShow.emit();
-    // } else {
-    //   this._view.controls.removeEventListener('change', this.onChange);
-    //   clearTimeout(this._timeout);
-    //   this.onHide.emit();
-    // }
+    if (value === this._enabled) {
+      return;
+    }
+    this._enabled = value;
+    if (value) {
+      this._view.controls.addEventListener('change', this.onChange.bind(this));
+      this.onShow.emit();
+    } else {
+      this._view.controls.removeEventListener('change', this.onChange);
+      clearTimeout(this._timeout);
+      this.onHide.emit();
+    }
   }
 }

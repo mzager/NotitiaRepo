@@ -1,3 +1,4 @@
+import { ScatterConfigModel } from './../component/visualization/scatter/scatter.model';
 import { Observable } from 'rxjs/Rx';
 import { TipSetVisualizationAction } from './../action/tip.action';
 import { Injectable } from '@angular/core';
@@ -302,6 +303,9 @@ export class DataEffect {
         v => (v.ctype & CollectionTypeEnum.MOLECULAR) > 0
       )[0];
 
+      const scatterConfig = new ScatterConfigModel();
+      scatterConfig.graph = GraphEnum.GRAPH_A;
+
       // const histogramConfig = new HistogramConfigModel();
       // histogramConfig.graph = GraphEnum.GRAPH_A;
       // histogramConfig.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[1];
@@ -334,7 +338,8 @@ export class DataEffect {
         // new compute.PcaIncrementalAction({ config: pcaIncConfig }),
         // new compute.PcaIncrementalAction({ config: pcaIncConfig2 }),
         // new GraphPanelToggleAction( GraphPanelEnum.GRAPH_A )
-        new compute.PcaAction({ config: pcaConfig }),
+        // new compute.PcaAction({ config: pcaConfig }),
+        new compute.ScatterAction({ config: scatterConfig }),
         new LoaderShowAction(),
         new TipSetVisualizationAction(VisualizationEnum.INCREMENTAL_PCA)
       ];

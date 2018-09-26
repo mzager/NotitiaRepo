@@ -1,8 +1,9 @@
-import { ChartEvents } from './../../workspace/chart/chart.events';
+import * as TWEEN from '@tweenjs/tween.js';
+import { ChartScene } from 'app/component/workspace/chart/chart.scene';
+import { ChartEvents } from 'app/component/workspace/chart/chart.events';
 import { AbstractVisualization } from './../visualization.abstract.component';
 import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
 import { GraphData } from 'app/model/graph-data.model';
-import { Subscription } from 'rxjs';
 import * as THREE from 'three';
 import { Vector3 } from 'three';
 import {
@@ -14,10 +15,12 @@ import { DataDecorator } from 'app/model/data-map.model';
 import { EntityTypeEnum } from 'app/model/enum.model';
 
 import { SelectionController } from 'app/controller/selection/selection.controller';
-import { ChartSelection } from 'app/model/chart-selection.model';
 import { VisualizationView } from 'app/model/chart-view.model';
 import { GraphConfig } from 'app/model/graph-config.model';
+import { animate } from '@angular/animations';
 
+const fragShader = require('raw-loader!glslify-loader!app/glsl/point.frag');
+const vertShader = require('raw-loader!glslify-loader!app/glsl/point.vert');
 declare var $;
 
 export class ScatterGraph extends AbstractVisualization {
@@ -38,6 +41,9 @@ export class ScatterGraph extends AbstractVisualization {
   private lines: Array<THREE.Line>;
   private points: Array<THREE.Object3D>;
   protected selectionController: SelectionController;
+  private material: THREE.ShaderMaterial;
+  private animationFrame = 0;
+  private firstTime = true;
 
   // Private Subscriptions
   create(
@@ -88,14 +94,71 @@ export class ScatterGraph extends AbstractVisualization {
     const propertyId =
       this._config.entity === EntityTypeEnum.GENE ? 'mid' : 'sid';
     const objectIds = this._data[propertyId];
-    const geo = new THREE.Geometry();
-    const mat = new THREE.PointsMaterial({ color: 0xff0000 });
-    const pts = new THREE.Points(geo, mat);
-    this._data.resultScaled.forEach((point, index) => {
-      const centerPoint = new Vector3(...point);
-      geo.vertices.push(centerPoint);
+
+    if (!this.firstTime) {
+      debugger;
+    }
+
+    const data = this._data.resultScaled;
+    const dataLength = data.length;
+    const positionsFrom = new Float32Array(dataLength * 3);
+    const positions = new Float32Array(dataLength * 3);
+    const colors = new Float32Array(dataLength * 3);
+    const sizes = new Float32Array(dataLength);
+    let datum;
+    const color = new THREE.Color();
+
+    for (let i = 0; i < dataLength; i++) {
+      datum = data[i];
+      // positions.splice(i * 3, 0, ...datum);
+      positions[i * 3] = datum[0];
+      positions[i * 3 + 1] = datum[1];
+      positions[i * 3 + 2] = datum[2];
+      color.setHex((Math.random() * 0xffffff) << 0);
+      const colorValues = color.toArray().map(v => v * 1.0);
+      colors[i * 3] = colorValues[0];
+      colors[i * 3 + 1] = colorValues[1];
+      colors[i * 3 + 2] = colorValues[2];
+      sizes[i] = 10.0;
+    }
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.addAttribute(
+      'positionFrom',
+      new THREE.BufferAttribute(positionsFrom, 3)
+    );
+    geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.addAttribute('customColor', new THREE.BufferAttribute(colors, 3));
+    geometry.addAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+    this.material = new THREE.ShaderMaterial({
+      uniforms: {
+        color: { value: new THREE.Color(0xff0000) },
+        animationPos: { value: this.animationFrame }
+        // texture: { value: new THREE.TextureLoader().load("textures/sprites/disc.png") }
+      },
+      transparent: true,
+      vertexShader: vertShader,
+      fragmentShader: fragShader,
+      alphaTest: 0.7
     });
+
+    const pts = new THREE.Points(geometry, this.material);
+    this.meshes.push(pts);
     this.view.scene.add(pts);
+
+    const tween = new TWEEN.Tween(this.material.uniforms.animationPos);
+    tween.to({ value: 1 }, 4000);
+    tween.delay(300);
+    tween.onUpdate(() => {
+      pts.rotateX(this.material.uniforms.animationPos.value * 0.1);
+      pts.rotateY(this.material.uniforms.animationPos.value * 0.1);
+      ChartScene.instance.render();
+    });
+    tween.easing(TWEEN.Easing.Quadratic.In);
+
+    // tween.easing(TWEEN.Easing.Quadratic.InOut);
+    tween.start();
 
     ChartFactory.configPerspectiveOrbit(
       this.view,
@@ -114,13 +177,13 @@ export class ScatterGraph extends AbstractVisualization {
   }
 
   onShowLabels(): void {
-    const labelOptions = new LabelOptions(this.view, 'FORCE');
-    labelOptions.offsetX3d = 1;
-    labelOptions.maxLabels = 100;
-    this.labels.innerHTML = LabelController.generateHtml(
-      this.meshes,
-      labelOptions
-    );
+    // const labelOptions = new LabelOptions(this.view, 'FORCE');
+    // labelOptions.offsetX3d = 1;
+    // labelOptions.maxLabels = 100;
+    // this.labels.innerHTML = LabelController.generateHtml(
+    //   this.meshes,
+    //   labelOptions
+    // );
   }
 
   onKeyDown(e: KeyboardEvent): void {

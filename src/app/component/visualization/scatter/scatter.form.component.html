@@ -1,8 +1,8 @@
 <form [formGroup]='form' novalidate>
   <mat-form-field class='form-field'>
-    <mat-select placeholder='Data' formControlName='file'>
-      <mat-option *ngFor='let file of files' [value]='file'>
-        {{ file }}
+    <mat-select placeholder='Data' formControlName='uri'>
+      <mat-option *ngFor='let file of files' [value]='file.uri'>
+        {{ file.name }}
       </mat-option>
     </mat-select>
   </mat-form-field>

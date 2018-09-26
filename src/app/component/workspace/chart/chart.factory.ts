@@ -295,7 +295,7 @@ export class ChartFactory {
           ? shapeMap[id]
           : SpriteMaterialEnum.NA
         : SpriteMaterialEnum.CIRCLE;
-      let size = sizeMap
+      const size = sizeMap
         ? sizeMap[id]
           ? sizeMap[id]
           : scaleFactor

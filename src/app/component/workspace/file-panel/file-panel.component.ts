@@ -4,7 +4,8 @@ import {
   Component,
   EventEmitter,
   Output,
-  ViewEncapsulation
+  ViewEncapsulation,
+  ChangeDetectorRef
 } from '@angular/core';
 import { PanelEnum } from '../../../model/enum.model';
 import { DataHubService } from './../../../service/datahub.service';
@@ -46,7 +47,7 @@ export class FilePanelComponent {
   closeClick(): void {
     this.hide.emit();
   }
-  constructor(public dataService: DataService) {
+  constructor(public dataService: DataService, cd: ChangeDetectorRef) {
     dataService.getPublicDatasets().then(v => {
       const tcgaSets = [
         {
@@ -353,9 +354,9 @@ export class FilePanelComponent {
       this.datasets = tcgaSets
         .concat(publicSets)
         .filter(v2 => {
-          if (v2.name.toLowerCase().indexOf('kim') !== -1) {
-            return false;
-          }
+          // if (v2.name.toLowerCase().indexOf('kim') !== -1) {
+          //   return false;
+          // }
           if (uniq.indexOf(v2.name) === -1) {
             uniq.push(v2.name);
             return true;
@@ -363,6 +364,7 @@ export class FilePanelComponent {
           return false;
         })
         .sort((a: any, b: any) => (a.img < b.img ? 1 : -1));
+      cd.markForCheck();
       console.dir(this.datasets);
       // const imgs = Object.keys(
       //   this.datasets.reduce((p, c, i) => {
