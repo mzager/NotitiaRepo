@@ -305,6 +305,9 @@ export class DataEffect {
 
       const scatterConfig = new ScatterConfigModel();
       scatterConfig.graph = GraphEnum.GRAPH_A;
+      scatterConfig.table = args.tables.filter(
+        v => (v.ctype & CollectionTypeEnum.MOLECULAR) > 0
+      )[0];
 
       // const histogramConfig = new HistogramConfigModel();
       // histogramConfig.graph = GraphEnum.GRAPH_A;
@@ -338,8 +341,8 @@ export class DataEffect {
         // new compute.PcaIncrementalAction({ config: pcaIncConfig }),
         // new compute.PcaIncrementalAction({ config: pcaIncConfig2 }),
         // new GraphPanelToggleAction( GraphPanelEnum.GRAPH_A )
-        // new compute.PcaAction({ config: pcaConfig }),
-        new compute.ScatterAction({ config: scatterConfig }),
+        new compute.PcaAction({ config: pcaConfig }),
+        // new compute.ScatterAction({ config: scatterConfig }),
         new LoaderShowAction(),
         new TipSetVisualizationAction(VisualizationEnum.INCREMENTAL_PCA)
       ];

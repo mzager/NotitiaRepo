@@ -66,7 +66,10 @@ export const getLayoutModalPanelState = createSelector(
   getLayoutState,
   fromLayout.getModalPanelState
 );
-export const getLayoutLoaderState = createSelector(getLayoutState, fromLayout.getLoaderState);
+export const getLayoutLoaderState = createSelector(
+  getLayoutState,
+  fromLayout.getLoaderState
+);
 export const getWorkspaceConfig = createSelector(
   getLayoutState,
   (state: fromLayout.State) => state.workspaceConfig
@@ -88,7 +91,10 @@ export const getGraphAConfig = createSelector(
   getGraphAState,
   (state: fromGraph.State) => state.config
 );
-export const getGraphAData = createSelector(getGraphAState, (state: fromGraph.State) => state.data);
+export const getGraphAData = createSelector(
+  getGraphAState,
+  (state: fromGraph.State) => state.data
+);
 export const getGraphADecorators = createSelector(
   getGraphAState,
   (state: fromGraph.State) => state.decorators
@@ -107,7 +113,10 @@ export const getGraphBConfig = createSelector(
   getGraphBState,
   (state: fromGraph.State) => state.config
 );
-export const getGraphBData = createSelector(getGraphBState, (state: fromGraph.State) => state.data);
+export const getGraphBData = createSelector(
+  getGraphBState,
+  (state: fromGraph.State) => state.data
+);
 export const getGraphBDecorators = createSelector(
   getGraphBState,
   (state: fromGraph.State) => state.decorators
@@ -119,7 +128,10 @@ export const getEdgesConfig = createSelector(
   getEdgesState,
   (state: fromEdges.State) => state.config
 );
-export const getEdgesData = createSelector(getEdgesState, (state: fromEdges.State) => state.data);
+export const getEdgesData = createSelector(
+  getEdgesState,
+  (state: fromEdges.State) => state.data
+);
 export const getEdgeDecorators = createSelector(
   getEdgesState,
   (state: fromEdges.State) => state.decorators
@@ -136,26 +148,47 @@ export const getCohorts = createSelector(getDataState, fromData.getCohorts);
 
 // Select Reducer
 export const getSelectState = (state: State) => state.select;
-export const getSelectVisible = createSelector(getSelectState, fromSelect.getVisible);
-export const getSelectSelection = createSelector(getSelectState, fromSelect.getSelection);
-export const getSelectStats = createSelector(getSelectState, fromSelect.getStats);
+export const getSelectVisible = createSelector(
+  getSelectState,
+  fromSelect.getVisible
+);
+export const getSelectSelection = createSelector(
+  getSelectState,
+  fromSelect.getSelection
+);
+export const getSelectStats = createSelector(
+  getSelectState,
+  fromSelect.getStats
+);
 
 // Spreadsheet Reducer
 export const getSpreadsheetState = (state: State) => state.spreadsheet;
-export const getDataTable = createSelector(getSpreadsheetState, fromSpreadsheet.getDataTable);
+export const getDataTable = createSelector(
+  getSpreadsheetState,
+  fromSpreadsheet.getDataTable
+);
 
 // Help Reducer
 export const getHelpState = (state: State) => state.help;
-export const getHelpConfigState = createSelector(getHelpState, fromHelp.getHelpConfigState);
+export const getHelpConfigState = createSelector(
+  getHelpState,
+  fromHelp.getHelpConfigState
+);
 
 // User Reducer
 export const getUserState = (state: State) => state.user;
 export const getUserData = createSelector(getUserState, fromUser.getUserData);
-export const getUserDataSets = createSelector(getUserState, fromUser.getUserDataSets);
+export const getUserDataSets = createSelector(
+  getUserState,
+  fromUser.getUserDataSets
+);
 
 // Tip Reducer
 export const getTipState = (state: State) => state.tip;
-export const getTipVisualization = createSelector(getTipState, fromTip.getTipVisualization);
+export const getTipVisualization = createSelector(
+  getTipState,
+  fromTip.getTipVisualization
+);
 export const getTipEnabled = createSelector(getTipState, fromTip.getTipEnabled);
 export const getTipVisible = createSelector(getTipState, fromTip.getTipVisible);
 export const getTip = createSelector(getTipState, fromTip.getTip);
