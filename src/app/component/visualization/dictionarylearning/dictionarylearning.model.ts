@@ -3,7 +3,7 @@ import { GraphConfig } from './../../../model/graph-config.model';
 import { GraphData } from './../../../model/graph-data.model';
 
 export class DictionaryLearningFitAlgorithm {
-  // public static LARS = 'lars';
+  public static LARS = 'lars';
   public static CD = 'cd';
 }
 
