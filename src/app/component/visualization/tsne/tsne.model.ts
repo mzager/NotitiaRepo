@@ -18,6 +18,8 @@ export class TsneMetric {
     public static RUSSELLRAO = 'russellrao';
     public static SOKALMICHENER = 'sokalmichener';
     public static SQEUCLIDEAN = 'sqeuclidean';
+    public static KULSINSKI = 'kulsinski';
+
 }
 
 export class TsneMethod {
