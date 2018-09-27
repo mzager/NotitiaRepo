@@ -23,7 +23,7 @@ export class TsneFormComponent extends AbstractScatterForm {
     TsneMetric.HAMMING, TsneMetric.L1,
     TsneMetric.L2, TsneMetric.MANHATTAN, TsneMetric.MINKOWSKI,
     TsneMetric.ROGERSTANIMOTO, TsneMetric.RUSSELLRAO, TsneMetric.SOKALMICHENER,
-    TsneMetric.SQEUCLIDEAN];
+    TsneMetric.SQEUCLIDEAN, TsneMetric.KULSINSKI];
 
   TsneMethodOptions = [
     TsneMethod.BARNES_HUT, TsneMethod.EXACT];
