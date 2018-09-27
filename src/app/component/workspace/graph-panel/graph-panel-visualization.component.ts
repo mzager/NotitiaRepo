@@ -1,10 +1,25 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewEncapsulation
+} from '@angular/core';
 import { MatSelectChange } from '@angular/material';
 import { DataTable } from 'app/model/data-field.model';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { DataField, DataFieldFactory } from './../../../model/data-field.model';
-import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
-import { EntityTypeEnum } from './../../../model/enum.model';
+import {
+  DataDecorator,
+  DataDecoratorTypeEnum
+} from './../../../model/data-map.model';
+import {
+  EntityTypeEnum,
+  DataTypeEnum,
+  CollectionTypeEnum
+} from './../../../model/enum.model';
 
 @Component({
   selector: 'app-graph-panel-visualization',
@@ -22,9 +37,41 @@ import { EntityTypeEnum } from './../../../model/enum.model';
     <mat-form-field class='form-field' *ngIf='config.enableColor'>
         <mat-select placeholder='Color' (selectionChange)='setColorOption($event)'
             [(value)]='colorSelected' [compareWith]='byKey'>
+
             <mat-option *ngFor='let option of colorOptions' [value]='option'>
                 {{ option.label }}
             </mat-option>
+
+            <div class='mat-expansion-panel-header mat-expansion-panel-header-title'
+            style='height:40px;line-height:40px;'>Coloring Algorithms</div>
+
+            <div style='padding: 16px 16px;'>
+
+
+              Step 1: Select Number of Clusters To Find<br />
+              <mat-slider style='width:100%;' thumbLabel min="2" max="20" step="1" value="3"
+              (selectionChange)='setNClusters($event.value)'
+              [(value)]='nClusters'></mat-slider><br />
+              Step 2: Click the Shape of Your Data<br />
+              <a class="waves-effect waves-light white graphPanelDropDownButton"
+            (click)="applyCluster('dbScan')"><img src="/assets/clusters/cluster6.png"></a>
+
+            <a class="waves-effect waves-light white graphPanelDropDownButton"
+            (click)="applyCluster('agglomerativeClustering')"><img src="/assets/clusters/cluster5.png"></a>
+
+            <a class="waves-effect waves-light white graphPanelDropDownButton"
+            (click)="applyCluster('gaussianMixture')"><img src="/assets/clusters/cluster1.png"></a>
+
+            <a class="waves-effect waves-light white graphPanelDropDownButton"
+            (click)="applyCluster('miniBatchKMeans')"><img src="/assets/clusters/cluster4.png"></a>
+
+            <a class="waves-effect waves-light white graphPanelDropDownButton"
+            (click)="applyCluster('spectralClustering')"><img src="/assets/clusters/cluster3.png"></a>
+
+            <a class="waves-effect waves-light white graphPanelDropDownButton"
+            (click)="applyCluster('ward')"><img src="/assets/clusters/cluster2.png"></a>
+            </div>
+
         </mat-select>
     </mat-form-field>
     <mat-form-field class='form-field' *ngIf='config.enableShape'>
@@ -47,9 +94,18 @@ import { EntityTypeEnum } from './../../../model/enum.model';
 })
 export class GraphPanelVisualizationComponent {
   @Output()
-  decoratorAdd: EventEmitter<{ config: GraphConfig; decorator: DataDecorator }> = new EventEmitter();
+  decoratorAdd: EventEmitter<{
+    config: GraphConfig;
+    decorator: DataDecorator;
+  }> = new EventEmitter();
+
   @Output()
-  decoratorDel: EventEmitter<{ config: GraphConfig; decorator: DataDecorator }> = new EventEmitter();
+  decoratorDel: EventEmitter<{
+    config: GraphConfig;
+    decorator: DataDecorator;
+  }> = new EventEmitter();
+
+  public nClusters = 3;
   public clinicalColorOptions: Array<DataField>;
   public clinicalShapeOptions: Array<DataField>;
   public clinicalSizeOptions: Array<DataField>;
@@ -92,10 +148,16 @@ export class GraphPanelVisualizationComponent {
   }
   @Input()
   set tables(tables: Array<DataTable>) {
-    this.molecularColorOptions = DataFieldFactory.getMolecularColorFields(tables);
-    this.molecularShapeOptions = DataFieldFactory.getMolecularShapeFields(tables);
+    this.molecularColorOptions = DataFieldFactory.getMolecularColorFields(
+      tables
+    );
+    this.molecularShapeOptions = DataFieldFactory.getMolecularShapeFields(
+      tables
+    );
     this.molecularSizeOptions = DataFieldFactory.getMolecularSizeFields(tables);
-    this.molecularLabelOptions = DataFieldFactory.getMolecularLabelOptions(tables);
+    this.molecularLabelOptions = DataFieldFactory.getMolecularLabelOptions(
+      tables
+    );
     this.updateFields();
   }
   @Input()
@@ -113,7 +175,11 @@ export class GraphPanelVisualizationComponent {
     return p1.label === p2.label;
   }
   updateFields(): void {
-    if (!this._config || !this.molecularColorOptions || !this.clinicalColorOptions) {
+    if (
+      !this._config ||
+      !this.molecularColorOptions ||
+      !this.clinicalColorOptions
+    ) {
       return;
     }
     if (this.config.entity === EntityTypeEnum.GENE) {
@@ -138,12 +204,22 @@ export class GraphPanelVisualizationComponent {
     if (this.colorSelected.key === 'None') {
       this.decoratorDel.emit({
         config: this.config,
-        decorator: { type: DataDecoratorTypeEnum.COLOR, values: null, field: null, legend: null }
+        decorator: {
+          type: DataDecoratorTypeEnum.COLOR,
+          values: null,
+          field: null,
+          legend: null
+        }
       });
     } else {
       this.decoratorAdd.emit({
         config: this.config,
-        decorator: { type: DataDecoratorTypeEnum.COLOR, field: this.colorSelected, legend: null, values: null }
+        decorator: {
+          type: DataDecoratorTypeEnum.COLOR,
+          field: this.colorSelected,
+          legend: null,
+          values: null
+        }
       });
     }
   }
@@ -152,12 +228,22 @@ export class GraphPanelVisualizationComponent {
     if (this.shapeSelected.key === 'None') {
       this.decoratorDel.emit({
         config: this.config,
-        decorator: { type: DataDecoratorTypeEnum.SHAPE, values: null, field: null, legend: null }
+        decorator: {
+          type: DataDecoratorTypeEnum.SHAPE,
+          values: null,
+          field: null,
+          legend: null
+        }
       });
     } else {
       this.decoratorAdd.emit({
         config: this.config,
-        decorator: { type: DataDecoratorTypeEnum.SHAPE, field: this.shapeSelected, legend: null, values: null }
+        decorator: {
+          type: DataDecoratorTypeEnum.SHAPE,
+          field: this.shapeSelected,
+          legend: null,
+          values: null
+        }
       });
     }
   }
@@ -166,12 +252,22 @@ export class GraphPanelVisualizationComponent {
     if (this.sizeSelected.key === 'None') {
       this.decoratorDel.emit({
         config: this.config,
-        decorator: { type: DataDecoratorTypeEnum.SIZE, values: null, field: null, legend: null }
+        decorator: {
+          type: DataDecoratorTypeEnum.SIZE,
+          values: null,
+          field: null,
+          legend: null
+        }
       });
     } else {
       this.decoratorAdd.emit({
         config: this.config,
-        decorator: { type: DataDecoratorTypeEnum.SIZE, field: this.sizeSelected, legend: null, values: null }
+        decorator: {
+          type: DataDecoratorTypeEnum.SIZE,
+          field: this.sizeSelected,
+          legend: null,
+          values: null
+        }
       });
     }
   }
@@ -180,15 +276,46 @@ export class GraphPanelVisualizationComponent {
     if (this.labelSelected.key === 'None') {
       this.decoratorDel.emit({
         config: this.config,
-        decorator: { type: DataDecoratorTypeEnum.LABEL, values: null, field: null, legend: null }
+        decorator: {
+          type: DataDecoratorTypeEnum.LABEL,
+          values: null,
+          field: null,
+          legend: null
+        }
       });
     } else {
       this.decoratorAdd.emit({
         config: this.config,
-        decorator: { type: DataDecoratorTypeEnum.LABEL, field: this.labelSelected, legend: null, values: null }
+        decorator: {
+          type: DataDecoratorTypeEnum.LABEL,
+          field: this.labelSelected,
+          legend: null,
+          values: null
+        }
       });
     }
   }
 
+  setNClusters(num: number) {
+    this.nClusters = num;
+  }
+  applyCluster(type: string) {
+    this.decoratorAdd.emit({
+      config: this.config,
+      decorator: {
+        type: DataDecoratorTypeEnum.CLUSTER_MINIBATCHKMEANS,
+        field: {
+          key: this.nClusters.toString(),
+          label: this.nClusters.toString(),
+          type: DataTypeEnum.FUNCTION,
+          tbl: 'na',
+          values: 'na',
+          ctype: CollectionTypeEnum.UNDEFINED
+        },
+        legend: null,
+        values: null
+      }
+    });
+  }
   constructor(private cd: ChangeDetectorRef) {}
 }

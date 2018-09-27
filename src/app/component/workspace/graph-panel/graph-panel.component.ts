@@ -103,6 +103,8 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Output()
   showPanel: EventEmitter<PanelEnum> = new EventEmitter();
   @Output()
+  colorCluster: EventEmitter<GraphConfig> = new EventEmitter();
+  @Output()
   configChange: EventEmitter<GraphConfig> = new EventEmitter();
   @Output()
   selectClusteringAlgorithm: EventEmitter<GraphConfig> = new EventEmitter();

@@ -217,7 +217,7 @@ export class WorkspaceComponent {
     this.store.dispatch(new compute.EdgesAction({ config: value }));
   }
 
-  graphPanelSetConfig(value: GraphConfig) {
+  graphPanelSetConfig(value: GraphConfig): void {
     this.store.dispatch(new LoaderShowAction());
     this.store.dispatch(new TipSetVisualizationAction(value.visualization));
     switch (value.visualization) {
