@@ -27,6 +27,8 @@ declare var $: any;
 export class ApplicationBarComponent implements OnInit, OnDestroy {
   // TODO:  COME BACK AND CLEAN OUT
   @Output()
+  togglePanelsChange = new EventEmitter<boolean>();
+  @Output()
   splitScreenChange = new EventEmitter<boolean>();
   @Output()
   showPanel = new EventEmitter<PanelEnum>();
@@ -47,6 +49,7 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   @Output()
   pathwayPanelToggle = new EventEmitter();
 
+  private togglePanels = false;
   private split = false;
   public uploader: FileUploader = new FileUploader({ url: '' });
 
@@ -69,6 +72,9 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
         break;
       case 'e':
         this.viewPanel(PanelEnum.COHORT);
+        break;
+      case 't':
+        this.onTogglePanels();
         break;
       case 'p':
         this.exportImage();
@@ -100,6 +106,10 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   }
   viewPanel(panel: PanelEnum): void {
     this.showPanel.emit(panel);
+  }
+  onTogglePanels(): void {
+    this.togglePanels = !this.togglePanels;
+    $('.graphPanel').css('max-width', this.togglePanels ? '0px' : 'inherit');
   }
   onSplitScreenChange(): void {
     this.split = !this.split;

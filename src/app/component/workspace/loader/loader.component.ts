@@ -48,10 +48,10 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
         q: 'Anyone who struggles hard with a problem never forgets it',
         a: 'Elon Musk'
       },
-      {
-        q: "Don't quote me on this",
-        a: 'Michael Zager'
-      },
+      // {
+      //   q: "Don't quote me on this",
+      //   a: 'Michael Zager'
+      // },
       {
         q:
           'You can sniff out when people are fudging their accomplishments by digging for the details',
@@ -81,6 +81,7 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
         a: 'Arthur Block'
       },
       {
+        // tslint:disable-next-line:quotemark
         q: "Never be limited by other people's limited imaginations",
         a: 'Mae Jemison'
       },
@@ -183,12 +184,15 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
       },
       {
         q:
+          // tslint:disable-next-line:quotemark
           "We're entering a new world in which data may be more important than software",
+        // tslint:disable-next-line:quotemark
         a: "Tim O'Reilly"
       },
       {
         q:
           'An invention has to make sense in the world it finishes in, not in the world it started',
+        // tslint:disable-next-line:quotemark
         a: "Tim O'Reilly"
       },
       {
@@ -216,6 +220,7 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
       },
       { q: 'Lies damn lies and statistics', a: 'Mark Twain' },
       {
+        // tslint:disable-next-line:quotemark
         q: "Biology is now accelerating at a pace faster than Moore's Law",
         a: 'Arvind Gupta'
       },
@@ -235,6 +240,7 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
         a: 'Martin Luther King'
       },
       {
+        // tslint:disable-next-line:quotemark
         q: "Research is what I'm doing when I don't know what I'm doing",
         a: 'Wernher von Braun'
       },
@@ -252,6 +258,7 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
         a: 'Robert A. Heinlein'
       },
       {
+        // tslint:disable-next-line:quotemark
         q: "Science is what you know, philosophy is what you don't know",
         a: 'Bertrand Russell'
       },

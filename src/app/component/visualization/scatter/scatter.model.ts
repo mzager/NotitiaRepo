@@ -11,6 +11,10 @@ export class ScatterConfigModel extends GraphConfig {
     super();
     this.enableGenesets = false;
     this.enableCohorts = false;
+    this.enableColor = false;
+    this.enableLabel = false;
+    this.enableShape = false;
+    this.enableSupplemental = false;
     this.entity = EntityTypeEnum.SAMPLE;
     this.visualization = VisualizationEnum.SCATTER;
     this.label = 'Scatter';

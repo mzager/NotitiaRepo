@@ -6,7 +6,7 @@ import { PathwaysConfigModel } from 'app/component/visualization/pathways/pathwa
 // tslint:disable-next-line:max-line-length
 import { QuadradicDiscriminantAnalysisConfigModel } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.model';
 import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
-import { GraphEnum, VisualizationEnum } from 'app/model/enum.model';
+import { GraphEnum, VisualizationEnum, DirtyEnum } from 'app/model/enum.model';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { Observable } from 'rxjs/Rx';
 import { Subject } from 'rxjs/Subject';
@@ -223,8 +223,10 @@ export class ComputeService {
   }
   execute(config: GraphConfig, subject: Subject<any>): Observable<any> {
     // If user requests no computation, just pass the config through
+    // debugger;
     // if (config.dirtyFlag === DirtyEnum.NO_COMPUTE) {
-    //     this.getSubjectByVisualization(config.visualization).next(null);
+    //   this.getSubjectByVisualization(config.visualization).next(null);
+    //   return subject;
     // }
 
     switch (config.graph) {

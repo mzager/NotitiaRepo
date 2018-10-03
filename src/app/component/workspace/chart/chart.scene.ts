@@ -64,12 +64,12 @@ export class ChartScene {
     this.onResize();
     this.render();
   }
-  config = (e: { type: GraphConfig }) => {
+  public config(e: { type: GraphConfig }) {
     this.onConfigEmit.next(e);
-  };
-  select = (e: ChartSelection) => {
+  }
+  public select(e: ChartSelection) {
     this.onSelect.next(e);
-  };
+  }
 
   public init(
     container: HTMLElement,
@@ -238,6 +238,7 @@ export class ChartScene {
         this.renderer.render(view.scene, view.camera);
       }
     } catch (e) {}
+    // tslint:disable-next-line:semicolon
   };
 
   private onResize() {

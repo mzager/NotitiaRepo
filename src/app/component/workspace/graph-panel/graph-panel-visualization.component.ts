@@ -42,35 +42,7 @@ import {
                 {{ option.label }}
             </mat-option>
 
-            <div class='mat-expansion-panel-header mat-expansion-panel-header-title'
-            style='height:40px;line-height:40px;'>Coloring Algorithms</div>
 
-            <div style='padding: 16px 16px;'>
-
-
-              Step 1: Select Number of Clusters To Find<br />
-              <mat-slider style='width:100%;' thumbLabel min="2" max="20" step="1" value="3"
-              (selectionChange)='setNClusters($event.value)'
-              [(value)]='nClusters'></mat-slider><br />
-              Step 2: Click the Shape of Your Data<br />
-              <a class="waves-effect waves-light white graphPanelDropDownButton"
-            (click)="applyCluster('dbScan')"><img src="/assets/clusters/cluster6.png"></a>
-
-            <a class="waves-effect waves-light white graphPanelDropDownButton"
-            (click)="applyCluster('agglomerativeClustering')"><img src="/assets/clusters/cluster5.png"></a>
-
-            <a class="waves-effect waves-light white graphPanelDropDownButton"
-            (click)="applyCluster('gaussianMixture')"><img src="/assets/clusters/cluster1.png"></a>
-
-            <a class="waves-effect waves-light white graphPanelDropDownButton"
-            (click)="applyCluster('miniBatchKMeans')"><img src="/assets/clusters/cluster4.png"></a>
-
-            <a class="waves-effect waves-light white graphPanelDropDownButton"
-            (click)="applyCluster('spectralClustering')"><img src="/assets/clusters/cluster3.png"></a>
-
-            <a class="waves-effect waves-light white graphPanelDropDownButton"
-            (click)="applyCluster('ward')"><img src="/assets/clusters/cluster2.png"></a>
-            </div>
 
         </mat-select>
     </mat-form-field>

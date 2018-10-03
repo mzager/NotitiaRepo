@@ -5,7 +5,8 @@ import {
   Component,
   Input,
   OnDestroy,
-  ViewEncapsulation
+  ViewEncapsulation,
+  EventEmitter
 } from '@angular/core';
 import * as _ from 'lodash';
 import { GraphConfig } from '../../../model/graph-config.model';
@@ -20,6 +21,14 @@ import { Legend } from './../../../model/legend.model';
   encapsulation: ViewEncapsulation.None
 })
 export class LegendPanelComponent implements AfterViewInit, OnDestroy {
+  // TEMP DEL ME
+
+  public static setLegends = new EventEmitter<{
+    legend: Array<Legend>;
+    graph: number;
+  }>();
+  public autoUpdate = true;
+
   public allLegends: Array<Legend> = [];
   public updateLegend = _.debounce(this.update, 600);
 
@@ -82,7 +91,8 @@ export class LegendPanelComponent implements AfterViewInit, OnDestroy {
     if (rv.type === 'COLOR') {
       for (let i = 0; i < rv.values.length; i++) {
         if (!isNaN(rv.values[i])) {
-          legend.values[i] = '#' + (0xffffff + legend.values[i] + 1).toString(16).substr(1);
+          legend.values[i] =
+            '#' + (0xffffff + legend.values[i] + 1).toString(16).substr(1);
         }
       }
     } else if (legend.type === 'SHAPE') {
@@ -99,11 +109,27 @@ export class LegendPanelComponent implements AfterViewInit, OnDestroy {
   }
 
   public update(): void {
-    const decorators = this._decorators.map(decorator => this.legendFormatter(decorator.legend));
+    if (!this.autoUpdate) {
+      return;
+    }
+    const decorators = this._decorators.map(decorator =>
+      this.legendFormatter(decorator.legend)
+    );
     const legends = this._legends.map(legend => this.legendFormatter(legend));
     this.allLegends = [].concat(...decorators, ...legends);
+
     this.cd.detectChanges();
   }
 
-  constructor(public cd: ChangeDetectorRef) {}
+  onSetLegends(e: { legend: Array<Legend>; graph: number }): void {
+    if (this.config.graph !== e.graph) {
+      return;
+    }
+    this.autoUpdate = false;
+    this.allLegends = e.legend;
+    this.cd.detectChanges();
+  }
+  constructor(public cd: ChangeDetectorRef) {
+    LegendPanelComponent.setLegends.subscribe(this.onSetLegends.bind(this));
+  }
 }

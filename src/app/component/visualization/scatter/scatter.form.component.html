@@ -1,10 +1,21 @@
 <form [formGroup]='form' novalidate>
   <mat-form-field class='form-field'>
-    <mat-select placeholder='Data' formControlName='uri'>
+    <mat-select placeholder='Distribution' formControlName='uri'>
       <mat-option *ngFor='let file of files' [value]='file.uri'>
         {{ file.name }}
       </mat-option>
     </mat-select>
   </mat-form-field>
+  <mat-form-field class='form-field'>
+    <mat-select placeholder='Color' (selectionChange)='onColorChange($event)'>
+      <mat-option *ngFor='let color of colors' [value]='color.value'>
+        {{ color.name }}
+      </mat-option>
+    </mat-select>
 
+  </mat-form-field>
+  <mat-label>Morph Step</mat-label>
+  <br />
+  <mat-slider style="width:100%;" min='0' max='1' step="0.01" (input)='onTimeChange($event)'
+    thumbLabel='true'></mat-slider>
 </form>
