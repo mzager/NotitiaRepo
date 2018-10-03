@@ -1,7 +1,12 @@
 import {
-  AfterViewInit, ChangeDetectionStrategy,
-  ChangeDetectorRef, Component, EventEmitter,
-  Input, Output, ViewEncapsulation
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewEncapsulation
 } from '@angular/core';
 import { MatSelectChange } from '@angular/material';
 import { CollectionTypeEnum } from 'app/model/enum.model';
@@ -18,13 +23,15 @@ declare var $: any;
   encapsulation: ViewEncapsulation.None
 })
 export class DataPanelComponent implements AfterViewInit {
-
   // @ViewChild('dataTable') dataTable;
   // @ViewChild('tabs') tabs: ElementRef;
 
-  @Input() configA: GraphConfig;
-  @Input() configB: GraphConfig;
-  @Output() hide: EventEmitter<any> = new EventEmitter();
+  @Input()
+  configA: GraphConfig;
+  @Input()
+  configB: GraphConfig;
+  @Output()
+  hide: EventEmitter<any> = new EventEmitter();
 
   public _tables: Array<DataTable> = [];
   public _table: DataTable;
@@ -49,23 +56,24 @@ export class DataPanelComponent implements AfterViewInit {
     rowHeaders: true,
     manualRowMove: true,
     manualColumnMove: true,
-    sortIndicator: true,
+    sortIndicator: true
   };
-
 
   closeClick() {
     this.hide.emit();
   }
 
-  @Input() set tables(v: Array<DataTable>) {
+  @Input()
+  set tables(v: Array<DataTable>) {
     //   { tbl: 'configA', label: 'Chart A', map: '', ctype: CollectionTypeEnum.UNDEFINED },
     //   { tbl: 'configB', label: 'Chart B', map: '', ctype: CollectionTypeEnum.UNDEFINED }
     // ]);
     // this._tables.push(...this._tables.splice(0, 2));
     // TODO: Add mutations, events, cohorts in list
-    this._tables = v.filter(tbl => (tbl.tbl !== 'mutations' && tbl.tbl !== 'events'));
+    this._tables = v.filter(
+      tbl => tbl.tbl !== 'mutations' && tbl.tbl !== 'events'
+    );
   }
-
 
   openDatabase(): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -96,39 +104,50 @@ export class DataPanelComponent implements AfterViewInit {
         case CollectionTypeEnum.MUTATION:
         case CollectionTypeEnum.EVENT:
           break;
+        case CollectionTypeEnum.SAMPLE:
         case CollectionTypeEnum.PATIENT:
-          this.db.table(table.tbl).limit(300).toArray().then(result => {
-            const keys = Object.keys(result[0]);
-            this.colHeaders = Object.keys(result[0]).map(v => v.replace(/\_/gi, ' '));
-            this.colHeaders[0] = 'Patient';
-            this.dataSource = result.map(v => keys.map(w => v[w]));
-            this.cd.detectChanges();
-          });
+          this.db
+            .table(table.tbl)
+            .toArray()
+            .then(result => {
+              const keys = Object.keys(result[0]);
+              this.colHeaders = Object.keys(result[0]).map(v =>
+                v.replace(/\_/gi, ' ')
+              );
+              this.colHeaders[0] =
+                table.ctype === CollectionTypeEnum.SAMPLE
+                  ? 'Sample'
+                  : 'Patient';
+              this.dataSource = result.map(v => keys.map(w => v[w]));
+              this.cd.detectChanges();
+            });
           break;
         default:
-          if (table.tbl === 'mutations') { table.tbl = 'mut'; }
+          if (table.tbl === 'mutations') {
+            table.tbl = 'mut';
+          }
           Promise.all([
-            this.db.table(table.tbl.replace(/\s/gi, '')).limit(300).toArray(),
+            this.db.table(table.tbl.replace(/\s/gi, '')).toArray(),
             this.db.table(table.map.replace(/\s/gi, '')).toArray()
           ]).then(result => {
             this.colHeaders = result[1].map(v => v.s);
             this.colHeaders.unshift('Markers');
             this.dataSource = result[0].map(v => [v.m, ...v.d]);
             this.cd.detectChanges();
-
           });
           break;
       }
-
     });
   }
 
   ngAfterViewInit() {
-    const patientTable = this._tables.filter(t => t.ctype === CollectionTypeEnum.PATIENT);
-    const tbl: DataTable = (patientTable.length > 0) ? patientTable[0] : this._tables[0];
+    const patientTable = this._tables.filter(
+      t => t.ctype === CollectionTypeEnum.PATIENT
+    );
+    const tbl: DataTable =
+      patientTable.length > 0 ? patientTable[0] : this._tables[0];
     this.loadTable(tbl);
   }
 
-  constructor(private cd: ChangeDetectorRef) {
-  }
+  constructor(private cd: ChangeDetectorRef) {}
 }

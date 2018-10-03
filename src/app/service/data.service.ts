@@ -417,6 +417,7 @@ export class DataService {
     config: GraphConfig,
     decorator: DataDecorator
   ): Observable<DataDecorator> {
+    debugger;
     const formatLabel = (field: DataField, value: any): string => {
       if (value === null || value === undefined) {
         return 'NA';
@@ -457,7 +458,6 @@ export class DataService {
         ).then(result => {
           const items = result.data;
           const psMap = result.patientMap;
-
           let scale: Function;
           switch (decorator.type) {
             case DataDecoratorTypeEnum.LABEL:
@@ -559,9 +559,15 @@ export class DataService {
                 sid: psMap[v.p],
                 mid: null,
                 key: EntityTypeEnum.PATIENT,
-                label: formatLabel(decorator.field, v[decorator.field.key]),
+                label: formatLabel(
+                  decorator.field,
+                  v[decorator.field.key.replace(/\_/gi, ' ')]
+                ),
                 value: scale(
-                  formatValue(decorator.field, v[decorator.field.key])
+                  formatValue(
+                    decorator.field,
+                    v[decorator.field.key.replace(/\_/gi, ' ')]
+                  )
                 )
               }));
               // decorator.legend = new Legend();
@@ -606,12 +612,12 @@ export class DataService {
                     key: EntityTypeEnum.SAMPLE,
                     label: formatLabel(
                       decorator.field,
-                      data[sid][decorator.field.key]
+                      data[sid][decorator.field.key.replace(/\_/gi, ' ')]
                     ),
                     value: scale(
                       formatValue(
                         decorator.field,
-                        data[sid][decorator.field.key]
+                        data[sid][decorator.field.key.replace(/\_/gi, ' ')]
                       )
                     )
                   };

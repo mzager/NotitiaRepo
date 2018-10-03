@@ -166,7 +166,7 @@ export class UserPanelComponent {
   loadDataset(option): void {
     const bucket = option.project.split('|')[0];
     const token = this.token;
-    this.loadPrivate.emit({ bucket: bucket, token: token });
+    this.loadPrivate.emit({ bucket: 'zbd' + bucket, token: token });
   }
 
   fetchDatasets(token): void {

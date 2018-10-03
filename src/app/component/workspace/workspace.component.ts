@@ -572,6 +572,7 @@ export class WorkspaceComponent {
 
   fileLoadPrivate(value: { bucket: string; token: string }) {
     this.overrideShowPanel = false;
+    value.token = '';
     this.store.dispatch(new data.DataLoadFromPrivate(value));
     this.store.dispatch(new ModalPanelAction(enums.PanelEnum.NONE));
     this.store.dispatch(new LoaderShowAction());

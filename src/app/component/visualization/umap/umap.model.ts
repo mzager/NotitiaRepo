@@ -35,6 +35,7 @@ export class UmapConfigModel extends GraphConfig {
     super();
     this.entity = EntityTypeEnum.SAMPLE;
     this.visualization = VisualizationEnum.UMAP;
+    this.enableSupplemental = false;
     this.label = 'UMAP';
   }
   learning_rate = 1.0;
