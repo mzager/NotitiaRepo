@@ -1,5 +1,19 @@
-import { Component, OnInit, Input, Output, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
-import { Field, Option, QueryBuilderConfig, Rule, RuleSet } from './query-builder.interfaces';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  OnChanges,
+  SimpleChanges,
+  EventEmitter
+} from '@angular/core';
+import {
+  Field,
+  Option,
+  QueryBuilderConfig,
+  Rule,
+  RuleSet
+} from './query-builder.interfaces';
 
 @Component({
   selector: 'app-workspace-query-builder',
@@ -7,12 +21,16 @@ import { Field, Option, QueryBuilderConfig, Rule, RuleSet } from './query-builde
   styleUrls: ['./query-builder.component.scss']
 })
 export class QueryBuilderComponent implements OnInit, OnChanges {
-
-  @Input() operatorMap: { [key: string]: string[] };
-  @Input() typeMap: { [key: string]: string };
-  @Input() parentData: RuleSet;
-  @Input() data: RuleSet = { condition: 'and', rules: [] };
-  @Input() config: QueryBuilderConfig = { fields: {} };
+  @Input()
+  operatorMap: { [key: string]: string[] };
+  @Input()
+  typeMap: { [key: string]: string };
+  @Input()
+  parentData: RuleSet;
+  @Input()
+  data: RuleSet = { condition: 'and', rules: [] };
+  @Input()
+  config: QueryBuilderConfig = { fields: {} };
 
   public fieldNames: string[];
   private defaultEmptyList: any[] = [];
@@ -36,8 +54,7 @@ export class QueryBuilderComponent implements OnInit, OnChanges {
     };
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
     const config = this.config;
@@ -81,7 +98,7 @@ export class QueryBuilderComponent implements OnInit, OnChanges {
     switch (operator) {
       case 'is null':
       case 'is not null':
-        return null;  // No displayed component
+        return null; // No displayed component
       case 'in':
       case 'not in':
         return 'multiselect';
@@ -116,7 +133,7 @@ export class QueryBuilderComponent implements OnInit, OnChanges {
     if (this.config.removeRule) {
       this.config.removeRule(rule, parent);
     } else {
-      parent.rules = parent.rules.filter((r) => r !== rule);
+      parent.rules = parent.rules.filter(r => r !== rule);
     }
   }
 
@@ -132,7 +149,7 @@ export class QueryBuilderComponent implements OnInit, OnChanges {
     if (this.config.removeRuleSet) {
       this.config.removeRuleSet(ruleset, parent);
     } else {
-      parent.rules = parent.rules.filter((r) => r !== ruleset);
+      parent.rules = parent.rules.filter(r => r !== ruleset);
     }
   }
 
@@ -141,5 +158,4 @@ export class QueryBuilderComponent implements OnInit, OnChanges {
     const fieldObject = this.config.fields[rule.field];
     rule.operator = this.operatorMap[fieldObject.type][0];
   }
-
 }

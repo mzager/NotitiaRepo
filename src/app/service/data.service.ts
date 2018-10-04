@@ -417,7 +417,6 @@ export class DataService {
     config: GraphConfig,
     decorator: DataDecorator
   ): Observable<DataDecorator> {
-    debugger;
     const formatLabel = (field: DataField, value: any): string => {
       if (value === null || value === undefined) {
         return 'NA';
@@ -559,35 +558,16 @@ export class DataService {
                 sid: psMap[v.p],
                 mid: null,
                 key: EntityTypeEnum.PATIENT,
-                label: formatLabel(
-                  decorator.field,
-                  v[decorator.field.key.replace(/\_/gi, ' ')]
-                ),
+                label: formatLabel(decorator.field, v[decorator.field.key]),
                 value: scale(
-                  formatValue(
-                    decorator.field,
-                    v[decorator.field.key.replace(/\_/gi, ' ')]
-                  )
+                  formatValue(decorator.field, v[decorator.field.key])
                 )
               }));
-              // decorator.legend = new Legend();
-              // decorator.legend.type = 'COLOR';
-              // decorator.legend.display = 'DISCRETE';
-              // decorator.legend.name = (config.entity === EntityTypeEnum.SAMPLE) ? 'Sample ' + decorator.field.label :
-              //   (config.entity === EntityTypeEnum.GENE) ? 'Gene ' + decorator.field.label : 'Patient ' + decorator.field.label;
-              // if (decorator.field.type === 'STRING') {
-              //   decorator.legend.labels = scale['domain']().concat(['NA']);
-              //   decorator.legend.values = scale['range']().concat([0xDDDDDD]);
-              // } else {
-              //   decorator.legend.labels = scale['range']().map(v => scale['invertExtent'](v)
-              //     .map(w => Math.round(w)).join(' to ')).concat(['NA']);
-              //   decorator.legend.values = scale['range']().concat([0xFF0000]);
-              // }
-              // db.close();
               resolve(decorator);
               break;
 
             case DataDecoratorTypeEnum.COLOR:
+              debugger;
               scale = this.getColorScale(items, decorator.field);
               if (decorator.field.tbl === 'sample') {
                 const data = items.reduce((p, c) => {
@@ -612,12 +592,12 @@ export class DataService {
                     key: EntityTypeEnum.SAMPLE,
                     label: formatLabel(
                       decorator.field,
-                      data[sid][decorator.field.key.replace(/\_/gi, ' ')]
+                      data[sid][decorator.field.key]
                     ),
                     value: scale(
                       formatValue(
                         decorator.field,
-                        data[sid][decorator.field.key.replace(/\_/gi, ' ')]
+                        data[sid][decorator.field.key]
                       )
                     )
                   };
@@ -2622,21 +2602,21 @@ export class DataService {
               if (condition.min !== null && condition.max !== null) {
                 return conn
                   .table('patient')
-                  .where(condition.field.key)
+                  .where(condition.field.key.replace(/ /gi, '_'))
                   .between(condition.min, condition.max)
                   .toArray();
               }
               if (condition.min !== null) {
                 return conn
                   .table('patient')
-                  .where(condition.field.key)
+                  .where(condition.field.key.replace(/ /gi, '_'))
                   .aboveOrEqual(condition.min)
                   .toArray();
               }
               if (condition.max !== null) {
                 return conn
                   .table('patient')
-                  .where(condition.field.key)
+                  .where(condition.field.key.replace(/ /gi, '_'))
                   .belowOrEqual(condition.max)
                   .toArray();
               }
@@ -2644,13 +2624,14 @@ export class DataService {
             }
             return conn
               .table('patient')
-              .where(condition.field.key)
+              .where(condition.field.key.replace(/ /gi, '_'))
               .equalsIgnoreCase(condition.value)
               .toArray();
           })
           .filter(q => q);
 
         Promise.all(queries).then(conditions => {
+          debugger;
           try {
             if (!cohort.n.trim().length) {
               const d = new Date();

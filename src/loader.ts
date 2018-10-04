@@ -482,8 +482,24 @@ onmessage = function(e) {
             try {
               processV31(e.data.file).then(values => {
                 const tables: Array<{ tbl: string; data: Array<any> }> = values;
+
                 Promise.all(
-                  tables.map(tbl => db.table(tbl.tbl).bulkAdd(tbl.data))
+                  tables.map(tbl => {
+                    if (
+                      tbl.tbl.toLowerCase().trim() === 'sample' ||
+                      tbl.tbl.toLowerCase().trim() === 'patient'
+                    ) {
+                      const d = tbl.data.map(datum => {
+                        const rv = Object.keys(datum).reduce((p, c) => {
+                          p[c.trim().replace(/ /gi, '_')] = datum[c];
+                          return p;
+                        }, {});
+                        return rv;
+                      });
+                      return db.table(tbl.tbl).bulkAdd(d);
+                    }
+                    return db.table(tbl.tbl).bulkAdd(tbl.data);
+                  })
                 ).then(() => {
                   report('Saving ' + tables[0].tbl);
                   me.postMessage(
@@ -495,7 +511,6 @@ onmessage = function(e) {
               });
             } catch (e) {}
           }
-          console.log('hi');
         } else {
           try {
             processResource(e.data.file).then(values => {

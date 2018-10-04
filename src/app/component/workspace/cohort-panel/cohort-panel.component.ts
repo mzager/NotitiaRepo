@@ -9,7 +9,11 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { Cohort, CohortCondition, CohortField } from './../../../model/cohort.model';
+import {
+  Cohort,
+  CohortCondition,
+  CohortField
+} from './../../../model/cohort.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DataService } from './../../../service/data.service';
 
@@ -23,11 +27,25 @@ declare var $: any;
   encapsulation: ViewEncapsulation.None
 })
 export class CohortPanelComponent implements AfterViewInit {
-  @Input() cohorts: Array<Cohort> = [];
-  @Output() addCohort: EventEmitter<{ database: string; cohort: Cohort }> = new EventEmitter();
-  @Output() delCohort: EventEmitter<{ database: string; cohort: Cohort }> = new EventEmitter();
-  @Output() queryCohort: EventEmitter<{ database: string; cohort: Cohort }> = new EventEmitter();
-  @Output() hide: EventEmitter<any> = new EventEmitter();
+  @Input()
+  cohorts: Array<Cohort> = [];
+  @Output()
+  addCohort: EventEmitter<{
+    database: string;
+    cohort: Cohort;
+  }> = new EventEmitter();
+  @Output()
+  delCohort: EventEmitter<{
+    database: string;
+    cohort: Cohort;
+  }> = new EventEmitter();
+  @Output()
+  queryCohort: EventEmitter<{
+    database: string;
+    cohort: Cohort;
+  }> = new EventEmitter();
+  @Output()
+  hide: EventEmitter<any> = new EventEmitter();
 
   fields: Array<CohortField>;
   defaultCondition: CohortCondition;
@@ -88,7 +106,10 @@ export class CohortPanelComponent implements AfterViewInit {
       alert('Please specify a unique cohort name');
       return;
     }
-    this.addCohort.emit({ cohort: this.activeCohort, database: this.config.database });
+    this.addCohort.emit({
+      cohort: this.activeCohort,
+      database: this.config.database
+    });
   }
 
   deleteClick(cohort: Cohort): void {
