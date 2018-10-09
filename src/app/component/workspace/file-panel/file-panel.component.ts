@@ -9,6 +9,9 @@ import {
 } from '@angular/core';
 import { PanelEnum } from '../../../model/enum.model';
 import { DataHubService } from './../../../service/datahub.service';
+import { Pipe, PipeTransform } from '@angular/core';
+
+
 
 @Component({
   selector: 'app-workspace-file-panel',
@@ -17,8 +20,11 @@ import { DataHubService } from './../../../service/datahub.service';
   templateUrl: './file-panel.component.html',
   styleUrls: ['./file-panel.component.scss']
 })
+
+
 export class FilePanelComponent {
   // todo: This needs to be revisited post launch.  Should be doing this in redux state.
+
   myDatasets: Array<any> = [];
   @Output()
   uploadExcel = new EventEmitter<any>();
@@ -30,8 +36,12 @@ export class FilePanelComponent {
   hide = new EventEmitter<any>();
   @Output()
   showPanel = new EventEmitter<PanelEnum>();
+
+
   datasets = [];
   filter = '';
+
+
 
   uploadExcelClick(): void {
     this.uploadExcel.emit();
@@ -40,340 +50,314 @@ export class FilePanelComponent {
   addDataset(): void {
     this.showPanel.emit(PanelEnum.UPLOAD);
   }
-  // onLogout(): void {
-  //   // this.datahubService.logout();
-  // }
 
   closeClick(): void {
     this.hide.emit();
   }
+
   constructor(public dataService: DataService, cd: ChangeDetectorRef) {
-    dataService.getPublicDatasets().then(v => {
-      const tcgaSets = [
-        {
-          name: 'Adrenocortical carcinoma',
-          prefix: 'tcga_acc_',
-          img: 'DSadrenal',
-          src: 'tcga',
-          uid: 'tcga_acc'
-        },
-        {
-          name: 'Bladder urothelial carcinoma',
-          prefix: 'tcga_blca_',
-          img: 'DSbladder',
-          src: 'tcga',
-          uid: 'tcga_blca'
-        },
-        {
-          name: 'Breast',
-          prefix: 'tcga_brca_',
-          img: 'DSbreast',
-          src: 'tcga',
-          uid: 'tcga_brca'
-        },
-        {
-          name: 'Cervical',
-          prefix: 'tcga_cesc_',
-          img: 'DSuterine',
-          src: 'tcga',
-          uid: 'tcga_cesc'
-        },
-        {
-          name: 'Cholangiocarcinoma',
-          prefix: 'tcga_chol_',
-          img: 'DSbile',
-          src: 'tcga',
-          uid: 'tcga_chol'
-        },
-        {
-          name: 'Colon',
-          prefix: 'tcga_coad_',
-          img: 'DScoadread',
-          src: 'tcga',
-          uid: 'tcga_coad'
-        },
-        // {
-        //   name: 'Colorectal',
-        //   prefix: 'tcga_coadread_',
-        //   img: 'DScoadread',
-        //   src: 'tcga',
-        //   uid: 'tcga_coadread'
-        // },
-        {
-          name: 'Diffuse large B Cell',
-          prefix: 'tcga_dlbc_',
-          img: 'DSblood',
-          src: 'tcga',
-          uid: 'tcga_dlbc'
-        },
-        {
-          name: 'Esophageal',
-          prefix: 'tcga_esca_',
-          img: 'DSheadneck',
-          src: 'tcga',
-          uid: 'tcga_esca'
-        },
-        {
-          name: 'Glioblastoma',
-          prefix: 'tcga_gbm_',
-          img: 'DSbrain',
-          src: 'tcga',
-          uid: 'tcga_gbm'
-        },
-        {
-          name: 'Glioma',
-          prefix: 'tcga_brain_',
-          img: 'DSbrain',
-          src: 'tcga',
-          uid: 'tcga_brain'
-        },
-        {
-          name: 'Head and Neck',
-          prefix: 'tcga_hnsc_',
-          img: 'DSheadneck',
-          src: 'tcga',
-          uid: 'tcga_hnsc'
-        },
-        {
-          name: 'Kidney chromophobe',
-          prefix: 'tcga_kich_',
-          img: 'DSkidney',
-          src: 'tcga',
-          uid: 'tcga_kich'
-        },
-        {
-          name: 'Kidney renal clear cell',
-          prefix: 'tcga_kirc_',
-          img: 'DSkidney',
-          src: 'tcga',
-          uid: 'tcga_kirc'
-        },
-        {
-          name: 'Kidney renal papillary cell',
-          prefix: 'tcga_kirp_',
-          img: 'DSkidney',
-          src: 'tcga',
-          uid: 'tcga_kirp'
-        },
-        {
-          name: 'Lower grade glioma',
-          prefix: 'tcga_lgg_',
-          img: 'DSbrain',
-          src: 'tcga',
-          uid: 'tcga_lgg'
-        },
-        {
-          name: 'Liver',
-          prefix: 'tcga_lihc_',
-          img: 'DSliver',
-          src: 'tcga',
-          uid: 'tcga_lihc'
-        },
-        {
-          name: 'Lung adenocarcinoma',
-          prefix: 'tcga_luad_',
-          img: 'DSlung',
-          src: 'tcga',
-          uid: 'tcga_luad'
-        },
-        {
-          name: 'Lung squamous cell',
-          prefix: 'tcga_lusc_',
-          img: 'DSlung',
-          src: 'tcga',
-          uid: 'tcga_lusc'
-        },
-        {
-          name: 'Mesothelioma',
-          prefix: 'tcga_meso_',
-          img: 'DSlung',
-          src: 'tcga',
-          uid: 'tcga_meso'
-        },
-        {
-          name: 'Ovarian',
-          prefix: 'tcga_ov_',
-          img: 'DSovary',
-          src: 'tcga',
-          uid: 'tcga_ov'
-        },
-        {
-          name: 'Pancreas',
-          prefix: 'tcga_paad_',
-          img: 'DSpancreas',
-          src: 'tcga',
-          uid: 'tcga_paad'
-        },
-        {
-          name: 'Prostate',
-          prefix: 'tcga_prad_',
-          img: 'DSprostate',
-          src: 'tcga',
-          uid: 'tcga_prad'
-        },
-        {
-          name: 'Pheochromocytoma + Paraganglioma',
-          prefix: 'tcga_pcpg_',
-          img: 'DSadrenal',
-          src: 'tcga',
-          uid: 'tcga_pcpg'
-        },
-        {
-          name: 'Rectal',
-          prefix: 'tcga_read_',
-          img: 'DScoadread',
-          src: 'tcga',
-          uid: 'tcga_read'
-        },
-        {
-          name: 'Sarcoma',
-          prefix: 'tcga_sarc_',
-          img: 'DSsarcoma',
-          src: 'tcga',
-          uid: 'tcga_sarc'
-        },
-        {
-          name: 'Stomach',
-          prefix: 'tcga_stad_',
-          img: 'DSstomach',
-          src: 'tcga',
-          uid: 'tcga_stad'
-        },
-        {
-          name: 'Testicular germ cell',
-          prefix: 'tcga_tgct_',
-          img: 'DStesticules',
-          src: 'tcga',
-          uid: 'tcga_tgct'
-        },
-        {
-          name: 'Thyroid carcinoma',
-          prefix: 'tcga_thca_',
-          img: 'DSthyroid',
-          src: 'tcga',
-          uid: 'tcga_thca'
-        },
-        {
-          name: 'Thymoma',
-          prefix: 'tcga_thym_',
-          img: 'DSthymus',
-          src: 'tcga',
-          uid: 'tcga_thym'
-        },
-        {
-          name: 'Uterine corpus endometrial',
-          prefix: 'tcga_ucec_',
-          img: 'DSuterine',
-          src: 'tcga',
-          uid: 'tcga_ucec'
-        },
-        {
-          name: 'Uterine carcinosarcoma',
-          prefix: 'tcga_ucs_',
-          img: 'DSuterine',
-          src: 'tcga',
-          uid: 'tcga_ucs'
-        },
-        {
-          name: 'Uveal melanoma',
-          prefix: 'tcga_uvm_',
-          img: 'DSeye',
-          src: 'tcga',
-          uid: 'tcga_uvm'
-        }
-      ].map((ds: any) => {
-        ds.name += ' (Oncoscape TCGA)';
-        ds['isPublic'] = true;
-        return ds;
-      });
 
-      const imgMap = {
-        plmeso: 'DSlung',
-        paad: 'DSpancreas',
-        prad: 'DSprostate',
-        odg: 'DSbrain',
-        nbl: 'DSbrain',
-        nsclc: 'DSlung',
-        mpnst: 'DSbrain',
-        acbc: 'DSbreast',
-        acc: 'DSadrenal',
-        acyc: 'DSheadneck',
-        soft_tissue: 'DSsarcoma',
-        mnet: 'DSbrain',
-        hgsoc: 'DSovary',
-        all: 'na',
-        mixed: 'na',
-        mrt: 'na',
-        aml: 'DSblood',
-        angs: 'DSsarcoma',
-        blca: 'DSbladder',
-        brca: 'DSbreast',
-        ccrcc: 'DSkidney',
-        chol: 'DSbile',
-        chrcc: 'DSkidney',
-        dsbrain: 'DSbrain',
-        difg: 'DSbrain',
-        dlbcl: 'DSblood',
-        dlbclnos: 'DSblood',
-        esca: 'DSheadneck',
-        gbm: 'DSbrain',
-        gct: 'na',
-        hcc: 'DSliver',
-        hnsc: 'DSheadneck',
-        luad: 'DSlung',
-        prc: 'DSkidney',
-        prcc: 'DSkidney',
-        DSbrain: 'DSbrain',
-        read: 'DScoadread'
-      };
-      const publicSets = v.map(x => {
-        if (
-          x.content.name.indexOf('(FHCRC)') !== -1 ||
-          x.content.name.indexOf('(Broad)') !== -1 ||
-          x.content.name.indexOf('(UW)') !== -1 ||
-          x.content.name.indexOf('(Robert Debré)')
-        ) {
-          x.name = x.content.name;
-        } else if (x.content.name.indexOf('(') === -1) {
-          x.name = x.content.name + '(CBio)';
-        } else {
-          x.name = x.content.name.replace('(', '(CBio ');
-        }
-
-        if (!imgMap.hasOwnProperty(x.content.site.toLowerCase())) {
-          console.log(x.content.site.toLowerCase());
-          x.img = 'DScancer';
-        } else {
-          x.img = imgMap[x.content.site.toLowerCase()];
-        }
-
-        return x;
-      });
-
-      const uniq = [];
-      this.datasets = tcgaSets
-        .concat(publicSets)
-        .filter(v2 => {
-          // if (v2.name.toLowerCase().indexOf('kim') !== -1) {
-          //   return false;
-          // }
-          if (uniq.indexOf(v2.name) === -1) {
-            uniq.push(v2.name);
-            return true;
-          }
-          return false;
-        })
-        .sort((a: any, b: any) => (a.img < b.img ? 1 : -1));
+      this.datasets = [
+          {
+              'content': {
+                  'name': 'CBIO_',
+                  'img': 'DSadrenal',
+                  'institute': 'CBIO',
+                  'description': 'desc',
+                  'studyDate': 'Mon Oct 08 2018 14:28:59 GMT-0700 (PDT)',
+                  'importDate': 'Mon Oct 08 2018 10:08:59 GMT-0700 (PDT)',
+                  'publink': 'https://www.ncbi.nlm.nih.gov/pubmed/30158685',
+                  'sampleFields': [
+                      'tumor size',
+                      'metastatic site',
+                      'tumor stage',
+                      'myb nfib fish',
+                      'myb nfib nonsynonymous count',
+                      'myb nfib cna',
+                      'type of surgery',
+                      'metastatic tumor indicator',
+                      'genomic alterations'
+                  ],
+                  'subjectFields': [
+                      'myb nfib rearrangement',
+                      'overall patient histology',
+                      'neoadjuvant chemo',
+                      'adjuvant chemo',
+                      'radiation therapy',
+                      'followup years',
+                      'os status',
+                      'vital status',
+                      'local regional recurrence'
+                  ],
+                  'molecular': [
+                      {
+                          'name': 'mutations',
+                          'description': 'Mutation',
+                          'type': 'Mutation',
+                          'samples': 100,
+                          'markers': 22000
+                      }
+                  ],
+                  'event': {
+                      'treatment': [
+                          'Drug',
+                          'Radiation'
+                      ],
+                      'status': [
+                          'Birth',
+                          'Diagnosis'
+                      ]
+                  },
+                  'isHuman': true,
+                  'isPhi': false,
+                  'isPublic': false,
+                  'reviewNumber': 'NA',
+                  'reviewType': 'Exempt',
+                  'site': 'site'
+              },
+              'email': 'jzhang23@fredhutch.org',
+              'project': '75c9ea00-c5cb-11e8-b9af-53d7b3b99427|ADMIN',
+              'status': 'UPLOAD'
+          },
+          {
+              'content': {
+                  'name': 'Columbia (FHCRC)',
+                  'img': 'DSadrenal',
+                  'institute': 'FHCRC',
+                  'description': 'NA',
+                  'studyDate': 'Mon Oct 08 2018 14:28:59 GMT-0700 (PDT)',
+                  'importDate': 'Mon Oct 08 2018 10:08:59 GMT-0700 (PDT)',
+                  'publink': 'https://www.ncbi.nlm.nih.gov/pubmed/30215627',
+                  'sampleFields': [
+                      'tumor size',
+                      'metastatic site',
+                      'tumor stage',
+                      'myb nfib fish',
+                      'myb nfib nonsynonymous count',
+                      'myb nfib cna',
+                      'type of surgery',
+                      'metastatic tumor indicator',
+                      'genomic alterations'
+                  ],
+                  'subjectFields': [
+                      'myb nfib rearrangement',
+                      'overall patient histology',
+                      'neoadjuvant chemo',
+                      'adjuvant chemo',
+                      'radiation therapy',
+                      'followup years',
+                      'os status',
+                      'vital status',
+                      'local regional recurrence'
+                  ],
+                  'molecular': [
+                      {
+                          'name': 'mutations',
+                          'description': 'Mutation',
+                          'type': 'Mutation',
+                          'samples': 100,
+                          'markers': 22000
+                      }
+                  ],
+                  'event': {
+                      'treatment': [
+                          'Drug',
+                          'Radiation'
+                      ],
+                      'status': [
+                          'Birth',
+                          'Diagnosis'
+                      ]
+                  },
+                  'isHuman': true,
+                  'isPhi': false,
+                  'isPublic': true,
+                  'reviewNumber': 'NA',
+                  'reviewType': 'Exempt',
+                  'site': 'DSbrain'
+              },
+              'email': 'michael@zager.co',
+              'project': 'DSbrain-26842f20-bb8d-11e8-b495-1fcc84e28c31|ADMIN',
+              'status': 'UPLOAD'
+          },
+          {
+              'content': {
+                  'name': '3rd',
+                  'img': 'DSadrenal',
+                  'institute': '3rd',
+                  'description': 'description',
+                  'studyDate': 'Mon Oct 08 2018 14:28:59 GMT-0700 (PDT)',
+                  'importDate': 'Mon Oct 08 2018 10:28:00 GMT-0700 (PDT)',
+                  'publink': 'http://',
+                  'sampleFields': [],
+                  'subjectFields': [
+                      'age at diagnosis',
+                      'status vital',
+                      'days to last follow up',
+                      'days to death'
+                  ],
+                  'molecular': [
+                      {
+                          'name': 'mutations',
+                          'description': 'Mutation',
+                          'type': 'Mutation',
+                          'samples': 100,
+                          'markers': 22000
+                      },
+                      {
+                          'name': 'cnv',
+                          'description': 'CNV',
+                          'type': 'CNV',
+                          'samples': 70,
+                          'markers': 24000
+                      },
+                      {
+                          'name': 'cnv thresholded',
+                          'description': 'CNV',
+                          'type': 'CNV',
+                          'samples': 70,
+                          'markers': 24000
+                      }
+                  ],
+                  'event': {
+                      'status': [
+                          'Diagnosis'
+                      ]
+                  },
+                  'isHuman': true,
+                  'isPhi': false,
+                  'isPublic': false,
+                  'reviewNumber': 'NA',
+                  'reviewType': 'Exempt',
+                  'site': 'site'
+              },
+              'email': 'gheinric@fredhutch.org',
+              'project': '75c9ea00-c5cb-11e8-b9af-53d7b3b99427|ADMIN',
+              'status': 'UPLOAD'
+          },
+          {
+            'content': {
+                'name': 'Dog',
+                'img': 'DSadrenal',
+                'institute': 'CBIO',
+                'description': 'desc',
+                'studyDate': 'Mon Oct 08 2018 14:28:59 GMT-0700 (PDT)',
+                'importDate': 'Mon Oct 08 2018 10:08:59 GMT-0700 (PDT)',
+                'publink': 'https://www.ncbi.nlm.nih.gov/pubmed/30158685',
+                'sampleFields': [
+                    'tumor size',
+                    'metastatic site',
+                    'tumor stage',
+                    'myb nfib fish',
+                    'myb nfib nonsynonymous count',
+                    'myb nfib cna',
+                    'type of surgery',
+                    'metastatic tumor indicator',
+                    'genomic alterations'
+                ],
+                'subjectFields': [
+                    'myb nfib rearrangement',
+                    'overall patient histology',
+                    'neoadjuvant chemo',
+                    'adjuvant chemo',
+                    'radiation therapy',
+                    'followup years',
+                    'os status',
+                    'vital status',
+                    'local regional recurrence'
+                ],
+                'molecular': [
+                    {
+                        'name': 'mutations',
+                        'description': 'Mutation',
+                        'type': 'Mutation',
+                        'samples': 100,
+                        'markers': 22000
+                    }
+                ],
+                'event': {
+                    'treatment': [
+                        'Drug',
+                        'Radiation'
+                    ],
+                    'status': [
+                        'Birth',
+                        'Diagnosis'
+                    ]
+                },
+                'isHuman': true,
+                'isPhi': false,
+                'isPublic': false,
+                'reviewNumber': 'NA',
+                'reviewType': 'Exempt',
+                'site': 'site'
+            },
+            'email': 'jzhang23@fredhutch.org',
+            'project': '75c9ea00-c5cb-11e8-b9af-53d7b3b99427|ADMIN',
+            'status': 'UPLOAD'
+        },
+        {
+          'content': {
+              'name': 'Cat',
+              'img': 'DSadrenal',
+              'institute': 'CBIO',
+              'description': 'desc',
+              'studyDate': 'Mon Oct 08 2018 14:28:59 GMT-0700 (PDT)',
+              'importDate': 'Mon Oct 08 2018 10:08:59 GMT-0700 (PDT)',
+              'publink': 'https://www.ncbi.nlm.nih.gov/pubmed/30158685',
+              'sampleFields': [
+                  'tumor size',
+                  'metastatic site',
+                  'tumor stage',
+                  'myb nfib fish',
+                  'myb nfib nonsynonymous count',
+                  'myb nfib cna',
+                  'type of surgery',
+                  'metastatic tumor indicator',
+                  'genomic alterations'
+              ],
+              'subjectFields': [
+                  'myb nfib rearrangement',
+                  'overall patient histology',
+                  'neoadjuvant chemo',
+                  'adjuvant chemo',
+                  'radiation therapy',
+                  'followup years',
+                  'os status',
+                  'vital status',
+                  'local regional recurrence'
+              ],
+              'molecular': [
+                  {
+                      'name': 'mutations',
+                      'description': 'Mutation',
+                      'type': 'Mutation',
+                      'samples': 100,
+                      'markers': 22000
+                  }
+              ],
+              'event': {
+                  'treatment': [
+                      'Drug',
+                      'Radiation'
+                  ],
+                  'status': [
+                      'Birth',
+                      'Diagnosis'
+                  ]
+              },
+              'isHuman': true,
+              'isPhi': false,
+              'isPublic': false,
+              'reviewNumber': 'NA',
+              'reviewType': 'Exempt',
+              'site': 'site'
+          },
+          'email': 'jzhang23@fredhutch.org',
+          'project': '75c9ea00-c5cb-11e8-b9af-53d7b3b99427|ADMIN',
+          'status': 'UPLOAD'
+      },
+      ];
       cd.markForCheck();
-      console.dir(this.datasets);
-      // const imgs = Object.keys(
-      //   this.datasets.reduce((p, c, i) => {
-      //     p[c.img] = 'x';
-      //     return p;
-      //   }, {})
-      // );
-      // console.log(imgs);
-      // debugger;
-    });
   }
 }

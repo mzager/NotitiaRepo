@@ -4,24 +4,45 @@
     <h1 class='panel-header'>Data Sets</h1>
     <h2 class='panel-header-desc'>Select from public data sets, or visualize your own</h2>
   </div>
+   
+
+
   <div fxLayout.xs='column'>
     <div fxFlex.sm='1 1 40%' fxFlex.md='1 1 30%' fxFlex.lg='1 1 25%' fxFlex.xl='1 1 15%'>
       <h2 class='panel-column-title'>My Datasets</h2>
-      <!-- <mat-form-field class="example-form-field">
-        <input matInput type="text" placeholder="Clearable input" [(ngModel)]="filter">
-        <button mat-button *ngIf="filter" matSuffix mat-icon-button aria-label="Clear" (click)="filter=''">
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field> -->
+
       <app-workspace-user-panel (showPanel)='this.showPanel.emit($event)' (loadPrivate)='this.loadPrivate.emit($event)'></app-workspace-user-panel>
     </div>
     <div fxFlex.sm='1 1 60%' fxFlex.md='1 1 70%' fxFlex.lg='1 1 75%' fxFlex.xl='1 1 85%'>
       <h2 class='panel-column-title '>Public Data Sets</h2>
+      <!-- search field -->
+      <mat-form-field class="example-form-field">
+          <input matInput type="text" placeholder="Filter Datasets" [(ngModel)]="filter">
+          <button mat-button *ngIf="filter" matSuffix mat-icon-button aria-label="Clear" (click)="filter=''">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- 3 buttons -->
+        <div class="test">
+            <mat-button-toggle-group #group="matButtonToggleGroup">
+                <mat-button-toggle value="Lists of name,institution">
+                  <mat-icon class='md-18'>view_list</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle value="List + details">
+                  <mat-icon class='md-18'>details</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle value="Groups disease/institution">
+                  <mat-icon class='md-18'>group_work</mat-icon>
+                </mat-button-toggle>
+              </mat-button-toggle-group>
+              <div class="example-selected-value">{{group.value}}</div>
+        
+          </div> 
       <div>
-        <div class='panel-button-link' *ngFor='let dataset of datasets; let i=index'>
+        <div class='panel-button-link' *ngFor='let dataset of datasets; let i=index' >
           <a class='panel-button-image ' (click)='this.loadPublic.emit(dataset) '>
-            <div class='disease-img disease-img{{dataset.img}}'></div>
-            <span>{{dataset.name}}</span>
+            <div class='disease-img disease-img{{dataset.content.img}}'></div>
+            <span>{{dataset.content.name}}</span>
           </a>
         </div>
       </div>
