@@ -1,3 +1,4 @@
+import { AbstractVisualization } from './../visualization.abstract.component';
 import { ChartFactory } from './../../workspace/chart/chart.factory';
 import { EventEmitter } from '@angular/core';
 import { GraphEnum, ShapeEnum } from 'app/model/enum.model';
@@ -6,18 +7,25 @@ import { OrbitControls } from 'three-orbitcontrols-ts';
 import { VisualizationView } from './../../../model/chart-view.model';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { DataDecorator } from './../../../model/data-map.model';
-import { EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
+import {
+  EntityTypeEnum,
+  WorkspaceLayoutEnum
+} from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { ChartEvents } from './../../workspace/chart/chart.events';
 import { DeConfigModel, DeDataModel } from './de.model';
 
-export class DeGraph implements ChartObjectInterface {
+export class DeGraph extends AbstractVisualization
+  implements ChartObjectInterface {
   // Emitters
   public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
   public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{
     type: GraphConfig;
   }>();
-  public onSelect: EventEmitter<{ type: EntityTypeEnum; ids: Array<string> }> = new EventEmitter<{
+  public onSelect: EventEmitter<{
+    type: EntityTypeEnum;
+    ids: Array<string>;
+  }> = new EventEmitter<{
     type: EntityTypeEnum;
     ids: Array<string>;
   }>();
@@ -32,7 +40,11 @@ export class DeGraph implements ChartObjectInterface {
   private colors: Array<any>;
   private config: DeConfigModel;
 
-  create(label: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
+  create(
+    label: HTMLElement,
+    events: ChartEvents,
+    view: VisualizationView
+  ): ChartObjectInterface {
     return this;
   }
   updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
@@ -98,9 +110,13 @@ export class DeGraph implements ChartObjectInterface {
       const position = this.layout[i];
       const size = i < sizeLength ? this.sizes[i] : 1;
       const shape =
-        i < shapeLength ? this.shapeFactory(this.shapes[i]) : this.shapeFactory(ShapeEnum.SQUARE);
+        i < shapeLength
+          ? this.shapeFactory(this.shapes[i])
+          : this.shapeFactory(ShapeEnum.SQUARE);
       const color =
-        i < colorLength ? this.colorFactory(this.colors[i]) : this.colorFactory(0xdd2c00);
+        i < colorLength
+          ? this.colorFactory(this.colors[i])
+          : this.colorFactory(0xdd2c00);
       const point = new THREE.Mesh(shape, color);
       point.position.x = position[0] - 250;
       point.position.y = position[1] - 250;
@@ -112,7 +128,9 @@ export class DeGraph implements ChartObjectInterface {
   }
 
   // Lifecycle Methods
-  constructor() {}
+  constructor() {
+    super();
+  }
   // constructor() {
   //     this.sizes = [];
   //     this.shapes = [];

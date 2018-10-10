@@ -1,3 +1,4 @@
+import { AbstractVisualization } from './../visualization.abstract.component';
 import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
 import { EventEmitter } from '@angular/core';
 import { GraphEnum, ShapeEnum } from 'app/model/enum.model';
@@ -6,21 +7,25 @@ import { OrbitControls } from 'three-orbitcontrols-ts';
 import { VisualizationView } from './../../../model/chart-view.model';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { DataDecorator } from './../../../model/data-map.model';
-import { EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
+import {
+  EntityTypeEnum,
+  WorkspaceLayoutEnum
+} from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { ChartEvents } from './../../workspace/chart/chart.events';
 import { DaConfigModel, DaDataModel } from './da.model';
 
-export class DaGraph implements ChartObjectInterface {
+export class DaGraph extends AbstractVisualization
+  implements ChartObjectInterface {
   // Emitters
   public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
   public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{
     type: GraphConfig;
   }>();
-  public onSelect: EventEmitter<{ type: EntityTypeEnum; ids: Array<string> }> = new EventEmitter<{
+  public onSelect: EventEmitter<{
     type: EntityTypeEnum;
     ids: Array<string>;
-  }>();
+  }> = new EventEmitter<{ type: EntityTypeEnum; ids: Array<string> }>();
 
   // Private Members
   public meshes: Array<THREE.Mesh>;
@@ -32,7 +37,11 @@ export class DaGraph implements ChartObjectInterface {
   private colors: Array<any>;
   private config: DaConfigModel;
 
-  create(label: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
+  create(
+    label: HTMLElement,
+    events: ChartEvents,
+    view: VisualizationView
+  ): ChartObjectInterface {
     return this;
   }
 
@@ -99,9 +108,13 @@ export class DaGraph implements ChartObjectInterface {
       const position = this.layout[i];
       const size = i < sizeLength ? this.sizes[i] : 1;
       const shape =
-        i < shapeLength ? this.shapeFactory(this.shapes[i]) : this.shapeFactory(ShapeEnum.SQUARE);
+        i < shapeLength
+          ? this.shapeFactory(this.shapes[i])
+          : this.shapeFactory(ShapeEnum.SQUARE);
       const color =
-        i < colorLength ? this.colorFactory(this.colors[i]) : this.colorFactory(0xdd2c00);
+        i < colorLength
+          ? this.colorFactory(this.colors[i])
+          : this.colorFactory(0xdd2c00);
       const point = new THREE.Mesh(shape, color);
       point.position.x = position[0] - 250;
       point.position.y = position[1] - 250;
@@ -113,5 +126,7 @@ export class DaGraph implements ChartObjectInterface {
   }
 
   // Lifecycle Methods
-  constructor() {}
+  constructor() {
+    super();
+  }
 }

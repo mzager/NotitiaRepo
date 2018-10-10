@@ -1,4 +1,8 @@
-import { DimensionEnum, EntityTypeEnum, VisualizationEnum } from 'app/model/enum.model';
+import {
+  DimensionEnum,
+  EntityTypeEnum,
+  VisualizationEnum
+} from 'app/model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { GraphData } from './../../../model/graph-data.model';
 
@@ -21,6 +25,7 @@ export class DictionaryLearningConfigModel extends GraphConfig {
     this.entity = EntityTypeEnum.SAMPLE;
     this.visualization = VisualizationEnum.DICTIONARY_LEARNING;
     this.label = 'Dictionary Learning';
+    this.enableBehaviors = true;
   }
 
   n_components = 10;

@@ -1,32 +1,13 @@
 .app-workspace-tool-bar {
-    position: absolute;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    z-index: 1000;
-    
-}
-.a-lbl {
-    background:#029BE5;
-    color:#FFF;
-    display: inline-block;
-    width:30px;
-    height:30px;
-    line-height: 30px;
-    border-radius: 15px 0px 0px 0px;
-    padding:0px;
-    margin:0px;
-    cursor: pointer;
-}
-.b-lbl {
-    background:#029BE5;
-    color:#FFF;
-    display: inline-block;
-    width:30px;
-    height:30px;
-    line-height: 30px;
-    border-radius: 0px 15px 0px 0px;
-    padding:0px;
-    margin:0px;
-    cursor: pointer;
+  pointer-events: all;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  padding: 0px 280px;
+  top: 30px;
+  background: #fff !important; //#fafafa !important;
+  border: 0px solid #eeeeee !important;
+  border-bottom-width: 1px !important;
+  height: 40px;
+  line-height: 40px;
 }

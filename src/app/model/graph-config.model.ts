@@ -25,6 +25,7 @@ export class GraphConfig {
   enableCohorts = true;
   enableGenesets = true;
   enablePathways = false;
+  enableBehaviors = false;
   enableSupplemental = true;
   enableLabel = true;
   enableColor = true;

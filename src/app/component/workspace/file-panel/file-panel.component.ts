@@ -363,7 +363,17 @@ export class FilePanelComponent {
           }
           return false;
         })
-        .sort((a: any, b: any) => (a.img < b.img ? 1 : -1));
+        .map(v2 => {
+          v2.name = v2.name
+            .toLowerCase()
+            .replace(
+              /\w\S*/g,
+              txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+            );
+          return v2;
+        })
+        .sort((a: any, b: any) => (a.name < b.name ? -1 : 1))
+        .sort((a: any, b: any) => (a.img < b.img ? -1 : 1));
       cd.markForCheck();
       console.dir(this.datasets);
       // const imgs = Object.keys(

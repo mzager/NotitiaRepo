@@ -1,3 +1,4 @@
+import { AbstractVisualization } from './../visualization.abstract.component';
 import { EventEmitter } from '@angular/core';
 import { GraphEnum } from 'app/model/enum.model';
 import { GraphConfig } from 'app/model/graph-config.model';
@@ -6,29 +7,32 @@ import * as THREE from 'three';
 import { VisualizationView } from './../../../model/chart-view.model';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { DataDecorator } from './../../../model/data-map.model';
-import { EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
+import {
+  EntityTypeEnum,
+  WorkspaceLayoutEnum
+} from './../../../model/enum.model';
 import { ChartEvents } from './../../workspace/chart/chart.events';
 import { ChartFactory } from './../../workspace/chart/chart.factory';
 import { DendogramConfigModel, DendogramDataModel } from './dendogram.model';
 
-export class DendogramGraph implements ChartObjectInterface {
+export class DendogramGraph extends AbstractVisualization
+  implements ChartObjectInterface {
   // Emitters
   public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
   public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{
     type: GraphConfig;
   }>();
-  public onSelect: EventEmitter<{ type: EntityTypeEnum; ids: Array<string> }> = new EventEmitter<{
+  public onSelect: EventEmitter<{
+    type: EntityTypeEnum;
+    ids: Array<string>;
+  }> = new EventEmitter<{
     type: EntityTypeEnum;
     ids: Array<string>;
   }>();
 
   // Chart Elements
-  private labels: HTMLElement;
-  private events: ChartEvents;
-  private view: VisualizationView;
   private data: DendogramDataModel;
   private config: DendogramConfigModel;
-  private isEnabled: boolean;
 
   // Objects
   pointSize = 1;
@@ -49,7 +53,11 @@ export class DendogramGraph implements ChartObjectInterface {
   private sMouseDown: Subscription;
   private sMouseUp: Subscription;
 
-  create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
+  create(
+    labels: HTMLElement,
+    events: ChartEvents,
+    view: VisualizationView
+  ): ChartObjectInterface {
     this.labels = labels;
     this.events = events;
     this.view = view;
@@ -135,10 +143,16 @@ export class DendogramGraph implements ChartObjectInterface {
       });
     });
 
-    geometry.addAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geometry.addAttribute(
+      'position',
+      new THREE.Float32BufferAttribute(positions, 3)
+    );
     geometry.addAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
     geometry.computeBoundingSphere();
-    const material = new THREE.PointsMaterial({ size: 10, vertexColors: THREE.VertexColors });
+    const material = new THREE.PointsMaterial({
+      size: 10,
+      vertexColors: THREE.VertexColors
+    });
     this.points = new THREE.Points(geometry, material);
     this.group.add(this.points);
 
@@ -148,5 +162,7 @@ export class DendogramGraph implements ChartObjectInterface {
 
   createLine(node) {}
 
-  constructor() {}
+  constructor() {
+    super();
+  }
 }

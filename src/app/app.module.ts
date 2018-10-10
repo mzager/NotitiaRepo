@@ -1,3 +1,4 @@
+import { BehaviorPanelComponent } from './component/workspace/behavior-panel/behavior-panel.component';
 import { ScatterFormComponent } from './component/visualization/scatter/scatter.form.component';
 import { UmapFormComponent } from './component/visualization/umap/umap.form.component';
 import { TipPanelComponent } from './component/workspace/tip-panel/tip-panel.component';
@@ -114,6 +115,7 @@ import { ErrorService } from './service/error.service';
     AppComponent,
     WorkspaceComponent,
     ApplicationBarComponent,
+    BehaviorPanelComponent,
     FilePanelComponent,
     EdgePanelComponent,
     LegendPanelComponent,

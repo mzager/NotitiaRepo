@@ -343,8 +343,8 @@ export class DataEffect {
         // new GraphPanelToggleAction( GraphPanelEnum.GRAPH_A )
         new compute.PcaAction({ config: pcaConfig }),
         // new compute.ScatterAction({ config: scatterConfig }),
-        new LoaderShowAction(),
-        new TipSetVisualizationAction(VisualizationEnum.INCREMENTAL_PCA)
+        new LoaderShowAction()
+        // new TipSetVisualizationAction(VisualizationEnum.INCREMENTAL_PCA)
       ];
     });
 

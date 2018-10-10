@@ -1,3 +1,4 @@
+import { AbstractVisualization } from './../visualization.abstract.component';
 import { EventEmitter } from '@angular/core';
 import { GraphEnum, ShapeEnum } from 'app/model/enum.model';
 import * as THREE from 'three';
@@ -5,18 +6,25 @@ import { OrbitControls } from 'three-orbitcontrols-ts';
 import { VisualizationView } from './../../../model/chart-view.model';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { DataDecorator } from './../../../model/data-map.model';
-import { EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
+import {
+  EntityTypeEnum,
+  WorkspaceLayoutEnum
+} from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { ChartEvents } from './../../workspace/chart/chart.events';
 import { PlsConfigModel, PlsDataModel } from './pls.model';
 
-export class PlsGraph implements ChartObjectInterface {
+export class PlsGraph extends AbstractVisualization
+  implements ChartObjectInterface {
   // Emitters
   public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
   public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{
     type: GraphConfig;
   }>();
-  public onSelect: EventEmitter<{ type: EntityTypeEnum; ids: Array<string> }> = new EventEmitter<{
+  public onSelect: EventEmitter<{
+    type: EntityTypeEnum;
+    ids: Array<string>;
+  }> = new EventEmitter<{
     type: EntityTypeEnum;
     ids: Array<string>;
   }>();
@@ -31,7 +39,11 @@ export class PlsGraph implements ChartObjectInterface {
   private colors: Array<any>;
   private config: PlsConfigModel;
 
-  create(label: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
+  create(
+    label: HTMLElement,
+    events: ChartEvents,
+    view: VisualizationView
+  ): ChartObjectInterface {
     return this;
   }
   updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
@@ -65,7 +77,11 @@ export class PlsGraph implements ChartObjectInterface {
     this.meshes.length = 0;
   }
   private colorFactory(color): THREE.Material {
-    const rv = new THREE.MeshPhongMaterial({ color: color, specular: color, shininess: 100 });
+    const rv = new THREE.MeshPhongMaterial({
+      color: color,
+      specular: color,
+      shininess: 100
+    });
     return rv;
   }
 
@@ -99,7 +115,9 @@ export class PlsGraph implements ChartObjectInterface {
   }
 
   // Lifecycle Methods
-  constructor() {}
+  constructor() {
+    super();
+  }
   // constructor() {
   //     this.sizes = [];
   //     this.shapes = [];

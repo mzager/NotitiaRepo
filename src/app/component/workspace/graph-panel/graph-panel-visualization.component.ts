@@ -37,13 +37,9 @@ import {
     <mat-form-field class='form-field' *ngIf='config.enableColor'>
         <mat-select placeholder='Color' (selectionChange)='setColorOption($event)'
             [(value)]='colorSelected' [compareWith]='byKey'>
-
             <mat-option *ngFor='let option of colorOptions' [value]='option'>
                 {{ option.label }}
             </mat-option>
-
-
-
         </mat-select>
     </mat-form-field>
     <mat-form-field class='form-field' *ngIf='config.enableShape'>
