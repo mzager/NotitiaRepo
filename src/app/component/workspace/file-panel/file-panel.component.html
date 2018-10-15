@@ -9,7 +9,6 @@
       </button>
     </mat-form-field> -->
     <h1 class='panel-header'>Data Sets</h1>
-
     <h2 class='panel-header-desc'>Select from public data sets, or visualize your own</h2>
   </div>
   <div fxLayout.xs='column'>
@@ -24,6 +23,7 @@
           <a class='panel-button-image ' (click)='this.loadPublic.emit(dataset) '>
             <div class='disease-img disease-img{{dataset.img}}'></div>
             <span>{{dataset.name}}</span>
+            <!-- <mat-icon *ngIf='dataset.isTested'>done</mat-icon> -->
           </a>
         </div>
       </div>

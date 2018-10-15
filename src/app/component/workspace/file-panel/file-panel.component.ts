@@ -49,6 +49,10 @@ export class FilePanelComponent {
   }
   constructor(public dataService: DataService, cd: ChangeDetectorRef) {
     dataService.getPublicDatasets().then(v => {
+      v = v.map(x => {
+        x.isTested = 0;
+        return x;
+      });
       const tcgaSets = [
         {
           name: 'Adrenocortical carcinoma',
@@ -284,6 +288,7 @@ export class FilePanelComponent {
       ].map((ds: any) => {
         ds.name += ' (Oncoscape TCGA)';
         ds['isPublic'] = true;
+        ds['isTested'] = 1;
         return ds;
       });
 
@@ -372,6 +377,7 @@ export class FilePanelComponent {
             );
           return v2;
         })
+        .sort((a: any, b: any) => (a.isTested < b.isTested ? -1 : 1))
         .sort((a: any, b: any) => (a.name < b.name ? -1 : 1))
         .sort((a: any, b: any) => (a.img < b.img ? -1 : 1));
       cd.markForCheck();

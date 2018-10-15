@@ -1,3 +1,4 @@
+import { FormGroup, FormBuilder } from '@angular/forms';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -19,6 +20,7 @@ import { GraphConfig } from 'app/model/graph-config.model';
 export class BehaviorPanelComponent implements AfterViewInit {
   $configChange: Subject<GraphConfig> = new Subject();
   private _config: GraphConfig;
+  private form: FormGroup;
 
   @Input()
   set config(value: GraphConfig) {
@@ -30,4 +32,11 @@ export class BehaviorPanelComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {}
+
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      navigation: [],
+      selection: []
+    });
+  }
 }

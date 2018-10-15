@@ -31,18 +31,13 @@ import {
 import { EventEmitter } from '@angular/core';
 import { GraphEnum } from '../../model/enum.model';
 import { scaleLinear } from 'd3-scale';
+import { AbstractScatterSelectionController } from './abstract.scatter.selection.controller';
 declare var THREE;
-export class ScatterSelectionKddController extends AbstractMouseController {
-  public onSelect: EventEmitter<Array<number>> = new EventEmitter();
-  public onDeselect: EventEmitter<Array<number>> = new EventEmitter();
-
-  private highlightIndexes = [];
-  private raycaster: Raycaster;
+export class ScatterSelectionKddController extends AbstractScatterSelectionController {
   private kdTree: any;
-  private lines: LineSegments;
   private posMap: Array<number>;
   private intersect: any = null;
-  private _points: Points;
+  private lines: LineSegments;
   private lineGeo = new Geometry();
   private lineMat = new LineBasicMaterial({ color: 0xe000fb });
 
@@ -73,6 +68,7 @@ export class ScatterSelectionKddController extends AbstractMouseController {
         return v === sortArray[i];
       });
     }
+    console.log('11...ss');
     this._points = p;
   }
 
@@ -94,14 +90,11 @@ export class ScatterSelectionKddController extends AbstractMouseController {
   }
 
   public destroy(): void {
-    this.points = null;
+    super.destroy();
     this.posMap = null;
     this.kdTree = null;
-    this.enable = false;
   }
-  public onMouseUp(e: ChartEvent): void {
-    super.onMouseUp(e);
-  }
+
   public onMouseDown(e: ChartEvent): void {
     super.onMouseDown(e);
 
@@ -114,10 +107,10 @@ export class ScatterSelectionKddController extends AbstractMouseController {
 
   public onMouseMove(e: ChartEvent): void {
     super.onMouseMove(e);
-
     if (!this.points) {
       return;
     }
+    console.log('testing');
     // if (this.intersect !== null) {
     //   const alphas = this.intersect.object.geometry.attributes.gAlpha;
     //   alphas.array.fill(0.8);

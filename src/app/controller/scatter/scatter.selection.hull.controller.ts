@@ -1,57 +1,16 @@
+import { AbstractScatterSelectionController } from './abstract.scatter.selection.controller';
 import { ChartScene } from '../../component/workspace/chart/chart.scene';
-import { ChartFactory } from '../../component/workspace/chart/chart.factory';
-import { Subscription } from 'rxjs';
-import { ChartSelection } from '../../model/chart-selection.model';
-import { GraphConfig } from 'app/model/graph-config.model';
 import {
   ChartEvents,
   ChartEvent
 } from '../../component/workspace/chart/chart.events';
 import { VisualizationView } from '../../model/chart-view.model';
-import { AbstractMouseController } from '../abstract.mouse.controller';
-import {
-  Vector3,
-  SphereGeometry,
-  MeshPhongMaterial,
-  Mesh,
-  Object3D,
-  Vector2,
-  Sphere,
-  Raycaster,
-  Points,
-  LineSegments,
-  Geometry,
-  LineBasicMaterial,
-  Matrix4,
-  Frustum,
-  Float32Attribute
-} from 'three';
-import { EventEmitter } from '@angular/core';
-import { GraphEnum } from '../../model/enum.model';
-import { scaleLinear } from 'd3-scale';
+import { Vector3, MeshPhongMaterial, Mesh, Raycaster, Geometry } from 'three';
 import QuickHull from 'quickhull3d';
 declare var THREE;
-export class ScatterSelectionHullController extends AbstractMouseController {
-  public onSelect: EventEmitter<Array<number>> = new EventEmitter();
-  public onDeselect: EventEmitter<Array<number>> = new EventEmitter();
-
-  private mesh: Mesh;
-  private geometry: Geometry;
-  private material: MeshPhongMaterial;
+export class ScatterSelectionHullController extends AbstractScatterSelectionController {
+  private material: THREE.MeshNormalMaterial;
   private hull: QuickHull;
-  private highlightIndexes = [];
-  private raycaster: Raycaster;
-  private _points: Points;
-
-  // private material = new LineBasicMaterial({ color: 0xe000fb });
-
-  public get points(): Points {
-    return this._points;
-  }
-  public set points(p: Points) {
-    this._points = p;
-  }
-
   constructor(
     public view: VisualizationView,
     public events: ChartEvents,
@@ -60,22 +19,24 @@ export class ScatterSelectionHullController extends AbstractMouseController {
     super(view, events, debounce);
     this.raycaster = new Raycaster();
     this.raycaster.params.Points.threshold = 5;
-    this.material = new MeshPhongMaterial({
-      color: 0x000000,
+    this.material = new THREE.MeshNormalMaterial({
       transparent: true,
-      opacity: 0.2
+      opacity: 0.3
     });
+    //   color: 0x000000,
+    //   transparent: true,
+    //   opacity: 0.2
+    // });
 
-    // this.mesh = new THREE.Mesh(
-    //   this.geometry,
-    //   new MeshPhongMaterial({ color: 0x7777ff })
-    // );
-    // view.scene.add(this.mesh);
+    this.mesh = new THREE.Mesh(
+      this.geometry,
+      new MeshPhongMaterial({ color: 0x7777ff })
+    );
+    view.scene.add(this.mesh);
   }
 
   public destroy(): void {
-    this.points = null;
-    this.enable = false;
+    super.destroy();
   }
   public drawHull(): void {
     if (this.highlightIndexes.length > 3) {
@@ -133,7 +94,6 @@ export class ScatterSelectionHullController extends AbstractMouseController {
 
   public onMouseMove(e: ChartEvent): void {
     super.onMouseMove(e);
-
     if (!this.points) {
       return;
     }

@@ -1,3 +1,5 @@
+import { ScatterSelectionLassoController } from './../../controller/scatter/scatter.selection.lasso.controller';
+import { AbstractScatterSelectionController } from './../../controller/scatter/abstract.scatter.selection.controller';
 import { ScatterSelectionKddController } from './../../controller/scatter/scatter.selection.kdd.controller';
 import { ScatterSelectionHullController } from './../../controller/scatter/scatter.selection.hull.controller';
 // import { ScatterSelectionController } from '../../controller/scatter/scatter.selection.kdd.controller';
@@ -68,7 +70,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
   }
 
   // Objects
-  protected selectionController: ScatterSelectionKddController;
+  protected selectionController: AbstractScatterSelectionController;
   private selectSubscription: Subscription;
   private pointsMaterial: THREE.ShaderMaterial;
   private pointsGeometry = new THREE.BufferGeometry();
@@ -118,23 +120,28 @@ export class AbstractScatterVisualization extends AbstractVisualization {
   ): ChartObjectInterface {
     super.create(labels, events, view);
 
-    this.selectionController = new ScatterSelectionKddController(view, events);
+    this.selectionController = new ScatterSelectionLassoController(
+      view,
+      events
+    );
     this.selectionController.enable = true;
-    this.selectionController.onSelect.subscribe((ids: Array<number>) => {
-      const selected = this.pointsGeometry.attributes.gSelected;
-      ids.forEach(v => {
-        selected.array[v / 3] = 1.0;
-      });
-      selected.needsUpdate = true;
-      this.onRequestRender.emit(this.config.graph);
-    });
+    this.selectSubscription = this.selectionController.onSelect.subscribe(
+      (ids: Array<number>) => {
+        const selected = this.pointsGeometry.attributes.gSelected;
+        ids.forEach(v => {
+          selected.array[v / 3] = 1.0;
+        });
+        selected.needsUpdate = true;
+        this.onRequestRender.emit(this.config.graph);
+      }
+    );
     return this;
   }
 
   destroy() {
     super.destroy();
-    this.selectionController.destroy();
-    this.selectSubscription.unsubscribe();
+    // this.selectionController.destroy();
+    // this.selectSubscription.unsubscribe();
     this.removeObjects();
   }
 
