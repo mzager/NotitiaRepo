@@ -1,6 +1,11 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
-  Component, EventEmitter, Input, OnInit, Output,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
   ViewEncapsulation
 } from '@angular/core';
 import { WorkspaceLayoutEnum } from 'app/model/enum.model';
@@ -16,21 +21,9 @@ declare var dat: any;
   encapsulation: ViewEncapsulation.None
 })
 export class ToolBarComponent implements OnInit {
-
   hideButtons = false;
 
-  @Input() set workspaceConfig(value: WorkspaceConfigModel) {
-    this.hideButtons = (value.layout === WorkspaceLayoutEnum.SINGLE);
-    this.cd.detectChanges();
-  }
+  ngOnInit(): void {}
 
-  @Output() graphAToggle = new EventEmitter();
-  @Output() graphBToggle = new EventEmitter();
-
-  ngOnInit(): void {
-
-
-  }
-
-  constructor(private cd: ChangeDetectorRef) { }
+  constructor(private cd: ChangeDetectorRef) {}
 }

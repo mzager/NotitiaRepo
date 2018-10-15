@@ -134,10 +134,9 @@ export class DataService {
             this._privateData.sampleMap = results[1].reduce((p, c) => {
               p[c.s] = c.p;
               return p;
-            });
+            }, {});
             this._privateData.patientMap = results[1].reduce((p, c) => {
               p[c.p] = c.s;
-
               return p;
             }, {});
             db.close();
@@ -567,7 +566,6 @@ export class DataService {
               break;
 
             case DataDecoratorTypeEnum.COLOR:
-              debugger;
               scale = this.getColorScale(items, decorator.field);
               if (decorator.field.tbl === 'sample') {
                 const data = items.reduce((p, c) => {
@@ -582,7 +580,7 @@ export class DataService {
                       mid: null,
                       key: EntityTypeEnum.SAMPLE,
                       label: 'NA',
-                      value: 'NA'
+                      value: 0xeeeeee
                     };
                   }
                   return {
@@ -2631,7 +2629,6 @@ export class DataService {
           .filter(q => q);
 
         Promise.all(queries).then(conditions => {
-          debugger;
           try {
             if (!cohort.n.trim().length) {
               const d = new Date();

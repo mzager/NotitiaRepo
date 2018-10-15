@@ -1,3 +1,4 @@
+import { AbstractVisualization } from './../visualization.abstract.component';
 import { DataDecorator } from './../../../model/data-map.model';
 import { EventEmitter, Output } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
@@ -8,31 +9,36 @@ import { ChartEvents, ChartEvent } from './../../workspace/chart/chart.events';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { VisualizationView } from './../../../model/chart-view.model';
 import { ChartFactory } from './../../workspace/chart/chart.factory';
-import { DimensionEnum, EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
+import {
+  DimensionEnum,
+  EntityTypeEnum,
+  WorkspaceLayoutEnum
+} from './../../../model/enum.model';
 import { KmeansConfigModel, KmeansDataModel } from './kmeans.model';
 import * as scale from 'd3-scale';
 import * as _ from 'lodash';
 import * as THREE from 'three';
 import { ShapeEnum, GraphEnum } from 'app/model/enum.model';
 
-export class KmeansGraph implements ChartObjectInterface {
+export class KmeansGraph extends AbstractVisualization
+  implements ChartObjectInterface {
+  /*
   // Emitters
   public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
   public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{
     type: GraphConfig;
   }>();
-  public onSelect: EventEmitter<{ type: EntityTypeEnum; ids: Array<string> }> = new EventEmitter<{
+  public onSelect: EventEmitter<{
+    type: EntityTypeEnum;
+    ids: Array<string>;
+  }> = new EventEmitter<{
     type: EntityTypeEnum;
     ids: Array<string>;
   }>();
 
   // Chart Elements
-  private labels: HTMLElement;
-  private events: ChartEvents;
-  private view: VisualizationView;
   private data: KmeansDataModel;
   private config: KmeansConfigModel;
-  private isEnabled: boolean;
 
   // Objects
   public meshes: Array<THREE.Mesh>;
@@ -47,7 +53,11 @@ export class KmeansGraph implements ChartObjectInterface {
   private sMouseDown: Subscription;
   private sMouseUp: Subscription;
 
-  create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
+  create(
+    labels: HTMLElement,
+    events: ChartEvents,
+    view: VisualizationView
+  ): ChartObjectInterface {
     this.labels = labels;
     this.events = events;
     this.view = view;
@@ -81,20 +91,26 @@ export class KmeansGraph implements ChartObjectInterface {
   }
 
   enable(truthy: boolean) {
-    if (this.isEnabled === truthy) {
-      return;
-    }
-    this.isEnabled = truthy;
-    this.view.controls.enabled = this.isEnabled;
-    if (truthy) {
-      this.sMouseUp = this.events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
-      this.sMouseDown = this.events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
-      this.sMouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
-    } else {
-      this.sMouseUp.unsubscribe();
-      this.sMouseDown.unsubscribe();
-      this.sMouseMove.unsubscribe();
-    }
+    // if (this.isEnabled === truthy) {
+    //   return;
+    // }
+    // this.isEnabled = truthy;
+    // this.view.controls.enabled = this.isEnabled;
+    // if (truthy) {
+    //   this.sMouseUp = this.events.chartMouseUp.subscribe(
+    //     this.onMouseUp.bind(this)
+    //   );
+    //   this.sMouseDown = this.events.chartMouseDown.subscribe(
+    //     this.onMouseDown.bind(this)
+    //   );
+    //   this.sMouseMove = this.events.chartMouseMove.subscribe(
+    //     this.onMouseMove.bind(this)
+    //   );
+    // } else {
+    //   this.sMouseUp.unsubscribe();
+    //   this.sMouseDown.unsubscribe();
+    //   this.sMouseMove.unsubscribe();
+    // }
   }
 
   addObjects() {}
@@ -109,50 +125,58 @@ export class KmeansGraph implements ChartObjectInterface {
   }
 
   // Events
-  private onMouseMove(e: ChartEvent): void {
-    if (!this.view.controls.enabled) {
-      const mouseEvent: MouseEvent = e.event as MouseEvent;
-      const deltaX = Math.abs(this.selectorOrigin.x - mouseEvent.clientX);
-      const deltaY = Math.abs(this.selectorOrigin.y - mouseEvent.clientY);
-      const delta = Math.max(deltaX, deltaY);
-      const scaleMe = this.selectorScale(delta);
-      this.selector.scale.set(scaleMe, scaleMe, scaleMe);
-      this.onRequestRender.next();
-      const radius = this.selector.geometry.boundingSphere.radius * this.selector.scale.x;
-      const position = this.selector.position;
-      this.view.scene.children.filter(v => v.type === 'Mesh').forEach(o3d => {
-        const mesh = o3d as THREE.Mesh;
-        const material: THREE.MeshStandardMaterial = mesh.material as THREE.MeshStandardMaterial;
-        if (mesh.position.distanceTo(position) < radius) {
-          material.color.set(0xff0000);
-        } else {
-          material.color.set(0x00ff00);
-        }
-      });
-    }
+  // private onMouseMove(e: ChartEvent): void {
+  //   if (!this.view.controls.enabled) {
+  //     const mouseEvent: MouseEvent = e.event as MouseEvent;
+  //     const deltaX = Math.abs(this.selectorOrigin.x - mouseEvent.clientX);
+  //     const deltaY = Math.abs(this.selectorOrigin.y - mouseEvent.clientY);
+  //     const delta = Math.max(deltaX, deltaY);
+  //     const scaleMe = this.selectorScale(delta);
+  //     this.selector.scale.set(scaleMe, scaleMe, scaleMe);
+  //     this.onRequestRender.next();
+  //     const radius =
+  //       this.selector.geometry.boundingSphere.radius * this.selector.scale.x;
+  //     const position = this.selector.position;
+  //     this.view.scene.children.filter(v => v.type === 'Mesh').forEach(o3d => {
+  //       const mesh = o3d as THREE.Mesh;
+  //       const material: THREE.MeshStandardMaterial = mesh.material as THREE.MeshStandardMaterial;
+  //       if (mesh.position.distanceTo(position) < radius) {
+  //         material.color.set(0xff0000);
+  //       } else {
+  //         material.color.set(0x00ff00);
+  //       }
+  //     });
+  //   }
+  // }
+  // private onMouseUp(e: ChartEvent): void {
+  //   if (!this.view.controls.enabled) {
+  //     const radius =
+  //       this.selector.geometry.boundingSphere.radius * this.selector.scale.x;
+  //     const position = this.selector.position;
+  //     const samples = this.view.scene.children.filter(v => v.type === 'Mesh');
+
+  //     samples.forEach(v => {
+  //       const mesh = v as THREE.Mesh;
+  //       const material: THREE.MeshStandardMaterial = mesh.material as THREE.MeshStandardMaterial;
+  //       material.color.set(mesh.userData.color);
+  //     });
+
+  //     const selected = samples.filter(
+  //       v => v.position.distanceTo(position) < radius
+  //     );
+
+  //     const ids = selected.map(v => v.userData.id);
+
+  //     this.onSelect.next({ type: EntityTypeEnum.SAMPLE, ids: ids });
+  //     this.view.scene.remove(this.selector);
+  //     this.view.controls.enabled = true;
+  //     this.onRequestRender.next();
+  //   }
+  // }
+
+  // private onMouseDown(e: ChartEvent): void {}
+*/
+  constructor() {
+    super();
   }
-  private onMouseUp(e: ChartEvent): void {
-    if (!this.view.controls.enabled) {
-      const radius = this.selector.geometry.boundingSphere.radius * this.selector.scale.x;
-      const position = this.selector.position;
-      const samples = this.view.scene.children.filter(v => v.type === 'Mesh');
-
-      samples.forEach(v => {
-        const mesh = v as THREE.Mesh;
-        const material: THREE.MeshStandardMaterial = mesh.material as THREE.MeshStandardMaterial;
-        material.color.set(mesh.userData.color);
-      });
-
-      const selected = samples.filter(v => v.position.distanceTo(position) < radius);
-
-      const ids = selected.map(v => v.userData.id);
-
-      this.onSelect.next({ type: EntityTypeEnum.SAMPLE, ids: ids });
-      this.view.scene.remove(this.selector);
-      this.view.controls.enabled = true;
-      this.onRequestRender.next();
-    }
-  }
-
-  private onMouseDown(e: ChartEvent): void {}
 }

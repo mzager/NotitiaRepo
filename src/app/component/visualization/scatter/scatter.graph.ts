@@ -205,6 +205,7 @@ export class ScatterGraph extends AbstractVisualization {
         : this.colorIndex;
     this.legends[1].name = e.field;
     this.legends[1].labels = ScatterGraph.colorData.labels[e.field];
+    this.legends[1].labels.push('NA');
     this.legends[1].values = ci.map(this.toHex);
 
     const clusterColorIndex = fieldValues.map(v => ci[v]);

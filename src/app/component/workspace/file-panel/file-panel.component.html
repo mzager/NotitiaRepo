@@ -24,6 +24,7 @@
           <a class='panel-button-image ' (click)='this.loadPublic.emit(dataset) '>
             <div class='disease-img disease-img{{dataset.img}}'></div>
             <span>{{dataset.name}}</span>
+            <!-- <mat-icon *ngIf='dataset.isTested'>done</mat-icon> -->
           </a>
         </div>
       </div>

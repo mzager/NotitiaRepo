@@ -15,15 +15,6 @@ import { GraphConfig } from './../../model/graph-config.model';
 import { ChartEvent, ChartEvents } from './../workspace/chart/chart.events';
 declare var $: any;
 export class AbstractVisualization implements ChartObjectInterface {
-  // Emitters
-  public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
-  public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{
-    type: GraphConfig;
-  }>();
-  public onSelect: EventEmitter<ChartSelection> = new EventEmitter<
-    ChartSelection
-  >();
-
   // Common Objects
   public _data: GraphData;
   public _config: GraphConfig;
@@ -51,6 +42,23 @@ export class AbstractVisualization implements ChartObjectInterface {
   protected labelController: LabelController;
   protected tooltipOptions: TooltipOptions;
   protected tooltipController: TooltipController;
+
+  // Emitters
+  public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
+  public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{
+    type: GraphConfig;
+  }>();
+  public onSelect: EventEmitter<ChartSelection> = new EventEmitter<
+    ChartSelection
+  >();
+
+  public getTargets(): {
+    point: Vector3;
+    id: string;
+    idType: EntityTypeEnum;
+  }[] {
+    return null;
+  }
 
   enable(truthy: boolean) {
     if (this.isEnabled === truthy) {

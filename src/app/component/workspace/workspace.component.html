@@ -2,6 +2,8 @@
 
 <div #panelContainer style='pointer-events: none;'>
 
+  <!-- <app-workspace-tool-bar *ngIf='graphPanelATab | async'></app-workspace-tool-bar> -->
+
   <app-workspace-graph-panel style='position:absolute;top:30px;left:0px;bottom:0px;' *ngIf='graphPanelATab | async'
     [title]='"Graph A"' [events]='events | async' [tables]='tables | async' [fields]='fields | async'
     [pathways]='pathways | async' [genesets]='genesets | async' [cohorts]='cohorts | async'
@@ -31,6 +33,7 @@
 <!-- Application Menu Bar -->
 <app-application-bar (splitScreenChange)='splitScreenChange($event)' (showPanel)='setPanel($event)'
   [config]='graphAConfig | async'></app-application-bar>
+
 
 <!-- Panels -->
 <app-workspace-landing-panel *ngIf='(modalPanel | async) === 2' class='modal-panel' style='z-index:999999'

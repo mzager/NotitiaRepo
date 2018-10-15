@@ -1,0 +1,20 @@
+<div>
+  <form [formGroup]="form" novalidate>
+    <mat-form-field class='form-field'>
+      <mat-select placeholder='Navigation' formControlName='navigation'>
+        <mat-option>Orbit</mat-option>
+        <mat-option>Trackball</mat-option>
+        <mat-option>Pointer Lock</mat-option>
+        <mat-option>Transform</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class='form-field'>
+      <mat-select placeholder='Selection' formControlName='selection'>
+        <mat-option>KD-Tree</mat-option>
+        <mat-option>Convex Hull</mat-option>
+        <mat-option>Color</mat-option>
+        <mat-option>Brush</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</div>

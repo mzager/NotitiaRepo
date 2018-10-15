@@ -19,6 +19,7 @@
         <a class='os-link' style='padding-left:20px;' href='#' (click)='helpClick()'>Learn More</a>
         <!-- <button mat-button color="primary" (click)='helpClick()'>Learn More</button> -->
       </mat-expansion-panel>
+
       <mat-expansion-panel expanded='true'>
         <mat-expansion-panel-header expandedHeight='40px' collapsedHeight='40px'>
           <mat-panel-title>
@@ -109,6 +110,14 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <app-workspace-stat-panel [config]='config' [graphData]='data'></app-workspace-stat-panel>
+      </mat-expansion-panel>
+      <mat-expansion-panel expanded='true' *ngIf='config.enableBehaviors'>
+        <mat-expansion-panel-header expandedHeight='40px' collapsedHeight='40px'>
+          <mat-panel-title>
+            Behaviors
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-workspace-behavior-panel></app-workspace-behavior-panel>
       </mat-expansion-panel>
     </mat-accordion>
   </div>

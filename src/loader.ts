@@ -496,8 +496,10 @@ onmessage = function(e) {
                         }, {});
                         return rv;
                       });
+                      debugger;
                       return db.table(tbl.tbl).bulkAdd(d);
                     }
+                    debugger;
                     return db.table(tbl.tbl).bulkAdd(tbl.data);
                   })
                 ).then(() => {
@@ -523,14 +525,18 @@ onmessage = function(e) {
 
               Promise.all(
                 tables.map(tbl => db.table(tbl.tbl).bulkAdd(tbl.data))
-              ).then(() => {
-                report('Saving ' + tables[0].tbl);
-                me.postMessage(
-                  JSON.stringify({
-                    cmd: 'terminate'
-                  })
-                );
-              });
+              )
+                .then(() => {
+                  report('Saving ' + tables[0].tbl);
+                  me.postMessage(
+                    JSON.stringify({
+                      cmd: 'terminate'
+                    })
+                  );
+                })
+                .catch(e => {
+                  debugger;
+                });
             });
           } catch (e) {}
         }

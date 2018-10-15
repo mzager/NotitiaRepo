@@ -34,7 +34,6 @@ export class ChartFactory {
         'gl_Position = projectionMatrix * pos;',
         '}'
       ].join('\n'),
-
       fragment_shader: [
         'void main(){',
         'gl_FragColor = vec4( 1.0, 0.0, 0.0, 1.0 );',
@@ -204,11 +203,12 @@ export class ChartFactory {
     return group;
   }
   public static decorateDataGroups(
-    groups: Array<any>, // groups: Array<THREE.Group>,
+    groups: Array<any>,
     decorators: Array<DataDecorator>,
     renderer: DataDecoatorRenderer = null,
     scaleFactor: number = 3
   ): void {
+    // groups: Array<THREE.Group>,
     // Retrieve Id
 
     if (groups.length === 0) {
@@ -321,12 +321,7 @@ export class ChartFactory {
   }
 
   public static getOutlineMaterial(): THREE.ShaderMaterial {
-    const uniforms = {
-      offset: {
-        type: 'f',
-        value: 1
-      }
-    };
+    const uniforms = { offset: { type: 'f', value: 1 } };
     const outShader = ChartFactory.shader.outline;
     return new THREE.ShaderMaterial({
       uniforms: uniforms,
@@ -534,9 +529,7 @@ export class ChartFactory {
   // @memoize
 
   public static getColorPhong(color: number): THREE.MeshBasicMaterial {
-    return new THREE.MeshBasicMaterial({
-      color: color
-    });
+    return new THREE.MeshBasicMaterial({ color: color });
     // return new THREE.MeshStandardMaterial(
     //     {
     //         color: color,

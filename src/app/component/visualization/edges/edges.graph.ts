@@ -1,28 +1,24 @@
 import { EventEmitter } from '@angular/core';
-import { GraphEnum } from 'app/model/enum.model';
+import {
+  GraphEnum,
+  EntityTypeEnum,
+  WorkspaceLayoutEnum
+} from 'app/model/enum.model';
 import { GraphConfig } from 'app/model/graph-config.model';
 import * as _ from 'lodash';
 import * as THREE from 'three';
 import { LabelController } from './../../../controller/label/label.controller';
 import { VisualizationView } from './../../../model/chart-view.model';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
-import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
-import { EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
+import {
+  DataDecorator,
+  DataDecoratorTypeEnum
+} from './../../../model/data-map.model';
 import { ChartEvents } from './../../workspace/chart/chart.events';
 import { ChartFactory } from './../../workspace/chart/chart.factory';
 import { EdgeConfigModel, EdgeDataModel } from './edges.model';
 
 export class EdgesGraph implements ChartObjectInterface {
-  // Emitters
-  public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
-  public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{
-    type: GraphConfig;
-  }>();
-  public onSelect: EventEmitter<{ type: EntityTypeEnum; ids: Array<string> }> = new EventEmitter<{
-    type: EntityTypeEnum;
-    ids: Array<string>;
-  }>();
-
   // Chart Elements
   private data: EdgeDataModel;
   private config: EdgeConfigModel;
@@ -34,6 +30,38 @@ export class EdgesGraph implements ChartObjectInterface {
   private drawEdgesDebounce: Function;
   public updateEdges: Boolean = false;
 
+  // Emitters
+  public onRequestRender: EventEmitter<GraphEnum> = new EventEmitter();
+  public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{
+    type: GraphConfig;
+  }>();
+  public onSelect: EventEmitter<{
+    type: EntityTypeEnum;
+    ids: Array<string>;
+  }> = new EventEmitter<{ type: EntityTypeEnum; ids: Array<string> }>();
+  getTargets(): { point: THREE.Vector3; id: string; idType: EntityTypeEnum }[] {
+    return [];
+  }
+  public filterObjectsInFrustum(
+    targets: Array<{
+      point: THREE.Vector3;
+      id: string;
+      idType: EntityTypeEnum;
+    }>,
+    view: VisualizationView
+  ): Array<{ point: THREE.Vector3; id: string; idType: EntityTypeEnum }> {
+    const camera = view.camera as THREE.PerspectiveCamera;
+    camera.updateMatrixWorld(true);
+    camera.matrixWorldInverse.getInverse(camera.matrixWorld);
+    const cameraViewProjectionMatrix: THREE.Matrix4 = new THREE.Matrix4();
+    cameraViewProjectionMatrix.multiplyMatrices(
+      camera.projectionMatrix,
+      camera.matrixWorldInverse
+    );
+    const frustum = new THREE.Frustum();
+    frustum.setFromMatrix(cameraViewProjectionMatrix);
+    return targets.filter(target => frustum.containsPoint(target.point));
+  }
   enable(truthy: Boolean) {
     // throw new Error('Method not implemented.');
   }
@@ -47,16 +75,55 @@ export class EdgesGraph implements ChartObjectInterface {
     this.data = data;
     this.drawEdgesDebounce();
   }
-
+  public createMap2D(
+    objects: Array<{
+      point: THREE.Vector3;
+      id: string;
+      idType: EntityTypeEnum;
+    }>,
+    view: VisualizationView
+  ): Object {
+    const viewport = view.viewport;
+    const width = viewport.width;
+    const height = viewport.height;
+    const halfWidth = width * 0.5;
+    const halfHeight = height * 0.5;
+    const offset =
+      view.config.graph === GraphEnum.GRAPH_A
+        ? new THREE.Vector3(-view.viewport.x, -view.viewport.y, 0)
+        : new THREE.Vector3(view.viewport.x, view.viewport.y, 0);
+    return objects.reduce((p, obj) => {
+      const position = obj.point.clone().project(view.camera);
+      position.x = position.x * halfWidth - halfWidth;
+      position.y = position.y * halfHeight;
+      position.z = 0;
+      p[obj.id] = position.add(offset);
+      return p;
+    }, {});
+  }
+  getTargetsFromMeshes(
+    view: VisualizationView,
+    entityType: EntityTypeEnum
+  ): Array<{ point: THREE.Vector3; id: string; idType: EntityTypeEnum }> {
+    return view.chart.meshes.map(mesh => {
+      return { point: mesh.position, id: mesh.userData.id, idType: entityType };
+    });
+    return null;
+  }
   drawEdges(views: Array<VisualizationView>, layout, renderer) {
     if (layout === WorkspaceLayoutEnum.SINGLE) {
       this.decorators = [];
       return;
     }
     if (this.data.result.length === 0) {
+      // Clear Scene + Add Center Line
       this.view.scene.children = this.view.scene.children.splice(0, 2);
       this.view.scene.add(
-        ChartFactory.lineAllocate(0x039be5, new THREE.Vector2(0, -1000), new THREE.Vector2(0, 1000))
+        ChartFactory.lineAllocate(
+          0x039be5,
+          new THREE.Vector2(0, -1000),
+          new THREE.Vector2(0, 1000)
+        )
       );
       renderer.clear();
       views.forEach(view => {
@@ -70,15 +137,36 @@ export class EdgesGraph implements ChartObjectInterface {
       });
       return;
     }
+
+    let a = views[0].chart.getTargets();
+    let b = views[1].chart.getTargets();
+    if (a === null) {
+      a = this.getTargetsFromMeshes(views[0], this.config.entityA);
+    }
+    if (b === null) {
+      b = this.getTargetsFromMeshes(views[1], this.config.entityB);
+    }
+    a = this.filterObjectsInFrustum(a, views[0]);
+    b = this.filterObjectsInFrustum(b, views[1]);
+
     this.view.scene.children = this.view.scene.children.splice(0, 2);
     if (views[0].chart === null || views[1].chart === null) {
       return;
     }
-    const visibleObjectsA = LabelController.filterObjectsInFrustum(views[0].chart.meshes, views[0]);
-    const visibleObjectsB = LabelController.filterObjectsInFrustum(views[1].chart.meshes, views[1]);
-    const obj2dMapA = LabelController.createMap2D(visibleObjectsA, views[0]);
-    const obj2dMapB = LabelController.createMap2D(visibleObjectsB, views[1]);
+    // const visibleObjectsA = LabelController.filterObjectsInFrustum(
+    //   views[0].chart.meshes,
+    //   views[0]
+    // );
+    // const visibleObjectsB = LabelController.filterObjectsInFrustum(
+    //   views[1].chart.meshes,
+    //   views[1]
+    // );
+    const obj2dMapA = this.createMap2D(a, views[0]);
+    const obj2dMapB = this.createMap2D(b, views[1]);
+    // const obj2dMapA = LabelController.createMap2D(visibleObjectsA, views[0]);
+    // const obj2dMapB = LabelController.createMap2D(visibleObjectsB, views[1]);
 
+    /*
     const ea =
       this.config.entityA === 'Samples'
         ? 'sid'
@@ -91,8 +179,10 @@ export class EdgesGraph implements ChartObjectInterface {
         : this.config.entityB === 'Patients'
           ? 'pid'
           : 'mid';
-
-    const colorDecorator = this.decorators.find(d => d.type === DataDecoratorTypeEnum.COLOR);
+*/
+    const colorDecorator = this.decorators.find(
+      d => d.type === DataDecoratorTypeEnum.COLOR
+    );
     const hasColorDecorator = colorDecorator !== undefined;
     const colorMap = hasColorDecorator
       ? colorDecorator.values.reduce((p, c) => {
@@ -102,7 +192,9 @@ export class EdgesGraph implements ChartObjectInterface {
         }, {})
       : {};
 
-    const groupDecorator = this.decorators.find(d => d.type === DataDecoratorTypeEnum.GROUP);
+    const groupDecorator = this.decorators.find(
+      d => d.type === DataDecoratorTypeEnum.GROUP
+    );
     const hasGroupDecorator = groupDecorator !== undefined;
     const groupMap = hasGroupDecorator
       ? groupDecorator.values.reduce((p, c) => {
@@ -129,6 +221,7 @@ export class EdgesGraph implements ChartObjectInterface {
         if (!obj2dMapA.hasOwnProperty(v.a) || !obj2dMapB.hasOwnProperty(v.b)) {
           return null;
         }
+        // const color = 0x81d4fa;
         const color = !hasColorDecorator
           ? 0x81d4fa
           : colorMap.hasOwnProperty(v.a)
@@ -154,8 +247,13 @@ export class EdgesGraph implements ChartObjectInterface {
             new THREE.Vector2(0, yPos)
           );
         } else {
-          line = ChartFactory.lineAllocate(color, obj2dMapA[v.a], obj2dMapB[v.b]);
+          line = ChartFactory.lineAllocate(
+            color,
+            obj2dMapA[v.a],
+            obj2dMapB[v.b]
+          );
         }
+        line = ChartFactory.lineAllocate(color, obj2dMapA[v.a], obj2dMapB[v.b]);
 
         line.userData = v;
         return line;
@@ -163,46 +261,13 @@ export class EdgesGraph implements ChartObjectInterface {
       .filter(v => v !== null)
       .forEach(edge => this.view.scene.add(edge));
 
-    // let edges = [];
-    // const visibleEdges = this.data.result.filter(edge => (aMap.hasOwnProperty(edge.a) && bMap.hasOwnProperty(edge.b)));
-    // if (visibleEdges.length < 10000) {
-    // edges = visibleEdges.map(edge => {
-    //     const aPoint = aMap[edge.a];
-    //     const bPoint = bMap[edge.b];
-    //     if (edge.i === null) {
-    //         return ChartFactory.lineAllocate(edge.c, aPoint.screenPosition, bPoint.screenPosition);
-    //     } else {
-    //         const yDelta = this.view.viewport.height / 7;
-    //         const yOffset = this.view.viewport.height * 0.5;
-
-    //         return ChartFactory.lineAllocateCurve(edge.c, aPoint.screenPosition, bPoint.screenPosition,
-    //             new THREE.Vector2(0, (edge.i * yDelta) - yOffset));
-    //     }
-    // }).forEach(edge => this.view.scene.add(edge));
-    // console.log('good number');
-    // } else {
-    //     console.log('too many edges');
-    // }
-    // const edges = this.data.result.map( edge => {
-    //     if (aMap.hasOwnProperty(edge.a) && bMap.hasOwnProperty(edge.b)) {
-    //         const aPoint = aMap[edge.a];
-    //         const bPoint = bMap[edge.b];
-    //         if (edge.i === null) {
-    //             return ChartFactory.lineAllocate(edge.c, aPoint.screenPosition, bPoint.screenPosition);
-    //         } else {
-    //              const yDelta = this.view.viewport.height / 7;
-    //              const yOffset = this.view.viewport.height * 0.5;
-    //             return ChartFactory.lineAllocateCurve(edge.c, aPoint.screenPosition, bPoint.screenPosition,
-    //                 new THREE.Vector2( 0, (edge.i * yDelta) - yOffset ) );
-    //         }
-    //     }
-    // })
-    // .filter( edge => edge !== undefined)
-    // .forEach( edge => this.view.scene.add(edge) );
-
     // Center Line
     this.view.scene.add(
-      ChartFactory.lineAllocate(0x039be5, new THREE.Vector2(0, -1000), new THREE.Vector2(0, 1000))
+      ChartFactory.lineAllocate(
+        0x039be5,
+        new THREE.Vector2(0, -1000),
+        new THREE.Vector2(0, 1000)
+      )
     );
 
     renderer.clear();
@@ -227,7 +292,11 @@ export class EdgesGraph implements ChartObjectInterface {
     }
     this.drawEdgesDebounce(views, layout, renderer);
   }
-  create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
+  create(
+    labels: HTMLElement,
+    events: ChartEvents,
+    view: VisualizationView
+  ): ChartObjectInterface {
     // this.labels = labels;
     // this.events = events;
     this.view = view;
