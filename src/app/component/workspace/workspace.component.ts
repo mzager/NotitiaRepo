@@ -14,6 +14,7 @@ import {
 import { Store } from '@ngrx/store';
 import * as compute from 'app/action/compute.action';
 import * as data from 'app/action/data.action';
+import { PlsSvdConfigModel } from 'app/component/visualization/pls-svd/pls-svd.model';
 // tslint:disable-next-line:max-line-length
 import { LinearDiscriminantAnalysisConfigModel } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
 // tslint:disable-next-line:max-line-length
@@ -467,6 +468,13 @@ export class WorkspaceComponent {
         );
         break;
       case enums.VisualizationEnum.HISTOGRAM:
+        this.store.dispatch(
+          new compute.HistogramAction({
+            config: value as HistogramConfigModel
+          })
+        );
+        break;
+        case enums.VisualizationEnum.PLSSVD:
         this.store.dispatch(
           new compute.HistogramAction({
             config: value as HistogramConfigModel

@@ -42,7 +42,7 @@ import { SpectralEmbeddingConfigModel } from './../component/visualization/spect
 import { SurvivalConfigModel } from './../component/visualization/survival/survival.model';
 import { TruncatedSvdConfigModel } from './../component/visualization/truncatedsvd/truncatedsvd.model';
 import { TsneConfigModel } from './../component/visualization/tsne/tsne.model';
-
+import { PlsSvdConfigModel } from './../component/visualization/pls-svd/pls-svd.model';
 /*
 When samples and genes are specified empty arrays == all
 */
@@ -84,6 +84,7 @@ export class ComputeService {
   private survival$ = new Subject<any>();
   private hazard$ = new Subject<any>();
   private histogram$ = new Subject<any>();
+  private plsSvd$ = new Subject<any>();
 
   constructor() {
     // this.pool = Pool.create({
@@ -194,8 +195,12 @@ export class ComputeService {
                                                                         ? this
                                                                             .hazard$
                                                                         : v ===
-                                                                          VisualizationEnum.EDGES
+                                                                          VisualizationEnum.PLSSVD
                                                                           ? this
+                                                                            .plsSvd$
+                                                                          : v ===
+                                                                            VisualizationEnum.EDGES
+                                                                            ? this
                                                                               .edges$
                                                                           : v ===
                                                                             VisualizationEnum.HISTOGRAM
@@ -416,5 +421,8 @@ export class ComputeService {
 
   histogram(config: HistogramConfigModel): Observable<any> {
     return this.execute(config, this.histogram$);
+  }
+  plsSvd(config: PlsSvdConfigModel): Observable<any> {
+    return this.execute(config, this.plsSvd$);
   }
 }
