@@ -9,11 +9,15 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field class='form-field'>
+      <mat-select [value]='selectionType' placeholder='Edge Color' (selectionChange)='selectionTypeChange($event)'>
+        <mat-option *ngFor='let option of selectionTypes' [value]='option.value'>
+          {{ option.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class='form-field'>
       <mat-select placeholder='Selection' formControlName='selection'>
-        <mat-option>KD-Tree</mat-option>
-        <mat-option>Convex Hull</mat-option>
-        <mat-option>Color</mat-option>
-        <mat-option>Brush</mat-option>
+
       </mat-select>
     </mat-form-field>
   </form>
