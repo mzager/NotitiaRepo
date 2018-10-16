@@ -29,6 +29,10 @@ import {
   <button mat-menu-item (click)='select.emit(128)'>Timelines</button>
   </mat-menu>
   <mat-menu #analysisManifoldLearningMenu='matMenu'>
+
+  <button mat-menu-item (click)='select.emit(137438953472)'>Linear Discriminant Analysis</button>
+
+
   <button mat-menu-item (click)='select.emit(35184372088832)'>Precomputed</button>
   <button mat-menu-item (click)='select.emit(134217728)'>Isomap</button>
   <!--<button mat-menu-item (click)='select.emit(268435456)'>Locally Linear Embedding</button>-->
@@ -48,7 +52,9 @@ import {
   <button mat-menu-item (click)='select.emit(1048576)'>PCA - Sparse</button>
   <!--<button mat-menu-item (click)='select.emit(68719476736)'>PCA - Sparse - Mini Batch</button>
   <!--<button mat-menu-item (click)='select.emit(2199023255552)'>PCA - Sparse Coder</button>-->
+
   <button mat-menu-item (click)='select.emit(131072)'>Truncated SVD</button>
+
   </mat-menu>
   <!--
   <mat-menu #analysisMatrixDecompositionMenu='matMenu'>
@@ -57,7 +63,7 @@ import {
   -->
   <!--
   <mat-menu #analysisDiscriminantAnalysisMenu='matMenu'>
-  <button mat-menu-item>Linear Discriminant Analysis</button>
+
   <button mat-menu-item>Quadratic Discriminant Analysis</button>
   </mat-menu>
   <mat-menu #analysisSupportVectorMachinesMenu='matMenu'>

@@ -24,6 +24,7 @@ import { ChartSelection } from './../../model/chart-selection.model';
 import { VisualizationView } from './../../model/chart-view.model';
 import { GraphConfig } from './../../model/graph-config.model';
 import { AbstractVisualization } from './visualization.abstract.component';
+import { HostListener } from '@angular/core';
 const fragShader = require('raw-loader!glslify-loader!app/glsl/scatter.frag');
 const vertShader = require('raw-loader!glslify-loader!app/glsl/scatter.vert');
 declare var $;
@@ -120,10 +121,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
   ): ChartObjectInterface {
     super.create(labels, events, view);
 
-    this.selectionController = new ScatterSelectionLassoController(
-      view,
-      events
-    );
+    this.selectionController = new ScatterSelectionHullController(view, events);
     this.selectionController.enable = true;
     this.selectSubscription = this.selectionController.onSelect.subscribe(
       (ids: Array<number>) => {
@@ -140,7 +138,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
 
   destroy() {
     super.destroy();
-    // this.selectionController.destroy();
+    this.selectionController.destroy();
     // this.selectSubscription.unsubscribe();
     this.removeObjects();
   }

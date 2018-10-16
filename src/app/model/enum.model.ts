@@ -292,6 +292,12 @@ export const enum StatRendererColumns {
   SIX = 6,
   TWELVE = 12
 }
+export const enum SelectionTypeEnum {
+  DEFAULT = 1 << 0,
+  KDTREE = 1 << 1,
+  HULL = 1 << 2,
+  LASSO = 1 << 3
+}
 export const enum VisualizationEnum {
   DECOMPOSITION = -1,
   MANIFOLDLEARNING = -2,

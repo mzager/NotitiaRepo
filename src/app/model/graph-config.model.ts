@@ -1,5 +1,9 @@
 import { DataField } from 'app/model/data-field.model';
-import { GraphEnum, VisualizationEnum } from 'app/model/enum.model';
+import {
+  GraphEnum,
+  VisualizationEnum,
+  SelectionTypeEnum
+} from 'app/model/enum.model';
 import { DataFieldFactory, DataTable } from './data-field.model';
 import { EntityTypeEnum } from './enum.model';
 import { GraphData } from './graph-data.model';
@@ -19,6 +23,7 @@ export class GraphConfig {
   dirtyFlag = 1;
   visualization: VisualizationEnum;
   entity: EntityTypeEnum;
+  selection: SelectionTypeEnum = SelectionTypeEnum.DEFAULT;
   graph: GraphEnum;
   table: DataTable;
   label = '';

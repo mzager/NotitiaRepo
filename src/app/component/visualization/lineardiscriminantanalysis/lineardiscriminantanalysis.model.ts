@@ -25,9 +25,11 @@ export class LinearDiscriminantAnalysisConfigModel extends GraphConfig {
     this.visualization = VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS;
     this.label = 'Linear Discriminant Analysis';
     this.enableBehaviors = true;
+    this.classes = [];
   }
 
   n_components = 10;
+  classes: Array<number>;
   dimension = DimensionEnum.THREE_D;
   solver = LinearDiscriminantAnalysisSolver.SVD;
   shrinkage = LinearDiscriminantAnalysisShrinkage.NONE;

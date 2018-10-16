@@ -16,7 +16,7 @@ import {
   LineBasicMaterial,
   Line
 } from 'three';
-// import * as inside from 'point-in-polygon';
+
 declare var THREE;
 export class ScatterSelectionLassoController extends AbstractScatterSelectionController {
   private MAX_POINTS = 500;
@@ -30,6 +30,27 @@ export class ScatterSelectionLassoController extends AbstractScatterSelectionCon
   private isDrawing: Boolean = false;
   private startPointCart = new Vector2();
   private startPointPolar = new Vector3();
+
+  private pointInPoly(point, vs) {
+    // ray-casting algorithm based on
+    // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+    let i, j, intersect;
+    const x = point[0];
+    const y = point[1];
+    let inside = false;
+    for (i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+      const xi = vs[i][0];
+      const yi = vs[i][1];
+      const xj = vs[j][0];
+      const yj = vs[j][1];
+      intersect =
+        yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
+      if (intersect) {
+        inside = !inside;
+      }
+    }
+    return inside;
+  }
 
   constructor(
     public view: VisualizationView,
@@ -84,20 +105,26 @@ export class ScatterSelectionLassoController extends AbstractScatterSelectionCon
       ).project(this.view.camera);
       ptsVec3[i] = [vec3.x, vec3.y];
     }
-    // const hits = ptsVec3.reduce((p, c, i) => {
-    //   if (inside(c, poly)) {
-    //     p.push(i);
-    //   }
-    //   return p;
-    // }, []);
+    const hits = ptsVec3.reduce((p, c, i) => {
+      if (this.pointInPoly(c, poly)) {
+        p.push(i * 3);
+      }
+      return p;
+    }, []);
 
-    // this.onSelect.emit(hits);
+    this.onSelect.emit(hits);
+    this.drawCount = 0;
+    this.bufferGeometry.setDrawRange(0, this.drawCount);
+    ChartScene.instance.render();
+
     this.isDrawing = false;
+    this.view.controls.enabled = true;
   }
 
   public onMouseDown(e: ChartEvent): void {
     super.onMouseDown(e);
     // this.view.controls.enablePan = this.view.controls.enableRotate = this.view.controls.enableZoom = false;
+
     if (e.event.shiftKey && !this.isDrawing) {
       this.view.controls.enabled = false;
       this.isDrawing = true;
@@ -107,8 +134,6 @@ export class ScatterSelectionLassoController extends AbstractScatterSelectionCon
       this.startPointCart = new THREE.Vector2(e.event.screenX, e.event.screenY);
       this.startPointPolar = new THREE.Vector3(e.mouse.x, e.mouse.y, 0);
       this.startPointPolar.unproject(this.view.camera);
-      // this.bufferGeometry.setDrawRange(0, this.drawCount);
-      // ChartScene.instance.render();
     }
   }
   public onMouseMove(e: ChartEvent): void {
