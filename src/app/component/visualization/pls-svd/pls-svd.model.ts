@@ -10,12 +10,12 @@ export class PlsSvdConfigModel extends GraphConfig {
   constructor() {
     super();
     this.entity = EntityTypeEnum.SAMPLE;
-    this.visualization = VisualizationEnum.INCREMENTAL_PCA;
+    this.visualization = VisualizationEnum.PLSSVD;
     this.label = 'PLS-SVD';
     this.enableBehaviors = true;
   }
 
-  n_components = 10;
+  n_components = 3;
   scale: Boolean = true;
   copy: Boolean = true;
   dimension = DimensionEnum.THREE_D;
@@ -32,13 +32,11 @@ export interface PlsSvdDataModel extends GraphData {
   mid: Array<string>;
   pid: Array<string>;
 
-  components: any;
-  explainedVariance: any;
-  explainedVarianceRatio: any;
-  singularValues: any;
-  skVar: any;
-  mean: any;
+
   nComponents: any;
-  noiseVariance: any;
-  nSamplesSeen: any;
+  x_weights: any;
+  y_weights: any;
+  x_scores: any;
+  y_scores: any;
+
 }

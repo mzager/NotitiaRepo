@@ -35,9 +35,8 @@ export class PlsSvdFormComponent extends AbstractScatterForm {
       pcz: [],
       n_components: [],
       dimension: [],
-      whiten: [],
-      batch_size: [],
-      copy: []
+      copy: [],
+      scale: []
     });
 
     this.registerFormChange();

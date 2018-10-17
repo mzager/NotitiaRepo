@@ -9,11 +9,12 @@ export const PlsSvdCompute = (config: PlsSvdConfigModel, worker: DedicatedWorker
     worker.util.getDataMatrix(config).then(matrix => {
         worker.util
             .fetchResult({
-                method: 'cluster_sk_pls-svd',
+                method: 'cluster_sk_plssvd',
                 n_components: config.n_components,
                 data: matrix.data,
                 scale: config.scale,
-                batch_size: config.batch_size
+                copy: config.copy,
+                // classes: config.classes
             }).then(result => {
                 result.resultScaled = worker.util.scale3d(result.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
                 result.sid = matrix.sid;
