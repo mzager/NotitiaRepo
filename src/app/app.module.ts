@@ -1,3 +1,4 @@
+import { CbioService } from 'app/service/datasource/cbio.service';
 import { BehaviorPanelComponent } from './component/workspace/behavior-panel/behavior-panel.component';
 import { ScatterFormComponent } from './component/visualization/scatter/scatter.form.component';
 import { UmapFormComponent } from './component/visualization/umap/umap.form.component';
@@ -221,6 +222,7 @@ import { ErrorService } from './service/error.service';
     ChartFactory,
     HttpClient,
     ModalService,
+    CbioService,
     DataHubService,
     {
       provide: ErrorHandler,

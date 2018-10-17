@@ -16,6 +16,7 @@ import { ChartScene } from 'app/component/workspace/chart/chart.scene';
 import { PanelEnum } from 'app/model/enum.model';
 import * as downloadjs from 'downloadjs';
 import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
+import { CbioService } from 'app/service/datasource/cbio.service';
 declare var $: any;
 
 @Component({
@@ -163,6 +164,7 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   ngOnDestroy() {}
   constructor(
     public cd: ChangeDetectorRef,
-    protected dataService: DatasetService
+    protected dataService: DatasetService,
+    protected cbio: CbioService
   ) {}
 }

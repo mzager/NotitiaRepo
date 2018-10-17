@@ -1,3 +1,4 @@
+precision mediump float;
 uniform vec3 color;
 uniform vec3 selectedColor;
 uniform sampler2D texture;

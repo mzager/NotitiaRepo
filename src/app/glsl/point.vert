@@ -1,3 +1,4 @@
+precision mediump float;
 attribute float size;
 attribute vec3 customColor;
 varying vec3 vColor;
