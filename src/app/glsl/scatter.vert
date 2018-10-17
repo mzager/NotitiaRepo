@@ -1,3 +1,4 @@
+precision mediump float;
 attribute vec3 gPositionFrom;
 attribute vec3 gColor;
 attribute float gSize;

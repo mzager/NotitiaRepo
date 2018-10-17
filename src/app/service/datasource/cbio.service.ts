@@ -8,10 +8,8 @@ export class CbioService {
     return new Promise((resolve, reject) => {
       const rows = text.split('\n');
       // debugger;
-      const cols = rows
-        .shift()
-        .split('\t')
-        .map(v => colmap[v]);
+      const cols = rows.shift().split('\t');
+      // .map(v => colmap[v]);
 
       const objs = rows.map(row => {
         const data = row.split('\t');
@@ -20,22 +18,20 @@ export class CbioService {
           return p;
         }, {});
       });
+      resolve(objs);
     });
   }
   getCancerTypes(): Promise<any> {
-    debugger;
     return fetch(this.baseUri + 'cmd=getTypesOfCancer', { method: 'GET' })
       .then(res => res.text())
-      .then(res =>
-        this.parseTsv(res, { type_of_cancer_id: 'cancerId', name: 'name' })
-      );
+      .then(res => this.parseTsv(res, { cancerId: 'studyId', name: 'name' }));
   }
   getCancerStudies(): Promise<any> {
     return fetch(this.baseUri + 'cmd=getCancerStudies', { method: 'GET' })
       .then(res => res.text())
       .then(res =>
         this.parseTsv(res, {
-          cancer_study_id: 'cancerId',
+          cancerId: 'studyId',
           name: 'name',
           description: 'description'
         })
@@ -47,8 +43,26 @@ export class CbioService {
   getClinicalData(): Promise<any> {
     return new Promise((resolve, reject) => {});
   }
-  getGeneticProfiles(): Promise<any> {
-    return new Promise((resolve, reject) => {});
+  getGeneticProfiles(studyId: string): Promise<any> {
+    return fetch(
+      this.baseUri +
+        'cmd=getGeneticProfiles&cancer_study_id=' +
+        encodeURI(studyId),
+      {
+        method: 'GET'
+      }
+    )
+      .then(res => res.text())
+      .then(
+        res => {
+          debugger;
+        }
+        // this.parseTsv(res, {
+        //   id: 'cancerId',
+        //   name: 'name',
+        //   description: 'description'
+        // })
+      );
   }
   getMutationData(): Promise<any> {
     return new Promise((resolve, reject) => {});

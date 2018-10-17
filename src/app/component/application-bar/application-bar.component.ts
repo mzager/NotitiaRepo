@@ -166,20 +166,5 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
     public cd: ChangeDetectorRef,
     protected dataService: DatasetService,
     protected cbio: CbioService
-  ) {
-    cbio
-      .getCancerTypes()
-      .then(v => {
-        debugger;
-      })
-      .catch(e => {
-        debugger;
-      });
-    // cbio.getCancerStudies().then(v => {
-    //   debugger;
-    // });
-    // Promise.all([cbio.getCancerTypes(), cbio.getCancerStudies()]).then(v => {
-    //   debugger;
-    // });
-  }
+  ) {}
 }
