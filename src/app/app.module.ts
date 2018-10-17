@@ -38,6 +38,8 @@ import { KmedianFormComponent } from './component/visualization/kmedians/kmedian
 import { KmedoidFormComponent } from './component/visualization/kmedoids/kmedoids.form.component';
 import { LdaFormComponent } from './component/visualization/lda/lda.form.component';
 // tslint:disable-next-line:max-line-length
+import { PlsSvdFormComponent } from './component/visualization/pls-svd/pls-svd.form.component';
+// tslint:disable-next-line:max-line-length
 import { LinearDiscriminantAnalysisFormComponent } from './component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.form.component';
 import { LinkedGeneFormComponent } from './component/visualization/linkedgenes/linkedgenes.form.component';
 import { LocalLinearEmbeddingFormComponent } from './component/visualization/locallinearembedding/locallinearembedding.form.component';
@@ -139,6 +141,7 @@ import { ErrorService } from './service/error.service';
     UmapFormComponent,
     ScatterFormComponent,
     PlsFormComponent,
+    PlsSvdFormComponent,
     TsneFormComponent,
     KMeansFormComponent,
     KmedianFormComponent,

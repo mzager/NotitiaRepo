@@ -67,6 +67,7 @@ import { SpectralEmbeddingConfigModel } from './../../visualization/spectralembe
 import { SurvivalConfigModel } from './../../visualization/survival/survival.model';
 import { TruncatedSvdConfigModel } from './../../visualization/truncatedsvd/truncatedsvd.model';
 import { TsneConfigModel } from './../../visualization/tsne/tsne.model';
+import {PlsSvdConfigModel} from './../../visualization/pls-svd/pls-svd.model';
 declare var $: any;
 
 @Component({
@@ -377,6 +378,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
         break;
       case VisualizationEnum.HISTOGRAM:
         gc = new HistogramConfigModel();
+        break;
+      case VisualizationEnum.PLSSVD:
+        gc = new PlsSvdConfigModel();
         break;
     }
 

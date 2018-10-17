@@ -56,7 +56,8 @@ import {
   SurvivalCompleteAction,
   TimelinesCompleteAction,
   TruncatedSvdCompleteAction,
-  TsneCompleteAction
+  TsneCompleteAction,
+  PlsSvdCompleteAction
 } from './../action/compute.action';
 import {
   DataDecoratorAddAction,
@@ -870,6 +871,26 @@ export class ComputeEffect {
           ];
         });
     });
+
+    @Effect()
+    loadPlsSvd: Observable<any> = this.actions$
+      .ofType(compute.COMPUTE_PLS_SVD)
+      .map((action: UnsafeAction) => action.payload)
+      .switchMap(payload => {
+        return this.computeService
+          .pcaSparse(payload['config'])
+          .mergeMap(result => {
+            return [
+              result === null
+                ? new NullDataAction()
+                : new PlsSvdCompleteAction({
+                    config: result.config,
+                    data: result.data
+                  }),
+              new LoaderHideAction()
+            ];
+          });
+      });
 
   @Effect()
   addDataDecorator: Observable<any> = this.actions$

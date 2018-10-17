@@ -58,6 +58,7 @@ import { SurvivalGraph } from './../../visualization/survival/survival.graph';
 import { TimelinesGraph } from './../../visualization/timelines/timelines.graph';
 import { TruncatedSvdGraph } from './../../visualization/truncatedsvd/truncatedsvd.graph';
 import { TsneGraph } from './../../visualization/tsne/tsne.graph';
+import {PlsSvdGraph} from './../../visualization/pls-svd/pls-svd.graph';
 import { ChartScene } from './chart.scene';
 
 @Component({
@@ -280,6 +281,8 @@ export class ChartComponent implements AfterViewInit {
         return new DendogramGraph();
       case VisualizationEnum.HISTOGRAM:
         return new HistogramGraph();
+      case VisualizationEnum.PLSSVD:
+        return new PlsSvdGraph();
     }
   }
 

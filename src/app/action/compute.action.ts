@@ -151,6 +151,10 @@ import {
   TsneConfigModel,
   TsneDataModel
 } from './../component/visualization/tsne/tsne.model';
+import {
+  PlsSvdConfigModel,
+  PlsSvdDataModel
+} from './../component/visualization/pls-svd/pls-svd.model';
 import { ChartSelection } from './../model/chart-selection.model';
 import { GraphData } from './../model/graph-data.model';
 import { UmapConfigModel } from '../component/visualization/umap/umap.model';
@@ -256,6 +260,8 @@ export const COMPUTE_LINEAR_DISCRIMINANT_ANALYSIS_COMPLETE =
   '[Compute] Linear Discriminant Analysis Complete';
 export const COMPUTE_LDA = '[Compute] LDA';
 export const COMPUTE_LDA_COMPLETE = '[Compute] LDA Complete';
+export const COMPUTE_PLS_SVD = '[Compute] PlsSvd';
+export const COMPUTE_PLS_SVD_COMPLETE = '[Compute] PlsSvd Complete';
 export const COMPUTE_POPULATION_SUMMARY = '[Compute] Population Summary';
 export const COMPUTE_POPULATION_SUMMARY_COMPLETE =
   '[Compute] Population Summary Complete';
@@ -700,6 +706,14 @@ export class MiniBatchSparsePcaAction implements Action {
   readonly type: string = COMPUTE_MINI_BATCH_SPARSE_PCA;
   constructor(public payload: { config: MiniBatchSparsePcaConfigModel }) {}
 }
+export class PlsSvdAction implements Action {
+  readonly type: string = COMPUTE_PLS_SVD;
+  constructor(public payload: { config: PlsSvdConfigModel }) {}
+}
+export class PlsSvdCompleteAction implements Action {
+  readonly type: string = COMPUTE_PLS_SVD_COMPLETE;
+  constructor(public payload: { config: PlsSvdConfigModel; data: PlsSvdDataModel }) {}
+}
 export class MiniBatchSparsePcaCompleteAction implements Action {
   readonly type: string = COMPUTE_MINI_BATCH_SPARSE_PCA_COMPLETE;
   constructor(
@@ -920,4 +934,7 @@ export type Actions =
   | SelectMarkersCompleteAction
   | SelectSaveSamplesAction
   | SelectSaveMarkersAction
-  | SelectHideAction;
+  | SelectHideAction
+  | PlsSvdAction
+  | PlsSvdCompleteAction;
+
