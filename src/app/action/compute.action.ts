@@ -155,6 +155,14 @@ import {
   PlsSvdConfigModel,
   PlsSvdDataModel
 } from './../component/visualization/pls-svd/pls-svd.model';
+import {
+  PlsRegressionConfigModel,
+  PlsRegressionDataModel
+} from './../component/visualization/plsregression/plsregression.model';
+import {
+  PlsCanonicalConfigModel,
+  PlsCanonicalDataModel
+} from './../component/visualization/plscanonical/plscanonical.model';
 import { ChartSelection } from './../model/chart-selection.model';
 import { GraphData } from './../model/graph-data.model';
 import { UmapConfigModel } from '../component/visualization/umap/umap.model';
@@ -262,6 +270,10 @@ export const COMPUTE_LDA = '[Compute] LDA';
 export const COMPUTE_LDA_COMPLETE = '[Compute] LDA Complete';
 export const COMPUTE_PLS_SVD = '[Compute] PlsSvd';
 export const COMPUTE_PLS_SVD_COMPLETE = '[Compute] PlsSvd Complete';
+export const COMPUTE_PLS_REGRESSION = '[Compute] PlsRegression';
+export const COMPUTE_PLS_REGRESSION_COMPLETE = '[Compute] PlsRegression Complete';
+export const COMPUTE_PLS_CANONICAL = '[Compute] PlsCanonical';
+export const COMPUTE_PLS_CANONICAL_COMPLETE = '[Compute] PlsCanonical Complete';
 export const COMPUTE_POPULATION_SUMMARY = '[Compute] Population Summary';
 export const COMPUTE_POPULATION_SUMMARY_COMPLETE =
   '[Compute] Population Summary Complete';
@@ -714,6 +726,22 @@ export class PlsSvdCompleteAction implements Action {
   readonly type: string = COMPUTE_PLS_SVD_COMPLETE;
   constructor(public payload: { config: PlsSvdConfigModel; data: PlsSvdDataModel }) {}
 }
+export class PlsRegressionAction implements Action {
+  readonly type: string = COMPUTE_PLS_REGRESSION;
+  constructor(public payload: { config: PlsRegressionConfigModel }) {}
+}
+export class PlsRegressionCompleteAction implements Action {
+  readonly type: string = COMPUTE_PLS_REGRESSION_COMPLETE;
+  constructor(public payload: { config: PlsRegressionConfigModel; data: PlsRegressionDataModel }) {}
+}
+export class PlsCanonicalAction implements Action {
+  readonly type: string = COMPUTE_PLS_CANONICAL;
+  constructor(public payload: { config: PlsCanonicalConfigModel }) {}
+}
+export class PlsCanonicalCompleteAction implements Action {
+  readonly type: string = COMPUTE_PLS_CANONICAL_COMPLETE;
+  constructor(public payload: { config: PlsCanonicalConfigModel; data: PlsCanonicalDataModel }) {}
+}
 export class MiniBatchSparsePcaCompleteAction implements Action {
   readonly type: string = COMPUTE_MINI_BATCH_SPARSE_PCA_COMPLETE;
   constructor(
@@ -936,5 +964,9 @@ export type Actions =
   | SelectSaveMarkersAction
   | SelectHideAction
   | PlsSvdAction
-  | PlsSvdCompleteAction;
+  | PlsSvdCompleteAction
+  | PlsRegressionAction
+  | PlsRegressionCompleteAction
+  | PlsCanonicalAction
+  | PlsCanonicalCompleteAction;
 

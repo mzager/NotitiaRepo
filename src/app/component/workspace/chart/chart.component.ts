@@ -59,6 +59,8 @@ import { TimelinesGraph } from './../../visualization/timelines/timelines.graph'
 import { TruncatedSvdGraph } from './../../visualization/truncatedsvd/truncatedsvd.graph';
 import { TsneGraph } from './../../visualization/tsne/tsne.graph';
 import {PlsSvdGraph} from './../../visualization/pls-svd/pls-svd.graph';
+import {PlsRegressionGraph} from './../../visualization/plsregression/plsregression.graph';
+import {PlsCanonicalGraph} from './../../visualization/plscanonical/plscanonical.graph';
 import { ChartScene } from './chart.scene';
 
 @Component({
@@ -283,6 +285,10 @@ export class ChartComponent implements AfterViewInit {
         return new HistogramGraph();
       case VisualizationEnum.PLSSVD:
         return new PlsSvdGraph();
+      case VisualizationEnum.PLSREGRESSION:
+        return new PlsRegressionGraph();
+      case VisualizationEnum.PLSCANONICAL:
+        return new PlsCanonicalGraph();
     }
   }
 
