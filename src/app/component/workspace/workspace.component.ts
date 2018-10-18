@@ -15,6 +15,7 @@ import { Store } from '@ngrx/store';
 import * as compute from 'app/action/compute.action';
 import * as data from 'app/action/data.action';
 import { PlsSvdConfigModel } from 'app/component/visualization/pls-svd/pls-svd.model';
+import { PlsRegressionConfigModel } from 'app/component/visualization/plsregression/plsregression.model';
 // tslint:disable-next-line:max-line-length
 import { LinearDiscriminantAnalysisConfigModel } from 'app/component/visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.model';
 // tslint:disable-next-line:max-line-length
@@ -87,6 +88,7 @@ import { SpectralEmbeddingConfigModel } from './../visualization/spectralembeddi
 import { SurvivalConfigModel } from './../visualization/survival/survival.model';
 import { TruncatedSvdConfigModel } from './../visualization/truncatedsvd/truncatedsvd.model';
 import { TsneConfigModel } from './../visualization/tsne/tsne.model';
+import { PlsCanonicalConfigModel } from './../visualization/plscanonical/plscanonical.model';
 import {
   TipSetVisualizationAction,
   TipSetEnabledAction,
@@ -476,8 +478,22 @@ export class WorkspaceComponent {
         break;
         case enums.VisualizationEnum.PLSSVD:
         this.store.dispatch(
-          new compute.HistogramAction({
-            config: value as HistogramConfigModel
+          new compute.PlsSvdAction({
+            config: value as PlsSvdConfigModel
+          })
+        );
+        break;
+        case enums.VisualizationEnum.PLSREGRESSION:
+        this.store.dispatch(
+          new compute.PlsRegressionAction({
+            config: value as PlsRegressionConfigModel
+          })
+        );
+        break;
+        case enums.VisualizationEnum.PLSCANONICAL:
+        this.store.dispatch(
+          new compute.PlsCanonicalAction({
+            config: value as PlsCanonicalConfigModel
           })
         );
         break;
