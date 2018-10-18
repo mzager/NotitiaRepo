@@ -5,8 +5,12 @@ import {PlsRegressionConfigModel} from './plsregression.model';
 
 
 export const PlsRegressionCompute = (config: PlsRegressionConfigModel, worker: DedicatedWorkerGlobalScope): void => {
-
+  const classifier = new Set(config.sampleFilter);
+  config.sampleFilter = [];
     worker.util.getDataMatrix(config).then(matrix => {
+      const classes = matrix.sid.map(v => {
+        return classifier.has(v) ? 0 : 1;
+      });
         worker.util
             .fetchResult({
                 method: 'cluster_sk_plsregression',
@@ -14,7 +18,7 @@ export const PlsRegressionCompute = (config: PlsRegressionConfigModel, worker: D
                 data: matrix.data,
                 scale: config.scale,
                 copy: config.copy,
-                // classes: config.classes
+                classes: classes
             }).then(result => {
                 result.resultScaled = worker.util.scale3d(result.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
                 result.sid = matrix.sid;

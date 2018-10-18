@@ -4,16 +4,22 @@ import { Legend } from './../../../model/legend.model';
 import {PlsSvdConfigModel} from './pls-svd.model';
 
 
-export const PlsSvdCompute = (config: PlsSvdConfigModel, worker: DedicatedWorkerGlobalScope): void => {
 
+export const PlsSvdCompute = (config: PlsSvdConfigModel, worker: DedicatedWorkerGlobalScope): void => {
+  const classifier = new Set(config.sampleFilter);
+  config.sampleFilter = [];
     worker.util.getDataMatrix(config).then(matrix => {
-        worker.util
+      const classes = matrix.sid.map(v => {
+        return classifier.has(v) ? 0 : 1;
+      });
+      worker.util
             .fetchResult({
                 method: 'cluster_sk_plssvd',
                 n_components: config.n_components,
                 data: matrix.data,
                 scale: config.scale,
                 copy: config.copy,
+                classes: classes
                 // classes: config.classes
             }).then(result => {
                 result.resultScaled = worker.util.scale3d(result.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
