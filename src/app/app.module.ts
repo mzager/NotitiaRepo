@@ -56,6 +56,7 @@ import { PcaKernalFormComponent } from './component/visualization/pcakernal/pcak
 import { PcaSparseFormComponent } from './component/visualization/pcasparse/pcasparse.form.component';
 import { PlsFormComponent } from './component/visualization/pls/pls.form.component';
 import { PlsRegressionFormComponent } from './component/visualization/plsregression/plsregression.form.component';
+import { PlsCanonicalFormComponent } from './component/visualization/plscanonical/plscanonical.form.component';
 // tslint:disable-next-line:max-line-length
 import { QuadradicDiscriminantAnalysisFormComponent } from './component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.form.component';
 import { SomFormComponent } from './component/visualization/som/som.form.component';
@@ -144,6 +145,7 @@ import { ErrorService } from './service/error.service';
     PlsFormComponent,
     PlsSvdFormComponent,
     PlsRegressionFormComponent,
+    PlsCanonicalFormComponent,
     TsneFormComponent,
     KMeansFormComponent,
     KmedianFormComponent,

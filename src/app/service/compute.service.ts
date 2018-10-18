@@ -44,6 +44,7 @@ import { TruncatedSvdConfigModel } from './../component/visualization/truncateds
 import { TsneConfigModel } from './../component/visualization/tsne/tsne.model';
 import { PlsSvdConfigModel } from './../component/visualization/pls-svd/pls-svd.model';
 import { PlsRegressionConfigModel } from './../component/visualization/plsregression/plsregression.model';
+import { PlsCanonicalConfigModel } from './../component/visualization/plscanonical/plscanonical.model';
 /*
 When samples and genes are specified empty arrays == all
 */
@@ -87,6 +88,7 @@ export class ComputeService {
   private histogram$ = new Subject<any>();
   private plsSvd$ = new Subject<any>();
   private plsRegression$ = new Subject<any>();
+  private plsCanonical$ = new Subject<any>();
 
   constructor() {
     // this.pool = Pool.create({
@@ -208,6 +210,10 @@ export class ComputeService {
                                                                               VisualizationEnum.EDGES
                                                                               ? this
                                                                                 .edges$
+                                                                              : v ===
+                                                                              VisualizationEnum.PLSCANONICAL
+                                                                              ? this
+                                                                                .plsCanonical$
                                                                               : v ===
                                                                                 VisualizationEnum.HISTOGRAM
                                                                                 ? this
@@ -433,5 +439,8 @@ export class ComputeService {
   }
   plsRegression(config: PlsRegressionConfigModel): Observable<any> {
     return this.execute(config, this.plsRegression$);
+  }
+  plsCanonical(config: PlsCanonicalConfigModel): Observable<any> {
+    return this.execute(config, this.plsCanonical$);
   }
 }

@@ -88,6 +88,7 @@ import { SpectralEmbeddingConfigModel } from './../visualization/spectralembeddi
 import { SurvivalConfigModel } from './../visualization/survival/survival.model';
 import { TruncatedSvdConfigModel } from './../visualization/truncatedsvd/truncatedsvd.model';
 import { TsneConfigModel } from './../visualization/tsne/tsne.model';
+import { PlsCanonicalConfigModel } from './../visualization/plscanonical/plscanonical.model';
 import {
   TipSetVisualizationAction,
   TipSetEnabledAction,
@@ -486,6 +487,13 @@ export class WorkspaceComponent {
         this.store.dispatch(
           new compute.PlsRegressionAction({
             config: value as PlsRegressionConfigModel
+          })
+        );
+        break;
+        case enums.VisualizationEnum.PLSCANONICAL:
+        this.store.dispatch(
+          new compute.PlsCanonicalAction({
+            config: value as PlsCanonicalConfigModel
           })
         );
         break;
