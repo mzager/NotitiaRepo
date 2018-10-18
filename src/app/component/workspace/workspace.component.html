@@ -9,6 +9,7 @@
     [pathways]='pathways | async' [genesets]='genesets | async' [cohorts]='cohorts | async'
     [decorators]='graphADecorators | async' (decoratorAdd)='graphPanelAddDecorator($event)'
     (decoratorDel)='graphPanelDelDecorator($event)' (decoratorDelAll)='graphPanelDelAllDecorators($event)'
+    (selectionToolChange)='graphPanelSetSelectionToolConfig($event)' [selectionToolConfig]='graphASelectionToolConfig | async'
     [config]='graphAConfig | async' [data]='graphAData | async' (help)='helpPanelToggle($event)'
     (configChange)='graphPanelSetConfig($event)' (showPanel)='setPanel($event)'>
   </app-workspace-graph-panel>
@@ -17,9 +18,10 @@
     [title]='"Graph B"' [events]='events | async' [tables]='tables | async' [fields]='fields | async'
     [pathways]='pathways | async' [genesets]='genesets | async' [cohorts]='cohorts | async'
     [decorators]='graphBDecorators | async' (decoratorAdd)='graphPanelAddDecorator($event)'
-    (decoratorDel)='graphPanelDelDecorator($event)' [edgeDecorators]='edgeDecorators | async'
-    (decoratorDelAll)='graphPanelDelAllDecorators($event)' [config]='graphBConfig | async' [data]='graphBData | async'
-    (help)='helpPanelToggle($event)' (configChange)='graphPanelSetConfig($event)' (showPanel)='setPanel($event)'>
+    (decoratorDel)='graphPanelDelDecorator($event)' (decoratorDelAll)='graphPanelDelAllDecorators($event)'
+    (selectionToolChange)='graphPanelSetSelectionToolConfig($event)' [selectionToolConfig]='graphBSelectionToolConfig | async'
+    [config]='graphBConfig | async' [data]='graphBData | async' (help)='helpPanelToggle($event)'
+    (configChange)='graphPanelSetConfig($event)' (showPanel)='setPanel($event)' [edgeDecorators]='edgeDecorators | async'>
 
     <app-workspace-edge-panel [graphAConfig]='graphAConfig | async' [graphBConfig]='graphBConfig | async'
       [workspaceConfig]='workspaceConfig' [tables]='tables | async' [fields]='fields | async'

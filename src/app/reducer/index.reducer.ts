@@ -91,6 +91,10 @@ export const getGraphAConfig = createSelector(
   getGraphAState,
   (state: fromGraph.State) => state.config
 );
+export const getGraphASelectionToolConfig = createSelector(
+  getGraphAState,
+  (state: fromGraph.State) => state.selectionToolConfig
+);
 export const getGraphAData = createSelector(
   getGraphAState,
   (state: fromGraph.State) => state.data
@@ -112,6 +116,10 @@ export const getGraphBDepth = createSelector(
 export const getGraphBConfig = createSelector(
   getGraphBState,
   (state: fromGraph.State) => state.config
+);
+export const getGraphBSelectionToolConfig = createSelector(
+  getGraphBState,
+  (state: fromGraph.State) => state.selectionToolConfig
 );
 export const getGraphBData = createSelector(
   getGraphBState,

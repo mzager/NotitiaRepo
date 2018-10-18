@@ -90,7 +90,7 @@
           [config]='config' [tables]='tables' [fields]='fields'></app-pcasparse-form>
         <app-isomap-form *ngIf='config && config.visualization === 134217728' (configChange)='graphPanelSetConfig($event)'
           [config]='config' [tables]='tables' [fields]='fields'></app-isomap-form>
-          <app-plssvd-form *ngIf='config && config.visualization === 35184372088833' (configChange)='graphPanelSetConfig($event)'
+        <app-plssvd-form *ngIf='config && config.visualization === 35184372088833' (configChange)='graphPanelSetConfig($event)'
           [config]='config' [tables]='tables' [fields]='fields'></app-plssvd-form>
         <app-locallinearembedding-form *ngIf='config && config.visualization === 268435456'
           (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-locallinearembedding-form>
@@ -119,7 +119,8 @@
             Behaviors
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <app-workspace-behavior-panel></app-workspace-behavior-panel>
+        <app-workspace-behavior-panel [config]='config' [selectionToolConfig]='selectionToolConfig'
+          (selectionToolChange)='onSelectionToolChange($event)'></app-workspace-behavior-panel>
       </mat-expansion-panel>
     </mat-accordion>
   </div>

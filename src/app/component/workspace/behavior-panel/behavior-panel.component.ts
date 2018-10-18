@@ -5,11 +5,16 @@ import {
   Component,
   ElementRef,
   Input,
-  ViewEncapsulation
+  ViewEncapsulation,
+  ChangeDetectorRef,
+  EventEmitter,
+  Output
 } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { GraphConfig } from 'app/model/graph-config.model';
-import { SelectionTypeEnum } from 'app/model/enum.model';
+import { SelectionTypeEnum, DirtyEnum } from 'app/model/enum.model';
+import { SelectionToolConfig } from 'app/model/selection-config.model';
+import { MatSelectChange } from '@angular/material';
 
 @Component({
   selector: 'app-workspace-behavior-panel',
@@ -19,14 +24,13 @@ import { SelectionTypeEnum } from 'app/model/enum.model';
   encapsulation: ViewEncapsulation.None
 })
 export class BehaviorPanelComponent implements AfterViewInit {
-  $configChange: Subject<GraphConfig> = new Subject();
+  @Output()
+  selectionToolChange: EventEmitter<SelectionToolConfig> = new EventEmitter();
+
   private _config: GraphConfig;
-  private form: FormGroup;
-  public selectionType: SelectionTypeEnum;
-  public selectionTypes: Array<{
-    label: string;
-    value: SelectionTypeEnum;
-  }> = [];
+  public form: FormGroup;
+  private _selectionToolConfig: SelectionToolConfig;
+  public selectionTypes: Array<SelectionToolConfig> = [];
 
   @Input()
   set config(value: GraphConfig) {
@@ -34,18 +38,30 @@ export class BehaviorPanelComponent implements AfterViewInit {
       return;
     }
     this._config = value;
-    this.$configChange.next();
-    this.selectionType = SelectionTypeEnum.LASSO;
-    this.selectionTypes = [
-      { label: 'Polygon', value: SelectionTypeEnum.HULL },
-      { label: 'Brush', value: SelectionTypeEnum.KDTREE },
-      { label: 'Lasso', value: SelectionTypeEnum.LASSO }
-    ];
+    this.selectionTypes = SelectionToolConfig.getToolOptions(this._config);
+    this.cd.markForCheck();
+  }
+  @Input()
+  set selectionToolConfig(value: SelectionToolConfig) {
+    this._selectionToolConfig = value;
+    this.cd.markForCheck();
+  }
+  get selectionToolConfig(): SelectionToolConfig {
+    return this._selectionToolConfig;
   }
 
+  public selectionTypeChange(v: MatSelectChange): void {
+    this.selectionToolChange.emit(v.value);
+  }
+  byLbl(p1: SelectionToolConfig, p2: SelectionToolConfig) {
+    if (p2 === null) {
+      return false;
+    }
+    return p1.label === p2.label;
+  }
   ngAfterViewInit(): void {}
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, public cd: ChangeDetectorRef) {
     this.form = this.fb.group({
       navigation: [],
       selection: []

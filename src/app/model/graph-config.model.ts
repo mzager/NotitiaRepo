@@ -7,6 +7,7 @@ import {
 import { DataFieldFactory, DataTable } from './data-field.model';
 import { EntityTypeEnum } from './enum.model';
 import { GraphData } from './graph-data.model';
+import { SelectionToolConfig } from './selection-config.model';
 
 /**
  * Represents The Graph Config
@@ -23,7 +24,6 @@ export class GraphConfig {
   dirtyFlag = 1;
   visualization: VisualizationEnum;
   entity: EntityTypeEnum;
-  selection: SelectionTypeEnum = SelectionTypeEnum.DEFAULT;
   graph: GraphEnum;
   table: DataTable;
   label = '';

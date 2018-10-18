@@ -1,3 +1,4 @@
+import { SelectionToolConfig } from 'app/model/selection-config.model';
 import { ScatterConfigModel } from './../../visualization/scatter/scatter.model';
 import { UmapConfigModel } from './../../visualization/umap/umap.model';
 import {
@@ -67,7 +68,7 @@ import { SpectralEmbeddingConfigModel } from './../../visualization/spectralembe
 import { SurvivalConfigModel } from './../../visualization/survival/survival.model';
 import { TruncatedSvdConfigModel } from './../../visualization/truncatedsvd/truncatedsvd.model';
 import { TsneConfigModel } from './../../visualization/tsne/tsne.model';
-import {PlsSvdConfigModel} from './../../visualization/pls-svd/pls-svd.model';
+import { PlsSvdConfigModel } from './../../visualization/pls-svd/pls-svd.model';
 declare var $: any;
 
 @Component({
@@ -116,6 +117,11 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Output()
   selectCohort: EventEmitter<any> = new EventEmitter();
   @Output()
+  selectionToolChange: EventEmitter<{
+    config: GraphConfig;
+    selectionTool: SelectionToolConfig;
+  }> = new EventEmitter();
+  @Output()
   decoratorAdd: EventEmitter<{
     config: GraphConfig;
     decorator: DataDecorator;
@@ -154,6 +160,8 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     });
     return edges.concat(this.decorators.filter(v => v.legend));
   }
+  @Input()
+  selectionToolConfig: SelectionToolConfig;
   @Input()
   decorators: Array<DataDecorator>;
   @Input()
@@ -226,6 +234,12 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.help.emit(this.config);
   }
 
+  onSelectionToolChange(config: SelectionToolConfig): void {
+    this.selectionToolChange.emit({
+      config: this.config,
+      selectionTool: config
+    });
+  }
   onCohortChange($event: Event) {
     const selected = this.cohorts.find(v => v.n === $event.target['value']);
     this.config.patientFilter = selected.pids;
@@ -248,13 +262,13 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  onDecoratorAdd(decorator: DataDecorator) {
-    this.decoratorAdd.emit({ config: this.config, decorator: decorator });
-  }
+  // onDecoratorAdd(decorator: DataDecorator) {
+  //   this.decoratorAdd.emit({ config: this.config, decorator: decorator });
+  // }
 
-  onDecoratorDel(decorator: DataDecorator) {
-    this.decoratorDel.emit({ config: this.config, decorator: decorator });
-  }
+  // onDecoratorDel(decorator: DataDecorator) {
+  //   this.decoratorDel.emit({ config: this.config, decorator: decorator });
+  // }
 
   setVisualization(visualizationEnumValue): void {
     let gc: GraphConfig;

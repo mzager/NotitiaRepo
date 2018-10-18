@@ -1,3 +1,4 @@
+import { SelectionToolConfig } from 'app/model/selection-config.model';
 import { ChartSelection } from './chart-selection.model';
 import { EventEmitter } from '@angular/core';
 import { GraphEnum } from 'app/model/enum.model';
@@ -22,6 +23,7 @@ export interface ChartObjectInterface {
   enable(truthy: Boolean);
   updateDecorator(config: GraphConfig, decorators: Array<DataDecorator>);
   updateData(config: GraphConfig, data: any);
+  updateSelectionTool(config: SelectionToolConfig);
   create(
     labels: HTMLElement,
     events: ChartEvents,

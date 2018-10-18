@@ -1,3 +1,4 @@
+import { SelectionToolConfig } from './../../model/selection-config.model';
 import { ChartSelection } from './../../model/chart-selection.model';
 import { EventEmitter } from '@angular/core';
 import { EntityTypeEnum, GraphEnum } from 'app/model/enum.model';
@@ -18,6 +19,7 @@ export class AbstractVisualization implements ChartObjectInterface {
   // Common Objects
   public _data: GraphData;
   public _config: GraphConfig;
+  public selectionToolConfig: SelectionToolConfig;
   public decorators: Array<DataDecorator>;
   public $MouseMove: Subscription;
   public $MouseDown: Subscription;
@@ -103,6 +105,9 @@ export class AbstractVisualization implements ChartObjectInterface {
   updateData(config: GraphConfig, data: any) {
     this._config = config as GraphConfig;
     this._data = data;
+  }
+  updateSelectionTool(selectionToolConfig: SelectionToolConfig): void {
+    this.selectionToolConfig = selectionToolConfig;
   }
   create(
     html: HTMLElement,
