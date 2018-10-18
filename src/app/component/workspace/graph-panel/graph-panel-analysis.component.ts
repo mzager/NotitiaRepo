@@ -29,7 +29,8 @@ import {
   <button mat-menu-item (click)='select.emit(128)'>Timelines</button>
   </mat-menu>
   <mat-menu #analysisManifoldLearningMenu='matMenu'>
-  <button mat-menu-item (click)='select.emit(35184372088833)'>PLS SVD</button>
+  <button mat-menu-item (click)='select.emit(70368744177664)'>PLS Svd</button>
+  <button mat-menu-item (click)='select.emit(140737488355328)'>PLS Regression</button>
 
   <button mat-menu-item (click)='select.emit(137438953472)'>Linear Discriminant Analysis</button>
 

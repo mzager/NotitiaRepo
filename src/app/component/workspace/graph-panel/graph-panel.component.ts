@@ -68,6 +68,7 @@ import { SurvivalConfigModel } from './../../visualization/survival/survival.mod
 import { TruncatedSvdConfigModel } from './../../visualization/truncatedsvd/truncatedsvd.model';
 import { TsneConfigModel } from './../../visualization/tsne/tsne.model';
 import {PlsSvdConfigModel} from './../../visualization/pls-svd/pls-svd.model';
+import {PlsRegressionConfigModel} from './../../visualization/plsregression/plsregression.model';
 declare var $: any;
 
 @Component({
@@ -381,6 +382,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
         break;
       case VisualizationEnum.PLSSVD:
         gc = new PlsSvdConfigModel();
+        break;
+      case VisualizationEnum.PLSREGRESSION:
+        gc = new PlsRegressionConfigModel();
         break;
     }
 

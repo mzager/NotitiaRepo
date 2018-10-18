@@ -43,6 +43,7 @@ import { SurvivalConfigModel } from './../component/visualization/survival/survi
 import { TruncatedSvdConfigModel } from './../component/visualization/truncatedsvd/truncatedsvd.model';
 import { TsneConfigModel } from './../component/visualization/tsne/tsne.model';
 import { PlsSvdConfigModel } from './../component/visualization/pls-svd/pls-svd.model';
+import { PlsRegressionConfigModel } from './../component/visualization/plsregression/plsregression.model';
 /*
 When samples and genes are specified empty arrays == all
 */
@@ -85,6 +86,7 @@ export class ComputeService {
   private hazard$ = new Subject<any>();
   private histogram$ = new Subject<any>();
   private plsSvd$ = new Subject<any>();
+  private plsRegression$ = new Subject<any>();
 
   constructor() {
     // this.pool = Pool.create({
@@ -150,7 +152,7 @@ export class ComputeService {
                                             : v ===
                                               VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING
                                               ? this
-                                                  .miniBatchDictionaryLearning$
+                                                .miniBatchDictionaryLearning$
                                               : v ===
                                                 VisualizationEnum.MINI_BATCH_SPARSE_PCA
                                                 ? this.miniBatchSparsePca$
@@ -178,35 +180,39 @@ export class ComputeService {
                                                               : v ===
                                                                 VisualizationEnum.PARALLEL_COORDS
                                                                 ? this
-                                                                    .parallelCoords$
+                                                                  .parallelCoords$
                                                                 : v ===
                                                                   VisualizationEnum.LINKED_GENE
                                                                   ? this
-                                                                      .linkedGene$
+                                                                    .linkedGene$
                                                                   : v ===
                                                                     VisualizationEnum.HIC
                                                                     ? this.hic$
                                                                     : v ===
                                                                       VisualizationEnum.SURVIVAL
                                                                       ? this
-                                                                          .survival$
+                                                                        .survival$
                                                                       : v ===
                                                                         VisualizationEnum.HAZARD
                                                                         ? this
-                                                                            .hazard$
+                                                                          .hazard$
                                                                         : v ===
                                                                           VisualizationEnum.PLSSVD
                                                                           ? this
                                                                             .plsSvd$
                                                                           : v ===
-                                                                            VisualizationEnum.EDGES
+                                                                            VisualizationEnum.PLSREGRESSION
                                                                             ? this
-                                                                              .edges$
-                                                                          : v ===
-                                                                            VisualizationEnum.HISTOGRAM
-                                                                            ? this
-                                                                                .histogram$
-                                                                            : null;
+                                                                              .plsRegression$
+                                                                            : v ===
+                                                                              VisualizationEnum.EDGES
+                                                                              ? this
+                                                                                .edges$
+                                                                              : v ===
+                                                                                VisualizationEnum.HISTOGRAM
+                                                                                ? this
+                                                                                  .histogram$
+                                                                                : null;
   }
   onMessage(v) {
     if (v.data === 'TERMINATE') {
@@ -424,5 +430,8 @@ export class ComputeService {
   }
   plsSvd(config: PlsSvdConfigModel): Observable<any> {
     return this.execute(config, this.plsSvd$);
+  }
+  plsRegression(config: PlsRegressionConfigModel): Observable<any> {
+    return this.execute(config, this.plsRegression$);
   }
 }
