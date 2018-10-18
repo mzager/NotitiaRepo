@@ -59,7 +59,8 @@ import {
   TsneCompleteAction,
   PlsSvdCompleteAction,
   PlsRegressionCompleteAction,
-  PlsCanonicalCompleteAction
+  PlsCanonicalCompleteAction,
+  CCACompleteAction
 } from './../action/compute.action';
 import {
   DataDecoratorAddAction,
@@ -933,6 +934,26 @@ export class ComputeEffect {
                 ];
               });
           });
+
+          @Effect()
+          loadCCA: Observable<any> = this.actions$
+            .ofType(compute.COMPUTE_CCA)
+            .map((action: UnsafeAction) => action.payload)
+            .switchMap(payload => {
+              return this.computeService
+                .CCA(payload['config'])
+                .mergeMap(result => {
+                  return [
+                    result === null
+                      ? new NullDataAction()
+                      : new CCACompleteAction({
+                          config: result.config,
+                          data: result.data
+                        }),
+                    new LoaderHideAction()
+                  ];
+                });
+            });
 
   @Effect()
   addDataDecorator: Observable<any> = this.actions$

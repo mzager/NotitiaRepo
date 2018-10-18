@@ -70,6 +70,7 @@ import { TsneConfigModel } from './../../visualization/tsne/tsne.model';
 import {PlsSvdConfigModel} from './../../visualization/pls-svd/pls-svd.model';
 import {PlsRegressionConfigModel} from './../../visualization/plsregression/plsregression.model';
 import {PlsCanonicalConfigModel} from './../../visualization/plscanonical/plscanonical.model';
+import {CCAConfigModel} from './../../visualization/cca/cca.model';
 declare var $: any;
 
 @Component({
@@ -389,6 +390,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
         break;
       case VisualizationEnum.PLSCANONICAL:
         gc = new PlsCanonicalConfigModel();
+        break;
+      case VisualizationEnum.CCA:
+        gc = new CCAConfigModel();
         break;
     }
 

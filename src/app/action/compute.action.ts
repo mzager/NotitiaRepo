@@ -163,6 +163,10 @@ import {
   PlsCanonicalConfigModel,
   PlsCanonicalDataModel
 } from './../component/visualization/plscanonical/plscanonical.model';
+import {
+  CCAConfigModel,
+  CCADataModel
+} from './../component/visualization/cca/cca.model';
 import { ChartSelection } from './../model/chart-selection.model';
 import { GraphData } from './../model/graph-data.model';
 import { UmapConfigModel } from '../component/visualization/umap/umap.model';
@@ -274,6 +278,8 @@ export const COMPUTE_PLS_REGRESSION = '[Compute] PlsRegression';
 export const COMPUTE_PLS_REGRESSION_COMPLETE = '[Compute] PlsRegression Complete';
 export const COMPUTE_PLS_CANONICAL = '[Compute] PlsCanonical';
 export const COMPUTE_PLS_CANONICAL_COMPLETE = '[Compute] PlsCanonical Complete';
+export const COMPUTE_CCA = '[Compute] CCA';
+export const COMPUTE_CCA_COMPLETE = '[Compute] CCA Complete';
 export const COMPUTE_POPULATION_SUMMARY = '[Compute] Population Summary';
 export const COMPUTE_POPULATION_SUMMARY_COMPLETE =
   '[Compute] Population Summary Complete';
@@ -742,6 +748,14 @@ export class PlsCanonicalCompleteAction implements Action {
   readonly type: string = COMPUTE_PLS_CANONICAL_COMPLETE;
   constructor(public payload: { config: PlsCanonicalConfigModel; data: PlsCanonicalDataModel }) {}
 }
+export class CCAAction implements Action {
+  readonly type: string = COMPUTE_CCA;
+  constructor(public payload: { config: CCAConfigModel }) {}
+}
+export class CCACompleteAction implements Action {
+  readonly type: string = COMPUTE_CCA_COMPLETE;
+  constructor(public payload: { config: CCAConfigModel; data: CCADataModel }) {}
+}
 export class MiniBatchSparsePcaCompleteAction implements Action {
   readonly type: string = COMPUTE_MINI_BATCH_SPARSE_PCA_COMPLETE;
   constructor(
@@ -968,5 +982,7 @@ export type Actions =
   | PlsRegressionAction
   | PlsRegressionCompleteAction
   | PlsCanonicalAction
-  | PlsCanonicalCompleteAction;
+  | PlsCanonicalCompleteAction
+  | CCAAction
+  | CCACompleteAction;
 

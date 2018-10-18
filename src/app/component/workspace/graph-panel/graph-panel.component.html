@@ -96,6 +96,8 @@
           [config]='config' [tables]='tables' [fields]='fields'></app-plsregression-form>
           <app-plscanonical-form *ngIf='config && config.visualization === 281474976710656' (configChange)='graphPanelSetConfig($event)'
           [config]='config' [tables]='tables' [fields]='fields'></app-plscanonical-form>
+          <app-cca-form *ngIf='config && config.visualization === 562949953421312' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables' [fields]='fields'></app-cca-form>
         <app-locallinearembedding-form *ngIf='config && config.visualization === 268435456'
           (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-locallinearembedding-form>
         <app-spectralembedding-form *ngIf='config && config.visualization === 536870912'
