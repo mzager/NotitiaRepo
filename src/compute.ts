@@ -47,6 +47,8 @@ import { PlsRegressionCompute } from './app/component/visualization/plsregressio
 import { PlsCanonicalCompute } from './app/component/visualization/plscanonical/plscanonical.compute';
 import { LinearSVCCompute } from './app/component/visualization/linearsvc/linearsvc.compute';
 import { LinearSVRCompute } from './app/component/visualization/linearsvr/linearsvr.compute';
+import { NuSVRCompute } from './app/component/visualization/nusvr/nusvr.compute';
+import { NuSVCCompute } from './app/component/visualization/nusvc/nusvc.compute';
 onmessage = e => {
   const me = self as DedicatedWorkerGlobalScope;
   if (!me.hasOwnProperty('util')) {
@@ -184,6 +186,12 @@ onmessage = e => {
       break;
     case VisualizationEnum.LINEAR_SVR:
       LinearSVRCompute(e.data, me);
+      break;
+    case VisualizationEnum.NU_SVR:
+      NuSVRCompute(e.data, me);
+      break;
+    case VisualizationEnum.NU_SVC:
+      NuSVCCompute(e.data, me);
       break;
 
   }

@@ -18,12 +18,12 @@ export const LinearSVRCompute = (config: LinearSVRConfigModel, worker: Dedicated
                 epsilon: config.epsilon,
                 tol: config.tol,
                 c: config.c,
-                LinearSVRLoss: config.LinearSVRLoss,
+                linearSVRLoss: config.linearSVRLoss,
                 fit_intercept: config.fit_intercept,
                 intercept_scaling: config.intercept_scaling,
                 dual: config.dual,
                 verbose: config.verbose,
-                LinearSVRRandomState: config.LinearSVRRandomState,
+                linearSVRRandomState: config.linearSVRRandomState,
                 max_iter: config.max_iter,
                 classes: classes
             }).then(result => {

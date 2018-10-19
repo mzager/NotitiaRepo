@@ -1,37 +1,36 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractScatterForm } from '../visualization.abstract.scatter.form';
-import { LinearSVCConfigModel, LinearSVCLoss, LinearSVCPenalty, LinearSVCMultiClass, LinearSVCRandomState } from './linearsvc.model';
+import { NuSVCConfigModel, NuSVCKernal, NuSVCDecisionFunctionShape, NuSVCRandomState  } from './nusvc.model';
 
 @Component({
-  selector: 'app-linearsvc-form',
+  selector: 'app-nusvc-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  templateUrl: './linearsvc.form.component.html'
+  templateUrl: './nusvc.form.component.html'
 })
-export class LinearSVCFormComponent extends AbstractScatterForm {
+export class NuSVCFormComponent extends AbstractScatterForm {
 
-  LinearSVCLossOptions = [
-    LinearSVCLoss.SQUARED_HINGE,
-    LinearSVCLoss.HINGE
+  NuSVCKernalOptions = [
+    NuSVCKernal.RBF,
+    NuSVCKernal.LINER,
+    NuSVCKernal.POLY,
+    NuSVCKernal.SIGMOID,
+    NuSVCKernal.CALLABLE,
+    NuSVCKernal.PRECOMPUTED
   ];
 
-  LinearSVCPenaltyOptions = [
-    LinearSVCPenalty.l1,
-    LinearSVCPenalty.l2,
+  NuSVCDecisionFunctionShapeOptions = [
+    NuSVCDecisionFunctionShape.OVR,
+    NuSVCDecisionFunctionShape.OVO
   ];
 
-  LinearSVCMultiClassOptions = [
-    LinearSVCMultiClass.OVR,
-    LinearSVCMultiClass.CRAMMER_SINGER
+  NuSVCRandomStateOptions = [
+    NuSVCRandomState.NONE,
+    NuSVCRandomState.INSTANCE,
   ];
 
-  LinearSVCRandomStateOptions = [
-    LinearSVCRandomState.NONE,
-    LinearSVCRandomState.INSTANCE,
-  ];
-
-  @Input() set config(v: LinearSVCConfigModel) {
+  @Input() set config(v: NuSVCConfigModel) {
     if (v === null) { return; }
     if (this.form.value.visualization === null) {
       this.form.patchValue(v, { emitEvent: false });
@@ -55,19 +54,18 @@ export class LinearSVCFormComponent extends AbstractScatterForm {
       pcz: [],
       n_components: [],
       dimension: [],
-
-      penalty: [],
-      loss: [],
-      dual: [],
+      float: [],
+      kernal: [],
+      degree: [],
+      // gamma = // optional
+      coef0: [],
+      shrinking: [],
+      probability: [],
       tol: [],
-      c: [],
-      multi_class: [],
-      fit_intercept: [],
-      intercept_scaling: [],
+      // cache_size : float, // optional
       verbose: [],
       max_iter: [],
-      random_state: []
-
+      decision_function_shape: []
     });
 
     this.registerFormChange();

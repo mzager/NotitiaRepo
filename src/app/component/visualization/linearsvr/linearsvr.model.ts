@@ -29,12 +29,12 @@ export class LinearSVRConfigModel extends GraphConfig {
   epsilon = 0.1; // optional
   tol = 1e-4; // optional
   c = 1; // optional
-  LinearSVRLoss = 'epsilon_insensitive'; // optional
+  linearSVRLoss = 'epsilon_insensitive'; // optional
   fit_intercept: Boolean = true; // optional
   intercept_scaling = 1; // optional
   dual: Boolean = true;
   verbose = 0;
-  LinearSVRRandomState = 'None'; // optional
+  linearSVRRandomState = 'None'; // optional
   max_iter = 1000;
   dimension = DimensionEnum.THREE_D;
   batch_size: 'None';
