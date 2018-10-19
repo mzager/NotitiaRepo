@@ -1,0 +1,54 @@
+<form [formGroup]='form' novalidate>
+  <mat-form-field class='form-field'>
+    <mat-select placeholder='Data Table' formControlName='table' [compareWith]='byTbl'>
+      <mat-option *ngFor='let option of dataOptions' [value]='option'>
+        {{ option.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class='form-field'>
+    <mat-select placeholder='Data Element' formControlName='entity'>
+      <mat-option *ngFor='let option of displayOptions' [value]='option'>
+        {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class='form-field-1-3'>
+    <mat-select placeholder='X Axis' formControlName='pcx'>
+      <mat-option *ngFor='let option of PcOptions' [value]='option'>
+        PC {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class='form-field-1-3'>
+    <mat-select placeholder='Y Axis' formControlName='pcy'>
+      <mat-option *ngFor='let option of PcOptions' [value]='option'>
+        PC {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class='form-field-1-3'>
+    <mat-select placeholder='Z Axis' formControlName='pcz'>
+      <mat-option *ngFor='let option of PcOptions' [value]='option'>
+        PC {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class='form-field'>
+    <mat-select placeholder='Linear SVR Random State' formControlName='Linear_SVR_Random_State'>
+        <mat-option *ngFor='let option of LinearSVRRandomStateOptions' [value]='option'>
+            {{ option }}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+<mat-form-field class='form-field'>
+  <mat-select placeholder='Linear SVR Loss' formControlName='Linear_SVR_Loss'>
+      <mat-option *ngFor='let option of LinearSVRLossOptions' [value]='option'>
+          {{ option }}
+      </mat-option>
+  </mat-select>
+</mat-form-field>
+  <!-- <mat-slide-toggle formControlName='max_iter'>max_iter</mat-slide-toggle> -->
+  <mat-slide-toggle formControlName='duel'>Duel</mat-slide-toggle>
+  <!-- <mat-slide-toggle formControlName='verbose'>Verbose</mat-slide-toggle> -->
+</form>

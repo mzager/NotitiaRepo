@@ -59,6 +59,7 @@ import { PlsRegressionFormComponent } from './component/visualization/plsregress
 import { PlsCanonicalFormComponent } from './component/visualization/plscanonical/plscanonical.form.component';
 import { CCAFormComponent } from './component/visualization/cca/cca.form.component';
 import { LinearSVCFormComponent } from './component/visualization/linearsvc/linearsvc.form.component';
+import { LinearSVRFormComponent } from './component/visualization/linearsvr/linearsvr.form.component';
 // tslint:disable-next-line:max-line-length
 import { QuadradicDiscriminantAnalysisFormComponent } from './component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.form.component';
 import { SomFormComponent } from './component/visualization/som/som.form.component';
@@ -149,6 +150,7 @@ import { ErrorService } from './service/error.service';
     PlsRegressionFormComponent,
     PlsCanonicalFormComponent,
     LinearSVCFormComponent,
+    LinearSVRFormComponent,
     CCAFormComponent,
     TsneFormComponent,
     KMeansFormComponent,

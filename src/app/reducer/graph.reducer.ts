@@ -41,7 +41,8 @@ import {
   COMPUTE_PLS_SVD_COMPLETE,
   COMPUTE_CCA_COMPLETE,
   COMPUTE_LINEAR_SVC_COMPLETE,
-  COMPUTE_LINEAR_DISCRIMINANT_ANALYSIS_COMPLETE
+  COMPUTE_LINEAR_DISCRIMINANT_ANALYSIS_COMPLETE,
+  COMPUTE_LINEAR_SVR_COMPLETE
 } from './../action/compute.action';
 import { UnsafeAction } from './../action/unsafe.action';
 import { DataCollection } from './../model/data-collection.model';
@@ -116,8 +117,13 @@ function processAction(action: UnsafeAction, state: State): State {
     case COMPUTE_CCA_COMPLETE:
     case COMPUTE_LINEAR_SVC_COMPLETE:
     case COMPUTE_LINEAR_DISCRIMINANT_ANALYSIS_COMPLETE:
-
     case COMPUTE_SURVIVAL_COMPLETE:
+    case COMPUTE_PLS_SVD_COMPLETE:
+    case COMPUTE_PLS_REGRESSION_COMPLETE:
+    case COMPUTE_PLS_CANONICAL_COMPLETE:
+    case COMPUTE_CCA_COMPLETE:
+    case COMPUTE_LINEAR_SVC_COMPLETE:
+    case COMPUTE_LINEAR_SVR_COMPLETE:
       return Object.assign({}, state, {
         data: action.payload.data,
         config: action.payload.config
