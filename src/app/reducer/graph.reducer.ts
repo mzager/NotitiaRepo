@@ -42,12 +42,14 @@ import { DataCollection } from './../model/data-collection.model';
 import { DataDecorator } from './../model/data-map.model';
 import { DataSet } from './../model/data-set.model';
 import { GraphConfig } from './../model/graph-config.model';
+import { SelectionToolConfig } from 'app/model/selection-config.model';
 
 // Visibility / DataFields / Depth / Visualization / Config
 export interface State {
   dataSet: DataSet;
   dataCollection: DataCollection;
   visualizationType: e.VisualizationEnum;
+  selectionToolConfig: SelectionToolConfig;
   config: GraphConfig;
   decorators: Array<DataDecorator>;
   depth: e.DepthEnum;
@@ -59,6 +61,7 @@ const initialState: State = {
   dataSet: null,
   dataCollection: null,
   visualizationType: e.VisualizationEnum.NONE,
+  selectionToolConfig: SelectionToolConfig.createDefault(),
   depth: null,
   visibility: e.VisibilityEnum.HIDE,
   config: null,
@@ -108,6 +111,10 @@ function processAction(action: UnsafeAction, state: State): State {
       });
     // case COMPUTE_DECORATOR_UPDATE:
     //     return Object.assign({}, state, { decorators: (action as compute.DecoratorUpdateAction).payload.decorators });
+    case graph.SELECTION_TOOL_CHANGE:
+      return Object.assign({}, state, {
+        selectionToolConfig: action.payload.selectionTool
+      });
     case graph.VISIBILITY_TOGGLE:
       return Object.assign({}, state, { visibility: action.payload.data });
     case graph.DEPTH_TOGGLE:

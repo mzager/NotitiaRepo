@@ -90,16 +90,12 @@
           [config]='config' [tables]='tables' [fields]='fields'></app-pcasparse-form>
         <app-isomap-form *ngIf='config && config.visualization === 134217728' (configChange)='graphPanelSetConfig($event)'
           [config]='config' [tables]='tables' [fields]='fields'></app-isomap-form>
-          <app-plssvd-form *ngIf='config && config.visualization === 70368744177664' (configChange)='graphPanelSetConfig($event)'
+        <app-plssvd-form *ngIf='config && config.visualization === 70368744177664' (configChange)='graphPanelSetConfig($event)'
           [config]='config' [tables]='tables' [fields]='fields'></app-plssvd-form>
-          <app-plsregression-form *ngIf='config && config.visualization === 140737488355328' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-plsregression-form>
-          <app-plscanonical-form *ngIf='config && config.visualization === 281474976710656' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-plscanonical-form>
-          <app-cca-form *ngIf='config && config.visualization === 562949953421312' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-cca-form>
-          <app-linearsvc-form *ngIf='config && config.visualization === 1.12589990684262E15' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-linearsvc-form>
+        <app-plsregression-form *ngIf='config && config.visualization === 140737488355328'
+          (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-plsregression-form>
+        <app-plscanonical-form *ngIf='config && config.visualization === 281474976710656'
+          (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-plscanonical-form>
         <app-locallinearembedding-form *ngIf='config && config.visualization === 268435456'
           (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-locallinearembedding-form>
         <app-spectralembedding-form *ngIf='config && config.visualization === 536870912'
@@ -127,7 +123,8 @@
             Behaviors
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <app-workspace-behavior-panel></app-workspace-behavior-panel>
+        <app-workspace-behavior-panel [config]='config' [selectionToolConfig]='selectionToolConfig'
+          (selectionToolChange)='onSelectionToolChange($event)'></app-workspace-behavior-panel>
       </mat-expansion-panel>
     </mat-accordion>
   </div>

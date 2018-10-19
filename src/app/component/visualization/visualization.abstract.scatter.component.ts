@@ -121,7 +121,10 @@ export class AbstractScatterVisualization extends AbstractVisualization {
   ): ChartObjectInterface {
     super.create(labels, events, view);
 
-    this.selectionController = new ScatterSelectionHullController(view, events);
+    this.selectionController = new ScatterSelectionLassoController(
+      view,
+      events
+    );
     this.selectionController.enable = true;
     this.selectSubscription = this.selectionController.onSelect.subscribe(
       (ids: Array<number>) => {
@@ -138,7 +141,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
 
   destroy() {
     super.destroy();
-    this.selectionController.destroy();
+    // this.selectionController.destroy();
     // this.selectSubscription.unsubscribe();
     this.removeObjects();
   }

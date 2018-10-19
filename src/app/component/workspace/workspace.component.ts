@@ -1,3 +1,4 @@
+import { SelectionToolConfig } from './../../model/selection-config.model';
 import { ScatterConfigModel } from './../visualization/scatter/scatter.model';
 import { getTipVisible, getTipEnabled } from './../../reducer/index.reducer';
 import { DataService } from 'app/service/data.service';
@@ -43,7 +44,8 @@ import {
   DataDecoratorCreateAction,
   DataDecoratorDelAction,
   DataDecoratorDelAllAction,
-  WorkspaceConfigAction
+  WorkspaceConfigAction,
+  SelectionToolChangeAction
 } from './../../action/graph.action';
 import { HelpSetConfigAction } from './../../action/help.action';
 import {
@@ -125,6 +127,8 @@ export class WorkspaceComponent {
   graphBData: Observable<any>;
   graphADecorators: Observable<Array<DataDecorator>>;
   graphBDecorators: Observable<Array<DataDecorator>>;
+  graphASelectionToolConfig: Observable<SelectionToolConfig>;
+  graphBSelectionToolConfig: Observable<SelectionToolConfig>;
   edgeDecorators: Observable<Array<DataDecorator>>;
 
   selectVisible: Observable<boolean>;
@@ -174,6 +178,12 @@ export class WorkspaceComponent {
     this.graphAData = store.select(fromRoot.getGraphAData);
     this.graphBData = store.select(fromRoot.getGraphBData);
 
+    this.graphASelectionToolConfig = store.select(
+      fromRoot.getGraphASelectionToolConfig
+    );
+    this.graphBSelectionToolConfig = store.select(
+      fromRoot.getGraphASelectionToolConfig
+    );
     this.graphADecorators = store.select(fromRoot.getGraphADecorators);
     this.graphBDecorators = store.select(fromRoot.getGraphBDecorators);
     this.edgeDecorators = store.select(fromRoot.getEdgeDecorators);
@@ -478,7 +488,7 @@ export class WorkspaceComponent {
           })
         );
         break;
-        case enums.VisualizationEnum.PLSSVD:
+      case enums.VisualizationEnum.PLSSVD:
         this.store.dispatch(
           new compute.PlsSvdAction({
             config: value as PlsSvdConfigModel
@@ -525,6 +535,17 @@ export class WorkspaceComponent {
 
   tipHide(): void {
     this.store.dispatch(new TipSetVisibleAction(false));
+  }
+  graphPanelSetSelectionToolConfig(e: {
+    config: GraphConfig;
+    selectionTool: SelectionToolConfig;
+  }): void {
+    this.store.dispatch(
+      new SelectionToolChangeAction({
+        config: e.config,
+        selectionTool: e.selectionTool
+      })
+    );
   }
   edgeAddDecorator(e: {
     config: EdgeConfigModel;

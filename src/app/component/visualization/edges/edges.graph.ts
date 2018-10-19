@@ -1,3 +1,4 @@
+import { SelectionToolConfig } from './../../../model/selection-config.model';
 import { EventEmitter } from '@angular/core';
 import {
   GraphEnum,
@@ -75,6 +76,7 @@ export class EdgesGraph implements ChartObjectInterface {
     this.data = data;
     this.drawEdgesDebounce();
   }
+  updateSelectionTool(config: SelectionToolConfig) {}
   public createMap2D(
     objects: Array<{
       point: THREE.Vector3;
