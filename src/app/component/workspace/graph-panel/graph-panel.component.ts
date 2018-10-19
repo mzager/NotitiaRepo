@@ -1,4 +1,3 @@
-import { PlsRegressionConfigModel } from 'app/component/visualization/plsregression/plsregression.model';
 import { SelectionToolConfig } from 'app/model/selection-config.model';
 import { ScatterConfigModel } from './../../visualization/scatter/scatter.model';
 import { UmapConfigModel } from './../../visualization/umap/umap.model';
@@ -69,8 +68,11 @@ import { SpectralEmbeddingConfigModel } from './../../visualization/spectralembe
 import { SurvivalConfigModel } from './../../visualization/survival/survival.model';
 import { TruncatedSvdConfigModel } from './../../visualization/truncatedsvd/truncatedsvd.model';
 import { TsneConfigModel } from './../../visualization/tsne/tsne.model';
-import { PlsSvdConfigModel } from './../../visualization/pls-svd/pls-svd.model';
-import { PlsCanonicalConfigModel } from './../../visualization/plscanonical/plscanonical.model';
+import {PlsSvdConfigModel} from './../../visualization/pls-svd/pls-svd.model';
+import {PlsRegressionConfigModel} from './../../visualization/plsregression/plsregression.model';
+import {PlsCanonicalConfigModel} from './../../visualization/plscanonical/plscanonical.model';
+import {CCAConfigModel} from './../../visualization/cca/cca.model';
+import { LinearSVCConfigModel} from './../../visualization/linearsvc/linearsvc.model';
 declare var $: any;
 
 @Component({
@@ -403,6 +405,12 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
         break;
       case VisualizationEnum.PLSCANONICAL:
         gc = new PlsCanonicalConfigModel();
+        break;
+      case VisualizationEnum.CCA:
+        gc = new CCAConfigModel();
+        break;
+      case VisualizationEnum.LINEAR_SVC:
+        gc = new LinearSVCConfigModel();
         break;
     }
 

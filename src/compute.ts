@@ -41,7 +41,11 @@ import { linearDiscriminantAnalysisCompute } from './app/component/visualization
 import { miniBatchDictionaryLearningCompute } from './app/component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.compute';
 // tslint:disable-next-line:max-line-length
 import { quadradicDiscriminantAnalysisCompute } from './app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.compute';
-
+import { LinearSVCCompute } from './app/component/visualization/linearsvc/linearsvc.compute';
+import { CCACompute } from './app/component/visualization/cca/cca.compute';
+import { PlsSvdCompute } from './app/component/visualization/pls-svd/pls-svd.compute';
+import { PlsRegressionCompute } from './app/component/visualization/plsregression/plsregression.compute';
+import { PlsCanonicalCompute } from './app/component/visualization/plscanonical/plscanonical.compute';
 onmessage = e => {
   const me = self as DedicatedWorkerGlobalScope;
   if (!me.hasOwnProperty('util')) {
@@ -161,6 +165,21 @@ onmessage = e => {
       break;
     case VisualizationEnum.HISTOGRAM:
       histogramCompute(e.data, me);
+      break;
+    case VisualizationEnum.LINEAR_SVC:
+      LinearSVCCompute(e.data, me);
+      break;
+    case VisualizationEnum.CCA:
+      CCACompute(e.data, me);
+      break;
+    case VisualizationEnum.PLSCANONICAL:
+      PlsCanonicalCompute(e.data, me);
+      break;
+    case VisualizationEnum.PLSREGRESSION:
+      PlsRegressionCompute(e.data, me);
+      break;
+    case VisualizationEnum.PLSSVD:
+      PlsSvdCompute(e.data, me);
       break;
   }
 };

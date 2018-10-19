@@ -91,6 +91,8 @@ import { SurvivalConfigModel } from './../visualization/survival/survival.model'
 import { TruncatedSvdConfigModel } from './../visualization/truncatedsvd/truncatedsvd.model';
 import { TsneConfigModel } from './../visualization/tsne/tsne.model';
 import { PlsCanonicalConfigModel } from './../visualization/plscanonical/plscanonical.model';
+import { CCAConfigModel } from './../visualization/cca/cca.model';
+import { LinearSVCConfigModel } from './../visualization/linearsvc/linearsvc.model';
 import {
   TipSetVisualizationAction,
   TipSetEnabledAction,
@@ -511,6 +513,20 @@ export class WorkspaceComponent {
         this.store.dispatch(
           new compute.QuadraticDiscriminantAnalysisAction({
             config: value as QuadradicDiscriminantAnalysisConfigModel
+          })
+        );
+        break;
+      case enums.VisualizationEnum.CCA:
+        this.store.dispatch(
+          new compute.CCAAction({
+            config: value as CCAConfigModel
+          })
+        );
+        break;
+      case enums.VisualizationEnum.LINEAR_SVC:
+        this.store.dispatch(
+          new compute.LinearSVCAction({
+            config: value as LinearSVCConfigModel
           })
         );
         break;

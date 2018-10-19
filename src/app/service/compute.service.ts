@@ -45,6 +45,8 @@ import { TsneConfigModel } from './../component/visualization/tsne/tsne.model';
 import { PlsSvdConfigModel } from './../component/visualization/pls-svd/pls-svd.model';
 import { PlsRegressionConfigModel } from './../component/visualization/plsregression/plsregression.model';
 import { PlsCanonicalConfigModel } from './../component/visualization/plscanonical/plscanonical.model';
+import { CCAConfigModel } from './../component/visualization/cca/cca.model';
+import { LinearSVCConfigModel } from './../component/visualization/linearsvc/linearsvc.model';
 /*
 When samples and genes are specified empty arrays == all
 */
@@ -89,6 +91,8 @@ export class ComputeService {
   private plsSvd$ = new Subject<any>();
   private plsRegression$ = new Subject<any>();
   private plsCanonical$ = new Subject<any>();
+  private CCA$ = new Subject<any>();
+  private LinearSVC$ = new Subject<any>();
 
   constructor() {
     // this.pool = Pool.create({
@@ -211,14 +215,22 @@ export class ComputeService {
                                                                               ? this
                                                                                 .edges$
                                                                               : v ===
-                                                                              VisualizationEnum.PLSCANONICAL
-                                                                              ? this
-                                                                                .plsCanonical$
-                                                                              : v ===
-                                                                                VisualizationEnum.HISTOGRAM
+                                                                                VisualizationEnum.PLSCANONICAL
                                                                                 ? this
-                                                                                  .histogram$
-                                                                                : null;
+                                                                                  .plsCanonical$
+                                                                                : v ===
+                                                                                  VisualizationEnum.CCA
+                                                                                  ? this
+                                                                                    .CCA$
+                                                                                  : v ===
+                                                                                    VisualizationEnum.LINEAR_SVC
+                                                                                    ? this
+                                                                                      .LinearSVC$
+                                                                                    : v ===
+                                                                                      VisualizationEnum.HISTOGRAM
+                                                                                      ? this
+                                                                                        .histogram$
+                                                                                      : null;
   }
   onMessage(v) {
     if (v.data === 'TERMINATE') {
@@ -442,5 +454,11 @@ export class ComputeService {
   }
   plsCanonical(config: PlsCanonicalConfigModel): Observable<any> {
     return this.execute(config, this.plsCanonical$);
+  }
+  CCA(config: CCAConfigModel): Observable<any> {
+    return this.execute(config, this.CCA$);
+  }
+  LinearSVC(config: LinearSVCConfigModel): Observable<any> {
+    return this.execute(config, this.LinearSVC$);
   }
 }
