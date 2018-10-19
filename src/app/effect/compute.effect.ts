@@ -61,7 +61,8 @@ import {
   PlsRegressionCompleteAction,
   PlsCanonicalCompleteAction,
   CCACompleteAction,
-  LinearSVCCompleteAction
+  LinearSVCCompleteAction,
+  LinearSVRCompleteAction
 } from './../action/compute.action';
 import {
   DataDecoratorAddAction,
@@ -975,6 +976,25 @@ export class ComputeEffect {
                     ];
                   });
               });
+              @Effect()
+              loadLinearSVR: Observable<any> = this.actions$
+                .ofType(compute.COMPUTE_LINEAR_SVR)
+                .map((action: UnsafeAction) => action.payload)
+                .switchMap(payload => {
+                  return this.computeService
+                    .LinearSVR(payload['config'])
+                    .mergeMap(result => {
+                      return [
+                        result === null
+                          ? new NullDataAction()
+                          : new LinearSVRCompleteAction({
+                              config: result.config,
+                              data: result.data
+                            }),
+                        new LoaderHideAction()
+                      ];
+                    });
+                });
 
   @Effect()
   addDataDecorator: Observable<any> = this.actions$

@@ -73,6 +73,7 @@ import {PlsRegressionConfigModel} from './../../visualization/plsregression/plsr
 import {PlsCanonicalConfigModel} from './../../visualization/plscanonical/plscanonical.model';
 import {CCAConfigModel} from './../../visualization/cca/cca.model';
 import { LinearSVCConfigModel} from './../../visualization/linearsvc/linearsvc.model';
+import { LinearSVRConfigModel} from './../../visualization/linearsvr/linearsvr.model';
 declare var $: any;
 
 @Component({
@@ -411,6 +412,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
         break;
       case VisualizationEnum.LINEAR_SVC:
         gc = new LinearSVCConfigModel();
+        break;
+      case VisualizationEnum.LINEAR_SVR:
+        gc = new LinearSVRConfigModel();
         break;
     }
 

@@ -92,6 +92,10 @@
           [config]='config' [tables]='tables' [fields]='fields'></app-isomap-form>
         <app-plssvd-form *ngIf='config && config.visualization === 70368744177664' (configChange)='graphPanelSetConfig($event)'
           [config]='config' [tables]='tables' [fields]='fields'></app-plssvd-form>
+        <app-linearsvc-form *ngIf='config && config.visualization === 1.12589990684262E15' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables' [fields]='fields'></app-linearsvc-form>
+        <app-linearsvr-form *ngIf='config && config.visualization === 2.25179981368524E15' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables' [fields]='fields'></app-linearsvr-form>
         <app-plsregression-form *ngIf='config && config.visualization === 140737488355328'
           (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-plsregression-form>
         <app-plscanonical-form *ngIf='config && config.visualization === 281474976710656'

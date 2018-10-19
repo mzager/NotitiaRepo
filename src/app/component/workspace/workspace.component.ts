@@ -93,6 +93,7 @@ import { TsneConfigModel } from './../visualization/tsne/tsne.model';
 import { PlsCanonicalConfigModel } from './../visualization/plscanonical/plscanonical.model';
 import { CCAConfigModel } from './../visualization/cca/cca.model';
 import { LinearSVCConfigModel } from './../visualization/linearsvc/linearsvc.model';
+import { LinearSVRConfigModel } from './../visualization/linearsvr/linearsvr.model';
 import {
   TipSetVisualizationAction,
   TipSetEnabledAction,
@@ -527,6 +528,13 @@ export class WorkspaceComponent {
         this.store.dispatch(
           new compute.LinearSVCAction({
             config: value as LinearSVCConfigModel
+          })
+        );
+        break;
+      case enums.VisualizationEnum.LINEAR_SVR:
+        this.store.dispatch(
+          new compute.LinearSVRAction({
+            config: value as LinearSVRConfigModel
           })
         );
         break;

@@ -46,6 +46,7 @@ import { PlsSvdConfigModel } from './../component/visualization/pls-svd/pls-svd.
 import { PlsRegressionConfigModel } from './../component/visualization/plsregression/plsregression.model';
 import { PlsCanonicalConfigModel } from './../component/visualization/plscanonical/plscanonical.model';
 import { CCAConfigModel } from './../component/visualization/cca/cca.model';
+import { LinearSVRConfigModel } from './../component/visualization/linearsvr/linearsvr.model';
 import { LinearSVCConfigModel } from './../component/visualization/linearsvc/linearsvc.model';
 /*
 When samples and genes are specified empty arrays == all
@@ -93,6 +94,7 @@ export class ComputeService {
   private plsCanonical$ = new Subject<any>();
   private CCA$ = new Subject<any>();
   private LinearSVC$ = new Subject<any>();
+  private LinearSVR$ = new Subject<any>();
 
   constructor() {
     // this.pool = Pool.create({
@@ -227,10 +229,14 @@ export class ComputeService {
                                                                                     ? this
                                                                                       .LinearSVC$
                                                                                     : v ===
-                                                                                      VisualizationEnum.HISTOGRAM
+                                                                                      VisualizationEnum.LINEAR_SVR
                                                                                       ? this
-                                                                                        .histogram$
-                                                                                      : null;
+                                                                                        .LinearSVR$
+                                                                                      : v ===
+                                                                                        VisualizationEnum.HISTOGRAM
+                                                                                        ? this
+                                                                                          .histogram$
+                                                                                        : null;
   }
   onMessage(v) {
     if (v.data === 'TERMINATE') {
@@ -460,5 +466,8 @@ export class ComputeService {
   }
   LinearSVC(config: LinearSVCConfigModel): Observable<any> {
     return this.execute(config, this.LinearSVC$);
+  }
+  LinearSVR(config: LinearSVRConfigModel): Observable<any> {
+    return this.execute(config, this.LinearSVR$);
   }
 }
