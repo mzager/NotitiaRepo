@@ -6,7 +6,6 @@ import {
 import { GraphConfig } from '../../../model/graph-config.model';
 import { GraphData } from '../../../model/graph-data.model';
 
-
 export class LinearSVCPenalty {
   public static l1 = 'l1';
   public static l2 = 'l2';
@@ -14,7 +13,6 @@ export class LinearSVCPenalty {
 export class LinearSVCLoss {
   public static HINGE = 'hinge';
   public static SQUARED_HINGE = 'squared_hinge';
-
 }
 export class LinearSVCMultiClass {
   public static OVR = 'ovr';
@@ -26,7 +24,6 @@ export class LinearSVCRandomState {
   public static NONE = 'None';
 }
 
-
 export class LinearSVCConfigModel extends GraphConfig {
   constructor() {
     super();
@@ -37,17 +34,17 @@ export class LinearSVCConfigModel extends GraphConfig {
   }
 
   n_components = 10;
-  LinearSVCPenalty = 'squared_hinge';
-  LinearSVCLoss = 'l1';
+  penalty = LinearSVCPenalty.l1;
+  loss = LinearSVCLoss.SQUARED_HINGE;
   dual: Boolean = true;
   tol = 1e-6; // optional
   c = 1; // optional
-  LinearSVCMultiClass = 'ovr';
+  multi_class = LinearSVCMultiClass.OVR;
   fit_intercept: Boolean = true;
   intercept_scaling = 1; // optional
   verbose = 0;
   max_iter = 1000;
-  LinearSVCRandomState = 'None'; // optional
+  random_state = LinearSVCRandomState.NONE;
   // class_weight opitional
   dimension = DimensionEnum.THREE_D;
   batch_size: 'None';
@@ -63,9 +60,7 @@ export interface LinearSVCDataModel extends GraphData {
   mid: Array<string>;
   pid: Array<string>;
 
-
   nComponents: any;
   coef: any;
   intercept: any;
-
 }

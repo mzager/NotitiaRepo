@@ -877,18 +877,114 @@ export class ComputeEffect {
         });
     });
 
+  @Effect()
+  loadPlsSvd: Observable<any> = this.actions$
+    .ofType(compute.COMPUTE_PLS_SVD)
+    .map((action: UnsafeAction) => action.payload)
+    .switchMap(payload => {
+      return this.computeService.plsSvd(payload['config']).mergeMap(result => {
+        return [
+          result === null
+            ? new NullDataAction()
+            : new PlsSvdCompleteAction({
+                config: result.config,
+                data: result.data
+              }),
+          new LoaderHideAction()
+        ];
+      });
+    });
+
+  @Effect()
+  loadPlsRegression: Observable<any> = this.actions$
+    .ofType(compute.COMPUTE_PLS_REGRESSION)
+    .map((action: UnsafeAction) => action.payload)
+    .switchMap(payload => {
+      return this.computeService
+        .plsRegression(payload['config'])
+        .mergeMap(result => {
+          return [
+            result === null
+              ? new NullDataAction()
+              : new PlsRegressionCompleteAction({
+                  config: result.config,
+                  data: result.data
+                }),
+            new LoaderHideAction()
+          ];
+        });
+    });
+
+  @Effect()
+  loadPlsCanonical: Observable<any> = this.actions$
+    .ofType(compute.COMPUTE_PLS_CANONICAL)
+    .map((action: UnsafeAction) => action.payload)
+    .switchMap(payload => {
+      return this.computeService
+        .plsCanonical(payload['config'])
+        .mergeMap(result => {
+          return [
+            result === null
+              ? new NullDataAction()
+              : new PlsCanonicalCompleteAction({
+                  config: result.config,
+                  data: result.data
+                }),
+            new LoaderHideAction()
+          ];
+        });
+    });
+
+  @Effect()
+  loadCCA: Observable<any> = this.actions$
+    .ofType(compute.COMPUTE_CCA)
+    .map((action: UnsafeAction) => action.payload)
+    .switchMap(payload => {
+      return this.computeService.CCA(payload['config']).mergeMap(result => {
+        return [
+          result === null
+            ? new NullDataAction()
+            : new CCACompleteAction({
+                config: result.config,
+                data: result.data
+              }),
+          new LoaderHideAction()
+        ];
+      });
+    });
+
+  @Effect()
+  loadLinearSVC: Observable<any> = this.actions$
+    .ofType(compute.COMPUTE_LINEAR_SVC)
+    .map((action: UnsafeAction) => action.payload)
+    .switchMap(payload => {
+      return this.computeService
+        .LinearSVC(payload['config'])
+        .mergeMap(result => {
+          return [
+            result === null
+              ? new NullDataAction()
+              : new LinearSVCCompleteAction({
+                  config: result.config,
+                  data: result.data
+                }),
+            new LoaderHideAction()
+          ];
+        });
+    });
+
     @Effect()
-    loadPlsSvd: Observable<any> = this.actions$
-      .ofType(compute.COMPUTE_PLS_SVD)
+    loadLinearSVR: Observable<any> = this.actions$
+      .ofType(compute.COMPUTE_LINEAR_SVR)
       .map((action: UnsafeAction) => action.payload)
       .switchMap(payload => {
         return this.computeService
-          .plsSvd(payload['config'])
+          .LinearSVR(payload['config'])
           .mergeMap(result => {
             return [
               result === null
                 ? new NullDataAction()
-                : new PlsSvdCompleteAction({
+                : new LinearSVRCompleteAction({
                     config: result.config,
                     data: result.data
                   }),
@@ -896,105 +992,6 @@ export class ComputeEffect {
             ];
           });
       });
-
-      @Effect()
-      loadPlsRegression: Observable<any> = this.actions$
-        .ofType(compute.COMPUTE_PLS_REGRESSION)
-        .map((action: UnsafeAction) => action.payload)
-        .switchMap(payload => {
-          return this.computeService
-            .plsRegression(payload['config'])
-            .mergeMap(result => {
-              return [
-                result === null
-                  ? new NullDataAction()
-                  : new PlsRegressionCompleteAction({
-                      config: result.config,
-                      data: result.data
-                    }),
-                new LoaderHideAction()
-              ];
-            });
-        });
-
-        @Effect()
-        loadPlsCanonical: Observable<any> = this.actions$
-          .ofType(compute.COMPUTE_PLS_CANONICAL)
-          .map((action: UnsafeAction) => action.payload)
-          .switchMap(payload => {
-            return this.computeService
-              .plsCanonical(payload['config'])
-              .mergeMap(result => {
-                return [
-                  result === null
-                    ? new NullDataAction()
-                    : new PlsCanonicalCompleteAction({
-                        config: result.config,
-                        data: result.data
-                      }),
-                  new LoaderHideAction()
-                ];
-              });
-          });
-
-          @Effect()
-          loadCCA: Observable<any> = this.actions$
-            .ofType(compute.COMPUTE_CCA)
-            .map((action: UnsafeAction) => action.payload)
-            .switchMap(payload => {
-              return this.computeService
-                .CCA(payload['config'])
-                .mergeMap(result => {
-                  return [
-                    result === null
-                      ? new NullDataAction()
-                      : new CCACompleteAction({
-                          config: result.config,
-                          data: result.data
-                        }),
-                    new LoaderHideAction()
-                  ];
-                });
-            });
-
-            @Effect()
-            loadLinearSVC: Observable<any> = this.actions$
-              .ofType(compute.COMPUTE_LINEAR_SVC)
-              .map((action: UnsafeAction) => action.payload)
-              .switchMap(payload => {
-                return this.computeService
-                  .LinearSVC(payload['config'])
-                  .mergeMap(result => {
-                    return [
-                      result === null
-                        ? new NullDataAction()
-                        : new LinearSVCCompleteAction({
-                            config: result.config,
-                            data: result.data
-                          }),
-                      new LoaderHideAction()
-                    ];
-                  });
-              });
-              @Effect()
-              loadLinearSVR: Observable<any> = this.actions$
-                .ofType(compute.COMPUTE_LINEAR_SVR)
-                .map((action: UnsafeAction) => action.payload)
-                .switchMap(payload => {
-                  return this.computeService
-                    .LinearSVR(payload['config'])
-                    .mergeMap(result => {
-                      return [
-                        result === null
-                          ? new NullDataAction()
-                          : new LinearSVRCompleteAction({
-                              config: result.config,
-                              data: result.data
-                            }),
-                        new LoaderHideAction()
-                      ];
-                    });
-                });
 
   @Effect()
   addDataDecorator: Observable<any> = this.actions$
