@@ -9,11 +9,11 @@
       <mat-icon class='material-icons md-18' style='transform:translate(0px, 4px)'>fingerprint</mat-icon>
       <span class='copy'>Geneset</span>
     </span> -->
-
+    <!--
     <span *ngIf='datasetSelected' class='application-bar-button' (click)='onTogglePanels()' style='padding-right:20px;'>
       <mat-icon class='material-icons md-18' style='transform:translate(0px, 4px)'>settings_applications</mat-icon>
       <span class='copy'>Toggle Settings</span>
-    </span>
+    </span> -->
     <span *ngIf='datasetSelected' class='application-bar-button' (click)='onSplitScreenChange()'
       style='padding-right:20px;'>
       <mat-icon class='material-icons md-18' style='transform:translate(0px, 4px)'>tv</mat-icon>
@@ -39,8 +39,8 @@
     </span>
   </span>
   <span class='application-bar-logo ' (click)='viewPanel(1) '>Oncoscape
-    <span style='letter-spacing: 1px;color: #EEE;'>(v3.10.20 beta
-      <span *ngIf='datasetSelected'> - {{this._config.database}}</span>)
+    <span style='letter-spacing: 1px;color: #EEE;'>(v3.10.20 beta)
+      <!-- <span *ngIf='datasetSelected'> - {{this._config.database}}</span>) -->
     </span>
   </span>
 </div>

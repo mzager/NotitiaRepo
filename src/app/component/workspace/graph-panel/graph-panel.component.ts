@@ -83,10 +83,10 @@ declare var $: any;
   encapsulation: ViewEncapsulation.None
 })
 export class GraphPanelComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('panel')
-  panel: ElementRef;
-  @ViewChild('panelButton')
-  panelButton: ElementRef;
+  // @ViewChild('panel')
+  // buttons: ElementRef;
+  // @ViewChild('panelButton')
+  // panelButton: ElementRef;
 
   @Input()
   title: string;
@@ -179,6 +179,8 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Input()
   pathways: Array<any>;
 
+  isCollapsed = true;
+
   // This is a very important setter + is probably doing to much work.
   // It is comparing the previous config with the proposed config.
   // If the vis changes it updates the help
@@ -222,18 +224,21 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this._config = value;
   }
 
-  toggleClick(): void {
-    if (this.panel.nativeElement.classList.contains('graphPanelCollapsed')) {
-      this.panel.nativeElement.classList.remove('graphPanelCollapsed');
-      this.panelButton.nativeElement.classList.remove(
-        'graphPanelCollapsedButton'
-      );
-    } else {
-      this.panel.nativeElement.classList.add('graphPanelCollapsed');
-      this.panelButton.nativeElement.classList.add('graphPanelCollapsedButton');
-    }
-  }
+  // toggleClick(): void {
+  //   if (this.panel.nativeElement.classList.contains('graphPanelCollapsed')) {
+  //     this.panel.nativeElement.classList.remove('graphPanelCollapsed');
+  //     this.panelButton.nativeElement.classList.remove(
+  //       'graphPanelCollapsedButton'
+  //     );
+  //   } else {
+  //     this.panel.nativeElement.classList.add('graphPanelCollapsed');
+  //     this.panelButton.nativeElement.classList.add('graphPanelCollapsedButton');
+  //   }
+  // }
 
+  public toggle(panel: string): void {
+    debugger;
+  }
   helpClick(): void {
     this.help.emit(this.config);
   }

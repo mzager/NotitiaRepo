@@ -1,22 +1,59 @@
-.graphPanelDropDownButton {
-  width: 10%;
-  padding: 1%;
-  height: auto;
-  display: inline-block;
-  img {
-    width: 100%;
-  }
+.mat-tab-label,
+.mat-tab-label-active {
+  min-width: 0 !important;
+  width: 40px;
+  padding: 3px !important;
+  // margin: 3px !important;
+}
+.mat-tab-body-content {
+  padding: 20px;
+}
+// .graphPanelDropDownButton {
+//   width: 10%;
+//   padding: 1%;
+//   height: auto;
+//   display: inline-block;
+//   img {
+//     width: 100%;
+//   }
+// }
+.settings {
+  left: 0px;
+  top: 20px;
+  border: 0px solid #1e88e5;
+  border-left-width: 1px;
+  padding-left: 15px;
+  background: #fff;
+  display: none;
 }
 .graphPanel {
   overflow-y: scroll;
   overflow-x: visible;
   position: absolute;
   top: 0px;
-  // height: 90vh;
+  height: 90vh;
   bottom: 0px;
   width: auto;
   padding-bottom: 0px;
+  padding-top: 10px;
   // box-shadow: 0px 2px 4px #ddd;
+}
+.graphPanelButton {
+  width: 65px;
+  .mat-icon {
+    width: 30px;
+    height: 30px;
+    color: #1e88e5;
+    vertical-align: bottom;
+  }
+  div {
+    position: relative;
+    top: -8px;
+  }
+  cursor: pointer;
+  text-align: center;
+  padding: 5px 10px;
+  background: rgba(255, 255, 255, 0.8);
 }
 
 .graphPanelExpanded {
@@ -29,46 +66,46 @@
   transition-timing-function: ease-in-out;
 }
 
-.graphPanelCollapsed {
-  width: 0px;
-}
+// .graphPanelCollapsed {
+//   width: 0px;
+// }
 
-.graphPanelExpandedButton {
-  position: absolute;
-  right: -22px;
-  top: 40px;
-  width: 20px;
-  height: 70px;
-  color: #fff !important;
-  background: #ffffff;
-  border: 1px solid #eee;
-  a {
-    transform-origin: 50% 50%;
-    transform: rotate(-90deg);
-    text-rendering: optimizeLegibility;
-    -webkit-font-feature-settings: 'liga';
-    font-feature-settings: 'liga';
-    top: 20px;
-    position: absolute;
-    left: -1px;
-    color: #fff;
-  }
-  span {
-    transform: rotate(-90deg);
-  }
-}
+// // .graphPanelExpandedButton {
+// //   position: absolute;
+// //   right: -22px;
+// //   top: 40px;
+// //   width: 20px;
+// //   height: 70px;
+// //   color: #fff !important;
+// //   background: #ffffff;
+// //   border: 1px solid #eee;
+// //   a {
+// //     transform-origin: 50% 50%;
+// //     transform: rotate(-90deg);
+// //     text-rendering: optimizeLegibility;
+// //     -webkit-font-feature-settings: 'liga';
+// //     font-feature-settings: 'liga';
+// //     top: 20px;
+// //     position: absolute;
+// //     left: -1px;
+// //     color: #fff;
+// //   }
+// //   span {
+// //     transform: rotate(-90deg);
+// //   }
+// // }
 
 .graphPanelLeft {
   left: 0px;
-  .graphPanelExpanded {
-    border-left-width: 1px;
-    border-right-width: 1px;
-  }
+  // .graphPanelExpanded {
+  //   border-left-width: 1px;
+  //   border-right-width: 1px;
+  // }
 }
 .graphPanelRight {
   right: 0px;
-  .graphPanelExpanded {
-    border-left-width: 1px;
-    border-right-width: 1px;
-  }
+  // .graphPanelExpanded {
+  //   border-left-width: 1px;
+  //   border-right-width: 1px;
+  // }
 }
