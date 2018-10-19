@@ -6,7 +6,6 @@ import {
 import { GraphConfig } from '../../../model/graph-config.model';
 import { GraphData } from '../../../model/graph-data.model';
 
-
 export class CCAConfigModel extends GraphConfig {
   constructor() {
     super();
@@ -22,7 +21,6 @@ export class CCAConfigModel extends GraphConfig {
   tol = 1e-6;
   copy: Boolean = true;
   dimension = DimensionEnum.THREE_D;
-  batch_size: 'None';
   pcx = 1;
   pcy = 2;
   pcz = 3;
@@ -35,7 +33,6 @@ export interface CCADataModel extends GraphData {
   mid: Array<string>;
   pid: Array<string>;
 
-
   nComponents: any;
   x_weights: any;
   y_weights: any;
@@ -46,5 +43,4 @@ export interface CCADataModel extends GraphData {
   x_rotations: any;
   y_rotations: any;
   n_iter: any;
-
 }
