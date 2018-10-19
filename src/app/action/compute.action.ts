@@ -167,6 +167,10 @@ import {
   CCAConfigModel,
   CCADataModel
 } from './../component/visualization/cca/cca.model';
+import {
+  LinearSVCConfigModel,
+  LinearSVCDataModel
+} from './../component/visualization/linearsvc/linearsvc.model';
 import { ChartSelection } from './../model/chart-selection.model';
 import { GraphData } from './../model/graph-data.model';
 import { UmapConfigModel } from '../component/visualization/umap/umap.model';
@@ -280,6 +284,8 @@ export const COMPUTE_PLS_CANONICAL = '[Compute] PlsCanonical';
 export const COMPUTE_PLS_CANONICAL_COMPLETE = '[Compute] PlsCanonical Complete';
 export const COMPUTE_CCA = '[Compute] CCA';
 export const COMPUTE_CCA_COMPLETE = '[Compute] CCA Complete';
+export const COMPUTE_LINEAR_SVC = '[Compute] Linear SVC';
+export const COMPUTE_LINEAR_SVC_COMPLETE = '[Compute] Linear SVC Complete';
 export const COMPUTE_POPULATION_SUMMARY = '[Compute] Population Summary';
 export const COMPUTE_POPULATION_SUMMARY_COMPLETE =
   '[Compute] Population Summary Complete';
@@ -756,6 +762,14 @@ export class CCACompleteAction implements Action {
   readonly type: string = COMPUTE_CCA_COMPLETE;
   constructor(public payload: { config: CCAConfigModel; data: CCADataModel }) {}
 }
+export class LinearSVCAction implements Action {
+  readonly type: string = COMPUTE_LINEAR_SVC;
+  constructor(public payload: { config: LinearSVCConfigModel }) {}
+}
+export class LinearSVCCompleteAction implements Action {
+  readonly type: string = COMPUTE_LINEAR_SVC_COMPLETE;
+  constructor(public payload: { config: LinearSVCConfigModel; data: LinearSVCDataModel }) {}
+}
 export class MiniBatchSparsePcaCompleteAction implements Action {
   readonly type: string = COMPUTE_MINI_BATCH_SPARSE_PCA_COMPLETE;
   constructor(
@@ -984,5 +998,7 @@ export type Actions =
   | PlsCanonicalAction
   | PlsCanonicalCompleteAction
   | CCAAction
-  | CCACompleteAction;
+  | CCACompleteAction
+  | LinearSVCAction
+  | LinearSVCCompleteAction;
 

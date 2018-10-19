@@ -33,6 +33,7 @@ import {
   <button mat-menu-item (click)='select.emit(281474976710656)'>PLS Canonial</button>
   <button mat-menu-item (click)='select.emit(70368744177664)'>PLS SVD</button>
   <button mat-menu-item (click)='select.emit(562949953421312)'>CCA</button>
+  <button mat-menu-item (click)='select.emit(1.12589990684262E15)'>Linear SVC</button>
 
 
   <button mat-menu-item (click)='select.emit(137438953472)'>Linear Discriminant Analysis</button>

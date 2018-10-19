@@ -98,6 +98,8 @@
           [config]='config' [tables]='tables' [fields]='fields'></app-plscanonical-form>
           <app-cca-form *ngIf='config && config.visualization === 562949953421312' (configChange)='graphPanelSetConfig($event)'
           [config]='config' [tables]='tables' [fields]='fields'></app-cca-form>
+          <app-linearsvc-form *ngIf='config && config.visualization === 1.12589990684262E15' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables' [fields]='fields'></app-linearsvc-form>
         <app-locallinearembedding-form *ngIf='config && config.visualization === 268435456'
           (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-locallinearembedding-form>
         <app-spectralembedding-form *ngIf='config && config.visualization === 536870912'
