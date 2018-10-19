@@ -1,26 +1,37 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractScatterForm } from '../visualization.abstract.scatter.form';
-import { LinearSVRConfigModel, LinearSVRRandomState, LinearSVRLoss } from './linearsvr.model';
+import { NuSVRConfigModel  } from './nusvr.model';
 
 @Component({
-  selector: 'app-linearsvr-form',
+  selector: 'app-nusvr-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  templateUrl: './linearsvr.form.component.html'
+  templateUrl: './nusvr.form.component.html'
 })
-export class LinearSVRFormComponent extends AbstractScatterForm {
+export class NuSVRFormComponent extends AbstractScatterForm {
 
-  LinearSVRRandomStateOptions = [
-    LinearSVRRandomState.NONE,
-    LinearSVRRandomState.INSTANCE,
-  ];
-  LinearSVRLossOptions = [
-    LinearSVRLoss.EPSILON_INSENSITIVE,
-    LinearSVRLoss.SQUARED_EPSILON_INSENITIVE,
-  ];
+  // LinearSVCLossOptions = [
+  //   LinearSVCLoss.SQUARED_HINGE,
+  //   LinearSVCLoss.HINGE
+  // ];
 
-  @Input() set config(v: LinearSVRConfigModel) {
+  // LinearSVCPenaltyOptions = [
+  //   LinearSVCPenalty.l1,
+  //   LinearSVCPenalty.l2,
+  // ];
+
+  // LinearSVCMultiClassOptions = [
+  //   LinearSVCMultiClass.OVR,
+  //   LinearSVCMultiClass.CRAMMER_SINGER
+  // ];
+
+  // LinearSVCRandomStateOptions = [
+  //   LinearSVCRandomState.NONE,
+  //   LinearSVCRandomState.INSTANCE,
+  // ];
+
+  @Input() set config(v: NuSVRConfigModel) {
     if (v === null) { return; }
     if (this.form.value.visualization === null) {
       this.form.patchValue(v, { emitEvent: false });
@@ -45,17 +56,6 @@ export class LinearSVRFormComponent extends AbstractScatterForm {
       n_components: [],
       dimension: [],
 
-
-      epsilon: [],
-      tol: [],
-      c: [],
-      linearSVRLoss: [],
-      fit_intercept: [],
-      intercept_scaling: [],
-      dual: [],
-      verbose: [],
-      linearSVRRandomState: [],
-      max_iter: []
 
     });
 

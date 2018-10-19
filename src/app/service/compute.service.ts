@@ -48,6 +48,8 @@ import { PlsCanonicalConfigModel } from './../component/visualization/plscanonic
 import { CCAConfigModel } from './../component/visualization/cca/cca.model';
 import { LinearSVRConfigModel } from './../component/visualization/linearsvr/linearsvr.model';
 import { LinearSVCConfigModel } from './../component/visualization/linearsvc/linearsvc.model';
+import { NuSVCConfigModel } from './../component/visualization/nusvc/nusvc.model';
+import { NuSVRConfigModel } from './../component/visualization/nusvr/nusvr.model';
 /*
 When samples and genes are specified empty arrays == all
 */
@@ -95,6 +97,8 @@ export class ComputeService {
   private CCA$ = new Subject<any>();
   private LinearSVC$ = new Subject<any>();
   private LinearSVR$ = new Subject<any>();
+  private NuSVR$ = new Subject<any>();
+  private NuSVC$ = new Subject<any>();
 
   constructor() {
     // this.pool = Pool.create({
@@ -233,10 +237,18 @@ export class ComputeService {
                                                                                       ? this
                                                                                         .LinearSVR$
                                                                                       : v ===
-                                                                                        VisualizationEnum.HISTOGRAM
+                                                                                        VisualizationEnum.NU_SVR
                                                                                         ? this
-                                                                                          .histogram$
-                                                                                        : null;
+                                                                                          .NuSVR$
+                                                                                        : v ===
+                                                                                          VisualizationEnum.NU_SVC
+                                                                                          ? this
+                                                                                            .NuSVC$
+                                                                                          : v ===
+                                                                                            VisualizationEnum.HISTOGRAM
+                                                                                            ? this
+                                                                                              .histogram$
+                                                                                            : null;
   }
   onMessage(v) {
     if (v.data === 'TERMINATE') {
@@ -469,5 +481,11 @@ export class ComputeService {
   }
   LinearSVR(config: LinearSVRConfigModel): Observable<any> {
     return this.execute(config, this.LinearSVR$);
+  }
+  NuSVR(config: NuSVRConfigModel): Observable<any> {
+    return this.execute(config, this.NuSVR$);
+  }
+  NuSVC(config: NuSVCConfigModel): Observable<any> {
+    return this.execute(config, this.NuSVC$);
   }
 }

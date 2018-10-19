@@ -94,6 +94,8 @@ import { PlsCanonicalConfigModel } from './../visualization/plscanonical/plscano
 import { CCAConfigModel } from './../visualization/cca/cca.model';
 import { LinearSVCConfigModel } from './../visualization/linearsvc/linearsvc.model';
 import { LinearSVRConfigModel } from './../visualization/linearsvr/linearsvr.model';
+import { NuSVRConfigModel } from './../visualization/nusvr/nusvr.model';
+import { NuSVCConfigModel } from './../visualization/nusvc/nusvc.model';
 import {
   TipSetVisualizationAction,
   TipSetEnabledAction,
@@ -535,6 +537,20 @@ export class WorkspaceComponent {
         this.store.dispatch(
           new compute.LinearSVRAction({
             config: value as LinearSVRConfigModel
+          })
+        );
+        break;
+      case enums.VisualizationEnum.NU_SVR:
+        this.store.dispatch(
+          new compute.NuSVRAction({
+            config: value as NuSVRConfigModel
+          })
+        );
+        break;
+      case enums.VisualizationEnum.NU_SVC:
+        this.store.dispatch(
+          new compute.NuSVCAction({
+            config: value as NuSVCConfigModel
           })
         );
         break;

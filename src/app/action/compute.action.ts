@@ -175,6 +175,14 @@ import {
   LinearSVRConfigModel,
   LinearSVRDataModel
 } from './../component/visualization/linearsvr/linearsvr.model';
+import {
+  NuSVRConfigModel,
+  NuSVRDataModel
+} from './../component/visualization/nusvr/nusvr.model';
+import {
+  NuSVCConfigModel,
+  NuSVCDataModel
+} from './../component/visualization/nusvc/nusvc.model';
 import { ChartSelection } from './../model/chart-selection.model';
 import { GraphData } from './../model/graph-data.model';
 import { UmapConfigModel } from '../component/visualization/umap/umap.model';
@@ -292,6 +300,10 @@ export const COMPUTE_LINEAR_SVC = '[Compute] Linear SVC';
 export const COMPUTE_LINEAR_SVC_COMPLETE = '[Compute] Linear SVC Complete';
 export const COMPUTE_LINEAR_SVR = '[Compute] Linear SVR';
 export const COMPUTE_LINEAR_SVR_COMPLETE = '[Compute] Linear SVR Complete';
+export const COMPUTE_NU_SVC = '[Compute] Nu SVC';
+export const COMPUTE_NU_SVC_COMPLETE = '[Compute] Nu SVC Complete';
+export const COMPUTE_NU_SVR = '[Compute] Nu SVR';
+export const COMPUTE_NU_SVR_COMPLETE = '[Compute] Nu SVR Complete';
 export const COMPUTE_POPULATION_SUMMARY = '[Compute] Population Summary';
 export const COMPUTE_POPULATION_SUMMARY_COMPLETE =
   '[Compute] Population Summary Complete';
@@ -784,6 +796,22 @@ export class LinearSVRCompleteAction implements Action {
   readonly type: string = COMPUTE_LINEAR_SVR_COMPLETE;
   constructor(public payload: { config: LinearSVRConfigModel; data: LinearSVRDataModel }) {}
 }
+export class NuSVRAction implements Action {
+  readonly type: string = COMPUTE_NU_SVR;
+  constructor(public payload: { config: NuSVRConfigModel }) {}
+}
+export class NuSVRCompleteAction implements Action {
+  readonly type: string = COMPUTE_NU_SVR_COMPLETE;
+  constructor(public payload: { config: NuSVRConfigModel; data: NuSVRDataModel }) {}
+}
+export class NuSVCAction implements Action {
+  readonly type: string = COMPUTE_NU_SVC;
+  constructor(public payload: { config: NuSVCConfigModel }) {}
+}
+export class NuSVCCompleteAction implements Action {
+  readonly type: string = COMPUTE_NU_SVC_COMPLETE;
+  constructor(public payload: { config: NuSVCConfigModel; data: NuSVCDataModel }) {}
+}
 export class MiniBatchSparsePcaCompleteAction implements Action {
   readonly type: string = COMPUTE_MINI_BATCH_SPARSE_PCA_COMPLETE;
   constructor(
@@ -1016,5 +1044,9 @@ export type Actions =
   | LinearSVCAction
   | LinearSVCCompleteAction
   | LinearSVRAction
-  | LinearSVRCompleteAction;
+  | LinearSVRCompleteAction
+  | NuSVRAction
+  | NuSVRCompleteAction
+  | NuSVCAction
+  | NuSVCCompleteAction;
 
