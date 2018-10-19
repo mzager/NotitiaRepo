@@ -1,8 +1,9 @@
 .mat-tab-label,
 .mat-tab-label-active {
   min-width: 0 !important;
-  width: 40px;
+  width: 42px;
   padding: 3px !important;
+  color: #1e88e5;
   // margin: 3px !important;
 }
 .mat-tab-body-content {
@@ -17,15 +18,6 @@
 //     width: 100%;
 //   }
 // }
-.settings {
-  left: 0px;
-  top: 20px;
-  border: 0px solid #1e88e5;
-  border-left-width: 1px;
-  padding-left: 15px;
-  background: #fff;
-  display: none;
-}
 .graphPanel {
   overflow-y: scroll;
   overflow-x: visible;
@@ -53,7 +45,7 @@
   cursor: pointer;
   text-align: center;
   padding: 5px 10px;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .graphPanelExpanded {

@@ -73,6 +73,10 @@ import { PlsRegressionConfigModel } from './../../visualization/plsregression/pl
 import { PlsCanonicalConfigModel } from './../../visualization/plscanonical/plscanonical.model';
 import { CCAConfigModel } from './../../visualization/cca/cca.model';
 import { LinearSVCConfigModel } from './../../visualization/linearsvc/linearsvc.model';
+import { LinearSVRConfigModel } from './../../visualization/linearsvr/linearsvr.model';
+import { NuSVRConfigModel } from './../../visualization/nusvr/nusvr.model';
+import { NuSVCConfigModel } from './../../visualization/nusvc/nusvc.model';
+import { MatTabChangeEvent } from '@angular/material';
 declare var $: any;
 
 @Component({
@@ -236,8 +240,15 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   //   }
   // }
 
-  public toggle(panel: string): void {
-    debugger;
+  public panelShow(panel: string): void {
+    this.isCollapsed = false;
+    this.cd.markForCheck();
+  }
+  public panelHide(e: MatTabChangeEvent): void {
+    if (e.index === 5) {
+      this.isCollapsed = true;
+      this.cd.markForCheck();
+    }
   }
   helpClick(): void {
     this.help.emit(this.config);
@@ -416,6 +427,15 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
         break;
       case VisualizationEnum.LINEAR_SVC:
         gc = new LinearSVCConfigModel();
+        break;
+      case VisualizationEnum.LINEAR_SVR:
+        gc = new LinearSVRConfigModel();
+        break;
+      case VisualizationEnum.NU_SVR:
+        gc = new NuSVRConfigModel();
+        break;
+      case VisualizationEnum.NU_SVC:
+        gc = new NuSVCConfigModel();
         break;
     }
 

@@ -41,11 +41,14 @@ import { linearDiscriminantAnalysisCompute } from './app/component/visualization
 import { miniBatchDictionaryLearningCompute } from './app/component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.compute';
 // tslint:disable-next-line:max-line-length
 import { quadradicDiscriminantAnalysisCompute } from './app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.compute';
-import { LinearSVCCompute } from './app/component/visualization/linearsvc/linearsvc.compute';
 import { CCACompute } from './app/component/visualization/cca/cca.compute';
 import { PlsSvdCompute } from './app/component/visualization/pls-svd/pls-svd.compute';
 import { PlsRegressionCompute } from './app/component/visualization/plsregression/plsregression.compute';
 import { PlsCanonicalCompute } from './app/component/visualization/plscanonical/plscanonical.compute';
+import { LinearSVCCompute } from './app/component/visualization/linearsvc/linearsvc.compute';
+import { LinearSVRCompute } from './app/component/visualization/linearsvr/linearsvr.compute';
+import { NuSVRCompute } from './app/component/visualization/nusvr/nusvr.compute';
+import { NuSVCCompute } from './app/component/visualization/nusvc/nusvc.compute';
 onmessage = e => {
   const me = self as DedicatedWorkerGlobalScope;
   if (!me.hasOwnProperty('util')) {
@@ -181,5 +184,15 @@ onmessage = e => {
     case VisualizationEnum.PLSSVD:
       PlsSvdCompute(e.data, me);
       break;
+    case VisualizationEnum.LINEAR_SVR:
+      LinearSVRCompute(e.data, me);
+      break;
+    case VisualizationEnum.NU_SVR:
+      NuSVRCompute(e.data, me);
+      break;
+    case VisualizationEnum.NU_SVC:
+      NuSVCCompute(e.data, me);
+      break;
+
   }
 };

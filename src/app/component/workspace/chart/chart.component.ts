@@ -63,6 +63,9 @@ import { PlsRegressionGraph } from './../../visualization/plsregression/plsregre
 import { PlsCanonicalGraph } from './../../visualization/plscanonical/plscanonical.graph';
 import { CCAGraph } from './../../visualization/cca/cca.graph';
 import { LinearSVCGraph } from './../../visualization/linearsvc/linearsvc.graph';
+import { LinearSVRGraph } from './../../visualization/linearsvr/linearsvr.graph';
+import { NuSVRGraph } from './../../visualization/nusvr/nusvr.graph';
+import { NuSVCGraph } from './../../visualization/nusvc/nusvc.graph';
 import { ChartScene } from './chart.scene';
 
 @Component({
@@ -295,6 +298,12 @@ export class ChartComponent implements AfterViewInit {
         return new CCAGraph();
       case VisualizationEnum.LINEAR_SVC:
         return new LinearSVCGraph();
+      case VisualizationEnum.LINEAR_SVR:
+        return new LinearSVRGraph();
+      case VisualizationEnum.NU_SVR:
+        return new NuSVRGraph();
+      case VisualizationEnum.NU_SVC:
+        return new NuSVCGraph();
     }
   }
 

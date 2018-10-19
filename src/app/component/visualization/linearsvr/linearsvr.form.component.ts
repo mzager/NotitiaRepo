@@ -1,37 +1,26 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractScatterForm } from '../visualization.abstract.scatter.form';
-import { LinearSVCConfigModel, LinearSVCLoss, LinearSVCPenalty, LinearSVCMultiClass, LinearSVCRandomState } from './linearsvc.model';
+import { LinearSVRConfigModel, LinearSVRRandomState, LinearSVRLoss } from './linearsvr.model';
 
 @Component({
-  selector: 'app-linearsvc-form',
+  selector: 'app-linearsvr-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  templateUrl: './linearsvc.form.component.html'
+  templateUrl: './linearsvr.form.component.html'
 })
-export class LinearSVCFormComponent extends AbstractScatterForm {
+export class LinearSVRFormComponent extends AbstractScatterForm {
 
-  LinearSVCLossOptions = [
-    LinearSVCLoss.SQUARED_HINGE,
-    LinearSVCLoss.HINGE
+  LinearSVRRandomStateOptions = [
+    LinearSVRRandomState.NONE,
+    LinearSVRRandomState.INSTANCE,
+  ];
+  LinearSVRLossOptions = [
+    LinearSVRLoss.EPSILON_INSENSITIVE,
+    LinearSVRLoss.SQUARED_EPSILON_INSENITIVE,
   ];
 
-  LinearSVCPenaltyOptions = [
-    LinearSVCPenalty.l1,
-    LinearSVCPenalty.l2,
-  ];
-
-  LinearSVCMultiClassOptions = [
-    LinearSVCMultiClass.OVR,
-    LinearSVCMultiClass.CRAMMER_SINGER
-  ];
-
-  LinearSVCRandomStateOptions = [
-    LinearSVCRandomState.NONE,
-    LinearSVCRandomState.INSTANCE,
-  ];
-
-  @Input() set config(v: LinearSVCConfigModel) {
+  @Input() set config(v: LinearSVRConfigModel) {
     if (v === null) { return; }
     if (this.form.value.visualization === null) {
       this.form.patchValue(v, { emitEvent: false });
@@ -56,17 +45,17 @@ export class LinearSVCFormComponent extends AbstractScatterForm {
       n_components: [],
       dimension: [],
 
-      penalty: [],
-      loss: [],
-      dual: [],
+
+      epsilon: [],
       tol: [],
       c: [],
-      multi_class: [],
+      linearSVRLoss: [],
       fit_intercept: [],
       intercept_scaling: [],
+      dual: [],
       verbose: [],
-      max_iter: [],
-      random_state: []
+      linearSVRRandomState: [],
+      max_iter: []
 
     });
 

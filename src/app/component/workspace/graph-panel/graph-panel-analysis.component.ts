@@ -34,6 +34,9 @@ import {
   <button mat-menu-item (click)='select.emit(70368744177664)'>PLS SVD</button>
   <button mat-menu-item (click)='select.emit(562949953421312)'>CCA</button>
   <button mat-menu-item (click)='select.emit(1.12589990684262E15)'>Linear SVC</button>
+  <button mat-menu-item (click)='select.emit(2.25179981368524E15)'>Linear SVR</button>
+  <button mat-menu-item (click)='select.emit(9.00719925474096E15)'>Nu SVR</button>
+  <button mat-menu-item (click)='select.emit(4.50359962737048E15)'>Nu SVC</button>
 
 
   <button mat-menu-item (click)='select.emit(137438953472)'>Linear Discriminant Analysis</button>

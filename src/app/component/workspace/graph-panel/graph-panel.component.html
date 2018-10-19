@@ -5,7 +5,8 @@
             <i class="material-icons small" style='color:rgba(0, 0, 0, 0.54);'>expand_less</i>
         </a>
     </div> -->
-  <mat-tab-group style='width:240px; background:rgba(255,255,255,.8)' *ngIf='!isCollapsed'>
+  <mat-tab-group style='width:252px; background:rgba(255,255,255,.9)' *ngIf='!isCollapsed'
+    (selectedTabChange)='panelHide($event)'>
     <mat-tab label="Analysis">
       <ng-template mat-tab-label>
         <mat-icon class="example-tab-icon">bar_chart</mat-icon>
@@ -85,6 +86,14 @@
         [config]='config' [tables]='tables' [fields]='fields'></app-isomap-form>
       <app-plssvd-form *ngIf='config && config.visualization === 70368744177664' (configChange)='graphPanelSetConfig($event)'
         [config]='config' [tables]='tables' [fields]='fields'></app-plssvd-form>
+      <app-linearsvc-form *ngIf='config && config.visualization === 1.12589990684262E15'
+        (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-linearsvc-form>
+      <app-linearsvr-form *ngIf='config && config.visualization === 2.25179981368524E15'
+        (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-linearsvr-form>
+      <app-nusvr-form *ngIf='config && config.visualization === 9.00719925474096E15' (configChange)='graphPanelSetConfig($event)'
+        [config]='config' [tables]='tables' [fields]='fields'></app-nusvr-form>
+      <app-nusvc-form *ngIf='config && config.visualization === 4.50359962737048E15' (configChange)='graphPanelSetConfig($event)'
+        [config]='config' [tables]='tables' [fields]='fields'></app-nusvc-form>
       <app-plsregression-form *ngIf='config && config.visualization === 140737488355328'
         (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-plsregression-form>
       <app-plscanonical-form *ngIf='config && config.visualization === 281474976710656'
@@ -110,6 +119,8 @@
       <ng-template mat-tab-label>
         <mat-icon class="example-tab-icon">360</mat-icon>
       </ng-template>
+      <app-workspace-behavior-panel [config]='config' [selectionToolConfig]='selectionToolConfig'
+        (selectionToolChange)='onSelectionToolChange($event)'></app-workspace-behavior-panel>
     </mat-tab>
     <mat-tab label="Hide">
       <ng-template mat-tab-label>
@@ -119,26 +130,27 @@
   </mat-tab-group>
 
   <div *ngIf='isCollapsed'>
-    <div class='graphPanelButton'>
+    <div class='graphPanelButton' (click)='panelShow("analysis")'>
       <mat-icon>bar_chart</mat-icon>
       <div>Analysis</div>
     </div>
-    <div class='graphPanelButton'>
+    <div class='graphPanelButton' (click)='panelShow("analysis")'>
       <mat-icon>tune</mat-icon>
       <div>Settings</div>
     </div>
-    <div class='graphPanelButton'>
+    <div class='graphPanelButton' (click)='panelShow("legend")'>
       <mat-icon>list</mat-icon>
       <div>Legend</div>
     </div>
-    <div class='graphPanelButton'>
+    <div class='graphPanelButton' (click)='panelShow("stats")'>
       <mat-icon>trending_up</mat-icon>
       <div>Stats</div>
     </div>
-    <div class='graphPanelButton'>
+    <div class='graphPanelButton' (click)='panelShow("controls")'>
       <mat-icon>360</mat-icon>
       <div>Controls</div>
     </div>
+
   </div>
 
 </div>
