@@ -5,11 +5,11 @@
             <i class="material-icons small" style='color:rgba(0, 0, 0, 0.54);'>expand_less</i>
         </a>
     </div> -->
-  <mat-tab-group style='width:252px; background:rgba(255,255,255,.9)' *ngIf='!isCollapsed'
-    (selectedTabChange)='panelHide($event)'>
+  <mat-tab-group style='width:300px; background:rgba(255,255,255,.9)' (selectedTabChange)='panelHide($event)'>
     <mat-tab label="Analysis">
       <ng-template mat-tab-label>
         <mat-icon class="example-tab-icon">bar_chart</mat-icon>
+        <div class='mat-tab-custom-lbl'>Analysis</div>
       </ng-template>
       <p>{{methodName}}</p>
       <p>{{methodSummary}}</p>
@@ -19,6 +19,7 @@
     <mat-tab label="Settings">
       <ng-template mat-tab-label>
         <mat-icon class="example-tab-icon">tune</mat-icon>
+        <div class='mat-tab-custom-lbl'>Settings</div>
       </ng-template>
       <ng-content></ng-content>
       <app-graph-panel-data [config]='config' [genesets]='genesets' [cohorts]='cohorts' [pathways]='pathways'
@@ -103,33 +104,37 @@
       <app-spectralembedding-form *ngIf='config && config.visualization === 536870912'
         (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-spectralembedding-form>
     </mat-tab>
+    <mat-tab label="People">
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">people</mat-icon>
+        <div class='mat-tab-custom-lbl'>Stats</div>
+      </ng-template>
+    </mat-tab>
     <mat-tab label="Legend">
       <ng-template mat-tab-label>
         <mat-icon class="example-tab-icon">list</mat-icon>
+        <div class='mat-tab-custom-lbl'>Legend</div>
       </ng-template>
       <app-workspace-legend-panel [config]='config' [legends]='data.legends' [decorators]='decoratorsWithLegends'></app-workspace-legend-panel>
     </mat-tab>
     <mat-tab label="Stats">
       <ng-template mat-tab-label>
         <mat-icon class="example-tab-icon">trending_up</mat-icon>
+        <div class='mat-tab-custom-lbl'>Stats</div>
       </ng-template>
       <app-workspace-stat-panel [config]='config' [graphData]='data'></app-workspace-stat-panel>
     </mat-tab>
     <mat-tab label="Controls">
       <ng-template mat-tab-label>
         <mat-icon class="example-tab-icon">360</mat-icon>
+        <div class='mat-tab-custom-lbl'>Controls</div>
       </ng-template>
       <app-workspace-behavior-panel [config]='config' [selectionToolConfig]='selectionToolConfig'
         (selectionToolChange)='onSelectionToolChange($event)'></app-workspace-behavior-panel>
     </mat-tab>
-    <mat-tab label="Hide">
-      <ng-template mat-tab-label>
-        <mat-icon class="example-tab-icon">close</mat-icon>
-      </ng-template>
-    </mat-tab>
   </mat-tab-group>
 
-  <div *ngIf='isCollapsed'>
+  <!-- <div *ngIf='isCollapsed'>
     <div class='graphPanelButton' (click)='panelShow("analysis")'>
       <mat-icon>bar_chart</mat-icon>
       <div>Analysis</div>
@@ -151,6 +156,6 @@
       <div>Controls</div>
     </div>
 
-  </div>
+</div>-->
 
 </div>

@@ -119,6 +119,7 @@ import { DatasetService } from './service/dataset.service';
 import { HttpClient } from './service/http.client';
 import { ModalService } from './service/modal-service';
 import { ErrorService } from './service/error.service';
+import { InfoPanelComponent } from './component/workspace/info-panel/info-panel.component';
 
 @NgModule({
   declarations: [
@@ -208,7 +209,8 @@ import { ErrorService } from './service/error.service';
     GraphPanelDataComponent,
     TipPanelComponent,
     UserPanelComponent,
-    SelectionPanelComponent
+    SelectionPanelComponent,
+    InfoPanelComponent
   ],
 
   imports: [
