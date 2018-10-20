@@ -50,6 +50,7 @@ import { LinearSVRConfigModel } from './../component/visualization/linearsvr/lin
 import { LinearSVCConfigModel } from './../component/visualization/linearsvc/linearsvc.model';
 import { NuSVCConfigModel } from './../component/visualization/nusvc/nusvc.model';
 import { NuSVRConfigModel } from './../component/visualization/nusvr/nusvr.model';
+import { OneClassSVMConfigModel } from './../component/visualization/oneclasssvm/oneclasssvm.model';
 /*
 When samples and genes are specified empty arrays == all
 */
@@ -99,6 +100,7 @@ export class ComputeService {
   private LinearSVR$ = new Subject<any>();
   private NuSVR$ = new Subject<any>();
   private NuSVC$ = new Subject<any>();
+  private OneClassSVM$ = new Subject<any>();
 
   constructor() {
     // this.pool = Pool.create({
@@ -245,10 +247,14 @@ export class ComputeService {
                                                                                           ? this
                                                                                             .NuSVC$
                                                                                           : v ===
-                                                                                            VisualizationEnum.HISTOGRAM
+                                                                                            VisualizationEnum.ONE_CLASS_SVM
                                                                                             ? this
-                                                                                              .histogram$
-                                                                                            : null;
+                                                                                              .OneClassSVM$
+                                                                                            : v ===
+                                                                                              VisualizationEnum.HISTOGRAM
+                                                                                              ? this
+                                                                                                .histogram$
+                                                                                              : null;
   }
   onMessage(v) {
     if (v.data === 'TERMINATE') {
@@ -487,5 +493,8 @@ export class ComputeService {
   }
   NuSVC(config: NuSVCConfigModel): Observable<any> {
     return this.execute(config, this.NuSVC$);
+  }
+  OneClassSVM(config: OneClassSVMConfigModel): Observable<any> {
+    return this.execute(config, this.OneClassSVM$);
   }
 }

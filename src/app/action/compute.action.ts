@@ -183,6 +183,10 @@ import {
   NuSVCConfigModel,
   NuSVCDataModel
 } from './../component/visualization/nusvc/nusvc.model';
+import {
+  OneClassSVMConfigModel,
+  OneClassSVMDataModel
+} from './../component/visualization/oneclasssvm/oneclasssvm.model';
 import { ChartSelection } from './../model/chart-selection.model';
 import { GraphData } from './../model/graph-data.model';
 import { UmapConfigModel } from '../component/visualization/umap/umap.model';
@@ -304,6 +308,8 @@ export const COMPUTE_NU_SVC = '[Compute] Nu SVC';
 export const COMPUTE_NU_SVC_COMPLETE = '[Compute] Nu SVC Complete';
 export const COMPUTE_NU_SVR = '[Compute] Nu SVR';
 export const COMPUTE_NU_SVR_COMPLETE = '[Compute] Nu SVR Complete';
+export const COMPUTE_ONE_CLASS_SVM = '[Compute] One Class SVM';
+export const COMPUTE_ONE_CLASS_SVM_COMPLETE = '[Compute] One Class SVM Complete';
 export const COMPUTE_POPULATION_SUMMARY = '[Compute] Population Summary';
 export const COMPUTE_POPULATION_SUMMARY_COMPLETE =
   '[Compute] Population Summary Complete';
@@ -812,6 +818,14 @@ export class NuSVCCompleteAction implements Action {
   readonly type: string = COMPUTE_NU_SVC_COMPLETE;
   constructor(public payload: { config: NuSVCConfigModel; data: NuSVCDataModel }) {}
 }
+export class OneClassSVMAction implements Action {
+  readonly type: string = COMPUTE_ONE_CLASS_SVM;
+  constructor(public payload: { config: OneClassSVMConfigModel }) {}
+}
+export class OneClassSVMCompleteAction implements Action {
+  readonly type: string = COMPUTE_ONE_CLASS_SVM_COMPLETE;
+  constructor(public payload: { config: OneClassSVMConfigModel; data: OneClassSVMDataModel }) {}
+}
 export class MiniBatchSparsePcaCompleteAction implements Action {
   readonly type: string = COMPUTE_MINI_BATCH_SPARSE_PCA_COMPLETE;
   constructor(
@@ -1048,5 +1062,7 @@ export type Actions =
   | NuSVRAction
   | NuSVRCompleteAction
   | NuSVCAction
-  | NuSVCCompleteAction;
+  | NuSVCCompleteAction
+  | OneClassSVMAction
+  | OneClassSVMCompleteAction;
 
