@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractScatterForm } from '../visualization.abstract.scatter.form';
-import { NuSVRConfigModel  } from './nusvr.model';
+import { NuSVRConfigModel, NuSVRKernal  } from './nusvr.model';
 
 @Component({
   selector: 'app-nusvr-form',
@@ -11,25 +11,15 @@ import { NuSVRConfigModel  } from './nusvr.model';
 })
 export class NuSVRFormComponent extends AbstractScatterForm {
 
-  // LinearSVCLossOptions = [
-  //   LinearSVCLoss.SQUARED_HINGE,
-  //   LinearSVCLoss.HINGE
-  // ];
+  NuSVCKernalOptions = [
+    NuSVRKernal.RBF,
+    NuSVRKernal.LINER,
+    NuSVRKernal.POLY,
+    NuSVRKernal.SIGMOID,
+    NuSVRKernal.CALLABLE,
+    NuSVRKernal.PRECOMPUTED
+  ];
 
-  // LinearSVCPenaltyOptions = [
-  //   LinearSVCPenalty.l1,
-  //   LinearSVCPenalty.l2,
-  // ];
-
-  // LinearSVCMultiClassOptions = [
-  //   LinearSVCMultiClass.OVR,
-  //   LinearSVCMultiClass.CRAMMER_SINGER
-  // ];
-
-  // LinearSVCRandomStateOptions = [
-  //   LinearSVCRandomState.NONE,
-  //   LinearSVCRandomState.INSTANCE,
-  // ];
 
   @Input() set config(v: NuSVRConfigModel) {
     if (v === null) { return; }
@@ -55,8 +45,17 @@ export class NuSVRFormComponent extends AbstractScatterForm {
       pcz: [],
       n_components: [],
       dimension: [],
-
-
+      nu: [], // optional
+      c: [],
+      kernal: [],
+      degree: [],
+      // gamma = // optional
+      coef0: [],
+      shrinking: [],
+      tol: [],
+      // cache_size : float, // optional
+      verbose: [],
+      max_iter: [],
     });
 
     this.registerFormChange();

@@ -37,7 +37,7 @@ export class NuSVCConfigModel extends GraphConfig {
   float = 0.5; // optional
   kernal = NuSVCKernal.RBF; // optional
   degree = 3; // optional
-  coef = 0.0; // optional
+  coef0 = 0.0; // optional
   shrinking: Boolean = true;
   probability: Boolean = false;
   tol = 1e-3; // optional
