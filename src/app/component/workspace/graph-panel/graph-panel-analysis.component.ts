@@ -81,7 +81,7 @@ import {
     <button mat-menu-item (click)='select.emit(2.25179981368524E15)'>Linear SVR</button>
     <button mat-menu-item (click)='select.emit(9.00719925474096E15)'>Nu SVR</button>
     <button mat-menu-item (click)='select.emit(4.50359962737048E15)'>Nu SVC</button>
-    <button mat-menu-item>One Class SVM</button>
+    <button mat-menu-item (click)='select.emit(1.439850948E27)'>One Class SVM</button>
   </mat-menu>
 
   <mat-menu #analysisMenu='matMenu'>

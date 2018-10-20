@@ -96,6 +96,7 @@ import { LinearSVCConfigModel } from './../visualization/linearsvc/linearsvc.mod
 import { LinearSVRConfigModel } from './../visualization/linearsvr/linearsvr.model';
 import { NuSVRConfigModel } from './../visualization/nusvr/nusvr.model';
 import { NuSVCConfigModel } from './../visualization/nusvc/nusvc.model';
+import { OneClassSVMConfigModel } from './../visualization/oneclasssvm/oneclasssvm.model';
 import {
   TipSetVisualizationAction,
   TipSetEnabledAction,
@@ -551,6 +552,13 @@ export class WorkspaceComponent {
         this.store.dispatch(
           new compute.NuSVCAction({
             config: value as NuSVCConfigModel
+          })
+        );
+        break;
+      case enums.VisualizationEnum.ONE_CLASS_SVM:
+        this.store.dispatch(
+          new compute.OneClassSVMAction({
+            config: value as OneClassSVMConfigModel
           })
         );
         break;

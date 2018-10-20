@@ -65,6 +65,8 @@ import {
   LinearSVRCompleteAction,
   NuSVRCompleteAction,
   NuSVCCompleteAction,
+  OneClassSVMCompleteAction
+
 } from './../action/compute.action';
 import {
   DataDecoratorAddAction,
@@ -1034,6 +1036,26 @@ export class ComputeEffect {
               ];
             });
         });
+
+        @Effect()
+        loadOneClassSVM: Observable<any> = this.actions$
+          .ofType(compute.COMPUTE_ONE_CLASS_SVM)
+          .map((action: UnsafeAction) => action.payload)
+          .switchMap(payload => {
+            return this.computeService
+              .OneClassSVM(payload['config'])
+              .mergeMap(result => {
+                return [
+                  result === null
+                    ? new NullDataAction()
+                    : new OneClassSVMCompleteAction({
+                        config: result.config,
+                        data: result.data
+                      }),
+                  new LoaderHideAction()
+                ];
+              });
+          });
 
   @Effect()
   addDataDecorator: Observable<any> = this.actions$

@@ -76,6 +76,7 @@ import { LinearSVCConfigModel } from './../../visualization/linearsvc/linearsvc.
 import { LinearSVRConfigModel } from './../../visualization/linearsvr/linearsvr.model';
 import { NuSVRConfigModel } from './../../visualization/nusvr/nusvr.model';
 import { NuSVCConfigModel } from './../../visualization/nusvc/nusvc.model';
+import { OneClassSVMConfigModel } from './../../visualization/oneclasssvm/oneclasssvm.model';
 import { MatTabChangeEvent } from '@angular/material';
 declare var $: any;
 
@@ -436,6 +437,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
         break;
       case VisualizationEnum.NU_SVC:
         gc = new NuSVCConfigModel();
+        break;
+      case VisualizationEnum.ONE_CLASS_SVM:
+        gc = new OneClassSVMConfigModel();
         break;
     }
 
