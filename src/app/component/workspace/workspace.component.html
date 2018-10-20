@@ -3,7 +3,8 @@
 <div #panelContainer style='pointer-events: none;'>
 
   <!-- <app-workspace-tool-bar *ngIf='graphPanelATab | async'></app-workspace-tool-bar> -->
-
+  <div style='position:absolute;background: rgba(255,255,255,.9); top:30px; border: 0px solid rgba(0, 0, 0, 0.12); border-bottom-width:1px; height: 50px; line-height: 50px; left:300px; right:0px;text-align: center;font-weight: 300;padding-right:300px;'>TCGA
+    Brain - CNV</div>
   <app-workspace-graph-panel style='position:absolute;top:30px;left:0px;bottom:0px;' *ngIf='graphPanelATab | async'
     [title]='"Graph A"' [events]='events | async' [tables]='tables | async' [fields]='fields | async'
     [pathways]='pathways | async' [genesets]='genesets | async' [cohorts]='cohorts | async'
