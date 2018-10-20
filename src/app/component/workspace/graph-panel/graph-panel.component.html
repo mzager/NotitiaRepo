@@ -95,6 +95,8 @@
         [config]='config' [tables]='tables' [fields]='fields'></app-nusvr-form>
       <app-nusvc-form *ngIf='config && config.visualization === 4.50359962737048E15' (configChange)='graphPanelSetConfig($event)'
         [config]='config' [tables]='tables' [fields]='fields'></app-nusvc-form>
+      <app-svr-form *ngIf='config && config.visualization === 2.879701896E27' (configChange)='graphPanelSetConfig($event)'
+        [config]='config' [tables]='tables' [fields]='fields'></app-svr-form>
       <app-oneclasssvm-form *ngIf='config && config.visualization === 1.439850948E27' (configChange)='graphPanelSetConfig($event)'
         [config]='config' [tables]='tables' [fields]='fields'></app-oneclasssvm-form>
       <app-plsregression-form *ngIf='config && config.visualization === 140737488355328'

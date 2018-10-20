@@ -75,6 +75,7 @@ import { CCAConfigModel } from './../../visualization/cca/cca.model';
 import { LinearSVCConfigModel } from './../../visualization/linearsvc/linearsvc.model';
 import { LinearSVRConfigModel } from './../../visualization/linearsvr/linearsvr.model';
 import { NuSVRConfigModel } from './../../visualization/nusvr/nusvr.model';
+import { SVRConfigModel } from './../../visualization/svr/svr.model';
 import { NuSVCConfigModel } from './../../visualization/nusvc/nusvc.model';
 import { OneClassSVMConfigModel } from './../../visualization/oneclasssvm/oneclasssvm.model';
 import { MatTabChangeEvent } from '@angular/material';
@@ -440,6 +441,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
         break;
       case VisualizationEnum.ONE_CLASS_SVM:
         gc = new OneClassSVMConfigModel();
+        break;
+      case VisualizationEnum.SVR:
+        gc = new SVRConfigModel();
         break;
     }
 

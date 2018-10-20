@@ -63,6 +63,7 @@ import { LinearSVRFormComponent } from './component/visualization/linearsvr/line
 import { NuSVCFormComponent } from './component/visualization/nusvc/nusvc.form.component';
 import { NuSVRFormComponent } from './component/visualization/nusvr/nusvr.form.component';
 import { OneClassSVMFormComponent } from './component/visualization/oneclasssvm/oneclasssvm.form.component';
+import { SVRFormComponent } from './component/visualization/svr/svr.form.component';
 // tslint:disable-next-line:max-line-length
 import { QuadradicDiscriminantAnalysisFormComponent } from './component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.form.component';
 import { SomFormComponent } from './component/visualization/som/som.form.component';
@@ -158,6 +159,7 @@ import { InfoPanelComponent } from './component/workspace/info-panel/info-panel.
     NuSVRFormComponent,
     NuSVCFormComponent,
     OneClassSVMFormComponent,
+    SVRFormComponent,
     CCAFormComponent,
     TsneFormComponent,
     KMeansFormComponent,
