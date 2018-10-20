@@ -6,20 +6,20 @@ import {
 import { GraphConfig } from '../../../model/graph-config.model';
 import { GraphData } from '../../../model/graph-data.model';
 
-// export class LinearSVCPenalty {
-//   public static l1 = 'l1';
-//   public static l2 = 'l2';
-// }
-// export class LinearSVCLoss {
-//   public static HINGE = 'hinge';
-//   public static SQUARED_HINGE = 'squared_hinge';
-// }
-// export class LinearSVCMultiClass {
+export class NuSVRKernal {
+  public static RBF = 'rbf';
+  public static LINER = 'linear';
+  public static POLY = 'poly';
+  public static SIGMOID = 'sigmoid';
+  public static PRECOMPUTED = 'precomputed';
+  public static CALLABLE = 'callable';
+}
+// export class NuSVCDecisionFunctionShape {
 //   public static OVR = 'ovr';
-//   public static CRAMMER_SINGER = 'crammer_singer';
+//   public static OVO = 'ovo';
 // }
 
-// export class LinearSVCRandomState {
+// export class NuSVCRandomState {
 //   public static INSTANCE = 'instance';
 //   public static NONE = 'None';
 // }
@@ -34,18 +34,17 @@ export class NuSVRConfigModel extends GraphConfig {
   }
 
   n_components = 10;
-  // penalty = LinearSVCPenalty.l1;
-  // loss = LinearSVCLoss.SQUARED_HINGE;
-  // dual: Boolean = true;
-  // tol = 1e-6; // optional
-  // c = 1; // optional
-  // multi_class = LinearSVCMultiClass.OVR;
-  // fit_intercept: Boolean = true;
-  // intercept_scaling = 1; // optional
-  // verbose = 0;
-  // max_iter = 1000;
-  // random_state = LinearSVCRandomState.NONE;
-  // class_weight opitional
+  nu = 0.5; // optional
+  c = 1.0; // optional
+  kernal = NuSVRKernal.RBF; // optional
+  degree = 3; // optional
+  // gamma = // optional
+  coef0 = 0.0; // optional
+  shrinking: Boolean = true;
+  tol = 1e-3; // optional
+  // cache_size : float, // optional
+  verbose: Boolean = false;
+  max_iter = 1; // optional
   dimension = DimensionEnum.THREE_D;
   batch_size: 'None';
   pcx = 1;
@@ -61,5 +60,11 @@ export interface NuSVRDataModel extends GraphData {
   pid: Array<string>;
 
   nComponents: any;
+  support: any;
+  support_vectors: any;
+  n_support: any;
+  dual_coef: any;
+  coef: any;
+  intercept: any;
 
 }

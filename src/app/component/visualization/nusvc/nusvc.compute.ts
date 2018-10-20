@@ -24,7 +24,7 @@ export const NuSVCCompute = (
         float: config.float,
         kernal: config.kernal,
         degree: config. degree,
-        coef: config.coef,
+        coef0: config.coef0,
         shrinking: config.shrinking,
         probability: config.probability,
         tol: config.tol,

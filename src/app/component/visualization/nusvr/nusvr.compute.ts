@@ -21,17 +21,17 @@ export const NuSVRCompute = (
       .fetchResult({
         method: 'cluster_sk_nusvr',
         n_components: config.n_components,
-        // penalty: config.penalty,
-        // loss: config.loss,
-        // dual: config.dual,
-        // classes: classes,
-        // tol: config.tol,
-        // c: config.c,
-        // multi_class: config.multi_class,
-        // fit_intercept: config.fit_intercept,
-        // intercept_scaling: config.intercept_scaling,
-        // random_state: config.random_state,
-        // max_iter: config.max_iter
+        nu: config.nu,
+        c: config.c,
+        kernal: config.kernal,
+        degree: config. degree,
+        coef0: config.coef0,
+        shrinking: config.shrinking,
+        tol: config.tol,
+        verbose: config.verbose,
+        max_iter: config.max_iter,
+        // cache_size : float, // optional
+        // gamma = // optional
       })
       .then(result => {
         result.resultScaled = worker.util.scale3d(
