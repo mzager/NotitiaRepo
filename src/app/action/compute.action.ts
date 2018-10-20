@@ -187,6 +187,10 @@ import {
   OneClassSVMConfigModel,
   OneClassSVMDataModel
 } from './../component/visualization/oneclasssvm/oneclasssvm.model';
+import {
+  SVRConfigModel,
+  SVRDataModel
+} from './../component/visualization/svr/svr.model';
 import { ChartSelection } from './../model/chart-selection.model';
 import { GraphData } from './../model/graph-data.model';
 import { UmapConfigModel } from '../component/visualization/umap/umap.model';
@@ -310,6 +314,8 @@ export const COMPUTE_NU_SVR = '[Compute] Nu SVR';
 export const COMPUTE_NU_SVR_COMPLETE = '[Compute] Nu SVR Complete';
 export const COMPUTE_ONE_CLASS_SVM = '[Compute] One Class SVM';
 export const COMPUTE_ONE_CLASS_SVM_COMPLETE = '[Compute] One Class SVM Complete';
+export const COMPUTE_SVR = '[Compute]  SVR';
+export const COMPUTE_SVR_COMPLETE = '[Compute]  SVR Complete';
 export const COMPUTE_POPULATION_SUMMARY = '[Compute] Population Summary';
 export const COMPUTE_POPULATION_SUMMARY_COMPLETE =
   '[Compute] Population Summary Complete';
@@ -825,6 +831,14 @@ export class OneClassSVMAction implements Action {
 export class OneClassSVMCompleteAction implements Action {
   readonly type: string = COMPUTE_ONE_CLASS_SVM_COMPLETE;
   constructor(public payload: { config: OneClassSVMConfigModel; data: OneClassSVMDataModel }) {}
+}
+export class SVRAction implements Action {
+  readonly type: string = COMPUTE_SVR;
+  constructor(public payload: { config: SVRConfigModel }) {}
+}
+export class SVRCompleteAction implements Action {
+  readonly type: string = COMPUTE_SVR_COMPLETE;
+  constructor(public payload: { config: SVRConfigModel; data: SVRDataModel }) {}
 }
 export class MiniBatchSparsePcaCompleteAction implements Action {
   readonly type: string = COMPUTE_MINI_BATCH_SPARSE_PCA_COMPLETE;

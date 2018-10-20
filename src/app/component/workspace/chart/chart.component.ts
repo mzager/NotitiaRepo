@@ -67,6 +67,7 @@ import { LinearSVRGraph } from './../../visualization/linearsvr/linearsvr.graph'
 import { NuSVRGraph } from './../../visualization/nusvr/nusvr.graph';
 import { NuSVCGraph } from './../../visualization/nusvc/nusvc.graph';
 import { OneClassSVMGraph } from './../../visualization/oneclasssvm/oneclasssvm.graph';
+import { SVRGraph } from './../../visualization/svr/svr.graph';
 import { ChartScene } from './chart.scene';
 
 @Component({
@@ -307,6 +308,8 @@ export class ChartComponent implements AfterViewInit {
         return new NuSVCGraph();
       case VisualizationEnum.ONE_CLASS_SVM:
         return new OneClassSVMGraph();
+      case VisualizationEnum.SVR:
+        return new SVRGraph();
     }
   }
 

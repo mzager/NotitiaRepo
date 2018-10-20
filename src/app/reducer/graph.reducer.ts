@@ -46,6 +46,7 @@ import {
   COMPUTE_NU_SVR_COMPLETE,
   COMPUTE_NU_SVC_COMPLETE,
   COMPUTE_ONE_CLASS_SVM_COMPLETE,
+  COMPUTE_SVR_COMPLETE
 } from './../action/compute.action';
 import { UnsafeAction } from './../action/unsafe.action';
 import { DataCollection } from './../model/data-collection.model';
@@ -130,6 +131,7 @@ function processAction(action: UnsafeAction, state: State): State {
     case COMPUTE_NU_SVR_COMPLETE:
     case COMPUTE_NU_SVC_COMPLETE:
     case COMPUTE_ONE_CLASS_SVM_COMPLETE:
+    case COMPUTE_SVR_COMPLETE:
       return Object.assign({}, state, {
         data: action.payload.data,
         config: action.payload.config

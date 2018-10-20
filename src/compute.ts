@@ -50,6 +50,7 @@ import { LinearSVRCompute } from './app/component/visualization/linearsvr/linear
 import { NuSVRCompute } from './app/component/visualization/nusvr/nusvr.compute';
 import { NuSVCCompute } from './app/component/visualization/nusvc/nusvc.compute';
 import { OneClassSVMCompute } from './app/component/visualization/oneclasssvm/oneclasssvm.compute';
+import { SVRCompute } from './app/component/visualization/svr/svr.compute';
 onmessage = e => {
   const me = self as DedicatedWorkerGlobalScope;
   if (!me.hasOwnProperty('util')) {
@@ -196,6 +197,9 @@ onmessage = e => {
       break;
     case VisualizationEnum.ONE_CLASS_SVM:
       OneClassSVMCompute(e.data, me);
+      break;
+    case VisualizationEnum.SVR:
+      SVRCompute(e.data, me);
       break;
 
   }
