@@ -128,127 +128,227 @@ export class StatFactory {
                 case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS: resolve(null); break;
                 case VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING: resolve(null); break;
                 case VisualizationEnum.MINI_BATCH_SPARSE_PCA: resolve(null); break;
+                case VisualizationEnum.CCA: resolve(null); break;
+                case VisualizationEnum.PLSREGRESSION: resolve(null); break;
+                case VisualizationEnum.PLSCANONICAL: resolve(null); break;
+                case VisualizationEnum.LINEAR_SVC: resolve(null); break;
+                case VisualizationEnum.LINEAR_SVR: resolve(null); break;
+                case VisualizationEnum.NU_SVC: resolve(null); break;
+                case VisualizationEnum.NU_SVR: resolve(null); break;
+                case VisualizationEnum.ONE_CLASS_SVM: resolve(null); break;
+                case VisualizationEnum.SVR: resolve(null); break;
                 // case VisualizationEnum.TIMELINES: resolve(this.createTimelinesStats(data)); break;
             }
             resolve([]);
         });
     }
-    private createIncrementalPca(data: PcaIncrementalDataModel): Array<Stat> {
-        const stats = [
-            new StatKeyValues('', ([
-                { mylabel: 'Samples Seen:', myvalue: data.nSamplesSeen.toString() },
-                { mylabel: 'Components:', myvalue: data.nComponents.toString() },
-                { mylabel: 'Noise Variance:', myvalue: data.noiseVariance.toFixed(2) },
-            ])),
-            new StatOneD('Explained Variance', this.formatPrincipleComponents(data.explainedVariance)),
-            new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.explainedVarianceRatio)),
-            new StatTwoD('PCA Loadings', this.formatPCALoadings(data.mid, data.components))
-        ];
-        return stats;
-    }
-    private createTruncatedSvd(data: TruncatedSvdDataModel): Array<Stat> {
-        const stats = [
-            new StatOneD('Explained Variance', this.formatPrincipleComponents(data.explainedVariance)),
-            new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.explainedVarianceRatio)),
-        ];
-        return stats;
-    }
-    private createPca(data: PcaDataModel): Array<Stat> {
-        const stats = [
-            new StatKeyValues('', ([
-                { mylabel: 'Noise Variance:', myvalue: data.noiseVariance.toFixed(2) },
-                { mylabel: 'nComponents:', myvalue: data.nComponents.toString() }
-            ])),
-            new StatOneD('Explained Variance', this.formatPrincipleComponents(data.explainedVariance)),
-            new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.explainedVarianceRatio)),
-            new StatTwoD('PCA Loadings', this.formatPCALoadings(data.mid, data.components))
-        ];
-        return stats;
-    }
-    private createSparse_PCA(data: any): Array<Stat> {
-        const stats = [
-            new StatKeyValues('', ([
-                { mylabel: 'nIter:', myvalue: data.iter }
-                // { mylabel: 'Components:', myvalue: data.components },
-                // { mylabel: 'Error:', myvalue: data.error }
-            ])),
 
-            new StatTwoD('PCA Loadings', this.formatPCALoadings(data.mid, data.components))
-        ];
-        return stats;
-    }
-    private createKernalPca(data: any): Array<Stat> {
-        const stats = [];
-        return stats;
-    }
-    private createDictionaryLearning(data: any): Array<Stat> {
-        const stats = [
-            new StatKeyValues('', ([
-                { mylabel: 'nIter:', myvalue: data.nIter.toString() }
-            ])),
-            new StatTwoD('PCA Loadings', this.formatPCALoadings(data.mid, data.components))
-        ];
-        return stats;
-    }
-    private createFactorAnalysis(data: any): Array<Stat> {
-        const stats = [
-            new StatKeyValues('', ([{ mylabel: 'nIter:', myvalue: data.nIter.toString() }]))
-        ];
-        return stats;
-    }
-    private createLatentDirichletAllocation(data: any): Array<Stat> {
-        const stats = [];
-        return stats;
-    }
-    private createNonNegativeMatrixFactorization(data: any): Array<Stat> {
-        const stats = [];
-        return stats;
 
-    }
-    private createIsoMap(data: any): Array<Stat> {
-        const stats = [];
-        return stats;
-    }
-    private createLocallyLinearEmbedding(data: any): Array<Stat> {
-        const stats = [
-            new StatKeyValues('', ([
-                { mylabel: 'Stress:', myvalue: data.stress.toString() },
-            ]))
-        ];
-        return stats;
-    }
-    private createMds(data: any): Array<Stat> {
-        const stats = [
-            new StatKeyValues('', ([
-                { mylabel: 'Stress:', myvalue: data.stress.toFixed(2) },
+  // INDIVUAL METHOD STATS
+  // Manifold Learning
+  private createIsoMap(data: any): Array<Stat> {
+    const stats = [];
+    return stats;
+  }
+  private createLocallyLinearEmbedding(data: any): Array<Stat> {
+    const stats = [
+      new StatKeyValues('', ([
+        { mylabel: 'Stress:', myvalue: data.stress.toString() },
+      ]))
+    ];
+    return stats;
+  }
+  private createSpectralEmbedding(data: any): Array<Stat> {
+    const stats = [
+    ];
+    return stats;
+  }
+  private createMds(data: any): Array<Stat> {
+    const stats = [
+      new StatKeyValues('', ([
+        { mylabel: 'Stress:', myvalue: data.stress.toFixed(2) },
 
-            ]))
-        ];
-        return stats;
-    }
-    private createFastIca(data: any): Array<Stat> {
-        const stats = [
-            new StatKeyValues('', ([{ mylabel: 'nIter:', myvalue: data.nIter.toString() }]))
-        ];
-        return stats;
-    }
-    private createSpectralEmbedding(data: any): Array<Stat> {
-        const stats = [
-        ];
-        return stats;
-    }
-    private createTSNE(data: any): Array<Stat> {
-        const stats = [
-            new StatKeyValues('', ([
-                { mylabel: 'kl Divergence:', myvalue: data.klDivergence.toFixed(2) },
-                { mylabel: 'nIter:', myvalue: data.nIter.toString() },
-            ])),
-        ];
-        return stats;
-    }
-    // endregion
+      ]))
+    ];
+    return stats;
+  }
+  private createTSNE(data: any): Array<Stat> {
+    const stats = [
+      new StatKeyValues('', ([
+        { mylabel: 'kl Divergence:', myvalue: data.klDivergence.toFixed(2) },
+        { mylabel: 'nIter:', myvalue: data.nIter.toString() },
+      ])),
+    ];
+    return stats;
+  }
+  private createUMap(data: any): Array<Stat> {
+    const stats = [
+    ];
+    return stats;
+  }
 
-    // region Format Utilities
+  // Cross Decomposition
+  private createCCA(data: any): Array<Stat> {
+    const stats = [
+    ];
+    return stats;
+  }
+  private createplsRegression(data: any): Array<Stat> {
+    const stats = [
+    ];
+    return stats;
+  }
+  private createplsCanonical(data: any): Array<Stat> {
+    const stats = [
+    ];
+    return stats;
+  }
+  private createplsSVD(data: any): Array<Stat> {
+    const stats = [
+    ];
+    return stats;
+  }
+
+  // Discriminant Analysis
+  private createLinearDiscriminantAnalysis(data: any): Array<Stat> {
+    const stats = [
+    ];
+    return stats;
+  }
+  private createQuadraticDiscriminantAnalysis(data: any): Array<Stat> {
+    const stats = [
+    ];
+    return stats;
+  }
+
+  // Matrix Decomposition
+  private createDictionaryLearning(data: any): Array<Stat> {
+    const stats = [
+      new StatKeyValues('', ([
+        { mylabel: 'nIter:', myvalue: data.nIter.toString() }
+      ])),
+      new StatTwoD('PCA Loadings', this.formatPCALoadings(data.mid, data.components))
+    ];
+    return stats;
+  }
+  private createNonNegativeMatrixFactorization(data: any): Array<Stat> {
+    const stats = [];
+    return stats;
+  }
+  private createDictionaryLearningMiniBatch(data: any): Array<Stat> {
+    const stats = [
+    ];
+    return stats;
+  }
+  private createFactorAnalysis(data: any): Array<Stat> {
+    const stats = [
+      new StatKeyValues('', ([{ mylabel: 'nIter:', myvalue: data.nIter.toString() }]))
+    ];
+    return stats;
+  }
+  private createFastIca(data: any): Array<Stat> {
+    const stats = [
+      new StatKeyValues('', ([{ mylabel: 'nIter:', myvalue: data.nIter.toString() }]))
+    ];
+    return stats;
+  }
+  private createLatentDirichletAllocation(data: any): Array<Stat> {
+    const stats = [];
+    return stats;
+  }
+  private createPca(data: PcaDataModel): Array<Stat> {
+    const stats = [
+      new StatKeyValues('', ([
+        { mylabel: 'Noise Variance:', myvalue: data.noiseVariance.toFixed(2) },
+        { mylabel: 'nComponents:', myvalue: data.nComponents.toString() }
+      ])),
+      new StatOneD('Explained Variance', this.formatPrincipleComponents(data.explainedVariance)),
+      new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.explainedVarianceRatio)),
+      new StatTwoD('PCA Loadings', this.formatPCALoadings(data.mid, data.components))
+    ];
+    return stats;
+  }
+  private createIncrementalPca(data: PcaIncrementalDataModel): Array<Stat> {
+    const stats = [
+      new StatKeyValues('', ([
+        { mylabel: 'Samples Seen:', myvalue: data.nSamplesSeen.toString() },
+        { mylabel: 'Components:', myvalue: data.nComponents.toString() },
+        { mylabel: 'Noise Variance:', myvalue: data.noiseVariance.toFixed(2) },
+      ])),
+      new StatOneD('Explained Variance', this.formatPrincipleComponents(data.explainedVariance)),
+      new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.explainedVarianceRatio)),
+      new StatTwoD('PCA Loadings', this.formatPCALoadings(data.mid, data.components))
+    ];
+    return stats;
+  }
+  private createKernalPca(data: any): Array<Stat> {
+    const stats = [];
+    return stats;
+  }
+  private createSparse_PCA(data: any): Array<Stat> {
+    const stats = [
+      new StatKeyValues('', ([
+        { mylabel: 'nIter:', myvalue: data.iter }
+        // { mylabel: 'Components:', myvalue: data.components },
+        // { mylabel: 'Error:', myvalue: data.error }
+      ])),
+
+      new StatTwoD('PCA Loadings', this.formatPCALoadings(data.mid, data.components))
+    ];
+    return stats;
+  }
+  private createPCASparseMiniBatch(data: any): Array<Stat> {
+    const stats = [
+    ];
+    return stats;
+  }
+  private createPCASparseCoder(data: any): Array<Stat> {
+    const stats = [
+    ];
+    return stats;
+  }
+
+  private createTruncatedSvd(data: TruncatedSvdDataModel): Array<Stat> {
+    const stats = [
+      new StatOneD('Explained Variance', this.formatPrincipleComponents(data.explainedVariance)),
+      new StatOneD('Explained Variance Ratio', this.formatPrincipleComponents(data.explainedVarianceRatio)),
+    ];
+    return stats;
+  }
+
+  // Support Vector Machines
+  private createLinearSVC(data: any): Array<Stat> {
+    const stats = [
+    ];
+    return stats;
+  }
+  private createLinearSVR(data: any): Array<Stat> {
+    const stats = [
+    ];
+    return stats;
+  }
+  private createNuSVR(data: any): Array<Stat> {
+    const stats = [
+    ];
+    return stats;
+  }
+  private createNuSVC(data: any): Array<Stat> {
+    const stats = [
+    ];
+    return stats;
+  }
+  private createOneClassSVM(data: any): Array<Stat> {
+    const stats = [
+    ];
+    return stats;
+  }
+  private createSVR(data: any): Array<Stat> {
+    const stats = [
+    ];
+    return stats;
+  }
+
+  // Format Utilities
     private formatPrincipleComponents(data: Array<number>): Array<{ mylabel: string, myvalue: number, color?: number }> {
         const rv = data.map((v, i) => ({ mylabel: 'PC' + (i + 1), myvalue: (Math.round(v * 100) / 100) }));
         rv.push({ mylabel: 'Other', myvalue: rv.reduce((p, c) => { p -= c.myvalue; return (Math.round(p * 100) / 100); }, 100) });
@@ -261,6 +361,4 @@ export class StatFactory {
             .map(v => ({ mylabel: v.marker, myvalue: Math.round(v.pc1 * 1e2) / 1e2 })).splice(0, 11);
         return r;
     }
-
-    // endregion
 }
