@@ -5,7 +5,7 @@
             <i class="material-icons small" style='color:rgba(0, 0, 0, 0.54);'>expand_less</i>
         </a>
     </div> -->
-  <mat-tab-group style='width:300px; background:rgba(255,255,255,.9)' (selectedTabChange)='panelHide($event)'>
+  <mat-tab-group style='width:330px; background:rgba(255,255,255,.9)' (selectedTabChange)='panelHide($event)'>
     <mat-tab label="Analysis">
       <ng-template mat-tab-label>
         <mat-icon class="example-tab-icon">bar_chart</mat-icon>
@@ -97,8 +97,8 @@
         [config]='config' [tables]='tables' [fields]='fields'></app-nusvc-form>
       <app-svr-form *ngIf='config && config.visualization === 2.879701896E27' (configChange)='graphPanelSetConfig($event)'
         [config]='config' [tables]='tables' [fields]='fields'></app-svr-form>
-      <app-oneclasssvm-form *ngIf='config && config.visualization === 1.439850948E27' (configChange)='graphPanelSetConfig($event)'
-        [config]='config' [tables]='tables' [fields]='fields'></app-oneclasssvm-form>
+      <app-oneclasssvm-form *ngIf='config && config.visualization === 1.439850948E27'
+        (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-oneclasssvm-form>
       <app-plsregression-form *ngIf='config && config.visualization === 140737488355328'
         (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-plsregression-form>
       <app-plscanonical-form *ngIf='config && config.visualization === 281474976710656'
@@ -107,12 +107,6 @@
         (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-locallinearembedding-form>
       <app-spectralembedding-form *ngIf='config && config.visualization === 536870912'
         (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-spectralembedding-form>
-    </mat-tab>
-    <mat-tab label="People">
-      <ng-template mat-tab-label>
-        <mat-icon class="example-tab-icon">people</mat-icon>
-        <div class='mat-tab-custom-lbl'>Stats</div>
-      </ng-template>
     </mat-tab>
     <mat-tab label="Legend">
       <ng-template mat-tab-label>
@@ -128,10 +122,10 @@
       </ng-template>
       <app-workspace-stat-panel [config]='config' [graphData]='data'></app-workspace-stat-panel>
     </mat-tab>
-    <mat-tab label="Controls">
+    <mat-tab label="Selection">
       <ng-template mat-tab-label>
-        <mat-icon class="example-tab-icon">360</mat-icon>
-        <div class='mat-tab-custom-lbl'>Controls</div>
+        <mat-icon class="example-tab-icon">gesture</mat-icon>
+        <div class='mat-tab-custom-lbl'>Selection</div>
       </ng-template>
       <app-workspace-behavior-panel [config]='config' [selectionToolConfig]='selectionToolConfig'
         (selectionToolChange)='onSelectionToolChange($event)'></app-workspace-behavior-panel>

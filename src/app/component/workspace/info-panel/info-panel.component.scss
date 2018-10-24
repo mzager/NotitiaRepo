@@ -8,9 +8,13 @@
   border-bottom-width: 1px;
   height: 50px;
   line-height: 50px;
-  left: 300px;
+  left: 330px;
   right: 0px;
   text-align: center;
   font-weight: 300;
   padding-right: 300px;
+  mat-icon {
+    transform: translateY(7px);
+    padding: 0px 2px 0px 40px;
+  }
 }

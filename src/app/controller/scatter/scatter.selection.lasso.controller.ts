@@ -1,3 +1,4 @@
+import { InfoPanelComponent } from './../../component/workspace/info-panel/info-panel.component';
 import { AbstractScatterSelectionController } from './abstract.scatter.selection.controller';
 import { ChartScene } from '../../component/workspace/chart/chart.scene';
 import {
@@ -67,7 +68,6 @@ export class ScatterSelectionLassoController extends AbstractScatterSelectionCon
       color: 0xff0000,
       linewidth: 6.0
     });
-    this.line = new Line(this.bufferGeometry, this.material);
     this.view.scene.add(this.line);
   }
 
@@ -138,6 +138,7 @@ export class ScatterSelectionLassoController extends AbstractScatterSelectionCon
   }
   public onMouseMove(e: ChartEvent): void {
     super.onMouseMove(e);
+
     if (this.isDrawing) {
       const x = e.mouse.x;
       const y = e.mouse.y;
@@ -154,6 +155,18 @@ export class ScatterSelectionLassoController extends AbstractScatterSelectionCon
       this.bufferGeometry.setDrawRange(1, this.drawCount - 1);
       this.bufferGeometry.attributes.position['needsUpdate'] = true;
       ChartScene.instance.render();
+    } else {
+      this.raycaster.setFromCamera(e.mouse, this.view.camera);
+      const intersects = this.raycaster.intersectObject(this.points);
+      if (intersects.length === 0) {
+        InfoPanelComponent.showDefault.emit();
+      } else {
+        const i = intersects[0];
+        InfoPanelComponent.showMessage.emit({
+          msg: this.getTooltip(i.index),
+          time: 300
+        });
+      }
     }
   }
 }

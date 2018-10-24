@@ -1,15 +1,15 @@
 <div>
   <form [formGroup]="form" novalidate>
-    <mat-form-field class='form-field'>
+    <!-- <mat-form-field class='form-field'>
       <mat-select placeholder='Navigation' formControlName='navigation'>
         <mat-option>Orbit</mat-option>
         <mat-option>Trackball</mat-option>
         <mat-option>Pointer Lock</mat-option>
         <mat-option>Transform</mat-option>
       </mat-select>
-    </mat-form-field>
+    </mat-form-field> -->
     <mat-form-field class='form-field'>
-      <mat-select [value]='this.selectionToolConfig' placeholder='Selection' (selectionChange)='selectionTypeChange($event)'
+      <mat-select [value]='this.selectionToolConfig' placeholder='Selection Tool' (selectionChange)='selectionTypeChange($event)'
         [compareWith]='byLbl'>
         <mat-option *ngFor='let option of selectionTypes' [value]='option'>
           {{ option.label }}

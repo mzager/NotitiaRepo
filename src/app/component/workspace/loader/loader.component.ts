@@ -48,10 +48,10 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
         q: 'Anyone who struggles hard with a problem never forgets it',
         a: 'Elon Musk'
       },
-      // {
-      //   q: "Don't quote me on this",
-      //   a: 'Michael Zager'
-      // },
+      {
+        q: "Don't quote me on this... but",
+        a: 'Michael Zager'
+      },
       {
         q:
           'You can sniff out when people are fudging their accomplishments by digging for the details',
@@ -141,7 +141,7 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
       { q: 'Nothing cannot exist forever', a: 'Stephen Hawking' },
       {
         q:
-          'Statistics are used much like a drunk uses a lamp: for support, not illumination',
+          'Statistics are used much like a drunk uses a lamppost: for support, not illumination',
         a: 'Vin Scully'
       },
       {

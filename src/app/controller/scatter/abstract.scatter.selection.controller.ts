@@ -19,6 +19,13 @@ export class AbstractScatterSelectionController extends AbstractMouseController 
   public set points(p: Points) {
     this._points = p;
   }
+  private _tooltips: Array<string> = [];
+  public getTooltip(index: number): string {
+    return this._tooltips.length > index ? this._tooltips[index] : 'Unknown';
+  }
+  public set tooltips(value: Array<string>) {
+    this._tooltips = value;
+  }
 
   constructor(
     public view: VisualizationView,

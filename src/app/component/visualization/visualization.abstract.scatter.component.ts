@@ -206,6 +206,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
       }
     });
     this.selectionController.points = this.points;
+    this.selectionController.tooltips = this.ids;
 
     ChartFactory.decorateDataGroups(this.meshes, this.decorators);
     // this.onShowLabels();
@@ -303,7 +304,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     this.meshes.push(this.points);
     this.view.scene.add(this.points);
     this.selectionController.points = this.points;
-
+    this.selectionController.tooltips = this.ids;
     this.updateDecorator(this.config, this.decorators);
 
     // this.tooltipController.targets = this.points;
