@@ -124,19 +124,22 @@ export class StatFactory {
                 case VisualizationEnum.FAST_ICA: resolve(this.createFastIca(data)); break;
                 case VisualizationEnum.SPECTRAL_EMBEDDING: resolve(this.createSpectralEmbedding(data)); break;
                 case VisualizationEnum.TSNE: resolve(this.createTSNE(data)); break;
-                case VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS: resolve(null); break;
-                case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS: resolve(null); break;
-                case VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING: resolve(null); break;
+                case VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS: resolve(this.createLinearDiscriminantAnalysis(data)); break;
+                case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS: resolve(this.createQuadraticDiscriminantAnalysis(data)); break;
+                case VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING: resolve(this.createDictionaryLearningMiniBatch(data)); break;
                 case VisualizationEnum.MINI_BATCH_SPARSE_PCA: resolve(null); break;
-                case VisualizationEnum.CCA: resolve(null); break;
-                case VisualizationEnum.PLSREGRESSION: resolve(null); break;
-                case VisualizationEnum.PLSCANONICAL: resolve(null); break;
-                case VisualizationEnum.LINEAR_SVC: resolve(null); break;
-                case VisualizationEnum.LINEAR_SVR: resolve(null); break;
-                case VisualizationEnum.NU_SVC: resolve(null); break;
-                case VisualizationEnum.NU_SVR: resolve(null); break;
-                case VisualizationEnum.ONE_CLASS_SVM: resolve(null); break;
-                case VisualizationEnum.SVR: resolve(null); break;
+                case VisualizationEnum.CCA: resolve(this.createCCA(data)); break;
+                case VisualizationEnum.PLSREGRESSION: resolve(this.createplsRegression(data)); break;
+                case VisualizationEnum.PLSCANONICAL: resolve(this.createplsCanonical(data)); break;
+                case VisualizationEnum.LINEAR_SVC: resolve(this.createLinearSVC(data)); break;
+                case VisualizationEnum.LINEAR_SVR: resolve(this.createLinearSVR(data)); break;
+                case VisualizationEnum.NU_SVC: resolve(this.createNuSVC(data)); break;
+                case VisualizationEnum.NU_SVR: resolve(this.createNuSVR(data)); break;
+                case VisualizationEnum.ONE_CLASS_SVM: resolve(this.createOneClassSVM(data)); break;
+                case VisualizationEnum.SVR: resolve(this.createSVR(data)); break;
+                case VisualizationEnum.PLSSVD: resolve(this.createplsSVD(data)); break;
+                case VisualizationEnum.MINI_BATCH_SPARSE_PCA: resolve(this.createPCASparseMiniBatch(data)); break;
+                case VisualizationEnum.SPARSE_PCA: resolve(this.createPCASparseCoder(data)); break;
                 // case VisualizationEnum.TIMELINES: resolve(this.createTimelinesStats(data)); break;
             }
             resolve([]);
@@ -190,11 +193,17 @@ export class StatFactory {
   // Cross Decomposition
   private createCCA(data: any): Array<Stat> {
     const stats = [
+      new StatKeyValues('', ([
+        { mylabel: 'nIter:', myvalue: data.nIter.toString() },
+      ]))
     ];
     return stats;
   }
   private createplsRegression(data: any): Array<Stat> {
     const stats = [
+      new StatKeyValues('', ([
+        { mylabel: 'nIter:', myvalue: data.nIter.toString() },
+      ]))
     ];
     return stats;
   }
