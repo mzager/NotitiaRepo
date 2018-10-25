@@ -1,3 +1,5 @@
+
+import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import { KmedianConfigModel, KmedianDataModel } from './kmedians.model';
 import { DimensionEnum } from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
@@ -157,9 +159,9 @@ export class KmedianFormComponent {
     });
 
     // Update When Form Changes
-    this.form.valueChanges
-      .debounceTime(200)
-      .distinctUntilChanged()
+    this.form.valueChanges.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),)
       .subscribe(data => {
         this.configChange.emit(data);
       });

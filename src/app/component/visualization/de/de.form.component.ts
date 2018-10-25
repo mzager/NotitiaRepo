@@ -1,3 +1,5 @@
+
+import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import { DeConfigModel } from './de.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DataTypeEnum, DimensionEnum } from 'app/model/enum.model';
@@ -151,9 +153,9 @@ export class DeFormComponent {
     });
 
     // Update When Form Changes
-    this.form.valueChanges
-      .debounceTime(200)
-      .distinctUntilChanged()
+    this.form.valueChanges.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),)
       .subscribe(data => {
         this.configChange.emit(data);
       });

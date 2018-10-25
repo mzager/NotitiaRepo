@@ -1,3 +1,5 @@
+
+import {distinctUntilChanged} from 'rxjs/operators';
 import { ScatterGraph } from './scatter.graph';
 import { DirtyEnum } from 'app/model/enum.model';
 import { ScatterConfigModel } from './scatter.model';
@@ -73,9 +75,9 @@ export class ScatterFormComponent extends AbstractScatterForm {
     this.registerFormChange();
 
     // Update When Form Changes
-    this.form.valueChanges
+    this.form.valueChanges.pipe(
       // .debounceTime(200)
-      .distinctUntilChanged()
+      distinctUntilChanged())
       .subscribe(data => {
         this.configChange.emit(data);
       });

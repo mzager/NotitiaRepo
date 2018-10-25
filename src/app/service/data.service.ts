@@ -1,3 +1,5 @@
+
+import {zip as observableZip, from as observableFrom} from 'rxjs';
 /// <reference types="aws-sdk" />
 import { Injectable } from '@angular/core';
 import { QueryBuilderConfig } from 'app/component/workspace/query-panel/query-builder/query-builder.interfaces';
@@ -12,7 +14,7 @@ import { GraphConfig } from 'app/model/graph-config.model';
 import * as d3 from 'd3';
 import Dexie from 'dexie';
 import * as JStat from 'jstat';
-import 'rxjs/add/operator/map';
+
 import { Observable } from 'rxjs/Rx';
 import { Legend } from '../model/legend.model';
 import { Pathway } from '../model/pathway.model';
@@ -236,7 +238,7 @@ export class DataService {
     decorator: DataDecorator
   ): Observable<DataDecorator> {
     if (decorator.field.ctype === CollectionTypeEnum.GENE_NAME) {
-      return Observable.fromPromise(
+      return observableFrom(
         new Promise(resolve => {
           new Dexie('notitia').open().then(db => {
             db.table('genecoords')
@@ -265,7 +267,7 @@ export class DataService {
 
     // Type Dec
     if (decorator.field.ctype === CollectionTypeEnum.GENE_TYPE) {
-      return Observable.fromPromise(
+      return observableFrom(
         new Promise(resolve => {
           new Dexie('notitia').open().then(db => {
             db.table('genecoords')
@@ -327,7 +329,7 @@ export class DataService {
     }
 
     // Min Max Dec
-    return Observable.fromPromise(
+    return observableFrom(
       new Promise(resolve => {
         new Dexie('notitia-' + config.database).open().then(db => {
           db.table(decorator.field.tbl.replace(/\s/gi, ''))
@@ -448,7 +450,7 @@ export class DataService {
 
     decorator.field.key = decorator.field.key.toLowerCase().trim();
 
-    return Observable.fromPromise(
+    return observableFrom(
       new Promise(resolve => {
         this.getPatientData(
           'notitia-' + config.database,
@@ -789,16 +791,16 @@ export class DataService {
   }
 
   getGeneMap(): Observable<any> {
-    return Observable.fromPromise(DataService.db.table('genemap').toArray());
+    return observableFrom(DataService.db.table('genemap').toArray());
   }
   getChromosomeGeneCoords(): Observable<any> {
-    return Observable.fromPromise(DataService.db.table('genecoords').toArray());
+    return observableFrom(DataService.db.table('genecoords').toArray());
   }
   getChromosomeBandCoords(): Observable<any> {
-    return Observable.fromPromise(DataService.db.table('bandcoords').toArray());
+    return observableFrom(DataService.db.table('bandcoords').toArray());
   }
   getGeneSetByCategory(categoryCode: string): Observable<any> {
-    return Observable.fromPromise(
+    return observableFrom(
       fetch(
         'https://oncoscape.v3.sttrcancer.org/data/genesets/' +
           categoryCode +
@@ -872,7 +874,7 @@ export class DataService {
   //   );
   // }
   getGeneSetCategories(): Observable<any> {
-    return Observable.fromPromise(
+    return observableFrom(
       fetch(
         'https://oncoscape.v3.sttrcancer.org/data/genesets/categories.json.gz',
         {
@@ -2805,7 +2807,7 @@ export class DataService {
                 headers: DataService.headersJson
               }
             ).then(res => res.json());
-            Observable.zip(
+            observableZip(
               genecoords,
               bandcoords,
               genemap,

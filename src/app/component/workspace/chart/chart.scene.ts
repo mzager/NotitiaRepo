@@ -1,3 +1,4 @@
+import { OrbitControls } from 'three-orbitcontrols-ts';
 import * as TWEEN from '@tweenjs/tween.js';
 import { ChartSelection } from './../../../model/chart-selection.model';
 import { EventEmitter, Injectable } from '@angular/core';
@@ -18,7 +19,6 @@ import {
   SpotLight,
   WebGLRendererParameters
 } from 'three';
-import { OrbitControls } from 'three-orbitcontrols-ts';
 import { VisualizationView } from './../../../model/chart-view.model';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { DataDecorator } from './../../../model/data-map.model';

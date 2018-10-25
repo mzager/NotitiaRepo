@@ -1,3 +1,5 @@
+
+import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import { SvdConfigModel } from './svd.model';
 import { DimensionEnum, DistanceEnum, DenseSparseEnum } from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
@@ -72,9 +74,9 @@ export class SvdFormComponent {
     });
 
     // Update When Form Changes
-    this.form.valueChanges
-      .debounceTime(200)
-      .distinctUntilChanged()
+    this.form.valueChanges.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),)
       .subscribe(data => {
         this.configChange.emit(data);
       });

@@ -1,8 +1,7 @@
 import { ShapeEnum, SizeEnum } from 'app/model/enum.model';
 import * as scale from 'd3-scale';
 import * as THREE from 'three';
-import { PerspectiveCamera, Vector3 } from 'three';
-import { OrbitControls } from 'three-orbitcontrols-ts';
+import { PerspectiveCamera, Vector3, OrbitControls } from 'three';
 import { MeshLine, MeshLineMaterial } from 'three.meshline';
 import {
   DataDecorator,

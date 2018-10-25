@@ -1,3 +1,5 @@
+
+import {merge} from 'rxjs/operators';
 import {
   ChangeDetectionStrategy, ChangeDetectorRef,
   Component, ComponentFactoryResolver, EventEmitter,
@@ -8,8 +10,7 @@ import { EdgeConfigModel } from 'app/component/visualization/edges/edges.model';
 import { DataField } from 'app/model/data-field.model';
 import { GraphEnum, ConnectionTypeEnum } from 'app/model/enum.model';
 import { ModalService } from 'app/service/modal-service';
-import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription';
+import { Subject ,  Subscription } from 'rxjs';
 import { DataFieldFactory, DataTable } from './../../../model/data-field.model';
 import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
 import { WorkspaceLayoutEnum } from './../../../model/enum.model';
@@ -221,7 +222,7 @@ export class EdgePanelComponent implements OnDestroy {
       DataFieldFactory.defaultDataField
     ];
 
-    this.$graphChange = this.$graphAChange.merge(
-      this.$graphBChange).subscribe(this.graphConfigChange.bind(this));
+    this.$graphChange = this.$graphAChange.pipe(merge(
+      this.$graphBChange)).subscribe(this.graphConfigChange.bind(this));
   }
 }

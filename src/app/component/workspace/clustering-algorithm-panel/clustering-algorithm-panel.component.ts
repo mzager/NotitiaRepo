@@ -1,3 +1,5 @@
+
+import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -160,9 +162,9 @@ export class ClusteringAlgorithmPanelComponent implements AfterViewInit {
       graph: GraphEnum.GRAPH_A
     });
 
-    this.form.valueChanges
-      .debounceTime(200)
-      .distinctUntilChanged()
+    this.form.valueChanges.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),)
       .subscribe(data => {
         const form = this.form;
         // this.configChange.emit(this.configB);

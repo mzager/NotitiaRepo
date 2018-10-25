@@ -1,12 +1,10 @@
 import { AbstractVisualization } from './../visualization.abstract.component';
 import { DataDecorator } from './../../../model/data-map.model';
 import { EventEmitter, Output } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription, BehaviorSubject } from 'rxjs';
 import { GraphConfig } from 'app/model/graph-config.model';
-import { OrbitControls } from 'three-orbitcontrols-ts';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { ChartEvents, ChartEvent } from './../../workspace/chart/chart.events';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { VisualizationView } from './../../../model/chart-view.model';
 import { ChartFactory } from './../../workspace/chart/chart.factory';
 import {

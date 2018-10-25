@@ -3,7 +3,7 @@ import { ChartSelection } from './../../model/chart-selection.model';
 import { EventEmitter } from '@angular/core';
 import { EntityTypeEnum, GraphEnum } from 'app/model/enum.model';
 import { GraphData } from 'app/model/graph-data.model';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { Vector3 } from 'three';
 import { TooltipController } from '../../controller/tooltip/tooltip.controller';
 import { LabelController } from './../../controller/label/label.controller';

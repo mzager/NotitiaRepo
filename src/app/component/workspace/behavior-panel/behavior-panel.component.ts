@@ -10,7 +10,7 @@ import {
   EventEmitter,
   Output
 } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { SelectionTypeEnum, DirtyEnum } from 'app/model/enum.model';
 import { SelectionToolConfig } from 'app/model/selection-config.model';

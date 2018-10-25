@@ -1,7 +1,7 @@
 import { AbstractVisualization } from './../visualization.abstract.component';
 import { EventEmitter } from '@angular/core';
 import { DirtyEnum, GraphEnum } from 'app/model/enum.model';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import * as THREE from 'three';
 import { VisualizationView } from './../../../model/chart-view.model';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';

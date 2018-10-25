@@ -1,3 +1,7 @@
+
+import {fromEvent as observableFromEvent} from 'rxjs';
+
+import {distinctUntilChanged, map} from 'rxjs/operators';
 import { GraphEnum } from 'app/model/enum.model';
 import { WorkspaceConfigModel } from 'app/model/workspace.model';
 import { Observable } from 'rxjs/Rx';
@@ -56,28 +60,28 @@ export class ChartEvents {
     // window.addEventListener('resize', this.onResize.bind(this));
 
     // Low Level Dom Events
-    this.mouseUp = Observable.fromEvent<MouseEvent>(container, 'mouseup');
-    this.mouseMove = Observable.fromEvent<MouseEvent>(container, 'mousemove');
-    this.mouseDown = Observable.fromEvent<MouseEvent>(container, 'mousedown');
-    this.keyPress = Observable.fromEvent<KeyboardEvent>(window, 'keypres');
-    this.keyDown = Observable.fromEvent<KeyboardEvent>(window, 'keydown');
-    this.keyUp = Observable.fromEvent<KeyboardEvent>(window, 'keyup');
+    this.mouseUp = observableFromEvent<MouseEvent>(container, 'mouseup');
+    this.mouseMove = observableFromEvent<MouseEvent>(container, 'mousemove');
+    this.mouseDown = observableFromEvent<MouseEvent>(container, 'mousedown');
+    this.keyPress = observableFromEvent<KeyboardEvent>(window, 'keypres');
+    this.keyDown = observableFromEvent<KeyboardEvent>(window, 'keydown');
+    this.keyUp = observableFromEvent<KeyboardEvent>(window, 'keyup');
 
     // Higher Order Chart Events
     this.chartKeyPress = this.keyPress;
     this.chartKeyDown = this.keyDown;
     this.chartKeyUp = this.keyUp;
-    this.chartMouseUp = this.mouseUp.map(
+    this.chartMouseUp = this.mouseUp.pipe(map(
       e => new ChartEvent(e, this.mouse, this.chart)
-    );
-    this.chartMouseDown = this.mouseDown.map(
+    ));
+    this.chartMouseDown = this.mouseDown.pipe(map(
       e => new ChartEvent(e, this.mouse, this.chart)
-    );
-    this.chartMouseMove = this.mouseMove.map((event: MouseEvent) => {
+    ));
+    this.chartMouseMove = this.mouseMove.pipe(map((event: MouseEvent) => {
       return new ChartEvent(event, this.mouse, this.chart);
-    });
-    this.chartFocus = this.mouseMove
-      .map((event: MouseEvent) => {
+    }));
+    this.chartFocus = this.mouseMove.pipe(
+      map((event: MouseEvent) => {
         if (this.workspaceConfig.layout === WorkspaceLayoutEnum.HORIZONTAL) {
           this.mouse.x = (event.clientX / this.dimensions.width) * 2 * 2 - 1;
           if (this.mouse.x > 1) {
@@ -124,8 +128,8 @@ export class ChartEvents {
           }
         }
         return new ChartEvent(event, this.mouse, this.chart);
-      })
-      .distinctUntilChanged((a, b) => a.chart === b.chart);
+      }),
+      distinctUntilChanged((a, b) => a.chart === b.chart),);
 
     // Mouse State
     this.mouseDown.subscribe(v => {

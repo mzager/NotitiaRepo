@@ -1,3 +1,5 @@
+
+import {filter, withLatestFrom} from 'rxjs/operators';
 import { ScatterGraph } from './../../visualization/scatter/scatter.graph';
 import { UmapGraph } from './../../visualization/umap/umap.graph';
 import {
@@ -141,9 +143,9 @@ export class ChartComponent implements AfterViewInit {
         fromRoot.getGraphAConfig
       );
       const updateDataGraphA: Observable<any> = this.store
-        .select(fromRoot.getGraphAData)
-        .withLatestFrom(selectedGraphAConfig)
-        .filter(v => v[0] !== null);
+        .select(fromRoot.getGraphAData).pipe(
+        withLatestFrom(selectedGraphAConfig),
+        filter(v => v[0] !== null),);
       updateDataGraphA.subscribe(v => {
         this.labelA = v[1].label;
         this.cdr.detectChanges();
@@ -154,9 +156,9 @@ export class ChartComponent implements AfterViewInit {
       });
 
       const updateDecoratorGraphA: Observable<any> = this.store
-        .select(fromRoot.getGraphADecorators)
-        .withLatestFrom(selectedGraphAConfig)
-        .filter(v => v[0] !== null);
+        .select(fromRoot.getGraphADecorators).pipe(
+        withLatestFrom(selectedGraphAConfig),
+        filter(v => v[0] !== null),);
       updateDecoratorGraphA.subscribe(v => {
         return chartScene.updateDecorators(GraphEnum.GRAPH_A, v[1], v[0]);
       });
@@ -165,9 +167,9 @@ export class ChartComponent implements AfterViewInit {
         fromRoot.getGraphBConfig
       );
       const updateDataGraphB: Observable<any> = this.store
-        .select(fromRoot.getGraphBData)
-        .withLatestFrom(selectedGraphBConfig)
-        .filter(v => v[0] !== null);
+        .select(fromRoot.getGraphBData).pipe(
+        withLatestFrom(selectedGraphBConfig),
+        filter(v => v[0] !== null),);
       updateDataGraphB.subscribe(v => {
         this.labelB = v[1].label;
         this.cdr.detectChanges();
@@ -178,9 +180,9 @@ export class ChartComponent implements AfterViewInit {
       });
 
       const updateDecoratorGraphB: Observable<any> = this.store
-        .select(fromRoot.getGraphBDecorators)
-        .withLatestFrom(selectedGraphBConfig)
-        .filter(v => v[0] !== null);
+        .select(fromRoot.getGraphBDecorators).pipe(
+        withLatestFrom(selectedGraphBConfig),
+        filter(v => v[0] !== null),);
       updateDecoratorGraphB.subscribe(v => {
         return chartScene.updateDecorators(GraphEnum.GRAPH_B, v[1], v[0]);
       });
@@ -189,9 +191,9 @@ export class ChartComponent implements AfterViewInit {
         fromRoot.getEdgesConfig
       );
       const updateDecoratorEdge: Observable<any> = this.store
-        .select(fromRoot.getEdgeDecorators)
-        .withLatestFrom(selectedEdgeConfig)
-        .filter(v => v[0] !== null);
+        .select(fromRoot.getEdgeDecorators).pipe(
+        withLatestFrom(selectedEdgeConfig),
+        filter(v => v[0] !== null),);
       updateDecoratorEdge.subscribe(v => {
         return chartScene.updateDecorators(GraphEnum.EDGES, v[1], v[0]);
       });
@@ -200,9 +202,9 @@ export class ChartComponent implements AfterViewInit {
         fromRoot.getEdgesConfig
       );
       const updateEdges: Observable<any> = this.store
-        .select(fromRoot.getEdgesData)
-        .withLatestFrom(selectedEdgesConfig)
-        .filter(v => v[0] !== null && v[0] !== null);
+        .select(fromRoot.getEdgesData).pipe(
+        withLatestFrom(selectedEdgesConfig),
+        filter(v => v[0] !== null && v[0] !== null),);
       updateEdges.subscribe(v => {
         const coi = this.createVisualization(
           (v[1] as GraphConfig).visualization

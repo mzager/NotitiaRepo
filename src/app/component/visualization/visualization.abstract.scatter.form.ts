@@ -1,3 +1,5 @@
+
+import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import { DimensionEnum } from './../../model/enum.model';
 import { FormGroup } from '@angular/forms';
 import { GraphConfig } from './../../model/graph-config.model';
@@ -36,9 +38,9 @@ export class AbstractScatterForm {
     }
 
     registerFormChange(): void {
-        this.form.valueChanges
-            .debounceTime(500)
-            .distinctUntilChanged()
+        this.form.valueChanges.pipe(
+            debounceTime(500),
+            distinctUntilChanged(),)
             .subscribe(data => {
                 const form = this.form;
                 form.markAsPristine();

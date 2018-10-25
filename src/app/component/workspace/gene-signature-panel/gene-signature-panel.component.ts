@@ -1,3 +1,5 @@
+
+import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import {
   AfterViewInit, ChangeDetectionStrategy,
   ChangeDetectorRef, Component, ElementRef,
@@ -55,9 +57,9 @@ export class GeneSignaturePanelComponent implements AfterViewInit {
     this.form = this.fb.group({
     });
 
-    this.form.valueChanges
-      .debounceTime(200)
-      .distinctUntilChanged()
+    this.form.valueChanges.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),)
       .subscribe(data => {
         const form = this.form;
         // this.configChange.emit(this.configB);

@@ -9,7 +9,7 @@ import { TimelinesConfigModel } from 'app/component/visualization/timelines/time
 import { GraphEnum, VisualizationEnum, DirtyEnum } from 'app/model/enum.model';
 import { GraphConfig } from 'app/model/graph-config.model';
 import { Observable } from 'rxjs/Rx';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { BoxWhiskersConfigModel } from './../component/visualization/boxwhiskers/boxwhiskers.model';
 import { ChromosomeConfigModel } from './../component/visualization/chromosome/chromosome.model';
 import { DendogramConfigModel } from './../component/visualization/dendogram/dendogram.model';

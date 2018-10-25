@@ -1,3 +1,5 @@
+
+import {debounceTime} from 'rxjs/operators';
 import { Object3D, Raycaster } from 'three';
 import { Subscription } from 'rxjs';
 import { ChartEvent, ChartEvents } from './../component/workspace/chart/chart.events';
@@ -37,8 +39,8 @@ export class AbstractMouseController {
             this._keyDownSubscription = this._events.chartKeyDown.subscribe(this.onKeyDown.bind(this));
             this._mouseUpSubscription = this._events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
             this._mouseDownSubscription = this._events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
-            this._mouseMoveSubscription = this._events.chartMouseMove
-                .debounceTime(this._debounce)
+            this._mouseMoveSubscription = this._events.chartMouseMove.pipe(
+                debounceTime(this._debounce))
                 .subscribe(this.onMouseMove.bind(this));
         } else {
             this._keyUpSubscription.unsubscribe();

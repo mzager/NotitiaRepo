@@ -3,7 +3,6 @@ import { ChartFactory } from './../../workspace/chart/chart.factory';
 import { EventEmitter } from '@angular/core';
 import { GraphEnum, ShapeEnum } from 'app/model/enum.model';
 import * as THREE from 'three';
-import { OrbitControls } from 'three-orbitcontrols-ts';
 import { VisualizationView } from './../../../model/chart-view.model';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { DataDecorator } from './../../../model/data-map.model';
@@ -70,8 +69,8 @@ export class DeGraph extends AbstractVisualization
     // this.layout = data.eigenvectorsScaled;
     this.draw();
   }
-  activate(events: ChartEvents, controls: OrbitControls): void {}
-  deactivate(events: ChartEvents, controls: OrbitControls): void {}
+  // activate(events: ChartEvents, controls: OrbitControls): void {}
+  // deactivate(events: ChartEvents, controls: OrbitControls): void {}
   prerender() {}
   destroy() {
     this.meshes.forEach(v => this.container.remove(v));

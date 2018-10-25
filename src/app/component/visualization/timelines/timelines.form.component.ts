@@ -1,3 +1,7 @@
+
+import {combineLatest as observableCombineLatest,  Subject ,  Subscription } from 'rxjs';
+
+import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,8 +13,6 @@ import {
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs/Rx';
-import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription';
 import { DataField } from './../../../model/data-field.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { TimelinesConfigModel, TimelinesStyle } from './timelines.model';
@@ -182,9 +184,9 @@ export class TimelinesFormComponent implements OnDestroy {
     //   });
 
     // Update When Form Changes
-    this.form.valueChanges
-      .debounceTime(500)
-      .distinctUntilChanged()
+    this.form.valueChanges.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),)
       .subscribe(data => {
         const form = this.form;
         if (form.dirty) {
@@ -193,7 +195,7 @@ export class TimelinesFormComponent implements OnDestroy {
         }
       });
 
-    this.$options = Observable.combineLatest(
+    this.$options = observableCombineLatest(
       this.$fields,
       this.$events
     ).subscribe(this.setOptions.bind(this));

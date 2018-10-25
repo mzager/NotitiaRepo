@@ -1,3 +1,5 @@
+
+import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import { Pathway } from './../../../model/pathway.model';
 import { getPathways } from './../../../reducer/index.reducer';
 import { GeneSet } from './../../../model/gene-set.model';
@@ -24,9 +26,8 @@ import {
 } from '@angular/core';
 import { VisualizationEnum, DirtyEnum } from 'app/model/enum.model';
 import { Legend } from 'app/model/legend.model';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription ,  Subject } from 'rxjs';
 import * as _ from 'lodash';
-import { Subject } from 'rxjs/Subject';
 import { MatSelectChange } from '@angular/material';
 declare var $: any;
 
@@ -154,9 +155,9 @@ export class PathwayPanelComponent implements AfterViewInit, OnDestroy {
       this.cd.detectChanges();
     });
     this.$pathwayFilter = new Subject();
-    this.$pathwayFilter
-      .debounceTime(300)
-      .distinctUntilChanged()
+    this.$pathwayFilter.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),)
       .subscribe(this.onPathwayFilterChange.bind(this));
   }
 }

@@ -1,3 +1,5 @@
+
+import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CollectionTypeEnum, DimensionEnum, DirtyEnum } from 'app/model/enum.model';
@@ -88,9 +90,9 @@ export class ParallelCoordsFormComponent {
     });
 
     // Update When Form Changes
-    this.form.valueChanges
-      .debounceTime(200)
-      .distinctUntilChanged()
+    this.form.valueChanges.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),)
       .subscribe(data => {
         let dirty = 0;
         const form = this.form;

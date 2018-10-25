@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import Dexie from 'dexie';
-import 'rxjs/add/operator/map';
+
 import { Observable } from 'rxjs/Rx';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { CollectionTypeEnum } from './../model/enum.model';
 
 @Injectable()

@@ -1,3 +1,5 @@
+
+import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -11,7 +13,7 @@ import {
 } from '@angular/core';
 import { MatSelectChange } from '@angular/material';
 import { ModalService } from 'app/service/modal-service';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { GeneSet } from './../../../model/gene-set.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { DataService } from './../../../service/data.service';
@@ -145,9 +147,9 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
       this.cd.detectChanges();
     });
     this.$genesetFilter = new Subject();
-    this.$genesetFilter
-      .debounceTime(300)
-      .distinctUntilChanged()
+    this.$genesetFilter.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),)
       .subscribe(this.onGenesetFilterChange.bind(this));
   }
 }

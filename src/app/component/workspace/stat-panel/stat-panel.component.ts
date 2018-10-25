@@ -1,8 +1,10 @@
+
+import {combineLatest as observableCombineLatest,  Subject ,  Subscription } from 'rxjs';
+
+import {debounceTime} from 'rxjs/operators';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewEncapsulation } from '@angular/core';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Observable } from 'rxjs/Rx';
-import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { GraphData } from './../../../model/graph-data.model';
 import { Stat } from './../../../model/stat.model';
@@ -63,8 +65,8 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
     this.statFactory = StatFactory.getInstance(this.dataService);
     this.statVegaFactory = StatVegaFactory.getInstance();
     this.container = $(this.elementRef.nativeElement.firstElementChild.firstElementChild.firstElementChild);
-    this.$statsChange = Observable.combineLatest(this.$configChange, this.$dataChange)
-      .debounceTime(300).subscribe(this.update.bind(this));
+    this.$statsChange = observableCombineLatest(this.$configChange, this.$dataChange).pipe(
+      debounceTime(300)).subscribe(this.update.bind(this));
     this.update();
   }
 

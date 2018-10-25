@@ -2,7 +2,7 @@ import { AbstractVisualization } from './../visualization.abstract.component';
 import { EventEmitter } from '@angular/core';
 import { GraphEnum } from 'app/model/enum.model';
 import { GraphConfig } from 'app/model/graph-config.model';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import * as THREE from 'three';
 import { VisualizationView } from './../../../model/chart-view.model';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';

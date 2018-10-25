@@ -68,6 +68,7 @@ export class ScatterSelectionLassoController extends AbstractScatterSelectionCon
       color: 0xff0000,
       linewidth: 6.0
     });
+    this.line = new Line(this.bufferGeometry, this.material);
     this.view.scene.add(this.line);
   }
 

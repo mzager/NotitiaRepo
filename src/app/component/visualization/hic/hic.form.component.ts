@@ -1,3 +1,5 @@
+
+import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -59,9 +61,9 @@ export class HicFormComponent {
     });
 
     // Update When Form Changes
-    this.form.valueChanges
-      .debounceTime(500)
-      .distinctUntilChanged()
+    this.form.valueChanges.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),)
       .subscribe(data => {
         const form = this.form;
         form.markAsPristine();
