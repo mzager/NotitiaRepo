@@ -1,31 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
+import { AbstractScatterForm } from '../visualization.abstract.scatter.form';
 import { QuadradicDiscriminantAnalysisConfigModel } from './quadradicdiscriminantanalysis.model';
 
 @Component({
   selector: 'app-quadradicdiscriminantanalysis-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-<form [formGroup]='form' novalidate>
-  <!--
-  <mat-form-field class='form-field'>
-    <mat-select placeholder='Data' formControlName='table'>
-      <mat-option *ngFor='let option of dataOptions' [value]='option.label'>
-          {{ option.label }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field class='form-field'>
-    <mat-select placeholder='Visualize' formControlName='entity'>
-      <mat-option *ngFor='let option of displayOptions' [value]='option'>
-          {{ option }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-  -->
-</form>
-  `
+  templateUrl: './quadradicdiscriminantanalysis.form.component.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class QuadradicDiscriminantAnalysisFormComponent extends AbstractScatterForm {
 
@@ -46,16 +28,17 @@ export class QuadradicDiscriminantAnalysisFormComponent extends AbstractScatterF
       graph: [],
       database: [],
       entity: [],
-
       table: [],
 
+      pcx: [],
+      pcy: [],
+      pcz: [],
       n_components: [],
       dimension: [],
-      // priors
-      // reg_param
-      store_covariance: [],
-      tol: []
+      copy: [],
+      scale: []
     });
+
     this.registerFormChange();
   }
 }
