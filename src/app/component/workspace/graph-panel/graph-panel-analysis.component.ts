@@ -55,7 +55,7 @@ import {
 
   <mat-menu #analysisDiscriminantAnalysisMenu='matMenu'>
     <button mat-menu-item (click)='select.emit(137438953472)'>Linear Discriminant Analysis</button>
-    <button mat-menu-item>Quadratic Discriminant Analysis</button>
+    <button mat-menu-item (click)='select.emit(274877906944)'>Quadratic Discriminant Analysis</button>
   </mat-menu>
 
   <mat-menu #analysisMatrixDecompositionMenu='matMenu'>
