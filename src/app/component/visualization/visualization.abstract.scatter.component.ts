@@ -24,7 +24,6 @@ import { ChartSelection } from './../../model/chart-selection.model';
 import { VisualizationView } from './../../model/chart-view.model';
 import { GraphConfig } from './../../model/graph-config.model';
 import { AbstractVisualization } from './visualization.abstract.component';
-import { HostListener } from '@angular/core';
 const fragShader = require('raw-loader!glslify-loader!app/glsl/scatter.frag');
 const vertShader = require('raw-loader!glslify-loader!app/glsl/scatter.vert');
 declare var $;
