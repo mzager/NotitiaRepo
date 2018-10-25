@@ -317,7 +317,7 @@ export class ComputeEffect {
     .map((action: UnsafeAction) => action.payload)
     .switchMap(payload => {
       return this.computeService
-        .linearDiscriminantAnalysis(payload['config'])
+        .quadraticDiscriminantAnalysis(payload['config'])
         .mergeMap(result => {
           return [
             result === null

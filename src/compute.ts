@@ -40,7 +40,7 @@ import { linearDiscriminantAnalysisCompute } from './app/component/visualization
 // tslint:disable-next-line:max-line-length
 import { miniBatchDictionaryLearningCompute } from './app/component/visualization/minibatchdictionarylearning/minibatchdictionarylearning.compute';
 // tslint:disable-next-line:max-line-length
-import { quadradicDiscriminantAnalysisCompute } from './app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.compute';
+import { QuadradicDiscriminantAnalysisCompute } from './app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.compute';
 import { CCACompute } from './app/component/visualization/cca/cca.compute';
 import { PlsSvdCompute } from './app/component/visualization/pls-svd/pls-svd.compute';
 import { PlsRegressionCompute } from './app/component/visualization/plsregression/plsregression.compute';
@@ -67,7 +67,7 @@ onmessage = e => {
       dendogramCompute(e.data, me);
       break;
     case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS:
-      quadradicDiscriminantAnalysisCompute(e.data, me);
+      QuadradicDiscriminantAnalysisCompute(e.data, me);
       break;
     case VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS:
       linearDiscriminantAnalysisCompute(e.data, me);

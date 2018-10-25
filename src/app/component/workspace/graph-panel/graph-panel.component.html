@@ -107,6 +107,8 @@
         (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-locallinearembedding-form>
       <app-spectralembedding-form *ngIf='config && config.visualization === 536870912'
         (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-spectralembedding-form>
+        <app-quadradicdiscriminantanalysis-form *ngIf='config && config.visualization === 274877906944'
+        (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-quadradicdiscriminantanalysis-form>
     </mat-tab>
     <mat-tab label="Legend">
       <ng-template mat-tab-label>

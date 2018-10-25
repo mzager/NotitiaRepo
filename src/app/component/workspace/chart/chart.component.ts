@@ -14,7 +14,7 @@ import {
 import { Store } from '@ngrx/store';
 import { EdgeConfigModel } from 'app/component/visualization/edges/edges.model';
 // tslint:disable-next-line:max-line-length
-import { QuadradicDiscriminantAnalysisGraph } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis';
+import { QuadradicDiscriminantAnalysisGraph } from 'app/component/visualization/quadradicdiscriminantanalysis/quadradicdiscriminantanalysis.graph';
 import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
 import { GraphEnum, VisualizationEnum } from 'app/model/enum.model';
 import * as fromRoot from 'app/reducer/index.reducer';

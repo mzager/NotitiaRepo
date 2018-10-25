@@ -209,6 +209,9 @@ export class StatFactory {
   }
   private createplsCanonical(data: any): Array<Stat> {
     const stats = [
+      new StatKeyValues('', ([
+        { mylabel: 'nIter:', myvalue: data.nIter.toString() },
+      ]))
     ];
     return stats;
   }
