@@ -500,14 +500,14 @@ export class WorkspaceComponent {
           })
         );
         break;
-        case enums.VisualizationEnum.PLSREGRESSION:
+      case enums.VisualizationEnum.PLSREGRESSION:
         this.store.dispatch(
           new compute.PlsRegressionAction({
             config: value as PlsRegressionConfigModel
           })
         );
         break;
-        case enums.VisualizationEnum.PLSCANONICAL:
+      case enums.VisualizationEnum.PLSCANONICAL:
         this.store.dispatch(
           new compute.PlsCanonicalAction({
             config: value as PlsCanonicalConfigModel
@@ -680,9 +680,12 @@ export class WorkspaceComponent {
   }
   fileLoadPublic(value: any) {
     this.ds.resolveGeneSymbols();
-
     if (value.hasOwnProperty('content')) {
-      const v = { bucket: 'zbd' + value.project.split('|')[0], token: '' };
+      const v = {
+        bucket: 'zbd' + value.project.split('|')[0],
+        token: '',
+        name: value.content.name
+      };
       this.overrideShowPanel = false;
       this.store.dispatch(new data.DataLoadFromPrivate(v));
       this.store.dispatch(new ModalPanelAction(enums.PanelEnum.NONE));

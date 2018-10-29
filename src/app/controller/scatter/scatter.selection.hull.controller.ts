@@ -39,13 +39,13 @@ export class ScatterSelectionHullController extends AbstractScatterSelectionCont
     super.destroy();
   }
   public drawHull(): void {
-    if (this.highlightIndexes.length > 3) {
+    if (this.highlightIndexes.size > 3) {
       if (this.mesh) {
         this.view.scene.remove(this.mesh);
       }
       const x = THREE.QuickHull;
       const positions = this.points.geometry['attributes'].position.array;
-      const points = this.highlightIndexes.map(v => {
+      const points = Array.from(this.highlightIndexes).map(v => {
         return [positions[v], positions[v + 1], positions[v + 2]];
       });
 
@@ -86,9 +86,9 @@ export class ScatterSelectionHullController extends AbstractScatterSelectionCont
     this.raycaster.setFromCamera(e.mouse, this.view.camera);
     const intersects = this.raycaster.intersectObject(this.points);
     if (intersects.length) {
-      this.highlightIndexes.push(intersects[0].index * 3);
+      this.highlightIndexes.add(intersects[0].index * 3);
       this.drawHull();
-      this.onSelect.emit(this.highlightIndexes);
+      this.onSelect.emit(Array.from(this.highlightIndexes));
     }
   }
 

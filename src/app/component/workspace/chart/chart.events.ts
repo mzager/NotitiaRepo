@@ -1,7 +1,6 @@
+import { fromEvent as observableFromEvent } from 'rxjs';
 
-import {fromEvent as observableFromEvent} from 'rxjs';
-
-import {distinctUntilChanged, map} from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import { GraphEnum } from 'app/model/enum.model';
 import { WorkspaceConfigModel } from 'app/model/workspace.model';
 import { Observable } from 'rxjs/Rx';
@@ -71,15 +70,17 @@ export class ChartEvents {
     this.chartKeyPress = this.keyPress;
     this.chartKeyDown = this.keyDown;
     this.chartKeyUp = this.keyUp;
-    this.chartMouseUp = this.mouseUp.pipe(map(
-      e => new ChartEvent(e, this.mouse, this.chart)
-    ));
-    this.chartMouseDown = this.mouseDown.pipe(map(
-      e => new ChartEvent(e, this.mouse, this.chart)
-    ));
-    this.chartMouseMove = this.mouseMove.pipe(map((event: MouseEvent) => {
-      return new ChartEvent(event, this.mouse, this.chart);
-    }));
+    this.chartMouseUp = this.mouseUp.pipe(
+      map(e => new ChartEvent(e, this.mouse, this.chart))
+    );
+    this.chartMouseDown = this.mouseDown.pipe(
+      map(e => new ChartEvent(e, this.mouse, this.chart))
+    );
+    this.chartMouseMove = this.mouseMove.pipe(
+      map((event: MouseEvent) => {
+        return new ChartEvent(event, this.mouse, this.chart);
+      })
+    );
     this.chartFocus = this.mouseMove.pipe(
       map((event: MouseEvent) => {
         if (this.workspaceConfig.layout === WorkspaceLayoutEnum.HORIZONTAL) {
@@ -129,7 +130,8 @@ export class ChartEvents {
         }
         return new ChartEvent(event, this.mouse, this.chart);
       }),
-      distinctUntilChanged((a, b) => a.chart === b.chart),);
+      distinctUntilChanged((a, b) => a.chart === b.chart)
+    );
 
     // Mouse State
     this.mouseDown.subscribe(v => {

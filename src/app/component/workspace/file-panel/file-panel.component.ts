@@ -381,7 +381,7 @@ export class FilePanelComponent {
         .sort((a: any, b: any) => (a.name < b.name ? -1 : 1))
         .sort((a: any, b: any) => (a.img < b.img ? -1 : 1));
       cd.markForCheck();
-      console.dir(this.datasets);
+
       // const imgs = Object.keys(
       //   this.datasets.reduce((p, c, i) => {
       //     p[c.img] = 'x';

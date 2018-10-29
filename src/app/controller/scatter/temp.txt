@@ -1,0 +1,132 @@
+import { InfoPanelComponent } from './../../component/workspace/info-panel/info-panel.component';
+import { AbstractScatterSelectionController } from './abstract.scatter.selection.controller';
+import { ChartScene } from '../../component/workspace/chart/chart.scene';
+import {
+  ChartEvents,
+  ChartEvent
+} from '../../component/workspace/chart/chart.events';
+import { VisualizationView } from '../../model/chart-view.model';
+import {
+  Vector3,
+  Vector2,
+  MeshPhongMaterial,
+  Mesh,
+  Raycaster,
+  Geometry,
+  BufferGeometry,
+  LineBasicMaterial,
+  Line,
+  Intersection
+} from 'three';
+
+declare var THREE;
+export class ScatterSelectionLassoController extends AbstractScatterSelectionController {
+  private state: 'NONE' | 'LASSO' | 'BRUSH' = 'NONE';
+
+  private brushMouseDown(e: ChartEvent): void {
+    this.view.controls.enabled = false;
+    this.raycaster.setFromCamera(e.mouse, this.view.camera);
+    const intersects = this.raycaster.intersectObject(this.points);
+    const index = intersects[0].index;
+    if (this.highlightIndexes.has(index)) {
+      this.highlightIndexes.delete(index);
+    } else {
+      this.highlightIndexes.add(index);
+    }
+    this.onSelect.emit(Array.from(this.highlightIndexes));
+  }
+  private brushMouseUp(e: ChartEvent): void {
+    this.view.controls.enabled = true;
+  }
+  private brushMouseMove(e: ChartEvent): void {
+    const intersects = this.raycaster.intersectObject(this.points);
+    if (intersects.length === 0) {
+      return;
+    }
+    const index = intersects[0].index;
+    if (this.highlightIndexes.has(index)) {
+      this.highlightIndexes.delete(index);
+    } else {
+      this.highlightIndexes.add(index);
+    }
+  }
+
+  private lassoMouseDown(e: ChartEvent): void {}
+  private lassoMouseUp(e: ChartEvent): void {}
+  private lassoMouseMove(e: ChartEvent): void {}
+
+  //#region Constructor Destructor
+  constructor(
+    public view: VisualizationView,
+    public events: ChartEvents,
+    public debounce: number = 1
+  ) {
+    super(view, events, debounce);
+  }
+
+  public destroy(): void {
+    super.destroy();
+  }
+  //#endregion
+
+  //#region Mouse Native
+  public onMouseDown(e: ChartEvent): void {
+    super.onMouseDown(e);
+    if (this.state !== 'NONE') {
+      switch (this.state) {
+        case 'BRUSH':
+          this.brushMouseDown(e);
+          break;
+        case 'LASSO':
+          this.lassoMouseDown(e);
+          break;
+      }
+      return;
+    }
+    if (!e.event.shiftKey) {
+      return;
+    }
+    this.raycaster.setFromCamera(e.mouse, this.view.camera);
+    const intersects = this.raycaster.intersectObject(this.points);
+    this.state = intersects.length > 0 ? 'BRUSH' : 'LASSO';
+    switch (this.state) {
+      case 'BRUSH':
+        this.brushMouseDown(e);
+        break;
+      case 'LASSO':
+        this.lassoMouseDown(e);
+        break;
+    }
+  }
+
+  public onMouseUp(e: ChartEvent): void {
+    super.onMouseUp(e);
+    if (this.state === 'NONE') {
+      return;
+    }
+    switch (this.state) {
+      case 'BRUSH':
+        this.brushMouseUp(e);
+        break;
+      case 'LASSO':
+        this.lassoMouseUp(e);
+        break;
+    }
+  }
+
+  public onMouseMove(e: ChartEvent): void {
+    super.onMouseMove(e);
+    if (this.state === 'NONE') {
+      return;
+    }
+    switch (this.state) {
+      case 'BRUSH':
+        this.brushMouseMove(e);
+        break;
+      case 'LASSO':
+        this.lassoMouseMove(e);
+        break;
+    }
+  }
+  //#endregion
+}

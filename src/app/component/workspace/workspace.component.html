@@ -4,7 +4,8 @@
 
   <!-- <app-workspace-tool-bar *ngIf='graphPanelATab | async'></app-workspace-tool-bar> -->
 
-  <app-workspace-info-panel></app-workspace-info-panel>
+  <app-workspace-info-panel [workspaceConfig]='workspaceConfig | async' [graphAConfig]='graphAConfig | async'
+    [graphBConfig]='graphAConfig | async'></app-workspace-info-panel>
   <app-workspace-graph-panel style='position:absolute;top:30px;left:0px;bottom:0px;' *ngIf='graphPanelATab | async'
     [title]='"Graph A"' [events]='events | async' [tables]='tables | async' [fields]='fields | async'
     [pathways]='pathways | async' [genesets]='genesets | async' [cohorts]='cohorts | async'
@@ -25,7 +26,7 @@
     (configChange)='graphPanelSetConfig($event)' (showPanel)='setPanel($event)' [edgeDecorators]='edgeDecorators | async'>
 
     <app-workspace-edge-panel [graphAConfig]='graphAConfig | async' [graphBConfig]='graphBConfig | async'
-      [workspaceConfig]='workspaceConfig' [tables]='tables | async' [fields]='fields | async'
+      [workspaceConfig]='workspaceConfig | async' [tables]='tables | async' [fields]='fields | async'
       (edgeConfigChange)='edgeConfigChange($event)' [decorators]='edgeDecorators | async'
       (decoratorAdd)='edgeAddDecorator($event)' (decoratorDel)='edgeDelDecorator($event)'>
     </app-workspace-edge-panel>

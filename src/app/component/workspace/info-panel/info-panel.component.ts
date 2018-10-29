@@ -10,12 +10,14 @@ import {
   ViewEncapsulation,
   ViewChild,
   ElementRef,
-  Renderer2
+  Renderer2,
+  Input
 } from '@angular/core';
 import { ModalService } from 'app/service/modal-service';
 import { DataService } from './../../../service/data.service';
 import { GraphConfig } from '../../../model/graph-config.model';
 import { Renderer3 } from '@angular/core/src/render3/interfaces/renderer';
+import { WorkspaceConfigModel } from 'app/model/workspace.model';
 
 @Component({
   selector: 'app-workspace-info-panel',
@@ -25,41 +27,54 @@ import { Renderer3 } from '@angular/core/src/render3/interfaces/renderer';
   encapsulation: ViewEncapsulation.None
 })
 export class InfoPanelComponent implements AfterViewInit, OnDestroy {
-  private static _defaultMessage = '';
-
-  static set defaultMessage(value: string) {
-    this._defaultMessage = value;
-  }
-  static get defaultMessage(): string {
-    return this._defaultMessage;
-  }
   static showDefault: EventEmitter<null> = new EventEmitter();
-  static showMessage: EventEmitter<{
-    msg: string;
-    time: number;
-  }> = new EventEmitter();
+  static showMessage: EventEmitter<
+    Array<{ key: string; value: string }>
+  > = new EventEmitter();
 
-  @ViewChild('messageDiv')
-  messageDiv: ElementRef;
+  private _workspaceConfig: WorkspaceConfigModel;
+  private _graphAConfig: GraphConfig;
+  private _graphBConfig: GraphConfig;
+  private _workspaceMessage: Array<{ key: string; value: string }> = [];
+  public graphAInfo: Array<{ key: string; value: string }> = [];
+  public graphBInfo: Array<{ key: string; value: string }> = [];
+  public message: Array<{ key: string; value: string }> = [];
 
-  private timeout = -1;
-  public message = 'asdf';
+  @Input()
+  set workspaceConfig(config: WorkspaceConfigModel) {
+    this._workspaceConfig = config;
+  }
+  @Input()
+  set graphAConfig(config: GraphConfig) {
+    if (config === null) {
+      return;
+    }
+
+    this.message = this.graphAInfo = [
+      { key: 'Data Set', value: config.datasetName },
+      { key: 'Data Table', value: config.table.label },
+      { key: 'Analysis', value: config.label },
+      { key: 'Cohort', value: config.cohortName },
+      { key: 'Gene Set', value: config.markerName }
+    ];
+    this._graphAConfig = config;
+    this.cd.detectChanges();
+  }
+
+  @Input()
+  set graphBConfig(config: GraphConfig) {
+    if (config === null) {
+      return;
+    }
+    this._graphBConfig = config;
+  }
 
   private onShowDefault(): void {
-    this.message = InfoPanelComponent.defaultMessage;
-    this.cd.markForCheck();
+    this.message = this.graphAInfo;
+    this.cd.detectChanges();
   }
-  private onShowMessage(value: { msg: string; time: number }): void {
-    this.message = value.msg;
-    // const t = new TWEEN.Tween();
-    // const txt = this.renderer.createText(this.message);
-    // this.renderer.
-    // this.renderer.appendChild(this.messageDiv.nativeElement, txt);
-    this.renderer.setAttribute(
-      this.messageDiv.nativeElement,
-      'innerHTML',
-      this.message
-    );
+  private onShowMessage(value: Array<{ key: string; value: string }>): void {
+    this.message = value;
     this.cd.detectChanges();
   }
 

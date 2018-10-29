@@ -1,5 +1,22 @@
 <div>
   <form [formGroup]="form" novalidate>
+    <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+      <mat-button-toggle value="360">
+        <mat-icon>360</mat-icon>
+      </mat-button-toggle>
+      <mat-button-toggle value="lasso">
+        <mat-icon>gesture</mat-icon>
+      </mat-button-toggle>
+      <mat-button-toggle value="shape">
+        <mat-icon>category</mat-icon>
+      </mat-button-toggle>
+      <mat-button-toggle value="brush">
+        <mat-icon>brush</mat-icon>
+      </mat-button-toggle>
+      <mat-button-toggle value="knn">
+        <mat-icon>share</mat-icon>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
     <!-- <mat-form-field class='form-field'>
       <mat-select placeholder='Navigation' formControlName='navigation'>
         <mat-option>Orbit</mat-option>
@@ -8,6 +25,7 @@
         <mat-option>Transform</mat-option>
       </mat-select>
     </mat-form-field> -->
+
     <mat-form-field class='form-field'>
       <mat-select [value]='this.selectionToolConfig' placeholder='Selection Tool' (selectionChange)='selectionTypeChange($event)'
         [compareWith]='byLbl'>

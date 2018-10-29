@@ -20,6 +20,7 @@ export interface Graph {
 export class GraphConfig {
   // TODO: Bad Bad Bad...  Need to fix this.
   public static database = 'gbm';
+  public static datasetName = '';
 
   dirtyFlag = 1;
   visualization: VisualizationEnum;
@@ -599,6 +600,7 @@ export class GraphConfig {
   // pointSize: DataField = DataFieldFactory.getUndefined();
   pointIntersect: DataField = DataFieldFactory.getUndefined();
   database: string;
+  datasetName: string;
 
   constructor() {
     this.database = GraphConfig.database;

@@ -6,9 +6,10 @@ import { ChartEvents } from 'app/component/workspace/chart/chart.events';
 export class AbstractScatterSelectionController extends AbstractMouseController {
   public onSelect: EventEmitter<Array<number>> = new EventEmitter();
   public onDeselect: EventEmitter<Array<number>> = new EventEmitter();
+  public setHighlights: EventEmitter<Array<number>> = new EventEmitter();
 
   protected mesh: Mesh;
-  protected highlightIndexes = [];
+  protected highlightIndexes = new Set([]);
   protected geometry: Geometry;
   protected raycaster: Raycaster;
 
@@ -19,19 +20,15 @@ export class AbstractScatterSelectionController extends AbstractMouseController 
   public set points(p: Points) {
     this._points = p;
   }
-  private _tooltips: Array<string> = [];
-  public getTooltip(index: number): string {
-    return this._tooltips.length > index ? this._tooltips[index] : 'Unknown';
+  private _tooltips: Array<Array<{ key: string; value: string }>> = [];
+  public getTooltip(index: number): Array<{ key: string; value: string }> {
+    return this._tooltips.length > index ? this._tooltips[index] : [];
   }
-  public set tooltips(value: Array<string>) {
+  public set tooltips(value: Array<Array<{ key: string; value: string }>>) {
     this._tooltips = value;
   }
 
-  constructor(
-    public view: VisualizationView,
-    public events: ChartEvents,
-    public debounce: number = 10
-  ) {
+  constructor(public view: VisualizationView, public events: ChartEvents, public debounce: number = 10) {
     super(view, events, debounce);
     this.raycaster = new Raycaster();
     this.raycaster.params.Points.threshold = 5;

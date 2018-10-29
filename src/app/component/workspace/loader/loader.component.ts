@@ -48,10 +48,10 @@ export class LoaderComponent implements AfterViewInit, OnDestroy {
         q: 'Anyone who struggles hard with a problem never forgets it',
         a: 'Elon Musk'
       },
-      {
-        q: "Don't quote me on this... but",
-        a: 'Michael Zager'
-      },
+      // {
+      //   q: "Don't quote me on this... but",
+      //   a: 'Michael Zager'
+      // },
       {
         q:
           'You can sniff out when people are fudging their accomplishments by digging for the details',

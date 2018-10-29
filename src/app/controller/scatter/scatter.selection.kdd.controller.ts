@@ -5,10 +5,7 @@ import { Subscription } from 'rxjs';
 import { ChartSelection } from './../../model/chart-selection.model';
 
 import { GraphConfig } from 'app/model/graph-config.model';
-import {
-  ChartEvents,
-  ChartEvent
-} from './../../component/workspace/chart/chart.events';
+import { ChartEvents, ChartEvent } from './../../component/workspace/chart/chart.events';
 import { VisualizationView } from './../../model/chart-view.model';
 import { AbstractMouseController } from './../abstract.mouse.controller';
 import {
@@ -46,20 +43,12 @@ export class ScatterSelectionKddController extends AbstractScatterSelectionContr
   }
   public set points(p: Points) {
     const distanceFunction = (a, b) => {
-      return (
-        Math.pow(a[0] - b[0], 2) +
-        Math.pow(a[1] - b[1], 2) +
-        Math.pow(a[2] - b[2], 2)
-      );
+      return Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2) + Math.pow(a[2] - b[2], 2);
     };
     const ptsArray = p.geometry['attributes'].position.array;
     const sortArray = new Float32Array(ptsArray.length);
     sortArray.set(ptsArray);
-    this.kdTree = new THREE.TypedArrayUtils.Kdtree(
-      sortArray,
-      distanceFunction,
-      3
-    );
+    this.kdTree = new THREE.TypedArrayUtils.Kdtree(sortArray, distanceFunction, 3);
 
     this.posMap = new Array(ptsArray.length / 3);
 
@@ -79,11 +68,7 @@ export class ScatterSelectionKddController extends AbstractScatterSelectionContr
     return Math.sqrt(dx * dx + dy * dy + dz * dz);
   }
 
-  constructor(
-    public view: VisualizationView,
-    public events: ChartEvents,
-    public debounce: number = 10
-  ) {
+  constructor(public view: VisualizationView, public events: ChartEvents, public debounce: number = 10) {
     super(view, events, debounce);
     this.raycaster = new Raycaster();
     this.raycaster.params.Points.threshold = 5;
@@ -101,7 +86,7 @@ export class ScatterSelectionKddController extends AbstractScatterSelectionContr
     this.raycaster.setFromCamera(e.mouse, this.view.camera);
     const intersects = this.raycaster.intersectObject(this.points);
     if (intersects.length) {
-      this.onSelect.emit(this.highlightIndexes);
+      this.onSelect.emit(Array.from(this.highlightIndexes));
     }
   }
 
@@ -127,24 +112,16 @@ export class ScatterSelectionKddController extends AbstractScatterSelectionContr
     const intersects = this.raycaster.intersectObject(this.points);
     const maxDistance = Math.pow(100, 2);
 
-    this.highlightIndexes.length = 0;
+    this.highlightIndexes.clear();
 
     if (intersects.length) {
       this.intersect = intersects[0];
       const position = this.intersect.point;
 
-      const imagePositionsInRange = this.kdTree.nearest(
-        [position.x, position.y, position.z],
-        50,
-        maxDistance
-      );
+      const imagePositionsInRange = this.kdTree.nearest([position.x, position.y, position.z], 50, maxDistance);
 
       // Convert
-      const target = new Vector3(
-        this.intersect.point.x,
-        this.intersect.point.y,
-        this.intersect.point.z
-      );
+      const target = new Vector3(this.intersect.point.x, this.intersect.point.y, this.intersect.point.z);
       const points = imagePositionsInRange.map(v => {
         const pt = v[0].obj;
         return {

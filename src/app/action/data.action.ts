@@ -26,7 +26,7 @@ export const DATA_QUERY_COHORT = '[Data] Query Cohort';
 // Action Classes
 export class DataLoadFromDexieAction implements Action {
   readonly type: string = DATA_LOAD_FROM_DEXIE;
-  constructor(public dataset: string) {}
+  constructor(public dataset: string, public datasetname: string) {}
 }
 
 export class DataAddPathwayAction implements Action {
@@ -95,7 +95,8 @@ export class DataLoadedAction implements UnsafeAction {
     public events: Array<{ type: string; subtype: string }>,
     public genesets: Array<any>,
     public cohorts: Array<any>,
-    public pathways: Array<any>
+    public pathways: Array<any>,
+    public datasetName: string
   ) {}
 }
 

@@ -1,16 +1,6 @@
 <div class='infoPanel'>
-  <div #messageDiv>
-    <span class='infoItem'>
-      <!-- <mat-icon>person</mat-icon> -->
-      {{message}}
-    </span>
-    <span class='infoItem'>
-      <!-- <mat-icon>color_lens</mat-icon> -->
-      Female
-    </span>
-    <span class='infoItem'>
-      <!-- <mat-icon>touch_app</mat-icon> -->
-      Click To Select
-    </span>
-  </div>
+
+  <span *ngFor='let item of message'>
+    <span class='infoPanelKey'>{{item.key}}</span><span class='infoPanelValue'>{{item.value}}</span>
+  </span>
 </div>
