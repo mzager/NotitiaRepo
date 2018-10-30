@@ -1,7 +1,6 @@
+import { combineLatest as observableCombineLatest, Subject, Subscription } from 'rxjs';
 
-import {combineLatest as observableCombineLatest,  Subject ,  Subscription } from 'rxjs';
-
-import {debounceTime} from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewEncapsulation } from '@angular/core';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Observable } from 'rxjs/Rx';
@@ -24,7 +23,6 @@ declare var vegaTooltip: any;
   encapsulation: ViewEncapsulation.None
 })
 export class StatPanelComponent implements AfterViewInit, OnDestroy {
-
   container: any;
   chartStats: Array<Stat> = [];
   statFactory: StatFactory;
@@ -37,24 +35,38 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
   _config: GraphConfig;
   _data: GraphData;
 
-  @Input() set config(value: GraphConfig) {
-    if (value === null) { return; }
+  @Input()
+  set config(value: GraphConfig) {
+    if (value === null) {
+      return;
+    }
     this._config = value;
     this.$configChange.next();
   }
-  @Input() set graphData(value: GraphData) {
-    if (value === null) { return; }
+  @Input()
+  set graphData(value: GraphData) {
+    if (value === null) {
+      return;
+    }
     this._data = value;
     this.$dataChange.next();
   }
 
   update(): void {
-    if (this._config === null || this._data === null) { return; }
+    if (this._config === null || this._data === null) {
+      return;
+    }
     this.container.empty();
     this.statFactory.getComputeStats(this._data, this._config).then(stats => {
-      stats.forEach((stat) => {
-        const id = 'cc' + Math.random().toString(36).substring(7);
-        const div = this.container.append('<div id="' + id + '" class="statItemContainer" style="padding-bottom:20px;"></div>');
+      stats.forEach(stat => {
+        const id =
+          'cc' +
+          Math.random()
+            .toString(36)
+            .substring(7);
+        const div = this.container.append(
+          '<div id="' + id + '" class="statItemContainer" style="padding-bottom:20px;"></div>'
+        );
         this.statVegaFactory.drawChartObject(stat, stat.charts[0], id, div);
       });
     });
@@ -65,8 +77,9 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
     this.statFactory = StatFactory.getInstance(this.dataService);
     this.statVegaFactory = StatVegaFactory.getInstance();
     this.container = $(this.elementRef.nativeElement.firstElementChild.firstElementChild.firstElementChild);
-    this.$statsChange = observableCombineLatest(this.$configChange, this.$dataChange).pipe(
-      debounceTime(300)).subscribe(this.update.bind(this));
+    this.$statsChange = observableCombineLatest(this.$configChange, this.$dataChange)
+      .pipe(debounceTime(300))
+      .subscribe(this.update.bind(this));
     this.update();
   }
 
@@ -76,5 +89,5 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
     this.$statsChange.unsubscribe();
   }
 
-  constructor(public elementRef: ElementRef, public dataService: DataService) { }
+  constructor(public elementRef: ElementRef, public dataService: DataService) {}
 }

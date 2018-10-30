@@ -25,7 +25,13 @@ import { MatSelectChange } from '@angular/material';
 })
 export class BehaviorPanelComponent implements AfterViewInit {
   @Output()
-  selectionToolChange: EventEmitter<SelectionToolConfig> = new EventEmitter();
+  clearSelection: EventEmitter<SelectionToolConfig> = new EventEmitter();
+  @Output()
+  invertSelection: EventEmitter<SelectionToolConfig> = new EventEmitter();
+  @Output()
+  hideSelection: EventEmitter<SelectionToolConfig> = new EventEmitter();
+  @Output()
+  saveSelection: EventEmitter<SelectionToolConfig> = new EventEmitter();
 
   private _config: GraphConfig;
   public form: FormGroup;
@@ -50,9 +56,6 @@ export class BehaviorPanelComponent implements AfterViewInit {
     return this._selectionToolConfig;
   }
 
-  public selectionTypeChange(v: MatSelectChange): void {
-    this.selectionToolChange.emit(v.value);
-  }
   byLbl(p1: SelectionToolConfig, p2: SelectionToolConfig) {
     if (p2 === null) {
       return false;

@@ -5,7 +5,7 @@
             <i class="material-icons small" style='color:rgba(0, 0, 0, 0.54);'>expand_less</i>
         </a>
     </div> -->
-  <mat-tab-group style='width:330px; background:rgba(255,255,255,.9)' (selectedTabChange)='panelHide($event)'>
+  <mat-tab-group style='width:260px; background:rgba(255,255,255,.9)' (selectedTabChange)='panelHide($event)'>
     <mat-tab label="Analysis">
       <ng-template mat-tab-label>
         <mat-icon class="example-tab-icon">bar_chart</mat-icon>
@@ -13,8 +13,10 @@
       </ng-template>
       <span class='legendHeader'>{{methodName}} Analysis</span>
       <p>{{methodSummary}}</p>
+      <button mat-stroked-button (click)="helpClick()">Learn More</button>
+      <br /><br />
+      <span class='legendHeader'>Availible Analysis</span>
       <app-graph-panel-analysis (select)='setVisualization($event)'></app-graph-panel-analysis>
-      <a class='os-link' style='padding-left:20px;' href='#' (click)='helpClick()'>Learn More</a>
     </mat-tab>
     <mat-tab label="Settings">
       <ng-template mat-tab-label>
@@ -23,9 +25,9 @@
       </ng-template>
       <ng-template matTabContent>
         <span class='legendHeader'>{{methodName}} Settings</span>
-        <ng-content></ng-content>
         <app-graph-panel-data [config]='config' [genesets]='genesets' [cohorts]='cohorts'
           [pathways]='pathways' (showPanel)='showPanel.emit($event);' (configChange)='graphPanelSetConfig($event)'></app-graph-panel-data>
+        <ng-content></ng-content>
         <app-pathways-form *ngIf='config && config.visualization === 256' (configChange)='graphPanelSetConfig($event)'
           [config]='config'></app-pathways-form>
         <app-timelines-form *ngIf='config && config.visualization === 128' (configChange)='graphPanelSetConfig($event)'
