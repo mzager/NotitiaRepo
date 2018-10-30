@@ -2,23 +2,14 @@ import { SelectionBoxController } from './../../../controller/selection/selectio
 import { GenomicEnum, ShapeEnum } from 'app/model/enum.model';
 import * as THREE from 'three';
 import { Vector3 } from 'three';
-import {
-  LabelController,
-  LabelOptions
-} from './../../../controller/label/label.controller';
+import { LabelController, LabelOptions } from './../../../controller/label/label.controller';
 import { VisualizationView } from './../../../model/chart-view.model';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { DataDecorator } from './../../../model/data-map.model';
-import {
-  EntityTypeEnum,
-  WorkspaceLayoutEnum
-} from './../../../model/enum.model';
+import { EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { ChartEvents } from './../../workspace/chart/chart.events';
-import {
-  ChartFactory,
-  DataDecoatorRenderer
-} from './../../workspace/chart/chart.factory';
+import { ChartFactory, DataDecoatorRenderer } from './../../workspace/chart/chart.factory';
 import { AbstractVisualization } from './../visualization.abstract.component';
 import { GenomeConfigModel, GenomeDataModel } from './genome.model';
 
@@ -44,19 +35,13 @@ export class GenomeGraph extends AbstractVisualization {
     return this._config as GenomeConfigModel;
   }
 
-  renderer: DataDecoatorRenderer = (
-    group: THREE.Group,
-    mesh: THREE.Sprite
-  ): void => {
+  renderer: DataDecoatorRenderer = (group: THREE.Group, mesh: THREE.Sprite): void => {
     mesh.position.setX(-2);
     const lineMat = new THREE.LineBasicMaterial({
-      color: mesh.material.color.getHex()
+      color: mesh.material['color'].getHex()
     });
     const lineGeom = new THREE.Geometry();
-    lineGeom.vertices.push(
-      new THREE.Vector3(-2, 0, 0),
-      new THREE.Vector3(0, 0, 0)
-    );
+    lineGeom.vertices.push(new THREE.Vector3(-2, 0, 0), new THREE.Vector3(0, 0, 0));
     const line = new THREE.Line(lineGeom, lineMat);
     group.add(line);
     // tslint:disable-next-line:semicolon
@@ -72,11 +57,7 @@ export class GenomeGraph extends AbstractVisualization {
 
   updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
     super.updateDecorator(config, decorators);
-    ChartFactory.decorateDataGroups(
-      this.meshes,
-      this.decorators,
-      this.renderer
-    );
+    ChartFactory.decorateDataGroups(this.meshes, this.decorators, this.renderer);
     this.selectionController.targets = this.points;
     this.onShowLabels();
   }
@@ -85,11 +66,7 @@ export class GenomeGraph extends AbstractVisualization {
     this.removeObjects();
     this.addObjects();
   }
-  create(
-    labels: HTMLElement,
-    events: ChartEvents,
-    view: VisualizationView
-  ): ChartObjectInterface {
+  create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
     super.create(labels, events, view);
     this.selectionController = new SelectionBoxController(view, events);
     this.tooltipController.targets = this.bands;
@@ -106,11 +83,7 @@ export class GenomeGraph extends AbstractVisualization {
     super.enable(truthy);
   }
 
-  preRender(
-    views: VisualizationView[],
-    layout: WorkspaceLayoutEnum,
-    renderer: THREE.Renderer
-  ): void {
+  preRender(views: VisualizationView[], layout: WorkspaceLayoutEnum, renderer: THREE.Renderer): void {
     super.preRender(views, layout, renderer);
   }
   addObjects() {
@@ -123,10 +96,7 @@ export class GenomeGraph extends AbstractVisualization {
     this.addGenes();
     ChartFactory.configPerspectiveOrbit(
       this.view,
-      new THREE.Box3(
-        new THREE.Vector3(-400, -200, -5),
-        new THREE.Vector3(400, 200, 5)
-      )
+      new THREE.Box3(new THREE.Vector3(-400, -200, -5), new THREE.Vector3(400, 200, 5))
     );
 
     requestAnimationFrame(v => {
@@ -190,13 +160,8 @@ export class GenomeGraph extends AbstractVisualization {
       const xPos = (i + 1) * 20 - 230;
       band.forEach(cyto => {
         const centro = data.chromo[i].C;
-        const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(
-          0.5,
-          cyto.l
-        );
-        const material: THREE.MeshBasicMaterial = ChartFactory.getColorPhong(
-          cyto.c
-        );
+        const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(0.5, cyto.l);
+        const material: THREE.MeshBasicMaterial = ChartFactory.getColorPhong(cyto.c);
         const mesh: THREE.Mesh = new THREE.Mesh(geometry, material);
         mesh.userData.type = GenomicEnum.CYTOBAND;
         mesh.position.set(xPos, yPos + cyto.l / 2 - centro, 0);
@@ -223,10 +188,7 @@ export class GenomeGraph extends AbstractVisualization {
         0x9c27b0,
         new THREE.Vector2(xPos, tad.s - centro),
         new THREE.Vector2(xPos, tad.e - centro),
-        new THREE.Vector2(
-          xPos + 20 * 0.2,
-          Math.abs(tad.e - tad.s) * 0.5 + tad.s - centro
-        )
+        new THREE.Vector2(xPos + 20 * 0.2, Math.abs(tad.e - tad.s) * 0.5 + tad.s - centro)
       );
       this.tads.push(line);
       this.view.scene.add(line);
@@ -250,11 +212,7 @@ export class GenomeGraph extends AbstractVisualization {
       });
     });
 
-    ChartFactory.decorateDataGroups(
-      this.meshes,
-      this.decorators,
-      this.renderer
-    );
+    ChartFactory.decorateDataGroups(this.meshes, this.decorators, this.renderer);
     // debugger;
     this.points = this.meshes.map(v => {
       v.children[1].userData.tooltip = v.userData.tooltip;
@@ -286,10 +244,7 @@ export class GenomeGraph extends AbstractVisualization {
       labelOptions = new LabelOptions(this.view, 'PIXEL');
       // labelOptions.offsetX3d = -2;
       // labelOptions.align = 'RIGHT';
-      this.labels.innerHTML = LabelController.generateHtml(
-        this.meres,
-        labelOptions
-      );
+      this.labels.innerHTML = LabelController.generateHtml(this.meres, labelOptions);
       // debugger;
     } else {
       labelOptions = new LabelOptions(this.view, 'FORCE');
@@ -298,10 +253,7 @@ export class GenomeGraph extends AbstractVisualization {
       labelOptions.align = 'RIGHT';
       labelOptions.maxLabels = 500;
       // labelOptions.offsetX = -30;
-      this.labels.innerHTML = LabelController.generateHtml(
-        this.meshes,
-        labelOptions
-      );
+      this.labels.innerHTML = LabelController.generateHtml(this.meshes, labelOptions);
     }
   }
   onKeyDown(e: KeyboardEvent): void {
@@ -310,12 +262,7 @@ export class GenomeGraph extends AbstractVisualization {
         this.view.renderer.domElement.style.setProperty('cursor', 'crosshair');
         this.view.controls.enabled = false;
         this.tooltipController.enable = false;
-        this.selectionController.setup(
-          this.config,
-          this.onRequestRender,
-          this.onSelect,
-          this.points
-        );
+        this.selectionController.setup(this.config, this.onRequestRender, this.onSelect, this.points);
         this.selectionController.enable = true;
       }
     }

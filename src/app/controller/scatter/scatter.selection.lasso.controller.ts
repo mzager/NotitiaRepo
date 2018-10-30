@@ -243,17 +243,23 @@ export class ScatterSelectionLassoController extends AbstractScatterSelectionCon
         this.highlightIndexes.delete(v.pos);
       }
     });
+    this.brushState.line.geometry['attributes'].position.array.fill(0);
+    this.brushState.pointIndex = 0;
+    this.brushState.positionsPolar.fill(0);
     this.brushState.kddResult = [];
     this.onSelect.emit(Array.from(this.highlightIndexes));
     ChartScene.instance.render();
   }
   public brushMouseDown(e: ChartEvent): void {
-    this.view.scene.add(this.brushState.line);
+    this.brushState.line.geometry['attributes'].position.array.fill(0);
+    this.brushState.pointIndex = 0;
+    this.brushState.positionsPolar.fill(0);
     this.view.controls.enabled = false;
     this.raycaster.setFromCamera(e.mouse, this.view.camera);
     const intersects = this.raycaster.intersectObject(this.points);
     this.brushState.originPolar = intersects[0].point;
     this.brushState.originCart.set(e.mouse.xs, e.mouse.ys);
+    this.view.scene.add(this.brushState.line);
     this.brushState.isDrawing = true;
     if (this.mode === 'SELECT') {
       this.highlightIndexes.add(intersects[0].index * 3);

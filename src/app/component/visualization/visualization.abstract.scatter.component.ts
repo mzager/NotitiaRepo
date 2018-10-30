@@ -1,7 +1,5 @@
 import { ScatterSelectionLassoController } from './../../controller/scatter/scatter.selection.lasso.controller';
 import { AbstractScatterSelectionController } from './../../controller/scatter/abstract.scatter.selection.controller';
-import { ScatterSelectionKddController } from './../../controller/scatter/scatter.selection.kdd.controller';
-import { ScatterSelectionHullController } from './../../controller/scatter/scatter.selection.hull.controller';
 // import { ScatterSelectionController } from '../../controller/scatter/scatter.selection.kdd.controller';
 import { ChartScene } from './../workspace/chart/chart.scene';
 import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
@@ -9,15 +7,9 @@ import { GraphData } from 'app/model/graph-data.model';
 import { Subscription } from 'rxjs';
 // import * as THREE from 'three';
 import { Vector3 } from 'three';
-import {
-  LabelController,
-  LabelOptions
-} from '../../controller/label/label.controller';
+import { LabelController, LabelOptions } from '../../controller/label/label.controller';
 import { ChartObjectInterface } from '../../model/chart.object.interface';
-import {
-  DataDecorator,
-  DataDecoratorTypeEnum
-} from '../../model/data-map.model';
+import { DataDecorator, DataDecoratorTypeEnum } from '../../model/data-map.model';
 import { EntityTypeEnum } from '../../model/enum.model';
 import { ChartEvents } from '../workspace/chart/chart.events';
 import { ChartSelection } from './../../model/chart-selection.model';
@@ -46,15 +38,12 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     './assets/shapes/shape-triangle-solid.png',
     './assets/shapes/shape-na-solid.png'
   ];
-  public static textures = AbstractScatterVisualization.textureImages.reduce(
-    (p, c, i) => {
-      p['uTexture' + i.toString()] = {
-        value: AbstractScatterVisualization.textureLoader.load(c)
-      };
-      return p;
-    },
-    {}
-  );
+  public static textures = AbstractScatterVisualization.textureImages.reduce((p, c, i) => {
+    p['uTexture' + i.toString()] = {
+      value: AbstractScatterVisualization.textureLoader.load(c)
+    };
+    return p;
+  }, {});
 
   public set data(data: GraphData) {
     this._data = data;
@@ -100,11 +89,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     }>(positions.length / 3);
     for (let i = 0; i < positions.length; i += 3) {
       pts[i / 3] = {
-        point: new THREE.Vector3(
-          positions[i],
-          positions[i + 1],
-          positions[i + 2]
-        ),
+        point: new THREE.Vector3(positions[i], positions[i + 1], positions[i + 2]),
         id: this.ids[i / 3],
         idType: this.config.entity
       };
@@ -113,28 +98,20 @@ export class AbstractScatterVisualization extends AbstractVisualization {
   }
 
   // Private Subscriptions
-  create(
-    labels: HTMLElement,
-    events: ChartEvents,
-    view: VisualizationView
-  ): ChartObjectInterface {
+  create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
     super.create(labels, events, view);
 
-    this.selectionController = new ScatterSelectionLassoController(
-      view,
-      events
-    );
+    this.selectionController = new ScatterSelectionLassoController(view, events);
     this.selectionController.enable = true;
-    this.selectSubscription = this.selectionController.onSelect.subscribe(
-      (ids: Array<number>) => {
-        const selected = this.pointsGeometry.attributes.gSelected;
-        ids.forEach(v => {
-          selected.array[v / 3] = 1.0;
-        });
-        selected.needsUpdate = true;
-        this.onRequestRender.emit(this.config.graph);
-      }
-    );
+    this.selectSubscription = this.selectionController.onSelect.subscribe((ids: Array<number>) => {
+      const selected = this.pointsGeometry.attributes.gSelected;
+      selected.array.fill(0);
+      ids.forEach(v => {
+        selected.array[v / 3] = 1.0;
+      });
+      selected.needsUpdate = true;
+      this.onRequestRender.emit(this.config.graph);
+    });
     return this;
   }
 
@@ -151,19 +128,15 @@ export class AbstractScatterVisualization extends AbstractVisualization {
       return;
     }
 
-    const propertyId =
-      this._config.entity === EntityTypeEnum.GENE ? 'mid' : 'sid';
+    const propertyId = this._config.entity === EntityTypeEnum.GENE ? 'mid' : 'sid';
     const ids = this.ids;
     decorators.forEach(decorator => {
       switch (decorator.type) {
         case DataDecoratorTypeEnum.SHAPE:
-          const textureLookup = AbstractScatterVisualization.textureImages.reduce(
-            (p, c, i) => {
-              p['s' + c.replace('.png', '-legend.png')] = i;
-              return p;
-            },
-            {}
-          );
+          const textureLookup = AbstractScatterVisualization.textureImages.reduce((p, c, i) => {
+            p['s' + c.replace('.png', '-legend.png')] = i;
+            return p;
+          }, {});
 
           const shapeMap = decorator.values.reduce((p, c) => {
             p[c[propertyId]] = textureLookup['s' + c.value];
@@ -176,10 +149,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
             }
           });
 
-          this.pointsGeometry.addAttribute(
-            'gShape',
-            new THREE.BufferAttribute(this.shapes, 1)
-          );
+          this.pointsGeometry.addAttribute('gShape', new THREE.BufferAttribute(this.shapes, 1));
           ChartScene.instance.render();
           break;
         case DataDecoratorTypeEnum.COLOR:
@@ -195,10 +165,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
             this.colors[index * 3 + 1] = col.g;
             this.colors[index * 3 + 2] = col.b;
           });
-          this.pointsGeometry.addAttribute(
-            'gColor',
-            new THREE.BufferAttribute(this.colors, 3)
-          );
+          this.pointsGeometry.addAttribute('gColor', new THREE.BufferAttribute(this.colors, 3));
           ChartScene.instance.render();
           break;
         case DataDecoratorTypeEnum.SHAPE:
@@ -231,8 +198,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
   }
 
   addObjects(type: EntityTypeEnum) {
-    const propertyId =
-      this._config.entity === EntityTypeEnum.GENE ? 'mid' : 'sid';
+    const propertyId = this._config.entity === EntityTypeEnum.GENE ? 'mid' : 'sid';
     this.ids = this._data[propertyId];
     this.positionsFrame = 0;
     this.positionsPrev = new Float32Array(this._data.resultScaled.length * 3);
@@ -258,34 +224,13 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     });
 
     this.pointsGeometry = new THREE.BufferGeometry();
-    this.pointsGeometry.addAttribute(
-      'gPositionFrom',
-      new THREE.BufferAttribute(this.positionsPrev, 3)
-    );
-    this.pointsGeometry.addAttribute(
-      'position',
-      new THREE.BufferAttribute(this.positions, 3)
-    );
-    this.pointsGeometry.addAttribute(
-      'gColor',
-      new THREE.BufferAttribute(this.colors, 3)
-    );
-    this.pointsGeometry.addAttribute(
-      'gShape',
-      new THREE.BufferAttribute(this.shapes, 1)
-    );
-    this.pointsGeometry.addAttribute(
-      'gSize',
-      new THREE.BufferAttribute(this.sizes, 1)
-    );
-    this.pointsGeometry.addAttribute(
-      'gAlpha',
-      new THREE.BufferAttribute(this.alphas, 1)
-    );
-    this.pointsGeometry.addAttribute(
-      'gSelected',
-      new THREE.BufferAttribute(this.selected, 1)
-    );
+    this.pointsGeometry.addAttribute('gPositionFrom', new THREE.BufferAttribute(this.positionsPrev, 3));
+    this.pointsGeometry.addAttribute('position', new THREE.BufferAttribute(this.positions, 3));
+    this.pointsGeometry.addAttribute('gColor', new THREE.BufferAttribute(this.colors, 3));
+    this.pointsGeometry.addAttribute('gShape', new THREE.BufferAttribute(this.shapes, 1));
+    this.pointsGeometry.addAttribute('gSize', new THREE.BufferAttribute(this.sizes, 1));
+    this.pointsGeometry.addAttribute('gAlpha', new THREE.BufferAttribute(this.alphas, 1));
+    this.pointsGeometry.addAttribute('gSelected', new THREE.BufferAttribute(this.selected, 1));
 
     const uniforms = Object.assign(
       { uAnimationPos: { value: this.positionsFrame } },
@@ -313,10 +258,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     // this.tooltipController.targets = this.points;
     ChartFactory.configPerspectiveOrbit(
       this.view,
-      new THREE.Box3(
-        new Vector3(-250, -250, -250),
-        new THREE.Vector3(250, 250, 250)
-      )
+      new THREE.Box3(new Vector3(-250, -250, -250), new THREE.Vector3(250, 250, 250))
     );
     setTimeout(ChartScene.instance.render, 300);
     // requestAnimationFrame(ChartScene.instance.render);

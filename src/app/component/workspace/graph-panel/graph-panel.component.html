@@ -107,7 +107,7 @@
         (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-locallinearembedding-form>
       <app-spectralembedding-form *ngIf='config && config.visualization === 536870912'
         (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-spectralembedding-form>
-        <app-quadradicdiscriminantanalysis-form *ngIf='config && config.visualization === 274877906944'
+      <app-quadradicdiscriminantanalysis-form *ngIf='config && config.visualization === 274877906944'
         (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-quadradicdiscriminantanalysis-form>
     </mat-tab>
     <mat-tab label="Legend">
@@ -122,7 +122,9 @@
         <mat-icon class="example-tab-icon">trending_up</mat-icon>
         <div class='mat-tab-custom-lbl'>Stats</div>
       </ng-template>
-      <app-workspace-stat-panel [config]='config' [graphData]='data'></app-workspace-stat-panel>
+      <ng-template matTabContent>
+        <app-workspace-stat-panel [config]='config' [graphData]='data'></app-workspace-stat-panel>
+      </ng-template>
     </mat-tab>
     <mat-tab label="Selection">
       <ng-template mat-tab-label>

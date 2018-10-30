@@ -7,10 +7,7 @@ import { DataDecorator } from './../../../model/data-map.model';
 import { EntityTypeEnum } from './../../../model/enum.model';
 import { DataService } from './../../../service/data.service';
 import { ChartEvent, ChartEvents } from './../../workspace/chart/chart.events';
-import {
-  ChartFactory,
-  DataDecoatorRenderer
-} from './../../workspace/chart/chart.factory';
+import { ChartFactory, DataDecoatorRenderer } from './../../workspace/chart/chart.factory';
 import { AbstractVisualization } from './../visualization.abstract.component';
 import { ChromosomeConfigModel, ChromosomeDataModel } from './chromosome.model';
 
@@ -62,10 +59,7 @@ export class ChromosomeGraph extends AbstractVisualization {
     return this._config as ChromosomeConfigModel;
   }
 
-  public renderer: DataDecoatorRenderer = (
-    group: THREE.Group,
-    mesh: THREE.Sprite
-  ): void => {
+  public renderer: DataDecoatorRenderer = (group: THREE.Group, mesh: THREE.Sprite): void => {
     // if (i === 1) {
     //     const arcShape = new THREE.Shape();
     //     arcShape.absarc(0.0, 0.0, 10.0, 10.0, 20.0, true);
@@ -100,7 +94,7 @@ export class ChromosomeGraph extends AbstractVisualization {
 
     // mesh.position.setX(-2);
     const lineMat = new THREE.LineBasicMaterial({
-      color: mesh.material.color.getHex()
+      color: mesh.material['color'].getHex()
     });
     const lineGeom = new THREE.Geometry();
     // const pos = new THREE.Vector3(-group.position.x, -group.position.y, group.position.z);
@@ -110,11 +104,7 @@ export class ChromosomeGraph extends AbstractVisualization {
   };
 
   // Create - Initialize Mesh Arrays
-  create(
-    labels: HTMLElement,
-    events: ChartEvents,
-    view: VisualizationView
-  ): ChartObjectInterface {
+  create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
     super.create(labels, events, view);
     this.meshes = [];
     return this;
@@ -127,11 +117,7 @@ export class ChromosomeGraph extends AbstractVisualization {
 
   updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
     super.updateDecorator(config, decorators);
-    ChartFactory.decorateDataGroups(
-      this.meshes,
-      this.decorators,
-      this.renderer
-    );
+    ChartFactory.decorateDataGroups(this.meshes, this.decorators, this.renderer);
   }
 
   updateData(config: GraphConfig, data: any) {
@@ -154,8 +140,7 @@ export class ChromosomeGraph extends AbstractVisualization {
     ChartFactory.decorateDataGroups(this.meshes, this.decorators);
   }
   addObjectsLinear(type: EntityTypeEnum): void {
-    const propertyId =
-      this.config.entity === EntityTypeEnum.GENE ? 'mid' : 'sid';
+    const propertyId = this.config.entity === EntityTypeEnum.GENE ? 'mid' : 'sid';
     const objectIds = this.data[propertyId];
   }
 
@@ -192,29 +177,18 @@ export class ChromosomeGraph extends AbstractVisualization {
       this.meshes.push(group);
     });
 
-    const colorScale = ChartFactory.getScaleColorOrdinal(
-      Object.keys(DataService.biotypeCat)
-    );
-    const shapeScale = ChartFactory.getScaleShapeOrdinal(
-      Object.keys(DataService.biotypeCat)
-    );
+    const colorScale = ChartFactory.getScaleColorOrdinal(Object.keys(DataService.biotypeCat));
+    const shapeScale = ChartFactory.getScaleShapeOrdinal(Object.keys(DataService.biotypeCat));
 
     geneData.forEach((gene, i) => {
-      const materialSprite = ChartFactory.getSpriteMaterial(
-        shapeScale(type),
-        colorScale(gene.type)
-      );
+      const materialSprite = ChartFactory.getSpriteMaterial(shapeScale(type), colorScale(gene.type));
       const mesh: THREE.Sprite = new THREE.Sprite(materialSprite);
       mesh.position.set(gene.sPos.x * (l + 5), gene.sPos.y * (l + 5), 0);
       this.geneTypeSprites.push(mesh);
       this.view.scene.add(mesh);
     });
     this.view.camera.position.setZ(l * 6);
-    ChartFactory.decorateDataGroups(
-      this.meshes,
-      this.decorators,
-      this.renderer
-    );
+    ChartFactory.decorateDataGroups(this.meshes, this.decorators, this.renderer);
   }
 
   removeObjects(): void {
