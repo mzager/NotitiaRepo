@@ -1,22 +1,11 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Output,
-  ViewEncapsulation
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-graph-panel-analysis',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   template: `
-
-
-
-
-
-  <mat-menu #analysisSummaryMenu='matMenu'>
+<mat-menu #analysisSummaryMenu='matMenu'>
   <button mat-menu-item (click)='select.emit(8796093022208)'>Dashboard</button>
   <!--<button mat-menu-item (click)='select.emit(4294967296)'>Box + Whiskers</button>-->
   <button mat-menu-item (click)='select.emit(32)'>Heatmap</button>

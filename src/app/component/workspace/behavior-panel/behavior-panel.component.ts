@@ -62,6 +62,7 @@ export class BehaviorPanelComponent implements AfterViewInit {
   ngAfterViewInit(): void {}
 
   constructor(private fb: FormBuilder, public cd: ChangeDetectorRef) {
+    console.log('hi');
     this.form = this.fb.group({
       navigation: [],
       selection: []

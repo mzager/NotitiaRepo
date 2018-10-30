@@ -54,20 +54,20 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   private split = false;
   public uploader: FileUploader = new FileUploader({ url: '' });
 
-  @HostListener('document:keydown.shift', ['$event'])
-  keyEventDown(event: KeyboardEvent) {
-    if (event.keyCode === 16) {
-      this.togglePanels = true;
-      $('.graphPanel').css('max-width', '0px');
-    }
-  }
-  @HostListener('document:keyup.shift', ['$event'])
-  keyEventUp(event: KeyboardEvent) {
-    if (event.keyCode === 16) {
-      this.togglePanels = true;
-      $('.graphPanel').css('max-width', 'inherit');
-    }
-  }
+  // @HostListener('document:keydown.shift', ['$event'])
+  // keyEventDown(event: KeyboardEvent) {
+  //   if (event.keyCode === 16) {
+  //     this.togglePanels = true;
+  //     $('.graphPanel').css('max-width', '0px');
+  //   }
+  // }
+  // @HostListener('document:keyup.shift', ['$event'])
+  // keyEventUp(event: KeyboardEvent) {
+  //   if (event.keyCode === 16) {
+  //     this.togglePanels = true;
+  //     $('.graphPanel').css('max-width', 'inherit');
+  //   }
+  // }
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     if (!event.ctrlKey) {
@@ -132,10 +132,7 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   }
   toggleBackgroundColor(): void {
     const isBlack = ChartScene.instance.renderer.getClearColor().r === 0;
-    ChartScene.instance.renderer.setClearColor(
-      isBlack ? 0xffffff : 0x000000,
-      1
-    );
+    ChartScene.instance.renderer.setClearColor(isBlack ? 0xffffff : 0x000000, 1);
     ChartScene.instance.render();
   }
 
@@ -162,9 +159,5 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   ngOnInit() {}
 
   ngOnDestroy() {}
-  constructor(
-    public cd: ChangeDetectorRef,
-    protected dataService: DatasetService,
-    protected cbio: CbioService
-  ) {}
+  constructor(public cd: ChangeDetectorRef, protected dataService: DatasetService, protected cbio: CbioService) {}
 }
