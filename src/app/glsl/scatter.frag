@@ -52,4 +52,5 @@ void main() {
   }
 
   if ( gl_FragColor.a < ALPHATEST ) discard;
+
 }

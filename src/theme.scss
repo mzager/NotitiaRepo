@@ -166,7 +166,7 @@ body .mat-button-focus-overlay {
 .mat-select {
   padding-top: 3px;
   .mat-select-arrow {
-    opacity: 0;
+    opacity: 1;
   }
 }
 
@@ -180,6 +180,7 @@ body .mat-button-focus-overlay {
 
 .os-link {
   color: mat-color($primary);
+  font-weight: 400;
   text-decoration: none;
 }
 
