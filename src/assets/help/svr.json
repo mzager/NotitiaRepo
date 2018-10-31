@@ -1,0 +1,36 @@
+{
+  "method": "SVR",
+  "summary": "",
+  "desc": "<span class='help-method'> </span>",
+  "urlparagraph": "",
+  "url": "",
+  "tutorial": [
+    {
+      "desc": "Learn more on Oncoscape + Sci-Kit clustering methods",
+      "url": "https://www.youtube.com/embed/XQu8TTBmGhA"
+    }
+  ],
+  "params": [
+    {
+      "name": "",
+      "type": "",
+      "desc": ""
+    }
+
+  ],
+  "attrs": [
+    {
+      "name": "",
+      "type": "",
+      "desc": ""
+    }
+
+  ],
+  "citations": [
+    {
+      "name": "",
+      "desc": "",
+      "url": ""
+    }
+  ]
+}

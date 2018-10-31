@@ -1,0 +1,30 @@
+{
+  "method": "Linear SVR",
+  "summary": "",
+  "desc": "<span class='help-method'>Linear Support Vector Regression. Similar to SVR with parameter kernel=’linear’, but implemented in terms of liblinear rather than libsvm, so it has more flexibility in the choice of penalties and loss functions and should scale better to large numbers of samples. This class supports both dense and sparse input.",
+  "urlparagraph": "Read more in the User Guide.",
+  "url": "http://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVR.html#sklearn.svm.LinearSVR",
+  "tutorial": [
+    {
+      "desc": "Learn more on Oncoscape + Sci-Kit clustering methods",
+      "url": "https://www.youtube.com/embed/XQu8TTBmGhA"
+    }
+  ],
+  "params": [{
+    "name": "epsilon",
+    "type": "float, optional (default=0.1)",
+    "desc": "Epsilon parameter in the epsilon-insensitive loss function. Note that the value of this parameter depends on the scale of the target variable y. If unsure, set epsilon=0. tol"
+}],
+"attrs": [{
+    "name": "coef_",
+    "type": "array, shape = [n_features] if n_classes == 2 else [n_classes, n_features]",
+    "desc": "Weights assigned to the features (coefficients in the primal problem). This is only available in the case of a linear kernel. coef_ is a readonly property derived from raw_coef_ that follows the internal memory layout of liblinear. intercept"
+}],
+  "citations": [
+    {
+      "name": "",
+      "desc": "",
+      "url": ""
+    }
+  ]
+}

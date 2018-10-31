@@ -1,0 +1,94 @@
+{
+  "method": "CCA",
+  "summary": "Canonical-correlation analysis (CCA) is a way of inferring information from cross-covariance matrices.",
+  "desc": "<span class='help-method'>CCA Canonical Correlation Analysis.CCCA inherits from PLS with mode=”B” and deflation_mode=”canonical.",
+  "urlparagraph": "Read more in the scikit-learn user guide.",
+  "url": "http://scikit-learn.org/stable/modules/generated/sklearn.cross_decomposition.PLSSVD.html#sklearn.cross_decomposition.PLSSVD",
+  "tutorial": [{
+    "desc": "Learn more on Oncoscape + Sci-Kit clustering methods",
+    "url": "https://www.youtube.com/embed/XQu8TTBmGhA"
+  }],
+  "params": [{
+      "name": "n_components",
+      "type": "int, (default 2).",
+      "desc": "number of components to keep"
+    },
+    {
+      "name": "scale",
+      "type": "boolean, (default True)",
+      "desc": " whether to scale the data?"
+    },
+    {
+      "name": "max_iter",
+      "type": "an integer, (default 500)",
+      "desc": "the maximum number of iterations of the NIPALS inner loop"
+    },
+    {
+      "name": "tol",
+      "type": "non-negative real, default 1e-06",
+      "desc": "the tolerance used in the iterative algorithm"
+    },
+    {
+      "name": "copy",
+      "type": "boolean",
+      "desc": "whether the deflation be done on a copy. Let the default value to True unless you don’t care about side effects"
+    }
+  ],
+  "attrs": [{
+      "name": "x_weights",
+      "type": "array, [p, n_components]",
+      "desc": " X block weights vectors"
+    },
+    {
+      "name": "y_weights",
+      "type": " array, [q, n_components]",
+      "desc": "Y block weights vectors."
+    },
+    {
+      "name": "x_loadings",
+      "type": "array, [p, n_components]",
+      "desc": "X block loadings vectors."
+    },
+    {
+      "name": "y_loadings",
+      "type": "array, [q, n_components]",
+      "desc": "Y block loadings vectors."
+    },
+    {
+      "name": "x_scores",
+      "type": "array, [n_samples, n_components]",
+      "desc": "X scores"
+    },
+    {
+      "name": "y_scores",
+      "type": "array, [n_samples, n_components]",
+      "desc": "scores"
+    },
+    {
+      "name": "x_rotations",
+      "type": "array, [p, n_components]",
+      "desc": "X block to latents rotations."
+    },
+    {
+      "name": "y_rotations",
+      "type": "array, [q, n_components]",
+      "desc": "Y block to latents rotations."
+    },
+    {
+      "name": "n_iter",
+      "type": "array-like",
+      "desc": "number of iterations of the NIPALS inner loop for each component."
+    }
+  ],
+  "citations": [{
+      "name": "A survey of Partial Least Squares (PLS) methods, with emphasis on the two-block case.",
+      "desc": "Jacob A. Wegelin. A survey of Partial Least Squares (PLS) methods, with emphasis on the two-block case. Technical Report 371, Department of Statistics, University of Washington, Seattle, 2000.",
+      "url": "https://www.stat.washington.edu/sites/default/files/files/reports/2000/tr371.pdf"
+    },
+    {
+      "name": "La regression PLS: theorie et pratique",
+      "desc": "Tenenhaus, M. (1998). La regression PLS: theorie et pratique. Paris: Editions Technic.",
+      "url": "https://core.ac.uk/download/pdf/20641325.pdf"
+    }
+  ]
+}
