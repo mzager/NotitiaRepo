@@ -5,18 +5,27 @@
             <i class="material-icons small" style='color:rgba(0, 0, 0, 0.54);'>expand_less</i>
         </a>
     </div> -->
-  <mat-tab-group style='width:260px; background:rgba(255,255,255,.9)' (selectedTabChange)='panelHide($event)'>
+  <mat-tab-group style='width:275px; background:rgba(255,255,255,.9)' (selectedTabChange)='panelHide($event)'>
     <mat-tab label="Analysis">
       <ng-template mat-tab-label>
         <mat-icon class="example-tab-icon">bar_chart</mat-icon>
         <div class='mat-tab-custom-lbl'>Analysis</div>
       </ng-template>
-      <span class='legendHeader'>{{methodName}} Analysis</span>
-      <p>{{methodSummary}}</p>
-      <button mat-stroked-button (click)="helpClick()">Learn More</button>
-      <br /><br />
+      <span class='legendHeader'>Current Analysis: {{methodName}}</span>
+      <p>{{methodSummary}} <a href='#' (click)='helpClick()' class='os-link'>Learn More</a></p>
+
       <span class='legendHeader'>Availible Analysis</span>
       <app-graph-panel-analysis (select)='setVisualization($event)'></app-graph-panel-analysis>
+    </mat-tab>
+    <mat-tab label="Legend">
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">list</mat-icon>
+        <div class='mat-tab-custom-lbl'>Legend</div>
+      </ng-template>
+      <span class='legendHeader'>Configure Legend</span>
+      <app-graph-panel-visualization [config]='config' [tables]='tables' [fields]='fields'
+        (decoratorAdd)='decoratorAdd.emit($event)' (decoratorDel)='decoratorDel.emit($event)'></app-graph-panel-visualization>
+      <app-workspace-legend-panel [config]='config' [legends]='data.legends' [decorators]='decoratorsWithLegends'></app-workspace-legend-panel>
     </mat-tab>
     <mat-tab label="Settings">
       <ng-template mat-tab-label>
@@ -111,37 +120,27 @@
           (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-spectralembedding-form>
         <app-quadradicdiscriminantanalysis-form *ngIf='config && config.visualization === 274877906944'
           (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-quadradicdiscriminantanalysis-form>
-        <br />
-        <br />
-        <span class='legendHeader'>{{methodName}} Statistics</span>
-        <app-workspace-stat-panel [config]='config' [graphData]='data'></app-workspace-stat-panel>
       </ng-template>
     </mat-tab>
-    <mat-tab label="Legend">
-      <ng-template mat-tab-label>
-        <mat-icon class="example-tab-icon">list</mat-icon>
-        <div class='mat-tab-custom-lbl'>Legend</div>
-      </ng-template>
-      <span class='legendHeader'>Configure Legend</span>
-      <app-graph-panel-visualization [config]='config' [tables]='tables' [fields]='fields'
-        (decoratorAdd)='decoratorAdd.emit($event)' (decoratorDel)='decoratorDel.emit($event)'></app-graph-panel-visualization>
-      <app-workspace-legend-panel [config]='config' [legends]='data.legends' [decorators]='decoratorsWithLegends'></app-workspace-legend-panel>
-    </mat-tab>
-    <!-- <mat-tab label="Stats">
+    <mat-tab label="Settings">
       <ng-template mat-tab-label>
         <mat-icon class="example-tab-icon">trending_up</mat-icon>
         <div class='mat-tab-custom-lbl'>Stats</div>
       </ng-template>
       <ng-template matTabContent>
-        <app-workspace-stat-panel [config]='config' [graphData]='data'></app-workspace-stat-panel>
+        <span class='legendHeader'>{{methodName}} Statistics</span>
+        <app-workspace-stat-panel [config]='config' [graphData]='data' [type]='"TOOL"'></app-workspace-stat-panel>
       </ng-template>
-    </mat-tab> -->
+    </mat-tab>
     <mat-tab label="Selection">
       <ng-template mat-tab-label>
         <mat-icon class="example-tab-icon">gesture</mat-icon>
         <div class='mat-tab-custom-lbl'>Selection</div>
       </ng-template>
-      <app-workspace-behavior-panel [config]='config' [selectionToolConfig]='selectionToolConfig'></app-workspace-behavior-panel>
+      <ng-template matTabContent>
+        <app-workspace-behavior-panel [config]='config' [selectionToolConfig]='selectionToolConfig'></app-workspace-behavior-panel>
+        <app-workspace-stat-panel [config]='config' [graphData]='data' [type]='"SELECTION"'></app-workspace-stat-panel>
+      </ng-template>
     </mat-tab>
   </mat-tab-group>
 

@@ -1,7 +1,7 @@
 .mat-tab-label,
 .mat-tab-label-active {
   min-width: 0 !important;
-  width: 60px;
+  width: 50px;
   height: 50px !important;
   padding: 0px !important;
   color: #1e88e5;
@@ -27,7 +27,7 @@
   font-weight: bold;
   width: 100%;
   text-align: center;
-  left: 0px;
+  left: 3px;
   color: #000;
 }
 .example-tab-icon {
@@ -50,7 +50,7 @@
   overflow-x: visible;
   position: absolute;
   top: 0px;
-  height: 90vh;
+  height: 98vh;
   bottom: 0px;
   width: auto;
   padding-bottom: 0px;
