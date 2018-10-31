@@ -1,0 +1,78 @@
+{
+  "method": "Linear SVR",
+  "summary": "",
+  "desc": "<span class='help-method'>Linear Support Vector Regression. Similar to SVR with parameter kernel=’linear’, but implemented in terms of liblinear rather than libsvm, so it has more flexibility in the choice of penalties and loss functions and should scale better to large numbers of samples. This class supports both dense and sparse input.",
+  "urlparagraph": "Read more in the User Guide.",
+  "url": "http://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVR.html#sklearn.svm.LinearSVR",
+  "tutorial": [{
+    "desc": "Learn more on Oncoscape + Sci-Kit clustering methods",
+    "url": "https://www.youtube.com/embed/XQu8TTBmGhA"
+  }],
+  "params": [{
+      "name": "epsilon",
+      "type": "float, optional (default=0.1)",
+      "desc": "Epsilon parameter in the epsilon-insensitive loss function. Note that the value of this parameter depends on the scale of the target variable y. If unsure, set epsilon=0. tol"
+    },
+    {
+      "name": "tol",
+      "type": "float, optional (default=1e-4)",
+      "desc": "Tolerance for stopping criteria."
+    },
+    {
+      "name": "C",
+      "type": "float, optional (default=1.0)",
+      "desc": "Penalty parameter C of the error term. The penalty is a squared l2 penalty. The bigger this parameter, the less regularization is used."
+    },
+    {
+      "name": "loss",
+      "type": "string, optional (default=’epsilon_insensitive’)",
+      "desc": "Specifies the loss function. The epsilon-insensitive loss (standard SVR) is the L1 loss, while the squared epsilon-insensitive loss (‘squared_epsilon_insensitive’) is the L2 loss."
+    },
+    {
+      "name": "fit_intercept",
+      "type": "boolean, optional (default=True)",
+      "desc": "Whether to calculate the intercept for this model. If set to false, no intercept will be used in calculations (i.e. data is expected to be already centered)."
+    },
+    {
+      "name": "intercept_scaling",
+      "type": "float, optional (default=1)",
+      "desc": "When self.fit_intercept is True, instance vector x becomes [x, self.intercept_scaling], i.e. a “synthetic” feature with constant value equals to intercept_scaling is appended to the instance vector. The intercept becomes intercept_scaling * synthetic feature weight Note! the synthetic feature weight is subject to l1/l2 regularization as all other features. To lessen the effect of regularization on synthetic feature weight (and therefore on the intercept) intercept_scaling has to be increased."
+    },
+    {
+      "name": "dual",
+      "type": "bool, (default=True)",
+      "desc": "Select the algorithm to either solve the dual or primal optimization problem. Prefer dual=False when n_samples > n_features."
+    },
+    {
+      "name": "verbose",
+      "type": "int, (default=0)",
+      "desc": "Enable verbose output. Note that this setting takes advantage of a per-process runtime setting in liblinear that, if enabled, may not work properly in a multithreaded context."
+    },
+    {
+      "name": "random_state",
+      "type": "int, RandomState instance or None, optional (default=None)",
+      "desc": "The seed of the pseudo random number generator to use when shuffling the data. If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random."
+    },
+    {
+      "name": "max_iter",
+      "type": "int, (default=1000)",
+      "desc": "The maximum number of iterations to be run."
+    }
+  ],
+  "attrs": [{
+      "name": "coef_",
+      "type": "array, shape = [n_features] if n_classes == 2 else [n_classes, n_features]",
+      "desc": "Weights assigned to the features (coefficients in the primal problem). This is only available in the case of a linear kernel. coef_ is a readonly property derived from raw_coef_ that follows the internal memory layout of liblinear. intercept"
+    },
+    {
+      "name": "intercept",
+      "type": "array, shape = [1] if n_classes == 2 else [n_classes]",
+      "desc": "Constants in decision function."
+    }
+  ],
+  "citations": [{
+    "name": "",
+    "desc": "",
+    "url": ""
+  }]
+}

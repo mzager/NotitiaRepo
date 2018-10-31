@@ -7,24 +7,31 @@
     "tutorial": [
         {
             "desc": "Learn more on Oncoscape + Sci-Kit clustering methods",
-            "url": "https://www.youtube.com/embed/XQu8TTBmGhA"  
+            "url": "https://www.youtube.com/embed/XQu8TTBmGhA"
         }
     ],
-    "params": [
-        {
-            "name": "n components",
-            "type": "int or None",
-            "desc": "Coming Soon"
-        }
-        
-    ],
-    "attrs": [
-        {
-            "name": "components",
-            "type": "array, [n_components, n_features]",
-            "desc": "Coming Soon"
-        }
-    ],
+    "params": [],
+    "attrs": [{
+        "name": "covariance_",
+        "type": "list of array-like, shape = [n_features, n_features]",
+        "desc": "Covariance matrices of each class."
+    }, {
+        "name": "means_",
+        "type": "array-like, shape = [n_classes, n_features]",
+        "desc": "Class means."
+    }, {
+        "name": "priors_",
+        "type": "array-like, shape = [n_classes]",
+        "desc": "Class priors (sum to 1)."
+    }, {
+        "name": "rotations_",
+        "type": "list of arrays",
+        "desc": "For each class k an array of shape [n_features, n_k], with"
+    }, {
+        "name": "scalings_",
+        "type": "list of arrays",
+        "desc": "For each class k an array of shape [n_k]. It contains the scaling"
+    }],
     "citations": [
         {
             "name": "Scikit-learn: Machine Learning in Python",

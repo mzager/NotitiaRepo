@@ -1,0 +1,78 @@
+{
+  "method": "PLS Canonical",
+  "summary": "PLSCanonical implements the 2 blocks canonical PLS of the original Wold algorithm [Tenenhaus 1998] p.204, referred as PLS-C2A in [Wegelin 2000]. This class inherits from PLS with mode=”A” and deflation_mode=”canonical”,norm_y_weights=True and algorithm=”nipals”, but svd should provide similar results up to numerical errors.",
+  "desc": "<span class='help-method'> </span>",
+  "urlparagraph": "Read more in the User Guide.",
+  "url": "",
+  "tutorial": [{
+    "desc": "Learn more on Oncoscape + Sci-Kit clustering methods",
+    "url": "https://www.youtube.com/embed/XQu8TTBmGhA"
+  }],
+  "params": [{
+    "name": "n_components",
+    "type": "int, (default 2).",
+    "desc": "Number of components to keep"
+  }, {
+    "name": "scale",
+    "type": "boolean, (default True)",
+    "desc": "Option to scale data"
+  }, {
+    "name": "algorithm",
+    "type": "string, “nipals” or “svd”",
+    "desc": "The algorithm used to estimate the weights. It will be called"
+  }, {
+    "name": "max_iter",
+    "type": "an integer, (default 500)",
+    "desc": "the maximum number of iterations of the NIPALS inner loop (used"
+  }, {
+    "name": "tol",
+    "type": "non-negative real, default 1e-06",
+    "desc": "the tolerance used in the iterative algorithm"
+  }, {
+    "name": "copy",
+    "type": "boolean, default True",
+    "desc": "Whether the deflation should be done on a copy. Let the default"
+  }],
+  "attrs": [{
+    "name": "x_weights",
+    "type": "array, shape = [p, n_components]",
+    "desc": "X block weights vectors."
+  }, {
+    "name": "y_weights",
+    "type": "array, shape = [q, n_components]",
+    "desc": "Y block weights vectors."
+  }, {
+    "name": "x_loadings",
+    "type": "array, shape = [p, n_components]",
+    "desc": "X block loadings vectors."
+  }, {
+    "name": "y_loadings",
+    "type": "array, shape = [q, n_components]",
+    "desc": "Y block loadings vectors."
+  }, {
+    "name": "x_scores",
+    "type": "array, shape = [n_samples, n_components]",
+    "desc": "X scores."
+  }, {
+    "name": "y_scores",
+    "type": "array, shape = [n_samples, n_components]",
+    "desc": "Y scores."
+  }, {
+    "name": "x_rotations",
+    "type": "array, shape = [p, n_components]",
+    "desc": "X block to latents rotations."
+  }, {
+    "name": "y_rotations",
+    "type": "array, shape = [q, n_components]",
+    "desc": "Y block to latents rotations."
+  }, {
+    "name": "n_iter",
+    "type": "array-like",
+    "desc": "Number of iterations of the NIPALS inner loop for each"
+  }],
+  "citations": [{
+    "name": "",
+    "desc": "",
+    "url": ""
+  }]
+}

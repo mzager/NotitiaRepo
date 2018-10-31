@@ -1,0 +1,46 @@
+{
+  "method": "One Class SVM",
+  "summary": "",
+  "desc": "<span class='help-method'>Unsupervised Outlier Detection. Estimate the support of a high-dimensional distribution. The implementation is based on libsvm.",
+  "urlparagraph": "Read more in the User Guide.",
+  "url": "http://scikit-learn.org/stable/modules/generated/sklearn.svm.OneClassSVM.html#sklearn.svm.OneClassSVM",
+  "tutorial": [
+    {
+      "desc": "Learn more on Oncoscape + Sci-Kit clustering methods",
+      "url": "https://www.youtube.com/embed/XQu8TTBmGhA"
+    }
+  ],
+  "params": [],
+    "attrs": [{
+        "name": "support",
+        "type": "array-like, shape = [n_SV]",
+        "desc": "Indices of support vectors."
+    }, {
+        "name": "support_vectors",
+        "type": "array-like, shape = [nSV, n_features]",
+        "desc": "Support vectors."
+    }, {
+        "name": "dual_coef",
+        "type": "array, shape = [1, n_SV]",
+        "desc": "Coefficients of the support vectors in the decision function."
+    }, {
+        "name": "coef",
+        "type": "array, shape = [1, n_features]",
+        "desc": "Weights assigned to the features (coefficients in the primal"
+    }, {
+        "name": "intercept",
+        "type": "array, shape = [1,]",
+        "desc": "Constant in the decision function."
+    }, {
+        "name": "offset",
+        "type": "float",
+        "desc": "Offset used to define the decision function from the raw scores."
+    }],
+  "citations": [
+    {
+      "name": "",
+      "desc": "",
+      "url": ""
+    }
+  ]
+}
