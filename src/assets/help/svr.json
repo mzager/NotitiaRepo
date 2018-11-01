@@ -1,6 +1,6 @@
 {
   "method": "SVR",
-  "summary": "",
+  "summary": "The implementation is based on libsvm.",
   "desc": "<span class='help-method'>Epsilon-Support Vector Regression. The free parameters in the model are C and epsilon. The implementation is based on libsvm.",
   "urlparagraph": "Read more in the User Guide.",
   "url": "http://scikit-learn.org/stable/modules/generated/sklearn.svm.SVR.html#sklearn.svm.SVR",

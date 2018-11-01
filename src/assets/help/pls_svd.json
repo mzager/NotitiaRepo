@@ -1,6 +1,6 @@
 {
   "method": "PLS SVD",
-  "summary": "",
+  "summary": "Simply perform a svd on the crosscovariance matrix: X’Y There are no iterative deflation here.",
   "desc": "<span class='help-method'>Partial Least Square SVD simply perform a svd on the crosscovariance matrix: X’Y. There are no iterative deflation here.",
   "urlparagraph": "Read more in the User Guide.",
   "url": "http://scikit-learn.org/stable/modules/generated/sklearn.cross_decomposition.PLSSVD.html#sklearn.cross_decomposition.PLSSVD",

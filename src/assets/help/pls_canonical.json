@@ -1,9 +1,9 @@
 {
   "method": "PLS Canonical",
-  "summary": "PLSCanonical implements the 2 blocks canonical PLS of the original Wold algorithm [Tenenhaus 1998] p.204, referred as PLS-C2A in [Wegelin 2000]. This class inherits from PLS with mode=”A” and deflation_mode=”canonical”,norm_y_weights=True and algorithm=”nipals”, but svd should provide similar results up to numerical errors.",
-  "desc": "<span class='help-method'> </span>",
+  "summary": "PLSCanonical implements the 2 blocks canonical PLS of the original Wold algorithm [Tenenhaus 1998] p.204, referred as PLS-C2A in [Wegelin 2000].",
+  "desc": "<span class='help-method'>PLSCanonical implements the 2 blocks canonical PLS of the original Wold algorithm [Tenenhaus 1998] p.204, referred as PLS-C2A in [Wegelin 2000].This class inherits from PLS with mode=”A” and deflation_mode=”canonical”,norm_y_weights=True and algorithm=”nipals”, but svd should provide similar results up to numerical errors.",
   "urlparagraph": "Read more in the User Guide.",
-  "url": "",
+  "url": "http://scikit-learn.org/stable/modules/generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical",
   "tutorial": [{
     "desc": "Learn more on Oncoscape + Sci-Kit clustering methods",
     "url": "https://www.youtube.com/embed/XQu8TTBmGhA"
