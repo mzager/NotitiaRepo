@@ -675,8 +675,8 @@ export class DataService {
   }
   createDataDecorator(config: GraphConfig, decorator: DataDecorator): Observable<DataDecorator> {
     if (decorator.type === DataDecoratorTypeEnum.SELECT) {
-      return Observable<DataDecorator>.fromPromise(
-        new Promise<DataDecorator>(resolve, reject => {
+      return observableFrom(
+        new Promise(resolve => {
           resolve(decorator);
         })
       );
