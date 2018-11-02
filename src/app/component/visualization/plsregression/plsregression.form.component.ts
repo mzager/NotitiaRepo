@@ -10,16 +10,17 @@ import { PlsRegressionConfigModel } from './plsregression.model';
   encapsulation: ViewEncapsulation.None
 })
 export class PlsRegressionFormComponent extends AbstractScatterForm {
-
-  @Input() set config(v: PlsRegressionConfigModel) {
-    if (v === null) { return; }
+  @Input()
+  set config(v: PlsRegressionConfigModel) {
+    if (v === null) {
+      return;
+    }
     if (this.form.value.visualization === null) {
       this.form.patchValue(v, { emitEvent: false });
     }
   }
 
   constructor(private fb: FormBuilder) {
-
     super();
 
     this.form = this.fb.group({
@@ -30,6 +31,8 @@ export class PlsRegressionFormComponent extends AbstractScatterForm {
       entity: [],
       table: [],
 
+      max_iter: [],
+      tol: [],
       pcx: [],
       pcy: [],
       pcz: [],

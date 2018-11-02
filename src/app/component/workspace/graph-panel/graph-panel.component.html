@@ -109,6 +109,8 @@
           [config]='config' [tables]='tables' [fields]='fields'></app-svr-form>
         <app-oneclasssvm-form *ngIf='config && config.visualization === 1.439850948E27'
           (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-oneclasssvm-form>
+        <app-cca-form *ngIf='config && config.visualization === 562949953421312' (configChange)='graphPanelSetConfig($event)'
+          [config]='config' [tables]='tables' [fields]='fields'></app-cca-form>
         <app-plsregression-form *ngIf='config && config.visualization === 140737488355328'
           (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-plsregression-form>
         <app-plscanonical-form *ngIf='config && config.visualization === 281474976710656'

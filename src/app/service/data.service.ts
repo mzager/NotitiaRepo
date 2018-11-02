@@ -1,5 +1,4 @@
-
-import {zip as observableZip, from as observableFrom} from 'rxjs';
+import { zip as observableZip, from as observableFrom } from 'rxjs';
 /// <reference types="aws-sdk" />
 import { Injectable } from '@angular/core';
 import { QueryBuilderConfig } from 'app/component/workspace/query-panel/query-builder/query-builder.interfaces';
@@ -21,10 +20,7 @@ import { Pathway } from '../model/pathway.model';
 import { ChartFactory } from './../component/workspace/chart/chart.factory';
 import { Cohort } from './../model/cohort.model';
 import { DataField } from './../model/data-field.model';
-import {
-  DataDecorator,
-  DataDecoratorTypeEnum
-} from './../model/data-map.model';
+import { DataDecorator, DataDecoratorTypeEnum } from './../model/data-map.model';
 import { GeneSet } from './../model/gene-set.model';
 
 @Injectable()
@@ -78,13 +74,7 @@ export class DataService {
     bidirectional_promoter_lncrna: 'Other',
     macro_lncrna: 'Other'
   };
-  public static biotypeCat = [
-    'Protein Coding',
-    'Pseudogene',
-    'Long Noncoding',
-    'Short Noncoding',
-    'Other'
-  ];
+  public static biotypeCat = ['Protein Coding', 'Pseudogene', 'Long Noncoding', 'Short Noncoding', 'Other'];
 
   public static headersJson = {
     Accept: 'application/json',
@@ -116,9 +106,7 @@ export class DataService {
     if (jsonFile === null) {
       jsonFile = 'pathways.json';
     }
-    return fetch('./assets/tips/' + jsonFile, requestInit).then(res =>
-      res.json()
-    );
+    return fetch('./assets/tips/' + jsonFile, requestInit).then(res => res.json());
   }
 
   getPatientData(database, tbl): Promise<any> {
@@ -127,10 +115,7 @@ export class DataService {
         resolve(this._privateData);
       } else {
         new Dexie(database).open().then(db => {
-          Promise.all([
-            db.table(tbl).toArray(),
-            db.table('patientSampleMap').toArray()
-          ]).then(results => {
+          Promise.all([db.table(tbl).toArray(), db.table('patientSampleMap').toArray()]).then(results => {
             this._privateData.database = database;
             this._privateData.data = results[0];
             this._privateData.sampleMap = results[1].reduce((p, c) => {
@@ -174,12 +159,8 @@ export class DataService {
     if (field.type !== 'STRING') {
       // // Determine IQR
       const data = items.map(v => v[field.key]);
-      let upperLimit = field.values
-        ? field.values.max
-        : Math.max.apply(Math, data);
-      let lowerLimit = field.values
-        ? field.values.min
-        : Math.min.apply(Math, data);
+      let upperLimit = field.values ? field.values.max : Math.max.apply(Math, data);
+      let lowerLimit = field.values ? field.values.min : Math.min.apply(Math, data);
       if (upperLimit < lowerLimit) {
         const temp = upperLimit;
         upperLimit = lowerLimit;
@@ -206,12 +187,8 @@ export class DataService {
     if (field.type !== 'STRING') {
       // // Determine IQR
       const data = items.map(v => v[field.key]);
-      let upperLimit = field.values
-        ? field.values.max
-        : Math.max.apply(Math, data);
-      let lowerLimit = field.values
-        ? field.values.min
-        : Math.min.apply(Math, data);
+      let upperLimit = field.values ? field.values.max : Math.max.apply(Math, data);
+      let lowerLimit = field.values ? field.values.min : Math.min.apply(Math, data);
       if (upperLimit < lowerLimit) {
         const temp = upperLimit;
         upperLimit = lowerLimit;
@@ -233,10 +210,7 @@ export class DataService {
     return ChartFactory.getScaleColorOrdinal(field.values);
   }
 
-  private createMolecularDataDecorator(
-    config: GraphConfig,
-    decorator: DataDecorator
-  ): Observable<DataDecorator> {
+  private createMolecularDataDecorator(config: GraphConfig, decorator: DataDecorator): Observable<DataDecorator> {
     if (decorator.field.ctype === CollectionTypeEnum.GENE_NAME) {
       return observableFrom(
         new Promise(resolve => {
@@ -306,19 +280,12 @@ export class DataService {
                   }))
                   .filter(v => v.label);
                 decorator.legend = new Legend();
-                decorator.legend.type =
-                  decorator.type === DataDecoratorTypeEnum.SHAPE
-                    ? 'SHAPE'
-                    : 'COLOR';
+                decorator.legend.type = decorator.type === DataDecoratorTypeEnum.SHAPE ? 'SHAPE' : 'COLOR';
                 decorator.legend.display = 'DISCRETE';
                 decorator.legend.labels = scale['domain']().filter(v => v);
-                decorator.legend.values = decorator.legend.values = scale[
-                  'range'
-                ]();
+                decorator.legend.values = decorator.legend.values = scale['range']();
                 if (decorator.type === DataDecoratorTypeEnum.COLOR) {
-                  decorator.legend.values = decorator.legend.values.map(
-                    v => '#' + v.toString(16)
-                  );
+                  decorator.legend.values = decorator.legend.values.map(v => '#' + v.toString(16));
                 }
                 // db.close();
                 resolve(decorator);
@@ -338,18 +305,11 @@ export class DataService {
             .toArray()
             .then(results => {
               const prop =
-                decorator.field.key === 'Minimum'
-                  ? 'min'
-                  : decorator.field.key === 'Maximum'
-                    ? 'max'
-                    : 'mean';
+                decorator.field.key === 'Minimum' ? 'min' : decorator.field.key === 'Maximum' ? 'max' : 'mean';
               let scale;
               switch (decorator.type) {
                 case DataDecoratorTypeEnum.COLOR:
-                  scale = this.getColorScale(
-                    results,
-                    Object.assign({}, decorator.field, { key: prop })
-                  );
+                  scale = this.getColorScale(results, Object.assign({}, decorator.field, { key: prop }));
                   decorator.values = results.map(v => ({
                     pid: null,
                     sid: null,
@@ -370,17 +330,12 @@ export class DataService {
                   if (!decorator.legend.labels.find(v => v === 'NA')) {
                     decorator.legend.labels.concat(['NA']);
                   }
-                  decorator.legend.values = scale['range']().concat([
-                    '#DDDDDD'
-                  ]);
+                  decorator.legend.values = scale['range']().concat(['#DDDDDD']);
                   break;
 
                 case DataDecoratorTypeEnum.SHAPE:
                   // scale = ChartFactory.getScaleShapeLinear(minMax[0], minMax[1]);
-                  scale = this.getShapeScale(
-                    results,
-                    Object.assign({}, decorator.field, { key: prop })
-                  );
+                  scale = this.getShapeScale(results, Object.assign({}, decorator.field, { key: prop }));
                   decorator.values = results.map(v => ({
                     pid: null,
                     sid: null,
@@ -401,9 +356,7 @@ export class DataService {
                   if (!decorator.legend.labels.find(v => v === 'NA')) {
                     decorator.legend.labels.concat(['NA']);
                   }
-                  decorator.legend.values = scale['range']().concat([
-                    SpriteMaterialEnum.NA
-                  ]);
+                  decorator.legend.values = scale['range']().concat([SpriteMaterialEnum.NA]);
                   break;
               }
               // db.close();
@@ -414,10 +367,7 @@ export class DataService {
     );
   }
 
-  private createSampleDataDecorator(
-    config: GraphConfig,
-    decorator: DataDecorator
-  ): Observable<DataDecorator> {
+  private createSampleDataDecorator(config: GraphConfig, decorator: DataDecorator): Observable<DataDecorator> {
     const formatLabel = (field: DataField, value: any): string => {
       if (value === null || value === undefined) {
         return 'NA';
@@ -452,10 +402,7 @@ export class DataService {
 
     return observableFrom(
       new Promise(resolve => {
-        this.getPatientData(
-          'notitia-' + config.database,
-          decorator.field.tbl
-        ).then(result => {
+        this.getPatientData('notitia-' + config.database, decorator.field.tbl).then(result => {
           const items = result.data;
           const psMap = result.patientMap;
           let scale: Function;
@@ -505,14 +452,8 @@ export class DataService {
                       pid: result.sampleMap[sid],
                       mid: null,
                       key: EntityTypeEnum.SAMPLE,
-                      label: formatLabel(
-                        decorator.field,
-                        data[sid][decorator.field.key]
-                      ),
-                      value: formatValue(
-                        decorator.field,
-                        data[sid][decorator.field.key]
-                      )
+                      label: formatLabel(decorator.field, data[sid][decorator.field.key]),
+                      value: formatValue(decorator.field, data[sid][decorator.field.key])
                     };
                   });
                 } else {
@@ -536,14 +477,8 @@ export class DataService {
                       pid: result.sampleMap[sid],
                       mid: null,
                       key: EntityTypeEnum.SAMPLE,
-                      label: formatLabel(
-                        decorator.field,
-                        data[result.sampleMap[sid]][decorator.field.key]
-                      ),
-                      value: formatValue(
-                        decorator.field,
-                        data[result.sampleMap[sid]][decorator.field.key]
-                      )
+                      label: formatLabel(decorator.field, data[result.sampleMap[sid]][decorator.field.key]),
+                      value: formatValue(decorator.field, data[result.sampleMap[sid]][decorator.field.key])
                     };
                   });
                 }
@@ -560,9 +495,7 @@ export class DataService {
                 mid: null,
                 key: EntityTypeEnum.PATIENT,
                 label: formatLabel(decorator.field, v[decorator.field.key]),
-                value: scale(
-                  formatValue(decorator.field, v[decorator.field.key])
-                )
+                value: scale(formatValue(decorator.field, v[decorator.field.key]))
               }));
               resolve(decorator);
               break;
@@ -590,16 +523,8 @@ export class DataService {
                     pid: result.sampleMap[sid],
                     mid: null,
                     key: EntityTypeEnum.SAMPLE,
-                    label: formatLabel(
-                      decorator.field,
-                      data[sid][decorator.field.key]
-                    ),
-                    value: scale(
-                      formatValue(
-                        decorator.field,
-                        data[sid][decorator.field.key]
-                      )
-                    )
+                    label: formatLabel(decorator.field, data[sid][decorator.field.key]),
+                    value: scale(formatValue(decorator.field, data[sid][decorator.field.key]))
                   };
                 });
               } else {
@@ -623,18 +548,8 @@ export class DataService {
                     pid: result.sampleMap[sid],
                     mid: null,
                     key: EntityTypeEnum.SAMPLE,
-                    label: scale(
-                      formatLabel(
-                        decorator.field,
-                        data[result.sampleMap[sid]][decorator.field.key]
-                      )
-                    ),
-                    value: scale(
-                      formatValue(
-                        decorator.field,
-                        data[result.sampleMap[sid]][decorator.field.key]
-                      )
-                    )
+                    label: scale(formatLabel(decorator.field, data[result.sampleMap[sid]][decorator.field.key])),
+                    value: scale(formatValue(decorator.field, data[result.sampleMap[sid]][decorator.field.key]))
                   };
                 });
               }
@@ -695,16 +610,8 @@ export class DataService {
                     pid: result.sampleMap[sid],
                     mid: null,
                     key: EntityTypeEnum.SAMPLE,
-                    label: formatLabel(
-                      decorator.field,
-                      data[sid][decorator.field.key]
-                    ),
-                    value: scale(
-                      formatValue(
-                        decorator.field,
-                        data[sid][decorator.field.key]
-                      )
-                    )
+                    label: formatLabel(decorator.field, data[sid][decorator.field.key]),
+                    value: scale(formatValue(decorator.field, data[sid][decorator.field.key]))
                   };
                 });
               } else {
@@ -728,18 +635,8 @@ export class DataService {
                     pid: result.sampleMap[sid],
                     mid: null,
                     key: EntityTypeEnum.SAMPLE,
-                    label: scale(
-                      formatLabel(
-                        decorator.field,
-                        data[result.sampleMap[sid]][decorator.field.key]
-                      )
-                    ),
-                    value: scale(
-                      formatValue(
-                        decorator.field,
-                        data[result.sampleMap[sid]][decorator.field.key]
-                      )
-                    )
+                    label: scale(formatLabel(decorator.field, data[result.sampleMap[sid]][decorator.field.key])),
+                    value: scale(formatValue(decorator.field, data[result.sampleMap[sid]][decorator.field.key]))
                   };
                 });
               }
@@ -757,9 +654,7 @@ export class DataService {
                 if (!decorator.legend.labels.find(v => v === 'NA')) {
                   decorator.legend.labels.concat(['NA']);
                 }
-                decorator.legend.values = scale['range']().concat([
-                  SpriteMaterialEnum.NA
-                ]);
+                decorator.legend.values = scale['range']().concat([SpriteMaterialEnum.NA]);
               } else {
                 decorator.legend.labels = scale['range']().map(v =>
                   scale['invertExtent'](v)
@@ -769,9 +664,7 @@ export class DataService {
                 if (!decorator.legend.labels.find(v => v === 'NA')) {
                   decorator.legend.labels.concat(['NA']);
                 }
-                decorator.legend.values = scale['range']().concat([
-                  SpriteMaterialEnum.NA
-                ]);
+                decorator.legend.values = scale['range']().concat([SpriteMaterialEnum.NA]);
               }
               resolve(decorator);
               break;
@@ -780,10 +673,14 @@ export class DataService {
       })
     );
   }
-  createDataDecorator(
-    config: GraphConfig,
-    decorator: DataDecorator
-  ): Observable<DataDecorator> {
+  createDataDecorator(config: GraphConfig, decorator: DataDecorator): Observable<DataDecorator> {
+    if (decorator.type === DataDecoratorTypeEnum.SELECT) {
+      return Observable<DataDecorator>.fromPromise(
+        new Promise<DataDecorator>(resolve, reject => {
+          resolve(decorator);
+        })
+      );
+    }
     if (decorator.field.ctype & CollectionTypeEnum.MOLEC_DATA_FIELD_TABLES) {
       return this.createMolecularDataDecorator(config, decorator);
     }
@@ -801,15 +698,10 @@ export class DataService {
   }
   getGeneSetByCategory(categoryCode: string): Observable<any> {
     return observableFrom(
-      fetch(
-        'https://oncoscape.v3.sttrcancer.org/data/genesets/' +
-          categoryCode +
-          '.json.gz',
-        {
-          method: 'GET',
-          headers: DataService.headersJson
-        }
-      ).then(res => res.json())
+      fetch('https://oncoscape.v3.sttrcancer.org/data/genesets/' + categoryCode + '.json.gz', {
+        method: 'GET',
+        headers: DataService.headersJson
+      }).then(res => res.json())
     );
     // const subcats = [
     //   'CGP',
@@ -875,13 +767,10 @@ export class DataService {
   // }
   getGeneSetCategories(): Observable<any> {
     return observableFrom(
-      fetch(
-        'https://oncoscape.v3.sttrcancer.org/data/genesets/categories.json.gz',
-        {
-          method: 'GET',
-          headers: DataService.headersJson
-        }
-      ).then(res => res.json())
+      fetch('https://oncoscape.v3.sttrcancer.org/data/genesets/categories.json.gz', {
+        method: 'GET',
+        headers: DataService.headersJson
+      }).then(res => res.json())
     );
   }
 
@@ -980,19 +869,15 @@ export class DataService {
                               ? 'kernal_pca.json'
                               : v === VisualizationEnum.LDA
                                 ? 'latent_dirichlet_allocation.json'
-                                : v ===
-                                  VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS
+                                : v === VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS
                                   ? 'linear_discriminant_analysis.json'
-                                  : v ===
-                                    VisualizationEnum.LOCALLY_LINEAR_EMBEDDING
+                                  : v === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING
                                     ? 'locally_linear_embedding.json'
                                     : v === VisualizationEnum.MDS
                                       ? 'mds.json'
-                                      : v ===
-                                        VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING
+                                      : v === VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING
                                         ? 'mini_batch_dictionary_learning.json'
-                                        : v ===
-                                          VisualizationEnum.MINI_BATCH_SPARSE_PCA
+                                        : v === VisualizationEnum.MINI_BATCH_SPARSE_PCA
                                           ? 'mini_batch_sparse_pca.json'
                                           : v === VisualizationEnum.NMF
                                             ? 'nmf.json'
@@ -1001,37 +886,35 @@ export class DataService {
                                               : v === VisualizationEnum.PCA
                                                 ? 'pca.json'
                                                 : // tslint:disable-next-line:max-line-length
-                                                  v ===
-                                                  VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS
+                                                  v === VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS
                                                   ? 'quadratic_discriminant_analysis.json)'
-                                                  : v ===
-                                                    VisualizationEnum.SPARSE_PCA
+                                                  : v === VisualizationEnum.SPARSE_PCA
                                                     ? 'sparse_pca.json'
-                                                    : v ===
-                                                      VisualizationEnum.SPECTRAL_EMBEDDING
+                                                    : v === VisualizationEnum.SPECTRAL_EMBEDDING
                                                       ? 'spectral_embedding.json'
-                                                      : v ===
-                                                        VisualizationEnum.SURVIVAL
+                                                      : v === VisualizationEnum.SURVIVAL
                                                         ? 'survival.json'
-                                                        : v ===
-                                                          VisualizationEnum.HAZARD
+                                                        : v === VisualizationEnum.HAZARD
                                                           ? 'hazard.json'
-                                                          : v ===
-                                                            VisualizationEnum.TIMELINES
+                                                          : v === VisualizationEnum.TIMELINES
                                                             ? 'timelines.json'
-                                                            : v ===
-                                                              VisualizationEnum.TRUNCATED_SVD
+                                                            : v === VisualizationEnum.TRUNCATED_SVD
                                                               ? 'truncated_svd.json'
-                                                              : v ===
-                                                                VisualizationEnum.TSNE
+                                                              : v === VisualizationEnum.TSNE
                                                                 ? 'tsne.json'
-                                                                : v ===
-                                                                  VisualizationEnum.UMAP
+                                                                : v === VisualizationEnum.UMAP
                                                                   ? 'umap.json'
-                                                                  : v ===
-                                                                    VisualizationEnum.SCATTER
+                                                                  : v === VisualizationEnum.SCATTER
                                                                     ? 'scatter.json'
-                                                                    : '';
+                                                                    : v === VisualizationEnum.PLSSVD
+                                                                      ? 'pls_svd.json'
+                                                                      : v === VisualizationEnum.PLSREGRESSION
+                                                                        ? 'pls_regression.json'
+                                                                        : v === VisualizationEnum.PLSCANONICAL
+                                                                          ? 'pls_canonical.json'
+                                                                          : v === VisualizationEnum.CCA
+                                                                            ? 'cca.json'
+                                                                            : '';
   }
   getHelpInfo(config: GraphConfig): Promise<any> {
     const v = config.visualization;
@@ -1114,10 +997,7 @@ export class DataService {
       });
     });
   }
-  getPatientIdsWithSampleIds(
-    database: string,
-    sampleIds: Array<string>
-  ): Promise<Array<string>> {
+  getPatientIdsWithSampleIds(database: string, sampleIds: Array<string>): Promise<Array<string>> {
     return new Promise(resolve => {
       const db = new Dexie('notitia-' + database);
       db.open().then(connection => {
@@ -1134,10 +1014,7 @@ export class DataService {
     });
   }
 
-  getSampleIdsWithPatientIds(
-    database: string,
-    patientIds: Array<string>
-  ): Promise<Array<string>> {
+  getSampleIdsWithPatientIds(database: string, patientIds: Array<string>): Promise<Array<string>> {
     return new Promise(resolve => {
       const db = new Dexie('notitia-' + database);
       db.open().then(connection => {
@@ -1208,11 +1085,7 @@ export class DataService {
       resolve(text);
     });
   }
-  getPatientStatsText(
-    database: string,
-    pids: Array<string>,
-    sids: Array<string>
-  ): Promise<any> {
+  getPatientStatsText(database: string, pids: Array<string>, sids: Array<string>): Promise<any> {
     if (pids === undefined || pids === null) {
       pids = [];
     }
@@ -1224,12 +1097,7 @@ export class DataService {
         const fields = Object.keys(config.fields)
           .map(field => Object.assign(config.fields[field], { field: field }))
           .filter(item => item.type !== 'string')
-          .sort(
-            (a, b) =>
-              a.type !== b.type
-                ? a.type.localeCompare(b.type)
-                : a.name.localeCompare(b.name)
-          );
+          .sort((a, b) => (a.type !== b.type ? a.type.localeCompare(b.type) : a.name.localeCompare(b.name)));
 
         const db = new Dexie('notitia-' + database);
         db.open().then(connection => {
@@ -1241,13 +1109,7 @@ export class DataService {
                   .where('p')
                   .anyOfIgnoreCase(pids);
 
-          let text =
-            '<p>You selected ' +
-            pids.length +
-            ' patients ' +
-            ' from ' +
-            sids.length +
-            ' samples ';
+          let text = '<p>You selected ' + pids.length + ' patients ' + ' from ' + sids.length + ' samples ';
           query.toArray().then(result => {
             text +=
               'with the following averages:</p>' +
@@ -1279,12 +1141,7 @@ export class DataService {
         const fields = Object.keys(config.fields)
           .map(field => Object.assign(config.fields[field], { field: field }))
           .filter(item => item.type !== 'string')
-          .sort(
-            (a, b) =>
-              a.type !== b.type
-                ? a.type.localeCompare(b.type)
-                : a.name.localeCompare(b.name)
-          );
+          .sort((a, b) => (a.type !== b.type ? a.type.localeCompare(b.type) : a.name.localeCompare(b.name)));
 
         const db = new Dexie('notitia-' + database);
         db.open().then(connection => {
@@ -1326,9 +1183,7 @@ export class DataService {
                 bins[i] = 0;
               }
               for (i = 0; i < len; i++) {
-                bins[
-                  Math.min(Math.floor((arr[i] - first) / binWidth), binCnt - 1)
-                ] += 1;
+                bins[Math.min(Math.floor((arr[i] - first) / binWidth), binCnt - 1)] += 1;
               }
               const stats = bins.map((v, j) => ({
                 label: Math.round(first + j * binWidth).toString(),
@@ -1417,14 +1272,10 @@ export class DataService {
                         .toArray();
                     case 'contains':
                       // return connection.table('patient').where(rule.field).(rule.value).toArray();
-                      alert(
-                        'Query Contains Operator Not Yet Implemented - Ignoring'
-                      );
+                      alert('Query Contains Operator Not Yet Implemented - Ignoring');
                       return null;
                     case 'like':
-                      alert(
-                        'Query Like Operator Not Yet Implemented - Ignoring'
-                      );
+                      alert('Query Like Operator Not Yet Implemented - Ignoring');
                       return null;
                   }
                   break;
@@ -1526,13 +1377,10 @@ export class DataService {
     });
   }
   getPathways(): Promise<Array<any>> {
-    return fetch(
-      'https://oncoscape.v3.sttrcancer.org/data/reference/pathways.json.gz',
-      {
-        method: 'GET',
-        headers: DataService.headersJson
-      }
-    ).then(res => res.json());
+    return fetch('https://oncoscape.v3.sttrcancer.org/data/reference/pathways.json.gz', {
+      method: 'GET',
+      headers: DataService.headersJson
+    }).then(res => res.json());
   }
   createCustomPathway(database: string, pathway: Pathway): Promise<any> {
     return new Promise(resolve => {
@@ -1584,27 +1432,17 @@ export class DataService {
       headers: DataService.headersJson
     }).then(res => res.json());
   }
-  getGenesetCategories(): Promise<
-    Array<{ code: string; name: string; desc: string }>
-  > {
-    return fetch(
-      'https://oncoscape.v3.sttrcancer.org/data/genesets/categories.json.gz',
-      {
-        method: 'GET',
-        headers: DataService.headersJson
-      }
-    ).then(res => res.json());
+  getGenesetCategories(): Promise<Array<{ code: string; name: string; desc: string }>> {
+    return fetch('https://oncoscape.v3.sttrcancer.org/data/genesets/categories.json.gz', {
+      method: 'GET',
+      headers: DataService.headersJson
+    }).then(res => res.json());
   }
   getGenesets(category: string): Promise<Array<any>> {
-    return fetch(
-      'https://oncoscape.v3.sttrcancer.org/data/reference/geneset-' +
-        category.toLowerCase() +
-        '.json.gz',
-      {
-        method: 'GET',
-        headers: DataService.headersJson
-      }
-    ).then(res => res.json());
+    return fetch('https://oncoscape.v3.sttrcancer.org/data/reference/geneset-' + category.toLowerCase() + '.json.gz', {
+      method: 'GET',
+      headers: DataService.headersJson
+    }).then(res => res.json());
   }
   getCustomGenesets(database: string): Promise<any> {
     return new Promise(resolve => {
@@ -2534,10 +2372,7 @@ export class DataService {
       });
     });
   }
-  createCustomGenesetFromSelect(
-    database: string,
-    geneset: GeneSet
-  ): Promise<any> {
+  createCustomGenesetFromSelect(database: string, geneset: GeneSet): Promise<any> {
     return new Promise(resolve => {
       const db = new Dexie('notitia-' + database);
       db.open().then(conn => {
@@ -2779,40 +2614,23 @@ export class DataService {
             if (count > 0) {
               return;
             }
-            const genecoords = fetch(
-              'https://oncoscape.v3.sttrcancer.org/data/reference/genecoords.json.gz',
-              {
-                method: 'GET',
-                headers: DataService.headersJson
-              }
-            ).then(res => res.json());
-            const bandcoords = fetch(
-              'https://oncoscape.v3.sttrcancer.org/data/reference/bandcoords.json.gz',
-              {
-                method: 'GET',
-                headers: DataService.headersJson
-              }
-            ).then(res => res.json());
-            const genemap = fetch(
-              'https://oncoscape.v3.sttrcancer.org/data/reference/genemap.json.gz',
-              {
-                method: 'GET',
-                headers: DataService.headersJson
-              }
-            ).then(res => res.json());
-            const genelinks = fetch(
-              'https://oncoscape.v3.sttrcancer.org/data/reference/genelinks.json.gz',
-              {
-                method: 'GET',
-                headers: DataService.headersJson
-              }
-            ).then(res => res.json());
-            observableZip(
-              genecoords,
-              bandcoords,
-              genemap,
-              genelinks
-            ).subscribe(result => {
+            const genecoords = fetch('https://oncoscape.v3.sttrcancer.org/data/reference/genecoords.json.gz', {
+              method: 'GET',
+              headers: DataService.headersJson
+            }).then(res => res.json());
+            const bandcoords = fetch('https://oncoscape.v3.sttrcancer.org/data/reference/bandcoords.json.gz', {
+              method: 'GET',
+              headers: DataService.headersJson
+            }).then(res => res.json());
+            const genemap = fetch('https://oncoscape.v3.sttrcancer.org/data/reference/genemap.json.gz', {
+              method: 'GET',
+              headers: DataService.headersJson
+            }).then(res => res.json());
+            const genelinks = fetch('https://oncoscape.v3.sttrcancer.org/data/reference/genelinks.json.gz', {
+              method: 'GET',
+              headers: DataService.headersJson
+            }).then(res => res.json());
+            observableZip(genecoords, bandcoords, genemap, genelinks).subscribe(result => {
               const hugoLookup = result[2];
               hugoLookup.forEach(gene => {
                 gene.hugo = gene.hugo.toUpperCase();
@@ -2826,15 +2644,11 @@ export class DataService {
               }));
               const allGenes = Array.from(
                 new Set([
-                  ...Array.from(
-                    new Set(geneLinksData.map(gene => gene.source))
-                  ),
+                  ...Array.from(new Set(geneLinksData.map(gene => gene.source))),
                   ...Array.from(new Set(geneLinksData.map(gene => gene.target)))
                 ])
               );
-              const missingGenes = allGenes.filter(
-                gene => !validHugoGenes.has(gene)
-              );
+              const missingGenes = allGenes.filter(gene => !validHugoGenes.has(gene));
               const missingMap = missingGenes.reduce((p, c) => {
                 const value = hugoLookup.find(v2 => v2.symbols.indexOf(c) >= 0);
                 if (value) {
@@ -2859,13 +2673,11 @@ export class DataService {
                 p[c.gene] = c;
                 return p;
               }, {});
-              const links = geneLinksData
-                .filter(link => link.source !== null && link.target !== null)
-                .map(link => {
-                  link.sourceData = geneLookup[link.source];
-                  link.targetData = geneLookup[link.target];
-                  return link;
-                });
+              const links = geneLinksData.filter(link => link.source !== null && link.target !== null).map(link => {
+                link.sourceData = geneLookup[link.source];
+                link.targetData = geneLookup[link.target];
+                return link;
+              });
               DataService.db.table('genecoords').bulkAdd(result[0]);
               DataService.db.table('bandcoords').bulkAdd(result[1]);
               DataService.db.table('genemap').bulkAdd(result[2]);

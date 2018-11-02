@@ -10,16 +10,17 @@ import { CCAConfigModel } from './cca.model';
   templateUrl: './cca.form.component.html'
 })
 export class CCAFormComponent extends AbstractScatterForm {
-
-  @Input() set config(v: CCAConfigModel) {
-    if (v === null) { return; }
+  @Input()
+  set config(v: CCAConfigModel) {
+    if (v === null) {
+      return;
+    }
     if (this.form.value.visualization === null) {
       this.form.patchValue(v, { emitEvent: false });
     }
   }
 
   constructor(private fb: FormBuilder) {
-
     super();
 
     this.form = this.fb.group({
@@ -30,6 +31,8 @@ export class CCAFormComponent extends AbstractScatterForm {
       entity: [],
       table: [],
 
+      max_iter: [],
+      tol: [],
       pcx: [],
       pcy: [],
       pcz: [],

@@ -1,0 +1,82 @@
+{
+  "method": "Nu SVR",
+  "summary": "Similar to NuSVC, for regression, uses a parameter nu to control the number of support vectors. However, unlike NuSVC, where nu replaces C, here nu replaces the parameter epsilon of epsilon-SVR.",
+  "desc": "<span class='help-method'>Nu Support Vector Regression. Similar to NuSVC, for regression, uses a parameter nu to control the number of support vectors. However, unlike NuSVC, where nu replaces C, here nu replaces the parameter epsilon of epsilon-SVR. The implementation is based on libsvm. <br />",
+  "urlparagraph": "Read more in the User Guide.",
+  "url": "http://scikit-learn.org/stable/modules/generated/sklearn.svm.NuSVR.html#sklearn.svm.NuSVR",
+  "tutorial": [{
+    "desc": "Learn more on Oncoscape + Sci-Kit clustering methods",
+    "url": "https://www.youtube.com/embed/XQu8TTBmGhA"
+  }],
+  "params": [{
+    "name": "nu",
+    "type": "float, optional",
+    "desc": "An upper bound on the fraction of training errors and a lower bound of"
+  }, {
+    "name": "C",
+    "type": "float, optional (default=1.0)",
+    "desc": "Penalty parameter C of the error term."
+  }, {
+    "name": "kernel",
+    "type": "string, optional (default=’rbf’)",
+    "desc": "Specifies the kernel type to be used in the algorithm."
+  }, {
+    "name": "degree",
+    "type": "int, optional (default=3)",
+    "desc": "Degree of the polynomial kernel function (‘poly’)."
+  }, {
+    "name": "gamma",
+    "type": "float, optional (default=’auto’)",
+    "desc": "Kernel coefficient for ‘rbf’, ‘poly’ and ‘sigmoid’."
+  }, {
+    "name": "coef0",
+    "type": "float, optional (default=0.0)",
+    "desc": "Independent term in kernel function."
+  }, {
+    "name": "shrinking",
+    "type": "boolean, optional (default=True)",
+    "desc": "Whether to use the shrinking heuristic."
+  }, {
+    "name": "tol",
+    "type": "float, optional (default=1e-3)",
+    "desc": "Tolerance for stopping criterion."
+  }, {
+    "name": "cache_size",
+    "type": "float, optional",
+    "desc": "Specify the size of the kernel cache (in MB)."
+  }, {
+    "name": "verbose",
+    "type": "bool, default",
+    "desc": ""
+  }, {
+    "name": "max_iter",
+    "type": "int, optional (default=-1)",
+    "desc": "Hard limit on iterations within solver, or -1 for no limit."
+  }],
+  "attrs": [{
+    "name": "support_",
+    "type": "array-like, shape = [n_SV]",
+    "desc": "Indices of support vectors."
+  }, {
+    "name": "support_vectors_",
+    "type": "array-like, shape = [nSV, n_features]",
+    "desc": "Support vectors."
+  }, {
+    "name": "dual_coef_",
+    "type": "array, shape = [1, n_SV]",
+    "desc": "Coefficients of the support vector in the decision function."
+  }, {
+    "name": "coef_",
+    "type": "array, shape = [1, n_features]",
+    "desc": "Weights assigned to the features (coefficients in the primal"
+  }, {
+    "name": "intercept_",
+    "type": "array, shape = [1]",
+    "desc": "Constants in decision function."
+  }],
+  "citations": [{
+    "name": "",
+    "desc": "",
+    "url": ""
+  }]
+}
