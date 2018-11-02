@@ -1,6 +1,6 @@
 {
   "method": "Nu SVR",
-  "summary": "",
+  "summary": "Similar to NuSVC, for regression, uses a parameter nu to control the number of support vectors. However, unlike NuSVC, where nu replaces C, here nu replaces the parameter epsilon of epsilon-SVR.",
   "desc": "<span class='help-method'>Nu Support Vector Regression. Similar to NuSVC, for regression, uses a parameter nu to control the number of support vectors. However, unlike NuSVC, where nu replaces C, here nu replaces the parameter epsilon of epsilon-SVR. The implementation is based on libsvm. <br />",
   "urlparagraph": "Read more in the User Guide.",
   "url": "http://scikit-learn.org/stable/modules/generated/sklearn.svm.NuSVR.html#sklearn.svm.NuSVR",

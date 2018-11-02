@@ -1,4 +1,3 @@
-
 import {filter, withLatestFrom} from 'rxjs/operators';
 import { ScatterGraph } from './../../visualization/scatter/scatter.graph';
 import { UmapGraph } from './../../visualization/umap/umap.graph';
@@ -41,7 +40,7 @@ import { HicGraph } from './../../visualization/hic/hic.graph';
 import { HistogramGraph } from './../../visualization/histogram/histogram.graph';
 import { IsoMapGraph } from './../../visualization/isomap/isomap.graph';
 import { LdaGraph } from './../../visualization/lda/lda.graph';
-import { LinearDiscriminantAnalysisGraph } from './../../visualization/lineardiscriminantanalysis/lineardiscriminantanalysis';
+import { LinearDiscriminantAnalysisGraph } from './../../visualization/lineardiscriminantanalysis/lineardiscriminantanalysis.graph';
 import { LinkedGeneGraph } from './../../visualization/linkedgenes/linkedgenes.graph';
 import { LocalLinearEmbeddingGraph } from './../../visualization/locallinearembedding/locallinearembedding.graph';
 import { MdsGraph } from './../../visualization/mds/mds.graph';

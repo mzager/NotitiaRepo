@@ -1,6 +1,6 @@
 {
   "method": "PLS Regression",
-  "summary": "",
+  "summary": "Partial least squares regression (PLS regression) is a statistical method that bears some relation to principal components regression; instead of finding hyperplanes of maximum variance between the response and independent variables, it finds a linear regression model by projecting the predicted variables and the observable variables to a new space.",
   "desc": "<span class='help-method'>PLS regression PLSRegression implements the PLS 2 blocks regression known as PLS2 or PLS1 in case of one dimensional response. This class inherits from _PLS with mode=”A”, deflation_mode=”regression”,norm_y_weights=False and algorithm=”nipals.",
   "urlparagraph": "Read more in the User Guide.",
   "url": "http://scikit-learn.org/stable/modules/generated/sklearn.cross_decomposition.PLSRegression.html#sklearn.cross_decomposition.PLSRegression",
