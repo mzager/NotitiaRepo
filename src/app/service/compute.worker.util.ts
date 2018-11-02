@@ -5,17 +5,8 @@ import Dexie from 'dexie';
 import * as _ from 'lodash';
 import { EdgeConfigModel } from './../component/visualization/edges/edges.model';
 import { DataField } from './../model/data-field.model';
-import {
-  DataDecorator,
-  DataDecoratorTypeEnum,
-  DataDecoratorValue
-} from './../model/data-map.model';
-import {
-  CollectionTypeEnum,
-  DataTypeEnum,
-  EntityTypeEnum,
-  SpriteMaterialEnum
-} from './../model/enum.model';
+import { DataDecorator, DataDecoratorTypeEnum, DataDecoratorValue } from './../model/data-map.model';
+import { CollectionTypeEnum, DataTypeEnum, EntityTypeEnum, SpriteMaterialEnum } from './../model/enum.model';
 import { GraphConfig } from './../model/graph-config.model';
 import { Legend } from './../model/legend.model';
 
@@ -52,16 +43,7 @@ export class ComputeWorkerUtil {
     0x97392b,
     0xc9759a
   ];
-  public colors3 = [
-    0xf06292,
-    0xba68c8,
-    0x9575cd,
-    0x7986cb,
-    0x64b5f6,
-    0x80cbc4,
-    0xffcc80,
-    0xbcaaa4
-  ];
+  public colors3 = [0xf06292, 0xba68c8, 0x9575cd, 0x7986cb, 0x64b5f6, 0x80cbc4, 0xffcc80, 0xbcaaa4];
   public colors = [
     0xd50000,
     0xaa00ff,
@@ -129,10 +111,7 @@ export class ComputeWorkerUtil {
       return '00';
     }
     n = Math.max(0, Math.min(n, 255));
-    return (
-      '0123456789ABCDEF'.charAt((n - (n % 16)) / 16) +
-      '0123456789ABCDEF'.charAt(n % 16)
-    );
+    return '0123456789ABCDEF'.charAt((n - (n % 16)) / 16) + '0123456789ABCDEF'.charAt(n % 16);
   }
   colorRgbToHex(R, G, B): string {
     return this.colorToHex(R) + this.colorToHex(G) + this.colorToHex(B);
@@ -156,14 +135,10 @@ export class ComputeWorkerUtil {
     color2 = color2.match(/\d+/g).map(Number);
 
     for (let i = 0; i < steps; i++) {
-      interpolatedColorArray.push(
-        this.interpolateColor(color1, color2, stepFactor * i)
-      );
+      interpolatedColorArray.push(this.interpolateColor(color1, color2, stepFactor * i));
     }
     if (hex) {
-      return interpolatedColorArray.map(v =>
-        parseInt('0x' + this.colorRgbToHex(v[0], v[1], v[2]), 16)
-      );
+      return interpolatedColorArray.map(v => parseInt('0x' + this.colorRgbToHex(v[0], v[1], v[2]), 16));
     }
     return interpolatedColorArray;
   }
@@ -237,10 +212,7 @@ export class ComputeWorkerUtil {
   }
 
   // Add Sample Ids To A Map
-  applySampleIds(
-    config: GraphConfig,
-    values: Array<DataDecoratorValue>
-  ): Promise<any> {
+  applySampleIds(config: GraphConfig, values: Array<DataDecoratorValue>): Promise<any> {
     return new Promise((resolve, reject) => {
       this.getSamplePatientMap(config.database).then(result => {
         const sampleMap = result.reduce((p, c) => {
@@ -273,10 +245,7 @@ export class ComputeWorkerUtil {
         legend.values = Object.keys(colorMap).map(key => colorMap[key]);
         return legend;
       case DataTypeEnum.NUMBER:
-        const scale = scaleSequential<string>(interpolateSpectral).domain([
-          field.values.min,
-          field.values.max
-        ]);
+        const scale = scaleSequential<string>(interpolateSpectral).domain([field.values.min, field.values.max]);
         values.forEach(value => {
           value.value = scale(value.value);
         });
@@ -284,9 +253,7 @@ export class ComputeWorkerUtil {
         legend.name = field.label;
         legend.type = 'COLOR';
         legend.display = 'CONTINUOUS';
-        legend.labels = [field.values.min, field.values.max].map(val =>
-          Math.round(val).toString()
-        );
+        legend.labels = [field.values.min, field.values.max].map(val => Math.round(val).toString());
         legend.values = [0xff0000, 0xff0000];
         return legend;
     }
@@ -294,11 +261,7 @@ export class ComputeWorkerUtil {
   }
 
   // Process Patient Data Map
-  getDataDecoratorPatient(
-    config: GraphConfig,
-    field: DataField,
-    type: DataDecoratorTypeEnum
-  ): Promise<DataDecorator> {
+  getDataDecoratorPatient(config: GraphConfig, field: DataField, type: DataDecoratorTypeEnum): Promise<DataDecorator> {
     return new Promise((resolve, reject) => {
       const tbl = field.tbl.replace(/ /gi, '');
       this.openDatabaseData(config.database).then(connection => {
@@ -328,11 +291,7 @@ export class ComputeWorkerUtil {
     });
   }
 
-  getDataDecorator(
-    config: GraphConfig,
-    field: DataField,
-    type: DataDecoratorTypeEnum
-  ): Promise<DataDecorator> {
+  getDataDecorator(config: GraphConfig, field: DataField, type: DataDecoratorTypeEnum): Promise<DataDecorator> {
     switch (field.ctype) {
       // case CollectionTypeEnum.UNDEFINED:
       //     return new Promise( (resolve, reject) => { resolve(); });
@@ -348,10 +307,7 @@ export class ComputeWorkerUtil {
   }
 
   // ORIG
-  processShapeColorSizeIntersect(
-    config: GraphConfig,
-    worker: DedicatedWorkerGlobalScope
-  ) {
+  processShapeColorSizeIntersect(config: GraphConfig, worker: DedicatedWorkerGlobalScope) {
     // if ((config.dirtyFlag & DirtyEnum.COLOR) > 0) {
     //     worker.util.getColorMap(config.entity, config.markerFilter, config.sampleFilter, config.database, config.pointColor).then(
     //         result => {
@@ -411,12 +367,11 @@ export class ComputeWorkerUtil {
   getGeneLinkInfo(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.openDatabaseLookup().then(v => {
-        Promise.all([
-          this.dbLookup.table('genelinks').toArray(),
-          this.dbLookup.table('genecoords').toArray()
-        ]).then(result => {
-          resolve(result);
-        });
+        Promise.all([this.dbLookup.table('genelinks').toArray(), this.dbLookup.table('genecoords').toArray()]).then(
+          result => {
+            resolve(result);
+          }
+        );
       });
     });
   }
@@ -486,34 +441,21 @@ export class ComputeWorkerUtil {
     });
   }
   getCytobands(alignment: string): Promise<any> {
-    return fetch(
-      'https://oncoscape.v3.sttrcancer.org/data/reference/hg-' +
-        alignment +
-        '-cytoband.json.gz',
-      {
-        method: 'GET',
-        headers: this.headersJson
-      }
-    ).then(res => res.json());
+    return fetch('https://oncoscape.v3.sttrcancer.org/data/reference/hg-' + alignment + '-cytoband.json.gz', {
+      method: 'GET',
+      headers: this.headersJson
+    }).then(res => res.json());
   }
 
   getGenes(alignment: string): Promise<any> {
-    return fetch(
-      'https://oncoscape.v3.sttrcancer.org/data/reference/hg-' +
-        alignment +
-        '-genes.json.gz',
-      {
-        method: 'GET',
-        headers: this.headersJson
-      }
-    ).then(res => res.json());
+    return fetch('https://oncoscape.v3.sttrcancer.org/data/reference/hg-' + alignment + '-genes.json.gz', {
+      method: 'GET',
+      headers: this.headersJson
+    }).then(res => res.json());
   }
 
   getGenomePositions(alignment: string): Promise<any> {
-    return Promise.all([
-      this.getCytobands(alignment),
-      this.getGenes(alignment)
-    ]);
+    return Promise.all([this.getCytobands(alignment), this.getGenes(alignment)]);
   }
 
   getGenomeInfo(genes: Array<string>): Promise<any> {
@@ -659,12 +601,8 @@ export class ComputeWorkerUtil {
               samples: _samples.map(s => s.s),
               data:
                 entity === EntityTypeEnum.GENE
-                  ? _markers.map(marker =>
-                      _samples.map(value => marker.d[value.i])
-                    )
-                  : _samples.map(value =>
-                      _markers.map(marker => marker.d[value.i])
-                    )
+                  ? _markers.map(marker => _samples.map(value => marker.d[value.i]))
+                  : _samples.map(value => _markers.map(marker => marker.d[value.i]))
             });
           });
         });
@@ -680,52 +618,51 @@ export class ComputeWorkerUtil {
       //     return;
       // }
       this.openDatabaseData(config.database).then(v => {
-        Promise.all([
-          this.dbData.table('patient').toArray(),
-          this.dbData.table('patientSampleMap').toArray()
-        ]).then(result => {
-          // const patientMap = result[0].reduce((p, c) => { p[c.p] = c; return p; }, {});
-          // const colorField = config.pointColor.key;
-          // const intersectField = config.pointIntersect.key;
-          // const edges = result[1].map(ps => {
-          //     const rv = { a: ps.s, b: ps.s, c: null, i: null };
-          //     if (patientMap.hasOwnProperty(ps.p)) {
-          //         const patient = patientMap[ps.p];
-          //         if (patient.hasOwnProperty(colorField) && colorField !== 'None') {
-          //             rv.c = patient[colorField];
-          //         }
-          //         if (patient.hasOwnProperty(intersectField) && intersectField !== 'None') {
-          //             rv.i = patient[intersectField];
-          //         }
-          //     }
-          //     return rv;
-          // });
-          // if (colorField !== 'None') {
-          //     const colorValues = edges.map<number>((value) => value.c);
-          //     const colorScale = scaleSequential<string>(interpolateSpectral)
-          //         .domain([Math.min(...colorValues), Math.max(...colorValues)]);
-          //     edges.forEach(edge => edge.c = colorScale(edge.c));
-          // }
-          // if (intersectField !== 'None') {
-          //     let bins = 0;
-          //     let intersectScale: any;
-          //     const colorValues = edges.map<number>((value) => value.i);
-          //     switch (config.pointIntersect.type) {
-          //         case DataTypeEnum.STRING:
-          //             bins = config.pointIntersect.values.length;
-          //             intersectScale = (value) => config.pointIntersect.values.indexOf(value) + 1;
-          //             break;
-          //         case DataTypeEnum.NUMBER:
-          //             bins = 6;
-          //             intersectScale = scaleQuantile<number>()
-          //                 .domain([Math.min(...colorValues), Math.max(...colorValues)])
-          //                 .range([1, 2, 3, 4, 5, 6]);
-          //             break;
-          //     }
-          //     edges.forEach(edge => edge.i = intersectScale(edge.i));
-          // }
-          // resolve(edges);
-        });
+        Promise.all([this.dbData.table('patient').toArray(), this.dbData.table('patientSampleMap').toArray()]).then(
+          result => {
+            // const patientMap = result[0].reduce((p, c) => { p[c.p] = c; return p; }, {});
+            // const colorField = config.pointColor.key;
+            // const intersectField = config.pointIntersect.key;
+            // const edges = result[1].map(ps => {
+            //     const rv = { a: ps.s, b: ps.s, c: null, i: null };
+            //     if (patientMap.hasOwnProperty(ps.p)) {
+            //         const patient = patientMap[ps.p];
+            //         if (patient.hasOwnProperty(colorField) && colorField !== 'None') {
+            //             rv.c = patient[colorField];
+            //         }
+            //         if (patient.hasOwnProperty(intersectField) && intersectField !== 'None') {
+            //             rv.i = patient[intersectField];
+            //         }
+            //     }
+            //     return rv;
+            // });
+            // if (colorField !== 'None') {
+            //     const colorValues = edges.map<number>((value) => value.c);
+            //     const colorScale = scaleSequential<string>(interpolateSpectral)
+            //         .domain([Math.min(...colorValues), Math.max(...colorValues)]);
+            //     edges.forEach(edge => edge.c = colorScale(edge.c));
+            // }
+            // if (intersectField !== 'None') {
+            //     let bins = 0;
+            //     let intersectScale: any;
+            //     const colorValues = edges.map<number>((value) => value.i);
+            //     switch (config.pointIntersect.type) {
+            //         case DataTypeEnum.STRING:
+            //             bins = config.pointIntersect.values.length;
+            //             intersectScale = (value) => config.pointIntersect.values.indexOf(value) + 1;
+            //             break;
+            //         case DataTypeEnum.NUMBER:
+            //             bins = 6;
+            //             intersectScale = scaleQuantile<number>()
+            //                 .domain([Math.min(...colorValues), Math.max(...colorValues)])
+            //                 .range([1, 2, 3, 4, 5, 6]);
+            //             break;
+            //     }
+            //     edges.forEach(edge => edge.i = intersectScale(edge.i));
+            // }
+            // resolve(edges);
+          }
+        );
       });
     });
   }
@@ -825,11 +762,7 @@ export class ComputeWorkerUtil {
     });
   }
 
-  getMolecularGeneValues(
-    markers: Array<string>,
-    field: any,
-    db: string
-  ): Promise<any> {
+  getMolecularGeneValues(markers: Array<string>, field: any, db: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.openDatabaseData(db).then(v => {
         if (markers.length === 0) {
@@ -866,9 +799,7 @@ export class ComputeWorkerUtil {
         if (entity === EntityTypeEnum.GENE) {
           if (field.ctype & CollectionTypeEnum.MOLECULAR) {
             this.getMolecularGeneValues(markers, field, db).then(result => {
-              console.log(
-                'Would be good to subset color by Filtered Samples / Patients...  Revisit'
-              );
+              console.log('Would be good to subset color by Filtered Samples / Patients...  Revisit');
 
               const geneDomain = result.reduce(
                 (p, c) => {
@@ -893,9 +824,7 @@ export class ComputeWorkerUtil {
               legend.name = field.label;
               legend.type = 'COLOR';
               legend.display = 'CONTINUOUS';
-              legend.labels = [geneDomain.min, geneDomain.max].map(val =>
-                Math.round(val).toString()
-              );
+              legend.labels = [geneDomain.min, geneDomain.max].map(val => Math.round(val).toString());
               legend.values = [0xff0000, 0xff0000];
 
               resolve({ map: colorMap, legend: legend });
@@ -908,17 +837,15 @@ export class ComputeWorkerUtil {
                 return p;
               }, {});
               const tads = result[1];
-              const pos = markers
-                .map(w => ({ gene: w, pos: posMap[w] }))
-                .map(w => {
-                  let tad;
-                  if (w.pos === undefined) {
-                    tad = -1;
-                  } else {
-                    tad = tads.find(c => c.s <= w.pos && c.e >= w.pos);
-                  }
-                  return { gene: w.gene, tad: tad.s + '-' + tad.e };
-                });
+              const pos = markers.map(w => ({ gene: w, pos: posMap[w] })).map(w => {
+                let tad;
+                if (w.pos === undefined) {
+                  tad = -1;
+                } else {
+                  tad = tads.find(c => c.s <= w.pos && c.e >= w.pos);
+                }
+                return { gene: w.gene, tad: tad.s + '-' + tad.e };
+              });
               const tadGroups = _.groupBy(pos, 'tad');
               const colors = this.colors;
               const colorGroups = Object.keys(tadGroups)
@@ -978,13 +905,9 @@ export class ComputeWorkerUtil {
                   legend.name = 'Gene Type';
                   legend.type = 'COLOR';
                   legend.display = 'DISCRETE';
-                  legend.labels = Object.keys(types).map(key =>
-                    key.replace(/_/gi, ' ')
-                  );
+                  legend.labels = Object.keys(types).map(key => key.replace(/_/gi, ' '));
                   // just to many types for color options.. defautl to blue (see above too)
-                  legend.values = Object.keys(types).map(
-                    key => (types[key] ? types[key] : 0x039be5)
-                  );
+                  legend.values = Object.keys(types).map(key => (types[key] ? types[key] : 0x039be5));
                   resolve({ map: cm, legend: legend });
                 });
             });
@@ -1045,28 +968,22 @@ export class ComputeWorkerUtil {
                 $in: markers.map(marker => marker.toUpperCase())
               }
             };
-            fetch(
-              'https://dev.oncoscape.sttrcancer.io/api/z_gene_families/' +
-                JSON.stringify(query),
-              {
-                method: 'GET',
-                headers: {
-                  Accept: 'application/json',
-                  'Content-Type': 'application/json',
-                  'Accept-Encoding': 'gzip',
-                  'Access-Control-Allow-Origin': '*'
-                }
+            fetch('https://dev.oncoscape.sttrcancer.io/api/z_gene_families/' + JSON.stringify(query), {
+              method: 'GET',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Accept-Encoding': 'gzip',
+                'Access-Control-Allow-Origin': '*'
               }
-            ).then(res => {
+            }).then(res => {
               res.json().then(data => {
                 const familyMap = _.groupBy(data, 'Gene Family Name');
 
                 const families = Object.keys(familyMap)
                   .map(family => ({
                     family: family.replace(/\,/g, '').trim(),
-                    genes: familyMap[family].map(
-                      gene => gene['Approved Symbol']
-                    )
+                    genes: familyMap[family].map(gene => gene['Approved Symbol'])
                   }))
                   .sort((a, b) => {
                     if (a.family === 'null') {
@@ -1079,8 +996,7 @@ export class ComputeWorkerUtil {
                   });
 
                 const cm = families.reduce((p, c, i) => {
-                  p[c.family] =
-                    i < this.colors.length ? this.colors[i] : 0x039be5;
+                  p[c.family] = i < this.colors.length ? this.colors[i] : 0x039be5;
                   return p;
                 }, {});
 
@@ -1092,9 +1008,7 @@ export class ComputeWorkerUtil {
                 legend.display = 'DISCRETE';
                 legend.labels = families.map(family => family.family);
                 // just to many types for color options.. defautl to blue (see above too)
-                legend.values = families
-                  .map(family => cm[family.family])
-                  .map(col => (col ? col : 0x039be5));
+                legend.values = families.map(family => cm[family.family]).map(col => (col ? col : 0x039be5));
 
                 // Legit, not sure why it complains.
                 const colorMap = Object.assign(
@@ -1126,57 +1040,50 @@ export class ComputeWorkerUtil {
               .first()
               .then(dataset => {
                 // Extract Name Of Map
-                const map = dataset.tables.filter(
-                  tbl => tbl.tbl === field.tbl
-                )[0].map;
+                const map = dataset.tables.filter(tbl => tbl.tbl === field.tbl)[0].map;
                 this.dbData
                   .table(map)
                   .toArray()
                   .then(sampleMap => {
-                    this.getMolecularGeneValues(markers, field, db).then(
-                      result => {
-                        const sampleCount = sampleMap.length;
-                        const sampleAvgs = sampleMap.map((value, index) => ({
-                          id: value.s,
-                          value:
-                            result.reduce((p, c) => {
-                              p += c.d[index];
-                              return p;
-                            }, 0) / sampleCount
-                        }));
-                        const sampleDomain = sampleAvgs.reduce(
-                          (p, c) => {
-                            p.min = Math.min(p.min, c.value);
-                            p.max = Math.max(p.max, c.value);
+                    this.getMolecularGeneValues(markers, field, db).then(result => {
+                      const sampleCount = sampleMap.length;
+                      const sampleAvgs = sampleMap.map((value, index) => ({
+                        id: value.s,
+                        value:
+                          result.reduce((p, c) => {
+                            p += c.d[index];
                             return p;
-                          },
-                          { min: Infinity, max: -Infinity }
-                        );
-
-                        const scale = scaleLinear<number, number>()
-                          .domain([sampleDomain.min, sampleDomain.max])
-                          .range([1, 0]);
-
-                        const colorMap = sampleAvgs.reduce(function(p, c) {
-                          p[c.id] = interpolateSpectral(scale(c.value));
+                          }, 0) / sampleCount
+                      }));
+                      const sampleDomain = sampleAvgs.reduce(
+                        (p, c) => {
+                          p.min = Math.min(p.min, c.value);
+                          p.max = Math.max(p.max, c.value);
                           return p;
-                        }, {});
+                        },
+                        { min: Infinity, max: -Infinity }
+                      );
 
-                        // Build Legend
-                        const legend: Legend = new Legend();
-                        legend.name = field.label;
-                        legend.type = 'COLOR';
-                        legend.display = 'CONTINUOUS';
-                        legend.labels = [
-                          sampleDomain.min,
-                          sampleDomain.max
-                        ].map(val => Math.round(val).toString());
-                        legend.values = [0xff0000, 0xff0000];
+                      const scale = scaleLinear<number, number>()
+                        .domain([sampleDomain.min, sampleDomain.max])
+                        .range([1, 0]);
 
-                        // Resolve
-                        resolve({ map: colorMap, legend: legend });
-                      }
-                    );
+                      const colorMap = sampleAvgs.reduce(function(p, c) {
+                        p[c.id] = interpolateSpectral(scale(c.value));
+                        return p;
+                      }, {});
+
+                      // Build Legend
+                      const legend: Legend = new Legend();
+                      legend.name = field.label;
+                      legend.type = 'COLOR';
+                      legend.display = 'CONTINUOUS';
+                      legend.labels = [sampleDomain.min, sampleDomain.max].map(val => Math.round(val).toString());
+                      legend.values = [0xff0000, 0xff0000];
+
+                      // Resolve
+                      resolve({ map: colorMap, legend: legend });
+                    });
                   });
               });
           } else {
@@ -1227,9 +1134,7 @@ export class ComputeWorkerUtil {
                   legend.name = field.label;
                   legend.type = 'COLOR';
                   legend.display = 'CONTINUOUS';
-                  legend.labels = [field.values.min, field.values.max].map(
-                    val => val.toString()
-                  );
+                  legend.labels = [field.values.min, field.values.max].map(val => val.toString());
                   legend.values = [0xff0000, 0xff0000];
 
                   // Resolve
@@ -1255,9 +1160,7 @@ export class ComputeWorkerUtil {
         if (entity === EntityTypeEnum.GENE) {
           if (field.ctype & CollectionTypeEnum.MOLECULAR) {
             this.getMolecularGeneValues(markers, field, db).then(result => {
-              console.log(
-                'Would be good to subset color by Filtered Samples / Patients...  Revisit'
-              );
+              console.log('Would be good to subset color by Filtered Samples / Patients...  Revisit');
 
               const geneDomain = result.reduce(
                 (p, c) => {
@@ -1282,9 +1185,7 @@ export class ComputeWorkerUtil {
               legend.name = field.label;
               legend.type = 'SIZE';
               legend.display = 'CONTINUOUS';
-              legend.labels = [geneDomain.min, geneDomain.max].map(val =>
-                Math.round(val).toString()
-              );
+              legend.labels = [geneDomain.min, geneDomain.max].map(val => Math.round(val).toString());
               legend.values = [0xff0000, 0xff0000];
               resolve({ map: colorMap, legend: legend });
             });
@@ -1303,57 +1204,50 @@ export class ComputeWorkerUtil {
               .first()
               .then(dataset => {
                 // Extract Name Of Map
-                const map = dataset.tables.filter(
-                  tbl => tbl.tbl === field.tbl
-                )[0].map;
+                const map = dataset.tables.filter(tbl => tbl.tbl === field.tbl)[0].map;
                 this.dbData
                   .table(map)
                   .toArray()
                   .then(sampleMap => {
-                    this.getMolecularGeneValues(markers, field, db).then(
-                      result => {
-                        const sampleCount = sampleMap.length;
-                        const sampleAvgs = sampleMap.map((value, index) => ({
-                          id: value.s,
-                          value:
-                            result.reduce((p, c) => {
-                              p += c.d[index];
-                              return p;
-                            }, 0) / sampleCount
-                        }));
-                        const sampleDomain = sampleAvgs.reduce(
-                          (p, c) => {
-                            p.min = Math.min(p.min, c.value);
-                            p.max = Math.max(p.max, c.value);
+                    this.getMolecularGeneValues(markers, field, db).then(result => {
+                      const sampleCount = sampleMap.length;
+                      const sampleAvgs = sampleMap.map((value, index) => ({
+                        id: value.s,
+                        value:
+                          result.reduce((p, c) => {
+                            p += c.d[index];
                             return p;
-                          },
-                          { min: Infinity, max: -Infinity }
-                        );
-
-                        const scale = scaleLinear<number, number>()
-                          .domain([sampleDomain.min, sampleDomain.max])
-                          .range([1, 3]);
-
-                        const colorMap = sampleAvgs.reduce(function(p, c) {
-                          p[c.id] = Math.round(scale(c.value));
+                          }, 0) / sampleCount
+                      }));
+                      const sampleDomain = sampleAvgs.reduce(
+                        (p, c) => {
+                          p.min = Math.min(p.min, c.value);
+                          p.max = Math.max(p.max, c.value);
                           return p;
-                        }, {});
+                        },
+                        { min: Infinity, max: -Infinity }
+                      );
 
-                        // Build Legend
-                        const legend: Legend = new Legend();
-                        legend.name = field.label;
-                        legend.type = 'SIZE';
-                        legend.display = 'CONTINUOUS';
-                        legend.labels = [
-                          sampleDomain.min,
-                          sampleDomain.max
-                        ].map(val => Math.round(val).toString());
-                        legend.values = [0xff0000, 0xff0000];
+                      const scale = scaleLinear<number, number>()
+                        .domain([sampleDomain.min, sampleDomain.max])
+                        .range([1, 3]);
 
-                        // Resolve
-                        resolve({ map: colorMap, legend: legend });
-                      }
-                    );
+                      const colorMap = sampleAvgs.reduce(function(p, c) {
+                        p[c.id] = Math.round(scale(c.value));
+                        return p;
+                      }, {});
+
+                      // Build Legend
+                      const legend: Legend = new Legend();
+                      legend.name = field.label;
+                      legend.type = 'SIZE';
+                      legend.display = 'CONTINUOUS';
+                      legend.labels = [sampleDomain.min, sampleDomain.max].map(val => Math.round(val).toString());
+                      legend.values = [0xff0000, 0xff0000];
+
+                      // Resolve
+                      resolve({ map: colorMap, legend: legend });
+                    });
                   });
               });
           } else {
@@ -1404,9 +1298,7 @@ export class ComputeWorkerUtil {
                   legend.name = field.label;
                   legend.type = 'SIZE';
                   legend.display = 'CONTINUOUS';
-                  legend.labels = [field.values.min, field.values.max].map(
-                    val => val.toString()
-                  );
+                  legend.labels = [field.values.min, field.values.max].map(val => val.toString());
                   legend.values = [0xff0000, 0xff0000];
 
                   // Resolve
@@ -1419,12 +1311,7 @@ export class ComputeWorkerUtil {
     });
   }
 
-  getIntersectMap(
-    markers: Array<string>,
-    samples: Array<string>,
-    db: string,
-    field: DataField
-  ): Promise<any> {
+  getIntersectMap(markers: Array<string>, samples: Array<string>, db: string, field: DataField): Promise<any> {
     return new Promise((resolve, reject) => {
       this.openDatabaseData(db).then(v => {
         const fieldKey = field.key;
@@ -1493,11 +1380,7 @@ export class ComputeWorkerUtil {
     });
   }
 
-  getPatientAttributeSummary(
-    patients: Array<string>,
-    attributes: Array<string>,
-    db: string
-  ): Promise<any> {
+  getPatientAttributeSummary(patients: Array<string>, attributes: Array<string>, db: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.openDatabaseData(db).then(v => {
         const query =
@@ -1545,8 +1428,8 @@ export class ComputeWorkerUtil {
       'Accept-Encoding': 'gzip',
       'Access-Control-Allow-Origin': '*'
     };
-    return fetch('https://oncoscape.v3.sttrcancer.org/cpu', {
-    // return fetch('http://localhost:9999/cpu', {
+    // return fetch('https://oncoscape.v3.sttrcancer.org/cpu', {
+    return fetch('http://localhost:9999/cpu', {
       headers: headers,
       method: 'POST',
       body: JSON.stringify(config)
@@ -1569,10 +1452,7 @@ export class ComputeWorkerUtil {
     let matrix = molecularData.data;
     if (config.markerFilter.length > 0) {
       const genesOfInterest = molecularData.markers
-        .map(
-          (v, i) =>
-            config.markerFilter.indexOf(v) >= 0 ? { gene: v, i: i } : -1
-        )
+        .map((v, i) => (config.markerFilter.indexOf(v) >= 0 ? { gene: v, i: i } : -1))
         .filter(v => v !== -1);
       matrix = genesOfInterest.map(v => molecularData.data[v.i]);
     }
@@ -1589,10 +1469,7 @@ export class ComputeWorkerUtil {
     const rangeMin = range[0];
     const rangeMax = range[1];
     return function scale(value) {
-      return (
-        rangeMin +
-        (rangeMax - rangeMin) * ((value - domainMin) / (domainMax - domainMin))
-      );
+      return rangeMin + (rangeMax - rangeMin) * ((value - domainMin) / (domainMax - domainMin));
     };
   };
 

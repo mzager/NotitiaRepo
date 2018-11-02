@@ -1,24 +1,28 @@
 <div class='panel'>
-  <div>
-    <!-- <a href='#' class='modalClose' (click)='closeClick()'></a>
-    <mat-form-field>
-      <input matInput type="text" placeholder="Filter Datasets" [(ngModel)]="filter">
-      <button mat-button *ngIf="filter" matSuffix mat-icon-button aria-label="Filter Datasets"
+  <!-- <div>
+
+    <h1 class='panel-header'>Data Sets</h1>
+
+    <h2 class='panel-header-desc'>Select from public data sets, or visualize your own</h2>
+  </div> -->
+  <div fxLayout.xs='column'>
+    <!-- <mat-form-field> -->
+    <div style='text-align: center'>
+      <input matInput type="text" placeholder="Search Data Sets" [(ngModel)]="filter" style='border:none;border-radius: 40px; line-height: 40px; width:30%; text-align: center; font-size: 20px; background: #EEE;margin-bottom: 50px;'>
+    </div>
+    <!-- <button mat-button *ngIf="filter" matSuffix mat-icon-button aria-label="Filter Datasets"
         (click)="filter=''">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field> -->
-    <h1 class='panel-header'>Data Sets</h1>
-
-    <h2 class='panel-header-desc'>Select from public data sets, or visualize your own</h2>
-  </div>
-  <div fxLayout.xs='column'>
-    <div fxFlex.sm='1 1 40%' fxFlex.md='1 1 30%' fxFlex.lg='1 1 25%' fxFlex.xl='1 1 15%'>
+    <!-- <div fxFlex.sm='1 1 40%' fxFlex.md='1 1 30%' fxFlex.lg='1 1 25%' fxFlex.xl='1 1 15%'>
       <h2 class='panel-column-title'>My Datasets</h2>
       <app-workspace-user-panel (showPanel)='this.showPanel.emit($event)' (loadPrivate)='this.loadPrivate.emit($event)'></app-workspace-user-panel>
     </div>
     <div fxFlex.sm='1 1 60%' fxFlex.md='1 1 70%' fxFlex.lg='1 1 75%' fxFlex.xl='1 1 85%'>
-      <h2 class='panel-column-title '>Public Data Sets</h2>
+  -->
+    <div>
+      <!-- <h2 class='panel-column-title '>Data Sets</h2> -->
       <div>
         <div class='panel-button-link' *ngFor='let dataset of datasets; let i=index'>
           <a class='panel-button-image ' (click)='this.loadPublic.emit(dataset) '>

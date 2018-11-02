@@ -1,18 +1,10 @@
 <div>
-  <span class='legendHeader'>Instructions</span>
-  Hold Shift To Enter Selection Mode
 
   <span class='legendHeader'>Selection Actions</span>
 
-  <button mat-stroked-button (click)="clearSelection.emit()">Clear</button>&nbsp;
-  <button mat-stroked-button (click)="hideSelection.emit()">Hide</button>&nbsp;
-  <button mat-stroked-button (click)="invertSelection.emit()">Invert</button>&nbsp;
-  <button mat-stroked-button (click)="saveSelection.emit()">Save</button>
+  <button mat-stroked-button (click)="onClearSelection()">Clear</button>&nbsp;
+  <button mat-stroked-button (click)="onInvertSelection()">Invert</button>&nbsp;
+  <button mat-stroked-button (click)="onSaveSelection()">Save</button>
 
   <span class='legendHeader'>Selection Metrics</span>
-  <!-- <form [formGroup]="form" novalidate>
-    <a href='Save Selection'></a>
-    <a href='Invert Selection'></a>
-    <a href='Hide Selected'></a>
-  </form> -->
 </div>

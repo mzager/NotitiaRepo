@@ -26,7 +26,6 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Output, ViewEncapsula
   </mat-menu>
 
   <mat-menu #analysisManifoldLearningMenu='matMenu'>
-    <button mat-menu-item (click)='select.emit(35184372088832)'>Precomputed</button>
     <button mat-menu-item (click)='select.emit(134217728)'>Isomap</button>
     <!--<button mat-menu-item (click)='select.emit(268435456)'>Locally Linear Embedding</button>-->
     <button mat-menu-item (click)='select.emit(536870912)'>Spectral Embedding</button>
@@ -83,17 +82,26 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Output, ViewEncapsula
     <button mat-menu-item [matMenuTriggerFor]='analysisManifoldLearningMenu'>Dimension Reduction</button>
     <button mat-menu-item [matMenuTriggerFor]='analysisCrossDecompositionMenu'>Cross Decomposition</button>
   </mat-menu>
+
+  <div class='analysisTitle' style='padding-top:0px;'>Summary</div>
   <a class='os-link' href='#' xPosition='after'  (click)='select.emit(8796093022208)'>Dashboard</a><br />
   <!--<button mat-menu-item (click)='select.emit(4294967296)'>Box + Whiskers</button>-->
   <a class='os-link' href='#' xPosition='after' (click)='select.emit(1099511627776)'>Spreadsheet</a><br />
-  <a class='os-link' href='#' xPosition='after' (click)='select.emit(32)'>Heatmap</a><br />
+
+  <div class='analysisTitle'>Molecular</div>
   <a class='os-link' href='#' xPosition='after' (click)='select.emit(2147483648)'>Genome</a><br />
   <!--<button mat-menu-item (click)='select.emit(3)'>Chromosome</button>-->
   <a class='os-link' href='#' xPosition='after' (click)='select.emit(17179869184)'>Force Directed Graph</a><br />
   <a class='os-link' href='#' xPosition='after' (click)='select.emit(256)'>Pathways</a><br />
+  <a class='os-link' href='#' xPosition='after' (click)='select.emit(32)'>Heatmap</a><br />
+
+  <div class='analysisTitle'>Clinical</div>
   <a class='os-link' href='#' xPosition='after' (click)='select.emit(16)'>Survival</a><br />
   <a class='os-link' href='#' xPosition='after' (click)='select.emit(4398046511104)'>Hazard</a><br />
   <a class='os-link' href='#' xPosition='after' (click)='select.emit(128)'>Timelines</a><br />
+
+  <div class='analysisTitle'>Clustering</div>
+  <a class='os-link' href='#' xPosition='after' (click)='select.emit(35184372088832)'>Precomputed</a><br />
   <a class='os-link' href='#' xPosition='after' [matMenuTriggerFor]='analysisMatrixDecompositionMenu'>Matrix Decomposition</a><br />
   <a class='os-link' href='#' xPosition='after' [matMenuTriggerFor]='analysisDiscriminantAnalysisMenu'>Discriminant Analysis</a><br />
   <a class='os-link' href='#' xPosition='after' [matMenuTriggerFor]='analysisSupportVectorMachinesMenu'>Support Vector Machines</a><br />

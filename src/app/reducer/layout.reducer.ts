@@ -17,7 +17,7 @@ export interface State {
 const initialState: State = {
   graphPanelA: e.GraphPanelEnum.GRAPH_A,
   graphPanelB: e.GraphPanelEnum.NONE,
-  modalPanel: e.PanelEnum.LANDING,
+  modalPanel: e.PanelEnum.DATA,
   loader: false,
   workspaceConfig: new WorkspaceConfigModel()
 };
@@ -27,17 +27,11 @@ export function reducer(state = initialState, action: UnsafeAction): State {
     case layout.GRAPH_PANEL_TOGGLE:
       if ((action as GraphPanelToggleAction).payload === GraphPanelEnum.GRAPH_A) {
         return Object.assign({}, state, {
-          graphPanelA:
-            state.graphPanelA === e.GraphPanelEnum.NONE
-              ? e.GraphPanelEnum.GRAPH_A
-              : e.GraphPanelEnum.NONE
+          graphPanelA: state.graphPanelA === e.GraphPanelEnum.NONE ? e.GraphPanelEnum.GRAPH_A : e.GraphPanelEnum.NONE
         });
       } else {
         return Object.assign({}, state, {
-          graphPanelB:
-            state.graphPanelB === e.GraphPanelEnum.NONE
-              ? e.GraphPanelEnum.GRAPH_B
-              : e.GraphPanelEnum.NONE
+          graphPanelB: state.graphPanelB === e.GraphPanelEnum.NONE ? e.GraphPanelEnum.GRAPH_B : e.GraphPanelEnum.NONE
         });
       }
     case layout.LOADER_SHOW:

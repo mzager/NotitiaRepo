@@ -24,15 +24,7 @@ export interface ChartObjectInterface {
   updateDecorator(config: GraphConfig, decorators: Array<DataDecorator>);
   updateData(config: GraphConfig, data: any);
   updateSelectionTool(config: SelectionToolConfig);
-  create(
-    labels: HTMLElement,
-    events: ChartEvents,
-    view: VisualizationView
-  ): ChartObjectInterface;
+  create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface;
   destroy();
-  preRender(
-    views: Array<VisualizationView>,
-    layout: WorkspaceLayoutEnum,
-    renderer: THREE.Renderer
-  ): void;
+  preRender(views: Array<VisualizationView>, layout: WorkspaceLayoutEnum, renderer: THREE.Renderer): void;
 }

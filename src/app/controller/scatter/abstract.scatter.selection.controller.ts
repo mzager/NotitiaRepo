@@ -5,7 +5,6 @@ import { VisualizationView } from 'app/model/chart-view.model';
 import { ChartEvents } from 'app/component/workspace/chart/chart.events';
 export class AbstractScatterSelectionController extends AbstractMouseController {
   public onSelect: EventEmitter<Array<number>> = new EventEmitter();
-  public onDeselect: EventEmitter<Array<number>> = new EventEmitter();
   public setHighlights: EventEmitter<Array<number>> = new EventEmitter();
 
   protected mesh: Mesh;

@@ -13,7 +13,6 @@
       </ng-template>
       <span class='legendHeader'>Current Analysis: {{methodName}}</span>
       <p>{{methodSummary}} <a href='#' (click)='helpClick()' class='os-link'>Learn More</a></p>
-
       <span class='legendHeader'>Availible Analysis</span>
       <app-graph-panel-analysis (select)='setVisualization($event)'></app-graph-panel-analysis>
     </mat-tab>
@@ -139,7 +138,7 @@
       </ng-template>
       <ng-template matTabContent>
         <app-workspace-behavior-panel [config]='config' [selectionToolConfig]='selectionToolConfig'></app-workspace-behavior-panel>
-        <app-workspace-stat-panel [config]='config' [graphData]='data' [type]='"SELECTION"'></app-workspace-stat-panel>
+        <!-- <app-workspace-stat-panel [config]='config' [graphData]='data' [type]='"SELECTION"'></app-workspace-stat-panel> -->
       </ng-template>
     </mat-tab>
   </mat-tab-group>

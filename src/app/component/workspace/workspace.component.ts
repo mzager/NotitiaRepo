@@ -2,16 +2,8 @@ import { SelectionToolConfig } from './../../model/selection-config.model';
 import { ScatterConfigModel } from './../visualization/scatter/scatter.model';
 import { getTipVisible, getTipEnabled } from './../../reducer/index.reducer';
 import { DataService } from 'app/service/data.service';
-import {
-  SelectSaveSamplesAction,
-  SelectSaveMarkersAction
-} from './../../action/compute.action';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  ViewChild
-} from '@angular/core';
+import { SelectSaveSamplesAction, SelectSaveMarkersAction } from './../../action/compute.action';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as compute from 'app/action/compute.action';
 import * as data from 'app/action/data.action';
@@ -48,11 +40,7 @@ import {
   SelectionToolChangeAction
 } from './../../action/graph.action';
 import { HelpSetConfigAction } from './../../action/help.action';
-import {
-  GraphPanelToggleAction,
-  LoaderShowAction,
-  ModalPanelAction
-} from './../../action/layout.action';
+import { GraphPanelToggleAction, LoaderShowAction, ModalPanelAction } from './../../action/layout.action';
 import { ChartSelection } from './../../model/chart-selection.model';
 import { Cohort } from './../../model/cohort.model';
 import { DataTable } from './../../model/data-field.model';
@@ -98,11 +86,7 @@ import { NuSVRConfigModel } from './../visualization/nusvr/nusvr.model';
 import { NuSVCConfigModel } from './../visualization/nusvc/nusvc.model';
 import { OneClassSVMConfigModel } from './../visualization/oneclasssvm/oneclasssvm.model';
 import { SVRConfigModel } from './../visualization/svr/svr.model';
-import {
-  TipSetVisualizationAction,
-  TipSetEnabledAction,
-  TipSetVisibleAction
-} from '../../action/tip.action';
+import { TipSetVisualizationAction, TipSetEnabledAction, TipSetVisibleAction } from '../../action/tip.action';
 import { UmapConfigModel } from '../visualization/umap/umap.model';
 
 @Component({
@@ -112,6 +96,11 @@ import { UmapConfigModel } from '../visualization/umap/umap.model';
   styleUrls: ['./workspace.component.scss']
 })
 export class WorkspaceComponent {
+  private static _instance: WorkspaceComponent;
+  public static get instance(): WorkspaceComponent {
+    return this._instance;
+  }
+
   // Components
   @ViewChild('panelContainer')
   public panelContainer: ElementRef;
@@ -165,7 +154,12 @@ export class WorkspaceComponent {
   tipEnabled: Observable<boolean>;
   tipVisualization: Observable<enums.VisualizationEnum>;
 
+  public static addDecorator(config: GraphConfig, decorator: DataDecorator): void {
+    this._instance.graphPanelAddDecorator({ config: config, decorator: decorator });
+  }
+
   constructor(private store: Store<fromRoot.State>, public ds: DataService) {
+    WorkspaceComponent._instance = this;
     this.pathways = store.select(fromRoot.getPathways);
     this.genesets = store.select(fromRoot.getGenesets);
     this.cohorts = store.select(fromRoot.getCohorts);
@@ -183,12 +177,8 @@ export class WorkspaceComponent {
     this.graphAData = store.select(fromRoot.getGraphAData);
     this.graphBData = store.select(fromRoot.getGraphBData);
 
-    this.graphASelectionToolConfig = store.select(
-      fromRoot.getGraphASelectionToolConfig
-    );
-    this.graphBSelectionToolConfig = store.select(
-      fromRoot.getGraphASelectionToolConfig
-    );
+    this.graphASelectionToolConfig = store.select(fromRoot.getGraphASelectionToolConfig);
+    this.graphBSelectionToolConfig = store.select(fromRoot.getGraphASelectionToolConfig);
     this.graphADecorators = store.select(fromRoot.getGraphADecorators);
     this.graphBDecorators = store.select(fromRoot.getGraphBDecorators);
     this.edgeDecorators = store.select(fromRoot.getEdgeDecorators);
@@ -210,14 +200,10 @@ export class WorkspaceComponent {
   select(selection: ChartSelection): void {
     switch (selection.type) {
       case EntityTypeEnum.SAMPLE:
-        this.store.dispatch(
-          new compute.SelectSamplesAction({ samples: selection.ids })
-        );
+        this.store.dispatch(new compute.SelectSamplesAction({ samples: selection.ids }));
         break;
       case EntityTypeEnum.GENE:
-        this.store.dispatch(
-          new compute.SelectMarkersAction({ markers: selection.ids })
-        );
+        this.store.dispatch(new compute.SelectMarkersAction({ markers: selection.ids }));
         break;
     }
   }
@@ -576,10 +562,7 @@ export class WorkspaceComponent {
   tipHide(): void {
     this.store.dispatch(new TipSetVisibleAction(false));
   }
-  graphPanelSetSelectionToolConfig(e: {
-    config: GraphConfig;
-    selectionTool: SelectionToolConfig;
-  }): void {
+  graphPanelSetSelectionToolConfig(e: { config: GraphConfig; selectionTool: SelectionToolConfig }): void {
     this.store.dispatch(
       new SelectionToolChangeAction({
         config: e.config,
@@ -587,10 +570,7 @@ export class WorkspaceComponent {
       })
     );
   }
-  edgeAddDecorator(e: {
-    config: EdgeConfigModel;
-    decorator: DataDecorator;
-  }): void {
+  edgeAddDecorator(e: { config: EdgeConfigModel; decorator: DataDecorator }): void {
     this.store.dispatch(
       new DataDecoratorCreateAction({
         config: e.config,
@@ -598,18 +578,10 @@ export class WorkspaceComponent {
       })
     );
   }
-  edgeDelDecorator(e: {
-    config: EdgeConfigModel;
-    decorator: DataDecorator;
-  }): void {
-    this.store.dispatch(
-      new DataDecoratorDelAction({ config: e.config, decorator: e.decorator })
-    );
+  edgeDelDecorator(e: { config: EdgeConfigModel; decorator: DataDecorator }): void {
+    this.store.dispatch(new DataDecoratorDelAction({ config: e.config, decorator: e.decorator }));
   }
-  graphPanelAddDecorator(e: {
-    config: GraphConfig;
-    decorator: DataDecorator;
-  }): void {
+  graphPanelAddDecorator(e: { config: GraphConfig; decorator: DataDecorator }): void {
     this.store.dispatch(
       new DataDecoratorCreateAction({
         config: e.config,
@@ -617,13 +589,8 @@ export class WorkspaceComponent {
       })
     );
   }
-  graphPanelDelDecorator(e: {
-    config: GraphConfig;
-    decorator: DataDecorator;
-  }): void {
-    this.store.dispatch(
-      new DataDecoratorDelAction({ config: e.config, decorator: e.decorator })
-    );
+  graphPanelDelDecorator(e: { config: GraphConfig; decorator: DataDecorator }): void {
+    this.store.dispatch(new DataDecoratorDelAction({ config: e.config, decorator: e.decorator }));
   }
   graphPanelDelAllDecorators(e: { config: GraphConfig }): void {
     this.store.dispatch(new DataDecoratorDelAllAction({ config: e.config }));
@@ -652,13 +619,9 @@ export class WorkspaceComponent {
   }
   splitScreenChange(value: boolean): void {
     const model = new WorkspaceConfigModel();
-    model.layout = value
-      ? enums.WorkspaceLayoutEnum.HORIZONTAL
-      : enums.WorkspaceLayoutEnum.SINGLE;
+    model.layout = value ? enums.WorkspaceLayoutEnum.HORIZONTAL : enums.WorkspaceLayoutEnum.SINGLE;
     this.store.dispatch(new WorkspaceConfigAction(model));
-    this.store.dispatch(
-      new GraphPanelToggleAction(enums.GraphPanelEnum.GRAPH_B)
-    );
+    this.store.dispatch(new GraphPanelToggleAction(enums.GraphPanelEnum.GRAPH_B));
   }
   setPanel(value: enums.PanelEnum): void {
     if (value === enums.PanelEnum.NONE && this.overrideShowPanel) {

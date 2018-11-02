@@ -1,3 +1,5 @@
+import { WorkspaceComponent } from 'app/component/workspace/workspace.component';
+import { DataField } from './../../model/data-field.model';
 import { ScatterSelectionLassoController } from './../../controller/scatter/scatter.selection.lasso.controller';
 import { AbstractScatterSelectionController } from './../../controller/scatter/abstract.scatter.selection.controller';
 // import { ScatterSelectionController } from '../../controller/scatter/scatter.selection.kdd.controller';
@@ -9,8 +11,8 @@ import { Subscription } from 'rxjs';
 import { Vector3 } from 'three';
 import { LabelController, LabelOptions } from '../../controller/label/label.controller';
 import { ChartObjectInterface } from '../../model/chart.object.interface';
-import { DataDecorator, DataDecoratorTypeEnum } from '../../model/data-map.model';
-import { EntityTypeEnum } from '../../model/enum.model';
+import { DataDecorator, DataDecoratorTypeEnum, DataDecoratorValue } from '../../model/data-map.model';
+import { EntityTypeEnum, DirtyEnum } from '../../model/enum.model';
 import { ChartEvents } from '../workspace/chart/chart.events';
 import { ChartSelection } from './../../model/chart-selection.model';
 import { VisualizationView } from './../../model/chart-view.model';
@@ -104,13 +106,25 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     this.selectionController = new ScatterSelectionLassoController(view, events);
     this.selectionController.enable = true;
     this.selectSubscription = this.selectionController.onSelect.subscribe((ids: Array<number>) => {
-      const selected = this.pointsGeometry.attributes.gSelected;
-      selected.array.fill(0);
-      ids.forEach(v => {
-        selected.array[v / 3] = 1.0;
+      const values: Array<DataDecoratorValue> = ids.map(v => v / 3).map(v => {
+        return {
+          pid: this._data.pid[v],
+          sid: this._data.sid[v],
+          mid: null,
+          key: EntityTypeEnum.SAMPLE,
+          value: true,
+          label: ''
+        };
       });
-      selected.needsUpdate = true;
-      this.onRequestRender.emit(this.config.graph);
+
+      const dataDecorator: DataDecorator = {
+        type: DataDecoratorTypeEnum.SELECT,
+        values: values,
+        field: null,
+        legend: null
+      };
+
+      WorkspaceComponent.addDecorator(this._config, dataDecorator);
     });
     return this;
   }
@@ -118,7 +132,11 @@ export class AbstractScatterVisualization extends AbstractVisualization {
   destroy() {
     super.destroy();
     // this.selectionController.destroy();
-    // this.selectSubscription.unsubscribe();
+    if (this.selectSubscription) {
+      if (!this.selectSubscription.closed) {
+        this.selectSubscription.unsubscribe();
+      }
+    }
     this.removeObjects();
   }
 

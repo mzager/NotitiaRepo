@@ -22,10 +22,7 @@ import {
 import { VisualizationView } from './../../../model/chart-view.model';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
 import { DataDecorator } from './../../../model/data-map.model';
-import {
-  EntityTypeEnum,
-  WorkspaceLayoutEnum
-} from './../../../model/enum.model';
+import { EntityTypeEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
 import { WorkspaceConfigModel } from './../../../model/workspace.model';
 import { EdgesGraph } from './../../visualization/edges/edges.graph';
 import { EdgeConfigModel } from './../../visualization/edges/edges.model';
@@ -40,9 +37,7 @@ export class ChartScene {
   public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{
     type: GraphConfig;
   }>();
-  public onSelect: EventEmitter<ChartSelection> = new EventEmitter<
-    ChartSelection
-  >();
+  public onSelect: EventEmitter<ChartSelection> = new EventEmitter<ChartSelection>();
 
   // Instances
   public labelsA: HTMLElement;
@@ -71,12 +66,7 @@ export class ChartScene {
     this.onSelect.next(e);
   }
 
-  public init(
-    container: HTMLElement,
-    labelsA: HTMLElement,
-    labelsB: HTMLElement,
-    labelsE: HTMLElement
-  ) {
+  public init(container: HTMLElement, labelsA: HTMLElement, labelsB: HTMLElement, labelsE: HTMLElement) {
     this.labelsA = labelsA;
     this.labelsB = labelsB;
     this.labelsE = labelsE;
@@ -151,12 +141,7 @@ export class ChartScene {
         const bottom = -view.viewport.height / 2;
         const top = Math.abs(bottom);
 
-        view.camera = new OrthographicCamera(
-          left,
-          right,
-          top,
-          bottom
-        ) as Camera;
+        view.camera = new OrthographicCamera(left, right, top, bottom) as Camera;
         view.camera.position.fromArray([0, 0, 1000]);
         view.camera.lookAt(new Vector3(0, 0, 0));
         view.scene.add(view.camera);
@@ -195,12 +180,7 @@ export class ChartScene {
     this.renderer.clear();
 
     this.views.forEach(v => {
-      this.renderer.setViewport(
-        v.viewport.x,
-        v.viewport.y,
-        v.viewport.width,
-        v.viewport.height
-      );
+      this.renderer.setViewport(v.viewport.x, v.viewport.y, v.viewport.width, v.viewport.height);
       this.renderer.render(v.scene, v.camera);
     });
 
@@ -218,23 +198,10 @@ export class ChartScene {
       if (this.workspace.layout !== WorkspaceLayoutEnum.SINGLE) {
         this.centerLine =
           this.workspace.layout === WorkspaceLayoutEnum.HORIZONTAL
-            ? ChartFactory.lineAllocate(
-                0x039be5,
-                new Vector2(0, -1000),
-                new Vector2(0, 1000)
-              )
-            : ChartFactory.lineAllocate(
-                0x039be5,
-                new Vector2(-1000, 0),
-                new Vector2(1000, 0)
-              );
+            ? ChartFactory.lineAllocate(0x039be5, new Vector2(0, -1000), new Vector2(0, 1000))
+            : ChartFactory.lineAllocate(0x039be5, new Vector2(-1000, 0), new Vector2(1000, 0));
         view.scene.add(this.centerLine);
-        this.renderer.setViewport(
-          view.viewport.x,
-          view.viewport.y,
-          view.viewport.width,
-          view.viewport.height
-        );
+        this.renderer.setViewport(view.viewport.x, view.viewport.y, view.viewport.width, view.viewport.height);
         this.renderer.render(view.scene, view.camera);
       }
     } catch (e) {}
@@ -304,17 +271,9 @@ export class ChartScene {
     }
   }
 
-  public updateDecorators(
-    graph: GraphEnum,
-    config: GraphConfig,
-    decorators: Array<DataDecorator>
-  ): void {
+  public updateDecorators(graph: GraphEnum, config: GraphConfig, decorators: Array<DataDecorator>): void {
     const view =
-      graph === GraphEnum.GRAPH_A
-        ? this.views[0]
-        : graph === GraphEnum.GRAPH_B
-          ? this.views[1]
-          : this.views[2];
+      graph === GraphEnum.GRAPH_A ? this.views[0] : graph === GraphEnum.GRAPH_B ? this.views[1] : this.views[2];
     if (view.chart !== null) {
       view.chart.updateDecorator(config, decorators);
       this.render();
@@ -337,13 +296,10 @@ export class ChartScene {
           }
           const e = config as EdgeConfigModel;
           view.config = config;
-          view.chart = chartObjectInterface.create(
-            this.labelsE,
-            this.events,
-            view
-          );
-          view.chart.onRequestRender.subscribe(this.render);
-          view.chart.onConfigEmit.subscribe(this.config);
+          view.chart = chartObjectInterface.create(this.labelsE, this.events, view);
+          // view.chart.
+          view.chart.onRequestRender.subscribe(this.render.bind(this));
+          view.chart.onConfigEmit.subscribe(this.config.bind(this));
           (view.chart as EdgesGraph).updateEdges = true;
           // this.getChartObject(config.visualization)
           //         .create(this.labelsE, this.events, view);
@@ -387,17 +343,14 @@ export class ChartScene {
           }
 
           view.chart.onRequestRender.subscribe(this.render);
-          view.chart.onConfigEmit.subscribe(this.config);
+          view.chart.onConfigEmit.subscribe(this.config.bind(this));
           view.chart.onSelect.subscribe(this.select);
           view.controls.enableRotate = false;
           view.controls.reset();
           view.chart.enable(true);
 
           try {
-            (graph === GraphEnum.GRAPH_A
-              ? this.views[1]
-              : this.views[0]
-            ).chart.enable(false);
+            (graph === GraphEnum.GRAPH_A ? this.views[1] : this.views[0]).chart.enable(false);
           } catch (e) {}
 
           if (this.workspace.layout === WorkspaceLayoutEnum.SINGLE) {

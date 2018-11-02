@@ -76,6 +76,7 @@
     "kd-tree-javascript": "^1.0.3",
     "lodash": "^4.17.11",
     "material-design-icons": "^3.0.1",
+    "material-ui-search-bar": "^0.4.2",
     "ml-kmeans": "^4.2.1",
     "moment": "^2.22.2",
     "ng-gapi": "^0.0.6",

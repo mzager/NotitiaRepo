@@ -112,7 +112,10 @@
 // //     transform: rotate(-90deg);
 // //   }
 // // }
-
+.analysisTitle {
+  padding-top: 10px;
+  text-transform: capitalize;
+}
 .graphPanelLeft {
   left: 0px;
   // .graphPanelExpanded {

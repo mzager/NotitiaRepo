@@ -26,11 +26,7 @@ import { WorkspaceConfigModel } from '../../../model/workspace.model';
 import { HistogramConfigModel } from '../../visualization/histogram/histogram.model';
 import { DataTable } from './../../../model/data-field.model';
 import { DataDecorator } from './../../../model/data-map.model';
-import {
-  EntityTypeEnum,
-  PanelEnum,
-  WorkspaceLayoutEnum
-} from './../../../model/enum.model';
+import { EntityTypeEnum, PanelEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { ModalService } from './../../../service/modal-service';
 import { BoxWhiskersConfigModel } from './../../visualization/boxwhiskers/boxwhiskers.model';
@@ -154,11 +150,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
 
   methodName = '';
   methodSummary = '';
-  workspaceLayoutOptions = [
-    WorkspaceLayoutEnum.HORIZONTAL,
-    WorkspaceLayoutEnum.VERTICAL,
-    WorkspaceLayoutEnum.OVERLAY
-  ];
+  workspaceLayoutOptions = [WorkspaceLayoutEnum.HORIZONTAL, WorkspaceLayoutEnum.VERTICAL, WorkspaceLayoutEnum.OVERLAY];
   workspaceEdgeOptions: Array<DataField> = [];
 
   get decoratorsWithLegends(): Array<DataDecorator> {
@@ -203,10 +195,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     }
 
     // Update Help
-    if (
-      this._config === null ||
-      this._config.visualization !== value.visualization
-    ) {
+    if (this._config === null || this._config.visualization !== value.visualization) {
       this.dataService.getHelpInfo(value).then(v => {
         this.methodName = v.method;
         this.methodSummary = v.summary;
@@ -217,10 +206,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     // If entity changed and change involved a gene ... remove all decorators
     if (this._config !== null) {
       if (this._config.entity !== value.entity) {
-        if (
-          this._config.entity === EntityTypeEnum.GENE ||
-          value.entity === EntityTypeEnum.GENE
-        ) {
+        if (this._config.entity === EntityTypeEnum.GENE || value.entity === EntityTypeEnum.GENE) {
           this.decoratorDelAll.emit({ config: this._config });
         }
       }
@@ -489,11 +475,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {}
 
-  constructor(
-    private ms: ModalService,
-    private cd: ChangeDetectorRef,
-    private dataService: DataService
-  ) {
+  constructor(private ms: ModalService, private cd: ChangeDetectorRef, private dataService: DataService) {
     this.genesets = [];
     this.cohorts = [];
 
