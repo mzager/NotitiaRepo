@@ -30,16 +30,16 @@ export class PlsRegressionFormComponent extends AbstractScatterForm {
       database: [],
       entity: [],
       table: [],
-
-      max_iter: [],
-      tol: [],
       pcx: [],
       pcy: [],
       pcz: [],
-      n_components: [],
       dimension: [],
+
+      n_components: [],
+      scale: [],
+      max_iter: [],
+      tol: [],
       copy: [],
-      scale: []
     });
 
     this.registerFormChange();
