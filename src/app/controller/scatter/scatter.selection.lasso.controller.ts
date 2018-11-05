@@ -248,7 +248,6 @@ export class ScatterSelectionLassoController extends AbstractScatterSelectionCon
     this.brushState.positionsPolar.fill(0);
     this.brushState.kddResult = [];
     this.onSelect.emit(Array.from(this.highlightIndexes));
-    ChartScene.instance.render();
   }
   public brushMouseDown(e: ChartEvent): void {
     this.brushState.line.geometry['attributes'].position.array.fill(0);
@@ -259,6 +258,7 @@ export class ScatterSelectionLassoController extends AbstractScatterSelectionCon
     const intersects = this.raycaster.intersectObject(this.points);
     this.brushState.originPolar = intersects[0].point;
     this.brushState.originCart.set(e.mouse.xs, e.mouse.ys);
+
     this.view.scene.add(this.brushState.line);
     this.brushState.isDrawing = true;
     if (this.mode === 'SELECT') {

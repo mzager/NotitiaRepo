@@ -140,7 +140,8 @@
       </ng-template>
       <ng-template matTabContent>
         <app-workspace-behavior-panel [config]='config' [selectionToolConfig]='selectionToolConfig'></app-workspace-behavior-panel>
-        <!-- <app-workspace-stat-panel [config]='config' [graphData]='data' [type]='"SELECTION"'></app-workspace-stat-panel> -->
+        <app-workspace-stat-panel [config]='config' [graphData]='data' [type]='"SELECTION"'
+          [decorators]='decorators'></app-workspace-stat-panel>
       </ng-template>
     </mat-tab>
   </mat-tab-group>
