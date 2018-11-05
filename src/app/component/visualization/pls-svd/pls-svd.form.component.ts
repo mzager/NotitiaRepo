@@ -29,12 +29,12 @@ export class PlsSvdFormComponent extends AbstractScatterForm {
       database: [],
       entity: [],
       table: [],
-
       pcx: [],
       pcy: [],
       pcz: [],
-      n_components: [],
       dimension: [],
+
+      n_components: [],
       copy: [],
       scale: []
     });

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractScatterForm } from '../visualization.abstract.scatter.form';
-import { PlsCanonicalConfigModel } from './plscanonical.model';
+import { PlsCanonicalConfigModel, PlsCanonicalAlgorithm } from './plscanonical.model';
 
 @Component({
   selector: 'app-plscanonical-form',
@@ -10,6 +10,11 @@ import { PlsCanonicalConfigModel } from './plscanonical.model';
   encapsulation: ViewEncapsulation.None
 })
 export class PlsCanonicalFormComponent extends AbstractScatterForm {
+
+  PlsCanonicalAlgorithmOptions = [
+    PlsCanonicalAlgorithm.NIPALS,
+    PlsCanonicalAlgorithm.SVD
+  ];
 
   @Input() set config(v: PlsCanonicalConfigModel) {
     if (v === null) { return; }
@@ -29,14 +34,18 @@ export class PlsCanonicalFormComponent extends AbstractScatterForm {
       database: [],
       entity: [],
       table: [],
-
       pcx: [],
       pcy: [],
       pcz: [],
-      n_components: [],
       dimension: [],
+
+      n_components: [],
+      scale: [],
+      algorithm: [],
+      max_iter: [],
+      tol: [],
       copy: [],
-      scale: []
+
     });
 
     this.registerFormChange();

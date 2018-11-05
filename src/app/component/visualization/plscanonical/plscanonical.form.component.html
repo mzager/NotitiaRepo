@@ -34,6 +34,16 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <!-- <mat-slide-toggle formControlName='scale'>Scale</mat-slide-toggle> -->
-  <!-- <mat-slide-toggle formControlName='scale'>Copy</mat-slide-toggle> -->
+  <mat-form-field class='form-field'>
+    <mat-select placeholder='Algorithm 'formControlName='algorithm'>
+        <mat-option *ngFor='let option of PlsCanonicalAlgorithmOptions' [value]='option'>
+            {{ option }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-label>Tol</mat-label>
+  <mat-slider min="1" max="100" step="1" formControlName='tol' thumbLabel='true'></mat-slider>
+  <br />
+  <br />
+  <mat-slide-toggle formControlName='scale'>Scale</mat-slide-toggle>
 </form>
