@@ -1,0 +1,366 @@
+[{
+    "method": "Binarizer",
+    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.Binarizer.html#sklearn.preprocessing.Binarizer",
+    "params": [{
+      "name": "threshold",
+      "dataType": "int",
+      "desc": "Feature values below or equal to this are replaced by 0, above it by 1. Threshold may not be less than 0 for operations on sparse matrices.",
+      "defalut": 0.0,
+      "values": []
+    }]
+  },
+  {
+    "method": "FunctionTransformer",
+    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.FunctionTransformer.html#sklearn.preprocessing.FunctionTransformer",
+    "params": [{
+        "name": "func",
+        "dataType": "callable",
+        "desc": "The callable to use for the transformation. This will be passed the same arguments as transform, with args and kwargs forwarded. If func is None, then func will be the identity function.",
+        "defalut": "None",
+        "values": []
+      },
+      {
+        "name": "inverse_func",
+        "dataType": "callable",
+        "desc": "The callable to use for the inverse transformation. This will be passed the same arguments as inverse transform, with args and kwargs forwarded. If inverse_func is None, then inverse_func will be the identity function.",
+        "defalut": "None",
+        "values": []
+      },
+      {
+        "name": "validate",
+        "dataType": "boolean",
+        "desc": "The callable to use for the transformation. This will be passed the same arguments as transform, with args and kwargs forwarded. If func is None, then func will be the identity function.",
+        "defalut": false,
+        "values": []
+      },
+      {
+        "name": "accept_sparse",
+        "dataType": "boolean",
+        "desc": "Indicate that func accepts a sparse matrix as input. If validate is False, this has no effect. Otherwise, if accept_sparse is false, sparse matrix inputs will cause an exception to be raised.",
+        "defalut": false,
+        "values": []
+      },
+      {
+        "name": "pass_y",
+        "dataType": "boolean",
+        "desc": "Indicate that transform should forward the y argument to the inner callable.",
+        "defalut": false,
+        "values": []
+      },
+      {
+        "name": "check_inverse",
+        "dataType": "boolean",
+        "desc": "Whether to check that or func followed by inverse_func leads to the original inputs. It can be used for a sanity check, raising a warning when the condition is not fulfilled.",
+        "defalut": true,
+        "values": []
+      }
+    ]
+  },
+  {
+    "method": "KBinsDiscretizer",
+    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.KBinsDiscretizer.html#sklearn.preprocessing.KBinsDiscretizer",
+    "params": [{
+        "name": "n_bins",
+        "dataType": "int or array-like",
+        "desc": "The number of bins to produce. The intervals for the bins are determined by the minimum and maximum of the input data. Raises ValueError if n_bins < 2. If n_bins is an array, and there is an ignored feature at index i, n_bins[i] will be ignored.",
+        "defalut": 5,
+        "values": []
+      },
+      {
+        "name": "encode",
+        "dataType": "set",
+        "desc": "Method used to encode the transformed result.",
+        "defalut": "onehot",
+        "values": ["onehot", "onehot-dense", "ordinal"]
+      },
+      {
+        "name": "strategy",
+        "dataType": "set",
+        "desc": "Strategy used to define the widths of the bins.",
+        "defalut": "quantile",
+        "values": ["uniform", "uniform", "uniform"]
+      }
+    ]
+  },
+  {
+    "method": "KernelCenterer",
+    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.KernelCenterer.html#sklearn.preprocessing.KernelCenterer",
+    "params": [{
+      "name": "",
+      "dataType": "",
+      "desc": "",
+      "defalut": "",
+      "values": []
+    }]
+  },
+  {
+    "method": "LabelBinarizer",
+    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelBinarizer.html#sklearn.preprocessing.LabelBinarizer",
+    "params": [{
+        "name": "neg_label",
+        "dataType": "int",
+        "desc": "Value with which negative labels must be encoded.",
+        "defalut": 0,
+        "values": []
+      },
+      {
+        "name": "pos_label",
+        "dataType": "int",
+        "desc": "Value with which positive labels must be encoded.",
+        "defalut": 1,
+        "values": []
+      }, {
+        "name": "sparse_output",
+        "dataType": "boolean",
+        "desc": "True if the returned array from transform is desired to be in sparse CSR format.",
+        "defalut": false,
+        "values": []
+      }
+    ]
+  },
+  {
+    "method": "LabelEncoder",
+    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelEncoder.html#sklearn.preprocessing.LabelEncoder",
+    "params": [{
+      "name": "",
+      "dataType": "",
+      "desc": "",
+      "defalut": "",
+      "values": []
+    }]
+  },
+  {
+    "method": "MultiLabelBinarizer",
+    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MultiLabelBinarizer.html#sklearn.preprocessing.MultiLabelBinarizer",
+    "params": [{
+        "name": "classes",
+        "dataType": "array-like",
+        "desc": "Indicates an ordering for the class labels",
+        "defalut": "",
+        "values": []
+      },
+      {
+        "name": "sparse_output",
+        "dataType": "boolean",
+        "desc": "Set to true if output binary array is desired in CSR sparse format",
+        "defalut": false,
+        "values": []
+      }
+    ]
+  },
+  {
+    "method": "MaxAbsScaler",
+    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MaxAbsScaler.html#sklearn.preprocessing.MaxAbsScaler",
+    "params": [{
+      "name": "",
+      "dataType": "",
+      "desc": "",
+      "defalut": "",
+      "values": []
+    }]
+  },
+  {
+    "method": "MinMaxScaler",
+    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html#sklearn.preprocessing.MinMaxScaler",
+    "params": [{
+      "name": "feature_range",
+      "dataType": "tuple (min,max)",
+      "desc": "Desired range of transformed data.",
+      "defalut": [0, 1],
+      "values": []
+    }]
+  },
+  {
+    "method": "Normalizer",
+    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.Normalizer.html#sklearn.preprocessing.Normalizer",
+    "params": [{
+      "name": "norm",
+      "dataType": "set",
+      "desc": "The norm to use to normalize each non zero sample.",
+      "defalut": "l2",
+      "values": ["l1", "l2", "max"]
+    }]
+  },
+  {
+    "method": "OneHotEncoder",
+    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html#sklearn.preprocessing.OneHotEncoder",
+    "params": [{
+        "name": "categories",
+        "dataType": "set",
+        "desc": "Categories (unique values) per feature: ‘auto’ : Determine categories automatically from the training data. list : categories[i] holds the categories expected in the ith column. The passed categories should not mix strings and numeric values within a single feature, and should be sorted in case of numeric values. The used categories can be found in the categories_ attribute.",
+        "defalut": "",
+        "values": ["auto", []]
+      },
+      {
+        "name": "sparse",
+        "dataType": "boolean",
+        "desc": "Will return sparse matrix if set True else will return an array.",
+        "defalut": true,
+        "values": []
+      },
+      {
+        "name": "dtype",
+        "dataType": "number",
+        "desc": "Desired dtype of output.",
+        "defalut": "np.float",
+        "values": []
+      },
+      {
+        "name": "handle_unknown",
+        "dataType": "set",
+        "desc": "Whether to raise an error or ignore if an unknown categorical feature is present during transform (default is to raise). When this parameter is set to ‘ignore’ and an unknown category is encountered during transform, the resulting one-hot encoded columns for this feature will be all zeros. In the inverse transform, an unknown category will be denoted as None.",
+        "defalut": "error",
+        "values": ["error", "ignore"]
+      }
+    ]
+  },
+  {
+    "method": "OrdinalEncoder",
+    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OrdinalEncoder.html#sklearn.preprocessing.OrdinalEncoder",
+    "params": [{
+        "name": "categories",
+        "dataType": "set",
+        "desc": "Categories (unique values) per feature: ‘auto’ : Determine categories automatically from the training data. list : categories[i] holds the categories expected in the ith column. The passed categories should not mix strings and numeric values within a single feature, and should be sorted in case of numeric values. The used categories can be found in the categories_ attribute.",
+        "defalut": "",
+        "values": ["auto", []]
+      },
+      {
+        "name": "dtype",
+        "dataType": "number",
+        "desc": "Desired dtype of output.",
+        "defalut": "np.float64",
+        "values": []
+      }
+    ]
+  },
+  {
+    "method": "PolynomialFeatures",
+    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html#sklearn.preprocessing.PolynomialFeatures",
+    "params": [{
+        "name": "degree",
+        "dataType": "integer",
+        "desc": "The degree of the polynomial features.",
+        "defalut": 2,
+        "values": []
+      },
+      {
+        "name": "interaction_only",
+        "dataType": "boolean",
+        "desc": "If true, only interaction features are produced: features that are products of at most degree distinct input features (so not x[1] ** 2, x[0] * x[2] ** 3, etc.).",
+        "defalut": false,
+        "values": []
+      },
+      {
+        "name": "include_bias",
+        "dataType": "boolean",
+        "desc": "If True (default), then include a bias column, the feature in which all polynomial powers are zero (i.e. a column of ones - acts as an intercept term in a linear model).",
+        "defalut": true,
+        "values": []
+      }
+    ]
+  },
+  {
+    "method": "PowerTransformer",
+    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PowerTransformer.html#sklearn.preprocessing.PowerTransformer",
+    "params": [{
+        "name": "method",
+        "dataType": "str",
+        "desc": "The power transform method.",
+        "defalut": "yeo-johnson",
+        "values": ["yeo-johnson", "box-cox"]
+      },
+      {
+        "name": "standardize",
+        "dataType": "boolean",
+        "desc": "Set to True to apply zero-mean, unit-variance normalization to the transformed output.",
+        "defalut": true,
+        "values": []
+      }
+    ]
+  },
+  {
+    "method": "QuantileTransformer",
+    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.QuantileTransformer.html#sklearn.preprocessing.QuantileTransformer",
+    "params": [{
+        "name": "n_quantiles",
+        "dataType": "n_quantiles",
+        "desc": "Number of quantiles to be computed. It corresponds to the number of landmarks used to discretize the cumulative density function.",
+        "defalut": 1000,
+        "values": []
+      },
+      {
+        "name": "output_distribution",
+        "dataType": "str",
+        "desc": "Marginal distribution for the transformed data. The choices are ‘uniform’ (default) or ‘normal’.",
+        "defalut": "uniform",
+        "values": ["uniform", "normal"]
+      },
+      {
+        "name": "ignore_implicit_zeros",
+        "dataType": "boolean",
+        "desc": "Only applies to sparse matrices. If True, the sparse entries of the matrix are discarded to compute the quantile statistics. If False, these entries are treated as zeros.",
+        "defalut": false,
+        "values": []
+      },
+      {
+        "name": "subsample",
+        "dataType": "int",
+        "desc": "Maximum number of samples used to estimate the quantiles for computational efficiency. Note that the subsampling procedure may differ for value-identical sparse and dense matrices.",
+        "defalut": "1e5",
+        "values": []
+      },
+      {
+        "name": "random_state",
+        "dataType": "int",
+        "desc": "If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random. Note that this is used by subsampling and smoothing noise.",
+        "defalut": "None",
+        "values": ["RandomState instance", "None"]
+      }
+    ]
+  },
+  {
+    "method": "RobustScaler",
+    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.RobustScaler.html#sklearn.preprocessing.RobustScaler",
+    "params": [{
+        "name": "with_centering",
+        "dataType": "boolean",
+        "desc": "If True, scale the data to interquartile range.",
+        "defalut": true,
+        "values": []
+      },
+      {
+        "name": "with_scaling",
+        "dataType": "boolean",
+        "desc": "If True, scale the data to interquartile range.",
+        "defalut": true,
+        "values": []
+      },
+      {
+        "name": "quantile_range",
+        "dataType": "tuple (q_min, q_max)",
+        "desc": "Default: (25.0, 75.0) = (1st quantile, 3rd quantile) = IQR Quantile range used to calculate scale_.",
+        "defalut": [25.0, 75.0],
+        "values": []
+      }
+    ]
+  },
+  {
+    "method": "StandardScaler",
+    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html#sklearn.preprocessing.StandardScaler",
+    "params": [{
+        "name": "with_mean",
+        "dataType": "boolean",
+        "desc": "If True, center the data before scaling. This does not work (and will raise an exception) when attempted on sparse matrices, because centering them entails building a dense matrix which in common use cases is likely to be too large to fit in memory.",
+        "defalut": true,
+        "values": []
+      },
+      {
+        "name": "with_std",
+        "dataType": "boolean",
+        "desc": "If True, scale the data to unit variance (or equivalently, unit standard deviation).",
+        "defalut": true,
+        "values": []
+      }
+    ]
+  }
+]
