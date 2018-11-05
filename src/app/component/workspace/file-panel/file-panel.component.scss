@@ -11,3 +11,19 @@
     padding-left: 10px;
   }
 }
+.filePanel {
+  .mat-tab-label:first-child,
+  .mat-tab-label-active:first-child {
+    margin-left: 0px;
+    font-weight: 500;
+  }
+  .mat-tab-label,
+  .mat-tab-label-active {
+    width: 100px;
+    color: #000 !important;
+  }
+  .mat-tab-body-content {
+    margin-left: 0px !important;
+    padding-left: 0px !important;
+  }
+}

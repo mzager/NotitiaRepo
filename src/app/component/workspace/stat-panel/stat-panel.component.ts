@@ -1,3 +1,4 @@
+import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
 import { combineLatest as observableCombineLatest, Subject, Subscription } from 'rxjs';
 
 import { debounceTime } from 'rxjs/operators';
@@ -45,10 +46,19 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
   $typeChange: Subject<GraphData> = new Subject();
   $statsChange: Subscription;
 
+  _decorators: Array<DataDecorator>;
   _config: GraphConfig;
   _data: GraphData;
   _type: 'TOOL' | 'SELECTION';
 
+  @Input()
+  set decorators(values: Array<DataDecorator>) {
+    if (values === null) {
+      return;
+    }
+    this._decorators = values.filter(v => v.type === DataDecoratorTypeEnum.SELECT);
+    console.log(this._decorators);
+  }
   @Input()
   set type(value: 'TOOL' | 'SELECTION') {
     if (value === null) {
@@ -78,6 +88,7 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
     if (this._config === null || this._data === null || this._type === null) {
       return;
     }
+
     this.container.empty();
     if (this._type === 'TOOL') {
       this.statFactory.getComputeStats(this._data, this._config).then(stats => {
@@ -94,6 +105,12 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
         });
       });
     } else if (this._type === 'SELECTION') {
+      const ddv = this.decorators === null ? [] : this._decorators.length === 0 ? [] : this._decorators[0].values;
+
+      this.statFactory.getSelectionStats(ddv, this._config).then(stats => {
+        debugger;
+      });
+      return;
       this.statFactory.getPatientStats(this._config.sampleSelect, this._config).then(stats => {
         stats.forEach(stat => {
           const id =
@@ -123,9 +140,11 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.$dataChange.complete();
-    this.$configChange.complete();
-    this.$statsChange.unsubscribe();
+    // TODO: Revisit
+    // this.$dataChange.complete();
+    // this.$configChange.complete();
+    // this.$decoratorChange.complete();
+    // this.$statsChange.unsubscribe();
   }
 
   constructor(public elementRef: ElementRef, public dataService: DataService) {}

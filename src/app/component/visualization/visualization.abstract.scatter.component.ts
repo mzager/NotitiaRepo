@@ -150,12 +150,28 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     const ids = this.ids;
     decorators.forEach(decorator => {
       switch (decorator.type) {
+        case DataDecoratorTypeEnum.SELECT:
+          const x = this.ids;
+          if (this._config.entity === EntityTypeEnum.SAMPLE) {
+            const indicies = decorator.values.map(datum => {
+              return this.ids.findIndex(v => v === datum.sid);
+            });
+
+            const arr = this.pointsGeometry.attributes.gSelected.array;
+            arr.fill(0);
+            indicies.forEach(v => {
+              arr[v] = 1;
+            });
+            console.log('HI');
+            this.pointsGeometry.attributes.gSelected.needsUpdate = true;
+            ChartScene.instance.render();
+          }
+          break;
         case DataDecoratorTypeEnum.SHAPE:
           const textureLookup = AbstractScatterVisualization.textureImages.reduce((p, c, i) => {
             p['s' + c.replace('.png', '-legend.png')] = i;
             return p;
           }, {});
-
           const shapeMap = decorator.values.reduce((p, c) => {
             p[c[propertyId]] = textureLookup['s' + c.value];
             return p;
@@ -166,7 +182,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
               this.shapes[index] = 7;
             }
           });
-
           this.pointsGeometry.addAttribute('gShape', new THREE.BufferAttribute(this.shapes, 1));
           ChartScene.instance.render();
           break;
@@ -186,7 +201,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
           this.pointsGeometry.addAttribute('gColor', new THREE.BufferAttribute(this.colors, 3));
           ChartScene.instance.render();
           break;
-        case DataDecoratorTypeEnum.SHAPE:
       }
     });
     this.selectionController.points = this.points;
