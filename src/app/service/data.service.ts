@@ -834,6 +834,16 @@ export class DataService {
       case VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS:
       case VisualizationEnum.SPARSE_CODER:
       case VisualizationEnum.SPECTRAL_EMBEDDING:
+      case VisualizationEnum.CCA:
+      case VisualizationEnum.PLSSVD:
+      case VisualizationEnum.PLSCANONICAL:
+      case VisualizationEnum.PLSREGRESSION:
+      case VisualizationEnum.LINEAR_SVC:
+      case VisualizationEnum.LINEAR_SVR:
+      case VisualizationEnum.NU_SVC:
+      case VisualizationEnum.NU_SVR:
+      case VisualizationEnum.ONE_CLASS_SVM:
+      case VisualizationEnum.SVR:
         return 'clustering.json';
       case VisualizationEnum.GENOME:
         return 'genome.json';
