@@ -40,11 +40,17 @@ export class FilePanelComponent {
         this.setDatasetsOncoscape();
         return;
       case 'GDC':
+        this.setDatasetsGdc();
+        return;
       case 'CBio':
         this.setDatasetsCBio();
         return;
       case 'CHOP':
+        this.setDatasetsChop();
+        return;
       case 'Private':
+        this.setDatasetsPrivate();
+        return;
         break;
     }
   }
@@ -292,8 +298,16 @@ export class FilePanelComponent {
     this.cd.markForCheck();
   }
   setDatasetsCBio(): void {
-    this.dataService.getPublicDatasets().then(v => {
-      debugger;
+    this.dataService.getPublicDatasets().then(result => {
+      this.datasets = result.map(v => {
+        return {
+          name: v.content.name,
+          img: 'DScancer',
+          src: v.project.split('|')[0],
+          uid: v.project.split('|')[0]
+        };
+      });
+      this.cd.markForCheck();
     });
   }
   setDatasetsChop(): void {

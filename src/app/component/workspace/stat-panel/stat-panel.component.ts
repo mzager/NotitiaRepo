@@ -1,3 +1,4 @@
+import { Renderer3 } from '@angular/core/src/render3/interfaces/renderer';
 import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
 import { combineLatest as observableCombineLatest, Subject, Subscription } from 'rxjs';
 
@@ -9,7 +10,8 @@ import {
   ElementRef,
   Input,
   ViewEncapsulation,
-  ViewChild
+  ViewChild,
+  Renderer2
 } from '@angular/core';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Observable } from 'rxjs/Rx';
@@ -35,32 +37,37 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
   @ViewChild('container')
   elRef: ElementRef;
 
-  container: any;
-
   chartStats: Array<Stat> = [];
   statFactory: StatFactory;
   statVegaFactory: StatVegaFactory;
 
-  $configChange: Subject<GraphConfig> = new Subject();
-  $dataChange: Subject<GraphData> = new Subject();
-  $typeChange: Subject<GraphData> = new Subject();
-  $statsChange: Subscription;
+  public $configChange: Subject<GraphConfig> = new Subject();
+  public $dataChange: Subject<GraphData> = new Subject();
+  public $typeChange: Subject<GraphData> = new Subject();
 
-  _decorators: Array<DataDecorator>;
+  $statsChange: Subscription;
+  _selectionDecorator: DataDecorator = null;
   _config: GraphConfig;
   _data: GraphData;
   _type: 'TOOL' | 'SELECTION';
+  _rootDiv: any = null;
+  public get type(): 'TOOL' | 'SELECTION' {
+    return this._type;
+  }
 
   @Input()
   set decorators(values: Array<DataDecorator>) {
     if (values === null) {
       return;
     }
-    this._decorators = values.filter(v => v.type === DataDecoratorTypeEnum.SELECT);
-    console.log(this._decorators);
+    this._selectionDecorator = values.filter(v => v.type === DataDecoratorTypeEnum.SELECT)[0];
+
+    this.update();
+
+    console.log('decorators set');
   }
   @Input()
-  set type(value: 'TOOL' | 'SELECTION') {
+  public set type(value: 'TOOL' | 'SELECTION') {
     if (value === null) {
       return;
     }
@@ -83,46 +90,44 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
     this._data = value;
     this.$dataChange.next();
   }
+  private addStat(stat) {
+    const id =
+      'cc' +
+      Math.random()
+        .toString(36)
+        .substring(7);
 
-  update(): void {
+    const div = this.renderer.createElement('div');
+    div.setAttribute('id', id);
+    div.className = 'statItemContainer';
+    div.style.setProperty('padding-bottom', '20px');
+    this.renderer.appendChild(this._rootDiv, div);
+    this.statVegaFactory.drawChartObject(stat, stat.charts[0], id, div);
+  }
+
+  public update(): void {
+    console.log('!!!!UPDATE BI');
     if (this._config === null || this._data === null || this._type === null) {
       return;
     }
-
-    this.container.empty();
+    if (this._rootDiv !== null) {
+      this.renderer.removeChild(this.elRef.nativeElement, this._rootDiv);
+    }
+    this._rootDiv = this.renderer.createElement('div');
+    this.renderer.appendChild(this.elRef.nativeElement, this._rootDiv);
+    // this.renderer.
+    // this.container.empty();
     if (this._type === 'TOOL') {
       this.statFactory.getComputeStats(this._data, this._config).then(stats => {
-        stats.forEach(stat => {
-          const id =
-            'cc' +
-            Math.random()
-              .toString(36)
-              .substring(7);
-          const div = this.container.append(
-            '<div id="' + id + '" class="statItemContainer" style="padding-bottom:20px;"></div>'
-          );
-          this.statVegaFactory.drawChartObject(stat, stat.charts[0], id, div);
-        });
+        stats.forEach(this.addStat.bind(this));
       });
     } else if (this._type === 'SELECTION') {
-      const ddv = this.decorators === null ? [] : this._decorators.length === 0 ? [] : this._decorators[0].values;
+      console.log('UPDATE BI');
 
-      this.statFactory.getSelectionStats(ddv, this._config).then(stats => {
-        debugger;
-      });
-      return;
-      this.statFactory.getPatientStats(this._config.sampleSelect, this._config).then(stats => {
-        stats.forEach(stat => {
-          const id =
-            'cc' +
-            Math.random()
-              .toString(36)
-              .substring(7);
-          const div = this.container.append(
-            '<div id="' + id + '" class="statItemContainer" style="padding-bottom:20px;"></div>'
-          );
-          this.statVegaFactory.drawChartObject(stat, stat.charts[0], id, div);
-        });
+      const ids = this._selectionDecorator === null ? [] : this._selectionDecorator.values.map(v => v.pid);
+
+      this.statFactory.getPatientStats(ids, this._config).then(stats => {
+        stats.forEach(this.addStat.bind(this));
       });
     }
   }
@@ -132,7 +137,7 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
     this.statFactory = StatFactory.getInstance(this.dataService);
     this.statVegaFactory = StatVegaFactory.getInstance();
 
-    this.container = $(this.elRef.nativeElement);
+    // this.container = $(this.elRef.nativeElement);
     this.$statsChange = observableCombineLatest(this.$configChange, this.$dataChange, this.$typeChange)
       .pipe(debounceTime(300))
       .subscribe(this.update.bind(this));
@@ -144,8 +149,8 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
     // this.$dataChange.complete();
     // this.$configChange.complete();
     // this.$decoratorChange.complete();
-    // this.$statsChange.unsubscribe();
+    this.$statsChange.unsubscribe();
   }
 
-  constructor(public elementRef: ElementRef, public dataService: DataService) {}
+  constructor(public elementRef: ElementRef, public renderer: Renderer2, public dataService: DataService) {}
 }
