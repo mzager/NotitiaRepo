@@ -22,6 +22,7 @@ import { Cohort } from './../model/cohort.model';
 import { DataField } from './../model/data-field.model';
 import { DataDecorator, DataDecoratorTypeEnum } from './../model/data-map.model';
 import { GeneSet } from './../model/gene-set.model';
+import { Preprocessing } from './../model/preprocessing.model';
 
 @Injectable()
 export class DataService {

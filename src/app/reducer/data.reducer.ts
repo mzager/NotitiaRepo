@@ -4,7 +4,8 @@ import {
   DataLoadedAction,
   DataUpdateCohortsAction,
   DataUpdateGenesetsAction,
-  DataUpdatePathwayAction
+  DataUpdatePathwayAction,
+  DataUpdatePreprocessingAction
 } from './../action/data.action';
 import { DataField, DataTable } from './../model/data-field.model';
 
@@ -16,6 +17,7 @@ export interface State {
   pathways: Array<any>;
   genesets: Array<any>;
   cohorts: Array<any>;
+  preprocessings: Array<any>;
   events: Array<{ type: string; subtype: string }>;
 }
 
@@ -27,7 +29,8 @@ const initialState: State = {
   events: [],
   pathways: [],
   genesets: [],
-  cohorts: []
+  cohorts: [],
+  preprocessings: []
 };
 
 export function reducer(state = initialState, action: Action): State {
@@ -38,6 +41,7 @@ export function reducer(state = initialState, action: Action): State {
         cohorts: dla.cohorts,
         pathways: dla.pathways,
         genesets: dla.genesets,
+        preprocessing: dla.preprocessings,
         dataset: dla.dataset,
         fields: dla.fields,
         tables: dla.tables,
@@ -52,6 +56,9 @@ export function reducer(state = initialState, action: Action): State {
     case data.DATA_UPDATE_GENESETS:
       const dug: DataUpdateGenesetsAction = action as DataUpdateGenesetsAction;
       return Object.assign({}, state, { genesets: dug.payload });
+    case data.DATA_UPDATE_PREPROCESSING:
+      const duz: DataUpdatePreprocessingAction = action as DataUpdatePreprocessingAction;
+      return Object.assign({}, state, { preprocessings: duz.payload });
     default:
       return state;
   }
@@ -60,6 +67,7 @@ export function reducer(state = initialState, action: Action): State {
 export const getPathways = (state: State) => state.pathways;
 export const getGenesets = (state: State) => state.genesets;
 export const getCohorts = (state: State) => state.cohorts;
+export const getPreprocessing = (state: State) => state.preprocessings;
 export const getDataset = (state: State) => state.dataset;
 export const getFields = (state: State) => state.fields;
 export const getTables = (state: State) => state.tables;

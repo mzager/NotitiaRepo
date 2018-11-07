@@ -1,6 +1,7 @@
 import { Cohort } from './../model/cohort.model';
 import { Pathway } from './../model/pathway.model';
 import { GeneSet } from './../model/gene-set.model';
+import { Preprocessing } from './../model/preprocessing.model';
 import { UnsafeAction } from './unsafe.action';
 import { DataField, DataTable } from './../model/data-field.model';
 import { Action } from '@ngrx/store';
@@ -22,6 +23,10 @@ export const DATA_UPDATE_COHORTS = '[Data] Update Cohorts';
 export const DATA_ADD_COHORT = '[Data] Add Cohort';
 export const DATA_DEL_COHORT = '[Data] Del Cohort';
 export const DATA_QUERY_COHORT = '[Data] Query Cohort';
+export const DATA_UPDATE_PREPROCESSING = '[Data] Update Preprocessing';
+export const DATA_ADD_PREPROCESSING = '[Data] Add Preprocessing';
+export const DATA_DEL_PREPROCESSING = '[Data] Del Preprocessing';
+
 
 // Action Classes
 export class DataLoadFromDexieAction implements Action {
@@ -86,6 +91,19 @@ export class DataLoadFromPrivate implements Action {
   constructor(public payload: { bucket: string; token: string }) {}
 }
 
+export class DataAddPreprocessingAction implements Action {
+  readonly type: string = DATA_ADD_PREPROCESSING;
+  constructor(public payload: { preprocessing: Preprocessing; database: string }) {}
+}
+export class DataDelPreprocessingAction implements Action {
+  readonly type: string = DATA_DEL_PREPROCESSING;
+  constructor(public payload: { preprocessing: Preprocessing; database: string }) {}
+}
+export class DataUpdatePreprocessingAction implements Action {
+  readonly type: string = DATA_UPDATE_PREPROCESSING;
+  constructor(public payload: Array<Preprocessing>) {}
+}
+
 export class DataLoadedAction implements UnsafeAction {
   readonly type: string = DATA_LOADED;
   constructor(
@@ -95,6 +113,7 @@ export class DataLoadedAction implements UnsafeAction {
     public events: Array<{ type: string; subtype: string }>,
     public genesets: Array<any>,
     public cohorts: Array<any>,
+    public preprocessings: Array<any>,
     public pathways: Array<any>,
     public datasetName: string
   ) {}
@@ -122,4 +141,8 @@ export type Actions =
   | DataAddCohortAction
   | DataDelCohortAction
   | DataUpdateCohortsAction
-  | DataQueryCohortAction;
+  | DataQueryCohortAction
+  | DataAddPreprocessingAction
+  | DataDelPreprocessingAction
+  | DataUpdatePreprocessingAction;
+

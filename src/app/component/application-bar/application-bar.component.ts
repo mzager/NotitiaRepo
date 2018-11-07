@@ -49,6 +49,10 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   dataPanelToggle = new EventEmitter();
   @Output()
   pathwayPanelToggle = new EventEmitter();
+  @Output()
+  preprocessingPanelToggle = new EventEmitter();
+  @Output()
+
 
   private togglePanels = false;
   private split = false;
@@ -106,6 +110,9 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
       case 'f':
         this.viewPanel(PanelEnum.FEEDBACK);
         break;
+      case 'z':
+        this.viewPanel(PanelEnum.PREPROCESSING);
+        break;
     }
   }
 
@@ -114,6 +121,9 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   }
   onViewGeneset(): void {
     this.viewPanel(PanelEnum.GENESET);
+  }
+  onViewPreprocessing(): void {
+    this.viewPanel(PanelEnum.PREPROCESSING);
   }
 
   reload(): void {
