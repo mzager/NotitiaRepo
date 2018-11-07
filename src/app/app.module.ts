@@ -80,6 +80,7 @@ import { ChartFactory } from './component/workspace/chart/chart.factory';
 import { CitationsPanelComponent } from './component/workspace/citations-panel/citations-panel.component';
 import { ClusteringAlgorithmPanelComponent } from './component/workspace/clustering-algorithm-panel/clustering-algorithm-panel.component';
 import { CohortPanelComponent } from './component/workspace/cohort-panel/cohort-panel.component';
+import { PreprocessingPanelComponent } from './component/workspace/preprocessing-panel/preprocessing-panel.component';
 import { ColorPanelComponent } from './component/workspace/color-panel/color-panel.component';
 import { DashboardPanelComponent } from './component/workspace/dashboard-panel/dashboard-panel.component';
 import { DataPanelComponent } from './component/workspace/data-panel/data-panel.component';
@@ -214,7 +215,8 @@ import { InfoPanelComponent } from './component/workspace/info-panel/info-panel.
     TipPanelComponent,
     UserPanelComponent,
     SelectionPanelComponent,
-    InfoPanelComponent
+    InfoPanelComponent,
+    PreprocessingPanelComponent
   ],
 
   imports: [

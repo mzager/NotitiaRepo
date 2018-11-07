@@ -23,7 +23,8 @@ import {
   DataLoadFromDexieAction,
   DataUpdateCohortsAction,
   DataUpdateGenesetsAction,
-  DataUpdatePathwayAction
+  DataUpdatePreprocessingAction
+
 } from './../action/data.action';
 import { WorkspaceConfigAction } from './../action/graph.action';
 import { LoaderShowAction } from './../action/layout.action';
@@ -162,6 +163,43 @@ export class DataEffect {
         return observableOf(new DataUpdateGenesetsAction(args));
       })
     );
+
+   // Geneset Crud
+   @Effect()
+   addPreprocessing: Observable<Action> = this.actions$
+     .ofType(data.DATA_ADD_PREPROCESSING)
+     .pipe(
+       switchMap((args: DataAddPreprocessingAction) => {
+         return observableFrom(
+           this.dataService
+             .createCustomGeneset(args.payload.database, args.payload.geneset)
+             .then(() =>
+               this.dataService.getCustomGenesets(args.payload.database)
+             )
+         );
+       }),
+       switchMap((args: any) => {
+         return observableOf(new DataUpdatePreprocessingAction(args));
+       })
+     );
+
+   @Effect()
+   delGeneset: Observable<Action> = this.actions$
+     .ofType(data.DATA_DEL_GENESET)
+     .pipe(
+       switchMap((args: DataDelGenesetAction) => {
+         return observableFrom(
+           this.dataService
+             .deleteCustomGeneset(args.payload.database, args.payload.geneset)
+             .then(() =>
+               this.dataService.getCustomGenesets(args.payload.database)
+             )
+         );
+       }),
+       switchMap((args: any) => {
+         return observableOf(new DataUpdateGenesetsAction(args));
+       })
+     );
 
   // Load Data From Public
   @Effect()
