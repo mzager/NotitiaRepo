@@ -180,7 +180,7 @@
       },
       {
         "name": "dtype",
-        "dataType": "number",
+        "dataType": "str",
         "desc": "Desired dtype of output.",
         "default": "np.float",
         "values": []
@@ -208,7 +208,7 @@
       },
       {
         "name": "dtype",
-        "dataType": "number",
+        "dataType": "str",
         "desc": "Desired dtype of output.",
         "default": "np.float64",
         "values": []
