@@ -23,8 +23,10 @@ import {
   DataLoadFromDexieAction,
   DataUpdateCohortsAction,
   DataUpdateGenesetsAction,
-  DataUpdatePreprocessingAction
-
+  DataAddPreprocessingAction,
+  DataDelPreprocessingAction,
+  DataUpdatePreprocessingAction,
+  DataUpdatePathwayAction
 } from './../action/data.action';
 import { WorkspaceConfigAction } from './../action/graph.action';
 import { LoaderShowAction } from './../action/layout.action';
@@ -41,264 +43,211 @@ import { PcaConfigModel } from '../component/visualization/pca/pca.model';
 export class DataEffect {
   // Pathway Crud
   @Effect()
-  addPathway: Observable<Action> = this.actions$
-    .ofType(data.DATA_ADD_PATHWAY)
-    .pipe(
-      switchMap((args: DataAddPathwayAction) => {
-        return observableFrom(
-          this.dataService
-            .createCustomPathway(args.payload.database, args.payload.pathway)
-            .then(() =>
-              this.dataService.getCustomPathways(args.payload.database)
-            )
-        );
-      }),
-      switchMap((args: any) => {
-        return observableOf(new DataUpdatePathwayAction(args));
-      })
-    );
+  addPathway: Observable<Action> = this.actions$.ofType(data.DATA_ADD_PATHWAY).pipe(
+    switchMap((args: DataAddPathwayAction) => {
+      return observableFrom(
+        this.dataService
+          .createCustomPathway(args.payload.database, args.payload.pathway)
+          .then(() => this.dataService.getCustomPathways(args.payload.database))
+      );
+    }),
+    switchMap((args: any) => {
+      return observableOf(new DataUpdatePathwayAction(args));
+    })
+  );
 
   @Effect()
-  loadVisualizationTip: Observable<Action> = this.actions$
-    .ofType(tip.TIP_SET_VISUALIZATION)
-    .pipe(
-      switchMap((args: TipSetVisualizationAction) => {
-        return observableFrom(
-          this.dataService.getVisualizationTip(args.payload)
-        );
-      }),
-      switchMap((args: any) => {
-        return observableOf(new tip.TipSetVisualizationCompleteAction(args));
-      })
-    );
+  loadVisualizationTip: Observable<Action> = this.actions$.ofType(tip.TIP_SET_VISUALIZATION).pipe(
+    switchMap((args: TipSetVisualizationAction) => {
+      return observableFrom(this.dataService.getVisualizationTip(args.payload));
+    }),
+    switchMap((args: any) => {
+      return observableOf(new tip.TipSetVisualizationCompleteAction(args));
+    })
+  );
 
   @Effect()
-  delPathway: Observable<Action> = this.actions$
-    .ofType(data.DATA_DEL_PATHWAY)
-    .pipe(
-      switchMap((args: DataDelPathwayAction) => {
-        return observableFrom(
-          this.dataService
-            .deleteCustomPathway(args.payload.database, args.payload.pathway)
-            .then(() =>
-              this.dataService.getCustomPathways(args.payload.database)
-            )
-        );
-      }),
-      switchMap((args: any) => {
-        return observableOf(new DataUpdatePathwayAction(args));
-      })
-    );
+  delPathway: Observable<Action> = this.actions$.ofType(data.DATA_DEL_PATHWAY).pipe(
+    switchMap((args: DataDelPathwayAction) => {
+      return observableFrom(
+        this.dataService
+          .deleteCustomPathway(args.payload.database, args.payload.pathway)
+          .then(() => this.dataService.getCustomPathways(args.payload.database))
+      );
+    }),
+    switchMap((args: any) => {
+      return observableOf(new DataUpdatePathwayAction(args));
+    })
+  );
 
   // Cohort Crud
   @Effect()
-  addCohort: Observable<Action> = this.actions$
-    .ofType(data.DATA_ADD_COHORT)
-    .pipe(
-      switchMap((args: DataAddCohortAction) => {
-        return observableFrom(
-          this.dataService
-            .createCustomCohort(args.payload.database, args.payload.cohort)
-            .then(() =>
-              this.dataService.getCustomCohorts(args.payload.database)
-            )
-        );
-      }),
-      switchMap((args: any) => {
-        return observableOf(new DataUpdateCohortsAction(args));
-      })
-    );
+  addCohort: Observable<Action> = this.actions$.ofType(data.DATA_ADD_COHORT).pipe(
+    switchMap((args: DataAddCohortAction) => {
+      return observableFrom(
+        this.dataService
+          .createCustomCohort(args.payload.database, args.payload.cohort)
+          .then(() => this.dataService.getCustomCohorts(args.payload.database))
+      );
+    }),
+    switchMap((args: any) => {
+      return observableOf(new DataUpdateCohortsAction(args));
+    })
+  );
 
   @Effect()
-  delCohort: Observable<Action> = this.actions$
-    .ofType(data.DATA_DEL_COHORT)
-    .pipe(
-      switchMap((args: DataDelCohortAction) => {
-        return observableFrom(
-          this.dataService
-            .deleteCustomCohort(args.payload.database, args.payload.cohort)
-            .then(() =>
-              this.dataService.getCustomCohorts(args.payload.database)
-            )
-        );
-      }),
-      switchMap((args: any) => {
-        return observableOf(new DataUpdateCohortsAction(args));
-      })
-    );
+  delCohort: Observable<Action> = this.actions$.ofType(data.DATA_DEL_COHORT).pipe(
+    switchMap((args: DataDelCohortAction) => {
+      return observableFrom(
+        this.dataService
+          .deleteCustomCohort(args.payload.database, args.payload.cohort)
+          .then(() => this.dataService.getCustomCohorts(args.payload.database))
+      );
+    }),
+    switchMap((args: any) => {
+      return observableOf(new DataUpdateCohortsAction(args));
+    })
+  );
 
   // Geneset Crud
   @Effect()
-  addGeneset: Observable<Action> = this.actions$
-    .ofType(data.DATA_ADD_GENESET)
-    .pipe(
-      switchMap((args: DataAddGenesetAction) => {
-        return observableFrom(
-          this.dataService
-            .createCustomGeneset(args.payload.database, args.payload.geneset)
-            .then(() =>
-              this.dataService.getCustomGenesets(args.payload.database)
-            )
-        );
-      }),
-      switchMap((args: any) => {
-        return observableOf(new DataUpdateGenesetsAction(args));
-      })
-    );
+  addGeneset: Observable<Action> = this.actions$.ofType(data.DATA_ADD_GENESET).pipe(
+    switchMap((args: DataAddGenesetAction) => {
+      return observableFrom(
+        this.dataService
+          .createCustomGeneset(args.payload.database, args.payload.geneset)
+          .then(() => this.dataService.getCustomGenesets(args.payload.database))
+      );
+    }),
+    switchMap((args: any) => {
+      return observableOf(new DataUpdateGenesetsAction(args));
+    })
+  );
 
   @Effect()
-  delGeneset: Observable<Action> = this.actions$
-    .ofType(data.DATA_DEL_GENESET)
-    .pipe(
-      switchMap((args: DataDelGenesetAction) => {
-        return observableFrom(
-          this.dataService
-            .deleteCustomGeneset(args.payload.database, args.payload.geneset)
-            .then(() =>
-              this.dataService.getCustomGenesets(args.payload.database)
-            )
-        );
-      }),
-      switchMap((args: any) => {
-        return observableOf(new DataUpdateGenesetsAction(args));
-      })
-    );
+  delGeneset: Observable<Action> = this.actions$.ofType(data.DATA_DEL_GENESET).pipe(
+    switchMap((args: DataDelGenesetAction) => {
+      return observableFrom(
+        this.dataService
+          .deleteCustomGeneset(args.payload.database, args.payload.geneset)
+          .then(() => this.dataService.getCustomGenesets(args.payload.database))
+      );
+    }),
+    switchMap((args: any) => {
+      return observableOf(new DataUpdateGenesetsAction(args));
+    })
+  );
 
-   // Geneset Crud
-   @Effect()
-   addPreprocessing: Observable<Action> = this.actions$
-     .ofType(data.DATA_ADD_PREPROCESSING)
-     .pipe(
-       switchMap((args: DataAddPreprocessingAction) => {
-         return observableFrom(
-           this.dataService
-             .createCustomGeneset(args.payload.database, args.payload.geneset)
-             .then(() =>
-               this.dataService.getCustomGenesets(args.payload.database)
-             )
-         );
-       }),
-       switchMap((args: any) => {
-         return observableOf(new DataUpdatePreprocessingAction(args));
-       })
-     );
+  // Geneset Crud
+  @Effect()
+  addPreprocessing: Observable<Action> = this.actions$.ofType(data.DATA_ADD_PREPROCESSING).pipe(
+    switchMap((args: DataAddPreprocessingAction) => {
+      return observableFrom(
+        this.dataService
+          .createCustomGeneset(args.payload.database, null)
+          .then(() => this.dataService.getCustomGenesets(args.payload.database))
+      );
+    }),
+    switchMap((args: any) => {
+      return observableOf(new DataUpdatePreprocessingAction(args));
+    })
+  );
 
-   @Effect()
-   delGeneset: Observable<Action> = this.actions$
-     .ofType(data.DATA_DEL_GENESET)
-     .pipe(
-       switchMap((args: DataDelGenesetAction) => {
-         return observableFrom(
-           this.dataService
-             .deleteCustomGeneset(args.payload.database, args.payload.geneset)
-             .then(() =>
-               this.dataService.getCustomGenesets(args.payload.database)
-             )
-         );
-       }),
-       switchMap((args: any) => {
-         return observableOf(new DataUpdateGenesetsAction(args));
-       })
-     );
+  @Effect()
+  delPreprocessing: Observable<Action> = this.actions$.ofType(data.DATA_DEL_PREPROCESSING).pipe(
+    switchMap((args: DataDelPreprocessingAction) => {
+      return observableFrom(
+        this.dataService
+          .deleteCustomGeneset(args.payload.database, null)
+          .then(() => this.dataService.getCustomGenesets(args.payload.database))
+      );
+    }),
+    switchMap((args: any) => {
+      return observableOf(new DataUpdateGenesetsAction(args));
+    })
+  );
 
   // Load Data From Public
   @Effect()
-  dataLoadFromPublic$: Observable<any> = this.actions$
-    .ofType(data.DATA_LOAD_FROM_PUBLIC)
-    .pipe(
-      map((action: UnsafeAction) => action.payload),
-      switchMap(args => {
-        args['baseUrl'] =
-          'https://oncoscape.v3.sttrcancer.org/data/' + args['src'] + '/';
-        args['manifest'] =
-          'https://oncoscape.v3.sttrcancer.org/data/' +
-          args['src'] +
-          '/' +
-          args['prefix'] +
-          'manifest.json.gz';
-        return this.datasetService.load(args);
-      }),
-      mergeMap(args => {
-        return [
-          // new FilePanelToggleAction(),
-          new DataLoadFromDexieAction(args.uid, args.name)
-        ];
-      })
-    );
+  dataLoadFromPublic$: Observable<any> = this.actions$.ofType(data.DATA_LOAD_FROM_PUBLIC).pipe(
+    map((action: UnsafeAction) => action.payload),
+    switchMap(args => {
+      args['baseUrl'] = 'https://oncoscape.v3.sttrcancer.org/data/' + args['src'] + '/';
+      args['manifest'] =
+        'https://oncoscape.v3.sttrcancer.org/data/' + args['src'] + '/' + args['prefix'] + 'manifest.json.gz';
+      return this.datasetService.load(args);
+    }),
+    mergeMap(args => {
+      return [
+        // new FilePanelToggleAction(),
+        new DataLoadFromDexieAction(args.uid, args.name)
+      ];
+    })
+  );
 
   // Load Data From Public
   @Effect()
-  dataLoadFromPrivate$: Observable<any> = this.actions$
-    .ofType(data.DATA_LOAD_FROM_PRIVATE)
-    .pipe(
-      map((action: UnsafeAction) => action.payload),
-      switchMap(args => {
-        args['uid'] = args['bucket'];
-        args['baseUrl'] =
-          'https://oncoscape.v3.sttrcancer.org/datasets/' +
-          args['bucket'] +
-          '/';
-        args['manifest'] =
-          'https://oncoscape.v3.sttrcancer.org/datasets/' +
-          args['bucket'] +
-          '/manifest.json.gz';
-        return this.datasetService.load(args);
-      }),
-      mergeMap(args => {
-        return [
-          // new FilePanelToggleAction(),
-          new DataLoadFromDexieAction(args.uid, args.name)
-        ];
-      })
-    );
+  dataLoadFromPrivate$: Observable<any> = this.actions$.ofType(data.DATA_LOAD_FROM_PRIVATE).pipe(
+    map((action: UnsafeAction) => action.payload),
+    switchMap(args => {
+      args['uid'] = args['bucket'];
+      args['baseUrl'] = 'https://oncoscape.v3.sttrcancer.org/datasets/' + args['bucket'] + '/';
+      args['manifest'] = 'https://oncoscape.v3.sttrcancer.org/datasets/' + args['bucket'] + '/manifest.json.gz';
+      return this.datasetService.load(args);
+    }),
+    mergeMap(args => {
+      return [
+        // new FilePanelToggleAction(),
+        new DataLoadFromDexieAction(args.uid, args.name)
+      ];
+    })
+  );
 
   // Load Data From Dexie
   @Effect()
-  dataLoadFromDexie$: Observable<DataLoadedAction> = this.actions$
-    .ofType(data.DATA_LOAD_FROM_DEXIE)
-    .pipe(
-      switchMap((args: DataLoadFromDexieAction) => {
-        GraphConfig.database = args.dataset;
-        GraphConfig.datasetName = args.datasetname;
-        return observableFrom(
-          Promise.all([
-            this.datasetService.getDataset(args.dataset),
-            this.dataService.getCustomGenesets(args.dataset),
-            this.dataService.getCustomCohorts(args.dataset),
-            this.dataService.getCustomPathways(args.dataset),
-            new Promise((resolve, reject) => {
-              resolve(args.datasetname);
-            })
-          ])
-        );
-      }),
-      switchMap(args => {
-        if (args[1] === undefined) {
-          args[1] = [];
-        }
-        if (args[2] === undefined) {
-          args[2] = [];
-        }
+  dataLoadFromDexie$: Observable<DataLoadedAction> = this.actions$.ofType(data.DATA_LOAD_FROM_DEXIE).pipe(
+    switchMap((args: DataLoadFromDexieAction) => {
+      GraphConfig.database = args.dataset;
+      GraphConfig.datasetName = args.datasetname;
+      return observableFrom(
+        Promise.all([
+          this.datasetService.getDataset(args.dataset),
+          this.dataService.getCustomGenesets(args.dataset),
+          this.dataService.getCustomCohorts(args.dataset),
+          this.dataService.getCustomPathways(args.dataset),
+          this.dataService.getCustomPreprocessing(args.dataset),
+          new Promise((resolve, reject) => {
+            resolve(args.datasetname);
+          })
+        ])
+      );
+    }),
+    switchMap(args => {
+      if (args[1] === undefined) {
+        args[1] = [];
+      }
+      if (args[2] === undefined) {
+        args[2] = [];
+      }
 
-        // Temp Fix While Converting To New Data Model
-        const fields = args[0].hasOwnProperty('fields')
-          ? args[0].fields
-          : args[0].patients.concat(args[0].samples);
+      // Temp Fix While Converting To New Data Model
+      const fields = args[0].hasOwnProperty('fields') ? args[0].fields : args[0].patients.concat(args[0].samples);
 
-        return observableOf(
-          new DataLoadedAction(
-            args[0].name,
-            args[0].tables,
-            fields,
-            args[0].events,
-            args[1],
-            args[2],
-            args[3],
-            args[4].toString()
-          )
-        );
-      })
-    );
+      return observableOf(
+        new DataLoadedAction(
+          args[0].name,
+          args[0].tables,
+          fields,
+          args[0].events,
+          args[1],
+          args[2],
+          args[3],
+          args[4],
+          args[5].toString()
+        )
+      );
+    })
+  );
 
   @Effect()
   dataLoaded$: Observable<Action> = this.actions$.ofType(data.DATA_LOADED).pipe(
@@ -318,9 +267,7 @@ export class DataEffect {
       const genomeConfig = new GenomeConfigModel();
       genomeConfig.graph = GraphEnum.GRAPH_B;
       genomeConfig.datasetName = args.datasetName;
-      genomeConfig.table = args.tables.filter(
-        v => (v.ctype & CollectionTypeEnum.MOLECULAR) > 0
-      )[0];
+      genomeConfig.table = args.tables.filter(v => (v.ctype & CollectionTypeEnum.MOLECULAR) > 0)[0];
 
       // const chromosomeConfig = new ChromosomeConfigModel();
       // chromosomeConfig.graph = GraphEnum.GRAPH_A;
@@ -367,9 +314,7 @@ export class DataEffect {
       const pcaConfig = new PcaConfigModel();
       pcaConfig.graph = GraphEnum.GRAPH_A;
       pcaConfig.datasetName = args.datasetName;
-      pcaConfig.table = args.tables.filter(
-        v => (v.ctype & CollectionTypeEnum.MOLECULAR) > 0
-      )[0];
+      pcaConfig.table = args.tables.filter(v => (v.ctype & CollectionTypeEnum.MOLECULAR) > 0)[0];
 
       // scatterConfig.datasetName = args.datasetName;
       // const histogramConfig = new HistogramConfigModel();
@@ -412,9 +357,5 @@ export class DataEffect {
     })
   );
 
-  constructor(
-    private actions$: Actions,
-    private dataService: DataService,
-    private datasetService: DatasetService
-  ) {}
+  constructor(private actions$: Actions, private dataService: DataService, private datasetService: DatasetService) {}
 }

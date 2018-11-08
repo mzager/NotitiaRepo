@@ -81,9 +81,7 @@ const report = (msg: string) => {
   );
 };
 
-const loadManifest = (
-  manifestUri: string
-): Promise<Array<{ name: string; type: string; url: string }>> => {
+const loadManifest = (manifestUri: string): Promise<Array<{ name: string; type: string; url: string }>> => {
   fetch(manifestUri, requestInit())
     .then(response => response.json())
     .then(response => {
@@ -93,29 +91,25 @@ const loadManifest = (
   return null;
 };
 
-const processResource = (resource: {
-  name: string;
-  dataType: string;
-  file: string;
-}): Promise<any> => {
+const processResource = (resource: { name: string; dataType: string; file: string }): Promise<any> => {
   resource.name = resource.name.replace(/ /gi, '').toLowerCase();
   return resource.dataType === 'clinical' || resource.dataType === 'patient'
     ? loadPatient(resource.name, resource.file)
     : resource.dataType === 'psmap'
-      ? loadPatientSampleMap(resource.name, resource.file)
-      : resource.dataType === 'matrix'
-        ? loadMatrix(resource.name, resource.file)
-        : resource.dataType === 'gistic_threshold'
-          ? loadMatrix(resource.name, resource.file)
-          : resource.dataType === 'gistic'
-            ? loadGistic(resource.name, resource.file)
-            : resource.dataType === 'mut'
-              ? loadMutation(resource.name, resource.file)
-              : resource.dataType === 'rna'
-                ? loadRna(resource.name, resource.file)
-                : resource.dataType === 'events'
-                  ? loadEvents(resource.name, resource.file)
-                  : null;
+    ? loadPatientSampleMap(resource.name, resource.file)
+    : resource.dataType === 'matrix'
+    ? loadMatrix(resource.name, resource.file)
+    : resource.dataType === 'gistic_threshold'
+    ? loadMatrix(resource.name, resource.file)
+    : resource.dataType === 'gistic'
+    ? loadGistic(resource.name, resource.file)
+    : resource.dataType === 'mut'
+    ? loadMutation(resource.name, resource.file)
+    : resource.dataType === 'rna'
+    ? loadRna(resource.name, resource.file)
+    : resource.dataType === 'events'
+    ? loadEvents(resource.name, resource.file)
+    : null;
 };
 
 // Complete
@@ -161,22 +155,19 @@ const loadPatient = (name: string, file: string): Promise<any> => {
     })
     .then(response => {
       report('Parsing Subjects');
-      const patientMetaTable = Object.keys(response.fields).map(
-        (key, index) => ({
-          ctype: 2,
-          key: key.toLowerCase(),
-          label: key.replace(/_/gi, ' '),
-          tbl: 'patient',
-          type: Array.isArray(response.fields[key]) ? 'STRING' : 'NUMBER',
-          values: response.fields[key]
-        })
-      );
+      const patientMetaTable = Object.keys(response.fields).map((key, index) => ({
+        ctype: 2,
+        key: key.toLowerCase(),
+        label: key.replace(/_/gi, ' '),
+        tbl: 'patient',
+        type: Array.isArray(response.fields[key]) ? 'STRING' : 'NUMBER',
+        values: response.fields[key]
+      }));
       const patientTable = response.ids.map((id, index) => {
         return patientMetaTable.reduce(
           (p, v, i) => {
             const value = response.values[index][i];
-            p[v.key.toLowerCase()] =
-              v.type === 'NUMBER' ? value : v.values[value];
+            p[v.key.toLowerCase()] = v.type === 'NUMBER' ? value : v.values[value];
             return p;
           },
           { p: id.toLowerCase() }
@@ -201,22 +192,19 @@ const loadSample = (name: string, file: string): Promise<any> => {
     })
     .then(response => {
       report('Parsing Samples');
-      const sampleMetaTable = Object.keys(response.fields).map(
-        (key, index) => ({
-          ctype: 1,
-          key: key.toLowerCase(),
-          label: key.replace(/_/gi, ' '),
-          tbl: 'sample',
-          type: Array.isArray(response.fields[key]) ? 'STRING' : 'NUMBER',
-          values: response.fields[key]
-        })
-      );
+      const sampleMetaTable = Object.keys(response.fields).map((key, index) => ({
+        ctype: 1,
+        key: key.toLowerCase(),
+        label: key.replace(/_/gi, ' '),
+        tbl: 'sample',
+        type: Array.isArray(response.fields[key]) ? 'STRING' : 'NUMBER',
+        values: response.fields[key]
+      }));
       const sampleTable = response.ids.map((id, index) => {
         return sampleMetaTable.reduce(
           (p, v, i) => {
             const value = response.values[index][i];
-            p[v.key.toLowerCase().replace(/\s/gi, '_')] =
-              v.type === 'NUMBER' ? value : v.values[value];
+            p[v.key.toLowerCase().replace(/\s/gi, '_')] = v.type === 'NUMBER' ? value : v.values[value];
             return p;
           },
           { s: id.toLowerCase() }
@@ -264,10 +252,7 @@ const loadMatrix = (name: string, file: string): Promise<any> => {
       });
       report('Processing Molecular Matrix');
       return new Promise((resolve, reject) => {
-        resolve([
-          { tbl: name, data: sampleTable },
-          { tbl: name + 'Map', data: sampleIds }
-        ]);
+        resolve([{ tbl: name, data: sampleTable }, { tbl: name + 'Map', data: sampleIds }]);
       });
     });
 };
@@ -301,10 +286,7 @@ const loadGistic = (name: string, file: string): Promise<any> => {
       });
       report('Processing Gistic Scores');
       return new Promise((resolve, reject) => {
-        resolve([
-          { tbl: name, data: gisticTable },
-          { tbl: name + 'Map', data: gisticSampleIds }
-        ]);
+        resolve([{ tbl: name, data: gisticTable }, { tbl: name + 'Map', data: gisticSampleIds }]);
       });
     });
 };
@@ -353,9 +335,7 @@ const loadMutation = (name: string, file: string): Promise<any> => {
         )
         .reduce((p, c) => {
           p.push(
-            ...lookup
-              .filter(v => parseInt(v, 10) & c[2])
-              .map(v => ({ m: c[0], s: c[1].toLowerCase(), t: mType[v] }))
+            ...lookup.filter(v => parseInt(v, 10) & c[2]).map(v => ({ m: c[0], s: c[1].toLowerCase(), t: mType[v] }))
           );
           return p;
         }, []);
@@ -393,9 +373,7 @@ const loadMutationV3 = (name: string, file: string): Promise<any> => {
         )
         .reduce((p, c) => {
           p.push(
-            ...lookup
-              .filter(v => parseInt(v, 10) & c[2])
-              .map(v => ({ m: c[0], s: c[1].toLowerCase(), t: mType[v] }))
+            ...lookup.filter(v => parseInt(v, 10) & c[2]).map(v => ({ m: c[0], s: c[1].toLowerCase(), t: mType[v] }))
           );
           return p;
         }, []);
@@ -435,19 +413,12 @@ const loadRna = (name: string, file: string): Promise<any> => {
         return obj;
       });
       return new Promise((resolve, reject) => {
-        resolve([
-          { tbl: name, data: rnaTable },
-          { tbl: name + 'Map', data: rnaSampleIds }
-        ]);
+        resolve([{ tbl: name, data: rnaTable }, { tbl: name + 'Map', data: rnaSampleIds }]);
       });
     });
 };
 
-const processV31 = (resource: {
-  name: string;
-  dataType: string;
-  file: string;
-}): Promise<any> => {
+const processV31 = (resource: { name: string; dataType: string; file: string }): Promise<any> => {
   switch (resource.dataType.toLowerCase().trim()) {
     case 'patient':
       return loadPatient(resource.name, resource.file);
@@ -485,10 +456,7 @@ onmessage = function(e) {
 
                 Promise.all(
                   tables.map(tbl => {
-                    if (
-                      tbl.tbl.toLowerCase().trim() === 'sample' ||
-                      tbl.tbl.toLowerCase().trim() === 'patient'
-                    ) {
+                    if (tbl.tbl.toLowerCase().trim() === 'sample' || tbl.tbl.toLowerCase().trim() === 'patient') {
                       const d = tbl.data.map(datum => {
                         const rv = Object.keys(datum).reduce((p, c) => {
                           p[c.trim().replace(/ /gi, '_')] = datum[c];
@@ -496,10 +464,10 @@ onmessage = function(e) {
                         }, {});
                         return rv;
                       });
-                      debugger;
+
                       return db.table(tbl.tbl).bulkAdd(d);
                     }
-                    debugger;
+
                     return db.table(tbl.tbl).bulkAdd(tbl.data);
                   })
                 ).then(() => {
@@ -523,9 +491,7 @@ onmessage = function(e) {
                 }
               });
 
-              Promise.all(
-                tables.map(tbl => db.table(tbl.tbl).bulkAdd(tbl.data))
-              )
+              Promise.all(tables.map(tbl => db.table(tbl.tbl).bulkAdd(tbl.data)))
                 .then(() => {
                   report('Saving ' + tables[0].tbl);
                   me.postMessage(
@@ -534,9 +500,7 @@ onmessage = function(e) {
                     })
                   );
                 })
-                .catch(e => {
-                  debugger;
-                });
+                .catch(e => {});
             });
           } catch (e) {}
         }

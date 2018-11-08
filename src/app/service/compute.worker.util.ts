@@ -1463,7 +1463,7 @@ export class ComputeWorkerUtil {
     }
     return matrix;
   }
-  createScale = (range, domain) => {
+  createScale(range, domain): Function {
     const domainMin = domain[0];
     const domainMax = domain[1];
     const rangeMin = range[0];
@@ -1471,9 +1471,9 @@ export class ComputeWorkerUtil {
     return function scale(value) {
       return rangeMin + (rangeMax - rangeMin) * ((value - domainMin) / (domainMax - domainMin));
     };
-  };
+  }
 
-  scale3d = (data, i0 = 0, i1 = 1, i2 = 2) => {
+  scale3d(data, i0 = 0, i1 = 1, i2 = 2): any {
     const scale = this.createScale(
       [-300, 300],
       data.reduce(
@@ -1492,5 +1492,5 @@ export class ComputeWorkerUtil {
 
     // Only Scale First 3 Elements Needed For Rendering
     return data.map(v => [scale(v[i0]), scale(v[i1]), scale(v[i2])]);
-  };
+  }
 }

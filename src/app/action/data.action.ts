@@ -27,7 +27,6 @@ export const DATA_UPDATE_PREPROCESSING = '[Data] Update Preprocessing';
 export const DATA_ADD_PREPROCESSING = '[Data] Add Preprocessing';
 export const DATA_DEL_PREPROCESSING = '[Data] Del Preprocessing';
 
-
 // Action Classes
 export class DataLoadFromDexieAction implements Action {
   readonly type: string = DATA_LOAD_FROM_DEXIE;
@@ -113,8 +112,8 @@ export class DataLoadedAction implements UnsafeAction {
     public events: Array<{ type: string; subtype: string }>,
     public genesets: Array<any>,
     public cohorts: Array<any>,
-    public preprocessings: Array<any>,
     public pathways: Array<any>,
+    public preprocessings: Array<any>,
     public datasetName: string
   ) {}
 }
@@ -145,4 +144,3 @@ export type Actions =
   | DataAddPreprocessingAction
   | DataDelPreprocessingAction
   | DataUpdatePreprocessingAction;
-

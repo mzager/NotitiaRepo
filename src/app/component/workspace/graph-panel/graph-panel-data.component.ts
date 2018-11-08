@@ -20,39 +20,54 @@ import { Pathway } from './../../../model/pathway.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   template: `
-  <mat-form-field class='form-field' *ngIf='config.enableCohorts'>
-  <mat-select #cohortSelectComponent placeholder='Cohort' (selectionChange)='setCohortOption($event)'
-      [value]='cohortSelected' [compareWith]='byName'>
-      <button mat-button style='color:#1e88e5;width:100%;' (click)='customizeCohorts($event)'>
-      <mat-icon class='material-icons md-18' style='transform:translate(0px, 2px);margin-right:0px;'>settings</mat-icon>Modify List
-      </button>
-      <mat-option *ngFor='let option of cohortOptions' [value]='option'>
-          {{ option.n }}
-      </mat-option>
-  </mat-select>
-</mat-form-field>
-<mat-form-field class='form-field' *ngIf='config.enableGenesets'>
-  <mat-select #genesetSelectComponent placeholder='Geneset' (selectionChange)='setGenesetOption($event)'
-      [value]='genesetSelected' [compareWith]='byName'>
-      <button mat-button style='color:#1e88e5;width:100%;' (click)='customizeGenesets()'>
-      <mat-icon class='material-icons md-18' style='transform:translate(0px, 2px);margin-right:0px;'>settings</mat-icon>Modify List
-      </button>
-      <mat-option *ngFor='let option of genesetOptions' [value]='option'>
-          {{ option.n }}
-      </mat-option>
-  </mat-select>
-</mat-form-field>
-<mat-form-field class='form-field' *ngIf='config.enablePathways'>
-  <mat-select #pathwaySelectComponent placeholder='Pathway' (selectionChange)='setPathwayOption($event)'
-      [value]='pathwaySelected' [compareWith]='byName'>
-      <button mat-button style='color:#1e88e5;width:100%;' (click)='customizePathways()'>
-      <mat-icon class='material-icons md-18' style='transform:translate(0px, 2px);margin-right:0px;'>settings</mat-icon>Modify List
-      </button>
-      <mat-option *ngFor='let option of pathwayOptions' [value]='option'>
-          {{ option.n }}
-      </mat-option>
-  </mat-select>
-</mat-form-field>
+    <mat-form-field class="form-field" *ngIf="config.enableCohorts">
+      <mat-select
+        #cohortSelectComponent
+        placeholder="Cohort"
+        (selectionChange)="setCohortOption($event)"
+        [value]="cohortSelected"
+        [compareWith]="byName"
+      >
+        <button mat-button style="color:#1e88e5;width:100%;" (click)="customizeCohorts($event)">
+          <mat-icon class="material-icons md-18" style="transform:translate(0px, 2px);margin-right:0px;"
+            >settings</mat-icon
+          >Modify List
+        </button>
+        <mat-option *ngFor="let option of cohortOptions" [value]="option"> {{ option.n }} </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="form-field" *ngIf="config.enableGenesets">
+      <mat-select
+        #genesetSelectComponent
+        placeholder="Geneset"
+        (selectionChange)="setGenesetOption($event)"
+        [value]="genesetSelected"
+        [compareWith]="byName"
+      >
+        <button mat-button style="color:#1e88e5;width:100%;" (click)="customizeGenesets()">
+          <mat-icon class="material-icons md-18" style="transform:translate(0px, 2px);margin-right:0px;"
+            >settings</mat-icon
+          >Modify List
+        </button>
+        <mat-option *ngFor="let option of genesetOptions" [value]="option"> {{ option.n }} </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="form-field" *ngIf="config.enablePathways">
+      <mat-select
+        #pathwaySelectComponent
+        placeholder="Pathway"
+        (selectionChange)="setPathwayOption($event)"
+        [value]="pathwaySelected"
+        [compareWith]="byName"
+      >
+        <button mat-button style="color:#1e88e5;width:100%;" (click)="customizePathways()">
+          <mat-icon class="material-icons md-18" style="transform:translate(0px, 2px);margin-right:0px;"
+            >settings</mat-icon
+          >Modify List
+        </button>
+        <mat-option *ngFor="let option of pathwayOptions" [value]="option"> {{ option.n }} </mat-option>
+      </mat-select>
+    </mat-form-field>
   `
 })
 export class GraphPanelDataComponent {

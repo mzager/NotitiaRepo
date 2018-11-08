@@ -138,9 +138,7 @@ export class UserPanelComponent {
         this.cd.detectChanges();
       })
       .catch(err => {
-        const errMsg = err.message
-          .replace('Username', 'Email')
-          .replace('username', 'email');
+        const errMsg = err.message.replace('Username', 'Email').replace('username', 'email');
         alert(errMsg);
         this.errorMessage = errMsg;
         this.cd.detectChanges();
@@ -149,11 +147,7 @@ export class UserPanelComponent {
 
   updatePassword(): void {
     const form = this.formGroupUpdatePassword;
-    Auth.forgotPasswordSubmit(
-      form.get('email').value,
-      form.get('code').value,
-      form.get('password').value
-    )
+    Auth.forgotPasswordSubmit(form.get('email').value, form.get('code').value, form.get('password').value)
       .then(data => {
         alert('Password updated');
         this.setForm(UserPanelFormEnum.SIGN_IN);
@@ -181,38 +175,22 @@ export class UserPanelComponent {
     });
   }
 
-  constructor(
-    public fb: FormBuilder,
-    public cd: ChangeDetectorRef,
-    public dataService: DataService
-  ) {
+  constructor(public fb: FormBuilder, public cd: ChangeDetectorRef, public dataService: DataService) {
     this.formGroupSignIn = fb.group({
-      email: [
-        null,
-        Validators.compose([Validators.required, Validators.email])
-      ],
+      email: [null, Validators.compose([Validators.required, Validators.email])],
       password: [null, Validators.required]
     });
 
     this.formGroupSignUp = fb.group({
-      password: [
-        null,
-        Validators.compose([Validators.required, Validators.minLength(8)])
-      ],
-      email: [
-        null,
-        Validators.compose([Validators.required, Validators.email])
-      ],
+      password: [null, Validators.compose([Validators.required, Validators.minLength(8)])],
+      email: [null, Validators.compose([Validators.required, Validators.email])],
       mailinglist: [null],
       firstName: [null, Validators.required],
       lastName: [null, Validators.required]
     });
 
     this.formGroupSignUpConfirm = fb.group({
-      email: [
-        null,
-        Validators.compose([Validators.required, Validators.email])
-      ],
+      email: [null, Validators.compose([Validators.required, Validators.email])],
       code: [null, Validators.required]
     });
 
@@ -225,15 +203,9 @@ export class UserPanelComponent {
     });
 
     this.formGroupUpdatePassword = fb.group({
-      email: [
-        null,
-        Validators.compose([Validators.required, Validators.email])
-      ],
+      email: [null, Validators.compose([Validators.required, Validators.email])],
       code: [null, Validators.required],
-      password: [
-        null,
-        Validators.compose([Validators.required, Validators.minLength(8)])
-      ]
+      password: [null, Validators.compose([Validators.required, Validators.minLength(8)])]
     });
 
     this.activeForm = UserPanelFormEnum.SIGN_IN;

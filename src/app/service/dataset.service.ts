@@ -90,10 +90,11 @@ export class DatasetService {
             this.loader$.next(manifest);
             return;
           }
-          // Add Chort Table Defs
+          // Add Table Defs
           response.schema.pathways = '++, n';
           response.schema.cohorts = '++, n';
           response.schema.genesets = '++, n';
+          response.schema.preprocessing = '++, n';
           // TODO: Temp Patch For Sample Meta Data
           if (!response.schema.hasOwnProperty('sampleMeta')) {
             response.schema.sampleMeta = 'key';
@@ -258,48 +259,48 @@ export class DatasetService {
                       ctype: CollectionTypeEnum.PATIENT
                     }
                   : dt === 'events'
-                    ? {
-                        tbl: name,
-                        map: name + 'Map',
-                        label: name,
-                        ctype: CollectionTypeEnum.EVENT
-                      }
-                    : dt === 'matrix'
-                      ? {
-                          tbl: name,
-                          map: name + 'Map',
-                          label: name,
-                          ctype: CollectionTypeEnum.MATRIX
-                        }
-                      : dt === 'gistic'
-                        ? {
-                            tbl: name,
-                            map: name + 'Map',
-                            label: name,
-                            ctype: CollectionTypeEnum.GISTIC
-                          }
-                        : dt === 'gistic_threshold'
-                          ? {
-                              tbl: name,
-                              map: name + 'Map',
-                              label: name,
-                              ctype: CollectionTypeEnum.GISTIC_THRESHOLD
-                            }
-                          : dt === 'mut'
-                            ? {
-                                tbl: name,
-                                map: name + 'Map',
-                                label: name,
-                                ctype: CollectionTypeEnum.MUTATION
-                              }
-                            : dt === 'rna'
-                              ? {
-                                  tbl: name,
-                                  map: name + 'Map',
-                                  label: name,
-                                  ctype: CollectionTypeEnum.RNA
-                                }
-                              : null;
+                  ? {
+                      tbl: name,
+                      map: name + 'Map',
+                      label: name,
+                      ctype: CollectionTypeEnum.EVENT
+                    }
+                  : dt === 'matrix'
+                  ? {
+                      tbl: name,
+                      map: name + 'Map',
+                      label: name,
+                      ctype: CollectionTypeEnum.MATRIX
+                    }
+                  : dt === 'gistic'
+                  ? {
+                      tbl: name,
+                      map: name + 'Map',
+                      label: name,
+                      ctype: CollectionTypeEnum.GISTIC
+                    }
+                  : dt === 'gistic_threshold'
+                  ? {
+                      tbl: name,
+                      map: name + 'Map',
+                      label: name,
+                      ctype: CollectionTypeEnum.GISTIC_THRESHOLD
+                    }
+                  : dt === 'mut'
+                  ? {
+                      tbl: name,
+                      map: name + 'Map',
+                      label: name,
+                      ctype: CollectionTypeEnum.MUTATION
+                    }
+                  : dt === 'rna'
+                  ? {
+                      tbl: name,
+                      map: name + 'Map',
+                      label: name,
+                      ctype: CollectionTypeEnum.RNA
+                    }
+                  : null;
               })
               .filter(v => v);
             const dataset = {

@@ -21,6 +21,7 @@ import { Stat } from './../../../model/stat.model';
 import { DataService } from './../../../service/data.service';
 import { StatFactory } from './../../../service/stat.factory';
 import { StatVegaFactory } from './../../../service/stat.vega.factory';
+import { StatPanelGraphicComponent, StatPanelGraphicOptions } from './stat-panel-graphic.component';
 
 declare var $: any;
 declare var vega: any;
@@ -115,16 +116,48 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
     }
     this._rootDiv = this.renderer.createElement('div');
     this.renderer.appendChild(this.elRef.nativeElement, this._rootDiv);
-    // this.renderer.
-    // this.container.empty();
+
     if (this._type === 'TOOL') {
       this.statFactory.getComputeStats(this._data, this._config).then(stats => {
         stats.forEach(this.addStat.bind(this));
       });
     } else if (this._type === 'SELECTION') {
-      console.log('UPDATE BI');
-
       const ids = this._selectionDecorator === null ? [] : this._selectionDecorator.values.map(v => v.pid);
+      // const options: StatPanelGraphicOptions = new StatPanelGraphicOptions();
+      // const spg = new StatPanelGraphicComponent(this.elRef.nativeElement, options);
+      // spg.draw(
+      //   [
+      //     {
+      //       name: 'apple',
+      //       value: 10
+      //     },
+      //     {
+      //       name: 'orange',
+      //       value: 13
+      //     },
+      //     {
+      //       name: 'watermelon',
+      //       value: 3
+      //     },
+      //     {
+      //       name: 'banana',
+      //       value: 12
+      //     },
+      //     {
+      //       name: 'cherry',
+      //       value: 8
+      //     },
+      //     {
+      //       name: 'others',
+      //       value: 9
+      //     }
+      //   ],
+      //   'PIE'
+      // );
+      // spg.drawPieChart(options);
+      // setTimeout(v => {
+      //   spg.transformTo('BAR', options);
+      // }, 2000);
 
       this.statFactory.getPatientStats(ids, this._config).then(stats => {
         stats.forEach(this.addStat.bind(this));
@@ -140,7 +173,7 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
     // this.container = $(this.elRef.nativeElement);
     this.$statsChange = observableCombineLatest(this.$configChange, this.$dataChange, this.$typeChange)
       .pipe(debounceTime(300))
-      .subscribe(this.update.bind(this));
+      .subscribe(this.update);
     this.update();
   }
 
