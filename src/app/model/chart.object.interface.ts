@@ -23,7 +23,7 @@ export interface ChartObjectInterface {
   enable(truthy: Boolean);
   updateDecorator(config: GraphConfig, decorators: Array<DataDecorator>);
   updateData(config: GraphConfig, data: any);
-  updateSelectionTool(config: SelectionToolConfig);
+  // updateSelectionTool(config: SelectionToolConfig);
   create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface;
   destroy();
   preRender(views: Array<VisualizationView>, layout: WorkspaceLayoutEnum, renderer: THREE.Renderer): void;

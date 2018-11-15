@@ -25,7 +25,7 @@ import { DataService } from 'app/service/data.service';
 import { WorkspaceConfigModel } from '../../../model/workspace.model';
 import { HistogramConfigModel } from '../../visualization/histogram/histogram.model';
 import { DataTable } from './../../../model/data-field.model';
-import { DataDecorator } from './../../../model/data-map.model';
+import { DataDecorator, DataDecoratorTypeEnum } from './../../../model/data-map.model';
 import { EntityTypeEnum, PanelEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { ModalService } from './../../../service/modal-service';
@@ -114,19 +114,19 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   colorCluster: EventEmitter<GraphConfig> = new EventEmitter();
   @Output()
   configChange: EventEmitter<GraphConfig> = new EventEmitter();
-  @Output()
-  selectClusteringAlgorithm: EventEmitter<GraphConfig> = new EventEmitter();
+  // @Output()
+  // selectClusteringAlgorithm: EventEmitter<GraphConfig> = new EventEmitter();
   @Output()
   selectGeneSignature: EventEmitter<GraphConfig> = new EventEmitter();
   @Output()
   selectGeneset: EventEmitter<any> = new EventEmitter();
   @Output()
   selectCohort: EventEmitter<any> = new EventEmitter();
-  @Output()
-  selectionToolChange: EventEmitter<{
-    config: GraphConfig;
-    selectionTool: SelectionToolConfig;
-  }> = new EventEmitter();
+  // @Output()
+  // selectionToolChange: EventEmitter<{
+  //   config: GraphConfig;
+  //   selectionTool: SelectionToolConfig;
+  // }> = new EventEmitter();
   @Output()
   decoratorAdd: EventEmitter<{
     config: GraphConfig;
@@ -242,12 +242,12 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.help.emit(this.config);
   }
 
-  onSelectionToolChange(config: SelectionToolConfig): void {
-    this.selectionToolChange.emit({
-      config: this.config,
-      selectionTool: config
-    });
-  }
+  // onSelectionToolChange(config: SelectionToolConfig): void {
+  //   this.selectionToolChange.emit({
+  //     config: this.config,
+  //     selectionTool: config
+  //   });
+  // }
   onCohortChange($event: Event) {
     const selected = this.cohorts.find(v => v.n === $event.target['value']);
     this.config.patientFilter = selected.pids;
@@ -268,6 +268,11 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       const visualizationEnumValue = parseInt(el.value, 10);
       this.setVisualization(visualizationEnumValue);
     }
+  }
+
+  onClearSelection(): void {
+    const selectionDecorator = this.decorators.filter(v => v.type === DataDecoratorTypeEnum.SELECT)[0];
+    this.decoratorDel.emit({ config: this._config, decorator: selectionDecorator });
   }
 
   // onDecoratorAdd(decorator: DataDecorator) {

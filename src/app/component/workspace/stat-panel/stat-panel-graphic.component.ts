@@ -1,6 +1,28 @@
-import { arc, Arc, DefaultArcObject, easeBounce, easeCubicInOut, mouse, rgb, select, interpolate, selection } from 'd3';
+import {
+  pie,
+  arc,
+  Arc,
+  DefaultArcObject,
+  easeBounce,
+  easeCubicInOut,
+  mouse,
+  rgb,
+  select,
+  interpolate,
+  interpolateObject,
+  selection,
+  scaleBand,
+  scaleLinear,
+  range,
+  ScaleBand,
+  ScaleLinear
+} from 'd3';
+import * as chroma from 'chroma-js';
+import { debug } from 'util';
 export class StatPanelGraphicOptions {
-  public outerRadius = 90;
+  public type: 'BAR' | 'PIE' = 'BAR';
+  public data: Array<{ name: string; value: number; color?: string }> = [];
+  public outerRadius = 100;
   public innerRadius = 75;
   public hoverRadius = 160;
   public spaceHover = 10;
@@ -10,490 +32,419 @@ export class StatPanelGraphicOptions {
   public size = 200;
   public barHeight = 30;
   public gap = 0;
-  public padding = 50;
+  public padding = 0;
   public colors = [
-    '#f44336',
-    '#e91e63',
-    '#9c27b0',
-    '#673ab7',
-    '#3f51b5',
-    '#2196f3',
+    '#b3e5fc',
+    '#81d4fa',
+    '#4fc3f7',
+    '#29b6f6',
     '#03a9f4',
-    '#00bcd4',
-    '#009688',
-    '#4caf50',
-    '#8bc34a',
-    '#cddc39',
-    '#ffeb3b',
-    '#ffc107',
-    '#ff9800',
-    '#ff5722',
-    '#795548',
-    '#9e9e9e',
-    '#607d8b'
+    '#039be5'
+    // '#f44336',
+    // '#e91e63',
+    // '#9c27b0',
+    // '#673ab7',
+    // '#3f51b5',
+    // '#2196f3',
+    // '#03a9f4',
+    // '#00bcd4',
+    // '#009688',
+    // '#4caf50',
+    // '#8bc34a',
+    // '#cddc39',
+    // '#ffeb3b',
+    // '#ffc107',
+    // '#ff9800',
+    // '#ff5722',
+    // '#795548',
+    // '#9e9e9e',
+    // '#607d8b'
   ];
   public showOnStart = true; // call transitionForward() on start
 }
-export class StatPanelGraphicComponent {
-  private _svg: any;
+export class StatPanelPieComponent {
+  private _container: any;
+  private _g: any;
   private _options: StatPanelGraphicOptions;
-  private _data: Array<{ value: number; name: string; color: string }>;
-  private _chart: 'PIE' | 'BAR';
-  private _clipPath: any;
-  private _transitionBack: Function;
-  private _transitionForward: Function;
+  private _arc: any;
+  private _pie;
 
-  public draw(data: Array<any>, chart: 'PIE' | 'BAR') {
-    this._data = data;
-    if (data.length <= this._options.colors.length) {
-      this._data = this._data.map((v, i) => {
-        return Object.assign(v, { color: this._options.colors[i] });
-      });
-    } else {
-      alert('!!');
+  public arcTweenCreate(d, j, n) {
+    d.startAngle = d.endAngle = 0;
+    const i = interpolate(d, n[j]._current);
+    n[j]._current = i(0);
+    return t => {
+      return this._arc(i(t));
+    };
+  }
+  public arcTweenRemove(d, j, n) {
+    n[j]._current.startAngle = n[j]._current.endAngle = 0;
+    const i = interpolate(d, n[j]._current);
+    n[j]._current = i(0);
+    return t => {
+      return this._arc(i(t));
+    };
+  }
+  public arcTweenUpdate(d, j, n) {
+    const i = interpolate(n[j]._current, d);
+    n[j]._current = i(0);
+    return t => {
+      return this._arc(i(t));
+    };
+  }
+  public key(d) {
+    return d.data.name;
+  }
+  public findNeighborArc(i, data0, data1, key) {
+    let d, obj;
+    if ((d = this.findPreceding(i, data0, data1, key))) {
+      obj = Object.assign({}, d);
+      obj.startAngle = d.endAngle;
+      return obj;
+    } else if ((d = this.findFollowing(i, data0, data1, key))) {
+      obj = Object.assign({}, d);
+      obj.endAngle = d.startAngle;
+      return obj;
     }
-    this._chart = chart;
+
+    return null;
   }
 
-  public drawPieChart(options: StatPanelGraphicOptions): void {
-    const drawArc = (startAngle: number, endAngle: number): Arc<any, DefaultArcObject> => {
-      return arc()
-        .startAngle(startAngle)
-        .endAngle(endAngle)
-        .innerRadius(this._options.innerRadius)
-        .outerRadius(this._options.outerRadius);
-    };
-
-    const sum = this._data.map(v => v.value).reduce((p, c) => p + c);
-    let accumulate = 0;
-    this._data = this._data.map((d, i) =>
-      Object.assign(d, {
-        arc: drawArc(accumulate, (accumulate += (d.value / sum) * 2 * Math.PI))
-      })
-    );
-    const g = this._svg.append('g').attr('class', 'pie');
-    g.attr('transform', 'translate(' + this._options.size / 2 + ', ' + this._options.size / 2 + ')');
-
-    const pie = g
-      .selectAll('path')
-      .data(this._data)
-      .enter()
-      .append('path')
-      .style('fill', d => {
-        return d.color;
-      })
-      .attr('d', d => {
-        return drawArc(d.arc.startAngle()(), d.arc.endAngle()())(d);
-      })
-      .style('clip-path', 'url(#clipMask)');
-
-    pie.on('mouseover', d => {
-      // if (!d.active) {
-      //   select(this)
-      //     .transition()
-      //     .duration(200)
-      //     .ease(this._options.easing)
-      //     .attr('d', function() {
-      //       return drawArc(d.arc.startAngle()(), d.arc.endAngle()(), this.options.hoverRadius)();
-      //     })
-      //     .attr('transform', (d2: any) => {
-      //       const distance = Math.sqrt(Math.pow(d2.arc.centroid()[0], 2) + Math.pow(d2.arc.centroid()[1], 2));
-      //       const n = this._options.spaceHover / distance;
-      //       return 'translate(' + n * d2.arc.centroid()[0] + ',' + n * d2.arc.centroid()[1] + ')';
-      //     });
-      //   g.select('text.percent')
-      //     .transition()
-      //     .duration(500)
-      //     .ease(this._options.easing)
-      //     .attr('opacity', 1)
-      //     .tween('text', () => {
-      //       const i = interpolate(0, Math.round(((d.arc.endAngle()() - d.arc.startAngle()()) / 2 / Math.PI) * 100));
-      //       return t => {
-      //         this.textContent = Math.round(i(t)) + '%';
-      //       };
-      //     });
-      // }
-    });
-
-    pie.on('click', d => {
-      // if (!d.active) {
-      //   select(this)
-      //     .transition()
-      //     .duration(200)
-      //     .ease(easeBounce)
-      //     .attr('d', xd => drawArc(d.arc.startAngle()(), d.arc.endAngle()(), this._options.hoverRadius)(xd))
-      //     .attr('transform', (d2: any) => {
-      //       const distance = Math.sqrt(Math.pow(d2.arc.centroid()[0], 2) + Math.pow(d2.arc.centroid()[1], 2));
-      //       const n = this._options.spaceActive / distance;
-      //       return 'translate(' + n * d2.arc.centroid()[0] + ',' + n * d2.arc.centroid()[1] + ')';
-      //     });
-      // }
-      // d.active = !d.active;
-    });
-
-    pie.on('mousemove', d => {
-      const txt = g
-        .select('text')
-        .attr('x', function() {
-          return mouse(this)[0] + 10;
-        })
-        .attr('y', function() {
-          return mouse(this)[1] + 30;
-        })
-        .style('fill', rgb(255, 255, 255))
-        .text(function() {
-          return d.name;
-        })
-        .attr('height', function() {
-          return this.getBBox().height;
-        })
-        .attr('width', function() {
-          return this.getBBox().width;
-        });
-
-      g.select('rect')
-        .style('display', 'block')
-        .attr('width', () => {
-          return parseFloat(txt.attr('width')) + 10;
-        })
-        .attr('height', txt.attr('height'))
-        .attr('x', function() {
-          return mouse(this)[0] + 5 - txt.attr('width') / 2;
-        })
-        .attr('y', function() {
-          return mouse(this)[1] + 13;
-        });
-    });
-
-    pie.on('mouseout', function(d) {
-      if (!d.active) {
-        select(this)
-          .transition()
-          .duration(200)
-          .ease(this._options.easing)
-          .attr('d', () => {
-            return drawArc(d.arc.startAngle()(), d.arc.endAngle()())(d);
-          })
-          .attr('transform', 'translate(0, 0)');
-
-        g.select('text.percent')
-          .transition()
-          .duration(500)
-          .ease(this._options.easing)
-          .attr('opacity', 0);
+  public labelPositon(d, i, n): number {
+    const offset = d.len * 7;
+    return i * 14 + 7 - offset;
+  }
+  public circlePositon(d, i, n): number {
+    const offset = d.len * 7;
+    return i * 14 + 4 - offset;
+  }
+  // Find the element in data0 that joins the highest preceding element in data1.
+  public findPreceding(i, data0, data1, keyFn) {
+    const m = data0.length;
+    while (--i >= 0) {
+      const k = keyFn(data1[i]);
+      for (let j = 0; j < m; ++j) {
+        if (keyFn(data0[j]) === k) {
+          return data0[j];
+        }
       }
-
-      g.select('rect').style('display', 'none');
-      g.select('text').text('');
-    });
-
-    // start transition animation clip path
-    this._clipPath = g
-      .append('defs')
-      .append('clipPath')
-      .attr('id', 'clipMask')
-      .append('path')
-      .attr('d', d => {
-        return drawArc(0, 10 / this._options.outerRadius)(d);
-      });
-
-    // hover text background
-    const textWrapper = g
-      .append('rect')
-      .style('fill', rgb(255, 255, 255))
-      .style('opacity', 0.7)
-      .style('display', 'none');
-
-    // hover text
-    const nameText = g
-      .append('text')
-      .attr('class', 'name')
-      .style('fill', rgb(0, 0, 0))
-      .attr('font-family', 'Lato')
-      .attr('text-anchor', 'middle');
-
-    const percentText = g
-      .append('text')
-      .attr('x', 0)
-      .attr('y', 18)
-      .attr('text-anchor', 'middle')
-      .attr('font-size', 50)
-      .attr('font-family', 'Lato')
-      .attr('class', 'percent')
-      .style('fill', rgb(0, 0, 0));
-
-    this._transitionForward = () => {
-      this._clipPath
-        .transition()
-        .duration(this._options.animationTime)
-        .ease(this._options.easing)
-        .attrTween('d', d => {
-          const i = interpolate(10 / this._options.outerRadius, 2 * Math.PI);
-          return t => {
-            return drawArc(0, i(t))(d);
-          };
-        });
-    };
-
-    this._transitionBack = () => {
-      this._clipPath
-        .transition()
-        .duration(this._options.animationTime)
-        .ease(this._options.easing)
-        .attrTween('d', d => {
-          const i = interpolate(2 * Math.PI, 10 / 150); // this._options.outerRadius);
-          return t => {
-            return drawArc(0, i(t))(d);
-          };
-        });
-    };
-    if (this._options.showOnStart) {
-      this._transitionForward();
     }
   }
 
-  public drawBarChart(options: StatPanelGraphicOptions): void {
-    this._chart = 'BAR';
+  // Find the element in data0 that joins the lowest following element in data1.
+  public findFollowing(i, data0, data1, keyFn) {
+    const n = data1.length,
+      m = data0.length;
+    while (++i < n) {
+      const k = keyFn(data1[i]);
+      for (let j = 0; j < m; ++j) {
+        if (keyFn(data0[j]) === k) {
+          return data0[j];
+        }
+      }
+    }
+  }
 
-    let max;
-    this._data = this._data.map((d, i) => {
-      max = max ? (d.value > max ? d.value : max) : d.value;
-      return { name: d.name, value: d.value, color: this._options.colors[i] };
-    });
-
-    const ratio = (this._options.size - this._options.padding * 2) / max;
-
-    // create the svg container
-    const g = this._svg.append('g').attr('class', 'bar');
-    g.attr('transform', () => {
-      const y =
-        (this._options.size - this._data.length * (this._options.barHeight + this._options.gap) - this._options.gap) /
-        2;
-      return 'translate(' + this._options.padding + ', ' + y + ')';
-    });
-
-    const bar = g
-      .selectAll('rect')
-      .data(this._data)
+  public create(value: StatPanelGraphicOptions): void {
+    this._options = value;
+    this._g = this._container
+      .append('g')
+      .attr('class', 'graph')
+      .attr('transform', 'translate(' + this._options.size / 2 + ',' + this._options.size / 2 + ')');
+    this._arc = arc();
+    this._pie = pie<{ name: string; value: number; color?: string }>()
+      .value(d => d.value)
+      .sort(null);
+    this._arc.innerRadius(this._options.innerRadius).outerRadius(this._options.outerRadius);
+    const path = this._g.selectAll('path');
+    const data = this._pie(this._options.data);
+    path
+      .data(data, this.key)
       .enter()
-      .append('rect')
-      .attr('x', 0)
-      .attr('y', (d, i) => {
-        return i * (this._options.barHeight + this._options.gap);
+      .append('path')
+      .each((d, i, n) => {
+        n[i]._previous = Object.assign({}, d);
+        n[i]._current = Object.assign({}, d);
       })
-      .attr('height', this._options.barHeight)
-      .attr('width', 10)
-      .style('fill', d => {
-        return d.color;
+      .attr('fill', function(d, i) {
+        return d.data.color;
       })
-      .style('clip-path', 'url(#clipMask)');
+      .transition()
+      .duration(this._options.animationTime)
+      .attrTween('d', this.arcTweenCreate.bind(this));
 
-    const barValue = g
-      .selectAll('text')
-      .data(this._data)
+    const circles = this._g.selectAll('circle').data(this._options.data);
+    circles.attr('cy', this.circlePositon).style('fill', function(d) {
+      return d.color;
+    });
+    circles
+      .enter()
+      .append('circle')
+      .attr('cx', -48)
+      .attr('cy', this.circlePositon)
+      .attr('r', 5)
+      .style('fill', function(d) {
+        return d.color;
+      });
+
+    const txt = this._g.selectAll('text').data(this._options.data);
+    txt.text(d => d.name);
+    txt.attr('y', this.labelPositon);
+    txt
       .enter()
       .append('text')
       .attr('class', 'bar-value')
-      .attr('x', 0)
-      .attr('y', (d, i) => {
-        return i * (this._options.barHeight + this._options.gap) + this._options.barHeight * 0.7;
+      .attr('x', -40)
+      .attr('opacity', 1)
+      .attr('font-family', 'Lato')
+      .attr('text-anchor', 'start')
+      .attr('y', this.labelPositon)
+      .attr('font-size', 11)
+      .text(d => d.name);
+
+    txt.exit().remove();
+  }
+  public update(value: StatPanelGraphicOptions): void {
+    this._options = value;
+    this._arc.innerRadius(this._options.innerRadius).outerRadius(this._options.outerRadius);
+    let path = this._g.selectAll('path');
+    const prevData = path.data();
+    const nextData = this._pie(this._options.data);
+    path = path.data(nextData);
+
+    path
+      .transition()
+      .duration(this._options.animationTime)
+      .attrTween('d', this.arcTweenUpdate.bind(this));
+
+    path
+      .enter()
+      .append('path')
+      .each((d, i, n) => {
+        const narc = this.findNeighborArc(i, prevData, nextData, this.key);
+        if (narc) {
+          n[i]._current = narc;
+          n[i]._previous = narc;
+        } else {
+          n[i]._current = d;
+        }
       })
-      .attr('opacity', 0)
-      .attr('font-size', this._options.barHeight * 0.7)
-      .attr('font-family', 'Montserrat')
-      .attr('text-anchor', 'start');
+      .attr('fill', function(d, i) {
+        return d.data.color;
+      })
+      .transition()
+      .duration(this._options.animationTime)
+      .attrTween('d', this.arcTweenUpdate.bind(this));
 
-    bar.on('mousemove', function(d) {
-      const txt = g
-        .select('text.name')
-        .attr('x', function() {
-          return mouse(this)[0] + 10;
-        })
-        .attr('y', function() {
-          return mouse(this)[1] + 30;
-        })
-        .style('fill', rgb(255, 255, 255))
-        .text(function() {
-          return d.name;
-        })
-        .attr('height', function() {
-          return this.getBBox().height;
-        })
-        .attr('width', function() {
-          return this.getBBox().width;
-        });
+    path
+      .exit()
+      .datum((d, i) => {
+        return this.findNeighborArc(i, nextData, prevData, this.key) || d;
+      })
+      .transition()
+      .duration(this._options.animationTime)
+      .attrTween('d', this.arcTweenUpdate.bind(this))
+      .remove();
 
-      g.select('rect.nameBackground')
-        .style('display', 'block')
-        .attr('width', function() {
-          return parseFloat(txt.attr('width')) + 10;
-        })
-        .attr('height', txt.attr('height'))
-        .attr('x', function() {
-          return mouse(this)[0] + 5 - txt.attr('width') / 2;
-        })
-        .attr('y', function() {
-          return mouse(this)[1] + 13;
-        });
-    });
-
-    bar.on('mouseout', function(d) {
-      g.select('rect.nameBackground').style('display', 'none');
-      g.select('text.name').text('');
-    });
-
-    this._transitionForward = () => {
-      bar
-        .transition()
-        .duration(this._options.animationTime / 2)
-        .ease(this._options.easing)
-        .delay((d, i) => {
-          return i * (this._options.animationTime / 2 / this._data.length);
-        })
-        .attr('width', d => {
-          return d.value * ratio;
-        });
-
-      barValue
-        .transition()
-        .duration(this._options.animationTime / 2)
-        .ease(this._options.easing)
-        .delay((d, i) => {
-          return i * (this._options.animationTime / 2 / this._data.length);
-        })
-        .attr('x', d => {
-          return d.value * ratio + this._options.barHeight * 0.3;
-        })
-        .attr('opacity', 1)
-        .tween('text', function(d) {
-          const i = interpolate(0, d.value);
-          return t => {
-            this.textContent = Math.round(i(t));
-          };
-        });
-
-      this._clipPath
-        .transition()
-        .duration((this._options.animationTime * (this._data.length - 1)) / this._data.length)
-        .ease(this._options.easing)
-        .attr('height', this._options.size);
-    };
-
-    this._transitionBack = () => {
-      bar
-        .transition()
-        .duration(this._options.animationTime / 2)
-        .ease(this._options.easing)
-        .delay((d, i) => {
-          return (this._data.length - i - 1) * (this._options.animationTime / 2 / this._data.length);
-        })
-        .attr('width', 10);
-
-      barValue
-        .transition()
-        .duration(this._options.animationTime / 2)
-        .ease(this._options.easing)
-        .delay((d, i) => {
-          return (this._data.length - i - 1) * (this._options.animationTime / 2 / this._data.length);
-        })
-        .attr('x', this._options.barHeight * 0.3)
-        .attr('opacity', 0)
-        .tween('text', d => {
-          const i = interpolate(d.value, 0);
-          return function(t) {
-            this.textContent = Math.round(i(t));
-          };
-        });
-
-      this._clipPath
-        .transition()
-        .duration((this._options.animationTime * (this._data.length - 1)) / this._data.length)
-        .ease(this._options.easing)
-        .attr('height', this._options.barHeight);
-    };
-
-    this._clipPath = g
-      .append('defs')
-      .append('clipPath')
-      .attr('id', 'clipMask')
-      .append('rect')
-      .attr('x', 0)
-      .attr('y', 0)
-      .attr('height', this._options.barHeight)
-      .attr('width', this._options.size);
-
-    // hover text background
-    const textWrapper = g
-      .append('rect')
-      .attr('class', 'nameBackground')
-      .style('fill', rgb(0, 0, 0))
-      .style('opacity', 0.7)
-      .style('display', 'none');
-
-    // hover text
-    const nameText = g
+    const txt = this._g.selectAll('text').data(this._options.data);
+    txt.text(d => d.name).attr('y', this.labelPositon);
+    txt
+      .enter()
       .append('text')
-      .attr('class', 'name')
-      .style('fill', rgb(255, 255, 255))
-      .attr('font-family', 'Montserrat')
-      .attr('text-anchor', 'middle');
+      .attr('class', 'bar-value')
+      .attr('x', -40)
+      .attr('opacity', 1)
+      .attr('font-family', 'Lato')
+      .attr('text-anchor', 'start')
+      .attr('y', this.labelPositon)
+      .attr('font-size', 11)
+      .text(d => d.name);
+    txt.exit().remove();
 
-    if (this._options.showOnStart) {
-      this._transitionForward();
+    const circles = this._g.selectAll('circle').data(this._options.data);
+    circles.attr('cy', this.circlePositon).style('fill', function(d) {
+      return d.color;
+    });
+    circles
+      .enter()
+      .append('circle')
+      .attr('cx', -48)
+      .attr('cy', this.circlePositon)
+      .attr('r', 4)
+      .style('fill', function(d) {
+        return d.color;
+      });
+    circles.exit().remove();
+  }
+  public remove(value: StatPanelGraphicOptions): void {
+    const txt = this._g.selectAll('text').data([]);
+    txt.exit().remove();
+    const circles = this._g.selectAll('circle').data([]);
+    circles.exit().remove();
+    const path = this._g.selectAll('path');
+    path
+      .data([])
+      .exit()
+      .transition()
+      .duration(this._options.animationTime)
+      .attrTween('d', this.arcTweenRemove.bind(this))
+      .remove();
+  }
+  constructor(container: any) {
+    this._container = container;
+  }
+}
+export class StatPanelBarComponent {
+  private _container: any;
+  private _g: any;
+  private _options: StatPanelGraphicOptions;
+  private _yScale: ScaleBand<number>;
+  private _xScale: ScaleLinear<number, number>;
+  public create(value: StatPanelGraphicOptions): void {
+    this._g = this._container.append('g').attr('class', 'graph');
+    this._xScale = scaleLinear().range([value.size, 0]);
+    this._yScale = scaleBand<number>().range([0, value.size]);
+    this.update(value);
+  }
+  public update(value: StatPanelGraphicOptions): void {
+    this._options = value;
+    this._xScale.domain([0, this._options.data.reduce((p, c) => Math.max(p, c.value), -Infinity)]);
+    this._yScale.domain(range(value.data.length));
+
+    const bars = this._g.selectAll('.bar').data(this._options.data);
+    bars
+      .enter()
+      .append('rect')
+      .attr('class', 'bar')
+      .attr('fill', function(d, i) {
+        return d.color;
+      })
+      .attr('width', 0)
+      .attr('height', this._yScale.bandwidth())
+      .attr('y', (d, i) => this._yScale(i))
+      .merge(bars)
+      .transition()
+      .duration(this._options.animationTime)
+      .delay(0.2)
+      .attr('width', (d, i) => this._options.size - this._xScale(d.value))
+      .attr('x', 0)
+      .attr('height', this._yScale.bandwidth())
+      .attr('y', (d, i) => this._yScale(i));
+
+    bars
+      .exit()
+      .transition()
+      .duration(this._options.animationTime)
+      .attr('width', 0)
+      .remove();
+
+    const txt = this._g.selectAll('text').data(this._options.data);
+    txt.text(d => d.name);
+    txt
+      .enter()
+      .append('text')
+      .attr('class', 'bar-value')
+      .attr('x', 5)
+      .attr('opacity', 1)
+      .attr('font-family', 'Lato')
+      .attr('text-anchor', 'start')
+      .attr('y', (d, i) => this._yScale(i) + this._yScale.bandwidth() * 0.7)
+      .attr('font-size', 11)
+      .text(d => d.name);
+    txt.exit().remove();
+  }
+  public remove(value: StatPanelGraphicOptions): void {
+    const txt = this._g.selectAll('text').data([]);
+    txt.exit().remove();
+    const bars = this._g.selectAll('.bar').data([]);
+    bars
+      .exit()
+      .transition()
+      .delay(0.2)
+      .duration(this._options.animationTime)
+      .attr('width', 0);
+
+    // .attr('x', this._options.size * 0.5);
+    // .remove();
+  }
+  constructor(container: any) {
+    this._container = container;
+  }
+}
+export class StatPanelGraphicComponent {
+  private _options: StatPanelGraphicOptions = null;
+  private _type = 'NONE';
+  private _svg: any;
+  public get options(): StatPanelGraphicOptions {
+    return this._options;
+  }
+  public set options(value: StatPanelGraphicOptions) {
+    let pieAction = 'NONE';
+    let barAction = 'NONE';
+    if (this._type === 'NONE') {
+      if (value.type === 'PIE') {
+        pieAction = 'CREATE';
+      }
+      if (value.type === 'BAR') {
+        barAction = 'CREATE';
+      }
+    } else {
+      if (this._type === 'PIE') {
+        pieAction = value.type === 'PIE' ? 'UPDATE' : 'REMOVE';
+        barAction = value.type === 'BAR' ? 'CREATE' : 'NONE';
+      }
+      if (this._type === 'BAR') {
+        barAction = value.type === 'BAR' ? 'UPDATE' : 'REMOVE';
+        pieAction = value.type === 'PIE' ? 'CREATE' : 'NONE';
+      }
+    }
+    this._type = value.type + '';
+    this._options = value;
+    const len = this._options.data.length;
+    const s = chroma.scale(['#b3e5fc', '#039be5']).domain([0, len]);
+    this._options.data = this._options.data.map((v, i) => {
+      return Object.assign(v, { len: len, color: s(i).hex() });
+    });
+    this.drawPieChart(pieAction);
+    this.drawBarChart(barAction);
+  }
+  private pie: StatPanelPieComponent;
+  private bar: StatPanelBarComponent;
+
+  private drawPieChart(mode: string): void {
+    switch (mode) {
+      case 'CREATE':
+        this.pie.create(this.options);
+        break;
+      case 'UPDATE':
+        this.pie.update(this.options);
+        break;
+      case 'REMOVE':
+        this.pie.remove(this.options);
+        break;
     }
   }
 
-  public transformTo(chart: 'BAR' | 'PIE', options: StatPanelGraphicOptions) {
-    this._options = options;
-
-    //  if (sc.type === type || !sc.type) {
-    //    return sc;
-    //  }
-
-    this._transitionBack();
-
-    const t = this._svg
-      .select('g')
-      .transition()
-      .duration(this._options.animationTime)
-      .ease(this._options.easing)
-      .attr('transform', d => {
-        const y =
-          (this._options.size - this._data.length * (this._options.barHeight + this._options.gap) - this._options.gap) /
-          2;
-        if (chart === 'BAR') {
-          return 'translate(' + this._options.padding + ', ' + (this._options.outerRadius + y) + ')';
-        } else if (chart === 'PIE') {
-          return (
-            'translate(' + this._options.size / 2 + ', ' + (this._options.size / 2 - this._options.outerRadius) + ')'
-          );
-        }
-      })
-      .on('end', v => {
-        if (chart === 'BAR') {
-          this.drawBarChart(this._options);
-          this._svg.select('g:not(.bar)').remove();
-        } else if (chart === 'PIE') {
-          this.drawPieChart(this._options);
-          this._svg.select('g:not(.pie)').remove();
-        }
-      });
-    // .each('end', () => {
-    //   if (chart === 'BAR') {
-    //     this.drawBarChart(this._options);
-    //     this._svg.select('g:not(.bar)').remove();
-    //   } else if (chart === 'PIE') {
-    //     this.drawPieChart(this._options);
-    //     this._svg.select('g:not(.pie)').remove();
-    //   }
-    // });
+  private drawBarChart(mode: string): void {
+    switch (mode) {
+      case 'CREATE':
+        this.bar.create(this.options);
+        break;
+      case 'UPDATE':
+        this.bar.update(this.options);
+        break;
+      case 'REMOVE':
+        this.bar.remove(this.options);
+        break;
+    }
   }
 
-  constructor(target: any, options: StatPanelGraphicOptions) {
-    this._options = options;
+  constructor(target: any, opt: StatPanelGraphicOptions) {
     this._svg = select(target)
       .append('svg')
-      .attr('width', this._options.size)
-      .attr('height', this._options.size);
+      .attr('width', opt.size)
+      .attr('height', opt.size);
+    this.pie = new StatPanelPieComponent(this._svg);
+    this.bar = new StatPanelBarComponent(this._svg);
   }
 }

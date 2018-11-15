@@ -837,15 +837,17 @@ export class ComputeWorkerUtil {
                 return p;
               }, {});
               const tads = result[1];
-              const pos = markers.map(w => ({ gene: w, pos: posMap[w] })).map(w => {
-                let tad;
-                if (w.pos === undefined) {
-                  tad = -1;
-                } else {
-                  tad = tads.find(c => c.s <= w.pos && c.e >= w.pos);
-                }
-                return { gene: w.gene, tad: tad.s + '-' + tad.e };
-              });
+              const pos = markers
+                .map(w => ({ gene: w, pos: posMap[w] }))
+                .map(w => {
+                  let tad;
+                  if (w.pos === undefined) {
+                    tad = -1;
+                  } else {
+                    tad = tads.find(c => c.s <= w.pos && c.e >= w.pos);
+                  }
+                  return { gene: w.gene, tad: tad.s + '-' + tad.e };
+                });
               const tadGroups = _.groupBy(pos, 'tad');
               const colors = this.colors;
               const colorGroups = Object.keys(tadGroups)
@@ -1428,8 +1430,8 @@ export class ComputeWorkerUtil {
       'Accept-Encoding': 'gzip',
       'Access-Control-Allow-Origin': '*'
     };
-    // return fetch('https://oncoscape.v3.sttrcancer.org/cpu', {
-    return fetch('http://localhost:9999/cpu', {
+    return fetch('https://oncoscape.v3.sttrcancer.org/cpu', {
+      // return fetch('http://localhost:9999/cpu', {
       headers: headers,
       method: 'POST',
       body: JSON.stringify(config)

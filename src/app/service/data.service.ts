@@ -1452,6 +1452,18 @@ export class DataService {
       });
     });
   }
+  getRowCount(database: string, table: string): Promise<number> {
+    return new Promise(resolve => {
+      const db = new Dexie('notitia-' + database);
+      db.open().then(v => {
+        v.table(table)
+          .count()
+          .then(result => {
+            resolve(result);
+          });
+      });
+    });
+  }
   getPublicDatasets(): Promise<Array<any>> {
     return fetch('https://oncoscape.v3.sttrcancer.org/public/datasets', {
       method: 'GET',

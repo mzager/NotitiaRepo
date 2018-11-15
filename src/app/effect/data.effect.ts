@@ -1,3 +1,4 @@
+import { DatasetDescription } from './../model/dataset-description.model';
 import { from as observableFrom, of as observableOf } from 'rxjs';
 import { mergeMap, switchMap, map } from 'rxjs/operators';
 import { ScatterConfigModel } from './../component/visualization/scatter/scatter.model';
@@ -216,6 +217,7 @@ export class DataEffect {
           this.dataService.getCustomCohorts(args.dataset),
           this.dataService.getCustomPathways(args.dataset),
           this.dataService.getCustomPreprocessing(args.dataset),
+          this.dataService.getRowCount(args.dataset, 'mut'),
           new Promise((resolve, reject) => {
             resolve(args.datasetname);
           })
@@ -233,6 +235,17 @@ export class DataEffect {
       // Temp Fix While Converting To New Data Model
       const fields = args[0].hasOwnProperty('fields') ? args[0].fields : args[0].patients.concat(args[0].samples);
 
+      const dsd = new DatasetDescription();
+      dsd.hasEvents = args[0].events.length > 0;
+      dsd.hasPatientFields = args[0].fields.filter(v => v.tbl === 'patient').length > 0;
+      dsd.hasSampleFields = args[0].fields.filter(v => v.tbl === 'sample').length > 0;
+      dsd.hasMatrixFields = args[0].tables.filter(v => v.ctype & CollectionTypeEnum.MOLECULAR).length > 0;
+      dsd.hasMutations = args[5] > 1;
+      dsd.hasSurvival =
+        args[0].fields.filter(v => {
+          return v.key === 'days_to_last_follow_up' || v.key === 'vital_status' || v.key === 'days_to_last_follow_up';
+        }).length === 3;
+
       return observableOf(
         new DataLoadedAction(
           args[0].name,
@@ -243,7 +256,8 @@ export class DataEffect {
           args[2],
           args[3],
           args[4],
-          args[5].toString()
+          args[6].toString(),
+          dsd
         )
       );
     })

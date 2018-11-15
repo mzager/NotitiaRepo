@@ -47,6 +47,22 @@ export class DatasetService {
     });
   }
 
+  public getDatatypes(dataset: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.getDataset(dataset).then(v => {
+        debugger;
+        const rv = {
+          hasSurvival: false,
+          hasEvents: false,
+          hasPatientFields: false,
+          hasSampleFields: false,
+          hasMatrixData: false,
+          hasMutationData: false
+        };
+      });
+    });
+  }
+
   public load(manifest: any): Observable<any> {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');

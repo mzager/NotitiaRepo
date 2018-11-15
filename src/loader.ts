@@ -500,7 +500,7 @@ onmessage = function(e) {
                     })
                   );
                 })
-                .catch(e => {});
+                .catch(() => {});
             });
           } catch (e) {}
         }

@@ -106,16 +106,18 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     this.selectionController = new ScatterSelectionLassoController(view, events);
     this.selectionController.enable = true;
     this.selectSubscription = this.selectionController.onSelect.subscribe((ids: Array<number>) => {
-      const values: Array<DataDecoratorValue> = ids.map(v => v / 3).map(v => {
-        return {
-          pid: this._data.pid[v],
-          sid: this._data.sid[v],
-          mid: null,
-          key: EntityTypeEnum.SAMPLE,
-          value: true,
-          label: ''
-        };
-      });
+      const values: Array<DataDecoratorValue> = ids
+        .map(v => v / 3)
+        .map(v => {
+          return {
+            pid: this._data.pid[v],
+            sid: this._data.sid[v],
+            mid: null,
+            key: EntityTypeEnum.SAMPLE,
+            value: true,
+            label: ''
+          };
+        });
 
       const dataDecorator: DataDecorator = {
         type: DataDecoratorTypeEnum.SELECT,
@@ -142,7 +144,13 @@ export class AbstractScatterVisualization extends AbstractVisualization {
 
   updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
     super.updateDecorator(config, decorators);
+
     if (this.decorators.length === 0) {
+      this.selectionController.reset();
+      const arr = this.pointsGeometry.attributes.gSelected.array;
+      arr.fill(0);
+      this.pointsGeometry.attributes.gSelected.needsUpdate = true;
+      ChartScene.instance.render();
       return;
     }
 
@@ -151,7 +159,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     decorators.forEach(decorator => {
       switch (decorator.type) {
         case DataDecoratorTypeEnum.SELECT:
-          const x = this.ids;
           if (this._config.entity === EntityTypeEnum.SAMPLE) {
             const indicies = decorator.values.map(datum => {
               return this.ids.findIndex(v => v === datum.sid);
@@ -162,7 +169,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
             indicies.forEach(v => {
               arr[v] = 1;
             });
-            console.log('HI');
             this.pointsGeometry.attributes.gSelected.needsUpdate = true;
             ChartScene.instance.render();
           }

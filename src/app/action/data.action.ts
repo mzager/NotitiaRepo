@@ -5,6 +5,7 @@ import { Preprocessing } from './../model/preprocessing.model';
 import { UnsafeAction } from './unsafe.action';
 import { DataField, DataTable } from './../model/data-field.model';
 import { Action } from '@ngrx/store';
+import { DatasetDescription } from 'app/model/dataset-description.model';
 
 // Action Constants
 export const DATA_LOAD_FROM_DEXIE = '[Data] Load From Dexie';
@@ -114,7 +115,8 @@ export class DataLoadedAction implements UnsafeAction {
     public cohorts: Array<any>,
     public pathways: Array<any>,
     public preprocessings: Array<any>,
-    public datasetName: string
+    public datasetName: string,
+    public datasetDesc: DatasetDescription
   ) {}
 }
 
