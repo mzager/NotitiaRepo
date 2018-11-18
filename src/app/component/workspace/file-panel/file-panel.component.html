@@ -19,32 +19,36 @@
     />
   </div>
   <mat-tab-group class="filePanel" (selectedTabChange)="onSelectedTabChange($event)">
-    <mat-tab label="Validated"> The following datasets have been tested / verified by the Oncoscape team. </mat-tab>
+    <mat-tab label="GDC"> The following datasets have been tested / verified by the Oncoscape team. </mat-tab>
     <!--
       <mat-tab label="GDC">
         The following datasets were downloaded from the Genomic Data Commons (GDC).
         <a href="http://www.cbioportal.org/" target="_blank">GDC</a>
       </mat-tab>
     -->
-    <mat-tab label="CBio">
-      The following datasets were downloaded from the CBio portal and are undergoing testing.
+    <mat-tab label="MSK">
+      The following datasets were downloaded from the Memorial Slone Kettering CBio portal and are undergoing testing.
       <a href="http://www.cbioportal.org/" target="_blank">CBio Portal</a>
     </mat-tab>
+
+    <mat-tab label="CHOP">
+      The following datasets were downloaded from the Children's Hospital of Philidelphia (CHOP).
+      <a href="https://pedcbioportal.org/login.jsp" target="_blank">Chop Portal</a>
+    </mat-tab>
     <!--
-      <mat-tab label="CHOP">
-        The following datasets were downloaded from the Children's Hospital of Philidelphia (CHOP).
-        <a href="https://pedcbioportal.org/login.jsp" target="_blank">Chop Portal</a>
-      </mat-tab>
       <mat-tab label="GLASS">
         The following dataset were downloaded from the Children's Hospital of Philidelphia (CHOP).
         <a href="https://pedcbioportal.org/login.jsp" target="_blank">Chop Portal</a>
       </mat-tab>
     -->
-    <!--
-      <mat-tab label="Private">
-        The following datasets are private. To upload datasets or view datasets ... Click here... Blah
-      </mat-tab>
-    -->
+
+    <mat-tab label="Private">
+      The following datasets are private. To upload datasets or view datasets.<br />
+      <app-workspace-user-panel
+        (showPanel)="this.showPanel.emit($event)"
+        (loadPrivate)="this.loadPrivate.emit($event)"
+      ></app-workspace-user-panel>
+    </mat-tab>
   </mat-tab-group>
 
   <div fxLayout.xs="column">

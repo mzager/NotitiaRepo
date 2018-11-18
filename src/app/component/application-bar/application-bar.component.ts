@@ -52,8 +52,6 @@ export class ApplicationBarComponent implements OnInit, OnDestroy {
   @Output()
   preprocessingPanelToggle = new EventEmitter();
   @Output()
-
-
   private togglePanels = false;
   private split = false;
   public uploader: FileUploader = new FileUploader({ url: '' });

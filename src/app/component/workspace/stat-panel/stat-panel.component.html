@@ -1,7 +1,7 @@
 <div>
   <div class="statPanel">
     <span class="legendHeader" style="padding-bottom:0px;">Distribution</span>
-    <mat-form-field class="form-field " style="width:170px">
+    <mat-form-field class="form-field " style="width:195px;">
       <mat-select [value]="metricSelected" [compareWith]="byName" (valueChange)="metricChangeManual($event)">
         <mat-option *ngFor="let option of metrics" [value]="option"> {{ option.name }} </mat-option>
       </mat-select>

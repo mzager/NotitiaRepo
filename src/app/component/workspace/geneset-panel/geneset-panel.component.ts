@@ -1,5 +1,4 @@
-
-import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
+import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -128,11 +127,7 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {}
 
-  constructor(
-    private cd: ChangeDetectorRef,
-    private dataService: DataService,
-    public ms: ModalService
-  ) {
+  constructor(private cd: ChangeDetectorRef, private dataService: DataService, public ms: ModalService) {
     const categories = this.dataService.getGenesetCategories();
     const geneset = this.dataService.getGeneSetByCategory('H|NA').toPromise();
     Promise.all([categories, geneset]).then(response => {
@@ -147,9 +142,11 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
       this.cd.detectChanges();
     });
     this.$genesetFilter = new Subject();
-    this.$genesetFilter.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),)
+    this.$genesetFilter
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged()
+      )
       .subscribe(this.onGenesetFilterChange.bind(this));
   }
 }

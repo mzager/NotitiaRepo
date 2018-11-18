@@ -20,14 +20,17 @@
       <span class="legendHeader">Current Analysis: {{ methodName }}</span>
       <p>{{ methodSummary }} <a href="#" (click)="helpClick()" class="os-link">Learn More</a></p>
       <span class="legendHeader">Available Analysis</span>
-      <app-graph-panel-analysis (select)="setVisualization($event)"></app-graph-panel-analysis>
+      <app-graph-panel-analysis
+        [datasetDescription]="datasetDescription"
+        (select)="setVisualization($event)"
+      ></app-graph-panel-analysis>
     </mat-tab>
     <mat-tab label="Legend">
       <ng-template mat-tab-label>
         <mat-icon class="example-tab-icon">list</mat-icon>
         <div class="mat-tab-custom-lbl">Legend</div>
       </ng-template>
-      <span class="legendHeader">Configure Legend</span>
+      <span class="legendHeader">Configure Color, Shapes &amp; Labels</span>
       <app-graph-panel-visualization
         [config]="config"
         [tables]="tables"
@@ -339,15 +342,6 @@
           [tables]="tables"
           [fields]="fields"
         ></app-quadradicdiscriminantanalysis-form>
-      </ng-template>
-    </mat-tab>
-    <mat-tab label="Settings">
-      <ng-template mat-tab-label>
-        <mat-icon class="example-tab-icon">trending_up</mat-icon>
-        <div class="mat-tab-custom-lbl">Stats</div>
-      </ng-template>
-      <ng-template matTabContent>
-        <span class="legendHeader">{{ methodName }} Statistics</span>
         <app-workspace-stat-panel [config]="config" [graphData]="data" [type]="'TOOL'"></app-workspace-stat-panel>
       </ng-template>
     </mat-tab>
@@ -357,15 +351,26 @@
         <div class="mat-tab-custom-lbl">Selection</div>
       </ng-template>
       <ng-template matTabContent>
+        <app-workspace-behavior-panel
+          (clearSelection)="onClearSelection()"
+          (saveSelection)="onSaveSelection($event)"
+          [config]="config"
+          [selectionToolConfig]="selectionToolConfig"
+        ></app-workspace-behavior-panel>
         <app-workspace-stat-panel
           [config]="config"
           [graphData]="data"
           [type]="'SELECTION'"
           [decorators]="decorators"
         ></app-workspace-stat-panel>
-        <app-workspace-behavior-panel (clearSelection)="onClearSelection()" [config]="config"
-          [selectionToolConfig]="selectionToolConfig"></app-workspace-behavior-panel>
       </ng-template>
+    </mat-tab>
+    <mat-tab label="Selection">
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">close</mat-icon>
+        <div class="mat-tab-custom-lbl">Collapse</div>
+      </ng-template>
+      <ng-template></ng-template>
     </mat-tab>
   </mat-tab-group>
 

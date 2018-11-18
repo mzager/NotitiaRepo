@@ -1,8 +1,9 @@
 export class DatasetDescription {
-  public hasEvents: boolean;
-  public hasPatientFields: boolean;
-  public hasSampleFields: boolean;
-  public hasMatrixFields: boolean;
-  public hasMutations: boolean;
-  public hasSurvival: boolean;
+  public hasEvents = false;
+  public hasPatientFields = false;
+  public hasSampleFields = false;
+  public hasMatrixFields = false;
+  public hasMutations = false;
+  public hasSurvival = false;
+  public hasPrecomputed = false;
 }

@@ -88,6 +88,7 @@ import { OneClassSVMConfigModel } from './../visualization/oneclasssvm/oneclasss
 import { SVRConfigModel } from './../visualization/svr/svr.model';
 import { TipSetVisualizationAction, TipSetEnabledAction, TipSetVisibleAction } from '../../action/tip.action';
 import { UmapConfigModel } from '../visualization/umap/umap.model';
+import { DatasetDescription } from 'app/model/dataset-description.model';
 
 @Component({
   selector: 'app-workspace',
@@ -124,7 +125,7 @@ export class WorkspaceComponent {
   graphASelectionToolConfig: Observable<SelectionToolConfig>;
   graphBSelectionToolConfig: Observable<SelectionToolConfig>;
   edgeDecorators: Observable<Array<DataDecorator>>;
-
+  datasetDescription: Observable<DatasetDescription>;
   selectVisible: Observable<boolean>;
   selectSelection: Observable<ChartSelection>;
   selectStats: Observable<Array<any>>;
@@ -182,6 +183,7 @@ export class WorkspaceComponent {
     this.graphADecorators = store.select(fromRoot.getGraphADecorators);
     this.graphBDecorators = store.select(fromRoot.getGraphBDecorators);
     this.edgeDecorators = store.select(fromRoot.getEdgeDecorators);
+    this.datasetDescription = store.select(fromRoot.getDatasetDescription);
 
     this.selectVisible = store.select(fromRoot.getSelectVisible);
     this.selectSelection = store.select(fromRoot.getSelectSelection);
@@ -208,15 +210,12 @@ export class WorkspaceComponent {
     }
   }
 
-  saveCohort(event: any): void {
-    this.store.dispatch(new compute.SelectSaveSamplesAction(event));
-  }
-  saveGeneset(event: any): void {
-    this.store.dispatch(new compute.SelectSaveMarkersAction(event));
-  }
-
-  hideSelectionPanel(): void {
-    this.store.dispatch(new compute.SelectHideAction({}));
+  saveSelection(event: { name: string; selection: ChartSelection }) {
+    if (event.selection.type === EntityTypeEnum.SAMPLE) {
+      this.store.dispatch(new compute.SelectSaveSamplesAction(event));
+    } else if (event.selection.type === EntityTypeEnum.GENE) {
+      this.store.dispatch(new compute.SelectSaveMarkersAction(event));
+    }
   }
 
   edgeConfigChange(value: EdgeConfigModel): void {

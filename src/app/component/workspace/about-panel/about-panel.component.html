@@ -1,225 +1,297 @@
-<div class='panel' style='position:absolute;top:0px;z-index:1;padding-bottom:0px;'>
+<div
+  class="panel"
+  style="position:absolute;top:0px;z-index:1;padding-bottom:0px;    font-size: 14px;
+    line-height: 20px;"
+>
   <div>
-    <a href='#' class='modalClose' (click)='closeClick()'>
-    </a>
-    <h1 class='panel-header' style='margin-top: 40px;margin-bottom: 25px;'>Meet The Team</h1>
+    <a href="#" class="modalClose" (click)="closeClick()"> </a>
+    <h1 class="panel-header" style="margin-top: 40px;margin-bottom: 25px;">Oncoscape Mission</h1>
   </div>
-  <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="space-between start"
-    style='margin-bottom: 50px;' class="containercards">
-    <div class="team-container" fxFlex='33'>
-      <div fxLayout="row" fxLayoutGap='20px'>
-        <img mat-card-image style="width:100px; height: 100px; border-radius: 50%;" src="assets/about/holland.jpg">
+  <div
+    fxLayout="row"
+    fxLayout.sm="column"
+    fxLayout.xs="column"
+    fxLayoutAlign="space-between start"
+    style="margin-bottom: 50px;"
+    class="containercards"
+  >
+    <div class="team-container" fxFlex="66" style="padding-right:40px;">
+      <p>
+        Fred Hutchinson Cancer Research Center, UW Medicine and Seattle Cancer Care Alliance are bridging laboratory
+        sciences and patient care to provide the most precise treatment options for patients with cancer. Patients
+        world-wide are benefiting from these efforts.
+      </p>
+      <p>
+        Collectively, these leading cancer research and clinical care organizations are enhancing our knowledge of
+        cancer using population research, preclinical cancer biology, translational, imaging and clinical studies of
+        solid tumors and hematologic cancers.
+      </p>
+      <p>
+        Seattle Translational Tumor Research (STTR) creates environments which enable researchers and clinicians to
+        accelerate scientific discovery and translate it into cures for patients; and has established programs
+        addressing a number of cancers: bladder, brain, breast, colon, head and neck, leukemia, lymphoma,
+        myelodysplastic/myeloproliferative disease, lung, myeloma, ovary, pancreas, prostate and sarcoma.
+      </p>
+    </div>
+    <div class="team-container" fxFlex="33" style="padding-left:20px;">
+      <img
+        mat-card-image
+        style="width: 80%; height: 80%; margin:0px;position: relative;  top: -15px;"
+        src="assets/logos.png"
+      />
+    </div>
+  </div>
+  <div><h1 class="panel-header" style="margin-top: 40px;margin-bottom: 25px;">Oncoscape Team</h1></div>
+  <div
+    fxLayout="row"
+    fxLayout.sm="column"
+    fxLayout.xs="column"
+    fxLayoutAlign="space-between start"
+    style="margin-bottom: 50px;"
+    class="containercards"
+  >
+    <div class="team-container" fxFlex="33">
+      <div fxLayout="row" fxLayoutGap="20px">
+        <img
+          mat-card-image
+          style="width:100px; height: 100px; border-radius: 50%; margin: 0p;"
+          src="assets/about/holland.jpg"
+        />
         <div fxLayout="column">
-          <div style='font-size:1rem;margin-bottom: 5px;text-transform: uppercase; letter-spacing: 1px; margin-top:15px;'
-            class='about-name'>Eric Holland</div>
-          <div style='font-size: 0.6rem;margin-bottom:5px;text-transform: uppercase; letter-spacing: 1px; '
-            class='about-title'>Neurosurgeon</div>
-          <div fxLayout="row" fxLayoutGap='10px'>
+          <div
+            style="font-size:1rem;margin-bottom: 5px;text-transform: uppercase; letter-spacing: 1px; margin-top:15px;"
+            class="about-name"
+          >
+            Eric Holland
+          </div>
+          <div
+            style="font-size: 0.6rem;margin-bottom:5px;text-transform: uppercase; letter-spacing: 1px; "
+            class="about-title"
+          >
+            Neurosurgeon
+          </div>
+          <div fxLayout="row" fxLayoutGap="10px">
             <a href="http://www.sttrcancer.org/en.html" target="_blank ">
-              <i style='color: #1e88e5;' class="fa fa-info-circle fa-2x "></i>
+              <i style="color: #1e88e5;" class="fa fa-info-circle fa-2x "></i>
             </a>
             <a href="https://www.fredhutch.org/en/labs/profiles/holland-eric.html" target="_blank ">
-              <i style='color: #1e88e5;' class="fa fa-flask fa-2x"></i>
+              <i style="color: #1e88e5;" class="fa fa-flask fa-2x"></i>
             </a>
             <a href="mailto:eholland@fredhutch.org " target="_blank ">
-              <i style='color: #1e88e5;' class="fa fa-envelope-o fa-2x "></i>
+              <i style="color: #1e88e5;" class="fa fa-envelope-o fa-2x "></i>
             </a>
           </div>
         </div>
       </div>
-      <p style="padding-top: 10px; line-height: 20px;"> Dr. Holland is an internationally renowned
-        neurosurgeon and brain cancer researcher. As senior vice president and director
-        of the Human Biology Division of the Fred Hutchinson Cancer Research Center, Dr. Holland
-        encourages collaboration
-        among faculty with a broad range of expertise – from molecular and cellular biology to
-        genetics and clinical research.
-        Working with the STTR team he established Oncoscape, the connection between
-        molecular/clinical data and technology.
-        Today Oncoscape is accelerating research.
+      <p style="padding-top: 10px; line-height: 20px;">
+        Dr. Holland is an internationally renowned neurosurgeon and brain cancer researcher. As senior vice president
+        and director of the Human Biology Division of the Fred Hutchinson Cancer Research Center, Dr. Holland encourages
+        collaboration among faculty with a broad range of expertise – from molecular and cellular biology to genetics
+        and clinical research. Working with the STTR team he established Oncoscape, the connection between
+        molecular/clinical data and technology. Today Oncoscape is accelerating research.
       </p>
     </div>
-    <div class="team-container" fxFlexOffset='40px' fxFlex='33'>
-      <div fxLayout="row" fxLayoutGap='20px'>
-        <img mat-card-image style="width:100px; height: 100px; border-radius: 50%;" src="assets/about/zager.jpg">
+    <div class="team-container" fxFlexOffset="40px" fxFlex="33">
+      <div fxLayout="row" fxLayoutGap="20px">
+        <img
+          mat-card-image
+          style="width:100px; height: 100px; border-radius: 50%; margin:0px;"
+          src="assets/about/zager.jpg"
+        />
         <div fxLayout="column">
-          <div style='font-size:1rem;margin-bottom: 5px;text-transform: uppercase; letter-spacing: 1px; margin-top:15px;'
-            class='about-name'>Michael Zager</div>
-          <div style='font-size: 0.6rem;margin-bottom:5px;text-transform: uppercase; letter-spacing: 1px; '
-            class='about-title'>Principle Architect</div>
-          <div fxLayout="row" fxLayoutGap='10px'>
+          <div
+            style="font-size:1rem;margin-bottom: 5px;text-transform: uppercase; letter-spacing: 1px; margin-top:15px;"
+            class="about-name"
+          >
+            Michael Zager
+          </div>
+          <div
+            style="font-size: 0.6rem;margin-bottom:5px;text-transform: uppercase; letter-spacing: 1px; "
+            class="about-title"
+          >
+            Principle Architect
+          </div>
+          <div fxLayout="row" fxLayoutGap="10px">
             <a href="https://github.com/mzager" target="_blank ">
-              <i style='color: #1e88e5;' class="fa fa-github-square fa-2x "></i>
+              <i style="color: #1e88e5;" class="fa fa-github-square fa-2x "></i>
             </a>
             <a href="https://www.linkedin.com/in/zager/" target="_blank ">
-              <i style='color: #1e88e5;' class="fa fa-linkedin-square fa-2x "></i>
+              <i style="color: #1e88e5;" class="fa fa-linkedin-square fa-2x "></i>
             </a>
             <a href="mailto:mzager@fredhutch.org " target="_blank ">
-              <i style='color: #1e88e5;' class="fa fa-envelope-o fa-2x "></i>
+              <i style="color: #1e88e5;" class="fa fa-envelope-o fa-2x "></i>
             </a>
           </div>
         </div>
       </div>
-      <p style="padding-top: 10px; line-height: 20px;">Mr. Zager is the principle developer,
-        designer and architect of Oncoscape. After close to two decades of creating digital
-        strategies and executions for bio-techs, start-ups and F-100 companies, Michael joined the
-        Oncoscape initiative in
-        2016. Working alongside doctors, scientists and statisticians who generously gave their
-        time and mentorship, Michael
-        rigorously studied to learn the cancer biology and statistics necessary to exploit
-        Oncoscape's full potential as
-        a resource for research scientists. The resulting work is a stunning visualization platform
-        for large-scale, heterogeneous
-        clinical and molecular omics data.</p>
+      <p style="padding-top: 10px; line-height: 20px;">
+        Mr. Zager is the principle developer, designer and architect of Oncoscape. After close to two decades of
+        creating digital strategies and executions for bio-techs, start-ups and F-100 companies, Michael joined the
+        Oncoscape initiative in 2016. Working alongside doctors, scientists and statisticians who generously gave their
+        time and mentorship, Michael rigorously studied to learn the cancer biology and statistics necessary to exploit
+        Oncoscape's full potential as a resource for research scientists. The resulting work is a stunning visualization
+        platform for large-scale, heterogeneous clinical and molecular omics data.
+      </p>
     </div>
-    <div class="team-container" fxFlexOffset='40px' fxFlex='33'>
-      <div fxLayout="row" fxLayoutGap='20px'>
-        <img mat-card-image style="width:100px; height: 100px; border-radius: 50%;" src="assets/about/gretty.png">
+    <div class="team-container" fxFlexOffset="40px" fxFlex="33">
+      <div fxLayout="row" fxLayoutGap="20px">
+        <img
+          mat-card-image
+          style="width:100px; height: 100px; border-radius: 50%; margin:0px;"
+          src="assets/about/gretty.png"
+        />
         <div fxLayout="column">
-          <div style='font-size:1rem;margin-bottom: 5px;text-transform: uppercase; letter-spacing: 1px; margin-top:15px;'
-            class='about-name'>Gretchen Krenn</div>
-          <div style='font-size: 0.6rem;margin-bottom:5px;text-transform: uppercase; letter-spacing: 1px; '
-            class='about-title'>Software Engineer</div>
-          <div fxLayout="row" fxLayoutGap='10px'>
+          <div
+            style="font-size:1rem;margin-bottom: 5px;text-transform: uppercase; letter-spacing: 1px; margin-top:15px;"
+            class="about-name"
+          >
+            Gretchen Krenn
+          </div>
+          <div
+            style="font-size: 0.6rem;margin-bottom:5px;text-transform: uppercase; letter-spacing: 1px; "
+            class="about-title"
+          >
+            Software Engineer
+          </div>
+          <div fxLayout="row" fxLayoutGap="10px">
             <a href="https://github.com/grettygoose" target="_blank ">
-              <i style='color: #1e88e5;' class="fa fa-github-square fa-2x "></i>
+              <i style="color: #1e88e5;" class="fa fa-github-square fa-2x "></i>
             </a>
             <a href="https://www.linkedin.com/in/gretchenh/" target="_blank ">
-              <i style='color: #1e88e5;' class="fa fa-linkedin-square fa-2x "></i>
+              <i style="color: #1e88e5;" class="fa fa-linkedin-square fa-2x "></i>
             </a>
             <a href="mailto:gheinric@fredhutch.org " target="_blank ">
-              <i style='color: #1e88e5;' class="fa fa-envelope-o fa-2x "></i>
+              <i style="color: #1e88e5;" class="fa fa-envelope-o fa-2x "></i>
             </a>
           </div>
         </div>
       </div>
-      <p style="padding-top: 10px; line-height: 20px;">A senior software engineer, Mrs. Krenn has
-        been involved in all phases of the products lifecycle. With 10 years of
-        lab experience she routinely translates complex research problems into real world
-        solutions. Since joining the Oncoscape
-        team in 2015, Gretchen has become fluent in multiple front-end technologies and refined a
-        natural gift for design.
-        Her contributions have been instrumental in the creation of a cancer research platform that
-        the scientific community
-        can embrace.</p>
+      <p style="padding-top: 10px; line-height: 20px;">
+        Mrs. Krenn has been involved in all phases of the products lifecycle. With 10 years of lab experience she
+        routinely translates complex research problems into real world solutions. Since joining the Oncoscape team in
+        2015, Gretchen has become fluent in multiple front-end technologies and refined a natural gift for design. Her
+        contributions have been instrumental in the creation of a cancer research platform that the scientific community
+        can embrace.
+      </p>
     </div>
   </div>
   <!--
-    <div class="team-container" fxFlexOffset='40px' fxFlex='33'>
-      <div fxLayout="row" fxLayoutGap='20px'>
-        <img mat-card-image style="width:100px; height: 100px; border-radius: 50%;" src="assets/about/galbraith.jpg">
-        <div fxLayout="column">
-          <div style='font-size:1rem;margin-bottom: 5px;text-transform: uppercase; letter-spacing: 1px; margin-top:15px;' class='about-name'>Rachel Galbraith</div>
-          <div style='font-size: 0.6rem;margin-bottom:5px;text-transform: uppercase; letter-spacing: 1px; ' class='about-title'>Operations Director STTR </div>
-          <div fxLayout="row" fxLayoutGap='10px'>
-            <a href="http://www.sttrcancer.org/en.html" target="_blank ">
-              <i style='color: #1e88e5;' class="fa fa-info-circle fa-2x "></i>
-            </a>
-            <a href="https://www.linkedin.com/in/rachel-galbraith-3304b052/" target="_blank ">
-              <i style='color: #1e88e5;' class="fa fa-linkedin-square fa-2x "></i>
-            </a>
-            <a href="mailto:rgalbrai@fredhutch.org " target="_blank ">
-              <i style='color: #1e88e5;' class="fa fa-envelope-o fa-2x "></i>
-            </a>
+      <div class="team-container" fxFlexOffset='40px' fxFlex='33'>
+        <div fxLayout="row" fxLayoutGap='20px'>
+          <img mat-card-image style="width:100px; height: 100px; border-radius: 50%;" src="assets/about/galbraith.jpg">
+          <div fxLayout="column">
+            <div style='font-size:1rem;margin-bottom: 5px;text-transform: uppercase; letter-spacing: 1px; margin-top:15px;' class='about-name'>Rachel Galbraith</div>
+            <div style='font-size: 0.6rem;margin-bottom:5px;text-transform: uppercase; letter-spacing: 1px; ' class='about-title'>Operations Director STTR </div>
+            <div fxLayout="row" fxLayoutGap='10px'>
+              <a href="http://www.sttrcancer.org/en.html" target="_blank ">
+                <i style='color: #1e88e5;' class="fa fa-info-circle fa-2x "></i>
+              </a>
+              <a href="https://www.linkedin.com/in/rachel-galbraith-3304b052/" target="_blank ">
+                <i style='color: #1e88e5;' class="fa fa-linkedin-square fa-2x "></i>
+              </a>
+              <a href="mailto:rgalbrai@fredhutch.org " target="_blank ">
+                <i style='color: #1e88e5;' class="fa fa-envelope-o fa-2x "></i>
+              </a>
+            </div>
           </div>
         </div>
+        <p style="padding-top: 10px; line-height: 20px;"> Ms. Galbraith is the Operations Director for Seattle Translational Tumor Research (STTR). Bringing together over 500
+          faculty spanning oncology research efforts at Fred Hutch, UW Medicine, Seattle Cancer Care Alliance, Seattle Children’s
+          Research Institute and several other Seattle-area translational research institutions. Her goal through this effort
+          is to enhance collaborative scientific effort, eliminate barriers to cancer research and facilitate access to clinical
+          specimens, data, and technology that will speed research and improve cancer prevention, treatment and detection.
+          With a background in molecular genetics and cell biology, and research experience in genetic factors contributing
+          to cancer risk, she can understand the challenges researchers face in analyzing large-scale data and leverage that
+          insight to inform the development of tools within Oncoscape.
+        </p>
       </div>
-      <p style="padding-top: 10px; line-height: 20px;"> Ms. Galbraith is the Operations Director for Seattle Translational Tumor Research (STTR). Bringing together over 500
-        faculty spanning oncology research efforts at Fred Hutch, UW Medicine, Seattle Cancer Care Alliance, Seattle Children’s
-        Research Institute and several other Seattle-area translational research institutions. Her goal through this effort
-        is to enhance collaborative scientific effort, eliminate barriers to cancer research and facilitate access to clinical
-        specimens, data, and technology that will speed research and improve cancer prevention, treatment and detection.
-        With a background in molecular genetics and cell biology, and research experience in genetic factors contributing
-        to cancer risk, she can understand the challenges researchers face in analyzing large-scale data and leverage that
-        insight to inform the development of tools within Oncoscape.
-      </p>
-    </div>
-    <div class="team-container" fxFlexOffset='40px' fxFlex='33'>
-      <div fxLayout="row" fxLayoutGap='20px'>
-        <div fxLayout="column">
-          <div style='font-size:1rem;margin-bottom: 5px;text-transform: uppercase; letter-spacing: 1px; margin-top:15px;' class='about-name'>Special Thanks</div>
-          <div style='font-size: 0.6rem;margin-bottom:5px;text-transform: uppercase; letter-spacing: 1px; ' class='about-title'>Our Village</div>
-          <p style="padding-top: 10px; line-height: 20px;">
-            Matthew Trunnel, Hamid Bolouri, Lisa McFerrin, Ilsa Coleman, Emily Kohlbrenner, Navonil De Sarkar, Chad He, Adam Samir Alayli
-            &amp; Vaishnavi Phadnis
-          </p>
-          <p style="padding-top: 10px; line-height: 20px;">With a very special thanks to Robert McDermott the best IT Solutions Architect and Friend a project could have.</p>
+      <div class="team-container" fxFlexOffset='40px' fxFlex='33'>
+        <div fxLayout="row" fxLayoutGap='20px'>
+          <div fxLayout="column">
+            <div style='font-size:1rem;margin-bottom: 5px;text-transform: uppercase; letter-spacing: 1px; margin-top:15px;' class='about-name'>Special Thanks</div>
+            <div style='font-size: 0.6rem;margin-bottom:5px;text-transform: uppercase; letter-spacing: 1px; ' class='about-title'>Our Village</div>
+            <p style="padding-top: 10px; line-height: 20px;">
+              Matthew Trunnel, Hamid Bolouri, Lisa McFerrin, Ilsa Coleman, Emily Kohlbrenner, Navonil De Sarkar, Chad He, Adam Samir Alayli
+              &amp; Vaishnavi Phadnis
+            </p>
+            <p style="padding-top: 10px; line-height: 20px;">With a very special thanks to Robert McDermott the best IT Solutions Architect and Friend a project could have.</p>
+          </div>
         </div>
+        <p style=" padding-top: 10px; line-height: 20px; ">
+        </p>
       </div>
-      <p style=" padding-top: 10px; line-height: 20px; ">
-      </p>
     </div>
-  </div>
   -->
   <!--
-  <h1 style='margin-top:50px;' class='about-h1'>Institutional Support</h1>
-  <div fxLayout="row " fxLayout.sm="column " fxLayout.xs="column " fxLayoutAlign="space-between start " style='margin-bottom: 50px;'
-    class="containercards ">
-    <div class="team-container " fxFlex='33'>
-      <div fxLayout="row " fxLayoutGap='20px'>
-        <img mat-card-image style="width:100px; height: 100px; " src="assets/about/fhcrc.jpg ">
-        <div fxLayout="column ">
-          <div style='font-size:1rem;margin-bottom: 5px;text-transform: uppercase; letter-spacing: 1px; margin-top:40px;' class='about-name'>Fred Hutch</div>
+    <h1 style='margin-top:50px;' class='about-h1'>Institutional Support</h1>
+    <div fxLayout="row " fxLayout.sm="column " fxLayout.xs="column " fxLayoutAlign="space-between start " style='margin-bottom: 50px;'
+      class="containercards ">
+      <div class="team-container " fxFlex='33'>
+        <div fxLayout="row " fxLayoutGap='20px'>
+          <img mat-card-image style="width:100px; height: 100px; " src="assets/about/fhcrc.jpg ">
+          <div fxLayout="column ">
+            <div style='font-size:1rem;margin-bottom: 5px;text-transform: uppercase; letter-spacing: 1px; margin-top:40px;' class='about-name'>Fred Hutch</div>
+          </div>
         </div>
+        <p style="padding-top: 10px; line-height: 20px; "> Our mission is the elimination of cancer and related diseases as causes of human suffering and death. Fred Hutch conducts
+          research of the highest standards to improve prevention and treatment of cancer and related diseases.
+        </p>
       </div>
-      <p style="padding-top: 10px; line-height: 20px; "> Our mission is the elimination of cancer and related diseases as causes of human suffering and death. Fred Hutch conducts
-        research of the highest standards to improve prevention and treatment of cancer and related diseases.
-      </p>
-    </div>
-    <div class="team-container " fxFlexOffset='40px' fxFlex='33'>
-      <div fxLayout="row " fxLayoutGap='20px'>
-        <img mat-card-image src="assets/about/sarc.jpg ">
-        <div fxLayout="column ">
-          <div style='font-size:1rem;margin-bottom: 5px;text-transform: uppercase; letter-spacing: 1px; margin-top:25px;' class='about-name'>Sarcoma Alliance for Research Through Collaboration</div>
+      <div class="team-container " fxFlexOffset='40px' fxFlex='33'>
+        <div fxLayout="row " fxLayoutGap='20px'>
+          <img mat-card-image src="assets/about/sarc.jpg ">
+          <div fxLayout="column ">
+            <div style='font-size:1rem;margin-bottom: 5px;text-transform: uppercase; letter-spacing: 1px; margin-top:25px;' class='about-name'>Sarcoma Alliance for Research Through Collaboration</div>
+          </div>
         </div>
+        <p style="padding-top: 10px; line-height: 20px; "> SARC is a non-profit organization dedicated to the development and support of research for the prevention, treatment
+          and cure of sarcomas - a cancer of the bone and connective tissue of the body. Our Vision: To engage all appropriate
+          and necessary resources to develop new therapeutic options that lead to improved outcomes for patients diagnosed
+          with sarcoma Our Mission: To provide a collaborative platform to make progress in the prevention, diagnosis and treatment
+          of sarcoma
+        </p>
       </div>
-      <p style="padding-top: 10px; line-height: 20px; "> SARC is a non-profit organization dedicated to the development and support of research for the prevention, treatment
-        and cure of sarcomas - a cancer of the bone and connective tissue of the body. Our Vision: To engage all appropriate
-        and necessary resources to develop new therapeutic options that lead to improved outcomes for patients diagnosed
-        with sarcoma Our Mission: To provide a collaborative platform to make progress in the prevention, diagnosis and treatment
-        of sarcoma
-      </p>
-    </div>
-    <div class="team-container " fxFlexOffset='40px' fxFlex='33'>
-      <div fxLayout="row " fxLayoutGap='20px'>
-        <img mat-card-image style="width:425px; height: 75px; " src="assets/about/sttr.jpg ">
+      <div class="team-container " fxFlexOffset='40px' fxFlex='33'>
+        <div fxLayout="row " fxLayoutGap='20px'>
+          <img mat-card-image style="width:425px; height: 75px; " src="assets/about/sttr.jpg ">
+        </div>
+        <p style="padding-top: 25px; line-height: 20px; ">Fred Hutchinson Cancer Research Center, UW Medicine and Seattle Cancer Care Alliance are bridging laboratory sciences
+          and patient care to provide the most precise treatment options for patients with cancer. Patients world-wide are
+          benefiting from these efforts. Collectively, these leading cancer research and clinical care organizations are enhancing
+          our knowledge of cancer using population research, preclinical cancer biology, translational, imaging and clinical
+          studies of solid tumors and hematologic cancers.
+        </p>
       </div>
-      <p style="padding-top: 25px; line-height: 20px; ">Fred Hutchinson Cancer Research Center, UW Medicine and Seattle Cancer Care Alliance are bridging laboratory sciences
-        and patient care to provide the most precise treatment options for patients with cancer. Patients world-wide are
-        benefiting from these efforts. Collectively, these leading cancer research and clinical care organizations are enhancing
-        our knowledge of cancer using population research, preclinical cancer biology, translational, imaging and clinical
-        studies of solid tumors and hematologic cancers.
-      </p>
     </div>
-  </div>
 
-  <footer class='landing-footer '>
-    <div fxLayout='row ' fxLayout.sm='column ' fxLayout.xs='column ' fxLayoutAlign="space-between center ">
-      <div class="footer-text ">
-        Fred Hutch 1100 Fairview Ave. N.
-        <br /> P.O. Box 19024, Seattle, WA 98109
-        <br />
-        <a style='color:#fff; text-decoration: none;' href="http://www.fredhutch.org/en/util/terms-privacy.html ">Terms
-          of Use &amp; Privacy Policy</a>
-      </div>
-      <div>
-        <div class='section-footer '>
-          <span class='footer-text '>
-            <a href=" https://twitter.com/oncoscape " target="_blank ">
-              <i class="fa fa-twitter-square fa-3x social "></i>
-            </a>
-            <a href="https://www.instagram.com/oncoscape/ " target="_blank ">
-              <i class="fa fa-instagram fa-3x social "></i>
-            </a>
-            <a href="https://www.facebook.com/STTRCancer/ " target="_blank ">
-              <i class="fa fa-facebook-square fa-3x social "></i>
-            </a>
-            <a href="mailto:contact-sttr@fredhutch.org " target="_blank ">
-              <i class="fa fa-envelope-square fa-3x social "></i>
-            </a>
-          </span>
+    <footer class='landing-footer '>
+      <div fxLayout='row ' fxLayout.sm='column ' fxLayout.xs='column ' fxLayoutAlign="space-between center ">
+        <div class="footer-text ">
+          Fred Hutch 1100 Fairview Ave. N.
+          <br /> P.O. Box 19024, Seattle, WA 98109
+          <br />
+          <a style='color:#fff; text-decoration: none;' href="http://www.fredhutch.org/en/util/terms-privacy.html ">Terms
+            of Use &amp; Privacy Policy</a>
+        </div>
+        <div>
+          <div class='section-footer '>
+            <span class='footer-text '>
+              <a href=" https://twitter.com/oncoscape " target="_blank ">
+                <i class="fa fa-twitter-square fa-3x social "></i>
+              </a>
+              <a href="https://www.instagram.com/oncoscape/ " target="_blank ">
+                <i class="fa fa-instagram fa-3x social "></i>
+              </a>
+              <a href="https://www.facebook.com/STTRCancer/ " target="_blank ">
+                <i class="fa fa-facebook-square fa-3x social "></i>
+              </a>
+              <a href="mailto:contact-sttr@fredhutch.org " target="_blank ">
+                <i class="fa fa-envelope-square fa-3x social "></i>
+              </a>
+            </span>
+          </div>
         </div>
       </div>
-    </div>
-  </footer>
+    </footer>
   -->
 </div>

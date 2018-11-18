@@ -1,6 +1,18 @@
 <div>
-  <span class="legendHeader">Selection Actions</span>
-  <button mat-stroked-button (click)="onClearSelection()">Clear</button>&nbsp;
-  <button mat-stroked-button (click)="onInvertSelection()">Invert</button>&nbsp;
-  <button mat-stroked-button (click)="onSaveSelection()">Save</button>
+  <span class="legendHeader">Selection</span>
+  <mat-form-field class="form-field " style="width:195px">
+    <mat-select placeholder="Commands" (selectionChange)="onAction($event)">
+      <mat-option value="clear">Clear Selection</mat-option>
+      <mat-option value="invert">Invert Selection</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-icon-button style="color:rgb(30, 136, 229)"><mat-icon>directions_run</mat-icon></button>
+  <mat-form-field class="form-field " style="width:195px">
+    <input matInput type="text" placeholder="Search" [(ngModel)]="cohortSearch" />
+  </mat-form-field>
+  <button mat-icon-button style="color:rgb(30, 136, 229)" (click)="onSearch()"><mat-icon>search</mat-icon></button>
+  <mat-form-field class="form-field " style="width:195px">
+    <input matInput type="text" placeholder="Save As Cohort" [(ngModel)]="cohortName" />
+  </mat-form-field>
+  <button mat-icon-button style="color:rgb(30, 136, 229)" (click)="onSaveSelection()"><mat-icon>save</mat-icon></button>
 </div>

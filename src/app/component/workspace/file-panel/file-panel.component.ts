@@ -36,12 +36,12 @@ export class FilePanelComponent {
 
   public onSelectedTabChange(e: MatTabChangeEvent): void {
     switch (e.tab.textLabel) {
-      case 'Validated':
+      case 'GDC':
         this.setDatasetsOncoscape();
         return;
-      case 'GDC':
-        this.setDatasetsGdc();
-        return;
+      // case 'GDC':
+      //   this.setDatasetsGdc();
+      //   return;
       case 'CBio':
         this.setDatasetsCBio();
         return;

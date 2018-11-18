@@ -28,9 +28,7 @@ import { WorkspaceConfigModel } from 'app/model/workspace.model';
 })
 export class InfoPanelComponent implements AfterViewInit, OnDestroy {
   static showDefault: EventEmitter<null> = new EventEmitter();
-  static showMessage: EventEmitter<
-    Array<{ key: string; value: string }>
-  > = new EventEmitter();
+  static showMessage: EventEmitter<Array<{ key: string; value: string }>> = new EventEmitter();
 
   private _workspaceConfig: WorkspaceConfigModel;
   private _graphAConfig: GraphConfig;
@@ -49,9 +47,8 @@ export class InfoPanelComponent implements AfterViewInit, OnDestroy {
     if (config === null) {
       return;
     }
-
+    // { key: 'Data Set', value: config.datasetName },
     this.message = this.graphAInfo = [
-      { key: 'Data Set', value: config.datasetName },
       { key: 'Data Table', value: config.table.label },
       { key: 'Analysis', value: config.label },
       { key: 'Cohort', value: config.cohortName },
