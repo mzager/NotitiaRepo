@@ -44,7 +44,7 @@
   letter-spacing: 8px;
   line-height: 30px;
   color: #fff !important;
-  font-weight: 300 !important;
+  font-weight: 500 !important;
   font-size: 1rem;
   text-transform: uppercase;
   padding-left: 25px;
@@ -57,16 +57,14 @@
   position: absolute;
   right: 3px;
   top: 0px;
-  line-height: 30px;
-  font-weight: 500 !important;
-  text-transform: uppercase;
-  letter-spacing: 1px;
 }
 
 .application-bar-button {
   cursor: pointer;
   line-height: 30px;
-  font-size: 12px;
+  font-weight: 500 !important;
+  text-transform: capitalize;
+  letter-spacing: 1px;
   color: #fff;
   text-align: center !important;
   margin: 0px 10px;

@@ -1,5 +1,5 @@
-<div>
-  <div class="statPanel">
+<div class="statPanel">
+  <div *ngIf="visible">
     <span class="legendHeader" style="padding-bottom:0px;">Distribution</span>
     <mat-form-field class="form-field " style="width:195px;">
       <mat-select [value]="metricSelected" [compareWith]="byName" (valueChange)="metricChangeManual($event)">
@@ -10,6 +10,6 @@
       <mat-icon *ngIf="!timerPaused">pause_circle_outline</mat-icon>
       <mat-icon *ngIf="timerPaused">play_circle_outline</mat-icon>
     </button>
-    <div #container class="statContainer"></div>
   </div>
+  <div #container class="statContainer"></div>
 </div>
