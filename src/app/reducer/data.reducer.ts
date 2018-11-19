@@ -8,6 +8,7 @@ import {
   DataUpdatePreprocessingAction
 } from './../action/data.action';
 import { DataField, DataTable } from './../model/data-field.model';
+import { DatasetDescription } from 'app/model/dataset-description.model';
 
 export interface State {
   // chromosome: DataChromosome;
@@ -19,6 +20,7 @@ export interface State {
   cohorts: Array<any>;
   preprocessings: Array<any>;
   events: Array<{ type: string; subtype: string }>;
+  description: DatasetDescription;
 }
 
 const initialState: State = {
@@ -30,7 +32,8 @@ const initialState: State = {
   pathways: [],
   genesets: [],
   cohorts: [],
-  preprocessings: []
+  preprocessings: [],
+  description: null
 };
 
 export function reducer(state = initialState, action: Action): State {
@@ -45,7 +48,8 @@ export function reducer(state = initialState, action: Action): State {
         dataset: dla.dataset,
         fields: dla.fields,
         tables: dla.tables,
-        events: dla.events
+        events: dla.events,
+        description: dla.datasetDesc
       });
     case data.DATA_UPDATE_COHORTS:
       const duc: DataUpdateCohortsAction = action as DataUpdateCohortsAction;
@@ -64,6 +68,7 @@ export function reducer(state = initialState, action: Action): State {
   }
 }
 
+export const getDatasetDescription = (state: State) => state.description;
 export const getPathways = (state: State) => state.pathways;
 export const getGenesets = (state: State) => state.genesets;
 export const getCohorts = (state: State) => state.cohorts;

@@ -3,19 +3,13 @@ import { LegendPanelComponent } from './../../workspace/legend-panel/legend-pane
 import { EventEmitter } from '@angular/core';
 import * as TWEEN from '@tweenjs/tween.js';
 import { ChartScene } from 'app/component/workspace/chart/chart.scene';
-import {
-  ChartEvents,
-  ChartEvent
-} from 'app/component/workspace/chart/chart.events';
+import { ChartEvents, ChartEvent } from 'app/component/workspace/chart/chart.events';
 import { AbstractVisualization } from './../visualization.abstract.component';
 import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
 import { GraphData } from 'app/model/graph-data.model';
 import * as THREE from 'three';
 import { Vector3, Raycaster } from 'three';
-import {
-  LabelController,
-  LabelOptions
-} from 'app/controller/label/label.controller';
+import { LabelController, LabelOptions } from 'app/controller/label/label.controller';
 import { ChartObjectInterface } from 'app/model/chart.object.interface';
 import { DataDecorator } from 'app/model/data-map.model';
 import { EntityTypeEnum, GraphEnum } from 'app/model/enum.model';
@@ -33,8 +27,8 @@ export class ScatterGraph extends AbstractVisualization {
   // NO NO - For Demo Only
   public static setTime = new EventEmitter<{ time: number; graph: string }>();
   public static setColorField = new EventEmitter<{
-    field: string;
-    graph: number;
+    field: any;
+    data: Array<number>;
   }>();
   public static setColorHighlight = new EventEmitter<THREE.BufferAttribute>();
   public static colorData: any = null;
@@ -64,13 +58,7 @@ export class ScatterGraph extends AbstractVisualization {
   private colors;
   private lastKey = 0;
   private legends: Array<Legend> = [
-    Legend.create(
-      'Data Points',
-      ['Samples'],
-      ['./assets/shapes/shape-circle-solid-legend.png'],
-      'SHAPE',
-      'DISCRETE'
-    ),
+    Legend.create('Data Points', ['Samples'], ['./assets/shapes/shape-circle-solid-legend.png'], 'SHAPE', 'DISCRETE'),
     Legend.create('Color', [], [], 'COLOR', 'DISCRETE')
   ];
 
@@ -174,11 +162,7 @@ export class ScatterGraph extends AbstractVisualization {
   }
 
   // Private Subscriptions
-  create(
-    labels: HTMLElement,
-    events: ChartEvents,
-    view: VisualizationView
-  ): ChartObjectInterface {
+  create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
     super.create(labels, events, view);
     this.events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
     this.events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
@@ -188,43 +172,44 @@ export class ScatterGraph extends AbstractVisualization {
     this.lines = [];
     ScatterGraph.setColorField.subscribe(this.onSetColorField.bind(this));
     ScatterGraph.setTime.subscribe(this.onSetTime.bind(this));
-    ScatterGraph.setColorHighlight.subscribe(
-      this.onSetColorHighlight.bind(this)
-    );
+    ScatterGraph.setColorHighlight.subscribe(this.onSetColorHighlight.bind(this));
     return this;
   }
-  onSetColorField(e: { field: string; graph: number }): void {
-    if (e.graph !== this.config.graph) {
-      return;
-    }
-
-    const fieldValues = ScatterGraph.colorData.values[e.field];
-    const ci =
-      ScatterGraph.colorData.labels[e.field].length > this.colorIndex.length
-        ? this.colorIndex2
-        : this.colorIndex;
-    this.legends[1].name = e.field;
-    this.legends[1].labels = ScatterGraph.colorData.labels[e.field];
-    this.legends[1].labels.push('NA');
-    this.legends[1].values = ci.map(this.toHex);
-
-    const clusterColorIndex = fieldValues.map(v => ci[v]);
-    const l = this._data.resultScaled.length;
-    LegendPanelComponent.setLegends.emit({
-      legend: this.legends,
-      graph: this.config.graph
-    });
+  onSetColorField(e: { field: any; data: Array<number> }): void {
+    // if (e.graph !== this.config.graph) {
+    //   return;
+    // }
+    const clusterColorIndex = e.data.map(v => this.colorIndex2[v]);
+    const l = e.data.length;
     for (let i = 0; i < l; i++) {
       const colorValues = clusterColorIndex[i];
       this.colors[i * 3] = colorValues[0];
       this.colors[i * 3 + 1] = colorValues[1];
       this.colors[i * 3 + 2] = colorValues[2];
     }
-    // const cd = ScatterGraph.colorData;
-    this.geometry.addAttribute(
-      'customColor',
-      new THREE.BufferAttribute(this.colors, 3)
-    );
+
+    // const fieldValues = ScatterGraph.colorData.values[e.field];
+    // const ci =
+    //   ScatterGraph.colorData.labels[e.field].length > this.colorIndex.length ? this.colorIndex2 : this.colorIndex;
+    // this.legends[1].name = e.field;
+    // this.legends[1].labels = ScatterGraph.colorData.labels[e.field];
+    // this.legends[1].labels.push('NA');
+    // this.legends[1].values = ci.map(this.toHex);
+
+    // const clusterColorIndex = fieldValues.map(v => ci[v]);
+    // const l = this._data.resultScaled.length;
+    // LegendPanelComponent.setLegends.emit({
+    //   legend: this.legends,
+    //   graph: this.config.graph
+    // });
+    // for (let i = 0; i < l; i++) {
+    //   const colorValues = clusterColorIndex[i];
+    //   this.colors[i * 3] = colorValues[0];
+    //   this.colors[i * 3 + 1] = colorValues[1];
+    //   this.colors[i * 3 + 2] = colorValues[2];
+    // }
+    // // const cd = ScatterGraph.colorData;
+    this.geometry.addAttribute('customColor', new THREE.BufferAttribute(this.colors, 3));
     ChartScene.instance.render();
   }
 
@@ -262,15 +247,7 @@ export class ScatterGraph extends AbstractVisualization {
     // }
     if (e.keyCode >= 49 && e.keyCode <= 53) {
       const numClusters =
-        e.keyCode === 49
-          ? 17
-          : e.keyCode === 50
-            ? 3
-            : e.keyCode === 51
-              ? 5
-              : e.keyCode === 52
-                ? 7
-                : 9;
+        e.keyCode === 49 ? 17 : e.keyCode === 50 ? 3 : e.keyCode === 51 ? 5 : e.keyCode === 52 ? 7 : 9;
       const d = this._data;
       const clusters = kmeans(this._data.resultScaled, numClusters);
 
@@ -283,16 +260,11 @@ export class ScatterGraph extends AbstractVisualization {
         this.colors[i * 3 + 2] = colorValues[2];
       }
 
-      ScatterGraph.setColorHighlight.emit(
-        new THREE.BufferAttribute(this.colors, 3)
-      );
+      ScatterGraph.setColorHighlight.emit(new THREE.BufferAttribute(this.colors, 3));
     }
   }
   onMouseUp(e: ChartEvent): void {
-    this.geometry.addAttribute(
-      'customColor',
-      new THREE.BufferAttribute(this.colors, 3)
-    );
+    this.geometry.addAttribute('customColor', new THREE.BufferAttribute(this.colors, 3));
     ChartScene.instance.render();
   }
   onMouseDown(e: ChartEvent): void {
@@ -323,9 +295,7 @@ export class ScatterGraph extends AbstractVisualization {
         }
       }
 
-      ScatterGraph.setColorHighlight.emit(
-        new THREE.BufferAttribute(tempColors, 3)
-      );
+      ScatterGraph.setColorHighlight.emit(new THREE.BufferAttribute(tempColors, 3));
       // this.geometry.addAttribute(
       //   'customColor',
       //   new THREE.BufferAttribute(tempColors, 3)
@@ -352,8 +322,7 @@ export class ScatterGraph extends AbstractVisualization {
   }
 
   addObjects(type: EntityTypeEnum) {
-    const propertyId =
-      this._config.entity === EntityTypeEnum.GENE ? 'mid' : 'sid';
+    const propertyId = this._config.entity === EntityTypeEnum.GENE ? 'mid' : 'sid';
     const objectIds = this._data[propertyId];
 
     const inheritColorPosition = this.geometry;
@@ -370,8 +339,7 @@ export class ScatterGraph extends AbstractVisualization {
       return Math.floor(Math.random() * (max - min)) + min;
     };
     if (inheritColorPosition) {
-      positionsFrom = this.geometry.getAttribute('position')
-        .array as Float32Array;
+      positionsFrom = this.geometry.getAttribute('position').array as Float32Array;
     } else {
       this.colors = new Float32Array(dataLength * 3);
     }
@@ -392,19 +360,10 @@ export class ScatterGraph extends AbstractVisualization {
     }
 
     this.geometry = new THREE.BufferGeometry();
-    this.geometry.addAttribute(
-      'positionFrom',
-      new THREE.BufferAttribute(positionsFrom, 3)
-    );
+    this.geometry.addAttribute('positionFrom', new THREE.BufferAttribute(positionsFrom, 3));
 
-    this.geometry.addAttribute(
-      'position',
-      new THREE.BufferAttribute(positions, 3)
-    );
-    this.geometry.addAttribute(
-      'customColor',
-      new THREE.BufferAttribute(this.colors, 3)
-    );
+    this.geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
+    this.geometry.addAttribute('customColor', new THREE.BufferAttribute(this.colors, 3));
     this.geometry.addAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
     this.material = new THREE.ShaderMaterial({
@@ -443,10 +402,7 @@ export class ScatterGraph extends AbstractVisualization {
 
     ChartFactory.configPerspectiveOrbit(
       this.view,
-      new THREE.Box3(
-        new Vector3(-250, -250, -250),
-        new THREE.Vector3(250, 250, 250)
-      )
+      new THREE.Box3(new Vector3(-250, -250, -250), new THREE.Vector3(250, 250, 250))
     );
   }
   constructor() {

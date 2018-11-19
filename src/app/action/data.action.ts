@@ -5,6 +5,7 @@ import { Preprocessing } from './../model/preprocessing.model';
 import { UnsafeAction } from './unsafe.action';
 import { DataField, DataTable } from './../model/data-field.model';
 import { Action } from '@ngrx/store';
+import { DatasetDescription } from 'app/model/dataset-description.model';
 
 // Action Constants
 export const DATA_LOAD_FROM_DEXIE = '[Data] Load From Dexie';
@@ -26,7 +27,6 @@ export const DATA_QUERY_COHORT = '[Data] Query Cohort';
 export const DATA_UPDATE_PREPROCESSING = '[Data] Update Preprocessing';
 export const DATA_ADD_PREPROCESSING = '[Data] Add Preprocessing';
 export const DATA_DEL_PREPROCESSING = '[Data] Del Preprocessing';
-
 
 // Action Classes
 export class DataLoadFromDexieAction implements Action {
@@ -113,9 +113,10 @@ export class DataLoadedAction implements UnsafeAction {
     public events: Array<{ type: string; subtype: string }>,
     public genesets: Array<any>,
     public cohorts: Array<any>,
-    public preprocessings: Array<any>,
     public pathways: Array<any>,
-    public datasetName: string
+    public preprocessings: Array<any>,
+    public datasetName: string,
+    public datasetDesc: DatasetDescription
   ) {}
 }
 
@@ -145,4 +146,3 @@ export type Actions =
   | DataAddPreprocessingAction
   | DataDelPreprocessingAction
   | DataUpdatePreprocessingAction;
-

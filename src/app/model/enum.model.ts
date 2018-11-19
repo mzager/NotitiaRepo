@@ -1,6 +1,29 @@
 /*
     Contains Enumerations
 */
+export const enum PreprocessingType {
+  NUMERIC = 1 << 0,
+  CATEGORICAL = 1 << 1
+}
+export const enum PreprocessingMethod {
+  BINARIZER = 1 << 0,
+  K_BINS_DISCRETIZER = 1 << 1,
+  KERNEL_CENTERER = 1 << 2,
+  LABEL_BINARIZER = 1 << 3,
+  LABEL_ENCODER = 1 << 4,
+  MULTI_LABEL_BINARIZER = 1 << 5,
+  MAX_ABS_SCALER = 1 << 6,
+  MIN_MAX_SCALER = 1 << 7,
+  NORMALIZER = 1 << 8,
+  ONE_HOT_ENCODER = 1 << 9,
+  ORDINAL_ENCODER = 1 << 10,
+  POLYNOMIAL_FEATURES = 1 << 11,
+  POWER_TRANSFORMER = 1 << 12,
+  QUANTILE_TRANSFORMER = 1 << 13,
+  ROBUST_SCALER = 1 << 14,
+  STANDARD_SCALER = 1 << 15
+}
+
 export const Colors = [
   0x00ff00,
   0xd50000,
@@ -154,9 +177,7 @@ export const enum CollectionTypeEnum {
   GENE_NAME = 1 << 17,
   MATRIX = 1 << 18,
   // tslint:disable-next-line:no-bitwise
-  EXP = CollectionTypeEnum.PROTEIN |
-    CollectionTypeEnum.MIRNA |
-    CollectionTypeEnum.MRNA,
+  EXP = CollectionTypeEnum.PROTEIN | CollectionTypeEnum.MIRNA | CollectionTypeEnum.MRNA,
   // Molec Data Field Tables (use to determine the color options and decorators)
   MOLEC_DATA_FIELD_TABLES = CollectionTypeEnum.RNA |
     CollectionTypeEnum.MRNA |
@@ -232,10 +253,7 @@ export class ConnectionTypeEnum {
   static readonly SAMPLES_PATIENTS = 'PATIENTS-SAMPLES';
   static readonly GENES_SAMPLES = 'GENES-SAMPLES';
   static readonly GENES_PATIENTS = 'GENES-PATIENTS';
-  static createFromEntities(
-    entityA: EntityTypeEnum,
-    entityB: EntityTypeEnum
-  ): ConnectionTypeEnum {
+  static createFromEntities(entityA: EntityTypeEnum, entityB: EntityTypeEnum): ConnectionTypeEnum {
     const entities = [entityA, entityB]
       .sort()
       .map(v => v.toString().toUpperCase())
@@ -354,12 +372,12 @@ export const enum VisualizationEnum {
   PLSREGRESSION = 140737488355328,
   PLSCANONICAL = 281474976710656,
   CCA = 562949953421312,
-  LINEAR_SVC = 1.12589990684262E15,
-  LINEAR_SVR = 2.25179981368524E15,
-  NU_SVC =  4.50359962737048E15,
-  NU_SVR =  9.00719925474096E15,
-  ONE_CLASS_SVM =  1.439850948E27,
-  SVR = 2.879701896E27
+  LINEAR_SVC = 1.12589990684262e15,
+  LINEAR_SVR = 2.25179981368524e15,
+  NU_SVC = 4.50359962737048e15,
+  NU_SVR = 9.00719925474096e15,
+  ONE_CLASS_SVM = 1.439850948e27,
+  SVR = 2.879701896e27
 }
 
 // Visibility

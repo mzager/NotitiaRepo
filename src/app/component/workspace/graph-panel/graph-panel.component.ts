@@ -1,3 +1,4 @@
+import { ChartSelection } from './../../../model/chart-selection.model';
 import { SelectionToolConfig } from 'app/model/selection-config.model';
 import { ScatterConfigModel } from './../../visualization/scatter/scatter.model';
 import { UmapConfigModel } from './../../visualization/umap/umap.model';
@@ -25,7 +26,7 @@ import { DataService } from 'app/service/data.service';
 import { WorkspaceConfigModel } from '../../../model/workspace.model';
 import { HistogramConfigModel } from '../../visualization/histogram/histogram.model';
 import { DataTable } from './../../../model/data-field.model';
-import { DataDecorator } from './../../../model/data-map.model';
+import { DataDecorator, DataDecoratorTypeEnum, DataDecoratorValue } from './../../../model/data-map.model';
 import { EntityTypeEnum, PanelEnum, WorkspaceLayoutEnum } from './../../../model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { ModalService } from './../../../service/modal-service';
@@ -75,6 +76,7 @@ import { SVRConfigModel } from './../../visualization/svr/svr.model';
 import { NuSVCConfigModel } from './../../visualization/nusvc/nusvc.model';
 import { OneClassSVMConfigModel } from './../../visualization/oneclasssvm/oneclasssvm.model';
 import { MatTabChangeEvent } from '@angular/material';
+import { DatasetDescription } from 'app/model/dataset-description.model';
 declare var $: any;
 
 @Component({
@@ -90,6 +92,8 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   // @ViewChild('panelButton')
   // panelButton: ElementRef;
 
+  @Input()
+  datasetDescription: DatasetDescription;
   @Input()
   title: string;
   @Input()
@@ -114,8 +118,8 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   colorCluster: EventEmitter<GraphConfig> = new EventEmitter();
   @Output()
   configChange: EventEmitter<GraphConfig> = new EventEmitter();
-  @Output()
-  selectClusteringAlgorithm: EventEmitter<GraphConfig> = new EventEmitter();
+  // @Output()
+  // selectClusteringAlgorithm: EventEmitter<GraphConfig> = new EventEmitter();
   @Output()
   selectGeneSignature: EventEmitter<GraphConfig> = new EventEmitter();
   @Output()
@@ -123,10 +127,15 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   @Output()
   selectCohort: EventEmitter<any> = new EventEmitter();
   @Output()
-  selectionToolChange: EventEmitter<{
-    config: GraphConfig;
-    selectionTool: SelectionToolConfig;
+  saveSelection: EventEmitter<{
+    name: string;
+    selection: ChartSelection;
   }> = new EventEmitter();
+  // @Output()
+  // selectionToolChange: EventEmitter<{
+  //   config: GraphConfig;
+  //   selectionTool: SelectionToolConfig;
+  // }> = new EventEmitter();
   @Output()
   decoratorAdd: EventEmitter<{
     config: GraphConfig;
@@ -216,18 +225,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this._config = value;
   }
 
-  // toggleClick(): void {
-  //   if (this.panel.nativeElement.classList.contains('graphPanelCollapsed')) {
-  //     this.panel.nativeElement.classList.remove('graphPanelCollapsed');
-  //     this.panelButton.nativeElement.classList.remove(
-  //       'graphPanelCollapsedButton'
-  //     );
-  //   } else {
-  //     this.panel.nativeElement.classList.add('graphPanelCollapsed');
-  //     this.panelButton.nativeElement.classList.add('graphPanelCollapsedButton');
-  //   }
-  // }
-
   public panelShow(panel: string): void {
     this.isCollapsed = false;
     this.cd.markForCheck();
@@ -242,12 +239,6 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     this.help.emit(this.config);
   }
 
-  onSelectionToolChange(config: SelectionToolConfig): void {
-    this.selectionToolChange.emit({
-      config: this.config,
-      selectionTool: config
-    });
-  }
   onCohortChange($event: Event) {
     const selected = this.cohorts.find(v => v.n === $event.target['value']);
     this.config.patientFilter = selected.pids;
@@ -268,6 +259,23 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
       const visualizationEnumValue = parseInt(el.value, 10);
       this.setVisualization(visualizationEnumValue);
     }
+  }
+
+  onClearSelection(): void {
+    const selectionDecorator = this.decorators.filter(v => v.type === DataDecoratorTypeEnum.SELECT)[0];
+    this.decoratorDel.emit({ config: this._config, decorator: selectionDecorator });
+  }
+  onSaveSelection(e: { graph: GraphConfig; name: string }): void {
+    const selectionDecorator = this.decorators.find(v => v.type === DataDecoratorTypeEnum.SELECT);
+    if (selectionDecorator === null) {
+      alert('Unable to save empty selection');
+      return;
+    }
+    const type = selectionDecorator.values[0].key;
+    const key = type === EntityTypeEnum.SAMPLE ? 'sid' : 'mid';
+    const ids = selectionDecorator.values.map(v => v[key]);
+    const chartSelection: ChartSelection = { type: type, ids: ids };
+    this.saveSelection.emit({ name: e.name, selection: chartSelection });
   }
 
   // onDecoratorAdd(decorator: DataDecorator) {

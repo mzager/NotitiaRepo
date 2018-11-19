@@ -147,12 +147,34 @@ export const getEdgeDecorators = createSelector(
 
 // Data Reducer
 export const getDataState = (state: State) => state.data;
-export const getFields = createSelector(getDataState, fromData.getFields);
-export const getTables = createSelector(getDataState, fromData.getTables);
-export const getEvents = createSelector(getDataState, fromData.getEvents);
-export const getPathways = createSelector(getDataState, fromData.getPathways);
-export const getGenesets = createSelector(getDataState, fromData.getGenesets);
-export const getCohorts = createSelector(getDataState, fromData.getCohorts);
+export const getFields = createSelector(
+  getDataState,
+  fromData.getFields
+);
+export const getTables = createSelector(
+  getDataState,
+  fromData.getTables
+);
+export const getEvents = createSelector(
+  getDataState,
+  fromData.getEvents
+);
+export const getPathways = createSelector(
+  getDataState,
+  fromData.getPathways
+);
+export const getGenesets = createSelector(
+  getDataState,
+  fromData.getGenesets
+);
+export const getCohorts = createSelector(
+  getDataState,
+  fromData.getCohorts
+);
+export const getDatasetDescription = createSelector(
+  getDataState,
+  fromData.getDatasetDescription
+);
 
 // Select Reducer
 export const getSelectState = (state: State) => state.select;
@@ -185,7 +207,10 @@ export const getHelpConfigState = createSelector(
 
 // User Reducer
 export const getUserState = (state: State) => state.user;
-export const getUserData = createSelector(getUserState, fromUser.getUserData);
+export const getUserData = createSelector(
+  getUserState,
+  fromUser.getUserData
+);
 export const getUserDataSets = createSelector(
   getUserState,
   fromUser.getUserDataSets
@@ -197,6 +222,15 @@ export const getTipVisualization = createSelector(
   getTipState,
   fromTip.getTipVisualization
 );
-export const getTipEnabled = createSelector(getTipState, fromTip.getTipEnabled);
-export const getTipVisible = createSelector(getTipState, fromTip.getTipVisible);
-export const getTip = createSelector(getTipState, fromTip.getTip);
+export const getTipEnabled = createSelector(
+  getTipState,
+  fromTip.getTipEnabled
+);
+export const getTipVisible = createSelector(
+  getTipState,
+  fromTip.getTipVisible
+);
+export const getTip = createSelector(
+  getTipState,
+  fromTip.getTip
+);

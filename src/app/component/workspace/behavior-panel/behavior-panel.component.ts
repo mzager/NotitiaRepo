@@ -29,21 +29,40 @@ export class BehaviorPanelComponent implements AfterViewInit {
   @Output()
   invertSelection: EventEmitter<GraphConfig> = new EventEmitter();
   @Output()
-  saveSelection: EventEmitter<GraphConfig> = new EventEmitter();
+  saveSelection: EventEmitter<{ config: GraphConfig; name: string }> = new EventEmitter();
+  @Output()
+  searchSelection: EventEmitter<GraphConfig> = new EventEmitter();
 
   private _config: GraphConfig;
   public form: FormGroup;
+
+  public cohortSearch = '';
+  public cohortName = '';
+
   private _selectionToolConfig: SelectionToolConfig;
   public selectionTypes: Array<SelectionToolConfig> = [];
 
-  private onClearSelection(): void {
-    this.clearSelection.emit(this._config);
+  private onAction($event: MatSelectChange): void {
+    if ($event.value === null) {
+      return;
+    }
+    switch ($event.source.value) {
+      case 'clear':
+        this.clearSelection.emit(this._config);
+        break;
+      case 'invert':
+        this.invertSelection.emit(this._config);
+        break;
+    }
+    $event.source.value = null;
   }
-  private onInvertSelection(): void {
-    this.invertSelection.emit(this._config);
-  }
+
+  private onSearch(): void {}
+
   private onSaveSelection(): void {
-    this.saveSelection.emit(this._config);
+    const cohortName = this.cohortName;
+    this.cohortName = '';
+    this.saveSelection.emit({ config: this._config, name: cohortName });
   }
 
   @Input()
@@ -73,7 +92,6 @@ export class BehaviorPanelComponent implements AfterViewInit {
   ngAfterViewInit(): void {}
 
   constructor(private fb: FormBuilder, public cd: ChangeDetectorRef) {
-    console.log('hi');
     this.form = this.fb.group({
       navigation: [],
       selection: []

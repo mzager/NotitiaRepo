@@ -1,173 +1,402 @@
-<div class='graphPanel' *ngIf='config' [ngClass]="title === 'Graph B' ? 'graphPanelRight' : 'graphPanelLeft'"
-  style='pointer-events:all;'>
-  <!-- <div #panelButton class="graphPanelExpandedButton">
+<div
+  class="graphPanel"
+  *ngIf="config"
+  [ngClass]="title === 'Graph B' ? 'graphPanelRight' : 'graphPanelLeft'"
+  style="pointer-events:all;"
+>
+  <!--
+    <div #panelButton class="graphPanelExpandedButton">
         <a (click)='toggleClick()'>
             <i class="material-icons small" style='color:rgba(0, 0, 0, 0.54);'>expand_less</i>
         </a>
-    </div> -->
-  <mat-tab-group style='width:275px; background:rgba(255,255,255,.9)' (selectedTabChange)='panelHide($event)'>
+    </div>
+  -->
+  <mat-tab-group style="width:275px; background:rgba(255,255,255,.9)" (selectedTabChange)="panelHide($event)">
     <mat-tab label="Analysis">
       <ng-template mat-tab-label>
         <mat-icon class="example-tab-icon">bar_chart</mat-icon>
-        <div class='mat-tab-custom-lbl'>Analysis</div>
+        <div class="mat-tab-custom-lbl">Analysis</div>
       </ng-template>
-      <span class='legendHeader'>Current Analysis: {{methodName}}</span>
-      <p>{{methodSummary}} <a href='#' (click)='helpClick()' class='os-link'>Learn More</a></p>
-      <span class='legendHeader'>Availible Analysis</span>
-      <app-graph-panel-analysis (select)='setVisualization($event)'></app-graph-panel-analysis>
+      <span class="legendHeader">Current Analysis: {{ methodName }}</span>
+      <p>{{ methodSummary }} <a href="#" (click)="helpClick()" class="os-link">Learn More</a></p>
+      <span class="legendHeader">Available Analysis</span>
+      <app-graph-panel-analysis
+        [datasetDescription]="datasetDescription"
+        (select)="setVisualization($event)"
+      ></app-graph-panel-analysis>
     </mat-tab>
     <mat-tab label="Legend">
       <ng-template mat-tab-label>
         <mat-icon class="example-tab-icon">list</mat-icon>
-        <div class='mat-tab-custom-lbl'>Legend</div>
+        <div class="mat-tab-custom-lbl">Legend</div>
       </ng-template>
-      <span class='legendHeader'>Configure Legend</span>
-      <app-graph-panel-visualization [config]='config' [tables]='tables' [fields]='fields'
-        (decoratorAdd)='decoratorAdd.emit($event)' (decoratorDel)='decoratorDel.emit($event)'></app-graph-panel-visualization>
-      <app-workspace-legend-panel [config]='config' [legends]='data.legends' [decorators]='decoratorsWithLegends'></app-workspace-legend-panel>
+      <span class="legendHeader">Configure Color, Shapes &amp; Labels</span>
+      <app-graph-panel-visualization
+        [config]="config"
+        [tables]="tables"
+        [fields]="fields"
+        (decoratorAdd)="decoratorAdd.emit($event)"
+        (decoratorDel)="decoratorDel.emit($event)"
+      ></app-graph-panel-visualization>
+      <app-workspace-legend-panel
+        [config]="config"
+        [legends]="data.legends"
+        [decorators]="decoratorsWithLegends"
+      ></app-workspace-legend-panel>
     </mat-tab>
     <mat-tab label="Settings">
       <ng-template mat-tab-label>
         <mat-icon class="example-tab-icon">tune</mat-icon>
-        <div class='mat-tab-custom-lbl'>Settings</div>
+        <div class="mat-tab-custom-lbl">Settings</div>
       </ng-template>
       <ng-template matTabContent>
-        <span class='legendHeader'>{{methodName}} Settings</span>
-        <app-graph-panel-data [config]='config' [genesets]='genesets' [cohorts]='cohorts'
-          [pathways]='pathways' (showPanel)='showPanel.emit($event);' (configChange)='graphPanelSetConfig($event)'></app-graph-panel-data>
+        <span class="legendHeader">{{ methodName }} Settings</span>
+        <app-graph-panel-data
+          [config]="config"
+          [genesets]="genesets"
+          [cohorts]="cohorts"
+          [pathways]="pathways"
+          (showPanel)="showPanel.emit($event)"
+          (configChange)="graphPanelSetConfig($event)"
+        ></app-graph-panel-data>
         <ng-content></ng-content>
-        <app-pathways-form *ngIf='config && config.visualization === 256' (configChange)='graphPanelSetConfig($event)'
-          [config]='config'></app-pathways-form>
-        <app-timelines-form *ngIf='config && config.visualization === 128' (configChange)='graphPanelSetConfig($event)'
-          [fields]='fields' [events]='events' [config]='config'></app-timelines-form>
-        <app-genome-form *ngIf='config && config.visualization === 2147483648' (configChange)='graphPanelSetConfig($event)'
-          [fields]='fields' [config]='config' [tables]='tables'></app-genome-form>
-        <app-chromosome-form *ngIf='config && config.visualization === 3' (configChange)='graphPanelSetConfig($event)'
-          [fields]='fields' [tables]='tables' [config]='config'></app-chromosome-form>
-        <app-survival-form *ngIf='config && config.visualization === 16' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [cohorts]='cohorts'></app-survival-form>
-        <app-hazard-form *ngIf='config && config.visualization === 4398046511104' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [cohorts]='cohorts'></app-hazard-form>
-        <app-pca-form *ngIf='config && config.visualization === 1' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-pca-form>
-        <app-tsne-form *ngIf='config && config.visualization === 4' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-tsne-form>
-        <app-umap-form *ngIf='config && config.visualization === 17592186044416' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-umap-form>
-        <app-scatter-form *ngIf='config && config.visualization === 35184372088832' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-scatter-form>
-        <app-pls-form *ngIf='config && config.visualization === 2' [config]='config'></app-pls-form>
-        <app-heatmap-form *ngIf='config && config.visualization === 32' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables'></app-heatmap-form>
-        <app-dendogram-form *ngIf='config && config.visualization === 549755813888' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables'></app-dendogram-form>
-        <app-boxwhiskers-form *ngIf='config && config.visualization === 4294967296' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-boxwhiskers-form>
-        <app-parallelcoords-form *ngIf='config && config.visualization === 8589934592'
-          (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-parallelcoords-form>
-        <app-linked-gene-form *ngIf='config && config.visualization === 1073741824' (configChange)='graphPanelSetConfig($event)'
-          [config]='config'></app-linked-gene-form>
-        <app-histogram-form *ngIf='config && config.visualization === 65' (configChange)='graphPanelSetConfig($event)'
-          [config]='config'></app-histogram-form>
-        <app-hic-form *ngIf='config && config.visualization === 17179869184' (configChange)='graphPanelSetConfig($event)'
-          [config]='config'></app-hic-form>
-        <app-som-form *ngIf='config && config.visualization === 4096' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [molecularData]='molecularData'></app-som-form>
-        <app-mds-form *ngIf='config && config.visualization === 8192' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-mds-form>
-        <app-fa-form *ngIf='config && config.visualization === 65536' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-fa-form>
-        <app-fastica-form *ngIf='config && config.visualization === 8388608' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-fastica-form>
-        <app-truncatedsvd-form *ngIf='config && config.visualization === 131072' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-truncatedsvd-form>
-        <app-lda-form *ngIf='config && config.visualization === 33554432' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-lda-form>
-        <app-nmf-form *ngIf='config && config.visualization === 67108864' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-nmf-form>
-        <app-dictionarylearning-form *ngIf='config && config.visualization === 16777216'
-          (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-dictionarylearning-form>
-        <app-pcakernal-form *ngIf='config && config.visualization === 524288' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-pcakernal-form>
-        <app-pcaincremental-form *ngIf='config && config.visualization === 262144' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-pcaincremental-form>
-        <app-pcasparse-form *ngIf='config && config.visualization === 1048576' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-pcasparse-form>
-        <app-isomap-form *ngIf='config && config.visualization === 134217728' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-isomap-form>
-        <app-plssvd-form *ngIf='config && config.visualization === 70368744177664' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-plssvd-form>
-        <app-linearsvc-form *ngIf='config && config.visualization === 1.12589990684262E15'
-          (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-linearsvc-form>
-        <app-linearsvr-form *ngIf='config && config.visualization === 2.25179981368524E15'
-          (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-linearsvr-form>
-        <app-nusvr-form *ngIf='config && config.visualization === 9.00719925474096E15'
-          (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-nusvr-form>
-        <app-nusvc-form *ngIf='config && config.visualization === 4.50359962737048E15'
-          (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-nusvc-form>
-        <app-svr-form *ngIf='config && config.visualization === 2.879701896E27' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-svr-form>
-        <app-oneclasssvm-form *ngIf='config && config.visualization === 1.439850948E27'
-          (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-oneclasssvm-form>
-        <app-cca-form *ngIf='config && config.visualization === 562949953421312' (configChange)='graphPanelSetConfig($event)'
-          [config]='config' [tables]='tables' [fields]='fields'></app-cca-form>
-        <app-plsregression-form *ngIf='config && config.visualization === 140737488355328'
-          (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-plsregression-form>
-        <app-plscanonical-form *ngIf='config && config.visualization === 281474976710656'
-          (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-plscanonical-form>
-        <app-locallinearembedding-form *ngIf='config && config.visualization === 268435456'
-          (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-locallinearembedding-form>
-        <app-spectralembedding-form *ngIf='config && config.visualization === 536870912'
-          (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-spectralembedding-form>
-        <app-quadradicdiscriminantanalysis-form *ngIf='config && config.visualization === 274877906944'
-          (configChange)='graphPanelSetConfig($event)' [config]='config' [tables]='tables' [fields]='fields'></app-quadradicdiscriminantanalysis-form>
-      </ng-template>
-    </mat-tab>
-    <mat-tab label="Settings">
-      <ng-template mat-tab-label>
-        <mat-icon class="example-tab-icon">trending_up</mat-icon>
-        <div class='mat-tab-custom-lbl'>Stats</div>
-      </ng-template>
-      <ng-template matTabContent>
-        <span class='legendHeader'>{{methodName}} Statistics</span>
-        <app-workspace-stat-panel [config]='config' [graphData]='data' [type]='"TOOL"'></app-workspace-stat-panel>
+        <app-pathways-form
+          *ngIf="config && config.visualization === 256"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+        ></app-pathways-form>
+        <app-timelines-form
+          *ngIf="config && config.visualization === 128"
+          (configChange)="graphPanelSetConfig($event)"
+          [fields]="fields"
+          [events]="events"
+          [config]="config"
+        ></app-timelines-form>
+        <app-genome-form
+          *ngIf="config && config.visualization === 2147483648"
+          (configChange)="graphPanelSetConfig($event)"
+          [fields]="fields"
+          [config]="config"
+          [tables]="tables"
+        ></app-genome-form>
+        <app-chromosome-form
+          *ngIf="config && config.visualization === 3"
+          (configChange)="graphPanelSetConfig($event)"
+          [fields]="fields"
+          [tables]="tables"
+          [config]="config"
+        ></app-chromosome-form>
+        <app-survival-form
+          *ngIf="config && config.visualization === 16"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [cohorts]="cohorts"
+        ></app-survival-form>
+        <app-hazard-form
+          *ngIf="config && config.visualization === 4398046511104"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [cohorts]="cohorts"
+        ></app-hazard-form>
+        <app-pca-form
+          *ngIf="config && config.visualization === 1"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-pca-form>
+        <app-tsne-form
+          *ngIf="config && config.visualization === 4"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-tsne-form>
+        <app-umap-form
+          *ngIf="config && config.visualization === 17592186044416"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-umap-form>
+        <app-scatter-form
+          *ngIf="config && config.visualization === 35184372088832"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-scatter-form>
+        <app-pls-form *ngIf="config && config.visualization === 2" [config]="config"></app-pls-form>
+        <app-heatmap-form
+          *ngIf="config && config.visualization === 32"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+        ></app-heatmap-form>
+        <app-dendogram-form
+          *ngIf="config && config.visualization === 549755813888"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+        ></app-dendogram-form>
+        <app-boxwhiskers-form
+          *ngIf="config && config.visualization === 4294967296"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-boxwhiskers-form>
+        <app-parallelcoords-form
+          *ngIf="config && config.visualization === 8589934592"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-parallelcoords-form>
+        <app-linked-gene-form
+          *ngIf="config && config.visualization === 1073741824"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+        ></app-linked-gene-form>
+        <app-histogram-form
+          *ngIf="config && config.visualization === 65"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+        ></app-histogram-form>
+        <app-hic-form
+          *ngIf="config && config.visualization === 17179869184"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+        ></app-hic-form>
+        <app-som-form
+          *ngIf="config && config.visualization === 4096"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [molecularData]="molecularData"
+        ></app-som-form>
+        <app-mds-form
+          *ngIf="config && config.visualization === 8192"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-mds-form>
+        <app-fa-form
+          *ngIf="config && config.visualization === 65536"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-fa-form>
+        <app-fastica-form
+          *ngIf="config && config.visualization === 8388608"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-fastica-form>
+        <app-truncatedsvd-form
+          *ngIf="config && config.visualization === 131072"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-truncatedsvd-form>
+        <app-lda-form
+          *ngIf="config && config.visualization === 33554432"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-lda-form>
+        <app-nmf-form
+          *ngIf="config && config.visualization === 67108864"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-nmf-form>
+        <app-dictionarylearning-form
+          *ngIf="config && config.visualization === 16777216"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-dictionarylearning-form>
+        <app-pcakernal-form
+          *ngIf="config && config.visualization === 524288"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-pcakernal-form>
+        <app-pcaincremental-form
+          *ngIf="config && config.visualization === 262144"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-pcaincremental-form>
+        <app-pcasparse-form
+          *ngIf="config && config.visualization === 1048576"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-pcasparse-form>
+        <app-isomap-form
+          *ngIf="config && config.visualization === 134217728"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-isomap-form>
+        <app-plssvd-form
+          *ngIf="config && config.visualization === 70368744177664"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-plssvd-form>
+        <app-linearsvc-form
+          *ngIf="config && config.visualization === 1.12589990684262e15"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-linearsvc-form>
+        <app-linearsvr-form
+          *ngIf="config && config.visualization === 2.25179981368524e15"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-linearsvr-form>
+        <app-nusvr-form
+          *ngIf="config && config.visualization === 9.00719925474096e15"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-nusvr-form>
+        <app-nusvc-form
+          *ngIf="config && config.visualization === 4.50359962737048e15"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-nusvc-form>
+        <app-svr-form
+          *ngIf="config && config.visualization === 2.879701896e27"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-svr-form>
+        <app-oneclasssvm-form
+          *ngIf="config && config.visualization === 1.439850948e27"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-oneclasssvm-form>
+        <app-cca-form
+          *ngIf="config && config.visualization === 562949953421312"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-cca-form>
+        <app-plsregression-form
+          *ngIf="config && config.visualization === 140737488355328"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-plsregression-form>
+        <app-plscanonical-form
+          *ngIf="config && config.visualization === 281474976710656"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-plscanonical-form>
+        <app-locallinearembedding-form
+          *ngIf="config && config.visualization === 268435456"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-locallinearembedding-form>
+        <app-spectralembedding-form
+          *ngIf="config && config.visualization === 536870912"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-spectralembedding-form>
+        <app-quadradicdiscriminantanalysis-form
+          *ngIf="config && config.visualization === 274877906944"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+          [tables]="tables"
+          [fields]="fields"
+        ></app-quadradicdiscriminantanalysis-form>
+        <app-workspace-stat-panel [config]="config" [graphData]="data" [type]="'TOOL'"></app-workspace-stat-panel>
       </ng-template>
     </mat-tab>
     <mat-tab label="Selection">
       <ng-template mat-tab-label>
         <mat-icon class="example-tab-icon">gesture</mat-icon>
-        <div class='mat-tab-custom-lbl'>Selection</div>
+        <div class="mat-tab-custom-lbl">Selection</div>
       </ng-template>
       <ng-template matTabContent>
-        <app-workspace-behavior-panel [config]='config' [selectionToolConfig]='selectionToolConfig'></app-workspace-behavior-panel>
-        <app-workspace-stat-panel [config]='config' [graphData]='data' [type]='"SELECTION"'
-          [decorators]='decorators'></app-workspace-stat-panel>
+        <app-workspace-behavior-panel
+          (clearSelection)="onClearSelection()"
+          (saveSelection)="onSaveSelection($event)"
+          [config]="config"
+          [selectionToolConfig]="selectionToolConfig"
+        ></app-workspace-behavior-panel>
+        <app-workspace-stat-panel
+          [config]="config"
+          [graphData]="data"
+          [type]="'SELECTION'"
+          [decorators]="decorators"
+        ></app-workspace-stat-panel>
       </ng-template>
+    </mat-tab>
+    <mat-tab label="Selection">
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">close</mat-icon>
+        <div class="mat-tab-custom-lbl">Collapse</div>
+      </ng-template>
+      <ng-template></ng-template>
     </mat-tab>
   </mat-tab-group>
 
-  <!-- <div *ngIf='isCollapsed'>
-    <div class='graphPanelButton' (click)='panelShow("analysis")'>
-      <mat-icon>bar_chart</mat-icon>
-      <div>Analysis</div>
-    </div>
-    <div class='graphPanelButton' (click)='panelShow("analysis")'>
-      <mat-icon>tune</mat-icon>
-      <div>Settings</div>
-    </div>
-    <div class='graphPanelButton' (click)='panelShow("legend")'>
-      <mat-icon>list</mat-icon>
-      <div>Legend</div>
-    </div>
-    <div class='graphPanelButton' (click)='panelShow("stats")'>
-      <mat-icon>trending_up</mat-icon>
-      <div>Stats</div>
-    </div>
-    <div class='graphPanelButton' (click)='panelShow("controls")'>
-      <mat-icon>360</mat-icon>
-      <div>Controls</div>
-    </div>
+  <!--
+    <div *ngIf='isCollapsed'>
+        <div class='graphPanelButton' (click)='panelShow("analysis")'>
+          <mat-icon>bar_chart</mat-icon>
+          <div>Analysis</div>
+        </div>
+        <div class='graphPanelButton' (click)='panelShow("analysis")'>
+          <mat-icon>tune</mat-icon>
+          <div>Settings</div>
+        </div>
+        <div class='graphPanelButton' (click)='panelShow("legend")'>
+          <mat-icon>list</mat-icon>
+          <div>Legend</div>
+        </div>
+        <div class='graphPanelButton' (click)='panelShow("stats")'>
+          <mat-icon>trending_up</mat-icon>
+          <div>Stats</div>
+        </div>
+        <div class='graphPanelButton' (click)='panelShow("controls")'>
+          <mat-icon>360</mat-icon>
+          <div>Controls</div>
+        </div>
 
-</div>-->
-
+    </div>
+  -->
 </div>

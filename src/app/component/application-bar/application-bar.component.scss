@@ -1,4 +1,29 @@
 @import 'src/theme.scss';
+
+.btn-underline {
+  position: relative;
+}
+
+.btn-underline::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: 3;
+  left: 0;
+  background-color: #fff;
+  visibility: hidden;
+  -webkit-transform: scaleX(0);
+  transform: scaleX(0);
+  -webkit-transition: all 0.3s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s;
+}
+.btn-underline:hover:before {
+  visibility: visible;
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1);
+}
+
 .application-bar-menu {
   position: absolute;
   top: 0px;
@@ -8,6 +33,11 @@
   z-index: 50;
   background: mat-color($primary);
   box-shadow: 0px 2px 4px #bbb;
+  text-align: center;
+  color: #fff;
+  font-weight: 300 !important;
+  font-size: 1rem;
+  line-height: 30px;
 }
 
 .application-bar-logo {
@@ -19,6 +49,8 @@
   text-transform: uppercase;
   padding-left: 25px;
   padding-right: 30px;
+  position: absolute;
+  left: 0px;
 }
 
 .application-bar-buttons {
@@ -26,6 +58,9 @@
   right: 3px;
   top: 0px;
   line-height: 30px;
+  font-weight: 500 !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .application-bar-button {
@@ -33,5 +68,7 @@
   line-height: 30px;
   font-size: 12px;
   color: #fff;
+  text-align: center !important;
+  margin: 0px 10px;
   // padding: 0px 10px;
 }

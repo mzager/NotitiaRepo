@@ -19,7 +19,7 @@ export class AbstractVisualization implements ChartObjectInterface {
   // Common Objects
   public _data: GraphData;
   public _config: GraphConfig;
-  public selectionToolConfig: SelectionToolConfig;
+  // public selectionToolConfig: SelectionToolConfig;
   public decorators: Array<DataDecorator>;
   public $MouseMove: Subscription;
   public $MouseDown: Subscription;
@@ -50,9 +50,7 @@ export class AbstractVisualization implements ChartObjectInterface {
   public onConfigEmit: EventEmitter<{ type: GraphConfig }> = new EventEmitter<{
     type: GraphConfig;
   }>();
-  public onSelect: EventEmitter<ChartSelection> = new EventEmitter<
-    ChartSelection
-  >();
+  public onSelect: EventEmitter<ChartSelection> = new EventEmitter<ChartSelection>();
 
   public getTargets(): {
     point: Vector3;
@@ -72,21 +70,11 @@ export class AbstractVisualization implements ChartObjectInterface {
     this.tooltipController.enable = this.isEnabled;
     this.view.controls.enabled = this.isEnabled;
     if (truthy) {
-      this.$MouseMove = this.events.chartMouseMove.subscribe(
-        this.onMouseMove.bind(this)
-      );
-      this.$MouseDown = this.events.chartMouseDown.subscribe(
-        this.onMouseDown.bind(this)
-      );
-      this.$MouseUp = this.events.chartMouseUp.subscribe(
-        this.onMouseUp.bind(this)
-      );
-      this.$KeyPress = this.events.chartKeyPress.subscribe(
-        this.onKeyPress.bind(this)
-      );
-      this.$KeyDown = this.events.chartKeyDown.subscribe(
-        this.onKeyDown.bind(this)
-      );
+      this.$MouseMove = this.events.chartMouseMove.subscribe(this.onMouseMove.bind(this));
+      this.$MouseDown = this.events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
+      this.$MouseUp = this.events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
+      this.$KeyPress = this.events.chartKeyPress.subscribe(this.onKeyPress.bind(this));
+      this.$KeyDown = this.events.chartKeyDown.subscribe(this.onKeyDown.bind(this));
       this.$KeyUp = this.events.chartKeyUp.subscribe(this.onKeyUp.bind(this));
     } else {
       this.$MouseMove.unsubscribe();
@@ -106,14 +94,10 @@ export class AbstractVisualization implements ChartObjectInterface {
     this._config = config as GraphConfig;
     this._data = data;
   }
-  updateSelectionTool(selectionToolConfig: SelectionToolConfig): void {
-    this.selectionToolConfig = selectionToolConfig;
-  }
-  create(
-    html: HTMLElement,
-    events: ChartEvents,
-    view: VisualizationView
-  ): ChartObjectInterface {
+  // updateSelectionTool(selectionToolConfig: SelectionToolConfig): void {
+  //   this.selectionToolConfig = selectionToolConfig;
+  // }
+  create(html: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
     this.html = html;
     this.html.innerText = '';
     this.events = events;
@@ -140,18 +124,10 @@ export class AbstractVisualization implements ChartObjectInterface {
     this.tooltipController = new TooltipController(view, events);
     // this.selectionController = new SelectionController(view, events);
 
-    this.$onShowLabels = this.labelController.onShow.subscribe(
-      this.onShowLabels.bind(this)
-    );
-    this.$onHideLabels = this.labelController.onHide.subscribe(
-      this.onHideLabels.bind(this)
-    );
-    this.$onShowTooltip = this.tooltipController.onShow.subscribe(
-      this.onShowTooltip.bind(this)
-    );
-    this.$onHideTooltip = this.tooltipController.onHide.subscribe(
-      this.onHideTooltip.bind(this)
-    );
+    this.$onShowLabels = this.labelController.onShow.subscribe(this.onShowLabels.bind(this));
+    this.$onHideLabels = this.labelController.onHide.subscribe(this.onHideLabels.bind(this));
+    this.$onShowTooltip = this.tooltipController.onShow.subscribe(this.onShowTooltip.bind(this));
+    this.$onHideTooltip = this.tooltipController.onHide.subscribe(this.onHideTooltip.bind(this));
 
     return this;
   }
@@ -170,11 +146,7 @@ export class AbstractVisualization implements ChartObjectInterface {
     this.tooltipController.destroy();
     this.enable(false);
   }
-  preRender(
-    views: VisualizationView[],
-    layout: WorkspaceLayoutEnum,
-    renderer: THREE.Renderer
-  ): void {}
+  preRender(views: VisualizationView[], layout: WorkspaceLayoutEnum, renderer: THREE.Renderer): void {}
 
   public onKeyDown(e: KeyboardEvent): void {}
   public onKeyUp(e: KeyboardEvent): void {}
@@ -198,11 +170,7 @@ export class AbstractVisualization implements ChartObjectInterface {
       this.tooltipOptions
     );
   }
-  public onShowTooltip(e: {
-    text: string;
-    color: string;
-    event: ChartEvent;
-  }): void {
+  public onShowTooltip(e: { text: string; color: string; event: ChartEvent }): void {
     this.tooltip = e.text;
     this.tooltipColor = e.color;
     this.onMouseMove(e.event);

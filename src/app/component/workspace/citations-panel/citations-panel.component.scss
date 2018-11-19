@@ -1,6 +1,9 @@
 // Responsive Mobile First
 @import '~@angular/material/theming';
 @import 'src/theme.scss';
+.citation-button {
+  text-transform: capitalize;
+}
 .citations-container {
   display: flex;
   flex-direction: column;

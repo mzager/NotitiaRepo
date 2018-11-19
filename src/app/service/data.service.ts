@@ -22,7 +22,7 @@ import { Cohort } from './../model/cohort.model';
 import { DataField } from './../model/data-field.model';
 import { DataDecorator, DataDecoratorTypeEnum } from './../model/data-map.model';
 import { GeneSet } from './../model/gene-set.model';
-import { Preprocessing } from './../model/preprocessing.model';
+import { Preprocessing, PreprocessingStep } from './../model/preprocessing.model';
 
 @Injectable()
 export class DataService {
@@ -561,8 +561,8 @@ export class DataService {
                 config.entity === EntityTypeEnum.SAMPLE
                   ? 'Sample ' + decorator.field.label
                   : config.entity === EntityTypeEnum.GENE
-                    ? 'Gene ' + decorator.field.label
-                    : 'Patient ' + decorator.field.label;
+                  ? 'Gene ' + decorator.field.label
+                  : 'Patient ' + decorator.field.label;
               if (decorator.field.type === 'STRING') {
                 decorator.legend.labels = scale['domain']().filter(v => v);
                 if (!decorator.legend.labels.find(v => v === 'NA')) {
@@ -648,8 +648,8 @@ export class DataService {
                 config.entity === EntityTypeEnum.SAMPLE
                   ? 'Sample ' + decorator.field.label
                   : config.entity === EntityTypeEnum.GENE
-                    ? 'Gene ' + decorator.field.label
-                    : 'Patient ' + decorator.field.label;
+                  ? 'Gene ' + decorator.field.label
+                  : 'Patient ' + decorator.field.label;
               if (decorator.field.type === 'STRING') {
                 decorator.legend.labels = scale['domain']();
                 if (!decorator.legend.labels.find(v => v === 'NA')) {
@@ -855,77 +855,77 @@ export class DataService {
     return v === VisualizationEnum.BOX_WHISKERS
       ? 'box_whiskers.json'
       : v === VisualizationEnum.CHROMOSOME
-        ? 'chromosome.json'
-        : v === VisualizationEnum.DICTIONARY_LEARNING
-          ? 'dictionary_learning.json'
-          : v === VisualizationEnum.FA
-            ? 'factor_analysis.json'
-            : v === VisualizationEnum.FAST_ICA
-              ? 'fast_ica.json'
-              : v === VisualizationEnum.HIC
-                ? 'force_directed_graph.json'
-                : v === VisualizationEnum.GENOME
-                  ? 'genome.json'
-                  : v === VisualizationEnum.DENDOGRAM
-                    ? 'dendogram.json'
-                    : v === VisualizationEnum.HEATMAP
-                      ? 'heatmap.json'
-                      : v === VisualizationEnum.HISTOGRAM
-                        ? 'histogram.json'
-                        : v === VisualizationEnum.INCREMENTAL_PCA
-                          ? 'incremental_pca.json'
-                          : v === VisualizationEnum.ISOMAP
-                            ? 'isomap.json'
-                            : v === VisualizationEnum.KERNAL_PCA
-                              ? 'kernal_pca.json'
-                              : v === VisualizationEnum.LDA
-                                ? 'latent_dirichlet_allocation.json'
-                                : v === VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS
-                                  ? 'linear_discriminant_analysis.json'
-                                  : v === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING
-                                    ? 'locally_linear_embedding.json'
-                                    : v === VisualizationEnum.MDS
-                                      ? 'mds.json'
-                                      : v === VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING
-                                        ? 'mini_batch_dictionary_learning.json'
-                                        : v === VisualizationEnum.MINI_BATCH_SPARSE_PCA
-                                          ? 'mini_batch_sparse_pca.json'
-                                          : v === VisualizationEnum.NMF
-                                            ? 'nmf.json'
-                                            : v === VisualizationEnum.PATHWAYS
-                                              ? 'pathways.json'
-                                              : v === VisualizationEnum.PCA
-                                                ? 'pca.json'
-                                                : // tslint:disable-next-line:max-line-length
-                                                  v === VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS
-                                                  ? 'quadratic_discriminant_analysis.json)'
-                                                  : v === VisualizationEnum.SPARSE_PCA
-                                                    ? 'sparse_pca.json'
-                                                    : v === VisualizationEnum.SPECTRAL_EMBEDDING
-                                                      ? 'spectral_embedding.json'
-                                                      : v === VisualizationEnum.SURVIVAL
-                                                        ? 'survival.json'
-                                                        : v === VisualizationEnum.HAZARD
-                                                          ? 'hazard.json'
-                                                          : v === VisualizationEnum.TIMELINES
-                                                            ? 'timelines.json'
-                                                            : v === VisualizationEnum.TRUNCATED_SVD
-                                                              ? 'truncated_svd.json'
-                                                              : v === VisualizationEnum.TSNE
-                                                                ? 'tsne.json'
-                                                                : v === VisualizationEnum.UMAP
-                                                                  ? 'umap.json'
-                                                                  : v === VisualizationEnum.SCATTER
-                                                                    ? 'scatter.json'
-                                                                    : v === VisualizationEnum.PLSSVD
-                                                                      ? 'pls_svd.json'
-                                                                      : v === VisualizationEnum.PLSREGRESSION
-                                                                        ? 'pls_regression.json'
-                                                                        : v === VisualizationEnum.PLSCANONICAL
-                                                                          ? 'pls_canonical.json'
-                                                                          : v === VisualizationEnum.CCA
-                                                                            ? 'cca.json'
-                                                                            : '';
+      ? 'chromosome.json'
+      : v === VisualizationEnum.DICTIONARY_LEARNING
+      ? 'dictionary_learning.json'
+      : v === VisualizationEnum.FA
+      ? 'factor_analysis.json'
+      : v === VisualizationEnum.FAST_ICA
+      ? 'fast_ica.json'
+      : v === VisualizationEnum.HIC
+      ? 'force_directed_graph.json'
+      : v === VisualizationEnum.GENOME
+      ? 'genome.json'
+      : v === VisualizationEnum.DENDOGRAM
+      ? 'dendogram.json'
+      : v === VisualizationEnum.HEATMAP
+      ? 'heatmap.json'
+      : v === VisualizationEnum.HISTOGRAM
+      ? 'histogram.json'
+      : v === VisualizationEnum.INCREMENTAL_PCA
+      ? 'incremental_pca.json'
+      : v === VisualizationEnum.ISOMAP
+      ? 'isomap.json'
+      : v === VisualizationEnum.KERNAL_PCA
+      ? 'kernal_pca.json'
+      : v === VisualizationEnum.LDA
+      ? 'latent_dirichlet_allocation.json'
+      : v === VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS
+      ? 'linear_discriminant_analysis.json'
+      : v === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING
+      ? 'locally_linear_embedding.json'
+      : v === VisualizationEnum.MDS
+      ? 'mds.json'
+      : v === VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING
+      ? 'mini_batch_dictionary_learning.json'
+      : v === VisualizationEnum.MINI_BATCH_SPARSE_PCA
+      ? 'mini_batch_sparse_pca.json'
+      : v === VisualizationEnum.NMF
+      ? 'nmf.json'
+      : v === VisualizationEnum.PATHWAYS
+      ? 'pathways.json'
+      : v === VisualizationEnum.PCA
+      ? 'pca.json'
+      : // tslint:disable-next-line:max-line-length
+      v === VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS
+      ? 'quadratic_discriminant_analysis.json)'
+      : v === VisualizationEnum.SPARSE_PCA
+      ? 'sparse_pca.json'
+      : v === VisualizationEnum.SPECTRAL_EMBEDDING
+      ? 'spectral_embedding.json'
+      : v === VisualizationEnum.SURVIVAL
+      ? 'survival.json'
+      : v === VisualizationEnum.HAZARD
+      ? 'hazard.json'
+      : v === VisualizationEnum.TIMELINES
+      ? 'timelines.json'
+      : v === VisualizationEnum.TRUNCATED_SVD
+      ? 'truncated_svd.json'
+      : v === VisualizationEnum.TSNE
+      ? 'tsne.json'
+      : v === VisualizationEnum.UMAP
+      ? 'umap.json'
+      : v === VisualizationEnum.SCATTER
+      ? 'scatter.json'
+      : v === VisualizationEnum.PLSSVD
+      ? 'pls_svd.json'
+      : v === VisualizationEnum.PLSREGRESSION
+      ? 'pls_regression.json'
+      : v === VisualizationEnum.PLSCANONICAL
+      ? 'pls_canonical.json'
+      : v === VisualizationEnum.CCA
+      ? 'cca.json'
+      : '';
   }
   getHelpInfo(config: GraphConfig): Promise<any> {
     const v = config.visualization;
@@ -1059,14 +1059,13 @@ export class DataService {
             );
 
             // Build Query For Each Table
-            const queries = molecularTables.map(
-              tbl =>
-                mids.length === 0
-                  ? connection.table(tbl.tbl.replace(/\s/gi, ''))
-                  : connection
-                      .table(tbl.tbl)
-                      .where('m')
-                      .anyOfIgnoreCase(mids)
+            const queries = molecularTables.map(tbl =>
+              mids.length === 0
+                ? connection.table(tbl.tbl.replace(/\s/gi, ''))
+                : connection
+                    .table(tbl.tbl)
+                    .where('m')
+                    .anyOfIgnoreCase(mids)
             );
 
             Promise.all(queries.map(query => query.toArray())).then(results => {
@@ -1165,43 +1164,47 @@ export class DataService {
                   .anyOfIgnoreCase(pids);
 
           query.toArray().then(result => {
-            const cat = fields.filter(v => v.type === 'category').map(f => {
-              const arr = result.map(v => v[f.field]);
-              const stat = arr.reduce((p, c) => {
-                if (!p.hasOwnProperty(c)) {
-                  p[c] = 1;
-                } else {
-                  p[c] += 1;
-                }
-                return p;
-              }, {});
-              const stats = Object.keys(stat).map(v => ({
-                label: v,
-                value: stat[v]
-              }));
-              return Object.assign(f, { stat: stats });
-            });
+            const cat = fields
+              .filter(v => v.type === 'category')
+              .map(f => {
+                const arr = result.map(v => v[f.field]);
+                const stat = arr.reduce((p, c) => {
+                  if (!p.hasOwnProperty(c)) {
+                    p[c] = 1;
+                  } else {
+                    p[c] += 1;
+                  }
+                  return p;
+                }, {});
+                const stats = Object.keys(stat).map(v => ({
+                  label: v,
+                  value: stat[v]
+                }));
+                return Object.assign(f, { stat: stats });
+              });
 
-            const num = fields.filter(v => v.type === 'number').map(f => {
-              const arr = result.map(v => v[f.field]);
-              const first = JStat.min(arr);
-              const binCnt = 10;
-              const binWidth = (JStat.max(arr) - first) / binCnt;
-              const len = arr.length;
-              const bins = [];
-              let i;
-              for (i = 0; i < binCnt; i++) {
-                bins[i] = 0;
-              }
-              for (i = 0; i < len; i++) {
-                bins[Math.min(Math.floor((arr[i] - first) / binWidth), binCnt - 1)] += 1;
-              }
-              const stats = bins.map((v, j) => ({
-                label: Math.round(first + j * binWidth).toString(),
-                value: v
-              }));
-              return Object.assign(f, { stat: stats });
-            });
+            const num = fields
+              .filter(v => v.type === 'number')
+              .map(f => {
+                const arr = result.map(v => v[f.field]);
+                const first = JStat.min(arr);
+                const binCnt = 10;
+                const binWidth = (JStat.max(arr) - first) / binCnt;
+                const len = arr.length;
+                const bins = [];
+                let i;
+                for (i = 0; i < binCnt; i++) {
+                  bins[i] = 0;
+                }
+                for (i = 0; i < len; i++) {
+                  bins[Math.min(Math.floor((arr[i] - first) / binWidth), binCnt - 1)] += 1;
+                }
+                const stats = bins.map((v, j) => ({
+                  label: Math.round(first + j * binWidth).toString(),
+                  value: v
+                }));
+                return Object.assign(f, { stat: stats });
+              });
             // db.close();
             resolve(num.concat(cat));
           });
@@ -1419,6 +1422,18 @@ export class DataService {
       });
     });
   }
+  getCustomPreprocessing(database: string): Promise<any> {
+    return new Promise(resolve => {
+      const db = new Dexie('notitia-' + database);
+      db.open().then(v => {
+        v.table('preprocessing')
+          .toArray()
+          .then(result => {
+            resolve(result);
+          });
+      });
+    });
+  }
   getCustomPathways(database: string): Promise<any> {
     return new Promise(resolve => {
       const db = new Dexie('notitia-' + database);
@@ -1432,6 +1447,18 @@ export class DataService {
               uri:
                 'https://oncoscape.v3.sttrcancer.org/data/pathways/http___identifiers.org_wikipathways_WP1971.json.gz'
             });
+            resolve(result);
+          });
+      });
+    });
+  }
+  getRowCount(database: string, table: string): Promise<number> {
+    return new Promise(resolve => {
+      const db = new Dexie('notitia-' + database);
+      db.open().then(v => {
+        v.table(table)
+          .count()
+          .then(result => {
             resolve(result);
           });
       });
@@ -2371,6 +2398,32 @@ export class DataService {
       });
     });
   }
+  createCustomPreprocessing(database: string, preprocessing: Preprocessing): Promise<any> {
+    return new Promise(resolve => {
+      const db = new Dexie('notitia-' + database);
+      db.open().then(v => {
+        v.table('preprocessing')
+          .add(preprocessing)
+          .then(w => {
+            resolve(w);
+          });
+      });
+    });
+  }
+  deleteCustomPreprocessing(database: string, preprocessing: Preprocessing): Promise<any> {
+    return new Promise(resolve => {
+      const db = new Dexie('notitia-' + database);
+      db.open().then(v => {
+        v.table('preprocessing')
+          .where('n')
+          .equalsIgnoreCase(preprocessing.n)
+          .delete()
+          .then(result => {
+            resolve(result);
+          });
+      });
+    });
+  }
   createCustomGeneset(database: string, geneset: GeneSet): Promise<any> {
     return new Promise(resolve => {
       const db = new Dexie('notitia-' + database);
@@ -2671,24 +2724,26 @@ export class DataService {
                 link.target = validHugoGenes.has(link.target)
                   ? link.target
                   : missingMap.hasOwnProperty(link.target)
-                    ? missingMap[link.target].hugo
-                    : null;
+                  ? missingMap[link.target].hugo
+                  : null;
                 link.source = validHugoGenes.has(link.source)
                   ? link.source
                   : missingMap.hasOwnProperty(link.source)
-                    ? missingMap[link.source].hugo
-                    : null;
+                  ? missingMap[link.source].hugo
+                  : null;
               });
               // Filter Out Links That Could Not Be Resolved + Suplement With Additonal Data
               const geneLookup = result[0].reduce((p, c) => {
                 p[c.gene] = c;
                 return p;
               }, {});
-              const links = geneLinksData.filter(link => link.source !== null && link.target !== null).map(link => {
-                link.sourceData = geneLookup[link.source];
-                link.targetData = geneLookup[link.target];
-                return link;
-              });
+              const links = geneLinksData
+                .filter(link => link.source !== null && link.target !== null)
+                .map(link => {
+                  link.sourceData = geneLookup[link.source];
+                  link.targetData = geneLookup[link.target];
+                  return link;
+                });
               DataService.db.table('genecoords').bulkAdd(result[0]);
               DataService.db.table('bandcoords').bulkAdd(result[1]);
               DataService.db.table('genemap').bulkAdd(result[2]);

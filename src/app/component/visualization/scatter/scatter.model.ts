@@ -1,8 +1,4 @@
-import {
-  VisualizationEnum,
-  EntityTypeEnum,
-  DimensionEnum
-} from 'app/model/enum.model';
+import { VisualizationEnum, EntityTypeEnum, DimensionEnum } from 'app/model/enum.model';
 import { GraphData } from './../../../model/graph-data.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 
@@ -19,7 +15,7 @@ export class ScatterConfigModel extends GraphConfig {
     this.visualization = VisualizationEnum.SCATTER;
     this.label = 'Scatter';
   }
-  uri = 'tsne.json';
+  uri = 'cell-scaled.json';
 }
 
 export interface ScatterDataModel extends GraphData {

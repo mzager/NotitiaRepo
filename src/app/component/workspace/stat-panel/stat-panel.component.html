@@ -1,6 +1,15 @@
 <div>
-  <div>
-    <div #container class='statContainer'></div>
+  <div class="statPanel">
+    <span class="legendHeader" style="padding-bottom:0px;">Distribution</span>
+    <mat-form-field class="form-field " style="width:195px;">
+      <mat-select [value]="metricSelected" [compareWith]="byName" (valueChange)="metricChangeManual($event)">
+        <mat-option *ngFor="let option of metrics" [value]="option"> {{ option.name }} </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-icon-button style="color:rgb(30, 136, 229)" (click)="toggleTimer()">
+      <mat-icon *ngIf="!timerPaused">pause_circle_outline</mat-icon>
+      <mat-icon *ngIf="timerPaused">play_circle_outline</mat-icon>
+    </button>
+    <div #container class="statContainer"></div>
   </div>
-  <div class='vg-tooltip'></div>
 </div>

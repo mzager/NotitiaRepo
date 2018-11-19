@@ -1,46 +1,30 @@
-<div class='application-bar-menu'>
-  <span class='application-bar-buttons'>
+<div class="application-bar-menu">
+  <span *ngIf="_config">{{ _config.datasetName }}</span>
+  <span class="application-bar-buttons">
+    <span class="btn-underline application-bar-button" *ngIf="datasetSelected" (click)="onSplitScreenChange()">
+      <span class="copy">Split Screen</span>
+    </span>
 
-    <!-- <span *ngIf='datasetSelected' class='application-bar-button' (click)='onViewCohort()' style='padding-right:20px;'>
-      <mat-icon class='material-icons md-18' style='transform:translate(0px, 4px)'>group</mat-icon>
-      <span class='copy'>Cohort</span>
+    <span class="btn-underline application-bar-button" *ngIf="datasetSelected" (click)="viewPanel(256)">
+      Settings
     </span>
-    <span *ngIf='datasetSelected' class='application-bar-button' (click)='onViewGeneset()' style='padding-right:20px;'>
-      <mat-icon class='material-icons md-18' style='transform:translate(0px, 4px)'>fingerprint</mat-icon>
-      <span class='copy'>Geneset</span>
-    </span> -->
-    <!--
-    <span *ngIf='datasetSelected' class='application-bar-button' (click)='onTogglePanels()' style='padding-right:20px;'>
-      <mat-icon class='material-icons md-18' style='transform:translate(0px, 4px)'>settings_applications</mat-icon>
-      <span class='copy'>Toggle Settings</span>
-    </span> -->
-    <span *ngIf='datasetSelected' class='application-bar-button' (click)='onSplitScreenChange()'
-      style='padding-right:20px;'>
-      <mat-icon class='material-icons md-18' style='transform:translate(0px, 4px)'>tv</mat-icon>
-      <span class='copy'>Split Screen</span>
+    <span class="btn-underline application-bar-button" *ngIf="datasetSelected" (click)="viewPanel(1024)">
+      Citations
     </span>
-    <!-- <span *ngIf='datasetSelected' class='application-bar-button' (click)='toggleBackgroundColor()'
-      style='padding-right:20px;'>
-      <mat-icon class='material-icons md-18' style='transform:translate(0px, 4px)'>invert_colors</mat-icon>
-      Invert Color
-    </span> -->
-    <mat-menu #appMenu="matMenu">
-      <!--<button mat-menu-item (click)='viewPanel(16384)'>Feedback</button>-->
-      <button *ngIf='datasetSelected' mat-menu-item (click)='reload()'>Data Sets</button>
-      <button mat-menu-item (click)='viewPanel(512)'>The Team</button>
-      <button mat-menu-item (click)='viewPanel(1024)'>Citations</button>
-      <a mat-menu-item href='mailto:contact-sttr@fredhutch.org'>Feedback</a>
-      <button mat-menu-item (click)='toggleBackgroundColor()'>Invert Color</button>
-      <button mat-menu-item (click)='exportImage()'>Print</button>
-      <button mat-menu-item (click)='deleteAllCaches()'>Reset Oncoscape</button>
-    </mat-menu>
-    <span class='application-bar-button' [matMenuTriggerFor]="appMenu">
-      <mat-icon class='material-icons md-18 ' style='transform:translate(0px, 4px) '>more_vert</mat-icon>
-    </span>
+    <span class="btn-underline application-bar-button" (click)="viewPanel(512)"> About </span>
   </span>
-  <span class='application-bar-logo ' (click)='viewPanel(1) '>Oncoscape
-    <!-- <span style='letter-spacing: 1px;color: #EEE;'>(v3.10.20 beta) -->
-    <!-- <span *ngIf='datasetSelected'> - {{this._config.database}}</span>) -->
-    <!-- </span> -->
+  <span class="application-bar-logo" (click)="viewPanel(1)"
+    >Oncoscape <span style="letter-spacing: 1px;color: #EEE;">(v3.11.17 beta)</span>
+    <!--
+      <mat-menu #appMenu="matMenu">
+        <button *ngIf='datasetSelected' mat-menu-item (click)='reload()'>Data Sets</button>
+        <button mat-menu-item (click)='viewPanel(512)'>The Team</button>
+        <button mat-menu-item (click)='viewPanel(1024)'>Citations</button>
+        <a mat-menu-item href='mailto:contact-sttr@fredhutch.org'>Feedback</a>
+        <button mat-menu-item (click)='toggleBackgroundColor()'>Invert Color</button>
+        <button mat-menu-item (click)='exportImage()'>Print</button>
+        <button mat-menu-item (click)='deleteAllCaches()'>Reset Oncoscape</button>
+      </mat-menu>
+    -->
   </span>
 </div>

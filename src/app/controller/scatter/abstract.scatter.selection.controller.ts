@@ -5,7 +5,7 @@ import { VisualizationView } from 'app/model/chart-view.model';
 import { ChartEvents } from 'app/component/workspace/chart/chart.events';
 export class AbstractScatterSelectionController extends AbstractMouseController {
   public onSelect: EventEmitter<Array<number>> = new EventEmitter();
-  public setHighlights: EventEmitter<Array<number>> = new EventEmitter();
+  // public setHighlights: EventEmitter<Array<number>> = new EventEmitter();
 
   protected mesh: Mesh;
   protected highlightIndexes = new Set([]);
@@ -27,6 +27,9 @@ export class AbstractScatterSelectionController extends AbstractMouseController 
     this._tooltips = value;
   }
 
+  public reset(): void {
+    this.highlightIndexes.clear();
+  }
   constructor(public view: VisualizationView, public events: ChartEvents, public debounce: number = 10) {
     super(view, events, debounce);
     this.raycaster = new Raycaster();

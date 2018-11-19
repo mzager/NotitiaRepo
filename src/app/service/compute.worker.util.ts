@@ -837,15 +837,17 @@ export class ComputeWorkerUtil {
                 return p;
               }, {});
               const tads = result[1];
-              const pos = markers.map(w => ({ gene: w, pos: posMap[w] })).map(w => {
-                let tad;
-                if (w.pos === undefined) {
-                  tad = -1;
-                } else {
-                  tad = tads.find(c => c.s <= w.pos && c.e >= w.pos);
-                }
-                return { gene: w.gene, tad: tad.s + '-' + tad.e };
-              });
+              const pos = markers
+                .map(w => ({ gene: w, pos: posMap[w] }))
+                .map(w => {
+                  let tad;
+                  if (w.pos === undefined) {
+                    tad = -1;
+                  } else {
+                    tad = tads.find(c => c.s <= w.pos && c.e >= w.pos);
+                  }
+                  return { gene: w.gene, tad: tad.s + '-' + tad.e };
+                });
               const tadGroups = _.groupBy(pos, 'tad');
               const colors = this.colors;
               const colorGroups = Object.keys(tadGroups)
@@ -1428,8 +1430,8 @@ export class ComputeWorkerUtil {
       'Accept-Encoding': 'gzip',
       'Access-Control-Allow-Origin': '*'
     };
-    // return fetch('https://oncoscape.v3.sttrcancer.org/cpu', {
-    return fetch('http://localhost:9999/cpu', {
+    return fetch('https://oncoscape.v3.sttrcancer.org/cpu', {
+      // return fetch('http://localhost:9999/cpu', {
       headers: headers,
       method: 'POST',
       body: JSON.stringify(config)
@@ -1463,7 +1465,7 @@ export class ComputeWorkerUtil {
     }
     return matrix;
   }
-  createScale = (range, domain) => {
+  createScale(range, domain): Function {
     const domainMin = domain[0];
     const domainMax = domain[1];
     const rangeMin = range[0];
@@ -1471,9 +1473,9 @@ export class ComputeWorkerUtil {
     return function scale(value) {
       return rangeMin + (rangeMax - rangeMin) * ((value - domainMin) / (domainMax - domainMin));
     };
-  };
+  }
 
-  scale3d = (data, i0 = 0, i1 = 1, i2 = 2) => {
+  scale3d(data, i0 = 0, i1 = 1, i2 = 2): any {
     const scale = this.createScale(
       [-300, 300],
       data.reduce(
@@ -1492,5 +1494,5 @@ export class ComputeWorkerUtil {
 
     // Only Scale First 3 Elements Needed For Rendering
     return data.map(v => [scale(v[i0]), scale(v[i1]), scale(v[i2])]);
-  };
+  }
 }
