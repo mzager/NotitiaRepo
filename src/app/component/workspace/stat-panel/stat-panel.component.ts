@@ -42,7 +42,7 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
   public options: StatPanelGraphicOptions;
   public metrics: Array<any>;
   public metricSelected: any;
-
+  public visible = false;
   public statComponent: StatPanelGraphicComponent;
 
   chartStats: Array<Stat> = [];
@@ -122,6 +122,12 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
     }
   }
   setMetricSelected(value: any): void {
+    if (value === undefined) {
+      this.visible = false;
+      this.cd.markForCheck();
+      return;
+    }
+    this.visible = true;
     this.metricSelected = value;
     this.options.data = value.data.map(v => ({ name: v.mylabel, value: v.myvalue }));
     this.options.type = value.charts[0] === 'Histogram' ? 'BAR' : 'PIE';

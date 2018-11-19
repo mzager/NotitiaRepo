@@ -1,5 +1,7 @@
 <div class="application-bar-menu">
-  <span *ngIf="_config">{{ _config.datasetName }}</span>
+  <span class="btn-underline application-bar-button" *ngIf="_config" (click)="viewPanel(512)">{{
+    _config.datasetName
+  }}</span>
   <span class="application-bar-buttons">
     <span class="btn-underline application-bar-button" *ngIf="datasetSelected" (click)="onSplitScreenChange()">
       <span class="copy">Split Screen</span>
@@ -11,9 +13,9 @@
     <span class="btn-underline application-bar-button" *ngIf="datasetSelected" (click)="viewPanel(1024)">
       Citations
     </span>
-    <span class="btn-underline application-bar-button" (click)="viewPanel(512)"> About </span>
+    <span class="btn-underline application-bar-button" (click)="viewPanel(512)"> Credits </span> &nbsp;
   </span>
-  <span class="application-bar-logo" (click)="viewPanel(1)"
+  <span class="application-bar-logo " (click)="viewPanel(512)"
     >Oncoscape <span style="letter-spacing: 1px;color: #EEE;">(v3.11.17 beta)</span>
     <!--
       <mat-menu #appMenu="matMenu">

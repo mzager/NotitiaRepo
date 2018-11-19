@@ -68,7 +68,6 @@ export class CitationsPanelComponent implements AfterViewInit, OnInit, OnDestroy
   ngAfterViewInit(): void {
     this.dataService.getCitations().then(results => {
       this.results = results.map(result => Object.assign(result, { visible: true }));
-      debugger;
       this.cd.detectChanges();
     });
   }
