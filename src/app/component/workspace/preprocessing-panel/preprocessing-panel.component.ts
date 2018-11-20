@@ -1,3 +1,4 @@
+import { PreprocessingStep, Preprocessing } from './../../../model/preprocessing.model';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -11,6 +12,8 @@ import {
 import { FormBuilder } from '@angular/forms';
 import { GraphConfig } from '../../../model/graph-config.model';
 import { DataService } from '../../../service/data.service';
+import { PreprocessingType } from 'app/model/enum.model';
+import { MatSelectChange } from '@angular/material';
 
 declare var $: any;
 
@@ -22,29 +25,52 @@ declare var $: any;
   encapsulation: ViewEncapsulation.None
 })
 export class PreprocessingPanelComponent implements AfterViewInit {
-  @Input()
+  @Output()
+  hide: EventEmitter<any> = new EventEmitter();
+
+  possibleSteps: Array<PreprocessingStep> = [];
+  preprocessing: Preprocessing = {
+    n: '',
+    steps: []
+  };
+  get defaultStep(): PreprocessingStep {
+    return this.possibleSteps[0];
+  }
   ngAfterViewInit(): void {}
-  // private _config: GraphConfig;
-  // get config(): GraphConfig {
-  //   return this._config;
-  // }
-  // @Input()
 
-  // ngAfterViewInit(): void {}
+  closeClick() {
+    this.hide.emit();
+  }
 
-  // closeClick() {
-  //   this.hide.emit();
-  // }
+  stepAdd(addAfterIndex: number): void {
+    this.preprocessing.steps.splice(addAfterIndex, 0, this.defaultStep);
+  }
 
-  // isValid(): boolean {
-  //   return true;
-  // }
+  stepDel(deleteIndex: number): void {
+    this.preprocessing.steps.splice(deleteIndex, 1);
+  }
+  saveClick(): void {
+    alert('save');
+  }
+  stepCompareFn(opt1: PreprocessingStep, opt2: PreprocessingStep) {
+    return opt1.method === opt2.method;
+  }
+  selectionChange(step: PreprocessingStep, i: number, e: MatSelectChange): void {
+    const selectedStep = JSON.parse(JSON.stringify(e.value));
+    this.preprocessing.steps[i] = selectedStep;
+    this.cd.markForCheck();
+  }
 
-  // constructor(
-  //   private cd: ChangeDetectorRef,
-  //   private fb: FormBuilder,
-  //   private dataService: DataService
-  // ) {
-  //   // this.activeCohort = { n: '', pids: [], sids: [], conditions: [] };
-  // }
+  constructor(private cd: ChangeDetectorRef, private fb: FormBuilder, private dataService: DataService) {
+    dataService.getPreprocessingSteps().then(steps => {
+      this.possibleSteps = steps.filter(step => step.type === PreprocessingType.NUMERIC);
+      this.preprocessing = {
+        n: '',
+        steps: [JSON.parse(JSON.stringify(this.defaultStep))] // Deep Copy
+      };
+      cd.markForCheck();
+    });
+
+    // this.activeCohort = { n: '', pids: [], sids: [], conditions: [] };
+  }
 }

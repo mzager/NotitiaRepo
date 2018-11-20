@@ -42,7 +42,7 @@ export class FilePanelComponent {
       // case 'GDC':
       //   this.setDatasetsGdc();
       //   return;
-      case 'CBio':
+      case 'MSK':
         this.setDatasetsCBio();
         return;
       case 'CHOP':

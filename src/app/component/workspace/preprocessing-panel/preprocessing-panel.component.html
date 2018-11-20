@@ -1,64 +1,74 @@
-<div class='panel'>
+<div class="panel">
   <div>
-    <a href='#' class='modalClose' (click)='closeClick()'>
-    </a>
-    <h1 class='panel-header'>Data Pipeline</h1>
-    <h2 class='panel-header-desc'>Create, manage and apply custom piplines to your data </h2>
+    <a href="#" class="modalClose" (click)="closeClick()"> </a>
+    <h1 class="panel-header">Data Pipeline</h1>
+    <h2 class="panel-header-desc">Create custom piplines to transform your data</h2>
   </div>
   <!-- My Cohorts -->
-  <div fxLayout.xs='column'>
-    <div fxFlex.sm='1 1 30%' fxFlex.md='1 1 20%' fxFlex.lg='1 1 25%' fxFlex.xl='1 1 20%'>
-      <h2 class='panel-column-title'>My Pipeline</h2>
-      <!-- <div *ngFor='let option of cohorts' (click)='deleteClick(option)' class='panel-config-row-del'> -->
-        <i class='material-icons md-18'>remove_circle_outline</i>
-        <div>{{option.n}}
-          <!-- <span *ngIf='option.pids.length>0'></span> -->
-        </div>
+  <div fxLayout.xs="column">
+    <div fxFlex.sm="1 1 30%" fxFlex.md="1 1 20%" fxFlex.lg="1 1 25%" fxFlex.xl="1 1 20%">
+      <h2 class="panel-column-title">My Pipeline</h2>
+      <div *ngFor="let option of cohorts" (click)="deleteClick(option)" class="panel-config-row-del">
+        <i class="material-icons md-18">remove_circle_outline</i>
+        <div>{{ option.n }} <span *ngIf="option.pids.length > 0"></span></div>
       </div>
     </div>
-    <!-- Create Cohorts -->
-    <div fxFlex.sm='1 1 70%' fxFlex.md='1 1 80%' fxFlex.lg='1 1 75%' fxFlex.xl='1 1 80%'>
-      <h2 class='panel-column-title' style='margin-bottom:10px;'>Build A Pipeline</h2>
 
-      <label class='panel-builder-label'>create</label>
+    <!-- Create Pipeline -->
+    <div fxFlex.sm="1 1 70%" fxFlex.md="1 1 80%" fxFlex.lg="1 1 75%" fxFlex.xl="1 1 80%">
+      <h2 class="panel-column-title" style="margin-bottom:10px;">Build A Pipeline</h2>
+
+      <label class="panel-builder-label">create</label>
       <mat-form-field>
-        <input placeholder='Enter Pipleline Name' matInput type='text' autocomplete='off' >
+        <input
+          placeholder="Enter Preprocessing Name"
+          matInput
+          type="text"
+          autocomplete="off"
+          [(ngModel)]="preprocessing.n"
+        />
       </mat-form-field>
-      <div class='panel-builder-criteria-row' >
-        <label class='panel-builder-label'></label>
-        <!-- <mat-form-field>
-          <mat-select placeholder='Field' [(value)]='condition.field'>
-            <mat-option *ngFor="let option of fields" [value]="option">
-              {{option.name}}
-            </mat-option>
+      <div class="panel-builder-criteria-row" *ngFor="let step of preprocessing.steps; let i = index">
+        <label class="panel-builder-label">Step</label>
+        <mat-form-field>
+          <mat-select
+            placeholder="Transform"
+            [value]="step"
+            [compareWith]="stepCompareFn"
+            (selectionChange)="selectionChange(step, i, $event)"
+          >
+            <mat-option *ngFor="let option of possibleSteps" [value]="option"> {{ option.method }} </mat-option>
           </mat-select>
-        </mat-form-field> -->
-        <!-- <span *ngIf='condition.field.type==="category"'>
-          <mat-form-field style='width:170px;margin-left:5px;'>
-            <mat-select [(value)]='condition.value' placeholder='Equals'>
-              <mat-option *ngFor="let option of condition.field.options" [value]="option.value">
-                {{option.name}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </span> -->
-        <!-- <span *ngIf='condition.field.type==="number"'>
-          <mat-form-field style='width:75px;margin-left:5px;'>
-            <input matInput type='number' [(ngModel)]='condition.min' autocomplete='off' placeholder='Min'>
-          </mat-form-field>
-          <mat-form-field style='width:75px;margin-left:5px;'>
-            <input matInput type='number' [(ngModel)]='condition.max' autocomplete='off' placeholder='Max'>
-          </mat-form-field>
-        </span> -->
-        <!-- <span class='panel-builder-buttons'>
-          <a class='os-link' href='#' (click)='fieldAnd(condition)'>And</a> |
-          <a class='os-link' href='#' (click)='fieldOr(condition)'>Or</a>
-          <span *ngIf='condition.condition !== "where"'> |
-            <a class='os-link' href='#' (click)='fieldDel(condition)'>Remove</a>
+        </mat-form-field>
+        <span *ngFor="let param of step.params">
+          <span *ngIf="param.dataType === 'float' || param.dataType === 'int'">
+            <mat-form-field style="width:75px;margin-left:5px;" matTooltip="{{param.desc}}">
+              <input
+                matInput
+                type="number"
+                [(ngModel)]="param.value"
+                autocomplete="off"
+                placeholder="{{param.name}}"
+                min="param.values[0]==='-1' ? -Infinity :param.values[0] "
+                max="param.values[1]==='-1' ? Infinity : param.values[1] "
+              />
+            </mat-form-field>
           </span>
-        </span> -->
+          <span *ngIf="param.dataType === 'set' || param.dataType === 'boolean'">
+            <mat-form-field style="width:170px;margin-left:5px;" matTooltip="{{param.desc}}">
+              <mat-select [(value)]="param.value" placeholder="{{param.name}}">
+                <mat-option *ngFor="let option of param.values" [value]="option"> {{ option }} </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </span>
+        </span>
+        <span class="panel-builder-buttons">
+          <a class="os-link" href="#" (click)="stepAdd(0)">Add</a> |
+          <a class="os-link" href="#" (click)="stepDel(0)">Remove</a> |
+          <a class="os-link" href="{{step.url}}" target="_blank" href="#">Info</a>
+        </span>
       </div>
-      <!-- <button class='button' (click)='saveClick()' mat-raised-button>Save</button> -->
+      <button class="button" (click)="saveClick()" mat-raised-button>Save</button>
     </div>
   </div>
-
+</div>

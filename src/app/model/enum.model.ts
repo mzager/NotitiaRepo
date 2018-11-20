@@ -1,9 +1,9 @@
 /*
     Contains Enumerations
 */
-export const enum PreprocessingType {
-  NUMERIC = 1 << 0,
-  CATEGORICAL = 1 << 1
+export class PreprocessingType {
+  static readonly NUMERIC = 'numeric';
+  static readonly CATEGORICAL = 'categorical';
 }
 export const enum PreprocessingMethod {
   BINARIZER = 1 << 0,

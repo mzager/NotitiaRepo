@@ -135,6 +135,11 @@
   (hide)="setPanel(1)"
   class="modal-panel"
 ></app-workspace-upload-panel>
+<app-workspace-preprocessing-panel
+  *ngIf="(modalPanel | async) === 2199023255552"
+  (hide)="setPanel(1)"
+  class="modal-panel"
+></app-workspace-preprocessing-panel>
 <app-workspace-feedback-panel
   *ngIf="(modalPanel | async) === 16384"
   (hide)="setPanel(1)"

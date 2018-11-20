@@ -1422,6 +1422,19 @@ export class DataService {
       });
     });
   }
+
+  getPreprocessingSteps(): Promise<Array<PreprocessingStep>> {
+    return new Promise((resolve, reject) => {
+      return fetch('http://localhost:4200/assets/preprocessing.json', {
+        method: 'GET',
+        headers: DataService.headersJson
+      })
+        .then(res => res.json())
+        .then(res => {
+          resolve(res as Array<PreprocessingStep>);
+        });
+    });
+  }
   getCustomPreprocessing(database: string): Promise<any> {
     return new Promise(resolve => {
       const db = new Dexie('notitia-' + database);

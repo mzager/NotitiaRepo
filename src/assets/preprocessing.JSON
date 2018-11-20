@@ -8,8 +8,8 @@
         "name": "threshold",
         "dataType": "float",
         "desc": "Feature values below or equal to this are replaced by 0, above it by 1. Threshold may not be less than 0 for operations on sparse matrices.",
-        "default": 0.0,
-        "values": []
+        "value": 0.0,
+        "values": [-1, -1]
       }
     ]
   },
@@ -22,21 +22,21 @@
         "name": "n_bins",
         "dataType": "int",
         "desc": "The number of bins to produce. The intervals for the bins are determined by the minimum and maximum of the input data. Raises ValueError if n_bins < 2. If n_bins is an array, and there is an ignored feature at index i, n_bins[i] will be ignored.",
-        "default": 5,
+        "value": 5,
         "values": [2, -1]
       },
       {
         "name": "encode",
         "dataType": "set",
         "desc": "Method used to encode the transformed result.",
-        "default": "onehot",
+        "value": "onehot",
         "values": ["onehot", "onehot-dense", "ordinal"]
       },
       {
         "name": "strategy",
         "dataType": "set",
         "desc": "Strategy used to define the widths of the bins.",
-        "default": "quantile",
+        "value": "quantile",
         "values": ["uniform", "quantile", "kmeans"]
       }
     ]
@@ -56,22 +56,22 @@
         "name": "neg_label",
         "dataType": "int",
         "desc": "Value with which negative labels must be encoded.",
-        "default": 0,
-        "values": []
+        "value": 0,
+        "values": [-1, -1]
       },
       {
         "name": "pos_label",
         "dataType": "int",
         "desc": "Value with which positive labels must be encoded.",
-        "default": 1,
-        "values": []
+        "value": 1,
+        "values": [-1, -1]
       },
       {
         "name": "sparse_output",
         "dataType": "boolean",
         "desc": "True if the returned array from transform is desired to be in sparse CSR format.",
-        "default": false,
-        "values": []
+        "value": "false",
+        "values": ["true", "false"]
       }
     ]
   },
@@ -79,15 +79,7 @@
     "method": "LabelEncoder",
     "type": "categorical",
     "url": "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelEncoder.html#sklearn.preprocessing.LabelEncoder",
-    "params": [
-      {
-        "name": "",
-        "dataType": "",
-        "desc": "",
-        "default": "",
-        "values": []
-      }
-    ]
+    "params": []
   },
   {
     "method": "MultiLabelBinarizer",
@@ -98,15 +90,15 @@
         "name": "classes",
         "dataType": "array-like",
         "desc": "Indicates an ordering for the class labels",
-        "default": "",
+        "value": "",
         "values": []
       },
       {
         "name": "sparse_output",
         "dataType": "boolean",
         "desc": "Set to true if output binary array is desired in CSR sparse format",
-        "default": false,
-        "values": []
+        "value": "false",
+        "values": ["true", "false"]
       }
     ]
   },
@@ -114,15 +106,7 @@
     "method": "MaxAbsScaler",
     "type": "numeric",
     "url": "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MaxAbsScaler.html#sklearn.preprocessing.MaxAbsScaler",
-    "params": [
-      {
-        "name": "",
-        "dataType": "",
-        "desc": "",
-        "default": "",
-        "values": []
-      }
-    ]
+    "params": []
   },
   {
     "method": "MinMaxScaler",
@@ -133,14 +117,14 @@
         "name": "min",
         "dataType": "int",
         "desc": "Desired range of transformed data.",
-        "default": 0,
+        "value": 0,
         "values": [0, -1]
       },
       {
         "name": "max",
         "dataType": "int",
         "desc": "Desired range of transformed data.",
-        "default": 1,
+        "value": 1,
         "values": [1, -1]
       }
     ]
@@ -154,7 +138,7 @@
         "name": "norm",
         "dataType": "set",
         "desc": "The norm to use to normalize each non zero sample.",
-        "default": "l2",
+        "value": "l2",
         "values": ["l1", "l2", "max"]
       }
     ]
@@ -168,28 +152,28 @@
         "name": "categories",
         "dataType": "set",
         "desc": "Categories (unique values) per feature: ‘auto’ : Determine categories automatically from the training data. list : categories[i] holds the categories expected in the ith column. The passed categories should not mix strings and numeric values within a single feature, and should be sorted in case of numeric values. The used categories can be found in the categories_ attribute.",
-        "default": "",
-        "values": ["auto", []]
+        "value": "auto",
+        "values": ["auto"]
       },
       {
         "name": "sparse",
         "dataType": "boolean",
         "desc": "Will return sparse matrix if set True else will return an array.",
-        "default": true,
-        "values": []
+        "value": "true",
+        "values": ["true", "false"]
       },
       {
         "name": "dtype",
         "dataType": "str",
         "desc": "Desired dtype of output.",
-        "default": "np.float",
+        "value": "np.float",
         "values": []
       },
       {
         "name": "handle_unknown",
         "dataType": "set",
-        "desc": "Whether to raise an error or ignore if an unknown categorical feature is present during transform (default is to raise). When this parameter is set to ‘ignore’ and an unknown category is encountered during transform, the resulting one-hot encoded columns for this feature will be all zeros. In the inverse transform, an unknown category will be denoted as None.",
-        "default": "error",
+        "desc": "Whether to raise an error or ignore if an unknown categorical feature is present during transform (value is to raise). When this parameter is set to ‘ignore’ and an unknown category is encountered during transform, the resulting one-hot encoded columns for this feature will be all zeros. In the inverse transform, an unknown category will be denoted as None.",
+        "value": "error",
         "values": ["error", "ignore"]
       }
     ]
@@ -203,14 +187,14 @@
         "name": "categories",
         "dataType": "set",
         "desc": "Categories (unique values) per feature: ‘auto’ : Determine categories automatically from the training data. list : categories[i] holds the categories expected in the ith column. The passed categories should not mix strings and numeric values within a single feature, and should be sorted in case of numeric values. The used categories can be found in the categories_ attribute.",
-        "default": "",
-        "values": ["auto", []]
+        "value": "auto",
+        "values": ["auto"]
       },
       {
         "name": "dtype",
         "dataType": "str",
         "desc": "Desired dtype of output.",
-        "default": "np.float64",
+        "value": "np.float64",
         "values": []
       }
     ]
@@ -224,22 +208,22 @@
         "name": "degree",
         "dataType": "int",
         "desc": "The degree of the polynomial features.",
-        "default": 2,
-        "values": []
+        "value": 2,
+        "values": [-1, -1]
       },
       {
         "name": "interaction_only",
         "dataType": "boolean",
         "desc": "If true, only interaction features are produced: features that are products of at most degree distinct input features (so not x[1] ** 2, x[0] * x[2] ** 3, etc.).",
-        "default": false,
-        "values": []
+        "value": "false",
+        "values": ["true", "false"]
       },
       {
         "name": "include_bias",
         "dataType": "boolean",
-        "desc": "If True (default), then include a bias column, the feature in which all polynomial powers are zero (i.e. a column of ones - acts as an intercept term in a linear model).",
-        "default": true,
-        "values": []
+        "desc": "If True (value), then include a bias column, the feature in which all polynomial powers are zero (i.e. a column of ones - acts as an intercept term in a linear model).",
+        "value": "true",
+        "values": ["true", "false"]
       }
     ]
   },
@@ -252,15 +236,15 @@
         "name": "method",
         "dataType": "str",
         "desc": "The power transform method.",
-        "default": "yeo-johnson",
+        "value": "yeo-johnson",
         "values": ["yeo-johnson", "box-cox"]
       },
       {
         "name": "standardize",
         "dataType": "boolean",
         "desc": "Set to True to apply zero-mean, unit-variance normalization to the transformed output.",
-        "default": true,
-        "values": []
+        "value": "true",
+        "values": ["true", "false"]
       }
     ]
   },
@@ -273,35 +257,35 @@
         "name": "n_quantiles",
         "dataType": "int",
         "desc": "Number of quantiles to be computed. It corresponds to the number of landmarks used to discretize the cumulative density function.",
-        "default": 1000,
-        "values": []
+        "value": 1000,
+        "values": [-1, -1]
       },
       {
         "name": "output_distribution",
         "dataType": "str",
         "desc": "Marginal distribution for the transformed data. The choices are ‘uniform’ (default) or ‘normal’.",
-        "default": "uniform",
+        "value": "uniform",
         "values": ["uniform", "normal"]
       },
       {
         "name": "ignore_implicit_zeros",
         "dataType": "boolean",
         "desc": "Only applies to sparse matrices. If True, the sparse entries of the matrix are discarded to compute the quantile statistics. If False, these entries are treated as zeros.",
-        "default": false,
-        "values": []
+        "value": "false",
+        "values": ["true", "false"]
       },
       {
         "name": "subsample",
         "dataType": "int",
         "desc": "Maximum number of samples used to estimate the quantiles for computational efficiency. Note that the subsampling procedure may differ for value-identical sparse and dense matrices.",
-        "default": 1e5,
-        "values": []
+        "value": 1e5,
+        "values": [-1, -1]
       },
       {
         "name": "random_state",
         "dataType": "int",
         "desc": "If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random. Note that this is used by subsampling and smoothing noise.",
-        "default": "None",
+        "value": "None",
         "values": ["RandomState instance", "None"]
       }
     ]
@@ -315,28 +299,28 @@
         "name": "with_centering",
         "dataType": "boolean",
         "desc": "If True, scale the data to interquartile range.",
-        "default": true,
-        "values": []
+        "value": "true",
+        "values": ["true", "false"]
       },
       {
         "name": "with_scaling",
         "dataType": "boolean",
         "desc": "If True, scale the data to interquartile range.",
-        "default": true,
-        "values": []
+        "value": "true",
+        "values": ["true", "false"]
       },
       {
         "name": "quantile_max",
         "dataType": "float",
         "desc": "Default: (25.0, 75.0) = (1st quantile, 3rd quantile) = IQR Quantile range used to calculate scale_.",
-        "default": 75.0,
+        "value": 75.0,
         "values": [-1, -1]
       },
       {
         "name": "quantile_min",
         "dataType": "float",
         "desc": "Default: (25.0, 75.0) = (1st quantile, 3rd quantile) = IQR Quantile range used to calculate scale_.",
-        "default": 25.0,
+        "value": 25.0,
         "values": [-1, -1]
       }
     ]
@@ -349,15 +333,15 @@
         "name": "with_mean",
         "dataType": "boolean",
         "desc": "If True, center the data before scaling. This does not work (and will raise an exception) when attempted on sparse matrices, because centering them entails building a dense matrix which in common use cases is likely to be too large to fit in memory.",
-        "default": true,
-        "values": []
+        "value": "true",
+        "values": ["true", "false"]
       },
       {
         "name": "with_std",
         "dataType": "boolean",
         "desc": "If True, scale the data to unit variance (or equivalently, unit standard deviation).",
-        "default": true,
-        "values": []
+        "value": "true",
+        "values": ["true", "false"]
       }
     ]
   }
