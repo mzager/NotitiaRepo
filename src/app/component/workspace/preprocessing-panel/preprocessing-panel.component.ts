@@ -27,7 +27,7 @@ declare var $: any;
 export class PreprocessingPanelComponent implements AfterViewInit {
   @Output()
   hide: EventEmitter<any> = new EventEmitter();
-
+  pipelines: Array<Preprocessing>;
   possibleSteps: Array<PreprocessingStep> = [];
   preprocessing: Preprocessing = {
     n: '',
@@ -49,6 +49,7 @@ export class PreprocessingPanelComponent implements AfterViewInit {
   stepDel(deleteIndex: number): void {
     this.preprocessing.steps.splice(deleteIndex, 1);
   }
+  deleteClick(): void {}
   saveClick(): void {
     alert('save');
   }

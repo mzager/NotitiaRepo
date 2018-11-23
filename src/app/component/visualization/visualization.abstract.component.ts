@@ -82,7 +82,7 @@ export class AbstractVisualization implements ChartObjectInterface {
       this.$MouseUp.unsubscribe();
       this.$KeyPress.unsubscribe();
       this.$KeyDown.unsubscribe();
-      // this.$KeyUp.unsubscribe();
+      this.$KeyUp.unsubscribe();
       this.labels.innerHTML = '';
       this.tooltips.innerHTML = '';
     }

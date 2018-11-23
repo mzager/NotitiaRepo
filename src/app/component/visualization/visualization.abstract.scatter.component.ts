@@ -27,9 +27,6 @@ circle
 blast
 */
 export class AbstractScatterVisualization extends AbstractVisualization {
-  public static textureLoader = new THREE.TextureLoader();
-
-  // tslint:disable-next-line:max-line-length
   public static textureImages = [
     './assets/shapes/shape-circle-solid.png',
     './assets/shapes/shape-blast-solid.png',
@@ -40,12 +37,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     './assets/shapes/shape-triangle-solid.png',
     './assets/shapes/shape-na-solid.png'
   ];
-  public static textures = AbstractScatterVisualization.textureImages.reduce((p, c, i) => {
-    p['uTexture' + i.toString()] = {
-      value: AbstractScatterVisualization.textureLoader.load(c)
-    };
-    return p;
-  }, {});
 
   public set data(data: GraphData) {
     this._data = data;
@@ -70,9 +61,9 @@ export class AbstractScatterVisualization extends AbstractVisualization {
   private positionsPrev: Float32Array;
   private positions: Float32Array;
   private colors: Float32Array;
-  private alphas: Float32Array;
+  // private alphas: Float32Array;
   private shapes: Float32Array;
-  private sizes: Float32Array;
+  // private sizes: Float32Array;
   private selected: Float32Array;
   private ids: Array<string>;
   private lbls: Array<string>;
@@ -99,10 +90,8 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     return pts;
   }
 
-  // Private Subscriptions
   create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
     super.create(labels, events, view);
-
     this.selectionController = new ScatterSelectionLassoController(view, events);
     this.selectionController.enable = true;
     this.selectSubscription = this.selectionController.onSelect.subscribe((ids: Array<number>) => {
@@ -118,7 +107,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
             label: ''
           };
         });
-
       const dataDecorator: DataDecorator = {
         type: DataDecoratorTypeEnum.SELECT,
         values: values,
@@ -133,7 +121,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
 
   destroy() {
     super.destroy();
-    // this.selectionController.destroy();
+    this.selectionController.destroy();
     if (this.selectSubscription) {
       if (!this.selectSubscription.closed) {
         this.selectSubscription.unsubscribe();
@@ -163,7 +151,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
             const indicies = decorator.values.map(datum => {
               return this.ids.findIndex(v => v === datum.sid);
             });
-
             const arr = this.pointsGeometry.attributes.gSelected.array;
             arr.fill(0);
             indicies.forEach(v => {
@@ -214,7 +201,8 @@ export class AbstractScatterVisualization extends AbstractVisualization {
       return [{ key: 'id', value: v }];
     });
 
-    ChartFactory.decorateDataGroups(this.meshes, this.decorators);
+    // ChartFactory.decorateDataGroups(this.meshes, this.decorators);
+    // ZZZZZZZ
     // this.onShowLabels();
     // this.points = this.meshes.map(v => v.children[0]);
     // this.tooltipController.targets = this.points;
@@ -239,19 +227,15 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     const propertyId = this._config.entity === EntityTypeEnum.GENE ? 'mid' : 'sid';
     this.ids = this._data[propertyId];
     this.positionsFrame = 0;
-    this.positionsPrev = new Float32Array(this._data.resultScaled.length * 3);
-    this.positions = new Float32Array(this._data.resultScaled.length * 3);
-    this.colors = new Float32Array(this._data.resultScaled.length * 3);
-    this.sizes = new Float32Array(this._data.resultScaled.length);
-    this.alphas = new Float32Array(this._data.resultScaled.length);
-    this.shapes = new Float32Array(this._data.resultScaled.length);
-    this.selected = new Float32Array(this._data.resultScaled.length);
+    this.positionsPrev = new Float32Array((this._data.resultScaled.length - 1) * 3);
+    this.positions = new Float32Array((this._data.resultScaled.length - 1) * 3);
+    this.colors = new Float32Array((this._data.resultScaled.length - 1) * 3);
+    this.shapes = new Float32Array(this._data.resultScaled.length - 1);
+    this.selected = new Float32Array(this._data.resultScaled.length - 1);
 
     this._data.resultScaled.forEach((point, index) => {
       this.selected[index] = 0.0;
-      this.sizes[index] = 50;
       this.shapes[index] = 0.0;
-      this.alphas[index] = 0.9;
       this.colors[index * 3] = 0.12;
       this.colors[index * 3 + 1] = 0.53;
       this.colors[index * 3 + 2] = 0.9;
@@ -266,13 +250,13 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     this.pointsGeometry.addAttribute('position', new THREE.BufferAttribute(this.positions, 3));
     this.pointsGeometry.addAttribute('gColor', new THREE.BufferAttribute(this.colors, 3));
     this.pointsGeometry.addAttribute('gShape', new THREE.BufferAttribute(this.shapes, 1));
-    this.pointsGeometry.addAttribute('gSize', new THREE.BufferAttribute(this.sizes, 1));
-    this.pointsGeometry.addAttribute('gAlpha', new THREE.BufferAttribute(this.alphas, 1));
+    // this.pointsGeometry.addAttribute('gSize', new THREE.BufferAttribute(this.sizes, 1));
+    // this.pointsGeometry.addAttribute('gAlpha', new THREE.BufferAttribute(this.alphas, 1));
     this.pointsGeometry.addAttribute('gSelected', new THREE.BufferAttribute(this.selected, 1));
 
     const uniforms = Object.assign(
-      { uAnimationPos: { value: this.positionsFrame } },
-      AbstractScatterVisualization.textures
+      { uAnimationPos: { value: this.positionsFrame } }
+      // AbstractScatterVisualization.textures
     );
 
     this.pointsMaterial = new THREE.ShaderMaterial({
@@ -284,7 +268,6 @@ export class AbstractScatterVisualization extends AbstractVisualization {
     });
 
     this.points = new THREE.Points(this.pointsGeometry, this.pointsMaterial);
-
     this.meshes.push(this.points);
     this.view.scene.add(this.points);
     this.selectionController.points = this.points;

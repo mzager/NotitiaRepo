@@ -1430,8 +1430,8 @@ export class ComputeWorkerUtil {
       'Accept-Encoding': 'gzip',
       'Access-Control-Allow-Origin': '*'
     };
-    return fetch('https://oncoscape.v3.sttrcancer.org/cpu', {
-      // return fetch('http://localhost:9999/cpu', {
+    // return fetch('https://oncoscape.v3.sttrcancer.org/cpu', {
+    return fetch('http://localhost:9999/cpu', {
       headers: headers,
       method: 'POST',
       body: JSON.stringify(config)

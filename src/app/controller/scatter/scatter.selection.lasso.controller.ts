@@ -80,6 +80,10 @@ export class ScatterSelectionLassoController extends AbstractScatterSelectionCon
     return this._points;
   }
   public set points(p: Points) {
+    if (p === null) {
+      this._points = null;
+      return;
+    }
     const distanceFunction = (a, b) => {
       return Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2) + Math.pow(a[2] - b[2], 2);
     };

@@ -5,10 +5,7 @@ import { VisualizationView } from 'app/model/chart-view.model';
 import { ChartEvents } from 'app/component/workspace/chart/chart.events';
 export class AbstractScatterSelectionController extends AbstractMouseController {
   public onSelect: EventEmitter<Array<number>> = new EventEmitter();
-
-  protected mesh: Mesh;
   protected highlightIndexes = new Set([]);
-  protected geometry: Geometry;
   protected raycaster: Raycaster;
 
   protected _points: Points;
@@ -37,9 +34,6 @@ export class AbstractScatterSelectionController extends AbstractMouseController 
 
   public destroy(): void {
     this.points = null;
-    if (this.mesh !== null) {
-      this.mesh.parent.remove(this.mesh);
-    }
     this.enable = false;
   }
 }

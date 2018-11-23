@@ -26,10 +26,7 @@ declare var $;
 export class ScatterGraph extends AbstractVisualization {
   // NO NO - For Demo Only
   public static setTime = new EventEmitter<{ time: number; graph: string }>();
-  public static setColorField = new EventEmitter<{
-    field: any;
-    data: Array<number>;
-  }>();
+  public static setColorField = new EventEmitter<{ field: any; data: Array<number> }>();
   public static setColorHighlight = new EventEmitter<THREE.BufferAttribute>();
   public static colorData: any = null;
 
@@ -150,10 +147,7 @@ export class ScatterGraph extends AbstractVisualization {
         'Accept-Encoding': 'gzip',
         'Access-Control-Allow-Origin': '*'
       };
-      return fetch('./assets/color-options.json', {
-        headers: headers,
-        method: 'GET'
-      })
+      return fetch('./assets/color-options.json', { headers: headers, method: 'GET' })
         .then(res => res.json())
         .then(x => {
           ScatterGraph.colorData = x;
@@ -164,12 +158,13 @@ export class ScatterGraph extends AbstractVisualization {
   // Private Subscriptions
   create(labels: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
     super.create(labels, events, view);
-    this.events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
-    this.events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
-    this.events.chartKeyUp.subscribe(this.onKeyUp.bind(this));
     this.meshes = [];
     this.points = [];
     this.lines = [];
+    this.events.chartMouseDown.subscribe(this.onMouseDown.bind(this));
+    this.events.chartMouseUp.subscribe(this.onMouseUp.bind(this));
+    this.events.chartKeyUp.subscribe(this.onKeyUp.bind(this));
+    this.events.chartResize.subscribe(this.onChartResize.bind(this));
     ScatterGraph.setColorField.subscribe(this.onSetColorField.bind(this));
     ScatterGraph.setTime.subscribe(this.onSetTime.bind(this));
     ScatterGraph.setColorHighlight.subscribe(this.onSetColorHighlight.bind(this));
@@ -227,6 +222,10 @@ export class ScatterGraph extends AbstractVisualization {
         ChartScene.instance.render();
       }, 500);
     }
+  }
+  onChartResize(e: ClientRect): void {
+    this.material.uniforms.u_resolution.value.x = this.view.renderer.domElement.width;
+    this.material.uniforms.u_resolution.value.y = this.view.renderer.domElement.height;
   }
   onKeyUp(e: KeyboardEvent): void {
     if (e.keyCode === this.lastKey) {
@@ -306,6 +305,7 @@ export class ScatterGraph extends AbstractVisualization {
 
   destroy() {
     super.destroy();
+    // TODO: Remove Subscriptions
     this.removeObjects();
   }
 
@@ -368,21 +368,18 @@ export class ScatterGraph extends AbstractVisualization {
 
     this.material = new THREE.ShaderMaterial({
       uniforms: {
-        // color: { value: new THREE.Color(0xff0000) },
         animationPos: { value: this.animationFrame },
-        selectedColor: {
-          value: new THREE.BufferAttribute(new Float32Array([0.0, 0.0, 0.0]), 3)
-        }
-        // ,
-        // texture: {
-        //   value: new THREE.TextureLoader().load('/assets/textures/ball.png')
-        // }
+        selectedColor: { value: new THREE.BufferAttribute(new Float32Array([0.0, 0.0, 0.0]), 3) }
       },
       transparent: true,
       vertexShader: vertShader,
       fragmentShader: fragShader,
       alphaTest: 0.7
     });
+    alert('hi');
+    this.material.uniforms.u_resolution.value.x = this.view.renderer.domElement.width;
+    this.material.uniforms.u_resolution.value.y = this.view.renderer.domElement.height;
+    console.dir(this.material.uniforms.u_resolution.value);
 
     this.pts = new THREE.Points(this.geometry, this.material);
     this.meshes.push(this.pts);
