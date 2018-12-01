@@ -369,14 +369,15 @@ export class ScatterGraph extends AbstractVisualization {
     this.material = new THREE.ShaderMaterial({
       uniforms: {
         animationPos: { value: this.animationFrame },
-        selectedColor: { value: new THREE.BufferAttribute(new Float32Array([0.0, 0.0, 0.0]), 3) }
+        selectedColor: { value: new THREE.BufferAttribute(new Float32Array([0.0, 0.0, 0.0]), 3) },
+        u_resolution: { value: new THREE.Vector2(0, 0) }
       },
       transparent: true,
       vertexShader: vertShader,
       fragmentShader: fragShader,
       alphaTest: 0.7
     });
-    alert('hi');
+
     this.material.uniforms.u_resolution.value.x = this.view.renderer.domElement.width;
     this.material.uniforms.u_resolution.value.y = this.view.renderer.domElement.height;
     console.dir(this.material.uniforms.u_resolution.value);

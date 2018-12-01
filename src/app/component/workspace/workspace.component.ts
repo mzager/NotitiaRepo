@@ -92,6 +92,7 @@ import { SVRConfigModel } from './../visualization/svr/svr.model';
 import { TipSetVisualizationAction, TipSetEnabledAction, TipSetVisibleAction } from '../../action/tip.action';
 import { UmapConfigModel } from '../visualization/umap/umap.model';
 import { DatasetDescription } from 'app/model/dataset-description.model';
+import { ProteinConfigModel } from '../visualization/protein/protein.model';
 
 @Component({
   selector: 'app-workspace',
@@ -256,6 +257,13 @@ export class WorkspaceComponent {
         this.store.dispatch(
           new compute.PathwaysAction({
             config: value as PathwaysConfigModel
+          })
+        );
+        break;
+      case enums.VisualizationEnum.PROTEINS:
+        this.store.dispatch(
+          new compute.ProteinAction({
+            config: value as ProteinConfigModel
           })
         );
         break;

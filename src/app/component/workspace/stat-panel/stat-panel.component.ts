@@ -191,8 +191,10 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
     this.$dataChange.complete();
     this.$configChange.complete();
     this.$typeChange.complete();
-    this.$timerChange.unsubscribe();
     this.$statsChange.unsubscribe();
+    try {
+      this.$timerChange.unsubscribe();
+    } catch (e) {}
   }
 
   constructor(

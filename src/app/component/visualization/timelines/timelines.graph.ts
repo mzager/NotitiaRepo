@@ -1,7 +1,4 @@
-import {
-  TimelinesConfigModel,
-  TimelinesDataModel
-} from 'app/component/visualization/timelines/timelines.model';
+import { TimelinesConfigModel, TimelinesDataModel } from 'app/component/visualization/timelines/timelines.model';
 
 import { ChartFactory } from 'app/component/workspace/chart/chart.factory';
 import { GraphConfig } from 'app/model/graph-config.model';
@@ -10,11 +7,7 @@ import { scaleLinear } from 'd3-scale';
 import * as THREE from 'three';
 import { Vector2, Vector3 } from 'three';
 
-import {
-  ILabel,
-  LabelController,
-  LabelOptions
-} from './../../../controller/label/label.controller';
+import { ILabel, LabelController, LabelOptions } from './../../../controller/label/label.controller';
 
 import { VisualizationView } from './../../../model/chart-view.model';
 import { ChartObjectInterface } from './../../../model/chart.object.interface';
@@ -197,11 +190,7 @@ export class TimelinesGraph extends AbstractVisualization {
     } else {
       const s = scale(event.start);
       const yPos = rowHeight - bar * barHeight - 2 - yOffset;
-      const mesh = ChartFactory.lineAllocate(
-        event.color,
-        new Vector2(s, yPos - 2),
-        new Vector2(s, yPos + 2)
-      );
+      const mesh = ChartFactory.lineAllocate(event.color, new Vector2(s, yPos - 2), new Vector2(s, yPos + 2));
       mesh.userData = {
         tooltip: this.formatEventTooltip(event),
         color: event.color
@@ -223,10 +212,7 @@ export class TimelinesGraph extends AbstractVisualization {
     const s = scale(event.start);
     const e = scale(event.end);
     const w = Math.round(e - s);
-    const mesh = new THREE.Mesh(
-      new THREE.CircleGeometry(1.6, 20),
-      ChartFactory.getColorPhong(event.color)
-    );
+    const mesh = new THREE.Mesh(new THREE.CircleGeometry(1.6, 20), ChartFactory.getColorPhong(event.color));
     const yPos = rowHeight - bar * barHeight - 2 - yOffset;
 
     mesh.position.set(s, yPos, 1);
@@ -287,20 +273,12 @@ export class TimelinesGraph extends AbstractVisualization {
     this.view.scene.add(this.attrs);
   }
 
-  addLines(
-    rowHeight: number,
-    rowCount: number,
-    chartHeight: number,
-    chartHeightHalf: number
-  ): void {
+  addLines(rowHeight: number, rowCount: number, chartHeight: number, chartHeightHalf: number): void {
     const geometry: THREE.Geometry = new THREE.Geometry();
     geometry.vertices = [];
     for (let i = -500; i <= 500; i += 50) {
       // new THREE.Vector2(i, chartHeight), new THREE.Vector2(i, 0)
-      geometry.vertices.push(
-        new THREE.Vector3(i, chartHeightHalf, 0),
-        new THREE.Vector3(i, -chartHeightHalf, 0)
-      );
+      geometry.vertices.push(new THREE.Vector3(i, chartHeightHalf, 0), new THREE.Vector3(i, -chartHeightHalf, 0));
     }
     for (let i = 0; i < rowCount + 1; i++) {
       geometry.vertices.push(
@@ -351,10 +329,7 @@ export class TimelinesGraph extends AbstractVisualization {
       const span = this.data.result.minMax.max - this.data.result.minMax.min;
       const minOffset = (this.config.range[0] / 100) * span;
       const maxOffset = (this.config.range[1] / 100) * span;
-      const min =
-        this.config.range[0] !== 0
-          ? this.data.result.minMax.min + minOffset
-          : this.data.result.minMax.min;
+      const min = this.config.range[0] !== 0 ? this.data.result.minMax.min + minOffset : this.data.result.minMax.min;
       const max = this.config.range[1] !== 100 ? maxOffset : this.data.result.minMax.max;
       scale.domain([min, max]);
     } else {
@@ -368,7 +343,7 @@ export class TimelinesGraph extends AbstractVisualization {
         userData: { tooltip: Math.round(scale.invert(i)).toString() }
       });
     }
-
+    debugger;
     // Patients + PID MAP
     const pidMap: any = {};
     pts.forEach((patient, i) => {
@@ -381,10 +356,7 @@ export class TimelinesGraph extends AbstractVisualization {
       const yPos = i * rowHeight;
       group.position.setY(yPos);
 
-      const mesh = new THREE.Mesh(
-        new THREE.CircleGeometry(1.6, 20),
-        ChartFactory.getColorPhong(0x000000)
-      );
+      const mesh = new THREE.Mesh(new THREE.CircleGeometry(1.6, 20), ChartFactory.getColorPhong(0x000000));
 
       mesh.position.set(-500, yPos - chartHeightHalf, 1);
       mesh.userData = {
