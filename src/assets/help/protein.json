@@ -1,0 +1,16 @@
+{
+  "method": "Protein",
+  "summary": "Interactive visualization of the 23 pairs of chromosomes, view cytobands, search for genes and link mutations to patient populations",
+  "desc": "<span class='help-method'>Genome</span> Interactive visualization of the 23 pairs of chromosomes, search for genes and link mutations to patient populations",
+  "urlparagraph": "Read more about the methods used to build genome.",
+  "url": "https://academic.oup.com/nar/article/46/D1/D754/4634002",
+  "tutorial": [
+    {
+      "desc": "View tutorial on Genome view",
+      "url": "https://www.youtube.com/embed/XQu8TTBmGhA"
+    }
+  ],
+  "params": [],
+  "attrs": [],
+  "citations": []
+}

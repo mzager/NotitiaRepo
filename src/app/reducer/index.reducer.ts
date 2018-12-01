@@ -171,6 +171,10 @@ export const getCohorts = createSelector(
   getDataState,
   fromData.getCohorts
 );
+export const getPreprocessing = createSelector(
+  getDataState,
+  fromData.getPreprocessing
+);
 export const getDatasetDescription = createSelector(
   getDataState,
   fromData.getDatasetDescription

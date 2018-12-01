@@ -1,3 +1,4 @@
+import { ProteinCompute } from './app/component/visualization/protein/protein.compute';
 import { scatterCompute } from './app/component/visualization/scatter/scatter.compute';
 import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 import { hazardCompute } from './app/component/visualization/hazard/hazard.compute';
@@ -201,6 +202,8 @@ onmessage = e => {
     case VisualizationEnum.SVR:
       SVRCompute(e.data, me);
       break;
-
+    case VisualizationEnum.PROTEINS:
+      ProteinCompute(e.data, me);
+      break;
   }
 };

@@ -18,7 +18,9 @@
   }
   .mat-tab-label,
   .mat-tab-label-active {
-    width: 100px;
+    padding-right: 20px !important;
+    padding-left: 20px !important;
+    width: auto;
     color: #000 !important;
     font-weight: 500;
   }

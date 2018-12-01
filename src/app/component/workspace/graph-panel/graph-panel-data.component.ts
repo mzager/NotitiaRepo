@@ -1,3 +1,4 @@
+import { Preprocessing } from './../../../model/preprocessing.model';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -68,6 +69,22 @@ import { Pathway } from './../../../model/pathway.model';
         <mat-option *ngFor="let option of pathwayOptions" [value]="option"> {{ option.n }} </mat-option>
       </mat-select>
     </mat-form-field>
+    <mat-form-field class="form-field" *ngIf="config.enablePreprocessing">
+      <mat-select
+        #preprocessingSelectComponent
+        placeholder="Data Pipeline"
+        (selectionChange)="setPreprocessingOption($event)"
+        [value]="preprocessingSelected"
+        [compareWith]="byName"
+      >
+        <button mat-button style="color:#1e88e5;width:100%;" (click)="customizePreprocessing()">
+          <mat-icon class="material-icons md-18" style="transform:translate(0px, 2px);margin-right:0px;"
+            >settings</mat-icon
+          >Modify List
+        </button>
+        <mat-option *ngFor="let option of preprocessingOptions" [value]="option"> {{ option.n }} </mat-option>
+      </mat-select>
+    </mat-form-field>
   `
 })
 export class GraphPanelDataComponent {
@@ -75,6 +92,8 @@ export class GraphPanelDataComponent {
   cohortSelectComponent: MatSelect;
   @ViewChild('genesetSelectComponent')
   genesetSelectComponent: MatSelect;
+  @ViewChild('preprocessingSelectComponent')
+  preprocessingSelectComponent: MatSelect;
   @ViewChild('pathwaySelectComponent')
   pathwaySelectComponent: MatSelect;
 
@@ -84,9 +103,12 @@ export class GraphPanelDataComponent {
   configChange: EventEmitter<GraphConfig> = new EventEmitter();
   public cohortOptions = [];
   public genesetOptions = [];
+  public preprocessingOptions = [];
   public pathwayOptions = [];
+  // public proteinOptions = [];
   public cohortSelected: Cohort;
   public genesetSelected: GeneSet;
+  public preprocessingSelected: Preprocessing;
   public pathwaySelected: Pathway;
   public cohortOptionsVisible = true;
   public genesetOptionsVisible = true;
@@ -105,6 +127,11 @@ export class GraphPanelDataComponent {
     this.pathwayOptions = v;
     this.pathwaySelected = this.pathwayOptions[1];
   }
+  // @Input()
+  // set proteins(v: Array<Protei>) {
+  //   this.proteinOptions = v;
+  //   this.proteinSelected = this.proteinOptions[0];
+  // }
   @Input()
   set cohorts(v: Array<Cohort>) {
     this.cohortOptions = v;
@@ -114,6 +141,11 @@ export class GraphPanelDataComponent {
   set genesets(v: Array<GeneSet>) {
     this.genesetOptions = [{ n: 'All Genes', g: [] }, ...v];
     this.genesetSelected = this.genesetOptions[1];
+  }
+  @Input()
+  set preprocessings(v: Array<GeneSet>) {
+    this.preprocessingOptions = [Preprocessing.getUndefined(), ...v];
+    this.preprocessingSelected = this.preprocessingOptions[0];
   }
 
   public customizeCohorts(e: any): void {
@@ -133,6 +165,12 @@ export class GraphPanelDataComponent {
       this.pathwaySelectComponent.toggle();
     }
     this.showPanel.emit(PanelEnum.PATHWAYS);
+  }
+  public customizePreprocessing(): void {
+    if (this.preprocessingSelectComponent.panelOpen) {
+      this.preprocessingSelectComponent.toggle();
+    }
+    this.showPanel.emit(PanelEnum.PREPROCESSING);
   }
 
   byName(p1: any, p2: any) {
@@ -167,6 +205,15 @@ export class GraphPanelDataComponent {
     this.config.cohortName = e.value.n;
     this.config.patientFilter = e.value.pids;
     this.config.sampleFilter = e.value.sids;
+    this.config.dirtyFlag = DirtyEnum.LAYOUT;
+    this.configChange.emit(this.config);
+  }
+
+  public setPreprocessingOption(e: MatSelectChange): void {
+    if (this.config.preprocessing.n === e.value.n) {
+      return;
+    }
+    this.config.preprocessing = e.value;
     this.config.dirtyFlag = DirtyEnum.LAYOUT;
     this.configChange.emit(this.config);
   }

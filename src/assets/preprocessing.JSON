@@ -15,7 +15,7 @@
   },
   {
     "method": "KBinsDiscretizer",
-    "type": "numeric",
+    "type": "na",
     "url": "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.KBinsDiscretizer.html#sklearn.preprocessing.KBinsDiscretizer",
     "params": [
       {
@@ -229,7 +229,7 @@
   },
   {
     "method": "PowerTransformer",
-    "type": "numeric",
+    "type": "na",
     "url": "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PowerTransformer.html#sklearn.preprocessing.PowerTransformer",
     "params": [
       {
@@ -327,6 +327,7 @@
   },
   {
     "method": "StandardScaler",
+    "type": "numeric",
     "url": "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html#sklearn.preprocessing.StandardScaler",
     "params": [
       {

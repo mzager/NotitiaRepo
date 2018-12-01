@@ -13,7 +13,7 @@ Promise.all([cbio.getCancerTypes(), cbio.getCancerStudies()]).then(v1 => {
           'A1BG A1BG-AS1 A1CF A1S9T~withdrawn A2M A2M-AS1 A2ML1 A2ML1-AS1 A2ML1-AS2 A2MP1 ZYG11AP1 ZYG11B ZYX ZYXP1 ZZEF1 ZZZ3';
 
         cbio.getProfileData(caseListId, geneticProfileId, ids).then(v3 => {
-          debugger;
+          ;
         });
       });
     });
@@ -53,18 +53,14 @@ export class CbioService {
     return this.parseTsv(res_1);
   }
   async getCaseLists(studyId: string): Promise<any> {
-    const res = await fetch(
-      this.baseUri + 'cmd=getCaseLists&cancer_study_id=' + encodeURI(studyId),
-      { method: 'GET', mode: 'cors' }
-    );
+    const res = await fetch(this.baseUri + 'cmd=getCaseLists&cancer_study_id=' + encodeURI(studyId), {
+      method: 'GET',
+      mode: 'cors'
+    });
     const res_1 = await res.text();
     return this.parseTsv(res_1);
   }
-  async getProfileData(
-    caseSetId: string,
-    geneticProfileId: string,
-    geneList: string
-  ): Promise<any> {
+  async getProfileData(caseSetId: string, geneticProfileId: string, geneList: string): Promise<any> {
     const res = await fetch(
       this.baseUri +
         'cmd=getProfileData&case_set_id=' +
@@ -79,30 +75,21 @@ export class CbioService {
     //  pp.then(res => this.parseTsv(res));
   }
   async getClinicalData(caseSetId: string): Promise<any> {
-    const res = await fetch(
-      this.baseUri + 'cmd=getClinicalData&case_set_id=' + encodeURI(caseSetId),
-      { method: 'GET', mode: 'cors' }
-    );
+    const res = await fetch(this.baseUri + 'cmd=getClinicalData&case_set_id=' + encodeURI(caseSetId), {
+      method: 'GET',
+      mode: 'cors'
+    });
     const res_1 = await res.text();
     return this.parseTsv(res_1);
   }
   async getGeneticProfiles(studyId: string): Promise<any> {
-    const res = await fetch(
-      this.baseUri +
-        'cmd=getGeneticProfiles&cancer_study_id=' +
-        encodeURI(studyId),
-      {
-        method: 'GET'
-      }
-    );
+    const res = await fetch(this.baseUri + 'cmd=getGeneticProfiles&cancer_study_id=' + encodeURI(studyId), {
+      method: 'GET'
+    });
     const res_1 = await res.text();
     return this.parseTsv(res_1);
   }
-  async getMutationData(
-    caseSetId: string,
-    geneticProfileId: string,
-    geneList: string
-  ): Promise<any> {
+  async getMutationData(caseSetId: string, geneticProfileId: string, geneList: string): Promise<any> {
     const res = await fetch(
       this.baseUri +
         'cmd=getMutationData&case_set_id=' +

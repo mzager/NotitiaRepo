@@ -168,7 +168,8 @@ export class StatPanelComponent implements AfterViewInit, OnDestroy {
   // Ng After View Init get's called after the dom has been constructed
   ngAfterViewInit() {
     this.timer = timer(5000, 5000);
-    this.$timerChange = this.timer.subscribe(this.showNextMetric.bind(this));
+    // this.$timerChange = this.timer.subscribe(this.showNextMetric.bind(this));
+    this.timerPaused = true;
 
     this.statFactory = StatFactory.getInstance(this.dataService);
     this.options = new StatPanelGraphicOptions();

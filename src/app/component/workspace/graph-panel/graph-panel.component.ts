@@ -77,6 +77,8 @@ import { NuSVCConfigModel } from './../../visualization/nusvc/nusvc.model';
 import { OneClassSVMConfigModel } from './../../visualization/oneclasssvm/oneclasssvm.model';
 import { MatTabChangeEvent } from '@angular/material';
 import { DatasetDescription } from 'app/model/dataset-description.model';
+import { Preprocessing } from 'app/model/preprocessing.model';
+import { ProteinConfigModel } from 'app/component/visualization/protein/protein.model';
 declare var $: any;
 
 @Component({
@@ -185,6 +187,8 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
   cohorts: Array<any>;
   @Input()
   pathways: Array<any>;
+  @Input()
+  preprocessings: Array<Preprocessing>;
 
   isCollapsed = true;
 
@@ -300,6 +304,9 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
         break;
       case VisualizationEnum.PATHWAYS:
         gc = new PathwaysConfigModel();
+        break;
+      case VisualizationEnum.PROTEINS:
+        gc = new ProteinConfigModel();
         break;
       case VisualizationEnum.CHROMOSOME:
         gc = new ChromosomeConfigModel();
@@ -446,6 +453,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     gc.datasetName = prevConfig.datasetName;
     gc.pathwayUri = prevConfig.pathwayUri;
     gc.pathwayName = prevConfig.pathwayName;
+    gc.proteinName = prevConfig.proteinName;
     gc.cohortName = prevConfig.cohortName;
     gc.markerName = prevConfig.markerName;
     gc.sampleFilter = prevConfig.sampleFilter;
@@ -468,6 +476,7 @@ export class GraphPanelComponent implements AfterViewInit, OnDestroy {
     value.enableSize = this._config.enableSize;
     value.pathwayUri = this._config.pathwayUri;
     value.pathwayName = this._config.pathwayName;
+    value.proteinName = this._config.proteinName;
     value.cohortName = this._config.cohortName;
     value.markerName = this._config.markerName;
     value.sampleFilter = this._config.sampleFilter;

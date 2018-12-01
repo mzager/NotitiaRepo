@@ -36,19 +36,20 @@ export class FilePanelComponent {
 
   public onSelectedTabChange(e: MatTabChangeEvent): void {
     switch (e.tab.textLabel) {
-      case 'GDC':
+      case 'Genomic Data Commons':
         this.setDatasetsOncoscape();
         return;
       // case 'GDC':
       //   this.setDatasetsGdc();
       //   return;
-      case 'MSK':
+      case 'Memorial Slone Kettering':
         this.setDatasetsCBio();
         return;
-      case 'CHOP':
+      // tslint:disable-next-line:quotemark
+      case "Children's Hospital of Philadelphia":
         this.setDatasetsChop();
         return;
-      case 'Private':
+      case 'Private Datasets':
         this.setDatasetsPrivate();
         return;
         break;

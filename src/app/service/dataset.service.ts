@@ -181,8 +181,9 @@ export class DatasetService {
               version: response.version,
               name: manifest.uid,
               events: events,
-              patients: patient,
-              samples: sample,
+              fields: patient.concat(sample),
+              // patients: patient,
+              // samples: sample,
               tables: tbls
             };
 

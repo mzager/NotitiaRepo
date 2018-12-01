@@ -1,8 +1,5 @@
 import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
-import {
-  EntityTypeEnum,
-  SpriteMaterialEnum
-} from './../../../model/enum.model';
+import { EntityTypeEnum, SpriteMaterialEnum } from './../../../model/enum.model';
 import { Legend } from './../../../model/legend.model';
 import { LinearDiscriminantAnalysisConfigModel } from './lineardiscriminantanalysis.model';
 
@@ -17,7 +14,6 @@ export const linearDiscriminantAnalysisCompute = (
     const classes = matrix.sid.map(v => {
       return classifier.has(v) ? 0 : 1;
     });
-    debugger;
 
     worker.util
       .fetchResult({
@@ -33,12 +29,7 @@ export const linearDiscriminantAnalysisCompute = (
         classes: classes
       })
       .then(result => {
-        result.resultScaled = worker.util.scale3d(
-          result.result,
-          config.pcx - 1,
-          config.pcy - 1,
-          config.pcz - 1
-        );
+        result.resultScaled = worker.util.scale3d(result.result, config.pcx - 1, config.pcy - 1, config.pcz - 1);
         result.sid = matrix.sid;
         result.mid = matrix.mid;
         result.pid = matrix.pid;

@@ -1,3 +1,4 @@
+import { ProteinFormComponent } from './component/visualization/protein/protein.form.component';
 import { CbioService } from 'app/service/datasource/cbio.service';
 import { BehaviorPanelComponent } from './component/workspace/behavior-panel/behavior-panel.component';
 import { ScatterFormComponent } from './component/visualization/scatter/scatter.form.component';
@@ -166,6 +167,7 @@ import { InfoPanelComponent } from './component/workspace/info-panel/info-panel.
     KMeansFormComponent,
     KmedianFormComponent,
     KmedoidFormComponent,
+    ProteinFormComponent,
     MdsFormComponent,
     QuadradicDiscriminantAnalysisFormComponent,
     LinearDiscriminantAnalysisFormComponent,

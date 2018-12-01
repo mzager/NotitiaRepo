@@ -14,26 +14,6 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   template: `
-    <mat-menu #analysisSummaryMenu="matMenu">
-      <button mat-menu-item (click)="select.emit(8796093022208)">Dashboard</button>
-      <!-- <button mat-menu-item (click)='select.emit(4294967296)'>Box + Whiskers</button> -->
-      <button mat-menu-item (click)="select.emit(32)">Heatmap</button>
-      <button mat-menu-item (click)="select.emit(1099511627776)">Spreadsheet</button>
-    </mat-menu>
-
-    <mat-menu #analysisStructuralMenu="matMenu">
-      <button mat-menu-item (click)="select.emit(2147483648)">Genome</button>
-      <!-- <button mat-menu-item (click)='select.emit(3)'>Chromosome</button> -->
-      <button mat-menu-item (click)="select.emit(17179869184)">Force Directed Graph</button>
-      <button mat-menu-item (click)="select.emit(256)">Pathways</button>
-    </mat-menu>
-
-    <mat-menu #analysisTreatmentMenu="matMenu">
-      <button mat-menu-item (click)="select.emit(16)">Survival</button>
-      <button mat-menu-item (click)="select.emit(4398046511104)">Hazard</button>
-      <button mat-menu-item (click)="select.emit(128)">Timelines</button>
-    </mat-menu>
-
     <mat-menu #analysisManifoldLearningMenu="matMenu">
       <button mat-menu-item (click)="select.emit(134217728)">Isomap</button>
       <!-- <button mat-menu-item (click)='select.emit(268435456)'>Locally Linear Embedding</button> -->
@@ -82,17 +62,6 @@ import {
       <button mat-menu-item (click)="select.emit(2.879701896e27)">SVR</button> <button mat-menu-item>SVC</button>
     </mat-menu>
 
-    <mat-menu #analysisMenu="matMenu">
-      <button mat-menu-item [matMenuTriggerFor]="analysisSummaryMenu">Summary</button>
-      <button mat-menu-item [matMenuTriggerFor]="analysisStructuralMenu">Structural</button>
-      <button mat-menu-item [matMenuTriggerFor]="analysisTreatmentMenu">Treatment</button>
-      <button mat-menu-item [matMenuTriggerFor]="analysisMatrixDecompositionMenu">Matrix Decomposition</button>
-      <button mat-menu-item [matMenuTriggerFor]="analysisDiscriminantAnalysisMenu">Discriminant Analysis</button>
-      <button mat-menu-item [matMenuTriggerFor]="analysisSupportVectorMachinesMenu">Support Vector Machines</button>
-      <button mat-menu-item [matMenuTriggerFor]="analysisManifoldLearningMenu">Dimension Reduction</button>
-      <button mat-menu-item [matMenuTriggerFor]="analysisCrossDecompositionMenu">Cross Decomposition</button>
-    </mat-menu>
-
     <div class="analysisTitle" style="padding-top:0px;">Summary</div>
     <a class="os-link os-link-br" href="#" xPosition="after" (click)="select.emit(8796093022208)">Dashboard</a>
     <!-- <button mat-menu-item (click)='select.emit(4294967296)'>Box + Whiskers</button> -->
@@ -107,9 +76,17 @@ import {
       *ngIf="datasetDescription.hasMatrixFields"
       >Genome</a
     >
-    <!-- <button mat-menu-item (click)='select.emit(3)'>Chromosome</button> -->
+    <a
+      class="os-link os-link-br"
+      href="#"
+      xPosition="after"
+      (click)="select.emit(3)"
+      *ngIf="datasetDescription.hasMatrixFields"
+      >Chromosome</a
+    >
     <a class="os-link os-link-br" href="#" xPosition="after" (click)="select.emit(17179869184)">Force Directed Graph</a>
     <a class="os-link os-link-br" href="#" xPosition="after" (click)="select.emit(256)">Pathways</a>
+    <a class="os-link os-link-br" href="#" xPosition="after" (click)="select.emit(5.759403792e27)">Molecules</a>
     <a
       class="os-link os-link-br"
       href="#"

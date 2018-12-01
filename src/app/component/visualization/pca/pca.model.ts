@@ -1,8 +1,4 @@
-import {
-  DimensionEnum,
-  EntityTypeEnum,
-  VisualizationEnum
-} from 'app/model/enum.model';
+import { DimensionEnum, EntityTypeEnum, VisualizationEnum } from 'app/model/enum.model';
 import { GraphConfig } from './../../../model/graph-config.model';
 import { GraphData } from './../../../model/graph-data.model';
 
@@ -41,6 +37,7 @@ export interface PcaDataModel extends GraphData {
   sid: Array<string>;
   mid: Array<string>;
   pid: Array<string>;
+  cumsum: any;
   components: any;
   explainedVariance: any;
   explainedVarianceRatio: any;
@@ -48,4 +45,8 @@ export interface PcaDataModel extends GraphData {
   mean: any;
   nComponents: any;
   noiseVariance: any;
+  pcM: { x: number; y: number; z: number }; // PC Mean
+  pc1: { x: number; y: number; z: number };
+  pc2: { x: number; y: number; z: number };
+  pc3: { x: number; y: number; z: number };
 }

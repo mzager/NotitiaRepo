@@ -52,6 +52,7 @@ import { NuSVCConfigModel } from './../component/visualization/nusvc/nusvc.model
 import { NuSVRConfigModel } from './../component/visualization/nusvr/nusvr.model';
 import { OneClassSVMConfigModel } from './../component/visualization/oneclasssvm/oneclasssvm.model';
 import { SVRConfigModel } from './../component/visualization/svr/svr.model';
+import { ProteinConfigModel } from 'app/component/visualization/protein/protein.model';
 /*
 When samples and genes are specified empty arrays == all
 */
@@ -90,6 +91,7 @@ export class ComputeService {
   private linkedGene$ = new Subject<any>();
   private hic$ = new Subject<any>();
   private pathways$ = new Subject<any>();
+  private proteins$ = new Subject<any>();
   private survival$ = new Subject<any>();
   private hazard$ = new Subject<any>();
   private histogram$ = new Subject<any>();
@@ -126,141 +128,98 @@ export class ComputeService {
     return v === VisualizationEnum.BOX_WHISKERS
       ? this.boxWhiskers$
       : v === VisualizationEnum.PATHWAYS
-        ? this.pathways$
-        : v === VisualizationEnum.ISOMAP
-          ? this.isoMap$
-          : v === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING
-            ? this.localLinearEmbedding$
-            : v === VisualizationEnum.INCREMENTAL_PCA
-              ? this.pcaIncremental$
-              : v === VisualizationEnum.KERNAL_PCA
-                ? this.pcaKernal$
-                : v === VisualizationEnum.SPARSE_PCA
-                  ? this.pcaSparse$
-                  : v === VisualizationEnum.FAST_ICA
-                    ? this.fastIca$
-                    : v === VisualizationEnum.TIMELINES
-                      ? this.timelines$
-                      : v === VisualizationEnum.SPECTRAL_EMBEDDING
-                        ? this.spectralEmbedding$
-                        : v === VisualizationEnum.TRUNCATED_SVD
-                          ? this.truncatedSvd$
-                          : v === VisualizationEnum.DICTIONARY_LEARNING
-                            ? this.dictionaryLearning$
-                            : v === VisualizationEnum.LDA
-                              ? this.lda$
-                              : v === VisualizationEnum.NMF
-                                ? this.nmf$
-                                : v === VisualizationEnum.FA
-                                  ? this.fa$
-                                  : v === VisualizationEnum.MDS
-                                    ? this.mds$
-                                    : v === VisualizationEnum.PCA
-                                      ? this.pca$
-                                      : v === VisualizationEnum.SOM
-                                        ? this.som$
-                                        : v ===
-                                          VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS
-                                          ? this.quadradicDiscriminantAnalysis$
-                                          : v ===
-                                            VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS
-                                            ? this.linearDiscriminantAnalysis$
-                                            : v ===
-                                              VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING
-                                              ? this
-                                                .miniBatchDictionaryLearning$
-                                              : v ===
-                                                VisualizationEnum.MINI_BATCH_SPARSE_PCA
-                                                ? this.miniBatchSparsePca$
-                                                : v ===
-                                                  VisualizationEnum.CHROMOSOME
-                                                  ? this.chromosome$
-                                                  : v ===
-                                                    VisualizationEnum.GENOME
-                                                    ? this.genome$
-                                                    : v ===
-                                                      VisualizationEnum.TSNE
-                                                      ? this.tsne$
-                                                      : v ===
-                                                        VisualizationEnum.UMAP
-                                                        ? this.umap$
-                                                        : v ===
-                                                          VisualizationEnum.SCATTER
-                                                          ? this.scatter$
-                                                          : v ===
-                                                            VisualizationEnum.HEATMAP
-                                                            ? this.heatmap$
-                                                            : v ===
-                                                              VisualizationEnum.DENDOGRAM
-                                                              ? this.dendogram$
-                                                              : v ===
-                                                                VisualizationEnum.PARALLEL_COORDS
-                                                                ? this
-                                                                  .parallelCoords$
-                                                                : v ===
-                                                                  VisualizationEnum.LINKED_GENE
-                                                                  ? this
-                                                                    .linkedGene$
-                                                                  : v ===
-                                                                    VisualizationEnum.HIC
-                                                                    ? this.hic$
-                                                                    : v ===
-                                                                      VisualizationEnum.SURVIVAL
-                                                                      ? this
-                                                                        .survival$
-                                                                      : v ===
-                                                                        VisualizationEnum.HAZARD
-                                                                        ? this
-                                                                          .hazard$
-                                                                        : v ===
-                                                                          VisualizationEnum.PLSSVD
-                                                                          ? this
-                                                                            .plsSvd$
-                                                                          : v ===
-                                                                            VisualizationEnum.PLSREGRESSION
-                                                                            ? this
-                                                                              .plsRegression$
-                                                                            : v ===
-                                                                              VisualizationEnum.EDGES
-                                                                              ? this
-                                                                                .edges$
-                                                                              : v ===
-                                                                                VisualizationEnum.PLSCANONICAL
-                                                                                ? this
-                                                                                  .plsCanonical$
-                                                                                : v ===
-                                                                                  VisualizationEnum.CCA
-                                                                                  ? this
-                                                                                    .CCA$
-                                                                                  : v ===
-                                                                                    VisualizationEnum.LINEAR_SVC
-                                                                                    ? this
-                                                                                      .LinearSVC$
-                                                                                    : v ===
-                                                                                      VisualizationEnum.LINEAR_SVR
-                                                                                      ? this
-                                                                                        .LinearSVR$
-                                                                                      : v ===
-                                                                                        VisualizationEnum.NU_SVR
-                                                                                        ? this
-                                                                                          .NuSVR$
-                                                                                        : v ===
-                                                                                          VisualizationEnum.NU_SVC
-                                                                                          ? this
-                                                                                            .NuSVC$
-                                                                                          : v ===
-                                                                                            VisualizationEnum.ONE_CLASS_SVM
-                                                                                            ? this
-                                                                                              .OneClassSVM$
-                                                                                            : v ===
-                                                                                              VisualizationEnum.SVR
-                                                                                              ? this
-                                                                                                .SVR$
-                                                                                              : v ===
-                                                                                                VisualizationEnum.HISTOGRAM
-                                                                                                ? this
-                                                                                                  .histogram$
-                                                                                                : null;
+      ? this.pathways$
+      : v === VisualizationEnum.PROTEINS
+      ? this.proteins$
+      : v === VisualizationEnum.ISOMAP
+      ? this.isoMap$
+      : v === VisualizationEnum.LOCALLY_LINEAR_EMBEDDING
+      ? this.localLinearEmbedding$
+      : v === VisualizationEnum.INCREMENTAL_PCA
+      ? this.pcaIncremental$
+      : v === VisualizationEnum.KERNAL_PCA
+      ? this.pcaKernal$
+      : v === VisualizationEnum.SPARSE_PCA
+      ? this.pcaSparse$
+      : v === VisualizationEnum.FAST_ICA
+      ? this.fastIca$
+      : v === VisualizationEnum.TIMELINES
+      ? this.timelines$
+      : v === VisualizationEnum.SPECTRAL_EMBEDDING
+      ? this.spectralEmbedding$
+      : v === VisualizationEnum.TRUNCATED_SVD
+      ? this.truncatedSvd$
+      : v === VisualizationEnum.DICTIONARY_LEARNING
+      ? this.dictionaryLearning$
+      : v === VisualizationEnum.LDA
+      ? this.lda$
+      : v === VisualizationEnum.NMF
+      ? this.nmf$
+      : v === VisualizationEnum.FA
+      ? this.fa$
+      : v === VisualizationEnum.MDS
+      ? this.mds$
+      : v === VisualizationEnum.PCA
+      ? this.pca$
+      : v === VisualizationEnum.SOM
+      ? this.som$
+      : v === VisualizationEnum.QUADRATIC_DISCRIMINANT_ANALYSIS
+      ? this.quadradicDiscriminantAnalysis$
+      : v === VisualizationEnum.LINEAR_DISCRIMINANT_ANALYSIS
+      ? this.linearDiscriminantAnalysis$
+      : v === VisualizationEnum.MINI_BATCH_DICTIONARY_LEARNING
+      ? this.miniBatchDictionaryLearning$
+      : v === VisualizationEnum.MINI_BATCH_SPARSE_PCA
+      ? this.miniBatchSparsePca$
+      : v === VisualizationEnum.CHROMOSOME
+      ? this.chromosome$
+      : v === VisualizationEnum.GENOME
+      ? this.genome$
+      : v === VisualizationEnum.TSNE
+      ? this.tsne$
+      : v === VisualizationEnum.UMAP
+      ? this.umap$
+      : v === VisualizationEnum.SCATTER
+      ? this.scatter$
+      : v === VisualizationEnum.HEATMAP
+      ? this.heatmap$
+      : v === VisualizationEnum.DENDOGRAM
+      ? this.dendogram$
+      : v === VisualizationEnum.PARALLEL_COORDS
+      ? this.parallelCoords$
+      : v === VisualizationEnum.LINKED_GENE
+      ? this.linkedGene$
+      : v === VisualizationEnum.HIC
+      ? this.hic$
+      : v === VisualizationEnum.SURVIVAL
+      ? this.survival$
+      : v === VisualizationEnum.HAZARD
+      ? this.hazard$
+      : v === VisualizationEnum.PLSSVD
+      ? this.plsSvd$
+      : v === VisualizationEnum.PLSREGRESSION
+      ? this.plsRegression$
+      : v === VisualizationEnum.EDGES
+      ? this.edges$
+      : v === VisualizationEnum.PLSCANONICAL
+      ? this.plsCanonical$
+      : v === VisualizationEnum.CCA
+      ? this.CCA$
+      : v === VisualizationEnum.LINEAR_SVC
+      ? this.LinearSVC$
+      : v === VisualizationEnum.LINEAR_SVR
+      ? this.LinearSVR$
+      : v === VisualizationEnum.NU_SVR
+      ? this.NuSVR$
+      : v === VisualizationEnum.NU_SVC
+      ? this.NuSVC$
+      : v === VisualizationEnum.ONE_CLASS_SVM
+      ? this.OneClassSVM$
+      : v === VisualizationEnum.SVR
+      ? this.SVR$
+      : v === VisualizationEnum.HISTOGRAM
+      ? this.histogram$
+      : null;
   }
   onMessage(v) {
     if (v.data === 'TERMINATE') {
@@ -365,6 +324,10 @@ export class ComputeService {
     return this.execute(config, this.pathways$);
   }
 
+  proteins(config: ProteinConfigModel): Observable<any> {
+    return this.execute(config, this.proteins$);
+  }
+
   pca(config: PcaConfigModel): Observable<any> {
     return this.execute(config, this.pca$);
   }
@@ -397,15 +360,11 @@ export class ComputeService {
     return this.execute(config, this.som$);
   }
 
-  quadraticDiscriminantAnalysis(
-    config: QuadradicDiscriminantAnalysisConfigModel
-  ): Observable<any> {
+  quadraticDiscriminantAnalysis(config: QuadradicDiscriminantAnalysisConfigModel): Observable<any> {
     return this.execute(config, this.quadradicDiscriminantAnalysis$);
   }
 
-  linearDiscriminantAnalysis(
-    config: LinearDiscriminantAnalysisConfigModel
-  ): Observable<any> {
+  linearDiscriminantAnalysis(config: LinearDiscriminantAnalysisConfigModel): Observable<any> {
     return this.execute(config, this.linearDiscriminantAnalysis$);
   }
 
@@ -413,9 +372,7 @@ export class ComputeService {
     return this.execute(config, this.miniBatchSparsePca$);
   }
 
-  miniBatchDictionaryLearning(
-    config: MiniBatchDictionaryLearningConfigModel
-  ): Observable<any> {
+  miniBatchDictionaryLearning(config: MiniBatchDictionaryLearningConfigModel): Observable<any> {
     return this.execute(config, this.miniBatchDictionaryLearning$);
   }
 
@@ -451,9 +408,7 @@ export class ComputeService {
     return this.execute(config, this.isoMap$);
   }
 
-  localLinearEmbedding(
-    config: LocalLinearEmbeddingConfigModel
-  ): Observable<any> {
+  localLinearEmbedding(config: LocalLinearEmbeddingConfigModel): Observable<any> {
     return this.execute(config, this.localLinearEmbedding$);
   }
 

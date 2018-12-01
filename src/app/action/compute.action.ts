@@ -1,7 +1,4 @@
-import {
-  ScatterConfigModel,
-  ScatterDataModel
-} from './../component/visualization/scatter/scatter.model';
+import { ScatterConfigModel, ScatterDataModel } from './../component/visualization/scatter/scatter.model';
 import { UmapDataModel } from './../component/visualization/umap/umap.model';
 import { Action } from '@ngrx/store';
 import {
@@ -38,123 +35,45 @@ import {
   BoxWhiskersConfigModel,
   BoxWhiskersDataModel
 } from './../component/visualization/boxwhiskers/boxwhiskers.model';
-import {
-  ChromosomeConfigModel,
-  ChromosomeDataModel
-} from './../component/visualization/chromosome/chromosome.model';
-import {
-  DaConfigModel,
-  DaDataModel
-} from './../component/visualization/da/da.model';
-import {
-  DeConfigModel,
-  DeDataModel
-} from './../component/visualization/de/de.model';
-import {
-  DendogramConfigModel,
-  DendogramDataModel
-} from './../component/visualization/dendogram/dendogram.model';
-import {
-  EdgeConfigModel,
-  EdgeDataModel
-} from './../component/visualization/edges/edges.model';
-import {
-  FaConfigModel,
-  FaDataModel
-} from './../component/visualization/fa/fa.model';
-import {
-  FastIcaConfigModel,
-  FastIcaDataModel
-} from './../component/visualization/fastica/fastica.model';
-import {
-  GenomeConfigModel,
-  GenomeDataModel
-} from './../component/visualization/genome/genome.model';
-import {
-  HazardConfigModel,
-  HazardDataModel
-} from './../component/visualization/hazard/hazard.model';
-import {
-  HeatmapConfigModel,
-  HeatmapDataModel
-} from './../component/visualization/heatmap/heatmap.model';
-import {
-  HicConfigModel,
-  HicDataModel
-} from './../component/visualization/hic/hic.model';
-import {
-  HistogramConfigModel,
-  HistogramDataModel
-} from './../component/visualization/histogram/histogram.model';
-import {
-  IsoMapConfigModel,
-  IsoMapDataModel
-} from './../component/visualization/isomap/isomap.model';
-import {
-  LdaConfigModel,
-  LdaDataModel
-} from './../component/visualization/lda/lda.model';
+import { ChromosomeConfigModel, ChromosomeDataModel } from './../component/visualization/chromosome/chromosome.model';
+import { DaConfigModel, DaDataModel } from './../component/visualization/da/da.model';
+import { DeConfigModel, DeDataModel } from './../component/visualization/de/de.model';
+import { DendogramConfigModel, DendogramDataModel } from './../component/visualization/dendogram/dendogram.model';
+import { EdgeConfigModel, EdgeDataModel } from './../component/visualization/edges/edges.model';
+import { FaConfigModel, FaDataModel } from './../component/visualization/fa/fa.model';
+import { FastIcaConfigModel, FastIcaDataModel } from './../component/visualization/fastica/fastica.model';
+import { GenomeConfigModel, GenomeDataModel } from './../component/visualization/genome/genome.model';
+import { HazardConfigModel, HazardDataModel } from './../component/visualization/hazard/hazard.model';
+import { HeatmapConfigModel, HeatmapDataModel } from './../component/visualization/heatmap/heatmap.model';
+import { HicConfigModel, HicDataModel } from './../component/visualization/hic/hic.model';
+import { HistogramConfigModel, HistogramDataModel } from './../component/visualization/histogram/histogram.model';
+import { IsoMapConfigModel, IsoMapDataModel } from './../component/visualization/isomap/isomap.model';
+import { LdaConfigModel, LdaDataModel } from './../component/visualization/lda/lda.model';
 import { LinkedGeneConfigModel } from './../component/visualization/linkedgenes/linkedgenes.model';
-import {
-  MdsConfigModel,
-  MdsDataModel
-} from './../component/visualization/mds/mds.model';
-import {
-  NmfConfigModel,
-  NmfDataModel
-} from './../component/visualization/nmf/nmf.model';
+import { MdsConfigModel, MdsDataModel } from './../component/visualization/mds/mds.model';
+import { NmfConfigModel, NmfDataModel } from './../component/visualization/nmf/nmf.model';
 import {
   ParallelCoordsConfigModel,
   ParallelCoordsDataModel
 } from './../component/visualization/parallelcoords/parallelcoords.model';
-import {
-  PathwaysConfigModel,
-  PathwaysDataModel
-} from './../component/visualization/pathways/pathways.model';
-import {
-  PcaConfigModel,
-  PcaDataModel
-} from './../component/visualization/pca/pca.model';
+import { PathwaysConfigModel, PathwaysDataModel } from './../component/visualization/pathways/pathways.model';
+import { PcaConfigModel, PcaDataModel } from './../component/visualization/pca/pca.model';
 import {
   PcaIncrementalConfigModel,
   PcaIncrementalDataModel
 } from './../component/visualization/pcaincremental/pcaincremental.model';
-import {
-  PcaKernalConfigModel,
-  PcaKernalDataModel
-} from './../component/visualization/pcakernal/pcakernal.model';
-import {
-  PcaSparseConfigModel,
-  PcaSparseDataModel
-} from './../component/visualization/pcasparse/pcasparse.model';
-import {
-  PlsConfigModel,
-  PlsDataModel
-} from './../component/visualization/pls/pls.model';
-import {
-  SomConfigModel,
-  SomDataModel
-} from './../component/visualization/som/som.model';
-import {
-  SurvivalConfigModel,
-  SurvivalDataModel
-} from './../component/visualization/survival/survival.model';
-import {
-  TimelinesConfigModel,
-  TimelinesDataModel
-} from './../component/visualization/timelines/timelines.model';
+import { PcaKernalConfigModel, PcaKernalDataModel } from './../component/visualization/pcakernal/pcakernal.model';
+import { PcaSparseConfigModel, PcaSparseDataModel } from './../component/visualization/pcasparse/pcasparse.model';
+import { PlsConfigModel, PlsDataModel } from './../component/visualization/pls/pls.model';
+import { SomConfigModel, SomDataModel } from './../component/visualization/som/som.model';
+import { SurvivalConfigModel, SurvivalDataModel } from './../component/visualization/survival/survival.model';
+import { TimelinesConfigModel, TimelinesDataModel } from './../component/visualization/timelines/timelines.model';
 import {
   TruncatedSvdConfigModel,
   TruncatedSvdDataModel
 } from './../component/visualization/truncatedsvd/truncatedsvd.model';
-import {
-  TsneConfigModel,
-  TsneDataModel
-} from './../component/visualization/tsne/tsne.model';
-import {
-  PlsSvdConfigModel,
-  PlsSvdDataModel
-} from './../component/visualization/pls-svd/pls-svd.model';
+import { TsneConfigModel, TsneDataModel } from './../component/visualization/tsne/tsne.model';
+import { PlsSvdConfigModel, PlsSvdDataModel } from './../component/visualization/pls-svd/pls-svd.model';
 import {
   PlsRegressionConfigModel,
   PlsRegressionDataModel
@@ -163,37 +82,20 @@ import {
   PlsCanonicalConfigModel,
   PlsCanonicalDataModel
 } from './../component/visualization/plscanonical/plscanonical.model';
-import {
-  CCAConfigModel,
-  CCADataModel
-} from './../component/visualization/cca/cca.model';
-import {
-  LinearSVCConfigModel,
-  LinearSVCDataModel
-} from './../component/visualization/linearsvc/linearsvc.model';
-import {
-  LinearSVRConfigModel,
-  LinearSVRDataModel
-} from './../component/visualization/linearsvr/linearsvr.model';
-import {
-  NuSVRConfigModel,
-  NuSVRDataModel
-} from './../component/visualization/nusvr/nusvr.model';
-import {
-  NuSVCConfigModel,
-  NuSVCDataModel
-} from './../component/visualization/nusvc/nusvc.model';
+import { CCAConfigModel, CCADataModel } from './../component/visualization/cca/cca.model';
+import { LinearSVCConfigModel, LinearSVCDataModel } from './../component/visualization/linearsvc/linearsvc.model';
+import { LinearSVRConfigModel, LinearSVRDataModel } from './../component/visualization/linearsvr/linearsvr.model';
+import { NuSVRConfigModel, NuSVRDataModel } from './../component/visualization/nusvr/nusvr.model';
+import { NuSVCConfigModel, NuSVCDataModel } from './../component/visualization/nusvc/nusvc.model';
 import {
   OneClassSVMConfigModel,
   OneClassSVMDataModel
 } from './../component/visualization/oneclasssvm/oneclasssvm.model';
-import {
-  SVRConfigModel,
-  SVRDataModel
-} from './../component/visualization/svr/svr.model';
+import { SVRConfigModel, SVRDataModel } from './../component/visualization/svr/svr.model';
 import { ChartSelection } from './../model/chart-selection.model';
 import { GraphData } from './../model/graph-data.model';
 import { UmapConfigModel } from '../component/visualization/umap/umap.model';
+import { ProteinConfigModel, ProteinDataModel } from 'app/component/visualization/protein/protein.model';
 
 // Action Constants
 export const COMPUTE_EDGES = '[Compute] Edges';
@@ -210,6 +112,8 @@ export const COMPUTE_HIC = '[Compute] HiC';
 export const COMPUTE_HIC_COMPLETE = '[Compute] HiC Complete';
 export const COMPUTE_NONE = '[Compute] None';
 export const COMPUTE_NONE_COMPLETE = '[Compute] None Complete';
+export const COMPUTE_PROTEIN = '[Compute Protein]';
+export const COMPUTE_PROTEIN_COMPLETE = '[Compute Protein Complete]';
 export const COMPUTE_PCA = '[Compute] Pca';
 export const COMPUTE_PCA_COMPLETE = '[Compute] Pca Complete';
 export const COMPUTE_PCA_SPARSE = '[Compute] Pca Sparse';
@@ -217,15 +121,11 @@ export const COMPUTE_PCA_SPARSE_COMPLETE = '[Compute] Pca Sparse Complete';
 export const COMPUTE_PCA_KERNAL = '[Compute] Pca Kernal';
 export const COMPUTE_PCA_KERNAL_COMPLETE = '[Compute] Pca Kernal Complete';
 export const COMPUTE_PCA_INCREMENTAL = '[Compute] Pca Incremental';
-export const COMPUTE_PCA_INCREMENTAL_COMPLETE =
-  '[Compute] Pca Incremental Complete';
+export const COMPUTE_PCA_INCREMENTAL_COMPLETE = '[Compute] Pca Incremental Complete';
 export const COMPUTE_SPECTRAL_EMBEDDING = '[Compute] Spectral Embedding';
-export const COMPUTE_SPECTRAL_EMBEDDING_COMPLETE =
-  '[Compute] Spectral Embedding Complete';
-export const COMPUTE_LOCAL_LINEAR_EMBEDDING =
-  '[Compute] Local Linear Embedding';
-export const COMPUTE_LOCAL_LINEAR_EMBEDDING_COMPLETE =
-  '[Compute] Local Linear Embedding Complete';
+export const COMPUTE_SPECTRAL_EMBEDDING_COMPLETE = '[Compute] Spectral Embedding Complete';
+export const COMPUTE_LOCAL_LINEAR_EMBEDDING = '[Compute] Local Linear Embedding';
+export const COMPUTE_LOCAL_LINEAR_EMBEDDING_COMPLETE = '[Compute] Local Linear Embedding Complete';
 export const COMPUTE_ISO_MAP = '[Compute] Iso Map';
 export const COMPUTE_ISO_MAP_COMPLETE = '[Compute] Iso Map Complete';
 export const COMPUTE_FA = '[Compute] Fa';
@@ -233,8 +133,7 @@ export const COMPUTE_FA_COMPLETE = '[Compute] Fa Complete';
 export const COMPUTE_FAST_ICA = '[Compute] Fast Ica';
 export const COMPUTE_FAST_ICA_COMPLETE = '[Compute] Fast Ica Complete';
 export const COMPUTE_DICTIONARY_LEARNING = '[Compute] Dictionary Learning';
-export const COMPUTE_DICTIONARY_LEARNING_COMPLETE =
-  '[Compute] Dictionary Learning Complete';
+export const COMPUTE_DICTIONARY_LEARNING_COMPLETE = '[Compute] Dictionary Learning Complete';
 export const COMPUTE_DA = '[Compute] Da';
 export const COMPUTE_DA_COMPLETE = '[Compute] Da Complete';
 export const COMPUTE_DE = '[Compute] De';
@@ -250,8 +149,7 @@ export const COMPUTE_HEATMAP_COMPLETE = '[Compute] Heatmap Complete';
 export const COMPUTE_HISTOGRAM = '[Compute] Histogram';
 export const COMPUTE_HISTOGRAM_COMPLETE = '[Compute] Histogram Complete';
 export const COMPUTE_PARALLEL_COORDS = '[Compute] Parallel Coords';
-export const COMPUTE_PARALLEL_COORDS_COMPLETE =
-  '[Compute] Parallel Coords Complete';
+export const COMPUTE_PARALLEL_COORDS_COMPLETE = '[Compute] Parallel Coords Complete';
 export const COMPUTE_BOX_WHISKERS = '[Compute] Box Whiskers';
 export const COMPUTE_BOX_WHISKERS_COMPLETE = '[Compute] Box Whiskers Complete';
 export const COMPUTE_TIMELINES = '[Compute] Timelines';
@@ -259,8 +157,7 @@ export const COMPUTE_TIMELINES_COMPLETE = '[Compute] Timelines Complete';
 export const COMPUTE_NMF = '[Compute] NMF';
 export const COMPUTE_NMF_COMPLETE = '[Compute] NMF Complete';
 export const COMPUTE_TRUNCATED_SVD = '[Compute] Truncated SVD';
-export const COMPUTE_TRUNCATED_SVD_COMPLETE =
-  '[Compute] Truncated SVD Complete';
+export const COMPUTE_TRUNCATED_SVD_COMPLETE = '[Compute] Truncated SVD Complete';
 export const COMPUTE_PATHWAYS = '[Compute] Pathways';
 export const COMPUTE_PATHWAYS_COMPLETE = '[Compute] Pathways Complete';
 export const COMPUTE_TSNE = '[Compute] Tsne';
@@ -280,20 +177,13 @@ export const COMPUTE_MEAN_COMPLETE = '[Compute] Meam Complete';
 export const COMPUTE_MDS = '[Compute] MDS';
 export const COMPUTE_MDS_COMPLETE = '[Compute] MDS Complete';
 export const COMPUTE_MINI_BATCH_SPARSE_PCA = '[Compute] Mini Batch Sparse PCA';
-export const COMPUTE_MINI_BATCH_SPARSE_PCA_COMPLETE =
-  '[Compute] Mini Batch Sparse PCA Complete';
-export const COMPUTE_MINI_BATCH_DICTIONARY_LEARNING =
-  '[Compute] Mini Batch Dictionary Learning';
-export const COMPUTE_MINI_BATCH_DICTIONARY_LEARNING_COMPLETE =
-  '[Compute] Mini Batch Dictionary Learning Complete';
-export const COMPUTE_QUADRATIC_DISCRIMINANT_ANALYSIS =
-  '[Compute] Quadratic Discriminant Analysis';
-export const COMPUTE_QUADRATIC_DISCRIMINANT_ANALYSIS_COMPLETE =
-  '[Compute] Quadratic Discriminant Analysis Complete';
-export const COMPUTE_LINEAR_DISCRIMINANT_ANALYSIS =
-  '[Compute] Linear Discriminant Analysis';
-export const COMPUTE_LINEAR_DISCRIMINANT_ANALYSIS_COMPLETE =
-  '[Compute] Linear Discriminant Analysis Complete';
+export const COMPUTE_MINI_BATCH_SPARSE_PCA_COMPLETE = '[Compute] Mini Batch Sparse PCA Complete';
+export const COMPUTE_MINI_BATCH_DICTIONARY_LEARNING = '[Compute] Mini Batch Dictionary Learning';
+export const COMPUTE_MINI_BATCH_DICTIONARY_LEARNING_COMPLETE = '[Compute] Mini Batch Dictionary Learning Complete';
+export const COMPUTE_QUADRATIC_DISCRIMINANT_ANALYSIS = '[Compute] Quadratic Discriminant Analysis';
+export const COMPUTE_QUADRATIC_DISCRIMINANT_ANALYSIS_COMPLETE = '[Compute] Quadratic Discriminant Analysis Complete';
+export const COMPUTE_LINEAR_DISCRIMINANT_ANALYSIS = '[Compute] Linear Discriminant Analysis';
+export const COMPUTE_LINEAR_DISCRIMINANT_ANALYSIS_COMPLETE = '[Compute] Linear Discriminant Analysis Complete';
 export const COMPUTE_LDA = '[Compute] LDA';
 export const COMPUTE_LDA_COMPLETE = '[Compute] LDA Complete';
 export const COMPUTE_PLS_SVD = '[Compute] PlsSvd';
@@ -317,11 +207,9 @@ export const COMPUTE_ONE_CLASS_SVM_COMPLETE = '[Compute] One Class SVM Complete'
 export const COMPUTE_SVR = '[Compute]  SVR';
 export const COMPUTE_SVR_COMPLETE = '[Compute]  SVR Complete';
 export const COMPUTE_POPULATION_SUMMARY = '[Compute] Population Summary';
-export const COMPUTE_POPULATION_SUMMARY_COMPLETE =
-  '[Compute] Population Summary Complete';
+export const COMPUTE_POPULATION_SUMMARY_COMPLETE = '[Compute] Population Summary Complete';
 export const COMPUTE_SAMPLE_SUMMARY = '[Compute] Sample Summary';
-export const COMPUTE_SAMPLE_SUMMARY_COMPLETE =
-  '[Compute] Sample Summary Complete';
+export const COMPUTE_SAMPLE_SUMMARY_COMPLETE = '[Compute] Sample Summary Complete';
 export const COMPUTE_GRAPH_COLOR = '[Compute] Graph Color';
 export const COMPUTE_GRAPH_COLOR_COMPLETE = '[Compute] Graph Color Complete';
 export const COMPUTE_GRAPH_SIZE = '[Compute] Graph Size';
@@ -332,11 +220,9 @@ export const COMPUTE_DECORATOR_ADD = '[Compute] Decorator Add';
 export const COMPUTE_DECORATOR_DEL = '[Compute] Decorator Del';
 export const COMPUTE_DECORATOR_UPDATE = '[Compute] Decorator Update';
 export const COMPUTE_SELECT_SAMPLES = '[Compute] Select Samples';
-export const COMPUTE_SELECT_SAMPLES_COMPLETE =
-  '[Compute] Select Samples Complete';
+export const COMPUTE_SELECT_SAMPLES_COMPLETE = '[Compute] Select Samples Complete';
 export const COMPUTE_SELECT_MARKERS = '[Compute] Select Markers';
-export const COMPUTE_SELECT_MARKERS_COMPLETE =
-  '[Compute] Select Markers Complete';
+export const COMPUTE_SELECT_MARKERS_COMPLETE = '[Compute] Select Markers Complete';
 export const COMPUTE_SELECT_HIDE = '[Compute] Select Hide';
 export const COMPUTE_SELECT_SAMPLES_SAVE = '[Compute] Select Samples Save';
 export const COMPUTE_SELECT_MARKERS_SAVE = '[Compute] Select Markers Save';
@@ -361,9 +247,7 @@ export class EdgesAction implements Action {
 }
 export class EdgesCompleteAction implements Action {
   readonly type: string = COMPUTE_EDGES_COMPLETE;
-  constructor(
-    public payload: { config: EdgeConfigModel; data: EdgeDataModel }
-  ) {}
+  constructor(public payload: { config: EdgeConfigModel; data: EdgeDataModel }) {}
 }
 // export class DecoratorAddAction implements Action {
 //     readonly type: string = COMPUTE_DECORATOR_ADD;
@@ -399,15 +283,21 @@ export class DictionaryLearningCompleteAction implements Action {
     }
   ) {}
 }
+export class ProteinAction implements Action {
+  readonly type: string = COMPUTE_PROTEIN;
+  constructor(public payload: { config: ProteinConfigModel }) {}
+}
+export class ProteinCompleteAction implements Action {
+  readonly type: string = COMPUTE_PROTEIN_COMPLETE;
+  constructor(public payload: { config: ProteinConfigModel; data: ProteinDataModel }) {}
+}
 export class FastIcaAction implements Action {
   readonly type: string = COMPUTE_FAST_ICA;
   constructor(public payload: { config: FastIcaConfigModel }) {}
 }
 export class FastIcaCompleteAction implements Action {
   readonly type: string = COMPUTE_FAST_ICA_COMPLETE;
-  constructor(
-    public payload: { config: FastIcaConfigModel; data: FastIcaDataModel }
-  ) {}
+  constructor(public payload: { config: FastIcaConfigModel; data: FastIcaDataModel }) {}
 }
 export class LdaAction implements Action {
   readonly type: string = COMPUTE_LDA;
@@ -489,9 +379,7 @@ export class PcaKernalAction implements Action {
 }
 export class PcaKernalCompleteAction implements Action {
   readonly type: string = COMPUTE_PCA_KERNAL_COMPLETE;
-  constructor(
-    public payload: { config: PcaKernalConfigModel; data: PcaKernalDataModel }
-  ) {}
+  constructor(public payload: { config: PcaKernalConfigModel; data: PcaKernalDataModel }) {}
 }
 export class PcaSparseAction implements Action {
   readonly type: string = COMPUTE_PCA_SPARSE;
@@ -499,9 +387,7 @@ export class PcaSparseAction implements Action {
 }
 export class PcaSparseCompleteAction implements Action {
   readonly type: string = COMPUTE_PCA_SPARSE_COMPLETE;
-  constructor(
-    public payload: { config: PcaSparseConfigModel; data: PcaSparseDataModel }
-  ) {}
+  constructor(public payload: { config: PcaSparseConfigModel; data: PcaSparseDataModel }) {}
 }
 export class IsoMapAction implements Action {
   readonly type: string = COMPUTE_ISO_MAP;
@@ -509,9 +395,7 @@ export class IsoMapAction implements Action {
 }
 export class IsoMapCompleteAction implements Action {
   readonly type: string = COMPUTE_ISO_MAP_COMPLETE;
-  constructor(
-    public payload: { config: IsoMapConfigModel; data: IsoMapDataModel }
-  ) {}
+  constructor(public payload: { config: IsoMapConfigModel; data: IsoMapDataModel }) {}
 }
 export class LocalLinearEmbeddingAction implements Action {
   readonly type: string = COMPUTE_LOCAL_LINEAR_EMBEDDING;
@@ -545,9 +429,7 @@ export class TsneAction implements Action {
 }
 export class TsneCompleteAction implements Action {
   readonly type: string = COMPUTE_TSNE_COMPLETE;
-  constructor(
-    public payload: { config: TsneConfigModel; data: TsneDataModel }
-  ) {}
+  constructor(public payload: { config: TsneConfigModel; data: TsneDataModel }) {}
 }
 export class UmapAction implements Action {
   readonly type: string = COMPUTE_UMAP;
@@ -555,9 +437,7 @@ export class UmapAction implements Action {
 }
 export class UmapCompleteAction implements Action {
   readonly type: string = COMPUTE_UMAP_COMPLETE;
-  constructor(
-    public payload: { config: UmapConfigModel; data: UmapDataModel }
-  ) {}
+  constructor(public payload: { config: UmapConfigModel; data: UmapDataModel }) {}
 }
 export class ScatterAction implements Action {
   readonly type: string = COMPUTE_SCATTER;
@@ -565,9 +445,7 @@ export class ScatterAction implements Action {
 }
 export class ScatterCompleteAction implements Action {
   readonly type: string = COMPUTE_SCATTER_COMPLETE;
-  constructor(
-    public payload: { config: ScatterConfigModel; data: ScatterDataModel }
-  ) {}
+  constructor(public payload: { config: ScatterConfigModel; data: ScatterDataModel }) {}
 }
 export class PlsAction implements Action {
   readonly type: string = COMPUTE_PLSR;
@@ -583,9 +461,7 @@ export class ChromosomeAction implements Action {
 }
 export class ChromosomeCompleteAction implements Action {
   readonly type: string = COMPUTE_CHROMOSOME_COMPLETE;
-  constructor(
-    public payload: { config: ChromosomeConfigModel; data: ChromosomeDataModel }
-  ) {}
+  constructor(public payload: { config: ChromosomeConfigModel; data: ChromosomeDataModel }) {}
 }
 export class GenomeAction implements Action {
   readonly type: string = COMPUTE_GENOME;
@@ -593,9 +469,7 @@ export class GenomeAction implements Action {
 }
 export class GenomeCompleteAction implements Action {
   readonly type: string = COMPUTE_GENOME_COMPLETE;
-  constructor(
-    public payload: { config: GenomeConfigModel; data: GenomeDataModel }
-  ) {}
+  constructor(public payload: { config: GenomeConfigModel; data: GenomeDataModel }) {}
 }
 export class LinkedGeneAction implements Action {
   readonly type: string = COMPUTE_LINKED_GENE;
@@ -603,9 +477,7 @@ export class LinkedGeneAction implements Action {
 }
 export class LinkedGeneCompleteAction implements Action {
   readonly type: string = COMPUTE_LINKED_GENE_COMPLETE;
-  constructor(
-    public payload: { config: GenomeConfigModel; data: GenomeDataModel }
-  ) {}
+  constructor(public payload: { config: GenomeConfigModel; data: GenomeDataModel }) {}
 }
 export class HicAction implements Action {
   readonly type: string = COMPUTE_HIC;
@@ -621,9 +493,7 @@ export class SurvivalAction implements Action {
 }
 export class SurvivalCompleteAction implements Action {
   readonly type: string = COMPUTE_SURVIVAL_COMPLETE;
-  constructor(
-    public payload: { config: SurvivalConfigModel; data: SurvivalDataModel }
-  ) {}
+  constructor(public payload: { config: SurvivalConfigModel; data: SurvivalDataModel }) {}
 }
 export class HazardAction implements Action {
   readonly type: string = COMPUTE_HAZARD;
@@ -631,9 +501,7 @@ export class HazardAction implements Action {
 }
 export class HazardCompleteAction implements Action {
   readonly type: string = COMPUTE_HAZARD_COMPLETE;
-  constructor(
-    public payload: { config: HazardConfigModel; data: HazardDataModel }
-  ) {}
+  constructor(public payload: { config: HazardConfigModel; data: HazardDataModel }) {}
 }
 export class DendogramAction implements Action {
   readonly type: string = COMPUTE_DENDOGRAM;
@@ -641,9 +509,7 @@ export class DendogramAction implements Action {
 }
 export class DendogramCompleteAction implements Action {
   readonly type: string = COMPUTE_DENDOGRAM_COMPLETE;
-  constructor(
-    public payload: { config: DendogramConfigModel; data: DendogramDataModel }
-  ) {}
+  constructor(public payload: { config: DendogramConfigModel; data: DendogramDataModel }) {}
 }
 export class HeatmapAction implements Action {
   readonly type: string = COMPUTE_HEATMAP;
@@ -651,9 +517,7 @@ export class HeatmapAction implements Action {
 }
 export class HeatmapCompleteAction implements Action {
   readonly type: string = COMPUTE_HEATMAP_COMPLETE;
-  constructor(
-    public payload: { config: HeatmapConfigModel; data: HeatmapDataModel }
-  ) {}
+  constructor(public payload: { config: HeatmapConfigModel; data: HeatmapDataModel }) {}
 }
 export class ParallelCoordsAction implements Action {
   readonly type: string = COMPUTE_PARALLEL_COORDS;
@@ -687,9 +551,7 @@ export class HistogramAction implements Action {
 }
 export class HistogramCompleteAction implements Action {
   readonly type: string = COMPUTE_HISTOGRAM_COMPLETE;
-  constructor(
-    public payload: { config: HistogramConfigModel; data: HistogramDataModel }
-  ) {}
+  constructor(public payload: { config: HistogramConfigModel; data: HistogramDataModel }) {}
 }
 export class TimelinesAction implements Action {
   readonly type: string = COMPUTE_TIMELINES;
@@ -697,9 +559,7 @@ export class TimelinesAction implements Action {
 }
 export class TimelinesCompleteAction implements Action {
   readonly type: string = COMPUTE_TIMELINES_COMPLETE;
-  constructor(
-    public payload: { config: TimelinesConfigModel; data: TimelinesDataModel }
-  ) {}
+  constructor(public payload: { config: TimelinesConfigModel; data: TimelinesDataModel }) {}
 }
 export class PathwaysAction implements Action {
   readonly type: string = COMPUTE_PATHWAYS;
@@ -707,15 +567,11 @@ export class PathwaysAction implements Action {
 }
 export class PathwaysCompleteAction implements Action {
   readonly type: string = COMPUTE_PATHWAYS_COMPLETE;
-  constructor(
-    public payload: { config: PathwaysConfigModel; data: PathwaysDataModel }
-  ) {}
+  constructor(public payload: { config: PathwaysConfigModel; data: PathwaysDataModel }) {}
 }
 export class LinearDiscriminantAnalysisAction implements Action {
   readonly type: string = COMPUTE_LINEAR_DISCRIMINANT_ANALYSIS;
-  constructor(
-    public payload: { config: LinearDiscriminantAnalysisConfigModel }
-  ) {}
+  constructor(public payload: { config: LinearDiscriminantAnalysisConfigModel }) {}
 }
 export class LinearDiscriminantAnalysisCompleteAction implements Action {
   readonly type: string = COMPUTE_LINEAR_DISCRIMINANT_ANALYSIS_COMPLETE;
@@ -728,9 +584,7 @@ export class LinearDiscriminantAnalysisCompleteAction implements Action {
 }
 export class QuadraticDiscriminantAnalysisAction implements Action {
   readonly type: string = COMPUTE_QUADRATIC_DISCRIMINANT_ANALYSIS;
-  constructor(
-    public payload: { config: QuadradicDiscriminantAnalysisConfigModel }
-  ) {}
+  constructor(public payload: { config: QuadradicDiscriminantAnalysisConfigModel }) {}
 }
 export class QuadraticDiscriminantAnalysisCompleteAction implements Action {
   readonly type: string = COMPUTE_QUADRATIC_DISCRIMINANT_ANALYSIS_COMPLETE;
@@ -743,9 +597,7 @@ export class QuadraticDiscriminantAnalysisCompleteAction implements Action {
 }
 export class MiniBatchDictionaryLearningAction implements Action {
   readonly type: string = COMPUTE_MINI_BATCH_DICTIONARY_LEARNING;
-  constructor(
-    public payload: { config: MiniBatchDictionaryLearningConfigModel }
-  ) {}
+  constructor(public payload: { config: MiniBatchDictionaryLearningConfigModel }) {}
 }
 export class MiniBatchDictionaryLearningCompleteAction implements Action {
   readonly type: string = COMPUTE_MINI_BATCH_DICTIONARY_LEARNING_COMPLETE;
@@ -1018,6 +870,8 @@ export type Actions =
   | TimelinesCompleteAction
   | PathwaysAction
   | PathwaysCompleteAction
+  | ProteinAction
+  | ProteinCompleteAction
   | MdsAction
   | MdsCompleteAction
   | SomAction
@@ -1079,4 +933,3 @@ export type Actions =
   | NuSVCCompleteAction
   | OneClassSVMAction
   | OneClassSVMCompleteAction;
-

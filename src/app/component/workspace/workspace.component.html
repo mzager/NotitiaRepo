@@ -18,6 +18,7 @@
     [pathways]="pathways | async"
     [genesets]="genesets | async"
     [cohorts]="cohorts | async"
+    [preprocessings]="preprocessings | async"
     [datasetDescription]="datasetDescription | async"
     [decorators]="graphADecorators | async"
     (decoratorAdd)="graphPanelAddDecorator($event)"
@@ -43,8 +44,9 @@
     [fields]="fields | async"
     [pathways]="pathways | async"
     [genesets]="genesets | async"
-    [datasetDescription]="datasetDescription | async"
     [cohorts]="cohorts | async"
+    [preprocessings]="preprocessings | async"
+    [datasetDescription]="datasetDescription | async"
     [decorators]="graphBDecorators | async"
     (decoratorAdd)="graphPanelAddDecorator($event)"
     (decoratorDel)="graphPanelDelDecorator($event)"
@@ -137,6 +139,10 @@
 ></app-workspace-upload-panel>
 <app-workspace-preprocessing-panel
   *ngIf="(modalPanel | async) === 2199023255552"
+  (addPreprocessing)="addPreprocessing($event)"
+  (delPreprocessing)="delPreprocessing($event)"
+  [preprocessings]="preprocessings | async"
+  [config]="graphAConfig | async"
   (hide)="setPanel(1)"
   class="modal-panel"
 ></app-workspace-preprocessing-panel>

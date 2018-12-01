@@ -145,8 +145,8 @@ export class DataEffect {
     switchMap((args: DataAddPreprocessingAction) => {
       return observableFrom(
         this.dataService
-          .createCustomGeneset(args.payload.database, null)
-          .then(() => this.dataService.getCustomGenesets(args.payload.database))
+          .createCustomPreprocessing(args.payload.database, args.payload.preprocessing)
+          .then(() => this.dataService.getCustomPreprocessing(args.payload.database))
       );
     }),
     switchMap((args: any) => {
@@ -159,12 +159,12 @@ export class DataEffect {
     switchMap((args: DataDelPreprocessingAction) => {
       return observableFrom(
         this.dataService
-          .deleteCustomGeneset(args.payload.database, null)
-          .then(() => this.dataService.getCustomGenesets(args.payload.database))
+          .deleteCustomPreprocessing(args.payload.database, args.payload.preprocessing)
+          .then(() => this.dataService.getCustomPreprocessing(args.payload.database))
       );
     }),
     switchMap((args: any) => {
-      return observableOf(new DataUpdateGenesetsAction(args));
+      return observableOf(new DataUpdatePreprocessingAction(args));
     })
   );
 
@@ -173,9 +173,15 @@ export class DataEffect {
   dataLoadFromPublic$: Observable<any> = this.actions$.ofType(data.DATA_LOAD_FROM_PUBLIC).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(args => {
-      args['baseUrl'] = 'https://oncoscape.v3.sttrcancer.org/data/' + args['src'] + '/';
-      args['manifest'] =
-        'https://oncoscape.v3.sttrcancer.org/data/' + args['src'] + '/' + args['prefix'] + 'manifest.json.gz';
+      if (args['src'] === 'tcga') {
+        args['baseUrl'] = 'https://oncoscape.v3.sttrcancer.org/data/' + args['src'] + '/';
+        args['manifest'] =
+          'https://oncoscape.v3.sttrcancer.org/data/' + args['src'] + '/' + args['prefix'] + 'manifest.json.gz';
+      } else {
+        args['baseUrl'] = 'https://oncoscape.v3.sttrcancer.org/data/zbd' + args['src'] + '/';
+        args['manifest'] = 'https://oncoscape.v3.sttrcancer.org/data/zbd' + args['src'] + '/manifest.json.gz';
+        args['token'] = '';
+      }
       return this.datasetService.load(args);
     }),
     mergeMap(args => {
@@ -346,6 +352,7 @@ export class DataEffect {
       return [
         new DataUpdateCohortsAction(args.cohorts),
         new DataUpdateGenesetsAction(args.genesets),
+        new DataUpdatePreprocessingAction(args.preprocessings),
         new WorkspaceConfigAction(workspaceConfig),
         new compute.EdgesAction({ config: edgeConfig }),
         // new compute.LinkedGeneAction( { config: graphAConfig } ),

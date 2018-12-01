@@ -1,12 +1,18 @@
-import { Preprocessing } from './preprocessing.model';
 import { PreprocessingMethod, PreprocessingType } from './enum.model';
 /**
  * Represents a Preprocessing Set
  * update array!
  */
-export interface Preprocessing {
-  n: string;
-  steps: Array<PreprocessingStep>;
+export class Preprocessing {
+  public n: string;
+  public steps: Array<PreprocessingStep> = [];
+
+  static getUndefined(): Preprocessing {
+    const rv = new Preprocessing();
+    rv.n = 'None';
+    rv.steps = [];
+    return rv;
+  }
 }
 
 export interface PreprocessingStep {

@@ -56,6 +56,7 @@
           [genesets]="genesets"
           [cohorts]="cohorts"
           [pathways]="pathways"
+          [preprocessings]="preprocessings"
           (showPanel)="showPanel.emit($event)"
           (configChange)="graphPanelSetConfig($event)"
         ></app-graph-panel-data>
@@ -65,6 +66,11 @@
           (configChange)="graphPanelSetConfig($event)"
           [config]="config"
         ></app-pathways-form>
+        <app-protein-form
+          *ngIf="config && config.visualization === 5.759403792e27"
+          (configChange)="graphPanelSetConfig($event)"
+          [config]="config"
+        ></app-protein-form>
         <app-timelines-form
           *ngIf="config && config.visualization === 128"
           (configChange)="graphPanelSetConfig($event)"

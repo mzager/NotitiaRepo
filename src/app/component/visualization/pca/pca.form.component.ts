@@ -1,3 +1,4 @@
+import { Preprocessing } from 'app/model/preprocessing.model';
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractScatterForm } from './../visualization.abstract.scatter.form';
@@ -11,23 +12,19 @@ import { PcaConfigModel, PcaSvdSolver } from './pca.model';
 })
 // if svd_solver = arpack then tol
 export class PcaFormComponent extends AbstractScatterForm {
+  PcaSvdSolverOptions = [PcaSvdSolver.AUTO, PcaSvdSolver.ARPACK, PcaSvdSolver.RANDOMIZED, PcaSvdSolver.FULL];
 
-  PcaSvdSolverOptions = [
-    PcaSvdSolver.AUTO,
-    PcaSvdSolver.ARPACK,
-    PcaSvdSolver.RANDOMIZED,
-    PcaSvdSolver.FULL
-  ];
-
-  @Input() set config(v: PcaConfigModel) {
-    if (v === null) { return; }
+  @Input()
+  set config(v: PcaConfigModel) {
+    if (v === null) {
+      return;
+    }
     if (this.form.value.visualization === null) {
       this.form.patchValue(v, { emitEvent: false });
     }
   }
 
   constructor(private fb: FormBuilder) {
-
     super();
 
     this.form = this.fb.group({
@@ -37,6 +34,8 @@ export class PcaFormComponent extends AbstractScatterForm {
       database: [],
       entity: [],
       table: [],
+      preprocessing: [],
+      enablePreprocessing: [],
 
       n_components: [],
       dimension: [],

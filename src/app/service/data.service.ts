@@ -848,6 +848,8 @@ export class DataService {
         return 'clustering.json';
       case VisualizationEnum.GENOME:
         return 'genome.json';
+      case VisualizationEnum.PROTEINS:
+        return 'protein.json';
     }
   }
 

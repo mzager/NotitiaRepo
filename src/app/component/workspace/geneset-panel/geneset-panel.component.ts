@@ -110,7 +110,11 @@ export class GenesetPanelComponent implements AfterViewInit, OnDestroy {
   }
 
   geneSetAdd(v: any): void {
-    const name = v.name.toLowerCase();
+    const name = v.name.toLowerCase().trim();
+    if (name.length === 0) {
+      alert('Please specify a name for this geneset');
+      return;
+    }
     if (this.genesets.find(gs => gs.n === name)) {
       alert(name + ' has already been added to your list of options.');
       return;

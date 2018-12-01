@@ -1,3 +1,4 @@
+import { Preprocessing } from './../../model/preprocessing.model';
 import { SelectionToolConfig } from './../../model/selection-config.model';
 import { ScatterConfigModel } from './../visualization/scatter/scatter.model';
 import { getTipVisible, getTipEnabled } from './../../reducer/index.reducer';
@@ -27,9 +28,11 @@ import { Observable } from 'rxjs/Rx';
 import {
   DataAddCohortAction,
   DataAddGenesetAction,
+  DataAddPreprocessingAction,
   DataAddPathwayAction,
   DataDelCohortAction,
   DataDelGenesetAction,
+  DataDelPreprocessingAction,
   DataDelPathwayAction
 } from './../../action/data.action';
 import {
@@ -111,6 +114,7 @@ export class WorkspaceComponent {
   pathways: Observable<Array<any>>;
   genesets: Observable<Array<any>>;
   cohorts: Observable<Array<any>>;
+  preprocessings: Observable<Array<Preprocessing>>;
   loader: Observable<boolean>;
   graphALegend: Observable<Array<Legend>>;
   graphBLegend: Observable<Array<Legend>>;
@@ -164,6 +168,7 @@ export class WorkspaceComponent {
     this.pathways = store.select(fromRoot.getPathways);
     this.genesets = store.select(fromRoot.getGenesets);
     this.cohorts = store.select(fromRoot.getCohorts);
+    this.preprocessings = store.select(fromRoot.getPreprocessing);
     this.graphPanelATab = store.select(fromRoot.getLayoutGraphPanelAState);
     this.graphPanelBTab = store.select(fromRoot.getLayoutGraphPanelBState);
     this.modalPanel = store.select(fromRoot.getLayoutModalPanelState);
@@ -605,6 +610,12 @@ export class WorkspaceComponent {
   }
   delGeneset(value: { database: string; geneset: GeneSet }): void {
     this.store.dispatch(new DataDelGenesetAction(value));
+  }
+  addPreprocessing(value: { database: string; preprocessing: Preprocessing }): void {
+    this.store.dispatch(new DataAddPreprocessingAction(value));
+  }
+  delPreprocessing(value: { database: string; preprocessing: Preprocessing }): void {
+    this.store.dispatch(new DataDelPreprocessingAction(value));
   }
   addCohort(value: { database: string; cohort: Cohort }): void {
     this.store.dispatch(new DataAddCohortAction(value));

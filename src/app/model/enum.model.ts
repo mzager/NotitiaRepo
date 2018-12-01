@@ -286,6 +286,7 @@ export class EntityTypeEnum {
   static readonly EVENT = 'Events';
   static readonly EDGE = 'Edge';
   static readonly MIXED = 'Mixed';
+  static readonly PROTEIN = 'Protein';
 }
 export class ChartTypeEnum {
   static readonly PIE = 'Pie';
@@ -377,7 +378,8 @@ export const enum VisualizationEnum {
   NU_SVC = 4.50359962737048e15,
   NU_SVR = 9.00719925474096e15,
   ONE_CLASS_SVM = 1.439850948e27,
-  SVR = 2.879701896e27
+  SVR = 2.879701896e27,
+  PROTEINS = 5.759403792e27
 }
 
 // Visibility

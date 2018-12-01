@@ -25,14 +25,15 @@ declare var $: any;
   encapsulation: ViewEncapsulation.None
 })
 export class PreprocessingPanelComponent implements AfterViewInit {
-  @Output()
-  hide: EventEmitter<any> = new EventEmitter();
+  @Input() preprocessings: Array<Preprocessing> = [];
+  @Input() config: GraphConfig;
+  @Output() hide: EventEmitter<any> = new EventEmitter();
+  @Output() addPreprocessing: EventEmitter<{ database: string; preprocessing: Preprocessing }> = new EventEmitter();
+  @Output() delPreprocessing: EventEmitter<{ database: string; preprocessing: Preprocessing }> = new EventEmitter();
+
   pipelines: Array<Preprocessing>;
   possibleSteps: Array<PreprocessingStep> = [];
-  preprocessing: Preprocessing = {
-    n: '',
-    steps: []
-  };
+  preprocessing: Preprocessing = Preprocessing.getUndefined();
   get defaultStep(): PreprocessingStep {
     return this.possibleSteps[0];
   }
@@ -49,9 +50,20 @@ export class PreprocessingPanelComponent implements AfterViewInit {
   stepDel(deleteIndex: number): void {
     this.preprocessing.steps.splice(deleteIndex, 1);
   }
-  deleteClick(): void {}
+  deleteClick(option: Preprocessing): void {
+    this.delPreprocessing.emit({ database: this.config.database, preprocessing: option });
+  }
   saveClick(): void {
-    alert('save');
+    const name = this.preprocessing.n.toLowerCase().trim();
+    if (name.length === 0) {
+      alert('Please specify a name for this pipeline');
+      return;
+    }
+    if (this.preprocessings.find(p => p.n === name)) {
+      alert(name + ' has already been added to your list of options.');
+      return;
+    }
+    this.addPreprocessing.emit({ database: this.config.database, preprocessing: this.preprocessing });
   }
   stepCompareFn(opt1: PreprocessingStep, opt2: PreprocessingStep) {
     return opt1.method === opt2.method;
@@ -65,13 +77,10 @@ export class PreprocessingPanelComponent implements AfterViewInit {
   constructor(private cd: ChangeDetectorRef, private fb: FormBuilder, private dataService: DataService) {
     dataService.getPreprocessingSteps().then(steps => {
       this.possibleSteps = steps.filter(step => step.type === PreprocessingType.NUMERIC);
-      this.preprocessing = {
-        n: '',
-        steps: [JSON.parse(JSON.stringify(this.defaultStep))] // Deep Copy
-      };
+      this.preprocessing = new Preprocessing();
+      this.preprocessing.n = '';
+      this.preprocessing.steps.push(this.possibleSteps[0]);
       cd.markForCheck();
     });
-
-    // this.activeCohort = { n: '', pids: [], sids: [], conditions: [] };
   }
 }

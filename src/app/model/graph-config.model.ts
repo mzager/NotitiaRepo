@@ -1,9 +1,6 @@
+import { Preprocessing } from 'app/model/preprocessing.model';
 import { DataField } from 'app/model/data-field.model';
-import {
-  GraphEnum,
-  VisualizationEnum,
-  SelectionTypeEnum
-} from 'app/model/enum.model';
+import { GraphEnum, VisualizationEnum, SelectionTypeEnum } from 'app/model/enum.model';
 import { DataFieldFactory, DataTable } from './data-field.model';
 import { EntityTypeEnum } from './enum.model';
 import { GraphData } from './graph-data.model';
@@ -31,6 +28,7 @@ export class GraphConfig {
   enableCohorts = true;
   enableGenesets = true;
   enablePathways = false;
+  enablePreprocessing = true;
   enableBehaviors = false;
   enableSupplemental = true;
   enableLabel = true;
@@ -44,6 +42,7 @@ export class GraphConfig {
   markerSelect: Array<string> = [];
   sampleFilter: Array<string> = [];
 
+  proteinName = '2POR';
   cohortName = 'All Patients';
   markerName = 'Pathways in Cancer';
   pathwayName = 'integrated cancer pathway';
@@ -600,6 +599,7 @@ export class GraphConfig {
   // pointSize: DataField = DataFieldFactory.getUndefined();
   pointIntersect: DataField = DataFieldFactory.getUndefined();
   database: string;
+  preprocessing: Preprocessing = Preprocessing.getUndefined();
   datasetName: string;
 
   constructor() {

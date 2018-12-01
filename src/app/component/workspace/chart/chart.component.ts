@@ -70,6 +70,7 @@ import { NuSVCGraph } from './../../visualization/nusvc/nusvc.graph';
 import { OneClassSVMGraph } from './../../visualization/oneclasssvm/oneclasssvm.graph';
 import { SVRGraph } from './../../visualization/svr/svr.graph';
 import { ChartScene } from './chart.scene';
+import { ProteinGraph } from 'app/component/visualization/protein/protein.graph';
 
 @Component({
   selector: 'app-workspace-chart',
@@ -203,6 +204,8 @@ export class ChartComponent implements AfterViewInit {
         return new HeatmapGraph();
       case VisualizationEnum.PATHWAYS:
         return new PathwaysGraph();
+      case VisualizationEnum.PROTEINS:
+        return new ProteinGraph();
       case VisualizationEnum.EDGES:
         return new EdgesGraph();
       case VisualizationEnum.PCA:
