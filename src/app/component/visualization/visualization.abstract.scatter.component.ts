@@ -133,13 +133,12 @@ export class AbstractScatterVisualization extends AbstractVisualization {
   updateDecorator(config: GraphConfig, decorators: DataDecorator[]) {
     super.updateDecorator(config, decorators);
 
-    if (this.decorators.length === 0) {
+    if (this.decorators.filter(d => d.type === DataDecoratorTypeEnum.SELECT).length === 0) {
       this.selectionController.reset();
       const arr = this.pointsGeometry.attributes.gSelected.array;
       arr.fill(0);
       this.pointsGeometry.attributes.gSelected.needsUpdate = true;
       ChartScene.instance.render();
-      return;
     }
 
     const propertyId = this._config.entity === EntityTypeEnum.GENE ? 'mid' : 'sid';

@@ -41,7 +41,7 @@ import {
       <button mat-menu-item (click)="select.emit(65536)">Factor Analysis</button>
       <button mat-menu-item (click)="select.emit(8388608)">Fast ICA</button>
       <!-- <button mat-menu-item (click)='select.emit(33554432)'>Latent Dirichlet Allocation</button> -->
-      <!-- <button mat-menu-item (click)='select.emit(67108864)'>Non-Negative Matrix Factorization</button> -->
+      <!-- <button mat-menu-item (click)="select.emit(67108864)">Non-Negative Matrix Factorization</button> -->
       <button mat-menu-item (click)="select.emit(1)">PCA</button>
       <button mat-menu-item (click)="select.emit(262144)">PCA - Incremental</button>
       <button mat-menu-item (click)="select.emit(524288)">PCA - Kernel</button>
@@ -67,7 +67,7 @@ import {
     <!-- <button mat-menu-item (click)='select.emit(4294967296)'>Box + Whiskers</button> -->
     <a class="os-link os-link-br" href="#" xPosition="after" (click)="select.emit(1099511627776)">Spreadsheet</a>
 
-    <div class="analysisTitle">Molecular</div>
+    <!-- <div class="analysisTitle">Molecular</div> -->
     <a
       class="os-link os-link-br"
       href="#"
@@ -76,17 +76,21 @@ import {
       *ngIf="datasetDescription.hasMatrixFields"
       >Genome</a
     >
-    <a
-      class="os-link os-link-br"
-      href="#"
-      xPosition="after"
-      (click)="select.emit(3)"
-      *ngIf="datasetDescription.hasMatrixFields"
-      >Chromosome</a
-    >
+    <!--
+      <a
+        class="os-link os-link-br"
+        href="#"
+        xPosition="after"
+        (click)="select.emit(3)"
+        *ngIf="datasetDescription.hasMatrixFields"
+        >Chromosome</a
+      >
+    -->
     <a class="os-link os-link-br" href="#" xPosition="after" (click)="select.emit(17179869184)">Force Directed Graph</a>
     <a class="os-link os-link-br" href="#" xPosition="after" (click)="select.emit(256)">Pathways</a>
-    <a class="os-link os-link-br" href="#" xPosition="after" (click)="select.emit(5.759403792e27)">Molecules</a>
+    <!--
+      <a class="os-link os-link-br" href="#" xPosition="after" (click)="select.emit(5.759403792e27)">Molecules</a>
+    -->
     <a
       class="os-link os-link-br"
       href="#"
@@ -96,22 +100,8 @@ import {
       >Heatmap</a
     >
     <div class="analysisTitle" *ngIf="datasetDescription.hasSurvival || datasetDescription.hasEvents">Clinical</div>
-    <a
-      class="os-link os-link-br"
-      href="#"
-      xPosition="after"
-      (click)="select.emit(16)"
-      *ngIf="datasetDescription.hasSurvival"
-      >Survival</a
-    >
-    <a
-      class="os-link os-link-br"
-      href="#"
-      xPosition="after"
-      (click)="select.emit(4398046511104)"
-      *ngIf="datasetDescription.hasSurvival"
-      >Hazard</a
-    >
+    <a class="os-link os-link-br" href="#" xPosition="after" (click)="select.emit(16)">Survival</a>
+    <a class="os-link os-link-br" href="#" xPosition="after" (click)="select.emit(4398046511104)">Hazard</a>
     <a
       class="os-link os-link-br"
       href="#"
@@ -123,7 +113,9 @@ import {
     <div class="analysisTitle" *ngIf="datasetDescription.hasPrecomputed || datasetDescription.hasMatrixFields">
       Clustering
     </div>
-    <a class="os-link os-link-br" href="#" xPosition="after" (click)="select.emit(35184372088832)">Precomputed</a>
+    <!--
+      <a class="os-link os-link-br" href="#" xPosition="after" (click)="select.emit(35184372088832)">Precomputed</a>
+    -->
     <a
       class="os-link os-link-br"
       href="#"
@@ -132,22 +124,26 @@ import {
       *ngIf="datasetDescription.hasMatrixFields"
       >Matrix Decomposition</a
     >
-    <a
-      class="os-link os-link-br"
-      href="#"
-      xPosition="after"
-      [matMenuTriggerFor]="analysisDiscriminantAnalysisMenu"
-      *ngIf="datasetDescription.hasMatrixFields"
-      >Discriminant Analysis</a
-    >
-    <a
-      class="os-link os-link-br"
-      href="#"
-      xPosition="after"
-      [matMenuTriggerFor]="analysisSupportVectorMachinesMenu"
-      *ngIf="datasetDescription.hasMatrixFields"
-      >Support Vector Machines</a
-    >
+    <!--
+      <a
+        class="os-link os-link-br"
+        href="#"
+        xPosition="after"
+        [matMenuTriggerFor]="analysisDiscriminantAnalysisMenu"
+        *ngIf="datasetDescription.hasMatrixFields"
+        >Discriminant Analysis</a
+      >
+    -->
+    <!--
+      <a
+        class="os-link os-link-br"
+        href="#"
+        xPosition="after"
+        [matMenuTriggerFor]="analysisSupportVectorMachinesMenu"
+        *ngIf="datasetDescription.hasMatrixFields"
+        >Support Vector Machines</a
+      >
+    -->
     <a
       class="os-link os-link-br"
       href="#"
@@ -156,14 +152,16 @@ import {
       *ngIf="datasetDescription.hasMatrixFields"
       >Manifold Learning</a
     >
-    <a
-      class="os-link os-link-br"
-      href="#"
-      xPosition="after"
-      [matMenuTriggerFor]="analysisCrossDecompositionMenu"
-      *ngIf="datasetDescription.hasMatrixFields"
-      >Cross Decomposition</a
-    >
+    <!--
+      <a
+        class="os-link os-link-br"
+        href="#"
+        xPosition="after"
+        [matMenuTriggerFor]="analysisCrossDecompositionMenu"
+        *ngIf="datasetDescription.hasMatrixFields"
+        >Cross Decomposition</a
+      >
+    -->
   `
 })
 export class GraphPanelAnalysisComponent {

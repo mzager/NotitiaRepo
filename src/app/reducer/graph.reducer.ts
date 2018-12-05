@@ -23,6 +23,7 @@ import {
   COMPUTE_NONE_COMPLETE,
   COMPUTE_PARALLEL_COORDS_COMPLETE,
   COMPUTE_PATHWAYS_COMPLETE,
+  COMPUTE_PROTEIN_COMPLETE,
   COMPUTE_PCA_COMPLETE,
   COMPUTE_PCA_INCREMENTAL_COMPLETE,
   COMPUTE_PCA_KERNAL_COMPLETE,
@@ -85,6 +86,7 @@ function processAction(action: UnsafeAction, state: State): State {
   switch (action.type) {
     case COMPUTE_NONE_COMPLETE:
     case COMPUTE_PATHWAYS_COMPLETE:
+    case COMPUTE_PROTEIN_COMPLETE:
     case COMPUTE_TIMELINES_COMPLETE:
     case COMPUTE_DENDOGRAM_COMPLETE:
     case COMPUTE_HEATMAP_COMPLETE:
@@ -154,16 +156,12 @@ function processAction(action: UnsafeAction, state: State): State {
       return Object.assign({}, state, { chartObject: action.payload.data });
     case graph.DATA_DECORATOR_ADD:
       const decorator = action.payload.decorator;
-      const decorators = state.decorators.filter(
-        v => v.type !== decorator.type
-      );
+      const decorators = state.decorators.filter(v => v.type !== decorator.type);
       decorators.push(decorator);
       return Object.assign({}, state, { decorators: decorators });
     case graph.DATA_DECORATOR_DEL:
       return Object.assign({}, state, {
-        decorators: state.decorators.filter(
-          v => v.type !== action.payload.decorator.type
-        )
+        decorators: state.decorators.filter(v => v.type !== action.payload.decorator.type)
       });
     case graph.DATA_DECORATOR_DEL_ALL:
       return Object.assign({}, state, { decorators: [] });
@@ -171,10 +169,7 @@ function processAction(action: UnsafeAction, state: State): State {
       return state;
   }
 }
-export function graphReducerA(
-  state = initialState,
-  action: UnsafeAction
-): State {
+export function graphReducerA(state = initialState, action: UnsafeAction): State {
   if (action.payload === undefined) {
     return state;
   }
@@ -187,10 +182,7 @@ export function graphReducerA(
   return processAction(action, state);
 }
 
-export function graphReducerB(
-  state = initialState,
-  action: UnsafeAction
-): State {
+export function graphReducerB(state = initialState, action: UnsafeAction): State {
   if (action.payload === undefined) {
     return state;
   }

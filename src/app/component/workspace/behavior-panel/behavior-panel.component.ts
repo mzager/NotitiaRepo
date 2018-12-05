@@ -42,7 +42,7 @@ export class BehaviorPanelComponent implements AfterViewInit {
   private _selectionToolConfig: SelectionToolConfig;
   public selectionTypes: Array<SelectionToolConfig> = [];
 
-  private onAction($event: MatSelectChange): void {
+  onAction($event: MatSelectChange): void {
     if ($event.value === null) {
       return;
     }
@@ -57,9 +57,9 @@ export class BehaviorPanelComponent implements AfterViewInit {
     $event.source.value = null;
   }
 
-  private onSearch(): void {}
+  onSearch(): void {}
 
-  private onSaveSelection(): void {
+  onSaveSelection(): void {
     const cohortName = this.cohortName;
     this.cohortName = '';
     this.saveSelection.emit({ config: this._config, name: cohortName });

@@ -42,7 +42,6 @@
         </mat-form-field>
         <span *ngFor="let param of step.params">
           <span *ngIf="param.dataType === 'float' || param.dataType === 'int'">
-            {{ param.dataType }}
             <mat-form-field style="width:75px;margin-left:5px;" matTooltip="{{param.desc}}">
               <input
                 matInput

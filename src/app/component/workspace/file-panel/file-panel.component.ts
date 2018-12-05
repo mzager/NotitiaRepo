@@ -300,14 +300,14 @@ export class FilePanelComponent {
   }
   setDatasetsCBio(): void {
     this.dataService.getPublicDatasets().then(result => {
-      this.datasets = result.map(v => {
-        return {
-          name: v.content.name,
-          img: 'DScancer',
-          src: v.project.split('|')[0],
-          uid: v.project.split('|')[0]
-        };
-      });
+      this.datasets = result
+        .map(v => {
+          return { name: v.content.name, img: 'DScancer', src: v.project.split('|')[0], uid: v.project.split('|')[0] };
+        })
+        .filter(v => v.name.toLowerCase().indexOf('kim') === -1)
+        .filter(v => v.name.toLowerCase().indexOf('lab') === -1)
+        .filter(v => v.name.toLowerCase().indexOf('private') === -1)
+        .filter(v => v.name.toLowerCase().indexOf('chop') === -1);
       this.cd.markForCheck();
     });
   }

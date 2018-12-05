@@ -26,6 +26,7 @@ declare var $;
 export class ProteinGraph extends AbstractVisualization {
   public set data(data: GraphData) {
     this._data = data;
+    debugger;
   }
   public get data(): GraphData {
     return this._data;

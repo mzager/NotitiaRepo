@@ -1427,7 +1427,7 @@ export class DataService {
 
   getPreprocessingSteps(): Promise<Array<PreprocessingStep>> {
     return new Promise((resolve, reject) => {
-      return fetch('http://localhost:4200/assets/preprocessing.json', {
+      return fetch('https://oncoscape.v3.sttrcancer.org/assets/preprocessing.json', {
         method: 'GET',
         headers: DataService.headersJson
       })

@@ -343,7 +343,7 @@ export class TimelinesGraph extends AbstractVisualization {
         userData: { tooltip: Math.round(scale.invert(i)).toString() }
       });
     }
-    debugger;
+
     // Patients + PID MAP
     const pidMap: any = {};
     pts.forEach((patient, i) => {

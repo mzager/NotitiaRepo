@@ -110,13 +110,37 @@ export class StatPanelPieComponent {
     return null;
   }
 
-  public labelPositon(d, i, n): number {
-    const offset = d.len * 7;
-    return i * 14 + 7 - offset;
+  public labelPositonY(d, i, n): number {
+    if (d.len < 8) {
+      const offset = d.len * 14 * 0.5;
+      return i * 14 - offset + 4;
+    }
+    const itemsPerRow = d.len / 2;
+    const adjustedIndex = i > itemsPerRow ? i - itemsPerRow : i;
+    return adjustedIndex * 14 - itemsPerRow * 14 * 0.5 + 4;
   }
-  public circlePositon(d, i, n): number {
-    const offset = d.len * 7;
-    return i * 14 + 4 - offset;
+  public labelPositonX(d, i): number {
+    if (d.len < 8) {
+      return -41;
+    }
+    const itemsPerRow = d.len / 2;
+    return i > itemsPerRow ? 30 : -41;
+  }
+  public circlePositonY(d, i, n): number {
+    if (d.len < 8) {
+      const offset = d.len * 14 * 0.5;
+      return i * 14 - offset;
+    }
+    const itemsPerRow = d.len / 2;
+    const adjustedIndex = i > itemsPerRow ? i - itemsPerRow : i;
+    return adjustedIndex * 14 - itemsPerRow * 14 * 0.5;
+  }
+  public circlePositonX(d, i, n): number {
+    if (d.len < 8) {
+      return -48;
+    }
+    const itemsPerRow = d.len / 2;
+    return i > itemsPerRow ? 23 : -48;
   }
   // Find the element in data0 that joins the highest preceding element in data1.
   public findPreceding(i, data0, data1, keyFn) {
@@ -173,36 +197,31 @@ export class StatPanelPieComponent {
       .duration(this._options.animationTime)
       .attrTween('d', this.arcTweenCreate.bind(this));
 
+    // Create Circles First Time
     const circles = this._g.selectAll('circle').data(this._options.data);
-    circles.attr('cy', this.circlePositon).style('fill', function(d) {
-      return d.color;
-    });
     circles
       .enter()
       .append('circle')
-      .attr('cx', -48)
-      .attr('cy', this.circlePositon)
-      .attr('r', 5)
+      .attr('cx', this.circlePositonX)
+      .attr('cy', this.circlePositonY)
+      .attr('r', 4)
       .style('fill', function(d) {
         return d.color;
       });
 
+    // Create Circles First Time
     const txt = this._g.selectAll('text').data(this._options.data);
-    txt.text(d => d.name);
-    txt.attr('y', this.labelPositon);
     txt
       .enter()
       .append('text')
       .attr('class', 'bar-value')
-      .attr('x', -40)
+      .attr('x', this.labelPositonX)
+      .attr('y', this.labelPositonY)
       .attr('opacity', 1)
       .attr('font-family', 'Lato')
       .attr('text-anchor', 'start')
-      .attr('y', this.labelPositon)
       .attr('font-size', 11)
       .text(d => d.name);
-
-    txt.exit().remove();
   }
   public update(value: StatPanelGraphicOptions): void {
     this._options = value;
@@ -211,7 +230,6 @@ export class StatPanelPieComponent {
     const prevData = path.data();
     const nextData = this._pie(this._options.data);
     path = path.data(nextData);
-
     path
       .transition()
       .duration(this._options.animationTime)
@@ -246,35 +264,44 @@ export class StatPanelPieComponent {
       .attrTween('d', this.arcTweenUpdate.bind(this))
       .remove();
 
-    const txt = this._g.selectAll('text').data(this._options.data);
-    txt.text(d => d.name).attr('y', this.labelPositon);
-    txt
-      .enter()
-      .append('text')
-      .attr('class', 'bar-value')
-      .attr('x', -40)
-      .attr('opacity', 1)
-      .attr('font-family', 'Lato')
-      .attr('text-anchor', 'start')
-      .attr('y', this.labelPositon)
-      .attr('font-size', 11)
-      .text(d => d.name);
-    txt.exit().remove();
-
     const circles = this._g.selectAll('circle').data(this._options.data);
-    circles.attr('cy', this.circlePositon).style('fill', function(d) {
-      return d.color;
-    });
+
+    circles
+      .attr('cx', this.circlePositonX)
+      .attr('cy', this.circlePositonY)
+      .style('fill', function(d) {
+        return d.color;
+      });
     circles
       .enter()
       .append('circle')
-      .attr('cx', -48)
-      .attr('cy', this.circlePositon)
+      .attr('cx', this.circlePositonX)
+      .attr('cy', this.circlePositonY)
       .attr('r', 4)
       .style('fill', function(d) {
         return d.color;
       });
+
     circles.exit().remove();
+
+    const txt = this._g.selectAll('text').data(this._options.data);
+    txt
+      .text(d => d.name)
+      .attr('y', this.labelPositonY)
+      .attr('x', this.labelPositonX)
+      .attr('text-anchor', 'start');
+    txt
+      .enter()
+      .append('text')
+      .attr('class', 'bar-value')
+      .attr('x', this.labelPositonX)
+      .attr('y', this.labelPositonY)
+      .attr('opacity', 1)
+      .attr('font-family', 'Lato')
+      .attr('text-anchor', 'start')
+      .attr('font-size', 11)
+      .text(d => d.name);
+    txt.exit().remove();
   }
   public remove(value: StatPanelGraphicOptions): void {
     const txt = this._g.selectAll('text').data([]);
@@ -313,6 +340,11 @@ export class StatPanelBarComponent {
 
     const bars = this._g.selectAll('.bar').data(this._options.data);
     bars
+      .attr('y', (d, i) => this._yScale(i))
+      .attr('x', 0)
+      .attr('width', 0)
+      .attr('height', this._yScale.bandwidth());
+    bars
       .enter()
       .append('rect')
       .attr('class', 'bar')
@@ -322,12 +354,12 @@ export class StatPanelBarComponent {
       .attr('width', 0)
       .attr('height', this._yScale.bandwidth())
       .attr('y', (d, i) => this._yScale(i))
+      .attr('x', 0)
       .merge(bars)
       .transition()
       .duration(this._options.animationTime)
       .delay(0.2)
       .attr('width', (d, i) => this._options.size - this._xScale(d.value))
-      .attr('x', 0)
       .attr('height', this._yScale.bandwidth())
       .attr('y', (d, i) => this._yScale(i));
 
@@ -339,7 +371,7 @@ export class StatPanelBarComponent {
       .remove();
 
     const txt = this._g.selectAll('text').data(this._options.data);
-    txt.text(d => d.name);
+    txt.text(d => d.name).attr('y', (d, i) => this._yScale(i) + this._yScale.bandwidth() * 0.7);
     txt
       .enter()
       .append('text')
@@ -405,6 +437,7 @@ export class StatPanelGraphicComponent {
     this._options.data = this._options.data.map((v, i) => {
       return Object.assign(v, { len: len, color: s(i).hex() });
     });
+    this._options.data = this._options.data.sort((a, b) => (a.value < b.value ? 1 : -1));
     this.drawPieChart(pieAction);
     this.drawBarChart(barAction);
   }

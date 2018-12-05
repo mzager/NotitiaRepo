@@ -223,19 +223,8 @@ export const ProteinCompute = (config: ProteinConfigModel, worker: DedicatedWork
         }
       }
       protein.smallMolecule = false;
-      debugger;
-
       const legends = [Legend.create('Data Points', ['Samples'], [SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')];
-      worker.postMessage({ config: config, data: { legends: legends } });
+      worker.postMessage({ config: config, data: { legends: legends, result: protein } });
       worker.postMessage('TERMINATE');
     });
-
-  // worker.util.fetchUri(config.uri).then(result => {
-  //   result.legends = [Legend.create('Data Points', ['Samples'], [SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')];
-  //   worker.postMessage({
-  //     config: config,
-  //     data: result
-  //   });
-  //   worker.postMessage('TERMINATE');
-  // });
 };

@@ -38,6 +38,7 @@ import {
   NullDataAction,
   ParallelCoordsCompleteAction,
   PathwaysCompleteAction,
+  ProteinCompleteAction,
   PcaCompleteAction,
   PcaIncrementalCompleteAction,
   PcaKernalCompleteAction,
@@ -434,6 +435,7 @@ export class ComputeEffect {
     switchMap(payload => {
       return this.computeService.proteins(payload['config']).pipe(
         mergeMap(result => {
+          debugger;
           return [
             result === null
               ? new NullDataAction()
