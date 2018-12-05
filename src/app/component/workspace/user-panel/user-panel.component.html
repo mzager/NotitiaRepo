@@ -1,144 +1,134 @@
 <div>
+  {{ errorMessage }}
   <!-- Sign In -->
-  <div *ngIf='activeForm==="SIGN_IN"'>
-    <form [formGroup]="formGroupSignIn" (submit)='signIn()'>
+  <div *ngIf="activeForm === 'SIGN_IN'">
+    <form [formGroup]="formGroupSignIn" (submit)="signIn()">
       <mat-form-field>
-        <input matInput placeholder="Email" formControlName='email' autocomplete='email'>
+        <input matInput placeholder="Email" formControlName="email" autocomplete="email" />
         <mat-error *ngIf="formGroupSignUp.controls['firstName'].hasError('required')">Required</mat-error>
         <!-- <mat-error *ngIf="formGroupSignUp.controls['firstName'].hasError('email')">Required</mat-error> -->
       </mat-form-field>
       <br />
       <mat-form-field>
-        <input matInput placeholder="Password" formControlName='password' type='password'
-          autocomplete='off'>
+        <input matInput placeholder="Password" formControlName="password" type="password" autocomplete="off" />
         <mat-error *ngIf="formGroupSignUp.controls['password'].hasError('required')">Required</mat-error>
       </mat-form-field>
       <br />
-      <button mat-raised-button type="submit" color='primary' style='vertical-align: text-bottom;margin-right:10px;'>Sign
-        In</button>
-      <div class='user-panel-links'>
-        <div class='user-panel-link'>
-          <a class='os-link' href='#' (click)='setForm("FORGOT_PASSWORD")'>Forgot Password</a>
+      <button mat-raised-button type="submit" color="primary" style="vertical-align: text-bottom;margin-right:10px;">
+        Sign In
+      </button>
+      <div class="user-panel-links">
+        <div class="user-panel-link">
+          <a class="os-link" href="#" (click)="setForm('FORGOT_PASSWORD')">Forgot Password</a>
         </div>
-        <div class='user-panel-link'>
-          <a class='os-link' href='#' (click)='setForm("SIGN_UP")'>Sign Up</a>
-        </div>
+        <div class="user-panel-link"><a class="os-link" href="#" (click)="setForm('SIGN_UP')">Sign Up</a></div>
       </div>
     </form>
   </div>
 
   <!-- Sign Up -->
-  <div *ngIf='activeForm==="SIGN_UP"'>
-    <form [formGroup]="formGroupSignUp" (submit)='signUp()'>
+  <div *ngIf="activeForm === 'SIGN_UP'">
+    <form [formGroup]="formGroupSignUp" (submit)="signUp()">
       <mat-form-field>
-        <input matInput placeholder="First Name" formControlName='firstName' autocomplete='given-name'>
+        <input matInput placeholder="First Name" formControlName="firstName" autocomplete="given-name" />
         <mat-error *ngIf="formGroupSignUp.controls['firstName'].hasError('required')">Required</mat-error>
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Last Name" formControlName='lastName' autocomplete='family-name'>
+        <input matInput placeholder="Last Name" formControlName="lastName" autocomplete="family-name" />
         <mat-error *ngIf="formGroupSignUp.controls['lastName'].hasError('required')">Required</mat-error>
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Email" formControlName='email' type='email' autocomplete='email'>
+        <input matInput placeholder="Email" formControlName="email" type="email" autocomplete="email" />
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Password" formControlName='password' type='password'
-          autocomplete='off'>
+        <input matInput placeholder="Password" formControlName="password" type="password" autocomplete="off" />
       </mat-form-field>
       <br />
-      <mat-checkbox class='uploadPanelCbx' formControlName='mailinglist'>Join Mailing List</mat-checkbox>
-      <button mat-raised-button type="submit" color='primary' style='margin-right:10px;'>Sign Up</button>
-      <div class='user-panel-links'>
-        <div class='user-panel-link'>
-          <a class='os-link' href='#' (click)='setForm("SIGN_IN")'>Sign In</a> |
-          <a class='os-link' href='#' (click)='setForm("RESEND_CODE")'>Resend Code</a>
+      <mat-checkbox class="uploadPanelCbx" formControlName="mailinglist">Join Mailing List</mat-checkbox>
+      <button mat-raised-button type="submit" color="primary" style="margin-right:10px;">Sign Up</button>
+      <div class="user-panel-links">
+        <div class="user-panel-link">
+          <a class="os-link" href="#" (click)="setForm('SIGN_IN')">Sign In</a> |
+          <a class="os-link" href="#" (click)="setForm('RESEND_CODE')">Resend Code</a>
         </div>
       </div>
     </form>
   </div>
 
   <!-- Sign Up Confirmation -->
-  <div *ngIf='activeForm==="SIGN_UP_CONFIRM"'>
+  <div *ngIf="activeForm === 'SIGN_UP_CONFIRM'">
     Please check your email and enter the code below
-    <form [formGroup]="formGroupSignUpConfirm" (submit)='signUpConfirm()'>
+    <form [formGroup]="formGroupSignUpConfirm" (submit)="signUpConfirm()">
       <mat-form-field>
-        <input matInput placeholder="Email" formControlName='email' autocomplete='email'>
+        <input matInput placeholder="Email" formControlName="email" autocomplete="email" />
       </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Code" formControlName='code' autocomplete='off'>
-      </mat-form-field>
+      <mat-form-field> <input matInput placeholder="Code" formControlName="code" autocomplete="off" /> </mat-form-field>
       <br />
-      <button mat-raised-button type="submit" color='primary'>Verify Code</button>
+      <button mat-raised-button type="submit" color="primary">Verify Code</button>
     </form>
   </div>
 
   <!-- Forgot Password -->
-  <div *ngIf='activeForm==="FORGOT_PASSWORD"'>
-    <form [formGroup]="formGroupForgotPassword" (submit)='forgotPassword()'>
+  <div *ngIf="activeForm === 'FORGOT_PASSWORD'">
+    <form [formGroup]="formGroupForgotPassword" (submit)="forgotPassword()">
       <mat-form-field>
-        <input matInput placeholder="Email" formControlName='email' autocomplete='email'>
+        <input matInput placeholder="Email" formControlName="email" autocomplete="email" />
       </mat-form-field>
       <br />
-      <button mat-raised-button type="submit" color='primary' style='margin-right:10px;'>Reset
-        Password</button>
-      <div class='user-panel-links'>
-        <div class='user-panel-link'>
-          <a class='os-link' href='#' (click)='setForm("SIGN_IN")'>Sign In</a> |
-          <a class='os-link' href='#' (click)='setForm("UPDATE_PASSWORD")'>Verify Code</a>
+      <button mat-raised-button type="submit" color="primary" style="margin-right:10px;">Reset Password</button>
+      <div class="user-panel-links">
+        <div class="user-panel-link">
+          <a class="os-link" href="#" (click)="setForm('SIGN_IN')">Sign In</a> |
+          <a class="os-link" href="#" (click)="setForm('UPDATE_PASSWORD')">Verify Code</a>
         </div>
       </div>
     </form>
   </div>
 
   <!-- Resend Code -->
-  <div *ngIf='activeForm==="RESEND_CODE"'>
-    <form [formGroup]="formGroupResendCode" (submit)='resendCode()'>
+  <div *ngIf="activeForm === 'RESEND_CODE'">
+    <form [formGroup]="formGroupResendCode" (submit)="resendCode()">
       <mat-form-field>
-        <input matInput placeholder="Email" formControlName='email' autocomplete='email'>
+        <input matInput placeholder="Email" formControlName="email" autocomplete="email" />
       </mat-form-field>
       <br />
-      <button mat-raised-button type="submit" color='primary' style='margin-right:10px;'>Reset
-        Password</button>
-      <div class='user-panel-links'>
-        <div class='user-panel-link'>
-          <a class='os-link' href='#' (click)='setForm("SIGN_IN")'>Sign In</a> |
-          <a class='os-link' href='#' (click)='setForm("UPDATE_PASSWORD")'>Verify Code</a>
+      <button mat-raised-button type="submit" color="primary" style="margin-right:10px;">Reset Password</button>
+      <div class="user-panel-links">
+        <div class="user-panel-link">
+          <a class="os-link" href="#" (click)="setForm('SIGN_IN')">Sign In</a> |
+          <a class="os-link" href="#" (click)="setForm('UPDATE_PASSWORD')">Verify Code</a>
         </div>
       </div>
     </form>
   </div>
 
-
   <!-- Sign Up Update Password -->
-  <div *ngIf='activeForm==="UPDATE_PASSWORD"'>
-    <form [formGroup]="formGroupUpdatePassword" (submit)='updatePassword()'>
-      Please check your email and enter the code below
-      <br />
+  <div *ngIf="activeForm === 'UPDATE_PASSWORD'">
+    <form [formGroup]="formGroupUpdatePassword" (submit)="updatePassword()">
+      Please check your email and enter the code below <br />
       <mat-form-field>
-        <input matInput placeholder="Email" formControlName='email' autocomplete='email'>
+        <input matInput placeholder="Email" formControlName="email" autocomplete="email" />
       </mat-form-field>
+      <mat-form-field> <input matInput placeholder="Code" formControlName="code" autocomplete="off" /> </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Code" formControlName='code' autocomplete='off'>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Password" formControlName='password' type='password'
-          autocomplete='off'>
+        <input matInput placeholder="Password" formControlName="password" type="password" autocomplete="off" />
       </mat-form-field>
       <br />
-      <button mat-raised-button type="submit" color='primary'>Update Password</button>
+      <button mat-raised-button type="submit" color="primary">Update Password</button>
     </form>
   </div>
 
   <!-- Add Data Set -->
-  <div *ngIf='activeForm==="PROJECT_LIST"'>
-    <!-- <button mat-raised-button type='submit' color='primary' (click)='addDataSet()' style='margin-bottom:20px;'>Add
-      Data Set</button> -->
-    <div *ngFor='let option of datasets' class='panel-config-row-del' (click)='loadDataset(option)'>
-      <i class='material-icons md-18'>info_outline</i>
-      <div>{{option.content.name}}</div>
+  <div *ngIf="activeForm === 'PROJECT_LIST'">
+    <!--
+      <button mat-raised-button type='submit' color='primary' (click)='addDataSet()' style='margin-bottom:20px;'>Add
+      Data Set</button>
+    -->
+    <div *ngFor="let option of datasets" class="panel-config-row-del" (click)="loadDataset(option)">
+      <i class="material-icons md-18">info_outline</i>
+      <div>{{ option.content.name }}</div>
       <div>Breast</div>
       <div>Lung</div>
     </div>
-
   </div>
 </div>

@@ -20,30 +20,34 @@ import { PanelEnum, UserPanelFormEnum } from '../../../model/enum.model';
   encapsulation: ViewEncapsulation.None
 })
 export class UserPanelComponent {
-  datasets: Array<any>;
-  user: any;
-  activeForm = UserPanelFormEnum.BLANK.toString();
-  errorMessage = '';
-  formGroupSignUp: FormGroup;
-  formGroupSignUpConfirm: FormGroup;
-  formGroupSignIn: FormGroup;
-  formGroupSignInConfirm: FormGroup;
-  formGroupResendCode: FormGroup;
-  formGroupForgotPassword: FormGroup;
-  formGroupUpdatePassword: FormGroup;
-  token: string;
+  // Public variables that can be referenced in the template
+  public datasets: Array<any>;
+  public user: any;
+  public activeForm = UserPanelFormEnum.BLANK.toString();
+  public errorMessage = '';
+  public formGroupSignUp: FormGroup;
+  public formGroupSignUpConfirm: FormGroup;
+  public formGroupSignIn: FormGroup;
+  public formGroupSignInConfirm: FormGroup;
+  public formGroupResendCode: FormGroup;
+  public formGroupForgotPassword: FormGroup;
+  public formGroupUpdatePassword: FormGroup;
+  public token: string;
 
   @Output()
   showPanel = new EventEmitter<PanelEnum>();
+
   @Output()
   loadPrivate = new EventEmitter<{ bucket: string; token: string }>();
 
-  addDataSet(): void {
-    this.showPanel.emit(PanelEnum.UPLOAD);
-  }
+  // Call this method to change the form
   setForm(form: UserPanelFormEnum): void {
     this.activeForm = form.toString();
     this.cd.detectChanges();
+  }
+
+  addDataSet(): void {
+    this.showPanel.emit(PanelEnum.UPLOAD);
   }
 
   resendCode(): void {
@@ -56,29 +60,23 @@ export class UserPanelComponent {
       this.cd.detectChanges();
     });
   }
+
   signIn(): void {
     const form = this.formGroupSignIn;
     if (form.status === 'INVALID') {
+      // Validate that passwords appropriate
       return;
     }
 
     Auth.signIn(form.get('email').value, form.get('password').value)
       .then(user => {
         this.user = user;
-
-        // if (user.challengeName === 'SMS_MFA' || user.challengeName === 'SOFTWARE_TOKEN_MFA') {
-        //   // this.amplifyService.setAuthState({ state: 'confirmSignIn', user: user });
-        // } else if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
-        //   // this.amplifyService.setAuthState({ state: 'requireNewPassword', user: user });
-        // } else {
         const a = Auth.currentSession().then(v => {
           this.fetchDatasets(v.getIdToken().getJwtToken());
           this.setForm(UserPanelFormEnum.PROJECT_LIST);
         });
-        // }
       })
       .catch(err => {
-        alert(err.message);
         this.errorMessage = err.message;
         this.cd.detectChanges();
       });
@@ -149,11 +147,11 @@ export class UserPanelComponent {
     const form = this.formGroupUpdatePassword;
     Auth.forgotPasswordSubmit(form.get('email').value, form.get('code').value, form.get('password').value)
       .then(data => {
-        alert('Password updated');
         this.setForm(UserPanelFormEnum.SIGN_IN);
       })
       .catch(err => {
-        alert(err);
+        this.errorMessage = err.message;
+        this.cd.detectChanges();
       });
   }
 
@@ -176,11 +174,13 @@ export class UserPanelComponent {
   }
 
   constructor(public fb: FormBuilder, public cd: ChangeDetectorRef, public dataService: DataService) {
+    // Initialize All Forms
     this.formGroupSignIn = fb.group({
       email: [null, Validators.compose([Validators.required, Validators.email])],
       password: [null, Validators.required]
     });
 
+    // This doesn't do enough need special chars....
     this.formGroupSignUp = fb.group({
       password: [null, Validators.compose([Validators.required, Validators.minLength(8)])],
       email: [null, Validators.compose([Validators.required, Validators.email])],
@@ -202,12 +202,22 @@ export class UserPanelComponent {
       email: [null, Validators.compose([Validators.required, Validators.email])]
     });
 
+    // Passwords Shold all be
+    /*
+    *** Create Custom Validator
+    Minimum length - 8
+    Require numbers
+    Require special character
+    Require uppercase letters
+    Require lowercase letters
+    */
     this.formGroupUpdatePassword = fb.group({
       email: [null, Validators.compose([Validators.required, Validators.email])],
       code: [null, Validators.required],
       password: [null, Validators.compose([Validators.required, Validators.minLength(8)])]
     });
 
+    // Set The Active Form To Sign In
     this.activeForm = UserPanelFormEnum.SIGN_IN;
   }
 }
