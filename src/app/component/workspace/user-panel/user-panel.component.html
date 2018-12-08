@@ -1,50 +1,86 @@
+<!-- REMOVE <APP> SIGN IN </APP> SO IT DOESN'T FLY IN -->
 <div>
-  {{ errorMessage }}
+  <!-- {{ errorMessage }} -->
   <!-- Sign In -->
-  <div *ngIf="activeForm === 'SIGN_IN'">
-    <form [formGroup]="formGroupSignIn" (submit)="signIn()">
-      <mat-form-field>
-        <input matInput placeholder="Email" formControlName="email" autocomplete="email" />
-        <mat-error *ngIf="formGroupSignUp.controls['firstName'].hasError('required')">Required</mat-error>
-        <!-- <mat-error *ngIf="formGroupSignUp.controls['firstName'].hasError('email')">Required</mat-error> -->
-      </mat-form-field>
+<div *ngIf="activeForm === 'SIGN_IN'">
+  <form [formGroup]="formGroupSignIn" (submit)="signIn()">
+    <br />
+    <mat-error>{{errorMessage}}</mat-error>
+    <br />
+    <mat-form-field class="example-full-width">
+      <input class='sign-in-margin' matInput placeholder="Email" formControlName="email" autocomplete="email" />
+      <mat-error *ngIf="formGroupSignUp.controls['email'].hasError('required')">Valid Email Required</mat-error>
+    </mat-form-field>
+    <br />
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Password" formControlName="password" type="password" autocomplete="off" />
+      <mat-error *ngIf="formGroupSignUp.controls['password'].hasError('required')">Required</mat-error>
+    </mat-form-field>
+    <br />
+
+    <br />
+    <button mat-raised-button type="submit" color="primary" style="vertical-align: text-bottom;margin-right:10px;">
+      Sign In
+    </button>
+    <button (click)="setForm('SIGN_UP')" mat-raised-button type="submit" color="primary" style="vertical-align: text-bottom;margin-right:10px;">
+      Sign Up
+    </button>
+    <br />
+    <div class="user-panel-links">
       <br />
-      <mat-form-field>
-        <input matInput placeholder="Password" formControlName="password" type="password" autocomplete="off" />
-        <mat-error *ngIf="formGroupSignUp.controls['password'].hasError('required')">Required</mat-error>
-      </mat-form-field>
-      <br />
-      <button mat-raised-button type="submit" color="primary" style="vertical-align: text-bottom;margin-right:10px;">
-        Sign In
-      </button>
-      <div class="user-panel-links">
-        <div class="user-panel-link">
-          <a class="os-link" href="#" (click)="setForm('FORGOT_PASSWORD')">Forgot Password</a>
-        </div>
-        <div class="user-panel-link"><a class="os-link" href="#" (click)="setForm('SIGN_UP')">Sign Up</a></div>
+      <!-- ADD TERMS (click)="setForm('TERMS')" -->
+      <div class="user-panel-link"><a class="os-link" href="#" (click)="setForm('FORGOT_PASSWORD')">Forgot Password</a>
+        |
+        <a class="os-link" href="#"> Terms of Service</a>
       </div>
-    </form>
-  </div>
+    </div>
+  </form>
+</div>
 
   <!-- Sign Up -->
   <div *ngIf="activeForm === 'SIGN_UP'">
+    <div>Create an account to upload private data. When signing up for an account please be aware that you are agreeing
+      to our <a href="">Terms of Service, Privacy Policy</a></div>
+
+
+    Passwords must:
+    <ul>
+      <li>Be a minimum of eight (8) characters in length</li>
+      <li>Contain at least one (1) character from three (3) of the following categories:</li>
+      <ul>
+        <li>Uppercase letter</li>
+        <li>Lowercase letter</li>
+        <li>Digit</li>
+        <li>Special character</li>
+      </ul>
+    </ul>
     <form [formGroup]="formGroupSignUp" (submit)="signUp()">
-      <mat-form-field>
+
+      <mat-form-field class="example-full-width">
         <input matInput placeholder="First Name" formControlName="firstName" autocomplete="given-name" />
         <mat-error *ngIf="formGroupSignUp.controls['firstName'].hasError('required')">Required</mat-error>
       </mat-form-field>
-      <mat-form-field>
+      <br/>
+
+      <mat-form-field class="example-full-width">
         <input matInput placeholder="Last Name" formControlName="lastName" autocomplete="family-name" />
         <mat-error *ngIf="formGroupSignUp.controls['lastName'].hasError('required')">Required</mat-error>
       </mat-form-field>
-      <mat-form-field>
+      <br/>
+      <mat-form-field class="example-full-width">
         <input matInput placeholder="Email" formControlName="email" type="email" autocomplete="email" />
+        <mat-error *ngIf="formGroupSignUp.controls['email'].hasError('required')">Required</mat-error>
       </mat-form-field>
-      <mat-form-field>
+      <br/>
+      <mat-form-field class="example-full-width">
         <input matInput placeholder="Password" formControlName="password" type="password" autocomplete="off" />
+        <mat-error *ngIf="formGroupSignUp.controls['password'].hasError('pattern')">See Password Requirements
+        </mat-error>
+        <br/>
       </mat-form-field>
       <br />
-      <mat-checkbox class="uploadPanelCbx" formControlName="mailinglist">Join Mailing List</mat-checkbox>
+      <br />
+      <mat-checkbox color="primary" class="uploadPanelCbx" formControlName="mailinglist">Join Mailing List</mat-checkbox>
       <button mat-raised-button type="submit" color="primary" style="margin-right:10px;">Sign Up</button>
       <div class="user-panel-links">
         <div class="user-panel-link">
@@ -111,7 +147,7 @@
       </mat-form-field>
       <mat-form-field> <input matInput placeholder="Code" formControlName="code" autocomplete="off" /> </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Password" formControlName="password" type="password" autocomplete="off" />
+        <input matInput placeholder="New Password" formControlName="password" type="password" autocomplete="off" />
       </mat-form-field>
       <br />
       <button mat-raised-button type="submit" color="primary">Update Password</button>

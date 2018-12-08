@@ -46,11 +46,10 @@
         <a href="https://pedcbioportal.org/login.jsp" target="_blank">Chop Portal</a>
       </mat-tab>
     -->
-    <mat-tab label="Private Datasets">
-      <!-- The following datasets are private. To upload datasets or view datasets.<br /> -->
+    <mat-tab label="Sign In">
+      The following datasets are private.<br />
       <app-workspace-user-panel
-        (showPanel)="this.showPanel.emit($event)"
-        (loadPrivate)="this.loadPrivate.emit($event)"
+
       ></app-workspace-user-panel>
     </mat-tab>
   </mat-tab-group>
