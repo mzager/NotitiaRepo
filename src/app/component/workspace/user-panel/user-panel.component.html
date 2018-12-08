@@ -3,6 +3,7 @@
   <!-- {{ errorMessage }} -->
   <!-- Sign In -->
 <div *ngIf="activeForm === 'SIGN_IN'">
+    <div>The following datasets are private. Sign in or sign up to upload or view datasets.</div>
   <form [formGroup]="formGroupSignIn" (submit)="signIn()">
     <br />
     <mat-error>{{errorMessage}}</mat-error>
@@ -37,59 +38,52 @@
   </form>
 </div>
 
-  <!-- Sign Up -->
-  <div *ngIf="activeForm === 'SIGN_UP'">
-    <div>Create an account to upload private data. When signing up for an account please be aware that you are agreeing
-      to our <a href="">Terms of Service, Privacy Policy</a></div>
-
-
-    Passwords must:
-    <ul>
-      <li>Be a minimum of eight (8) characters in length</li>
-      <li>Contain at least one (1) character from three (3) of the following categories:</li>
-      <ul>
-        <li>Uppercase letter</li>
-        <li>Lowercase letter</li>
-        <li>Digit</li>
-        <li>Special character</li>
-      </ul>
-    </ul>
-    <form [formGroup]="formGroupSignUp" (submit)="signUp()">
-
-      <mat-form-field class="example-full-width">
-        <input matInput placeholder="First Name" formControlName="firstName" autocomplete="given-name" />
-        <mat-error *ngIf="formGroupSignUp.controls['firstName'].hasError('required')">Required</mat-error>
-      </mat-form-field>
+<!-- Sign Up -->
+<div *ngIf="activeForm === 'SIGN_UP'">
+  <div>When signing up for an account please be aware that you are agreeing to our <a class="os-link" href="">Terms of
+      Service</a>.</div>
       <br/>
+  <div>Passwords must be a minimum of eight (8) characters & contain at least one (1) character from the following categories:</div>
+  <div class="user-panel-password">
+  <div>Uppercase + lowercase letter, digit, special character</div>
+</div>
+<br />
+  <form [formGroup]="formGroupSignUp" (submit)="signUp()">
 
-      <mat-form-field class="example-full-width">
-        <input matInput placeholder="Last Name" formControlName="lastName" autocomplete="family-name" />
-        <mat-error *ngIf="formGroupSignUp.controls['lastName'].hasError('required')">Required</mat-error>
-      </mat-form-field>
-      <br/>
-      <mat-form-field class="example-full-width">
-        <input matInput placeholder="Email" formControlName="email" type="email" autocomplete="email" />
-        <mat-error *ngIf="formGroupSignUp.controls['email'].hasError('required')">Required</mat-error>
-      </mat-form-field>
-      <br/>
-      <mat-form-field class="example-full-width">
-        <input matInput placeholder="Password" formControlName="password" type="password" autocomplete="off" />
-        <mat-error *ngIf="formGroupSignUp.controls['password'].hasError('pattern')">See Password Requirements
-        </mat-error>
-        <br/>
-      </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="First Name" formControlName="firstName" autocomplete="given-name" />
+      <mat-error *ngIf="formGroupSignUp.controls['firstName'].hasError('required')">Required</mat-error>
+    </mat-form-field>
+    <br />
+
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Last Name" formControlName="lastName" autocomplete="family-name" />
+      <mat-error *ngIf="formGroupSignUp.controls['lastName'].hasError('required')">Required</mat-error>
+    </mat-form-field>
+    <br />
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Email" formControlName="email" type="email" autocomplete="email" />
+      <mat-error *ngIf="formGroupSignUp.controls['email'].hasError('required')">Required</mat-error>
+    </mat-form-field>
+    <br />
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Password" formControlName="password" type="password" autocomplete="off" />
+      <mat-error *ngIf="formGroupSignUp.controls['password'].hasError('pattern')">See Password Requirements
+      </mat-error>
       <br />
-      <br />
-      <mat-checkbox color="primary" class="uploadPanelCbx" formControlName="mailinglist">Join Mailing List</mat-checkbox>
-      <button mat-raised-button type="submit" color="primary" style="margin-right:10px;">Sign Up</button>
-      <div class="user-panel-links">
-        <div class="user-panel-link">
-          <a class="os-link" href="#" (click)="setForm('SIGN_IN')">Sign In</a> |
-          <a class="os-link" href="#" (click)="setForm('RESEND_CODE')">Resend Code</a>
-        </div>
+    </mat-form-field>
+    <br />
+    <br />
+    <mat-checkbox color="primary" class="uploadPanelCbx" formControlName="mailinglist">Join Mailing List</mat-checkbox>
+    <button mat-raised-button type="submit" color="primary" style="margin-right:10px;">Sign Up</button>
+    <div class="user-panel-links">
+      <div class="user-panel-link">
+        <a class="os-link" href="#" (click)="setForm('SIGN_IN')">Sign In</a> |
+        <a class="os-link" href="#" (click)="setForm('RESEND_CODE')">Resend Code</a>
       </div>
-    </form>
-  </div>
+    </div>
+  </form>
+</div>
 
   <!-- Sign Up Confirmation -->
   <div *ngIf="activeForm === 'SIGN_UP_CONFIRM'">

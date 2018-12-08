@@ -47,9 +47,9 @@
       </mat-tab>
     -->
     <mat-tab label="Sign In">
-      The following datasets are private.<br />
       <app-workspace-user-panel
-
+      (showPanel)="this.showPanel.emit($event)"
+      (loadPrivate)="this.loadPrivate.emit($event)"
       ></app-workspace-user-panel>
     </mat-tab>
   </mat-tab-group>
