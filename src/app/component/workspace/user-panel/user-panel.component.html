@@ -2,97 +2,107 @@
 <div>
   <!-- {{ errorMessage }} -->
   <!-- Sign In -->
-<div *ngIf="activeForm === 'SIGN_IN'">
+  <div *ngIf="activeForm === 'SIGN_IN'">
     <div>The following datasets are private. Sign in or sign up to upload or view datasets.</div>
-  <form [formGroup]="formGroupSignIn" (submit)="signIn()">
-    <br />
-    <mat-error>{{errorMessage}}</mat-error>
-    <br />
-    <mat-form-field class="example-full-width">
-      <input class='sign-in-margin' matInput placeholder="Email" formControlName="email" autocomplete="email" />
-      <mat-error *ngIf="formGroupSignUp.controls['email'].hasError('required')">Valid Email Required</mat-error>
-    </mat-form-field>
-    <br />
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Password" formControlName="password" type="password" autocomplete="off" />
-      <mat-error *ngIf="formGroupSignUp.controls['password'].hasError('required')">Required</mat-error>
-    </mat-form-field>
-    <br />
-
-    <br />
-    <button mat-raised-button type="submit" color="primary" style="vertical-align: text-bottom;margin-right:10px;">
-      Sign In
-    </button>
-    <button (click)="setForm('SIGN_UP')" mat-raised-button type="submit" color="primary" style="vertical-align: text-bottom;margin-right:10px;">
-      Sign Up
-    </button>
-    <br />
-    <div class="user-panel-links">
+    <form [formGroup]="formGroupSignIn" (submit)="signIn()">
       <br />
-      <!-- ADD TERMS (click)="setForm('TERMS')" -->
-      <div class="user-panel-link"><a class="os-link" href="#" (click)="setForm('FORGOT_PASSWORD')">Forgot Password</a>
-        |
-        <a class="os-link" href="#"> Terms of Service</a>
+      <mat-error>{{errorMessage}}</mat-error>
+      <br />
+      <mat-form-field class="example-full-width">
+        <input class='sign-in-margin' matInput placeholder="Email" formControlName="email" autocomplete="email" />
+        <mat-error *ngIf="formGroupSignUp.controls['email'].hasError('required')">Valid Email Required</mat-error>
+      </mat-form-field>
+      <br />
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Password" formControlName="password" type="password" autocomplete="off" />
+        <mat-error *ngIf="formGroupSignUp.controls['password'].hasError('required')">Required</mat-error>
+      </mat-form-field>
+      <br />
+      <br />
+      <button mat-raised-button type="submit" color="primary" style="vertical-align: text-bottom;margin-right:10px;">
+        Sign In
+      </button>
+      <button (click)="setForm('SIGN_UP')" mat-raised-button type="submit" color="primary" style="vertical-align: text-bottom;margin-right:10px;">
+        Sign Up
+      </button>
+      <br />
+      <div class="user-panel-links">
+        <br />
+        <div class="user-panel-link"><a class="os-link" href="#" (click)="setForm('FORGOT_PASSWORD')">Forgot Password</a>
+          <!-- |
+        <a class="os-link" href="https://www.fredhutch.org/en/util/terms-privacy.html"> Terms of Service</a> -->
+          |
+          <a class="os-link" href="#" (click)="setForm('UPDATE_PASSWORD')">Enter Verification Code</a>
+        </div>
       </div>
-    </div>
-  </form>
-</div>
+    </form>
+  </div>
 
-<!-- Sign Up -->
-<div *ngIf="activeForm === 'SIGN_UP'">
-  <div>When signing up for an account please be aware that you are agreeing to our <a class="os-link" href="">Terms of
-      Service</a>.</div>
-      <br/>
-  <div>Passwords must be a minimum of eight (8) characters & contain at least one (1) character from the following categories:</div>
-  <div class="user-panel-password">
-  <div>Uppercase + lowercase letter, digit, special character</div>
-</div>
-<br />
-  <form [formGroup]="formGroupSignUp" (submit)="signUp()">
-
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="First Name" formControlName="firstName" autocomplete="given-name" />
-      <mat-error *ngIf="formGroupSignUp.controls['firstName'].hasError('required')">Required</mat-error>
-    </mat-form-field>
+  <!-- Sign Up -->
+  <div *ngIf="activeForm === 'SIGN_UP'">
+    <div>When signing up for an account please be aware that you are agreeing to our <a class="os-link" href="https://www.fredhutch.org/en/util/terms-privacy.html">Terms
+        of
+        Service</a>.</div>
     <br />
-
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Last Name" formControlName="lastName" autocomplete="family-name" />
-      <mat-error *ngIf="formGroupSignUp.controls['lastName'].hasError('required')">Required</mat-error>
-    </mat-form-field>
+    <div>Passwords must be a minimum of eight (8) characters and contain at least one (1) character from the following
+      categories: uppercase and lowercase letter, digit, special character.</div>
     <br />
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Email" formControlName="email" type="email" autocomplete="email" />
-      <mat-error *ngIf="formGroupSignUp.controls['email'].hasError('required')">Required</mat-error>
-    </mat-form-field>
-    <br />
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Password" formControlName="password" type="password" autocomplete="off" />
-      <mat-error *ngIf="formGroupSignUp.controls['password'].hasError('pattern')">See Password Requirements
+    <form [formGroup]="formGroupSignUp" (submit)="signUp()">
+      <mat-error>{{errorMessage}}
       </mat-error>
       <br />
-    </mat-form-field>
-    <br />
-    <br />
-    <mat-checkbox color="primary" class="uploadPanelCbx" formControlName="mailinglist">Join Mailing List</mat-checkbox>
-    <button mat-raised-button type="submit" color="primary" style="margin-right:10px;">Sign Up</button>
-    <div class="user-panel-links">
-      <div class="user-panel-link">
-        <a class="os-link" href="#" (click)="setForm('SIGN_IN')">Sign In</a> |
-        <a class="os-link" href="#" (click)="setForm('RESEND_CODE')">Resend Code</a>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="First Name" formControlName="firstName" autocomplete="given-name" />
+        <mat-error *ngIf="formGroupSignUp.controls['firstName'].hasError('required')">Required</mat-error>
+      </mat-form-field>
+      <br />
+
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Last Name" formControlName="lastName" autocomplete="family-name" />
+        <mat-error *ngIf="formGroupSignUp.controls['lastName'].hasError('required')">Required</mat-error>
+      </mat-form-field>
+      <br />
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Email" formControlName="email" type="email" autocomplete="email" />
+        <mat-error *ngIf="formGroupSignUp.controls['email'].hasError('required')">Valid Email Required</mat-error>
+      </mat-form-field>
+      <br />
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Password" formControlName="password" type="password" autocomplete="off" />
+        <mat-error *ngIf="formGroupSignUp.controls['password'].hasError('pattern')">See Password Requirements
+        </mat-error>
+        <br />
+      </mat-form-field>
+      <br />
+      <br />
+      <mat-checkbox color="primary" class="uploadPanelCbx" formControlName="mailinglist">Join Oncoscape Mailing List</mat-checkbox>
+      <br />
+      <button mat-raised-button type="submit" color="primary" style="margin-right:10px;">Sign Up</button>
+      <br />
+      <br />
+      <div class="user-panel-links">
+        <div class="user-panel-link">
+          <a class="os-link" href="#" (click)="setForm('SIGN_IN')">Sign In</a> |
+          <!-- <a class="os-link" href="#" (click)="setForm('RESEND_CODE')">Resend Verification Code</a> -->
+          <a class="os-link" href="#" (click)="setForm('FORGOT_PASSWORD')">Reset Password</a>
+        </div>
       </div>
-    </div>
-  </form>
-</div>
+    </form>
+  </div>
 
   <!-- Sign Up Confirmation -->
   <div *ngIf="activeForm === 'SIGN_UP_CONFIRM'">
-    Please check your email and enter the code below
+    <div>Please check your email and enter the code below</div>
     <form [formGroup]="formGroupSignUpConfirm" (submit)="signUpConfirm()">
-      <mat-form-field>
+      <br />
+
+      <mat-form-field class="example-full-width">
         <input matInput placeholder="Email" formControlName="email" autocomplete="email" />
       </mat-form-field>
-      <mat-form-field> <input matInput placeholder="Code" formControlName="code" autocomplete="off" /> </mat-form-field>
+      <br />
+      <mat-form-field class="example-full-width"> <input matInput placeholder="Code" formControlName="code" autocomplete="off" />
+      </mat-form-field>
+
       <br />
       <button mat-raised-button type="submit" color="primary">Verify Code</button>
     </form>
@@ -100,12 +110,19 @@
 
   <!-- Forgot Password -->
   <div *ngIf="activeForm === 'FORGOT_PASSWORD'">
+    <!-- <div>Password reset code has been sent. If you do not receive the email, please reach out to contact-sttr@fredhutch.org for assistance.</div> -->
+    <div>Please enter your email address below. An account verification code will be sent via email.</div>
+    <br />
+    <div class="os-link">{{errorMessage}}</div>
     <form [formGroup]="formGroupForgotPassword" (submit)="forgotPassword()">
-      <mat-form-field>
+      <mat-form-field class="example-full-width">
         <input matInput placeholder="Email" formControlName="email" autocomplete="email" />
+        <mat-error *ngIf="formGroupForgotPassword.controls['email'].hasError('required')">Valid Email Required</mat-error>
       </mat-form-field>
       <br />
       <button mat-raised-button type="submit" color="primary" style="margin-right:10px;">Reset Password</button>
+      <br />
+      <br />
       <div class="user-panel-links">
         <div class="user-panel-link">
           <a class="os-link" href="#" (click)="setForm('SIGN_IN')">Sign In</a> |
@@ -118,7 +135,7 @@
   <!-- Resend Code -->
   <div *ngIf="activeForm === 'RESEND_CODE'">
     <form [formGroup]="formGroupResendCode" (submit)="resendCode()">
-      <mat-form-field>
+      <mat-form-field class="example-full-width">
         <input matInput placeholder="Email" formControlName="email" autocomplete="email" />
       </mat-form-field>
       <br />
@@ -135,14 +152,25 @@
   <!-- Sign Up Update Password -->
   <div *ngIf="activeForm === 'UPDATE_PASSWORD'">
     <form [formGroup]="formGroupUpdatePassword" (submit)="updatePassword()">
-      Please check your email and enter the code below <br />
-      <mat-form-field>
+
+      <div>Please check your email and enter the code below.</div>
+      <br />
+      <br />
+    <div> {{errorMessage}}</div>
+      <mat-form-field class="example-full-width">
         <input matInput placeholder="Email" formControlName="email" autocomplete="email" />
+        <mat-error *ngIf="formGroupUpdatePassword.controls['email'].hasError('required')">Valid Email Required</mat-error>
       </mat-form-field>
-      <mat-form-field> <input matInput placeholder="Code" formControlName="code" autocomplete="off" /> </mat-form-field>
-      <mat-form-field>
+      <br />
+      <mat-form-field class="example-full-width"><input matInput placeholder="Code" formControlName="code" autocomplete="off" />
+        <mat-error *ngIf="formGroupUpdatePassword.controls['code'].hasError('required')">Required</mat-error>
+      </mat-form-field>
+      <br />
+      <mat-form-field class="example-full-width">
         <input matInput placeholder="New Password" formControlName="password" type="password" autocomplete="off" />
+        <mat-error *ngIf="formGroupUpdatePassword.controls['password'].hasError('pattern')">See Password Requirements</mat-error>
       </mat-form-field>
+      <br />
       <br />
       <button mat-raised-button type="submit" color="primary">Update Password</button>
     </form>

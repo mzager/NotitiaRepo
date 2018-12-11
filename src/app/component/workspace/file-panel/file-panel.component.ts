@@ -49,7 +49,7 @@ export class FilePanelComponent {
       case "Children's Hospital of Philadelphia":
         this.setDatasetsChop();
         return;
-      case 'Sign In':
+      case 'Private Datasets':
         this.setDatasetsPrivate();
         return;
         break;

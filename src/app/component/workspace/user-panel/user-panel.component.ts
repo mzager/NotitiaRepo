@@ -101,7 +101,7 @@ export class UserPanelComponent {
         this.cd.detectChanges();
       })
       .catch(err => {
-        alert(err.message);
+        // alert(err.message);
         this.errorMessage = err.message;
         this.cd.detectChanges();
       });
@@ -117,7 +117,7 @@ export class UserPanelComponent {
         this.cd.detectChanges();
       })
       .catch(err => {
-        alert(err.message);
+        // alert(err.message);
         this.errorMessage = err.message;
         this.cd.detectChanges();
       });
@@ -130,14 +130,14 @@ export class UserPanelComponent {
     }
     Auth.forgotPassword(form.get('email').value)
       .then(data => {
-        alert('Password sent');
+        // alert('Password sent');
         // const user = { username: form.get('email').value };
         this.setForm(UserPanelFormEnum.UPDATE_PASSWORD);
         this.cd.detectChanges();
       })
       .catch(err => {
         const errMsg = err.message.replace('Username', 'Email').replace('username', 'email');
-        alert(errMsg);
+        // alert(errMsg);
         this.errorMessage = errMsg;
         this.cd.detectChanges();
       });
@@ -180,8 +180,8 @@ export class UserPanelComponent {
       password: [null, Validators.compose(
         [
         Validators.required,
-        Validators.minLength(8),
-        Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')
+        // Validators.minLength(8)
+        // Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')
         ]
         )]
     });
