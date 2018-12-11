@@ -20,7 +20,7 @@
       />
     -->
   </div>
-  <mat-tab-group class="filePanel" (selectedTabChange)="onSelectedTabChange($event)">
+  <mat-tab-group animationDuration="0ms"  class="filePanel" (selectedTabChange)="onSelectedTabChange($event)">
     <mat-tab label="Genomic Data Commons">
       The following datasets have been tested / verified by the Oncoscape team.
     </mat-tab>
@@ -46,12 +46,10 @@
         <a href="https://pedcbioportal.org/login.jsp" target="_blank">Chop Portal</a>
       </mat-tab>
     -->
+
     <mat-tab label="Private Datasets">
-      <!-- The following datasets are private. To upload datasets or view datasets.<br /> -->
-      <app-workspace-user-panel
-        (showPanel)="this.showPanel.emit($event)"
-        (loadPrivate)="this.loadPrivate.emit($event)"
-      ></app-workspace-user-panel>
+      <app-workspace-user-panel (showPanel)="this.showPanel.emit($event)" (loadPrivate)="this.loadPrivate.emit($event)">
+      </app-workspace-user-panel>
     </mat-tab>
   </mat-tab-group>
 
