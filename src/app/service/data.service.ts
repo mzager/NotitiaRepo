@@ -91,6 +91,19 @@ export class DataService {
     data: []
   };
 
+  getGenomeManifest(): Promise<any> {
+    return fetch('https://oncoscape.v3.sttrcancer.org/data/genomes/manifest.json.gz', {
+      method: 'GET',
+      headers: DataService.headersJson
+    }).then(res => res.json());
+  }
+  getGenome(file): Promise<any> {
+    return fetch('https://oncoscape.v3.sttrcancer.org/data/genomes/' + file + '.gz', {
+      method: 'GET',
+      headers: DataService.headersJson
+    }).then(res => res.json());
+  }
+
   getVisualizationTip(v: VisualizationEnum): Promise<any> {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');

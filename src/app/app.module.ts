@@ -17,6 +17,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { FileUploadModule } from 'ng2-file-upload';
 import { AppRoutingModule } from './app-routing.module';
+
 // Components
 import { AppComponent } from './app.component';
 import { ApplicationBarComponent } from './component/application-bar/application-bar.component';

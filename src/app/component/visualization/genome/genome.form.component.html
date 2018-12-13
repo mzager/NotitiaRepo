@@ -1,10 +1,10 @@
-<form [formGroup]='form' novalidate>
-  <mat-form-field class='form-field'>
-    <mat-select placeholder='Alignment' formControlName='alignment'>
-      <mat-option *ngFor='let option of alignmentOptions' [value]='option'>
-        HG{{ option }}
+<form [formGroup]="form" novalidate>
+  <mat-form-field class="form-field">
+    <mat-select placeholder="Genome" formControlName="alignment">
+      <mat-option *ngFor="let option of genomeOptions" [value]="option">
+        {{ option.species }} - {{ option.assembly }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-slide-toggle formControlName='showTads'>HG19 Tads</mat-slide-toggle>
+  <mat-slide-toggle formControlName="showTads">HG19 Tads</mat-slide-toggle>
 </form>

@@ -17,7 +17,7 @@ export interface State {
 const initialState: State = {
   graphPanelA: e.GraphPanelEnum.GRAPH_A,
   graphPanelB: e.GraphPanelEnum.NONE,
-  modalPanel: e.PanelEnum.LANDING,
+  modalPanel: e.PanelEnum.DATA,
   loader: false,
   workspaceConfig: new WorkspaceConfigModel()
 };

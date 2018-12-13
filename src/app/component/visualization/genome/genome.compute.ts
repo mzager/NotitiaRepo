@@ -1,14 +1,75 @@
 import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 import { scaleLinear } from 'd3-scale';
 import * as _ from 'lodash';
-import { SpriteMaterialEnum } from './../../../model/enum.model';
+import { SpriteMaterialEnum, EntityTypeEnum } from './../../../model/enum.model';
 import { Legend } from './../../../model/legend.model';
 import { GenomeConfigModel } from './genome.model';
 
-export const genomeCompute = (
-  config: GenomeConfigModel,
-  worker: DedicatedWorkerGlobalScope
-): void => {
+export const genomeCompute = (config: GenomeConfigModel, worker: DedicatedWorkerGlobalScope): void => {
+  // Promise.all([
+  //   worker.util.getMatrix(
+  //     [],
+  //     config.sampleFilter,
+  //     config.table.map,
+  //     config.database,
+  //     config.table.tbl,
+  //     EntityTypeEnum.GENE
+  //   ),
+  //   worker.util.fetchUri('https://oncoscape.v3.sttrcancer.org/data/genomes/grch37.json.gz')
+  // ]).then(results => {
+  //   const chromosomeNames = Object.keys(results[1].stats.chromosomes);
+  //   const minMax = chromosomeNames.reduce(
+  //     (p, c) => {
+  //       p.min = Math.min(results[1].stats.chromosomes[c].min, p.min);
+  //       p.max = Math.max(results[1].stats.chromosomes[c].max, p.max);
+  //       return p;
+  //     },
+  //     { min: Infinity, max: -Infinity }
+  //   );
+
+  //   // Gene Scale (Y)
+  //   const scaleGene = scaleLinear();
+  //   scaleGene.domain([0, 248956422]);
+  //   scaleGene.range([0, 2000]);
+
+  //   // Chromosome Scale (X)
+  //   const scaleChromosome = scaleLinear();
+  //   scaleChromosome.domain([0, chromosomeNames.length]);
+  //   scaleChromosome.range([0, 300]);
+
+  //   // Gene Position Map
+  //   const genePositionMap = results[1].data.reduce((p, c) => {
+  //     p[c[1].toUpperCase()] = c;
+  //     return p;
+  //   }, {});
+  //   const geneLookup = results[0].markers.map(v => genePositionMap[v]);
+  //   const geneValues = geneLookup
+  //     .map((gene, i) => {
+  //       if (gene === undefined) {
+  //         return null;
+  //       }
+  //       const sum = results[0].data.reduce((p, c) => {
+  //         p += c[i];
+  //         return p;
+  //       }, 0);
+  //       gene.push(sum);
+  //       return gene;
+  //     })
+  //     .filter(v => v);
+  //   const geneCount = geneValues.length;
+  //   geneValues.forEach(v => {
+  //     v[3] = scaleGene(v[3]);
+  //     v[4] = scaleGene(v[4]);
+  //     v[7] /= geneCount;
+  //   });
+
+  //   // const genePositionDict = results[1].data.reduce((p, c) => {
+  //   //   p[c[1]] = c;
+  //   //   return p;
+  //   // }, {});
+
+  //   debugger;
+
   const bandColors = {
     gneg: 0xec407a,
     gpos25: 0xab47bc,
@@ -85,30 +146,34 @@ export const genomeCompute = (
   scaleChromosome.range([0, 300]);
 
   worker.util.getGenomePositions(config.alignment).then(result => {
-    result[0] = result[0].filter(v => v[0] !== '').map(v => {
-      return {
-        arm: v[3].substr(0, 1).toUpperCase(),
-        chr: v[0],
-        s: v[1],
-        e: v[2],
-        tag: v[4],
-        subband: v[3].substring(1)
-      };
-    });
+    result[0] = result[0]
+      .filter(v => v[0] !== '')
+      .map(v => {
+        return {
+          arm: v[3].substr(0, 1).toUpperCase(),
+          chr: v[0],
+          s: v[1],
+          e: v[2],
+          tag: v[4],
+          subband: v[3].substring(1)
+        };
+      });
 
     const genes = _.groupBy(
-      result[1].filter(v => config.markerFilter.indexOf(v[0]) !== -1).map(v => ({
-        gene: v[0],
-        chr: v[1],
-        tss: scaleGene(v[3]),
-        s: scaleGene(v[4]),
-        e: scaleGene(v[5]),
-        strand: v[6],
-        type: v[7],
-        color: 0x039be5,
-        arm: v[2].substr(0, 1).toUpperCase(),
-        band: v[2].substring(1)
-      })),
+      result[1]
+        .filter(v => config.markerFilter.indexOf(v[0]) !== -1)
+        .map(v => ({
+          gene: v[0],
+          chr: v[1],
+          tss: scaleGene(v[3]),
+          s: scaleGene(v[4]),
+          e: scaleGene(v[5]),
+          strand: v[6],
+          type: v[7],
+          color: 0x039be5,
+          arm: v[2].substr(0, 1).toUpperCase(),
+          band: v[2].substring(1)
+        })),
       'chr'
     );
 
@@ -129,9 +194,7 @@ export const genomeCompute = (
     const ct = ct19;
 
     const d = {
-      legends: [
-        Legend.create('Data Points', ['Genes'], [SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')
-      ],
+      legends: [Legend.create('Data Points', ['Genes'], [SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')],
       genes: genes,
       bands: bands,
       tads: [],

@@ -47,7 +47,9 @@ export class InfoPanelComponent implements AfterViewInit, OnDestroy {
     if (config === null) {
       return;
     }
-    // { key: 'Data Set', value: config.datasetName },
+    if (config.table === null) {
+      return;
+    } // { key: 'Data Set', value: config.datasetName },
     this.message = this.graphAInfo = [
       { key: 'Data Table', value: config.table.label },
       { key: 'Analysis', value: config.label },

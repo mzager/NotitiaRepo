@@ -123,7 +123,7 @@ export class ChromosomeGraph extends AbstractVisualization {
   updateData(config: GraphConfig, data: any) {
     super.updateData(config, data);
     this.removeObjects();
-    this.addObjects(this.config.entity);
+    this.addObjects();
   }
 
   enable(truthy: boolean) {
@@ -131,13 +131,48 @@ export class ChromosomeGraph extends AbstractVisualization {
     this.view.controls.enableRotate = true;
   }
 
-  addObjects(type: EntityTypeEnum): void {
-    if (this.config.layoutOption === 'Line') {
-      this.addObjectsLinear(type);
-    } else {
-      this.addObjectsCircular(type);
-    }
-    ChartFactory.decorateDataGroups(this.meshes, this.decorators);
+  addObjects(): void {
+    const d = this.data.result;
+
+    d.data.forEach(v => {
+      if (v[2] === 'x') {
+        v[2] = 23;
+      } else if (v[2] === 'y') {
+        v[2] = 24;
+      } else {
+        v[2] = parseInt(v[2], 10);
+      }
+    });
+
+    d.data.sort((a, b) => {
+      // Chromosome
+      if (a[2] > b[2]) {
+        return 1;
+      } else if (a[2] < b[2]) {
+        return -1;
+        // TSS
+      } else if (a[3] > b[3]) {
+        return 1;
+      } else if (a[3] < b[3]) {
+        return -1;
+        // TES
+      } else if (a[4] > b[4]) {
+        return 1;
+      } else if (a[4] < b[4]) {
+        return -1;
+      } else {
+        return 0; // This shouldn't occur.. but who knows it's biology
+      }
+    });
+
+    debugger;
+
+    // if (this.config.layoutOption === 'Line') {
+    //   this.addObjectsLinear(type);
+    // } else {
+    //   this.addObjectsCircular(type);
+    // }
+    // ChartFactory.decorateDataGroups(this.meshes, this.decorators);
   }
   addObjectsLinear(type: EntityTypeEnum): void {
     const propertyId = this.config.entity === EntityTypeEnum.GENE ? 'mid' : 'sid';
@@ -153,14 +188,16 @@ export class ChromosomeGraph extends AbstractVisualization {
     scale = scaleLinear();
     scale.domain([0, this.data.genes.length]);
     scale.range([0, 365]);
-    geneData = this.data.genes.sort((a, b) => b.tss - a.tss).map((v, i) => {
-      const angle = (scale(i) * Math.PI) / 180;
-      return Object.assign(v, {
-        inSet: mf.has(v.gene),
-        sPos: { x: Math.cos(angle), y: Math.sin(angle), a: angle },
-        ePos: { x: Math.cos(angle), y: Math.sin(angle), a: angle }
+    geneData = this.data.genes
+      .sort((a, b) => b.tss - a.tss)
+      .map((v, i) => {
+        const angle = (scale(i) * Math.PI) / 180;
+        return Object.assign(v, {
+          inSet: mf.has(v.gene),
+          sPos: { x: Math.cos(angle), y: Math.sin(angle), a: angle },
+          ePos: { x: Math.cos(angle), y: Math.sin(angle), a: angle }
+        });
       });
-    });
     tele = geneData.findIndex(v => v.arm === 'P');
     centro = { x: Math.cos(0), y: Math.sin(0) };
     telem = { x: Math.cos(scale(tele)), y: Math.sin(scale(tele)) };
