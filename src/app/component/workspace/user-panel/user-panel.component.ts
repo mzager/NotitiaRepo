@@ -64,7 +64,6 @@ export class UserPanelComponent {
   signIn(): void {
     const form = this.formGroupSignIn;
     if (form.status === 'INVALID') {
-      // Validate that passwords appropriate
       return;
     }
 
@@ -77,6 +76,7 @@ export class UserPanelComponent {
         });
       })
       .catch(err => {
+        // alert(err.message);
         this.errorMessage = err.message;
         this.cd.detectChanges();
       });
@@ -101,7 +101,7 @@ export class UserPanelComponent {
         this.cd.detectChanges();
       })
       .catch(err => {
-        alert(err.message);
+        // alert(err.message);
         this.errorMessage = err.message;
         this.cd.detectChanges();
       });
@@ -117,7 +117,7 @@ export class UserPanelComponent {
         this.cd.detectChanges();
       })
       .catch(err => {
-        alert(err.message);
+        // alert(err.message);
         this.errorMessage = err.message;
         this.cd.detectChanges();
       });
@@ -130,14 +130,14 @@ export class UserPanelComponent {
     }
     Auth.forgotPassword(form.get('email').value)
       .then(data => {
-        alert('Password sent');
+        // alert('Password sent');
         // const user = { username: form.get('email').value };
         this.setForm(UserPanelFormEnum.UPDATE_PASSWORD);
         this.cd.detectChanges();
       })
       .catch(err => {
         const errMsg = err.message.replace('Username', 'Email').replace('username', 'email');
-        alert(errMsg);
+        // alert(errMsg);
         this.errorMessage = errMsg;
         this.cd.detectChanges();
       });
@@ -177,12 +177,25 @@ export class UserPanelComponent {
     // Initialize All Forms
     this.formGroupSignIn = fb.group({
       email: [null, Validators.compose([Validators.required, Validators.email])],
-      password: [null, Validators.required]
+      password: [null, Validators.compose(
+        [
+        Validators.required,
+        // Validators.minLength(8)
+        // Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')
+        ]
+        )]
     });
 
     // This doesn't do enough need special chars....
     this.formGroupSignUp = fb.group({
-      password: [null, Validators.compose([Validators.required, Validators.minLength(8)])],
+      password: [null, Validators.compose(
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')
+        ]
+        )],
+
       email: [null, Validators.compose([Validators.required, Validators.email])],
       mailinglist: [null],
       firstName: [null, Validators.required],
@@ -210,11 +223,18 @@ export class UserPanelComponent {
     Require special character
     Require uppercase letters
     Require lowercase letters
+    SOLUTION FROM https://stackoverflow.com/questions/48350506/how-to-validate-password-strength-with-angular-5-validator-pattern
     */
     this.formGroupUpdatePassword = fb.group({
       email: [null, Validators.compose([Validators.required, Validators.email])],
       code: [null, Validators.required],
-      password: [null, Validators.compose([Validators.required, Validators.minLength(8)])]
+      password: [null, Validators.compose(
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')
+        ]
+        )]
     });
 
     // Set The Active Form To Sign In

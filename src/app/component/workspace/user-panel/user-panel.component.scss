@@ -1,10 +1,40 @@
 .uploadPanelCbx {
-    display: block;
-    margin-bottom: 10px;
+  display: block;
+  margin-bottom: 10px;
 }
-.user-panel-link{
-    padding-top: 5px;
+
+.user-panel-link {
+  padding-top: 5px;
 }
-.user-panel-links{
-    display: inline-block;
+
+.user-panel-links {
+  display: inline-block;
+  padding-top: 10px;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 30%;
+}
+
+.user-panel-password {
+  margin-left: 15px;
+}
+
+.user-panel-intro {
+  padding-bottom: 10px;
+}
+
+.user-panel-button {
+  padding-top: 10px;
+}
+
+.user-panel-warning {
+  font-style: italic;
+  padding-bottom: 10px;
 }
