@@ -120,6 +120,7 @@ export class ProteinGraph extends AbstractVisualization {
     CA: 0x8888aa
   };
 
+  container = new THREE.Group();
   chains: Array<THREE.Group> = [];
   model: ProteinData;
 
@@ -301,7 +302,7 @@ export class ProteinGraph extends AbstractVisualization {
     });
     const sphereMesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
     sphereMesh.position.set(atom.x, atom.y, atom.z);
-    this.view.scene.add(sphereMesh);
+    this.container.add(sphereMesh);
   }
 
   private addResidue(residual: ProteinResidue): void {
@@ -462,6 +463,7 @@ export class ProteinGraph extends AbstractVisualization {
       .getCenter(chain.position)
       .multiplyScalar(-1);
     this.view.scene.add(chain);
+    this.view.scene.add(this.container);
   }
 
   private getColoredBufferLine(steps: number, phase: number, geo: THREE.Geometry): THREE.Mesh {
@@ -499,6 +501,8 @@ export class ProteinGraph extends AbstractVisualization {
 
   destroy() {
     super.destroy();
+    this.chains.map(v => this.view.scene.remove);
+    this.view.scene.remove(this.container);
   }
 
   enable(truthy: boolean) {
