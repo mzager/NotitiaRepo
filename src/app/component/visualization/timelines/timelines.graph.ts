@@ -50,9 +50,6 @@ export class TimelinesGraph extends AbstractVisualization {
   // Create - Initialize Mesh Arrays
   create(html: HTMLElement, events: ChartEvents, view: VisualizationView): ChartObjectInterface {
     super.create(html, events, view);
-
-    debugger;
-
     this.bgTime = <HTMLDivElement>document.createElement('div');
     this.bgTime.className = 'timelines-bg-time';
     this.labels.insertAdjacentElement('beforebegin', this.bgTime);

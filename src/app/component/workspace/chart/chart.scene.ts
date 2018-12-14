@@ -81,6 +81,8 @@ export class ChartScene {
       alpha: false,
       preserveDrawingBuffer: true
     });
+    // this.renderer.gammaInput = true;
+    // this.renderer.gammaOutput = true;
     // this.renderer.setSize(dimension.width, dimension.height);
     this.renderer.setPixelRatio(window.devicePixelRatio);
     // this.renderer.setPixelRatio(1);
