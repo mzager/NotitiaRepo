@@ -1,3 +1,4 @@
+import { ChromosomeConfigModel } from './../component/visualization/chromosome/chromosome.model';
 import { DatasetDescription } from './../model/dataset-description.model';
 import { from as observableFrom, of as observableOf } from 'rxjs';
 import { mergeMap, switchMap, map } from 'rxjs/operators';
@@ -39,6 +40,8 @@ import { WorkspaceConfigModel } from './../model/workspace.model';
 import { DataService } from './../service/data.service';
 import { DatasetService } from './../service/dataset.service';
 import { PcaConfigModel } from '../component/visualization/pca/pca.model';
+import { ProteinConfigModel } from 'app/component/visualization/protein/protein.model';
+import { TimelinesConfigModel } from 'app/component/visualization/timelines/timelines.model';
 
 @Injectable()
 export class DataEffect {
@@ -301,9 +304,9 @@ export class DataEffect {
       // timelinesConfigA.graph = GraphEnum.GRAPH_A;
       // timelinesConfigA.table = args.tables.filter(v => ((v.ctype & CollectionTypeEnum.MOLECULAR) > 0))[0];
 
-      // const timelinesConfigB = new TimelinesConfigModel();
-      // timelinesConfigB.graph = GraphEnum.GRAPH_B;
-      // timelinesConfigB.table = args.tables.filter( v => ( (v.ctype & CollectionTypeEnum.MOLECULAR) > 0) )[0];
+      const timelinesConfigB = new TimelinesConfigModel();
+      timelinesConfigB.graph = GraphEnum.GRAPH_B;
+      timelinesConfigB.table = args.tables.filter(v => (v.ctype & CollectionTypeEnum.MOLECULAR) > 0)[0];
 
       // const graphBConfig = new PcaIncrementalConfigModel();
       // graphBConfig.graph = GraphEnum.GRAPH_A;
@@ -349,6 +352,13 @@ export class DataEffect {
       // pathwaysConfig.graph = GraphEnum.GRAPH_A;
       // pathwaysConfig.table = args.tables.filter(v => (v.ctype & CollectionTypeEnum.MOLECULAR) > 0)[1];
 
+      const chromoConfig = new ChromosomeConfigModel();
+      chromoConfig.graph = GraphEnum.GRAPH_A;
+      chromoConfig.table = args.tables.filter(v => (v.ctype & CollectionTypeEnum.MOLECULAR) > 0)[1];
+
+      const proteinConfig = new ProteinConfigModel();
+      proteinConfig.graph = GraphEnum.GRAPH_A;
+      proteinConfig.table = args.tables.filter(v => (v.ctype & CollectionTypeEnum.MOLECULAR) > 0)[1];
       return [
         new DataUpdateCohortsAction(args.cohorts),
         new DataUpdateGenesetsAction(args.genesets),
@@ -360,7 +370,7 @@ export class DataEffect {
         // new compute.HicAction( { config: hicConfig }),
         // new compute.BoxWhiskersAction({ config: boxWhiskersConfig }),
         // new compute.TimelinesAction({ config: timelinesConfigA }),
-        // new compute.TimelinesAction( { config: timelinesConfigB})
+        new compute.TimelinesAction({ config: timelinesConfigB }),
         // new compute.ChromosomeAction({ config: chromosomeConfig }),
         // new compute.HeatmapAction({ config: heatmapConfig }),
         // new compute.SurvivalAction({ config: survivalConfig }),
@@ -371,6 +381,8 @@ export class DataEffect {
         // new compute.PcaIncrementalAction({ config: pcaIncConfig2 }),
         // new GraphPanelToggleAction( GraphPanelEnum.GRAPH_A )
         new compute.PcaAction({ config: pcaConfig }),
+        // new compute.ProteinAction({ config: proteinConfig }),
+        // new compute.ChromosomeAction({ config: chromoConfig }),
         // new compute.ScatterAction({ config: scatterConfig }),
         new LoaderShowAction()
         // new TipSetVisualizationAction(VisualizationEnum.INCREMENTAL_PCA)

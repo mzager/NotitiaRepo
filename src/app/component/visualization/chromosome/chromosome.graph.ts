@@ -10,7 +10,7 @@ import { ChartEvent, ChartEvents } from './../../workspace/chart/chart.events';
 import { ChartFactory, DataDecoatorRenderer } from './../../workspace/chart/chart.factory';
 import { AbstractVisualization } from './../visualization.abstract.component';
 import { ChromosomeConfigModel, ChromosomeDataModel } from './chromosome.model';
-
+import * as _ from 'underscore';
 /*
  const biotypeCat = {
               'Protein Coding': ['protein_coding', 'polymorphic_pseudogene', 'IG_V_gene', 'TR_V_gene', 'TR_C_gene', 'TR_J_gene',
@@ -44,6 +44,9 @@ import { ChromosomeConfigModel, ChromosomeDataModel } from './chromosome.model';
               */
 // import { ArcCurve, RingBufferGeometry, RingGeometry } from 'three';
 export class ChromosomeGraph extends AbstractVisualization {
+  fragShader = require('raw-loader!glslify-loader!app/glsl/line.frag');
+  vertShader = require('raw-loader!glslify-loader!app/glsl/line.vert');
+
   public geneTypeSprites: Array<THREE.Sprite> = [];
 
   public set data(data: ChromosomeDataModel) {
@@ -123,7 +126,7 @@ export class ChromosomeGraph extends AbstractVisualization {
   updateData(config: GraphConfig, data: any) {
     super.updateData(config, data);
     this.removeObjects();
-    this.addObjects(this.config.entity);
+    this.addObjects();
   }
 
   enable(truthy: boolean) {
@@ -131,13 +134,82 @@ export class ChromosomeGraph extends AbstractVisualization {
     this.view.controls.enableRotate = true;
   }
 
-  addObjects(type: EntityTypeEnum): void {
-    if (this.config.layoutOption === 'Line') {
-      this.addObjectsLinear(type);
-    } else {
-      this.addObjectsCircular(type);
-    }
-    ChartFactory.decorateDataGroups(this.meshes, this.decorators);
+  addObjects(): void {
+    const d = this.data.result;
+
+    d.data.forEach(v => {
+      if (v[2] === 'x') {
+        v[2] = 23;
+      } else if (v[2] === 'y') {
+        v[2] = 24;
+      } else {
+        v[2] = parseInt(v[2], 10);
+      }
+    });
+    const data = d.data
+      .filter(v => v[0] !== -1)
+      .sort((a, b) => {
+        // Chromosome
+        if (a[2] > b[2]) {
+          return 1;
+        } else if (a[2] < b[2]) {
+          return -1;
+          // TSS
+        } else if (a[3] > b[3]) {
+          return 1;
+        } else if (a[3] < b[3]) {
+          return -1;
+          // TES
+        } else if (a[4] > b[4]) {
+          return 1;
+        } else if (a[4] < b[4]) {
+          return -1;
+        } else {
+          return 0; // This shouldn't occur.. but who knows it's biology
+        }
+      })
+      .filter((v, i, a) => {
+        if (i === 0) {
+          return true;
+        }
+        return v[1] !== a[i - 1][1];
+      });
+
+    const geneArray = new Float32Array(data.length * 3);
+    data.forEach((v, i) => {
+      geneArray[i * 3 + 0] = v[2]; // Chromosome
+      geneArray[i * 3 + 1] = v[3]; // TSS
+      geneArray[i * 3 + 2] = v[4]; // TES
+    }, this);
+
+    const geoBuf = new THREE.BufferGeometry();
+    geoBuf.addAttribute('position', new THREE.BufferAttribute(geneArray, 3));
+
+    const material = new THREE.ShaderMaterial({
+      uniforms: {},
+      // animationPos: { value: this.animationFrame },
+      // selectedColor: { value: new THREE.BufferAttribute(new Float32Array([0.0, 0.0, 0.0]), 3) },
+      // u_resolution: { value: new THREE.Vector2(0, 0) }
+      transparent: true,
+      vertexShader: this.vertShader,
+      fragmentShader: this.fragShader,
+      alphaTest: 0.7
+    });
+
+    // this.material.uniforms.u_resolution.value.x = this.view.renderer.domElement.width;
+    // this.material.uniforms.u_resolution.value.y = this.view.renderer.domElement.height;
+    // console.dir(this.material.uniforms.u_resolution.value);
+
+    const mesh = new THREE.Mesh(geoBuf, new THREE.LineBasicMaterial({}));
+
+    debugger;
+
+    // if (this.config.layoutOption === 'Line') {
+    //   this.addObjectsLinear(type);
+    // } else {
+    //   this.addObjectsCircular(type);
+    // }
+    // ChartFactory.decorateDataGroups(this.meshes, this.decorators);
   }
   addObjectsLinear(type: EntityTypeEnum): void {
     const propertyId = this.config.entity === EntityTypeEnum.GENE ? 'mid' : 'sid';
@@ -153,14 +225,16 @@ export class ChromosomeGraph extends AbstractVisualization {
     scale = scaleLinear();
     scale.domain([0, this.data.genes.length]);
     scale.range([0, 365]);
-    geneData = this.data.genes.sort((a, b) => b.tss - a.tss).map((v, i) => {
-      const angle = (scale(i) * Math.PI) / 180;
-      return Object.assign(v, {
-        inSet: mf.has(v.gene),
-        sPos: { x: Math.cos(angle), y: Math.sin(angle), a: angle },
-        ePos: { x: Math.cos(angle), y: Math.sin(angle), a: angle }
+    geneData = this.data.genes
+      .sort((a, b) => b.tss - a.tss)
+      .map((v, i) => {
+        const angle = (scale(i) * Math.PI) / 180;
+        return Object.assign(v, {
+          inSet: mf.has(v.gene),
+          sPos: { x: Math.cos(angle), y: Math.sin(angle), a: angle },
+          ePos: { x: Math.cos(angle), y: Math.sin(angle), a: angle }
+        });
       });
-    });
     tele = geneData.findIndex(v => v.arm === 'P');
     centro = { x: Math.cos(0), y: Math.sin(0) };
     telem = { x: Math.cos(scale(tele)), y: Math.sin(scale(tele)) };

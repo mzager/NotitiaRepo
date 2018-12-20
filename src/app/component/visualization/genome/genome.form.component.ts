@@ -1,13 +1,7 @@
+import { DataService } from 'app/service/data.service';
 
-import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewEncapsulation
-} from '@angular/core';
+import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CollectionTypeEnum, DimensionEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
@@ -61,13 +55,16 @@ export class GenomeFormComponent {
   colorOptions: Array<DataField>;
   shapeOptions: Array<DataField>;
   sizeOptions: Array<DataField>;
-  alignmentOptions = ['19', '38'];
+  genomeOptions: Array<{ species: string; assembly: string; file: string }> = [];
   layoutOptions = ['Circle', 'Line'];
   spacingOptions = ['Actual', 'Optimized'];
   dimensionOptions = [DimensionEnum.THREE_D, DimensionEnum.TWO_D];
   chromosomeOptions = ['Cytobands', 'Centromeres & Telemeres', 'None'];
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, public ds: DataService) {
+    ds.getGenomeManifest().then(genomes => {
+      this.genomeOptions = genomes;
+    });
     // Init Form
     this.form = this.fb.group({
       dirtyFlag: [0],
@@ -90,9 +87,11 @@ export class GenomeFormComponent {
     });
 
     // Update When Form Changes
-    this.form.valueChanges.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),)
+    this.form.valueChanges
+      .pipe(
+        debounceTime(200),
+        distinctUntilChanged()
+      )
       .subscribe(data => {
         const form = this.form;
         form.markAsPristine();

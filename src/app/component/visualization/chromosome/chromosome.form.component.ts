@@ -1,13 +1,5 @@
-
-import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewEncapsulation
-} from '@angular/core';
+import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CollectionTypeEnum, DimensionEnum, EntityTypeEnum } from 'app/model/enum.model';
 import { DataField, DataFieldFactory, DataTable } from './../../../model/data-field.model';
@@ -136,9 +128,11 @@ export class ChromosomeFormComponent {
     });
 
     // Update When Form Changes
-    this.form.valueChanges.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),)
+    this.form.valueChanges
+      .pipe(
+        debounceTime(200),
+        distinctUntilChanged()
+      )
       .subscribe(data => {
         const form = this.form;
         form.markAsPristine();
