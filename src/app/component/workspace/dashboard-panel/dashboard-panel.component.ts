@@ -32,7 +32,8 @@ import {
   ScaleLinear,
   axisBottom,
   axisLeft,
-  axisRight
+  axisRight,
+  interpolateHcl
 } from 'd3';
 import * as d3 from 'd3';
 import { GraphConfig } from './../../../model/graph-config.model';
@@ -76,7 +77,7 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
 
       allResults.forEach(result => {
         // data
-        const data = result.stats[6].data as Array<{ mylabel: string; myvalue: number }>;
+        const data = result.stats[6].data as Array<{ mylabel: string; myvalue: number; color?: any }>;
         const dataName = result.stats[6].name;
         console.log(data);
 
@@ -88,6 +89,9 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
         // width & height
         const width = w - margin.left - margin.right;
         const height = h - margin.top - margin.bottom;
+
+        // colors
+        const color = ['#1565C0', '#1976D2', '#1E88E5', '#2196F3', '#42A5F5', '#64B5F6' ];
 
         // Scales
         const xScale = d3.scaleBand()
@@ -101,7 +105,7 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
           .range([height, margin.top]);
 
         // Call yAxis
-        const yAxis = d3.axisLeft(yScale);
+        const yAxis = d3.axisLeft(yScale).ticks(5);
 
         // Append 'g' & 'rect'
         const svg = d3
@@ -122,7 +126,7 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
           .enter()
           .append('rect')
           .attr('class', 'bar')
-          .attr('fill', '#1e88e5')
+          .attr('fill', function(d, i) { return color[i]; })
           .on('mouseover', function() {
             d3.select(this).attr('fill', '#6ab7ff');
           })
@@ -186,6 +190,14 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
 
           .attr('text-anchor', 'left')
           .text(d => (d.mylabel));
+
+          // title
+          svg.append('text')
+        .attr('x', (width / 2))
+        .attr('y', 10)
+        .attr('text-anchor', 'middle')
+        .style('font-size', '12px')
+        .text(dataName);
 
 
         // // TODO : Need to figure out what's wrong with the data for year of death.
