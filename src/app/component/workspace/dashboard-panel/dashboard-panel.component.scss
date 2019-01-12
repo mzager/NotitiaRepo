@@ -1,2 +1,18 @@
-.axis { font: 0.5rem sans-serif; }
+
+.axis {
+  font-family: 'Lato, monospace';
+  font-weight: 300;
+  font-size: 13px;
+}
+
+.bar:hover { fill: #6ab7ff; }
+
+.title {
+  font-family: 'Lato, monospace';
+  font-weight: 300;
+  font-size: 14px;
+}
+.cat {
+  color: 'red';
+}
 

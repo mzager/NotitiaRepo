@@ -127,16 +127,6 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
           .append('rect')
           .attr('class', 'bar')
           .attr('fill', function(d, i) { return color[i]; })
-          .on('mouseover', function() {
-            d3.select(this).attr('fill', '#6ab7ff');
-          })
-          .on('mouseout', function() {
-            d3.select(this)
-              .transition('colorfade')
-              .duration(250)
-              .attr('fill', '#1e88e5');
-          })
-
           .attr('x', (d => (xScale(d.mylabel))))
           .attr('width', xScale.bandwidth())
           .attr('y', height)
@@ -146,26 +136,22 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
             return i * 50;
           })
           .duration(1000)
-
           .attr('y', (d => (yScale(d.myvalue))))
           .attr('height', (d => (height - yScale(d.myvalue))));
 
         svg
+          // bar labels
           .selectAll('.val-label')
           .data(data)
           .enter()
           .append('text')
-          .classed('val-label', true)
-
           .attr('x', (d => (xScale(d.mylabel) + xScale.bandwidth() / 2)))
           .attr('y', height)
-
           .transition('label')
           .delay(function(d, i) {
             return i * 50;
           })
           .duration(1000)
-
           .attr('y', (d => (yScale(d.myvalue) - 4)))
           .attr('text-anchor', 'middle')
           .text((d => (d.myvalue)));
@@ -175,8 +161,6 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
           .data(data)
           .enter()
           .append('text')
-          .classed('bar-label', true)
-
           .attr('transform', function(d, i) {
             return (
               'translate(' +
@@ -187,7 +171,6 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
               ' rotate(45)'
             );
           })
-
           .attr('text-anchor', 'left')
           .text(d => (d.mylabel));
 
@@ -196,7 +179,7 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
         .attr('x', (width / 2))
         .attr('y', 10)
         .attr('text-anchor', 'middle')
-        .style('font-size', '12px')
+        .attr('class', 'title')
         .text(dataName);
 
 
