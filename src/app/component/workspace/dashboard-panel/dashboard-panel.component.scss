@@ -1,18 +1,24 @@
 
-.axis {
-  font-family: 'Lato, monospace';
-  font-weight: 300;
-  font-size: 13px;
-}
+// .axis {
+//   font-weight: 400;
+//   font-size: 12px;
+//   text-transform: uppercase;
+// }
 
 .bar:hover { fill: #6ab7ff; }
 
 .title {
-  font-family: 'Lato, monospace';
-  font-weight: 300;
-  font-size: 14px;
+  font-weight: 400;
+  font-size: 12px;
+
+  text-transform: uppercase;
 }
-.cat {
-  color: 'red';
+
+.xAxisLabels {
+  font-weight: 400;
+  font-size: 10px;
 }
+
+
+
 

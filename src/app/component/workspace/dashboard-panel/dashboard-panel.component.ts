@@ -77,21 +77,46 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
 
       allResults.forEach(result => {
         // data
-        const data = result.stats[6].data as Array<{ mylabel: string; myvalue: number; color?: any }>;
-        const dataName = result.stats[6].name;
+        const data = result.stats[1].data as Array<{ mylabel: string; myvalue: number; color?: any }>;
+        const dataName = result.stats[1].name;
         console.log(data);
 
-        const w = 500;
+        const w = 400;
         const h = 300;
         // margins
-        const margin = { top: 30, bottom: 80, left: 30, right: 20 };
+        const margin = { top: 30, bottom: 70, left: 30, right: 10 };
 
         // width & height
         const width = w - margin.left - margin.right;
         const height = h - margin.top - margin.bottom;
 
         // colors
-        const color = ['#1565C0', '#1976D2', '#1E88E5', '#2196F3', '#42A5F5', '#64B5F6' ];
+        const color = [
+        '#b3e5fc',
+        '#81d4fa',
+        '#4fc3f7',
+        '#29b6f6',
+        '#03a9f4',
+        '#039be5',
+        '#f44336',
+        '#e91e63',
+        '#9c27b0',
+        '#673ab7',
+        '#3f51b5',
+        '#2196f3',
+        '#03a9f4',
+        '#00bcd4',
+        '#009688',
+        '#4caf50',
+        '#8bc34a',
+        '#cddc39',
+        '#ffeb3b',
+        '#ffc107',
+        '#ff9800',
+        '#ff5722',
+        '#795548',
+        '#9e9e9e',
+        '#607d8b' ];
 
         // Scales
         const xScale = d3.scaleBand()
@@ -104,10 +129,10 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
           .domain([0, d3.max(data, (d => (d.myvalue)))])
           .range([height, margin.top]);
 
-        // Call yAxis
-        const yAxis = d3.axisLeft(yScale).ticks(5);
+        // Call yAxis & assign tick number
+        const yAxis = d3.axisLeft(yScale).ticks(4);
 
-        // Append 'g' & 'rect'
+        // Append 'svg'
         const svg = d3
           .select(this.chartContainer.nativeElement)
           .append('svg')
@@ -115,12 +140,14 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
           .attr('height', h);
 
         svg
+        // add yAxis
           .append('g')
-          .attr('class', 'axis')
+          .attr('class', 'xAxisLabels')
           .attr('transform', 'translate(' + margin.left + ',0)')
           .call(yAxis);
 
         svg
+        // draw bars
           .selectAll('rect')
           .data(data)
           .enter()
@@ -140,7 +167,7 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
           .attr('height', (d => (height - yScale(d.myvalue))));
 
         svg
-          // bar labels
+          // bar value labels
           .selectAll('.val-label')
           .data(data)
           .enter()
@@ -152,23 +179,22 @@ export class DashboardPanelComponent implements AfterViewInit, OnDestroy {
             return i * 50;
           })
           .duration(1000)
+          .attr('class', 'xAxisLabels')
           .attr('y', (d => (yScale(d.myvalue) - 4)))
           .attr('text-anchor', 'middle')
           .text((d => (d.myvalue)));
 
         svg
+          // x-axis labels
           .selectAll('.bar-label')
           .data(data)
           .enter()
           .append('text')
+          .attr('class', 'xAxisLabels')
           .attr('transform', function(d, i) {
             return (
               'translate(' +
-              (xScale(d.mylabel) + xScale.bandwidth() / 2 - 8) +
-              ',' +
-              (height + 15) +
-              ')' +
-              ' rotate(45)'
+              (xScale(d.mylabel) + xScale.bandwidth() / 2 - 8) + ',' + (height + 15) + ')' + ' rotate(45)'
             );
           })
           .attr('text-anchor', 'left')
