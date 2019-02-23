@@ -1,5 +1,7 @@
+import { SpriteMaterialEnum } from './../../../model/enum.model';
 import { DedicatedWorkerGlobalScope } from 'app/service/dedicated-worker-global-scope';
 import { ChromosomeConfigModel } from './chromosome.model';
+import { Legend } from './../../../model/legend.model';
 
 // const ct = [
 //   { chr: '1', P: 0, C: 124300000, Q: 247249719 },
@@ -29,14 +31,9 @@ import { ChromosomeConfigModel } from './chromosome.model';
 // ];
 
 export const chromosomeCompute = (config: ChromosomeConfigModel, worker: DedicatedWorkerGlobalScope): void => {
+  const legends = [Legend.create('Data Points', ['Samples'], [SpriteMaterialEnum.CIRCLE], 'SHAPE', 'DISCRETE')];
   worker.util.fetchUri('https://oncoscape.v3.sttrcancer.org/data/genomes/grch38.json.gz').then(result => {
-    worker.postMessage({
-      config: config,
-      data: {
-        result: result,
-        legendItems: []
-      }
-    });
+    worker.postMessage({ config: config, data: { legends: legends, result: result } });
   });
 
   // const sendResult = (result, chromo, chords) => {

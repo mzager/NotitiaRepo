@@ -223,8 +223,10 @@ const loadSample = (name: string, file: string): Promise<any> => {
 // Complete
 const loadMatrix = (name: string, file: string): Promise<any> => {
   report('Loading Molecular Matrix');
+  debugger;
   return fetch(baseUrl + file + '.gz', requestInit())
     .then(response => {
+      debugger;
       report('Molecular Matrix Loaded');
       return response.json();
     })

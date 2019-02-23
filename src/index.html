@@ -1,134 +1,163 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>ONCOSCAPE</title>
+    <base href="/" />
+    <meta name="theme-color" content="#039BE5" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Michael Zager" />
+    <meta name="keywords" content="Oncoscape, Cancer, Visualization, CBio, Xena, GDC" />
+    <meta
+      name="description"
+      content="Maximize the potential of your clinical and genomic data by combining it with best-in-class analysis, reference data sets and domain-specific visualizations."
+    />
+    <meta property="og:title" content="Oncoscape" />
+    <meta
+      property="og:description"
+      content="Discover the innovative world of Apple and shop everything iPhone, iPad, Apple Watch, Mac, and Apple TV, plus explore accessories, entertainment, and expert device support."
+    />
+    <meta property="og:url" content="https://oncoscape.v3.sttrcancer.org/" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content="https://oncoscape.v3.sttrcancer.org/assets/open_graph_logo.png?201709101434" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Oncoscape" />
+    <meta property="business:contact_data:street_address" content="1100 Fairview Ave" />
+    <meta property="business:contact_data:locality" content="Seattle, WA" />
+    <meta property="business:contact_data:postal_code" content="98115" />
+    <meta property="business:contact_data:country_name" content="USA" />
+    <script type="application/ld+json">
+      {"@context":"http://schema.org","@type":"WebApplication","name":"Oncoscape","url":"https://oncoscape.v3.sttrcancer.org/","keywords":"Data Visualization, Genomics, Cancer, Biology, Fred Hutchinson","description":"Maximize the potential of your clinical and genomic data by combining it with best-in-class analysis, reference data sets and domain-specific visualizations.","applicationCategory":"Data Visualization","genre":"Genomics","sameAs":["https://twitter.com/oncoscape","https://www.linkedin.com/company/oncoscape/","https://www.instagram.com/oncoscape/","https://www.youtube.com/channel/UCHaDnB41FEkOxu_W9a_C9dQ?view_as=subscriber"],"screenshot":"https://oncoscape.v3.sttrcancer.org/screenshot.jpg","about":{"@type":"Thing","description":"Maximize the potential of your clinical and genomic data by combining it with best-in-class analysis, reference data sets and domain-specific visualizations.","name":"Oncoscape"},"funder":{"@type":"Organization","url":"http://www.fredhutch.org/","address":"1100 Fairview Ave. N., #E3-300 PO Box 19024 Seattle, WA 98109-1024","knowsAbout":"Cancer Research","legalName":"Fred Hutchinson Cancer Research Center","logo":"http://www.fredhutch.org/etc/designs/public/img/logos/fred_hutch_logo.png"},"author":{"@type":"Person","email":"mzager@fredhutch.org","familyName":"Zager","givenName":"Michael","jobTitle":"Developer / Designer / Director","address":"Seattle, WA"},"sponsor":{"@type":"Person","familyName":"Holland","givenName":"Eric","jobTitle":"Neurosurgeon"},"contributor":[{"@type":"Person","email":"mzager@fredhutch.org","familyName":"Zager","givenName":"Michael","jobTitle":"Developer / Designer / Director","address":"Seattle, WA"},{"@type":"Person","familyName":"Krenn","givenName":"Gretchen","jobTitle":"Developer"}],"browserRequirements":"Requires Javscript. Requires HTML5. Build For Google Chrome.","softwareVersion":"3.0","operatingSystem":"All","version":"3.0"}
+    </script>
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link async href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link async href="https://fonts.googleapis.com/css?family=Lato:100,300,400" rel="stylesheet" />
+  </head>
 
-<head>
-  <meta charset="utf-8">
-  <title>Oncoscape</title>
-  <base href="/">
-  <meta name="theme-color" content="#039BE5">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="author" content="Michael Zager" />
-  <meta name="keywords" content="Oncoscape, Cancer, Visualization, CBio, Xena, GDC" />
-  <meta name="description" content="Maximize the potential of your clinical and genomic data by combining it with best-in-class analysis, reference data sets and domain-specific visualizations."
-  />
-  <meta property="og:title" content="Oncoscape" />
-  <meta property="og:description" content="Discover the innovative world of Apple and shop everything iPhone, iPad, Apple Watch, Mac, and Apple TV, plus explore accessories, entertainment, and expert device support."
-  />
-  <meta property="og:url" content="https://oncoscape.v3.sttrcancer.org/" />
-  <meta property="og:locale" content="en_US" />
-  <meta property="og:image" content="https://oncoscape.v3.sttrcancer.org/assets/open_graph_logo.png?201709101434" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Oncoscape" />
-  <meta property="business:contact_data:street_address" content="1100 Fairview Ave" />
-  <meta property="business:contact_data:locality" content="Seattle, WA" />
-  <meta property="business:contact_data:postal_code" content="98115" />
-  <meta property="business:contact_data:country_name" content="USA" />
-  <script type="application/ld+json">
-    {"@context":"http://schema.org","@type":"WebApplication","name":"Oncoscape","url":"https://oncoscape.v3.sttrcancer.org/","keywords":"Data Visualization, Genomics, Cancer, Biology, Fred Hutchinson","description":"Maximize the potential of your clinical and genomic data by combining it with best-in-class analysis, reference data sets and domain-specific visualizations.","applicationCategory":"Data Visualization","genre":"Genomics","sameAs":["https://twitter.com/oncoscape","https://www.linkedin.com/company/oncoscape/","https://www.instagram.com/oncoscape/","https://www.youtube.com/channel/UCHaDnB41FEkOxu_W9a_C9dQ?view_as=subscriber"],"screenshot":"https://oncoscape.v3.sttrcancer.org/screenshot.jpg","about":{"@type":"Thing","description":"Maximize the potential of your clinical and genomic data by combining it with best-in-class analysis, reference data sets and domain-specific visualizations.","name":"Oncoscape"},"funder":{"@type":"Organization","url":"http://www.fredhutch.org/","address":"1100 Fairview Ave. N., #E3-300 PO Box 19024 Seattle, WA 98109-1024","knowsAbout":"Cancer Research","legalName":"Fred Hutchinson Cancer Research Center","logo":"http://www.fredhutch.org/etc/designs/public/img/logos/fred_hutch_logo.png"},"author":{"@type":"Person","email":"mzager@fredhutch.org","familyName":"Zager","givenName":"Michael","jobTitle":"Developer / Designer / Director","address":"Seattle, WA"},"sponsor":{"@type":"Person","familyName":"Holland","givenName":"Eric","jobTitle":"Neurosurgeon"},"contributor":[{"@type":"Person","email":"mzager@fredhutch.org","familyName":"Zager","givenName":"Michael","jobTitle":"Developer / Designer / Director","address":"Seattle, WA"},{"@type":"Person","familyName":"Krenn","givenName":"Gretchen","jobTitle":"Developer"}],"browserRequirements":"Requires Javscript. Requires HTML5. Build For Google Chrome.","softwareVersion":"3.0","operatingSystem":"All","version":"3.0"}
-  </script>
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link async href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link async href="https://fonts.googleapis.com/css?family=Lato:100,300,400" rel="stylesheet">
-</head>
-
-<body class='mat-typography' style='padding: 0px;margin: 0px;overflow: hidden;max-height: 100vh;overflow-y: hidden;'>
-  <app-root>
-    <div class='loading' style='color:#FFF'>
-      <header>
-        <h1>Oncoscape</h1>
-        <h2>Accelerate your research </h2>
-      </header>
-      <main>
-        Maximize the potential of your clinical and genomic data by combining it with best-in-class analysis, reference data sets
-        and domain-specific visualizations. To request training or a custom solution contact us at
-        <a>contact-sttr@fredhutch.org.</a>
-        <article>
-          <section>
-            <h3>Analysis</h3>
-            <dl>
-              <dt>Reliable</dt>
-              <dd>All data manipulation and augmentation is done using established open source libraries and public stores with
-                citations.
-              </dd>
-              <dt>Reproducible</dt>
-              <dd>All analysis in Oncoscape is fully reproducible. Pause, rewind and interrogate every variable and result.</dd>
-            </dl>
-          </section>
-          <section>
-            <h3>Data</h3>
-            <dl>
-              <dt>Public Data Sets</dt>
-              <dd>Explore The Cancer Genome Atlas (TCGA) and other curated data from our growing list of reference libraries.</dd>
-              <dt>Private Data Upload</dt>
-              <dd>Securely manage and analyze your clinical and genomics data, then share results with colleges.</dd>
-              <dt>Gene Sets</dt>
-              <dd>Select from thousands of curated gene sets from MSigDB or create your own.</dd>
-              <dt>Pathways</dt>
-              <dd>Select from thousands of top level pathways from Reactome, PathwayCommons, and more.</dd>
-            </dl>
-          </section>
-          <section>
-            <h3>Visualizations</h3>
-            <dl>
-              <dt>Clinical Dashboard</dt>
-              <dd>Compare cohorts at a glance.</dd>
-              <dt>Spreadsheet</dt>
-              <dd>Sort and export your data, cohorts and genes of interest in tabular format.</dd>
-              <dt>Matrix Decomposition</dt>
-              <dd>Visualize the inherent spatial structure of high dimensional datasets in 3D. With 13 fully customizable linear
-                dimension reduction algorithm, select from 5 variants of PCA, Factor Analysis, LDA, SVD and more.</dd>
-              <dt>Heat map</dt>
-              <dd>Sort, group and visualize your data using 7 agglomerative clustering algorithms in conjunction with 20 distance
-                metrics. Leverage dendrogram to sub select populations of samples or markers for further investigation.</dd>
-              <dt>Genome</dt>
-              <dd>Identify chromosomal regions of interest by projecting your data onto a visual representation of the genome.
-                Overlay CNV, Gistic or expression data along with Topically Aligned Domains and Cytobands. Explore thousands
-                of curated gene sets or create your own.</dd>
-              <dt>Chromosome</dt>
-              <dd>Compare datasets at the chromosomal level with circos and linear visualizations. Overlay pathways or topically
-                aligned domains.</dd>
-              <dt>Pathways</dt>
-              <dd>Overlay your data on over 5,900 pathways curated from Kegg, Panther, Reactome, SMPDB, WikiPathways and Pathway
-                Commons.
-              </dd>
-              <dt>Survival</dt>
-              <dd>Estimate and compare survival rates for patient populations using Kaplin Kaplan-Meier, Nelson-Aalen, Aalen,
-                Weibulland Cox models.</dd>
-              <dt>Hazard</dt>
-              <dd>Estimate and compare hazard rates for patient populations using Kaplin Kaplan-Meier, Nelson-Aalen, Aalen, Weibull
-                and Cox models.</dd>
-              <dt>Timelines</dt>
-              <dd>Visualize patterns in time series data with an interactive swimmer plot. Sort, group and highlight patients
-                using clinical attributes.</dd>
-              <dt>Box + Whisker</dt>
-              <dd>Gain insights into the distribution of your data by visualizing the minimum, first quartile, median, 3rd quartile
-                and maximum values.</dd>
-              <dt>Force Directed Grap</dt>
-              <dd>Visualize graph data in three-dimensions using a class of algorithms called "force directed graphs. " These
-                algorithmsuse the number and strength of connections to position nodes.</dd>
-              <dt>Edges</dt>
-              <dd>Connect multiple graphs with edges. Link tumor/normal samples or visualize mutations.</dd>
-            </dl>
-          </section>
-        </article>
-      </main>
-    </div>
-  </app-root>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-55684588-3"></script>
-  <script>
-    var global = global || window;
-    if (global === undefined) {
-      var global = window;
-    }
-    document.oncontextmenu = () => false;
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-    gtag('config', 'UA-55684588-3');
-  </script>
-
-</body>
-
+  <body class="mat-typography" style="padding: 0px;margin: 0px;overflow: hidden;max-height: 100vh;overflow-y: hidden;">
+    <app-root>
+      <div class="loading" style="color:#FFF">
+        <header>
+          <h1>Oncoscape</h1>
+          <h2>Accelerate your research</h2>
+        </header>
+        <main>
+          Maximize the potential of your clinical and genomic data by combining it with best-in-class analysis,
+          reference data sets and domain-specific visualizations. To request training or a custom solution contact us at
+          <a>contact-sttr@fredhutch.org.</a>
+          <article>
+            <section>
+              <h3>Analysis</h3>
+              <dl>
+                <dt>Reliable</dt>
+                <dd>
+                  All data manipulation and augmentation is done using established open source libraries and public
+                  stores with citations.
+                </dd>
+                <dt>Reproducible</dt>
+                <dd>
+                  All analysis in Oncoscape is fully reproducible. Pause, rewind and interrogate every variable and
+                  result.
+                </dd>
+              </dl>
+            </section>
+            <section>
+              <h3>Data</h3>
+              <dl>
+                <dt>Public Data Sets</dt>
+                <dd>
+                  Explore The Cancer Genome Atlas (TCGA) and other curated data from our growing list of reference
+                  libraries.
+                </dd>
+                <dt>Private Data Upload</dt>
+                <dd>Securely manage and analyze your clinical and genomics data, then share results with colleges.</dd>
+                <dt>Gene Sets</dt>
+                <dd>Select from thousands of curated gene sets from MSigDB or create your own.</dd>
+                <dt>Pathways</dt>
+                <dd>Select from thousands of top level pathways from Reactome, PathwayCommons, and more.</dd>
+              </dl>
+            </section>
+            <section>
+              <h3>Visualizations</h3>
+              <dl>
+                <dt>Clinical Dashboard</dt>
+                <dd>Compare cohorts at a glance.</dd>
+                <dt>Spreadsheet</dt>
+                <dd>Sort and export your data, cohorts and genes of interest in tabular format.</dd>
+                <dt>Matrix Decomposition</dt>
+                <dd>
+                  Visualize the inherent spatial structure of high dimensional datasets in 3D. With 13 fully
+                  customizable linear dimension reduction algorithm, select from 5 variants of PCA, Factor Analysis,
+                  LDA, SVD and more.
+                </dd>
+                <dt>Heat map</dt>
+                <dd>
+                  Sort, group and visualize your data using 7 agglomerative clustering algorithms in conjunction with 20
+                  distance metrics. Leverage dendrogram to sub select populations of samples or markers for further
+                  investigation.
+                </dd>
+                <dt>Genome</dt>
+                <dd>
+                  Identify chromosomal regions of interest by projecting your data onto a visual representation of the
+                  genome. Overlay CNV, Gistic or expression data along with Topically Aligned Domains and Cytobands.
+                  Explore thousands of curated gene sets or create your own.
+                </dd>
+                <dt>Chromosome</dt>
+                <dd>
+                  Compare datasets at the chromosomal level with circos and linear visualizations. Overlay pathways or
+                  topically aligned domains.
+                </dd>
+                <dt>Pathways</dt>
+                <dd>
+                  Overlay your data on over 5,900 pathways curated from Kegg, Panther, Reactome, SMPDB, WikiPathways and
+                  Pathway Commons.
+                </dd>
+                <dt>Survival</dt>
+                <dd>
+                  Estimate and compare survival rates for patient populations using Kaplin Kaplan-Meier, Nelson-Aalen,
+                  Aalen, Weibulland Cox models.
+                </dd>
+                <dt>Hazard</dt>
+                <dd>
+                  Estimate and compare hazard rates for patient populations using Kaplin Kaplan-Meier, Nelson-Aalen,
+                  Aalen, Weibull and Cox models.
+                </dd>
+                <dt>Timelines</dt>
+                <dd>
+                  Visualize patterns in time series data with an interactive swimmer plot. Sort, group and highlight
+                  patients using clinical attributes.
+                </dd>
+                <dt>Box + Whisker</dt>
+                <dd>
+                  Gain insights into the distribution of your data by visualizing the minimum, first quartile, median,
+                  3rd quartile and maximum values.
+                </dd>
+                <dt>Force Directed Grap</dt>
+                <dd>
+                  Visualize graph data in three-dimensions using a class of algorithms called "force directed graphs. "
+                  These algorithmsuse the number and strength of connections to position nodes.
+                </dd>
+                <dt>Edges</dt>
+                <dd>Connect multiple graphs with edges. Link tumor/normal samples or visualize mutations.</dd>
+              </dl>
+            </section>
+          </article>
+        </main>
+      </div>
+    </app-root>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-55684588-3"></script>
+    <script>
+      var global = global || window;
+      if (global === undefined) {
+        var global = window;
+      }
+      document.oncontextmenu = () => false;
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'UA-55684588-3');
+    </script>
+  </body>
 </html>

@@ -136,7 +136,7 @@ export class GenomeGraph extends AbstractVisualization {
       );
       teleQ.userData.chr = chromosome.chr;
       teleQ.userData.type = GenomicEnum.Q_TELOMERE;
-      teleQ.userData.tooltip = 'Q' + chromosome.chr; // Telemere
+      teleQ.userData.tooltip = chromosome.chr + 'q'; // Telemere
       this.meres.push(teleQ);
       this.view.scene.add(teleQ);
 
@@ -150,7 +150,7 @@ export class GenomeGraph extends AbstractVisualization {
       );
       teleP.userData.chr = chromosome.chr;
       teleP.userData.type = GenomicEnum.P_TELOMERE;
-      teleP.userData.tooltip = 'P' + chromosome.chr; // Telemere
+      teleP.userData.tooltip = chromosome.chr + 'p'; // Telemere
       this.meres.push(teleP);
       this.view.scene.add(teleP);
     });

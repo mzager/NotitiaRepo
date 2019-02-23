@@ -39,7 +39,6 @@
             ],
             "styles": ["src/styles.css", "src/theme.scss"],
             "scripts": [
-              // "node_modules/default-passive-events/dist/index.js",
               "node_modules/jquery/dist/jquery.js",
               "node_modules/numbro/dist/numbro.min.js",
               "node_modules/moment/min/moment.min.js",
@@ -73,7 +72,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "notitia:build"
+            "browserTarget": "notitia:build",
+            "proxyConfig": "proxy.config.json"
           },
           "configurations": {
             "production": {

@@ -185,7 +185,7 @@ export class AbstractScatterVisualization extends AbstractVisualization {
             return p;
           }, {});
           this.ids.forEach((id, index) => {
-            const col = colorsMap[id];
+            const col = colorsMap.hasOwnProperty(id) ? colorsMap[id] : new THREE.Color(0x000000);
             this.colors[index * 3] = col.r;
             this.colors[index * 3 + 1] = col.g;
             this.colors[index * 3 + 2] = col.b;

@@ -11,6 +11,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { API, Auth } from 'aws-amplify';
 import { PanelEnum, UserPanelFormEnum } from '../../../model/enum.model';
+import { S3, CognitoIdentityCredentials } from 'aws-sdk';
 
 @Component({
   selector: 'app-workspace-user-panel',
@@ -73,6 +74,53 @@ export class UserPanelComponent {
         const a = Auth.currentSession().then(v => {
           this.fetchDatasets(v.getIdToken().getJwtToken());
           this.setForm(UserPanelFormEnum.PROJECT_LIST);
+
+          const auth = Auth;
+          const s3 = S3;
+
+          const c = new s3();
+          c.config.update({
+            credentials: new CognitoIdentityCredentials(
+              {
+                IdentityPoolId: 'us-west-2:109beda4-7960-4451-8697-bbbbfb0278ea',
+                Logins: {
+                  'cognito-idp.us-west-2.amazonaws.com/us-west-2_09KsqtrrT': v.getIdToken().getJwtToken()
+                }
+              },
+              { region: 'us-west-2' }
+            )
+          });
+          c.config.credentials['get'](v => {
+            // debugger;
+          });
+
+          // debugger;
+          // const params = {
+          //   Bucket: 'oncoquery',
+          //   Key: 'test.parquet',
+          //   ExpressionType: 'SQL',
+          //   Expression: 'SELECT * FROM S3Object LIMIT 5',
+          //   InputSerialization: {
+          //     CSV: {
+          //       FileHeaderInfo: 'USE',
+          //       RecordDelimiter: '\n',
+          //       FieldDelimiter: ','
+          //     }
+          //   },
+          //   OutputSerialization: {
+          //     CSV: {}
+          //   }
+          // };
+
+          // c.selectObjectContent(params, (err, data) => {
+          //   // debugger;
+          //   if (err) {
+          //     console.log(err.name);
+          //     return;
+          //   }
+          //   const events = data.Payload;
+          //   console.log(events);
+          // });
         });
       })
       .catch(err => {
@@ -162,9 +210,6 @@ export class UserPanelComponent {
   }
 
   fetchDatasets(token): void {
-    console.log('USER TOKEN');
-    console.log(token);
-    console.log('DATASET TOKEN');
     this.dataService.getUserDatasets(token).then(v => {
       console.dir(v);
       this.token = v.token;
@@ -177,24 +222,26 @@ export class UserPanelComponent {
     // Initialize All Forms
     this.formGroupSignIn = fb.group({
       email: [null, Validators.compose([Validators.required, Validators.email])],
-      password: [null, Validators.compose(
-        [
-        Validators.required,
-        // Validators.minLength(8)
-        // Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')
-        ]
-        )]
+      password: [
+        null,
+        Validators.compose([
+          Validators.required
+          // Validators.minLength(8)
+          // Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')
+        ])
+      ]
     });
 
     // This doesn't do enough need special chars....
     this.formGroupSignUp = fb.group({
-      password: [null, Validators.compose(
-        [
+      password: [
+        null,
+        Validators.compose([
           Validators.required,
           Validators.minLength(8),
-          Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')
-        ]
-        )],
+          Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}')
+        ])
+      ],
 
       email: [null, Validators.compose([Validators.required, Validators.email])],
       mailinglist: [null],
@@ -228,13 +275,14 @@ export class UserPanelComponent {
     this.formGroupUpdatePassword = fb.group({
       email: [null, Validators.compose([Validators.required, Validators.email])],
       code: [null, Validators.required],
-      password: [null, Validators.compose(
-        [
+      password: [
+        null,
+        Validators.compose([
           Validators.required,
           Validators.minLength(8),
-          Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')
-        ]
-        )]
+          Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}')
+        ])
+      ]
     });
 
     // Set The Active Form To Sign In

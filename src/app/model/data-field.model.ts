@@ -1,24 +1,15 @@
 import { DataField, DataTable } from './data-field.model';
-import {
-  CollectionTypeEnum,
-  ConnectionTypeEnum,
-  DataTypeEnum,
-  EntityTypeEnum
-} from './enum.model';
+import { CollectionTypeEnum, ConnectionTypeEnum, DataTypeEnum, EntityTypeEnum } from './enum.model';
 
 /**
  * Represents A Field In A DataSet
  */
 export class DataFieldFactory {
   public static defaultDataField: DataField = DataFieldFactory.getUndefined();
-  public static getMolecularLabelOptions(
-    tables: Array<DataTable>
-  ): Array<DataField> {
+  public static getMolecularLabelOptions(tables: Array<DataTable>): Array<DataField> {
     let lbls = DataFieldFactory.getMolecularColorFields(tables);
     lbls.splice(1, 0, DataFieldFactory.getGeneId());
-    lbls = lbls.filter(
-      v => !(v.key === 'Mean' || v.key === 'Minimum' || v.key === 'Maximum')
-    );
+    lbls = lbls.filter(v => !(v.key === 'Mean' || v.key === 'Minimum' || v.key === 'Maximum'));
     return lbls;
   }
   public static getConnectionColorFields(
@@ -27,10 +18,7 @@ export class DataFieldFactory {
     entityA: EntityTypeEnum,
     entityB: EntityTypeEnum
   ): Array<DataField> {
-    const connectionType = ConnectionTypeEnum.createFromEntities(
-      entityA,
-      entityB
-    );
+    const connectionType = ConnectionTypeEnum.createFromEntities(entityA, entityB);
     switch (connectionType) {
       case ConnectionTypeEnum.GENES_GENES:
       case ConnectionTypeEnum.GENES_PATIENTS:
@@ -49,10 +37,7 @@ export class DataFieldFactory {
     entityA: EntityTypeEnum,
     entityB: EntityTypeEnum
   ): Array<DataField> {
-    const connectionType = ConnectionTypeEnum.createFromEntities(
-      entityA,
-      entityB
-    );
+    const connectionType = ConnectionTypeEnum.createFromEntities(entityA, entityB);
     switch (connectionType) {
       case ConnectionTypeEnum.GENES_GENES:
       case ConnectionTypeEnum.GENES_PATIENTS:
@@ -71,17 +56,10 @@ export class DataFieldFactory {
     entityA: EntityTypeEnum,
     entityB: EntityTypeEnum
   ): Array<DataField> {
-    const connectionType = ConnectionTypeEnum.createFromEntities(
-      entityA,
-      entityB
-    );
+    const connectionType = ConnectionTypeEnum.createFromEntities(entityA, entityB);
     switch (connectionType) {
       case ConnectionTypeEnum.PATIENTS_PATIENTS:
-        return [
-          this.defaultDataField,
-          this.getPatientId(),
-          ...this.getCategoricalFields(fields)
-        ];
+        return [this.defaultDataField, this.getPatientId(), ...this.getCategoricalFields(fields)];
       case ConnectionTypeEnum.SAMPLES_SAMPLES:
         return [this.defaultDataField, this.getPatientId(), this.getSampleId()];
       case ConnectionTypeEnum.GENES_GENES:
@@ -95,22 +73,14 @@ export class DataFieldFactory {
     }
     return [];
   }
-  public static getMolecularShapeFields(
-    tables: Array<DataTable>
-  ): Array<DataField> {
+  public static getMolecularShapeFields(tables: Array<DataTable>): Array<DataField> {
     return DataFieldFactory.getMolecularColorFields(tables);
   }
-  public static getMolecularSizeFields(
-    tables: Array<DataTable>
-  ): Array<DataField> {
+  public static getMolecularSizeFields(tables: Array<DataTable>): Array<DataField> {
     return DataFieldFactory.getMolecularColorFields(tables);
   }
-  public static getMolecularColorFields(
-    tables: Array<DataTable>
-  ): Array<DataField> {
-    const tablesMolec = tables.filter(
-      tbl => tbl.ctype & CollectionTypeEnum.MOLEC_DATA_FIELD_TABLES
-    );
+  public static getMolecularColorFields(tables: Array<DataTable>): Array<DataField> {
+    const tablesMolec = tables.filter(tbl => tbl.ctype & CollectionTypeEnum.MOLEC_DATA_FIELD_TABLES);
     const fields = ['Mean', 'Minimum', 'Maximum'].reduce(
       (prev, metric) =>
         prev.concat(
@@ -198,21 +168,15 @@ export class DataFieldFactory {
     ];
   }
 
-  public static getCategoricalFields(
-    clinicalFields: Array<DataField>
-  ): Array<DataField> {
+  public static getCategoricalFields(clinicalFields: Array<DataField>): Array<DataField> {
     return clinicalFields.filter(v => v.type === DataTypeEnum.STRING);
   }
 
-  public static getContinuousFields(
-    clinicalFields: Array<DataField>
-  ): Array<DataField> {
+  public static getContinuousFields(clinicalFields: Array<DataField>): Array<DataField> {
     return clinicalFields.filter(v => v.type === DataTypeEnum.NUMBER);
   }
 
-  public static getIntersectFields(
-    clinicalFields: Array<DataField>
-  ): Array<DataField> {
+  public static getIntersectFields(clinicalFields: Array<DataField>): Array<DataField> {
     return DataFieldFactory.getSampleShapeFields(clinicalFields);
   }
 

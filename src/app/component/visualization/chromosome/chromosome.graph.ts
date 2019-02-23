@@ -10,7 +10,8 @@ import { ChartEvent, ChartEvents } from './../../workspace/chart/chart.events';
 import { ChartFactory, DataDecoatorRenderer } from './../../workspace/chart/chart.factory';
 import { AbstractVisualization } from './../visualization.abstract.component';
 import { ChromosomeConfigModel, ChromosomeDataModel } from './chromosome.model';
-import * as _ from 'underscore';
+import * as _ from 'lodash';
+import { LineBasicMaterial, CircleGeometry, MeshLambertMaterial, MeshBasicMaterial } from 'three';
 /*
  const biotypeCat = {
               'Protein Coding': ['protein_coding', 'polymorphic_pseudogene', 'IG_V_gene', 'TR_V_gene', 'TR_C_gene', 'TR_J_gene',
@@ -44,8 +45,8 @@ import * as _ from 'underscore';
               */
 // import { ArcCurve, RingBufferGeometry, RingGeometry } from 'three';
 export class ChromosomeGraph extends AbstractVisualization {
-  fragShader = require('raw-loader!glslify-loader!app/glsl/line.frag');
-  vertShader = require('raw-loader!glslify-loader!app/glsl/line.vert');
+  // fragShader = require('raw-loader!glslify-loader!app/glsl/line.frag');
+  // vertShader = require('raw-loader!glslify-loader!app/glsl/line.vert');
 
   public geneTypeSprites: Array<THREE.Sprite> = [];
 
@@ -176,23 +177,40 @@ export class ChromosomeGraph extends AbstractVisualization {
       });
 
     const geneArray = new Float32Array(data.length * 3);
+    const posArray = new Float32Array(data.length);
+    const range = { min: Infinity, max: -Infinity };
     data.forEach((v, i) => {
-      geneArray[i * 3 + 0] = v[2]; // Chromosome
+      range.min = Math.min(v[3], v[4], range.min);
+      range.max = Math.max(v[3], v[4], range.max);
+      geneArray[i * 3 + 0] = v[2]; //v[2]; // Chromosome
       geneArray[i * 3 + 1] = v[3]; // TSS
       geneArray[i * 3 + 2] = v[4]; // TES
+      // geneArray[i * 3 + 0] = i * 3;
+      // geneArray[i * 3 + 1] = i * 3 + 1;
+      // geneArray[i * 3 + 2] = i * 3 + 2;
+      posArray[i] = i;
     }, this);
 
     const geoBuf = new THREE.BufferGeometry();
     geoBuf.addAttribute('position', new THREE.BufferAttribute(geneArray, 3));
 
+    // const lineMat = new THREE.LineBasicMaterial({ color: 0x282828, opacity: 1.0, linewidth: 0.75 });
+    // const l2 = new THREE.LineSegments(geoBuf, lineMat);
+    // this.view.scene.add(l2);
+
+    // geoBuf.addAttribute('posIndex', new THREE.BufferAttribute(posArray, 1));
+    // geoBuf.computeBoundingSphere();
     const material = new THREE.ShaderMaterial({
-      uniforms: {},
+      uniforms: {
+        points: { value: posArray.length },
+        u_range: { value: new THREE.Vector2(range.min, range.max) }
+      },
       // animationPos: { value: this.animationFrame },
       // selectedColor: { value: new THREE.BufferAttribute(new Float32Array([0.0, 0.0, 0.0]), 3) },
       // u_resolution: { value: new THREE.Vector2(0, 0) }
       transparent: true,
-      vertexShader: this.vertShader,
-      fragmentShader: this.fragShader,
+      // vertexShader: this.vertShader,
+      // fragmentShader: this.fragShader,
       alphaTest: 0.7
     });
 
@@ -200,10 +218,22 @@ export class ChromosomeGraph extends AbstractVisualization {
     // this.material.uniforms.u_resolution.value.y = this.view.renderer.domElement.height;
     // console.dir(this.material.uniforms.u_resolution.value);
 
-    const mesh = new THREE.Mesh(geoBuf, new THREE.LineBasicMaterial({}));
+    // const mesh2 = new THREE.Mesh(geoBuf, material);
+    // mesh2.setDrawMode(THREE.TriangleStripDrawMode);
+    // this.view.scene.add(mesh2);
 
-    debugger;
+    // const material = new THREE.LineBasicMaterial({ color: 0x0000ff });
+    // const geometry = new THREE.Geometry();
+    // geometry.vertices.push(new THREE.Vector3(-10, 0, 0));
+    // geometry.vertices.push(new THREE.Vector3(0, 10, 0));
+    // geometry.vertices.push(new THREE.Vector3(10, 0, 0));
+    const line = new THREE.Line(geoBuf, material);
+    this.view.scene.add(line);
 
+    const circ = new CircleGeometry(3);
+    const mesh = new THREE.Mesh(circ, new MeshLambertMaterial());
+    this.view.scene.add(mesh);
+    this.view.renderer.render(this.view.scene, this.view.camera);
     // if (this.config.layoutOption === 'Line') {
     //   this.addObjectsLinear(type);
     // } else {

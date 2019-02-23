@@ -19,37 +19,50 @@ import { EntityTypeEnum, DataTypeEnum, CollectionTypeEnum } from './../../../mod
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   template: `
-    <mat-form-field class='form-field' *ngIf='config.enableLabel'>
-        <mat-select placeholder='Label Options' (selectionChange)='setLabelOption($event)'
-            [(value)]='labelSelected' [compareWith]='byKey'>
-            <mat-option *ngFor='let option of labelOptions' [value]='option'>
-                {{ option.label }}
-            </mat-option>
-        </mat-select>
+    <mat-form-field class="form-field" *ngIf="config.enableLabel">
+      <mat-select
+        placeholder="Label Options"
+        (selectionChange)="setLabelOption($event)"
+        [(value)]="labelSelected"
+        [compareWith]="byKey"
+      >
+        <mat-option *ngFor="let option of labelOptions" [value]="option"> {{ option.label }} </mat-option>
+      </mat-select>
     </mat-form-field>
-    <mat-form-field class='form-field' *ngIf='config.enableColor'>
-        <mat-select placeholder='Color Options' (selectionChange)='setColorOption($event)'
-            [(value)]='colorSelected' [compareWith]='byKey'>
-            <mat-option *ngFor='let option of colorOptions' [value]='option'>
-                {{ option.label }}
-            </mat-option>
-        </mat-select>
+    <mat-form-field class="form-field" *ngIf="config.enableColor">
+      <mat-select
+        placeholder="Color Options"
+        (selectionChange)="setColorOption($event)"
+        [(value)]="colorSelected"
+        [compareWith]="byKey"
+      >
+        <button mat-button style="color:#1e88e5;width:100%;" (click)="customizeColorOptions()">
+          <mat-icon class="material-icons md-18" style="transform:translate(0px, 2px);margin-right:0px;"
+            >settings</mat-icon
+          >Modify List
+        </button>
+        <mat-option *ngFor="let option of colorOptions" [value]="option"> {{ option.label }} </mat-option>
+      </mat-select>
     </mat-form-field>
-    <mat-form-field class='form-field' *ngIf='config.enableShape'>
-        <mat-select placeholder='Shape Options' (selectionChange)='setShapeOption($event)'
-            [(value)]='shapeSelected' [compareWith]='byKey'>
-            <mat-option *ngFor='let option of shapeOptions' [value]='option'>
-                {{ option.label }}
-            </mat-option>
-        </mat-select>
+    <mat-form-field class="form-field" *ngIf="config.enableShape">
+      <mat-select
+        placeholder="Shape Options"
+        (selectionChange)="setShapeOption($event)"
+        [(value)]="shapeSelected"
+        [compareWith]="byKey"
+      >
+        <mat-option *ngFor="let option of shapeOptions" [value]="option"> {{ option.label }} </mat-option>
+      </mat-select>
     </mat-form-field>
-    <mat-form-field class='form-field' *ngIf='config.enableSize'>
-        <mat-select placeholder='Size Options' (selectionChange)='setSizeOption($event)'
-            [(value)]='sizeSelected' [compareWith]='byKey'>
-            <mat-option *ngFor='let option of sizeOptions' [value]='option'>
-                {{ option.label }}
-            </mat-option>
-        </mat-select>
+    <mat-form-field class="form-field" *ngIf="config.enableSize">
+      <mat-select
+        placeholder="Size Options"
+        (selectionChange)="setSizeOption($event)"
+        [(value)]="sizeSelected"
+        [compareWith]="byKey"
+      >
+        <mat-option *ngFor="let option of sizeOptions" [value]="option"> {{ option.label }} </mat-option>
+      </mat-select>
     </mat-form-field>
   `
 })
@@ -128,6 +141,9 @@ export class GraphPanelVisualizationComponent {
       return false;
     }
     return p1.label === p2.label;
+  }
+  customizeColorOptions(): void {
+    alert('hi');
   }
   updateFields(): void {
     if (!this._config || !this.molecularColorOptions || !this.clinicalColorOptions) {

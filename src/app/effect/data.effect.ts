@@ -6,7 +6,7 @@ import { ScatterConfigModel } from './../component/visualization/scatter/scatter
 import { Observable } from 'rxjs/Rx';
 import { TipSetVisualizationAction } from './../action/tip.action';
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import * as data from 'app/action/data.action';
 import * as tip from 'app/action/tip.action';
@@ -47,7 +47,7 @@ import { TimelinesConfigModel } from 'app/component/visualization/timelines/time
 export class DataEffect {
   // Pathway Crud
   @Effect()
-  addPathway: Observable<Action> = this.actions$.ofType(data.DATA_ADD_PATHWAY).pipe(
+  addPathway: Observable<Action> = this.actions$.pipe(ofType(data.DATA_ADD_PATHWAY)).pipe(
     switchMap((args: DataAddPathwayAction) => {
       return observableFrom(
         this.dataService
@@ -61,7 +61,7 @@ export class DataEffect {
   );
 
   @Effect()
-  loadVisualizationTip: Observable<Action> = this.actions$.ofType(tip.TIP_SET_VISUALIZATION).pipe(
+  loadVisualizationTip: Observable<Action> = this.actions$.pipe(ofType(tip.TIP_SET_VISUALIZATION)).pipe(
     switchMap((args: TipSetVisualizationAction) => {
       return observableFrom(this.dataService.getVisualizationTip(args.payload));
     }),
@@ -71,7 +71,7 @@ export class DataEffect {
   );
 
   @Effect()
-  delPathway: Observable<Action> = this.actions$.ofType(data.DATA_DEL_PATHWAY).pipe(
+  delPathway: Observable<Action> = this.actions$.pipe(ofType(data.DATA_DEL_PATHWAY)).pipe(
     switchMap((args: DataDelPathwayAction) => {
       return observableFrom(
         this.dataService
@@ -86,7 +86,7 @@ export class DataEffect {
 
   // Cohort Crud
   @Effect()
-  addCohort: Observable<Action> = this.actions$.ofType(data.DATA_ADD_COHORT).pipe(
+  addCohort: Observable<Action> = this.actions$.pipe(ofType(data.DATA_ADD_COHORT)).pipe(
     switchMap((args: DataAddCohortAction) => {
       return observableFrom(
         this.dataService
@@ -100,7 +100,7 @@ export class DataEffect {
   );
 
   @Effect()
-  delCohort: Observable<Action> = this.actions$.ofType(data.DATA_DEL_COHORT).pipe(
+  delCohort: Observable<Action> = this.actions$.pipe(ofType(data.DATA_DEL_COHORT)).pipe(
     switchMap((args: DataDelCohortAction) => {
       return observableFrom(
         this.dataService
@@ -115,7 +115,7 @@ export class DataEffect {
 
   // Geneset Crud
   @Effect()
-  addGeneset: Observable<Action> = this.actions$.ofType(data.DATA_ADD_GENESET).pipe(
+  addGeneset: Observable<Action> = this.actions$.pipe(ofType(data.DATA_ADD_GENESET)).pipe(
     switchMap((args: DataAddGenesetAction) => {
       return observableFrom(
         this.dataService
@@ -129,7 +129,7 @@ export class DataEffect {
   );
 
   @Effect()
-  delGeneset: Observable<Action> = this.actions$.ofType(data.DATA_DEL_GENESET).pipe(
+  delGeneset: Observable<Action> = this.actions$.pipe(ofType(data.DATA_DEL_GENESET)).pipe(
     switchMap((args: DataDelGenesetAction) => {
       return observableFrom(
         this.dataService
@@ -144,7 +144,7 @@ export class DataEffect {
 
   // Geneset Crud
   @Effect()
-  addPreprocessing: Observable<Action> = this.actions$.ofType(data.DATA_ADD_PREPROCESSING).pipe(
+  addPreprocessing: Observable<Action> = this.actions$.pipe(ofType(data.DATA_ADD_PREPROCESSING)).pipe(
     switchMap((args: DataAddPreprocessingAction) => {
       return observableFrom(
         this.dataService
@@ -158,7 +158,7 @@ export class DataEffect {
   );
 
   @Effect()
-  delPreprocessing: Observable<Action> = this.actions$.ofType(data.DATA_DEL_PREPROCESSING).pipe(
+  delPreprocessing: Observable<Action> = this.actions$.pipe(ofType(data.DATA_DEL_PREPROCESSING)).pipe(
     switchMap((args: DataDelPreprocessingAction) => {
       return observableFrom(
         this.dataService
@@ -173,7 +173,7 @@ export class DataEffect {
 
   // Load Data From Public
   @Effect()
-  dataLoadFromPublic$: Observable<any> = this.actions$.ofType(data.DATA_LOAD_FROM_PUBLIC).pipe(
+  dataLoadFromPublic$: Observable<any> = this.actions$.pipe(ofType(data.DATA_LOAD_FROM_PUBLIC)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(args => {
       if (args['src'] === 'tcga') {
@@ -197,7 +197,7 @@ export class DataEffect {
 
   // Load Data From Public
   @Effect()
-  dataLoadFromPrivate$: Observable<any> = this.actions$.ofType(data.DATA_LOAD_FROM_PRIVATE).pipe(
+  dataLoadFromPrivate$: Observable<any> = this.actions$.pipe(ofType(data.DATA_LOAD_FROM_PRIVATE)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(args => {
       args['uid'] = args['bucket'];
@@ -215,7 +215,7 @@ export class DataEffect {
 
   // Load Data From Dexie
   @Effect()
-  dataLoadFromDexie$: Observable<DataLoadedAction> = this.actions$.ofType(data.DATA_LOAD_FROM_DEXIE).pipe(
+  dataLoadFromDexie$: Observable<DataLoadedAction> = this.actions$.pipe(ofType(data.DATA_LOAD_FROM_DEXIE)).pipe(
     switchMap((args: DataLoadFromDexieAction) => {
       GraphConfig.database = args.dataset;
       GraphConfig.datasetName = args.datasetname;
@@ -255,6 +255,9 @@ export class DataEffect {
           return v.key === 'days_to_last_follow_up' || v.key === 'vital_status' || v.key === 'days_to_last_follow_up';
         }).length === 3;
 
+      if (args[6] === undefined) {
+        args[6] = '';
+      }
       return observableOf(
         new DataLoadedAction(
           args[0].name,
@@ -273,7 +276,7 @@ export class DataEffect {
   );
 
   @Effect()
-  dataLoaded$: Observable<Action> = this.actions$.ofType(data.DATA_LOADED).pipe(
+  dataLoaded$: Observable<Action> = this.actions$.pipe(ofType(data.DATA_LOADED)).pipe(
     mergeMap((args: DataLoadedAction) => {
       const workspaceConfig = new WorkspaceConfigModel();
       workspaceConfig.layout = WorkspaceLayoutEnum.SINGLE;
@@ -370,7 +373,7 @@ export class DataEffect {
         // new compute.HicAction( { config: hicConfig }),
         // new compute.BoxWhiskersAction({ config: boxWhiskersConfig }),
         // new compute.TimelinesAction({ config: timelinesConfigA }),
-        new compute.TimelinesAction({ config: timelinesConfigB }),
+        // new compute.TimelinesAction({ config: timelinesConfigB }),
         // new compute.ChromosomeAction({ config: chromosomeConfig }),
         // new compute.HeatmapAction({ config: heatmapConfig }),
         // new compute.SurvivalAction({ config: survivalConfig }),
@@ -381,7 +384,6 @@ export class DataEffect {
         // new compute.PcaIncrementalAction({ config: pcaIncConfig2 }),
         // new GraphPanelToggleAction( GraphPanelEnum.GRAPH_A )
         new compute.PcaAction({ config: pcaConfig }),
-        // new compute.ProteinAction({ config: proteinConfig }),
         // new compute.ChromosomeAction({ config: chromoConfig }),
         // new compute.ScatterAction({ config: scatterConfig }),
         new LoaderShowAction()

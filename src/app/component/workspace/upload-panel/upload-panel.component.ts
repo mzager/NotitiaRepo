@@ -9,28 +9,15 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  FormGroupDirective,
-  NgForm,
-  Validators
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material';
 import { Http, Headers } from '@angular/http';
-
+import { S3 } from 'aws-sdk';
+import { PutObjectRequest } from 'aws-sdk/clients/s3';
 export class OncoscapeErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(
-    control: FormControl | null,
-    form: FormGroupDirective | NgForm | null
-  ): boolean {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
-    return !!(
-      control &&
-      control.invalid &&
-      (control.dirty || control.touched || isSubmitted)
-    );
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
   }
 }
 
@@ -52,17 +39,7 @@ export class UploadPanelComponent {
   collaborator = '';
   collaborators = [];
   reviewTypes = ['IRB', 'IEC', 'Exempt With Waiver', 'Exempt'];
-  speciesTypes = [
-    'Human',
-    'C.eligins',
-    'Dog',
-    'Fruit Fly',
-    'Mouse',
-    'Rat',
-    'Yeast',
-    'Zebra Fish',
-    'Other'
-  ];
+  speciesTypes = ['Human', 'C.eligins', 'Dog', 'Fruit Fly', 'Mouse', 'Rat', 'Yeast', 'Zebra Fish', 'Other'];
   siteTypes = ['Lung', 'Breast'];
   showReviewNumber = true;
   matcher = new OncoscapeErrorStateMatcher();
@@ -70,6 +47,29 @@ export class UploadPanelComponent {
   @Output()
   hide = new EventEmitter<any>();
 
+  // upload(): void {
+  //   const s3 = new S3({ params: { Bucket: 'https://s3-us-west-2.amazonaws.com/oncoscape-test/' } });
+  //   const fileCount = this.fileInput.nativeElement.files.length;
+  //   for (let i = 0; i < fileCount; i++) {
+  //     const file = this.fileInput.nativeElement.files[i];
+  //     const params: PutObjectRequest = {
+  //       Bucket: 'https://s3-us-west-2.amazonaws.com/oncoscape-test/',
+  //       Key: file.name,
+  //       ContentType: file.type,
+  //       Body: file,
+  //       ACL: 'private'
+  //     };
+
+  //     s3.upload(params, (err, data) => {
+  //       if (err) {
+  //         console.dir(err);
+  //         return false;
+  //       }
+  //     }).on('httpUploadProgress', e => {
+  //       console.log(e.loaded);
+  //     });
+  //   }
+  // }
   accessChange(e: any): void {
     switch (e.value) {
       case 'public':
@@ -83,11 +83,9 @@ export class UploadPanelComponent {
     this.hide.emit();
   }
   uploadFile(): void {
-    this.renderer.invokeElementMethod(
-      this.fileInput.nativeElement,
-      'dispatchEvent',
-      [new MouseEvent('click', { bubbles: true })]
-    );
+    this.renderer.invokeElementMethod(this.fileInput.nativeElement, 'dispatchEvent', [
+      new MouseEvent('click', { bubbles: true })
+    ]);
   }
 
   formSubmit(): void {
@@ -97,11 +95,7 @@ export class UploadPanelComponent {
     if (this.fileInput.nativeElement.files.length === 0) {
       return;
     }
-    const filename = (
-      this.formGroup.get('name').value +
-      Date.now().toString() +
-      '.xls'
-    ).replace(/\s+/gi, '');
+    const filename = (this.formGroup.get('name').value + Date.now().toString() + '.xls').replace(/\s+/gi, '');
 
     // Gistic, Copy Number, eXome Seq, Rna Seq, Meth, Proteomic, Metabolomics, Single Cell
 
@@ -145,9 +139,7 @@ export class UploadPanelComponent {
 
   addCollaborator(): void {
     this.collaborator = this.collaborator.toLowerCase();
-    if (
-      this.collaborators.findIndex(v => v.email === this.collaborator) === -1
-    ) {
+    if (this.collaborators.findIndex(v => v.email === this.collaborator) === -1) {
       this.collaborators.push({ email: this.collaborator });
     }
     this.collaborator = '';
@@ -155,19 +147,11 @@ export class UploadPanelComponent {
   }
 
   removeCollaborator(opt: any): void {
-    this.collaborators.splice(
-      this.collaborators.findIndex(v => (v.email = opt.email)),
-      1
-    );
+    this.collaborators.splice(this.collaborators.findIndex(v => (v.email = opt.email)), 1);
     this.cd.markForCheck();
   }
 
-  constructor(
-    fb: FormBuilder,
-    public cd: ChangeDetectorRef,
-    private renderer: Renderer,
-    private http: Http
-  ) {
+  constructor(fb: FormBuilder, public cd: ChangeDetectorRef, private renderer: Renderer, private http: Http) {
     this.formGroup = fb.group({
       name: [null, Validators.required],
       description: [null, Validators.required],

@@ -1,4 +1,4 @@
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of as observableOf, from as observableFrom } from 'rxjs';
 import { mergeMap, withLatestFrom, switchMap, map } from 'rxjs/operators';
 import { GeneSet } from './../model/gene-set.model';
@@ -68,12 +68,12 @@ import { GraphData } from './../model/graph-data.model';
 import { State } from './../reducer/index.reducer';
 import { ComputeService } from './../service/compute.service';
 import { DataService } from './../service/data.service';
-import { Store } from '@ngrx/store';
+import { Store, Action } from '@ngrx/store';
 
 @Injectable()
 export class ComputeEffect {
   @Effect()
-  loadEdges: Observable<any> = this.actions$.ofType(compute.COMPUTE_EDGES).pipe(
+  loadEdges: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_EDGES)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap((payload: any) => {
       return this.computeService.edges(payload['config']).pipe(
@@ -107,7 +107,7 @@ export class ComputeEffect {
   //   });
 
   @Effect()
-  selectSamples: Observable<any> = this.actions$.ofType(compute.COMPUTE_SELECT_SAMPLES).pipe(
+  selectSamples: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_SELECT_SAMPLES)).pipe(
     map((action: UnsafeAction) => action.payload),
     withLatestFrom(this.store$),
     switchMap((value: [any, State], index: number) => {
@@ -134,7 +134,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  saveSampleSelection: Observable<any> = this.actions$.ofType(compute.COMPUTE_SELECT_SAMPLES_SAVE).pipe(
+  saveSampleSelection: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_SELECT_SAMPLES_SAVE)).pipe(
     map((action: UnsafeAction) => action.payload),
     withLatestFrom(this.store$),
     switchMap((value: [any, State], index: number) => {
@@ -165,7 +165,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  saveMarkerSelection: Observable<any> = this.actions$.ofType(compute.COMPUTE_SELECT_MARKERS_SAVE).pipe(
+  saveMarkerSelection: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_SELECT_MARKERS_SAVE)).pipe(
     map((action: UnsafeAction) => action.payload),
     withLatestFrom(this.store$),
     switchMap((value: [any, State], index: number) => {
@@ -189,7 +189,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadNone: Observable<any> = this.actions$.ofType(compute.COMPUTE_NONE).pipe(
+  loadNone: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_NONE)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       const graphData: GraphData = {
@@ -205,7 +205,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadFa: Observable<any> = this.actions$.ofType(compute.COMPUTE_FA).pipe(
+  loadFa: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_FA)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.fa(payload['config']).pipe(
@@ -225,7 +225,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadMds: Observable<any> = this.actions$.ofType(compute.COMPUTE_MDS).pipe(
+  loadMds: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_MDS)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.mds(payload['config']).pipe(
@@ -246,7 +246,7 @@ export class ComputeEffect {
 
   @Effect()
   loadMiniBatchDictionaryLearning: Observable<any> = this.actions$
-    .ofType(compute.COMPUTE_MINI_BATCH_DICTIONARY_LEARNING)
+    .pipe(ofType(compute.COMPUTE_MINI_BATCH_DICTIONARY_LEARNING))
     .pipe(
       map((action: UnsafeAction) => action.payload),
       switchMap(payload => {
@@ -267,7 +267,7 @@ export class ComputeEffect {
     );
 
   @Effect()
-  loadMiniBatchSparsePca: Observable<any> = this.actions$.ofType(compute.COMPUTE_MINI_BATCH_SPARSE_PCA).pipe(
+  loadMiniBatchSparsePca: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_MINI_BATCH_SPARSE_PCA)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.miniBatchSparsePca(payload['config']).pipe(
@@ -288,7 +288,7 @@ export class ComputeEffect {
 
   @Effect()
   loadLinearDiscriminantAnalysis: Observable<any> = this.actions$
-    .ofType(compute.COMPUTE_LINEAR_DISCRIMINANT_ANALYSIS)
+    .pipe(ofType(compute.COMPUTE_LINEAR_DISCRIMINANT_ANALYSIS))
     .pipe(
       map((action: UnsafeAction) => action.payload),
       switchMap(payload => {
@@ -309,7 +309,7 @@ export class ComputeEffect {
     );
   @Effect()
   loadQuadraticDiscriminantAnalysis: Observable<any> = this.actions$
-    .ofType(compute.COMPUTE_QUADRATIC_DISCRIMINANT_ANALYSIS)
+    .pipe(ofType(compute.COMPUTE_QUADRATIC_DISCRIMINANT_ANALYSIS))
     .pipe(
       map((action: UnsafeAction) => action.payload),
       switchMap(payload => {
@@ -330,7 +330,7 @@ export class ComputeEffect {
     );
 
   @Effect()
-  loadTsne: Observable<any> = this.actions$.ofType(compute.COMPUTE_TSNE).pipe(
+  loadTsne: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_TSNE)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.tsne(payload['config']).pipe(
@@ -350,7 +350,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadUmap: Observable<any> = this.actions$.ofType(compute.COMPUTE_UMAP).pipe(
+  loadUmap: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_UMAP)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.umap(payload['config']).pipe(
@@ -370,7 +370,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadScatter: Observable<any> = this.actions$.ofType(compute.COMPUTE_SCATTER).pipe(
+  loadScatter: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_SCATTER)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.scatter(payload['config']).pipe(
@@ -390,7 +390,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadPca: Observable<any> = this.actions$.ofType(compute.COMPUTE_PCA).pipe(
+  loadPca: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_PCA)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.pca(payload['config']).pipe(
@@ -410,7 +410,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadPathways: Observable<any> = this.actions$.ofType(compute.COMPUTE_PATHWAYS).pipe(
+  loadPathways: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_PATHWAYS)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.pathways(payload['config']).pipe(
@@ -430,7 +430,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadProteins: Observable<any> = this.actions$.ofType(compute.COMPUTE_PROTEIN).pipe(
+  loadProteins: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_PROTEIN)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.proteins(payload['config']).pipe(
@@ -450,7 +450,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadSurvival: Observable<any> = this.actions$.ofType(compute.COMPUTE_SURVIVAL).pipe(
+  loadSurvival: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_SURVIVAL)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.survival(payload['config']).pipe(
@@ -469,7 +469,7 @@ export class ComputeEffect {
     })
   );
   @Effect()
-  loadHazard: Observable<any> = this.actions$.ofType(compute.COMPUTE_HAZARD).pipe(
+  loadHazard: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_HAZARD)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.hazard(payload['config']).pipe(
@@ -489,7 +489,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadHistogram: Observable<any> = this.actions$.ofType(compute.COMPUTE_HISTOGRAM).pipe(
+  loadHistogram: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_HISTOGRAM)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.histogram(payload['config']).pipe(
@@ -509,7 +509,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadSom: Observable<any> = this.actions$.ofType(compute.COMPUTE_SOM).pipe(
+  loadSom: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_SOM)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.pca(payload['config']).pipe(
@@ -529,7 +529,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadChromosome: Observable<any> = this.actions$.ofType(compute.COMPUTE_CHROMOSOME).pipe(
+  loadChromosome: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_CHROMOSOME)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.chromosome(payload['config']).pipe(
@@ -549,7 +549,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadGenome: Observable<any> = this.actions$.ofType(compute.COMPUTE_GENOME).pipe(
+  loadGenome: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_GENOME)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.genome(payload['config']).pipe(
@@ -569,7 +569,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadTimelines: Observable<any> = this.actions$.ofType(compute.COMPUTE_TIMELINES).pipe(
+  loadTimelines: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_TIMELINES)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.timelines(payload['config']).pipe(
@@ -589,7 +589,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadHeatmap: Observable<any> = this.actions$.ofType(compute.COMPUTE_HEATMAP).pipe(
+  loadHeatmap: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_HEATMAP)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.heatmap(payload['config']).pipe(
@@ -609,7 +609,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadDendogram: Observable<any> = this.actions$.ofType(compute.COMPUTE_DENDOGRAM).pipe(
+  loadDendogram: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_DENDOGRAM)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.dendogram(payload['config']).pipe(
@@ -629,7 +629,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadBoxWhiskers: Observable<any> = this.actions$.ofType(compute.COMPUTE_BOX_WHISKERS).pipe(
+  loadBoxWhiskers: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_BOX_WHISKERS)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.boxWhiskers(payload['config']).pipe(
@@ -649,7 +649,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadParallelCoords: Observable<any> = this.actions$.ofType(compute.COMPUTE_PARALLEL_COORDS).pipe(
+  loadParallelCoords: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_PARALLEL_COORDS)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.boxWhiskers(payload['config']).pipe(
@@ -669,7 +669,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadLinkedGene: Observable<any> = this.actions$.ofType(compute.COMPUTE_LINKED_GENE).pipe(
+  loadLinkedGene: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_LINKED_GENE)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.linkedGene(payload['config']).pipe(
@@ -689,7 +689,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadHic: Observable<any> = this.actions$.ofType(compute.COMPUTE_HIC).pipe(
+  loadHic: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_HIC)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.hic(payload['config']).pipe(
@@ -709,7 +709,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadDictionaryLearning: Observable<any> = this.actions$.ofType(compute.COMPUTE_DICTIONARY_LEARNING).pipe(
+  loadDictionaryLearning: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_DICTIONARY_LEARNING)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.dictionaryLearning(payload['config']).pipe(
@@ -729,7 +729,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadTruncatedSvd: Observable<any> = this.actions$.ofType(compute.COMPUTE_TRUNCATED_SVD).pipe(
+  loadTruncatedSvd: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_TRUNCATED_SVD)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.truncatedSvd(payload['config']).pipe(
@@ -749,7 +749,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadFastIca: Observable<any> = this.actions$.ofType(compute.COMPUTE_FAST_ICA).pipe(
+  loadFastIca: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_FAST_ICA)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.fastIca(payload['config']).pipe(
@@ -769,7 +769,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadLda: Observable<any> = this.actions$.ofType(compute.COMPUTE_LDA).pipe(
+  loadLda: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_LDA)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.lda(payload['config']).pipe(
@@ -789,7 +789,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadNmf: Observable<any> = this.actions$.ofType(compute.COMPUTE_NMF).pipe(
+  loadNmf: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_NMF)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.nmf(payload['config']).pipe(
@@ -809,7 +809,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadLocalLinearEmbedding: Observable<any> = this.actions$.ofType(compute.COMPUTE_LOCAL_LINEAR_EMBEDDING).pipe(
+  loadLocalLinearEmbedding: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_LOCAL_LINEAR_EMBEDDING)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.nmf(payload['config']).pipe(
@@ -829,7 +829,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadIsoMap: Observable<any> = this.actions$.ofType(compute.COMPUTE_ISO_MAP).pipe(
+  loadIsoMap: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_ISO_MAP)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.isoMap(payload['config']).pipe(
@@ -849,7 +849,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadSpectralEmbedding: Observable<any> = this.actions$.ofType(compute.COMPUTE_SPECTRAL_EMBEDDING).pipe(
+  loadSpectralEmbedding: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_SPECTRAL_EMBEDDING)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.spectralEmbedding(payload['config']).pipe(
@@ -869,7 +869,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadPcaIncremental: Observable<any> = this.actions$.ofType(compute.COMPUTE_PCA_INCREMENTAL).pipe(
+  loadPcaIncremental: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_PCA_INCREMENTAL)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.pcaIncremental(payload['config']).pipe(
@@ -889,7 +889,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadPcaKernal: Observable<any> = this.actions$.ofType(compute.COMPUTE_PCA_KERNAL).pipe(
+  loadPcaKernal: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_PCA_KERNAL)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.pcaKernal(payload['config']).pipe(
@@ -909,7 +909,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadPcaSparse: Observable<any> = this.actions$.ofType(compute.COMPUTE_PCA_SPARSE).pipe(
+  loadPcaSparse: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_PCA_SPARSE)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.pcaSparse(payload['config']).pipe(
@@ -929,7 +929,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadPlsSvd: Observable<any> = this.actions$.ofType(compute.COMPUTE_PLS_SVD).pipe(
+  loadPlsSvd: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_PLS_SVD)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.plsSvd(payload['config']).pipe(
@@ -949,7 +949,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadPlsRegression: Observable<any> = this.actions$.ofType(compute.COMPUTE_PLS_REGRESSION).pipe(
+  loadPlsRegression: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_PLS_REGRESSION)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.plsRegression(payload['config']).pipe(
@@ -969,7 +969,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadPlsCanonical: Observable<any> = this.actions$.ofType(compute.COMPUTE_PLS_CANONICAL).pipe(
+  loadPlsCanonical: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_PLS_CANONICAL)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.plsCanonical(payload['config']).pipe(
@@ -989,7 +989,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadCCA: Observable<any> = this.actions$.ofType(compute.COMPUTE_CCA).pipe(
+  loadCCA: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_CCA)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.CCA(payload['config']).pipe(
@@ -1009,7 +1009,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadLinearSVC: Observable<any> = this.actions$.ofType(compute.COMPUTE_LINEAR_SVC).pipe(
+  loadLinearSVC: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_LINEAR_SVC)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.LinearSVC(payload['config']).pipe(
@@ -1029,7 +1029,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadLinearSVR: Observable<any> = this.actions$.ofType(compute.COMPUTE_LINEAR_SVR).pipe(
+  loadLinearSVR: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_LINEAR_SVR)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.LinearSVR(payload['config']).pipe(
@@ -1049,7 +1049,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadNuSVR: Observable<any> = this.actions$.ofType(compute.COMPUTE_NU_SVR).pipe(
+  loadNuSVR: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_NU_SVR)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.NuSVR(payload['config']).pipe(
@@ -1069,7 +1069,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadNuSVC: Observable<any> = this.actions$.ofType(compute.COMPUTE_NU_SVC).pipe(
+  loadNuSVC: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_NU_SVC)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.NuSVC(payload['config']).pipe(
@@ -1089,7 +1089,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadOneClassSVM: Observable<any> = this.actions$.ofType(compute.COMPUTE_ONE_CLASS_SVM).pipe(
+  loadOneClassSVM: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_ONE_CLASS_SVM)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.OneClassSVM(payload['config']).pipe(
@@ -1109,7 +1109,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  loadSVR: Observable<any> = this.actions$.ofType(compute.COMPUTE_SVR).pipe(
+  loadSVR: Observable<any> = this.actions$.pipe(ofType(compute.COMPUTE_SVR)).pipe(
     map((action: UnsafeAction) => action.payload),
     switchMap(payload => {
       return this.computeService.SVR(payload['config']).pipe(
@@ -1129,7 +1129,7 @@ export class ComputeEffect {
   );
 
   @Effect()
-  addDataDecorator: Observable<any> = this.actions$.ofType(graph.DATA_DECORATOR_CREATE).pipe(
+  addDataDecorator: Observable<any> = this.actions$.pipe(ofType(graph.DATA_DECORATOR_CREATE)).pipe(
     map((action: DataDecoratorCreateAction) => action.payload),
     switchMap(payload => {
       return this.dataService.createDataDecorator(payload.config, payload.decorator).pipe(
