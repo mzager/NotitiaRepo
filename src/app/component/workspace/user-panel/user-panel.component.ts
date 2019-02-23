@@ -203,6 +203,7 @@ export class UserPanelComponent {
       });
   }
 
+
   loadDataset(option): void {
     const bucket = option.project.split('|')[0];
     const token = this.token;
@@ -232,7 +233,7 @@ export class UserPanelComponent {
       ]
     });
 
-    // This doesn't do enough need special chars....
+
     this.formGroupSignUp = fb.group({
       password: [
         null,
