@@ -1,0 +1,42 @@
+CHS
+FH1 - Proteo
+
+chs-chs
+
+var files = [
+    'matrix-lgg.csv',
+    'matrix-lgm.csv',
+    'matrix-proteomic.csv',
+    'matrix-siea.csv',
+    'matrix-siex.csv',
+    'patient.csv',
+    'sample.csv'
+];
+
+var data = files.map(v => {
+    var rv = {file: v, data: fs.readFileSync(v, 'UTF-8').split('\n').map(w => w.split(',')) };
+    rv.samples = rv.data.shift();
+    return rv;
+});
+
+var matrix = data.filter(v => v.file.indexOf('matrix')===0).map(v => {
+    v.data = v.data.reduce( (p, c) => {
+        var keyParts = c.shift().trim().toLowerCase().replace(/\s/g,'').split('_').filter(v => v !== '');
+        var key = keyParts[2] + '-' + keyParts[3];
+        if (keyParts.length !== 4) {
+            console.log(keyParts)
+            console.log("!!!!!!!  SHIT");
+
+        }
+    p[key] = c; return p; }, {});
+    v.suffix = v.file.replace('matrix-','').replace('.csv','');
+    v.pids = v.samples;
+    v.sids = v.samples.map(w => w + '-' + v.suffix);
+    return v;
+});
+
+// Get Antibody Names That Exist In All Sets
+matrix.map(v => new Set(Object.keys(v.data)));
+
+
+
